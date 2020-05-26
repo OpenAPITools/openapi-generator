@@ -139,6 +139,128 @@ class FakeApi(object):
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats)
 
+    def fake_http_signature_test(self, pet, **kwargs):  # noqa: E501
+        """test http signature authentication  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.fake_http_signature_test(pet, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool: execute request asynchronously
+        :param Pet pet: Pet object that needs to be added to the store (required)
+        :param str query_1: query parameter
+        :param str header_1: header parameter
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+        kwargs['_return_http_data_only'] = True
+        return self.fake_http_signature_test_with_http_info(pet, **kwargs)  # noqa: E501
+
+    def fake_http_signature_test_with_http_info(self, pet, **kwargs):  # noqa: E501
+        """test http signature authentication  # noqa: E501
+
+        This method makes a synchronous HTTP request by default. To make an
+        asynchronous HTTP request, please pass async_req=True
+        >>> thread = api.fake_http_signature_test_with_http_info(pet, async_req=True)
+        >>> result = thread.get()
+
+        :param async_req bool: execute request asynchronously
+        :param Pet pet: Pet object that needs to be added to the store (required)
+        :param str query_1: query parameter
+        :param str header_1: header parameter
+        :param _return_http_data_only: response data without head status code
+                                       and headers
+        :param _preload_content: if False, the urllib3.HTTPResponse object will
+                                 be returned without reading/decoding response
+                                 data. Default is True.
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :return: None
+                 If the method is called asynchronously,
+                 returns the request thread.
+        """
+
+        local_var_params = locals()
+
+        all_params = [
+            'pet',
+            'query_1',
+            'header_1'
+        ]
+        all_params.extend(
+            [
+                'async_req',
+                '_return_http_data_only',
+                '_preload_content',
+                '_request_timeout'
+            ]
+        )
+
+        for key, val in six.iteritems(local_var_params['kwargs']):
+            if key not in all_params:
+                raise ApiTypeError(
+                    "Got an unexpected keyword argument '%s'"
+                    " to method fake_http_signature_test" % key
+                )
+            local_var_params[key] = val
+        del local_var_params['kwargs']
+        # verify the required parameter 'pet' is set
+        if self.api_client.client_side_validation and ('pet' not in local_var_params or  # noqa: E501
+                                                        local_var_params['pet'] is None):  # noqa: E501
+            raise ApiValueError("Missing the required parameter `pet` when calling `fake_http_signature_test`")  # noqa: E501
+
+        collection_formats = {}
+
+        path_params = {}
+
+        query_params = []
+        if 'query_1' in local_var_params and local_var_params['query_1'] is not None:  # noqa: E501
+            query_params.append(('query_1', local_var_params['query_1']))  # noqa: E501
+
+        header_params = {}
+        if 'header_1' in local_var_params:
+            header_params['header_1'] = local_var_params['header_1']  # noqa: E501
+
+        form_params = []
+        local_var_files = {}
+
+        body_params = None
+        if 'pet' in local_var_params:
+            body_params = local_var_params['pet']
+        # HTTP header `Content-Type`
+        header_params['Content-Type'] = self.api_client.select_header_content_type(  # noqa: E501
+            ['application/json', 'application/xml'])  # noqa: E501
+
+        # Authentication setting
+        auth_settings = ['http_signature_test']  # noqa: E501
+
+        return self.api_client.call_api(
+            '/fake/http-signature-test', 'GET',
+            path_params,
+            query_params,
+            header_params,
+            body=body_params,
+            post_params=form_params,
+            files=local_var_files,
+            response_type=None,  # noqa: E501
+            auth_settings=auth_settings,
+            async_req=local_var_params.get('async_req'),
+            _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
+            _preload_content=local_var_params.get('_preload_content', True),
+            _request_timeout=local_var_params.get('_request_timeout'),
+            collection_formats=collection_formats)
+
     def fake_outer_boolean_serialize(self, **kwargs):  # noqa: E501
         """fake_outer_boolean_serialize  # noqa: E501
 

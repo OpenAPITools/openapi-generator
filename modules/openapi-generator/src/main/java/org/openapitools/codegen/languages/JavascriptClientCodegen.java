@@ -139,10 +139,12 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         defaultIncludes = new HashSet<String>(languageSpecificPrimitives);
 
         instantiationTypes.put("array", "Array");
+        instantiationTypes.put("set", "Array");
         instantiationTypes.put("list", "Array");
         instantiationTypes.put("map", "Object");
         typeMapping.clear();
         typeMapping.put("array", "Array");
+        typeMapping.put("set", "Array");
         typeMapping.put("map", "Object");
         typeMapping.put("List", "Array");
         typeMapping.put("boolean", "Boolean");
@@ -196,7 +198,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(USE_ES6,
-                "use JavaScript ES6 (ECMAScript 6) (beta). Default is ES6.")
+                "use JavaScript ES6 (ECMAScript 6). Default is ES6. (This option has been deprecated and will be removed in the 5.x release as ES5 is no longer supported)")
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.MODEL_PROPERTY_NAMING, CodegenConstants.MODEL_PROPERTY_NAMING_DESC).defaultValue("camelCase"));
         cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
@@ -923,7 +925,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
 
     private String getJSDocType(CodegenModel cm, CodegenProperty cp) {
         if (Boolean.TRUE.equals(cp.isContainer)) {
-            if (cp.containerType.equals("array"))
+            if (cp.containerType.equals("array") || cp.containerType.equals("set"))
                 return "Array.<" + getJSDocType(cm, cp.items) + ">";
             else if (cp.containerType.equals("map"))
                 return "Object.<String, " + getJSDocType(cm, cp.items) + ">";

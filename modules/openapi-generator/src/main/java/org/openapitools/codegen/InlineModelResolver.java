@@ -332,11 +332,11 @@ public class InlineModelResolver {
      * Flattens properties of inline object schemas that belong to a composed schema into a
      * single flat list of properties. This is useful to generate a single or multiple
      * inheritance model.
-     * 
+     *
      * In the example below, codegen may generate a 'Dog' class that extends from the
      * generated 'Animal' class. 'Dog' has additional properties 'name', 'age' and 'breed' that
      * are flattened as a single list of properties.
-     * 
+     *
      * Dog:
      *   allOf:
      *     - $ref: '#/components/schemas/Animal'
@@ -350,7 +350,7 @@ public class InlineModelResolver {
      *       properties:
      *         breed:
      *           type: string
-     * 
+     *
      * @param openAPI the OpenAPI document
      * @param key a unique name ofr the composed schema.
      * @param children the list of nested schemas within a composed schema (allOf, anyOf, oneOf).
@@ -362,8 +362,10 @@ public class InlineModelResolver {
         ListIterator<Schema> listIterator = children.listIterator();
         while (listIterator.hasNext()) {
             Schema component = listIterator.next();
-            if (component instanceof ObjectSchema) {
-                ObjectSchema op = (ObjectSchema) component;
+            if (component instanceof ObjectSchema || // for inline schema with type:object
+                    (component != null && component.getProperties() != null &&
+                            !component.getProperties().isEmpty())) { // for inline schema without type:object
+                Schema op = component;
                 if (op.get$ref() == null && op.getProperties() != null && op.getProperties().size() > 0) {
                     // If a `title` attribute is defined in the inline schema, codegen uses it to name the
                     // inline schema. Otherwise, we'll use the default naming such as InlineObject1, etc.
@@ -390,6 +392,8 @@ public class InlineModelResolver {
                         listIterator.set(schema);
                     }
                 }
+            } else {
+                // likely a reference to schema (not inline schema)
             }
         }
     }
@@ -465,7 +469,7 @@ public class InlineModelResolver {
      * with underscores
      *
      * e.g. io.schema.User_name => io_schema_User_name
-     * 
+     *
      * @param title String title field in the schema if present
      * @param key String model name
      *
@@ -607,7 +611,7 @@ public class InlineModelResolver {
         }
     }
 
-    private Schema modelFromProperty(ObjectSchema object, String path) {
+    private Schema modelFromProperty(Schema object, String path) {
         String description = object.getDescription();
         String example = null;
         Object obj = object.getExample();

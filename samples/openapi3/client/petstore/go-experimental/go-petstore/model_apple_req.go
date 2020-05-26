@@ -104,10 +104,6 @@ func (o AppleReq) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-// AsFruitReq wraps this instance of AppleReq in FruitReq
-func (s *AppleReq) AsFruitReq() FruitReq {
-	return FruitReq{ FruitReqInterface: s }
-}
 type NullableAppleReq struct {
 	value *AppleReq
 	isSet bool
@@ -143,3 +139,4 @@ func (v *NullableAppleReq) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+

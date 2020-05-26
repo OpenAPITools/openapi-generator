@@ -34,8 +34,9 @@ import org.openapitools.codegen.config.CodegenConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings({"java:S106"})
 @Command(name = "generate", description = "Generate code with the specified generator.")
-public class Generate implements Runnable {
+public class Generate extends OpenApiGeneratorCommand {
 
     CodegenConfigurator configurator;
     Generator generator;
@@ -70,12 +71,13 @@ public class Generate implements Runnable {
                     + "Pass in a URL-encoded string of name:header with a comma separating multiple values")
     private String auth;
 
+    // TODO: Remove -D short option in 5.0
     @Option(
-            name = {"-D"},
-            title = "system properties",
-            description = "sets specified system properties in "
+            name = {"-D", "--global-property"},
+            title = "global properties",
+            description = "sets specified global properties (previously called 'system properties') in "
                     + "the format of name=value,name=value (or multiple options, each with name=value)")
-    private List<String> systemProperties = new ArrayList<>();
+    private List<String> globalProperties = new ArrayList<>();
 
     @Option(
             name = {"-c", "--config"},
@@ -238,13 +240,16 @@ public class Generate implements Runnable {
     @Option(name = {"--generate-alias-as-model"}, title = "generate alias (array, map) as model", description = CodegenConstants.GENERATE_ALIAS_AS_MODEL_DESC)
     private Boolean generateAliasAsModel;
 
+    @Option(name = {"--legacy-discriminator-behavior"}, title = "Support legacy logic for evaluating discriminators", description = CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR_DESC)
+    private Boolean legacyDiscriminatorBehavior;
+
     @Option(name = {"--minimal-update"},
         title = "Minimal update",
         description = "Only write output files that have changed.")
     private Boolean minimalUpdate;
 
     @Override
-    public void run() {
+    public void execute() {
         if (logToStderr != null) {
             LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
             Stream.of(Logger.ROOT_LOGGER_NAME, "io.swagger", "org.openapitools")
@@ -402,9 +407,9 @@ public class Generate implements Runnable {
             configurator.setStrictSpecBehavior(strictSpecBehavior);
         }
 
-        if (systemProperties != null && !systemProperties.isEmpty()) {
-            System.err.println("[DEPRECATED] -D arguments after 'generate' are application arguments and not Java System Properties, please consider changing to -p, or apply your options to JAVA_OPTS, or move the -D arguments before the jar option.");
-            applySystemPropertiesKvpList(systemProperties, configurator);
+        if (globalProperties != null && !globalProperties.isEmpty()) {
+            System.err.println("[DEPRECATED] -D arguments after 'generate' are application arguments and not Java System Properties, please consider changing to --global-property, apply your system properties to JAVA_OPTS, or move the -D arguments before the jar option.");
+            applyGlobalPropertiesKvpList(globalProperties, configurator);
         }
         applyInstantiationTypesKvpList(instantiationTypes, configurator);
         applyImportMappingsKvpList(importMappings, configurator);

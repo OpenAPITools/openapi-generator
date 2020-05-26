@@ -27,6 +27,6 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g csharp-dotnet2 -o samples/client/petstore/csharp-dotnet2/OpenAPIClientTest/Lib/OpenAPIClient --additional-properties hideGenerationTimestamp=true $@"
+ags="generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g csharp-dotnet2 -t modules/openapi-generator/src/main/resources/csharp-dotnet2 -o samples/client/petstore/csharp-dotnet2/OpenAPIClientTest/Lib/OpenAPIClient --additional-properties hideGenerationTimestamp=true $@"
 
 java $JAVA_OPTS -jar $executable $ags

@@ -1,0 +1,36 @@
+{{>example-server-common}}
+use {{{externCrateName}}}::{CallbackApi, ApiError};
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+        {{#callbacks}}
+          {{#urls}}
+            {{#requests}}
+use {{{externCrateName}}}::{{{operationId}}}Response;
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+use {{{externCrateName}}}::client::callbacks::MakeService;
+
+impl<C> CallbackApi<C> for Server<C> where C: Has<XSpanIdString>{
+{{#apiInfo}}
+  {{#apis}}
+    {{#operations}}
+      {{#operation}}
+        {{#callbacks}}
+          {{#urls}}
+            {{#requests}}
+{{>example-server-operation}}
+            {{/requests}}
+          {{/urls}}
+        {{/callbacks}}
+      {{/operation}}
+    {{/operations}}
+  {{/apis}}
+{{/apiInfo}}
+}

@@ -65,16 +65,17 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
-  }
-
-  /**
+  }/**
    **/
   public Order petId(Long petId) {
     this.petId = petId;
@@ -82,16 +83,17 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("petId")
   public Long getPetId() {
     return petId;
   }
+
   public void setPetId(Long petId) {
     this.petId = petId;
-  }
-
-  /**
+  }/**
    **/
   public Order quantity(Integer quantity) {
     this.quantity = quantity;
@@ -99,16 +101,17 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("quantity")
   public Integer getQuantity() {
     return quantity;
   }
+
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
-  }
-
-  /**
+  }/**
    **/
   public Order shipDate(Date shipDate) {
     this.shipDate = shipDate;
@@ -116,16 +119,17 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("shipDate")
   public Date getShipDate() {
     return shipDate;
   }
+
   public void setShipDate(Date shipDate) {
     this.shipDate = shipDate;
-  }
-
-  /**
+  }/**
    * Order Status
    **/
   public Order status(StatusEnum status) {
@@ -134,16 +138,17 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "Order Status")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
+
   public void setStatus(StatusEnum status) {
     this.status = status;
-  }
-
-  /**
+  }/**
    **/
   public Order complete(Boolean complete) {
     this.complete = complete;
@@ -151,15 +156,17 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("complete")
   public Boolean getComplete() {
     return complete;
   }
+
   public void setComplete(Boolean complete) {
     this.complete = complete;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -208,5 +215,7 @@ public enum StatusEnum {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

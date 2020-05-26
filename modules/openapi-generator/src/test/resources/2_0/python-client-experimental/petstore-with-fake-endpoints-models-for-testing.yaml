@@ -2077,12 +2077,11 @@ definitions:
     properties:
       pet_type:
         type: string
+    discriminator: pet_type
   ParentPet:
     type: object
     allOf:
     - $ref: '#/definitions/GrandparentAnimal'
-    - type: object
-      discriminator: pet_type
   ChildCat:
     allOf:
     - $ref: '#/definitions/ParentPet'

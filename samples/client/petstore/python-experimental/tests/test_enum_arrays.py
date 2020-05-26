@@ -30,7 +30,7 @@ class EnumArraysTests(unittest.TestCase):
       fish_or_crab = petstore_api.EnumArrays(just_symbol=">=")
       self.assertEqual(fish_or_crab.just_symbol, ">=")
       # if optional property is unset we raise an exception
-      with self.assertRaises(ApiKeyError) as exc:
+      with self.assertRaises(AttributeError) as exc:
           self.assertEqual(fish_or_crab.array_enum, None)
 
       fish_or_crab = petstore_api.EnumArrays(just_symbol="$", array_enum=["fish"])

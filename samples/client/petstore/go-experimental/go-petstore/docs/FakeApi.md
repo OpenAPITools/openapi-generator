@@ -29,6 +29,31 @@ creates an XmlItem
 
 
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    xmlItem := openapiclient.XmlItem{AttributeString: "AttributeString_example", AttributeNumber: 123, AttributeInteger: 123, AttributeBoolean: true, WrappedArray: []int32{123), NameString: "NameString_example", NameNumber: 123, NameInteger: 123, NameBoolean: true, NameArray: []int32{123), NameWrappedArray: []int32{123), PrefixString: "PrefixString_example", PrefixNumber: 123, PrefixInteger: 123, PrefixBoolean: true, PrefixArray: []int32{123), PrefixWrappedArray: []int32{123), NamespaceString: "NamespaceString_example", NamespaceNumber: 123, NamespaceInteger: 123, NamespaceBoolean: true, NamespaceArray: []int32{123), NamespaceWrappedArray: []int32{123), PrefixNsString: "PrefixNsString_example", PrefixNsNumber: 123, PrefixNsInteger: 123, PrefixNsBoolean: true, PrefixNsArray: []int32{123), PrefixNsWrappedArray: []int32{123)} // XmlItem | XmlItem Body
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.CreateXmlItem(context.Background(), xmlItem).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.CreateXmlItem``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
 ### Path Parameters
 
 
@@ -67,6 +92,33 @@ No authorization required
 
 
 
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := true // bool | Input boolean as post body (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.FakeOuterBooleanSerialize(context.Background(), ).Body(body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterBooleanSerialize``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `FakeOuterBooleanSerialize`: bool
+    fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterBooleanSerialize`: %v\n", resp)
+}
+```
 
 ### Path Parameters
 
@@ -107,6 +159,33 @@ No authorization required
 
 
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := openapiclient.OuterComposite{MyNumber: 123, MyString: "MyString_example", MyBoolean: false} // OuterComposite | Input composite as post body (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.FakeOuterCompositeSerialize(context.Background(), ).Body(body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterCompositeSerialize``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `FakeOuterCompositeSerialize`: OuterComposite
+    fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterCompositeSerialize`: %v\n", resp)
+}
+```
+
 ### Path Parameters
 
 
@@ -145,6 +224,33 @@ No authorization required
 
 
 
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := 987 // float32 | Input number as post body (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.FakeOuterNumberSerialize(context.Background(), ).Body(body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterNumberSerialize``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `FakeOuterNumberSerialize`: float32
+    fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterNumberSerialize`: %v\n", resp)
+}
+```
 
 ### Path Parameters
 
@@ -185,6 +291,33 @@ No authorization required
 
 
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := "body_example" // string | Input string as post body (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.FakeOuterStringSerialize(context.Background(), ).Body(body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterStringSerialize``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `FakeOuterStringSerialize`: string
+    fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterStringSerialize`: %v\n", resp)
+}
+```
+
 ### Path Parameters
 
 
@@ -224,6 +357,31 @@ No authorization required
 
 
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := openapiclient.FileSchemaTestClass{File: openapiclient.File{SourceURI: "SourceURI_example"}, Files: []File{openapiclient.File{SourceURI: "SourceURI_example"})} // FileSchemaTestClass | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestBodyWithFileSchema(context.Background(), body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestBodyWithFileSchema``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
 ### Path Parameters
 
 
@@ -260,6 +418,32 @@ No authorization required
 > TestBodyWithQueryParams(ctx).Query(query).Body(body).Execute()
 
 
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    query := "query_example" // string | 
+    body := openapiclient.User{Id: int64(123), Username: "Username_example", FirstName: "FirstName_example", LastName: "LastName_example", Email: "Email_example", Password: "Password_example", Phone: "Phone_example", UserStatus: 123} // User | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestBodyWithQueryParams(context.Background(), query, body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestBodyWithQueryParams``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
 
 ### Path Parameters
 
@@ -301,6 +485,33 @@ To test \"client\" model
 
 
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := openapiclient.Client{Client: "Client_example"} // Client | client model
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestClientModel(context.Background(), body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestClientModel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `TestClientModel`: Client
+    fmt.Fprintf(os.Stdout, "Response from `FakeApi.TestClientModel`: %v\n", resp)
+}
+```
+
 ### Path Parameters
 
 
@@ -339,6 +550,44 @@ No authorization required
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
 
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    number := 987 // float32 | None
+    double := 987 // float64 | None
+    patternWithoutDelimiter := "patternWithoutDelimiter_example" // string | None
+    byte_ := 987 // string | None
+    integer := 987 // int32 | None (optional)
+    int32_ := 987 // int32 | None (optional)
+    int64_ := 987 // int64 | None (optional)
+    float := 987 // float32 | None (optional)
+    string_ := "string__example" // string | None (optional)
+    binary := 987 // *os.File | None (optional)
+    date := Get-Date // string | None (optional)
+    dateTime := Get-Date // time.Time | None (optional)
+    password := "password_example" // string | None (optional)
+    callback := "callback_example" // string | None (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestEndpointParameters(context.Background(), number, double, patternWithoutDelimiter, byte_).Integer(integer).Int32_(int32_).Int64_(int64_).Float(float).String_(string_).Binary(binary).Date(date).DateTime(dateTime).Password(password).Callback(callback).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestEndpointParameters``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
 
 ### Path Parameters
 
@@ -392,6 +641,38 @@ To test enum parameters
 
 
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    enumHeaderStringArray := []string{"EnumHeaderStringArray_example"} // []string | Header parameter enum test (string array) (optional)
+    enumHeaderString := "enumHeaderString_example" // string | Header parameter enum test (string) (optional) (default to "-efg")
+    enumQueryStringArray := []string{"EnumQueryStringArray_example"} // []string | Query parameter enum test (string array) (optional)
+    enumQueryString := "enumQueryString_example" // string | Query parameter enum test (string) (optional) (default to "-efg")
+    enumQueryInteger := 987 // int32 | Query parameter enum test (double) (optional)
+    enumQueryDouble := 987 // float64 | Query parameter enum test (double) (optional)
+    enumFormStringArray := []string{"Inner_example"} // []string | Form parameter enum test (string array) (optional) (default to "$")
+    enumFormString := "enumFormString_example" // string | Form parameter enum test (string) (optional) (default to "-efg")
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestEnumParameters(context.Background(), ).EnumHeaderStringArray(enumHeaderStringArray).EnumHeaderString(enumHeaderString).EnumQueryStringArray(enumQueryStringArray).EnumQueryString(enumQueryString).EnumQueryInteger(enumQueryInteger).EnumQueryDouble(enumQueryDouble).EnumFormStringArray(enumFormStringArray).EnumFormString(enumFormString).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestEnumParameters``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
 ### Path Parameters
 
 
@@ -438,6 +719,36 @@ Fake endpoint to test group parameters (optional)
 
 
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    requiredStringGroup := 987 // int32 | Required String in group parameters
+    requiredBooleanGroup := true // bool | Required Boolean in group parameters
+    requiredInt64Group := 987 // int64 | Required Integer in group parameters
+    stringGroup := 987 // int32 | String in group parameters (optional)
+    booleanGroup := true // bool | Boolean in group parameters (optional)
+    int64Group := 987 // int64 | Integer in group parameters (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestGroupParameters(context.Background(), requiredStringGroup, requiredBooleanGroup, requiredInt64Group).StringGroup(stringGroup).BooleanGroup(booleanGroup).Int64Group(int64Group).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestGroupParameters``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
 ### Path Parameters
 
 
@@ -480,6 +791,31 @@ No authorization required
 
 test inline additionalProperties
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    param := map[string]string{ "Key" = "Value" } // map[string]string | request body
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestInlineAdditionalProperties(context.Background(), param).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestInlineAdditionalProperties``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
 ### Path Parameters
 
 
@@ -516,6 +852,32 @@ No authorization required
 > TestJsonFormData(ctx).Param(param).Param2(param2).Execute()
 
 test json serialization of form data
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    param := "param_example" // string | field1
+    param2 := "param2_example" // string | field2
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestJsonFormData(context.Background(), param, param2).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestJsonFormData``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
 
 ### Path Parameters
 
@@ -556,6 +918,35 @@ No authorization required
 
 
 
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    pipe := []string{"Inner_example"} // []string | 
+    ioutil := []string{"Inner_example"} // []string | 
+    http := []string{"Inner_example"} // []string | 
+    url := []string{"Inner_example"} // []string | 
+    context := []string{"Inner_example"} // []string | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestQueryParameterCollectionFormat(context.Background(), pipe, ioutil, http, url, context).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestQueryParameterCollectionFormat``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
 
 ### Path Parameters
 

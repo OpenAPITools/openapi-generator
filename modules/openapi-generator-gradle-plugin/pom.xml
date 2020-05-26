@@ -4,7 +4,7 @@
         <groupId>org.openapitools</groupId>
         <artifactId>openapi-generator-project</artifactId>
         <!-- RELEASE_VERSION -->
-        <version>4.3.1-SNAPSHOT</version>
+        <version>5.0.0-SNAPSHOT</version>
         <!-- /RELEASE_VERSION -->
         <relativePath>../..</relativePath>
     </parent>
@@ -17,7 +17,7 @@
 
     <properties>
         <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
-        <gradleVersion>5.2.1</gradleVersion>
+        <gradleVersion>5.6.4</gradleVersion>
     </properties>
 
     <pluginRepositories>

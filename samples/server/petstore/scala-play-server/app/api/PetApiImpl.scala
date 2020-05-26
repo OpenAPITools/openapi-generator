@@ -12,10 +12,10 @@ class PetApiImpl extends PetApi {
   /**
     * @inheritdoc
     */
-  override def addPet(body: Pet): Unit = {
+  override def addPet(pet: Pet): Pet = {
     // TODO: Implement better logic
 
-    
+    Pet(None, None, "", List.empty[String], None, None)
   }
 
   /**
@@ -57,10 +57,10 @@ class PetApiImpl extends PetApi {
   /**
     * @inheritdoc
     */
-  override def updatePet(body: Pet): Unit = {
+  override def updatePet(pet: Pet): Pet = {
     // TODO: Implement better logic
 
-    
+    Pet(None, None, "", List.empty[String], None, None)
   }
 
   /**

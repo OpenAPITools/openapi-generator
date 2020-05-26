@@ -417,6 +417,7 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         final Map<String, Object> processed = super.postProcessAllModels(objs);
         postProcessEnumRefs(processed);
         updateValueTypeProperty(processed);
+        updateNullableTypeProperty(processed);
         return processed;
     }
 
@@ -458,6 +459,32 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                     }
                 }
                 for (CodegenProperty var : model.vars) {
+                    if (enumRefs.containsKey(var.dataType)) {
+                        // Handle any enum properties referred to by $ref.
+                        // This is different in C# than most other generators, because enums in C# are compiled to integral types,
+                        // while enums in many other languages are true objects.
+                        CodegenModel refModel = enumRefs.get(var.dataType);
+                        var.allowableValues = refModel.allowableValues;
+                        var.isEnum = true;
+
+                        // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
+                        var.isPrimitiveType = true;
+                    }
+                }
+                for (CodegenProperty var : model.readWriteVars) {
+                    if (enumRefs.containsKey(var.dataType)) {
+                        // Handle any enum properties referred to by $ref.
+                        // This is different in C# than most other generators, because enums in C# are compiled to integral types,
+                        // while enums in many other languages are true objects.
+                        CodegenModel refModel = enumRefs.get(var.dataType);
+                        var.allowableValues = refModel.allowableValues;
+                        var.isEnum = true;
+
+                        // We do these after updateCodegenPropertyEnum to avoid generalities that don't mesh with C#.
+                        var.isPrimitiveType = true;
+                    }
+                }
+                for (CodegenProperty var : model.readOnlyVars) {
                     if (enumRefs.containsKey(var.dataType)) {
                         // Handle any enum properties referred to by $ref.
                         // This is different in C# than most other generators, because enums in C# are compiled to integral types,
@@ -577,6 +604,25 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
         }
     }
 
+    /**
+     * Update property if it is a C# nullable type
+     *
+     * @param models list of all models
+     */
+    protected void updateNullableTypeProperty(Map<String, Object> models) {
+        for (Map.Entry<String, Object> entry : models.entrySet()) {
+            String openAPIName = entry.getKey();
+            CodegenModel model = ModelUtils.getModelByName(openAPIName, models);
+            if (model != null) {
+                for (CodegenProperty var : model.vars) {
+                    if (!var.isContainer && (nullableType.contains(var.dataType) || var.isEnum)) {
+                        var.vendorExtensions.put("x-csharp-value-type", true);
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         super.postProcessOperationsWithModels(objs, allModels);
@@ -652,6 +698,9 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                                 }
                             }
                         }
+                    } else {
+                        // Effectively mark enum models as enums
+                        updateCodegenParametersEnum(operation.allParams, allModels);
                     }
 
                     processOperation(operation);
@@ -664,6 +713,37 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
 
     protected void processOperation(CodegenOperation operation) {
         // default noop
+    }
+
+    private void updateCodegenParametersEnum(List<CodegenParameter> parameters, List<Object> allModels) {
+        for (CodegenParameter parameter : parameters) {
+            CodegenModel model = null;
+            for (Object modelHashMap : allModels) {
+                CodegenModel codegenModel = ((HashMap<String, CodegenModel>) modelHashMap).get("model");
+                if (codegenModel.getClassname().equals(parameter.dataType)) {
+                    model = codegenModel;
+                    break;
+                }
+            }
+
+            if (model != null) {
+                // Effectively mark enum models as enums and non-nullable
+                if (model.isEnum) {
+                    parameter.isEnum = true;
+                    parameter.allowableValues = model.allowableValues;
+                    parameter.isPrimitiveType = true;
+                    parameter.vendorExtensions.put("x-csharp-value-type", true);
+                }
+            }
+
+            if (!parameter.isContainer && nullableType.contains(parameter.dataType)) {
+                parameter.vendorExtensions.put("x-csharp-value-type", true);
+            }
+
+            if (!parameter.required && parameter.vendorExtensions.get("x-csharp-value-type") != null) { //optional
+                parameter.dataType = parameter.dataType + "?";
+            }
+        }
     }
 
     @Override

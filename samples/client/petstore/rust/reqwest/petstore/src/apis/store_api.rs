@@ -29,6 +29,7 @@ impl StoreApiClient {
     }
 }
 
+
 pub trait StoreApi {
     fn delete_order(&self, order_id: &str) -> Result<(), Error>;
     fn get_inventory(&self, ) -> Result<::std::collections::HashMap<String, i32>, Error>;

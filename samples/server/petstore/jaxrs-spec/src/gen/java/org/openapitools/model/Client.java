@@ -26,15 +26,17 @@ public class Client  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("client")
   public String getClient() {
     return client;
   }
+
   public void setClient(String client) {
     this.client = client;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -73,5 +75,7 @@ public class Client  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

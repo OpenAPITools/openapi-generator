@@ -59,6 +59,8 @@ UserAPI_createUser(apiClient_t *apiClient, user_t * body )
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -136,6 +138,8 @@ UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t * body )
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -215,6 +219,8 @@ UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t * body )
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -280,6 +286,8 @@ UserAPI_deleteUser(apiClient_t *apiClient, char * username )
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -352,6 +360,8 @@ UserAPI_getUserByName(apiClient_t *apiClient, char * username )
     //return type
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -432,6 +442,8 @@ UserAPI_loginUser(apiClient_t *apiClient, char * username , char * password )
 
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     list_free(localVarQueryParameters);
     
@@ -505,6 +517,8 @@ UserAPI_logoutUser(apiClient_t *apiClient)
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     
@@ -575,6 +589,8 @@ UserAPI_updateUser(apiClient_t *apiClient, char * username , user_t * body )
 end:
     if (apiClient->dataReceived) {
         free(apiClient->dataReceived);
+        apiClient->dataReceived = NULL;
+        apiClient->dataReceivedLen = 0;
     }
     
     

@@ -24,7 +24,7 @@ public interface StoreApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json",
   })
-  void deleteOrder(@Param("order_id") String orderId);
+  void deleteOrder(@Param("orderId") String orderId);
 
   /**
    * Returns pet inventories by status
@@ -47,7 +47,7 @@ public interface StoreApi extends ApiClient.Api {
   @Headers({
     "Accept: application/json",
   })
-  Order getOrderById(@Param("order_id") Long orderId);
+  Order getOrderById(@Param("orderId") Long orderId);
 
   /**
    * Place an order for a pet

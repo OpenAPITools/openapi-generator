@@ -42,14 +42,47 @@ import java.util.*;
  */
 public final class CodegenConfiguratorUtils {
 
+    /**
+     * Applies "system" properties to the configurator as global properties.
+     *
+     * @deprecated
+     * This method is deprecated due to confusion around the tool's use of system properties. We called these system properties
+     * in the past and accepted them via CLI option -D. This lead to confusion between true Java System Properties and generator-specific
+     * "system level properties". They've since been renamed as "Global Properties". Please use {@link CodegenConfiguratorUtils#applyGlobalPropertiesKvpList(List, CodegenConfigurator)}.
+     *
+     * @param systemProperties List of properties to be globally available throughout the generator execution.
+     * @param configurator The {@link CodegenConfigurator} instance to configure.
+     */
+    @Deprecated
     public static void applySystemPropertiesKvpList(List<String> systemProperties, CodegenConfigurator configurator) {
-        for(String propString : systemProperties) {
-            applySystemPropertiesKvp(propString, configurator);
+        // TODO: Remove in 5.0
+        applyGlobalPropertiesKvpList(systemProperties, configurator);
+    }
+
+    /**
+     * Applies a key-value pair of strings as "system" properties to the configurator as global properties.
+     *
+     * @deprecated
+     * This method is deprecated due to confusing between Java Sytsem Properties and generator-specific "system-level properties".
+     * They've since been renamed as "Global Properties". Please use {@link CodegenConfiguratorUtils#applyGlobalPropertiesKvp(String, CodegenConfigurator)}.
+     *
+     * @param systemProperties List of properties to be globally available throughout the generator execution.
+     * @param configurator The {@link CodegenConfigurator} instance to configure.
+     */
+    @Deprecated
+    public static void applySystemPropertiesKvp(String systemProperties, CodegenConfigurator configurator) {
+        // TODO: Remove in 5.0
+        applyGlobalPropertiesKvp(systemProperties, configurator);
+    }
+
+    public static void applyGlobalPropertiesKvpList(List<String> globalProperties, CodegenConfigurator configurator) {
+        for(String propString : globalProperties) {
+            applyGlobalPropertiesKvp(propString, configurator);
         }
     }
 
-    public static void applySystemPropertiesKvp(String systemProperties, CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(systemProperties);
+    public static void applyGlobalPropertiesKvp(String globalProperties, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(globalProperties);
         for (Map.Entry<String, String> entry : map.entrySet()) {
             configurator.addSystemProperty(entry.getKey(), entry.getValue());
         }

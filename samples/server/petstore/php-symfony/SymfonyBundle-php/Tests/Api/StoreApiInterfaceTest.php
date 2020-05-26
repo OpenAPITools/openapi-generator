@@ -136,7 +136,7 @@ class StoreApiInterfaceTest extends WebTestCase
 
         $path = '/store/order';
 
-        $crawler = $client->request('POST', $path);
+        $crawler = $client->request('POST', $path, [], [], ['CONTENT_TYPE' => 'application/json']);
     }
 
     protected function genTestData($regexp)

@@ -61,7 +61,7 @@ export interface UploadFileRequest {
 }
 
 /**
- * no description
+ * 
  */
 export class PetApi extends runtime.BaseAPI {
 

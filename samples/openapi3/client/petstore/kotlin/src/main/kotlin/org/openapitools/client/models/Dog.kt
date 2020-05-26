@@ -18,22 +18,22 @@ import com.squareup.moshi.Json
 import java.io.Serializable
 /**
  * 
+ * @param className 
+ * @param color 
  * @param breed 
  */
 
 data class Dog (
     @Json(name = "className")
-    val className: kotlin.String,
-    @Json(name = "breed")
-    val breed: kotlin.String? = null,
+    override val className: kotlin.String,
     @Json(name = "color")
-    val color: kotlin.String? = null
-) 
-: Serializable 
-
-{
+    override val color: kotlin.String? = null,
+    @Json(name = "breed")
+    val breed: kotlin.String? = null
+) : Animal, Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 

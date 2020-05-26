@@ -24,8 +24,6 @@ sleep 5
 declare -a samples=(
 "${root}/bin/ruby-client-petstore.sh"
 "${root}/bin/ruby-client-petstore-faraday.sh"
-"${root}/bin/openapi3/ruby-client-petstore.sh"
-"${root}/bin/openapi3/ruby-client-faraday-petstore.sh"
 "${root}/bin/java-petstore-all.sh"
 "${root}/bin/java-jaxrs-petstore-server-all.sh"
 "${root}/bin/java-msf4j-petstore-server.sh"
@@ -80,14 +78,14 @@ declare -a samples=(
 "${root}/bin/dart-petstore.sh"
 "${root}/bin/dart2-petstore.sh"
 "${root}/bin/java-play-framework-petstore-server-all.sh"
-#"${root}/bin/elm-petstore-all.sh"
+"${root}/bin/openapi3/elm.sh"
 "${root}/bin/typescript-redux-query-petstore-with-npm-version.sh"
 "${root}/bin/cpp-restsdk-petstore.sh"
 "${root}/bin/cpp-qt5-qhttpengine-server-petstore.sh"
 #"${root}/bin/openapi3/powershell-experimental-petstore.sh"
 "${root}/bin/scala-akka-petstore.sh"
-"${root}/bin/openapi3/scala-akka-petstore.sh"
-"${root}/bin/openapi3/scala-sttp-petstore.sh"
+"${root}/bin/scala-sttp-petstore.sh"
+"${root}/bin/lua-petstore.sh"
 )
 
 # Some special case generators may expect to be run as a stanalone process (e.g. modifying classpath)
@@ -102,7 +100,7 @@ declare -a always_iterate=(
 export JAVA_OPTS="${JAVA_OPTS} -Djava.awt.headless=true -Dorg.slf4j.simpleLogger.defaultLogLevel=warn"
 if [ "true" = "$batch_mode" ]; then
   if [ ! -f "$executable" ]; then
-    (cd "${root}" && mvn -B clean package -DskipTests=true -Dmaven.javadoc.skip=true)
+    (cd "${root}" && mvn -B --no-snapshot-updates clean package -DskipTests=true -Dmaven.javadoc.skip=true)
   fi
 
   # shellcheck disable=SC2086

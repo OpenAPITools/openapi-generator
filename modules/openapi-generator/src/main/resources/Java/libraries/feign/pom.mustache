@@ -63,7 +63,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.12</version>
+                <version>3.0.0-M4</version>
                 <configuration>
                     <systemProperties>
                         <property>
@@ -73,7 +73,7 @@
                     </systemProperties>
                     <argLine>-Xms512m -Xmx1500m</argLine>
                     <parallel>methods</parallel>
-                    <forkMode>pertest</forkMode>
+                    <threadCount>10</threadCount>
                 </configuration>
             </plugin>
             <plugin>
@@ -138,6 +138,22 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                    <fork>true</fork>
+                    <meminitial>128m</meminitial>
+                    <maxmem>512m</maxmem>
+                    <compilerArgs>
+                        <arg>-Xlint:all</arg>
+                        <arg>-J-Xss4m</arg><!-- Compiling the generated JSON.java file may require larger stack size. -->
+                    </compilerArgs>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -314,8 +330,8 @@
         <java.version>{{#supportJava6}}1.6{{/supportJava6}}{{^supportJava6}}{{#java8}}1.8{{/java8}}{{^java8}}1.7{{/java8}}{{/supportJava6}}</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <swagger-annotations-version>1.5.21</swagger-annotations-version>
-        <feign-version>{{#useFeign10}}10.7.4{{/useFeign10}}{{^useFeign10}}9.7.0{{/useFeign10}}</feign-version>
+        <swagger-annotations-version>1.5.24</swagger-annotations-version>
+        <feign-version>{{#useFeign10}}11.0{{/useFeign10}}{{^useFeign10}}9.7.0{{/useFeign10}}</feign-version>
         <feign-form-version>{{#useFeign10}}3.8.0{{/useFeign10}}{{^useFeign10}}2.1.0{{/useFeign10}}</feign-form-version>
         <jackson-version>2.10.3</jackson-version>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
