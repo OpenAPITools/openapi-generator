@@ -97,6 +97,7 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
             Method     = $Method
             UriBuilder = $UriBuilder
             Body       = $Body
+            RequestHeader = $HeaderParameters
         }
         $signedHeader = Get-{{apiNamePrefix}}HttpSignedHeader @httpSignHeaderArgument
         if($null -ne $signedHeader -and $signedHeader.Count -gt 0){

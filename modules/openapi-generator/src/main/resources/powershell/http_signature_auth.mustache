@@ -1,11 +1,11 @@
 {{>partial_header}}
 <#
 .SYNOPSIS
-    Gets the headers for http signature.
+    Gets the headers for HTTP signature.
 .DESCRIPTION
     Gets the headers for the http sigature. 
 .PARAMETER Method
-    Http method
+    HTTP method
 .PARAMETER UriBuilder
     UriBuilder for url and query parameter
 .PARAMETER Body
@@ -17,7 +17,8 @@ function Get-{{apiNamePrefix}}HttpSignedHeader {
     param(
         [string]$Method,
         [System.UriBuilder]$UriBuilder,
-        [string]$Body
+        [string]$Body,
+        [hashtable]$RequestHeader
     )
 
     $HEADER_REQUEST_TARGET = '(request-target)'
@@ -83,6 +84,10 @@ function Get-{{apiNamePrefix}}HttpSignedHeader {
         elseif ($headerItem -eq $HEADER_DIGEST) {
             $HttpSignedRequestHeader[$HEADER_DIGEST] = $Digest
             $HttpSignatureHeader.Add($HEADER_DIGEST.ToLower(), $Digest)
+        }elseif($RequestHeader.ContainsKey($headerItem)){
+            $HttpSignatureHeader.Add($headerItem.ToLower(), $RequestHeader[$headerItem])
+        }else{
+            throw "Cannot sign HTTP request. Request does not contain the $headerItem header."
         }
     }
 
@@ -102,16 +107,17 @@ function Get-{{apiNamePrefix}}HttpSignedHeader {
     $KeyType = Get-{{apiNamePrefix}}KeyTypeFromFile -KeyFilePath $httpSigningConfiguration.KeyFilePath
 
     if ($keyType -eq "RSA") {
-        $headerSinatureStr = Get-{{apiNamePrefix}}RSASignature -PrivateKeyFilePath $httpSigningConfiguration.KeyFilePath `
+        $headerSignatureStr = Get-{{apiNamePrefix}}RSASignature -PrivateKeyFilePath $httpSigningConfiguration.KeyFilePath `
             -DataToSign $signatureHashString `
             -HashAlgorithmName $httpSigningConfiguration.HashAlgorithm `
-            -KeyPassPharse $httpSigningConfiguration.KeyPassPharse `
+            -KeyPassPhrase $httpSigningConfiguration.KeyPassPhrase `
             -SigningAlgorithm $httpSigningConfiguration.SigningAlgorithm
     }
     elseif ($KeyType -eq "EC") {
-        $headerSinatureStr = Get-{{apiNamePrefix}}ECDSASignature -ECKeyFilePath $httpSigningConfiguration.KeyFilePath `
+        $headerSignatureStr = Get-{{apiNamePrefix}}ECDSASignature -ECKeyFilePath $httpSigningConfiguration.KeyFilePath `
             -DataToSign $signatureHashString `
-            -HashAlgorithmName $httpSigningConfiguration.HashAlgorithm
+            -HashAlgorithmName $httpSigningConfiguration.HashAlgorithm `
+            -KeyPassPhrase $httpSigningConfiguration.KeyPassPhrase
     }
     #Depricated
     <#$cryptographicScheme = Get-{{apiNamePrefix}}CryptographicScheme -SigningAlgorithm $httpSigningConfiguration.SigningAlgorithm `
@@ -130,7 +136,7 @@ function Get-{{apiNamePrefix}}HttpSignedHeader {
     }
     
     $authorizationHeaderValue += [string]::Format(",headers=""{0}"",signature=""{1}""", 
-        $headersKeysString , $headerSinatureStr)
+        $headersKeysString , $headerSignatureStr)
     
     $HttpSignedRequestHeader[$HEADER_AUTHORIZATION] = $authorizationHeaderValue
     return $HttpSignedRequestHeader
@@ -148,8 +154,8 @@ function Get-{{apiNamePrefix}}HttpSignedHeader {
     Specify the data to sign
 .PARAMETER HashAlgorithmName
     HashAlgorithm to calculate the hash
-.PARAMETER KeyPassPharse
-    KeyPassPharse for the encrypted key
+.PARAMETER KeyPassPhrase
+    KeyPassPhrase for the encrypted key
 .OUTPUTS
     Base64String
 #>
@@ -159,7 +165,7 @@ function Get-{{apiNamePrefix}}RSASignature {
         [byte[]]$DataToSign,
         [string]$HashAlgorithmName,
         [string]$SigningAlgorithm,
-        [securestring]$KeyPassPharse
+        [securestring]$KeyPassPhrase
     )
     try {
         
@@ -192,7 +198,7 @@ function Get-{{apiNamePrefix}}RSASignature {
             $rsa_provider_sourceCode = Get-Content -Path $rsa_provider_path -Raw
             Add-Type -TypeDefinition $rsa_provider_sourceCode 
     
-            [System.Security.Cryptography.RSA]$rsa = [RSAEncryption.RSAEncryptionProvider]::GetRSAProviderFromPemFile($PrivateKeyFilePath, $KeyPassPharse)
+            [System.Security.Cryptography.RSA]$rsa = [RSAEncryption.RSAEncryptionProvider]::GetRSAProviderFromPemFile($PrivateKeyFilePath, $KeyPassPhrase)
             
             if ($SigningAlgorithm -eq "RSASSA-PSS") {
                 throw "$SigningAlgorithm is not supported on $($PSVersionTable.PSVersion)"
@@ -223,8 +229,8 @@ function Get-{{apiNamePrefix}}RSASignature {
     Specify the data to sign
 .PARAMETER HashAlgorithmName
     HashAlgorithm to calculate the hash
-.PARAMETER KeyPassPharse
-    KeyPassPharse for the encrypted key
+.PARAMETER KeyPassPhrase
+    KeyPassPhrase for the encrypted key
 .OUTPUTS
     Base64String
 #>
@@ -237,7 +243,7 @@ function Get-{{apiNamePrefix}}ECDSASignature {
         [Parameter(Mandatory = $false)]
         [String]$HashAlgorithmName,
         [Parameter(Mandatory = $false)]
-        [securestring]$KeyPassPharse
+        [securestring]$KeyPassPhrase
     )
     if (!(Test-Path -Path $ECKeyFilePath)) {
         throw "key file path does not exist."
@@ -257,8 +263,8 @@ function Get-{{apiNamePrefix}}ECDSASignature {
     #$ecdsa = [System.Security.Cryptography.ECDsaCng]::New($cngKey)
     $ecdsa = [System.Security.Cryptography.ECDsaCng]::New()
     [int]$bytCount =0
-    if(![string]::IsNullOrEmpty($KeyPassPharse)){
-        $ecdsa.ImportEncryptedPkcs8PrivateKey($KeyPassPharse,$keyBytes,[ref]$bytCount)
+    if(![string]::IsNullOrEmpty($KeyPassPhrase)){
+        $ecdsa.ImportEncryptedPkcs8PrivateKey($KeyPassPhrase,$keyBytes,[ref]$bytCount)
     }
     else{
     $ecdsa.ImportPkcs8PrivateKey($keyBytes,[ref]$bytCount)
@@ -287,6 +293,7 @@ function Get-{{apiNamePrefix}}ECDSASignature {
     Specifies the string to calculate the hash
 .Parameter HashName
     Specifies the hash name to calculate the hash, Accepted values are "SHA1", "SHA256" and "SHA512"
+    It is recommneded not to use "SHA1" to calculate the Hash
 .Outputs
 String 
 #>

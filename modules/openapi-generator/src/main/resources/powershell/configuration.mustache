@@ -388,17 +388,21 @@ a key. The 'Authorization' header is added to outbound HTTP requests.
 Ref: https://openapi-generator.tech
 
 .PARAMETER KeyId
-KeyId for http signing 
+KeyId for HTTP signing 
 
 .PARAMETER KeyFilePath
-KeyFilePath for http signing
+KeyFilePath for HTTP signing
 
 .PARAMETER KeyPassPhrase
-KeyPassPhrase, if the http signing key is protected
+KeyPassPhrase, if the HTTP signing key is protected
 
 .PARAMETER HttpSigningHeader
-HttpSigningHeader list of http headers used to calculate the signature, Accepted values are 
-"(request-target), (created), (expires), Host, Date, Digest". If no headers are specified then '(created)' sets as default.
+HttpSigningHeader list of HTTP headers used to calculate the signature. The two special signature headers '(request-target)' and '(created)' 
+SHOULD be included.
+    The '(created)' header expresses when the signature was created.
+    The '(request-target)' header is a concatenation of the lowercased :method, an
+    ASCII space, and the :path pseudo-headers.
+If no headers are specified then '(created)' sets as default.
 
 .PARAMETER HashAlgorithm
 HashAlgrithm to calculate the hash, Supported values are "sha256" and "sha512"
@@ -408,7 +412,7 @@ SigningAlgorithm specifies the signature algorithm, supported values are "RSASSA
 RSA key : Supported values "RSASSA-PKCS1-v1_5" and "RSASSA-PSS", for ECDSA key this parameter is not applicable
 
 .PARAMETER SignatureValidityPeriod
-SignatureValidityPeriod specifies the signature maximum validity time in seconds. It accepts interger value 
+SignatureValidityPeriod specifies the signature maximum validity time in seconds. It accepts integer value 
 
 .OUTPUTS
 
@@ -426,7 +430,6 @@ function Set-{{apiNamePrefix}}ConfigurationHttpSigning{
         [securestring]$KeyPassPhrase,
         [Parameter(Mandatory = $false)]
         [ValidateNotNullOrEmpty()]
-        [ValidateSet("(request-target)","(created)","(expires)","Host","Date","Digest")]
         [string[]] $HttpSigningHeader = @("(created)"),
         [Parameter(Mandatory = $false)]
         [ValidateSet("sha256","sha512")]
@@ -463,7 +466,7 @@ function Set-{{apiNamePrefix}}ConfigurationHttpSigning{
     
 
     if($HttpSigningHeader -contains "(expires)" -and $SignatureValidityPeriod -le 0){
-        throw "SignatureValidityPeriod must be greater that 0 seconds."
+        throw "SignatureValidityPeriod must be greater than 0 seconds."
     }
 
     if($HttpSigningHeader -contains "(expires)"){
@@ -481,6 +484,10 @@ function Set-{{apiNamePrefix}}ConfigurationHttpSigning{
         $httpSignatureConfiguration["SigningAlgorithm"] = $SigningAlgorithm
     }
 
+    if($null -ne $KeyPassPhrase){
+        $httpSignatureConfiguration["KeyPassPhrase"] = $KeyPassPhrase
+    }
+    
     $Script:Configuration["HttpSigning"] = New-Object -TypeName PSCustomObject -Property $httpSignatureConfiguration
 }
 }
