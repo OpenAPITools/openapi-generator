@@ -45,7 +45,7 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
 
             foreach($property in $matchInstance.PsObject.Properties) {
                 if ($null -ne $property.Value) {
-                    $matchType = "Dog"
+                    $matchType = "{{{.}}}"
                     $match++
                     break
                 }
