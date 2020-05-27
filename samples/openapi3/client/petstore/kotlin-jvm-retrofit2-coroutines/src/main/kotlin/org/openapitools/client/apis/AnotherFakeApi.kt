@@ -9,7 +9,8 @@ import okhttp3.MultipartBody
 import org.openapitools.client.models.Client
 
 interface AnotherFakeApi {
-    @PATCH("/another-fake/dummy")
+
+    @PATCH("another-fake/dummy")
     suspend fun call123testSpecialTags(@Body client: Client): Client
 
 }

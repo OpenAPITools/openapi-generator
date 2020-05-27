@@ -18,6 +18,7 @@ import org.openapitools.client.models.OuterEnumIntegerDefaultValue
 
 import com.squareup.moshi.Json
 import java.io.Serializable
+
 /**
  * 
  * @param enumStringRequired 

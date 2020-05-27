@@ -11,16 +11,17 @@ import io.reactivex.Completable
 import org.openapitools.client.models.Order
 
 interface StoreApi {
-    @DELETE("/store/order/{order_id}")
+
+    @DELETE("store/order/{order_id}")
     fun deleteOrder(@Path("order_id") orderId: kotlin.String): Completable
 
-    @GET("/store/inventory")
+    @GET("store/inventory")
     fun getInventory(): Single<kotlin.collections.Map<kotlin.String, kotlin.Int>>
 
-    @GET("/store/order/{order_id}")
+    @GET("store/order/{order_id}")
     fun getOrderById(@Path("order_id") orderId: kotlin.Long): Single<Order>
 
-    @POST("/store/order")
+    @POST("store/order")
     fun placeOrder(@Body order: Order): Single<Order>
 
 }

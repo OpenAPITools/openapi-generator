@@ -12,35 +12,36 @@ import org.openapitools.client.models.ApiResponse
 import org.openapitools.client.models.Pet
 
 interface PetApi {
-    @POST("/pet")
+
+    @POST("pet")
     fun addPet(@Body pet: Pet): Completable
 
-    @DELETE("/pet/{petId}")
-    fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String): Completable
+    @DELETE("pet/{petId}")
+    fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String? = null): Completable
 
-    @GET("/pet/findByStatus")
-    fun findPetsByStatus(@Query("status") status: CSVParams): Single<kotlin.Array<Pet>>
+    @GET("pet/findByStatus")
+    fun findPetsByStatus(@Query("status") status: CSVParams): Single<kotlin.collections.List<Pet>>
 
     @Deprecated("This api was deprecated")
-    @GET("/pet/findByTags")
-    fun findPetsByTags(@Query("tags") tags: CSVParams): Single<kotlin.Array<Pet>>
+    @GET("pet/findByTags")
+    fun findPetsByTags(@Query("tags") tags: CSVParams): Single<kotlin.collections.List<Pet>>
 
-    @GET("/pet/{petId}")
+    @GET("pet/{petId}")
     fun getPetById(@Path("petId") petId: kotlin.Long): Single<Pet>
 
-    @PUT("/pet")
+    @PUT("pet")
     fun updatePet(@Body pet: Pet): Completable
 
     @FormUrlEncoded
-    @POST("/pet/{petId}")
-    fun updatePetWithForm(@Path("petId") petId: kotlin.Long, @Field("name") name: kotlin.String, @Field("status") status: kotlin.String): Completable
+    @POST("pet/{petId}")
+    fun updatePetWithForm(@Path("petId") petId: kotlin.Long, @Field("name") name: kotlin.String? = null, @Field("status") status: kotlin.String? = null): Completable
 
     @Multipart
-    @POST("/pet/{petId}/uploadImage")
-    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String, @Part file: MultipartBody.Part): Single<ApiResponse>
+    @POST("pet/{petId}/uploadImage")
+    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String? = null, @Part file: MultipartBody.Part? = null): Single<ApiResponse>
 
     @Multipart
-    @POST("/fake/{petId}/uploadImageWithRequiredFile")
-    fun uploadFileWithRequiredFile(@Path("petId") petId: kotlin.Long, @Part requiredFile: MultipartBody.Part, @Part("additionalMetadata") additionalMetadata: kotlin.String): Single<ApiResponse>
+    @POST("fake/{petId}/uploadImageWithRequiredFile")
+    fun uploadFileWithRequiredFile(@Path("petId") petId: kotlin.Long, @Part requiredFile: MultipartBody.Part, @Part("additionalMetadata") additionalMetadata: kotlin.String? = null): Single<ApiResponse>
 
 }

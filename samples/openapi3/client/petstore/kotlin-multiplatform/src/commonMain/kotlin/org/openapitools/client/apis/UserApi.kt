@@ -75,7 +75,7 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
     * @param user List of user object 
     * @return void
     */
-    suspend fun createUsersWithArrayInput(user: kotlin.Array<User>) : HttpResponse<Unit> {
+    suspend fun createUsersWithArrayInput(user: kotlin.collections.List<User>) : HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 
@@ -116,7 +116,7 @@ private class CreateUsersWithArrayInputRequest(val value: List<User>) {
     * @param user List of user object 
     * @return void
     */
-    suspend fun createUsersWithListInput(user: kotlin.Array<User>) : HttpResponse<Unit> {
+    suspend fun createUsersWithListInput(user: kotlin.collections.List<User>) : HttpResponse<Unit> {
 
         val localVariableAuthNames = listOf<String>()
 

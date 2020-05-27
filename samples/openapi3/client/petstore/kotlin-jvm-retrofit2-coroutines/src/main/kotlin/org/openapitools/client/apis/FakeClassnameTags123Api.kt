@@ -9,7 +9,8 @@ import okhttp3.MultipartBody
 import org.openapitools.client.models.Client
 
 interface FakeClassnameTags123Api {
-    @PATCH("/fake_classname_test")
+
+    @PATCH("fake_classname_test")
     suspend fun testClassname(@Body client: Client): Client
 
 }

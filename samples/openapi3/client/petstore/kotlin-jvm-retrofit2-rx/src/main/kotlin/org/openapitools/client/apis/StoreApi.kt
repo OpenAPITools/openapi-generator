@@ -10,16 +10,17 @@ import rx.Observable
 import org.openapitools.client.models.Order
 
 interface StoreApi {
-    @DELETE("/store/order/{order_id}")
+
+    @DELETE("store/order/{order_id}")
     fun deleteOrder(@Path("order_id") orderId: kotlin.String): Observable<Unit>
 
-    @GET("/store/inventory")
+    @GET("store/inventory")
     fun getInventory(): Observable<kotlin.collections.Map<kotlin.String, kotlin.Int>>
 
-    @GET("/store/order/{order_id}")
+    @GET("store/order/{order_id}")
     fun getOrderById(@Path("order_id") orderId: kotlin.Long): Observable<Order>
 
-    @POST("/store/order")
+    @POST("store/order")
     fun placeOrder(@Body order: Order): Observable<Order>
 
 }

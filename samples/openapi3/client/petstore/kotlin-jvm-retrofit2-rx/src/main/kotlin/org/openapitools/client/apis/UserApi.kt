@@ -10,28 +10,29 @@ import rx.Observable
 import org.openapitools.client.models.User
 
 interface UserApi {
-    @POST("/user")
+
+    @POST("user")
     fun createUser(@Body user: User): Observable<Unit>
 
-    @POST("/user/createWithArray")
-    fun createUsersWithArrayInput(@Body user: kotlin.Array<User>): Observable<Unit>
+    @POST("user/createWithArray")
+    fun createUsersWithArrayInput(@Body user: kotlin.collections.List<User>): Observable<Unit>
 
-    @POST("/user/createWithList")
-    fun createUsersWithListInput(@Body user: kotlin.Array<User>): Observable<Unit>
+    @POST("user/createWithList")
+    fun createUsersWithListInput(@Body user: kotlin.collections.List<User>): Observable<Unit>
 
-    @DELETE("/user/{username}")
+    @DELETE("user/{username}")
     fun deleteUser(@Path("username") username: kotlin.String): Observable<Unit>
 
-    @GET("/user/{username}")
+    @GET("user/{username}")
     fun getUserByName(@Path("username") username: kotlin.String): Observable<User>
 
-    @GET("/user/login")
+    @GET("user/login")
     fun loginUser(@Query("username") username: kotlin.String, @Query("password") password: kotlin.String): Observable<kotlin.String>
 
-    @GET("/user/logout")
+    @GET("user/logout")
     fun logoutUser(): Observable<Unit>
 
-    @PUT("/user/{username}")
+    @PUT("user/{username}")
     fun updateUser(@Path("username") username: kotlin.String, @Body user: User): Observable<Unit>
 
 }

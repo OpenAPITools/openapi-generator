@@ -10,7 +10,8 @@ import rx.Observable
 import org.openapitools.client.models.InlineResponseDefault
 
 interface DefaultApi {
-    @GET("/foo")
+
+    @GET("foo")
     fun fooGet(): Observable<InlineResponseDefault>
 
 }

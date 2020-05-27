@@ -15,6 +15,7 @@ import org.openapitools.client.models.Foo
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * 
  * @param string 

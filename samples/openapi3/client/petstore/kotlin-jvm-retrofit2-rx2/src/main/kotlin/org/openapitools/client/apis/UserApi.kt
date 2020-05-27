@@ -11,28 +11,29 @@ import io.reactivex.Completable
 import org.openapitools.client.models.User
 
 interface UserApi {
-    @POST("/user")
+
+    @POST("user")
     fun createUser(@Body user: User): Completable
 
-    @POST("/user/createWithArray")
-    fun createUsersWithArrayInput(@Body user: kotlin.Array<User>): Completable
+    @POST("user/createWithArray")
+    fun createUsersWithArrayInput(@Body user: kotlin.collections.List<User>): Completable
 
-    @POST("/user/createWithList")
-    fun createUsersWithListInput(@Body user: kotlin.Array<User>): Completable
+    @POST("user/createWithList")
+    fun createUsersWithListInput(@Body user: kotlin.collections.List<User>): Completable
 
-    @DELETE("/user/{username}")
+    @DELETE("user/{username}")
     fun deleteUser(@Path("username") username: kotlin.String): Completable
 
-    @GET("/user/{username}")
+    @GET("user/{username}")
     fun getUserByName(@Path("username") username: kotlin.String): Single<User>
 
-    @GET("/user/login")
+    @GET("user/login")
     fun loginUser(@Query("username") username: kotlin.String, @Query("password") password: kotlin.String): Single<kotlin.String>
 
-    @GET("/user/logout")
+    @GET("user/logout")
     fun logoutUser(): Completable
 
-    @PUT("/user/{username}")
+    @PUT("user/{username}")
     fun updateUser(@Path("username") username: kotlin.String, @Body user: User): Completable
 
 }
