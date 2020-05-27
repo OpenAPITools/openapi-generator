@@ -168,7 +168,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         CliOption collectionType = new CliOption(COLLECTION_TYPE, "Option. Collection type to use");
         Map<String, String> collectionOptions = new HashMap<>();
-        collectionOptions.put(CollectionType.ARRAY.value, "kotlin.collections.List");
+        collectionOptions.put(CollectionType.ARRAY.value, "kotlin.Array");
         collectionOptions.put(CollectionType.LIST.value, "kotlin.collections.List");
         collectionType.setEnum(collectionOptions);
         collectionType.setDefault(this.collectionType);

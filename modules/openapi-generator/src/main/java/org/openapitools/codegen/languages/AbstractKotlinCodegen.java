@@ -153,7 +153,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("date-time", "java.time.LocalDateTime");
         typeMapping.put("date", "java.time.LocalDate");
         typeMapping.put("file", "java.io.File");
-        typeMapping.put("array", "kotlin.collections.List");
+        typeMapping.put("array", "kotlin.Array");
         typeMapping.put("list", "kotlin.collections.List");
         typeMapping.put("set", "kotlin.collections.Set");
         typeMapping.put("map", "kotlin.collections.Map");
@@ -162,7 +162,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("Date", "java.time.LocalDate");
         typeMapping.put("DateTime", "java.time.LocalDateTime");
 
-        instantiationTypes.put("array", "kotlin.collections.ArrayList");
+        instantiationTypes.put("array", "kotlin.Array");
         instantiationTypes.put("list", "kotlin.collections.ArrayList");
         instantiationTypes.put("map", "kotlin.collections.HashMap");
 

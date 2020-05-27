@@ -45,7 +45,7 @@ sidebar_label: kotlin-server
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|kotlin.collections.ArrayList|
+|array|kotlin.Array|
 |list|kotlin.collections.ArrayList|
 |map|kotlin.collections.HashMap|
 

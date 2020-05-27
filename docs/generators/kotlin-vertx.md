@@ -39,7 +39,7 @@ sidebar_label: kotlin-vertx
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|kotlin.collections.ArrayList|
+|array|kotlin.Array|
 |list|kotlin.collections.ArrayList|
 |map|kotlin.collections.HashMap|
 
