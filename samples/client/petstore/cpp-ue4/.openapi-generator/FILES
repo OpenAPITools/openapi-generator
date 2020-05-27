@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 OpenAPI.Build.cs
 Private\OpenAPIApiResponse.cpp
 Private\OpenAPIBaseModel.cpp
