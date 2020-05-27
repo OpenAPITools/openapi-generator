@@ -758,6 +758,7 @@ paths:
                   description: None
                   type: string
                   format: date-time
+                  example: '2020-02-02T20:20:20.22222Z'
                 password:
                   description: None
                   type: string
@@ -1202,6 +1203,7 @@ components:
         shipDate:
           type: string
           format: date-time
+          example: '2020-02-02T20:20:20.000222Z'
         status:
           type: string
           description: Order Status
@@ -1439,7 +1441,7 @@ components:
           maximum: 543.2
           minimum: 32.1
           type: number
-          multipleOf: 32.5 
+          multipleOf: 32.5
         float:
           type: number
           format: float
@@ -1462,9 +1464,11 @@ components:
         date:
           type: string
           format: date
+          example: '2020-02-02'
         dateTime:
           type: string
           format: date-time
+          example: '2020-02-02T20:20:20.000222Z'
         uuid:
           type: string
           format: uuid
