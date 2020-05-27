@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -566,6 +567,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
+
+                if (JVM_RETROFIT2.equals(getLibrary()) && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
+                    operation.path = operation.path.substring(1);
+                }
 
                 // set multipart against all relevant operations
                 if (operation.hasConsumes == Boolean.TRUE) {
