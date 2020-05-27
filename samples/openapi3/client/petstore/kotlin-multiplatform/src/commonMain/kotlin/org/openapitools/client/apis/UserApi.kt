@@ -79,7 +79,7 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableAuthNames = listOf<String>()
 
-        val localVariableBody = CreateUsersWithArrayInputRequest(user.asList())
+        val localVariableBody = CreateUsersWithArrayInputRequest(user)
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
 
@@ -120,7 +120,7 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
 
         val localVariableAuthNames = listOf<String>()
 
-        val localVariableBody = CreateUsersWithListInputRequest(user.asList())
+        val localVariableBody = CreateUsersWithListInputRequest(user)
 
         val localVariableQuery = mutableMapOf<String, List<String>>()
 
