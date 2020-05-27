@@ -749,6 +749,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-05-09 - [OpenAPIでお手軽にモックAPIサーバーを動かす](https://qiita.com/kasa_le/items/97ca6a8dd4605695c25c) by [Sachie Kamba](https://qiita.com/kasa_le)
 - 2020-05-18 - [Spring Boot REST with OpenAPI 3](https://dev.to/alfonzjanfrithz/spring-boot-rest-with-openapi-3-59jm) by [Alfonz Jan Frithz](https://dev.to/alfonzjanfrithz)
 - 2020-05-19 - [Dead Simple APIs with Open API](https://www.youtube.com/watch?v=sIaXmR6xRAw) by [Chris Tankersley](https://github.com/dragonmantank) at [Nexmo](https://developer.nexmo.com/)
+- 2020-05-22 - [TypeScript REST API Client](https://dev.to/unhurried/typescript-rest-api-client-4in3) by ["unhurried"](https://dev.to/unhurried)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -778,6 +779,7 @@ Here is a list of template creators:
    * Bash: @bkryza
    * C: @PowerOfCreation @zhemant [:heart:](https://www.patreon.com/zhemant)
    * C++ REST: @Danielku15
+   * C++ UE4: @Kahncode
    * C# (.NET 2.0): @who
    * C# (.NET Standard 1.3 ): @Gronsak
    * C# (.NET 4.5 refactored): @jimschubert [:heart:](https://www.patreon.com/jimschubert)
