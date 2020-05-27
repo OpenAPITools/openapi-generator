@@ -756,13 +756,13 @@ with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = petstore_api.FakeApi(api_client)
     enum_header_string_array = ['enum_header_string_array_example'] # list[str] | Header parameter enum test (string array) (optional)
-enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) (default to '-efg')
+enum_header_string = "-efg" # str | Header parameter enum test (string) (optional) (default to "-efg")
 enum_query_string_array = ['enum_query_string_array_example'] # list[str] | Query parameter enum test (string array) (optional)
-enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) (default to '-efg')
+enum_query_string = "-efg" # str | Query parameter enum test (string) (optional) (default to "-efg")
 enum_query_integer = 56 # int | Query parameter enum test (double) (optional)
 enum_query_double = 3.4 # float | Query parameter enum test (double) (optional)
-enum_form_string_array = '$' # list[str] | Form parameter enum test (string array) (optional) (default to '$')
-enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) (default to '-efg')
+enum_form_string_array = "$" # list[str] | Form parameter enum test (string array) (optional) (default to "$")
+enum_form_string = "-efg" # str | Form parameter enum test (string) (optional) (default to "-efg")
 
     try:
         # To test enum parameters
@@ -776,13 +776,13 @@ enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) (
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enum_header_string_array** | [**list[str]**](str.md)| Header parameter enum test (string array) | [optional] 
- **enum_header_string** | **str**| Header parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
+ **enum_header_string** | **str**| Header parameter enum test (string) | [optional] [default to &quot;-efg&quot;]
  **enum_query_string_array** | [**list[str]**](str.md)| Query parameter enum test (string array) | [optional] 
- **enum_query_string** | **str**| Query parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
+ **enum_query_string** | **str**| Query parameter enum test (string) | [optional] [default to &quot;-efg&quot;]
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional] 
  **enum_query_double** | **float**| Query parameter enum test (double) | [optional] 
- **enum_form_string_array** | [**list[str]**](str.md)| Form parameter enum test (string array) | [optional] [default to &#39;$&#39;]
- **enum_form_string** | **str**| Form parameter enum test (string) | [optional] [default to &#39;-efg&#39;]
+ **enum_form_string_array** | [**list[str]**](str.md)| Form parameter enum test (string array) | [optional] [default to &quot;$&quot;]
+ **enum_form_string** | **str**| Form parameter enum test (string) | [optional] [default to &quot;-efg&quot;]
 
 ### Return type
 
