@@ -108,7 +108,7 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
         ).wrap()
     }
 
-    
+
 
     /**
      * 
@@ -141,7 +141,7 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
         ).wrap()
     }
 
-    
+
 
     /**
      * 
@@ -174,7 +174,7 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
         ).wrap()
     }
 
-    
+
 
     /**
      * 
@@ -207,7 +207,7 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
         ).wrap()
     }
 
-    
+
 
     /**
      * 
@@ -240,7 +240,7 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
         ).wrap()
     }
 
-    
+
 
     /**
      * 
@@ -272,7 +272,7 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
         ).wrap()
     }
 
-    
+
 
     /**
      * 
@@ -306,7 +306,7 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
         ).wrap()
     }
 
-    
+
 
     /**
      * To test \&quot;client\&quot; model
@@ -339,7 +339,7 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
         ).wrap()
     }
 
-    
+
 
     /**
      * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
@@ -523,15 +523,15 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     }
 
     @Serializable
-private class TestInlineAdditionalPropertiesRequest(val value: Map<kotlin.String, kotlin.String>) {
-    @Serializer(TestInlineAdditionalPropertiesRequest::class)
-    companion object : KSerializer<TestInlineAdditionalPropertiesRequest> {
-        private val serializer: KSerializer<Map<kotlin.String, kotlin.String>> = (kotlin.String.serializer() to kotlin.String.serializer()).map
-            override val descriptor = StringDescriptor.withName("TestInlineAdditionalPropertiesRequest")
-            override fun serialize(encoder: Encoder, obj: TestInlineAdditionalPropertiesRequest) = serializer.serialize(encoder, obj.value)
-            override fun deserialize(decoder: Decoder) = TestInlineAdditionalPropertiesRequest(serializer.deserialize(decoder))
+    private class TestInlineAdditionalPropertiesRequest(val value: Map<kotlin.String, kotlin.String>) {
+        @Serializer(TestInlineAdditionalPropertiesRequest::class)
+        companion object : KSerializer<TestInlineAdditionalPropertiesRequest> {
+            private val serializer: KSerializer<Map<kotlin.String, kotlin.String>> = (kotlin.String.serializer() to kotlin.String.serializer()).map
+                override val descriptor = StringDescriptor.withName("TestInlineAdditionalPropertiesRequest")
+                override fun serialize(encoder: Encoder, obj: TestInlineAdditionalPropertiesRequest) = serializer.serialize(encoder, obj.value)
+                override fun deserialize(decoder: Decoder) = TestInlineAdditionalPropertiesRequest(serializer.deserialize(decoder))
+        }
     }
-}
 
     /**
      * test json serialization of form data

@@ -68,7 +68,7 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
         ).wrap()
     }
 
-    
+
 
     /**
      * Deletes a pet
@@ -138,15 +138,15 @@ class PetApi @UseExperimental(UnstableDefault::class) constructor(
     }
 
     @Serializable
-private class FindPetsByStatusResponse(val value: List<Pet>) {
-    @Serializer(FindPetsByStatusResponse::class)
-    companion object : KSerializer<FindPetsByStatusResponse> {
-        private val serializer: KSerializer<List<Pet>> = Pet.serializer().list
-            override val descriptor = StringDescriptor.withName("FindPetsByStatusResponse")
-            override fun serialize(encoder: Encoder, obj: FindPetsByStatusResponse) = serializer.serialize(encoder, obj.value)
-            override fun deserialize(decoder: Decoder) = FindPetsByStatusResponse(serializer.deserialize(decoder))
+    private class FindPetsByStatusResponse(val value: List<Pet>) {
+        @Serializer(FindPetsByStatusResponse::class)
+        companion object : KSerializer<FindPetsByStatusResponse> {
+            private val serializer: KSerializer<List<Pet>> = Pet.serializer().list
+                override val descriptor = StringDescriptor.withName("FindPetsByStatusResponse")
+                override fun serialize(encoder: Encoder, obj: FindPetsByStatusResponse) = serializer.serialize(encoder, obj.value)
+                override fun deserialize(decoder: Decoder) = FindPetsByStatusResponse(serializer.deserialize(decoder))
+        }
     }
-}
 
     /**
      * Finds Pets by tags
@@ -182,15 +182,15 @@ private class FindPetsByStatusResponse(val value: List<Pet>) {
     }
 
     @Serializable
-private class FindPetsByTagsResponse(val value: List<Pet>) {
-    @Serializer(FindPetsByTagsResponse::class)
-    companion object : KSerializer<FindPetsByTagsResponse> {
-        private val serializer: KSerializer<List<Pet>> = Pet.serializer().list
-            override val descriptor = StringDescriptor.withName("FindPetsByTagsResponse")
-            override fun serialize(encoder: Encoder, obj: FindPetsByTagsResponse) = serializer.serialize(encoder, obj.value)
-            override fun deserialize(decoder: Decoder) = FindPetsByTagsResponse(serializer.deserialize(decoder))
+    private class FindPetsByTagsResponse(val value: List<Pet>) {
+        @Serializer(FindPetsByTagsResponse::class)
+        companion object : KSerializer<FindPetsByTagsResponse> {
+            private val serializer: KSerializer<List<Pet>> = Pet.serializer().list
+                override val descriptor = StringDescriptor.withName("FindPetsByTagsResponse")
+                override fun serialize(encoder: Encoder, obj: FindPetsByTagsResponse) = serializer.serialize(encoder, obj.value)
+                override fun deserialize(decoder: Decoder) = FindPetsByTagsResponse(serializer.deserialize(decoder))
+        }
     }
-}
 
     /**
      * Find pet by ID
@@ -255,7 +255,7 @@ private class FindPetsByTagsResponse(val value: List<Pet>) {
         ).wrap()
     }
 
-    
+
 
     /**
      * Updates a pet in the store with form data

@@ -67,7 +67,7 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
         ).wrap()
     }
 
-    
+
 
     /**
      * Creates list of users with given input array
@@ -100,15 +100,15 @@ class UserApi @UseExperimental(UnstableDefault::class) constructor(
     }
 
     @Serializable
-private class CreateUsersWithArrayInputRequest(val value: List<User>) {
-    @Serializer(CreateUsersWithArrayInputRequest::class)
-    companion object : KSerializer<CreateUsersWithArrayInputRequest> {
-        private val serializer: KSerializer<List<User>> = User.serializer().list
-            override val descriptor = StringDescriptor.withName("CreateUsersWithArrayInputRequest")
-            override fun serialize(encoder: Encoder, obj: CreateUsersWithArrayInputRequest) = serializer.serialize(encoder, obj.value)
-            override fun deserialize(decoder: Decoder) = CreateUsersWithArrayInputRequest(serializer.deserialize(decoder))
+    private class CreateUsersWithArrayInputRequest(val value: List<User>) {
+        @Serializer(CreateUsersWithArrayInputRequest::class)
+        companion object : KSerializer<CreateUsersWithArrayInputRequest> {
+            private val serializer: KSerializer<List<User>> = User.serializer().list
+                override val descriptor = StringDescriptor.withName("CreateUsersWithArrayInputRequest")
+                override fun serialize(encoder: Encoder, obj: CreateUsersWithArrayInputRequest) = serializer.serialize(encoder, obj.value)
+                override fun deserialize(decoder: Decoder) = CreateUsersWithArrayInputRequest(serializer.deserialize(decoder))
+        }
     }
-}
 
     /**
      * Creates list of users with given input array
@@ -141,15 +141,15 @@ private class CreateUsersWithArrayInputRequest(val value: List<User>) {
     }
 
     @Serializable
-private class CreateUsersWithListInputRequest(val value: List<User>) {
-    @Serializer(CreateUsersWithListInputRequest::class)
-    companion object : KSerializer<CreateUsersWithListInputRequest> {
-        private val serializer: KSerializer<List<User>> = User.serializer().list
-            override val descriptor = StringDescriptor.withName("CreateUsersWithListInputRequest")
-            override fun serialize(encoder: Encoder, obj: CreateUsersWithListInputRequest) = serializer.serialize(encoder, obj.value)
-            override fun deserialize(decoder: Decoder) = CreateUsersWithListInputRequest(serializer.deserialize(decoder))
+    private class CreateUsersWithListInputRequest(val value: List<User>) {
+        @Serializer(CreateUsersWithListInputRequest::class)
+        companion object : KSerializer<CreateUsersWithListInputRequest> {
+            private val serializer: KSerializer<List<User>> = User.serializer().list
+                override val descriptor = StringDescriptor.withName("CreateUsersWithListInputRequest")
+                override fun serialize(encoder: Encoder, obj: CreateUsersWithListInputRequest) = serializer.serialize(encoder, obj.value)
+                override fun deserialize(decoder: Decoder) = CreateUsersWithListInputRequest(serializer.deserialize(decoder))
+        }
     }
-}
 
     /**
      * Delete user
@@ -314,7 +314,7 @@ private class CreateUsersWithListInputRequest(val value: List<User>) {
         ).wrap()
     }
 
-    
+
 
 
     companion object {
