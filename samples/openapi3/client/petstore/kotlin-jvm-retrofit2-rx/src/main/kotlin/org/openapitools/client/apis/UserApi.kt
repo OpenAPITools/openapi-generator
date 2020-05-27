@@ -10,7 +10,6 @@ import rx.Observable
 import org.openapitools.client.models.User
 
 interface UserApi {
-
     @POST("user")
     fun createUser(@Body user: User): Observable<Unit>
 

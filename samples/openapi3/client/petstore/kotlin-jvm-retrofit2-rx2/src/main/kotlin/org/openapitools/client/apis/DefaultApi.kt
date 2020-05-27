@@ -11,7 +11,6 @@ import io.reactivex.Completable
 import org.openapitools.client.models.InlineResponseDefault
 
 interface DefaultApi {
-
     @GET("foo")
     fun fooGet(): Single<InlineResponseDefault>
 

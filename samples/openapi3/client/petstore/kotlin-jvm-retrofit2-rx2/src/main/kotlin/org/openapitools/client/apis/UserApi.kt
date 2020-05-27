@@ -11,7 +11,6 @@ import io.reactivex.Completable
 import org.openapitools.client.models.User
 
 interface UserApi {
-
     @POST("user")
     fun createUser(@Body user: User): Completable
 

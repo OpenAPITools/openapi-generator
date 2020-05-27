@@ -11,7 +11,6 @@ import io.reactivex.Completable
 import org.openapitools.client.models.Client
 
 interface FakeClassnameTags123Api {
-
     @PATCH("fake_classname_test")
     fun testClassname(@Body client: Client): Single<Client>
 

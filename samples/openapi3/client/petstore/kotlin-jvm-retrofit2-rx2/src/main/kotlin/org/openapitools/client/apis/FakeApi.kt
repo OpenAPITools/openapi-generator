@@ -16,12 +16,11 @@ import org.openapitools.client.models.Pet
 import org.openapitools.client.models.User
 
 interface FakeApi {
-
     @GET("fake/health")
     fun fakeHealthGet(): Single<HealthCheckResult>
 
     @GET("fake/http-signature-test")
-    fun fakeHttpSignatureTest(@Body pet: Pet, @Query("query_1") query1: kotlin.String? = null, @Header("header_1") header1: kotlin.String? = null): Completable
+    fun fakeHttpSignatureTest(@Body pet: Pet, @Query("query_1") query1: kotlin.String? = null, @Header("header_1") header1: kotlin.String): Completable
 
     @POST("fake/outer/boolean")
     fun fakeOuterBooleanSerialize(@Body body: kotlin.Boolean? = null): Single<kotlin.Boolean>
@@ -46,14 +45,14 @@ interface FakeApi {
 
     @FormUrlEncoded
     @POST("fake")
-    fun testEndpointParameters(@Field("number") number: java.math.BigDecimal, @Field("double") double: kotlin.Double, @Field("pattern_without_delimiter") patternWithoutDelimiter: kotlin.String, @Field("byte") byte: kotlin.ByteArray, @Field("integer") integer: kotlin.Int? = null, @Field("int32") int32: kotlin.Int? = null, @Field("int64") int64: kotlin.Long? = null, @Field("float") float: kotlin.Float? = null, @Field("string") string: kotlin.String? = null, @Field("binary") binary: MultipartBody.Part? = null, @Field("date") date: java.time.LocalDate? = null, @Field("dateTime") dateTime: java.time.OffsetDateTime? = null, @Field("password") password: kotlin.String? = null, @Field("callback") paramCallback: kotlin.String? = null): Completable
+    fun testEndpointParameters(@Field("number") number: java.math.BigDecimal, @Field("double") double: kotlin.Double, @Field("pattern_without_delimiter") patternWithoutDelimiter: kotlin.String, @Field("byte") byte: kotlin.ByteArray, @Field("integer") integer: kotlin.Int, @Field("int32") int32: kotlin.Int, @Field("int64") int64: kotlin.Long, @Field("float") float: kotlin.Float, @Field("string") string: kotlin.String, @Field("binary") binary: MultipartBody.Part, @Field("date") date: java.time.LocalDate, @Field("dateTime") dateTime: java.time.OffsetDateTime, @Field("password") password: kotlin.String, @Field("callback") paramCallback: kotlin.String): Completable
 
     @FormUrlEncoded
     @GET("fake")
-    fun testEnumParameters(@Header("enum_header_string_array") enumHeaderStringArray: kotlin.collections.List<kotlin.String>? = null, @Header("enum_header_string") enumHeaderString: kotlin.String? = null, @Query("enum_query_string_array") enumQueryStringArray: kotlin.collections.List<kotlin.String>? = null, @Query("enum_query_string") enumQueryString: kotlin.String? = null, @Query("enum_query_integer") enumQueryInteger: kotlin.Int? = null, @Query("enum_query_double") enumQueryDouble: kotlin.Double? = null, @Field("enum_form_string_array") enumFormStringArray: kotlin.collections.List<kotlin.String>? = null, @Field("enum_form_string") enumFormString: kotlin.String? = null): Completable
+    fun testEnumParameters(@Header("enum_header_string_array") enumHeaderStringArray: kotlin.collections.List<kotlin.String>, @Header("enum_header_string") enumHeaderString: kotlin.String, @Query("enum_query_string_array") enumQueryStringArray: kotlin.collections.List<kotlin.String>? = null, @Query("enum_query_string") enumQueryString: kotlin.String? = null, @Query("enum_query_integer") enumQueryInteger: kotlin.Int? = null, @Query("enum_query_double") enumQueryDouble: kotlin.Double? = null, @Field("enum_form_string_array") enumFormStringArray: kotlin.collections.List<kotlin.String>, @Field("enum_form_string") enumFormString: kotlin.String): Completable
 
     @DELETE("fake")
-    fun testGroupParameters(@Query("required_string_group") requiredStringGroup: kotlin.Int, @Header("required_boolean_group") requiredBooleanGroup: kotlin.Boolean, @Query("required_int64_group") requiredInt64Group: kotlin.Long, @Query("string_group") stringGroup: kotlin.Int? = null, @Header("boolean_group") booleanGroup: kotlin.Boolean? = null, @Query("int64_group") int64Group: kotlin.Long? = null): Completable
+    fun testGroupParameters(@Query("required_string_group") requiredStringGroup: kotlin.Int, @Header("required_boolean_group") requiredBooleanGroup: kotlin.Boolean, @Query("required_int64_group") requiredInt64Group: kotlin.Long, @Query("string_group") stringGroup: kotlin.Int? = null, @Header("boolean_group") booleanGroup: kotlin.Boolean, @Query("int64_group") int64Group: kotlin.Long? = null): Completable
 
     @POST("fake/inline-additionalProperties")
     fun testInlineAdditionalProperties(@Body requestBody: kotlin.collections.Map<kotlin.String, kotlin.String>): Completable

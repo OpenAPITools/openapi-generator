@@ -9,7 +9,6 @@ import okhttp3.MultipartBody
 import org.openapitools.client.models.InlineResponseDefault
 
 interface DefaultApi {
-
     @GET("foo")
     suspend fun fooGet(): InlineResponseDefault
 

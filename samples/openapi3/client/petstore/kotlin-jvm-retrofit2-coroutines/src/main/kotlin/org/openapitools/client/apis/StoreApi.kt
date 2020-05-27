@@ -9,7 +9,6 @@ import okhttp3.MultipartBody
 import org.openapitools.client.models.Order
 
 interface StoreApi {
-
     @DELETE("store/order/{order_id}")
     suspend fun deleteOrder(@Path("order_id") orderId: kotlin.String): Unit
 

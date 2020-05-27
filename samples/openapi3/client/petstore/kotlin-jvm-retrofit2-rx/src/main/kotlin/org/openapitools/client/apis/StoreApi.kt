@@ -10,7 +10,6 @@ import rx.Observable
 import org.openapitools.client.models.Order
 
 interface StoreApi {
-
     @DELETE("store/order/{order_id}")
     fun deleteOrder(@Path("order_id") orderId: kotlin.String): Observable<Unit>
 

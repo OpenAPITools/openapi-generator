@@ -9,7 +9,6 @@ import okhttp3.MultipartBody
 import org.openapitools.client.models.User
 
 interface UserApi {
-
     @POST("user")
     suspend fun createUser(@Body user: User): Unit
 
