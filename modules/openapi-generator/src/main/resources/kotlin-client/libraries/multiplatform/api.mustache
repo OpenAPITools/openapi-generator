@@ -90,17 +90,17 @@ import kotlinx.serialization.internal.StringDescriptor
         ).{{#isListContainer}}wrap<{{operationIdCamelCase}}Response>().map { value{{^isList}}.toTypedArray(){{/isList}} }{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}wrap<{{operationIdCamelCase}}Response>().map { value }{{/isMapContainer}}{{^isMapContainer}}wrap(){{/isMapContainer}}{{/isListContainer}}
     }
 
-    {{#hasBodyParam}}
-    {{#bodyParam}}
-    {{#isListContainer}}{{>serial_wrapper_request_list}}{{/isListContainer}}{{#isMapContainer}}{{>serial_wrapper_request_map}}{{/isMapContainer}}
-    {{/bodyParam}}
-    {{/hasBodyParam}}
-    {{#isListContainer}}
-    {{>serial_wrapper_response_list}}
-    {{/isListContainer}}
-    {{#isMapContainer}}
-    {{>serial_wrapper_response_map}}
-    {{/isMapContainer}}
+{{#hasBodyParam}}
+{{#bodyParam}}
+{{#isListContainer}}{{>serial_wrapper_request_list}}{{/isListContainer}}{{#isMapContainer}}{{>serial_wrapper_request_map}}{{/isMapContainer}}
+{{/bodyParam}}
+{{/hasBodyParam}}
+{{#isListContainer}}
+{{>serial_wrapper_response_list}}
+{{/isListContainer}}
+{{#isMapContainer}}
+{{>serial_wrapper_response_map}}
+{{/isMapContainer}}
 
     {{/operation}}
 
