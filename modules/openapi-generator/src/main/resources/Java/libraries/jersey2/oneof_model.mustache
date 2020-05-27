@@ -31,12 +31,14 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             int match = 0;
             Object deserialized = null;
             {{#oneOf}}
+            // deserialize {{{.}}}
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
                 match++;
             } catch (Exception e) {
                 // deserialization failed, continue
             }
+
             {{/oneOf}}
             if (match == 1) {
                 {{classname}} ret = new {{classname}}();
@@ -59,8 +61,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
         setActualInstance(o);
     }
-    {{/oneOf}}
 
+    {{/oneOf}}
     static {
         {{#oneOf}}
         schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {

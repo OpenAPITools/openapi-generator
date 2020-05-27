@@ -486,15 +486,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("com.fasterxml.jackson.annotation.JsonProperty", "com.fasterxml.jackson.annotation.JsonCreator");
 
         if (additionalProperties.containsKey(JAVA8_MODE)) {
-            LOGGER.info("containing java 8 mode ...");
             setJava8Mode(Boolean.parseBoolean(additionalProperties.get(JAVA8_MODE).toString()));
             if (java8Mode) {
-                LOGGER.info("containing java 8 mode to true...");
                 additionalProperties.put("java8", true);
             } else {
                 additionalProperties.put("java8", false);
             }
-            LOGGER.info("containing java 8 mode to something {}...", java8Mode);
         }
 
         if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
