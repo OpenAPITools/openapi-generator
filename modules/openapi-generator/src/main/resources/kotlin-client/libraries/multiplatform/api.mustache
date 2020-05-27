@@ -43,7 +43,7 @@ import kotlinx.serialization.internal.StringDescriptor
 
         val localVariableAuthNames = listOf<String>({{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}})
 
-        val localVariableBody = {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}{{operationIdCamelCase}}Request({{{paramName}}}.asList()){{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{operationIdCamelCase}}Request({{{paramName}}}){{/isMapContainer}}{{^isMapContainer}}{{{paramName}}}{{/isMapContainer}}{{/isListContainer}}{{/bodyParam}}{{/hasBodyParam}}
+        val localVariableBody = {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}{{operationIdCamelCase}}Request({{{paramName}}}{{^isList}}.asList(){{/isList}}){{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{operationIdCamelCase}}Request({{{paramName}}}){{/isMapContainer}}{{^isMapContainer}}{{{paramName}}}{{/isMapContainer}}{{/isListContainer}}{{/bodyParam}}{{/hasBodyParam}}
             {{^hasBodyParam}}
             {{#hasFormParams}}
             {{#isMultipart}}
