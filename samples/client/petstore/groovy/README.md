@@ -32,12 +32,14 @@ Then, run:
 
 ```groovy
 def apiInstance = new PetApi()
-def body = new Pet() // Pet | Pet object that needs to be added to the store
+def pet = new Pet() // Pet | Pet object that needs to be added to the store
 
-apiInstance.addPet(body)
+apiInstance.addPet(pet)
     {
     // on success
-        println it
+    def result = (Pet)it
+    println result
+    
 }
     {
     // on failure
