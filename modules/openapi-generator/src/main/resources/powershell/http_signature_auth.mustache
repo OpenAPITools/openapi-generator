@@ -13,7 +13,7 @@
 .OUTPUTS
     Hashtable
 #>
-function Get-{{apiNamePrefix}}HttpSignedHeader {
+function Get-{{{apiNamePrefix}}}HttpSignedHeader {
     param(
         [string]$Method,
         [System.UriBuilder]$UriBuilder,
@@ -42,11 +42,11 @@ function Get-{{apiNamePrefix}}HttpSignedHeader {
     $HttpSignedRequestHeader = @{ }
     $HttpSignatureHeader = @{ }
     $TargetHost = $UriBuilder.Host
-    $httpSigningConfiguration = Get-{{apiNamePrefix}}ConfigurationHttpSigning
+    $httpSigningConfiguration = Get-{{{apiNamePrefix}}}ConfigurationHttpSigning
     $Digest = $null
     
     #get the body digest
-    $bodyHash = Get-{{apiNamePrefix}}StringHash -String $Body -HashName $httpSigningConfiguration.HashAlgorithm
+    $bodyHash = Get-{{{apiNamePrefix}}}StringHash -String $Body -HashName $httpSigningConfiguration.HashAlgorithm
     if ($httpSigningConfiguration.HashAlgorithm -eq "SHA256") {
         $Digest = [String]::Format("SHA-256={0}", [Convert]::ToBase64String($bodyHash))
     }
@@ -65,12 +65,12 @@ function Get-{{apiNamePrefix}}HttpSignedHeader {
             $HttpSignatureHeader.Add($HEADER_REQUEST_TARGET, $requestTargetPath)
         }
         elseif ($headerItem -eq $HEADER_CREATED) {
-            $created = Get-{{apiNamePrefix}}UnixTime -Date $dateTime -TotalTime TotalSeconds
+            $created = Get-{{{apiNamePrefix}}}UnixTime -Date $dateTime -TotalTime TotalSeconds
             $HttpSignatureHeader.Add($HEADER_CREATED, $created)
         }
         elseif ($headerItem -eq $HEADER_EXPIRES) {
             $expire = $dateTime.AddSeconds($httpSigningConfiguration.SignatureValidityPeriod)
-            $expireEpocTime = Get-{{apiNamePrefix}}UnixTime -Date $expire -TotalTime TotalSeconds
+            $expireEpocTime = Get-{{{apiNamePrefix}}}UnixTime -Date $expire -TotalTime TotalSeconds
             $HttpSignatureHeader.Add($HEADER_EXPIRES, $expireEpocTime)
         }
         elseif ($headerItem -eq $HEADER_HOST) {
@@ -101,26 +101,26 @@ function Get-{{apiNamePrefix}}HttpSignedHeader {
     $headerValuesString = $headerValuesList -join "`n"
     
     #Gets the hash of the headers value
-    $signatureHashString = Get-{{apiNamePrefix}}StringHash -String $headerValuesString -HashName $httpSigningConfiguration.HashAlgorithm
+    $signatureHashString = Get-{{{apiNamePrefix}}}StringHash -String $headerValuesString -HashName $httpSigningConfiguration.HashAlgorithm
 
     #Gets the Key type to select the correct signing alogorithm
-    $KeyType = Get-{{apiNamePrefix}}KeyTypeFromFile -KeyFilePath $httpSigningConfiguration.KeyFilePath
+    $KeyType = Get-{{{apiNamePrefix}}}KeyTypeFromFile -KeyFilePath $httpSigningConfiguration.KeyFilePath
 
     if ($keyType -eq "RSA") {
-        $headerSignatureStr = Get-{{apiNamePrefix}}RSASignature -PrivateKeyFilePath $httpSigningConfiguration.KeyFilePath `
+        $headerSignatureStr = Get-{{{apiNamePrefix}}}RSASignature -PrivateKeyFilePath $httpSigningConfiguration.KeyFilePath `
             -DataToSign $signatureHashString `
             -HashAlgorithmName $httpSigningConfiguration.HashAlgorithm `
             -KeyPassPhrase $httpSigningConfiguration.KeyPassPhrase `
             -SigningAlgorithm $httpSigningConfiguration.SigningAlgorithm
     }
     elseif ($KeyType -eq "EC") {
-        $headerSignatureStr = Get-{{apiNamePrefix}}ECDSASignature -ECKeyFilePath $httpSigningConfiguration.KeyFilePath `
+        $headerSignatureStr = Get-{{{apiNamePrefix}}}ECDSASignature -ECKeyFilePath $httpSigningConfiguration.KeyFilePath `
             -DataToSign $signatureHashString `
             -HashAlgorithmName $httpSigningConfiguration.HashAlgorithm `
             -KeyPassPhrase $httpSigningConfiguration.KeyPassPhrase
     }
     #Depricated
-    <#$cryptographicScheme = Get-{{apiNamePrefix}}CryptographicScheme -SigningAlgorithm $httpSigningConfiguration.SigningAlgorithm `
+    <#$cryptographicScheme = Get-{{{apiNamePrefix}}}CryptographicScheme -SigningAlgorithm $httpSigningConfiguration.SigningAlgorithm `
                                                  -HashAlgorithm $httpSigningConfiguration.HashAlgorithm
     #>
     $cryptographicScheme = "hs2019"
@@ -159,7 +159,7 @@ function Get-{{apiNamePrefix}}HttpSignedHeader {
 .OUTPUTS
     Base64String
 #>
-function Get-{{apiNamePrefix}}RSASignature {
+function Get-{{{apiNamePrefix}}}RSASignature {
     Param(
         [string]$PrivateKeyFilePath,
         [byte[]]$DataToSign,
@@ -194,7 +194,7 @@ function Get-{{apiNamePrefix}}RSASignature {
             }
         }
         else {
-            $rsa_provider_path = Join-Path -Path $PSScriptRoot -ChildPath "{{apiNamePrefix}}RSAEncryptionProvider.cs"
+            $rsa_provider_path = Join-Path -Path $PSScriptRoot -ChildPath "{{{apiNamePrefix}}}RSAEncryptionProvider.cs"
             $rsa_provider_sourceCode = Get-Content -Path $rsa_provider_path -Raw
             Add-Type -TypeDefinition $rsa_provider_sourceCode 
     
@@ -234,7 +234,7 @@ function Get-{{apiNamePrefix}}RSASignature {
 .OUTPUTS
     Base64String
 #>
-function Get-{{apiNamePrefix}}ECDSASignature {
+function Get-{{{apiNamePrefix}}}ECDSASignature {
     param(
         [Parameter(Mandatory = $true)]
         [string]$ECKeyFilePath,
@@ -297,7 +297,7 @@ function Get-{{apiNamePrefix}}ECDSASignature {
 .Outputs
 String 
 #>
-Function Get-{{apiNamePrefix}}StringHash {
+Function Get-{{{apiNamePrefix}}}StringHash {
     param(
         [Parameter(Mandatory = $true)]
         [AllowEmptyString()]
@@ -322,7 +322,7 @@ Function Get-{{apiNamePrefix}}StringHash {
 .Outputs
 Integer
 #>
-function Get-{{apiNamePrefix}}UnixTime {
+function Get-{{{apiNamePrefix}}}UnixTime {
     param(
         [Parameter(Mandatory = $true)]
         [DateTime]$Date,
@@ -341,7 +341,7 @@ function Get-{{apiNamePrefix}}UnixTime {
     }
 }
 
-function Get-{{apiNamePrefix}}CryptographicScheme {
+function Get-{{{apiNamePrefix}}}CryptographicScheme {
     param(
         [Parameter(Mandatory = $true)]
         [string]$SigningAlgorithm,
@@ -370,7 +370,7 @@ function Get-{{apiNamePrefix}}CryptographicScheme {
 .Outputs
 String
 #>
-function Get-{{apiNamePrefix}}KeyTypeFromFile {
+function Get-{{{apiNamePrefix}}}KeyTypeFromFile {
     param(
         [Parameter(Mandatory = $true)]
         [string]$KeyFilePath

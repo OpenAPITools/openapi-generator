@@ -418,7 +418,7 @@ SignatureValidityPeriod specifies the signature maximum validity time in seconds
 
 System.Collections.Hashtable
 #>
-function Set-{{apiNamePrefix}}ConfigurationHttpSigning{
+function Set-{{{apiNamePrefix}}}ConfigurationHttpSigning {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true)]
@@ -432,80 +432,79 @@ function Set-{{apiNamePrefix}}ConfigurationHttpSigning{
         [ValidateNotNullOrEmpty()]
         [string[]] $HttpSigningHeader = @("(created)"),
         [Parameter(Mandatory = $false)]
-        [ValidateSet("sha256","sha512")]
+        [ValidateSet("sha256", "sha512")]
         [string] $HashAlgorithm = "sha256",
         [Parameter(Mandatory = $false)]
-        [ValidateSet("RSASSA-PKCS1-v1_5","RSASSA-PSS")]
+        [ValidateSet("RSASSA-PKCS1-v1_5", "RSASSA-PSS")]
         [string]$SigningAlgorithm ,
         [Parameter(Mandatory = $false)]
         [int]$SignatureValidityPeriod
     )
 
-    Process{
-    $httpSignatureConfiguration = @{}
+    Process {
+        $httpSignatureConfiguration = @{ }
 
-    if(Test-Path -Path $KeyFilePath){
-        $httpSignatureConfiguration["KeyId"] = $KeyId
-        $httpSignatureConfiguration["KeyFilePath"] = $KeyFilePath
-    }else{
-        throw "Private key file path does not exist"
-    }
-
-    $keyType = Get-{{apiNamePrefix}}KeyTypeFromFile -KeyFilePath $KeyFilePath
-    if([String]::IsNullOrEmpty($SigningAlgorithm)){
-        if($keyType -eq "RSA"){
-            $SigningAlgorithm = "RSASSA-PKCS1-v1_5"
+        if (Test-Path -Path $KeyFilePath) {
+            $httpSignatureConfiguration["KeyId"] = $KeyId
+            $httpSignatureConfiguration["KeyFilePath"] = $KeyFilePath
         }
-    }
+        else {
+            throw "Private key file path does not exist"
+        }
 
-    if($keyType -eq "RSA" -and 
-        ($SigningAlgorithm -ne "RSASSA-PKCS1-v1_5" -and $SigningAlgorithm -ne "RSASSA-PSS" ))
-        {
+        $keyType = Get-{{{apiNamePrefix}}}KeyTypeFromFile -KeyFilePath $KeyFilePath
+        if ([String]::IsNullOrEmpty($SigningAlgorithm)) {
+            if ($keyType -eq "RSA") {
+                $SigningAlgorithm = "RSASSA-PKCS1-v1_5"
+            }
+        }
+
+        if ($keyType -eq "RSA" -and 
+            ($SigningAlgorithm -ne "RSASSA-PKCS1-v1_5" -and $SigningAlgorithm -ne "RSASSA-PSS" )) {
             throw "Provided Key and SigningAlgorithm : $SigningAlgorithm is not compatible."
         }
     
+        if ($HttpSigningHeader -contains "(expires)" -and $SignatureValidityPeriod -le 0) {
+            throw "SignatureValidityPeriod must be greater than 0 seconds."
+        }
 
-    if($HttpSigningHeader -contains "(expires)" -and $SignatureValidityPeriod -le 0){
-        throw "SignatureValidityPeriod must be greater than 0 seconds."
-    }
+        if ($HttpSigningHeader -contains "(expires)") {
+            $httpSignatureConfiguration["SignatureValidityPeriod"] = $SignatureValidityPeriod
+        }
+        if ($null -ne $HttpSigningHeader -and $HttpSigningHeader.Length -gt 0) {
+            $httpSignatureConfiguration["HttpSigningHeader"] = $HttpSigningHeader
+        }
 
-    if($HttpSigningHeader -contains "(expires)"){
-        $httpSignatureConfiguration["SignatureValidityPeriod"] = $SignatureValidityPeriod
-    }
-    if($null -ne $HttpSigningHeader -and $HttpSigningHeader.Length -gt 0){
-        $httpSignatureConfiguration["HttpSigningHeader"] = $HttpSigningHeader
-    }
+        if ($null -ne $HashAlgorithm ) {
+            $httpSignatureConfiguration["HashAlgorithm"] = $HashAlgorithm
+        }
 
-    if($null -ne $HashAlgorithm ){
-        $httpSignatureConfiguration["HashAlgorithm"] = $HashAlgorithm
-    }
+        if ($null -ne $SigningAlgorithm) {
+            $httpSignatureConfiguration["SigningAlgorithm"] = $SigningAlgorithm
+        }
 
-    if($null -ne $SigningAlgorithm){
-        $httpSignatureConfiguration["SigningAlgorithm"] = $SigningAlgorithm
-    }
-
-    if($null -ne $KeyPassPhrase){
-        $httpSignatureConfiguration["KeyPassPhrase"] = $KeyPassPhrase
-    }
+        if ($null -ne $KeyPassPhrase) {
+            $httpSignatureConfiguration["KeyPassPhrase"] = $KeyPassPhrase
+        }
     
-    $Script:Configuration["HttpSigning"] = New-Object -TypeName PSCustomObject -Property $httpSignatureConfiguration
-}
+        $Script:Configuration["HttpSigning"] = New-Object -TypeName PSCustomObject -Property $httpSignatureConfiguration
+    }
 }
 
 <#
 .SYNOPSIS
 
-Get the configuration object '{{apiNamePrefix}}ConfigurationHttpSigning'.
+Get the configuration object '{{{apiNamePrefix}}}ConfigurationHttpSigning'.
 
 .DESCRIPTION
 
-Get the configuration object '{{apiNamePrefix}}ConfigurationHttpSigning'.
+Get the configuration object '{{{apiNamePrefix}}}ConfigurationHttpSigning'.
 
 .OUTPUTS
 
 [PSCustomObject]
 #>
-function Get-{{apiNamePrefix}}ConfigurationHttpSigning{
+function Get-{{{apiNamePrefix}}}ConfigurationHttpSigning{
 
     $httpSignatureConfiguration = $Script:Configuration["HttpSigning"]
     return $httpSignatureConfiguration
