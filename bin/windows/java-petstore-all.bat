@@ -1,5 +1,4 @@
 call .\bin\windows\java-petstore-feign-10x.bat
-call .\bin\windows\java-petstore-feign.bat
 call .\bin\windows\java-petstore-google-api-client.bat
 call .\bin\windows\java-petstore-jersey1.bat
 call .\bin\windows\java-petstore-jersey2-java8.bat
