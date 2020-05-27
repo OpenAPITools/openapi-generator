@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**string_item** | **str** |  | [default to 'what']
+**string_item** | **str** |  | [default to "what"]
 **number_item** | **float** |  | 
 **integer_item** | **int** |  | 
 **bool_item** | **bool** |  | [default to True]
