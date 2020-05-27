@@ -93,12 +93,21 @@ public class PythonClientCodegenTest {
         Assert.assertEquals(op.allParams.get(5).pattern, "/^pattern\\d{3}$/i");
     }
 
-    @Test(description = "test single quotes escape")
-    public void testSingleQuotes() {
+    @Test(description = "test default value with single quotes")
+    public void testSingleQuotesDefaultValue() {
         final PythonClientCodegen codegen = new PythonClientCodegen();
         StringSchema schema = new StringSchema();
         schema.setDefault("Text containing 'single' quote");
         String defaultValue = codegen.toDefaultValue(schema);
-        Assert.assertEquals("'Text containing \'single\' quote'", defaultValue);
+        Assert.assertEquals(defaultValue, "\"Text containing 'single' quote\"");
+    }
+
+    @Test(description = "test example value with single quotes")
+    public void testSingleQuotesExampleValue() {
+        final PythonClientCodegen codegen = new PythonClientCodegen();
+        StringSchema schema = new StringSchema();
+        schema.setExample("Text containing 'single' quote");
+        String exampleValue = codegen.toExampleValue(schema);
+        Assert.assertEquals(exampleValue, "\"Text containing 'single' quote\"");
     }
 }
