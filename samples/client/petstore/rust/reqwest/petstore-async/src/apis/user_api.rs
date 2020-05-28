@@ -17,33 +17,8 @@ use reqwest;
 
 use super::{Error, configuration};
 
-pub struct UserApiClient {
-    configuration: Rc<configuration::Configuration>,
-}
 
-impl UserApiClient {
-    pub fn new(configuration: Rc<configuration::Configuration>) -> UserApiClient {
-        UserApiClient {
-            configuration,
-        }
-    }
-}
-
-
-pub trait UserApi {
-    fn create_user(&self, body: crate::models::User) -> Result<(), Error>;
-    fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> Result<(), Error>;
-    fn create_users_with_list_input(&self, body: Vec<crate::models::User>) -> Result<(), Error>;
-    fn delete_user(&self, username: &str) -> Result<(), Error>;
-    fn get_user_by_name(&self, username: &str) -> Result<crate::models::User, Error>;
-    fn login_user(&self, username: &str, password: &str) -> Result<String, Error>;
-    fn logout_user(&self, ) -> Result<(), Error>;
-    fn update_user(&self, username: &str, body: crate::models::User) -> Result<(), Error>;
-}
-
-impl UserApi for UserApiClient {
-    fn create_user(&self, body: crate::models::User) -> Result<(), Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
+    pub async fn create_user(configuration: &configuration::Configuration, body: crate::models::User) -> Result<(), Error> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user", configuration.base_path);
@@ -55,12 +30,11 @@ impl UserApi for UserApiClient {
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        client.execute(req)?.error_for_status()?;
+        client.execute(req).await?.error_for_status()?;
         Ok(())
     }
 
-    fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> Result<(), Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
+    pub async fn create_users_with_array_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/createWithArray", configuration.base_path);
@@ -72,12 +46,11 @@ impl UserApi for UserApiClient {
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        client.execute(req)?.error_for_status()?;
+        client.execute(req).await?.error_for_status()?;
         Ok(())
     }
 
-    fn create_users_with_list_input(&self, body: Vec<crate::models::User>) -> Result<(), Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
+    pub async fn create_users_with_list_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/createWithList", configuration.base_path);
@@ -89,12 +62,11 @@ impl UserApi for UserApiClient {
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        client.execute(req)?.error_for_status()?;
+        client.execute(req).await?.error_for_status()?;
         Ok(())
     }
 
-    fn delete_user(&self, username: &str) -> Result<(), Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
+    pub async fn delete_user(configuration: &configuration::Configuration, username: &str) -> Result<(), Error> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
@@ -105,12 +77,11 @@ impl UserApi for UserApiClient {
         }
 
         let req = req_builder.build()?;
-        client.execute(req)?.error_for_status()?;
+        client.execute(req).await?.error_for_status()?;
         Ok(())
     }
 
-    fn get_user_by_name(&self, username: &str) -> Result<crate::models::User, Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
+    pub async fn get_user_by_name(configuration: &configuration::Configuration, username: &str) -> Result<crate::models::User, Error> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
@@ -121,11 +92,10 @@ impl UserApi for UserApiClient {
         }
 
         let req = req_builder.build()?;
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        Ok(client.execute(req).await?.error_for_status()?.json::<crate::models::User>().await?)
     }
 
-    fn login_user(&self, username: &str, password: &str) -> Result<String, Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
+    pub async fn login_user(configuration: &configuration::Configuration, username: &str, password: &str) -> Result<String, Error> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/login", configuration.base_path);
@@ -138,11 +108,10 @@ impl UserApi for UserApiClient {
         }
 
         let req = req_builder.build()?;
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        Ok(client.execute(req).await?.error_for_status()?.json::<String>().await?)
     }
 
-    fn logout_user(&self, ) -> Result<(), Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
+    pub async fn logout_user(configuration: &configuration::Configuration, ) -> Result<(), Error> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/logout", configuration.base_path);
@@ -153,12 +122,11 @@ impl UserApi for UserApiClient {
         }
 
         let req = req_builder.build()?;
-        client.execute(req)?.error_for_status()?;
+        client.execute(req).await?.error_for_status()?;
         Ok(())
     }
 
-    fn update_user(&self, username: &str, body: crate::models::User) -> Result<(), Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
+    pub async fn update_user(configuration: &configuration::Configuration, username: &str, body: crate::models::User) -> Result<(), Error> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
@@ -170,8 +138,7 @@ impl UserApi for UserApiClient {
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        client.execute(req)?.error_for_status()?;
+        client.execute(req).await?.error_for_status()?;
         Ok(())
     }
 
-}

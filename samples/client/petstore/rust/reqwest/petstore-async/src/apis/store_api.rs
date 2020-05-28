@@ -17,29 +17,8 @@ use reqwest;
 
 use super::{Error, configuration};
 
-pub struct StoreApiClient {
-    configuration: Rc<configuration::Configuration>,
-}
 
-impl StoreApiClient {
-    pub fn new(configuration: Rc<configuration::Configuration>) -> StoreApiClient {
-        StoreApiClient {
-            configuration,
-        }
-    }
-}
-
-
-pub trait StoreApi {
-    fn delete_order(&self, order_id: &str) -> Result<(), Error>;
-    fn get_inventory(&self, ) -> Result<::std::collections::HashMap<String, i32>, Error>;
-    fn get_order_by_id(&self, order_id: i64) -> Result<crate::models::Order, Error>;
-    fn place_order(&self, body: crate::models::Order) -> Result<crate::models::Order, Error>;
-}
-
-impl StoreApi for StoreApiClient {
-    fn delete_order(&self, order_id: &str) -> Result<(), Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
+    pub async fn delete_order(configuration: &configuration::Configuration, order_id: &str) -> Result<(), Error> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=crate::apis::urlencode(order_id));
@@ -50,12 +29,11 @@ impl StoreApi for StoreApiClient {
         }
 
         let req = req_builder.build()?;
-        client.execute(req)?.error_for_status()?;
+        client.execute(req).await?.error_for_status()?;
         Ok(())
     }
 
-    fn get_inventory(&self, ) -> Result<::std::collections::HashMap<String, i32>, Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
+    pub async fn get_inventory(configuration: &configuration::Configuration, ) -> Result<::std::collections::HashMap<String, i32>, Error> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/inventory", configuration.base_path);
@@ -74,11 +52,10 @@ impl StoreApi for StoreApiClient {
         };
 
         let req = req_builder.build()?;
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        Ok(client.execute(req).await?.error_for_status()?.json::<::std::collections::HashMap<String, i32>>().await?)
     }
 
-    fn get_order_by_id(&self, order_id: i64) -> Result<crate::models::Order, Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
+    pub async fn get_order_by_id(configuration: &configuration::Configuration, order_id: i64) -> Result<crate::models::Order, Error> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=order_id);
@@ -89,11 +66,10 @@ impl StoreApi for StoreApiClient {
         }
 
         let req = req_builder.build()?;
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        Ok(client.execute(req).await?.error_for_status()?.json::<crate::models::Order>().await?)
     }
 
-    fn place_order(&self, body: crate::models::Order) -> Result<crate::models::Order, Error> {
-        let configuration: &configuration::Configuration = self.configuration.borrow();
+    pub async fn place_order(configuration: &configuration::Configuration, body: crate::models::Order) -> Result<crate::models::Order, Error> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order", configuration.base_path);
@@ -105,7 +81,6 @@ impl StoreApi for StoreApiClient {
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        Ok(client.execute(req).await?.error_for_status()?.json::<crate::models::Order>().await?)
     }
 
-}
