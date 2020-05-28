@@ -3,8 +3,8 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.oas3.annotations.Schema;
+import org.openapitools.model.ApiModel;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 /**
  * Model for testing model name same as property name
  */
-@ApiModel(description = "Model for testing model name same as property name")
+@Schema(description = "Model for testing model name same as property name")
 
 public class Name   {
   @JsonProperty("name")
@@ -36,7 +36,7 @@ public class Name   {
    * Get name
    * @return name
   */
-  @ApiModelProperty(required = true, value = "")
+  @Schema(required = true, description = "")
   @NotNull
 
 
@@ -57,7 +57,7 @@ public class Name   {
    * Get snakeCase
    * @return snakeCase
   */
-  @ApiModelProperty(readOnly = true, value = "")
+  @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "")
 
 
   public Integer getSnakeCase() {
@@ -77,7 +77,7 @@ public class Name   {
    * Get property
    * @return property
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getProperty() {
@@ -97,7 +97,7 @@ public class Name   {
    * Get _123number
    * @return _123number
   */
-  @ApiModelProperty(readOnly = true, value = "")
+  @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "")
 
 
   public Integer get123number() {

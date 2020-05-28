@@ -147,53 +147,18 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.2.11</version>
         </dependency>
-        {{#useSpringfox}}
-        <!--SpringFox dependencies-->
+
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${springfox-version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-annotations</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${springfox-version}</version>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.6.1</version>
         </dependency>
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${openapi.ui.version}</version>
+            <version>${springdoc-ui.version}</version>
         </dependency>
-        {{/useSpringfox}}
-        {{^useSpringfox}}
-        <dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>swagger-ui</artifactId>
-            <version>3.14.2</version>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>1.5.14</version>
-        </dependency>
-        <!-- @Nullable annotation -->
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>3.0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>${jackson-version}</version>
-        </dependency>
-        {{/useSpringfox}}
+
         {{#withXml}}
         <!-- XML processing: Jackson -->
         <dependency>
@@ -265,8 +230,7 @@
         <slf4j-version>1.7.21</slf4j-version>
         <junit-version>4.13</junit-version>
         <servlet-api-version>2.5</servlet-api-version>
-        <springfox-version>2.8.0</springfox-version>
-        <openapi.ui.version>1.2.32</openapi.ui.version>
+        <springdoc-ui.version>1.2.32</springdoc-ui.version>
         <jackson-version>2.9.9</jackson-version>
         <jackson-threetenbp-version>2.8.4</jackson-threetenbp-version>
 {{#useBeanValidation}}

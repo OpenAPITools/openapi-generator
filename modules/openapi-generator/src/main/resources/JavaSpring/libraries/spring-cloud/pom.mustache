@@ -10,7 +10,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <swagger-core-version>1.5.18</swagger-core-version>
-        <openapi.ui.version>1.2.32</openapi.ui.version>
+        <springdoc-ui.version>1.2.32</springdoc-ui.version>
     </properties>
 {{#parentOverridden}}
     <parent>
@@ -55,7 +55,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${openapi.ui.version}</version>
+            <version>${springdoc-ui.version}</version>
         </dependency>
         <!-- @Nullable annotation -->
         <dependency>

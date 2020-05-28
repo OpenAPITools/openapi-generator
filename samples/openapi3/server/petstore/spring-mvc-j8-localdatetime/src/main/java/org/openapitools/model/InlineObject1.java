@@ -3,8 +3,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.oas3.annotations.Schema;
 import org.springframework.core.io.Resource;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
@@ -30,7 +29,7 @@ public class InlineObject1   {
    * Additional data to pass to server
    * @return additionalMetadata
   */
-  @ApiModelProperty(value = "Additional data to pass to server")
+  @Schema(description = "Additional data to pass to server")
 
 
   public String getAdditionalMetadata() {
@@ -50,7 +49,7 @@ public class InlineObject1   {
    * file to upload
    * @return file
   */
-  @ApiModelProperty(value = "file to upload")
+  @Schema(description = "file to upload")
 
   @Valid
 

@@ -3,8 +3,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.oas3.annotations.Schema;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -29,7 +28,7 @@ public class ReadOnlyFirst   {
    * Get bar
    * @return bar
   */
-  @ApiModelProperty(readOnly = true, value = "")
+  @Schema(accessMode = Schema.AccessMode.READ_ONLY, description = "")
 
 
   public String getBar() {
@@ -49,7 +48,7 @@ public class ReadOnlyFirst   {
    * Get baz
    * @return baz
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getBaz() {

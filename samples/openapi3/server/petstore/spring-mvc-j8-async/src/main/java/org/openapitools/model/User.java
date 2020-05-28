@@ -3,8 +3,8 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.oas3.annotations.Schema;
+import org.openapitools.model.ApiModel;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 /**
  * A User who is purchasing from the pet store
  */
-@ApiModel(description = "A User who is purchasing from the pet store")
+@Schema(description = "A User who is purchasing from the pet store")
 
 public class User   {
   @JsonProperty("id")
@@ -48,7 +48,7 @@ public class User   {
    * Get id
    * @return id
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Long getId() {
@@ -68,7 +68,7 @@ public class User   {
    * Get username
    * @return username
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getUsername() {
@@ -88,7 +88,7 @@ public class User   {
    * Get firstName
    * @return firstName
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getFirstName() {
@@ -108,7 +108,7 @@ public class User   {
    * Get lastName
    * @return lastName
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getLastName() {
@@ -128,7 +128,7 @@ public class User   {
    * Get email
    * @return email
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getEmail() {
@@ -148,7 +148,7 @@ public class User   {
    * Get password
    * @return password
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getPassword() {
@@ -168,7 +168,7 @@ public class User   {
    * Get phone
    * @return phone
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public String getPhone() {
@@ -188,7 +188,7 @@ public class User   {
    * User Status
    * @return userStatus
   */
-  @ApiModelProperty(value = "User Status")
+  @Schema(description = "User Status")
 
 
   public Integer getUserStatus() {

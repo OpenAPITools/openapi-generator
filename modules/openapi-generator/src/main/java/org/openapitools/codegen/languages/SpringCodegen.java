@@ -71,6 +71,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
+    public static final String SPRING_BOOT_VERSION = "spring-boot.version";
 
     public static final String OPEN_BRACE = "{";
     public static final String CLOSE_BRACE = "}";
@@ -98,6 +99,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     protected boolean hateoas = false;
     protected boolean returnSuccessCode = false;
     protected boolean unhandledException = false;
+    protected String springBootVersion = "2.3.0.RELEASE";
 
     public SpringCodegen() {
         super();
@@ -172,14 +174,17 @@ public class SpringCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(RETURN_SUCCESS_CODE, "Generated server returns 2xx code", returnSuccessCode));
         cliOptions.add(CliOption.newBoolean(UNHANDLED_EXCEPTION_HANDLING, "Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).", unhandledException));
 
-        supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application using the SpringFox integration.");
-        supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application using the SpringFox integration.");
+        supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
+        supportedLibraries.put(SPRING_MVC_LIBRARY, "Spring-MVC Server application.");
         supportedLibraries.put(SPRING_CLOUD_LIBRARY, "Spring-Cloud-Feign client with Spring-Boot auto-configured settings.");
         setLibrary(SPRING_BOOT);
         CliOption library = new CliOption(CodegenConstants.LIBRARY, CodegenConstants.LIBRARY_DESC).defaultValue(SPRING_BOOT);
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
 
+        if (SPRING_BOOT.equals(library)) {
+            cliOptions.add(new CliOption(SPRING_BOOT_VERSION, "Spring-boot version").defaultValue(this.getSpringBootVersion()));
+        }
     }
 
     private void updateJava8CliOptions() {
@@ -201,7 +206,7 @@ public class SpringCodegen extends AbstractJavaCodegen
 
     @Override
     public String getHelp() {
-        return "Generates a Java SpringBoot Server application using the SpringFox integration.";
+        return "Generates a Java SpringBoot Server application.";
     }
 
     @Override
@@ -343,6 +348,11 @@ public class SpringCodegen extends AbstractJavaCodegen
             writePropertyBack(USE_OPTIONAL, useOptional);
         }
 
+        // Replacing OAS2 annotation imports (used by the underlying AbstractJavaCodegen)
+        importMapping.remove("ApiModelProperty");
+        importMapping.remove("ApiModel");
+        importMapping.put("Schema", "io.swagger.oas3.annotations.Schema");
+
         if (this.interfaceOnly && this.delegatePattern) {
             if (this.java8) {
                 this.delegateMethod = true;
@@ -356,6 +366,12 @@ public class SpringCodegen extends AbstractJavaCodegen
 
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+
+        if (library.equals(SPRING_BOOT)) {
+            if (additionalProperties.containsKey(SPRING_BOOT_VERSION) && this.java8) {
+                this.setSpringBootVersion((String) additionalProperties.get(SPRING_BOOT_VERSION));
+            }
+        }
 
         if (!this.interfaceOnly) {
             if (library.equals(SPRING_BOOT)) {
@@ -450,12 +466,6 @@ public class SpringCodegen extends AbstractJavaCodegen
         } else if (this.async) {
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
         }
-
-
-        if (!this.apiFirst && !this.reactive) {
-            additionalProperties.put("useSpringfox", true);
-        }
-
 
         // Some well-known Spring or Spring-Cloud response wrappers
         if (isNotEmpty(this.responseWrapper)) {
@@ -820,6 +830,14 @@ public class SpringCodegen extends AbstractJavaCodegen
         this.unhandledException = unhandledException;
     }
 
+    public String getSpringBootVersion() {
+        return springBootVersion;
+    }
+
+    public void setSpringBootVersion(String springBootVersion) {
+        this.springBootVersion = springBootVersion;
+    }
+
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         super.postProcessModelProperty(model, property);
@@ -841,6 +859,11 @@ public class SpringCodegen extends AbstractJavaCodegen
                 model.imports.add("JsonCreator");
             }
         }
+
+        // Replacing OAS2 annotation imports (used by the underlying AbstractJavaCodegen)
+        model.imports.remove("ApiModelProperty");
+        model.imports.remove("ApiModel");
+        model.imports.add("Schema");
     }
 
     @Override

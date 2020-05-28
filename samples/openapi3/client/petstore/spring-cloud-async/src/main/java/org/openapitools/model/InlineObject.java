@@ -3,8 +3,7 @@ package org.openapitools.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.oas3.annotations.Schema;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -29,7 +28,7 @@ public class InlineObject   {
    * Updated name of the pet
    * @return name
   */
-  @ApiModelProperty(value = "Updated name of the pet")
+  @Schema(description = "Updated name of the pet")
 
 
   public String getName() {
@@ -49,7 +48,7 @@ public class InlineObject   {
    * Updated status of the pet
    * @return status
   */
-  @ApiModelProperty(value = "Updated status of the pet")
+  @Schema(description = "Updated status of the pet")
 
 
   public JsonNullable<String> getStatus() {

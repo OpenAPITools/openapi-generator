@@ -4,8 +4,8 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.oas3.annotations.Schema;
+import org.openapitools.model.ApiModel;
 import org.threeten.bp.OffsetDateTime;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 /**
  * An order for a pets from the pet store
  */
-@ApiModel(description = "An order for a pets from the pet store")
+@Schema(description = "An order for a pets from the pet store")
 
 public class Order   {
   @JsonProperty("id")
@@ -82,7 +82,7 @@ public class Order   {
    * Get id
    * @return id
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Long getId() {
@@ -102,7 +102,7 @@ public class Order   {
    * Get petId
    * @return petId
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Long getPetId() {
@@ -122,7 +122,7 @@ public class Order   {
    * Get quantity
    * @return quantity
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Integer getQuantity() {
@@ -142,7 +142,7 @@ public class Order   {
    * Get shipDate
    * @return shipDate
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
   @Valid
 
@@ -163,7 +163,7 @@ public class Order   {
    * Order Status
    * @return status
   */
-  @ApiModelProperty(value = "Order Status")
+  @Schema(description = "Order Status")
 
 
   public StatusEnum getStatus() {
@@ -183,7 +183,7 @@ public class Order   {
    * Get complete
    * @return complete
   */
-  @ApiModelProperty(value = "")
+  @Schema(description = "")
 
 
   public Boolean getComplete() {

@@ -40,13 +40,6 @@ public class OpenAPI2SpringBoot implements CommandLineRunner {
     @Bean
     public WebMvcConfigurer webConfigurer() {
         return new WebMvcConfigurerAdapter() {
-            /*@Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("*")
-                        .allowedHeaders("Content-Type");
-            }*/
         };
     }
 
