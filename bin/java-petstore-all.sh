@@ -2,7 +2,6 @@
 # update java petstore clients for all supported http libraries
 
 ./bin/java-petstore-feign-10x.sh
-./bin/java-petstore-feign.sh
 ./bin/java-petstore-google-api-client.sh
 ./bin/java-petstore-jersey1.sh
 ./bin/java-petstore-jersey2-java8.sh
