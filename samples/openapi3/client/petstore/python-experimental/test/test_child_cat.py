@@ -17,8 +17,8 @@ import unittest
 import petstore_api
 
 
-class TestMammal(unittest.TestCase):
-    """Mammal unit test stubs"""
+class TestChildCat(unittest.TestCase):
+    """ChildCat unit test stubs"""
 
     def setUp(self):
         pass
@@ -26,12 +26,11 @@ class TestMammal(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testMammal(self):
-        """Test Mammal"""
-
-        # tests that we can make a BasquePig by traveling through descendant discriminator in Pig
-        model = petstore_api.Mammal(class_name="BasquePig")
-        assert isinstance(model, petstore_api.BasquePig)
+    def testChildCat(self):
+        """Test ChildCat"""
+        # FIXME: construct object with mandatory attributes with example values
+        # model = petstore_api.ChildCat()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':

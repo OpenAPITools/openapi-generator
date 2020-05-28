@@ -1,4 +1,4 @@
-# biology_hominid.BiologyHominid
+# basque_pig.BasquePig
 
 ## Properties
 Name | Type | Description | Notes

@@ -17,8 +17,8 @@ import unittest
 import petstore_api
 
 
-class TestBiologyHominid(unittest.TestCase):
-    """BiologyHominid unit test stubs"""
+class TestParentPet(unittest.TestCase):
+    """ParentPet unit test stubs"""
 
     def setUp(self):
         pass
@@ -26,12 +26,14 @@ class TestBiologyHominid(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testBiologyHominid(self):
-        """Test BiologyHominid"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.BiologyHominid()  # noqa: E501
-        pass
+    def testParentPet(self):
+        """Test ParentPet"""
 
+        # test that we can make a ParentPet from a ParentPet
+        # which requires that we travel back through ParentPet's allOf descendant
+        # GrandparentAnimal, and we use the descendant's discriminator to make ParentPet
+        model = petstore_api.ParentPet(pet_type="ParentPet")
+        assert isinstance(model, petstore_api.ParentPet)
 
 if __name__ == '__main__':
     unittest.main()
