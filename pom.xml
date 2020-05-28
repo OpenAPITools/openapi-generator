@@ -728,18 +728,6 @@
             </modules>
         </profile>
         <profile>
-            <id>java-client-retrofit</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/java/retrofit</module>
-            </modules>
-        </profile>
-        <profile>
             <id>java-client-retrofit2</id>
             <activation>
                 <property>
@@ -1265,7 +1253,6 @@
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
-                <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>
                 <module>samples/client/petstore/java/retrofit2rx</module>
                 <module>samples/client/petstore/java/retrofit2-play25</module>
@@ -1356,7 +1343,6 @@
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
-                <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>
                 <module>samples/client/petstore/java/retrofit2rx</module>
                 <module>samples/client/petstore/jaxrs-cxf-client</module>
