@@ -466,7 +466,7 @@ conf = {{{packageName}}}.Configuration(
             auth['{{name}}'] = {
                 'type': 'api_key',
                 'in': {{#isKeyInCookie}}'cookie'{{/isKeyInCookie}}{{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{#isKeyInQuery}}'query'{{/isKeyInQuery}},
-                'key': '{{keyParamName}}',
+                'key': '{{#vendorExtensions.x-auth-id-alias}}{{.}}{{/vendorExtensions.x-auth-id-alias}}{{^vendorExtensions.x-auth-id-alias}}{{name}}{{/vendorExtensions.x-auth-id-alias}}',
                 'value': self.get_api_key_with_prefix('{{keyParamName}}')
             }
 {{/isApiKey}}
