@@ -45,3 +45,4 @@ export class ServerConfiguration<T extends { [key: string]: string }> {
 }
 
 export const server1 = new ServerConfiguration<{  }>("http://petstore.swagger.io/v2", {  })
+

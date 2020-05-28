@@ -1,11 +1,11 @@
-import 'es6-promise/auto';
+import "es6-promise/auto";
 
-export * from './http/http';
-export * from './auth/auth';
-export * from './models/all';
-export { Configuration} from './configuration'
-export * from './apis/exception';
-export * from './servers';
+export * from "./http/http";
+export * from "./auth/auth";
+export * from "./models/all";
+export { Configuration } from "./configuration"
+export * from "./apis/exception";
+export * from "./servers";
 
 {{#useRxJS}}
 export { Middleware } from './middleware';
@@ -24,3 +24,7 @@ export { {{#apiInfo}}{{#apis}}{{#operations}}Observable{{classname}} as {{classn
 export { {{#apiInfo}}{{#apis}}{{#operations}}Promise{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/PromiseAPI';
 {{/useRxJS}}
 {{/useObjectParameters}}
+
+{{#useInversify}}
+export * from "./services/index";
+{{/useInversify}}

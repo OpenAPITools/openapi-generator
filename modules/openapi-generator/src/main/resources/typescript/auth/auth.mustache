@@ -66,7 +66,7 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
         return "{{name}}";
     }
 
-    public applySecurityAuthentication(context: RequestContext) {
+    public {{#isBasicBearer}}async {{/isBasicBearer}}applySecurityAuthentication(context: RequestContext) {
         {{#isApiKey}}
         context.{{#isKeyInHeader}}setHeaderParam{{/isKeyInHeader}}{{#isKeyInQuery}}addCookie{{/isKeyInQuery}}{{#isKeyInCookie}}setQueryParam{{/isKeyInCookie}}("{{keyParamName}}", this.apiKey);
         {{/isApiKey}}
@@ -87,9 +87,17 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
 
 export type AuthMethods = {
     {{#authMethods}}
-    "{{name}}"?: {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication{{#hasMore}},{{/hasMore}}
+    "{{name}}"?: SecurityAuthentication{{#hasMore}},{{/hasMore}}
     {{/authMethods}}
 }
+{{#useInversify}}
+
+export const authMethodServices = {
+    {{#authMethods}}
+    "{{name}}": {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication{{#hasMore}},{{/hasMore}}
+    {{/authMethods}}
+}
+{{/useInversify}}
 
 export type ApiKeyConfiguration = string;
 export type HttpBasicConfiguration = { "username": string, "password": string };

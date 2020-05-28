@@ -47,3 +47,7 @@ export class ServerConfiguration<T extends { [key: string]: string }> {
 {{#servers}}
 export const server{{-index}} = new ServerConfiguration<{ {{#variables}} "{{name}}": {{#enumValues}}"{{.}}"{{^-last}} | {{/-last}}{{/enumValues}}{{^enumValues}}string{{/enumValues}}{{^-last}},{{/-last}} {{/variables}} }>("{{url}}", { {{#variables}} "{{name}}": "{{defaultValue}}" {{^-last}},{{/-last}}{{/variables}} })
 {{/servers}}
+
+{{#useInversify}}
+export const servers = [{{#servers}}server{{-index}}{{^-last}}, {{/-last}}{{/servers}}];
+{{/useInversify}}

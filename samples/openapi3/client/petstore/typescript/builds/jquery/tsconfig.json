@@ -4,6 +4,7 @@
     /* Basic Options */
     "target": "es5",
     "module": "commonjs",
+    "moduleResolution": "node",
     "declaration": true,
  
     /* Additional Checks */
@@ -16,7 +17,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "noLib": false,
-    "lib": [ "es6", "dom" ]
+    "lib": [ "es6", "dom" ],
   },
   "exclude": [
   	"dist",

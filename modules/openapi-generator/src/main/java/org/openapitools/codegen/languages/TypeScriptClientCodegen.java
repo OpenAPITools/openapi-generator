@@ -211,15 +211,15 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("types" + File.separator + "ObjectParamAPI.mustache", "types", "ObjectParamAPI.ts"));
 
         // models
-        this.setModelPackage("");
+        setModelPackage("");
         supportingFiles.add(new SupportingFile("model" + File.separator + "ObjectSerializer.mustache", "models", "ObjectSerializer.ts"));
         modelTemplateFiles.put("model" + File.separator + "model.mustache", ".ts");
 
         // api
-        this.setApiPackage("");
+        setApiPackage("");
         supportingFiles.add(new SupportingFile("api" + File.separator + "middleware.mustache", "", "middleware.ts"));
-        this.supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", "apis", "baseapi.ts"));
-        this.apiTemplateFiles.put("api" + File.separator + "api.mustache", ".ts");
+        supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", "apis", "baseapi.ts"));
+        apiTemplateFiles.put("api" + File.separator + "api.mustache", ".ts");
     }
 
     public String getNpmName() {
@@ -794,7 +794,17 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         final boolean useRxJS = convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH);
         if (!useRxJS) {
-          supportingFiles.add(new SupportingFile("rxjsStub.mustache", "rxjsStub.ts"));
+            supportingFiles.add(new SupportingFile("rxjsStub.mustache", "rxjsStub.ts"));
+        }
+
+        final boolean useInversify = convertPropertyToBooleanAndWriteBack(USE_INVERSIFY_SWITCH);
+        if (useInversify) {
+            supportingFiles.add(new SupportingFile("services" + File.separator + "index.mustache", "services", "index.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "configuration.mustache", "services", "configuration.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "PromiseAPI.mustache", "services", "PromiseAPI.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "ObservableAPI.mustache", "services", "ObservableAPI.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "http.mustache", "services", "http.ts"));
+            apiTemplateFiles.put("services" + File.separator + "api.mustache", ".service.ts");
         }
 
         // NPM Settings
@@ -809,10 +819,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
-
-        
-        
-        
     }
 
     private String getHttpLibForFramework(String object) {
