@@ -15,10 +15,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.*;
 import java.nio.file.spi.FileSystemProvider;
-import java.util.Collections;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -89,13 +86,14 @@ public class AuthorTemplate extends OpenApiGeneratorCommand {
             if (!Files.exists(outputDirPath)) {
                 Files.createDirectories(outputDirPath);
             }
-
+            List<Path> generatedFiles = new ArrayList<>();
             try (final Stream<Path> templates = Files.walk(embeddedTemplatePath)) {
                 templates.forEach(template -> {
                     log("Found template: {}", template.toAbsolutePath());
                     Path relativePath = embeddedTemplatePath.relativize(template);
                     if (shouldCopy(relativePath)) {
                         Path target = outputDirPath.resolve(relativePath.toString());
+                        generatedFiles.add(target);
                         try {
                             if (Files.isDirectory(template)) {
                                 if (Files.notExists(target)) {
@@ -116,6 +114,30 @@ public class AuthorTemplate extends OpenApiGeneratorCommand {
                     } else {
                         log("Directory is excluded by library option: {}", relativePath);
                     }
+                });
+            }
+
+            if (StringUtils.isNotEmpty(library) && !generatedFiles.isEmpty()) {
+                Path librariesPath = outputDirPath.resolve("libraries");
+                Path targetLibrary = librariesPath.resolve(library);
+                String librariesPrefix = librariesPath.toString();
+                if (!Files.isDirectory(targetLibrary)) {
+                    LOGGER.warn("The library '{}' was not extracted. Please verify the spelling and retry.", targetLibrary);
+                }
+                generatedFiles.stream()
+                        .filter(p -> p.startsWith(librariesPrefix))
+                        .forEach(p -> {
+                            if (p.startsWith(targetLibrary)) {
+                                // We don't care about empty directories, and not need to check directory for files.
+                                if (!Files.isDirectory(p)) {
+                                    // warn if the file was not written
+                                    if (Files.notExists(p)) {
+                                        LOGGER.warn("An expected library file was not extracted: {}", p.toAbsolutePath());
+                                    }
+                                }
+                            } else {
+                                LOGGER.warn("The library filter '{}' extracted an unexpected library path: {}", library, p.toAbsolutePath());
+                            }
                 });
             }
 
