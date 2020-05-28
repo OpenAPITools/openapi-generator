@@ -227,6 +227,7 @@
                     <argLine>@{argLine} -XX:+StartAttachListener</argLine>
                     <systemPropertyVariables>
                         <org.openapitools.codegen.utils.oncelogger.expiry>1000</org.openapitools.codegen.utils.oncelogger.expiry>
+                        <org.openapitools.codegen.utils.oncelogger.cachesize>5000</org.openapitools.codegen.utils.oncelogger.cachesize>
                     </systemPropertyVariables>
                 </configuration>
                 <dependencies>
@@ -691,7 +692,7 @@
             </modules>
         </profile>
         <profile>
-            <id>java-client-jersey2-java7</id>
+            <id>java-client-jersey2-java8</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -699,19 +700,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/jersey2-java7</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>java-client-jersey2-java6</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/java/jersey2-java6</module>
+                <module>samples/client/petstore/java/jersey2-java8</module>
             </modules>
         </profile>
         <profile>
@@ -736,18 +725,6 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/java/okhttp-gson-parcelableModel</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>java-client-retrofit</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/java/retrofit</module>
             </modules>
         </profile>
         <profile>
@@ -783,19 +760,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/feign</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>javascript-client</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>javascript</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/javascript</module>
+                <module>samples/client/petstore/java/feign10x</module>
             </modules>
         </profile>
         <profile>
@@ -808,18 +773,6 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/javascript-es6</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>javascript-client-promise</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>javascript</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/javascript-promise</module>
             </modules>
         </profile>
         <profile>
@@ -1087,7 +1040,6 @@
                 <module>samples/client/petstore/python</module>
             </modules>
         </profile>
-        <!--
         <profile>
             <id>ruby-client</id>
             <activation>
@@ -1100,7 +1052,6 @@
                 <module>samples/client/petstore/ruby</module>
             </modules>
         </profile>
-        -->
         <profile>
             <id>go-client</id>
             <activation>
@@ -1243,14 +1194,12 @@
                 <module>samples/client/petstore/c</module>
                 <module>samples/client/petstore/cpp-qt5</module>
                 <module>samples/client/petstore/rust</module>
+                <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <!--<module>samples/client/petstore/perl</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
-                <module>samples/client/petstore/javascript</module>
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/javascript-es6</module>
-                <module>samples/openapi3/client/petstore/javascript-es6</module>
-                <module>samples/client/petstore/javascript-promise</module>
                 <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/python</module>
@@ -1295,17 +1244,15 @@
                 <module>samples/openapi3/client/petstore/go-experimental</module>
                 <module>samples/openapi3/client/petstore/go</module>
                 <!-- test java-related projects -->
-                <module>samples/openapi3/client/petstore/scala-akka</module>
-                <module>samples/openapi3/client/petstore/scala-sttp</module>
+                <module>samples/client/petstore/scala-akka</module>
+                <module>samples/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/feign10x</module>
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
-                <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>
                 <module>samples/client/petstore/java/retrofit2rx</module>
                 <module>samples/client/petstore/java/retrofit2-play25</module>
@@ -1387,18 +1334,15 @@
                 <module>samples/server/petstore/go-api-server</module>
                 <module>samples/server/petstore/go-gin-api-server</module>
                 <!-- clients -->
-                <module>samples/openapi3/client/petstore/ruby</module>
+                <module>samples/client/petstore/ruby</module>
                 <!-- test java-related projects -->
-                <module>samples/openapi3/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/dart2/petstore</module>
                 <module>samples/client/petstore/dart-jaguar/openapi</module>
                 <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
+                <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-httpclient</module>
-                <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
-                <module>samples/client/petstore/java/jersey2-java7</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
-                <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>
                 <module>samples/client/petstore/java/retrofit2rx</module>
                 <module>samples/client/petstore/jaxrs-cxf-client</module>
@@ -1598,9 +1542,9 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <swagger-core-version>2.1.1</swagger-core-version>
+        <swagger-core-version>2.1.2</swagger-core-version>
         <swagger-parser-groupid>io.swagger.parser.v3</swagger-parser-groupid>
-        <swagger-parser-version>2.0.19</swagger-parser-version>
+        <swagger-parser-version>2.0.20</swagger-parser-version>
         <felix-version>3.3.1</felix-version>
         <commons-io-version>2.4</commons-io-version>
         <commons-cli-version>1.2</commons-cli-version>

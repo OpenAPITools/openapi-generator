@@ -32,6 +32,7 @@ ext {
     jackson_databind_version = "2.10.4"
     vertx_version = "3.4.2"
     junit_version = "4.13"
+    jackson_databind_nullable_version = "0.2.1"
 }
 
 dependencies {
@@ -51,6 +52,7 @@ dependencies {
     {{#threetenbp}}
     compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_version"
     {{/threetenbp}}
+    compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     testCompile "junit:junit:$junit_version"
     testCompile "io.vertx:vertx-unit:$vertx_version"
 }

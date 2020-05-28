@@ -18,6 +18,7 @@ import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
+    ApiTypeError,
     ModelComposed,
     ModelNormal,
     ModelSimple,
@@ -66,6 +67,8 @@ class TypeHolderDefault(ModelNormal):
 
     additional_properties_type = None
 
+    _nullable = False
+
     @cached_property
     def openapi_types():
         """
@@ -105,14 +108,14 @@ class TypeHolderDefault(ModelNormal):
     required_properties = set([
         '_data_store',
         '_check_type',
-        '_from_server',
+        '_spec_property_naming',
         '_path_to_item',
         '_configuration',
         '_visited_composed_classes',
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, array_item, string_item='what', number_item=1.234, integer_item=-2, bool_item=True, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
+    def __init__(self, array_item, *args, **kwargs):  # noqa: E501
         """type_holder_default.TypeHolderDefault - a model defined in OpenAPI
 
         Args:
@@ -130,8 +133,10 @@ class TypeHolderDefault(ModelNormal):
             _path_to_item (tuple/list): This is a list of keys or values to
                                 drill down to the model in received_data
                                 when deserializing a response
-            _from_server (bool): True if the data is from the server
-                                False if the data is from the client (default)
+            _spec_property_naming (bool): True if the variable names in the input data
+                                are serialized names, as specified in the OpenAPI document.
+                                False if the variable names in the input data
+                                are pythonic names, e.g. snake case (default)
             _configuration (Configuration): the instance to use when
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
@@ -155,9 +160,29 @@ class TypeHolderDefault(ModelNormal):
             datetime_item (datetime): [optional]  # noqa: E501
         """
 
+        string_item = kwargs.get('string_item', 'what')
+        number_item = kwargs.get('number_item', 1.234)
+        integer_item = kwargs.get('integer_item', -2)
+        bool_item = kwargs.get('bool_item', True)
+        _check_type = kwargs.pop('_check_type', True)
+        _spec_property_naming = kwargs.pop('_spec_property_naming', False)
+        _path_to_item = kwargs.pop('_path_to_item', ())
+        _configuration = kwargs.pop('_configuration', None)
+        _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
+
+        if args:
+            raise ApiTypeError(
+                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                    args,
+                    self.__class__.__name__,
+                ),
+                path_to_item=_path_to_item,
+                valid_classes=(self.__class__,),
+            )
+
         self._data_store = {}
         self._check_type = _check_type
-        self._from_server = _from_server
+        self._spec_property_naming = _spec_property_naming
         self._path_to_item = _path_to_item
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)

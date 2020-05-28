@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## call_123_test_special_tags
 
-> Client call_123_test_special_tags(body)
+> Client call_123_test_special_tags(client)
 
 To test special tags
 
@@ -23,11 +23,11 @@ To test special tags and operation ID starting with number
 require 'petstore'
 
 api_instance = Petstore::AnotherFakeApi.new
-body = Petstore::Client.new # Client | client model
+client = Petstore::Client.new # Client | client model
 
 begin
   #To test special tags
-  result = api_instance.call_123_test_special_tags(body)
+  result = api_instance.call_123_test_special_tags(client)
   p result
 rescue Petstore::ApiError => e
   puts "Exception when calling AnotherFakeApi->call_123_test_special_tags: #{e}"
@@ -39,7 +39,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md)| client model | 
 
 ### Return type
 

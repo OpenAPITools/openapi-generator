@@ -18,6 +18,7 @@ import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
+    ApiTypeError,
     ModelComposed,
     ModelNormal,
     ModelSimple,
@@ -66,6 +67,8 @@ class AdditionalPropertiesClass(ModelNormal):
 
     additional_properties_type = None
 
+    _nullable = False
+
     @cached_property
     def openapi_types():
         """
@@ -79,6 +82,12 @@ class AdditionalPropertiesClass(ModelNormal):
         return {
             'map_property': ({str: (str,)},),  # noqa: E501
             'map_of_map_property': ({str: ({str: (str,)},)},),  # noqa: E501
+            'anytype_1': (bool, date, datetime, dict, float, int, list, str, none_type,),  # noqa: E501
+            'map_with_undeclared_properties_anytype_1': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
+            'map_with_undeclared_properties_anytype_2': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
+            'map_with_undeclared_properties_anytype_3': ({str: (bool, date, datetime, dict, float, int, list, str, none_type)},),  # noqa: E501
+            'empty_map': (bool, date, datetime, dict, float, int, list, str,),  # noqa: E501
+            'map_with_undeclared_properties_string': ({str: (str,)},),  # noqa: E501
         }
 
     @cached_property
@@ -88,6 +97,12 @@ class AdditionalPropertiesClass(ModelNormal):
     attribute_map = {
         'map_property': 'map_property',  # noqa: E501
         'map_of_map_property': 'map_of_map_property',  # noqa: E501
+        'anytype_1': 'anytype_1',  # noqa: E501
+        'map_with_undeclared_properties_anytype_1': 'map_with_undeclared_properties_anytype_1',  # noqa: E501
+        'map_with_undeclared_properties_anytype_2': 'map_with_undeclared_properties_anytype_2',  # noqa: E501
+        'map_with_undeclared_properties_anytype_3': 'map_with_undeclared_properties_anytype_3',  # noqa: E501
+        'empty_map': 'empty_map',  # noqa: E501
+        'map_with_undeclared_properties_string': 'map_with_undeclared_properties_string',  # noqa: E501
     }
 
     _composed_schemas = {}
@@ -95,14 +110,14 @@ class AdditionalPropertiesClass(ModelNormal):
     required_properties = set([
         '_data_store',
         '_check_type',
-        '_from_server',
+        '_spec_property_naming',
         '_path_to_item',
         '_configuration',
         '_visited_composed_classes',
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, _check_type=True, _from_server=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
+    def __init__(self, *args, **kwargs):  # noqa: E501
         """additional_properties_class.AdditionalPropertiesClass - a model defined in OpenAPI
 
         Keyword Args:
@@ -113,8 +128,10 @@ class AdditionalPropertiesClass(ModelNormal):
             _path_to_item (tuple/list): This is a list of keys or values to
                                 drill down to the model in received_data
                                 when deserializing a response
-            _from_server (bool): True if the data is from the server
-                                False if the data is from the client (default)
+            _spec_property_naming (bool): True if the variable names in the input data
+                                are serialized names, as specified in the OpenAPI document.
+                                False if the variable names in the input data
+                                are pythonic names, e.g. snake case (default)
             _configuration (Configuration): the instance to use when
                                 deserializing a file_type parameter.
                                 If passed, type conversion is attempted
@@ -136,11 +153,33 @@ class AdditionalPropertiesClass(ModelNormal):
                                 _visited_composed_classes = (Animal,)
             map_property ({str: (str,)}): [optional]  # noqa: E501
             map_of_map_property ({str: ({str: (str,)},)}): [optional]  # noqa: E501
+            anytype_1 (bool, date, datetime, dict, float, int, list, str, none_type): [optional]  # noqa: E501
+            map_with_undeclared_properties_anytype_1 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
+            map_with_undeclared_properties_anytype_2 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
+            map_with_undeclared_properties_anytype_3 ({str: (bool, date, datetime, dict, float, int, list, str, none_type)}): [optional]  # noqa: E501
+            empty_map (bool, date, datetime, dict, float, int, list, str): an object with no declared properties and no undeclared properties, hence it&#39;s an empty map.. [optional]  # noqa: E501
+            map_with_undeclared_properties_string ({str: (str,)}): [optional]  # noqa: E501
         """
+
+        _check_type = kwargs.pop('_check_type', True)
+        _spec_property_naming = kwargs.pop('_spec_property_naming', False)
+        _path_to_item = kwargs.pop('_path_to_item', ())
+        _configuration = kwargs.pop('_configuration', None)
+        _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
+
+        if args:
+            raise ApiTypeError(
+                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                    args,
+                    self.__class__.__name__,
+                ),
+                path_to_item=_path_to_item,
+                valid_classes=(self.__class__,),
+            )
 
         self._data_store = {}
         self._check_type = _check_type
-        self._from_server = _from_server
+        self._spec_property_naming = _spec_property_naming
         self._path_to_item = _path_to_item
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)

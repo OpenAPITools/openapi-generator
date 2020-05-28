@@ -20,7 +20,18 @@ type Mammal struct {
 	Zebra *Zebra
 }
 
-// Unmarshl JSON data into one of the pointers in the struct
+// WhaleAsMammal is a convenience function that returns Whale wrapped in Mammal
+func WhaleAsMammal(v *Whale) Mammal {
+	return Mammal{ Whale: v}
+}
+
+// ZebraAsMammal is a convenience function that returns Zebra wrapped in Mammal
+func ZebraAsMammal(v *Zebra) Mammal {
+	return Mammal{ Zebra: v}
+}
+
+
+// Unmarshal JSON data into one of the pointers in the struct
 func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
@@ -51,6 +62,10 @@ func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	}
 
 	if match > 1 { // more than 1 match
+		// reset to nil
+		dst.Whale = nil
+		dst.Zebra = nil
+
 		return fmt.Errorf("Data matches more than one schema in oneOf(Mammal)")
 	} else if match == 1 {
 		return nil // exactly one match
@@ -59,8 +74,8 @@ func (dst *Mammal) UnmarshalJSON(data []byte) error {
 	}
 }
 
-// Marshl data from the first non-nil pointers in the struct to JSON
-func (src *Mammal) MarshalJSON() ([]byte, error) {
+// Marshal data from the first non-nil pointers in the struct to JSON
+func (src Mammal) MarshalJSON() ([]byte, error) {
 	if src.Whale != nil {
 		return json.Marshal(&src.Whale)
 	}
@@ -84,5 +99,41 @@ func (obj *Mammal) GetActualInstance() (interface{}) {
 
 	// all schemas are nil
 	return nil
+}
+
+type NullableMammal struct {
+	value *Mammal
+	isSet bool
+}
+
+func (v NullableMammal) Get() *Mammal {
+	return v.value
+}
+
+func (v *NullableMammal) Set(val *Mammal) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableMammal) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableMammal) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableMammal(val *Mammal) *NullableMammal {
+	return &NullableMammal{value: val, isSet: true}
+}
+
+func (v NullableMammal) MarshalJSON() ([]byte, error) {
+	return json.Marshal(v.value)
+}
+
+func (v *NullableMammal) UnmarshalJSON(src []byte) error {
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
 

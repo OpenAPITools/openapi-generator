@@ -47,9 +47,9 @@ data class Pet (
     */
     
     enum class Status(val value: kotlin.String){
-        @SerializedName(value="available")  available("available"),
-        @SerializedName(value="pending")  pending("pending"),
-        @SerializedName(value="sold")  sold("sold");
+        @SerializedName(value = "available") available("available"),
+        @SerializedName(value = "pending") pending("pending"),
+        @SerializedName(value = "sold") sold("sold");
     }
 }
 

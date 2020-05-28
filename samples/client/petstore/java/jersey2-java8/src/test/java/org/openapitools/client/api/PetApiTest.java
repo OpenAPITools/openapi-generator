@@ -13,7 +13,8 @@
 
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiException;
+import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * API tests for PetApi
@@ -33,7 +35,7 @@ public class PetApiTest {
 
     private final PetApi api = new PetApi();
 
-    
+
     /**
      * Add a new pet to the store
      *
@@ -48,7 +50,7 @@ public class PetApiTest {
         api.addPet(body);
         // TODO: test validations
     }
-    
+
     /**
      * Deletes a pet
      *
@@ -64,7 +66,7 @@ public class PetApiTest {
         api.deletePet(petId, apiKey);
         // TODO: test validations
     }
-    
+
     /**
      * Finds Pets by status
      *
@@ -79,7 +81,7 @@ public class PetApiTest {
         List<Pet> response = api.findPetsByStatus(status);
         // TODO: test validations
     }
-    
+
     /**
      * Finds Pets by tags
      *
@@ -90,11 +92,11 @@ public class PetApiTest {
      */
     @Test
     public void findPetsByTagsTest() throws ApiException {
-        List<String> tags = null;
-        List<Pet> response = api.findPetsByTags(tags);
+        Set<String> tags = null;
+        Set<Pet> response = api.findPetsByTags(tags);
         // TODO: test validations
     }
-    
+
     /**
      * Find pet by ID
      *
@@ -105,11 +107,30 @@ public class PetApiTest {
      */
     @Test
     public void getPetByIdTest() throws ApiException {
-        Long petId = null;
-        Pet response = api.getPetById(petId);
-        // TODO: test validations
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+        // Configure API key authorization: api_key
+        ApiKeyAuth api_key = (ApiKeyAuth) defaultClient.getAuthentication("api_key");
+        api_key.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //api_key.setApiKeyPrefix("Token");
+
+        PetApi apiInstance = new PetApi(defaultClient);
+        Long petId = 56L; // Long | ID of pet to return
+        try {
+            Pet result = apiInstance.getPetById(petId);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling PetApi#getPetById");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+
     }
-    
+
     /**
      * Update an existing pet
      *
@@ -124,7 +145,7 @@ public class PetApiTest {
         api.updatePet(body);
         // TODO: test validations
     }
-    
+
     /**
      * Updates a pet in the store with form data
      *
@@ -141,7 +162,7 @@ public class PetApiTest {
         api.updatePetWithForm(petId, name, status);
         // TODO: test validations
     }
-    
+
     /**
      * uploads an image
      *
@@ -158,7 +179,7 @@ public class PetApiTest {
         ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
         // TODO: test validations
     }
-    
+
     /**
      * uploads an image (required)
      *
@@ -175,5 +196,5 @@ public class PetApiTest {
         ModelApiResponse response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
         // TODO: test validations
     }
-    
+
 }

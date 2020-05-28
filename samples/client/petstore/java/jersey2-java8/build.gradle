@@ -100,6 +100,8 @@ ext {
     jackson_databind_nullable_version = "0.2.1"
     jersey_version = "2.27"
     junit_version = "4.13"
+    scribejava_apis_version = "6.9.0"
+    tomitribe_http_signatures_version = "1.3"
 }
 
 dependencies {
@@ -113,6 +115,8 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    compile "com.github.scribejava:scribejava-apis:$scribejava_apis_version"
+    compile "org.tomitribe:tomitribe-http-signatures:$tomitribe_http_signatures_version"
     testCompile "junit:junit:$junit_version"
 }
 

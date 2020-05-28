@@ -1,11 +1,5 @@
-{{#useHttpClient}}
 import { HttpParameterCodec } from '@angular/common/http';
-{{/useHttpClient}}
-{{^useHttpClient}}
-import { QueryEncoder } from '@angular/http';
-{{/useHttpClient}}
 
-{{#useHttpClient}}
 /**
  * Custom HttpParameterCodec
  * Workaround for https://github.com/angular/angular/issues/18261
@@ -24,22 +18,3 @@ export class CustomHttpParameterCodec implements HttpParameterCodec {
         return decodeURIComponent(v);
     }
 }
-{{/useHttpClient}}
-{{^useHttpClient}}
-/**
- * Custom QueryEncoder
- * Fix plus sign (+) not encoding, so sent as blank space
- * See: https://github.com/angular/angular/issues/11058#issuecomment-247367318
- */
-export class CustomQueryEncoderHelper extends QueryEncoder {
-    encodeKey(k: string): string {
-        k = super.encodeKey(k);
-        return k.replace(/\+/gi, '%2B');
-    }
-    encodeValue(v: string): string {
-        v = super.encodeValue(v);
-        return v.replace(/\+/gi, '%2B');
-    }
-}
-{{/useHttpClient}}
-

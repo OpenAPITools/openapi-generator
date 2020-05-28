@@ -32,19 +32,17 @@ data class Order (
     @Json(name = "quantity")
     val quantity: kotlin.Int? = null,
     @Json(name = "shipDate")
-    val shipDate: java.time.LocalDateTime? = null,
+    val shipDate: java.time.OffsetDateTime? = null,
     /* Order Status */
     @Json(name = "status")
     val status: Order.Status? = null,
     @Json(name = "complete")
     val complete: kotlin.Boolean? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
     /**
     * Order Status
     * Values: placed,approved,delivered
