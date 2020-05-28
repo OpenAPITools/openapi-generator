@@ -237,21 +237,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
         additionalProperties.put(PLAY_VERSION, playVersion);
 
-        // OpenFeign
+        // default to feign 10.x
         if (additionalProperties.containsKey(FEIGN_VERSION)) {
-            this.setFeignVersion(additionalProperties.get(FEIGN_VERSION).toString());
-
-            if ("10.x".equals(feignVersion)) {
-                additionalProperties.put("useFeign10", true);
-            } else if ("9.x".equals(feignVersion)) {
-                additionalProperties.put("useFeign10", false);
-                once(LOGGER).warn("Feign 9.x support has been deprecated. Please use 10.x (default) instead.");
-            } else {
-                throw new RuntimeException("Ivalid feignOoption '{}'. Must be '10.x' or '9.x' (deprecated).");
-            }
-        } else {
-            // default to feign 10.x
-            additionalProperties.put("useFeign10", true);
+            once(LOGGER).warn("feignVersion has been deprecated. 10.x is the default.");
         }
         additionalProperties.put(FEIGN_VERSION, feignVersion);
 

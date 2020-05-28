@@ -50,13 +50,41 @@ java -cp /path/totemplate-classpath-example-1.0-SNAPSHOT.jar:modules/openapi-gen
 
 Note that our template directory is relative to the resource directory of the JAR defined on the classpath.
 
+### Retrieving Templates
+
+You will need to find and retrieve the templates for your desired generator in order to redefine structures, documentation, or API logic. We cover template customization in the following sections.
+
+In OpenAPI Generator 5.0 and later, you can use the CLI command `author template` to extract embedded templates for your target generator. For example:
+
+```
+openapi-generator author template -g java --library webclient
+```
+
+For OpenAPI Generator versions prior to 5.0, you will want to find the [resources directory](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources) for the generator you want to extend. This is generally easy to find as directories commonly follow the convention of `resources/<generator name>`. In cases where you're unsure, you will need to find the `embeddedTemplateDir` assignment in your desired generator. This is almost always assigned in the constructor of the generator class. The C# .Net Core generator assigns this as:
+
+```
+embeddedTemplateDir = templateDir = "csharp-netcore";
+```
+
+These templates are in our source repository at [modules/openapi-generator/src/main/resources/csharp-netcore](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator/src/main/resources/csharp-netcore). Be sure to select the tag or branch for the version of OpenAPI Generator you're using before grabbing the templates.
+
+**NOTE** If you have specific logic you'd like to modify such as modifying the generated README, you _only_ need to pull and modify this individual template. OpenAPI Generator will lookup templates in this order:
+
+* User customized library path (e.g. `custom_template/libraries/feign/model.mustache`)
+* User customized generator top-level path (e.g. `custom_template/model.mustache`)
+* Embedded library path (e.g. `resources/Java/libraries/feign/model.mustache`)
+* Embedded top-level path (e.g. `resources/Java/model.mustache`)
+* Common embedded path (e.g. `resources/_common/model.mustache`)
+
 ### Custom Logic
 
 For this example, let's modify a Java client to use AOP via [jcabi/jcabi-aspects](https://github.com/jcabi/jcabi-aspects). We'll log API method execution at the `INFO` level. The jcabi-aspects project could also be used to implement method retries on failures; this would be a great exercise to further play around with templating.
 
 The Java generator supports a `library` option. This option works by defining base templates, then applying library-specific template overrides. This allows for template reuse for libraries sharing the same programming language. Templates defined as a library need only modify or extend the templates concerning the library, and generation falls back to the root templates (the "defaults") when not extended by the library. Generators which support the `library` option will only support the libraries known by the generator at compile time, and will throw a runtime error if you try to provide a custom library name.
 
-To get started, we will need to copy our target generator's directory in full. The directory will be located under `modules/opeanpi-generator/src/main/resources/{generator}`. In general, the generator directory matches the generator name (what you would pass to the `generator` option), but this is not a requirement-- if you are having a hard time finding the template directory, look at the `embeddedTemplateDir` option in your target generator's implementation.
+To get started, we will need to copy our target generator's directory in full.
+
+The directory will be located under `modules/opeanpi-generator/src/main/resources/{generator}`. In general, the generator directory matches the generator name (what you would pass to the `generator` option), but this is not a requirement-- if you are having a hard time finding the template directory, look at the `embeddedTemplateDir` option in your target generator's implementation.
 
 If you've already cloned openapi-generator, find and copy the `modules/opeanpi-generator/src/main/resources/Java` directory. If you have the [Refined GitHub](https://github.com/sindresorhus/refined-github) Chrome or Firefox Extension, you can navigate to this directory on GitHub and click the "Download" button. Or, to pull the directory from latest master:
 
