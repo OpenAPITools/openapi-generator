@@ -34,6 +34,11 @@ from petstore_api.model_utils import (  # noqa: F401
     validate_get_composed_info,
 )
 try:
+    from petstore_api.models import pig
+except ImportError:
+    pig = sys.modules[
+        'petstore_api.models.pig']
+try:
     from petstore_api.models import whale
 except ImportError:
     whale = sys.modules[
@@ -104,6 +109,7 @@ class Mammal(ModelComposed):
     @cached_property
     def discriminator():
         val = {
+            'Pig': pig.Pig,
             'whale': whale.Whale,
             'zebra': zebra.Zebra,
         }
@@ -247,6 +253,7 @@ class Mammal(ModelComposed):
           'allOf': [
           ],
           'oneOf': [
+              pig.Pig,
               whale.Whale,
               zebra.Zebra,
           ],
