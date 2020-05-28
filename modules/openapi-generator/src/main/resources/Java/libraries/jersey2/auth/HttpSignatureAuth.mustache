@@ -181,7 +181,7 @@ public class HttpSignatureAuth implements Authentication {
   /**
    * Returns the signer instance used to sign HTTP messages.
    *
-   * @returrn the signer instance.
+   * @return the signer instance.
    */
   public Signer getSigner() {
     return signer;
@@ -200,12 +200,14 @@ public class HttpSignatureAuth implements Authentication {
    * Set the private key used to sign HTTP requests using the HTTP signature scheme.
    *
    * @param key The private key.
+   *
+   * @throws InvalidKeyException Unable to parse the key, or the security provider for this key
+   * is not installed.
    */
-  public void setPrivateKey(Key key) throws ApiException {
+  public void setPrivateKey(Key key) throws InvalidKeyException {
     if (key == null) {
       throw new ApiException("Private key (java.security.Key) cannot be null");
     }
-
     signer = new Signer(key, new Signature(keyId, signingAlgorithm, algorithm, parameterSpec, null, headers));
   }
 
