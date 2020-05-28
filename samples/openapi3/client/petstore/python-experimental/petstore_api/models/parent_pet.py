@@ -119,7 +119,7 @@ class ParentPet(ModelComposed):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, pet_type, _check_type=True, _spec_property_naming=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
+    def __init__(self, pet_type, *args, **kwargs):  # noqa: E501
         """parent_pet.ParentPet - a model defined in OpenAPI
 
         Args:
