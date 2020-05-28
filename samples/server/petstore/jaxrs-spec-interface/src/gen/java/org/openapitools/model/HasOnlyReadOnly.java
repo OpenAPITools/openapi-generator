@@ -37,7 +37,9 @@ public class HasOnlyReadOnly  implements Serializable {
 
   public void setBar(String bar) {
     this.bar = bar;
-  }/**
+  }
+
+/**
    **/
   public HasOnlyReadOnly foo(String foo) {
     this.foo = foo;
@@ -56,6 +58,7 @@ public class HasOnlyReadOnly  implements Serializable {
   public void setFoo(String foo) {
     this.foo = foo;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {

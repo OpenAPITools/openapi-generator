@@ -56,7 +56,9 @@ public class FormatTest  implements Serializable {
 
   public void setInteger(Integer integer) {
     this.integer = integer;
-  }/**
+  }
+
+/**
    * minimum: 20
    * maximum: 200
    **/
@@ -76,7 +78,9 @@ public class FormatTest  implements Serializable {
 
   public void setInt32(Integer int32) {
     this.int32 = int32;
-  }/**
+  }
+
+/**
    **/
   public FormatTest int64(Long int64) {
     this.int64 = int64;
@@ -94,7 +98,9 @@ public class FormatTest  implements Serializable {
 
   public void setInt64(Long int64) {
     this.int64 = int64;
-  }/**
+  }
+
+/**
    * minimum: 32.1
    * maximum: 543.2
    **/
@@ -115,7 +121,9 @@ public class FormatTest  implements Serializable {
 
   public void setNumber(BigDecimal number) {
     this.number = number;
-  }/**
+  }
+
+/**
    * minimum: 54.3
    * maximum: 987.6
    **/
@@ -135,7 +143,9 @@ public class FormatTest  implements Serializable {
 
   public void setFloat(Float _float) {
     this._float = _float;
-  }/**
+  }
+
+/**
    * minimum: 67.8
    * maximum: 123.4
    **/
@@ -155,7 +165,9 @@ public class FormatTest  implements Serializable {
 
   public void setDouble(Double _double) {
     this._double = _double;
-  }/**
+  }
+
+/**
    **/
   public FormatTest string(String string) {
     this.string = string;
@@ -173,7 +185,9 @@ public class FormatTest  implements Serializable {
 
   public void setString(String string) {
     this.string = string;
-  }/**
+  }
+
+/**
    **/
   public FormatTest _byte(byte[] _byte) {
     this._byte = _byte;
@@ -192,7 +206,9 @@ public class FormatTest  implements Serializable {
 
   public void setByte(byte[] _byte) {
     this._byte = _byte;
-  }/**
+  }
+
+/**
    **/
   public FormatTest binary(File binary) {
     this.binary = binary;
@@ -210,7 +226,9 @@ public class FormatTest  implements Serializable {
 
   public void setBinary(File binary) {
     this.binary = binary;
-  }/**
+  }
+
+/**
    **/
   public FormatTest date(LocalDate date) {
     this.date = date;
@@ -229,7 +247,9 @@ public class FormatTest  implements Serializable {
 
   public void setDate(LocalDate date) {
     this.date = date;
-  }/**
+  }
+
+/**
    **/
   public FormatTest dateTime(Date dateTime) {
     this.dateTime = dateTime;
@@ -247,7 +267,9 @@ public class FormatTest  implements Serializable {
 
   public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
-  }/**
+  }
+
+/**
    **/
   public FormatTest uuid(UUID uuid) {
     this.uuid = uuid;
@@ -265,7 +287,9 @@ public class FormatTest  implements Serializable {
 
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
-  }/**
+  }
+
+/**
    **/
   public FormatTest password(String password) {
     this.password = password;
@@ -284,7 +308,9 @@ public class FormatTest  implements Serializable {
 
   public void setPassword(String password) {
     this.password = password;
-  }/**
+  }
+
+/**
    **/
   public FormatTest bigDecimal(BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
@@ -303,6 +329,7 @@ public class FormatTest  implements Serializable {
   public void setBigDecimal(BigDecimal bigDecimal) {
     this.bigDecimal = bigDecimal;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {

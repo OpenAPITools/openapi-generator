@@ -43,7 +43,9 @@ public class User  implements Serializable {
 
   public void setId(Long id) {
     this.id = id;
-  }/**
+  }
+
+/**
    **/
   public User username(String username) {
     this.username = username;
@@ -61,7 +63,9 @@ public class User  implements Serializable {
 
   public void setUsername(String username) {
     this.username = username;
-  }/**
+  }
+
+/**
    **/
   public User firstName(String firstName) {
     this.firstName = firstName;
@@ -79,7 +83,9 @@ public class User  implements Serializable {
 
   public void setFirstName(String firstName) {
     this.firstName = firstName;
-  }/**
+  }
+
+/**
    **/
   public User lastName(String lastName) {
     this.lastName = lastName;
@@ -97,7 +103,9 @@ public class User  implements Serializable {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
-  }/**
+  }
+
+/**
    **/
   public User email(String email) {
     this.email = email;
@@ -115,7 +123,9 @@ public class User  implements Serializable {
 
   public void setEmail(String email) {
     this.email = email;
-  }/**
+  }
+
+/**
    **/
   public User password(String password) {
     this.password = password;
@@ -133,7 +143,9 @@ public class User  implements Serializable {
 
   public void setPassword(String password) {
     this.password = password;
-  }/**
+  }
+
+/**
    **/
   public User phone(String phone) {
     this.phone = phone;
@@ -151,7 +163,9 @@ public class User  implements Serializable {
 
   public void setPhone(String phone) {
     this.phone = phone;
-  }/**
+  }
+
+/**
    * User Status
    **/
   public User userStatus(Integer userStatus) {
@@ -171,6 +185,7 @@ public class User  implements Serializable {
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {

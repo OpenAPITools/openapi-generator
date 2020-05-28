@@ -38,7 +38,9 @@ public class ModelApiResponse  implements Serializable {
 
   public void setCode(Integer code) {
     this.code = code;
-  }/**
+  }
+
+/**
    **/
   public ModelApiResponse type(String type) {
     this.type = type;
@@ -56,7 +58,9 @@ public class ModelApiResponse  implements Serializable {
 
   public void setType(String type) {
     this.type = type;
-  }/**
+  }
+
+/**
    **/
   public ModelApiResponse message(String message) {
     this.message = message;
@@ -75,6 +79,7 @@ public class ModelApiResponse  implements Serializable {
   public void setMessage(String message) {
     this.message = message;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {

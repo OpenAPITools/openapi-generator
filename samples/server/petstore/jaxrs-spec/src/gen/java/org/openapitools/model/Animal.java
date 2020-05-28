@@ -46,7 +46,9 @@ public class Animal  implements Serializable {
 
   public void setClassName(String className) {
     this.className = className;
-  }/**
+  }
+
+/**
    **/
   public Animal color(String color) {
     this.color = color;
@@ -65,6 +67,7 @@ public class Animal  implements Serializable {
   public void setColor(String color) {
     this.color = color;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {

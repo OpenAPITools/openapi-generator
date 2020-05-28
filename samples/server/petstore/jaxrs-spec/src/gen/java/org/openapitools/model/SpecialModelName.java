@@ -38,6 +38,7 @@ public class SpecialModelName  implements Serializable {
     this.$specialPropertyName = $specialPropertyName;
   }
 
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

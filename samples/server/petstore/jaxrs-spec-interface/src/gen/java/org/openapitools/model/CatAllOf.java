@@ -38,6 +38,7 @@ public class CatAllOf  implements Serializable {
     this.declawed = declawed;
   }
 
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

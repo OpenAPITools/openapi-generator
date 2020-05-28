@@ -38,6 +38,7 @@ public class Client  implements Serializable {
     this.client = client;
   }
 
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

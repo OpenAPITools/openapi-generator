@@ -105,7 +105,9 @@ public enum ArrayEnumEnum {
 
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
-  }/**
+  }
+
+/**
    **/
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
@@ -123,6 +125,23 @@ public enum ArrayEnumEnum {
 
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
+  }
+
+  public EnumArrays addArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
+    if (this.arrayEnum == null) {
+      this.arrayEnum = new ArrayList<ArrayEnumEnum>();
+    }
+
+    this.arrayEnum.add(arrayEnumItem);
+    return this;
+  }
+
+  public EnumArrays removeArrayEnumItem(ArrayEnumEnum arrayEnumItem) {
+    if (arrayEnumItem != null && this.arrayEnum != null) {
+      this.arrayEnum.remove(arrayEnumItem);
+    }
+
+    return this;
   }
 
   @Override

@@ -39,7 +39,9 @@ public class OuterComposite  implements Serializable {
 
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
-  }/**
+  }
+
+/**
    **/
   public OuterComposite myString(String myString) {
     this.myString = myString;
@@ -57,7 +59,9 @@ public class OuterComposite  implements Serializable {
 
   public void setMyString(String myString) {
     this.myString = myString;
-  }/**
+  }
+
+/**
    **/
   public OuterComposite myBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
@@ -76,6 +80,7 @@ public class OuterComposite  implements Serializable {
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {

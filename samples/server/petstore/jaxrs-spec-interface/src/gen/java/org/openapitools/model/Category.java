@@ -37,7 +37,9 @@ public class Category  implements Serializable {
 
   public void setId(Long id) {
     this.id = id;
-  }/**
+  }
+
+/**
    **/
   public Category name(String name) {
     this.name = name;
@@ -57,6 +59,7 @@ public class Category  implements Serializable {
   public void setName(String name) {
     this.name = name;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {

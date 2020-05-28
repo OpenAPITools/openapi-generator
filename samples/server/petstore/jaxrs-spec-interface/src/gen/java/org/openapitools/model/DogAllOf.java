@@ -38,6 +38,7 @@ public class DogAllOf  implements Serializable {
     this.breed = breed;
   }
 
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

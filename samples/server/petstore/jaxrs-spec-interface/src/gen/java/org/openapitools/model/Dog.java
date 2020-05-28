@@ -40,6 +40,7 @@ public class Dog extends Animal implements Serializable {
     this.breed = breed;
   }
 
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

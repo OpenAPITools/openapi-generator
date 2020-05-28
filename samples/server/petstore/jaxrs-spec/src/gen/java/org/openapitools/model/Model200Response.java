@@ -39,7 +39,9 @@ public class Model200Response  implements Serializable {
 
   public void setName(Integer name) {
     this.name = name;
-  }/**
+  }
+
+/**
    **/
   public Model200Response propertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
@@ -58,6 +60,7 @@ public class Model200Response  implements Serializable {
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {

@@ -41,7 +41,9 @@ public class Capitalization  implements Serializable {
 
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
-  }/**
+  }
+
+/**
    **/
   public Capitalization capitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
@@ -59,7 +61,9 @@ public class Capitalization  implements Serializable {
 
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
-  }/**
+  }
+
+/**
    **/
   public Capitalization smallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
@@ -77,7 +81,9 @@ public class Capitalization  implements Serializable {
 
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
-  }/**
+  }
+
+/**
    **/
   public Capitalization capitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
@@ -95,7 +101,9 @@ public class Capitalization  implements Serializable {
 
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
-  }/**
+  }
+
+/**
    **/
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
@@ -113,7 +121,9 @@ public class Capitalization  implements Serializable {
 
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
-  }/**
+  }
+
+/**
    * Name of the pet 
    **/
   public Capitalization ATT_NAME(String ATT_NAME) {
@@ -133,6 +143,7 @@ public class Capitalization  implements Serializable {
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {

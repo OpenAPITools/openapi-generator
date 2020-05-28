@@ -41,6 +41,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
     this.name = name;
   }
 
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

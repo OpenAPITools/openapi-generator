@@ -37,7 +37,9 @@ public class ReadOnlyFirst  implements Serializable {
 
   public void setBar(String bar) {
     this.bar = bar;
-  }/**
+  }
+
+/**
    **/
   public ReadOnlyFirst baz(String baz) {
     this.baz = baz;
@@ -56,6 +58,7 @@ public class ReadOnlyFirst  implements Serializable {
   public void setBaz(String baz) {
     this.baz = baz;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {

@@ -37,7 +37,9 @@ public class Tag  implements Serializable {
 
   public void setId(Long id) {
     this.id = id;
-  }/**
+  }
+
+/**
    **/
   public Tag name(String name) {
     this.name = name;
@@ -56,6 +58,7 @@ public class Tag  implements Serializable {
   public void setName(String name) {
     this.name = name;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {

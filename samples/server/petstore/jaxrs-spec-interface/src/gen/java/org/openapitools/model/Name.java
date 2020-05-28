@@ -42,7 +42,9 @@ public class Name  implements Serializable {
 
   public void setName(Integer name) {
     this.name = name;
-  }/**
+  }
+
+/**
    **/
   public Name snakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
@@ -60,7 +62,9 @@ public class Name  implements Serializable {
 
   public void setSnakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
-  }/**
+  }
+
+/**
    **/
   public Name property(String property) {
     this.property = property;
@@ -78,7 +82,9 @@ public class Name  implements Serializable {
 
   public void setProperty(String property) {
     this.property = property;
-  }/**
+  }
+
+/**
    **/
   public Name _123number(Integer _123number) {
     this._123number = _123number;
@@ -97,6 +103,7 @@ public class Name  implements Serializable {
   public void set123number(Integer _123number) {
     this._123number = _123number;
   }
+
 
   @Override
   public boolean equals(java.lang.Object o) {

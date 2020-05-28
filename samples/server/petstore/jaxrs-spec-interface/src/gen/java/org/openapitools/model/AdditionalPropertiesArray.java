@@ -41,6 +41,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> implements 
     this.name = name;
   }
 
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
