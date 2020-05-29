@@ -253,14 +253,21 @@ impl {{{classname}}} for {{{classname}}}Client {
 
         // send request
         let req = req_builder.build()?;
-
-        {{^returnType}}
-        client.execute(req)?.error_for_status()?;
-        Ok(())
-        {{/returnType}}
-        {{#returnType}}
-        Ok(client.execute(req)?.error_for_status()?.json()?)
-        {{/returnType}}
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            {{^returnType}}
+            Ok(())
+            {{/returnType}}
+            {{#returnType}}
+            Ok(resp.json()?)
+            {{/returnType}}
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
 {{/operation}}

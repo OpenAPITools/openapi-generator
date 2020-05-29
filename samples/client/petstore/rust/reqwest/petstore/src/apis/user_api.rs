@@ -56,9 +56,16 @@ impl UserApi for UserApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(())
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> Result<(), Error> {
@@ -75,9 +82,16 @@ impl UserApi for UserApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(())
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn create_users_with_list_input(&self, body: Vec<crate::models::User>) -> Result<(), Error> {
@@ -94,9 +108,16 @@ impl UserApi for UserApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(())
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn delete_user(&self, username: &str) -> Result<(), Error> {
@@ -112,9 +133,16 @@ impl UserApi for UserApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(())
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn get_user_by_name(&self, username: &str) -> Result<crate::models::User, Error> {
@@ -130,8 +158,16 @@ impl UserApi for UserApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(resp.json()?)
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn login_user(&self, username: &str, password: &str) -> Result<String, Error> {
@@ -149,8 +185,16 @@ impl UserApi for UserApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(resp.json()?)
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn logout_user(&self, ) -> Result<(), Error> {
@@ -166,9 +210,16 @@ impl UserApi for UserApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(())
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn update_user(&self, username: &str, body: crate::models::User) -> Result<(), Error> {
@@ -185,9 +236,16 @@ impl UserApi for UserApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(())
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
 }

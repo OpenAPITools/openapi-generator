@@ -51,9 +51,16 @@ impl StoreApi for StoreApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(())
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn get_inventory(&self, ) -> Result<::std::collections::HashMap<String, i32>, Error> {
@@ -77,8 +84,16 @@ impl StoreApi for StoreApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(resp.json()?)
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn get_order_by_id(&self, order_id: i64) -> Result<crate::models::Order, Error> {
@@ -94,8 +109,16 @@ impl StoreApi for StoreApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(resp.json()?)
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn place_order(&self, body: crate::models::Order) -> Result<crate::models::Order, Error> {
@@ -112,8 +135,16 @@ impl StoreApi for StoreApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(resp.json()?)
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
 }

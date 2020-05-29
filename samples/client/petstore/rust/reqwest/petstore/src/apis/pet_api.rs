@@ -59,9 +59,16 @@ impl PetApi for PetApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(())
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<(), Error> {
@@ -83,9 +90,16 @@ impl PetApi for PetApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(())
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error> {
@@ -105,8 +119,16 @@ impl PetApi for PetApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(resp.json()?)
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error> {
@@ -126,8 +148,16 @@ impl PetApi for PetApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(resp.json()?)
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn get_pet_by_id(&self, pet_id: i64) -> Result<crate::models::Pet, Error> {
@@ -151,8 +181,16 @@ impl PetApi for PetApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(resp.json()?)
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn update_pet(&self, body: crate::models::Pet) -> Result<(), Error> {
@@ -172,9 +210,16 @@ impl PetApi for PetApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(())
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error> {
@@ -201,9 +246,16 @@ impl PetApi for PetApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        client.execute(req)?.error_for_status()?;
-        Ok(())
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(())
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
     fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error> {
@@ -230,8 +282,16 @@ impl PetApi for PetApiClient {
 
         // send request
         let req = req_builder.build()?;
-
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        let mut resp = client.execute(req)?;
+        if resp.status().is_success() {
+            Ok(resp.json()?)
+        } else {
+            let status = resp.status();
+            let content = resp.text()?;
+            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
 }
