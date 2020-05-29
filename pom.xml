@@ -704,6 +704,18 @@
             </modules>
         </profile>
         <profile>
+            <id>java-openapi3-client-jersey2-java8</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
+            </modules>
+        </profile>
+        <profile>
             <id>java-client-okhttp-gson</id>
             <activation>
                 <property>
