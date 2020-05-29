@@ -197,3 +197,93 @@ class DeserializationTests(unittest.TestCase):
 
         inst = petstore_api.FruitReq(None)
         self.assertIsNone(inst)
+
+    def test_deserialize_with_additional_properties(self):
+        """
+        Deserialize data with schemas that have the additionalProperties keyword.
+        Test conditions when additional properties are allowed, not allowed, have
+        specific types...
+        """
+
+        # Dog is allOf with two child schemas.
+        # The OAS document for Dog does not specify the 'additionalProperties' keyword,
+        # which means that by default, the Dog schema must allow undeclared properties.
+        # The additionalProperties keyword is used to control the handling of extra stuff,
+        # that is, properties whose names are not listed in the properties keyword.
+        # By default any additional properties are allowed.
+        data = {
+            'className': 'Dog',
+            'color': 'brown',
+            'breed': 'golden retriever',
+            # Below are additional, undeclared properties.
+            'group': 'Terrier Group',
+            'size': 'medium',
+        }
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, (petstore_api.Dog,), True)
+        self.assertEqual(type(deserialized), petstore_api.Dog)
+        self.assertEqual(deserialized.class_name, 'Dog')
+        self.assertEqual(deserialized.breed, 'golden retriever')
+
+        # The 'zebra' schema allows additional properties by explicitly setting
+        # additionalProperties: true.
+        # This is equivalent to 'additionalProperties' not being present.
+        data = {
+            'class_name': 'zebra',
+            'type': 'plains',
+            # Below are additional, undeclared properties
+            'group': 'abc',
+            'size': 3,
+            'p1': True,
+            'p2': [ 'a', 'b', 123],
+        }
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, (petstore_api.Mammal,), True)
+        self.assertEqual(type(deserialized), petstore_api.Zebra)
+        self.assertEqual(deserialized.class_name, 'zebra')
+        self.assertEqual(deserialized.type, 'plains')
+        self.assertEqual(deserialized.p1, True)
+
+        # The 'bananaReq' schema disallows additional properties by explicitly setting
+        # additionalProperties: false
+        err_msg = ("{} has no attribute '{}' at ")
+        with self.assertRaisesRegexp(
+            petstore_api.exceptions.ApiAttributeError,
+            err_msg.format("BananaReq", "unknown-group")
+        ):
+            data = {
+                'lengthCm': 21.2,
+                'sweet': False,
+                # Below are additional, undeclared properties. They are not allowed,
+                # an exception must be raised.
+                'unknown-group': 'abc',
+            }
+            response = MockResponse(data=json.dumps(data))
+            deserialized = self.deserialize(response, (petstore_api.BananaReq,), True)
+            self.assertEqual(type(deserialized), petstore_api.BananaReq)
+            self.assertEqual(deserialized.lengthCm, 21)
+            self.assertEqual(deserialized.p1, True)
+
+    def test_deserialize_with_additional_properties_and_reference(self):
+        """
+        Deserialize data with schemas that has the additionalProperties keyword
+        and the schema is specified as a reference ($ref).
+        """
+        data = {
+            'main_shape': {
+                'shape_type': 'Triangle',
+                'triangle_type': 'EquilateralTriangle',
+            },
+            'shapes': [
+                {
+                    'shape_type': 'Triangle',
+                    'triangle_type': 'IsoscelesTriangle',
+                },
+                {
+                    'shape_type': 'Quadrilateral',
+                    'quadrilateral_type': 'ComplexQuadrilateral',
+                },
+            ],
+        }
+        response = MockResponse(data=json.dumps(data))
+        deserialized = self.deserialize(response, (petstore_api.Drawing,), True)
