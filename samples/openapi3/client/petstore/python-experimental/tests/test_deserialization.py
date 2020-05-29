@@ -27,6 +27,8 @@ from petstore_api.model import (
     zebra,
     banana,
     fruit_req,
+    drawing,
+    banana_req,
 )
 
 
@@ -232,8 +234,8 @@ class DeserializationTests(unittest.TestCase):
             'size': 'medium',
         }
         response = MockResponse(data=json.dumps(data))
-        deserialized = self.deserialize(response, (petstore_api.Dog,), True)
-        self.assertEqual(type(deserialized), petstore_api.Dog)
+        deserialized = self.deserialize(response, (dog.Dog,), True)
+        self.assertEqual(type(deserialized), dog.Dog)
         self.assertEqual(deserialized.class_name, 'Dog')
         self.assertEqual(deserialized.breed, 'golden retriever')
 
@@ -250,8 +252,8 @@ class DeserializationTests(unittest.TestCase):
             'p2': [ 'a', 'b', 123],
         }
         response = MockResponse(data=json.dumps(data))
-        deserialized = self.deserialize(response, (petstore_api.Mammal,), True)
-        self.assertEqual(type(deserialized), petstore_api.Zebra)
+        deserialized = self.deserialize(response, (mammal.Mammal,), True)
+        self.assertEqual(type(deserialized), zebra.Zebra)
         self.assertEqual(deserialized.class_name, 'zebra')
         self.assertEqual(deserialized.type, 'plains')
         self.assertEqual(deserialized.p1, True)
@@ -271,8 +273,8 @@ class DeserializationTests(unittest.TestCase):
                 'unknown-group': 'abc',
             }
             response = MockResponse(data=json.dumps(data))
-            deserialized = self.deserialize(response, (petstore_api.BananaReq,), True)
-            self.assertEqual(type(deserialized), petstore_api.BananaReq)
+            deserialized = self.deserialize(response, (banana_req.BananaReq,), True)
+            self.assertEqual(type(deserialized), banana_req.BananaReq)
             self.assertEqual(deserialized.lengthCm, 21)
             self.assertEqual(deserialized.p1, True)
 
@@ -298,4 +300,4 @@ class DeserializationTests(unittest.TestCase):
             ],
         }
         response = MockResponse(data=json.dumps(data))
-        deserialized = self.deserialize(response, (petstore_api.Drawing,), True)
+        deserialized = self.deserialize(response, (drawing.Drawing,), True)
