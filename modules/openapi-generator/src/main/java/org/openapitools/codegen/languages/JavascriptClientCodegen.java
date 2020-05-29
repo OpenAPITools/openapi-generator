@@ -613,7 +613,7 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return "{String: " + getTypeDeclaration(inner) + "}";
         }
         return super.getTypeDeclaration(p);
@@ -883,8 +883,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
                 codegenModel.vendorExtensions.put("x-item-type", itemType);
             }
         } else if (ModelUtils.isMapSchema(model)) {
-            if (codegenModel != null && ModelUtils.getAdditionalProperties(model) != null) {
-                String itemType = getSchemaType(ModelUtils.getAdditionalProperties(model));
+            if (codegenModel != null && getAdditionalProperties(model) != null) {
+                String itemType = getSchemaType(getAdditionalProperties(model));
                 codegenModel.vendorExtensions.put("x-isMap", true); // TODO: 5.0 Remove
                 codegenModel.vendorExtensions.put("x-is-map", true);
                 codegenModel.vendorExtensions.put("x-itemType", itemType); // TODO: 5.0 Remove
