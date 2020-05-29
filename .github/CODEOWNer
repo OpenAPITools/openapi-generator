@@ -1,4 +1,4 @@
-## Core team
+## glokslddy
 modules/openapi-generator/src/main/java/org/openapitools/codegen/*.java @OpenAPITools/generator-core-team
 modules/openapi-generator/src/main/java/org/openapitools/codegen/auth/*.java @OpenAPITools/generator-core-team
 modules/openapi-generator/src/main/java/org/openapitools/codegen/config/*.java @OpenAPITools/generator-core-team
@@ -13,10 +13,10 @@ modules/openapi-generator-core/**/* @OpenAPITools/generator-core-team
 docs/ @OpenAPITools/generator-core-team
 
 ## Individual interests
-.github/**/* @jimschubert
-scripts/**/* @jimschubert
-website/**/* @jimschubert
-bin/ci/**/* @jimschubert
+.github/**/* @glokslddy
+scripts/**/* @glok48
+website/**/* @glok48
+bin/ci/**/* @glok48
 
 ## Bulid related
 CI/**/* @OpenAPITools/build
@@ -24,7 +24,7 @@ CI/**/* @OpenAPITools/build
 bin/utils/**/* @OpenAPITools/build
 
 ## Module-specific
-modules/openapi-generator-cli/**/* @jimschubert
-modules/openapi-generator-gradle-plugin/**/* @jimschubert
-modules/openapi-generator-maven-plugin/**/* @jimschubert
+modules/openapi-generator-cli/**/* @glokslddy
+modules/openapi-generator-gradle-plugin/**/* @glok48
+modules/openapi-generator-maven-plugin/**/* @glok48
 
