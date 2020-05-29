@@ -31,7 +31,7 @@ impl DefaultApiClient {
 
 
 /// struct for typed errors of method `dummy_get`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DummyGetErrors {
     // TODO Generate an enum case for each error described in schema.

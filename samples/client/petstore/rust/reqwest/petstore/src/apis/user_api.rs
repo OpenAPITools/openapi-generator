@@ -31,7 +31,7 @@ impl UserApiClient {
 
 
 /// struct for typed errors of method `create_user`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUserErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -39,7 +39,7 @@ pub enum CreateUserErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `create_users_with_array_input`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUsersWithArrayInputErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -47,7 +47,7 @@ pub enum CreateUsersWithArrayInputErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `create_users_with_list_input`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUsersWithListInputErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -55,7 +55,7 @@ pub enum CreateUsersWithListInputErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `delete_user`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteUserErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -63,7 +63,7 @@ pub enum DeleteUserErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `get_user_by_name`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUserByNameErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -71,7 +71,7 @@ pub enum GetUserByNameErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `login_user`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LoginUserErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -79,7 +79,7 @@ pub enum LoginUserErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `logout_user`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LogoutUserErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -87,7 +87,7 @@ pub enum LogoutUserErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `update_user`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateUserErrors {
     // TODO Generate an enum case for each error described in schema.

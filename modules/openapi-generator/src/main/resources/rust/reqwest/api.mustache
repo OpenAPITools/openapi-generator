@@ -47,7 +47,7 @@ pub struct {{{operationIdCamelCase}}}Params {
 {{#operations}}
 {{#operation}}
 /// struct for typed errors of method `{{operationId}}`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum {{{operationIdCamelCase}}}Errors {
     // TODO Generate an enum case for each error described in schema.

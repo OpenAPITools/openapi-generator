@@ -19,7 +19,7 @@ use super::{Error, configuration};
 
 
 /// struct for typed errors of method `delete_order`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteOrderErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -27,7 +27,7 @@ pub enum DeleteOrderErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `get_inventory`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInventoryErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -35,7 +35,7 @@ pub enum GetInventoryErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `get_order_by_id`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetOrderByIdErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -43,7 +43,7 @@ pub enum GetOrderByIdErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `place_order`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PlaceOrderErrors {
     // TODO Generate an enum case for each error described in schema.

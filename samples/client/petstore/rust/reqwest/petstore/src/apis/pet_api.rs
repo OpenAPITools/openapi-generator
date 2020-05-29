@@ -31,7 +31,7 @@ impl PetApiClient {
 
 
 /// struct for typed errors of method `add_pet`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddPetErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -39,7 +39,7 @@ pub enum AddPetErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `delete_pet`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeletePetErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -47,7 +47,7 @@ pub enum DeletePetErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `find_pets_by_status`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByStatusErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -55,7 +55,7 @@ pub enum FindPetsByStatusErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `find_pets_by_tags`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByTagsErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -63,7 +63,7 @@ pub enum FindPetsByTagsErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `get_pet_by_id`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPetByIdErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -71,7 +71,7 @@ pub enum GetPetByIdErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `update_pet`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -79,7 +79,7 @@ pub enum UpdatePetErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `update_pet_with_form`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetWithFormErrors {
     // TODO Generate an enum case for each error described in schema.
@@ -87,7 +87,7 @@ pub enum UpdatePetWithFormErrors {
     UnknownValue(serde_json::Value),
 }
 /// struct for typed errors of method `upload_file`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UploadFileErrors {
     // TODO Generate an enum case for each error described in schema.

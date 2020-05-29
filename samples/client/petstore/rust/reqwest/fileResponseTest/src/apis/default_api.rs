@@ -31,7 +31,7 @@ impl DefaultApiClient {
 
 
 /// struct for typed errors of method `fileresponsetest`
-#[derive(Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FileresponsetestErrors {
     // TODO Generate an enum case for each error described in schema.
