@@ -31,11 +31,11 @@ impl DefaultApiClient {
 
 
 pub trait DefaultApi {
-    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error>;
+    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error<serde_json::Value>>;
 }
 
 impl DefaultApi for DefaultApiClient {
-    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error> {
+    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 

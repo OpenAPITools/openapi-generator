@@ -31,18 +31,18 @@ impl UserApiClient {
 
 
 pub trait UserApi {
-    fn create_user(&self, body: crate::models::User) -> Result<(), Error>;
-    fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> Result<(), Error>;
-    fn create_users_with_list_input(&self, body: Vec<crate::models::User>) -> Result<(), Error>;
-    fn delete_user(&self, username: &str) -> Result<(), Error>;
-    fn get_user_by_name(&self, username: &str) -> Result<crate::models::User, Error>;
-    fn login_user(&self, username: &str, password: &str) -> Result<String, Error>;
-    fn logout_user(&self, ) -> Result<(), Error>;
-    fn update_user(&self, username: &str, body: crate::models::User) -> Result<(), Error>;
+    fn create_user(&self, body: crate::models::User) -> Result<(), Error<serde_json::Value>>;
+    fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> Result<(), Error<serde_json::Value>>;
+    fn create_users_with_list_input(&self, body: Vec<crate::models::User>) -> Result<(), Error<serde_json::Value>>;
+    fn delete_user(&self, username: &str) -> Result<(), Error<serde_json::Value>>;
+    fn get_user_by_name(&self, username: &str) -> Result<crate::models::User, Error<serde_json::Value>>;
+    fn login_user(&self, username: &str, password: &str) -> Result<String, Error<serde_json::Value>>;
+    fn logout_user(&self, ) -> Result<(), Error<serde_json::Value>>;
+    fn update_user(&self, username: &str, body: crate::models::User) -> Result<(), Error<serde_json::Value>>;
 }
 
 impl UserApi for UserApiClient {
-    fn create_user(&self, body: crate::models::User) -> Result<(), Error> {
+    fn create_user(&self, body: crate::models::User) -> Result<(), Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -67,7 +67,7 @@ impl UserApi for UserApiClient {
         }
     }
 
-    fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> Result<(), Error> {
+    fn create_users_with_array_input(&self, body: Vec<crate::models::User>) -> Result<(), Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -92,7 +92,7 @@ impl UserApi for UserApiClient {
         }
     }
 
-    fn create_users_with_list_input(&self, body: Vec<crate::models::User>) -> Result<(), Error> {
+    fn create_users_with_list_input(&self, body: Vec<crate::models::User>) -> Result<(), Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -117,7 +117,7 @@ impl UserApi for UserApiClient {
         }
     }
 
-    fn delete_user(&self, username: &str) -> Result<(), Error> {
+    fn delete_user(&self, username: &str) -> Result<(), Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -141,7 +141,7 @@ impl UserApi for UserApiClient {
         }
     }
 
-    fn get_user_by_name(&self, username: &str) -> Result<crate::models::User, Error> {
+    fn get_user_by_name(&self, username: &str) -> Result<crate::models::User, Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -165,7 +165,7 @@ impl UserApi for UserApiClient {
         }
     }
 
-    fn login_user(&self, username: &str, password: &str) -> Result<String, Error> {
+    fn login_user(&self, username: &str, password: &str) -> Result<String, Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -191,7 +191,7 @@ impl UserApi for UserApiClient {
         }
     }
 
-    fn logout_user(&self, ) -> Result<(), Error> {
+    fn logout_user(&self, ) -> Result<(), Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -215,7 +215,7 @@ impl UserApi for UserApiClient {
         }
     }
 
-    fn update_user(&self, username: &str, body: crate::models::User) -> Result<(), Error> {
+    fn update_user(&self, username: &str, body: crate::models::User) -> Result<(), Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 

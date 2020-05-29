@@ -10,7 +10,7 @@
 
 #[allow(unused_imports)]
 use std::rc::Rc;
-use std::borrow::Borrow;
+
 use std::option::Option;
 
 use reqwest;
@@ -18,7 +18,7 @@ use reqwest;
 use super::{Error, configuration};
 
 
-    pub async fn add_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<(), Error> {
+    pub async fn add_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<(), Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet", configuration.base_path);
@@ -33,7 +33,7 @@ use super::{Error, configuration};
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(())
         } else {
@@ -45,7 +45,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api_key: Option<&str>) -> Result<(), Error> {
+    pub async fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
@@ -62,7 +62,7 @@ use super::{Error, configuration};
         };
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(())
         } else {
@@ -74,7 +74,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error> {
+    pub async fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/findByStatus", configuration.base_path);
@@ -89,7 +89,7 @@ use super::{Error, configuration};
         };
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(resp.json::<Vec<crate::models::Pet>>().await?)
         } else {
@@ -101,7 +101,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error> {
+    pub async fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/findByTags", configuration.base_path);
@@ -116,7 +116,7 @@ use super::{Error, configuration};
         };
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(resp.json::<Vec<crate::models::Pet>>().await?)
         } else {
@@ -128,7 +128,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) -> Result<crate::models::Pet, Error> {
+    pub async fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) -> Result<crate::models::Pet, Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
@@ -147,7 +147,7 @@ use super::{Error, configuration};
         };
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(resp.json::<crate::models::Pet>().await?)
         } else {
@@ -159,7 +159,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn update_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<(), Error> {
+    pub async fn update_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<(), Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet", configuration.base_path);
@@ -174,7 +174,7 @@ use super::{Error, configuration};
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(())
         } else {
@@ -186,7 +186,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn update_pet_with_form(configuration: &configuration::Configuration, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error> {
+    pub async fn update_pet_with_form(configuration: &configuration::Configuration, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
@@ -208,7 +208,7 @@ use super::{Error, configuration};
         req_builder = req_builder.form(&form_params);
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(())
         } else {
@@ -220,7 +220,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn upload_file(configuration: &configuration::Configuration, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error> {
+    pub async fn upload_file(configuration: &configuration::Configuration, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=pet_id);
@@ -240,7 +240,7 @@ use super::{Error, configuration};
         req_builder = req_builder.multipart(form);
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(resp.json::<crate::models::ApiResponse>().await?)
         } else {

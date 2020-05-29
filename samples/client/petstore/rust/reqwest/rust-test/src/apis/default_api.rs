@@ -31,11 +31,11 @@ impl DefaultApiClient {
 
 
 pub trait DefaultApi {
-    fn dummy_get(&self, ) -> Result<(), Error>;
+    fn dummy_get(&self, ) -> Result<(), Error<serde_json::Value>>;
 }
 
 impl DefaultApi for DefaultApiClient {
-    fn dummy_get(&self, ) -> Result<(), Error> {
+    fn dummy_get(&self, ) -> Result<(), Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 

@@ -31,18 +31,18 @@ impl PetApiClient {
 
 
 pub trait PetApi {
-    fn add_pet(&self, body: crate::models::Pet) -> Result<(), Error>;
-    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<(), Error>;
-    fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error>;
-    fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error>;
-    fn get_pet_by_id(&self, pet_id: i64) -> Result<crate::models::Pet, Error>;
-    fn update_pet(&self, body: crate::models::Pet) -> Result<(), Error>;
-    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error>;
-    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error>;
+    fn add_pet(&self, body: crate::models::Pet) -> Result<(), Error<serde_json::Value>>;
+    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<serde_json::Value>>;
+    fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<serde_json::Value>>;
+    fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<serde_json::Value>>;
+    fn get_pet_by_id(&self, pet_id: i64) -> Result<crate::models::Pet, Error<serde_json::Value>>;
+    fn update_pet(&self, body: crate::models::Pet) -> Result<(), Error<serde_json::Value>>;
+    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<serde_json::Value>>;
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error<serde_json::Value>>;
 }
 
 impl PetApi for PetApiClient {
-    fn add_pet(&self, body: crate::models::Pet) -> Result<(), Error> {
+    fn add_pet(&self, body: crate::models::Pet) -> Result<(), Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -70,7 +70,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<(), Error> {
+    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -100,7 +100,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error> {
+    fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -128,7 +128,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error> {
+    fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -156,7 +156,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    fn get_pet_by_id(&self, pet_id: i64) -> Result<crate::models::Pet, Error> {
+    fn get_pet_by_id(&self, pet_id: i64) -> Result<crate::models::Pet, Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -188,7 +188,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    fn update_pet(&self, body: crate::models::Pet) -> Result<(), Error> {
+    fn update_pet(&self, body: crate::models::Pet) -> Result<(), Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -216,7 +216,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error> {
+    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -251,7 +251,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error> {
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 

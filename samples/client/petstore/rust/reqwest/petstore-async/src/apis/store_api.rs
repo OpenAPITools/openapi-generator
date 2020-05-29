@@ -10,7 +10,7 @@
 
 #[allow(unused_imports)]
 use std::rc::Rc;
-use std::borrow::Borrow;
+
 use std::option::Option;
 
 use reqwest;
@@ -18,7 +18,7 @@ use reqwest;
 use super::{Error, configuration};
 
 
-    pub async fn delete_order(configuration: &configuration::Configuration, order_id: &str) -> Result<(), Error> {
+    pub async fn delete_order(configuration: &configuration::Configuration, order_id: &str) -> Result<(), Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=crate::apis::urlencode(order_id));
@@ -29,7 +29,7 @@ use super::{Error, configuration};
         }
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(())
         } else {
@@ -41,7 +41,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn get_inventory(configuration: &configuration::Configuration, ) -> Result<::std::collections::HashMap<String, i32>, Error> {
+    pub async fn get_inventory(configuration: &configuration::Configuration, ) -> Result<::std::collections::HashMap<String, i32>, Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/inventory", configuration.base_path);
@@ -60,7 +60,7 @@ use super::{Error, configuration};
         };
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(resp.json::<::std::collections::HashMap<String, i32>>().await?)
         } else {
@@ -72,7 +72,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn get_order_by_id(configuration: &configuration::Configuration, order_id: i64) -> Result<crate::models::Order, Error> {
+    pub async fn get_order_by_id(configuration: &configuration::Configuration, order_id: i64) -> Result<crate::models::Order, Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=order_id);
@@ -83,7 +83,7 @@ use super::{Error, configuration};
         }
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(resp.json::<crate::models::Order>().await?)
         } else {
@@ -95,7 +95,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn place_order(configuration: &configuration::Configuration, body: crate::models::Order) -> Result<crate::models::Order, Error> {
+    pub async fn place_order(configuration: &configuration::Configuration, body: crate::models::Order) -> Result<crate::models::Order, Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order", configuration.base_path);
@@ -107,7 +107,7 @@ use super::{Error, configuration};
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(resp.json::<crate::models::Order>().await?)
         } else {

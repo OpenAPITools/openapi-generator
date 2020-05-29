@@ -31,14 +31,14 @@ impl StoreApiClient {
 
 
 pub trait StoreApi {
-    fn delete_order(&self, order_id: &str) -> Result<(), Error>;
-    fn get_inventory(&self, ) -> Result<::std::collections::HashMap<String, i32>, Error>;
-    fn get_order_by_id(&self, order_id: i64) -> Result<crate::models::Order, Error>;
-    fn place_order(&self, body: crate::models::Order) -> Result<crate::models::Order, Error>;
+    fn delete_order(&self, order_id: &str) -> Result<(), Error<serde_json::Value>>;
+    fn get_inventory(&self, ) -> Result<::std::collections::HashMap<String, i32>, Error<serde_json::Value>>;
+    fn get_order_by_id(&self, order_id: i64) -> Result<crate::models::Order, Error<serde_json::Value>>;
+    fn place_order(&self, body: crate::models::Order) -> Result<crate::models::Order, Error<serde_json::Value>>;
 }
 
 impl StoreApi for StoreApiClient {
-    fn delete_order(&self, order_id: &str) -> Result<(), Error> {
+    fn delete_order(&self, order_id: &str) -> Result<(), Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -62,7 +62,7 @@ impl StoreApi for StoreApiClient {
         }
     }
 
-    fn get_inventory(&self, ) -> Result<::std::collections::HashMap<String, i32>, Error> {
+    fn get_inventory(&self, ) -> Result<::std::collections::HashMap<String, i32>, Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -94,7 +94,7 @@ impl StoreApi for StoreApiClient {
         }
     }
 
-    fn get_order_by_id(&self, order_id: i64) -> Result<crate::models::Order, Error> {
+    fn get_order_by_id(&self, order_id: i64) -> Result<crate::models::Order, Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -118,7 +118,7 @@ impl StoreApi for StoreApiClient {
         }
     }
 
-    fn place_order(&self, body: crate::models::Order) -> Result<crate::models::Order, Error> {
+    fn place_order(&self, body: crate::models::Order) -> Result<crate::models::Order, Error<serde_json::Value>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 

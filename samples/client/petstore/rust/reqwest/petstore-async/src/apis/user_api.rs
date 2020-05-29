@@ -10,7 +10,7 @@
 
 #[allow(unused_imports)]
 use std::rc::Rc;
-use std::borrow::Borrow;
+
 use std::option::Option;
 
 use reqwest;
@@ -18,7 +18,7 @@ use reqwest;
 use super::{Error, configuration};
 
 
-    pub async fn create_user(configuration: &configuration::Configuration, body: crate::models::User) -> Result<(), Error> {
+    pub async fn create_user(configuration: &configuration::Configuration, body: crate::models::User) -> Result<(), Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user", configuration.base_path);
@@ -30,7 +30,7 @@ use super::{Error, configuration};
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(())
         } else {
@@ -42,7 +42,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn create_users_with_array_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error> {
+    pub async fn create_users_with_array_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/createWithArray", configuration.base_path);
@@ -54,7 +54,7 @@ use super::{Error, configuration};
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(())
         } else {
@@ -66,7 +66,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn create_users_with_list_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error> {
+    pub async fn create_users_with_list_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/createWithList", configuration.base_path);
@@ -78,7 +78,7 @@ use super::{Error, configuration};
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(())
         } else {
@@ -90,7 +90,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn delete_user(configuration: &configuration::Configuration, username: &str) -> Result<(), Error> {
+    pub async fn delete_user(configuration: &configuration::Configuration, username: &str) -> Result<(), Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
@@ -101,7 +101,7 @@ use super::{Error, configuration};
         }
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(())
         } else {
@@ -113,7 +113,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn get_user_by_name(configuration: &configuration::Configuration, username: &str) -> Result<crate::models::User, Error> {
+    pub async fn get_user_by_name(configuration: &configuration::Configuration, username: &str) -> Result<crate::models::User, Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
@@ -124,7 +124,7 @@ use super::{Error, configuration};
         }
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(resp.json::<crate::models::User>().await?)
         } else {
@@ -136,7 +136,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn login_user(configuration: &configuration::Configuration, username: &str, password: &str) -> Result<String, Error> {
+    pub async fn login_user(configuration: &configuration::Configuration, username: &str, password: &str) -> Result<String, Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/login", configuration.base_path);
@@ -149,7 +149,7 @@ use super::{Error, configuration};
         }
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(resp.json::<String>().await?)
         } else {
@@ -161,7 +161,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn logout_user(configuration: &configuration::Configuration, ) -> Result<(), Error> {
+    pub async fn logout_user(configuration: &configuration::Configuration, ) -> Result<(), Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/logout", configuration.base_path);
@@ -172,7 +172,7 @@ use super::{Error, configuration};
         }
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(())
         } else {
@@ -184,7 +184,7 @@ use super::{Error, configuration};
         }
     }
 
-    pub async fn update_user(configuration: &configuration::Configuration, username: &str, body: crate::models::User) -> Result<(), Error> {
+    pub async fn update_user(configuration: &configuration::Configuration, username: &str, body: crate::models::User) -> Result<(), Error<serde_json::Value>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
@@ -196,7 +196,7 @@ use super::{Error, configuration};
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        let mut resp = client.execute(req).await?;
+        let resp = client.execute(req).await?;
         if resp.status().is_success() {
             Ok(())
         } else {

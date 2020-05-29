@@ -2,33 +2,33 @@ use reqwest;
 use serde_json;
 
 #[derive(Debug, Clone)]
-pub struct ResponseErrorContent {
+pub struct ResponseErrorContent<T> {
     pub status: reqwest::StatusCode,
     pub content: String,
-    pub entity: Option<serde_json::Value>,
+    pub entity: Option<T>,
 }
 
 #[derive(Debug)]
-pub enum Error {
+pub enum Error<T> {
     Reqwest(reqwest::Error),
     Serde(serde_json::Error),
     Io(std::io::Error),
-    ResponseError(ResponseErrorContent),
+    ResponseError(ResponseErrorContent<T>),
 }
 
-impl From<reqwest::Error> for Error {
+impl <T> From<reqwest::Error> for Error<T> {
     fn from(e: reqwest::Error) -> Self {
         Error::Reqwest(e)
     }
 }
 
-impl From<serde_json::Error> for Error {
+impl <T> From<serde_json::Error> for Error<T> {
     fn from(e: serde_json::Error) -> Self {
         Error::Serde(e)
     }
 }
 
-impl From<std::io::Error> for Error {
+impl <T> From<std::io::Error> for Error<T> {
     fn from(e: std::io::Error) -> Self {
         Error::Io(e)
     }
