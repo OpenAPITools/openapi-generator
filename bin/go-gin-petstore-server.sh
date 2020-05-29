@@ -25,7 +25,7 @@ then
   mvn -B clean package
 fi
 
-SPEC="modules/openapi-generator/src/test/resources/2_0/petstore.yaml"
+SPEC="modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
 GENERATOR="go-gin-server"
 STUB_DIR="samples/server/petstore/go-gin-api-server"
 

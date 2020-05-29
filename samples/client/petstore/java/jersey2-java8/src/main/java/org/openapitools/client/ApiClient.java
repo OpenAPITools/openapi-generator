@@ -167,10 +167,20 @@ public class ApiClient {
     return this;
   }
 
+  /**
+   * Returns the base URL to the location where the OpenAPI document is being served.
+   *
+   * @return The base URL to the target host.
+   */
   public String getBasePath() {
     return basePath;
   }
 
+  /**
+   * Sets the base URL to the location where the OpenAPI document is being served.
+   *
+   * @param basePath The base URL to the target host.
+   */
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
     setOauthBasePath(basePath);
@@ -1183,7 +1193,7 @@ public class ApiClient {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
       if (auth == null) {
-        throw new RuntimeException("Authentication undefined: " + authName);
+        continue;
       }
       auth.applyToParams(queryParams, headerParams, cookieParams, payload, method, uri);
     }
