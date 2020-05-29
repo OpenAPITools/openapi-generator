@@ -12,6 +12,8 @@ go/api_user_service.go
 go/logger.go
 go/model_api_response.go
 go/model_category.go
+go/model_inline_object.go
+go/model_inline_object_1.go
 go/model_order.go
 go/model_pet.go
 go/model_tag.go

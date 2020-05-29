@@ -26,7 +26,7 @@ func NewPetApiService() PetApiServicer {
 }
 
 // AddPet - Add a new pet to the store
-func (s *PetApiService) AddPet(body Pet) (interface{}, error) {
+func (s *PetApiService) AddPet(pet Pet) (interface{}, error) {
 	// TODO - update AddPet with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'AddPet' not implemented")
@@ -61,7 +61,7 @@ func (s *PetApiService) GetPetById(petId int64) (interface{}, error) {
 }
 
 // UpdatePet - Update an existing pet
-func (s *PetApiService) UpdatePet(body Pet) (interface{}, error) {
+func (s *PetApiService) UpdatePet(pet Pet) (interface{}, error) {
 	// TODO - update UpdatePet with the required logic for this service method.
 	// Add api_pet_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'UpdatePet' not implemented")
