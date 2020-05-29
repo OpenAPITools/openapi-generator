@@ -18,7 +18,7 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
      * Add a new pet to the store
      * @param pet Pet object that needs to be added to the store
      */
-    public addPet(pet: Pet, options?: Configuration): RequestContext {
+    public async addPet(pet: Pet, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'pet' is not null or undefined
@@ -53,23 +53,23 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             contentType
         );
         requestContext.setBody(serializedBody);
-		
-		let authMethod = null;
-    	// Apply auth methods
-    	authMethod = config.authMethods["petstore_auth"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	
-    	return requestContext;
+
+        let authMethod = null;
+        // Apply auth methods
+        authMethod = config.authMethods["petstore_auth"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
     }
-			
+
     /**
      * Deletes a pet
      * @param petId Pet id to delete
      * @param apiKey 
      */
-    public deletePet(petId: number, apiKey?: string, options?: Configuration): RequestContext {
+    public async deletePet(petId: number, apiKey?: string, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'petId' is not null or undefined
@@ -96,23 +96,23 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-		
-		let authMethod = null;
-    	// Apply auth methods
-    	authMethod = config.authMethods["petstore_auth"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	
-    	return requestContext;
+
+        let authMethod = null;
+        // Apply auth methods
+        authMethod = config.authMethods["petstore_auth"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
     }
-			
+
     /**
      * Multiple status values can be provided with comma separated strings
      * Finds Pets by status
      * @param status Status values that need to be considered for filter
      */
-    public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): RequestContext {
+    public async findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'status' is not null or undefined
@@ -139,23 +139,23 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-		
-		let authMethod = null;
-    	// Apply auth methods
-    	authMethod = config.authMethods["petstore_auth"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	
-    	return requestContext;
+
+        let authMethod = null;
+        // Apply auth methods
+        authMethod = config.authMethods["petstore_auth"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
     }
-			
+
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      * Finds Pets by tags
      * @param tags Tags to filter by
      */
-    public findPetsByTags(tags: Array<string>, options?: Configuration): RequestContext {
+    public async findPetsByTags(tags: Array<string>, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'tags' is not null or undefined
@@ -182,23 +182,23 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-		
-		let authMethod = null;
-    	// Apply auth methods
-    	authMethod = config.authMethods["petstore_auth"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	
-    	return requestContext;
+
+        let authMethod = null;
+        // Apply auth methods
+        authMethod = config.authMethods["petstore_auth"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
     }
-			
+
     /**
      * Returns a single pet
      * Find pet by ID
      * @param petId ID of pet to return
      */
-    public getPetById(petId: number, options?: Configuration): RequestContext {
+    public async getPetById(petId: number, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'petId' is not null or undefined
@@ -223,22 +223,22 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-		
-		let authMethod = null;
-    	// Apply auth methods
-    	authMethod = config.authMethods["api_key"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	
-    	return requestContext;
+
+        let authMethod = null;
+        // Apply auth methods
+        authMethod = config.authMethods["api_key"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
     }
-			
+
     /**
      * Update an existing pet
      * @param pet Pet object that needs to be added to the store
      */
-    public updatePet(pet: Pet, options?: Configuration): RequestContext {
+    public async updatePet(pet: Pet, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'pet' is not null or undefined
@@ -273,24 +273,24 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
             contentType
         );
         requestContext.setBody(serializedBody);
-		
-		let authMethod = null;
-    	// Apply auth methods
-    	authMethod = config.authMethods["petstore_auth"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	
-    	return requestContext;
+
+        let authMethod = null;
+        // Apply auth methods
+        authMethod = config.authMethods["petstore_auth"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
     }
-			
+
     /**
      * Updates a pet in the store with form data
      * @param petId ID of pet that needs to be updated
      * @param name Updated name of the pet
      * @param status Updated status of the pet
      */
-    public updatePetWithForm(petId: number, name?: string, status?: string, options?: Configuration): RequestContext {
+    public async updatePetWithForm(petId: number, name?: string, status?: string, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'petId' is not null or undefined
@@ -327,24 +327,24 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 		requestContext.setBody(localVarFormParams);
 
 		// Body Params
-		
-		let authMethod = null;
-    	// Apply auth methods
-    	authMethod = config.authMethods["petstore_auth"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	
-    	return requestContext;
+
+        let authMethod = null;
+        // Apply auth methods
+        authMethod = config.authMethods["petstore_auth"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
     }
-			
+
     /**
      * uploads an image
      * @param petId ID of pet to update
      * @param additionalMetadata Additional data to pass to server
      * @param file file to upload
      */
-    public uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, options?: Configuration): RequestContext {
+    public async uploadFile(petId: number, additionalMetadata?: string, file?: HttpFile, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'petId' is not null or undefined
@@ -381,17 +381,17 @@ export class PetApiRequestFactory extends BaseAPIRequestFactory {
 		requestContext.setBody(localVarFormParams);
 
 		// Body Params
-		
-		let authMethod = null;
-    	// Apply auth methods
-    	authMethod = config.authMethods["petstore_auth"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	
-    	return requestContext;
+
+        let authMethod = null;
+        // Apply auth methods
+        authMethod = config.authMethods["petstore_auth"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
     }
-			
+
 }
 
 

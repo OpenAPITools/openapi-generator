@@ -26,7 +26,7 @@ export abstract class SecurityAuthentication {
 	 * 
 	 * @params context the request context which should use this authentication scheme
 	 */
-	public abstract applySecurityAuthentication(context: RequestContext): void;
+   public abstract applySecurityAuthentication(context: RequestContext): void | Promise<void>;
 
 }
 
@@ -95,8 +95,33 @@ export class HttpBasicAuthentication extends SecurityAuthentication {
 	
 	public applySecurityAuthentication(context: RequestContext) {
 		let comb = this.username + ":" + this.password;
-		context.setHeaderParam("Authentication", "Basic " + btoa(comb));
+		context.setHeaderParam("Authorization", "Basic " + btoa(comb));
 	}
+}
+
+export interface TokenProvider {
+  getToken(): Promise<string> | string;
+}
+
+/**
+ * Applies http bearer authentication to a request.
+ *
+ */
+export class HttpBearerAuthentication extends SecurityAuthentication {
+    /**
+     * Configures the http authentication with the required details.
+     *
+     *
+     * @param authName name of the authentication scheme as defined in openapi specification
+     * @param tokenProvider service that can provide the up-to-date token when needed
+     */
+    public constructor(authName: string, private tokenProvider: TokenProvider) {
+        super(authName);
+    }
+
+    public async applySecurityAuthentication(context: RequestContext) {
+        context.setHeaderParam("Authorization", "Bearer " + await this.tokenProvider.getToken());
+    }
 }
 
 // TODO: How to handle oauth2 authentication!
@@ -112,36 +137,39 @@ export class OAuth2Authentication extends SecurityAuthentication {
 
 export type AuthMethods = {
 	{{#authMethods}}
-		"{{name}}"?: {{#isApiKey}}APIKeyAuthentication{{/isApiKey}}{{#isHttp}}HttpBasicAuthentication{{/isHttp}}{{#isOAuth}}OAuth2Authentication{{/isOAuth}},
+		"{{name}}"?: {{#isApiKey}}APIKeyAuthentication{{/isApiKey}}{{#isBasicBasic}}HttpBasicAuthentication{{/isBasicBasic}}{{#isBasicBearer}}HttpBearerAuthentication{{/isBasicBearer}}{{#isOAuth}}OAuth2Authentication{{/isOAuth}},
 	{{/authMethods}}
 }
 
 export type ApiKeyConfiguration = string;
 export type HttpBasicConfiguration = { "username": string, "password": string };
+export type HttpBearerConfiguration = { tokenProvider: TokenProvider };
 export type OAuth2Configuration = string;
 
-export type AuthMethodsConfiguration = { {{#authMethods}}"{{name}}"?:{{#isApiKey}}ApiKeyConfiguration{{/isApiKey}}{{#isHttp}}HttpBasicConfiguration{{/isHttp}}{{#isOAuth}}OAuth2Configuration{{/isOAuth}},  {{/authMethods}} }
+export type AuthMethodsConfiguration = { {{#authMethods}}"{{name}}"?:{{#isApiKey}}ApiKeyConfiguration{{/isApiKey}}{{#isBasicBasic}}HttpBasicConfiguration{{/isBasicBasic}}{{#isBasicBearer}}HttpBearerConfiguration{{/isBasicBearer}}{{#isOAuth}}OAuth2Configuration{{/isOAuth}},  {{/authMethods}} }
 
 /**
  * Creates the authentication methods from a swagger description.
  *
  */
-export function configureAuthMethods(conf: AuthMethodsConfiguration | undefined): AuthMethods {
-	let authMethods: AuthMethods = {
-	}
+export function configureAuthMethods(config: AuthMethodsConfiguration | undefined): AuthMethods {
+    let authMethods: AuthMethods = {}
 
-	if (!conf) {
-		return authMethods;
-	}		
+    if (!config) {
+        return authMethods;
+    }
 
 	{{#authMethods}}
-	if (conf["{{name}}"]) {
-		{{#isApiKey}}
-		authMethods["{{name}}"] = new APIKeyAuthentication("{{name}}",  "{{keyParamName}}", {{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, <string> conf["{{name}}"]);
-		{{/isApiKey}}
-		{{#isBasic}}
-		authMethods["{{name}}"] = new HttpBasicAuthentication("{{name}}", config["{{name}}"]["username"], config["{{name}}"]["password"]);
-		{{/isBasic}}
+    if (config["{{name}}"]) {
+        {{#isApiKey}}
+        authMethods["{{name}}"] = new APIKeyAuthentication("{{name}}",  "{{keyParamName}}", {{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, <string> config["{{name}}"]);
+        {{/isApiKey}}
+        {{#isBasicBasic}}
+        authMethods["{{name}}"] = new HttpBasicAuthentication("{{name}}", config["{{name}}"]["username"], config["{{name}}"]["password"]);
+        {{/isBasicBasic}}
+        {{#isBasicBearer}}
+        authMethods["{{name}}"] = new HttpBearerAuthentication("{{name}}", config["{{name}}"]["tokenProvider"]);
+        {{/isBasicBearer}}
 		{{#isOAuth}}
 		authMethods["{{name}}"] = new OAuth2Authentication("{{name}}");
 		{{/isOAuth}}

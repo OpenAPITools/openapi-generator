@@ -18,7 +18,7 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
      * Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
-    public deleteOrder(orderId: string, options?: Configuration): RequestContext {
+    public async deleteOrder(orderId: string, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'orderId' is not null or undefined
@@ -43,17 +43,17 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-		
-    	// Apply auth methods
-    	
-    	return requestContext;
+
+        // Apply auth methods
+
+        return requestContext;
     }
-			
+
     /**
      * Returns a map of status codes to quantities
      * Returns pet inventories by status
      */
-    public getInventory(options?: Configuration): RequestContext {
+    public async getInventory(options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
 		// Path Params
@@ -71,23 +71,23 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-		
-		let authMethod = null;
-    	// Apply auth methods
-    	authMethod = config.authMethods["api_key"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	
-    	return requestContext;
+
+        let authMethod = null;
+        // Apply auth methods
+        authMethod = config.authMethods["api_key"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+
+        return requestContext;
     }
-			
+
     /**
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
      * Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
-    public getOrderById(orderId: number, options?: Configuration): RequestContext {
+    public async getOrderById(orderId: number, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'orderId' is not null or undefined
@@ -112,17 +112,17 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
 
 
 		// Body Params
-		
-    	// Apply auth methods
-    	
-    	return requestContext;
+
+        // Apply auth methods
+
+        return requestContext;
     }
-			
+
     /**
      * Place an order for a pet
      * @param order order placed for purchasing the pet
      */
-    public placeOrder(order: Order, options?: Configuration): RequestContext {
+    public async placeOrder(order: Order, options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		
         // verify required parameter 'order' is not null or undefined
@@ -155,12 +155,12 @@ export class StoreApiRequestFactory extends BaseAPIRequestFactory {
             contentType
         );
         requestContext.setBody(serializedBody);
-		
-    	// Apply auth methods
-    	
-    	return requestContext;
+
+        // Apply auth methods
+
+        return requestContext;
     }
-			
+
 }
 
 

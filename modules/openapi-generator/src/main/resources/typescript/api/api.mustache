@@ -33,7 +33,7 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
      * @param {{paramName}} {{description}}
      {{/allParams}}
      */
-    public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): RequestContext {
+    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Promise<RequestContext> {
 		let config = options || this.configuration;
 		{{#allParams}}
 		
@@ -120,22 +120,22 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
         );
         requestContext.setBody(serializedBody);
 	    {{/bodyParam}}
-		
-		{{#hasAuthMethods}}    
-		let authMethod = null;
-		{{/hasAuthMethods}}
-    	// Apply auth methods
-    	{{#authMethods}}
-    	authMethod = config.authMethods["{{name}}"]
-    	if (authMethod) {
-    		authMethod.applySecurityAuthentication(requestContext);
-    	}
-    	{{/authMethods}}
-    	
-    	return requestContext;
+
+        {{#hasAuthMethods}}
+        let authMethod = null;
+        {{/hasAuthMethods}}
+        // Apply auth methods
+        {{#authMethods}}
+        authMethod = config.authMethods["{{name}}"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+        {{/authMethods}}
+
+        return requestContext;
     }
-			
-	{{/operation}}
+
+    {{/operation}}
 }
 {{/operations}}
 

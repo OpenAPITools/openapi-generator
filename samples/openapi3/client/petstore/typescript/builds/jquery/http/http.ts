@@ -144,7 +144,7 @@ export class SelfDecodingBody implements ResponseBody {
 
         return new Promise<string>((resolve, reject) => {
             const reader = new FileReader();
-            reader.addEventListener("load", () => resolve(reader.result));
+            reader.addEventListener("load", () => resolve(reader.result as string));
             reader.addEventListener("error", () => reject(reader.error));
             reader.readAsText(data);
         });
