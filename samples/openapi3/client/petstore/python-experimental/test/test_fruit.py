@@ -207,7 +207,7 @@ class TestFruit(unittest.TestCase):
 
         # 'banana' is not nullable.
         with self.assertRaises(petstore_api.ApiTypeError):
-            petstore_api.Banana(None)
+            banana.Banana(None)
 
         # Since 'fruit' has oneOf 'apple', 'banana' and 'apple' is nullable,
         # validate we can create a fruit with the 'null' value.
@@ -215,7 +215,7 @@ class TestFruit(unittest.TestCase):
         self.assertIsNone(fruit)
  
         # Redo the same thing, this time passing a null Apple to the Fruit constructor.
-        fruit = Fruit(petstore_api.Apple(None))
+        fruit = Fruit(apple.Apple(None))
         self.assertIsNone(fruit)
 
 if __name__ == '__main__':

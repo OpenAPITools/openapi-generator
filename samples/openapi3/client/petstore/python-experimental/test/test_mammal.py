@@ -41,8 +41,9 @@ class TestMammal(unittest.TestCase):
         """Test Mammal"""
 
         # tests that we can make a BasquePig by traveling through descendant discriminator in Pig
-        model = petstore_api.Mammal(class_name="BasquePig")
-        assert isinstance(model, petstore_api.BasquePig)
+        model = Mammal(class_name="BasquePig")
+        from petstore_api.model import basque_pig
+        assert isinstance(model, basque_pig.BasquePig)
 
 
 if __name__ == '__main__':
