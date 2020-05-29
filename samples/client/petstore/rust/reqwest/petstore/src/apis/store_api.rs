@@ -30,15 +30,48 @@ impl StoreApiClient {
 }
 
 
+/// struct for typed errors of method `delete_order`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DeleteOrderErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `get_inventory`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetInventoryErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `get_order_by_id`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetOrderByIdErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `place_order`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PlaceOrderErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
 pub trait StoreApi {
-    fn delete_order(&self, order_id: &str) -> Result<(), Error<serde_json::Value>>;
-    fn get_inventory(&self, ) -> Result<::std::collections::HashMap<String, i32>, Error<serde_json::Value>>;
-    fn get_order_by_id(&self, order_id: i64) -> Result<crate::models::Order, Error<serde_json::Value>>;
-    fn place_order(&self, body: crate::models::Order) -> Result<crate::models::Order, Error<serde_json::Value>>;
+    fn delete_order(&self, order_id: &str) -> Result<(), Error<DeleteOrderErrors>>;
+    fn get_inventory(&self, ) -> Result<::std::collections::HashMap<String, i32>, Error<GetInventoryErrors>>;
+    fn get_order_by_id(&self, order_id: i64) -> Result<crate::models::Order, Error<GetOrderByIdErrors>>;
+    fn place_order(&self, body: crate::models::Order) -> Result<crate::models::Order, Error<PlaceOrderErrors>>;
 }
 
 impl StoreApi for StoreApiClient {
-    fn delete_order(&self, order_id: &str) -> Result<(), Error<serde_json::Value>> {
+    fn delete_order(&self, order_id: &str) -> Result<(), Error<DeleteOrderErrors>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -56,13 +89,13 @@ impl StoreApi for StoreApiClient {
         } else {
             let status = resp.status();
             let content = resp.text()?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<DeleteOrderErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    fn get_inventory(&self, ) -> Result<::std::collections::HashMap<String, i32>, Error<serde_json::Value>> {
+    fn get_inventory(&self, ) -> Result<::std::collections::HashMap<String, i32>, Error<GetInventoryErrors>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -88,13 +121,13 @@ impl StoreApi for StoreApiClient {
         } else {
             let status = resp.status();
             let content = resp.text()?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<GetInventoryErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    fn get_order_by_id(&self, order_id: i64) -> Result<crate::models::Order, Error<serde_json::Value>> {
+    fn get_order_by_id(&self, order_id: i64) -> Result<crate::models::Order, Error<GetOrderByIdErrors>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -112,13 +145,13 @@ impl StoreApi for StoreApiClient {
         } else {
             let status = resp.status();
             let content = resp.text()?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<GetOrderByIdErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    fn place_order(&self, body: crate::models::Order) -> Result<crate::models::Order, Error<serde_json::Value>> {
+    fn place_order(&self, body: crate::models::Order) -> Result<crate::models::Order, Error<PlaceOrderErrors>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -137,7 +170,7 @@ impl StoreApi for StoreApiClient {
         } else {
             let status = resp.status();
             let content = resp.text()?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<PlaceOrderErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }

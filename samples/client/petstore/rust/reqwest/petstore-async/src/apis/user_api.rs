@@ -18,7 +18,72 @@ use reqwest;
 use super::{Error, configuration};
 
 
-    pub async fn create_user(configuration: &configuration::Configuration, body: crate::models::User) -> Result<(), Error<serde_json::Value>> {
+/// struct for typed errors of method `create_user`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CreateUserErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `create_users_with_array_input`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CreateUsersWithArrayInputErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `create_users_with_list_input`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CreateUsersWithListInputErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `delete_user`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DeleteUserErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `get_user_by_name`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetUserByNameErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `login_user`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum LoginUserErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `logout_user`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum LogoutUserErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `update_user`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UpdateUserErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+    pub async fn create_user(configuration: &configuration::Configuration, body: crate::models::User) -> Result<(), Error<CreateUserErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user", configuration.base_path);
@@ -36,13 +101,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<CreateUserErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn create_users_with_array_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error<serde_json::Value>> {
+    pub async fn create_users_with_array_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error<CreateUsersWithArrayInputErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/createWithArray", configuration.base_path);
@@ -60,13 +125,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<CreateUsersWithArrayInputErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn create_users_with_list_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error<serde_json::Value>> {
+    pub async fn create_users_with_list_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error<CreateUsersWithListInputErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/createWithList", configuration.base_path);
@@ -84,13 +149,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<CreateUsersWithListInputErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn delete_user(configuration: &configuration::Configuration, username: &str) -> Result<(), Error<serde_json::Value>> {
+    pub async fn delete_user(configuration: &configuration::Configuration, username: &str) -> Result<(), Error<DeleteUserErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
@@ -107,13 +172,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<DeleteUserErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn get_user_by_name(configuration: &configuration::Configuration, username: &str) -> Result<crate::models::User, Error<serde_json::Value>> {
+    pub async fn get_user_by_name(configuration: &configuration::Configuration, username: &str) -> Result<crate::models::User, Error<GetUserByNameErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
@@ -130,13 +195,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<GetUserByNameErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn login_user(configuration: &configuration::Configuration, username: &str, password: &str) -> Result<String, Error<serde_json::Value>> {
+    pub async fn login_user(configuration: &configuration::Configuration, username: &str, password: &str) -> Result<String, Error<LoginUserErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/login", configuration.base_path);
@@ -155,13 +220,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<LoginUserErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn logout_user(configuration: &configuration::Configuration, ) -> Result<(), Error<serde_json::Value>> {
+    pub async fn logout_user(configuration: &configuration::Configuration, ) -> Result<(), Error<LogoutUserErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/logout", configuration.base_path);
@@ -178,13 +243,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<LogoutUserErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn update_user(configuration: &configuration::Configuration, username: &str, body: crate::models::User) -> Result<(), Error<serde_json::Value>> {
+    pub async fn update_user(configuration: &configuration::Configuration, username: &str, body: crate::models::User) -> Result<(), Error<UpdateUserErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
@@ -202,7 +267,7 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<UpdateUserErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }

@@ -44,15 +44,28 @@ pub struct {{{operationIdCamelCase}}}Params {
 {{/operation}}
 {{/operations}}
 
+{{#operations}}
+{{#operation}}
+/// struct for typed errors of method `{{operationId}}`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum {{{operationIdCamelCase}}}Errors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+{{/operation}}
+{{/operations}}
+
 {{^supportAsync}}
 pub trait {{{classname}}} {
 {{#operations}}
 {{#operation}}
     {{#vendorExtensions.x-group-parameters}}
-    fn {{{operationId}}}(&self{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error<serde_json::Value>>;
+    fn {{{operationId}}}(&self{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error<{{{operationIdCamelCase}}}Errors>>;
     {{/vendorExtensions.x-group-parameters}}
     {{^vendorExtensions.x-group-parameters}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error<serde_json::Value>>;
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error<{{{operationIdCamelCase}}}Errors>>;
     {{/vendorExtensions.x-group-parameters}}
 {{/operation}}
 {{/operations}}
@@ -63,7 +76,7 @@ impl {{{classname}}} for {{{classname}}}Client {
 {{#operations}}
 {{#operation}}
     {{#vendorExtensions.x-group-parameters}}
-    {{#supportAsync}}pub async {{/supportAsync}}fn {{{operationId}}}({{^supportAsync}}&self{{/supportAsync}}{{#supportAsync}}configuration: &configuration::Configuration{{/supportAsync}}{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error<serde_json::Value>> {
+    {{#supportAsync}}pub async {{/supportAsync}}fn {{{operationId}}}({{^supportAsync}}&self{{/supportAsync}}{{#supportAsync}}configuration: &configuration::Configuration{{/supportAsync}}{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error<{{{operationIdCamelCase}}}Errors>> {
         // unbox the parameters
         {{#allParams}}
         let {{paramName}} = params.{{paramName}};
@@ -71,7 +84,7 @@ impl {{{classname}}} for {{{classname}}}Client {
 
     {{/vendorExtensions.x-group-parameters}}
     {{^vendorExtensions.x-group-parameters}}
-    {{#supportAsync}}pub async {{/supportAsync}}fn {{{operationId}}}({{^supportAsync}}&self{{/supportAsync}}{{#supportAsync}}configuration: &configuration::Configuration{{/supportAsync}}, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error<serde_json::Value>> {
+    {{#supportAsync}}pub async {{/supportAsync}}fn {{{operationId}}}({{^supportAsync}}&self{{/supportAsync}}{{#supportAsync}}configuration: &configuration::Configuration{{/supportAsync}}, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error<{{{operationIdCamelCase}}}Errors>> {
     {{/vendorExtensions.x-group-parameters}}
         {{^supportAsync}}
         let configuration: &configuration::Configuration = self.configuration.borrow();
@@ -274,7 +287,7 @@ impl {{{classname}}} for {{{classname}}}Client {
         } else {
             let status = resp.status();
             let content = resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<{{{operationIdCamelCase}}}Errors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }

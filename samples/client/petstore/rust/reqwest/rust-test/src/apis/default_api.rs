@@ -30,12 +30,21 @@ impl DefaultApiClient {
 }
 
 
+/// struct for typed errors of method `dummy_get`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DummyGetErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
 pub trait DefaultApi {
-    fn dummy_get(&self, ) -> Result<(), Error<serde_json::Value>>;
+    fn dummy_get(&self, ) -> Result<(), Error<DummyGetErrors>>;
 }
 
 impl DefaultApi for DefaultApiClient {
-    fn dummy_get(&self, ) -> Result<(), Error<serde_json::Value>> {
+    fn dummy_get(&self, ) -> Result<(), Error<DummyGetErrors>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -53,7 +62,7 @@ impl DefaultApi for DefaultApiClient {
         } else {
             let status = resp.status();
             let content = resp.text()?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<DummyGetErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }

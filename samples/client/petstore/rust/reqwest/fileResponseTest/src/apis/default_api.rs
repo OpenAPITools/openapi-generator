@@ -30,12 +30,21 @@ impl DefaultApiClient {
 }
 
 
+/// struct for typed errors of method `fileresponsetest`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum FileresponsetestErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
 pub trait DefaultApi {
-    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error<serde_json::Value>>;
+    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error<FileresponsetestErrors>>;
 }
 
 impl DefaultApi for DefaultApiClient {
-    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error<serde_json::Value>> {
+    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error<FileresponsetestErrors>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -53,7 +62,7 @@ impl DefaultApi for DefaultApiClient {
         } else {
             let status = resp.status();
             let content = resp.text()?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<FileresponsetestErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }

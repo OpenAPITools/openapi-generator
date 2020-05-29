@@ -18,7 +18,40 @@ use reqwest;
 use super::{Error, configuration};
 
 
-    pub async fn delete_order(configuration: &configuration::Configuration, order_id: &str) -> Result<(), Error<serde_json::Value>> {
+/// struct for typed errors of method `delete_order`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DeleteOrderErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `get_inventory`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetInventoryErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `get_order_by_id`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetOrderByIdErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `place_order`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PlaceOrderErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+    pub async fn delete_order(configuration: &configuration::Configuration, order_id: &str) -> Result<(), Error<DeleteOrderErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=crate::apis::urlencode(order_id));
@@ -35,13 +68,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<DeleteOrderErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn get_inventory(configuration: &configuration::Configuration, ) -> Result<::std::collections::HashMap<String, i32>, Error<serde_json::Value>> {
+    pub async fn get_inventory(configuration: &configuration::Configuration, ) -> Result<::std::collections::HashMap<String, i32>, Error<GetInventoryErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/inventory", configuration.base_path);
@@ -66,13 +99,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<GetInventoryErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn get_order_by_id(configuration: &configuration::Configuration, order_id: i64) -> Result<crate::models::Order, Error<serde_json::Value>> {
+    pub async fn get_order_by_id(configuration: &configuration::Configuration, order_id: i64) -> Result<crate::models::Order, Error<GetOrderByIdErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=order_id);
@@ -89,13 +122,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<GetOrderByIdErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn place_order(configuration: &configuration::Configuration, body: crate::models::Order) -> Result<crate::models::Order, Error<serde_json::Value>> {
+    pub async fn place_order(configuration: &configuration::Configuration, body: crate::models::Order) -> Result<crate::models::Order, Error<PlaceOrderErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order", configuration.base_path);
@@ -113,7 +146,7 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<PlaceOrderErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }

@@ -18,7 +18,72 @@ use reqwest;
 use super::{Error, configuration};
 
 
-    pub async fn add_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<(), Error<serde_json::Value>> {
+/// struct for typed errors of method `add_pet`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum AddPetErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `delete_pet`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DeletePetErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `find_pets_by_status`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum FindPetsByStatusErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `find_pets_by_tags`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum FindPetsByTagsErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `get_pet_by_id`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetPetByIdErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `update_pet`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UpdatePetErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `update_pet_with_form`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UpdatePetWithFormErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+/// struct for typed errors of method `upload_file`
+#[derive(Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UploadFileErrors {
+    // TODO Generate an enum case for each error described in schema.
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+    pub async fn add_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<(), Error<AddPetErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet", configuration.base_path);
@@ -39,13 +104,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<AddPetErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<serde_json::Value>> {
+    pub async fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<DeletePetErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
@@ -68,13 +133,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<DeletePetErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<serde_json::Value>> {
+    pub async fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<FindPetsByStatusErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/findByStatus", configuration.base_path);
@@ -95,13 +160,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<FindPetsByStatusErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<serde_json::Value>> {
+    pub async fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<FindPetsByTagsErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/findByTags", configuration.base_path);
@@ -122,13 +187,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<FindPetsByTagsErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) -> Result<crate::models::Pet, Error<serde_json::Value>> {
+    pub async fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) -> Result<crate::models::Pet, Error<GetPetByIdErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
@@ -153,13 +218,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<GetPetByIdErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn update_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<(), Error<serde_json::Value>> {
+    pub async fn update_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<(), Error<UpdatePetErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet", configuration.base_path);
@@ -180,13 +245,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<UpdatePetErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn update_pet_with_form(configuration: &configuration::Configuration, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<serde_json::Value>> {
+    pub async fn update_pet_with_form(configuration: &configuration::Configuration, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<UpdatePetWithFormErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
@@ -214,13 +279,13 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<UpdatePetWithFormErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn upload_file(configuration: &configuration::Configuration, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error<serde_json::Value>> {
+    pub async fn upload_file(configuration: &configuration::Configuration, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error<UploadFileErrors>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=pet_id);
@@ -246,7 +311,7 @@ use super::{Error, configuration};
         } else {
             let status = resp.status();
             let content = resp.text().await?;
-            let entity: Option<serde_json::Value> = serde_json::from_str(&content).ok();
+            let entity: Option<UploadFileErrors> = serde_json::from_str(&content).ok();
             let error = crate::apis::ResponseErrorContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
