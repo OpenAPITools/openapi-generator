@@ -230,7 +230,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = petstore_api.OuterEnum("placed") # outer_enum.OuterEnum | Input enum as post body (optional)
+    body = outer_enum.OuterEnum("placed") # outer_enum.OuterEnum | Input enum as post body (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -292,7 +292,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = petstore_api.OuterNumber(3.4) # outer_number.OuterNumber | Input number as post body (optional)
+    body = outer_number.OuterNumber(3.4) # outer_number.OuterNumber | Input number as post body (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
