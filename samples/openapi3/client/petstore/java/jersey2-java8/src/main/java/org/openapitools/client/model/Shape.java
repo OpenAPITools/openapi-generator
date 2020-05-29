@@ -30,6 +30,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -44,6 +46,8 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 @JsonDeserialize(using=Shape.ShapeDeserializer.class)
 public class Shape extends AbstractOpenApiSchema {
+    private static final Logger log = Logger.getLogger(Shape.class.getName());
+
     public static class ShapeDeserializer extends StdDeserializer<Shape> {
         public ShapeDeserializer() {
             this(Shape.class);
@@ -63,16 +67,20 @@ public class Shape extends AbstractOpenApiSchema {
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Quadrilateral.class);
                 match++;
+                log.log(Level.FINER, "Input data matches schema 'Quadrilateral'");
             } catch (Exception e) {
                 // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'Quadrilateral'", e);
             }
 
             // deserialize Triangle
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Triangle.class);
                 match++;
+                log.log(Level.FINER, "Input data matches schema 'Triangle'");
             } catch (Exception e) {
                 // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'Triangle'", e);
             }
 
             if (match == 1) {

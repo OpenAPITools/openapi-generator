@@ -29,6 +29,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +45,8 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 @JsonDeserialize(using=GmFruit.GmFruitDeserializer.class)
 public class GmFruit extends AbstractOpenApiSchema {
+    private static final Logger log = Logger.getLogger(GmFruit.class.getName());
+
     public static class GmFruitDeserializer extends StdDeserializer<GmFruit> {
         public GmFruitDeserializer() {
             this(GmFruit.class);
@@ -64,7 +68,8 @@ public class GmFruit extends AbstractOpenApiSchema {
                 ret.setActualInstance(deserialized);
                 return ret;
             } catch (Exception e) {
-                // deserialization failed, continue
+                // deserialization failed, continue, log to help debugging
+                log.log(Level.FINER, "Input data does not match 'GmFruit'", e);
             }
 
             // deserialzie Banana
@@ -74,7 +79,8 @@ public class GmFruit extends AbstractOpenApiSchema {
                 ret.setActualInstance(deserialized);
                 return ret;
             } catch (Exception e) {
-                // deserialization failed, continue
+                // deserialization failed, continue, log to help debugging
+                log.log(Level.FINER, "Input data does not match 'GmFruit'", e);
             }
 
             throw new IOException(String.format("Failed deserialization for GmFruit: no match found"));

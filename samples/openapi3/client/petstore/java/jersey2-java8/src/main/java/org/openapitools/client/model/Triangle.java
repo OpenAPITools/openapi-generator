@@ -31,6 +31,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +47,8 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 @JsonDeserialize(using=Triangle.TriangleDeserializer.class)
 public class Triangle extends AbstractOpenApiSchema {
+    private static final Logger log = Logger.getLogger(Triangle.class.getName());
+
     public static class TriangleDeserializer extends StdDeserializer<Triangle> {
         public TriangleDeserializer() {
             this(Triangle.class);
@@ -64,24 +68,30 @@ public class Triangle extends AbstractOpenApiSchema {
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(EquilateralTriangle.class);
                 match++;
+                log.log(Level.FINER, "Input data matches schema 'EquilateralTriangle'");
             } catch (Exception e) {
                 // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'EquilateralTriangle'", e);
             }
 
             // deserialize IsoscelesTriangle
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(IsoscelesTriangle.class);
                 match++;
+                log.log(Level.FINER, "Input data matches schema 'IsoscelesTriangle'");
             } catch (Exception e) {
                 // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'IsoscelesTriangle'", e);
             }
 
             // deserialize ScaleneTriangle
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(ScaleneTriangle.class);
                 match++;
+                log.log(Level.FINER, "Input data matches schema 'ScaleneTriangle'");
             } catch (Exception e) {
                 // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'ScaleneTriangle'", e);
             }
 
             if (match == 1) {

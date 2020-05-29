@@ -29,6 +29,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +45,8 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 @JsonDeserialize(using=FruitReq.FruitReqDeserializer.class)
 public class FruitReq extends AbstractOpenApiSchema {
+    private static final Logger log = Logger.getLogger(FruitReq.class.getName());
+
     public static class FruitReqDeserializer extends StdDeserializer<FruitReq> {
         public FruitReqDeserializer() {
             this(FruitReq.class);
@@ -62,16 +66,20 @@ public class FruitReq extends AbstractOpenApiSchema {
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(AppleReq.class);
                 match++;
+                log.log(Level.FINER, "Input data matches schema 'AppleReq'");
             } catch (Exception e) {
                 // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'AppleReq'", e);
             }
 
             // deserialize BananaReq
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(BananaReq.class);
                 match++;
+                log.log(Level.FINER, "Input data matches schema 'BananaReq'");
             } catch (Exception e) {
                 // deserialization failed, continue
+                log.log(Level.FINER, "Input data does not match schema 'BananaReq'", e);
             }
 
             if (match == 1) {
