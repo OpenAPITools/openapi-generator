@@ -348,7 +348,7 @@ sub update_params_for_auth {
             {{#isBasicBearer}}
             # this endpoint requires Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} authentication (access token)
             if ($self->{config}{access_token}) {
-                $headers['Authorization'] = 'Bearer ' . $self->{config}{access_token};
+                $header_params->{'Authorization'} = 'Bearer ' . $self->{config}{access_token};
             }
             {{/isBasicBearer}}
             {{/isBasic}}

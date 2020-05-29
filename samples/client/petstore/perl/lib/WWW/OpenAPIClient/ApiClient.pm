@@ -351,7 +351,7 @@ sub update_params_for_auth {
         elsif ($auth eq 'bearer_test') {
             # this endpoint requires Bearer (JWT) authentication (access token)
             if ($self->{config}{access_token}) {
-                $headers['Authorization'] = 'Bearer ' . $self->{config}{access_token};
+                $header_params->{'Authorization'} = 'Bearer ' . $self->{config}{access_token};
             }
         }
         elsif ($auth eq 'http_basic_test') {
