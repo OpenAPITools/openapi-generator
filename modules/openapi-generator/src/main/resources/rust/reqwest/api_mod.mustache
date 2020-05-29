@@ -46,7 +46,7 @@ pub use self::{{{classFilename}}}::{ {{{operationId}}} };
 {{#vendorExtensions.x-group-parameters}}
 {{#allParams}}
 {{#-first}}
-pub use self::{{{classFilename}}}::{ {{{classname}}}{{{operationIdCamelCase}}}Params };
+pub use self::{{{classFilename}}}::{{{operationIdCamelCase}}} as {{{classname}}}{{{operationIdCamelCase}}};
 {{/-first}}
 {{/allParams}}
 {{/vendorExtensions.x-group-parameters}}
