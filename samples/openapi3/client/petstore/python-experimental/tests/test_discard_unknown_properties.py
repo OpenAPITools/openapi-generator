@@ -12,19 +12,12 @@ $ nosetests -v
 """
 from collections import namedtuple
 import json
-import os
 import re
-import shutil
 import unittest
-from six.moves.urllib.parse import urlencode, urlparse
 
 import petstore_api
-from petstore_api.model import cat, dog
+from petstore_api.model import cat, dog, isosceles_triangle, banana_req
 from petstore_api import Configuration, signing
-from petstore_api.rest import (
-    RESTClientObject,
-    RESTResponse
-)
 
 from petstore_api.model_utils import (
     file_type,
@@ -58,7 +51,7 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
         # Deserializing with strict validation raises an exception because the 'unknown_property'
         # is undeclared.
         with self.assertRaises(petstore_api.exceptions.ApiAttributeError) as cm:
-            deserialized = api_client.deserialize(response, ((petstore_api.BananaReq),), True)
+            deserialized = api_client.deserialize(response, ((banana_req.BananaReq),), True)
         self.assertTrue(re.match("BananaReq has no attribute 'unknown_property' at.*", str(cm.exception)),
             'Exception message: {0}'.format(str(cm.exception)))
 
@@ -84,7 +77,7 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
         # Deserializing with strict validation raises an exception because the 'unknown_property'
         # is undeclared.
         with self.assertRaises(petstore_api.ApiValueError) as cm:
-            deserialized = api_client.deserialize(response, ((petstore_api.IsoscelesTriangle),), True)
+            deserialized = api_client.deserialize(response, ((isosceles_triangle.IsoscelesTriangle),), True)
         self.assertTrue(re.match('.*Not all inputs were used.*unknown_property.*', str(cm.exception)),
             'Exception message: {0}'.format(str(cm.exception)))
 
@@ -108,8 +101,8 @@ class DiscardUnknownPropertiesTests(unittest.TestCase):
         # The 'unknown_property' is undeclared, which would normally raise an exception, but
         # when discard_unknown_keys is set to True, the unknown properties are discarded.
         response = MockResponse(data=json.dumps(data))
-        deserialized = api_client.deserialize(response, ((petstore_api.BananaReq),), True)
-        self.assertTrue(isinstance(deserialized, petstore_api.BananaReq))
+        deserialized = api_client.deserialize(response, ((banana_req.BananaReq),), True)
+        self.assertTrue(isinstance(deserialized, banana_req.BananaReq))
         # Check the 'unknown_property' and 'more-unknown' properties are not present in the
         # output.
         self.assertIn("length_cm", deserialized.to_dict().keys())
