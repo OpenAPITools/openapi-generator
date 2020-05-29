@@ -33,8 +33,8 @@ class InjectableConfiguration implements AbstractConfiguration {
     constructor(
         @inject(AbstractServerConfiguration) @optional() public baseServer: AbstractServerConfiguration = servers[0],
         @inject(AbstractHttpLibrary) @optional() public httpApi: AbstractHttpLibrary = new DefaultHttpLibrary(),
-        @multiInject(AbstractMiddleware) public middleware: AbstractMiddleware[] = [],
-        @multiInject(AbstractAuthMethod) securityConfiguration: AbstractAuthMethod[] = []
+        @multiInject(AbstractMiddleware) @optional() public middleware: AbstractMiddleware[] = [],
+        @multiInject(AbstractAuthMethod) @optional() securityConfiguration: AbstractAuthMethod[] = []
     ) {
         for (const authMethod of securityConfiguration) {
             const authName = authMethod.getName();

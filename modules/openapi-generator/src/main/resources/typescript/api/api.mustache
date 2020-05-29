@@ -10,6 +10,9 @@ import * as FormData from "form-data";
 import {ObjectSerializer} from '../models/ObjectSerializer';
 import {ApiException} from './exception';
 import {isCodeInRange} from '../util';
+{{#useInversify}}
+import { injectable } from "inversify";
+{{/useInversify}}
 
 {{#imports}}
 import { {{classname}} } from '..{{filename}}';
@@ -19,6 +22,9 @@ import { {{classname}} } from '..{{filename}}';
 /**
  * {{#description}}{{{description}}}{{/description}}{{^description}}no description{{/description}}
  */
+{{#useInversify}}
+@injectable()
+{{/useInversify}}
 export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 	
 	{{#operation}}
@@ -142,6 +148,9 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
 
 {{#operations}}
 
+{{#useInversify}}
+@injectable()
+{{/useInversify}}
 export class {{classname}}ResponseProcessor {
 
     {{#operation}}

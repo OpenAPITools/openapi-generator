@@ -1,4 +1,3 @@
-import {RequestContext} from '../http/http';
 // typings for btoa are incorrect
 {{#platforms}}
 {{#node}}
@@ -6,6 +5,12 @@ import {RequestContext} from '../http/http';
 import * as btoa from "btoa";
 {{/node}}
 {{/platforms}}
+import { RequestContext } from "../http/http";
+{{#useInversify}}
+import { injectable, inject } from "inversify";
+import { AbstractTokenProvider } from "../services/configuration";
+{{/useInversify}}
+
 /**
  * Interface authentication schemes.
  */
@@ -31,6 +36,9 @@ export interface TokenProvider {
 /**
  * Applies {{type}} authentication to the request context.
  */
+{{#useInversify}}
+@injectable()
+{{/useInversify}}
 export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication implements SecurityAuthentication {
     {{#isApiKey}}
     /**
@@ -55,7 +63,7 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
      *
      * @param tokenProvider service that can provide the up-to-date token when needed
      */
-    public constructor(private tokenProvider: TokenProvider) {}
+    public constructor({{#useInversify}}@inject(AbstractTokenProvider) {{/useInversify}}private tokenProvider: TokenProvider) {}
     {{/isBasicBearer}}
     {{#isOAuth}}
     // TODO: How to handle oauth2 authentication!

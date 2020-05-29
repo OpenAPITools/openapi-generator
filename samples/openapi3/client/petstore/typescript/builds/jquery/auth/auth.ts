@@ -1,5 +1,6 @@
-import {RequestContext} from '../http/http';
 // typings for btoa are incorrect
+import { RequestContext } from "../http/http";
+
 /**
  * Interface authentication schemes.
  */

@@ -1,7 +1,8 @@
-import {RequestContext} from '../http/http';
 // typings for btoa are incorrect
 //@ts-ignore
 import * as btoa from "btoa";
+import { RequestContext } from "../http/http";
+
 /**
  * Interface authentication schemes.
  */
