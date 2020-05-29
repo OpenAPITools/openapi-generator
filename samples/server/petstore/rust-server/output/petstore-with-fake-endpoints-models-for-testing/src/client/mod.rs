@@ -8,6 +8,7 @@ use hyper::{Body, Uri, Response};
 use hyper_openssl::HttpsConnector;
 use serde_json;
 use std::borrow::Cow;
+use std::convert::TryInto;
 use std::io::{Read, Error, ErrorKind};
 use std::error;
 use std::fmt;
@@ -1358,13 +1359,35 @@ impl<C, F> Api<C> for Client<F> where
         });
 
         // Header parameters
-        param_enum_header_string_array.map(|value| request.headers_mut().append(
+        match param_enum_header_string_array {
+            Some(param_enum_header_string_array) => {
+        request.headers_mut().append(
             HeaderName::from_static("enum_header_string_array"),
-            header::IntoHeaderValue(value.clone()).into()));
+            match header::IntoHeaderValue(param_enum_header_string_array.clone()).try_into() {
+                Ok(header) => header,
+                Err(e) => {
+                    return Box::new(future::err(ApiError(format!(
+                        "Invalid header enum_header_string_array - {}", e)))) as Box<dyn Future<Item=_, Error=_> + Send>;
+                },
+            });
+            },
+            None => {}
+        }
 
-        param_enum_header_string.map(|value| request.headers_mut().append(
+        match param_enum_header_string {
+            Some(param_enum_header_string) => {
+        request.headers_mut().append(
             HeaderName::from_static("enum_header_string"),
-            header::IntoHeaderValue(value.clone()).into()));
+            match header::IntoHeaderValue(param_enum_header_string.clone()).try_into() {
+                Ok(header) => header,
+                Err(e) => {
+                    return Box::new(future::err(ApiError(format!(
+                        "Invalid header enum_header_string - {}", e)))) as Box<dyn Future<Item=_, Error=_> + Send>;
+                },
+            });
+            },
+            None => {}
+        }
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1836,9 +1859,20 @@ impl<C, F> Api<C> for Client<F> where
         }
 
         // Header parameters
-        param_api_key.map(|value| request.headers_mut().append(
+        match param_api_key {
+            Some(param_api_key) => {
+        request.headers_mut().append(
             HeaderName::from_static("api_key"),
-            header::IntoHeaderValue(value.clone()).into()));
+            match header::IntoHeaderValue(param_api_key.clone()).try_into() {
+                Ok(header) => header,
+                Err(e) => {
+                    return Box::new(future::err(ApiError(format!(
+                        "Invalid header api_key - {}", e)))) as Box<dyn Future<Item=_, Error=_> + Send>;
+                },
+            });
+            },
+            None => {}
+        }
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -3431,10 +3465,26 @@ impl<C, F> Api<C> for Client<F> where
                         Some(response_x_rate_limit) => response_x_rate_limit.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header X-Rate-Limit for response 200 was not found.")))) as Box<dyn Future<Item=_, Error=_> + Send>,
                     };
+                    let response_x_rate_limit = match TryInto::<header::IntoHeaderValue<i32>>::try_into(response_x_rate_limit) {
+                        Ok(value) => value,
+                        Err(e) => {
+                            return Box::new(future::err(ApiError(format!("Invalid response header X-Rate-Limit for response 200 - {}", e)))) as Box<dyn Future<Item=_, Error=_> + Send>;
+                        },
+                    };
+                    let response_x_rate_limit = response_x_rate_limit.0;
+
                     let response_x_expires_after = match response.headers().get(HeaderName::from_static("x-expires-after")) {
                         Some(response_x_expires_after) => response_x_expires_after.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header X-Expires-After for response 200 was not found.")))) as Box<dyn Future<Item=_, Error=_> + Send>,
                     };
+                    let response_x_expires_after = match TryInto::<header::IntoHeaderValue<chrono::DateTime::<chrono::Utc>>>::try_into(response_x_expires_after) {
+                        Ok(value) => value,
+                        Err(e) => {
+                            return Box::new(future::err(ApiError(format!("Invalid response header X-Expires-After for response 200 - {}", e)))) as Box<dyn Future<Item=_, Error=_> + Send>;
+                        },
+                    };
+                    let response_x_expires_after = response_x_expires_after.0;
+
                     let body = response.into_body();
                     Box::new(
                         body
@@ -3454,8 +3504,8 @@ impl<C, F> Api<C> for Client<F> where
                             LoginUserResponse::SuccessfulOperation
                             {
                                 body: body,
-                                x_rate_limit: (*Into::<header::IntoHeaderValue<i32>>::into(response_x_rate_limit)).clone(),
-                                x_expires_after: (*Into::<header::IntoHeaderValue<chrono::DateTime::<chrono::Utc>>>::into(response_x_expires_after)).clone(),
+                                x_rate_limit: response_x_rate_limit,
+                                x_expires_after: response_x_expires_after,
                             }
                         })
                     ) as Box<dyn Future<Item=_, Error=_> + Send>

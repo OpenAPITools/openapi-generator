@@ -155,7 +155,7 @@ class Pet
      *
      * @return $this
      */
-    public function setCategory(Category $category = null): ?Category
+    public function setCategory(Category $category = null)
     {
         $this->category = $category;
 
@@ -203,7 +203,7 @@ class Pet
      *
      * @return $this
      */
-    public function setPhotoUrls(array $photoUrls): array
+    public function setPhotoUrls(array $photoUrls)
     {
         $this->photoUrls = $photoUrls;
 
@@ -227,7 +227,7 @@ class Pet
      *
      * @return $this
      */
-    public function setTags(array $tags = null): ?array
+    public function setTags(array $tags = null)
     {
         $this->tags = $tags;
 

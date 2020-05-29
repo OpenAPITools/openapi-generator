@@ -2,7 +2,7 @@
 /**
  * ObjectSerializer
  *
- * PHP version 5
+ * PHP version 7.1
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -260,6 +260,14 @@ class ObjectSerializer
     {
         if (null === $data) {
             return null;
+        } elseif (strcasecmp(substr($class, -2), '[]') === 0) {
+            $data = is_string($data) ? json_decode($data) : $data;
+            $subClass = substr($class, 0, -2);
+            $values = [];
+            foreach ($data as $key => $value) {
+                $values[] = self::deserialize($value, $subClass, null);
+            }
+            return $values;
         } elseif (substr($class, 0, 4) === 'map[') { // for associative array e.g. map[string,int]
             $data = is_string($data) ? json_decode($data) : $data;
             settype($data, 'array');
@@ -273,14 +281,6 @@ class ObjectSerializer
                 }
             }
             return $deserialized;
-        } elseif (strcasecmp(substr($class, -2), '[]') === 0) {
-            $data = is_string($data) ? json_decode($data) : $data;
-            $subClass = substr($class, 0, -2);
-            $values = [];
-            foreach ($data as $key => $value) {
-                $values[] = self::deserialize($value, $subClass, null);
-            }
-            return $values;
         } elseif ($class === 'object') {
             settype($data, 'array');
             return $data;

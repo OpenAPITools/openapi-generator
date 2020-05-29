@@ -3,6 +3,7 @@ package org.openapitools.api;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import org.springframework.core.io.Resource;
+import java.util.Set;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -80,7 +81,7 @@ public class PetApiController implements PetApi {
      * @deprecated
      * @see PetApi#findPetsByTags
      */
-    public ResponseEntity<List<Pet>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags) {
+    public ResponseEntity<Set<Pet>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) Set<String> tags) {
         return delegate.findPetsByTags(tags);
     }
 
@@ -121,7 +122,7 @@ public class PetApiController implements PetApi {
      * @return Invalid input (status code 405)
      * @see PetApi#updatePetWithForm
      */
-    public ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet") @RequestPart(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet") @RequestPart(value="status", required=false)  String status) {
+    public ResponseEntity<Void> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet") @Valid @RequestPart(value = "name", required = false)  String name,@ApiParam(value = "Updated status of the pet") @Valid @RequestPart(value = "status", required = false)  String status) {
         return delegate.updatePetWithForm(petId, name, status);
     }
 
@@ -134,7 +135,7 @@ public class PetApiController implements PetApi {
      * @return successful operation (status code 200)
      * @see PetApi#uploadFile
      */
-    public ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server") @RequestPart(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file to upload") @Valid @RequestPart(value = "file") MultipartFile file) {
+    public ResponseEntity<ModelApiResponse> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false)  String additionalMetadata,@ApiParam(value = "file to upload") @Valid @RequestPart(value = "file", required = false) MultipartFile file) {
         return delegate.uploadFile(petId, additionalMetadata, file);
     }
 

@@ -5,6 +5,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
+[**fakeHttpSignatureTest**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication
 [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -65,6 +66,66 @@ No authorization required
 
 - **Content-Type**: Not defined
 - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
+
+
+## fakeHttpSignatureTest
+
+> fakeHttpSignatureTest($pet, $query_1, $header_1)
+
+test http signature authentication
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
+$query_1 = 'query_1_example'; // string | query parameter
+$header_1 = 'header_1_example'; // string | header parameter
+
+try {
+    $apiInstance->fakeHttpSignatureTest($pet, $query_1, $header_1);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->fakeHttpSignatureTest: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **query_1** | **string**| query parameter | [optional]
+ **header_1** | **string**| header parameter | [optional]
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[http_signature_test](../../README.md#http_signature_test)
+
+### HTTP request headers
+
+- **Content-Type**: application/json, application/xml
+- **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../../README.md#documentation-for-models)

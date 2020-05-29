@@ -8,6 +8,7 @@ use hyper::{Body, Uri, Response};
 use hyper_openssl::HttpsConnector;
 use serde_json;
 use std::borrow::Cow;
+use std::convert::TryInto;
 use std::io::{Read, Error, ErrorKind};
 use std::error;
 use std::fmt;
@@ -211,9 +212,20 @@ impl<C, F> CallbackApi<C> for Client<F> where
         });
 
         // Header parameters
-        param_information.map(|value| request.headers_mut().append(
+        match param_information {
+            Some(param_information) => {
+        request.headers_mut().append(
             HeaderName::from_static("information"),
-            header::IntoHeaderValue(value.clone()).into()));
+            match header::IntoHeaderValue(param_information.clone()).try_into() {
+                Ok(header) => header,
+                Err(e) => {
+                    return Box::new(future::err(ApiError(format!(
+                        "Invalid header information - {}", e)))) as Box<dyn Future<Item=_, Error=_> + Send>;
+                },
+            });
+            },
+            None => {}
+        }
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))

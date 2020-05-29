@@ -214,6 +214,11 @@ paths:
               schema:
                 type: String
               style: simple
+            Bool-Header:
+              explode: false
+              schema:
+                type: bool
+              style: simple
             Object-Header:
               explode: false
               schema:

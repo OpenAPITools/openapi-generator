@@ -119,6 +119,7 @@ pub enum ResponsesWithHeadersGetResponse {
     {
         body: String,
         success_info: String,
+        bool_header: bool,
         object_header: models::ObjectHeader
     }
     ,

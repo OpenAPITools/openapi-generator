@@ -14,31 +14,93 @@ import (
 	"fmt"
 )
 
-// FruitReq struct for FruitReq
+// FruitReq - struct for FruitReq
 type FruitReq struct {
-	FruitReqInterface interface {  }
+	AppleReq *AppleReq
+	BananaReq *BananaReq
 }
 
-func (s FruitReq) MarshalJSON() ([]byte, error) {
-	return json.Marshal(s.FruitReqInterface)
+// AppleReqAsFruitReq is a convenience function that returns AppleReq wrapped in FruitReq
+func AppleReqAsFruitReq(v *AppleReq) FruitReq {
+	return FruitReq{ AppleReq: v}
 }
 
-func (s *FruitReq) UnmarshalJSON(src []byte) error {
+// BananaReqAsFruitReq is a convenience function that returns BananaReq wrapped in FruitReq
+func BananaReqAsFruitReq(v *BananaReq) FruitReq {
+	return FruitReq{ BananaReq: v}
+}
+
+
+// Unmarshal JSON data into one of the pointers in the struct
+func (dst *FruitReq) UnmarshalJSON(data []byte) error {
 	var err error
-	var unmarshaledAppleReq *AppleReq = &AppleReq{}
-	err = json.Unmarshal(src, unmarshaledAppleReq)
+	match := 0
+	// try to unmarshal data into AppleReq
+	err = json.Unmarshal(data, &dst.AppleReq);
 	if err == nil {
-		s.FruitReqInterface = unmarshaledAppleReq
-		return nil
+		jsonAppleReq, _ := json.Marshal(dst.AppleReq)
+		if string(jsonAppleReq) == "{}" { // empty struct
+			dst.AppleReq = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.AppleReq = nil
 	}
-	var unmarshaledBananaReq *BananaReq = &BananaReq{}
-	err = json.Unmarshal(src, unmarshaledBananaReq)
+
+	// try to unmarshal data into BananaReq
+	err = json.Unmarshal(data, &dst.BananaReq);
 	if err == nil {
-		s.FruitReqInterface = unmarshaledBananaReq
-		return nil
+		jsonBananaReq, _ := json.Marshal(dst.BananaReq)
+		if string(jsonBananaReq) == "{}" { // empty struct
+			dst.BananaReq = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.BananaReq = nil
 	}
-	return fmt.Errorf("No oneOf model could be deserialized from payload: %s", string(src))
+
+	if match > 1 { // more than 1 match
+		// reset to nil
+		dst.AppleReq = nil
+		dst.BananaReq = nil
+
+		return fmt.Errorf("Data matches more than one schema in oneOf(FruitReq)")
+	} else if match == 1 {
+		return nil // exactly one match
+	} else { // no match
+		return fmt.Errorf("Data failed to match schemas in oneOf(FruitReq)")
+	}
 }
+
+// Marshal data from the first non-nil pointers in the struct to JSON
+func (src FruitReq) MarshalJSON() ([]byte, error) {
+	if src.AppleReq != nil {
+		return json.Marshal(&src.AppleReq)
+	}
+
+	if src.BananaReq != nil {
+		return json.Marshal(&src.BananaReq)
+	}
+
+	return nil, nil // no data in oneOf schemas
+}
+
+// Get the actual instance
+func (obj *FruitReq) GetActualInstance() (interface{}) {
+	if obj.AppleReq != nil {
+		return obj.AppleReq
+	}
+
+	if obj.BananaReq != nil {
+		return obj.BananaReq
+	}
+
+	// all schemas are nil
+	return nil
+}
+
 type NullableFruitReq struct {
 	value *FruitReq
 	isSet bool
@@ -74,3 +136,4 @@ func (v *NullableFruitReq) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+

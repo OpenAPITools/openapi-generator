@@ -332,15 +332,23 @@
         // Header parameters
 {{/-first}}
 {{^isMapContainer}}
-{{#required}}
+{{^required}}
+        match param_{{{paramName}}} {
+            Some(param_{{{paramName}}}) => {
+{{/required}}
         request.headers_mut().append(
             HeaderName::from_static("{{{nameInLowerCase}}}"),
-            header::IntoHeaderValue(param_{{{paramName}}}.clone()).into());
-{{/required}}
+            match header::IntoHeaderValue(param_{{{paramName}}}.clone()).try_into() {
+                Ok(header) => header,
+                Err(e) => {
+                    return Box::new(future::err(ApiError(format!(
+                        "Invalid header {{{paramName}}} - {}", e)))) as Box<dyn Future<Item=_, Error=_> + Send>;
+                },
+            });
 {{^required}}
-        param_{{{paramName}}}.map(|value| request.headers_mut().append(
-            HeaderName::from_static("{{{nameInLowerCase}}}"),
-            header::IntoHeaderValue(value.clone()).into()));
+            },
+            None => {}
+        }
 {{/required}}
 {{/isMapContainer}}
 {{#isMapContainer}}
@@ -359,6 +367,14 @@
                         Some(response_{{{name}}}) => response_{{{name}}}.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header {{{baseName}}} for response {{{code}}} was not found.")))) as Box<dyn Future<Item=_, Error=_> + Send>,
                     };
+                    let response_{{{name}}} = match TryInto::<header::IntoHeaderValue<{{{dataType}}}>>::try_into(response_{{{name}}}) {
+                        Ok(value) => value,
+                        Err(e) => {
+                            return Box::new(future::err(ApiError(format!("Invalid response header {{baseName}} for response {{code}} - {}", e)))) as Box<dyn Future<Item=_, Error=_> + Send>;
+                        },
+                    };
+                    let response_{{{name}}} = response_{{{name}}}.0;
+
 {{/headers}}
                     let body = response.into_body();
                     Box::new(
@@ -402,7 +418,7 @@
                             {
                                 body: body,
   {{/-first}}
-                                {{{name}}}: (*Into::<header::IntoHeaderValue<{{{dataType}}}>>::into(response_{{{name}}})).clone(),
+                                {{{name}}}: response_{{name}},
   {{#-last}}
                             }
   {{/-last}}
@@ -416,7 +432,7 @@
   {{#-first}}
                             {
   {{/-first}}
-                              {{{name}}}: (*Into::<header::IntoHeaderValue<{{{dataType}}}>>::into(response_{{{name}}})).clone(),
+                                {{{name}}}: response_{{name}},
   {{#-last}}
                             }
   {{/-last}}

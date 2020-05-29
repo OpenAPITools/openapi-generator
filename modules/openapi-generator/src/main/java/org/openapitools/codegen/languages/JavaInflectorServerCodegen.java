@@ -26,6 +26,7 @@ import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -43,7 +44,7 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
 
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
-        sourceFolder = "src/gen/java";
+        sourceFolder = "src"+ File.separator+"gen"+ File.separator +"java";
         apiTestTemplateFiles.clear(); // TODO: add test template
         embeddedTemplateDir = templateDir = "JavaInflector";
         invokerPackage = "org.openapitools.controllers";

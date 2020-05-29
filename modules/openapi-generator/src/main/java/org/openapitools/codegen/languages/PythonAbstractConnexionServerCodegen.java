@@ -350,7 +350,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -594,6 +594,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             }
         }
 
+        generateJSONSpecFile(objs);
         generateYAMLSpecFile(objs);
 
         for (Map<String, Object> operations : getOperations(objs)) {

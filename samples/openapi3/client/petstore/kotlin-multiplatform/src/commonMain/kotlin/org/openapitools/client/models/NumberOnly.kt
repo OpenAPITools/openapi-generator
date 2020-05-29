@@ -21,7 +21,5 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class NumberOnly (
     @SerialName(value = "JustNumber") val justNumber: kotlin.Double? = null
-) 
-
-
+)
 

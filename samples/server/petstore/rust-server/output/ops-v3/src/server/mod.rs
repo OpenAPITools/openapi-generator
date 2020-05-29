@@ -5,6 +5,8 @@ use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use log::warn;
 use serde_json;
+#[allow(unused_imports)]
+use std::convert::{TryFrom, TryInto};
 use std::io;
 use url::form_urlencoded;
 #[allow(unused_imports)]

@@ -2,7 +2,7 @@
 /**
  * FooTest
  *
- * PHP version 5
+ * PHP version 7.1
  *
  * @category Class
  * @package  OpenAPI\Client

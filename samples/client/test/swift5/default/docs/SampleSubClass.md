@@ -3,6 +3,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**baseClassStringProp** | **String** |  | [optional] 
+**baseClassIntegerProp** | **Int** |  | [optional] 
 **subClassStringProp** | **String** |  | [optional] 
 **subClassIntegerProp** | **Int** |  | [optional] 
 

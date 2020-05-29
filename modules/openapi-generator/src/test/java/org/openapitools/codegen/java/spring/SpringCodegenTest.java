@@ -282,7 +282,7 @@ public class SpringCodegenTest {
         final String multipartArrayApi = files.get("/src/main/java/org/openapitools/api/MultipartArrayApi.java");
         Assert.assertTrue(multipartArrayApi.contains("List<MultipartFile> files"));
         Assert.assertTrue(multipartArrayApi.contains("@ApiParam(value = \"Many files\")"));
-        Assert.assertTrue(multipartArrayApi.contains("@RequestPart(value = \"files\")"));
+        Assert.assertTrue(multipartArrayApi.contains("@RequestPart(value = \"files\", required = false)"));
 
         // Check that the delegate handles the single file
         final String multipartSingleApiDelegate = files.get("/src/main/java/org/openapitools/api/MultipartSingleApiDelegate.java");
@@ -292,7 +292,13 @@ public class SpringCodegenTest {
         final String multipartSingleApi = files.get("/src/main/java/org/openapitools/api/MultipartSingleApi.java");
         Assert.assertTrue(multipartSingleApi.contains("MultipartFile file"));
         Assert.assertTrue(multipartSingleApi.contains("@ApiParam(value = \"One file\")"));
-        Assert.assertTrue(multipartSingleApi.contains("@RequestPart(value = \"file\")"));
+        Assert.assertTrue(multipartSingleApi.contains("@RequestPart(value = \"file\", required = false)"));
+
+        // Check that api validates mixed multipart request
+        final String multipartMixedApi = files.get("/src/main/java/org/openapitools/api/MultipartMixedApi.java");
+        Assert.assertTrue(multipartMixedApi.contains("MultipartFile file"));
+        Assert.assertTrue(multipartMixedApi.contains("@RequestPart(value = \"file\", required = true)"));
+        Assert.assertTrue(multipartMixedApi.contains("@Valid @RequestPart(value = \"marker\", required = false)"));
     }
 
     @Test

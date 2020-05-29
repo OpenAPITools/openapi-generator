@@ -227,6 +227,9 @@ paths:
             Success-Info:
               schema:
                 type: String
+            Bool-Header:
+              schema:
+                type: bool
             Object-Header:
               schema:
                 $ref: "#/components/schemas/ObjectHeader"

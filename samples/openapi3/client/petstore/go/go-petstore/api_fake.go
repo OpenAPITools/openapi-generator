@@ -101,6 +101,87 @@ func (a *FakeApiService) FakeHealthGet(ctx _context.Context) (HealthCheckResult,
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// FakeHttpSignatureTestOpts Optional parameters for the method 'FakeHttpSignatureTest'
+type FakeHttpSignatureTestOpts struct {
+    Query1 optional.String
+    Header1 optional.String
+}
+
+/*
+FakeHttpSignatureTest test http signature authentication
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param pet Pet object that needs to be added to the store
+ * @param optional nil or *FakeHttpSignatureTestOpts - Optional Parameters:
+ * @param "Query1" (optional.String) -  query parameter
+ * @param "Header1" (optional.String) -  header parameter
+*/
+func (a *FakeApiService) FakeHttpSignatureTest(ctx _context.Context, pet Pet, localVarOptionals *FakeHttpSignatureTestOpts) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/fake/http-signature-test"
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	if localVarOptionals != nil && localVarOptionals.Query1.IsSet() {
+		localVarQueryParams.Add("query_1", parameterToString(localVarOptionals.Query1.Value(), ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json", "application/xml"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if localVarOptionals != nil && localVarOptionals.Header1.IsSet() {
+		localVarHeaderParams["header_1"] = parameterToString(localVarOptionals.Header1.Value(), "")
+	}
+	// body params
+	localVarPostBody = &pet
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 // FakeOuterBooleanSerializeOpts Optional parameters for the method 'FakeOuterBooleanSerialize'
 type FakeOuterBooleanSerializeOpts struct {
     Body optional.Bool

@@ -5,6 +5,8 @@ use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use log::warn;
 use serde_json;
+#[allow(unused_imports)]
+use std::convert::{TryFrom, TryInto};
 use std::io;
 use url::form_urlencoded;
 #[allow(unused_imports)]
@@ -1026,14 +1028,40 @@ where
                 // Header parameters
                 let param_enum_header_string_array = headers.get(HeaderName::from_static("enum_header_string_array"));
 
-                let param_enum_header_string_array = param_enum_header_string_array.map(|p| {
-                        header::IntoHeaderValue::<Vec<String>>::from((*p).clone()).0
-                });
+                let param_enum_header_string_array = match param_enum_header_string_array {
+                    Some(v) => match header::IntoHeaderValue::<Vec<String>>::try_from((*v).clone()) {
+                        Ok(result) =>
+                            Some(result.0),
+                        Err(err) => {
+                            return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Invalid header enum_header_string_array - {}", err)))
+                                        .expect("Unable to create Bad Request response for invalid header enum_header_string_array")));
+
+                        },
+                    },
+                    None => {
+                        None
+                    }
+                };
                 let param_enum_header_string = headers.get(HeaderName::from_static("enum_header_string"));
 
-                let param_enum_header_string = param_enum_header_string.map(|p| {
-                        header::IntoHeaderValue::<String>::from((*p).clone()).0
-                });
+                let param_enum_header_string = match param_enum_header_string {
+                    Some(v) => match header::IntoHeaderValue::<String>::try_from((*v).clone()) {
+                        Ok(result) =>
+                            Some(result.0),
+                        Err(err) => {
+                            return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Invalid header enum_header_string - {}", err)))
+                                        .expect("Unable to create Bad Request response for invalid header enum_header_string")));
+
+                        },
+                    },
+                    None => {
+                        None
+                    }
+                };
 
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
@@ -1487,9 +1515,22 @@ where
                 // Header parameters
                 let param_api_key = headers.get(HeaderName::from_static("api_key"));
 
-                let param_api_key = param_api_key.map(|p| {
-                        header::IntoHeaderValue::<String>::from((*p).clone()).0
-                });
+                let param_api_key = match param_api_key {
+                    Some(v) => match header::IntoHeaderValue::<String>::try_from((*v).clone()) {
+                        Ok(result) =>
+                            Some(result.0),
+                        Err(err) => {
+                            return Box::new(future::ok(Response::builder()
+                                        .status(StatusCode::BAD_REQUEST)
+                                        .body(Body::from(format!("Invalid header api_key - {}", err)))
+                                        .expect("Unable to create Bad Request response for invalid header api_key")));
+
+                        },
+                    },
+                    None => {
+                        None
+                    }
+                };
 
                 Box::new({
                         {{
@@ -2890,14 +2931,34 @@ where
                                                         x_expires_after
                                                     }
                                                 => {
+                                                    let x_rate_limit = match header::IntoHeaderValue(x_rate_limit).try_into() {
+                                                        Ok(val) => val,
+                                                        Err(e) => {
+                                                            return future::ok(Response::builder()
+                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                                    .body(Body::from(format!("An internal server error occurred handling x_rate_limit header - {}", e)))
+                                                                    .expect("Unable to create Internal Server Error for invalid response header"))
+                                                        }
+                                                    };
+
+                                                    let x_expires_after = match header::IntoHeaderValue(x_expires_after).try_into() {
+                                                        Ok(val) => val,
+                                                        Err(e) => {
+                                                            return future::ok(Response::builder()
+                                                                    .status(StatusCode::INTERNAL_SERVER_ERROR)
+                                                                    .body(Body::from(format!("An internal server error occurred handling x_expires_after header - {}", e)))
+                                                                    .expect("Unable to create Internal Server Error for invalid response header"))
+                                                        }
+                                                    };
+
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("x-rate-limit"),
-                                                        header::IntoHeaderValue(x_rate_limit).into()
+                                                        x_rate_limit
                                                     );
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("x-expires-after"),
-                                                        header::IntoHeaderValue(x_expires_after).into()
+                                                        x_expires_after
                                                     );
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,

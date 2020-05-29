@@ -1,7 +1,7 @@
 <?php
 /**
  * FakeApiTest
- * PHP version 5
+ * PHP version 7.1
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -79,6 +79,16 @@ class FakeApiTest extends TestCase
      *
      */
     public function testFakeHealthGet()
+    {
+    }
+
+    /**
+     * Test case for fakeHttpSignatureTest
+     *
+     * test http signature authentication.
+     *
+     */
+    public function testFakeHttpSignatureTest()
     {
     }
 

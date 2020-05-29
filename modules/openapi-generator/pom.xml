@@ -65,6 +65,8 @@
                     </includeOnlyProperties>
                     <commitIdGenerationMode>full</commitIdGenerationMode>
                     <dotGitDirectory>${project.parent.basedir}${file.separator}.git</dotGitDirectory>
+                    <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                    <failOnUnableToExtractRepoInfo>false</failOnUnableToExtractRepoInfo>
                 </configuration>
             </plugin>
             <plugin>

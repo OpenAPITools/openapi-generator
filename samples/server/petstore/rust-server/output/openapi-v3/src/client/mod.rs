@@ -8,6 +8,7 @@ use hyper::{Body, Uri, Response};
 use hyper_openssl::HttpsConnector;
 use serde_json;
 use std::borrow::Cow;
+use std::convert::TryInto;
 use std::io::{Read, Error, ErrorKind};
 use std::error;
 use std::fmt;
@@ -537,7 +538,13 @@ impl<C, F> Api<C> for Client<F> where
         // Header parameters
         request.headers_mut().append(
             HeaderName::from_static("x-header"),
-            header::IntoHeaderValue(param_x_header.clone()).into());
+            match header::IntoHeaderValue(param_x_header.clone()).try_into() {
+                Ok(header) => header,
+                Err(e) => {
+                    return Box::new(future::err(ApiError(format!(
+                        "Invalid header x_header - {}", e)))) as Box<dyn Future<Item=_, Error=_> + Send>;
+                },
+            });
 
         Box::new(self.client_service.request(request)
                              .map_err(|e| ApiError(format!("No response received: {}", e)))
@@ -1396,10 +1403,38 @@ impl<C, F> Api<C> for Client<F> where
                         Some(response_success_info) => response_success_info.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header Success-Info for response 200 was not found.")))) as Box<dyn Future<Item=_, Error=_> + Send>,
                     };
+                    let response_success_info = match TryInto::<header::IntoHeaderValue<String>>::try_into(response_success_info) {
+                        Ok(value) => value,
+                        Err(e) => {
+                            return Box::new(future::err(ApiError(format!("Invalid response header Success-Info for response 200 - {}", e)))) as Box<dyn Future<Item=_, Error=_> + Send>;
+                        },
+                    };
+                    let response_success_info = response_success_info.0;
+
+                    let response_bool_header = match response.headers().get(HeaderName::from_static("bool-header")) {
+                        Some(response_bool_header) => response_bool_header.clone(),
+                        None => return Box::new(future::err(ApiError(String::from("Required response header Bool-Header for response 200 was not found.")))) as Box<dyn Future<Item=_, Error=_> + Send>,
+                    };
+                    let response_bool_header = match TryInto::<header::IntoHeaderValue<bool>>::try_into(response_bool_header) {
+                        Ok(value) => value,
+                        Err(e) => {
+                            return Box::new(future::err(ApiError(format!("Invalid response header Bool-Header for response 200 - {}", e)))) as Box<dyn Future<Item=_, Error=_> + Send>;
+                        },
+                    };
+                    let response_bool_header = response_bool_header.0;
+
                     let response_object_header = match response.headers().get(HeaderName::from_static("object-header")) {
                         Some(response_object_header) => response_object_header.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header Object-Header for response 200 was not found.")))) as Box<dyn Future<Item=_, Error=_> + Send>,
                     };
+                    let response_object_header = match TryInto::<header::IntoHeaderValue<models::ObjectHeader>>::try_into(response_object_header) {
+                        Ok(value) => value,
+                        Err(e) => {
+                            return Box::new(future::err(ApiError(format!("Invalid response header Object-Header for response 200 - {}", e)))) as Box<dyn Future<Item=_, Error=_> + Send>;
+                        },
+                    };
+                    let response_object_header = response_object_header.0;
+
                     let body = response.into_body();
                     Box::new(
                         body
@@ -1417,8 +1452,9 @@ impl<C, F> Api<C> for Client<F> where
                             ResponsesWithHeadersGetResponse::Success
                             {
                                 body: body,
-                                success_info: (*Into::<header::IntoHeaderValue<String>>::into(response_success_info)).clone(),
-                                object_header: (*Into::<header::IntoHeaderValue<models::ObjectHeader>>::into(response_object_header)).clone(),
+                                success_info: response_success_info,
+                                bool_header: response_bool_header,
+                                object_header: response_object_header,
                             }
                         })
                     ) as Box<dyn Future<Item=_, Error=_> + Send>
@@ -1428,17 +1464,33 @@ impl<C, F> Api<C> for Client<F> where
                         Some(response_further_info) => response_further_info.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header Further-Info for response 412 was not found.")))) as Box<dyn Future<Item=_, Error=_> + Send>,
                     };
+                    let response_further_info = match TryInto::<header::IntoHeaderValue<String>>::try_into(response_further_info) {
+                        Ok(value) => value,
+                        Err(e) => {
+                            return Box::new(future::err(ApiError(format!("Invalid response header Further-Info for response 412 - {}", e)))) as Box<dyn Future<Item=_, Error=_> + Send>;
+                        },
+                    };
+                    let response_further_info = response_further_info.0;
+
                     let response_failure_info = match response.headers().get(HeaderName::from_static("failure-info")) {
                         Some(response_failure_info) => response_failure_info.clone(),
                         None => return Box::new(future::err(ApiError(String::from("Required response header Failure-Info for response 412 was not found.")))) as Box<dyn Future<Item=_, Error=_> + Send>,
                     };
+                    let response_failure_info = match TryInto::<header::IntoHeaderValue<String>>::try_into(response_failure_info) {
+                        Ok(value) => value,
+                        Err(e) => {
+                            return Box::new(future::err(ApiError(format!("Invalid response header Failure-Info for response 412 - {}", e)))) as Box<dyn Future<Item=_, Error=_> + Send>;
+                        },
+                    };
+                    let response_failure_info = response_failure_info.0;
+
                     let body = response.into_body();
                     Box::new(
                         future::ok(
                             ResponsesWithHeadersGetResponse::PreconditionFailed
                             {
-                              further_info: (*Into::<header::IntoHeaderValue<String>>::into(response_further_info)).clone(),
-                              failure_info: (*Into::<header::IntoHeaderValue<String>>::into(response_failure_info)).clone(),
+                                further_info: response_further_info,
+                                failure_info: response_failure_info,
                             }
                         )
                     ) as Box<dyn Future<Item=_, Error=_> + Send>

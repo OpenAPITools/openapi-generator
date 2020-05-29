@@ -2,6 +2,12 @@ kind: pipeline
 name: default
 
 steps:
+# test aspnetcore 3.x
+- name: aspnetcore-test
+  image: mcr.microsoft.com/dotnet/core/sdk:3.1
+  commands:
+  - (cd samples/server/petstore/aspnetcore-3.1/ && /bin/sh build.sh)
+  - (cd samples/server/petstore/aspnetcore-3.0/ && /bin/sh build.sh)
 # test ocaml petstore client
 - name: ocaml-test
   image: ocaml/opam2:4.07
@@ -18,20 +24,15 @@ steps:
   image: haskell:8.6.5
   commands:
   - (cd samples/client/petstore/haskell-http-client/ && stack --install-ghc --no-haddock-deps haddock --fast && stack test --fast)
-# below dart tests moved to circle ci
-# test Dart 2.x petstore client
-#- name: dart2x-test
-#  image: google/dart
-#  commands:
-#  - (cd samples/client/petstore/dart-jaguar/openapi && pub get && pub run build_runner build --delete-conflicting-outputs)
-#  - (cd samples/client/petstore/dart-jaguar/flutter_petstore/openapi && pub get && pub run build_runner build --delete-conflicting-outputs)
-#  - (cd samples/client/petstore/dart2/petstore && pub get && pub run test)
 # test Java 11 HTTP client
 - name: java11-test
   image: openjdk:11.0
   commands:
   - ./mvnw -quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
   - ./mvnw --quiet verify -Psamples.droneio -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  # test java native client
+  - ./mvnw clean test -f samples/client/petstore/java/native/pom.xml
+  - ./mvnw clean test -f samples/client/petstore/java/native-async/pom.xml
   # test all generators with fake petstore spec (2.0, 3.0)
   - /bin/bash bin/utils/test-fake-petstore-for-all.sh
   # generate test scripts

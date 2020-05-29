@@ -11,6 +11,7 @@ package petstore
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 // OuterEnumInteger the model 'OuterEnumInteger'
@@ -23,11 +24,27 @@ const (
 	OUTERENUMINTEGER__2 OuterEnumInteger = 2
 )
 
+func (v *OuterEnumInteger) UnmarshalJSON(src []byte) error {
+	var value int32
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := OuterEnumInteger(value)
+	for _, existing := range []OuterEnumInteger{ 0, 1, 2,   } {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid OuterEnumInteger", *v)
+}
+
 // Ptr returns reference to OuterEnumInteger value
 func (v OuterEnumInteger) Ptr() *OuterEnumInteger {
 	return &v
 }
-
 
 type NullableOuterEnumInteger struct {
 	value *OuterEnumInteger
@@ -64,3 +81,4 @@ func (v *NullableOuterEnumInteger) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
