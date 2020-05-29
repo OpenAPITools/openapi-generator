@@ -61,6 +61,11 @@ public class OpenAPIUiConfiguration extends WebMvcConfigurerAdapter {
     if (!registry.hasMappingForPattern("/**")) {
       registry.addResourceHandler("/**").addResourceLocations(RESOURCE_LOCATIONS);
     }
+/*
+    if (!registry.hasMappingForPattern("/swagger-ui/**")) {
+      registry.addResourceHandler("/swagger-ui/**").addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/3.14.2/");
+    }
+*/
   }
 
   /*@Override

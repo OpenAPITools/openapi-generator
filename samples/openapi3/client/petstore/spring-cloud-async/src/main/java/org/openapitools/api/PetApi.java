@@ -95,7 +95,7 @@ public interface PetApi {
        @ApiResponse(responseCode = "400", description = "Invalid pet value" ) })
     @RequestMapping(value = "/pet/{petId}",
         method = RequestMethod.DELETE)
-    default CompletableFuture<ResponseEntity<Void>> deletePet(@Parameter(description = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@Parameter(description = "" ) @RequestHeader(value="api_key", required=false) String apiKey) {
+    default CompletableFuture<ResponseEntity<Void>> deletePet(@Parameter(description = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@Parameter(description = "" ) @RequestHeader(value="api_key" , required=false) String apiKey) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }

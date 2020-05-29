@@ -58,6 +58,7 @@ sidebar_label: spring
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
+|springBootVersion|Spring-boot version (will be used if library=spring-boot specified)| |2.3.0.RELEASE|
 |swaggerDocketConfig|Generate Spring OpenAPI Docket configuration class.| |false|
 |title|server title name or client service name| |OpenAPI Spring|
 |unhandledException|Declare operation methods to throw a generic exception and allow unhandled exceptions (useful for Spring `@ControllerAdvice` directives).| |false|

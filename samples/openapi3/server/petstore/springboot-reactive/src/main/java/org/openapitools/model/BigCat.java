@@ -4,7 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.oas3.annotations.Schema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.openapitools.model.BigCatAllOf;
 import org.openapitools.model.Cat;
 import org.openapitools.jackson.nullable.JsonNullable;

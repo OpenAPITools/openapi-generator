@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
@@ -71,7 +72,7 @@ public class SpringCodegen extends AbstractJavaCodegen
     public static final String HATEOAS = "hateoas";
     public static final String RETURN_SUCCESS_CODE = "returnSuccessCode";
     public static final String UNHANDLED_EXCEPTION_HANDLING = "unhandledException";
-    public static final String SPRING_BOOT_VERSION = "spring-boot.version";
+    public static final String SPRING_BOOT_VERSION = "springBootVersion";
 
     public static final String OPEN_BRACE = "{";
     public static final String CLOSE_BRACE = "}";
@@ -182,9 +183,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         library.setEnum(supportedLibraries);
         cliOptions.add(library);
 
-        if (SPRING_BOOT.equals(library)) {
-            cliOptions.add(new CliOption(SPRING_BOOT_VERSION, "Spring-boot version").defaultValue(this.getSpringBootVersion()));
-        }
+        cliOptions.add(new CliOption(SPRING_BOOT_VERSION, "Spring-boot version (will be used if library=spring-boot specified)").defaultValue(this.getSpringBootVersion()));
     }
 
     private void updateJava8CliOptions() {
@@ -351,7 +350,7 @@ public class SpringCodegen extends AbstractJavaCodegen
         // Replacing OAS2 annotation imports (used by the underlying AbstractJavaCodegen)
         importMapping.remove("ApiModelProperty");
         importMapping.remove("ApiModel");
-        importMapping.put("Schema", "io.swagger.oas3.annotations.Schema");
+        importMapping.put("Schema", "io.swagger.v3.oas.annotations.media.Schema");
 
         if (this.interfaceOnly && this.delegatePattern) {
             if (this.java8) {
@@ -368,8 +367,10 @@ public class SpringCodegen extends AbstractJavaCodegen
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         if (library.equals(SPRING_BOOT)) {
-            if (additionalProperties.containsKey(SPRING_BOOT_VERSION) && this.java8) {
+            if (additionalProperties.containsKey(SPRING_BOOT_VERSION)) {
                 this.setSpringBootVersion((String) additionalProperties.get(SPRING_BOOT_VERSION));
+            } else {
+                additionalProperties.put(SPRING_BOOT_VERSION, this.getSpringBootVersion());
             }
         }
 
@@ -864,6 +865,15 @@ public class SpringCodegen extends AbstractJavaCodegen
         model.imports.remove("ApiModelProperty");
         model.imports.remove("ApiModel");
         model.imports.add("Schema");
+    }
+
+    @Override
+    public CodegenModel fromModel(String name, Schema model) {
+        final CodegenModel result = super.fromModel(name, model);
+
+        result.imports.remove("ApiModel");
+
+        return result;
     }
 
     @Override

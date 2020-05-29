@@ -39,17 +39,6 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.2.11</version>
-        </dependency>
-
-        <!--dependency>
-            <groupId>org.webjars</groupId>
-            <artifactId>swagger-ui</artifactId>
-            <version>3.14.2</version>
-        </dependency-->
-        <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>1.6.1</version>
@@ -59,6 +48,7 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>${springdoc-ui.version}</version>
         </dependency>
+
         <!-- @Nullable annotation -->
         <dependency>
             <groupId>com.google.code.findbugs</groupId>

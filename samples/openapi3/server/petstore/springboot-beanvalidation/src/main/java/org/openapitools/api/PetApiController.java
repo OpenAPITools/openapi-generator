@@ -70,7 +70,7 @@ public class PetApiController implements PetApi {
      * @return Invalid pet value (status code 400)
      * @see PetApi#deletePet
      */
-    public ResponseEntity<Void> deletePet(@Parameter(description = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@Parameter(description = "" ) @RequestHeader(value="api_key", required=false) String apiKey) {
+    public ResponseEntity<Void> deletePet(@Parameter(description = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@Parameter(description = "" ) @RequestHeader(value="api_key" , required=false) String apiKey) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

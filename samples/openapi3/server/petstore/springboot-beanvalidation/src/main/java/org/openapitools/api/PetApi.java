@@ -83,7 +83,7 @@ public interface PetApi {
        @ApiResponse(responseCode = "400", description = "Invalid pet value" ) })
     @RequestMapping(value = "/pet/{petId}",
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deletePet(@Parameter(description = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@Parameter(description = "" ) @RequestHeader(value="api_key", required=false) String apiKey);
+    ResponseEntity<Void> deletePet(@Parameter(description = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@Parameter(description = "" ) @RequestHeader(value="api_key" , required=false) String apiKey);
 
 
     /**
