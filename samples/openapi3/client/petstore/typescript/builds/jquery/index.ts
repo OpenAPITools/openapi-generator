@@ -3,7 +3,7 @@ import "es6-promise/auto";
 export * from "./http/http";
 export * from "./auth/auth";
 export * from "./models/all";
-export { Configuration } from "./configuration"
+export { createConfiguration, Configuration } from "./configuration"
 export * from "./apis/exception";
 export * from "./servers";
 

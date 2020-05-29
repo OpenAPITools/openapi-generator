@@ -1,8 +1,9 @@
 import type { AbstractHttpLibrary, AbstractMiddleware, AbstractServerConfiguration } from "./http";
 import type { RequestContext } from "../http/http";
 import type { AuthMethods, TokenProvider } from "../auth/auth";
+import type { Configuration } from "../configuration";
 
-export abstract class AbstractConfiguration {
+export abstract class AbstractConfiguration implements Configuration {
     abstract get baseServer(): AbstractServerConfiguration;
     abstract get httpApi(): AbstractHttpLibrary;
     abstract get middleware(): AbstractMiddleware[];
