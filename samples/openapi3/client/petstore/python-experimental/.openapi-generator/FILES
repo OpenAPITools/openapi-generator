@@ -197,4 +197,5 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_parent_pet.py
 tox.ini
