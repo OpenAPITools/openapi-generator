@@ -716,7 +716,7 @@ No authorization required
 
 ## testGroupParameters
 
-> testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group)
+> testGroupParameters(testGroupParametersRequest)
 
 Fake endpoint to test group parameters (optional)
 
@@ -731,6 +731,7 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
+import org.openapitools.client.api.FakeApi.*;
 
 public class Example {
     public static void main(String[] args) {
@@ -745,7 +746,16 @@ public class Example {
         Boolean booleanGroup = true; // Boolean | Boolean in group parameters
         Long int64Group = 56L; // Long | Integer in group parameters
         try {
-            apiInstance.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+
+            APItestGroupParametersRequest request = APItestGroupParametersRequest.newBuilder()
+                .requiredStringGroup(requiredStringGroup)
+                .requiredBooleanGroup(requiredBooleanGroup)
+                .requiredInt64Group(requiredInt64Group)
+                .stringGroup(stringGroup)
+                .booleanGroup(booleanGroup)
+                .int64Group(int64Group)
+                .build();
+            apiInstance.testGroupParameters(request);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testGroupParameters");
             System.err.println("Status code: " + e.getCode());
@@ -759,15 +769,9 @@ public class Example {
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **requiredStringGroup** | **Integer**| Required String in group parameters |
- **requiredBooleanGroup** | **Boolean**| Required Boolean in group parameters |
- **requiredInt64Group** | **Long**| Required Integer in group parameters |
- **stringGroup** | **Integer**| String in group parameters | [optional]
- **booleanGroup** | **Boolean**| Boolean in group parameters | [optional]
- **int64Group** | **Long**| Integer in group parameters | [optional]
+|    Name      |    Type       | Description   |     Notes    |
+|------------- | ------------- | ------------- | -------------|
+| testGroupParametersRequest | [**APItestGroupParametersRequest**](FakeApi.md#APItestGroupParametersRequest)|-|-|
 
 ### Return type
 
@@ -786,6 +790,21 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **400** | Someting wrong |  -  |
+
+
+<a name="APItestGroupParametersRequest"></a>
+## APItestGroupParametersRequest
+### Properties
+
+|     Name      |    Type       | Description   |     Notes    |
+| ------------- | ------------- | ------------- | -------------|
+ **requiredStringGroup** | **Integer**| Required String in group parameters |
+ **requiredBooleanGroup** | **Boolean**| Required Boolean in group parameters |
+ **requiredInt64Group** | **Long**| Required Integer in group parameters |
+ **stringGroup** | **Integer**| String in group parameters | [optional]
+ **booleanGroup** | **Boolean**| Boolean in group parameters | [optional]
+ **int64Group** | **Long**| Integer in group parameters | [optional]
+
 
 
 ## testInlineAdditionalProperties

@@ -41,7 +41,7 @@ public class {{classname}} {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  
+
   public {{classname}}() {
     this(new ApiClient());
   }
@@ -56,6 +56,36 @@ public class {{classname}} {
   }
 
   {{#operation}}
+  {{#vendorExtensions.x-group-parameters}}
+  {{#hasParams}}
+  /**
+   * {{summary}}
+   * {{notes}}
+   * @param {{operationId}}Request {@link API{{operationId}}Request}
+   {{#returnType}}
+   * @return {{returnType}}
+   {{/returnType}}
+   * @throws ApiException if fails to make API call
+   {{#isDeprecated}}
+   * @deprecated
+   {{/isDeprecated}}
+   {{#externalDocs}}
+   * {{description}}
+   * @see <a href="{{url}}">{{summary}} Documentation</a>
+   {{/externalDocs}}
+   */
+  {{#isDeprecated}}
+  @Deprecated
+  {{/isDeprecated}}
+  public {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}({{#hasParams}}API{{operationId}}Request {{operationId}}Request{{/hasParams}}) throws ApiException {
+    {{#allParams}}
+    {{{dataType}}} {{paramName}} = {{operationId}}Request.{{paramName}}();
+    {{/allParams}}
+    {{#returnType}}return {{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+  }
+
+  {{/hasParams}}
+  {{/vendorExtensions.x-group-parameters}}
   /**
    * {{summary}}
    * {{notes}}
@@ -158,7 +188,7 @@ public class {{classname}} {
       HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
-      }          
+      }
       if (localVarResponse.statusCode()/ 100 != 2) {
           throw new ApiException(localVarResponse.statusCode(),
               "{{operationId}} call received non-success response",
@@ -214,6 +244,56 @@ public class {{classname}} {
     }
     {{/asyncNative}}
   }
+  {{#vendorExtensions.x-group-parameters}}
+  {{#hasParams}}
+
+  public static final class API{{operationId}}Request {
+    {{#requiredParams}}
+    private {{{dataType}}} {{paramName}}; // {{description}} (required)
+    {{/requiredParams}}
+    {{#optionalParams}}
+    private {{{dataType}}} {{paramName}}; // {{description}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}
+    {{/optionalParams}}
+
+    private API{{operationId}}Request(Builder builder) {
+      {{#requiredParams}}
+      this.{{paramName}} = builder.{{paramName}};
+      {{/requiredParams}}
+      {{#optionalParams}}
+      this.{{paramName}} = builder.{{paramName}};
+      {{/optionalParams}}
+    }
+    {{#allParams}}
+    public {{{dataType}}} {{paramName}}() {
+      return {{paramName}};
+    }
+    {{/allParams}}
+    public static Builder newBuilder() {
+      return new Builder();
+    }
+
+    public static class Builder {
+      {{#requiredParams}}
+      private {{{dataType}}} {{paramName}};
+      {{/requiredParams}}
+      {{#optionalParams}}
+      private {{{dataType}}} {{paramName}};
+      {{/optionalParams}}
+
+      {{#allParams}}
+      public Builder {{paramName}}({{{dataType}}} {{paramName}}) {
+        this.{{paramName}} = {{paramName}};
+        return this;
+      }
+      {{/allParams}}
+      public API{{operationId}}Request build() {
+        return new API{{operationId}}Request(this);
+      }
+    }
+  }
+
+  {{/hasParams}}
+  {{/vendorExtensions.x-group-parameters}}
   {{/operation}}
 }
 {{/operations}}
