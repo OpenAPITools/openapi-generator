@@ -173,7 +173,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, CodegenConstants.USE_SINGLE_REQUEST_PARAMETER_DESC, SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(SUPPORT_ASYNC, "If set, generate async function call instead", SchemaTypeUtil.BOOLEAN_TYPE)
+        cliOptions.add(new CliOption(SUPPORT_ASYNC, "If set, generate async function call instead. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.TRUE.toString()));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
@@ -181,10 +181,10 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use.");
         libraryOption.setEnum(supportedLibraries);
-        // set hyper as the default
-        libraryOption.setDefault(HYPER_LIBRARY);
+        // set reqwest as the default
+        libraryOption.setDefault(REQWEST_LIBRARY);
         cliOptions.add(libraryOption);
-        setLibrary(HYPER_LIBRARY);
+        setLibrary(REQWEST_LIBRARY);
     }
 
     @Override
