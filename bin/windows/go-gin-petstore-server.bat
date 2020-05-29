@@ -6,7 +6,7 @@ If Not Exist %executable% (
   mvn clean package
 )
 
-set SPEC=modules\openapi-generator\src\test\resources\2_0\petstore.yaml
+set SPEC=modules\openapi-generator\src\test\resources\3_0\petstore.yaml
 set GENERATOR=go-gin-server
 set STUB_DIR=samples\server\petstore\go-gin-api-server
 
