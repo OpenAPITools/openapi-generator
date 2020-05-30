@@ -143,7 +143,13 @@ When using selective generation, _only_ the templates needed for the specific ge
 To skip models defined as the form parameters in "requestBody", please use `skipFormModel` (default to false) (this option is introduced at v3.2.2)
 
 ```sh
-java -DskipFormModel=true
+java -DskipFormModel=true <path to jar> generate …
+```
+
+or
+
+```sh
+java <path to jar> generate --global-property skipFormModel=true …
 ```
 
 This option will be helpful to skip model generation due to the form parameter, which is defined differently in OAS3 as there's no form parameter in OAS3
