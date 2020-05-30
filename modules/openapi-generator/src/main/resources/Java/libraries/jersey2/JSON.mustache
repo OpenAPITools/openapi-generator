@@ -15,9 +15,15 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{#threetenbp}}
 import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 {{/threetenbp}}
+{{#models.0}}
+import {{modelPackage}}.*;
+{{/models.0}}
 
 import java.text.DateFormat;
-
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import javax.ws.rs.ext.ContextResolver;
 
 {{>generatedAnnotation}}
@@ -69,4 +75,114 @@ public class JSON implements ContextResolver<ObjectMapper> {
    * @return object mapper
    */
   public ObjectMapper getMapper() { return mapper; }
+
+  /**
+   * Returns the target model class that should be used to deserialize the input data.
+   * The discriminator mappings are used to determine the target model class.
+   *
+   * @param node The input data.
+   * @param modelClass The class that contains the discriminator mappings.
+   */
+  public static Class getClassForElement(JsonNode node, Class modelClass) {
+    ClassDiscriminatorMapping cdm = modelDiscriminators.get(modelClass);
+    if (cdm != null) {
+      // Determine the value of the discriminator property in the input data.
+      String discriminatorPropertyName = cdm.getPropertyName();
+      if (discriminatorPropertyName != null) {
+        // Get the value of the discriminator property, if present in the input payload.
+        node = node.get(discriminatorPropertyName);
+        if (node != null && node.isValueNode()) {
+          String discrValue = node.asText();
+          if (discrValue != null) {
+            return cdm.getClassForElement(discrValue, new HashSet<Class>());
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Helper class to register the discriminator mappings.
+   */
+  private static class ClassDiscriminatorMapping {
+    // The model class name.
+    Class modelClass;
+    // The name of the discriminator property.
+    String discriminatorName;
+    // The discriminator mappings for a model class.
+    Map<String, Class> discriminatorMappings;
+
+    // Constructs a new class discriminator.
+    ClassDiscriminatorMapping(Class cls, String name) {
+      modelClass = cls;
+      discriminatorName = name;
+      discriminatorMappings = new HashMap<String, Class>();
+    }
+
+    // Register a discriminator mapping for this class.
+    void registerMapping(String mapping, Class cls) {
+      discriminatorMappings.put(mapping, cls);
+    }
+
+    // Return the name of the discriminator property for this model class.
+    String getPropertyName() {
+      return discriminatorName;
+    }
+
+    /**
+     * Returns the target model class that should be used to deserialize the input data.
+     * The discriminator mappings are used to determine the target model class.
+     */
+    Class getClassForElement(String discrValue, Set<Class> visitedClasses) {
+      if (visitedClasses.contains(modelClass)) {
+        // Class has already been visited.
+        return null;
+      }
+      Class cls = discriminatorMappings.get(discrValue);
+      if (cls != null) {
+        return cls;
+      }
+      visitedClasses.add(modelClass);
+      for (Class child : discriminatorMappings.values()) {
+        ClassDiscriminatorMapping cdm = modelDiscriminators.get(child);
+        if (cdm != null) {
+          // Recursively traverse the discriminator mappings.
+          cls = cdm.getClassForElement(discrValue, visitedClasses);
+          if (cls != null) {
+            return cls;
+          }
+        }
+      }
+      return null;
+    }
+  }
+
+  private static Map<Class, ClassDiscriminatorMapping> modelDiscriminators = new HashMap<Class, ClassDiscriminatorMapping>();
+
+  /**
+   * Register the class discriminators.
+   */
+  private static void registerDiscriminators() {
+    {{#models}}
+    {{#model}}
+    {{#discriminator}}
+    {
+      // Initialize the discriminator mappings for '{{classname}}'.
+      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping({{classname}}.class, "{{propertyBaseName}}");
+      {{#mappedModels}}
+      m.registerMapping("{{mappingName}}", {{modelName}}.class);
+      {{/mappedModels}}
+      m.registerMapping("{{name}}", {{classname}}.class);
+      modelDiscriminators.put({{classname}}.class, m);
+    }
+    {{/discriminator}}
+    {{/model}}
+    {{/models}}
+  }
+
+  static {
+    registerDiscriminators();
+  }
+
 }

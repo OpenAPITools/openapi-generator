@@ -36,6 +36,7 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -48,6 +49,8 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 @JsonDeserialize(using=Mammal.MammalDeserializer.class)
 public class Mammal extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Mammal.class.getName());
+
+    private static Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
 
     public static class MammalDeserializer extends StdDeserializer<Mammal> {
         public MammalDeserializer() {
@@ -64,9 +67,25 @@ public class Mammal extends AbstractOpenApiSchema {
 
             int match = 0;
             Object deserialized = null;
+            Class cls = JSON.getClassForElement(tree, Mammal.class);
+            if (cls != null) {
+                // When the OAS schema includes a discriminator, use the discriminator value to
+                // discriminate the oneOf schemas.
+                // Get the discriminator mapping value to get the class.
+                log.info("Deserializing payload using discriminator " + cls.getName());
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
+                Mammal ret = new Mammal();
+                ret.setActualInstance(deserialized);
+                log.info("Deserialized payload using discriminator " + cls.getName());
+                return ret;
+            }
+            log.info("No discriminator value was found");
             // deserialize Pig
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Pig.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Pig'");
             } catch (Exception e) {
@@ -77,6 +96,9 @@ public class Mammal extends AbstractOpenApiSchema {
             // deserialize Whale
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Whale.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Whale'");
             } catch (Exception e) {
@@ -87,6 +109,9 @@ public class Mammal extends AbstractOpenApiSchema {
             // deserialize Zebra
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Zebra.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Zebra'");
             } catch (Exception e) {
@@ -132,6 +157,11 @@ public class Mammal extends AbstractOpenApiSchema {
         });
         schemas.put("Zebra", new GenericType<Zebra>() {
         });
+        // Initialize discriminator mappings.
+        classByDiscriminatorValue.put("Pig", Pig.class);
+        classByDiscriminatorValue.put("whale", Whale.class);
+        classByDiscriminatorValue.put("zebra", Zebra.class);
+        classByDiscriminatorValue.put("mammal", Mammal.class);
     }
 
     @Override

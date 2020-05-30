@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import {{invokerPackage}}.JSON;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,6 +19,10 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 @JsonDeserialize(using={{classname}}.{{classname}}Deserializer.class)
 public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
     private static final Logger log = Logger.getLogger({{classname}}.class.getName());
+
+    {{#discriminator}}
+    private static Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
+    {{/discriminator}}
 
     public static class {{classname}}Deserializer extends StdDeserializer<{{classname}}> {
         public {{classname}}Deserializer() {
@@ -34,10 +39,28 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
             int match = 0;
             Object deserialized = null;
+            {{#discriminator}}
+            Class cls = JSON.getClassForElement(tree, {{classname}}.class);
+            if (cls != null) {
+                // When the OAS schema includes a discriminator, use the discriminator value to
+                // discriminate the oneOf schemas.
+                // Get the discriminator mapping value to get the class.
+                log.info("Deserializing payload using discriminator " + cls.getName());
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
+                {{classname}} ret = new {{classname}}();
+                ret.setActualInstance(deserialized);
+                log.info("Deserialized payload using discriminator " + cls.getName());
+                return ret;
+            }
+            log.info("No discriminator value was found");
+            {{/discriminator}}
             {{#oneOf}}
             // deserialize {{{.}}}
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema '{{{.}}}'");
             } catch (Exception e) {
@@ -74,6 +97,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
         });
         {{/oneOf}}
+        {{#discriminator}}
+        // Initialize discriminator mappings.
+        {{#mappedModels}}
+        classByDiscriminatorValue.put("{{mappingName}}", {{modelName}}.class);
+        {{/mappedModels}}
+        classByDiscriminatorValue.put("{{name}}", {{classname}}.class);
+        {{/discriminator}}
     }
 
     @Override
@@ -83,13 +113,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     @Override
     public void setActualInstance(Object instance) {
-        {{#isNulalble}}
+        {{#isNullable}}
         if (instance == null) {
            super.setActualInstance(instance);
            return;
         }
 
-        {{/isNulalble}}
+        {{/isNullable}}
         {{#oneOf}}
         if (instance instanceof {{{.}}}) {
             super.setActualInstance(instance);

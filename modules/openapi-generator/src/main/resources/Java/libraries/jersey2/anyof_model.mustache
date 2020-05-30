@@ -78,13 +78,13 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     @Override
     public void setActualInstance(Object instance) {
-        {{#isNulalble}}
+        {{#isNullable}}
         if (instance == null) {
            super.setActualInstance(instance);
            return;
         }
 
-        {{/isNulalble}}
+        {{/isNullable}}
         {{#anyOf}}
         if (instance instanceof {{{.}}}) {
             super.setActualInstance(instance);

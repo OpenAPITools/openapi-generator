@@ -34,6 +34,7 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -46,6 +47,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 @JsonDeserialize(using=FruitReq.FruitReqDeserializer.class)
 public class FruitReq extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(FruitReq.class.getName());
+
 
     public static class FruitReqDeserializer extends StdDeserializer<FruitReq> {
         public FruitReqDeserializer() {
@@ -65,6 +67,9 @@ public class FruitReq extends AbstractOpenApiSchema {
             // deserialize AppleReq
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(AppleReq.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'AppleReq'");
             } catch (Exception e) {
@@ -75,6 +80,9 @@ public class FruitReq extends AbstractOpenApiSchema {
             // deserialize BananaReq
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(BananaReq.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'BananaReq'");
             } catch (Exception e) {
@@ -122,6 +130,11 @@ public class FruitReq extends AbstractOpenApiSchema {
 
     @Override
     public void setActualInstance(Object instance) {
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
         if (instance instanceof AppleReq) {
             super.setActualInstance(instance);
             return;

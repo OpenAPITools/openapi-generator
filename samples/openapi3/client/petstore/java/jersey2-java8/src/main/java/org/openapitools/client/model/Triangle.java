@@ -36,6 +36,7 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -48,6 +49,8 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 @JsonDeserialize(using=Triangle.TriangleDeserializer.class)
 public class Triangle extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Triangle.class.getName());
+
+    private static Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
 
     public static class TriangleDeserializer extends StdDeserializer<Triangle> {
         public TriangleDeserializer() {
@@ -64,9 +67,25 @@ public class Triangle extends AbstractOpenApiSchema {
 
             int match = 0;
             Object deserialized = null;
+            Class cls = JSON.getClassForElement(tree, Triangle.class);
+            if (cls != null) {
+                // When the OAS schema includes a discriminator, use the discriminator value to
+                // discriminate the oneOf schemas.
+                // Get the discriminator mapping value to get the class.
+                log.info("Deserializing payload using discriminator " + cls.getName());
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
+                Triangle ret = new Triangle();
+                ret.setActualInstance(deserialized);
+                log.info("Deserialized payload using discriminator " + cls.getName());
+                return ret;
+            }
+            log.info("No discriminator value was found");
             // deserialize EquilateralTriangle
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(EquilateralTriangle.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'EquilateralTriangle'");
             } catch (Exception e) {
@@ -77,6 +96,9 @@ public class Triangle extends AbstractOpenApiSchema {
             // deserialize IsoscelesTriangle
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(IsoscelesTriangle.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'IsoscelesTriangle'");
             } catch (Exception e) {
@@ -87,6 +109,9 @@ public class Triangle extends AbstractOpenApiSchema {
             // deserialize ScaleneTriangle
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(ScaleneTriangle.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'ScaleneTriangle'");
             } catch (Exception e) {
@@ -132,6 +157,11 @@ public class Triangle extends AbstractOpenApiSchema {
         });
         schemas.put("ScaleneTriangle", new GenericType<ScaleneTriangle>() {
         });
+        // Initialize discriminator mappings.
+        classByDiscriminatorValue.put("EquilateralTriangle", EquilateralTriangle.class);
+        classByDiscriminatorValue.put("IsoscelesTriangle", IsoscelesTriangle.class);
+        classByDiscriminatorValue.put("ScaleneTriangle", ScaleneTriangle.class);
+        classByDiscriminatorValue.put("Triangle", Triangle.class);
     }
 
     @Override

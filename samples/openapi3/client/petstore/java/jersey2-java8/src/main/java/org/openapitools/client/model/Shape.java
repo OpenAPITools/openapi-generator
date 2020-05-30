@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -47,6 +48,8 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 @JsonDeserialize(using=Shape.ShapeDeserializer.class)
 public class Shape extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Shape.class.getName());
+
+    private static Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
 
     public static class ShapeDeserializer extends StdDeserializer<Shape> {
         public ShapeDeserializer() {
@@ -63,9 +66,25 @@ public class Shape extends AbstractOpenApiSchema {
 
             int match = 0;
             Object deserialized = null;
+            Class cls = JSON.getClassForElement(tree, Shape.class);
+            if (cls != null) {
+                // When the OAS schema includes a discriminator, use the discriminator value to
+                // discriminate the oneOf schemas.
+                // Get the discriminator mapping value to get the class.
+                log.info("Deserializing payload using discriminator " + cls.getName());
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
+                Shape ret = new Shape();
+                ret.setActualInstance(deserialized);
+                log.info("Deserialized payload using discriminator " + cls.getName());
+                return ret;
+            }
+            log.info("No discriminator value was found");
             // deserialize Quadrilateral
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Quadrilateral.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Quadrilateral'");
             } catch (Exception e) {
@@ -76,6 +95,9 @@ public class Shape extends AbstractOpenApiSchema {
             // deserialize Triangle
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Triangle.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Triangle'");
             } catch (Exception e) {
@@ -114,6 +136,10 @@ public class Shape extends AbstractOpenApiSchema {
         });
         schemas.put("Triangle", new GenericType<Triangle>() {
         });
+        // Initialize discriminator mappings.
+        classByDiscriminatorValue.put("Quadrilateral", Quadrilateral.class);
+        classByDiscriminatorValue.put("Triangle", Triangle.class);
+        classByDiscriminatorValue.put("Shape", Shape.class);
     }
 
     @Override
