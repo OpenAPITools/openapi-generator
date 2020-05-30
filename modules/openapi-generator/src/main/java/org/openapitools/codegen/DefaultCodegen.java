@@ -3908,12 +3908,12 @@ public class DefaultCodegen implements CodegenConfig {
                     innerCp = innerCp.items;
                 }
             } else {
+                //fix for the operations containing custom reference schema
                 if (cp.complexType != null) {
-                   if(cp.items!=null){
-                      r.baseType=cp.items.complexType;
-                    }
-                   else{
-                     r.baseType = cp.complexType;
+                    if (cp.items != null) {
+                        r.baseType = cp.items.complexType;
+                    } else {
+                        r.baseType = cp.complexType;
                     }
                     r.isModel = true;
                 } else {

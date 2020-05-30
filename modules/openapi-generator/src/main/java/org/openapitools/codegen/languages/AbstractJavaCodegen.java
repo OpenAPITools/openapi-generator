@@ -797,7 +797,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             Schema<?> items = getSchemaItems((ArraySchema) schema);
 
-            String typeDeclaration = getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items));
+            String typeDeclaration = getTypeDeclaration(items);
             Object java8obj = additionalProperties.get("java8");
             if (java8obj != null) {
                 Boolean java8 = Boolean.valueOf(java8obj.toString());
