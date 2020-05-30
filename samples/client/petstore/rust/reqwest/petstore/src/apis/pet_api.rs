@@ -34,66 +34,80 @@ impl PetApiClient {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddPetErrors {
-    // TODO Generate an enum case for each error described in schema.
+    Status405(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
+
 /// struct for typed errors of method `delete_pet`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeletePetErrors {
-    // TODO Generate an enum case for each error described in schema.
+    Status400(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
+
 /// struct for typed errors of method `find_pets_by_status`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByStatusErrors {
-    // TODO Generate an enum case for each error described in schema.
+    DefaultResponse(Vec<crate::models::Pet>),
+    Status400(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
+
 /// struct for typed errors of method `find_pets_by_tags`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByTagsErrors {
-    // TODO Generate an enum case for each error described in schema.
+    DefaultResponse(Vec<crate::models::Pet>),
+    Status400(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
+
 /// struct for typed errors of method `get_pet_by_id`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPetByIdErrors {
-    // TODO Generate an enum case for each error described in schema.
+    DefaultResponse(crate::models::Pet),
+    Status400(),
+    Status404(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
+
 /// struct for typed errors of method `update_pet`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetErrors {
-    // TODO Generate an enum case for each error described in schema.
+    Status400(),
+    Status404(),
+    Status405(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
+
 /// struct for typed errors of method `update_pet_with_form`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetWithFormErrors {
-    // TODO Generate an enum case for each error described in schema.
+    Status405(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
+
 /// struct for typed errors of method `upload_file`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UploadFileErrors {
-    // TODO Generate an enum case for each error described in schema.
+    DefaultResponse(crate::models::ApiResponse),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
+
 
 pub trait PetApi {
     fn add_pet(&self, body: crate::models::Pet) -> Result<(), Error<AddPetErrors>>;

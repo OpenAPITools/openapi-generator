@@ -34,34 +34,42 @@ impl StoreApiClient {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteOrderErrors {
-    // TODO Generate an enum case for each error described in schema.
+    Status400(),
+    Status404(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
+
 /// struct for typed errors of method `get_inventory`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInventoryErrors {
-    // TODO Generate an enum case for each error described in schema.
+    DefaultResponse(::std::collections::HashMap<String, i32>),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
+
 /// struct for typed errors of method `get_order_by_id`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetOrderByIdErrors {
-    // TODO Generate an enum case for each error described in schema.
+    DefaultResponse(crate::models::Order),
+    Status400(),
+    Status404(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
+
 /// struct for typed errors of method `place_order`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PlaceOrderErrors {
-    // TODO Generate an enum case for each error described in schema.
+    DefaultResponse(crate::models::Order),
+    Status400(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
+
 
 pub trait StoreApi {
     fn delete_order(&self, order_id: &str) -> Result<(), Error<DeleteOrderErrors>>;

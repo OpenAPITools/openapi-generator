@@ -34,10 +34,11 @@ impl DefaultApiClient {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DummyGetErrors {
-    // TODO Generate an enum case for each error described in schema.
+    DefaultResponse(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
+
 
 pub trait DefaultApi {
     fn dummy_get(&self, ) -> Result<(), Error<DummyGetErrors>>;

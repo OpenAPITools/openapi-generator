@@ -34,10 +34,11 @@ impl DefaultApiClient {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FileresponsetestErrors {
-    // TODO Generate an enum case for each error described in schema.
+    DefaultResponse(std::path::PathBuf),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
+
 
 pub trait DefaultApi {
     fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error<FileresponsetestErrors>>;
