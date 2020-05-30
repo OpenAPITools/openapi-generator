@@ -11,16 +11,16 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
 try:
-    from petstore_api.models import file
+    from petstore_api.model import file
 except ImportError:
     file = sys.modules[
-        'petstore_api.models.file']
-from petstore_api.models.file_schema_test_class import FileSchemaTestClass
+        'petstore_api.model.file']
+from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 
 
 class TestFileSchemaTestClass(unittest.TestCase):

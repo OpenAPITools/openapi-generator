@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.type_holder_example import TypeHolderExample
+from petstore_api.model.type_holder_example import TypeHolderExample
 
 
 class TestTypeHolderExample(unittest.TestCase):

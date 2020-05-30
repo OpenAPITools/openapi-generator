@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.outer_number import OuterNumber
+from petstore_api.model.outer_number import OuterNumber
 
 
 class TestOuterNumber(unittest.TestCase):

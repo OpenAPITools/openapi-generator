@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.child_dog_all_of import ChildDogAllOf
+from petstore_api.model.child_dog_all_of import ChildDogAllOf
 
 
 class TestChildDogAllOf(unittest.TestCase):

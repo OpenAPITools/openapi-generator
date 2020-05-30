@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.outer_enum import OuterEnum
+from petstore_api.model.outer_enum import OuterEnum
 
 
 class TestOuterEnum(unittest.TestCase):

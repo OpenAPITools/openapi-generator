@@ -11,16 +11,16 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
 try:
-    from petstore_api.models import outer_number
+    from petstore_api.model import outer_number
 except ImportError:
     outer_number = sys.modules[
-        'petstore_api.models.outer_number']
-from petstore_api.models.outer_composite import OuterComposite
+        'petstore_api.model.outer_number']
+from petstore_api.model.outer_composite import OuterComposite
 
 
 class TestOuterComposite(unittest.TestCase):

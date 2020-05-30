@@ -11,21 +11,21 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
 try:
-    from petstore_api.models import animal
+    from petstore_api.model import animal
 except ImportError:
     animal = sys.modules[
-        'petstore_api.models.animal']
+        'petstore_api.model.animal']
 try:
-    from petstore_api.models import dog_all_of
+    from petstore_api.model import dog_all_of
 except ImportError:
     dog_all_of = sys.modules[
-        'petstore_api.models.dog_all_of']
-from petstore_api.models.dog import Dog
+        'petstore_api.model.dog_all_of']
+from petstore_api.model.dog import Dog
 
 
 class TestDog(unittest.TestCase):

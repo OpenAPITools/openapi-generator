@@ -51,7 +51,7 @@ class TestFakeApi(unittest.TestCase):
 
         """
         # verify that the input and output are type OuterEnum
-        from petstore_api.models import outer_enum
+        from petstore_api.model import outer_enum
         endpoint = self.api.fake_outer_enum_serialize
         assert endpoint.openapi_types['body'] == (outer_enum.OuterEnum,)
         assert endpoint.settings['response_type'] == (outer_enum.OuterEnum,)
@@ -61,7 +61,7 @@ class TestFakeApi(unittest.TestCase):
 
         """
         # verify that the input and output are the correct type
-        from petstore_api.models import outer_number
+        from petstore_api.model import outer_number
         endpoint = self.api.fake_outer_number_serialize
         assert endpoint.openapi_types['body'] == (outer_number.OuterNumber,)
         assert endpoint.settings['response_type'] == (outer_number.OuterNumber,)

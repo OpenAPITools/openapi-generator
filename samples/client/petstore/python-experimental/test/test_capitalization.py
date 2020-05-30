@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.capitalization import Capitalization
+from petstore_api.model.capitalization import Capitalization
 
 
 class TestCapitalization(unittest.TestCase):

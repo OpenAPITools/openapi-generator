@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.category import Category
+from petstore_api.model.category import Category
 
 
 class TestCategory(unittest.TestCase):

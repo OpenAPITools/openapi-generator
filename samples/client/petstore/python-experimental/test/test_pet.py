@@ -11,21 +11,21 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
 try:
-    from petstore_api.models import category
+    from petstore_api.model import category
 except ImportError:
     category = sys.modules[
-        'petstore_api.models.category']
+        'petstore_api.model.category']
 try:
     from petstore_api.models import tag
 except ImportError:
     tag = sys.modules[
-        'petstore_api.models.tag']
-from petstore_api.models.pet import Pet
+        'petstore_api.model.tag']
+from petstore_api.model.pet import Pet
 
 
 class TestPet(unittest.TestCase):

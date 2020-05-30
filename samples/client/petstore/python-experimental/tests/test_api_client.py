@@ -171,10 +171,10 @@ class ApiClientTests(unittest.TestCase):
                     "status": "available",
                     "photoUrls": ["http://foo.bar.com/3",
                                   "http://foo.bar.com/4"]}
-        from petstore_api.models.pet import Pet
-        from petstore_api.models.category import Category
-        from petstore_api.models.tag import Tag
-        from petstore_api.models.string_boolean_map import StringBooleanMap
+        from petstore_api.model.pet import Pet
+        from petstore_api.model.category import Category
+        from petstore_api.model.tag import Tag
+        from petstore_api.model.string_boolean_map import StringBooleanMap
         pet = Pet(name=pet_dict["name"], photo_urls=pet_dict["photoUrls"])
         pet.id = pet_dict["id"]
         cate = Category()

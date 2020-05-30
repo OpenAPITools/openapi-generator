@@ -11,16 +11,16 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
 try:
-    from petstore_api.models import outer_enum
+    from petstore_api.model import outer_enum
 except ImportError:
     outer_enum = sys.modules[
-        'petstore_api.models.outer_enum']
-from petstore_api.models.enum_test import EnumTest
+        'petstore_api.model.outer_enum']
+from petstore_api.model.enum_test import EnumTest
 
 
 class TestEnumTest(unittest.TestCase):

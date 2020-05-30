@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.additional_properties_boolean import AdditionalPropertiesBoolean
+from petstore_api.model.additional_properties_boolean import AdditionalPropertiesBoolean
 
 
 class TestAdditionalPropertiesBoolean(unittest.TestCase):

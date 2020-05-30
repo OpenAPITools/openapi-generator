@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
+from petstore_api.model.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
 
 
 class TestArrayOfArrayOfNumberOnly(unittest.TestCase):

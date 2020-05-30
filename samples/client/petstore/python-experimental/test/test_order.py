@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.order import Order
+from petstore_api.model.order import Order
 
 
 class TestOrder(unittest.TestCase):

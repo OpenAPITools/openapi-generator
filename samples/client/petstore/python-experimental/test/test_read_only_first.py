@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.read_only_first import ReadOnlyFirst
+from petstore_api.model.read_only_first import ReadOnlyFirst
 
 
 class TestReadOnlyFirst(unittest.TestCase):

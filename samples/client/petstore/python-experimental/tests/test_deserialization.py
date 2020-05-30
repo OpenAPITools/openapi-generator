@@ -24,7 +24,7 @@ from petstore_api.exceptions import (
     ApiKeyError,
     ApiValueError,
 )
-from petstore_api.models import (
+from petstore_api.model import (
     enum_test,
     pet,
     animal,

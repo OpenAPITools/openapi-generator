@@ -11,31 +11,31 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
 try:
-    from petstore_api.models import child_cat
+    from petstore_api.model import child_cat
 except ImportError:
     child_cat = sys.modules[
-        'petstore_api.models.child_cat']
+        'petstore_api.model.child_cat']
 try:
-    from petstore_api.models import child_dog
+    from petstore_api.model import child_dog
 except ImportError:
     child_dog = sys.modules[
-        'petstore_api.models.child_dog']
+        'petstore_api.model.child_dog']
 try:
-    from petstore_api.models import child_lizard
+    from petstore_api.model import child_lizard
 except ImportError:
     child_lizard = sys.modules[
-        'petstore_api.models.child_lizard']
+        'petstore_api.model.child_lizard']
 try:
-    from petstore_api.models import parent_pet
+    from petstore_api.model import parent_pet
 except ImportError:
     parent_pet = sys.modules[
-        'petstore_api.models.parent_pet']
-from petstore_api.models.grandparent_animal import GrandparentAnimal
+        'petstore_api.model.parent_pet']
+from petstore_api.model.grandparent_animal import GrandparentAnimal
 
 
 class TestGrandparentAnimal(unittest.TestCase):

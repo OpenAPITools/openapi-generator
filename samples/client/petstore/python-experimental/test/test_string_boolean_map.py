@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.string_boolean_map import StringBooleanMap
+from petstore_api.model.string_boolean_map import StringBooleanMap
 
 
 class TestStringBooleanMap(unittest.TestCase):

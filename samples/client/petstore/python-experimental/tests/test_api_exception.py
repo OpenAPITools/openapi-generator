@@ -27,7 +27,7 @@ class ApiExceptionTests(unittest.TestCase):
         self.setUpModels()
 
     def setUpModels(self):
-        from petstore_api.models import category, tag, pet
+        from petstore_api.model import category, tag, pet
         self.category = category.Category()
         self.category.id = id_gen()
         self.category.name = "dog"

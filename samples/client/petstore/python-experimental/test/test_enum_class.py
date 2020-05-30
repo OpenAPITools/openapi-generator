@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.enum_class import EnumClass
+from petstore_api.model.enum_class import EnumClass
 
 
 class TestEnumClass(unittest.TestCase):

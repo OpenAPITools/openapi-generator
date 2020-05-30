@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.name import Name
+from petstore_api.model.name import Name
 
 
 class TestName(unittest.TestCase):

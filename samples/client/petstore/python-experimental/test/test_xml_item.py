@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.xml_item import XmlItem
+from petstore_api.model.xml_item import XmlItem
 
 
 class TestXmlItem(unittest.TestCase):

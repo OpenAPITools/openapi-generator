@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.grandparent import Grandparent
+from petstore_api.model.grandparent import Grandparent
 
 
 class TestGrandparent(unittest.TestCase):

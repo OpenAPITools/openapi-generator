@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.has_only_read_only import HasOnlyReadOnly
+from petstore_api.model.has_only_read_only import HasOnlyReadOnly
 
 
 class TestHasOnlyReadOnly(unittest.TestCase):

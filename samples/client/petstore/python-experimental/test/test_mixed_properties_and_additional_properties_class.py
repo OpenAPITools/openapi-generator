@@ -11,16 +11,16 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
 try:
-    from petstore_api.models import animal
+    from petstore_api.model import animal
 except ImportError:
     animal = sys.modules[
-        'petstore_api.models.animal']
-from petstore_api.models.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
+        'petstore_api.model.animal']
+from petstore_api.model.mixed_properties_and_additional_properties_class import MixedPropertiesAndAdditionalPropertiesClass
 
 
 class TestMixedPropertiesAndAdditionalPropertiesClass(unittest.TestCase):

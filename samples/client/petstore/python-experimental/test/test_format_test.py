@@ -11,11 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
-from petstore_api.models.format_test import FormatTest
+from petstore_api.model.format_test import FormatTest
 
 
 class TestFormatTest(unittest.TestCase):

@@ -31,7 +31,7 @@ from petstore_api.exceptions import (
     ApiTypeError,
 )
 from petstore_api.api.pet_api import PetApi
-from petstore_api.models import pet
+from petstore_api.model import pet
 from .util import id_gen
 
 import urllib3
@@ -81,7 +81,7 @@ class PetApiTests(unittest.TestCase):
         self.setUpFiles()
 
     def setUpModels(self):
-        from petstore_api.models import category, tag
+        from petstore_api.model import category, tag
         self.category = category.Category()
         self.category.id = id_gen()
         self.category.name = "dog"

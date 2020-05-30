@@ -11,21 +11,21 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
 try:
-    from petstore_api.models import child_all_of
+    from petstore_api.model import child_all_of
 except ImportError:
     child_all_of = sys.modules[
-        'petstore_api.models.child_all_of']
+        'petstore_api.model.child_all_of']
 try:
-    from petstore_api.models import parent
+    from petstore_api.model import parent
 except ImportError:
     parent = sys.modules[
-        'petstore_api.models.parent']
-from petstore_api.models.child import Child
+        'petstore_api.model.parent']
+from petstore_api.model.child import Child
 
 
 class TestChild(unittest.TestCase):
