@@ -705,7 +705,7 @@
         </profile>
         <profile>
             <id>java-client-openapi3-jersey2-java8</id>
-            <activatios>
+            <activation>
                 <property>
                     <name>env</name>
                     <value>java</value>
