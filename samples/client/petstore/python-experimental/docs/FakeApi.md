@@ -42,6 +42,8 @@ from pprint import pprint
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
@@ -102,6 +104,8 @@ from pprint import pprint
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
@@ -164,6 +168,8 @@ from pprint import pprint
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
@@ -226,6 +232,8 @@ from pprint import pprint
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
@@ -288,6 +296,8 @@ from pprint import pprint
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
@@ -349,6 +359,8 @@ from pprint import pprint
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
@@ -411,6 +423,8 @@ from pprint import pprint
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
@@ -469,6 +483,8 @@ from pprint import pprint
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
@@ -531,6 +547,8 @@ from pprint import pprint
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
@@ -592,6 +610,8 @@ from pprint import pprint
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
@@ -762,6 +782,8 @@ from pprint import pprint
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
@@ -838,6 +860,8 @@ from pprint import pprint
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
@@ -914,6 +938,8 @@ from pprint import pprint
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
@@ -972,6 +998,8 @@ from pprint import pprint
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
+
+
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
