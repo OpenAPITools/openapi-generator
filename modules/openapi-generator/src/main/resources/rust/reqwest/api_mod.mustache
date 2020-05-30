@@ -35,13 +35,18 @@ pub fn urlencode<T: AsRef<str>>(s: T) -> String {
 mod {{{classFilename}}};
 {{#operations}}
 {{#operation}}
+{{^supportAsync}}
 {{#-first}}
 pub use self::{{{classFilename}}}::{ {{{classname}}}, {{{classname}}}Client };
 {{/-first}}
+{{/supportAsync}}
+{{#supportAsync}}
+pub use self::{{{classFilename}}}::{ {{{operationId}}} };
+{{/supportAsync}}
 {{#vendorExtensions.x-group-parameters}}
 {{#allParams}}
 {{#-first}}
-pub use self::{{{classFilename}}}::{ {{{classname}}}{{{operationIdCamelCase}}}Params };
+pub use self::{{{classFilename}}}::{{{operationIdCamelCase}}} as {{{classname}}}{{{operationIdCamelCase}}};
 {{/-first}}
 {{/allParams}}
 {{/vendorExtensions.x-group-parameters}}
@@ -50,5 +55,7 @@ pub use self::{{{classFilename}}}::{ {{{classname}}}{{{operationIdCamelCase}}}Pa
 {{/apis}}
 {{/apiInfo}}
 
-pub mod configuration;
+{{^supportAsync}}
 pub mod client;
+{{/supportAsync}}
+pub mod configuration;

@@ -57,7 +57,6 @@ In your Angular project:
 import { ApiModule } from '@openapitools/typescript-angular-petstore';
 import { HttpClientModule } from '@angular/common/http';
 
-
 @NgModule({
     imports: [
         ApiModule,
@@ -136,7 +135,6 @@ in order to avoid naming conflicts:
 import { ApiModule } from 'my-api-path';
 import { ApiModule as OtherApiModule } from 'my-other-api-path';
 import { HttpClientModule } from '@angular/common/http';
-
 
 @NgModule({
   imports: [
