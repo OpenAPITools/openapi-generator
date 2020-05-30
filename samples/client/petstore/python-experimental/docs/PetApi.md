@@ -28,7 +28,7 @@ from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import pet_api
-
+from petstore_api.model import pet
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -185,7 +185,7 @@ from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import pet_api
-
+from petstore_api.model import pet
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -261,7 +261,7 @@ from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import pet_api
-
+from petstore_api.model import pet
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -337,7 +337,7 @@ from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import pet_api
-
+from petstore_api.model import pet
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -416,7 +416,7 @@ from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import pet_api
-
+from petstore_api.model import pet
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -574,7 +574,7 @@ from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import pet_api
-
+from petstore_api.model import api_response
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -662,7 +662,7 @@ from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import pet_api
-
+from petstore_api.model import api_response
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
