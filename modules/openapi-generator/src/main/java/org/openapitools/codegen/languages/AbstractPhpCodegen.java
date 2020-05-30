@@ -218,7 +218,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
         // supportingFiles.add(new SupportingFile("LICENSE", "", "LICENSE"));
 
         // all PHP codegens requires Composer, it means that we need to exclude from SVN at least vendor folder
-        supportingFiles.add(new SupportingFile(".gitignore", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
 
     public String getPackageName() {
@@ -301,7 +301,7 @@ public abstract class AbstractPhpCodegen extends DefaultCodegen implements Codeg
             }
             return getTypeDeclaration(inner) + "[]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             if (inner == null) {
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
                 inner = new StringSchema().description("TODO default missing map inner type to string");

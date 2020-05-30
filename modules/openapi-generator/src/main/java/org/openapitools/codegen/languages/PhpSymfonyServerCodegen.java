@@ -300,6 +300,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         additionalProperties.put("escapedInvokerPackage", invokerPackage.replace("\\", "\\\\"));
         additionalProperties.put("controllerPackage", controllerPackage);
         additionalProperties.put("servicePackage", servicePackage);
+        additionalProperties.put("testsPackage", testsPackage);
         additionalProperties.put("apiTestsPackage", apiTestsPackage);
         additionalProperties.put("modelTestsPackage", modelTestsPackage);
         additionalProperties.put("controllerTestsPackage", controllerTestsPackage);
@@ -349,7 +350,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         // Testing components
         supportingFiles.add(new SupportingFile("testing/phpunit.xml.mustache", "", "phpunit.xml.dist"));
         supportingFiles.add(new SupportingFile("testing/pom.xml", "", "pom.xml"));
-        supportingFiles.add(new SupportingFile("testing/AppKernel.php", toSrcPath(testsPackage, srcBasePath), "AppKernel.php"));
+        supportingFiles.add(new SupportingFile("testing/AppKernel.mustache", toSrcPath(testsPackage, srcBasePath), "AppKernel.php"));
         supportingFiles.add(new SupportingFile("testing/ControllerTest.mustache", toSrcPath(controllerTestsPackage, srcBasePath), "ControllerTest.php"));
         supportingFiles.add(new SupportingFile("testing/test_config.yml", toSrcPath(testsPackage, srcBasePath), "test_config.yml"));
 
@@ -360,7 +361,8 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
-        supportingFiles.add(new SupportingFile(".php_cs", "", ".php_cs"));
+        supportingFiles.add(new SupportingFile(".php_cs.dist", "", ".php_cs.dist"));
+        supportingFiles.add(new SupportingFile(".coveralls.yml", "", ".coveralls.yml"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
 
         // Type-hintable primitive types
@@ -541,7 +543,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         }
 
         if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getTypeDeclaration(inner);
         }
 

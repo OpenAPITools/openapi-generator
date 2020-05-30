@@ -289,9 +289,8 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(cm.classname, "sample.Sample");
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
-        Assert.assertEquals(cm.parent, "dict");
-        Assert.assertEquals(cm.imports.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("children.Children")).size(), 1);
+        Assert.assertEquals(cm.parent, null);
+        Assert.assertEquals(cm.imports.size(), 0);
     }
 
 }

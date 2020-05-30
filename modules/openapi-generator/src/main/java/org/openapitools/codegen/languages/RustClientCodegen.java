@@ -39,12 +39,13 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
     private boolean useSingleRequestParameter = false;
+    private boolean supportAsync = true;
 
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
-
     public static final String HYPER_LIBRARY = "hyper";
     public static final String REQWEST_LIBRARY = "reqwest";
+    public static final String SUPPORT_ASYNC = "supportAsync";
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -172,16 +173,18 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, CodegenConstants.USE_SINGLE_REQUEST_PARAMETER_DESC, SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(SUPPORT_ASYNC, "If set, generate async function call instead. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.TRUE.toString()));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use.");
         libraryOption.setEnum(supportedLibraries);
-        // set hyper as the default
-        libraryOption.setDefault(HYPER_LIBRARY);
+        // set reqwest as the default
+        libraryOption.setDefault(REQWEST_LIBRARY);
         cliOptions.add(libraryOption);
-        setLibrary(HYPER_LIBRARY);
+        setLibrary(REQWEST_LIBRARY);
     }
 
     @Override
@@ -252,6 +255,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         writePropertyBack(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
 
+        if (additionalProperties.containsKey(SUPPORT_ASYNC)) {
+            this.setSupportAsync(convertPropertyToBoolean(SUPPORT_ASYNC));
+        }
+        writePropertyBack(SUPPORT_ASYNC, getSupportAsync());
+
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
@@ -279,13 +287,22 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         supportingFiles.add(new SupportingFile("lib.mustache", "src", "lib.rs"));
         supportingFiles.add(new SupportingFile("Cargo.mustache", "", "Cargo.toml"));
 
+        supportingFiles.add(new SupportingFile(getLibrary() + "/api_mod.mustache", apiFolder, "mod.rs"));
+        supportingFiles.add(new SupportingFile(getLibrary() + "/configuration.mustache", apiFolder, "configuration.rs"));
         if (HYPER_LIBRARY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("request.rs", apiFolder, "request.rs"));
         }
+        if (!getSupportAsync()) { // for sync only
+            supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
+        }
+    }
 
-        supportingFiles.add(new SupportingFile(getLibrary() + "/configuration.mustache", apiFolder, "configuration.rs"));
-        supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
-        supportingFiles.add(new SupportingFile(getLibrary() + "/api_mod.mustache", apiFolder, "mod.rs"));
+    private boolean getSupportAsync() {
+        return supportAsync;
+    }
+
+    private void setSupportAsync(boolean supportAsync) {
+        this.supportAsync = supportAsync;
     }
 
     private boolean getUseSingleRequestParameter() {
@@ -416,7 +433,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
             return "Vec<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             if (inner == null) {
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
                 inner = new StringSchema().description("TODO default missing map inner type to string");

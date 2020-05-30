@@ -18,6 +18,7 @@ import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
+    ApiTypeError,
     ModelComposed,
     ModelNormal,
     ModelSimple,
@@ -32,6 +33,11 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_get_composed_info,
 )
+try:
+    from petstore_api.models import pig
+except ImportError:
+    pig = sys.modules[
+        'petstore_api.models.pig']
 try:
     from petstore_api.models import whale
 except ImportError:
@@ -79,7 +85,9 @@ class Mammal(ModelComposed):
     validations = {
     }
 
-    additional_properties_type = None
+    additional_properties_type = (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
+
+    _nullable = False
 
     @cached_property
     def openapi_types():
@@ -101,6 +109,7 @@ class Mammal(ModelComposed):
     @cached_property
     def discriminator():
         val = {
+            'Pig': pig.Pig,
             'whale': whale.Whale,
             'zebra': zebra.Zebra,
         }
@@ -128,7 +137,7 @@ class Mammal(ModelComposed):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, class_name, _check_type=True, _spec_property_naming=False, _path_to_item=(), _configuration=None, _visited_composed_classes=(), **kwargs):  # noqa: E501
+    def __init__(self, class_name, *args, **kwargs):  # noqa: E501
         """mammal.Mammal - a model defined in OpenAPI
 
         Args:
@@ -169,6 +178,22 @@ class Mammal(ModelComposed):
             has_teeth (bool): [optional]  # noqa: E501
             type (str): [optional]  # noqa: E501
         """
+
+        _check_type = kwargs.pop('_check_type', True)
+        _spec_property_naming = kwargs.pop('_spec_property_naming', False)
+        _path_to_item = kwargs.pop('_path_to_item', ())
+        _configuration = kwargs.pop('_configuration', None)
+        _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
+
+        if args:
+            raise ApiTypeError(
+                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                    args,
+                    self.__class__.__name__,
+                ),
+                path_to_item=_path_to_item,
+                valid_classes=(self.__class__,),
+            )
 
         self._data_store = {}
         self._check_type = _check_type
@@ -228,6 +253,7 @@ class Mammal(ModelComposed):
           'allOf': [
           ],
           'oneOf': [
+              pig.Pig,
               whale.Whale,
               zebra.Zebra,
           ],

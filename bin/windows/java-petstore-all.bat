@@ -1,5 +1,4 @@
 call .\bin\windows\java-petstore-feign-10x.bat
-call .\bin\windows\java-petstore-feign.bat
 call .\bin\windows\java-petstore-google-api-client.bat
 call .\bin\windows\java-petstore-jersey1.bat
 call .\bin\windows\java-petstore-jersey2-java8.bat
@@ -11,7 +10,6 @@ call .\bin\windows\java-petstore-rest-assured-jackson.bat
 call .\bin\windows\java-petstore-resteasy.bat
 call .\bin\windows\java-petstore-resttemplate-withxml.bat
 call .\bin\windows\java-petstore-resttemplate.bat
-call .\bin\windows\java-petstore-retrofit.bat
 call .\bin\windows\java-petstore-retrofit2-play24.bat
 call .\bin\windows\java-petstore-retrofit2-play25.bat
 call .\bin\windows\java-petstore-retrofit2-play26.bat

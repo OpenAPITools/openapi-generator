@@ -44,7 +44,7 @@ If you find OpenAPI Generator useful for work, please consider asking your compa
 [![NamSor](https://openapi-generator.tech/img/companies/namsor.png)](https://www.namsor.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [![LightBow](https://openapi-generator.tech/img/companies/lightbow.png)](https://www.lightbow.net/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 [<img src="https://openapi-generator.tech/img/companies/docspring.png" width="128" height="128">](https://docspring.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
-
+[<img src="https://openapi-generator.tech/img/companies/datadog.png" width="128" height="128">](https://datadoghq.com/?utm_source=openapi_generator&utm_medium=github_webpage&utm_campaign=sponsor)
 
 #### Thank you GoDaddy for sponsoring the domain names, Linode for sponsoring the VPS and Checkly for sponsoring the API monitoring
 
@@ -283,7 +283,7 @@ To generate code with this image, you'll need to mount a local location as a vol
 Example:
 
 ```sh
-docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli generate \
+docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
     -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
     -g go \
     -o /local/out/go
@@ -579,6 +579,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Commencis](https://www.commencis.com/)
 - [Crossover Health](https://crossoverhealth.com/)
 - [Cupix](https://www.cupix.com/)
+- [Datadog](https://www.datadoghq.com)
 - [DB Systel](https://www.dbsystel.de)
 - [DocSpring](https://docspring.com/)
 - [dwango](https://dwango.co.jp/)

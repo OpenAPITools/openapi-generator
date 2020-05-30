@@ -15,13 +15,14 @@ openapi-generator help
 usage: openapi-generator-cli <command> [<args>]
 
 The most commonly used openapi-generator-cli commands are:
+    author        Utilities for authoring generators or customizing templates.
     config-help   Config help for chosen lang
     generate      Generate code with the specified generator.
-    help          Display help information
+    help          Display help information about openapi-generator
     list          Lists the available generators
     meta          MetaGenerator. Generator for creating a new template set and configuration for Codegen.  The output will be based on the language you specify, and includes default templates to include.
     validate      Validate specification
-    version       Show version information
+    version       Show version information used in tooling
 
 See 'openapi-generator-cli help <command>' for more information on a specific
 command.
@@ -671,3 +672,87 @@ EOF
 openapi-generator batch *.yaml
 ```
 
+## author
+
+This command group contains utilities for authoring generators or customizing templates.
+
+```
+openapi-generator help author
+NAME
+        openapi-generator-cli author - Utilities for authoring generators or
+        customizing templates.
+
+SYNOPSIS
+        openapi-generator-cli author
+        openapi-generator-cli author template [(-v | --verbose)]
+                [(-o <output directory> | --output <output directory>)]
+                [--library <library>]
+                (-g <generator name> | --generator-name <generator name>)
+
+OPTIONS
+        --help
+            Display help about the tool
+
+        --version
+            Display full version output
+
+COMMANDS
+        With no arguments, Display help information about openapi-generator
+
+        template
+            Retrieve templates for local modification
+
+            With --verbose option, verbose mode
+
+            With --output option, where to write the template files (defaults to
+            'out')
+
+            With --library option, library template (sub-template)
+
+            With --generator-name option, generator to use (see list command for
+            list)
+```
+
+### template
+
+This command allows user to extract templates from the CLI jar which simplifies customization efforts.
+
+```
+NAME
+        openapi-generator-cli author template - Retrieve templates for local
+        modification
+
+SYNOPSIS
+        openapi-generator-cli author template
+                (-g <generator name> | --generator-name <generator name>)
+                [--library <library>]
+                [(-o <output directory> | --output <output directory>)]
+                [(-v | --verbose)]
+
+OPTIONS
+        -g <generator name>, --generator-name <generator name>
+            generator to use (see list command for list)
+
+        --library <library>
+            library template (sub-template)
+
+        -o <output directory>, --output <output directory>
+            where to write the template files (defaults to 'out')
+
+        -v, --verbose
+            verbose mode
+```
+
+Example:
+
+Extract Java templates, limiting to the `webclient` library.
+
+```
+openapi-generator author template -g java --library webclient
+```
+
+Extract all Java templates:
+
+```
+openapi-generator author template -g java
+```
