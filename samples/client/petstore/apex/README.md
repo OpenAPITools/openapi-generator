@@ -47,12 +47,13 @@ OASClient client = api.getClient();
 
 
 Map<String, Object> params = new Map<String, Object>{
-    'body' => ''
+    'oaSPet' => ''
 };
 
 try {
     // cross your fingers
-    api.addPet(params);
+    OASPet result = api.addPet(params);
+    System.debug(result);
 } catch (OAS.ApiException e) {
     // ...handle your exceptions
 }

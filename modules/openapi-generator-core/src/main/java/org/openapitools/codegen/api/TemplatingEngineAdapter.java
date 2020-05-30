@@ -37,18 +37,6 @@ public interface TemplatingEngineAdapter {
     String getIdentifier();
 
     /**
-     * Compiles a template into a string
-     *
-     * @param generator    From where we can fetch the templates content (e.g. an instance of DefaultGenerator)
-     * @param bundle       The map of values to pass to the template
-     * @param templateFile The name of the template (e.g. model.mustache )
-     * @return the processed template result
-     * @throws IOException an error ocurred in the template processing
-     */
-    String compileTemplate(TemplatingGenerator generator, Map<String, Object> bundle,
-                           String templateFile) throws IOException;
-
-    /**
      * During generation, if a supporting file has a file extension that is
      * inside that array, then it is considered a templated supporting file
      * and we use the templating engine adapter to generate it
@@ -58,6 +46,18 @@ public interface TemplatingEngineAdapter {
     String[] getFileExtensions();
 
     /**
+     * Compiles a template into a string
+     *
+     * @param executor    From where we can fetch the templates content (e.g. an instance of DefaultGenerator)
+     * @param bundle       The map of values to pass to the template
+     * @param templateFile The name of the template (e.g. model.mustache )
+     * @return the processed template result
+     * @throws IOException an error ocurred in the template processing
+     */
+    String compileTemplate(TemplatingExecutor executor, Map<String, Object> bundle,
+                           String templateFile) throws IOException;
+
+    /**
      * Determines whether the template file with supported extensions exists. This may be on the filesystem,
      * external filesystem, or classpath (implementation is up to TemplatingGenerator).
      *
@@ -65,7 +65,7 @@ public interface TemplatingEngineAdapter {
      * @param templateFile The original target filename
      * @return True if the template is available in the template search path, false if it can not be found
      */
-    default boolean templateExists(TemplatingGenerator generator, String templateFile) {
+    default boolean templateExists(TemplatingExecutor generator, String templateFile) {
         return Arrays.stream(getFileExtensions()).anyMatch(ext -> {
             int idx = templateFile.lastIndexOf(".");
             String baseName;
