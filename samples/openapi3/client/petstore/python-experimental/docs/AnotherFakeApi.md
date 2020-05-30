@@ -21,7 +21,7 @@ from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import another_fake_api
-
+from petstore_api.model import client
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
