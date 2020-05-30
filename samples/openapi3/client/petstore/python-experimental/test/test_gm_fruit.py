@@ -51,24 +51,26 @@ class TestGmFruit(unittest.TestCase):
         )
         # setting a value that doesn't exist raises an exception
         # with a key
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             fruit['invalid_variable'] = 'some value'
         # with setattr
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             setattr(fruit, 'invalid_variable', 'some value')
 
         # getting a value that doesn't exist raises an exception
         # with a key
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             invalid_variable = fruit['cultivar']
         # with getattr
-        with self.assertRaises(petstore_api.ApiKeyError):
-            invalid_variable = getattr(fruit, 'cultivar', 'some value')
+        self.assertTrue(getattr(fruit, 'cultivar', 'some value'), 'some value')
+
+        with self.assertRaises(AttributeError):
+            invalid_variable = getattr(fruit, 'cultivar')
 
         # make sure that the ModelComposed class properties are correct
-        # model.composed_schemas() stores the anyOf/allOf/oneOf info
+        # model._composed_schemas stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            fruit._composed_schemas(),
+            fruit._composed_schemas,
             {
                 'anyOf': [
                     petstore_api.Apple,
@@ -79,7 +81,7 @@ class TestGmFruit(unittest.TestCase):
             }
         )
         # model._composed_instances is a list of the instances that were
-        # made from the anyOf/allOf/OneOf classes in model._composed_schemas()
+        # made from the anyOf/allOf/OneOf classes in model._composed_schemas
         for composed_instance in fruit._composed_instances:
             if composed_instance.__class__ == petstore_api.Banana:
                 banana_instance = composed_instance
@@ -95,6 +97,7 @@ class TestGmFruit(unittest.TestCase):
                 'color': [fruit],
                 'length_cm': [fruit, banana_instance],
                 'cultivar': [fruit],
+                'origin': [fruit],
             }
         )
         # model._additional_properties_model_instances stores a list of
@@ -137,7 +140,7 @@ class TestGmFruit(unittest.TestCase):
         self.assertEqual(getattr(fruit, 'length_cm'), length_cm)
 
         # model._composed_instances is a list of the instances that were
-        # made from the anyOf/allOf/OneOf classes in model._composed_schemas()
+        # made from the anyOf/allOf/OneOf classes in model._composed_schemas
         for composed_instance in fruit._composed_instances:
             if composed_instance.__class__ == petstore_api.Apple:
                 apple_instance = composed_instance
@@ -155,6 +158,7 @@ class TestGmFruit(unittest.TestCase):
                 'color': [fruit],
                 'length_cm': [fruit, banana_instance],
                 'cultivar': [fruit, apple_instance],
+                'origin': [fruit, apple_instance],
             }
         )
 
@@ -162,7 +166,8 @@ class TestGmFruit(unittest.TestCase):
         # apple test
         color = 'red'
         cultivar = 'golden delicious'
-        fruit = petstore_api.GmFruit(color=color, cultivar=cultivar)
+        origin = 'California'
+        fruit = petstore_api.GmFruit(color=color, cultivar=cultivar, origin=origin)
         # check its properties
         self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
@@ -170,17 +175,23 @@ class TestGmFruit(unittest.TestCase):
         self.assertEqual(fruit.cultivar, cultivar)
         self.assertEqual(fruit['cultivar'], cultivar)
         self.assertEqual(getattr(fruit, 'cultivar'), cultivar)
+
+        self.assertEqual(fruit.origin, origin)
+        self.assertEqual(fruit['origin'], origin)
+        self.assertEqual(getattr(fruit, 'origin'), origin)
+
         # check the dict representation
         self.assertEqual(
             fruit.to_dict(),
             {
                 'color': color,
-                'cultivar': cultivar
+                'cultivar': cultivar,
+                'origin': origin,
             }
         )
 
         # model._composed_instances is a list of the instances that were
-        # made from the anyOf/allOf/OneOf classes in model._composed_schemas()
+        # made from the anyOf/allOf/OneOf classes in model._composed_schemas
         for composed_instance in fruit._composed_instances:
             if composed_instance.__class__ == petstore_api.Apple:
                 apple_instance = composed_instance
@@ -196,6 +207,7 @@ class TestGmFruit(unittest.TestCase):
                 'color': [fruit],
                 'length_cm': [fruit],
                 'cultivar': [fruit, apple_instance],
+                'origin': [fruit, apple_instance],
             }
         )
         # model._additional_properties_model_instances stores a list of

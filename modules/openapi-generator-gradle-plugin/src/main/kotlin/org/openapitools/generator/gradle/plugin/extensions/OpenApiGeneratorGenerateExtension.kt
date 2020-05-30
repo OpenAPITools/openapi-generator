@@ -182,7 +182,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val releaseNote = project.objects.property<String?>()
 
     /**
-     * HTTP user agent, e.g. codegen_csharp_api_client, default to 'OpenAPI-Generator/{packageVersion}}/{language}'
+     * HTTP user agent, e.g. codegen_csharp_api_client, default to 'OpenAPI-Generator/{packageVersion}/{language}'
      */
     val httpUserAgent = project.objects.property<String?>()
 

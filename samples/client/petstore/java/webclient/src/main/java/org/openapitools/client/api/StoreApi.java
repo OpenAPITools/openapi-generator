@@ -12,10 +12,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -51,13 +50,13 @@ public class StoreApi {
      * <p><b>400</b> - Invalid ID supplied
      * <p><b>404</b> - Order not found
      * @param orderId ID of the order that needs to be deleted
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> deleteOrder(String orderId) throws RestClientException {
+    public Mono<Void> deleteOrder(String orderId) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'orderId' when calling deleteOrder");
+            throw new WebClientResponseException("Missing the required parameter 'orderId' when calling deleteOrder", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -84,9 +83,9 @@ public class StoreApi {
      * Returns a map of status codes to quantities
      * <p><b>200</b> - successful operation
      * @return Map&lt;String, Integer&gt;
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Map<String, Integer>> getInventory() throws RestClientException {
+    public Mono<Map<String, Integer>> getInventory() throws WebClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -116,13 +115,13 @@ public class StoreApi {
      * <p><b>404</b> - Order not found
      * @param orderId ID of pet that needs to be fetched
      * @return Order
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Order> getOrderById(Long orderId) throws RestClientException {
+    public Mono<Order> getOrderById(Long orderId) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'orderId' is set
         if (orderId == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'orderId' when calling getOrderById");
+            throw new WebClientResponseException("Missing the required parameter 'orderId' when calling getOrderById", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -153,13 +152,13 @@ public class StoreApi {
      * <p><b>400</b> - Invalid Order
      * @param body order placed for purchasing the pet
      * @return Order
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Order> placeOrder(Order body) throws RestClientException {
+    public Mono<Order> placeOrder(Order body) throws WebClientResponseException {
         Object postBody = body;
         // verify the required parameter 'body' is set
         if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling placeOrder");
+            throw new WebClientResponseException("Missing the required parameter 'body' when calling placeOrder", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();

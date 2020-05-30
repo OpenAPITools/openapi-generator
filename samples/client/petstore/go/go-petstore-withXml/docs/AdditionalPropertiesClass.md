@@ -12,9 +12,9 @@ Name | Type | Description | Notes
 **MapArrayAnytype** | [**map[string][]map[string]interface{}**](array.md) |  | [optional] 
 **MapMapString** | [**map[string]map[string]string**](map.md) |  | [optional] 
 **MapMapAnytype** | [**map[string]map[string]map[string]interface{}**](map.md) |  | [optional] 
-**Anytype1** | [**map[string]interface{}**](.md) |  | [optional] 
-**Anytype2** | [**map[string]interface{}**](.md) |  | [optional] 
-**Anytype3** | [**map[string]interface{}**](.md) |  | [optional] 
+**Anytype1** | **map[string]interface{}** |  | [optional] 
+**Anytype2** | **map[string]interface{}** |  | [optional] 
+**Anytype3** | **map[string]interface{}** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

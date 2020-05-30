@@ -53,6 +53,15 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public PythonClientExperimentalCodegen() {
         super();
 
+        // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
+        // In principle, this should be enabled by default for all code generators. However due to limitations
+        // in other code generators, support needs to be enabled on a case-by-case basis.
+        supportsAdditionalPropertiesWithComposedSchema = true;
+
+        // When the 'additionalProperties' keyword is not present in a OAS schema, allow
+        // undeclared properties. This is compliant with the JSON schema specification.
+        this.setDisallowAdditionalPropertiesIfNotPresent(false);
+
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
@@ -359,7 +368,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
     }
 
-    // override with any special post-processing for all models
+    /**
+     * Override with special post-processing for all models.
+     */ 
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         // loop through all models and delete ones where type!=object and the model has no validations and enums
@@ -388,7 +399,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 composedSchemaSets.add(cm.oneOf);
                 for (Set<String> importSet : composedSchemaSets) {
                     for (String otherModelName : importSet) {
-                        cm.imports.add(otherModelName);
+                        if (!languageSpecificPrimitives.contains(otherModelName)) {
+                            cm.imports.add(otherModelName);
+                        }
                     }
                 }
 
@@ -881,37 +894,74 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     }
 
     /**
-     * Return a string representation of the Python types for the specified schema.
+     * Return a string representation of the Python types for the specified OAS schema.
      * Primitive types in the OAS specification are implemented in Python using the corresponding
      * Python primitive types.
      * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types.
+     * 
+     * The caller should set the prefix and suffix arguments to empty string, except when
+     * getTypeString invokes itself recursively. A non-empty prefix/suffix may be specified
+     * to wrap the return value in a python dict, list or tuple.
      *
+     * Examples:
+     * - "bool, date, float"  The data must be a bool, date or float.
+     * - "[bool, date]"       The data must be an array, and the array items must be a bool or date.
+     * 
      * @param p The OAS schema.
      * @param prefix prepended to the returned value.
      * @param suffix appended to the returned value.
-     * @return a string representation of the Python types
+     * @param referencedModelNames a list of models that are being referenced while generating the types,
+     *          may be used to generate imports.
+     * @return a comma-separated string representation of the Python types
      */
-    public String getTypeString(Schema p, String prefix, String suffix) {
+    private String getTypeString(Schema p, String prefix, String suffix, List<String> referencedModelNames) {
         // this is used to set dataType, which defines a python tuple of classes
         String fullSuffix = suffix;
         if (")".equals(suffix)) {
             fullSuffix = "," + suffix;
         }
+        if (StringUtils.isNotEmpty(p.get$ref())) {
+            // The input schema is a reference. If the resolved schema is
+            // a composed schema, convert the name to a Python class.
+            Schema s = ModelUtils.getReferencedSchema(this.openAPI, p);
+            if (s instanceof ComposedSchema) {
+                String modelName = ModelUtils.getSimpleRef(p.get$ref());
+                if (referencedModelNames != null) {
+                    referencedModelNames.add(modelName);
+                }
+                return prefix + toModelName(modelName) + fullSuffix;
+            }
+        }
+        if (isAnyTypeSchema(p)) {
+            return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + suffix;
+        }
         // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
         if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
             fullSuffix = ", none_type" + suffix;
         }
-        if (ModelUtils.isFreeFormObject(p) && ModelUtils.getAdditionalProperties(p) == null) {
+        if (isFreeFormObject(p) && getAdditionalProperties(p) == null) {
             return prefix + "bool, date, datetime, dict, float, int, list, str" + fullSuffix;
         }
-        if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && ModelUtils.getAdditionalProperties(p) != null) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
-            return prefix + "{str: " + getTypeString(inner, "(", ")") + "}" + fullSuffix;
+        if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && getAdditionalProperties(p) != null) {
+            Schema inner = getAdditionalProperties(p);
+            return prefix + "{str: " + getTypeString(inner, "(", ")", referencedModelNames) + "}" + fullSuffix;
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return prefix + "[" + getTypeString(inner, "", "") + "]" + fullSuffix;
-        }
+            if (inner == null) {
+                // In OAS 3.0.x, the array "items" attribute is required.
+                // In OAS >= 3.1, the array "items" attribute is optional such that the OAS
+                // specification is aligned with the JSON schema specification.
+                // When "items" is not specified, the elements of the array may be anything at all.
+                // In that case, the return value should be:
+                //    "[bool, date, datetime, dict, float, int, list, str, none_type]"
+                // Using recursion to wrap the allowed python types in an array.
+                Schema anyType = new Schema(); // A Schema without any attribute represents 'any type'.
+                return getTypeString(anyType, "[", "]", referencedModelNames);
+            } else {
+                return prefix + getTypeString(inner, "[", "]", referencedModelNames) + fullSuffix;
+            }
+        } 
         if (ModelUtils.isFileSchema(p)) {
             return prefix + "file_type" + fullSuffix;
         }
@@ -931,7 +981,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // in Python we will wrap this in () to make it a tuple but here we
         // will omit the parens so the generated documentaion will not include
         // them
-        return getTypeString(p, "", "");
+        return getTypeString(p, "", "", null);
     }
 
     @Override
@@ -944,14 +994,22 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        Schema addProps = ModelUtils.getAdditionalProperties(schema);
-        if (addProps != null && addProps.get$ref() == null) {
-            // if AdditionalProperties exists and is an inline definition, get its datatype and store it in m.parent
-            String typeString = getTypeDeclaration(addProps);
-            codegenModel.additionalPropertiesType = typeString;
-        } else {
-            addParentContainer(codegenModel, codegenModel.name, schema);
+        Schema addProps = getAdditionalProperties(schema);
+        if (addProps != null) {
+            // if AdditionalProperties exists, get its datatype and
+            // store it in codegenModel.additionalPropertiesType.
+            // The 'addProps' may be a reference, getTypeDeclaration will resolve
+            // the reference.
+            List<String> referencedModelNames = new ArrayList<String>();
+            codegenModel.additionalPropertiesType = getTypeString(addProps, "", "", referencedModelNames);
+            if (referencedModelNames.size() != 0) {
+                // Models that are referenced in the 'additionalPropertiesType' keyword
+                // must be added to the imports.
+                codegenModel.imports.addAll(referencedModelNames);
+            }
         }
+        // If addProps is null, the value of the 'additionalProperties' keyword is set
+        // to false, i.e. no additional properties are allowed.
     }
 
     @Override

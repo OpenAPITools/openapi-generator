@@ -104,10 +104,6 @@ func (o BananaReq) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-// AsFruitReq wraps this instance of BananaReq in FruitReq
-func (s *BananaReq) AsFruitReq() FruitReq {
-	return FruitReq{ FruitReqInterface: s }
-}
 type NullableBananaReq struct {
 	value *BananaReq
 	isSet bool
@@ -143,3 +139,4 @@ func (v *NullableBananaReq) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+

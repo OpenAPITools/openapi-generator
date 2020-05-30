@@ -72,12 +72,6 @@ SetSweet sets Sweet field to given value.
 HasSweet returns a boolean if a field has been set.
 
 
-### AsFruitReq
-
-`func (s *BananaReq) AsFruitReq() FruitReq`
-
-Convenience method to wrap this instance of BananaReq in FruitReq
-
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

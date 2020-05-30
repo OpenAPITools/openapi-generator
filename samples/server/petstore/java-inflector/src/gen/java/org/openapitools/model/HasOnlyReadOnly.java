@@ -13,10 +13,10 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class HasOnlyReadOnly   {
   @JsonProperty("bar")
-  private String bar = null;
+  private String bar;
 
   @JsonProperty("foo")
-  private String foo = null;
+  private String foo;
 
   /**
    **/

@@ -91,10 +91,14 @@ public class JavaInflectorServerCodegen extends AbstractJavaCodegen {
     public void processOpts() {
         super.processOpts();
 
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
-        writeOptional(outputFolder, new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml"));
-        writeOptional(outputFolder, new SupportingFile("inflector.mustache", "", "inflector.yaml"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("web.mustache", "src/main/webapp/WEB-INF", "web.xml")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("inflector.mustache", "", "inflector.yaml")
+                .doNotOverwrite());
         supportingFiles.add(new SupportingFile("openapi.mustache",
                 "src/main/openapi",
                 "openapi.yaml")

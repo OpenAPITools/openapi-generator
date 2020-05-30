@@ -112,7 +112,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
+            .doNotOverwrite());
 
     }
 

@@ -37,5 +37,5 @@ pub use self::store_api::{ StoreApi, StoreApiClient };
 mod user_api;
 pub use self::user_api::{ UserApi, UserApiClient };
 
-pub mod configuration;
 pub mod client;
+pub mod configuration;

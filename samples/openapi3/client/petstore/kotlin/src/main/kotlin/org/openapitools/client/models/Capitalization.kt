@@ -38,12 +38,10 @@ data class Capitalization (
     /* Name of the pet  */
     @Json(name = "ATT_NAME")
     val ATT_NAME: kotlin.String? = null
-) 
-: Serializable 
-
-{
+) : Serializable {
 	companion object {
 		private const val serialVersionUID: Long = 123
 	}
+
 }
 

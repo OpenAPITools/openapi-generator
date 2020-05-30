@@ -83,13 +83,13 @@ func (c *UserApiController) Routes() Routes {
 
 // CreateUser - Create user
 func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) { 
-	body := &User{}
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+	user := &User{}
+	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		w.WriteHeader(500)
 		return
 	}
 	
-	result, err := c.service.CreateUser(*body)
+	result, err := c.service.CreateUser(*user)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -100,13 +100,13 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
 func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *http.Request) { 
-	body := &[]User{}
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+	user := &[]User{}
+	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		w.WriteHeader(500)
 		return
 	}
 	
-	result, err := c.service.CreateUsersWithArrayInput(*body)
+	result, err := c.service.CreateUsersWithArrayInput(*user)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -117,13 +117,13 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 
 // CreateUsersWithListInput - Creates list of users with given input array
 func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *http.Request) { 
-	body := &[]User{}
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+	user := &[]User{}
+	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		w.WriteHeader(500)
 		return
 	}
 	
-	result, err := c.service.CreateUsersWithListInput(*body)
+	result, err := c.service.CreateUsersWithListInput(*user)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -187,13 +187,13 @@ func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) {
 func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
 	username := params["username"]
-	body := &User{}
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+	user := &User{}
+	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
 		w.WriteHeader(500)
 		return
 	}
 	
-	result, err := c.service.UpdateUser(username, *body)
+	result, err := c.service.UpdateUser(username, *user)
 	if err != nil {
 		w.WriteHeader(500)
 		return

@@ -647,7 +647,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return "(Map.Map String " + getTypeDeclaration(inner) + ")";
         }
         return super.getTypeDeclaration(p);
@@ -669,7 +669,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            Schema additionalProperties2 = ModelUtils.getAdditionalProperties(p);
+            Schema additionalProperties2 = getAdditionalProperties(p);
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Schema " + additionalProperties2 + "\n" //
@@ -759,11 +759,11 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
 
             if (typeMapping.containsKey(param.dataType)
                     || param.isMapContainer || param.isListContainer
-                    || param.isPrimitiveType || param.isFile || param.isEnum) {
+                    || param.isPrimitiveType || param.isFile || (param.isEnum || param.allowableValues != null) || !param.isBodyParam) {
 
                 String dataType = genEnums && param.isEnum ? param.datatypeWithEnum : param.dataType;
 
-                String paramNameType = toDedupedModelName(toTypeName("Param", param.paramName), dataType, !param.isEnum);
+                String paramNameType = toDedupedModelName(toTypeName("Param", param.paramName), dataType, !(param.isEnum || param.allowableValues != null));
                 param.vendorExtensions.put(X_PARAM_NAME_TYPE, paramNameType); // TODO: 5.0 Remove
                 param.vendorExtensions.put(VENDOR_EXTENSION_X_PARAM_NAME_TYPE, paramNameType);
 

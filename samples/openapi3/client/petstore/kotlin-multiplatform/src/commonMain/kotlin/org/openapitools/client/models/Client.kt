@@ -21,7 +21,5 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class Client (
     @SerialName(value = "client") val client: kotlin.String? = null
-) 
-
-
+)
 

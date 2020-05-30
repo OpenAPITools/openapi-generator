@@ -29,7 +29,7 @@ type User struct {
 	// test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.
 	ArbitraryNullableObject map[string]interface{} `json:"arbitraryNullableObject,omitempty"`
 	// test code generation for any type Value can be any type - string, number, boolean, array or object.
-	ArbitraryTypeValue *interface{} `json:"arbitraryTypeValue,omitempty"`
+	ArbitraryTypeValue interface{} `json:"arbitraryTypeValue,omitempty"`
 	// test code generation for any type Value can be any type - string, number, boolean, array, object or the 'null' value.
 	ArbitraryNullableTypeValue interface{} `json:"arbitraryNullableTypeValue,omitempty"`
 }
@@ -372,22 +372,23 @@ func (o *User) SetArbitraryNullableObject(v map[string]interface{}) {
 	o.ArbitraryNullableObject = v
 }
 
-// GetArbitraryTypeValue returns the ArbitraryTypeValue field value if set, zero value otherwise.
+// GetArbitraryTypeValue returns the ArbitraryTypeValue field value if set, zero value otherwise (both if not set or set to explicit null).
 func (o *User) GetArbitraryTypeValue() interface{} {
-	if o == nil || o.ArbitraryTypeValue == nil {
+	if o == nil  {
 		var ret interface{}
 		return ret
 	}
-	return *o.ArbitraryTypeValue
+	return o.ArbitraryTypeValue
 }
 
 // GetArbitraryTypeValueOk returns a tuple with the ArbitraryTypeValue field value if set, nil otherwise
 // and a boolean to check if the value has been set.
+// NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *User) GetArbitraryTypeValueOk() (*interface{}, bool) {
 	if o == nil || o.ArbitraryTypeValue == nil {
 		return nil, false
 	}
-	return o.ArbitraryTypeValue, true
+	return &o.ArbitraryTypeValue, true
 }
 
 // HasArbitraryTypeValue returns a boolean if a field has been set.
@@ -401,7 +402,7 @@ func (o *User) HasArbitraryTypeValue() bool {
 
 // SetArbitraryTypeValue gets a reference to the given interface{} and assigns it to the ArbitraryTypeValue field.
 func (o *User) SetArbitraryTypeValue(v interface{}) {
-	o.ArbitraryTypeValue = &v
+	o.ArbitraryTypeValue = v
 }
 
 // GetArbitraryNullableTypeValue returns the ArbitraryNullableTypeValue field value if set, zero value otherwise (both if not set or set to explicit null).
@@ -513,3 +514,4 @@ func (v *NullableUser) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+

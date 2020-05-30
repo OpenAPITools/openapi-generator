@@ -46,7 +46,7 @@ func (s *StoreApiService) GetOrderById(orderId int64) (interface{}, error) {
 }
 
 // PlaceOrder - Place an order for a pet
-func (s *StoreApiService) PlaceOrder(body Order) (interface{}, error) {
+func (s *StoreApiService) PlaceOrder(order Order) (interface{}, error) {
 	// TODO - update PlaceOrder with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'PlaceOrder' not implemented")
