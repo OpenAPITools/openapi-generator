@@ -1193,6 +1193,7 @@
                 </property>
             </activation>
             <modules>
+                <module>samples/client/petstore/perl</module>
                 <!-- servers -->
                 <module>samples/server/petstore/python-aiohttp</module>
                 <module>samples/server/petstore/python-aiohttp-srclayout</module>
@@ -1207,7 +1208,6 @@
                 <module>samples/client/petstore/cpp-qt5</module>
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
-                <!--<module>samples/client/petstore/perl</module>-->
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
@@ -1264,7 +1264,7 @@
                 <module>samples/client/petstore/java/feign10x</module>
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
-                <module>samples/openapi3client/petstore/java/jersey2-java8</module>
+                <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit2</module>
                 <module>samples/client/petstore/java/retrofit2rx</module>
@@ -1422,7 +1422,7 @@
                 <module>samples/client/petstore/kotlin-moshi-codegen/</module>
                 <module>samples/client/petstore/kotlin-json-request-string/</module>
                 <!-- servers -->
-                <module>samples/server/petstore/erlang-server</module>
+                <!--<module>samples/server/petstore/erlang-server</module>-->
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
                 <module>samples/server/petstore/spring-mvc</module>
