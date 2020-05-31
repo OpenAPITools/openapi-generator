@@ -28,6 +28,7 @@ import io.swagger.v3.parser.core.models.AuthorizationValue;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
@@ -215,21 +216,31 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setApiPackage(String apiPackage) {
+        if (StringUtils.isNotEmpty(apiPackage)) {
+            addAdditionalProperty(CodegenConstants.API_PACKAGE, apiPackage);
+        }
         generatorSettingsBuilder.withApiPackage(apiPackage);
         return this;
     }
 
     public CodegenConfigurator setArtifactId(String artifactId) {
+        if (StringUtils.isNotEmpty(artifactId)) {
+            addAdditionalProperty(CodegenConstants.ARTIFACT_ID, artifactId);
+        }
         generatorSettingsBuilder.withArtifactId(artifactId);
         return this;
     }
 
     public CodegenConfigurator setArtifactVersion(String artifactVersion) {
+        if (StringUtils.isNotEmpty(artifactVersion)) {
+            addAdditionalProperty(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
+        }
         generatorSettingsBuilder.withArtifactVersion(artifactVersion);
         return this;
     }
 
     public CodegenConfigurator setAuth(String auth) {
+        // do not cache this in additional properties.
         this.auth = auth;
         return this;
     }
@@ -266,26 +277,41 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setGitRepoId(String gitRepoId) {
+        if (StringUtils.isNotEmpty(gitRepoId)) {
+            addAdditionalProperty(CodegenConstants.GIT_REPO_ID, gitRepoId);
+        }
         generatorSettingsBuilder.withGitRepoId(gitRepoId);
         return this;
     }
 
     public CodegenConfigurator setGitHost(String gitHost) {
+        if (StringUtils.isNotEmpty(gitHost)) {
+            addAdditionalProperty(CodegenConstants.GIT_HOST, gitHost);
+        }
         generatorSettingsBuilder.withGitHost(gitHost);
         return this;
     }
 
     public CodegenConfigurator setGitUserId(String gitUserId) {
+        if (StringUtils.isNotEmpty(gitUserId)) {
+            addAdditionalProperty(CodegenConstants.GIT_HOST, gitUserId);
+        }
         generatorSettingsBuilder.withGitUserId(gitUserId);
         return this;
     }
 
     public CodegenConfigurator setGroupId(String groupId) {
+        if (StringUtils.isNotEmpty(groupId)) {
+            addAdditionalProperty(CodegenConstants.GROUP_ID, groupId);
+        }
         generatorSettingsBuilder.withGroupId(groupId);
         return this;
     }
 
     public CodegenConfigurator setHttpUserAgent(String httpUserAgent) {
+        if (StringUtils.isNotEmpty(httpUserAgent)) {
+            addAdditionalProperty(CodegenConstants.HTTP_USER_AGENT, httpUserAgent);
+        }
         generatorSettingsBuilder.withHttpUserAgent(httpUserAgent);
         return this;
     }
@@ -314,6 +340,9 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setInvokerPackage(String invokerPackage) {
+        if (StringUtils.isNotEmpty(invokerPackage)) {
+            addAdditionalProperty(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
+        }
         generatorSettingsBuilder.withInvokerPackage(invokerPackage);
         return this;
     }
@@ -336,21 +365,33 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setApiNameSuffix(String suffix) {
+        if (StringUtils.isNotEmpty(suffix)) {
+            addAdditionalProperty(CodegenConstants.API_NAME_SUFFIX, suffix);
+        }
         generatorSettingsBuilder.withApiNameSuffix(suffix);
         return this;
     }
 
     public CodegenConfigurator setModelNamePrefix(String prefix) {
+        if (StringUtils.isNotEmpty(prefix)) {
+            addAdditionalProperty(CodegenConstants.MODEL_NAME_PREFIX, prefix);
+        }
         generatorSettingsBuilder.withModelNamePrefix(prefix);
         return this;
     }
 
     public CodegenConfigurator setModelNameSuffix(String suffix) {
+        if (StringUtils.isNotEmpty(suffix)) {
+            addAdditionalProperty(CodegenConstants.MODEL_NAME_SUFFIX, suffix);
+        }
         generatorSettingsBuilder.withModelNameSuffix(suffix);
         return this;
     }
 
     public CodegenConfigurator setModelPackage(String modelPackage) {
+        if (StringUtils.isNotEmpty(modelPackage)) {
+            addAdditionalProperty(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        }
         generatorSettingsBuilder.withModelPackage(modelPackage);
         return this;
     }
@@ -361,11 +402,17 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setPackageName(String packageName) {
+        if (StringUtils.isNotEmpty(packageName)) {
+            addAdditionalProperty(CodegenConstants.PACKAGE_NAME, packageName);
+        }
         generatorSettingsBuilder.withPackageName(packageName);
         return this;
     }
 
     public CodegenConfigurator setReleaseNote(String releaseNote) {
+        if (StringUtils.isNotEmpty(releaseNote)) {
+            addAdditionalProperty(CodegenConstants.RELEASE_NOTE, releaseNote);
+        }
         generatorSettingsBuilder.withReleaseNote(releaseNote);
         return this;
     }
@@ -450,6 +497,7 @@ public class CodegenConfigurator {
             GlobalSettings.setProperty("verbose", "false");
         }
 
+        // TODO: Need to rename system properties to global properties
         for (Map.Entry<String, String> entry : workflowSettings.getSystemProperties().entrySet()) {
             GlobalSettings.setProperty(entry.getKey(), entry.getValue());
         }
