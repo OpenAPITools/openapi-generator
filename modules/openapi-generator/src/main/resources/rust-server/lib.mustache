@@ -36,7 +36,7 @@ pub trait Api<C: Send + Sync> {
 {{#summary}}
     /// {{{summary}}}
 {{/summary}}
-    async fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
@@ -64,7 +64,7 @@ pub trait ApiNoContext<C: Send + Sync> {
 {{#summary}}
     /// {{{summary}}}
 {{/summary}}
-    async fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
@@ -107,7 +107,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
 {{#summary}}
     /// {{{summary}}}
 {{/summary}}
-    async fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
@@ -115,7 +115,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         ) -> Result<{{{operationId}}}Response, ApiError>
     {
         let context = self.context().clone();
-        self.api().{{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}({{#allParams}}{{{paramName}}}, {{/allParams}}&context).await
+        self.api().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}({{#allParams}}{{{paramName}}}, {{/allParams}}&context).await
     }
 
       {{/operation}}
@@ -159,12 +159,12 @@ pub trait CallbackApi<C: Send + Sync> {
 {{#summary}}
     /// {{{summary}}}
 {{/summary}}
-    async fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
 {{#vendorExtensions}}
-  {{#callbackParams}}
+  {{#x-callback-params}}
         callback_{{.}}: String,
-  {{/callbackParams}}
+  {{/x-callback-params}}
 {{/vendorExtensions}}
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
@@ -197,12 +197,12 @@ pub trait CallbackApiNoContext<C: Send + Sync> {
 {{#summary}}
     /// {{{summary}}}
 {{/summary}}
-    async fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
 {{#vendorExtensions}}
-  {{#callbackParams}}
+  {{#x-callback-params}}
         callback_{{.}}: String,
-  {{/callbackParams}}
+  {{/x-callback-params}}
 {{/vendorExtensions}}
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
@@ -250,12 +250,12 @@ impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackApiNoConte
               {{#summary}}
     /// {{{summary}}}
               {{/summary}}
-    async fn {{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+    async fn {{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
         &self,
 {{#vendorExtensions}}
-  {{#callbackParams}}
+  {{#x-callback-params}}
         callback_{{.}}: String,
-  {{/callbackParams}}
+  {{/x-callback-params}}
 {{/vendorExtensions}}
 {{#allParams}}
         {{{paramName}}}: {{^required}}Option<{{/required}}{{#isListContainer}}&{{/isListContainer}}{{{dataType}}}{{^required}}>{{/required}},
@@ -263,11 +263,11 @@ impl<T: CallbackApi<C> + Send + Sync, C: Clone + Send + Sync> CallbackApiNoConte
         ) -> Result<{{{operationId}}}Response, ApiError>
     {
         let context = self.context().clone();
-        self.api().{{#vendorExtensions}}{{{operation_id}}}{{/vendorExtensions}}(
+        self.api().{{#vendorExtensions}}{{{x-operation-id}}}{{/vendorExtensions}}(
 {{#vendorExtensions}}
-  {{#callbackParams}}
+  {{#x-callback-params}}
             callback_{{.}},
-  {{/callbackParams}}
+  {{/x-callback-params}}
 {{/vendorExtensions}}
 {{#allParams}}
             {{{paramName}}},

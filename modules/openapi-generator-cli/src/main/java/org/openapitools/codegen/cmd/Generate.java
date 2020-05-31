@@ -71,9 +71,8 @@ public class Generate extends OpenApiGeneratorCommand {
                     + "Pass in a URL-encoded string of name:header with a comma separating multiple values")
     private String auth;
 
-    // TODO: Remove -D short option in 5.0
     @Option(
-            name = {"-D", "--global-property"},
+            name = {"--global-property"},
             title = "global properties",
             description = "sets specified global properties (previously called 'system properties') in "
                     + "the format of name=value,name=value (or multiple options, each with name=value)")
