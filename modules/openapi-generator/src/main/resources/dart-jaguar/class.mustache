@@ -22,10 +22,10 @@ class {{classname}} {
   {{classname}}(
       {{#vars}}{{^defaultValue}}{{#required}} this.{{name}}, {{/required}}{{/defaultValue}}{{/vars}}
 
-{{#vendorExtensions}}{{#hasVars}}{
+{{#vendorExtensions}}{{#x-has-vars}}{
     {{#vars}}{{^required}} this.{{name}}{{#defaultValue}} = {{{defaultValue}}}{{#hasMore}}, {{/hasMore}} {{/defaultValue}}{{/required}}
     {{#required}} {{#defaultValue}}this.{{name}} = {{{defaultValue}}}{{#hasMore}}, {{/hasMore}} {{/defaultValue}}{{/required}}{{/vars}}
-    }{{/hasVars}}{{/vendorExtensions}}
+    }{{/x-has-vars}}{{/vendorExtensions}}
   );
 
   @override
