@@ -28,7 +28,7 @@ fi
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
 yaml="modules/openapi-generator/src/test/resources/3_0/python-experimental/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml"
-ags="generate --artifact-id petstore-jersey2-java8 -i $yaml -g java -c bin/java-petstore-jersey2-java8.json -o samples/openapi3/client/petstore/java/jersey2-java8 --additional-properties hideGenerationTimestamp=true --additional-properties serverPort=8082 $@"
+ags="generate --artifact-id petstore-openapi3-jersey2-java8 -i $yaml -g java -c bin/openapi3/java-petstore-jersey2-java8.json -o samples/openapi3/client/petstore/java/jersey2-java8 --additional-properties hideGenerationTimestamp=true --additional-properties serverPort=8082 $@"
 
 echo "Removing files and folders under samples/openapi3/client/petstore/java/jersey2-java8/src/main"
 rm -rf samples/openapi3/client/petstore/java/jersey2-java8/src/main

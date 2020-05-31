@@ -704,7 +704,7 @@
             </modules>
         </profile>
         <profile>
-            <id>java-openapi3-client-jersey2-java8</id>
+            <id>java-client-openapi3-jersey2-java8</id>
             <activation>
                 <property>
                     <name>env</name>
