@@ -28,6 +28,8 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -60,6 +62,8 @@ public class ApiClient {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
   protected String basePath = "http://petstore.swagger.io:80/v2";
+  private static final Logger log = Logger.getLogger(ApiClient.class.getName());
+
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
       "http://petstore.swagger.io:80/v2",
@@ -845,6 +849,9 @@ public class ApiClient {
           }
         } catch (Exception ex) {
           // failed to deserialize, do nothing and try next one (schema)
+          // Logging the error may be useful to troubleshoot why a payload fails to match
+          // the schema.
+          log.log(Level.FINE, "Input data does not match schema '" + schemaName + "'", ex);
         }
       } else {// unknown type
         throw new ApiException(schemaType.getClass() + " is not a GenericType and cannot be handled properly in deserialization.");
