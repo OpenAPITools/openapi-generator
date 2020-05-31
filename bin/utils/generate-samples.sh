@@ -17,5 +17,7 @@ fi
 
 export JAVA_OPTS="${JAVA_OPTS} -server"
 
+configs=${1:-"${root}"/bin/configs/*}
+
 # shellcheck disable=SC2086
-java $JAVA_OPTS -jar "$executable" batch --includes-base-dir "${root}" --fail-fast  -- "${root}"/bin/configs/*
+java $JAVA_OPTS -jar "$executable" batch --includes-base-dir "${root}" --fail-fast  -- $configs
