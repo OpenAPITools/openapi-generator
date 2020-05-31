@@ -1,0 +1,4 @@
+generatorName: php-symfony
+outputDir: bin/../samples/server/petstore/php-symfony/SymfonyBundle-php
+inputSpec: /Users/jim/projects/openapi-generator/bin/../modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: bin/../modules/openapi-generator/src/main/resources/php-symfony
