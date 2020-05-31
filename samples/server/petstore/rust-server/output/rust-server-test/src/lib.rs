@@ -1,12 +1,12 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
 
+use async_trait::async_trait;
 use futures::Stream;
-use std::io::Error;
+use std::error::Error;
+use std::task::{Poll, Context};
+use swagger::{ApiError, ContextWrapper};
 
-#[deprecated(note = "Import swagger-rs directly")]
-pub use swagger::{ApiError, ContextWrapper};
-#[deprecated(note = "Import futures directly")]
-pub use futures::Future;
+type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &'static str = "";
 pub const API_VERSION: &'static str = "2.3.4";
@@ -71,189 +71,220 @@ pub enum SoloObjectPostResponse {
 }
 
 /// API
-pub trait Api<C> {
-    fn all_of_get(
+#[async_trait]
+pub trait Api<C: Send + Sync> {
+    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
+        Poll::Ready(Ok(()))
+    }
+
+    async fn all_of_get(
         &self,
-        context: &C) -> Box<dyn Future<Item=AllOfGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<AllOfGetResponse, ApiError>;
 
     /// A dummy endpoint to make the spec valid.
-    fn dummy_get(
+    async fn dummy_get(
         &self,
-        context: &C) -> Box<dyn Future<Item=DummyGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<DummyGetResponse, ApiError>;
 
-    fn dummy_put(
+    async fn dummy_put(
         &self,
         nested_response: models::InlineObject,
-        context: &C) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<DummyPutResponse, ApiError>;
 
     /// Get a file
-    fn file_response_get(
+    async fn file_response_get(
         &self,
-        context: &C) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<FileResponseGetResponse, ApiError>;
 
-    fn get_structured_yaml(
+    async fn get_structured_yaml(
         &self,
-        context: &C) -> Box<dyn Future<Item=GetStructuredYamlResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<GetStructuredYamlResponse, ApiError>;
 
     /// Test HTML handling
-    fn html_post(
+    async fn html_post(
         &self,
         body: String,
-        context: &C) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<HtmlPostResponse, ApiError>;
 
-    fn post_yaml(
+    async fn post_yaml(
         &self,
         value: String,
-        context: &C) -> Box<dyn Future<Item=PostYamlResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<PostYamlResponse, ApiError>;
 
     /// Get an arbitrary JSON blob.
-    fn raw_json_get(
+    async fn raw_json_get(
         &self,
-        context: &C) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<RawJsonGetResponse, ApiError>;
 
     /// Send an arbitrary JSON blob
-    fn solo_object_post(
+    async fn solo_object_post(
         &self,
         value: serde_json::Value,
-        context: &C) -> Box<dyn Future<Item=SoloObjectPostResponse, Error=ApiError> + Send>;
+        context: &C) -> Result<SoloObjectPostResponse, ApiError>;
 
 }
 
-/// API without a `Context`
-pub trait ApiNoContext {
-    fn all_of_get(
+/// API where `Context` isn't passed on every API call
+#[async_trait]
+pub trait ApiNoContext<C: Send + Sync> {
+
+    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>>;
+
+    fn context(&self) -> &C;
+
+    async fn all_of_get(
         &self,
-        ) -> Box<dyn Future<Item=AllOfGetResponse, Error=ApiError> + Send>;
+        ) -> Result<AllOfGetResponse, ApiError>;
 
     /// A dummy endpoint to make the spec valid.
-    fn dummy_get(
+    async fn dummy_get(
         &self,
-        ) -> Box<dyn Future<Item=DummyGetResponse, Error=ApiError> + Send>;
+        ) -> Result<DummyGetResponse, ApiError>;
 
-    fn dummy_put(
+    async fn dummy_put(
         &self,
         nested_response: models::InlineObject,
-        ) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError> + Send>;
+        ) -> Result<DummyPutResponse, ApiError>;
 
     /// Get a file
-    fn file_response_get(
+    async fn file_response_get(
         &self,
-        ) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError> + Send>;
+        ) -> Result<FileResponseGetResponse, ApiError>;
 
-    fn get_structured_yaml(
+    async fn get_structured_yaml(
         &self,
-        ) -> Box<dyn Future<Item=GetStructuredYamlResponse, Error=ApiError> + Send>;
+        ) -> Result<GetStructuredYamlResponse, ApiError>;
 
     /// Test HTML handling
-    fn html_post(
+    async fn html_post(
         &self,
         body: String,
-        ) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError> + Send>;
+        ) -> Result<HtmlPostResponse, ApiError>;
 
-    fn post_yaml(
+    async fn post_yaml(
         &self,
         value: String,
-        ) -> Box<dyn Future<Item=PostYamlResponse, Error=ApiError> + Send>;
+        ) -> Result<PostYamlResponse, ApiError>;
 
     /// Get an arbitrary JSON blob.
-    fn raw_json_get(
+    async fn raw_json_get(
         &self,
-        ) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError> + Send>;
+        ) -> Result<RawJsonGetResponse, ApiError>;
 
     /// Send an arbitrary JSON blob
-    fn solo_object_post(
+    async fn solo_object_post(
         &self,
         value: serde_json::Value,
-        ) -> Box<dyn Future<Item=SoloObjectPostResponse, Error=ApiError> + Send>;
+        ) -> Result<SoloObjectPostResponse, ApiError>;
 
 }
 
 /// Trait to extend an API to make it easy to bind it to a context.
-pub trait ContextWrapperExt<'a, C> where Self: Sized {
+pub trait ContextWrapperExt<C: Send + Sync> where Self: Sized
+{
     /// Binds this API to a context.
-    fn with_context(self: &'a Self, context: C) -> ContextWrapper<'a, Self, C>;
+    fn with_context(self: Self, context: C) -> ContextWrapper<Self, C>;
 }
 
-impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
-    fn with_context(self: &'a T, context: C) -> ContextWrapper<'a, T, C> {
+impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ContextWrapperExt<C> for T {
+    fn with_context(self: T, context: C) -> ContextWrapper<T, C> {
          ContextWrapper::<T, C>::new(self, context)
     }
 }
 
-impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
-    fn all_of_get(
+#[async_trait]
+impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for ContextWrapper<T, C> {
+    fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), ServiceError>> {
+        self.api().poll_ready(cx)
+    }
+
+    fn context(&self) -> &C {
+        ContextWrapper::context(self)
+    }
+
+    async fn all_of_get(
         &self,
-        ) -> Box<dyn Future<Item=AllOfGetResponse, Error=ApiError> + Send>
+        ) -> Result<AllOfGetResponse, ApiError>
     {
-        self.api().all_of_get(&self.context())
+        let context = self.context().clone();
+        self.api().all_of_get(&context).await
     }
 
     /// A dummy endpoint to make the spec valid.
-    fn dummy_get(
+    async fn dummy_get(
         &self,
-        ) -> Box<dyn Future<Item=DummyGetResponse, Error=ApiError> + Send>
+        ) -> Result<DummyGetResponse, ApiError>
     {
-        self.api().dummy_get(&self.context())
+        let context = self.context().clone();
+        self.api().dummy_get(&context).await
     }
 
-    fn dummy_put(
+    async fn dummy_put(
         &self,
         nested_response: models::InlineObject,
-        ) -> Box<dyn Future<Item=DummyPutResponse, Error=ApiError> + Send>
+        ) -> Result<DummyPutResponse, ApiError>
     {
-        self.api().dummy_put(nested_response, &self.context())
+        let context = self.context().clone();
+        self.api().dummy_put(nested_response, &context).await
     }
 
     /// Get a file
-    fn file_response_get(
+    async fn file_response_get(
         &self,
-        ) -> Box<dyn Future<Item=FileResponseGetResponse, Error=ApiError> + Send>
+        ) -> Result<FileResponseGetResponse, ApiError>
     {
-        self.api().file_response_get(&self.context())
+        let context = self.context().clone();
+        self.api().file_response_get(&context).await
     }
 
-    fn get_structured_yaml(
+    async fn get_structured_yaml(
         &self,
-        ) -> Box<dyn Future<Item=GetStructuredYamlResponse, Error=ApiError> + Send>
+        ) -> Result<GetStructuredYamlResponse, ApiError>
     {
-        self.api().get_structured_yaml(&self.context())
+        let context = self.context().clone();
+        self.api().get_structured_yaml(&context).await
     }
 
     /// Test HTML handling
-    fn html_post(
+    async fn html_post(
         &self,
         body: String,
-        ) -> Box<dyn Future<Item=HtmlPostResponse, Error=ApiError> + Send>
+        ) -> Result<HtmlPostResponse, ApiError>
     {
-        self.api().html_post(body, &self.context())
+        let context = self.context().clone();
+        self.api().html_post(body, &context).await
     }
 
-    fn post_yaml(
+    async fn post_yaml(
         &self,
         value: String,
-        ) -> Box<dyn Future<Item=PostYamlResponse, Error=ApiError> + Send>
+        ) -> Result<PostYamlResponse, ApiError>
     {
-        self.api().post_yaml(value, &self.context())
+        let context = self.context().clone();
+        self.api().post_yaml(value, &context).await
     }
 
     /// Get an arbitrary JSON blob.
-    fn raw_json_get(
+    async fn raw_json_get(
         &self,
-        ) -> Box<dyn Future<Item=RawJsonGetResponse, Error=ApiError> + Send>
+        ) -> Result<RawJsonGetResponse, ApiError>
     {
-        self.api().raw_json_get(&self.context())
+        let context = self.context().clone();
+        self.api().raw_json_get(&context).await
     }
 
     /// Send an arbitrary JSON blob
-    fn solo_object_post(
+    async fn solo_object_post(
         &self,
         value: serde_json::Value,
-        ) -> Box<dyn Future<Item=SoloObjectPostResponse, Error=ApiError> + Send>
+        ) -> Result<SoloObjectPostResponse, ApiError>
     {
-        self.api().solo_object_post(value, &self.context())
+        let context = self.context().clone();
+        self.api().solo_object_post(value, &context).await
     }
 
 }
+
 
 #[cfg(feature = "client")]
 pub mod client;

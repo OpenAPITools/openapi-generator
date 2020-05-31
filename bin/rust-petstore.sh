@@ -40,7 +40,7 @@ for spec_path in \
                    --input-spec $spec_path
                    --generator-name rust
                    --output samples/client/petstore/rust/$library/$spec
-                   --additional-properties packageName=${spec}-${library}
+                   --additional-properties packageName=${spec}-${library},supportAsync=false
                    --library=$library $@"
     java ${JAVA_OPTS} -jar ${executable} ${args} || exit 1
   done

@@ -249,8 +249,6 @@ public interface CodegenConfig {
 
     String getDocExtension();
 
-    String getCommonTemplateDir();
-
     void setIgnoreFilePathOverride(String ignoreFileOverride);
 
     String getIgnoreFilePathOverride();
