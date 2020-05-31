@@ -36,7 +36,10 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+<<<<<<< HEAD
 import org.openapitools.client.JSON;
+=======
+>>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -50,8 +53,11 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 public class Triangle extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Triangle.class.getName());
 
+<<<<<<< HEAD
     private static Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
 
+=======
+>>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
     public static class TriangleDeserializer extends StdDeserializer<Triangle> {
         public TriangleDeserializer() {
             this(Triangle.class);
@@ -67,6 +73,7 @@ public class Triangle extends AbstractOpenApiSchema {
 
             int match = 0;
             Object deserialized = null;
+<<<<<<< HEAD
             Class cls = JSON.getClassForElement(tree, Triangle.class);
             if (cls != null) {
                 // When the OAS schema includes a discriminator, use the discriminator value to
@@ -86,6 +93,11 @@ public class Triangle extends AbstractOpenApiSchema {
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
                 // validation, which means the 'match' count may be higher than it should be.
+=======
+            // deserialize EquilateralTriangle
+            try {
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(EquilateralTriangle.class);
+>>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'EquilateralTriangle'");
             } catch (Exception e) {
@@ -96,9 +108,12 @@ public class Triangle extends AbstractOpenApiSchema {
             // deserialize IsoscelesTriangle
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(IsoscelesTriangle.class);
+<<<<<<< HEAD
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
                 // validation, which means the 'match' count may be higher than it should be.
+=======
+>>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'IsoscelesTriangle'");
             } catch (Exception e) {
@@ -109,9 +124,12 @@ public class Triangle extends AbstractOpenApiSchema {
             // deserialize ScaleneTriangle
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(ScaleneTriangle.class);
+<<<<<<< HEAD
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
                 // validation, which means the 'match' count may be higher than it should be.
+=======
+>>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'ScaleneTriangle'");
             } catch (Exception e) {
@@ -157,11 +175,14 @@ public class Triangle extends AbstractOpenApiSchema {
         });
         schemas.put("ScaleneTriangle", new GenericType<ScaleneTriangle>() {
         });
+<<<<<<< HEAD
         // Initialize discriminator mappings.
         classByDiscriminatorValue.put("EquilateralTriangle", EquilateralTriangle.class);
         classByDiscriminatorValue.put("IsoscelesTriangle", IsoscelesTriangle.class);
         classByDiscriminatorValue.put("ScaleneTriangle", ScaleneTriangle.class);
         classByDiscriminatorValue.put("Triangle", Triangle.class);
+=======
+>>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
     }
 
     @Override

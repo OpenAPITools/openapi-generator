@@ -35,7 +35,10 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+<<<<<<< HEAD
 import org.openapitools.client.JSON;
+=======
+>>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -49,8 +52,11 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 public class NullableShape extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(NullableShape.class.getName());
 
+<<<<<<< HEAD
     private static Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
 
+=======
+>>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
     public static class NullableShapeDeserializer extends StdDeserializer<NullableShape> {
         public NullableShapeDeserializer() {
             this(NullableShape.class);
@@ -66,6 +72,7 @@ public class NullableShape extends AbstractOpenApiSchema {
 
             int match = 0;
             Object deserialized = null;
+<<<<<<< HEAD
             Class cls = JSON.getClassForElement(tree, NullableShape.class);
             if (cls != null) {
                 // When the OAS schema includes a discriminator, use the discriminator value to
@@ -85,6 +92,11 @@ public class NullableShape extends AbstractOpenApiSchema {
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
                 // validation, which means the 'match' count may be higher than it should be.
+=======
+            // deserialize Quadrilateral
+            try {
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(Quadrilateral.class);
+>>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Quadrilateral'");
             } catch (Exception e) {
@@ -95,9 +107,12 @@ public class NullableShape extends AbstractOpenApiSchema {
             // deserialize Triangle
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Triangle.class);
+<<<<<<< HEAD
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
                 // validation, which means the 'match' count may be higher than it should be.
+=======
+>>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Triangle'");
             } catch (Exception e) {
@@ -136,10 +151,13 @@ public class NullableShape extends AbstractOpenApiSchema {
         });
         schemas.put("Triangle", new GenericType<Triangle>() {
         });
+<<<<<<< HEAD
         // Initialize discriminator mappings.
         classByDiscriminatorValue.put("Quadrilateral", Quadrilateral.class);
         classByDiscriminatorValue.put("Triangle", Triangle.class);
         classByDiscriminatorValue.put("NullableShape", NullableShape.class);
+=======
+>>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
     }
 
     @Override
@@ -149,11 +167,14 @@ public class NullableShape extends AbstractOpenApiSchema {
 
     @Override
     public void setActualInstance(Object instance) {
+<<<<<<< HEAD
         if (instance == null) {
            super.setActualInstance(instance);
            return;
         }
 
+=======
+>>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
         if (instance instanceof Quadrilateral) {
             super.setActualInstance(instance);
             return;
