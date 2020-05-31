@@ -45,7 +45,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
 
-    static final String X_MODEL_MODULE = "x-modelModule";
+    static final String X_MODEL_MODULE = "x-model-module";
 
     public static final String CO_HTTP = "cohttp";
 
@@ -715,9 +715,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (CodegenOperation operation : operations) {
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             //if (CO_HTTP.equals(getLibrary())) {
@@ -728,7 +725,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             }
 
             if ("Yojson.Safe.t".equals(operation.returnBaseType)) {
-                operation.vendorExtensions.put("x-returnFreeFormObject", true); // TODO: 5.0 Remove
                 operation.vendorExtensions.put("x-return-free-form-object", true);
             }
         }

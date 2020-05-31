@@ -46,7 +46,7 @@ const docusaurusConfig = {
       },
 
       links: [
-        {to: 'docs/installation', label: 'Install'},
+        {to: 'docs/installation', label: 'Getting Started'},
         {to: 'docs/generators', label: 'Generators'},
         {to: 'docs/roadmap', label: 'Roadmap'},
         {to: "docs/faq", label: "FAQ" },
