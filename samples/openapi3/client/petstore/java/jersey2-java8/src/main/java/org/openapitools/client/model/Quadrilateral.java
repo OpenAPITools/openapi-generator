@@ -35,10 +35,7 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-<<<<<<< HEAD
 import org.openapitools.client.JSON;
-=======
->>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -52,11 +49,6 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 public class Quadrilateral extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Quadrilateral.class.getName());
 
-<<<<<<< HEAD
-    private static Map<String, Class> classByDiscriminatorValue = new HashMap<String, Class>();
-
-=======
->>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
     public static class QuadrilateralDeserializer extends StdDeserializer<Quadrilateral> {
         public QuadrilateralDeserializer() {
             this(Quadrilateral.class);
@@ -72,7 +64,6 @@ public class Quadrilateral extends AbstractOpenApiSchema {
 
             int match = 0;
             Object deserialized = null;
-<<<<<<< HEAD
             Class cls = JSON.getClassForElement(tree, Quadrilateral.class);
             if (cls != null) {
                 // When the OAS schema includes a discriminator, use the discriminator value to
@@ -92,11 +83,6 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
                 // validation, which means the 'match' count may be higher than it should be.
-=======
-            // deserialize ComplexQuadrilateral
-            try {
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(ComplexQuadrilateral.class);
->>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'ComplexQuadrilateral'");
             } catch (Exception e) {
@@ -107,12 +93,9 @@ public class Quadrilateral extends AbstractOpenApiSchema {
             // deserialize SimpleQuadrilateral
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(SimpleQuadrilateral.class);
-<<<<<<< HEAD
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
                 // validation, which means the 'match' count may be higher than it should be.
-=======
->>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'SimpleQuadrilateral'");
             } catch (Exception e) {
@@ -151,13 +134,6 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         });
         schemas.put("SimpleQuadrilateral", new GenericType<SimpleQuadrilateral>() {
         });
-<<<<<<< HEAD
-        // Initialize discriminator mappings.
-        classByDiscriminatorValue.put("ComplexQuadrilateral", ComplexQuadrilateral.class);
-        classByDiscriminatorValue.put("SimpleQuadrilateral", SimpleQuadrilateral.class);
-        classByDiscriminatorValue.put("Quadrilateral", Quadrilateral.class);
-=======
->>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
     }
 
     @Override
@@ -165,6 +141,13 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         return Quadrilateral.schemas;
     }
 
+    /**
+     * Set the instance that matches the oneOf child schema, check
+     * the instance parameter is valid against the oneOf child schemas.
+     *
+     * It could be an instance of the 'oneOf' schemas.
+     * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
+     */
     @Override
     public void setActualInstance(Object instance) {
         if (instance instanceof ComplexQuadrilateral) {

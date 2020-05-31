@@ -46,11 +46,6 @@ public class JSONComposedSchemaTest {
         // Mammal can be one of whale, pig and zebra.
         // pig has sub-classes.
         String str = "{ \"className\": \"whale\", \"hasBaleen\": true, \"hasTeeth\": false }";
-<<<<<<< HEAD
-=======
-        /*
-        DISABLING unit test for now until ambiguity of discriminator is resolved.
->>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
         
         // Note that the 'zebra' schema does not have any explicit property defined AND
         // it has additionalProperties: true. Hence without a discriminator the above
@@ -63,21 +58,15 @@ public class JSONComposedSchemaTest {
         o = json.getContext(null).readValue(str, Mammal.class);
         assertTrue(o.getActualInstance() instanceof Zebra);
 
-<<<<<<< HEAD
         // Deserialization test with indirections of 'oneOf' child schemas.
         // Mammal is oneOf whale, zebra and pig, and pig is itself one of BasquePig, DanishPig.
         // TODO: the current jersey2 implementation does not work when there is more than one level
         // of 'oneOf' children. Disabling for now.
         /*
-=======
->>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
         str = "{ \"className\": \"BasquePig\" }";
         o = json.getContext(null).readValue(str, Mammal.class);
         assertTrue(o.getActualInstance() instanceof BasquePig);
         */
-<<<<<<< HEAD
         
-=======
->>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
     }
 }

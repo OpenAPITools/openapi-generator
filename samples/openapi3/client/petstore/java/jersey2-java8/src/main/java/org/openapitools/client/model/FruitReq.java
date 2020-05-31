@@ -34,10 +34,7 @@ import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-<<<<<<< HEAD
 import org.openapitools.client.JSON;
-=======
->>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -51,10 +48,6 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 public class FruitReq extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(FruitReq.class.getName());
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
     public static class FruitReqDeserializer extends StdDeserializer<FruitReq> {
         public FruitReqDeserializer() {
             this(FruitReq.class);
@@ -73,12 +66,9 @@ public class FruitReq extends AbstractOpenApiSchema {
             // deserialize AppleReq
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(AppleReq.class);
-<<<<<<< HEAD
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
                 // validation, which means the 'match' count may be higher than it should be.
-=======
->>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'AppleReq'");
             } catch (Exception e) {
@@ -89,12 +79,9 @@ public class FruitReq extends AbstractOpenApiSchema {
             // deserialize BananaReq
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(BananaReq.class);
-<<<<<<< HEAD
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
                 // validation, which means the 'match' count may be higher than it should be.
-=======
->>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'BananaReq'");
             } catch (Exception e) {
@@ -140,16 +127,20 @@ public class FruitReq extends AbstractOpenApiSchema {
         return FruitReq.schemas;
     }
 
+    /**
+     * Set the instance that matches the oneOf child schema, check
+     * the instance parameter is valid against the oneOf child schemas.
+     *
+     * It could be an instance of the 'oneOf' schemas.
+     * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
+     */
     @Override
     public void setActualInstance(Object instance) {
-<<<<<<< HEAD
         if (instance == null) {
            super.setActualInstance(instance);
            return;
         }
 
-=======
->>>>>>> 7c45925d064b0e9992944cb292a53c0a88824a91
         if (instance instanceof AppleReq) {
             super.setActualInstance(instance);
             return;
