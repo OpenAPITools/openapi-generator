@@ -3,5 +3,3 @@ outputDir: samples/client/petstore/typescript-angular-v7-provided-in-root/builds
 inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
 additionalProperties:
   ngVersion: 7.0.0
-0.0
-  providedInRoot: "false"

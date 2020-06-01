@@ -1,6 +1,6 @@
 generatorName: dart
 outputDir: samples/client/petstore/dart/flutter_petstore/openapi
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
 templateDir: modules/openapi-generator/src/main/resources/dart
 additionalProperties:
   supportDart2: "false"

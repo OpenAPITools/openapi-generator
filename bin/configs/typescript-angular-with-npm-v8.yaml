@@ -7,5 +7,3 @@ additionalProperties:
   npmName: '@openapitools/typescript-angular-petstore'
   npmRepository: https://skimdb.npmjs.com/registry
   snapshot: false
-tps://skimdb.npmjs.com/registry
-  snapshot: false
