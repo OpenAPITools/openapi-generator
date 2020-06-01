@@ -11,10 +11,21 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+try:
+    from petstore_api.model import apple
+except ImportError:
+    apple = sys.modules[
+        'petstore_api.model.apple']
+try:
+    from petstore_api.model import banana
+except ImportError:
+    banana = sys.modules[
+        'petstore_api.model.banana']
+from petstore_api.model.fruit import Fruit
 
 
 class TestFruit(unittest.TestCase):
@@ -33,7 +44,7 @@ class TestFruit(unittest.TestCase):
         # banana test
         length_cm = 20.3
         color = 'yellow'
-        fruit = petstore_api.Fruit(length_cm=length_cm, color=color)
+        fruit = Fruit(length_cm=length_cm, color=color)
         # check its properties
         self.assertEqual(fruit.length_cm, length_cm)
         self.assertEqual(fruit['length_cm'], length_cm)
@@ -79,7 +90,7 @@ class TestFruit(unittest.TestCase):
         # Per Python doc, if the named attribute does not exist,
         # default is returned if provided, otherwise AttributeError is raised.
         with self.assertRaises(AttributeError):
-          getattr(fruit, 'cultivar')
+            getattr(fruit, 'cultivar')
 
         # make sure that the ModelComposed class properties are correct
         # model._composed_schemas stores the anyOf/allOf/oneOf info
@@ -89,15 +100,15 @@ class TestFruit(unittest.TestCase):
                 'anyOf': [],
                 'allOf': [],
                 'oneOf': [
-                    petstore_api.Apple,
-                    petstore_api.Banana,
+                    apple.Apple,
+                    banana.Banana,
                 ],
             }
         )
         # model._composed_instances is a list of the instances that were
         # made from the anyOf/allOf/OneOf classes in model._composed_schemas
         for composed_instance in fruit._composed_instances:
-            if composed_instance.__class__ == petstore_api.Banana:
+            if composed_instance.__class__ == banana.Banana:
                 banana_instance = composed_instance
         self.assertEqual(
             fruit._composed_instances,
@@ -129,7 +140,7 @@ class TestFruit(unittest.TestCase):
 
         # including extra parameters raises an exception
         with self.assertRaises(petstore_api.ApiValueError):
-            fruit = petstore_api.Fruit(
+            fruit = Fruit(
                 color=color,
                 length_cm=length_cm,
                 unknown_property='some value'
@@ -137,7 +148,7 @@ class TestFruit(unittest.TestCase):
 
         # including input parameters for two oneOf instances raise an exception
         with self.assertRaises(petstore_api.ApiValueError):
-            fruit = petstore_api.Fruit(
+            fruit = Fruit(
                 length_cm=length_cm,
                 cultivar='granny smith'
             )
@@ -146,7 +157,7 @@ class TestFruit(unittest.TestCase):
         # apple test
         color = 'red'
         cultivar = 'golden delicious'
-        fruit = petstore_api.Fruit(color=color, cultivar=cultivar)
+        fruit = Fruit(color=color, cultivar=cultivar)
         # check its properties
         self.assertEqual(fruit.color, color)
         self.assertEqual(fruit['color'], color)
@@ -166,7 +177,7 @@ class TestFruit(unittest.TestCase):
         # model._composed_instances is a list of the instances that were
         # made from the anyOf/allOf/OneOf classes in model._composed_schemas
         for composed_instance in fruit._composed_instances:
-            if composed_instance.__class__ == petstore_api.Apple:
+            if composed_instance.__class__ == apple.Apple:
                 apple_instance = composed_instance
         self.assertEqual(
             fruit._composed_instances,
@@ -188,6 +199,24 @@ class TestFruit(unittest.TestCase):
         self.assertEqual(
             fruit._additional_properties_model_instances, []
         )
+
+    def testFruitNullValue(self):
+        # Since 'apple' is nullable, validate we can create an apple with the 'null' value.
+        fruit = apple.Apple(None)
+        self.assertIsNone(fruit)
+
+        # 'banana' is not nullable.
+        with self.assertRaises(petstore_api.ApiTypeError):
+            banana.Banana(None)
+
+        # Since 'fruit' has oneOf 'apple', 'banana' and 'apple' is nullable,
+        # validate we can create a fruit with the 'null' value.
+        fruit = Fruit(None)
+        self.assertIsNone(fruit)
+ 
+        # Redo the same thing, this time passing a null Apple to the Fruit constructor.
+        fruit = Fruit(apple.Apple(None))
+        self.assertIsNone(fruit)
 
 if __name__ == '__main__':
     unittest.main()

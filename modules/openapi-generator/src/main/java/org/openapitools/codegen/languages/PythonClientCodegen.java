@@ -461,7 +461,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
 
             return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
         }
@@ -683,8 +683,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             if (p.getDefault() != null) {
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
+                else if (p.getEnum() == null)
+                    // wrap using double quotes to avoid the need to escape any embedded single quotes
+                    return "\"" + p.getDefault() + "\"";
                 else
-                    return "'" + ((String) p.getDefault()).replaceAll("'", "\'") + "'";
+                    // convert to enum var name later in postProcessModels
+                    return (String) p.getDefault();
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
@@ -707,7 +711,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     private String toExampleValueRecursive(Schema schema, List<String> included_schemas, int indentation) {
         String indentation_string = "";
-        for (int i=0 ; i< indentation ; i++) indentation_string += "    ";
+        for (int i = 0; i < indentation; i++) indentation_string += "    ";
         String example = super.toExampleValue(schema);
 
         if (ModelUtils.isNullType(schema) && null != example) {
@@ -716,9 +720,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             return "None";
         }
         // correct "true"s into "True"s, since super.toExampleValue uses "toString()" on Java booleans
-        if (ModelUtils.isBooleanSchema(schema) && null!=example) {
-            if ("false".equalsIgnoreCase(example)) example = "False";
-            else example = "True";
+        if (ModelUtils.isBooleanSchema(schema) && null != example) {
+            if ("false".equalsIgnoreCase(example))
+                example = "False";
+            else
+                example = "True";
         }
 
         // correct "&#39;"s into "'"s after toString()
@@ -728,13 +734,14 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (StringUtils.isNotBlank(example) && !"null".equals(example)) {
             if (ModelUtils.isStringSchema(schema)) {
-                example = "'" + example + "'";
+                // wrap using double quotes to avoid the need to escape any embedded single quotes
+                example = "\"" + example + "\"";
             }
             return example;
         }
 
         if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
-        // Enum case:
+            // Enum case:
             example = schema.getEnum().get(0).toString();
             if (ModelUtils.isStringSchema(schema)) {
                 example = "'" + escapeText(example) + "'";
@@ -744,7 +751,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
             return example;
         } else if (null != schema.get$ref()) {
-        // $ref case:
+            // $ref case:
             Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
             String ref = ModelUtils.getSimpleRef(schema.get$ref());
             if (allDefinitions != null) {
@@ -778,13 +785,22 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             example = "YQ==";
         } else if (ModelUtils.isStringSchema(schema)) {
             // a BigDecimal:
-            if ("Number".equalsIgnoreCase(schema.getFormat())) {return "1";}
-            if (StringUtils.isNotBlank(schema.getPattern())) return "'a'"; // I cheat here, since it would be too complicated to generate a string from a regexp
+            if ("Number".equalsIgnoreCase(schema.getFormat())) {
+                return "1";
+            }
+            if (StringUtils.isNotBlank(schema.getPattern()))
+                return "'a'"; // I cheat here, since it would be too complicated to generate a string from a regexp
+
             int len = 0;
-            if (null != schema.getMinLength()) len = schema.getMinLength().intValue();
-            if (len < 1) len = 1;
+
+            if (null != schema.getMinLength())
+                len = schema.getMinLength().intValue();
+
+            if (len < 1)
+                len = 1;
+
             example = "";
-            for (int i=0;i<len;i++) example += i;
+            for (int i = 0; i < len; i++) example += i;
         } else if (ModelUtils.isIntegerSchema(schema)) {
             if (schema.getMinimum() != null)
                 example = schema.getMinimum().toString();
@@ -802,7 +818,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 included_schemas.add(schema.getTitle());
             }
             ArraySchema arrayschema = (ArraySchema) schema;
-            example = "[\n" + indentation_string + toExampleValueRecursive(arrayschema.getItems(), included_schemas, indentation+1) + "\n" + indentation_string + "]";
+            example = "[\n" + indentation_string + toExampleValueRecursive(arrayschema.getItems(), included_schemas, indentation + 1) + "\n" + indentation_string + "]";
         } else if (ModelUtils.isMapSchema(schema)) {
             if (StringUtils.isNotBlank(schema.getTitle()) && !"null".equals(schema.getTitle())) {
                 included_schemas.add(schema.getTitle());
@@ -817,7 +833,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                         the_key = "'" + escapeText(the_key) + "'";
                     }
                 }
-                example = "{\n" + indentation_string + the_key + " : " + toExampleValueRecursive(additional, included_schemas, indentation+1) + "\n" + indentation_string + "}";
+                example = "{\n" + indentation_string + the_key + " : " + toExampleValueRecursive(additional, included_schemas, indentation + 1) + "\n" + indentation_string + "}";
             } else {
                 example = "{ }";
             }
@@ -829,11 +845,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
             // I remove any property that is a discriminator, since it is not well supported by the python generator
             String toExclude = null;
-            if (schema.getDiscriminator()!=null) {
+            if (schema.getDiscriminator() != null) {
                 toExclude = schema.getDiscriminator().getPropertyName();
             }
 
-            example = packageName + ".models." + underscore(schema.getTitle())+"."+schema.getTitle()+"(";
+            example = packageName + ".models." + underscore(schema.getTitle()) + "." + schema.getTitle() + "(";
 
             // if required only:
             // List<String> reqs = schema.getRequired();
@@ -847,7 +863,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
                 Map<String, Schema> properties = schema.getProperties();
                 Set<String> propkeys = null;
-                if (properties != null) propkeys = properties.keySet();
+                if (properties != null)
+                    propkeys = properties.keySet();
                 if (toExclude != null && reqs.contains(toExclude)) {
                     reqs.remove(toExclude);
                 }
@@ -874,7 +891,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                     }
                 }
             }
-            example +=")";
+            example += ")";
         } else {
             LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
         }
@@ -902,43 +919,45 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             type = p.dataType;
         }
 
-        if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = p.paramName + "_example";
+        if (type != null) {
+            if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
+                if (example == null) {
+                    example = p.paramName + "_example";
+                }
+                example = "'" + escapeText(example) + "'";
+            } else if ("Integer".equals(type) || "int".equals(type)) {
+                if (example == null) {
+                    example = "56";
+                }
+            } else if ("Float".equalsIgnoreCase(type) || "Double".equalsIgnoreCase(type)) {
+                if (example == null) {
+                    example = "3.4";
+                }
+            } else if ("BOOLEAN".equalsIgnoreCase(type) || "bool".equalsIgnoreCase(type)) {
+                if (example == null) {
+                    example = "True";
+                }
+            } else if ("file".equalsIgnoreCase(type)) {
+                if (example == null) {
+                    example = "/path/to/file";
+                }
+                example = "'" + escapeText(example) + "'";
+            } else if ("Date".equalsIgnoreCase(type)) {
+                if (example == null) {
+                    example = "2013-10-20";
+                }
+                example = "'" + escapeText(example) + "'";
+            } else if ("DateTime".equalsIgnoreCase(type)) {
+                if (example == null) {
+                    example = "2013-10-20T19:20:30+01:00";
+                }
+                example = "'" + escapeText(example) + "'";
+            } else if (!languageSpecificPrimitives.contains(type)) {
+                // type is a model class, e.g. User
+                example = this.packageName + "." + type + "()";
+            } else {
+                LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
             }
-            example = "'" + escapeText(example) + "'";
-        } else if ("Integer".equals(type) || "int".equals(type)) {
-            if (example == null) {
-                example = "56";
-            }
-        } else if ("Float".equalsIgnoreCase(type) || "Double".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "3.4";
-            }
-        } else if ("BOOLEAN".equalsIgnoreCase(type) || "bool".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "True";
-            }
-        } else if ("file".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "/path/to/file";
-            }
-            example = "'" + escapeText(example) + "'";
-        } else if ("Date".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "2013-10-20";
-            }
-            example = "'" + escapeText(example) + "'";
-        } else if ("DateTime".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "2013-10-20T19:20:30+01:00";
-            }
-            example = "'" + escapeText(example) + "'";
-        } else if (!languageSpecificPrimitives.contains(type)) {
-            // type is a model class, e.g. User
-            example = this.packageName + "." + type + "()";
-        } else {
-            LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
         }
 
         if (example == null) {

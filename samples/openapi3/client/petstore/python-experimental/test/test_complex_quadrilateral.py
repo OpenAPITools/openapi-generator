@@ -11,10 +11,21 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+try:
+    from petstore_api.model import quadrilateral_interface
+except ImportError:
+    quadrilateral_interface = sys.modules[
+        'petstore_api.model.quadrilateral_interface']
+try:
+    from petstore_api.model import shape_interface
+except ImportError:
+    shape_interface = sys.modules[
+        'petstore_api.model.shape_interface']
+from petstore_api.model.complex_quadrilateral import ComplexQuadrilateral
 
 
 class TestComplexQuadrilateral(unittest.TestCase):
@@ -29,7 +40,7 @@ class TestComplexQuadrilateral(unittest.TestCase):
     def testComplexQuadrilateral(self):
         """Test ComplexQuadrilateral"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.ComplexQuadrilateral()  # noqa: E501
+        # model = ComplexQuadrilateral()  # noqa: E501
         pass
 
 

@@ -11,10 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.whale import Whale
 
 
 class TestWhale(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestWhale(unittest.TestCase):
     def testWhale(self):
         """Test Whale"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.Whale()  # noqa: E501
+        # model = Whale()  # noqa: E501
         pass
 
 
