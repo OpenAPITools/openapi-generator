@@ -34,7 +34,7 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models import inline_response_default
+from petstore_api.model import inline_response_default
 
 
 class DefaultApi(object):

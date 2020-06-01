@@ -34,7 +34,7 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models import order
+from petstore_api.model import order
 
 
 class StoreApi(object):
