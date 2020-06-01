@@ -56,6 +56,7 @@ import java.util.stream.Stream;
 @Command(name = "batch", description = "Generate code in batch via external configs.", hidden = true)
 public class GenerateBatch extends OpenApiGeneratorCommand {
     private static AtomicInteger failures = new AtomicInteger(0);
+    private static AtomicInteger successes = new AtomicInteger(0);
     private static final Logger LOGGER = LoggerFactory.getLogger(GenerateBatch.class);
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
@@ -153,12 +154,12 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
 
             executor.awaitTermination(awaitFor, TimeUnit.MINUTES);
 
-            int failCount = failures.get();
+            int failCount = failures.intValue();
             if (failCount > 0) {
-                System.err.println(String.format(Locale.ROOT, "[FAIL] Completed with %d failures", failCount));
+                System.err.println(String.format(Locale.ROOT, "[FAIL] Completed with %d failures, %d successes", failCount, successes.intValue()));
                 System.exit(1);
             } else {
-                System.out.println("[SUCCESS] Batch generation completed successfully.");
+                System.out.println(String.format(Locale.ROOT, "[SUCCESS] Batch generation finished %d generators successfully.", successes.intValue()));
             }
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -211,6 +212,7 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
                 defaultGenerator.generate();
 
                 System.out.printf(Locale.ROOT, "[%s] Finished generating %s…%n", Thread.currentThread().getName(), name);
+                successes.incrementAndGet();
             } catch (Throwable e) {
                 failures.incrementAndGet();
                 String failedOn = name;
