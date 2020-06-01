@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
+ * Copyright 2020 OpenAPI-Generator Contributors (https://openapi-generator.tech)
  * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -303,32 +303,28 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         return operations;
     }
     
+    /**
+     * Returns the correct return type based on all 2xx HTTP responses defined for an operation.
+     * @param responses all CodegenResponses defined for one operation
+     * @return TypeScript return type
+     */
     private String getReturnType(List<CodegenResponse> responses) {
-        StringBuilder returnType = new StringBuilder();
-        boolean firstReturnType = true;
-        boolean atLeastOneSuccess = false;
-        boolean addVoid = false;
+        Set<String> returnTypes = new HashSet<String>();
         for (CodegenResponse response: responses) {
             if (response.is2xx) {
                 if (response.dataType != null) {
-                    if (!firstReturnType) {
-                        returnType.append(" | ");
-                    }
-                    returnType.append(response.dataType);
-                    firstReturnType = false;
-                    atLeastOneSuccess = true;
+                    returnTypes.add(response.dataType);
                 } else {
-                    addVoid = true;
+                    returnTypes.add("void");
                 }
             }
         }
-        if (!atLeastOneSuccess) {
-            return null;
-        } else if (addVoid) {
-            returnType.append(" | void");
-        }
         
-        return returnType.toString();
+        if (returnTypes.size() == 0) {
+            return null;
+        } 
+
+        return String.join(" | ", returnTypes);
     }
     
     private String getModelnameFromModelFilename(String filename) {
