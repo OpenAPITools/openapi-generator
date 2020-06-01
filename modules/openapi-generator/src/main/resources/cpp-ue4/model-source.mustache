@@ -42,6 +42,7 @@ inline void WriteJsonValue(JsonWriter& Writer, const {{classname}}::{{{enumName}
 
 inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, {{classname}}::{{{enumName}}}& Value)
 {
+	{{#allowableValues}}
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
@@ -55,6 +56,7 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, {{classname
 			return true;
 		}
 	}
+	{{/allowableValues}}
 	return false;
 }
 

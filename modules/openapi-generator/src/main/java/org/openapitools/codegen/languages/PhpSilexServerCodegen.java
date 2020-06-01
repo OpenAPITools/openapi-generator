@@ -133,7 +133,7 @@ public class PhpSilexServerCodegen extends DefaultCodegen implements CodegenConf
         supportingFiles.add(new SupportingFile(".htaccess", "", ".htaccess"));
 
         // remove this line when this class extends AbstractPhpCodegen
-        supportingFiles.add(new SupportingFile(".gitignore", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("gitignore", "", ".gitignore"));
     }
 
     @Override

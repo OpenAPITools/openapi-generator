@@ -32,7 +32,7 @@ public:
 	FString ComputePath() const final;
     
 	/* Created user object */
-	std::shared_ptr<OpenAPIOpenAPIUser> Body;
+	OpenAPIUser Body;
 };
 
 class OPENAPI_API OpenAPIUserApi::CreateUserResponse : public Response
@@ -56,7 +56,7 @@ public:
 	FString ComputePath() const final;
     
 	/* List of user object */
-	TArray<std::shared_ptr<OpenAPIOpenAPIUser>> Body;
+	TArray<OpenAPIUser> Body;
 };
 
 class OPENAPI_API OpenAPIUserApi::CreateUsersWithArrayInputResponse : public Response
@@ -80,7 +80,7 @@ public:
 	FString ComputePath() const final;
     
 	/* List of user object */
-	TArray<std::shared_ptr<OpenAPIOpenAPIUser>> Body;
+	TArray<OpenAPIUser> Body;
 };
 
 class OPENAPI_API OpenAPIUserApi::CreateUsersWithListInputResponse : public Response
@@ -204,7 +204,7 @@ public:
 	/* name that need to be deleted */
 	FString Username;
 	/* Updated user object */
-	std::shared_ptr<OpenAPIOpenAPIUser> Body;
+	OpenAPIUser Body;
 };
 
 class OPENAPI_API OpenAPIUserApi::UpdateUserResponse : public Response

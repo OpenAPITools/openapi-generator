@@ -28,6 +28,8 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -60,6 +62,8 @@ public class ApiClient {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
   protected String basePath = "http://petstore.swagger.io:80/v2";
+  private static final Logger log = Logger.getLogger(ApiClient.class.getName());
+
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
       "http://petstore.swagger.io:80/v2",
@@ -845,6 +849,9 @@ public class ApiClient {
           }
         } catch (Exception ex) {
           // failed to deserialize, do nothing and try next one (schema)
+          // Logging the error may be useful to troubleshoot why a payload fails to match
+          // the schema.
+          log.log(Level.FINE, "Input data does not match schema '" + schemaName + "'", ex);
         }
       } else {// unknown type
         throw new ApiException(schemaType.getClass() + " is not a GenericType and cannot be handled properly in deserialization.");
@@ -855,7 +862,7 @@ public class ApiClient {
     if (matchCounter > 1 && "oneOf".equals(schema.getSchemaType())) {// more than 1 match for oneOf
       throw new ApiException("Response body is invalid as it matches more than one schema (" + StringUtil.join(matchSchemas, ", ") + ") defined in the oneOf model: " + schema.getClass().getName());
     } else if (matchCounter == 0) { // fail to match any in oneOf/anyOf schemas
-      throw new ApiException("Response body is invalid as it doens't match any schemas (" + StringUtil.join(schema.getSchemas().keySet(), ", ") + ") defined in the oneOf/anyOf model: " + schema.getClass().getName());
+      throw new ApiException("Response body is invalid as it does not match any schemas (" + StringUtil.join(schema.getSchemas().keySet(), ", ") + ") defined in the oneOf/anyOf model: " + schema.getClass().getName());
     } else { // only one matched
       schema.setActualInstance(result);
       return schema;

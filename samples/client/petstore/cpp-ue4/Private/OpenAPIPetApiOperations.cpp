@@ -43,9 +43,7 @@ void OpenAPIPetApi::AddPetRequest::SetupHttpRequest(const TSharedRef<IHttpReques
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		Writer->WriteObjectStart();
-		Writer->WriteIdentifierPrefix(TEXT("body")); WriteJsonValue(Writer, Body);
-		Writer->WriteObjectEnd();
+		WriteJsonValue(Writer, Body);
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
@@ -366,9 +364,7 @@ void OpenAPIPetApi::UpdatePetRequest::SetupHttpRequest(const TSharedRef<IHttpReq
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		Writer->WriteObjectStart();
-		Writer->WriteIdentifierPrefix(TEXT("body")); WriteJsonValue(Writer, Body);
-		Writer->WriteObjectEnd();
+		WriteJsonValue(Writer, Body);
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
@@ -517,7 +513,6 @@ void OpenAPIPetApi::UploadFileRequest::SetupHttpRequest(const TSharedRef<IHttpRe
 		if(File.IsSet())
 		{
 			FormData.AddFilePart(TEXT("file"), File.GetValue());
-			FormData.AddBinaryPart(TEXT("file"), File.GetValue());
 		}
 
 		FormData.SetupHttpRequest(HttpRequest);

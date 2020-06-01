@@ -164,7 +164,6 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> reservedWordsMappings = new HashMap<String, String>();
     protected String templateDir;
     protected String embeddedTemplateDir;
-    protected String commonTemplateDir = "_common";
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
     protected Map<String, String> serverVariables = new HashMap<String, String>();
     protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
@@ -982,14 +981,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    public String getCommonTemplateDir() {
-        return this.commonTemplateDir;
-    }
-
-    public void setCommonTemplateDir(String commonTemplateDir) {
-        this.commonTemplateDir = commonTemplateDir;
-    }
-
     public Map<String, String> apiDocTemplateFiles() {
         return apiDocTemplateFiles;
     }
@@ -1469,12 +1460,6 @@ public class DefaultCodegen implements CodegenConfig {
         importMapping.put("LocalDateTime", "org.joda.time.*");
         importMapping.put("LocalDate", "org.joda.time.*");
         importMapping.put("LocalTime", "org.joda.time.*");
-
-        // we've used the .openapi-generator-ignore approach as
-        // suppportingFiles can be cleared by code generator that extends
-        // the default codegen, leaving the commented code below for
-        // future reference
-        //supportingFiles.add(new GlobalSupportingFile("LICENSE", "LICENSE"));
 
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
@@ -4841,6 +4826,11 @@ public class DefaultCodegen implements CodegenConfig {
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
         return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
+    }
+
+    public String modelFilename(String templateName, String modelName) {
+        String suffix = modelTemplateFiles().get(templateName);
+        return modelFileFolder() + File.separator + toModelFilename(modelName) + suffix;
     }
 
     /**
