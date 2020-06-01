@@ -683,8 +683,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             if (p.getDefault() != null) {
                 if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getDefault()).find())
                     return "'''" + p.getDefault() + "'''";
+                else if (p.getEnum() == null)
+                    // wrap using double quotes to avoid the need to escape any embedded single quotes
+                    return "\"" + p.getDefault() + "\"";
                 else
-                    return "'" + ((String) p.getDefault()).replaceAll("'", "\'") + "'";
+                    // convert to enum var name later in postProcessModels
+                    return (String) p.getDefault();
             }
         } else if (ModelUtils.isArraySchema(p)) {
             if (p.getDefault() != null) {
@@ -728,7 +732,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
         if (StringUtils.isNotBlank(example) && !"null".equals(example)) {
             if (ModelUtils.isStringSchema(schema)) {
-                example = "'" + example + "'";
+                // wrap using double quotes to avoid the need to escape any embedded single quotes
+                example = "\"" + example + "\"";
             }
             return example;
         }
@@ -902,43 +907,45 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             type = p.dataType;
         }
 
-        if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
+        if (type != null) {
+          if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
             if (example == null) {
-                example = p.paramName + "_example";
+              example = p.paramName + "_example";
             }
             example = "'" + escapeText(example) + "'";
-        } else if ("Integer".equals(type) || "int".equals(type)) {
+          } else if ("Integer".equals(type) || "int".equals(type)) {
             if (example == null) {
-                example = "56";
+              example = "56";
             }
-        } else if ("Float".equalsIgnoreCase(type) || "Double".equalsIgnoreCase(type)) {
+          } else if ("Float".equalsIgnoreCase(type) || "Double".equalsIgnoreCase(type)) {
             if (example == null) {
-                example = "3.4";
+              example = "3.4";
             }
-        } else if ("BOOLEAN".equalsIgnoreCase(type) || "bool".equalsIgnoreCase(type)) {
+          } else if ("BOOLEAN".equalsIgnoreCase(type) || "bool".equalsIgnoreCase(type)) {
             if (example == null) {
-                example = "True";
+              example = "True";
             }
-        } else if ("file".equalsIgnoreCase(type)) {
+          } else if ("file".equalsIgnoreCase(type)) {
             if (example == null) {
-                example = "/path/to/file";
-            }
-            example = "'" + escapeText(example) + "'";
-        } else if ("Date".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "2013-10-20";
+              example = "/path/to/file";
             }
             example = "'" + escapeText(example) + "'";
-        } else if ("DateTime".equalsIgnoreCase(type)) {
+          } else if ("Date".equalsIgnoreCase(type)) {
             if (example == null) {
-                example = "2013-10-20T19:20:30+01:00";
+              example = "2013-10-20";
             }
             example = "'" + escapeText(example) + "'";
-        } else if (!languageSpecificPrimitives.contains(type)) {
+          } else if ("DateTime".equalsIgnoreCase(type)) {
+            if (example == null) {
+              example = "2013-10-20T19:20:30+01:00";
+            }
+            example = "'" + escapeText(example) + "'";
+          } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. User
             example = this.packageName + "." + type + "()";
-        } else {
+          } else {
             LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
+          }
         }
 
         if (example == null) {

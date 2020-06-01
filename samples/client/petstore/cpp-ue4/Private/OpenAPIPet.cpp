@@ -51,7 +51,10 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, OpenAPIPet:
 	FString TmpValue;
 	if (JsonValue->TryGetString(TmpValue))
 	{
-		static TMap<FString, OpenAPIPet::StatusEnum> StringToEnum = {  };
+		static TMap<FString, OpenAPIPet::StatusEnum> StringToEnum = { 
+			{ TEXT("available"), OpenAPIPet::StatusEnum::Available },
+			{ TEXT("pending"), OpenAPIPet::StatusEnum::Pending },
+			{ TEXT("sold"), OpenAPIPet::StatusEnum::Sold }, };
 
 		const auto Found = StringToEnum.Find(TmpValue);
 		if(Found)
