@@ -1,8 +1,5 @@
 import {RequestContext} from '../http/http';
 // typings for btoa are incorrect
-//@ts-ignore
-import * as btoa from "btoa";
-
 /**
  * Base class for all authentication schemes.
  *
@@ -28,21 +25,6 @@ export abstract class SecurityAuthentication {
 	 */
    public abstract applySecurityAuthentication(context: RequestContext): void | Promise<void>;
 
-}
-
-/**
- * Applies no authentication.
- *
- */
-export class NoAuthentication extends SecurityAuthentication {
-	
-	public constructor() {
-		super("_no_auth");
-	}
-	
-	public applySecurityAuthentication(_context: RequestContext) {
-	
-	}
 }
 
 /**

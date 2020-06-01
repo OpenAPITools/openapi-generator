@@ -1,10 +1,11 @@
 import {RequestContext} from '../http/http';
 // typings for btoa are incorrect
+{{#platforms}}
 {{#node}}
 //@ts-ignore
 import * as btoa from "btoa";
 {{/node}}
-
+{{/platforms}}
 /**
  * Base class for all authentication schemes.
  *

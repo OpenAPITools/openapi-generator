@@ -18,34 +18,32 @@
   },
   "dependencies": {
     {{#frameworks}}
-    {{#fetch-api}}
-    {{#platforms}}
-    {{#node}}
+      {{#fetch-api}}
+        {{#platforms}}
+          {{#node}}
     "node-fetch": "^2.6.0",
     "@types/node-fetch": "^2.5.7",
-    {{/node}}
-    {{#browser}}
+          {{/node}}
+          {{#browser}}
     "whatwg-fetch": "^3.0.0",
-    {{/browser}}
-    {{/platforms}}
-    {{/fetch-api}}
-    {{#jquery}}
+          {{/browser}}
+        {{/platforms}}
+      {{/fetch-api}}
+      {{#jquery}}
     "@types/jquery": "^3.3.29",
     "jquery": "^3.4.1",
-    {{/jquery}}
+      {{/jquery}}
     {{/frameworks}}
     {{#platforms}}
-    {{#node}}
+      {{#node}}
     "@types/node": "*",
     "form-data": "^2.5.0",
-    {{/node}}
+    "btoa": "^1.2.1",
+      {{/node}}
     {{/platforms}}
     {{#useRxJS}}
       "rxjs": "^6.4.0",
     {{/useRxJS}}
-    {{#node}}
-    "btoa": "^1.2.1",
-    {{/node}}
     "es6-promise": "^4.2.4",
     "url-parse": "^1.4.3"
   },
