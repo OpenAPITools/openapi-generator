@@ -258,6 +258,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
                 fixedEnum.add(fixedValue);
                 p.setExample(fixedValue);
+                LOGGER.warn(fixedValue);
             }
 
             // fix defaultObject
