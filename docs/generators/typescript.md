@@ -20,6 +20,7 @@ sidebar_label: typescript
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |supportsES6|Generate code that conforms to ES6.| |false|
+|useObjectParameters|useObjectParameters| |false|
 |useRxJS|Enable this to internally use rxjs observables. If disabled, a stub is used instead. This is required for the 'angular' framework.| |false|
 
 ## IMPORT MAPPING
