@@ -17,30 +17,24 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.MediaType;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.examples.ExampleGenerator;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
-import org.openapitools.codegen.meta.GeneratorMetadata;
-import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -83,7 +77,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-         );
+        );
 
         // this may set datatype right for additional properties
         instantiationTypes.put("map", "dict");
@@ -138,7 +132,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
         Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
-           (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
+                (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
         List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
         if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
             supportingFiles.add(new SupportingFile("python-experimental/signing.mustache", packagePath(), "signing.py"));
@@ -165,12 +159,12 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         supportingFiles.add(new SupportingFile(readmeTemplate, "", readmePath));
 
         if (!generateSourceCodeOnly) {
-          supportingFiles.remove(new SupportingFile("setup.mustache", "", "setup.py"));
-          supportingFiles.add(new SupportingFile("python-experimental/setup.mustache", "", "setup.py"));
-          supportingFiles.remove(new SupportingFile("requirements.mustache", "", "requirements.txt"));
-          supportingFiles.add(new SupportingFile("python-experimental/requirements.mustache", "", "requirements.txt"));
-          supportingFiles.remove(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
-          supportingFiles.add(new SupportingFile("python-experimental/test-requirements.mustache", "", "test-requirements.txt"));
+            supportingFiles.remove(new SupportingFile("setup.mustache", "", "setup.py"));
+            supportingFiles.add(new SupportingFile("python-experimental/setup.mustache", "", "setup.py"));
+            supportingFiles.remove(new SupportingFile("requirements.mustache", "", "requirements.txt"));
+            supportingFiles.add(new SupportingFile("python-experimental/requirements.mustache", "", "requirements.txt"));
+            supportingFiles.remove(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
+            supportingFiles.add(new SupportingFile("python-experimental/test-requirements.mustache", "", "test-requirements.txt"));
         }
 
         // default this to true so the python ModelSimple models will be generated
@@ -298,7 +292,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // name looks like cat.Cat
         String moduleName = name.split("\\.")[0];
         // https://exceptionshub.com/circular-or-cyclic-imports-in-python.html
-        return "from " + modelPackage() + " import "+ moduleName;
+        return "from " + modelPackage() + " import " + moduleName;
     }
 
     private String robustImport(String name) {
@@ -306,8 +300,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         String moduleName = name.split("\\.")[0];
         // https://exceptionshub.com/circular-or-cyclic-imports-in-python.html
         String modelImport = "try:\n    from " + modelPackage() +
-          " import " + moduleName+ "\nexcept ImportError:\n    " +
-          moduleName + " = sys.modules[\n        '" + modelPackage() + "." + moduleName + "']";
+                " import " + moduleName + "\nexcept ImportError:\n    " +
+                moduleName + " = sys.modules[\n        '" + modelPackage() + "." + moduleName + "']";
         return modelImport;
     }
 
@@ -339,9 +333,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     @Override
     @SuppressWarnings("static-method")
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        HashMap<String, Object> val = (HashMap<String, Object>)objs.get("operations");
+        HashMap<String, Object> val = (HashMap<String, Object>) objs.get("operations");
         ArrayList<CodegenOperation> operations = (ArrayList<CodegenOperation>) val.get("operation");
-        ArrayList<HashMap<String, String>> imports = (ArrayList<HashMap<String, String>>)objs.get("imports");
+        ArrayList<HashMap<String, String>> imports = (ArrayList<HashMap<String, String>>) objs.get("imports");
         imports.clear();
         for (CodegenOperation operation : operations) {
             fixOperationImports(operation.imports);
@@ -370,7 +364,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     /**
      * Override with special post-processing for all models.
-     */ 
+     */
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         // loop through all models and delete ones where type!=object and the model has no validations and enums
@@ -713,7 +707,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public void postProcessParameter(CodegenParameter p) {
         postProcessPattern(p.pattern, p.vendorExtensions);
         // set baseType to null so the api docs will not point to a model for languageSpecificPrimitives
-        if (p.baseType != null && languageSpecificPrimitives.contains(p.baseType)){
+        if (p.baseType != null && languageSpecificPrimitives.contains(p.baseType)) {
             p.baseType = null;
         } else if (p.isListContainer && p.mostInnerItems.complexType != null && !languageSpecificPrimitives.contains(p.mostInnerItems.complexType)) {
             // fix ListContainers
@@ -721,7 +715,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
     }
 
-    private void addNullDefaultToOneOfAnyOfReqProps(Schema schema, CodegenModel result){
+    private void addNullDefaultToOneOfAnyOfReqProps(Schema schema, CodegenModel result) {
         // for composed schema models, if the required properties are only from oneOf or anyOf models
         // give them a nulltype.Null so the user can omit including them in python
         ComposedSchema cs = (ComposedSchema) schema;
@@ -743,7 +737,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (anyOf != null) {
             oneOfanyOfSchemas.addAll(anyOf);
         }
-        for (Schema sc: oneOfanyOfSchemas) {
+        for (Schema sc : oneOfanyOfSchemas) {
             Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, sc);
             addProperties(otherProperties, otherRequired, refSchema);
         }
@@ -761,7 +755,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         List<CodegenProperty> reqVars = result.getRequiredVars();
         if (reqVars != null) {
-            for (CodegenProperty cp: reqVars) {
+            for (CodegenProperty cp : reqVars) {
                 String propName = cp.baseName;
                 if (otherRequiredSet.contains(propName) && !selfRequiredSet.contains(propName)) {
                     // if var is in otherRequiredSet and is not in selfRequiredSet and is in result.requiredVars
@@ -898,20 +892,20 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * Primitive types in the OAS specification are implemented in Python using the corresponding
      * Python primitive types.
      * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types.
-     * 
+     * <p>
      * The caller should set the prefix and suffix arguments to empty string, except when
      * getTypeString invokes itself recursively. A non-empty prefix/suffix may be specified
      * to wrap the return value in a python dict, list or tuple.
-     *
+     * <p>
      * Examples:
      * - "bool, date, float"  The data must be a bool, date or float.
      * - "[bool, date]"       The data must be an array, and the array items must be a bool or date.
-     * 
-     * @param p The OAS schema.
-     * @param prefix prepended to the returned value.
-     * @param suffix appended to the returned value.
+     *
+     * @param p                    The OAS schema.
+     * @param prefix               prepended to the returned value.
+     * @param suffix               appended to the returned value.
      * @param referencedModelNames a list of models that are being referenced while generating the types,
-     *          may be used to generate imports.
+     *                             may be used to generate imports.
      * @return a comma-separated string representation of the Python types
      */
     private String getTypeString(Schema p, String prefix, String suffix, List<String> referencedModelNames) {
@@ -961,7 +955,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             } else {
                 return prefix + getTypeString(inner, "[", "]", referencedModelNames) + fullSuffix;
             }
-        } 
+        }
         if (ModelUtils.isFileSchema(p)) {
             return prefix + "file_type" + fullSuffix;
         }
@@ -1051,7 +1045,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             if (example == null) {
                 example = "/path/to/file";
             }
-            example = "open('"+example+"', 'rb')";
+            example = "open('" + example + "', 'rb')";
         } else if ("Date".equalsIgnoreCase(type)) {
             if (example == null) {
                 example = "2013-10-20";
@@ -1122,7 +1116,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     @Override
     public String toModelName(String name) {
         // we have a custom version of this function so we can support circular references in python 2 and 3
-        return toModelFilename(name)+"."+simpleModelName(name);
+        return toModelFilename(name) + "." + simpleModelName(name);
     }
 
     @Override
