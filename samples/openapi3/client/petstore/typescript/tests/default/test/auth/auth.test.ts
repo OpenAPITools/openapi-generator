@@ -4,18 +4,6 @@ import { expect} from "chai";
 
 
 describe("Security Authentication", () => {
-    describe("No Authentication", () => {
-        it("No Authentication", () => {
-            let ctx = new petstore.RequestContext("http://google.com", petstore.HttpMethod.GET);
-            let noAuth = new petstore.NoAuthentication();
-            noAuth.applySecurityAuthentication(ctx);
-    
-            expect(ctx.getUrl()).to.equal("http://google.com");
-            expect(ctx.getHeaders()).to.deep.equal({});
-            expect(ctx.getBody()).to.equal(undefined);
-        });    
-    })
-
     describe("API Key Authentication", () => {
         // TODO: make all params const variables
         it("Header API Key", () => {

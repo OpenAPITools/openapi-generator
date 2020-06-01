@@ -20,8 +20,8 @@ pet.category = undefined
 
 describe("PetApi", () =>{ 
     it("addPet", (done) => {
-        petApi.addPet(pet).then(() => {
-            return petApi.getPetById(pet.id)
+        petApi.addPet({ pet: pet }).then(() => {
+            return petApi.getPetById({ petId: pet.id })
         }).then((createdPet: petstore.Pet) => {
             expect(createdPet).to.deep.equal(pet);
             done()
@@ -31,10 +31,10 @@ describe("PetApi", () =>{
     })
 
     it("deletePet", (done) => {
-        petApi.addPet(pet).then(() => {
-            return petApi.deletePet(pet.id)
+        petApi.addPet({pet: pet}).then(() => {
+            return petApi.deletePet({ petId: pet.id} )
         }).then(() => {
-            return petApi.getPetById(pet.id)
+            return petApi.getPetById({ petId: pet.id })
         }).then((pet: petstore.Pet) => {
             done("Pet with id " + pet.id + " was not deleted!");
         }).catch((err: any) => {
@@ -47,8 +47,8 @@ describe("PetApi", () =>{
     })
 
     it("findPetsByStatus", (done) => {
-        petApi.addPet(pet).then(() => {
-            return petApi.findPetsByStatus(["available"])
+        petApi.addPet({ pet: pet}).then(() => {
+            return petApi.findPetsByStatus({ status: ["available"]})
         }).then((pets: petstore.Pet[]) => {
             expect(pets.length).to.be.at.least(1);
             done();
@@ -70,8 +70,8 @@ describe("PetApi", () =>{
     })*/
 
     it("getPetById", (done) => {
-        petApi.addPet(pet).then(() => {
-            return petApi.getPetById(pet.id)
+        petApi.addPet({pet: pet}).then(() => {
+            return petApi.getPetById({ petId: pet.id})
         }).then((returnedPet: petstore.Pet) => {
             expect(returnedPet).to.deep.equal(pet);
             done();
@@ -83,16 +83,16 @@ describe("PetApi", () =>{
     it("updatePet", (done) => {
         const oldName = pet.name
         const updatedName = "updated name";
-        petApi.addPet(pet).then(() => {
+        petApi.addPet({pet: pet}).then(() => {
             pet.name = updatedName
-            return petApi.updatePet(pet).then(() => {
+            return petApi.updatePet({pet: pet}).then(() => {
                 pet.name = oldName;
             }).catch((err: any) => {
                 pet.name = oldName
                 throw err;
             });
         }).then(() => {
-            return petApi.getPetById(pet.id);
+            return petApi.getPetById({ petId: pet.id });
         }).then((returnedPet: petstore.Pet) => {
             expect(returnedPet.id).to.equal(pet.id)
             expect(returnedPet.name).to.equal(updatedName);
@@ -120,7 +120,7 @@ describe("PetApi", () =>{
 
     it("uploadFile", (done) => {
         const image = fs.readFileSync(__dirname + "/pet.png")
-        petApi.uploadFile(pet.id, "Metadata", { name: "pet.png", data: image}).then((response: any) => {
+        petApi.uploadFile({ petId: pet.id, additionalMetadata: "Metadata", file: { name: "pet.png", data: image}}).then((response: any) => {
             expect(response.code).to.be.gte(200).and.lt(300);
             expect(response.message).to.contain("pet.png");
             done();

@@ -7,5 +7,5 @@ export { Configuration} from './configuration'
 export * from './apis/exception';
 export * from './servers';
 
-  export * from './types/PromiseAPI';
-  export { PromiseMiddleware as Middleware } from './middleware';
+export { PromiseMiddleware as Middleware } from './middleware';
+export { PromisePetApi as PetApi,  PromiseStoreApi as StoreApi,  PromiseUserApi as UserApi } from './types/PromiseAPI';

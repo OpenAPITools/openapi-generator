@@ -8,10 +8,19 @@ export * from './apis/exception';
 export * from './servers';
 
 {{#useRxJS}}
-  export * from './types/ObservableAPI';
-  export { Middleware } from './middleware';
+export { Middleware } from './middleware';
 {{/useRxJS}}
 {{^useRxJS}}
-  export * from './types/PromiseAPI';
-  export { PromiseMiddleware as Middleware } from './middleware';
+export { PromiseMiddleware as Middleware } from './middleware';
 {{/useRxJS}}
+{{#useObjectParameters}}
+export { {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{classname}}{{operationIdCamelCase}}Request, {{/operation}}Object{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/ObjectParamAPI';
+{{/useObjectParameters}}
+{{^useObjectParameters}}
+{{#useRxJS}}
+export { {{#apiInfo}}{{#apis}}{{#operations}}Observable{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/ObservableAPI';
+{{/useRxJS}}
+{{^useRxJS}}
+export { {{#apiInfo}}{{#apis}}{{#operations}}Promise{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/PromiseAPI';
+{{/useRxJS}}
+{{/useObjectParameters}}

@@ -6,7 +6,7 @@ import * as petstore from 'ts-petstore-client';
 import petImage from "./pet.png";
 
 const configuration = new petstore.Configuration()
-const petApi = new petstore.PromisePetApi(configuration)
+const petApi = new petstore.PetApi(configuration)
 
 const tag = new petstore.Tag();
 tag.name = "tag1"
