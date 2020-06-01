@@ -21,6 +21,7 @@ from dateutil.parser import parse
 from collections import namedtuple
 
 import petstore_api
+from petstore_api.model import format_test
 import petstore_api.configuration
 
 HOST = 'http://petstore.swagger.io/v2'
@@ -50,7 +51,7 @@ class ApiClientTests(unittest.TestCase):
 
 
     def test_multiple_of(self):
-        inst = petstore_api.FormatTest(
+        inst = format_test.FormatTest(
             byte='3',
             date=datetime.date(2000, 1, 1),
             password="abcdefghijkl",
@@ -58,10 +59,10 @@ class ApiClientTests(unittest.TestCase):
             number=65.0,
             float=62.4
         )
-        assert isinstance(inst, petstore_api.FormatTest)
+        assert isinstance(inst, format_test.FormatTest)
 
         with self.checkRaiseRegex(petstore_api.exceptions.ApiValueError, "Invalid value for `integer`, value must be a multiple of `2`"):
-          inst = petstore_api.FormatTest(
+          inst = format_test.FormatTest(
               byte='3',
               date=datetime.date(2000, 1, 1),
               password="abcdefghijkl",
@@ -80,8 +81,8 @@ class ApiClientTests(unittest.TestCase):
             'float': 62.4,
         }
         response = MockResponse(data=json.dumps(data))
-        deserialized = self.api_client.deserialize(response, (petstore_api.FormatTest,), True)
-        self.assertTrue(isinstance(deserialized, petstore_api.FormatTest))
+        deserialized = self.api_client.deserialize(response, (format_test.FormatTest,), True)
+        self.assertTrue(isinstance(deserialized, format_test.FormatTest))
 
         with self.checkRaiseRegex(petstore_api.exceptions.ApiValueError, "Invalid value for `integer`, value must be a multiple of `2`"):
           data = {
@@ -93,7 +94,7 @@ class ApiClientTests(unittest.TestCase):
               'float': 62.4,
           }
           response = MockResponse(data=json.dumps(data))
-          deserialized = self.api_client.deserialize(response, (petstore_api.FormatTest,), True)
+          deserialized = self.api_client.deserialize(response, (format_test.FormatTest,), True)
 
         # Disable JSON schema validation. No error should be raised during deserialization.
         config = petstore_api.Configuration()
@@ -109,8 +110,8 @@ class ApiClientTests(unittest.TestCase):
             'float': 62.4,
         }
         response = MockResponse(data=json.dumps(data))
-        deserialized = api_client.deserialize(response, (petstore_api.FormatTest,), True)
-        self.assertTrue(isinstance(deserialized, petstore_api.FormatTest))
+        deserialized = api_client.deserialize(response, (format_test.FormatTest,), True)
+        self.assertTrue(isinstance(deserialized, format_test.FormatTest))
 
         # Disable JSON schema validation but for a different keyword.
         # An error should be raised during deserialization.
@@ -128,4 +129,4 @@ class ApiClientTests(unittest.TestCase):
                 'float': 62.4,
             }
             response = MockResponse(data=json.dumps(data))
-            deserialized = api_client.deserialize(response, (petstore_api.FormatTest,), True)
+            deserialized = api_client.deserialize(response, (format_test.FormatTest,), True)

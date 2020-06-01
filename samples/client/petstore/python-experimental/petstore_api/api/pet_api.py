@@ -34,8 +34,8 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models import pet
-from petstore_api.models import api_response
+from petstore_api.model import pet
+from petstore_api.model import api_response
 
 
 class PetApi(object):
