@@ -247,6 +247,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                     date = (OffsetDateTime) currentExample;
                 } catch (ClassCastException e) {
                     date = ((Date) currentExample).toInstant().atOffset(ZoneOffset.UTC);
+                    LOGGER.warn("Invalid `date-time` format for value {}", currentExample);
                 }
                 fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
                 fixedEnum.add(fixedValue);

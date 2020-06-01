@@ -758,6 +758,7 @@ paths:
                   description: None
                   type: string
                   format: date-time
+                  default: '2010-02-01T10:20:10.11111+01:00'
                   example: '2020-02-02T20:20:20.22222Z'
                 password:
                   description: None
@@ -1973,7 +1974,7 @@ components:
         # Here the additional properties are specified using a referenced schema.
         # This is just to validate the generated code works when using $ref
         # under 'additionalProperties'.
-        $ref: '#/components/schemas/fruit' 
+        $ref: '#/components/schemas/fruit'
     Shape:
       oneOf:
         - $ref: '#/components/schemas/Triangle'
