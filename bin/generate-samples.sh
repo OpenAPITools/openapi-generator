@@ -3,11 +3,14 @@
 # it ensures that all changes are committed into the 'samples/' folder
 # shellcheck disable=SC2155
 declare cwd="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-declare root="$(cd "$cwd" && cd ../../ && pwd)"
+declare root="$(cd "$cwd" && cd ../ && pwd)"
 declare executable="${root}/modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
 echo "# START SCRIPT: $0"
-
+echo "This script generates all configs under bin/configs by default."
+echo "You may generate a targeted script or set of scripts using glob patterns."
+echo "For example: $0 bin/configs/java-*"
+echo ""
 echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
 
 sleep 5
@@ -17,7 +20,7 @@ fi
 
 export JAVA_OPTS="${JAVA_OPTS} -server"
 
-configs=${1:-"${root}"/bin/configs/*}
+configs=${1:-"${root}"/bin/configs/*.yaml}
 
 # shellcheck disable=SC2086
 java $JAVA_OPTS -jar "$executable" batch --includes-base-dir "${root}" --fail-fast  -- $configs

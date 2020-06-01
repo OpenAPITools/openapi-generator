@@ -14,7 +14,7 @@ echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
 
 sleep 5
 
-"${root}/bin/utils/generate-samples.sh"
+"${root}/bin/generate-samples.sh"
 
 # Some special case generators may expect to be run as a stanalone process (e.g. modifying classpath)
 # Docs should always be run, regardless of batch or operation.
