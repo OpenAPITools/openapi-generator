@@ -192,6 +192,8 @@ public interface CodegenConfig {
 
     void postProcessParameter(CodegenParameter parameter);
 
+    String modelFilename(String templateName, String modelName);
+
     String apiFilename(String templateName, String tag);
 
     String apiTestFilename(String templateName, String tag);

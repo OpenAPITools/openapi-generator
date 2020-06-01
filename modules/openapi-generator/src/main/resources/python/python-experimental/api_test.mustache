@@ -1,0 +1,36 @@
+# coding: utf-8
+
+{{>partial_header}}
+
+from __future__ import absolute_import
+
+import unittest
+
+import {{packageName}}
+from {{apiPackage}}.{{classVarName}} import {{classname}}  # noqa: E501
+
+
+class {{#operations}}Test{{classname}}(unittest.TestCase):
+    """{{classname}} unit test stubs"""
+
+    def setUp(self):
+        self.api = {{classname}}()  # noqa: E501
+
+    def tearDown(self):
+        pass
+
+   {{#operation}}
+    def test_{{operationId}}(self):
+        """Test case for {{{operationId}}}
+
+{{#summary}}
+        {{{summary}}}  # noqa: E501
+{{/summary}}
+        """
+        pass
+
+   {{/operation}}
+{{/operations}}
+
+if __name__ == '__main__':
+    unittest.main()

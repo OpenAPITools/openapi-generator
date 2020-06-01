@@ -363,14 +363,9 @@ public class DefaultGenerator implements Generator {
         }
     }
 
-    private String getModelFilenameByTemplate(String modelName, String templateName){
-        String suffix = config.modelTemplateFiles().get(templateName);
-        return config.modelFileFolder() + File.separator + config.toModelFilename(modelName) + suffix;
-    }
-
     private void generateModel(List<File> files, Map<String, Object> models, String modelName) throws IOException {
         for (String templateName : config.modelTemplateFiles().keySet()) {
-            String filename = getModelFilenameByTemplate(modelName, templateName);
+            String filename = config.modelFilename(templateName, modelName);
             File written = processTemplateToFile(models, templateName, filename, generateModels, CodegenConstants.MODELS);
             if (written != null) {
                 files.add(written);
@@ -429,7 +424,7 @@ public class DefaultGenerator implements Generator {
 
                     for (String templateName : config.modelTemplateFiles().keySet()) {
                         // HACK: Because this returns early, could lead to some invalid model reporting.
-                        String filename = getModelFilenameByTemplate(name, templateName);
+                        String filename = config.modelFilename(templateName, name);
                         Path path = java.nio.file.Paths.get(filename);
                         this.templateProcessor.skip(path,"Skipped prior to model processing due to import mapping conflict (either by user or by generator)." );
                     }

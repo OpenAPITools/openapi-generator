@@ -34,6 +34,8 @@ this route creates an XmlItem
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model import xml_item
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -45,8 +47,8 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
-    xml_item = petstore_api.XmlItem() # xml_item.XmlItem | XmlItem Body
+    api_instance = fake_api.FakeApi(api_client)
+    xml_item = xml_item.XmlItem() # xml_item.XmlItem | XmlItem Body
     
     # example passing only required values which don't have defaults set
     try:
@@ -95,6 +97,7 @@ Test serialization of outer boolean types
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -106,7 +109,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
+    api_instance = fake_api.FakeApi(api_client)
     body = True # bool | Input boolean as post body (optional)
 
     # example passing only required values which don't have defaults set
@@ -157,6 +160,8 @@ Test serialization of object with outer number type
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model import outer_composite
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -168,8 +173,8 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
-    body = petstore_api.OuterComposite() # outer_composite.OuterComposite | Input composite as post body (optional)
+    api_instance = fake_api.FakeApi(api_client)
+    body = outer_composite.OuterComposite() # outer_composite.OuterComposite | Input composite as post body (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -219,6 +224,8 @@ Test serialization of outer enum
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model import outer_enum
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -230,8 +237,8 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
-    body = petstore_api.OuterEnum("placed") # outer_enum.OuterEnum | Input enum as post body (optional)
+    api_instance = fake_api.FakeApi(api_client)
+    body = outer_enum.OuterEnum("placed") # outer_enum.OuterEnum | Input enum as post body (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -281,6 +288,8 @@ Test serialization of outer number types
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model import outer_number
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -292,8 +301,8 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
-    body = petstore_api.OuterNumber(3.4) # outer_number.OuterNumber | Input number as post body (optional)
+    api_instance = fake_api.FakeApi(api_client)
+    body = outer_number.OuterNumber(3.4) # outer_number.OuterNumber | Input number as post body (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -343,6 +352,7 @@ Test serialization of outer string types
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -354,7 +364,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
+    api_instance = fake_api.FakeApi(api_client)
     body = 'body_example' # str | Input string as post body (optional)
 
     # example passing only required values which don't have defaults set
@@ -405,6 +415,8 @@ For this test, the body for this request much reference a schema named `File`.
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model import file_schema_test_class
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -416,8 +428,8 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
-    body = petstore_api.FileSchemaTestClass() # file_schema_test_class.FileSchemaTestClass | 
+    api_instance = fake_api.FakeApi(api_client)
+    body = file_schema_test_class.FileSchemaTestClass() # file_schema_test_class.FileSchemaTestClass | 
     
     # example passing only required values which don't have defaults set
     try:
@@ -463,6 +475,8 @@ No authorization required
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model import user
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -474,9 +488,9 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
+    api_instance = fake_api.FakeApi(api_client)
     query = 'query_example' # str | 
-    body = petstore_api.User() # user.User | 
+    body = user.User() # user.User | 
     
     # example passing only required values which don't have defaults set
     try:
@@ -525,6 +539,8 @@ To test \"client\" model
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model import client
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -536,8 +552,8 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
-    body = petstore_api.Client() # client.Client | client model
+    api_instance = fake_api.FakeApi(api_client)
+    body = client.Client() # client.Client | client model
     
     # example passing only required values which don't have defaults set
     try:
@@ -587,6 +603,7 @@ This route has required values with enums of 1
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -598,7 +615,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
+    api_instance = fake_api.FakeApi(api_client)
     
     # example passing only required values which don't have defaults set
     try:
@@ -651,6 +668,7 @@ Fake endpoint for testing various parameters  假端點  偽のエンドポイ�
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -672,7 +690,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
+    api_instance = fake_api.FakeApi(api_client)
     number = 3.4 # float | None
     double = 3.4 # float | None
     pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
@@ -757,6 +775,7 @@ To test enum parameters
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -768,7 +787,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
+    api_instance = fake_api.FakeApi(api_client)
     enum_header_string_array = ['enum_header_string_array_example'] # [str] | Header parameter enum test (string array) (optional)
 enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) if omitted the server will use the default value of '-efg'
 enum_query_string_array = ['enum_query_string_array_example'] # [str] | Query parameter enum test (string array) (optional)
@@ -834,6 +853,7 @@ Fake endpoint to test group parameters (optional)
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -845,7 +865,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
+    api_instance = fake_api.FakeApi(api_client)
     required_string_group = 56 # int | Required String in group parameters
     required_boolean_group = True # bool | Required Boolean in group parameters
     required_int64_group = 56 # int | Required Integer in group parameters
@@ -911,6 +931,7 @@ test inline additionalProperties
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -922,7 +943,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
+    api_instance = fake_api.FakeApi(api_client)
     param = {'key': 'param_example'} # {str: (str,)} | request body
     
     # example passing only required values which don't have defaults set
@@ -970,6 +991,7 @@ test json serialization of form data
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -981,7 +1003,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.FakeApi(api_client)
+    api_instance = fake_api.FakeApi(api_client)
     param = 'param_example' # str | field1
     param2 = 'param2_example' # str | field2
     
