@@ -45,6 +45,7 @@ class Pet implements ModelInterface
       "example" : "doggie"
     },
     "photoUrls" : {
+      "uniqueItems" : true,
       "type" : "array",
       "xml" : {
         "name" : "photoUrl",

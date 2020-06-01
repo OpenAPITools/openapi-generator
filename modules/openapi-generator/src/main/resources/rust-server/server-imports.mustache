@@ -1,38 +1,31 @@
-use std::marker::PhantomData;
-use futures::{Future, future, Stream, stream};
-use hyper;
-use hyper::{Request, Response, Error, StatusCode, Body, HeaderMap};
+use futures::{future, future::BoxFuture, Stream, stream, future::FutureExt, stream::TryStreamExt};
+use hyper::{Request, Response, StatusCode, Body, HeaderMap};
 use hyper::header::{HeaderName, HeaderValue, CONTENT_TYPE};
 use log::warn;
-use serde_json;
 #[allow(unused_imports)]
 use std::convert::{TryFrom, TryInto};
-use std::io;
-use url::form_urlencoded;
-#[allow(unused_imports)]
-use swagger;
-use swagger::{ApiError, XSpanIdString, Has, RequestParser};
+use std::error::Error;
+use std::future::Future;
+use std::marker::PhantomData;
+use std::task::{Context, Poll};
+use swagger::{ApiError, BodyExt, Has, RequestParser, XSpanIdString};
 pub use swagger::auth::Authorization;
 use swagger::auth::Scopes;
-use swagger::context::ContextualPayload;
+use url::form_urlencoded;
 {{#apiUsesMultipartRelated}}
 use hyper_0_10::header::{Headers, ContentType};
 use mime_0_2::{TopLevel, SubLevel, Mime as Mime2};
 use mime_multipart::{read_multipart_body, Node, Part};
 {{/apiUsesMultipartRelated}}
-{{#apiUsesUuid}}
-use uuid;
-{{/apiUsesUuid}}
 {{#apiUsesMultipartFormData}}
 use multipart::server::Multipart;
 use multipart::server::save::SaveResult;
 {{/apiUsesMultipartFormData}}
-{{#usesXml}}
-use serde_xml_rs;
-{{/usesXml}}
 
 #[allow(unused_imports)]
 use crate::models;
 use crate::header;
 
 pub use crate::context;
+
+type ServiceFuture = BoxFuture<'static, Result<Response<Body>, crate::ServiceError>>;

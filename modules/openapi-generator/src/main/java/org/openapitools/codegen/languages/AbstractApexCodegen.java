@@ -195,7 +195,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
 
             if (inner == null) {
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined");
@@ -228,11 +228,11 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (ModelUtils.isMapSchema(p)) {
             final MapSchema ap = (MapSchema) p;
             final String pattern = "new HashMap<%s>()";
-            if (ModelUtils.getAdditionalProperties(ap) == null) {
+            if (getAdditionalProperties(ap) == null) {
                 return null;
             }
 
-            return String.format(Locale.ROOT, pattern, String.format(Locale.ROOT, "String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(ap))));
+            return String.format(Locale.ROOT, pattern, String.format(Locale.ROOT, "String, %s", getTypeDeclaration(getAdditionalProperties(ap))));
         } else if (ModelUtils.isLongSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString() + "l";
@@ -365,7 +365,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (ModelUtils.isLongSchema(p)) {
             example = example.isEmpty() ? "123456789L" : example + "L";
         } else if (ModelUtils.isMapSchema(p)) {
-            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(ModelUtils.getAdditionalProperties(p)) + "}";
+            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(getAdditionalProperties(p)) + "}";
 
         } else if (ModelUtils.isPasswordSchema(p)) {
             example = example.isEmpty() ? "password123" : escapeText(example);
@@ -455,13 +455,6 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
                 propertyMappings.add(mapping);
             }
         }
-
-        // TODO: 5.0: Remove this block and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-        cm.vendorExtensions.put("hasPropertyMappings", !propertyMappings.isEmpty()); // TODO: 5.0 Remove
-        cm.vendorExtensions.put("hasDefaultValues", hasDefaultValues);  // TODO: 5.0 Remove
-        cm.vendorExtensions.put("propertyMappings", propertyMappings);  // TODO: 5.0 Remove
-
 
         cm.vendorExtensions.put("x-has-property-mappings", !propertyMappings.isEmpty());
         cm.vendorExtensions.put("x-has-default-values", hasDefaultValues);

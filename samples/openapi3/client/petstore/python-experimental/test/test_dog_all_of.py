@@ -11,10 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.dog_all_of import DogAllOf
 
 
 class TestDogAllOf(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestDogAllOf(unittest.TestCase):
     def testDogAllOf(self):
         """Test DogAllOf"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.DogAllOf()  # noqa: E501
+        # model = DogAllOf()  # noqa: E501
         pass
 
 

@@ -79,6 +79,14 @@ function ConvertFrom-PSJsonToCategory {
 
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
+        # check if Json contains properties not defined in PSCategory
+        $AllProperties = ("id", "name")
+        foreach ($name in $JsonParameters.PsObject.Properties.Name) {
+            if (!($AllProperties.Contains($name))) {
+                throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
+            }
+        }
+
         if (!([bool]($JsonParameters.PSobject.Properties.name -match "id"))) { #optional property not found
             $Id = $null
         } else {

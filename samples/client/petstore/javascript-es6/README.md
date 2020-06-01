@@ -102,7 +102,7 @@ var OpenApiPetstore = require('open_api_petstore');
 
 
 var api = new OpenApiPetstore.AnotherFakeApi()
-var body = new OpenApiPetstore.Client(); // {Client} client model
+var client = new OpenApiPetstore.Client(); // {Client} client model
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -110,7 +110,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.call123testSpecialTags(body, callback);
+api.call123testSpecialTags(client, callback);
 
 ```
 
@@ -121,7 +121,9 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *OpenApiPetstore.AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
-*OpenApiPetstore.FakeApi* | [**createXmlItem**](docs/FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
+*OpenApiPetstore.DefaultApi* | [**fooGet**](docs/DefaultApi.md#fooGet) | **GET** /foo | 
+*OpenApiPetstore.FakeApi* | [**fakeHealthGet**](docs/FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
+*OpenApiPetstore.FakeApi* | [**fakeHttpSignatureTest**](docs/FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication
 *OpenApiPetstore.FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 *OpenApiPetstore.FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -129,7 +131,7 @@ Class | Method | HTTP request | Description
 *OpenApiPetstore.FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 *OpenApiPetstore.FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 *OpenApiPetstore.FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
-*OpenApiPetstore.FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+*OpenApiPetstore.FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 *OpenApiPetstore.FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 *OpenApiPetstore.FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *OpenApiPetstore.FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
@@ -161,21 +163,12 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
- - [OpenApiPetstore.AdditionalPropertiesAnyType](docs/AdditionalPropertiesAnyType.md)
- - [OpenApiPetstore.AdditionalPropertiesArray](docs/AdditionalPropertiesArray.md)
- - [OpenApiPetstore.AdditionalPropertiesBoolean](docs/AdditionalPropertiesBoolean.md)
  - [OpenApiPetstore.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
- - [OpenApiPetstore.AdditionalPropertiesInteger](docs/AdditionalPropertiesInteger.md)
- - [OpenApiPetstore.AdditionalPropertiesNumber](docs/AdditionalPropertiesNumber.md)
- - [OpenApiPetstore.AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
- - [OpenApiPetstore.AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [OpenApiPetstore.Animal](docs/Animal.md)
  - [OpenApiPetstore.ApiResponse](docs/ApiResponse.md)
  - [OpenApiPetstore.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [OpenApiPetstore.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [OpenApiPetstore.ArrayTest](docs/ArrayTest.md)
- - [OpenApiPetstore.BigCat](docs/BigCat.md)
- - [OpenApiPetstore.BigCatAllOf](docs/BigCatAllOf.md)
  - [OpenApiPetstore.Capitalization](docs/Capitalization.md)
  - [OpenApiPetstore.Cat](docs/Cat.md)
  - [OpenApiPetstore.CatAllOf](docs/CatAllOf.md)
@@ -189,26 +182,36 @@ Class | Method | HTTP request | Description
  - [OpenApiPetstore.EnumTest](docs/EnumTest.md)
  - [OpenApiPetstore.File](docs/File.md)
  - [OpenApiPetstore.FileSchemaTestClass](docs/FileSchemaTestClass.md)
+ - [OpenApiPetstore.Foo](docs/Foo.md)
  - [OpenApiPetstore.FormatTest](docs/FormatTest.md)
  - [OpenApiPetstore.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
+ - [OpenApiPetstore.HealthCheckResult](docs/HealthCheckResult.md)
+ - [OpenApiPetstore.InlineObject](docs/InlineObject.md)
+ - [OpenApiPetstore.InlineObject1](docs/InlineObject1.md)
+ - [OpenApiPetstore.InlineObject2](docs/InlineObject2.md)
+ - [OpenApiPetstore.InlineObject3](docs/InlineObject3.md)
+ - [OpenApiPetstore.InlineObject4](docs/InlineObject4.md)
+ - [OpenApiPetstore.InlineObject5](docs/InlineObject5.md)
+ - [OpenApiPetstore.InlineResponseDefault](docs/InlineResponseDefault.md)
  - [OpenApiPetstore.List](docs/List.md)
  - [OpenApiPetstore.MapTest](docs/MapTest.md)
  - [OpenApiPetstore.MixedPropertiesAndAdditionalPropertiesClass](docs/MixedPropertiesAndAdditionalPropertiesClass.md)
  - [OpenApiPetstore.Model200Response](docs/Model200Response.md)
  - [OpenApiPetstore.ModelReturn](docs/ModelReturn.md)
  - [OpenApiPetstore.Name](docs/Name.md)
+ - [OpenApiPetstore.NullableClass](docs/NullableClass.md)
  - [OpenApiPetstore.NumberOnly](docs/NumberOnly.md)
  - [OpenApiPetstore.Order](docs/Order.md)
  - [OpenApiPetstore.OuterComposite](docs/OuterComposite.md)
  - [OpenApiPetstore.OuterEnum](docs/OuterEnum.md)
+ - [OpenApiPetstore.OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
+ - [OpenApiPetstore.OuterEnumInteger](docs/OuterEnumInteger.md)
+ - [OpenApiPetstore.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
  - [OpenApiPetstore.Pet](docs/Pet.md)
  - [OpenApiPetstore.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [OpenApiPetstore.SpecialModelName](docs/SpecialModelName.md)
  - [OpenApiPetstore.Tag](docs/Tag.md)
- - [OpenApiPetstore.TypeHolderDefault](docs/TypeHolderDefault.md)
- - [OpenApiPetstore.TypeHolderExample](docs/TypeHolderExample.md)
  - [OpenApiPetstore.User](docs/User.md)
- - [OpenApiPetstore.XmlItem](docs/XmlItem.md)
 
 
 ## Documentation for Authorization
@@ -233,9 +236,20 @@ Class | Method | HTTP request | Description
 
 
 
+### bearer_test
+
+- **Type**: Bearer authentication (JWT)
+
+
+
 ### http_basic_test
 
 - **Type**: HTTP basic authentication
+
+
+
+### http_signature_test
+
 
 
 

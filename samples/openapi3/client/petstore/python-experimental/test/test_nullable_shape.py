@@ -11,10 +11,21 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+try:
+    from petstore_api.model import quadrilateral
+except ImportError:
+    quadrilateral = sys.modules[
+        'petstore_api.model.quadrilateral']
+try:
+    from petstore_api.model import triangle
+except ImportError:
+    triangle = sys.modules[
+        'petstore_api.model.triangle']
+from petstore_api.model.nullable_shape import NullableShape
 
 
 class TestNullableShape(unittest.TestCase):
@@ -29,7 +40,7 @@ class TestNullableShape(unittest.TestCase):
     def testNullableShape(self):
         """Test NullableShape"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.NullableShape()  # noqa: E501
+        # model = NullableShape()  # noqa: E501
         pass
 
 

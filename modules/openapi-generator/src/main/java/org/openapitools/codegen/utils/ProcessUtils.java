@@ -108,7 +108,7 @@ public class ProcessUtils {
     public static boolean hasHttpBearerMethods(List<CodegenSecurity> authMethods) {
         if (authMethods != null && !authMethods.isEmpty()) {
             for (CodegenSecurity cs : authMethods) {
-                if (Boolean.TRUE.equals(cs.isBasicBasic)) {
+                if (Boolean.TRUE.equals(cs.isBasicBearer)) {
                     return true;
                 }
             }
