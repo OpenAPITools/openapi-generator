@@ -145,7 +145,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         typeMapping.put("date", "string");
         typeMapping.put("DateTime", "Date");
         typeMapping.put("binary", "any");
-        // TODO: allow other types for file e.g. Blob
         typeMapping.put("File", "any");
         typeMapping.put("ByteArray", "string");
         typeMapping.put("UUID", "string");
@@ -167,7 +166,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         CliOption frameworkOption = new CliOption(TypeScriptClientCodegen.FRAMEWORK_SWITCH, TypeScriptClientCodegen.FRAMEWORK_SWITCH_DESC);
         for (String option: TypeScriptClientCodegen.FRAMEWORKS) {
-            // TODO: improve description?
             frameworkOption.addEnum(option, option);
         }
         frameworkOption.defaultValue(FRAMEWORKS[0]);
@@ -175,15 +173,11 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         CliOption platformOption = new CliOption(TypeScriptClientCodegen.PLATFORM_SWITCH, TypeScriptClientCodegen.PLATFORM_SWITCH_DESC);
         for (String option: TypeScriptClientCodegen.PLATFORMS) {
-            // TODO: improve description?
             platformOption.addEnum(option, option);
         }
         platformOption.defaultValue(PLATFORMS[0]);
 
         cliOptions.add(platformOption);
-
-
-        // TODO: gen package.json?
         
         //Documentation
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -204,12 +198,10 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         
         supportingFiles.add(new SupportingFile("model" + File.separator + "models_all.mustache", "models", "all.ts"));
 
-        // TODO: add supporting files depending on cli parameter e.g. fetch vs angular
         supportingFiles.add(new SupportingFile("types" + File.separator + "PromiseAPI.mustache", "types", "PromiseAPI.ts"));
         supportingFiles.add(new SupportingFile("types" + File.separator + "ObservableAPI.mustache", "types", "ObservableAPI.ts"));
 
         // models
-        // TODO: properly set model and api packages
         this.setModelPackage("");
         supportingFiles.add(new SupportingFile("model" + File.separator + "ObjectSerializer.mustache", "models", "ObjectSerializer.ts"));
         modelTemplateFiles.put("model" + File.separator + "model.mustache", ".ts");
@@ -317,7 +309,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         boolean atLeastOneSuccess = false;
         boolean addVoid = false;
         for (CodegenResponse response: responses) {
-            // TODO: we should probably catch an exception here
             if (response.is2xx) {
                 if (response.dataType != null) {
                     if (!firstReturnType) {
@@ -454,20 +445,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
                 return numericEnumValuesToEnumTypeUnion(new ArrayList<Number>(p.getEnum()));
             }
         }
-        /* TODO revise the logic below
-        else if (ModelUtils.isDateSchema(p)) {
-            // Handle date enums
-            DateSchema sp = (DateSchema) p;
-            if (sp.getEnum() != null) {
-                return enumValuesToEnumTypeUnion(sp.getEnum(), "string");
-            }
-        } else if (ModelUtils.isDateTimeSchema(p)) {
-            // Handle datetime enums
-            DateTimeSchema sp = (DateTimeSchema) p;
-            if (sp.getEnum() != null) {
-                return enumValuesToEnumTypeUnion(sp.getEnum(), "string");
-            }
-        }*/
         return this.getTypeDeclaration(p);
     }
 
@@ -848,7 +825,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             inner = (Schema) p.getAdditionalProperties();
             return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
-            // TODO: Change type declaration
             return "HttpFile";
         } else if (ModelUtils.isBinarySchema(p)) {
             return "any";
