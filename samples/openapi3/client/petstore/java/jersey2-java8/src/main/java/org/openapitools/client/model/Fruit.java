@@ -39,6 +39,7 @@ import org.openapitools.client.JSON;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -95,6 +96,11 @@ public class Fruit extends AbstractOpenApiSchema {
                 return ret;
             }
             throw new IOException(String.format("Failed deserialization for Fruit: %d classes match result, expected 1", match));
+        }
+
+        @Override
+        public Fruit getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+            throw new JsonMappingException("Fruit cannot be null");
         }
     }
 

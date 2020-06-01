@@ -38,6 +38,7 @@ import java.util.Map;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -84,6 +85,11 @@ public class GmFruit extends AbstractOpenApiSchema {
             }
 
             throw new IOException(String.format("Failed deserialization for GmFruit: no match found"));
+        }
+
+        @Override
+        public GmFruit getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+            throw new JsonMappingException("GmFruit cannot be null");
         }
     }
 

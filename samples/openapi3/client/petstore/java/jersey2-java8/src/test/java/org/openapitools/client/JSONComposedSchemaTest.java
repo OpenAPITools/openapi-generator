@@ -2,6 +2,7 @@ package org.openapitools.client;
 
 import org.openapitools.client.model.*;
 import java.lang.Exception;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -76,9 +77,10 @@ public class JSONComposedSchemaTest {
 
         // 'null' is not a valid value for the Shape model because it is not nullable.
         // An exception should be raised.
-        Exception exception = assertThrows(RuntimeException.class, () -> {
+        Exception exception = assertThrows(JsonMappingException.class, () -> {
             json.getContext(null).readValue(str, Shape.class);
         });
+        assertEquals(exception.getMessage(), "Shape cannot be null");
     }
 
     /**

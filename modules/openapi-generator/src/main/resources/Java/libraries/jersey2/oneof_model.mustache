@@ -11,6 +11,7 @@ import {{invokerPackage}}.JSON;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -71,6 +72,16 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 return ret;
             }
             throw new IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
+        }
+
+        @Override
+        public {{classname}} getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+        {{#isNullable}}
+            return null;
+        {{/isNullable}}
+        {{^isNullable}}
+            throw new JsonMappingException("{{classname}} cannot be null");
+        {{/isNullable}}
         }
     }
 
