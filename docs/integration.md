@@ -2,7 +2,7 @@
 id: integrations
 title: Workflow Integrations
 ---
-## Workflow Integration (Maven, Github, CI/CD)
+## Workflow Integration (Maven, GitHub, CI/CD)
 
 ### Gradle Integration
 
@@ -39,7 +39,7 @@ To push the auto-generated SDK to GitHub, we provide `git_push.sh` to streamline
  -i modules/openapi-generator/src/test/resources/2_0/petstore.json -g perl \
  --git-user-id "wing328" \
  --git-repo-id "petstore-perl" \
- --release-note "Github integration demo" \
+ --release-note "GitHub integration demo" \
  -o /var/tmp/perl/petstore
 ```
  3) Push the SDK to GitHub

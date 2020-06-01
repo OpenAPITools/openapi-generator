@@ -11,10 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.outer_enum import OuterEnum
 
 
 class TestOuterEnum(unittest.TestCase):
@@ -30,15 +31,14 @@ class TestOuterEnum(unittest.TestCase):
         """Test OuterEnum"""
         # Since 'OuterEnum' is nullable, validate the null value can be assigned
         # to OuterEnum.
-        inst = petstore_api.OuterEnum(None)
+        inst = OuterEnum(None)
         self.assertIsNone(inst)
 
-        inst = petstore_api.OuterEnum('approved')
-        assert isinstance(inst, petstore_api.OuterEnum)
+        inst = OuterEnum('approved')
+        assert isinstance(inst, OuterEnum)
 
         with self.assertRaises(petstore_api.ApiValueError):
-            inst = petstore_api.OuterEnum('garbage')
-            assert isinstance(inst, petstore_api.OuterEnum)
+            OuterEnum('garbage')
 
 
 if __name__ == '__main__':

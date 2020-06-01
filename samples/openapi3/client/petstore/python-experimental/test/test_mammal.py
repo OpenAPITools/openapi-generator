@@ -11,10 +11,21 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+try:
+    from petstore_api.model import whale
+except ImportError:
+    whale = sys.modules[
+        'petstore_api.model.whale']
+try:
+    from petstore_api.model import zebra
+except ImportError:
+    zebra = sys.modules[
+        'petstore_api.model.zebra']
+from petstore_api.model.mammal import Mammal
 
 
 class TestMammal(unittest.TestCase):
@@ -30,8 +41,9 @@ class TestMammal(unittest.TestCase):
         """Test Mammal"""
 
         # tests that we can make a BasquePig by traveling through descendant discriminator in Pig
-        model = petstore_api.Mammal(class_name="BasquePig")
-        assert isinstance(model, petstore_api.BasquePig)
+        model = Mammal(class_name="BasquePig")
+        from petstore_api.model import basque_pig
+        assert isinstance(model, basque_pig.BasquePig)
 
 
 if __name__ == '__main__':
