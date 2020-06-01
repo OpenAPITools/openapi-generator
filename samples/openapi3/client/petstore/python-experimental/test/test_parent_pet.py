@@ -39,12 +39,9 @@ class TestParentPet(unittest.TestCase):
 
     def testParentPet(self):
         """Test ParentPet"""
-
-        # test that we can make a ParentPet from a ParentPet
-        # which requires that we travel back through ParentPet's allOf descendant
-        # GrandparentAnimal, and we use the descendant's discriminator to make ParentPet
-        model = ParentPet(pet_type="ParentPet")
-        assert isinstance(model, ParentPet)
+        # FIXME: construct object with mandatory attributes with example values
+        # model = ParentPet()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':

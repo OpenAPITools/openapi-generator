@@ -16,20 +16,15 @@ import unittest
 
 import petstore_api
 try:
-    from petstore_api.model import quadrilateral
+    from petstore_api.model import animal
 except ImportError:
-    quadrilateral = sys.modules[
-        'petstore_api.model.quadrilateral']
-try:
-    from petstore_api.model import triangle
-except ImportError:
-    triangle = sys.modules[
-        'petstore_api.model.triangle']
-from petstore_api.model.shape import Shape
+    animal = sys.modules[
+        'petstore_api.model.animal']
+from petstore_api.model.animal_farm import AnimalFarm
 
 
-class TestShape(unittest.TestCase):
-    """Shape unit test stubs"""
+class TestAnimalFarm(unittest.TestCase):
+    """AnimalFarm unit test stubs"""
 
     def setUp(self):
         pass
@@ -37,10 +32,10 @@ class TestShape(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testShape(self):
-        """Test Shape"""
+    def testAnimalFarm(self):
+        """Test AnimalFarm"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = Shape()  # noqa: E501
+        # model = AnimalFarm()  # noqa: E501
         pass
 
 

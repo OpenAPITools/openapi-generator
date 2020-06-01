@@ -11,26 +11,27 @@
 
 
 from __future__ import absolute_import
-import sys
+
 import unittest
 
 import petstore_api
-from petstore_api.model.tag import Tag
+from petstore_api.api.farm_api import FarmApi  # noqa: E501
 
 
-class TestTag(unittest.TestCase):
-    """Tag unit test stubs"""
+class TestFarmApi(unittest.TestCase):
+    """FarmApi unit test stubs"""
 
     def setUp(self):
-        pass
+        self.api = FarmApi()  # noqa: E501
 
     def tearDown(self):
         pass
 
-    def testTag(self):
-        """Test Tag"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = Tag()  # noqa: E501
+    def test_farm(self):
+        """Test case for farm
+
+        Animal Farm  # noqa: E501
+        """
         pass
 
 

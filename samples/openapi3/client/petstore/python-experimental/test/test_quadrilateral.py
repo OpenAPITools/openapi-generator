@@ -39,10 +39,9 @@ class TestQuadrilateral(unittest.TestCase):
 
     def testQuadrilateral(self):
         """Test Quadrilateral"""
-        instance = Quadrilateral(shape_type="Quadrilateral", quadrilateral_type="ComplexQuadrilateral")
-        assert isinstance(instance, complex_quadrilateral.ComplexQuadrilateral)
-        instance = Quadrilateral(shape_type="Quadrilateral", quadrilateral_type="SimpleQuadrilateral")
-        assert isinstance(instance, simple_quadrilateral.SimpleQuadrilateral)
+        # FIXME: construct object with mandatory attributes with example values
+        # model = Quadrilateral()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':

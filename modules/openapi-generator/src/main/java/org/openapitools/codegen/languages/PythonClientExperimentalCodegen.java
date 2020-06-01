@@ -377,7 +377,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     /**
      * Override with special post-processing for all models.
-     */ 
+     */
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         // loop through all models and delete ones where type!=object and the model has no validations and enums
@@ -417,14 +417,13 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
                 Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
                 CodegenProperty modelProperty = fromProperty("value", modelSchema);
+
+                LOGGER.warn("schema: {}\ncm.isEnum = {}\ncm.isAlias = {}\ncm.isArrayModel = {} && modelProperty.isEnum = {} && modelProperty.hasValidation = {}\n{}", cm.name, cm.isEnum, cm.isAlias, cm.isArrayModel, modelProperty.isEnum, modelProperty.hasValidation, cm.arrayModelType);
                 if (cm.isEnum || cm.isAlias) {
                     if (!modelProperty.isEnum && !modelProperty.hasValidation) {
                         // remove these models because they are aliases and do not have any enums or validations
                         modelSchemasToRemove.put(cm.name, modelSchema);
                     }
-                } else if (cm.isArrayModel && !modelProperty.isEnum && !modelProperty.hasValidation) {
-                    // remove any ArrayModels which lack validation and enums
-                    modelSchemasToRemove.put(cm.name, modelSchema);
                 }
             }
         }
@@ -905,7 +904,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * Primitive types in the OAS specification are implemented in Python using the corresponding
      * Python primitive types.
      * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types.
-     * 
+     *
      * The caller should set the prefix and suffix arguments to empty string, except when
      * getTypeString invokes itself recursively. A non-empty prefix/suffix may be specified
      * to wrap the return value in a python dict, list or tuple.
@@ -913,7 +912,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * Examples:
      * - "bool, date, float"  The data must be a bool, date or float.
      * - "[bool, date]"       The data must be an array, and the array items must be a bool or date.
-     * 
+     *
      * @param p The OAS schema.
      * @param prefix prepended to the returned value.
      * @param suffix appended to the returned value.
@@ -968,7 +967,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             } else {
                 return prefix + getTypeString(inner, "[", "]", referencedModelNames) + fullSuffix;
             }
-        } 
+        }
         if (ModelUtils.isFileSchema(p)) {
             return prefix + "file_type" + fullSuffix;
         }

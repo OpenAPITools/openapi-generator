@@ -5,6 +5,7 @@ README.md
 docs/AdditionalPropertiesClass.md
 docs/Address.md
 docs/Animal.md
+docs/AnimalFarm.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
 docs/Apple.md
@@ -35,6 +36,7 @@ docs/EnumTest.md
 docs/EquilateralTriangle.md
 docs/FakeApi.md
 docs/FakeClassnameTags123Api.md
+docs/FarmApi.md
 docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
@@ -98,6 +100,7 @@ petstore_api/api/another_fake_api.py
 petstore_api/api/default_api.py
 petstore_api/api/fake_api.py
 petstore_api/api/fake_classname_tags_123_api.py
+petstore_api/api/farm_api.py
 petstore_api/api/pet_api.py
 petstore_api/api/store_api.py
 petstore_api/api/user_api.py
@@ -109,6 +112,7 @@ petstore_api/model/__init__.py
 petstore_api/model/additional_properties_class.py
 petstore_api/model/address.py
 petstore_api/model/animal.py
+petstore_api/model/animal_farm.py
 petstore_api/model/api_response.py
 petstore_api/model/apple.py
 petstore_api/model/apple_req.py
@@ -197,4 +201,6 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
+test/test_animal_farm.py
+test/test_farm_api.py
 tox.ini
