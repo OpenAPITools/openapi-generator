@@ -36,81 +36,80 @@ public class JSONComposedSchemaTest {
      */
     @Test
     public void testOneOfSchemaWithDiscriminator() throws Exception {
-        String str = null;
-        AbstractOpenApiSchema o = null;
-        {
-            // Mammal can be one of whale, pig and zebra.
-            // pig has sub-classes.
-            str = "{ \"className\": \"whale\", \"hasBaleen\": true, \"hasTeeth\": false }";
-            
-            // Note that the 'zebra' schema does not have any explicit property defined AND
-            // it has additionalProperties: true. Hence without a discriminator the above
-            // JSON payload would match both 'whale' and 'zebra'. This is because the 'hasBaleen'
-            // and 'hasTeeth' would be considered additional (undeclared) properties for 'zebra'.
-            o = json.getContext(null).readValue(str, Mammal.class);
-            assertTrue(o.getActualInstance() instanceof Whale);
-
-            str = "{ \"className\": \"zebra\" }";
-            o = json.getContext(null).readValue(str, Mammal.class);
-            assertTrue(o.getActualInstance() instanceof Zebra);
-
-            // Deserialization test with indirections of 'oneOf' child schemas.
-            // Mammal is oneOf whale, zebra and pig, and pig is itself one of BasquePig, DanishPig.
-            // TODO: the current jersey2 implementation does not work when there is more than one level
-            // of 'oneOf' children. Disabling for now.
-            /*
-            str = "{ \"className\": \"BasquePig\" }";
-            o = json.getContext(null).readValue(str, Mammal.class);
-            assertTrue(o.getActualInstance() instanceof BasquePig);
-            */
-        }
+        // Mammal can be one of whale, pig and zebra.
+        // pig has sub-classes.
+        String str = "{ \"className\": \"whale\", \"hasBaleen\": true, \"hasTeeth\": false }";
         
+        // Note that the 'zebra' schema does not have any explicit property defined AND
+        // it has additionalProperties: true. Hence without a discriminator the above
+        // JSON payload would match both 'whale' and 'zebra'. This is because the 'hasBaleen'
+        // and 'hasTeeth' would be considered additional (undeclared) properties for 'zebra'.
+        AbstractOpenApiSchema o = json.getContext(null).readValue(str, Mammal.class);
+        assertTrue(o.getActualInstance() instanceof Whale);
+
+        str = "{ \"className\": \"zebra\" }";
+        o = json.getContext(null).readValue(str, Mammal.class);
+        assertTrue(o.getActualInstance() instanceof Zebra);
+
+        // Deserialization test with indirections of 'oneOf' child schemas.
+        // Mammal is oneOf whale, zebra and pig, and pig is itself one of BasquePig, DanishPig.
+        // TODO: the current jersey2 implementation does not work when there is more than one level
+        // of 'oneOf' children. Disabling for now.
+        /*
+        str = "{ \"className\": \"BasquePig\" }";
+        o = json.getContext(null).readValue(str, Mammal.class);
+        assertTrue(o.getActualInstance() instanceof BasquePig);
+        */
+    }
+
+    @Test
+    public void testOneOfNullable() throws Exception {    
+        String str = "null";
+        // 'null' is a valid value for NullableShape because it is nullable.
+        AbstractOpenApiSchema o = json.getContext(null).readValue(str, NullableShape.class);
+        assertNull(o);
+
+        // 'null' is a valid value for ShapeOrNull because it is a oneOf with one of the
+        // children being the null type.
+        o = json.getContext(null).readValue(str, ShapeOrNull.class);
+        assertNull(o);
+
+        // 'null' is not a valid value for the Shape model because it is not nullable.
+        // An exception should be raised.
+        Exception exception = assertThrows(NumberFormatException.class, () -> {
+            json.getContext(null).readValue(str, Shape.class);
+        });
+    }
+
+    @Test
+    public void testOneOf() throws Exception {    
+        String str = "{ \"shapeType\": \"Triangle\", \"triangleType\": \"EquilateralTriangle\" }";
+
+        // We should be able to deserialize a equilateral triangle into a EquilateralTriangle class.
+        EquilateralTriangle t = json.getContext(null).readValue(str, EquilateralTriangle.class);
+        assertNotNull(t);
+
+        // We should be able to deserialize a equilateral triangle into a triangle.
+        AbstractOpenApiSchema o = json.getContext(null).readValue(str, Triangle.class);
+        assertTrue(o.getActualInstance() instanceof EquilateralTriangle);
+
+        // We should be able to deserialize a equilateral triangle into a shape.
+        o = json.getContext(null).readValue(str, Shape.class);
+        assertTrue(o.getActualInstance() instanceof EquilateralTriangle);
+
+        // It is not valid to deserialize a equilateral triangle into a quadrilateral.
+        Exception exception = assertThrows(NumberFormatException.class, () -> {
+            json.getContext(null).readValue(str, Quadrilateral.class);
+        });
+    }
+
+    @Test
+    public void testOneOfNestedComposedSchema() throws Exception {    
         {
-            str = "null";
-            // 'null' is a valid value for NullableShape because it is nullable.
-            o = json.getContext(null).readValue(str, NullableShape.class);
-            assertEquals(o.getActualInstance(), null);
-
-            // 'null' is a valid value for ShapeOrNull because it is a oneOf with one of the
-            // children being the null type.
-            o = json.getContext(null).readValue(str, ShapeOrNull.class);
-            assertEquals(o.getActualInstance(), null);
-
-            // 'null' is not a valid value for the Shape model because it is not nullable.
-            // An exception should be raised.
-            Exception exception = assertThrows(NumberFormatException.class, () -> {
-                o = json.getContext(null).readValue(str, Shape.class);
-                assertEquals(o.getActualInstance(), null);
-            });
-        }
-        {
-            str = "{ \"shapeType\": \"Triangle\", \"triangleType\": \"EquilateralTriangle\" }";
-
-            // We should be able to deserialize a equilateral triangle into a EquilateralTriangle class.
-            EquilateralTriangle t = json.getContext(null).readValue(str, EquilateralTriangle.class);
-            assertNotNull(t);
-
-            // We should be able to deserialize a equilateral triangle into a triangle.
-            o = json.getContext(null).readValue(str, Triangle.class);
-            assertTrue(o.getActualInstance() instanceof EquilateralTriangle);
-
-            // We should be able to deserialize a equilateral triangle into a shape.
-            o = json.getContext(null).readValue(str, Shape.class);
-            assertTrue(o.getActualInstance() instanceof EquilateralTriangle);
-
-            // It is not valid to deserialize a equilateral triangle into a quadrilateral.
-            Exception exception = assertThrows(NumberFormatException.class, () -> {
-                o = json.getContext(null).readValue(str, Quadrilateral.class);
-                assertEquals(o.getActualInstance(), null);
-            });
-
-        }
-
-        {
-            str = "{ " +
+            String str = "{ " +
                 " \"mainShape\":      { \"shapeType\": \"Triangle\", \"triangleType\": \"EquilateralTriangle\" }, " +
                 " \"shapeOrNull\":    { \"shapeType\": \"Triangle\", \"triangleType\": \"IsoscelesTriangle\" }, " +
-                " \"nullableShape\":  { \"shapeType\": \"Triangle\", \"triangleType\": \"ScaleneTriangle\" }, " +
+                " \"nullableShape\":  { \"shapeType\": \"Triangle\", \"triangleType\": \"ScaleneTriangle\" } " +
             "}";
             Drawing d = json.getContext(null).readValue(str, Drawing.class);
             assertNotNull(d);
@@ -122,22 +121,34 @@ public class JSONComposedSchemaTest {
             assertTrue(d.getNullableShape().getActualInstance() instanceof ScaleneTriangle);
         }
 
+        {
+            String str = "{ " +
+                " \"mainShape\":      { \"shapeType\": \"Triangle\", \"triangleType\": \"EquilateralTriangle\" }, " +
+                " \"shapeOrNull\":    null, " +
+                " \"nullableShape\":  null " +
+            "}";
+            Drawing d = json.getContext(null).readValue(str, Drawing.class);
+            assertNotNull(d);
+            assertNotNull(d.getMainShape());
+            assertNull(d.getShapeOrNull());
+            assertNull(d.getNullableShape());
+            assertTrue(d.getMainShape().getActualInstance() instanceof EquilateralTriangle);
+        }
     }
 
     /**
      * Validate a allOf schema can be deserialized into the expected class.
      */
     @Test
-    public void testAllSchema() throws Exception {
+    public void testAllOfSchema() throws Exception {
         String str = null;
-        AbstractOpenApiSchema o = null;
-
         {
             str = "{ \"className\": \"Dog\", \"color\": \"white\",  \"breed\": \"Siberian Husky\" }";
 
             // We should be able to deserialize a dog into a Dog.
             Dog d = json.getContext(null).readValue(str, Dog.class);            
             assertNotNull(d);
+            assertEquals(d.getColor(), "white");
         }
     }
 }
