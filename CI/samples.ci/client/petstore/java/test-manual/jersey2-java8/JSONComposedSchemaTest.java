@@ -9,12 +9,10 @@ import static org.junit.Assert.*;
 
 public class JSONComposedSchemaTest {
     JSON json = null;
-    Mammal mammal = null;
 
     @Before
     public void setup() {
         json = new JSON();
-        mammal = new Mammal();
     }
 
     /**
@@ -45,10 +43,12 @@ public class JSONComposedSchemaTest {
         // JSON payload would match both 'whale' and 'zebra'. This is because the 'hasBaleen'
         // and 'hasTeeth' would be considered additional (undeclared) properties for 'zebra'.
         AbstractOpenApiSchema o = json.getContext(null).readValue(str, Mammal.class);
+        assertNotNull(o);
         assertTrue(o.getActualInstance() instanceof Whale);
 
         str = "{ \"className\": \"zebra\" }";
         o = json.getContext(null).readValue(str, Mammal.class);
+        assertNotNull(o);
         assertTrue(o.getActualInstance() instanceof Zebra);
 
         // Deserialization test with indirections of 'oneOf' child schemas.
@@ -76,13 +76,18 @@ public class JSONComposedSchemaTest {
 
         // 'null' is not a valid value for the Shape model because it is not nullable.
         // An exception should be raised.
-        Exception exception = assertThrows(NumberFormatException.class, () -> {
+        Exception exception = assertThrows(RuntimeException.class, () -> {
             json.getContext(null).readValue(str, Shape.class);
         });
     }
 
+    /**
+     * Test payload with more than one discriminator.
+     */
     @Test
-    public void testOneOf() throws Exception {    
+    public void testOneOfMultipleDiscriminators() throws Exception {
+        // 'shapeType' is a discriminator for the 'Shape' model and
+        // 'triangleType' is a discriminator forr the 'Triangle' model.
         String str = "{ \"shapeType\": \"Triangle\", \"triangleType\": \"EquilateralTriangle\" }";
 
         // We should be able to deserialize a equilateral triangle into a EquilateralTriangle class.
@@ -91,14 +96,18 @@ public class JSONComposedSchemaTest {
 
         // We should be able to deserialize a equilateral triangle into a triangle.
         AbstractOpenApiSchema o = json.getContext(null).readValue(str, Triangle.class);
+        assertNotNull(o);
         assertTrue(o.getActualInstance() instanceof EquilateralTriangle);
 
         // We should be able to deserialize a equilateral triangle into a shape.
         o = json.getContext(null).readValue(str, Shape.class);
+        // The container is a shape, and the actual instance should be a EquilateralTriangle.        
+        assertTrue(o instanceof Shape);
+        System.out.println("SHAPE: "+ o.getActualInstance().getClass().getName());
         assertTrue(o.getActualInstance() instanceof EquilateralTriangle);
 
         // It is not valid to deserialize a equilateral triangle into a quadrilateral.
-        Exception exception = assertThrows(NumberFormatException.class, () -> {
+        Exception exception = assertThrows(RuntimeException.class, () -> {
             json.getContext(null).readValue(str, Quadrilateral.class);
         });
     }

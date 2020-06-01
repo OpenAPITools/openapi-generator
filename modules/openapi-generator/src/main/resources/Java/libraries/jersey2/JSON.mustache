@@ -86,18 +86,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
   public static Class getClassForElement(JsonNode node, Class modelClass) {
     ClassDiscriminatorMapping cdm = modelDiscriminators.get(modelClass);
     if (cdm != null) {
-      // Determine the value of the discriminator property in the input data.
-      String discriminatorPropertyName = cdm.getPropertyName();
-      if (discriminatorPropertyName != null) {
-        // Get the value of the discriminator property, if present in the input payload.
-        node = node.get(discriminatorPropertyName);
-        if (node != null && node.isValueNode()) {
-          String discrValue = node.asText();
-          if (discrValue != null) {
-            return cdm.getClassForElement(discrValue, new HashSet<Class>());
-          }
-        }
-      }
+      return cdm.getClassForElement(node, new HashSet<Class>());
     }
     return null;
   }
@@ -126,8 +115,25 @@ public class JSON implements ContextResolver<ObjectMapper> {
     }
 
     // Return the name of the discriminator property for this model class.
-    String getPropertyName() {
+    String getDiscriminatorPropertyName() {
       return discriminatorName;
+    }
+
+    // Return the discriminator value or null if the discriminator is not
+    // present in the payload.
+    String getDiscriminatorValue(JsonNode node) {
+      // Determine the value of the discriminator property in the input data.
+      if (discriminatorName != null) {
+        // Get the value of the discriminator property, if present in the input payload.
+        node = node.get(discriminatorName);
+        if (node != null && node.isValueNode()) {
+          String discrValue = node.asText();
+          if (discrValue != null) {
+            return discrValue;
+          }
+        }
+      }
+      return null;      
     }
 
     /**
@@ -135,30 +141,43 @@ public class JSON implements ContextResolver<ObjectMapper> {
      * This function can be invoked for anyOf/oneOf composed models with discriminator mappings.
      * The discriminator mappings are used to determine the target model class.
      *
-     * @param discrValue The discriminator value
+     * @param node The input data.
      * @param visitedClasses The set of classes that have already been visited.
      */
-    Class getClassForElement(String discrValue, Set<Class> visitedClasses) {
+    Class getClassForElement(JsonNode node, Set<Class> visitedClasses) {
       if (visitedClasses.contains(modelClass)) {
         // Class has already been visited.
         return null;
       }
-      Class cls = discriminatorMappings.get(discrValue);
-      if (cls != null) {
-        return cls;
+      // Determine the value of the discriminator property in the input data.
+      String discrValue = getDiscriminatorValue(node);
+      if (discrValue == null) {
+        return null;
       }
+      Class cls = discriminatorMappings.get(discrValue);
+      // It may not be sufficient to return this cls directly because that target class
+      // may itself be a composed schema, possibly with its own discriminator.
       visitedClasses.add(modelClass);
-      for (Class child : discriminatorMappings.values()) {
-        ClassDiscriminatorMapping cdm = modelDiscriminators.get(child);
-        if (cdm != null) {
+      for (Class childClass : discriminatorMappings.values()) {
+        ClassDiscriminatorMapping childCdm = modelDiscriminators.get(childClass);
+        if (childCdm == null) {
+          continue;
+        }
+        if (!discriminatorName.equals(childCdm.discriminatorName)) {
+          discrValue = getDiscriminatorValue(node);
+          if (discrValue == null) {
+            continue;
+          }
+        }
+        if (childCdm != null) {
           // Recursively traverse the discriminator mappings.
-          cls = cdm.getClassForElement(discrValue, visitedClasses);
-          if (cls != null) {
-            return cls;
+          Class childDiscr = childCdm.getClassForElement(node, visitedClasses);
+          if (childDiscr != null) {
+            return childDiscr;
           }
         }
       }
-      return null;
+      return cls;
     }
   }
 
