@@ -62,11 +62,12 @@ test_script:
   # test c# API client (with PropertyChanged)
   - nunit3-console samples\client\petstore\csharp\OpenAPIClientWithPropertyChanged\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
 
+### TODO: Execute all generators via powershell or other
   # generate all petstore clients
-  - .\bin\windows\run-all-petstore.cmd
-
+  # - .\bin\windows\run-all-petstore.cmd
   # generate all petstore clients (openapi3)
-  - .\bin\openapi3\windows\run-all-petstore.cmd
+  # - .\bin\openapi3\windows\run-all-petstore.cmd
+
   # test ps pestore
   - ps: |
       $ErrorActionPreference = "Stop"
