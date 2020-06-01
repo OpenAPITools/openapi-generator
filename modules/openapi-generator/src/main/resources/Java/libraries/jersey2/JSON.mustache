@@ -120,7 +120,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
       discriminatorMappings = new HashMap<String, Class>();
     }
 
-    // Register a discriminator mapping for this class.
+    // Register a discriminator mapping for the specified model class.
     void registerMapping(String mapping, Class cls) {
       discriminatorMappings.put(mapping, cls);
     }
@@ -132,7 +132,11 @@ public class JSON implements ContextResolver<ObjectMapper> {
 
     /**
      * Returns the target model class that should be used to deserialize the input data.
+     * This function can be invoked for anyOf/oneOf composed models with discriminator mappings.
      * The discriminator mappings are used to determine the target model class.
+     *
+     * @param discrValue The discriminator value
+     * @param visitedClasses The set of classes that have already been visited.
      */
     Class getClassForElement(String discrValue, Set<Class> visitedClasses) {
       if (visitedClasses.contains(modelClass)) {
@@ -161,7 +165,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
   private static Map<Class, ClassDiscriminatorMapping> modelDiscriminators = new HashMap<Class, ClassDiscriminatorMapping>();
 
   /**
-   * Register the class discriminators.
+   * Register the discriminators for all composed models.
    */
   private static void registerDiscriminators() {
     {{#models}}
