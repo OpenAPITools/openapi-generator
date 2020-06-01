@@ -418,7 +418,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
                 CodegenProperty modelProperty = fromProperty("value", modelSchema);
 
-                LOGGER.warn("schema: {}\ncm.isEnum = {}\ncm.isAlias = {}\ncm.isArrayModel = {} && modelProperty.isEnum = {} && modelProperty.hasValidation = {}\n{}", cm.name, cm.isEnum, cm.isAlias, cm.isArrayModel, modelProperty.isEnum, modelProperty.hasValidation, cm.arrayModelType);
                 if (cm.isEnum || cm.isAlias) {
                     if (!modelProperty.isEnum && !modelProperty.hasValidation) {
                         // remove these models because they are aliases and do not have any enums or validations

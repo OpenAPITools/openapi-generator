@@ -201,6 +201,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_animal_farm.py
-test/test_farm_api.py
 tox.ini
