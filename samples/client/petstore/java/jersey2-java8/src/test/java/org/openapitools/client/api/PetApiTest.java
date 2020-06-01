@@ -13,7 +13,6 @@
 
 package org.openapitools.client.api;
 
-import jdk.net.SocketFlow;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openapitools.client.ApiClient;
@@ -25,10 +24,10 @@ import org.openapitools.client.model.Pet;
 import org.openapitools.client.model.Tag;
 
 import java.io.File;
-import java.util.List;
-import java.util.Set;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * API tests for PetApi
