@@ -45,6 +45,9 @@ var (
 	// ContextServerIndex uses a server configuration from the index.
 	ContextServerIndex = contextKey("serverIndex")
 
+	// ContextBasePath overrides the API base path
+	ContextBasePath = contextKey("basePath")
+
 	// ContextOperationServerIndices uses a server configuration from the index mapping.
 	ContextOperationServerIndices = contextKey("serverOperationIndices")
 
@@ -266,6 +269,14 @@ func (c *Configuration) ServerURLWithContext(ctx context.Context, endpoint strin
 
 	if ctx == nil {
 		return sc.URL(0, nil)
+	}
+
+	v := ctx.Value(ContextBasePath)
+	if v != nil {
+		if basePath, ok := v.(string); ok {
+			return basePath, nil
+		}
+		return "", reportError("ctx value of ContextBasePath has Invalid type %T should be string", v)
 	}
 
 	index, err := getServerOperationIndex(ctx, endpoint)
