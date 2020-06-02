@@ -32,8 +32,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -87,6 +90,9 @@ public class GmFruit extends AbstractOpenApiSchema {
             throw new IOException(String.format("Failed deserialization for GmFruit: no match found"));
         }
 
+        /**
+         * Handle deserialization of the 'null' value.
+         */
         @Override
         public GmFruit getNullValue(DeserializationContext ctxt) throws JsonMappingException {
             throw new JsonMappingException("GmFruit cannot be null");
@@ -115,6 +121,7 @@ public class GmFruit extends AbstractOpenApiSchema {
         });
         schemas.put("Banana", new GenericType<Banana>() {
         });
+        JSON.registerDescendants(GmFruit.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override
@@ -124,12 +131,12 @@ public class GmFruit extends AbstractOpenApiSchema {
 
     @Override
     public void setActualInstance(Object instance) {
-        if (instance instanceof Apple) {
+        if (JSON.isInstanceOf(Apple.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof Banana) {
+        if (JSON.isInstanceOf(Banana.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }

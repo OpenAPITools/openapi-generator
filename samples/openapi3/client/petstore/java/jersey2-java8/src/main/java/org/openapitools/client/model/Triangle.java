@@ -34,7 +34,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import org.openapitools.client.JSON;
 
@@ -126,6 +128,9 @@ public class Triangle extends AbstractOpenApiSchema {
             throw new IOException(String.format("Failed deserialization for Triangle: %d classes match result, expected 1", match));
         }
 
+        /**
+         * Handle deserialization of the 'null' value.
+         */
         @Override
         public Triangle getNullValue(DeserializationContext ctxt) throws JsonMappingException {
             throw new JsonMappingException("Triangle cannot be null");
@@ -161,6 +166,7 @@ public class Triangle extends AbstractOpenApiSchema {
         });
         schemas.put("ScaleneTriangle", new GenericType<ScaleneTriangle>() {
         });
+        JSON.registerDescendants(Triangle.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override
@@ -177,17 +183,17 @@ public class Triangle extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance instanceof EquilateralTriangle) {
+        if (JSON.isInstanceOf(EquilateralTriangle.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof IsoscelesTriangle) {
+        if (JSON.isInstanceOf(IsoscelesTriangle.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof ScaleneTriangle) {
+        if (JSON.isInstanceOf(ScaleneTriangle.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }

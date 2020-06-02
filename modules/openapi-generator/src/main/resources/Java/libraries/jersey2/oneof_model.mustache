@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import {{invokerPackage}}.JSON;
 
@@ -74,6 +76,9 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             throw new IOException(String.format("Failed deserialization for {{classname}}: %d classes match result, expected 1", match));
         }
 
+        /**
+         * Handle deserialization of the 'null' value.
+         */
         @Override
         public {{classname}} getNullValue(DeserializationContext ctxt) throws JsonMappingException {
         {{#isNullable}}
@@ -104,6 +109,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
         });
         {{/oneOf}}
+        JSON.registerDescendants({{classname}}.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override
@@ -128,7 +134,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
         {{/isNullable}}
         {{#oneOf}}
-        if (instance instanceof {{{.}}}) {
+        if (JSON.isInstanceOf({{{.}}}.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }

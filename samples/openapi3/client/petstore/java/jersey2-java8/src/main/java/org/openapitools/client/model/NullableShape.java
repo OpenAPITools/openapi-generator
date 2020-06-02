@@ -33,7 +33,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import org.openapitools.client.JSON;
 
@@ -112,6 +114,9 @@ public class NullableShape extends AbstractOpenApiSchema {
             throw new IOException(String.format("Failed deserialization for NullableShape: %d classes match result, expected 1", match));
         }
 
+        /**
+         * Handle deserialization of the 'null' value.
+         */
         @Override
         public NullableShape getNullValue(DeserializationContext ctxt) throws JsonMappingException {
             return null;
@@ -140,6 +145,7 @@ public class NullableShape extends AbstractOpenApiSchema {
         });
         schemas.put("Triangle", new GenericType<Triangle>() {
         });
+        JSON.registerDescendants(NullableShape.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override
@@ -161,12 +167,12 @@ public class NullableShape extends AbstractOpenApiSchema {
            return;
         }
 
-        if (instance instanceof Quadrilateral) {
+        if (JSON.isInstanceOf(Quadrilateral.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof Triangle) {
+        if (JSON.isInstanceOf(Triangle.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }

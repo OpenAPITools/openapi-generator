@@ -54,13 +54,9 @@ public class JSONComposedSchemaTest {
 
         // Deserialization test with indirections of 'oneOf' child schemas.
         // Mammal is oneOf whale, zebra and pig, and pig is itself one of BasquePig, DanishPig.
-        // TODO: the current jersey2 implementation does not work when there is more than one level
-        // of 'oneOf' children. Disabling for now.
-        /*
         str = "{ \"className\": \"BasquePig\" }";
         o = json.getContext(null).readValue(str, Mammal.class);
         assertTrue(o.getActualInstance() instanceof BasquePig);
-        */
     }
 
     @Test
@@ -105,13 +101,13 @@ public class JSONComposedSchemaTest {
         o = json.getContext(null).readValue(str, Shape.class);
         // The container is a shape, and the actual instance should be a EquilateralTriangle.        
         assertTrue(o instanceof Shape);
-        System.out.println("SHAPE: "+ o.getActualInstance().getClass().getName());
         assertTrue(o.getActualInstance() instanceof EquilateralTriangle);
 
         // It is not valid to deserialize a equilateral triangle into a quadrilateral.
-        Exception exception = assertThrows(RuntimeException.class, () -> {
+        Exception exception = assertThrows(JsonMappingException.class, () -> {
             json.getContext(null).readValue(str, Quadrilateral.class);
         });
+        assertTrue(exception.getMessage().contains("Failed deserialization for Quadrilateral: 0 classes match result"));
     }
 
     @Test

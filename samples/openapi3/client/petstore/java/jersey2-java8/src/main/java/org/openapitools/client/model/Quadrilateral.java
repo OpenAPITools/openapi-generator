@@ -33,7 +33,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import org.openapitools.client.JSON;
 
@@ -112,6 +114,9 @@ public class Quadrilateral extends AbstractOpenApiSchema {
             throw new IOException(String.format("Failed deserialization for Quadrilateral: %d classes match result, expected 1", match));
         }
 
+        /**
+         * Handle deserialization of the 'null' value.
+         */
         @Override
         public Quadrilateral getNullValue(DeserializationContext ctxt) throws JsonMappingException {
             throw new JsonMappingException("Quadrilateral cannot be null");
@@ -140,6 +145,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         });
         schemas.put("SimpleQuadrilateral", new GenericType<SimpleQuadrilateral>() {
         });
+        JSON.registerDescendants(Quadrilateral.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override
@@ -156,12 +162,12 @@ public class Quadrilateral extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance instanceof ComplexQuadrilateral) {
+        if (JSON.isInstanceOf(ComplexQuadrilateral.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof SimpleQuadrilateral) {
+        if (JSON.isInstanceOf(SimpleQuadrilateral.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.ext.ContextResolver;
 
 
@@ -156,6 +157,39 @@ public class JSON implements ContextResolver<ObjectMapper> {
     }
   }
 
+  /**
+   * Returns true if inst is an instance of modelClass in the OpenAPI model hierarchy.
+   *
+   * The Java class hierarchy is not implemented the same way as the OpenAPI model hierarchy,
+   * so it's not possible to use the instanceof keyword.
+   *
+   * @param modelClass A OpenAPI model class.
+   * @param inst The instance object.
+   */
+  public static boolean isInstanceOf(Class modelClass, Object inst, Set<Class> visitedClasses) {
+    if (modelClass.isInstance(inst)) {
+      // This handles the 'allOf' use case with single parent inheritance.
+      return true;
+    }
+    if (visitedClasses.contains(modelClass)) {
+      // This is to prevent infinite recursion when the composed schemas have
+      // a circular dependency.
+      return false;
+    }
+    visitedClasses.add(modelClass);
+    
+    // Traverse the oneOf/anyOf composed schemas.
+    Map<String, GenericType> descendants = modelDescendants.get(modelClass);
+    if (descendants != null) {
+      for (GenericType childType : descendants.values()) {
+        if (isInstanceOf(childType.getRawType(), inst, visitedClasses)) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   private static Map<Class, ClassDiscriminatorMapping> modelDiscriminators = new HashMap<Class, ClassDiscriminatorMapping>();
 
   /**
@@ -261,6 +295,16 @@ public class JSON implements ContextResolver<ObjectMapper> {
       m.registerMapping("Triangle", Triangle.class);
       modelDiscriminators.put(Triangle.class, m);
     }
+  }
+
+  private static Map<Class, Map<String, GenericType>> modelDescendants = new HashMap<Class, Map<String, GenericType>>();
+
+  /**
+   * Register the oneOf/anyOf descendants.
+   * TODO: this should not be a public method.
+   */
+  public static void registerDescendants(Class modelClass, Map<String, GenericType> descendants) {
+    modelDescendants.put(modelClass, descendants);
   }
 
   static {

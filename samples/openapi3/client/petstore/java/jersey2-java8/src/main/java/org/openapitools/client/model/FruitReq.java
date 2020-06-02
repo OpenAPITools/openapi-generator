@@ -32,7 +32,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import org.openapitools.client.JSON;
 
@@ -98,6 +100,9 @@ public class FruitReq extends AbstractOpenApiSchema {
             throw new IOException(String.format("Failed deserialization for FruitReq: %d classes match result, expected 1", match));
         }
 
+        /**
+         * Handle deserialization of the 'null' value.
+         */
         @Override
         public FruitReq getNullValue(DeserializationContext ctxt) throws JsonMappingException {
             return null;
@@ -126,6 +131,7 @@ public class FruitReq extends AbstractOpenApiSchema {
         });
         schemas.put("BananaReq", new GenericType<BananaReq>() {
         });
+        JSON.registerDescendants(FruitReq.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override
@@ -147,12 +153,12 @@ public class FruitReq extends AbstractOpenApiSchema {
            return;
         }
 
-        if (instance instanceof AppleReq) {
+        if (JSON.isInstanceOf(AppleReq.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof BananaReq) {
+        if (JSON.isInstanceOf(BananaReq.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }

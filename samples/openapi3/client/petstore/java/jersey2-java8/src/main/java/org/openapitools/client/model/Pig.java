@@ -33,7 +33,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import org.openapitools.client.JSON;
 
@@ -112,6 +114,9 @@ public class Pig extends AbstractOpenApiSchema {
             throw new IOException(String.format("Failed deserialization for Pig: %d classes match result, expected 1", match));
         }
 
+        /**
+         * Handle deserialization of the 'null' value.
+         */
         @Override
         public Pig getNullValue(DeserializationContext ctxt) throws JsonMappingException {
             throw new JsonMappingException("Pig cannot be null");
@@ -140,6 +145,7 @@ public class Pig extends AbstractOpenApiSchema {
         });
         schemas.put("DanishPig", new GenericType<DanishPig>() {
         });
+        JSON.registerDescendants(Pig.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override
@@ -156,12 +162,12 @@ public class Pig extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance instanceof BasquePig) {
+        if (JSON.isInstanceOf(BasquePig.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof DanishPig) {
+        if (JSON.isInstanceOf(DanishPig.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }

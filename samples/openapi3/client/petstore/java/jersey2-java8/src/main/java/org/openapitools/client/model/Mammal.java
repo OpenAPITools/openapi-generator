@@ -34,7 +34,9 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import org.openapitools.client.JSON;
 
@@ -126,6 +128,9 @@ public class Mammal extends AbstractOpenApiSchema {
             throw new IOException(String.format("Failed deserialization for Mammal: %d classes match result, expected 1", match));
         }
 
+        /**
+         * Handle deserialization of the 'null' value.
+         */
         @Override
         public Mammal getNullValue(DeserializationContext ctxt) throws JsonMappingException {
             throw new JsonMappingException("Mammal cannot be null");
@@ -161,6 +166,7 @@ public class Mammal extends AbstractOpenApiSchema {
         });
         schemas.put("Zebra", new GenericType<Zebra>() {
         });
+        JSON.registerDescendants(Mammal.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override
@@ -177,17 +183,17 @@ public class Mammal extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance instanceof Pig) {
+        if (JSON.isInstanceOf(Pig.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof Whale) {
+        if (JSON.isInstanceOf(Whale.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof Zebra) {
+        if (JSON.isInstanceOf(Zebra.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }
