@@ -72,14 +72,11 @@ public class Pig extends AbstractOpenApiSchema {
                 // When the OAS schema includes a discriminator, use the discriminator value to
                 // discriminate the oneOf schemas.
                 // Get the discriminator mapping value to get the class.
-                log.info("Deserializing payload using discriminator " + cls.getName());
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
                 Pig ret = new Pig();
                 ret.setActualInstance(deserialized);
-                log.info("Deserialized payload using discriminator " + cls.getName());
                 return ret;
             }
-            log.info("No discriminator value was found");
             // deserialize BasquePig
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(BasquePig.class);

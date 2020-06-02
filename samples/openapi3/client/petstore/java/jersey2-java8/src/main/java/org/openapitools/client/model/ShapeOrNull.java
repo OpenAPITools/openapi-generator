@@ -72,14 +72,11 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
                 // When the OAS schema includes a discriminator, use the discriminator value to
                 // discriminate the oneOf schemas.
                 // Get the discriminator mapping value to get the class.
-                log.info("Deserializing payload using discriminator " + cls.getName());
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
                 ShapeOrNull ret = new ShapeOrNull();
                 ret.setActualInstance(deserialized);
-                log.info("Deserialized payload using discriminator " + cls.getName());
                 return ret;
             }
-            log.info("No discriminator value was found");
             // deserialize Quadrilateral
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Quadrilateral.class);

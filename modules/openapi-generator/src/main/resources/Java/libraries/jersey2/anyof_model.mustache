@@ -37,6 +37,18 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             JsonNode tree = jp.readValueAsTree();
 
             Object deserialized = null;
+            {{#discriminator}}
+            Class cls = JSON.getClassForElement(tree, {{classname}}.class);
+            if (cls != null) {
+                // When the OAS schema includes a discriminator, use the discriminator value to
+                // discriminate the anyOf schemas.
+                // Get the discriminator mapping value to get the class.
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
+                {{classname}} ret = new {{classname}}();
+                ret.setActualInstance(deserialized);
+                return ret;
+            }
+            {{/discriminator}}
             {{#anyOf}}
             // deserialzie {{{.}}}
             try {

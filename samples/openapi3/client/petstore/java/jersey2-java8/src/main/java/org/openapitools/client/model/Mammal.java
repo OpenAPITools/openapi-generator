@@ -73,14 +73,11 @@ public class Mammal extends AbstractOpenApiSchema {
                 // When the OAS schema includes a discriminator, use the discriminator value to
                 // discriminate the oneOf schemas.
                 // Get the discriminator mapping value to get the class.
-                log.info("Deserializing payload using discriminator " + cls.getName());
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
                 Mammal ret = new Mammal();
                 ret.setActualInstance(deserialized);
-                log.info("Deserialized payload using discriminator " + cls.getName());
                 return ret;
             }
-            log.info("No discriminator value was found");
             // deserialize Pig
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Pig.class);
