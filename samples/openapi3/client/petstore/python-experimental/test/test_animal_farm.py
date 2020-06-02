@@ -34,9 +34,9 @@ class TestAnimalFarm(unittest.TestCase):
 
     def testAnimalFarm(self):
         """Test AnimalFarm"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = AnimalFarm()  # noqa: E501
-        pass
+        animals = [animal.Animal(className="dog"), animal.Animal(className="cat")]
+        model = AnimalFarm(animals)
+        assert False
 
 
 if __name__ == '__main__':
