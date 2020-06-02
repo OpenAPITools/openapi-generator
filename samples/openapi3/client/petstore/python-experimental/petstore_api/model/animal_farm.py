@@ -81,6 +81,7 @@ class AnimalFarm(ModelSimple):
                 and the value is attribute type.
         """
         return {
+            'value': ([animal.Animal],),  # noqa: E501
         }
 
     @cached_property
@@ -99,8 +100,11 @@ class AnimalFarm(ModelSimple):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, *args, **kwargs):  # noqa: E501
+    def __init__(self, value, *args, **kwargs):  # noqa: E501
         """animal_farm.AnimalFarm - a model defined in OpenAPI
+
+        Args:
+            value ([animal.Animal]):
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -158,6 +162,7 @@ class AnimalFarm(ModelSimple):
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
+        self.value = value
         for var_name, var_value in six.iteritems(kwargs):
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \

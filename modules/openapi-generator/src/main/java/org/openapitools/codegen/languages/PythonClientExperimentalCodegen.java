@@ -823,7 +823,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         result.unescapedDescription = simpleModelName(name);
 
         // make non-object type models have one property so we can use it to store enums and validations
-        if (result.isAlias || result.isEnum) {
+        if (result.isAlias || result.isEnum || result.isArrayModel) {
             Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
             CodegenProperty modelProperty = fromProperty("value", modelSchema);
             if (modelProperty.isEnum == true || modelProperty.hasValidation == true) {
@@ -841,7 +841,20 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                         postProcessModelProperty(result, prop);
                     }
                 }
+            } else if (result.isArrayModel) {
+                LOGGER.warn("\n\n{}\n\n", modelSchema);
+                LOGGER.warn("\n\n{}\n\n", modelProperty);
 
+                List<CodegenProperty> theProperties = Arrays.asList(modelProperty);
+                result.setAllVars(theProperties);
+                result.setVars(theProperties);
+                result.setRequiredVars(theProperties);
+                // post process model properties
+                if (result.vars != null) {
+                    for (CodegenProperty prop : result.vars) {
+                        postProcessModelProperty(result, prop);
+                    }
+                }
             }
         }
 
