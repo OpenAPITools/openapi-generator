@@ -16,11 +16,6 @@ import unittest
 
 import petstore_api
 try:
-    from petstore_api.model import pig
-except ImportError:
-    pig = sys.modules[
-        'petstore_api.model.pig']
-try:
     from petstore_api.model import whale
 except ImportError:
     whale = sys.modules[
@@ -44,9 +39,11 @@ class TestMammal(unittest.TestCase):
 
     def testMammal(self):
         """Test Mammal"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = Mammal()  # noqa: E501
-        pass
+
+        # tests that we can make a BasquePig by traveling through descendant discriminator in Pig
+        model = Mammal(class_name="BasquePig")
+        from petstore_api.model import basque_pig
+        assert isinstance(model, basque_pig.BasquePig)
 
 
 if __name__ == '__main__':

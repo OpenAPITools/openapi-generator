@@ -14,7 +14,6 @@
 from petstore_api.model.additional_properties_class import AdditionalPropertiesClass
 from petstore_api.model.address import Address
 from petstore_api.model.animal import Animal
-from petstore_api.model.animal_farm import AnimalFarm
 from petstore_api.model.api_response import ApiResponse
 from petstore_api.model.apple import Apple
 from petstore_api.model.apple_req import AppleReq

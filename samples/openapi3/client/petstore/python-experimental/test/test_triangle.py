@@ -44,9 +44,12 @@ class TestTriangle(unittest.TestCase):
 
     def testTriangle(self):
         """Test Triangle"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = Triangle()  # noqa: E501
-        pass
+        tri = Triangle(shape_type="Triangle", triangle_type="EquilateralTriangle")
+        assert isinstance(tri, equilateral_triangle.EquilateralTriangle)
+        tri = Triangle(shape_type="Triangle", triangle_type="IsoscelesTriangle")
+        assert isinstance(tri, isosceles_triangle.IsoscelesTriangle)
+        tri = Triangle(shape_type="Triangle", triangle_type="ScaleneTriangle")
+        assert isinstance(tri, scalene_triangle.ScaleneTriangle)
 
 
 if __name__ == '__main__':

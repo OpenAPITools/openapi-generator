@@ -29,9 +29,16 @@ class TestOuterEnum(unittest.TestCase):
 
     def testOuterEnum(self):
         """Test OuterEnum"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = OuterEnum()  # noqa: E501
-        pass
+        # Since 'OuterEnum' is nullable, validate the null value can be assigned
+        # to OuterEnum.
+        inst = OuterEnum(None)
+        self.assertIsNone(inst)
+
+        inst = OuterEnum('approved')
+        assert isinstance(inst, OuterEnum)
+
+        with self.assertRaises(petstore_api.ApiValueError):
+            OuterEnum('garbage')
 
 
 if __name__ == '__main__':
