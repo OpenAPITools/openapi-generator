@@ -433,24 +433,24 @@ conf = petstore_api.Configuration(
         :return: The Auth Settings information dict.
         """
         auth = {}
-        if 'secret' in self.api_key:
+        if 'api_key' in self.api_key:
             auth['api_key'] = {
                 'type': 'api_key',
                 'in': 'header',
                 'key': 'api_key',
                 'value': self.get_api_key_with_prefix(
                     'api_key',
-                    alias='secret',
+                    alias='api_key',
                 ),
             }
-        if 'secret' in self.api_key:
+        if 'api_key' in self.api_key:
             auth['api_key_query'] = {
                 'type': 'api_key',
                 'in': 'query',
                 'key': 'api_key_query',
                 'value': self.get_api_key_with_prefix(
                     'api_key_query',
-                    alias='secret',
+                    alias='api_key',
                 ),
             }
         if self.access_token is not None:

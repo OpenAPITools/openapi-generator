@@ -1163,14 +1163,12 @@ components:
     api_key:
       type: apiKey
       name: api_key
-      # Test key aliasing
-      x-auth-id-alias: secret
       in: header
     api_key_query:
       type: apiKey
       name: api_key_query
       # Test key aliasing
-      x-auth-id-alias: secret
+      x-auth-id-alias: api_key
       in: query
     http_basic_test:
       type: http

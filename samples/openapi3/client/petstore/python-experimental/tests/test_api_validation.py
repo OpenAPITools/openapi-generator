@@ -48,7 +48,7 @@ class ApiClientTests(unittest.TestCase):
         configuration = petstore_api.Configuration(
             host='http://localhost/',
             api_key={
-                'secret': 'SECRET_VALUE'
+                'api_key': 'SECRET_VALUE'
             },
             api_key_prefix={
                 'api_key': 'PREFIX'
