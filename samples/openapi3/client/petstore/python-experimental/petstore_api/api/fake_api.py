@@ -907,7 +907,10 @@ class FakeApi(object):
         self.test_client_model = Endpoint(
             settings={
                 'response_type': (client.Client,),
-                'auth': [],
+                'auth': [
+                    'api_key',
+                    'api_key_query'
+                ],
                 'endpoint_path': '/fake',
                 'operation_id': 'test_client_model',
                 'http_method': 'PATCH',

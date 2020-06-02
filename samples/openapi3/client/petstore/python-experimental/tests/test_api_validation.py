@@ -21,6 +21,7 @@ from dateutil.parser import parse
 from collections import namedtuple
 
 import petstore_api
+from petstore_api.api import FakeApi
 from petstore_api.model import format_test
 import petstore_api.configuration
 
@@ -41,6 +42,31 @@ class ApiClientTests(unittest.TestCase):
         with self.checkRaiseRegex(ValueError, "Invalid keyword: 'foo'"):
             config.disabled_client_side_validations = 'foo'
         config.disabled_client_side_validations = ""
+
+
+    def test_x_auth_id_alias(self):
+        configuration = petstore_api.Configuration(
+            host='http://localhost/',
+            api_key={
+                'secret': 'SECRET_VALUE'
+            },
+            api_key_prefix={
+                'api_key': 'PREFIX'
+            }
+        )
+
+        def request(*args, **kwargs):
+            assert ('api_key_query', 'SECRET_VALUE') in kwargs['query_params']
+            assert 'PREFIX SECRET_VALUE' == kwargs['headers']['api_key']
+            raise RuntimeError("passed")
+
+        with petstore_api.ApiClient(configuration) as client:
+            api = FakeApi(client)
+            client.request = request
+            try:
+                api.test_client_model(client_client={})
+            except RuntimeError as e:
+                assert "passed" == str(e)
 
 
     def checkRaiseRegex(self, expected_exception, expected_regex):

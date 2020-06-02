@@ -396,7 +396,7 @@ conf = petstore_api.Configuration(
         self.__logger_format = value
         self.logger_formatter = logging.Formatter(self.__logger_format)
 
-    def get_api_key_with_prefix(self, identifier):
+    def get_api_key_with_prefix(self, identifier, alias=None):
         """Gets API key (with prefix if set).
 
         :param identifier: The identifier of apiKey.
@@ -404,7 +404,7 @@ conf = petstore_api.Configuration(
         """
         if self.refresh_api_key_hook is not None:
             self.refresh_api_key_hook(self)
-        key = self.api_key.get(identifier)
+        key = self.api_key.get(identifier, self.api_key.get(alias) if alias is not None else None)
         if key:
             prefix = self.api_key_prefix.get(identifier)
             if prefix:
@@ -433,19 +433,25 @@ conf = petstore_api.Configuration(
         :return: The Auth Settings information dict.
         """
         auth = {}
-        if 'api_key' in self.api_key:
+        if 'secret' in self.api_key:
             auth['api_key'] = {
                 'type': 'api_key',
                 'in': 'header',
                 'key': 'api_key',
-                'value': self.get_api_key_with_prefix('api_key')
+                'value': self.get_api_key_with_prefix(
+                    'api_key',
+                    alias='secret',
+                ),
             }
-        if 'api_key_query' in self.api_key:
+        if 'secret' in self.api_key:
             auth['api_key_query'] = {
                 'type': 'api_key',
                 'in': 'query',
                 'key': 'api_key_query',
-                'value': self.get_api_key_with_prefix('api_key_query')
+                'value': self.get_api_key_with_prefix(
+                    'api_key_query',
+                    alias='secret',
+                ),
             }
         if self.access_token is not None:
             auth['bearer_test'] = {

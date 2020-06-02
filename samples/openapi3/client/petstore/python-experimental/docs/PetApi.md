@@ -532,11 +532,11 @@ configuration = petstore_api.Configuration(
 configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2",
     api_key = {
-        'api_key': 'YOUR_API_KEY'
+        'secret': 'YOUR_API_KEY'
     }
 )
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['api_key'] = 'Bearer'
+# configuration.api_key_prefix['secret'] = 'Bearer'
 
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
