@@ -19,6 +19,7 @@ from petstore_api.model.api_response import ApiResponse
 from petstore_api.model.apple import Apple
 from petstore_api.model.apple_req import AppleReq
 from petstore_api.model.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
+from petstore_api.model.array_of_enums import ArrayOfEnums
 from petstore_api.model.array_of_number_only import ArrayOfNumberOnly
 from petstore_api.model.array_test import ArrayTest
 from petstore_api.model.banana import Banana

@@ -1097,19 +1097,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
-  /farm/animals:
+  /fake/array-of-enums:
     get:
       tags:
-        - farm
-      summary: Animal Farm
-      operationId: farm
+        - fake
+      summary: Array of Enums
+      operationId: getArrayOfEnums
       responses:
         200:
           description: Got named array of enums
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AnimalFarm'
+                $ref: '#/components/schemas/ArrayOfEnums'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2082,3 +2082,7 @@ components:
           properties:
             name:
               type: string
+    ArrayOfEnums:
+      type: array
+      items:
+        $ref: '#/components/schemas/OuterEnum'
