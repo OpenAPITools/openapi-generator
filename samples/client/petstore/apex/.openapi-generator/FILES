@@ -12,10 +12,6 @@ force-app/main/default/classes/OASInlineObject.cls
 force-app/main/default/classes/OASInlineObject.cls-meta.xml
 force-app/main/default/classes/OASInlineObject1.cls
 force-app/main/default/classes/OASInlineObject1.cls-meta.xml
-force-app/main/default/classes/OASInlineObject1Test.cls
-force-app/main/default/classes/OASInlineObject1Test.cls-meta.xml
-force-app/main/default/classes/OASInlineObjectTest.cls
-force-app/main/default/classes/OASInlineObjectTest.cls-meta.xml
 force-app/main/default/classes/OASOrder.cls
 force-app/main/default/classes/OASOrder.cls-meta.xml
 force-app/main/default/classes/OASPet.cls

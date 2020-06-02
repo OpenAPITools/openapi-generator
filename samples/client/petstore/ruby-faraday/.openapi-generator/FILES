@@ -127,10 +127,4 @@ lib/petstore/version.rb
 petstore.gemspec
 spec/api_client_spec.rb
 spec/configuration_spec.rb
-spec/models/inline_object1_spec.rb
-spec/models/inline_object2_spec.rb
-spec/models/inline_object3_spec.rb
-spec/models/inline_object4_spec.rb
-spec/models/inline_object5_spec.rb
-spec/models/inline_object_spec.rb
 spec/spec_helper.rb
