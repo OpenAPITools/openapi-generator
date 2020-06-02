@@ -137,3 +137,4 @@ func (v *NullableMammal) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
+
