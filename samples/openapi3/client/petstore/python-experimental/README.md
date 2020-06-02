@@ -97,6 +97,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**test_json_form_data**](docs/FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**test_query_parameter_collection_format**](docs/FakeApi.md#test_query_parameter_collection_format) | **PUT** /fake/test-query-paramters | 
 *FakeClassnameTags123Api* | [**test_classname**](docs/FakeClassnameTags123Api.md#test_classname) | **PATCH** /fake_classname_test | To test class name in snake case
+*FarmApi* | [**farm**](docs/FarmApi.md#farm) | **GET** /farm/animals | Animal Farm
 *PetApi* | [**add_pet**](docs/PetApi.md#add_pet) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**delete_pet**](docs/PetApi.md#delete_pet) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**find_pets_by_status**](docs/PetApi.md#find_pets_by_status) | **GET** /pet/findByStatus | Finds Pets by status
@@ -125,6 +126,7 @@ Class | Method | HTTP request | Description
  - [additional_properties_class.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [address.Address](docs/Address.md)
  - [animal.Animal](docs/Animal.md)
+ - [animal_farm.AnimalFarm](docs/AnimalFarm.md)
  - [api_response.ApiResponse](docs/ApiResponse.md)
  - [apple.Apple](docs/Apple.md)
  - [apple_req.AppleReq](docs/AppleReq.md)
