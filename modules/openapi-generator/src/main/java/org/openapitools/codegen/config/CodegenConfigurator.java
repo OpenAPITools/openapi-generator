@@ -255,7 +255,7 @@ public class CodegenConfigurator {
     }
 
     public CodegenConfigurator setGenerateAliasAsModel(boolean generateAliasAsModel) {
-        // TODO: Move to GlobalSettings?
+        workflowSettingsBuilder.withGenerateAliasAsModel(generateAliasAsModel);
         ModelUtils.setGenerateAliasAsModel(generateAliasAsModel);
         return this;
     }
