@@ -20,7 +20,7 @@ fi
 
 export JAVA_OPTS="${JAVA_OPTS} -server"
 
-configs=${1:-"${root}"/bin/configs/*.yaml}
+configs=${@:-"${root}"/bin/configs/*.yaml}
 
 # shellcheck disable=SC2086
 java $JAVA_OPTS -jar "$executable" batch --includes-base-dir "${root}" --fail-fast  -- $configs
