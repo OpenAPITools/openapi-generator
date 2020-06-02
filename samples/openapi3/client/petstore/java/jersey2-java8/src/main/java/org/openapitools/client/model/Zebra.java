@@ -21,8 +21,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.HashMap;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
@@ -33,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Zebra.JSON_PROPERTY_CLASS_NAME
 })
 
-public class Zebra extends HashMap<String, Object> {
+public class Zebra {
   /**
    * Gets or Sets type
    */
@@ -137,13 +135,12 @@ public class Zebra extends HashMap<String, Object> {
     }
     Zebra zebra = (Zebra) o;
     return Objects.equals(this.type, zebra.type) &&
-        Objects.equals(this.className, zebra.className) &&
-        super.equals(o);
+        Objects.equals(this.className, zebra.className);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, className, super.hashCode());
+    return Objects.hash(type, className);
   }
 
 
@@ -151,7 +148,6 @@ public class Zebra extends HashMap<String, Object> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Zebra {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    className: ").append(toIndentedString(className)).append("\n");
     sb.append("}");
