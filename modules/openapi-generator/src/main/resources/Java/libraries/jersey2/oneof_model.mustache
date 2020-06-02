@@ -93,7 +93,18 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
     public {{classname}}() {
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
     }
+{{> libraries/jersey2/additional_properties }}
+    {{#additionalPropertiesType}}
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o) && Objects.equals(this.additionalProperties, o.additionalProperties)
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(instance, isNullable, schemaType, additionalProperties);
+    }
+    {{/additionalPropertiesType}}
     {{#oneOf}}
     public {{classname}}({{{.}}} o) {
         super("oneOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});

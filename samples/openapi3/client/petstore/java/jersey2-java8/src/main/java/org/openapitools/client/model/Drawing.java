@@ -13,6 +13,9 @@
 
 package org.openapitools.client.model;
 
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import java.util.Objects;
 import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -173,6 +176,35 @@ public class Drawing {
     this.shapes = shapes;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  @JsonUnwrapped
+  private Map<String, Fruit> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   */
+  public Drawing putAdditionalProperty(String key, Fruit value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Fruit>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   */
+  public Fruit getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -186,12 +218,13 @@ public class Drawing {
     return Objects.equals(this.mainShape, drawing.mainShape) &&
         Objects.equals(this.shapeOrNull, drawing.shapeOrNull) &&
         Objects.equals(this.nullableShape, drawing.nullableShape) &&
-        Objects.equals(this.shapes, drawing.shapes);
+        Objects.equals(this.shapes, drawing.shapes)&&
+        Objects.equals(this.additionalProperties, drawing.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(mainShape, shapeOrNull, nullableShape, shapes);
+    return Objects.hash(mainShape, shapeOrNull, nullableShape, shapes, additionalProperties);
   }
 
 
@@ -203,6 +236,7 @@ public class Drawing {
     sb.append("    shapeOrNull: ").append(toIndentedString(shapeOrNull)).append("\n");
     sb.append("    nullableShape: ").append(toIndentedString(nullableShape)).append("\n");
     sb.append("    shapes: ").append(toIndentedString(shapes)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
