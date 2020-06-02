@@ -32,12 +32,16 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -65,6 +69,9 @@ public class Fruit extends AbstractOpenApiSchema {
             // deserialize Apple
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Apple.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Apple'");
             } catch (Exception e) {
@@ -75,6 +82,9 @@ public class Fruit extends AbstractOpenApiSchema {
             // deserialize Banana
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Banana.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Banana'");
             } catch (Exception e) {
@@ -88,6 +98,14 @@ public class Fruit extends AbstractOpenApiSchema {
                 return ret;
             }
             throw new IOException(String.format("Failed deserialization for Fruit: %d classes match result, expected 1", match));
+        }
+
+        /**
+         * Handle deserialization of the 'null' value.
+         */
+        @Override
+        public Fruit getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+            throw new JsonMappingException("Fruit cannot be null");
         }
     }
 
@@ -113,6 +131,7 @@ public class Fruit extends AbstractOpenApiSchema {
         });
         schemas.put("Banana", new GenericType<Banana>() {
         });
+        JSON.registerDescendants(Fruit.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override
@@ -120,14 +139,21 @@ public class Fruit extends AbstractOpenApiSchema {
         return Fruit.schemas;
     }
 
+    /**
+     * Set the instance that matches the oneOf child schema, check
+     * the instance parameter is valid against the oneOf child schemas.
+     *
+     * It could be an instance of the 'oneOf' schemas.
+     * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
+     */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance instanceof Apple) {
+        if (JSON.isInstanceOf(Apple.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof Banana) {
+        if (JSON.isInstanceOf(Banana.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }

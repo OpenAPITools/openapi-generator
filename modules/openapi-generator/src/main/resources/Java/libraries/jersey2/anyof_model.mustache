@@ -4,12 +4,16 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import {{invokerPackage}}.JSON;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -33,6 +37,18 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             JsonNode tree = jp.readValueAsTree();
 
             Object deserialized = null;
+            {{#discriminator}}
+            Class cls = JSON.getClassForElement(tree, {{classname}}.class);
+            if (cls != null) {
+                // When the OAS schema includes a discriminator, use the discriminator value to
+                // discriminate the anyOf schemas.
+                // Get the discriminator mapping value to get the class.
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
+                {{classname}} ret = new {{classname}}();
+                ret.setActualInstance(deserialized);
+                return ret;
+            }
+            {{/discriminator}}
             {{#anyOf}}
             // deserialzie {{{.}}}
             try {
@@ -47,6 +63,19 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
             {{/anyOf}}
             throw new IOException(String.format("Failed deserialization for {{classname}}: no match found"));
+        }
+
+        /**
+         * Handle deserialization of the 'null' value.
+         */
+        @Override
+        public {{classname}} getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+        {{#isNullable}}
+            return null;
+        {{/isNullable}}
+        {{^isNullable}}
+            throw new JsonMappingException("{{classname}} cannot be null");
+        {{/isNullable}}
         }
     }
 
@@ -69,6 +98,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
         });
         {{/anyOf}}
+        JSON.registerDescendants({{classname}}.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override
@@ -78,15 +108,15 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     @Override
     public void setActualInstance(Object instance) {
-        {{#isNulalble}}
+        {{#isNullable}}
         if (instance == null) {
            super.setActualInstance(instance);
            return;
         }
 
-        {{/isNulalble}}
+        {{/isNullable}}
         {{#anyOf}}
-        if (instance instanceof {{{.}}}) {
+        if (JSON.isInstanceOf({{{.}}}.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }

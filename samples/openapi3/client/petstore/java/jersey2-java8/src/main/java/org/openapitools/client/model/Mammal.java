@@ -34,12 +34,16 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -64,9 +68,22 @@ public class Mammal extends AbstractOpenApiSchema {
 
             int match = 0;
             Object deserialized = null;
+            Class cls = JSON.getClassForElement(tree, Mammal.class);
+            if (cls != null) {
+                // When the OAS schema includes a discriminator, use the discriminator value to
+                // discriminate the oneOf schemas.
+                // Get the discriminator mapping value to get the class.
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
+                Mammal ret = new Mammal();
+                ret.setActualInstance(deserialized);
+                return ret;
+            }
             // deserialize Pig
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Pig.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Pig'");
             } catch (Exception e) {
@@ -77,6 +94,9 @@ public class Mammal extends AbstractOpenApiSchema {
             // deserialize Whale
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Whale.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Whale'");
             } catch (Exception e) {
@@ -87,6 +107,9 @@ public class Mammal extends AbstractOpenApiSchema {
             // deserialize Zebra
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Zebra.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Zebra'");
             } catch (Exception e) {
@@ -100,6 +123,14 @@ public class Mammal extends AbstractOpenApiSchema {
                 return ret;
             }
             throw new IOException(String.format("Failed deserialization for Mammal: %d classes match result, expected 1", match));
+        }
+
+        /**
+         * Handle deserialization of the 'null' value.
+         */
+        @Override
+        public Mammal getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+            throw new JsonMappingException("Mammal cannot be null");
         }
     }
 
@@ -132,6 +163,7 @@ public class Mammal extends AbstractOpenApiSchema {
         });
         schemas.put("Zebra", new GenericType<Zebra>() {
         });
+        JSON.registerDescendants(Mammal.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override
@@ -139,19 +171,26 @@ public class Mammal extends AbstractOpenApiSchema {
         return Mammal.schemas;
     }
 
+    /**
+     * Set the instance that matches the oneOf child schema, check
+     * the instance parameter is valid against the oneOf child schemas.
+     *
+     * It could be an instance of the 'oneOf' schemas.
+     * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
+     */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance instanceof Pig) {
+        if (JSON.isInstanceOf(Pig.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof Whale) {
+        if (JSON.isInstanceOf(Whale.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof Zebra) {
+        if (JSON.isInstanceOf(Zebra.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }

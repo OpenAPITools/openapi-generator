@@ -33,12 +33,16 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
@@ -63,9 +67,22 @@ public class Quadrilateral extends AbstractOpenApiSchema {
 
             int match = 0;
             Object deserialized = null;
+            Class cls = JSON.getClassForElement(tree, Quadrilateral.class);
+            if (cls != null) {
+                // When the OAS schema includes a discriminator, use the discriminator value to
+                // discriminate the oneOf schemas.
+                // Get the discriminator mapping value to get the class.
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
+                Quadrilateral ret = new Quadrilateral();
+                ret.setActualInstance(deserialized);
+                return ret;
+            }
             // deserialize ComplexQuadrilateral
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(ComplexQuadrilateral.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'ComplexQuadrilateral'");
             } catch (Exception e) {
@@ -76,6 +93,9 @@ public class Quadrilateral extends AbstractOpenApiSchema {
             // deserialize SimpleQuadrilateral
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(SimpleQuadrilateral.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'SimpleQuadrilateral'");
             } catch (Exception e) {
@@ -89,6 +109,14 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                 return ret;
             }
             throw new IOException(String.format("Failed deserialization for Quadrilateral: %d classes match result, expected 1", match));
+        }
+
+        /**
+         * Handle deserialization of the 'null' value.
+         */
+        @Override
+        public Quadrilateral getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+            throw new JsonMappingException("Quadrilateral cannot be null");
         }
     }
 
@@ -114,6 +142,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         });
         schemas.put("SimpleQuadrilateral", new GenericType<SimpleQuadrilateral>() {
         });
+        JSON.registerDescendants(Quadrilateral.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override
@@ -121,14 +150,21 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         return Quadrilateral.schemas;
     }
 
+    /**
+     * Set the instance that matches the oneOf child schema, check
+     * the instance parameter is valid against the oneOf child schemas.
+     *
+     * It could be an instance of the 'oneOf' schemas.
+     * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
+     */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance instanceof ComplexQuadrilateral) {
+        if (JSON.isInstanceOf(ComplexQuadrilateral.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof SimpleQuadrilateral) {
+        if (JSON.isInstanceOf(SimpleQuadrilateral.class, instance, new HashSet<Class>())) {
             super.setActualInstance(instance);
             return;
         }
