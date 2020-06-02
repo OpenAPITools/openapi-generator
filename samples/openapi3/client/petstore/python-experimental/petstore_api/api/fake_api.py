@@ -34,11 +34,11 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models import health_check_result
-from petstore_api.models import outer_composite
-from petstore_api.models import file_schema_test_class
-from petstore_api.models import user
-from petstore_api.models import client
+from petstore_api.model import health_check_result
+from petstore_api.model import outer_composite
+from petstore_api.model import file_schema_test_class
+from petstore_api.model import user
+from petstore_api.model import client
 
 
 class FakeApi(object):

@@ -1250,15 +1250,11 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @summary Place an order for a pet
-         * @param {Order} body order placed for purchasing the pet
+         * @param {Order} [body] order placed for purchasing the pet
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder: async (body: Order, options: any = {}): Promise<RequestArgs> => {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling placeOrder.');
-            }
+        placeOrder: async (body?: Order, options: any = {}): Promise<RequestArgs> => {
             const localVarPath = `/store/order`;
             const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
             let baseOptions;
@@ -1339,11 +1335,11 @@ export const StoreApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary Place an order for a pet
-         * @param {Order} body order placed for purchasing the pet
+         * @param {Order} [body] order placed for purchasing the pet
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async placeOrder(body: Order, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
+        async placeOrder(body?: Order, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Order>> {
             const localVarAxiosArgs = await StoreApiAxiosParamCreator(configuration).placeOrder(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -1391,11 +1387,11 @@ export const StoreApiFactory = function (configuration?: Configuration, basePath
         /**
          * 
          * @summary Place an order for a pet
-         * @param {Order} body order placed for purchasing the pet
+         * @param {Order} [body] order placed for purchasing the pet
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        placeOrder(body: Order, options?: any): AxiosPromise<Order> {
+        placeOrder(body?: Order, options?: any): AxiosPromise<Order> {
             return StoreApiFp(configuration).placeOrder(body, options).then((request) => request(axios, basePath));
         },
     };
@@ -1440,7 +1436,7 @@ export interface StoreApiPlaceOrderRequest {
      * @type {Order}
      * @memberof StoreApiPlaceOrder
      */
-    readonly body: Order
+    readonly body?: Order
 }
 
 /**
@@ -1493,7 +1489,7 @@ export class StoreApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof StoreApi
      */
-    public placeOrder(requestParameters: StoreApiPlaceOrderRequest, options?: any) {
+    public placeOrder(requestParameters: StoreApiPlaceOrderRequest = {}, options?: any) {
         return StoreApiFp(this.configuration).placeOrder(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }

@@ -30,9 +30,10 @@
 ./Tests/Model/TagTest.php
 ./Tests/Model/UserTest.php
 ./Tests/test_config.yml
+.coveralls.yml
 .gitignore
 .openapi-generator-ignore
-.php_cs
+.php_cs.dist
 .travis.yml
 DependencyInjection/Compiler/OpenAPIServerApiPass.php
 DependencyInjection/OpenAPIServerExtension.php

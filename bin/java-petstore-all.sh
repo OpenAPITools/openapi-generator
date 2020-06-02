@@ -14,7 +14,6 @@
 ./bin/java-petstore-resteasy.sh
 ./bin/java-petstore-resttemplate-withxml.sh
 ./bin/java-petstore-resttemplate.sh
-./bin/java-petstore-retrofit.sh
 ./bin/java-petstore-retrofit2-play24.sh
 ./bin/java-petstore-retrofit2-play25.sh
 ./bin/java-petstore-retrofit2-play26.sh

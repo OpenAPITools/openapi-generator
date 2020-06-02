@@ -40,6 +40,7 @@ declare -a samples=(
 "${root}/bin/python-server-all.sh"
 "${root}/bin/openapi3/python-petstore.sh"
 "${root}/bin/openapi3/python-experimental-petstore.sh"
+"${root}/bin/openapi3/java-petstore-jersey2-java8.sh"
 "${root}/bin/php-petstore.sh"
 "${root}/bin/php-silex-petstore-server.sh"
 "${root}/bin/php-symfony-petstore.sh"
