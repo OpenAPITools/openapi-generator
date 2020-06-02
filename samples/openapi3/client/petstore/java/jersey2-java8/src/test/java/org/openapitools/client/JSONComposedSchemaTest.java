@@ -263,4 +263,66 @@ public class JSONComposedSchemaTest {
             assertTrue(exception.getMessage().contains("Could not resolve type id 'Garbage'"));
         }
     }
+
+    @Test
+    public void testNullValueDisallowed() throws Exception {
+        {
+            String str = "{ \"id\": 123, \"petId\": 345, \"quantity\": 100, \"status\": \"placed\" }";
+            Order o = json.getContext(null).readValue(str, Order.class);
+            assertEquals(100L, (long)o.getQuantity());
+            assertEquals(Order.StatusEnum.PLACED, o.getStatus());
+        }
+        {
+            String str = "{ \"id\": 123, \"petId\": 345, \"quantity\": null }";
+            Order o = json.getContext(null).readValue(str, Order.class);
+            // TODO: the null value is not allowed per OAS document.
+            // The deserialization should fail.
+            assertNull(o.getQuantity());
+        }
+    }
+
+    /**
+     * Validate a anyOf schema can be deserialized into the expected class.
+     * The anyOf schema has a discriminator. 
+     */
+    @Test
+    public void testAnyOfSchemaWithoutDiscriminator() throws Exception {
+        {
+            // TODO: the GmFruit defines a 'color' property, which should be allowed
+            // in the input data, but the generated code does not have it.
+            String str = "{ \"cultivar\": \"golden delicious\", \"origin\": \"California\" }";
+            GmFruit o = json.getContext(null).readValue(str, GmFruit.class);
+            assertTrue(o.getActualInstance() instanceof Apple);
+            Apple inst = (Apple) o.getActualInstance();
+            assertEquals("golden delicious", inst.getCultivar());
+            assertEquals("California", inst.getOrigin());
+            // TODO: the 'Color' property is not generated for the 'GmFruit'.
+            //assertEquals("yellow", o.getColor());
+        }
+        {
+            String str = "{ \"lengthCm\": 17 }";
+            GmFruit o = json.getContext(null).readValue(str, GmFruit.class);
+            assertTrue(o.getActualInstance() instanceof Banana);
+            Banana inst = (Banana) o.getActualInstance();
+            assertEquals(new java.math.BigDecimal(17), inst.getLengthCm());
+        }
+        {
+            // Deserialize empty object. This should work because it will match either apple or banana.
+            String str = "{ }";
+            GmFruit o = json.getContext(null).readValue(str, GmFruit.class);
+            // The payload matches against either apple or banana, so either model could be returned,
+            // but the implementation always picks the first anyOf child schema that matches the
+            // input payload.
+            assertTrue(o.getActualInstance() instanceof Apple);
+        }
+        {
+            // Deserialize the null value. This is not allowed because the 'gmFruit' schema
+            // is not nullable.
+            String str = "null";
+            Exception exception = assertThrows(JsonMappingException.class, () -> {
+                GmFruit o = json.getContext(null).readValue(str, GmFruit.class);
+            });
+            assertEquals("GmFruit cannot be null", exception.getMessage());
+        }  
+    }
 }
