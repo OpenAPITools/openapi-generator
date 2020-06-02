@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.ext.ContextResolver;
 
 
@@ -135,6 +136,9 @@ public class JSON implements ContextResolver<ObjectMapper> {
       visitedClasses.add(modelClass);
       for (Class childClass : discriminatorMappings.values()) {
         ClassDiscriminatorMapping childCdm = modelDiscriminators.get(childClass);
+        if (childCdm == null) {
+          continue;
+        }
         if (!discriminatorName.equals(childCdm.discriminatorName)) {
           discrValue = getDiscriminatorValue(node);
           if (discrValue == null) {
@@ -143,14 +147,47 @@ public class JSON implements ContextResolver<ObjectMapper> {
         }
         if (childCdm != null) {
           // Recursively traverse the discriminator mappings.
-          cls = childCdm.getClassForElement(node, visitedClasses);
-          if (cls != null) {
-            return cls;
+          Class childDiscr = childCdm.getClassForElement(node, visitedClasses);
+          if (childDiscr != null) {
+            return childDiscr;
           }
         }
       }
       return cls;
     }
+  }
+
+  /**
+   * Returns true if inst is an instance of modelClass in the OpenAPI model hierarchy.
+   *
+   * The Java class hierarchy is not implemented the same way as the OpenAPI model hierarchy,
+   * so it's not possible to use the instanceof keyword.
+   *
+   * @param modelClass A OpenAPI model class.
+   * @param inst The instance object.
+   */
+  public static boolean isInstanceOf(Class modelClass, Object inst, Set<Class> visitedClasses) {
+    if (modelClass.isInstance(inst)) {
+      // This handles the 'allOf' use case with single parent inheritance.
+      return true;
+    }
+    if (visitedClasses.contains(modelClass)) {
+      // This is to prevent infinite recursion when the composed schemas have
+      // a circular dependency.
+      return false;
+    }
+    visitedClasses.add(modelClass);
+    
+    // Traverse the oneOf/anyOf composed schemas.
+    Map<String, GenericType> descendants = modelDescendants.get(modelClass);
+    if (descendants != null) {
+      for (GenericType childType : descendants.values()) {
+        if (isInstanceOf(childType.getRawType(), inst, visitedClasses)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private static Map<Class, ClassDiscriminatorMapping> modelDiscriminators = new HashMap<Class, ClassDiscriminatorMapping>();
@@ -162,22 +199,24 @@ public class JSON implements ContextResolver<ObjectMapper> {
     {
       // Initialize the discriminator mappings for 'Animal'.
       ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(Animal.class, "className");
+      m.registerMapping("BigCat", BigCat.class);
       m.registerMapping("Cat", Cat.class);
       m.registerMapping("Dog", Dog.class);
       m.registerMapping("Animal", Animal.class);
       modelDiscriminators.put(Animal.class, m);
     }
     {
-      // Initialize the discriminator mappings for 'Cat'.
-      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(Cat.class, "className");
-      m.registerMapping("Cat", Cat.class);
-      modelDiscriminators.put(Cat.class, m);
+      // Initialize the discriminator mappings for 'BigCat'.
+      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(BigCat.class, "className");
+      m.registerMapping("BigCat", BigCat.class);
+      modelDiscriminators.put(BigCat.class, m);
     }
     {
-      // Initialize the discriminator mappings for 'ChildCat'.
-      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(ChildCat.class, "pet_type");
-      m.registerMapping("ChildCat", ChildCat.class);
-      modelDiscriminators.put(ChildCat.class, m);
+      // Initialize the discriminator mappings for 'Cat'.
+      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(Cat.class, "className");
+      m.registerMapping("BigCat", BigCat.class);
+      m.registerMapping("Cat", Cat.class);
+      modelDiscriminators.put(Cat.class, m);
     }
     {
       // Initialize the discriminator mappings for 'Dog'.
@@ -185,79 +224,16 @@ public class JSON implements ContextResolver<ObjectMapper> {
       m.registerMapping("Dog", Dog.class);
       modelDiscriminators.put(Dog.class, m);
     }
-    {
-      // Initialize the discriminator mappings for 'GrandparentAnimal'.
-      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(GrandparentAnimal.class, "pet_type");
-      m.registerMapping("ChildCat", ChildCat.class);
-      m.registerMapping("ParentPet", ParentPet.class);
-      m.registerMapping("GrandparentAnimal", GrandparentAnimal.class);
-      modelDiscriminators.put(GrandparentAnimal.class, m);
-    }
-    {
-      // Initialize the discriminator mappings for 'Mammal'.
-      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(Mammal.class, "className");
-      m.registerMapping("Pig", Pig.class);
-      m.registerMapping("whale", Whale.class);
-      m.registerMapping("zebra", Zebra.class);
-      m.registerMapping("mammal", Mammal.class);
-      modelDiscriminators.put(Mammal.class, m);
-    }
-    {
-      // Initialize the discriminator mappings for 'NullableShape'.
-      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(NullableShape.class, "shapeType");
-      m.registerMapping("Quadrilateral", Quadrilateral.class);
-      m.registerMapping("Triangle", Triangle.class);
-      m.registerMapping("NullableShape", NullableShape.class);
-      modelDiscriminators.put(NullableShape.class, m);
-    }
-    {
-      // Initialize the discriminator mappings for 'ParentPet'.
-      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(ParentPet.class, "pet_type");
-      m.registerMapping("ChildCat", ChildCat.class);
-      m.registerMapping("ParentPet", ParentPet.class);
-      modelDiscriminators.put(ParentPet.class, m);
-    }
-    {
-      // Initialize the discriminator mappings for 'Pig'.
-      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(Pig.class, "className");
-      m.registerMapping("BasquePig", BasquePig.class);
-      m.registerMapping("DanishPig", DanishPig.class);
-      m.registerMapping("Pig", Pig.class);
-      modelDiscriminators.put(Pig.class, m);
-    }
-    {
-      // Initialize the discriminator mappings for 'Quadrilateral'.
-      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(Quadrilateral.class, "quadrilateralType");
-      m.registerMapping("ComplexQuadrilateral", ComplexQuadrilateral.class);
-      m.registerMapping("SimpleQuadrilateral", SimpleQuadrilateral.class);
-      m.registerMapping("Quadrilateral", Quadrilateral.class);
-      modelDiscriminators.put(Quadrilateral.class, m);
-    }
-    {
-      // Initialize the discriminator mappings for 'Shape'.
-      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(Shape.class, "shapeType");
-      m.registerMapping("Quadrilateral", Quadrilateral.class);
-      m.registerMapping("Triangle", Triangle.class);
-      m.registerMapping("Shape", Shape.class);
-      modelDiscriminators.put(Shape.class, m);
-    }
-    {
-      // Initialize the discriminator mappings for 'ShapeOrNull'.
-      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(ShapeOrNull.class, "shapeType");
-      m.registerMapping("Quadrilateral", Quadrilateral.class);
-      m.registerMapping("Triangle", Triangle.class);
-      m.registerMapping("ShapeOrNull", ShapeOrNull.class);
-      modelDiscriminators.put(ShapeOrNull.class, m);
-    }
-    {
-      // Initialize the discriminator mappings for 'Triangle'.
-      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(Triangle.class, "triangleType");
-      m.registerMapping("EquilateralTriangle", EquilateralTriangle.class);
-      m.registerMapping("IsoscelesTriangle", IsoscelesTriangle.class);
-      m.registerMapping("ScaleneTriangle", ScaleneTriangle.class);
-      m.registerMapping("Triangle", Triangle.class);
-      modelDiscriminators.put(Triangle.class, m);
-    }
+  }
+
+  private static Map<Class, Map<String, GenericType>> modelDescendants = new HashMap<Class, Map<String, GenericType>>();
+
+  /**
+   * Register the oneOf/anyOf descendants.
+   * TODO: this should not be a public method.
+   */
+  public static void registerDescendants(Class modelClass, Map<String, GenericType> descendants) {
+    modelDescendants.put(modelClass, descendants);
   }
 
   static {
