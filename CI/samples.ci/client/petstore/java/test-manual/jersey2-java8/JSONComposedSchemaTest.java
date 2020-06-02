@@ -229,14 +229,38 @@ public class JSONComposedSchemaTest {
      */
     @Test
     public void testAllOfSchema() throws Exception {
-        String str = null;
         {
-            str = "{ \"className\": \"Dog\", \"color\": \"white\",  \"breed\": \"Siberian Husky\" }";
+            String str = "{ \"className\": \"Dog\", \"color\": \"white\",  \"breed\": \"Siberian Husky\" }";
 
             // We should be able to deserialize a dog into a Dog.
             Dog d = json.getContext(null).readValue(str, Dog.class);            
             assertNotNull(d);
             assertEquals("white", d.getColor());
+        }
+        {
+            String str = "{ \"pet_type\": \"ChildCat\", \"name\": \"fluffy\" }";
+            GrandparentAnimal o = json.getContext(null).readValue(str, GrandparentAnimal.class);            
+            assertNotNull(o);
+            assertTrue(o instanceof ParentPet);
+            assertTrue(o instanceof ChildCat);
+            ChildCat c = (ChildCat)o;
+            assertEquals("fluffy", c.getName());
+        }
+        {
+            String str = "{ \"pet_type\": \"ChildCat\", \"name\": \"fluffy\" }";
+            ParentPet o = json.getContext(null).readValue(str, ParentPet.class);            
+            assertNotNull(o);
+            assertTrue(o instanceof ChildCat);
+            ChildCat c = (ChildCat)o;
+            assertEquals("fluffy", c.getName());
+        }
+        {
+            // Wrong discriminator value in the payload.
+            String str = "{ \"pet_type\": \"Garbage\", \"name\": \"fluffy\" }";
+            Exception exception = assertThrows(JsonMappingException.class, () -> {
+                json.getContext(null).readValue(str, GrandparentAnimal.class);
+            });
+            assertTrue(exception.getMessage().contains("Could not resolve type id 'Garbage'"));
         }
     }
 }
