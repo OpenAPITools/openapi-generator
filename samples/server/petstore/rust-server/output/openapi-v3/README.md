@@ -143,7 +143,6 @@ Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [AnotherXmlArray](docs/AnotherXmlArray.md)
  - [AnotherXmlInner](docs/AnotherXmlInner.md)
  - [AnotherXmlObject](docs/AnotherXmlObject.md)
  - [DuplicateXmlObject](docs/DuplicateXmlObject.md)
@@ -152,7 +151,6 @@ Method | HTTP request | Description
  - [Error](docs/Error.md)
  - [InlineResponse201](docs/InlineResponse201.md)
  - [MyId](docs/MyId.md)
- - [MyIdList](docs/MyIdList.md)
  - [NullableTest](docs/NullableTest.md)
  - [ObjectHeader](docs/ObjectHeader.md)
  - [ObjectParam](docs/ObjectParam.md)
@@ -165,7 +163,6 @@ Method | HTTP request | Description
  - [StringEnum](docs/StringEnum.md)
  - [StringObject](docs/StringObject.md)
  - [UuidObject](docs/UuidObject.md)
- - [XmlArray](docs/XmlArray.md)
  - [XmlInner](docs/XmlInner.md)
  - [XmlObject](docs/XmlObject.md)
 

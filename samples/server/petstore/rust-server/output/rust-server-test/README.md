@@ -115,7 +115,6 @@ Method | HTTP request | Description
 ## Documentation For Models
 
  - [ANullableContainer](docs/ANullableContainer.md)
- - [AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
  - [AllOfObject](docs/AllOfObject.md)
  - [BaseAllOf](docs/BaseAllOf.md)
  - [GetYamlResponse](docs/GetYamlResponse.md)

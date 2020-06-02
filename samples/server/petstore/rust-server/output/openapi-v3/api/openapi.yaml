@@ -448,7 +448,12 @@ components:
         inner_string:
           type: string
         inner_array:
-          $ref: '#/components/schemas/xml_array'
+          items:
+            $ref: '#/components/schemas/xml_inner'
+          type: array
+          xml:
+            name: CamelXmlArray
+            wrapped: true
       required:
       - inner_array
       type: object

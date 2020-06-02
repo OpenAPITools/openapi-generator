@@ -3,7 +3,6 @@
 Cargo.toml
 README.md
 api/openapi.yaml
-docs/AnotherXmlArray.md
 docs/AnotherXmlInner.md
 docs/AnotherXmlObject.md
 docs/DuplicateXmlObject.md
@@ -12,7 +11,6 @@ docs/Err.md
 docs/Error.md
 docs/InlineResponse201.md
 docs/MyId.md
-docs/MyIdList.md
 docs/NullableTest.md
 docs/ObjectHeader.md
 docs/ObjectParam.md
@@ -25,7 +23,6 @@ docs/Result.md
 docs/StringEnum.md
 docs/StringObject.md
 docs/UuidObject.md
-docs/XmlArray.md
 docs/XmlInner.md
 docs/XmlObject.md
 docs/default_api.md

@@ -645,13 +645,18 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                     .nth(0);
                 let param_some_object = param_some_object.and_then(|param_some_object| param_some_object.parse::<>().ok());
                 let param_some_list = query_params.iter().filter(|e| e.0 == "someList").map(|e| e.1.to_owned())
-                    .nth(0);
-                let param_some_list = param_some_list.and_then(|param_some_list| param_some_list.parse::<>().ok());
+                    .filter_map(|param_some_list| param_some_list.parse().ok())
+                    .collect::<Vec<_>>();
+                let param_some_list = if !param_some_list.is_empty() {
+                    Some(param_some_list)
+                } else {
+                    None
+                };
 
                                 let result = api_impl.paramget_get(
                                             param_uuid,
                                             param_some_object,
-                                            param_some_list,
+                                            param_some_list.as_ref(),
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
@@ -1276,13 +1281,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
-                                let param_another_xml_array: Option<models::AnotherXmlArray> = if !body.is_empty() {
+                                let param_string: Option<models::AnotherXmlArray> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_another_xml_array) => param_another_xml_array,
+                                        Ok(param_string) => param_string,
                                         Err(_) => None,
                                     }
                                 } else {
@@ -1290,7 +1295,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 };
 
                                 let result = api_impl.xml_other_put(
-                                            param_another_xml_array,
+                                            param_string,
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
@@ -1329,8 +1334,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Couldn't read body parameter AnotherXmlArray: {}", e)))
-                                                .expect("Unable to create Bad Request response due to unable to read body parameter AnotherXmlArray")),
+                                                .body(Body::from(format!("Couldn't read body parameter string: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter string")),
                         }
             },
 
@@ -1343,13 +1348,13 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 match result {
                             Ok(body) => {
                                 let mut unused_elements = Vec::new();
-                                let param_xml_array: Option<models::XmlArray> = if !body.is_empty() {
+                                let param_string: Option<models::XmlArray> = if !body.is_empty() {
                                     let deserializer = &mut serde_xml_rs::de::Deserializer::new_from_reader(&*body);
                                     match serde_ignored::deserialize(deserializer, |path| {
                                             warn!("Ignoring unknown field in body: {}", path);
                                             unused_elements.push(path.to_string());
                                     }) {
-                                        Ok(param_xml_array) => param_xml_array,
+                                        Ok(param_string) => param_string,
                                         Err(_) => None,
                                     }
                                 } else {
@@ -1357,7 +1362,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                 };
 
                                 let result = api_impl.xml_post(
-                                            param_xml_array,
+                                            param_string,
                                         &context
                                     ).await;
                                 let mut response = Response::new(Body::empty());
@@ -1396,8 +1401,8 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                             },
                             Err(e) => Ok(Response::builder()
                                                 .status(StatusCode::BAD_REQUEST)
-                                                .body(Body::from(format!("Couldn't read body parameter XmlArray: {}", e)))
-                                                .expect("Unable to create Bad Request response due to unable to read body parameter XmlArray")),
+                                                .body(Body::from(format!("Couldn't read body parameter string: {}", e)))
+                                                .expect("Unable to create Bad Request response due to unable to read body parameter string")),
                         }
             },
 

@@ -4,7 +4,6 @@ Cargo.toml
 README.md
 api/openapi.yaml
 docs/ANullableContainer.md
-docs/AdditionalPropertiesObject.md
 docs/AllOfObject.md
 docs/BaseAllOf.md
 docs/GetYamlResponse.md

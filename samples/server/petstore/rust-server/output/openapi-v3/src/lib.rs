@@ -273,7 +273,7 @@ pub trait Api<C: Send + Sync> {
         &self,
         uuid: Option<uuid::Uuid>,
         some_object: Option<models::ObjectParam>,
-        some_list: Option<models::MyIdList>,
+        some_list: Option<&Vec<models::MyId>>,
         context: &C) -> Result<ParamgetGetResponse, ApiError>;
 
     async fn readonly_auth_scheme_get(
@@ -319,13 +319,13 @@ pub trait Api<C: Send + Sync> {
 
     async fn xml_other_put(
         &self,
-        another_xml_array: Option<models::AnotherXmlArray>,
+        string: Option<models::AnotherXmlArray>,
         context: &C) -> Result<XmlOtherPutResponse, ApiError>;
 
     /// Post an array
     async fn xml_post(
         &self,
-        xml_array: Option<models::XmlArray>,
+        string: Option<models::XmlArray>,
         context: &C) -> Result<XmlPostResponse, ApiError>;
 
     async fn xml_put(
@@ -395,7 +395,7 @@ pub trait ApiNoContext<C: Send + Sync> {
         &self,
         uuid: Option<uuid::Uuid>,
         some_object: Option<models::ObjectParam>,
-        some_list: Option<models::MyIdList>,
+        some_list: Option<&Vec<models::MyId>>,
         ) -> Result<ParamgetGetResponse, ApiError>;
 
     async fn readonly_auth_scheme_get(
@@ -441,13 +441,13 @@ pub trait ApiNoContext<C: Send + Sync> {
 
     async fn xml_other_put(
         &self,
-        another_xml_array: Option<models::AnotherXmlArray>,
+        string: Option<models::AnotherXmlArray>,
         ) -> Result<XmlOtherPutResponse, ApiError>;
 
     /// Post an array
     async fn xml_post(
         &self,
-        xml_array: Option<models::XmlArray>,
+        string: Option<models::XmlArray>,
         ) -> Result<XmlPostResponse, ApiError>;
 
     async fn xml_put(
@@ -564,7 +564,7 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
         &self,
         uuid: Option<uuid::Uuid>,
         some_object: Option<models::ObjectParam>,
-        some_list: Option<models::MyIdList>,
+        some_list: Option<&Vec<models::MyId>>,
         ) -> Result<ParamgetGetResponse, ApiError>
     {
         let context = self.context().clone();
@@ -650,21 +650,21 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
 
     async fn xml_other_put(
         &self,
-        another_xml_array: Option<models::AnotherXmlArray>,
+        string: Option<models::AnotherXmlArray>,
         ) -> Result<XmlOtherPutResponse, ApiError>
     {
         let context = self.context().clone();
-        self.api().xml_other_put(another_xml_array, &context).await
+        self.api().xml_other_put(string, &context).await
     }
 
     /// Post an array
     async fn xml_post(
         &self,
-        xml_array: Option<models::XmlArray>,
+        string: Option<models::XmlArray>,
         ) -> Result<XmlPostResponse, ApiError>
     {
         let context = self.context().clone();
-        self.api().xml_post(xml_array, &context).await
+        self.api().xml_post(string, &context).await
     }
 
     async fn xml_put(
