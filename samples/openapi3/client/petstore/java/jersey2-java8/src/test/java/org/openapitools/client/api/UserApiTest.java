@@ -42,8 +42,8 @@ public class UserApiTest {
      */
     @Test
     public void createUserTest() throws ApiException {
-        //User body = null;
-        //api.createUser(body);
+        //User user = null;
+        //api.createUser(user);
         // TODO: test validations
     }
 
@@ -57,8 +57,8 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithArrayInputTest() throws ApiException {
-        //List<User> body = null;
-        //api.createUsersWithArrayInput(body);
+        //List<User> user = null;
+        //api.createUsersWithArrayInput(user);
         // TODO: test validations
     }
 
@@ -72,8 +72,8 @@ public class UserApiTest {
      */
     @Test
     public void createUsersWithListInputTest() throws ApiException {
-        //List<User> body = null;
-        //api.createUsersWithListInput(body);
+        //List<User> user = null;
+        //api.createUsersWithListInput(user);
         // TODO: test validations
     }
 
@@ -148,8 +148,8 @@ public class UserApiTest {
     @Test
     public void updateUserTest() throws ApiException {
         //String username = null;
-        //User body = null;
-        //api.updateUser(username, body);
+        //User user = null;
+        //api.updateUser(username, user);
         // TODO: test validations
     }
 

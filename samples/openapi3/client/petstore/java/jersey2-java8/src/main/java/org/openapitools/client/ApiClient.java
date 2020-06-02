@@ -28,6 +28,8 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -51,6 +53,7 @@ import java.util.regex.Pattern;
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
+import org.openapitools.client.auth.HttpSignatureAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 import org.openapitools.client.model.AbstractOpenApiSchema;
@@ -60,16 +63,82 @@ public class ApiClient {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
   protected String basePath = "http://petstore.swagger.io:80/v2";
+  private static final Logger log = Logger.getLogger(ApiClient.class.getName());
+
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
-      "http://petstore.swagger.io:80/v2",
-      "No description provided",
-      new HashMap<String, ServerVariable>()
+      "http://{server}.swagger.io:{port}/v2",
+      "petstore server",
+      new HashMap<String, ServerVariable>() {{
+        put("server", new ServerVariable(
+          "No description provided",
+          "petstore",
+          new HashSet<String>(
+            Arrays.asList(
+              "petstore",
+              "qa-petstore",
+              "dev-petstore"
+            )
+          )
+        ));
+        put("port", new ServerVariable(
+          "No description provided",
+          "80",
+          new HashSet<String>(
+            Arrays.asList(
+              "80",
+              "8080"
+            )
+          )
+        ));
+      }}
+    ),
+    new ServerConfiguration(
+      "https://localhost:8080/{version}",
+      "The local server",
+      new HashMap<String, ServerVariable>() {{
+        put("version", new ServerVariable(
+          "No description provided",
+          "v2",
+          new HashSet<String>(
+            Arrays.asList(
+              "v1",
+              "v2"
+            )
+          )
+        ));
+      }}
     )
   ));
   protected Integer serverIndex = 0;
   protected Map<String, String> serverVariables = null;
   protected Map<String, List<ServerConfiguration>> operationServers = new HashMap<String, List<ServerConfiguration>>() {{
+    put("PetApi.addPet", new ArrayList<ServerConfiguration>(Arrays.asList(
+      new ServerConfiguration(
+        "http://petstore.swagger.io/v2",
+        "No description provided",
+        new HashMap<String, ServerVariable>()
+      ),
+
+      new ServerConfiguration(
+        "http://path-server-test.petstore.local/v2",
+        "No description provided",
+        new HashMap<String, ServerVariable>()
+      )
+    )));
+    put("PetApi.updatePet", new ArrayList<ServerConfiguration>(Arrays.asList(
+      new ServerConfiguration(
+        "http://petstore.swagger.io/v2",
+        "No description provided",
+        new HashMap<String, ServerVariable>()
+      ),
+
+      new ServerConfiguration(
+        "http://path-server-test.petstore.local/v2",
+        "No description provided",
+        new HashMap<String, ServerVariable>()
+      )
+    )));
   }};
   protected Map<String, Integer> operationServerIndex = new HashMap<String, Integer>();
   protected Map<String, Map<String, String>> operationServerVariables = new HashMap<String, Map<String, String>>();
@@ -127,12 +196,26 @@ public class ApiClient {
       authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
     }
     if (authMap != null) {
+      auth = authMap.get("bearer_test");
+    }
+    if (auth instanceof HttpBearerAuth) {
+      authentications.put("bearer_test", auth);
+    } else {
+      authentications.put("bearer_test", new HttpBearerAuth("bearer"));
+    }
+    if (authMap != null) {
       auth = authMap.get("http_basic_test");
     }
     if (auth instanceof HttpBasicAuth) {
       authentications.put("http_basic_test", auth);
     } else {
       authentications.put("http_basic_test", new HttpBasicAuth());
+    }
+    if (authMap != null) {
+      auth = authMap.get("http_signature_test");
+    }
+    if (auth instanceof HttpSignatureAuth) {
+      authentications.put("http_signature_test", auth);
     }
     if (authMap != null) {
       auth = authMap.get("petstore_auth");
@@ -845,6 +928,9 @@ public class ApiClient {
           }
         } catch (Exception ex) {
           // failed to deserialize, do nothing and try next one (schema)
+          // Logging the error may be useful to troubleshoot why a payload fails to match
+          // the schema.
+          log.log(Level.FINE, "Input data does not match schema '" + schemaName + "'", ex);
         }
       } else {// unknown type
         throw new ApiException(schemaType.getClass() + " is not a GenericType and cannot be handled properly in deserialization.");
@@ -855,7 +941,7 @@ public class ApiClient {
     if (matchCounter > 1 && "oneOf".equals(schema.getSchemaType())) {// more than 1 match for oneOf
       throw new ApiException("Response body is invalid as it matches more than one schema (" + StringUtil.join(matchSchemas, ", ") + ") defined in the oneOf model: " + schema.getClass().getName());
     } else if (matchCounter == 0) { // fail to match any in oneOf/anyOf schemas
-      throw new ApiException("Response body is invalid as it doens't match any schemas (" + StringUtil.join(schema.getSchemas().keySet(), ", ") + ") defined in the oneOf/anyOf model: " + schema.getClass().getName());
+      throw new ApiException("Response body is invalid as it does not match any schemas (" + StringUtil.join(schema.getSchemas().keySet(), ", ") + ") defined in the oneOf/anyOf model: " + schema.getClass().getName());
     } else { // only one matched
       schema.setActualInstance(result);
       return schema;

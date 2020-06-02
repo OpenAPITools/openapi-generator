@@ -11,7 +11,6 @@ import javax.ws.rs.core.GenericType;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -51,38 +50,36 @@ public class PetApi {
   /**
    * Add a new pet to the store
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
    */
-  public void addPet(Pet body) throws ApiException {
-    addPetWithHttpInfo(body);
+  public void addPet(Pet pet) throws ApiException {
+    addPetWithHttpInfo(pet);
   }
 
   /**
    * Add a new pet to the store
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
        <tr><td> 405 </td><td> Invalid input </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Void> addPetWithHttpInfo(Pet pet) throws ApiException {
+    Object localVarPostBody = pet;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling addPet");
+    // verify the required parameter 'pet' is set
+    if (pet == null) {
+      throw new ApiException(400, "Missing the required parameter 'pet' when calling addPet");
     }
     
     // create path and map variables
@@ -108,7 +105,7 @@ public class PetApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "petstore_auth" };
+    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
 
     return apiClient.invokeAPI("PetApi.addPet", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
@@ -123,7 +120,6 @@ public class PetApi {
    * @http.response.details
      <table summary="Response Details" border="1">
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
        <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
    */
@@ -141,7 +137,6 @@ public class PetApi {
    * @http.response.details
      <table summary="Response Details" border="1">
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
        <tr><td> 400 </td><td> Invalid pet value </td><td>  -  </td></tr>
      </table>
    */
@@ -247,7 +242,7 @@ public class PetApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "petstore_auth" };
+    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
 
     GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
 
@@ -259,7 +254,7 @@ public class PetApi {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return Set&lt;Pet&gt;
+   * @return List&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -270,7 +265,7 @@ public class PetApi {
    * @deprecated
    */
   @Deprecated
-  public Set<Pet> findPetsByTags(Set<String> tags) throws ApiException {
+  public List<Pet> findPetsByTags(List<String> tags) throws ApiException {
     return findPetsByTagsWithHttpInfo(tags).getData();
   }
 
@@ -278,7 +273,7 @@ public class PetApi {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return ApiResponse&lt;Set&lt;Pet&gt;&gt;
+   * @return ApiResponse&lt;List&lt;Pet&gt;&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
@@ -289,7 +284,7 @@ public class PetApi {
    * @deprecated
    */
   @Deprecated
-  public ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags) throws ApiException {
+  public ApiResponse<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'tags' is set
@@ -321,9 +316,9 @@ public class PetApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "petstore_auth" };
+    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
 
-    GenericType<Set<Pet>> localVarReturnType = new GenericType<Set<Pet>>() {};
+    GenericType<List<Pet>> localVarReturnType = new GenericType<List<Pet>>() {};
 
     return apiClient.invokeAPI("PetApi.findPetsByTags", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
@@ -404,42 +399,40 @@ public class PetApi {
   /**
    * Update an existing pet
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
        <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
    */
-  public void updatePet(Pet body) throws ApiException {
-    updatePetWithHttpInfo(body);
+  public void updatePet(Pet pet) throws ApiException {
+    updatePetWithHttpInfo(pet);
   }
 
   /**
    * Update an existing pet
    * 
-   * @param body Pet object that needs to be added to the store (required)
+   * @param pet Pet object that needs to be added to the store (required)
    * @return ApiResponse&lt;Void&gt;
    * @throws ApiException if fails to make API call
    * @http.response.details
      <table summary="Response Details" border="1">
        <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> successful operation </td><td>  -  </td></tr>
        <tr><td> 400 </td><td> Invalid ID supplied </td><td>  -  </td></tr>
        <tr><td> 404 </td><td> Pet not found </td><td>  -  </td></tr>
        <tr><td> 405 </td><td> Validation exception </td><td>  -  </td></tr>
      </table>
    */
-  public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
-    Object localVarPostBody = body;
+  public ApiResponse<Void> updatePetWithHttpInfo(Pet pet) throws ApiException {
+    Object localVarPostBody = pet;
     
-    // verify the required parameter 'body' is set
-    if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling updatePet");
+    // verify the required parameter 'pet' is set
+    if (pet == null) {
+      throw new ApiException(400, "Missing the required parameter 'pet' when calling updatePet");
     }
     
     // create path and map variables
@@ -465,7 +458,7 @@ public class PetApi {
     };
     final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
 
-    String[] localVarAuthNames = new String[] { "petstore_auth" };
+    String[] localVarAuthNames = new String[] { "http_signature_test", "petstore_auth" };
 
     return apiClient.invokeAPI("PetApi.updatePet", localVarPath, "PUT", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,

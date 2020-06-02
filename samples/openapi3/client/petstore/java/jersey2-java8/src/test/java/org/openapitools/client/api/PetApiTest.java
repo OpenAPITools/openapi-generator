@@ -18,7 +18,6 @@ import org.openapitools.client.auth.*;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
 import org.junit.Test;
 import org.junit.Ignore;
 import org.junit.Assert;
@@ -45,8 +44,8 @@ public class PetApiTest {
      */
     @Test
     public void addPetTest() throws ApiException {
-        //Pet body = null;
-        //api.addPet(body);
+        //Pet pet = null;
+        //api.addPet(pet);
         // TODO: test validations
     }
 
@@ -91,8 +90,8 @@ public class PetApiTest {
      */
     @Test
     public void findPetsByTagsTest() throws ApiException {
-        //Set<String> tags = null;
-        //Set<Pet> response = api.findPetsByTags(tags);
+        //List<String> tags = null;
+        //List<Pet> response = api.findPetsByTags(tags);
         // TODO: test validations
     }
 
@@ -121,8 +120,8 @@ public class PetApiTest {
      */
     @Test
     public void updatePetTest() throws ApiException {
-        //Pet body = null;
-        //api.updatePet(body);
+        //Pet pet = null;
+        //api.updatePet(pet);
         // TODO: test validations
     }
 

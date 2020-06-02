@@ -11,10 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.array_of_number_only import ArrayOfNumberOnly
 
 
 class TestArrayOfNumberOnly(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestArrayOfNumberOnly(unittest.TestCase):
     def testArrayOfNumberOnly(self):
         """Test ArrayOfNumberOnly"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.ArrayOfNumberOnly()  # noqa: E501
+        # model = ArrayOfNumberOnly()  # noqa: E501
         pass
 
 

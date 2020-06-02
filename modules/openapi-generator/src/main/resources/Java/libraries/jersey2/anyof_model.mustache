@@ -1,6 +1,8 @@
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +17,8 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
 @JsonDeserialize(using={{classname}}.{{classname}}Deserializer.class)
 public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
+    private static final Logger log = Logger.getLogger({{classname}}.class.getName());
+
     public static class {{classname}}Deserializer extends StdDeserializer<{{classname}}> {
         public {{classname}}Deserializer() {
             this({{classname}}.class);
@@ -37,7 +41,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 ret.setActualInstance(deserialized);
                 return ret;
             } catch (Exception e) {
-                // deserialization failed, continue
+                // deserialization failed, continue, log to help debugging
+                log.log(Level.FINER, "Input data does not match '{{classname}}'", e);
             }
 
             {{/anyOf}}

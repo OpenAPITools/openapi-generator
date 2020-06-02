@@ -71,9 +71,8 @@ public class Generate extends OpenApiGeneratorCommand {
                     + "Pass in a URL-encoded string of name:header with a comma separating multiple values")
     private String auth;
 
-    // TODO: Remove -D short option in 5.0
     @Option(
-            name = {"-D", "--global-property"},
+            name = {"--global-property"},
             title = "global properties",
             description = "sets specified global properties (previously called 'system properties') in "
                     + "the format of name=value,name=value (or multiple options, each with name=value)")
@@ -231,7 +230,7 @@ public class Generate extends OpenApiGeneratorCommand {
     @Option(name = {"--log-to-stderr"},
             title = "Log to STDERR",
             description = "write all log messages (not just errors) to STDOUT."
-                    + " Useful for piping the JSON output of debug options (e.g. `-DdebugOperations`) to an external parser directly while testing a generator.")
+                    + " Useful for piping the JSON output of debug options (e.g. `--global-property debugOperations`) to an external parser directly while testing a generator.")
     private Boolean logToStderr;
 
     @Option(name = {"--enable-post-process-file"}, title = "enable post-process file", description = CodegenConstants.ENABLE_POST_PROCESS_FILE_DESC)
@@ -408,7 +407,6 @@ public class Generate extends OpenApiGeneratorCommand {
         }
 
         if (globalProperties != null && !globalProperties.isEmpty()) {
-            System.err.println("[DEPRECATED] -D arguments after 'generate' are application arguments and not Java System Properties, please consider changing to --global-property, apply your system properties to JAVA_OPTS, or move the -D arguments before the jar option.");
             applyGlobalPropertiesKvpList(globalProperties, configurator);
         }
         applyInstantiationTypesKvpList(instantiationTypes, configurator);

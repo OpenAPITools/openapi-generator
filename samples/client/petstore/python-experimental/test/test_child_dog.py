@@ -11,10 +11,21 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+try:
+    from petstore_api.model import child_dog_all_of
+except ImportError:
+    child_dog_all_of = sys.modules[
+        'petstore_api.model.child_dog_all_of']
+try:
+    from petstore_api.model import parent_pet
+except ImportError:
+    parent_pet = sys.modules[
+        'petstore_api.model.parent_pet']
+from petstore_api.model.child_dog import ChildDog
 
 
 class TestChildDog(unittest.TestCase):
@@ -29,7 +40,7 @@ class TestChildDog(unittest.TestCase):
     def testChildDog(self):
         """Test ChildDog"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.ChildDog()  # noqa: E501
+        # model = ChildDog()  # noqa: E501
         pass
 
 

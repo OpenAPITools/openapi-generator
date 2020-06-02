@@ -24,7 +24,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Animal;
-import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.CatAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -37,7 +36,6 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
 })
 
 public class Cat extends Animal {

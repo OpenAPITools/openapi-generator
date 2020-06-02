@@ -42,8 +42,8 @@ public class FakeClassnameTags123ApiTest {
      */
     @Test
     public void testClassnameTest() throws ApiException {
-        //Client body = null;
-        //Client response = api.testClassname(body);
+        //Client client = null;
+        //Client response = api.testClassname(client);
         // TODO: test validations
     }
 

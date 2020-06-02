@@ -19,11 +19,11 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import java.io.File;
 import org.openapitools.client.model.FileSchemaTestClass;
+import org.openapitools.client.model.HealthCheckResult;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
-import org.openapitools.client.model.XmlItem;
 import org.junit.Test;
 import org.junit.Ignore;
 import org.junit.Assert;
@@ -41,17 +41,16 @@ public class FakeApiTest {
     private final FakeApi api = new FakeApi();
 
     /**
-     * creates an XmlItem
+     * Health check endpoint
      *
-     * this route creates an XmlItem
+     * 
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
-    public void createXmlItemTest() throws ApiException {
-        //XmlItem xmlItem = null;
-        //api.createXmlItem(xmlItem);
+    public void fakeHealthGetTest() throws ApiException {
+        //HealthCheckResult response = api.fakeHealthGet();
         // TODO: test validations
     }
 
@@ -80,8 +79,8 @@ public class FakeApiTest {
      */
     @Test
     public void fakeOuterCompositeSerializeTest() throws ApiException {
-        //OuterComposite body = null;
-        //OuterComposite response = api.fakeOuterCompositeSerialize(body);
+        //OuterComposite outerComposite = null;
+        //OuterComposite response = api.fakeOuterCompositeSerialize(outerComposite);
         // TODO: test validations
     }
 
@@ -125,8 +124,8 @@ public class FakeApiTest {
      */
     @Test
     public void testBodyWithFileSchemaTest() throws ApiException {
-        //FileSchemaTestClass body = null;
-        //api.testBodyWithFileSchema(body);
+        //FileSchemaTestClass fileSchemaTestClass = null;
+        //api.testBodyWithFileSchema(fileSchemaTestClass);
         // TODO: test validations
     }
 
@@ -141,8 +140,8 @@ public class FakeApiTest {
     @Test
     public void testBodyWithQueryParamsTest() throws ApiException {
         //String query = null;
-        //User body = null;
-        //api.testBodyWithQueryParams(query, body);
+        //User user = null;
+        //api.testBodyWithQueryParams(query, user);
         // TODO: test validations
     }
 
@@ -156,15 +155,15 @@ public class FakeApiTest {
      */
     @Test
     public void testClientModelTest() throws ApiException {
-        //Client body = null;
-        //Client response = api.testClientModel(body);
+        //Client client = null;
+        //Client response = api.testClientModel(client);
         // TODO: test validations
     }
 
     /**
-     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
-     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
      *
      * @throws ApiException
      *          if the Api call fails
@@ -248,8 +247,8 @@ public class FakeApiTest {
      */
     @Test
     public void testInlineAdditionalPropertiesTest() throws ApiException {
-        //Map<String, String> param = null;
-        //api.testInlineAdditionalProperties(param);
+        //Map<String, String> requestBody = null;
+        //api.testInlineAdditionalProperties(requestBody);
         // TODO: test validations
     }
 
