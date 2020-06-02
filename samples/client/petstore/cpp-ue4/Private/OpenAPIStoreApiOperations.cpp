@@ -197,9 +197,7 @@ void OpenAPIStoreApi::PlaceOrderRequest::SetupHttpRequest(const TSharedRef<IHttp
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		Writer->WriteObjectStart();
-		Writer->WriteIdentifierPrefix(TEXT("body")); WriteJsonValue(Writer, Body);
-		Writer->WriteObjectEnd();
+		WriteJsonValue(Writer, Body);
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));

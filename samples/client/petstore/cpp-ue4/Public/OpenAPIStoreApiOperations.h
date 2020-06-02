@@ -65,7 +65,7 @@ public:
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
     
-    TMap<FString, std::shared_ptr<int32>> Content;
+    TMap<FString, int32> Content;
 };
 
 /* Find purchase order by ID
@@ -104,7 +104,7 @@ public:
 	FString ComputePath() const final;
     
 	/* order placed for purchasing the pet */
-	std::shared_ptr<OpenAPIOpenAPIOrder> Body;
+	OpenAPIOrder Body;
 };
 
 class OPENAPI_API OpenAPIStoreApi::PlaceOrderResponse : public Response
