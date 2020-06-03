@@ -160,6 +160,7 @@ Method | HTTP request | Description
 
  - [AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [Animal](docs/Animal.md)
+ - [AnimalFarm](docs/AnimalFarm.md)
  - [ApiResponse](docs/ApiResponse.md)
  - [ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -185,6 +186,7 @@ Method | HTTP request | Description
  - [Name](docs/Name.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [ObjectContainingObjectWithOnlyAdditionalProperties](docs/ObjectContainingObjectWithOnlyAdditionalProperties.md)
+ - [ObjectWithOnlyAdditionalProperties](docs/ObjectWithOnlyAdditionalProperties.md)
  - [Order](docs/Order.md)
  - [OuterBoolean](docs/OuterBoolean.md)
  - [OuterComposite](docs/OuterComposite.md)

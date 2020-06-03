@@ -5,6 +5,7 @@ README.md
 api/openapi.yaml
 docs/AdditionalPropertiesClass.md
 docs/Animal.md
+docs/AnimalFarm.md
 docs/ApiResponse.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfNumberOnly.md
@@ -30,6 +31,7 @@ docs/ModelReturn.md
 docs/Name.md
 docs/NumberOnly.md
 docs/ObjectContainingObjectWithOnlyAdditionalProperties.md
+docs/ObjectWithOnlyAdditionalProperties.md
 docs/Order.md
 docs/OuterBoolean.md
 docs/OuterComposite.md

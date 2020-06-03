@@ -135,6 +135,59 @@ impl std::str::FromStr for ANullableContainer {
 
 
 
+/// An additionalPropertiesObject
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct AdditionalPropertiesObject(std::collections::HashMap<String, String>);
+
+impl std::convert::From<std::collections::HashMap<String, String>> for AdditionalPropertiesObject {
+    fn from(x: std::collections::HashMap<String, String>) -> Self {
+        AdditionalPropertiesObject(x)
+    }
+}
+
+
+impl std::convert::From<AdditionalPropertiesObject> for std::collections::HashMap<String, String> {
+    fn from(x: AdditionalPropertiesObject) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for AdditionalPropertiesObject {
+    type Target = std::collections::HashMap<String, String>;
+    fn deref(&self) -> &std::collections::HashMap<String, String> {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for AdditionalPropertiesObject {
+    fn deref_mut(&mut self) -> &mut std::collections::HashMap<String, String> {
+        &mut self.0
+    }
+}
+
+/// Converts the AdditionalPropertiesObject value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for AdditionalPropertiesObject {
+    fn to_string(&self) -> String {
+        // Skipping additionalProperties in query parameter serialization
+        "".to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a AdditionalPropertiesObject value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for AdditionalPropertiesObject {
+    type Err = &'static str;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Err("Parsing additionalProperties for AdditionalPropertiesObject is not supported")
+    }
+}
+
+
 // Methods for converting between header::IntoHeaderValue<AllOfObject> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]

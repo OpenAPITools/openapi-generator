@@ -209,7 +209,7 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
         &self,
         uuid: Option<uuid::Uuid>,
         some_object: Option<models::ObjectParam>,
-        some_list: Option<&Vec<models::MyId>>,
+        some_list: Option<models::MyIdList>,
         context: &C) -> Result<ParamgetGetResponse, ApiError>
     {
         let context = context.clone();
@@ -305,22 +305,22 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
 
     async fn xml_other_put(
         &self,
-        string: Option<models::AnotherXmlArray>,
+        another_xml_array: Option<models::AnotherXmlArray>,
         context: &C) -> Result<XmlOtherPutResponse, ApiError>
     {
         let context = context.clone();
-        info!("xml_other_put({:?}) - X-Span-ID: {:?}", string, context.get().0.clone());
+        info!("xml_other_put({:?}) - X-Span-ID: {:?}", another_xml_array, context.get().0.clone());
         Err("Generic failuare".into())
     }
 
     /// Post an array
     async fn xml_post(
         &self,
-        string: Option<models::XmlArray>,
+        xml_array: Option<models::XmlArray>,
         context: &C) -> Result<XmlPostResponse, ApiError>
     {
         let context = context.clone();
-        info!("xml_post({:?}) - X-Span-ID: {:?}", string, context.get().0.clone());
+        info!("xml_post({:?}) - X-Span-ID: {:?}", xml_array, context.get().0.clone());
         Err("Generic failuare".into())
     }
 

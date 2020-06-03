@@ -1062,7 +1062,7 @@ impl<C, S> Api<C> for Client<S> where
         &self,
         param_uuid: Option<uuid::Uuid>,
         param_some_object: Option<models::ObjectParam>,
-        param_some_list: Option<&Vec<models::MyId>>,
+        param_some_list: Option<models::MyIdList>,
         context: &C) -> Result<ParamgetGetResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -1081,7 +1081,7 @@ impl<C, S> Api<C> for Client<S> where
                 query_string.append_pair("someObject", &param_some_object.to_string());
             }
             if let Some(param_some_list) = param_some_list {
-                query_string.append_pair("someList", &param_some_list.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
+                query_string.append_pair("someList", &param_some_list.to_string());
             }
             query_string.finish()
         };
@@ -1986,7 +1986,7 @@ impl<C, S> Api<C> for Client<S> where
 
     async fn xml_other_put(
         &self,
-        param_string: Option<models::AnotherXmlArray>,
+        param_another_xml_array: Option<models::AnotherXmlArray>,
         context: &C) -> Result<XmlOtherPutResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -2018,7 +2018,7 @@ impl<C, S> Api<C> for Client<S> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let body = param_string.map(|ref body| {
+        let body = param_another_xml_array.map(|ref body| {
             body.to_xml()
         });
         if let Some(body) = body {
@@ -2074,7 +2074,7 @@ impl<C, S> Api<C> for Client<S> where
 
     async fn xml_post(
         &self,
-        param_string: Option<models::XmlArray>,
+        param_xml_array: Option<models::XmlArray>,
         context: &C) -> Result<XmlPostResponse, ApiError>
     {
         let mut client_service = self.client_service.clone();
@@ -2106,7 +2106,7 @@ impl<C, S> Api<C> for Client<S> where
                 Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
         };
 
-        let body = param_string.map(|ref body| {
+        let body = param_xml_array.map(|ref body| {
             body.to_xml()
         });
         if let Some(body) = body {

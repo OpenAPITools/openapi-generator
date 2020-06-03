@@ -5,6 +5,153 @@ use crate::models;
 use crate::header;
 
 
+// Methods for converting between header::IntoHeaderValue<AnotherXmlArray> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<AnotherXmlArray>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<AnotherXmlArray>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for AnotherXmlArray - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<AnotherXmlArray> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <AnotherXmlArray as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into AnotherXmlArray - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+// Utility function for wrapping list elements when serializing xml
+#[allow(non_snake_case)]
+fn wrap_in_snake_another_xml_inner<S>(item: &Vec<String>, serializer: S) -> std::result::Result<S::Ok, S::Error>
+where
+    S: serde::ser::Serializer,
+{
+    serde_xml_rs::wrap_primitives(item, serializer, "snake_another_xml_inner")
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct AnotherXmlArray(
+    #[serde(serialize_with = "wrap_in_snake_another_xml_inner")]
+    Vec<String>
+);
+
+impl std::convert::From<Vec<String>> for AnotherXmlArray {
+    fn from(x: Vec<String>) -> Self {
+        AnotherXmlArray(x)
+    }
+}
+
+impl std::convert::From<AnotherXmlArray> for Vec<String> {
+    fn from(x: AnotherXmlArray) -> Self {
+        x.0
+    }
+}
+
+impl std::iter::FromIterator<String> for AnotherXmlArray {
+    fn from_iter<U: IntoIterator<Item=String>>(u: U) -> Self {
+        AnotherXmlArray(Vec::<String>::from_iter(u))
+    }
+}
+
+impl std::iter::IntoIterator for AnotherXmlArray {
+    type Item = String;
+    type IntoIter = std::vec::IntoIter<String>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a AnotherXmlArray {
+    type Item = &'a String;
+    type IntoIter = std::slice::Iter<'a, String>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        (&self.0).into_iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a mut AnotherXmlArray {
+    type Item = &'a mut String;
+    type IntoIter = std::slice::IterMut<'a, String>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        (&mut self.0).into_iter()
+    }
+}
+
+impl std::ops::Deref for AnotherXmlArray {
+    type Target = Vec<String>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for AnotherXmlArray {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+/// Converts the AnotherXmlArray value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for AnotherXmlArray {
+    fn to_string(&self) -> String {
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a AnotherXmlArray value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for AnotherXmlArray {
+    type Err = <String as std::str::FromStr>::Err;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        let mut items = vec![];
+        for item in s.split(',')
+        {
+            items.push(item.parse()?);
+        }
+        std::result::Result::Ok(AnotherXmlArray(items))
+    }
+}
+
+
+impl AnotherXmlArray {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "snake_another_xml_inner")]
@@ -243,12 +390,13 @@ pub struct DuplicateXmlObject {
     pub inner_string: Option<String>,
 
     #[serde(rename = "inner_array")]
-    pub inner_array: Vec<models::XmlInner>,
+    #[serde(serialize_with = "wrap_in_camelXmlInner")]
+    pub inner_array: models::XmlArray,
 
 }
 
 impl DuplicateXmlObject {
-    pub fn new(inner_array: Vec<models::XmlInner>, ) -> DuplicateXmlObject {
+    pub fn new(inner_array: models::XmlArray, ) -> DuplicateXmlObject {
         DuplicateXmlObject {
             inner_string: None,
             inner_array: inner_array,
@@ -268,9 +416,7 @@ impl std::string::ToString for DuplicateXmlObject {
             params.push(inner_string.to_string());
         }
 
-
-        params.push("inner_array".to_string());
-        params.push(self.inner_array.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string());
+        // Skipping inner_array in query parameter serialization
 
         params.join(",").to_string()
     }
@@ -287,7 +433,7 @@ impl std::str::FromStr for DuplicateXmlObject {
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
             pub inner_string: Vec<String>,
-            pub inner_array: Vec<Vec<models::XmlInner>>,
+            pub inner_array: Vec<models::XmlArray>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -305,7 +451,7 @@ impl std::str::FromStr for DuplicateXmlObject {
             if let Some(key) = key_result {
                 match key {
                     "inner_string" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| format!("{}", x))?),
-                    "inner_array" => return std::result::Result::Err("Parsing a container in this style is not supported in DuplicateXmlObject".to_string()),
+                    "inner_array" => intermediate_rep.inner_array.push(models::XmlArray::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing DuplicateXmlObject".to_string())
                 }
             }
@@ -651,6 +797,143 @@ impl std::ops::DerefMut for MyId {
 
 
 impl MyId {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<MyIdList> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<MyIdList>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<MyIdList>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for MyIdList - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MyIdList> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <MyIdList as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into MyIdList - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct MyIdList(
+    Vec<i32>
+);
+
+impl std::convert::From<Vec<i32>> for MyIdList {
+    fn from(x: Vec<i32>) -> Self {
+        MyIdList(x)
+    }
+}
+
+impl std::convert::From<MyIdList> for Vec<i32> {
+    fn from(x: MyIdList) -> Self {
+        x.0
+    }
+}
+
+impl std::iter::FromIterator<i32> for MyIdList {
+    fn from_iter<U: IntoIterator<Item=i32>>(u: U) -> Self {
+        MyIdList(Vec::<i32>::from_iter(u))
+    }
+}
+
+impl std::iter::IntoIterator for MyIdList {
+    type Item = i32;
+    type IntoIter = std::vec::IntoIter<i32>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a MyIdList {
+    type Item = &'a i32;
+    type IntoIter = std::slice::Iter<'a, i32>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        (&self.0).into_iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a mut MyIdList {
+    type Item = &'a mut i32;
+    type IntoIter = std::slice::IterMut<'a, i32>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        (&mut self.0).into_iter()
+    }
+}
+
+impl std::ops::Deref for MyIdList {
+    type Target = Vec<i32>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for MyIdList {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+/// Converts the MyIdList value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for MyIdList {
+    fn to_string(&self) -> String {
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a MyIdList value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for MyIdList {
+    type Err = <i32 as std::str::FromStr>::Err;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        let mut items = vec![];
+        for item in s.split(',')
+        {
+            items.push(item.parse()?);
+        }
+        std::result::Result::Ok(MyIdList(items))
+    }
+}
+
+
+impl MyIdList {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
@@ -1704,6 +1987,153 @@ impl std::ops::DerefMut for UuidObject {
 
 
 impl UuidObject {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<XmlArray> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<XmlArray>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<XmlArray>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for XmlArray - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<XmlArray> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <XmlArray as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into XmlArray - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+// Utility function for wrapping list elements when serializing xml
+#[allow(non_snake_case)]
+fn wrap_in_camelXmlInner<S>(item: &Vec<String>, serializer: S) -> std::result::Result<S::Ok, S::Error>
+where
+    S: serde::ser::Serializer,
+{
+    serde_xml_rs::wrap_primitives(item, serializer, "camelXmlInner")
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct XmlArray(
+    #[serde(serialize_with = "wrap_in_camelXmlInner")]
+    Vec<String>
+);
+
+impl std::convert::From<Vec<String>> for XmlArray {
+    fn from(x: Vec<String>) -> Self {
+        XmlArray(x)
+    }
+}
+
+impl std::convert::From<XmlArray> for Vec<String> {
+    fn from(x: XmlArray) -> Self {
+        x.0
+    }
+}
+
+impl std::iter::FromIterator<String> for XmlArray {
+    fn from_iter<U: IntoIterator<Item=String>>(u: U) -> Self {
+        XmlArray(Vec::<String>::from_iter(u))
+    }
+}
+
+impl std::iter::IntoIterator for XmlArray {
+    type Item = String;
+    type IntoIter = std::vec::IntoIter<String>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a XmlArray {
+    type Item = &'a String;
+    type IntoIter = std::slice::Iter<'a, String>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        (&self.0).into_iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a mut XmlArray {
+    type Item = &'a mut String;
+    type IntoIter = std::slice::IterMut<'a, String>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        (&mut self.0).into_iter()
+    }
+}
+
+impl std::ops::Deref for XmlArray {
+    type Target = Vec<String>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for XmlArray {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+/// Converts the XmlArray value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for XmlArray {
+    fn to_string(&self) -> String {
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a XmlArray value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for XmlArray {
+    type Err = <String as std::str::FromStr>::Err;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        let mut items = vec![];
+        for item in s.split(',')
+        {
+            items.push(item.parse()?);
+        }
+        std::result::Result::Ok(XmlArray(items))
+    }
+}
+
+
+impl XmlArray {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]

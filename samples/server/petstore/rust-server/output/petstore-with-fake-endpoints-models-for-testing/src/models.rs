@@ -273,6 +273,143 @@ impl Animal {
     }
 }
 
+// Methods for converting between header::IntoHeaderValue<AnimalFarm> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<AnimalFarm>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<AnimalFarm>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for AnimalFarm - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<AnimalFarm> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <AnimalFarm as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into AnimalFarm - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct AnimalFarm(
+    Vec<Animal>
+);
+
+impl std::convert::From<Vec<Animal>> for AnimalFarm {
+    fn from(x: Vec<Animal>) -> Self {
+        AnimalFarm(x)
+    }
+}
+
+impl std::convert::From<AnimalFarm> for Vec<Animal> {
+    fn from(x: AnimalFarm) -> Self {
+        x.0
+    }
+}
+
+impl std::iter::FromIterator<Animal> for AnimalFarm {
+    fn from_iter<U: IntoIterator<Item=Animal>>(u: U) -> Self {
+        AnimalFarm(Vec::<Animal>::from_iter(u))
+    }
+}
+
+impl std::iter::IntoIterator for AnimalFarm {
+    type Item = Animal;
+    type IntoIter = std::vec::IntoIter<Animal>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a AnimalFarm {
+    type Item = &'a Animal;
+    type IntoIter = std::slice::Iter<'a, Animal>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        (&self.0).into_iter()
+    }
+}
+
+impl<'a> std::iter::IntoIterator for &'a mut AnimalFarm {
+    type Item = &'a mut Animal;
+    type IntoIter = std::slice::IterMut<'a, Animal>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        (&mut self.0).into_iter()
+    }
+}
+
+impl std::ops::Deref for AnimalFarm {
+    type Target = Vec<Animal>;
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for AnimalFarm {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+/// Converts the AnimalFarm value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for AnimalFarm {
+    fn to_string(&self) -> String {
+        self.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a AnimalFarm value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for AnimalFarm {
+    type Err = <Animal as std::str::FromStr>::Err;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        let mut items = vec![];
+        for item in s.split(',')
+        {
+            items.push(item.parse()?);
+        }
+        std::result::Result::Ok(AnimalFarm(items))
+    }
+}
+
+
+impl AnimalFarm {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 // Methods for converting between header::IntoHeaderValue<ApiResponse> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
@@ -3768,7 +3905,7 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 pub struct ObjectContainingObjectWithOnlyAdditionalProperties {
     #[serde(rename = "inner")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub inner: Option<std::collections::HashMap<String, String>>,
+    pub inner: Option<models::ObjectWithOnlyAdditionalProperties>,
 
 }
 
@@ -3802,7 +3939,7 @@ impl std::str::FromStr for ObjectContainingObjectWithOnlyAdditionalProperties {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
-            pub inner: Vec<std::collections::HashMap<String, String>>,
+            pub inner: Vec<models::ObjectWithOnlyAdditionalProperties>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -3819,7 +3956,7 @@ impl std::str::FromStr for ObjectContainingObjectWithOnlyAdditionalProperties {
 
             if let Some(key) = key_result {
                 match key {
-                    "inner" => return std::result::Result::Err("Parsing a container in this style is not supported in ObjectContainingObjectWithOnlyAdditionalProperties".to_string()),
+                    "inner" => intermediate_rep.inner.push(models::ObjectWithOnlyAdditionalProperties::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectContainingObjectWithOnlyAdditionalProperties".to_string())
                 }
             }
@@ -3837,6 +3974,66 @@ impl std::str::FromStr for ObjectContainingObjectWithOnlyAdditionalProperties {
 
 
 impl ObjectContainingObjectWithOnlyAdditionalProperties {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct ObjectWithOnlyAdditionalProperties(std::collections::HashMap<String, String>);
+
+impl std::convert::From<std::collections::HashMap<String, String>> for ObjectWithOnlyAdditionalProperties {
+    fn from(x: std::collections::HashMap<String, String>) -> Self {
+        ObjectWithOnlyAdditionalProperties(x)
+    }
+}
+
+
+impl std::convert::From<ObjectWithOnlyAdditionalProperties> for std::collections::HashMap<String, String> {
+    fn from(x: ObjectWithOnlyAdditionalProperties) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for ObjectWithOnlyAdditionalProperties {
+    type Target = std::collections::HashMap<String, String>;
+    fn deref(&self) -> &std::collections::HashMap<String, String> {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for ObjectWithOnlyAdditionalProperties {
+    fn deref_mut(&mut self) -> &mut std::collections::HashMap<String, String> {
+        &mut self.0
+    }
+}
+
+/// Converts the ObjectWithOnlyAdditionalProperties value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for ObjectWithOnlyAdditionalProperties {
+    fn to_string(&self) -> String {
+        // Skipping additionalProperties in query parameter serialization
+        "".to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a ObjectWithOnlyAdditionalProperties value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for ObjectWithOnlyAdditionalProperties {
+    type Err = &'static str;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Err("Parsing additionalProperties for ObjectWithOnlyAdditionalProperties is not supported")
+    }
+}
+
+impl ObjectWithOnlyAdditionalProperties {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]

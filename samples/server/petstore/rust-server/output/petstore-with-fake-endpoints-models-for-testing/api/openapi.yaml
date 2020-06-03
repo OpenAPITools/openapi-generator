@@ -1385,9 +1385,7 @@ components:
     ObjectContainingObjectWithOnlyAdditionalProperties:
       properties:
         inner:
-          additionalProperties:
-            type: string
-          type: object
+          $ref: '#/components/schemas/ObjectWithOnlyAdditionalProperties'
       type: object
     ObjectWithOnlyAdditionalProperties:
       additionalProperties:
