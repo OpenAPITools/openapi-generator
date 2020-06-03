@@ -922,6 +922,10 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                 model.anyOf.remove("ModelNull");
             }
 
+            // add vendor extension for additonalProperties: true
+            if ("null<String, SystemCollectionsHashtable>".equals(model.parent)) {
+                model.vendorExtensions.put("x-additional-properties", true);
+            }
         }
 
         return objs;
