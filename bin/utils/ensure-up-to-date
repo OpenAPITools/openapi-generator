@@ -19,7 +19,7 @@ sleep 5
 # Some special case generators may expect to be run as a stanalone process (e.g. modifying classpath)
 # Docs should always be run, regardless of batch or operation.
 declare -a always_iterate=(
-#"${root}/bin/meta-codegen.sh"
+"${root}/bin/meta-codegen.sh"
 "${root}/bin/utils/export_docs_generators.sh"
 "${root}/bin/utils/copy-to-website.sh"
 "${root}/bin/utils/export_generators_readme.sh"
