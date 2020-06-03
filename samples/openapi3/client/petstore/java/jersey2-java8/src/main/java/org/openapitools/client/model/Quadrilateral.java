@@ -72,6 +72,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                 // When the OAS schema includes a discriminator, use the discriminator value to
                 // discriminate the oneOf schemas.
                 // Get the discriminator mapping value to get the class.
+                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
                 Quadrilateral ret = new Quadrilateral();
                 ret.setActualInstance(deserialized);
@@ -79,6 +80,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
             }
             // deserialize ComplexQuadrilateral
             try {
+                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(ComplexQuadrilateral.class);
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
@@ -92,6 +94,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
 
             // deserialize SimpleQuadrilateral
             try {
+                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(SimpleQuadrilateral.class);
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON

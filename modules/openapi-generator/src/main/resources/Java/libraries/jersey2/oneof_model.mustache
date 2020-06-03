@@ -44,6 +44,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                 // When the OAS schema includes a discriminator, use the discriminator value to
                 // discriminate the oneOf schemas.
                 // Get the discriminator mapping value to get the class.
+                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
                 {{classname}} ret = new {{classname}}();
                 ret.setActualInstance(deserialized);
@@ -53,6 +54,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             {{#oneOf}}
             // deserialize {{{.}}}
             try {
+                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON

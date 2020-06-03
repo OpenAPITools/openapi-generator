@@ -67,6 +67,7 @@ public class GmFruit extends AbstractOpenApiSchema {
             Object deserialized = null;
             // deserialzie Apple
             try {
+                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Apple.class);
                 GmFruit ret = new GmFruit();
                 ret.setActualInstance(deserialized);
@@ -78,6 +79,7 @@ public class GmFruit extends AbstractOpenApiSchema {
 
             // deserialzie Banana
             try {
+                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Banana.class);
                 GmFruit ret = new GmFruit();
                 ret.setActualInstance(deserialized);
