@@ -68,7 +68,6 @@ public class Fruit extends AbstractOpenApiSchema {
             Object deserialized = null;
             // deserialize Apple
             try {
-                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Apple.class);
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
@@ -82,7 +81,6 @@ public class Fruit extends AbstractOpenApiSchema {
 
             // deserialize Banana
             try {
-                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Banana.class);
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
@@ -101,6 +99,7 @@ public class Fruit extends AbstractOpenApiSchema {
             }
             throw new IOException(String.format("Failed deserialization for Fruit: %d classes match result, expected 1", match));
         }
+
 
         /**
          * Handle deserialization of the 'null' value.

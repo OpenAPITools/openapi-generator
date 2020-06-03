@@ -72,7 +72,6 @@ public class NullableShape extends AbstractOpenApiSchema {
                 // When the OAS schema includes a discriminator, use the discriminator value to
                 // discriminate the oneOf schemas.
                 // Get the discriminator mapping value to get the class.
-                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
                 NullableShape ret = new NullableShape();
                 ret.setActualInstance(deserialized);
@@ -80,7 +79,6 @@ public class NullableShape extends AbstractOpenApiSchema {
             }
             // deserialize Quadrilateral
             try {
-                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Quadrilateral.class);
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
@@ -94,7 +92,6 @@ public class NullableShape extends AbstractOpenApiSchema {
 
             // deserialize Triangle
             try {
-                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Triangle.class);
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
@@ -113,6 +110,7 @@ public class NullableShape extends AbstractOpenApiSchema {
             }
             throw new IOException(String.format("Failed deserialization for NullableShape: %d classes match result, expected 1", match));
         }
+
 
         /**
          * Handle deserialization of the 'null' value.

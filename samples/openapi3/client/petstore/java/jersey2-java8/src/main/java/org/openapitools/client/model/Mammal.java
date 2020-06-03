@@ -73,7 +73,6 @@ public class Mammal extends AbstractOpenApiSchema {
                 // When the OAS schema includes a discriminator, use the discriminator value to
                 // discriminate the oneOf schemas.
                 // Get the discriminator mapping value to get the class.
-                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
                 Mammal ret = new Mammal();
                 ret.setActualInstance(deserialized);
@@ -81,7 +80,6 @@ public class Mammal extends AbstractOpenApiSchema {
             }
             // deserialize Pig
             try {
-                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Pig.class);
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
@@ -95,7 +93,6 @@ public class Mammal extends AbstractOpenApiSchema {
 
             // deserialize Whale
             try {
-                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Whale.class);
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
@@ -109,7 +106,6 @@ public class Mammal extends AbstractOpenApiSchema {
 
             // deserialize Zebra
             try {
-                // TODO: custom deserialization when additionalProperties is set.
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Zebra.class);
                 // TODO: there is no validation against JSON schema constraints
                 // (min, max, enum, pattern...), this does not perform a strict JSON
@@ -128,6 +124,7 @@ public class Mammal extends AbstractOpenApiSchema {
             }
             throw new IOException(String.format("Failed deserialization for Mammal: %d classes match result, expected 1", match));
         }
+
 
         /**
          * Handle deserialization of the 'null' value.
