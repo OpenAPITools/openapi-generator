@@ -46,18 +46,22 @@ class StoreApi(object):
         >>> thread = api.delete_order(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param bool async_req: execute request asynchronously
-        :param str order_id: ID of the order that needs to be deleted (required)
+        :param order_id: ID of the order that needs to be deleted (required)
+        :type order_id: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
+        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :return: None
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
+        :rtype: None
         """
         kwargs['_return_http_data_only'] = True
         return self.delete_order_with_http_info(order_id, **kwargs)  # noqa: E501
@@ -72,20 +76,25 @@ class StoreApi(object):
         >>> thread = api.delete_order_with_http_info(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param bool async_req: execute request asynchronously
-        :param str order_id: ID of the order that needs to be deleted (required)
+        :param order_id: ID of the order that needs to be deleted (required)
+        :type order_id: str
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
                                        and headers
+        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
+        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :return: None
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
+        :rtype: None
         """
 
         local_var_params = locals()
@@ -158,17 +167,20 @@ class StoreApi(object):
         >>> thread = api.get_inventory(async_req=True)
         >>> result = thread.get()
 
-        :param bool async_req: execute request asynchronously
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
+        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :return: dict(str, int)
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
+        :rtype: dict(str, int)
         """
         kwargs['_return_http_data_only'] = True
         return self.get_inventory_with_http_info(**kwargs)  # noqa: E501
@@ -183,19 +195,23 @@ class StoreApi(object):
         >>> thread = api.get_inventory_with_http_info(async_req=True)
         >>> result = thread.get()
 
-        :param bool async_req: execute request asynchronously
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
                                        and headers
+        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
+        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :return: tuple(dict(str, int), status_code(int), headers(HTTPHeaderDict))
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
+        :rtype: tuple(dict(str, int), status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -265,18 +281,22 @@ class StoreApi(object):
         >>> thread = api.get_order_by_id(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param bool async_req: execute request asynchronously
-        :param int order_id: ID of pet that needs to be fetched (required)
+        :param order_id: ID of pet that needs to be fetched (required)
+        :type order_id: int
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
+        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :return: Order
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
+        :rtype: Order
         """
         kwargs['_return_http_data_only'] = True
         return self.get_order_by_id_with_http_info(order_id, **kwargs)  # noqa: E501
@@ -291,20 +311,25 @@ class StoreApi(object):
         >>> thread = api.get_order_by_id_with_http_info(order_id, async_req=True)
         >>> result = thread.get()
 
-        :param bool async_req: execute request asynchronously
-        :param int order_id: ID of pet that needs to be fetched (required)
+        :param order_id: ID of pet that needs to be fetched (required)
+        :type order_id: int
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
                                        and headers
+        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
+        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :return: tuple(Order, status_code(int), headers(HTTPHeaderDict))
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
+        :rtype: tuple(Order, status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -384,18 +409,22 @@ class StoreApi(object):
         >>> thread = api.place_order(body, async_req=True)
         >>> result = thread.get()
 
-        :param bool async_req: execute request asynchronously
-        :param Order body: order placed for purchasing the pet (required)
+        :param body: order placed for purchasing the pet (required)
+        :type body: Order
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
+        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :return: Order
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
+        :rtype: Order
         """
         kwargs['_return_http_data_only'] = True
         return self.place_order_with_http_info(body, **kwargs)  # noqa: E501
@@ -409,20 +438,25 @@ class StoreApi(object):
         >>> thread = api.place_order_with_http_info(body, async_req=True)
         >>> result = thread.get()
 
-        :param bool async_req: execute request asynchronously
-        :param Order body: order placed for purchasing the pet (required)
+        :param body: order placed for purchasing the pet (required)
+        :type body: Order
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
                                        and headers
+        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
+        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :return: tuple(Order, status_code(int), headers(HTTPHeaderDict))
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
+        :rtype: tuple(Order, status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
