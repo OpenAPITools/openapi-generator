@@ -826,25 +826,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (result.isAlias || result.isEnum || result.isArrayModel) {
             Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
             CodegenProperty modelProperty = fromProperty("value", modelSchema);
-            if (modelProperty.isEnum == true || modelProperty.hasValidation == true) {
+            if (modelProperty.isEnum == true || modelProperty.hasValidation == true || result.isArrayModel) {
                 // these models are non-object models with enums and/or validations
                 // add a single property to the model so we can have a way to access validations
                 result.isAlias = true;
                 modelProperty.required = true;
-                List<CodegenProperty> theProperties = Arrays.asList(modelProperty);
-                result.setAllVars(theProperties);
-                result.setVars(theProperties);
-                result.setRequiredVars(theProperties);
-                // post process model properties
-                if (result.vars != null) {
-                    for (CodegenProperty prop : result.vars) {
-                        postProcessModelProperty(result, prop);
-                    }
-                }
-            } else if (result.isArrayModel) {
-                LOGGER.warn("\n\n{}\n\n", modelSchema);
-                LOGGER.warn("\n\n{}\n\n", modelProperty);
-
                 List<CodegenProperty> theProperties = Arrays.asList(modelProperty);
                 result.setAllVars(theProperties);
                 result.setVars(theProperties);
