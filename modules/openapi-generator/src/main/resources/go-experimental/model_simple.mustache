@@ -13,8 +13,15 @@ type {{classname}} struct {
 {{/description}}
 	{{name}} {{^required}}{{^isNullable}}*{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
+{{#vendorExtensions.x-additional-properties}}
+    AdditionalProperties map[string]interface{}
+{{/vendorExtensions.x-additional-properties}}
 }
 
+{{#vendorExtensions.x-additional-properties}}
+type _{{{classname}}} {{{classname}}}
+
+{{/vendorExtensions.x-additional-properties}}
 // New{{classname}} instantiates a new {{classname}} object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
@@ -249,4 +256,25 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
+{{#vendorExtensions.x-additional-properties}}
+func (f *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
+    var{{{classname}}} := _{{{classname}}}{}
+
+    if err = json.Unmarshal(bytes, &var{{{classname}}}); err == nil {
+        *f = {{{classname}}}(var{{{classname}}})
+    }
+
+    additionalProperties := make(map[string]interface{})
+
+    if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+        {{#vars}}
+        delete(additionalProperties, "{{{baseName}}}")
+        {{/vars}}
+        f.AdditionalProperties = additionalProperties
+    }
+
+    return err
+}
+
+{{/vendorExtensions.x-additional-properties}}
 {{>nullable_model}}

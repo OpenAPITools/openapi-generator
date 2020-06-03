@@ -183,3 +183,4 @@ func (v *NullableArrayTest) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
+
