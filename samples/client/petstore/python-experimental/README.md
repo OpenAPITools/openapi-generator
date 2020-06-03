@@ -131,6 +131,7 @@ Class | Method | HTTP request | Description
  - [additional_properties_object.AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
  - [additional_properties_string.AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [animal.Animal](docs/Animal.md)
+ - [animal_farm.AnimalFarm](docs/AnimalFarm.md)
  - [api_response.ApiResponse](docs/ApiResponse.md)
  - [array_of_array_of_number_only.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [array_of_number_only.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
