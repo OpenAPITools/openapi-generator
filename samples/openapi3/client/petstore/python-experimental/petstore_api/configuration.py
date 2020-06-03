@@ -443,7 +443,7 @@ conf = petstore_api.Configuration(
                     'api_key',
                 ),
             }
-        if 'api_key' in self.api_key:
+        if 'api_key_query' in self.api_key or 'api_key' in self.api_key:
             auth['api_key_query'] = {
                 'type': 'api_key',
                 'in': 'query',
