@@ -314,11 +314,7 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TArray<uint
 
 inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, Model& Value)
 {
-	const TSharedPtr<FJsonObject>* Object;
-	if (JsonValue->TryGetObject(Object))
-		return Value.FromJson(*Object);
-	else
-		return false;
+	return Value.FromJson(JsonValue);
 }
 
 template<typename T, typename std::enable_if<!std::is_base_of<Model, T>::value, int>::type = 0>
