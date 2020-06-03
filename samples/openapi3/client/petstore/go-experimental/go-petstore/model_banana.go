@@ -16,7 +16,7 @@ import (
 // Banana struct for Banana
 type Banana struct {
 	LengthCm *float32 `json:"lengthCm,omitempty"`
-    AdditionalProperties map[string]interface{}
+	AdditionalProperties map[string]interface{}
 }
 
 type _Banana Banana
@@ -75,24 +75,29 @@ func (o Banana) MarshalJSON() ([]byte, error) {
 	if o.LengthCm != nil {
 		toSerialize["lengthCm"] = o.LengthCm
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
 }
 
-func (f *Banana) UnmarshalJSON(bytes []byte) (err error) {
-    varBanana := _Banana{}
+func (o *Banana) UnmarshalJSON(bytes []byte) (err error) {
+	varBanana := _Banana{}
 
-    if err = json.Unmarshal(bytes, &varBanana); err == nil {
-        *f = Banana(varBanana)
-    }
+	if err = json.Unmarshal(bytes, &varBanana); err == nil {
+		*o = Banana(varBanana)
+	}
 
-    additionalProperties := make(map[string]interface{})
+	additionalProperties := make(map[string]interface{})
 
-    if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
-        delete(additionalProperties, "lengthCm")
-        f.AdditionalProperties = additionalProperties
-    }
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "lengthCm")
+		o.AdditionalProperties = additionalProperties
+	}
 
-    return err
+	return err
 }
 
 type NullableBanana struct {

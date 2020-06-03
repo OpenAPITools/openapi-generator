@@ -28,7 +28,7 @@ type NullableClass struct {
 	ObjectNullableProp map[string]map[string]interface{} `json:"object_nullable_prop,omitempty"`
 	ObjectAndItemsNullableProp map[string]map[string]interface{} `json:"object_and_items_nullable_prop,omitempty"`
 	ObjectItemsNullable *map[string]map[string]interface{} `json:"object_items_nullable,omitempty"`
-    AdditionalProperties map[string]interface{}
+	AdditionalProperties map[string]interface{}
 }
 
 type _NullableClass NullableClass
@@ -536,35 +536,40 @@ func (o NullableClass) MarshalJSON() ([]byte, error) {
 	if o.ObjectItemsNullable != nil {
 		toSerialize["object_items_nullable"] = o.ObjectItemsNullable
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
 }
 
-func (f *NullableClass) UnmarshalJSON(bytes []byte) (err error) {
-    varNullableClass := _NullableClass{}
+func (o *NullableClass) UnmarshalJSON(bytes []byte) (err error) {
+	varNullableClass := _NullableClass{}
 
-    if err = json.Unmarshal(bytes, &varNullableClass); err == nil {
-        *f = NullableClass(varNullableClass)
-    }
+	if err = json.Unmarshal(bytes, &varNullableClass); err == nil {
+		*o = NullableClass(varNullableClass)
+	}
 
-    additionalProperties := make(map[string]interface{})
+	additionalProperties := make(map[string]interface{})
 
-    if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
-        delete(additionalProperties, "integer_prop")
-        delete(additionalProperties, "number_prop")
-        delete(additionalProperties, "boolean_prop")
-        delete(additionalProperties, "string_prop")
-        delete(additionalProperties, "date_prop")
-        delete(additionalProperties, "datetime_prop")
-        delete(additionalProperties, "array_nullable_prop")
-        delete(additionalProperties, "array_and_items_nullable_prop")
-        delete(additionalProperties, "array_items_nullable")
-        delete(additionalProperties, "object_nullable_prop")
-        delete(additionalProperties, "object_and_items_nullable_prop")
-        delete(additionalProperties, "object_items_nullable")
-        f.AdditionalProperties = additionalProperties
-    }
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "integer_prop")
+		delete(additionalProperties, "number_prop")
+		delete(additionalProperties, "boolean_prop")
+		delete(additionalProperties, "string_prop")
+		delete(additionalProperties, "date_prop")
+		delete(additionalProperties, "datetime_prop")
+		delete(additionalProperties, "array_nullable_prop")
+		delete(additionalProperties, "array_and_items_nullable_prop")
+		delete(additionalProperties, "array_items_nullable")
+		delete(additionalProperties, "object_nullable_prop")
+		delete(additionalProperties, "object_and_items_nullable_prop")
+		delete(additionalProperties, "object_items_nullable")
+		o.AdditionalProperties = additionalProperties
+	}
 
-    return err
+	return err
 }
 
 type NullableNullableClass struct {

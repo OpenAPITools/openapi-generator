@@ -17,7 +17,7 @@ func TestBanana(t *testing.T) {
     assert.Equal(newBanana.LengthCm, &lengthCm2, "Banana LengthCm should be equal")
 
     // test additioanl properties
-    jsonBanana:= `{"lengthCm": 3.1, "fruits": ["apple", "peach"]}`
+    jsonBanana:= `{"fruits":["apple","peach"],"lengthCm":3.1}`
     jsonMap := make(map[string]interface{})
     json.Unmarshal([]byte(jsonBanana), &jsonMap)
 
@@ -26,5 +26,9 @@ func TestBanana(t *testing.T) {
     json.Unmarshal([]byte(jsonBanana), &newBanana2)
     assert.Equal(newBanana2.LengthCm, &lengthCm3, "Banana2 LengthCm should be equal")
     assert.Equal(newBanana2.AdditionalProperties["fruits"], jsonMap["fruits"], "Banana2 AdditonalProperties should be equal")
+
+    newBanana2Json, _ := json.Marshal(newBanana2)
+    assert.Equal(string(newBanana2Json), jsonBanana, "Banana2 JSON string should be equal")
+
 }
 
