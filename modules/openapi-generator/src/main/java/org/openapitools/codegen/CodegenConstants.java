@@ -375,4 +375,6 @@ public class CodegenConstants {
         " 2) Boolean values of the 'additionalProperties' keyword are ignored. It's as if additional properties are NOT allowed." +
         "Note: the root cause are issues #1369 and #1371, which must be resolved in the swagger-parser project.";
 
+    public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP = "useOneOfDiscriminatorLookup";
+    public static final String USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC = "Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and onlye one match in oneOf's schemas) will be skipped.";
 }
