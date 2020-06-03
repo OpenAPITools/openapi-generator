@@ -23,9 +23,9 @@ data class NumberOnly (
     @SerializedName("JustNumber")
     val justNumber: java.math.BigDecimal? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 
