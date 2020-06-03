@@ -829,7 +829,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             if (modelProperty.isEnum == true || modelProperty.hasValidation == true || result.isArrayModel) {
                 // these models are non-object models with enums and/or validations
                 // add a single property to the model so we can have a way to access validations
-                result.isAlias = true;
+                result.isAlias = !result.isArrayModel;
                 modelProperty.required = true;
                 List<CodegenProperty> theProperties = Arrays.asList(modelProperty);
                 result.setAllVars(theProperties);
