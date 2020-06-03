@@ -213,14 +213,14 @@ Class | Method | HTTP request | Description
 ## api_key
 
 - **Type**: API key
-- **API key parameter name**: api_key
+- **API key parameter name**: X-Api-Key
 - **Location**: HTTP header
 
 
 ## api_key_query
 
 - **Type**: API key
-- **API key parameter name**: api_key_query
+- **API key parameter name**: api_key
 - **Location**: URL query string
 
 

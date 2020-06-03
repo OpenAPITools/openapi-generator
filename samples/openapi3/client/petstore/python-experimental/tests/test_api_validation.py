@@ -56,8 +56,8 @@ class ApiClientTests(unittest.TestCase):
         )
 
         def request(*args, **kwargs):
-            assert ('api_key_query', 'SECRET_VALUE') in kwargs['query_params']
-            assert 'PREFIX SECRET_VALUE' == kwargs['headers']['api_key']
+            assert ('api_key', 'SECRET_VALUE') in kwargs['query_params']
+            assert 'PREFIX SECRET_VALUE' == kwargs['headers']['X-Api-Key']
             raise RuntimeError("passed")
 
         with petstore_api.ApiClient(configuration) as client:

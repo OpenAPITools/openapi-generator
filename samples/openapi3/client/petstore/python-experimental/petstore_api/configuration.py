@@ -438,7 +438,7 @@ conf = petstore_api.Configuration(
             auth['api_key'] = {
                 'type': 'api_key',
                 'in': 'header',
-                'key': 'api_key',
+                'key': 'X-Api-Key',
                 'value': self.get_api_key_with_prefix(
                     'api_key',
                 ),
@@ -447,7 +447,7 @@ conf = petstore_api.Configuration(
             auth['api_key_query'] = {
                 'type': 'api_key',
                 'in': 'query',
-                'key': 'api_key_query',
+                'key': 'api_key',
                 'value': self.get_api_key_with_prefix(
                     'api_key_query',
                     alias='api_key',

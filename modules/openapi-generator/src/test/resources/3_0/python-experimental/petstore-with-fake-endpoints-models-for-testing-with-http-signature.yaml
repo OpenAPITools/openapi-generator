@@ -1162,11 +1162,11 @@ components:
             'read:pets': read your pets
     api_key:
       type: apiKey
-      name: api_key
+      name: X-Api-Key
       in: header
     api_key_query:
       type: apiKey
-      name: api_key_query
+      name: api_key
       # Test key aliasing
       x-auth-id-alias: api_key
       in: query
