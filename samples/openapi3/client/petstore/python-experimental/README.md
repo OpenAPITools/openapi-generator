@@ -125,6 +125,7 @@ Class | Method | HTTP request | Description
  - [additional_properties_class.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [address.Address](docs/Address.md)
  - [animal.Animal](docs/Animal.md)
+ - [animal_farm.AnimalFarm](docs/AnimalFarm.md)
  - [api_response.ApiResponse](docs/ApiResponse.md)
  - [apple.Apple](docs/Apple.md)
  - [apple_req.AppleReq](docs/AppleReq.md)

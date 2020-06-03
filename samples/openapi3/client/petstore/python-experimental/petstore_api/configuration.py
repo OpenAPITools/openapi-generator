@@ -400,6 +400,7 @@ conf = petstore_api.Configuration(
         """Gets API key (with prefix if set).
 
         :param identifier: The identifier of apiKey.
+        :param alias: The alternative identifier of apiKey.
         :return: The token for api key authentication.
         """
         if self.refresh_api_key_hook is not None:
@@ -440,7 +441,6 @@ conf = petstore_api.Configuration(
                 'key': 'api_key',
                 'value': self.get_api_key_with_prefix(
                     'api_key',
-                    alias='api_key',
                 ),
             }
         if 'api_key' in self.api_key:

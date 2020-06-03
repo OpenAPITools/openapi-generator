@@ -427,6 +427,7 @@ conf = {{{packageName}}}.Configuration(
         """Gets API key (with prefix if set).
 
         :param identifier: The identifier of apiKey.
+        :param alias: The alternative identifier of apiKey.
         :return: The token for api key authentication.
         """
         if self.refresh_api_key_hook is not None:
@@ -468,8 +469,8 @@ conf = {{{packageName}}}.Configuration(
                 'in': {{#isKeyInCookie}}'cookie'{{/isKeyInCookie}}{{#isKeyInHeader}}'header'{{/isKeyInHeader}}{{#isKeyInQuery}}'query'{{/isKeyInQuery}},
                 'key': '{{keyParamName}}',
                 'value': self.get_api_key_with_prefix(
-                    '{{keyParamName}}',
-                    alias='{{#vendorExtensions.x-auth-id-alias}}{{.}}{{/vendorExtensions.x-auth-id-alias}}{{^vendorExtensions.x-auth-id-alias}}{{name}}{{/vendorExtensions.x-auth-id-alias}}',
+                    '{{keyParamName}}',{{#vendorExtensions.x-auth-id-alias}}
+                    alias='{{.}}',{{/vendorExtensions.x-auth-id-alias}}
                 ),
             }
 {{/isApiKey}}
