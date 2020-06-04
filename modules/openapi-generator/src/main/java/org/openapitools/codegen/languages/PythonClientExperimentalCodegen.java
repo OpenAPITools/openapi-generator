@@ -423,7 +423,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 CodegenProperty modelProperty = fromProperty("value", modelSchema);
 
                 if (cm.isEnum || cm.isAlias) {
-                    if (!modelProperty.isEnum && !modelProperty.hasValidation) {
+                    if (!modelProperty.isEnum && !modelProperty.hasValidation && !cm.isArrayModel) {
                         // remove these models because they are aliases and do not have any enums or validations
                         modelSchemasToRemove.put(cm.name, modelSchema);
                     }
@@ -833,7 +833,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             if (modelProperty.isEnum == true || modelProperty.hasValidation == true || result.isArrayModel) {
                 // these models are non-object models with enums and/or validations
                 // add a single property to the model so we can have a way to access validations
-                result.isAlias = !result.isArrayModel;
+                result.isAlias = true;
                 modelProperty.required = true;
                 List<CodegenProperty> theProperties = Arrays.asList(modelProperty);
                 result.setAllVars(theProperties);
