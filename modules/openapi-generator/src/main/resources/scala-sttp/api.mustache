@@ -32,7 +32,7 @@ class {{classname}}(baseUrl: String)(implicit serializer: SttpSerializer) {
       .header("{{keyParamName}}", apiKey.value){{/isKeyInHeader}}{{#isKeyInCookie}}
       .cookie("{{keyParamName}}", apiKey.value){{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}{{#formParams.0}}
       .body(Map({{#formParams}}
-        {{>paramFormCreation}},{{/formParams}}
+        {{>paramFormCreation}}{{#hasMore}}, {{/hasMore}}{{/formParams}}
       )){{/formParams.0}}{{#bodyParam}}
       .body({{paramName}}){{/bodyParam}}
       .response(asJson[{{>operationReturnType}}])
