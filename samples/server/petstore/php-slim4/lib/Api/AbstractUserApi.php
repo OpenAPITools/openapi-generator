@@ -28,7 +28,7 @@ namespace OpenAPIServer\Api;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Exception;
+use Slim\Exception\HttpNotImplementedException;
 
 /**
  * AbstractUserApi Class Doc Comment
@@ -66,16 +66,13 @@ abstract class AbstractUserApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function createUser(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing createUser as a POST method in OpenAPIServer\Api\UserApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -87,16 +84,13 @@ abstract class AbstractUserApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function createUsersWithArrayInput(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing createUsersWithArrayInput as a POST method in OpenAPIServer\Api\UserApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -108,16 +102,13 @@ abstract class AbstractUserApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function createUsersWithListInput(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing createUsersWithListInput as a POST method in OpenAPIServer\Api\UserApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -130,16 +121,13 @@ abstract class AbstractUserApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function deleteUser(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $username = $args['username'];
         $message = "How about implementing deleteUser as a DELETE method in OpenAPIServer\Api\UserApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -152,16 +140,13 @@ abstract class AbstractUserApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function getUserByName(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $username = $args['username'];
         $message = "How about implementing getUserByName as a GET method in OpenAPIServer\Api\UserApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -174,7 +159,7 @@ abstract class AbstractUserApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function loginUser(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
@@ -182,10 +167,7 @@ abstract class AbstractUserApi
         $username = (key_exists('username', $queryParams)) ? $queryParams['username'] : null;
         $password = (key_exists('password', $queryParams)) ? $queryParams['password'] : null;
         $message = "How about implementing loginUser as a GET method in OpenAPIServer\Api\UserApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -197,15 +179,12 @@ abstract class AbstractUserApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function logoutUser(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $message = "How about implementing logoutUser as a GET method in OpenAPIServer\Api\UserApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -218,16 +197,13 @@ abstract class AbstractUserApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function updateUser(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $username = $args['username'];
         $body = $request->getParsedBody();
         $message = "How about implementing updateUser as a PUT method in OpenAPIServer\Api\UserApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 }
