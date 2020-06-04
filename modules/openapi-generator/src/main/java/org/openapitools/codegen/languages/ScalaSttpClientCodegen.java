@@ -31,8 +31,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScalaSttpClientCodegen.class);
@@ -49,15 +47,12 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
             "joda-time library","2.10.6");
     private static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
             "library", "3.6.8");
-    private static final BooleanProperty USE_JSON4S = new BooleanProperty("useJson4s", "Whether to use json4s library " +
-            "for json serialization", true);
-    private static final BooleanProperty USE_CIRCE = new BooleanProperty("useCirce", "Whether to use circe library " +
-            "for json serialization", false);
     private static final StringProperty CIRCE_VERSION = new StringProperty("circeVersion", "The version of circe " +
             "library", "0.13.0");
+    private static final JsonLibraryProperty JSON_LIBRARY_PROPERTY = new JsonLibraryProperty();
 
     private static final List<Property> properties = Arrays.asList(STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL,
-            JODA_TIME_VERSION, JSON4S_VERSION, USE_JSON4S, USE_CIRCE, CIRCE_VERSION);
+            JODA_TIME_VERSION, JSON4S_VERSION, CIRCE_VERSION, JSON_LIBRARY_PROPERTY);
 
     public ScalaSttpClientCodegen() {
         super();
@@ -68,7 +63,7 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         embeddedTemplateDir = templateDir = "scala-sttp";
         outputFolder = "generated-code/scala-sttp";
 
-        properties.forEach(p->cliOptions.add(p.toCliOption()));
+        properties.forEach(p-> cliOptions.add(p.toCliOption()));
     }
 
     @Override
@@ -83,7 +78,6 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
             additionalProperties.put("apiPackage", apiPackage);
             additionalProperties.put("modelPackage", modelPackage);
         }
-        checkJsonLibraryConflict(additionalProperties);
         properties.forEach(p-> p.updateAdditionalProperties(additionalProperties));
 
         supportingFiles.clear();
@@ -120,24 +114,6 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         op.path = encodePath(path);
         return op;
-    }
-
-    private static  void checkJsonLibraryConflict(Map<String, Object> additionalProperties) {
-        int optionCount = 0;
-        if(USE_CIRCE.getValue(additionalProperties)){
-            optionCount++;
-            USE_JSON4S.setValue(additionalProperties, false);
-        }
-        if(USE_JSON4S.getValue(additionalProperties)){
-            optionCount++;
-            USE_CIRCE.setValue(additionalProperties, false);
-        }
-        if(optionCount > 1) {
-            LOGGER.warn("Multiple json libraries specified, default one will be used.");
-        }
-        if(optionCount < 1) {
-            LOGGER.warn("No json library specified. Please choose one.");
-        }
     }
 
     private static abstract class Property<T> {
@@ -204,6 +180,30 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         @Override
         public Boolean getValue(Map<String, Object> additionalProperties) {
             return Boolean.valueOf(additionalProperties.getOrDefault(name, defaultValue.toString()).toString());
+        }
+    }
+
+    private static class JsonLibraryProperty extends StringProperty {
+        private static final String JSON4S = "json4s";
+        private static final String CIRCE = "circe";
+        private static final String USE_CIRCE_PROPERTY = "useCirce";
+        private static final String USE_JSON4S_PROPERTY = "useJson4s";
+
+        private JsonLibraryProperty() {
+            super("jsonLibrary", "Json library to use. Possible values are: json4s and circe.", JSON4S);
+        }
+
+        @Override
+        public void updateAdditionalProperties(Map<String, Object> additionalProperties) {
+            String value = getValue(additionalProperties);
+            if (value.equals(CIRCE) || value.equals(JSON4S)) {
+                additionalProperties.put(USE_CIRCE_PROPERTY, value.equals(CIRCE));
+                additionalProperties.put(USE_JSON4S_PROPERTY, value.equals(JSON4S));
+            } else {
+                IllegalArgumentException exception = new IllegalArgumentException("Unsupported json library: " + value);
+                LOGGER.error("Unsupported json library " + value, exception);
+                throw exception;
+            }
         }
     }
 
