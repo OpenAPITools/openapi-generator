@@ -33,6 +33,12 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
     public static final String STTP_CLIENT_VERSION_DESC = "The version of stpp client";
     public static final String STTP_CLIENT_VERSION_DEFAULT = "2.1.5";
 
+    public static final String SEPARATE_ERROR_CHANNEL = "separateErrorChannel";
+    public static final String SEPARATE_ERROR_CHANNEL_DESC = "Whether to return response as " +
+            "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
+            "response's error raising them through enclosing monad (F[ReturnType]).";
+    public static final Boolean SEPARATE_ERROR_CHANNEL_DEFAULT = true;
+
     public ScalaSttpClientCodegen() {
         super();
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
@@ -43,6 +49,7 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         outputFolder = "generated-code/scala-sttp";
 
         cliOptions.add(CliOption.newString(STTP_CLIENT_VERSION,STTP_CLIENT_VERSION_DESC).defaultValue(STTP_CLIENT_VERSION_DEFAULT));
+        cliOptions.add(CliOption.newBoolean(SEPARATE_ERROR_CHANNEL, SEPARATE_ERROR_CHANNEL_DESC, SEPARATE_ERROR_CHANNEL_DEFAULT));
     }
 
     @Override
@@ -60,6 +67,8 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         if(!additionalProperties.containsKey(STTP_CLIENT_VERSION)) {
             additionalProperties.put(STTP_CLIENT_VERSION, STTP_CLIENT_VERSION_DEFAULT);
         }
+        Object separateErrorChannel = additionalProperties.getOrDefault(SEPARATE_ERROR_CHANNEL, SEPARATE_ERROR_CHANNEL_DEFAULT);
+        additionalProperties.put(SEPARATE_ERROR_CHANNEL, Boolean.valueOf(separateErrorChannel.toString()));
 
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
