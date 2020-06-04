@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -26,6 +28,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Quadrilateral;
 import org.openapitools.client.model.Triangle;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -34,10 +37,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -143,6 +143,12 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
         schemas.put("Triangle", new GenericType<Triangle>() {
         });
         JSON.registerDescendants(ShapeOrNull.class, Collections.unmodifiableMap(schemas));
+        // Initialize and register the discriminator mappings.
+        Map<String, Class> mappings = new HashMap<String, Class>();
+        mappings.put("Quadrilateral", Quadrilateral.class);
+        mappings.put("Triangle", Triangle.class);
+        mappings.put("ShapeOrNull", ShapeOrNull.class);
+        JSON.registerDiscriminator(ShapeOrNull.class, "shapeType", mappings);
     }
 
     @Override

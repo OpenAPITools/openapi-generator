@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -27,6 +29,7 @@ import org.openapitools.client.model.EquilateralTriangle;
 import org.openapitools.client.model.IsoscelesTriangle;
 import org.openapitools.client.model.ScaleneTriangle;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -35,10 +38,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import org.openapitools.client.JSON;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -164,6 +164,13 @@ public class Triangle extends AbstractOpenApiSchema {
         schemas.put("ScaleneTriangle", new GenericType<ScaleneTriangle>() {
         });
         JSON.registerDescendants(Triangle.class, Collections.unmodifiableMap(schemas));
+        // Initialize and register the discriminator mappings.
+        Map<String, Class> mappings = new HashMap<String, Class>();
+        mappings.put("EquilateralTriangle", EquilateralTriangle.class);
+        mappings.put("IsoscelesTriangle", IsoscelesTriangle.class);
+        mappings.put("ScaleneTriangle", ScaleneTriangle.class);
+        mappings.put("Triangle", Triangle.class);
+        JSON.registerDiscriminator(Triangle.class, "triangleType", mappings);
     }
 
     @Override
