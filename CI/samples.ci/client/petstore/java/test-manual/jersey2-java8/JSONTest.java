@@ -42,4 +42,18 @@ public class JSONTest {
         Order o = json.getContext(null).readValue(str, Order.class);
         assertEquals(dateStr, dateFormat.format(o.getShipDate()));
     }
+
+    /**
+     * Validate a schema with special characters can be deserialized. 
+     */
+    @Test
+    public void testSchemaWithSpecialCharacters() throws Exception {
+        String str = "{ \"$special[property.name]\": 12345 }";
+        // The name of the OpenAPI schema is '_special_model.name_'.
+        // After sanitization rules are applied the name of the class is 'SpecialModelName'.
+        // The class deserialization should be successful because
+        // of the @JsonSubTypes annotation.
+        SpecialModelName o = json.getContext(null).readValue(str, SpecialModelName.class);
+        assertNotNull(o);
+    }    
 }
