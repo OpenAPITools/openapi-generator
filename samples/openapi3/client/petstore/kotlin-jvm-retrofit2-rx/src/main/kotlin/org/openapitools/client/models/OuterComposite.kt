@@ -29,9 +29,9 @@ data class OuterComposite (
     @SerializedName("my_boolean")
     val myBoolean: kotlin.Boolean? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

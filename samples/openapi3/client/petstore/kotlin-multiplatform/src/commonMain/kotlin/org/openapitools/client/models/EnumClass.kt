@@ -33,11 +33,11 @@ enum class EnumClass(val value: kotlin.String){
 
 
 
-	/**
-	This override toString avoids using the enum var name and uses the actual api value instead.
-	In cases the var name and value are different, the client would send incorrect enums to the server.
-	**/
-	override fun toString(): String {
+    /**
+    This override toString avoids using the enum var name and uses the actual api value instead.
+    In cases the var name and value are different, the client would send incorrect enums to the server.
+    **/
+    override fun toString(): String {
         return value
     }
 

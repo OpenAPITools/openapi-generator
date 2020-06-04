@@ -26,7 +26,7 @@ class OPENAPI_API OpenAPIUser : public Model
 {
 public:
     virtual ~OpenAPIUser() {}
-	bool FromJson(const TSharedPtr<FJsonObject>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 	void WriteJson(JsonWriter& Writer) const final;
 
 	TOptional<int64> Id;

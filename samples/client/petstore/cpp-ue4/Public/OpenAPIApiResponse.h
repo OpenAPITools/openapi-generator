@@ -26,7 +26,7 @@ class OPENAPI_API OpenAPIApiResponse : public Model
 {
 public:
     virtual ~OpenAPIApiResponse() {}
-	bool FromJson(const TSharedPtr<FJsonObject>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 	void WriteJson(JsonWriter& Writer) const final;
 
 	TOptional<int32> Code;

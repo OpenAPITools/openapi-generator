@@ -28,9 +28,9 @@ data class InlineObject5 (
     @Json(name = "additionalMetadata")
     val additionalMetadata: kotlin.String? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

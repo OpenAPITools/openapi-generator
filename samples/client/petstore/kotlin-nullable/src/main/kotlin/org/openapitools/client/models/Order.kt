@@ -39,9 +39,9 @@ data class Order (
     @Json(name = "complete")
     val complete: kotlin.Boolean? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
     /**
     * Order Status
