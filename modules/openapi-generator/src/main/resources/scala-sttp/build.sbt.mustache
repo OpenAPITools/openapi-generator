@@ -2,13 +2,13 @@ version := "{{artifactVersion}}"
 name := "{{artifactId}}"
 organization := "{{groupId}}"
 
-scalaVersion := "2.13.0"
+scalaVersion := "2.13.2"
 
 crossScalaVersions := Seq(scalaVersion.value, "2.12.10",  "2.11.12")
 
 libraryDependencies ++= Seq(
-  "com.softwaremill.sttp.client" %% "core" % "2.0.0",
-  "com.softwaremill.sttp.client" %% "json4s" % "2.0.0",
+  "com.softwaremill.sttp.client" %% "core" % "2.1.5",
+  "com.softwaremill.sttp.client" %% "json4s" % "2.1.5",
 {{#joda}}
   "joda-time" % "joda-time" % "2.10.1",
 {{/joda}}

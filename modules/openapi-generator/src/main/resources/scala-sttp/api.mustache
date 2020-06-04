@@ -5,7 +5,6 @@ package {{package}}
 import {{import}}
 {{/imports}}
 import {{invokerPackage}}._
-import alias._
 import sttp.client._
 import sttp.model.Method
 
@@ -17,14 +16,13 @@ object {{classname}} {
 
 class {{classname}}(baseUrl: String)(implicit serializer: SttpSerializer) {
 
-  import Helpers._
   import serializer._
 
 {{#operation}}
 {{#javadocRenderer}}
 {{>javadoc}}
 {{/javadocRenderer}}
-  def {{operationId}}({{>methodParameters}}): ApiRequestT[{{>operationReturnType}}] =
+  def {{operationId}}({{>methodParameters}}): Request[Either[ResponseError[Exception],{{>operationReturnType}}], Nothing] =
     basicRequest
       .method(Method.{{httpMethod.toUpperCase}}, uri"$baseUrl{{{path}}}{{#queryParams.0}}?{{#queryParams}}{{baseName}}=${{{paramName}}}{{^-last}}&{{/-last}}{{/queryParams}}{{/queryParams.0}}{{#isApiKey}}{{#isKeyInQuery}}{{^queryParams.0}}?{{/queryParams.0}}{{#queryParams.0}}&{{/queryParams.0}}{{keyParamName}}=${apiKey.value}&{{/isKeyInQuery}}{{/isApiKey}}")
       .contentType({{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}}){{#headerParams}}

@@ -14,18 +14,6 @@ package org.openapitools.client.core
 import sttp.client.{Identity, RequestT, ResponseError}
 
 /**
- * This trait needs to be added to any model defined by the api.
- */
-trait ApiModel
-
-/**
- * Sttp type aliases
- */
-object alias {
-  type ApiRequestT[T] = RequestT[Identity, Either[ResponseError[Exception], T], Nothing]
-}
-
-/**
  * Single trait defining a credential that can be transformed to a paramName / paramValue tupple
  */
 sealed trait Credentials {
