@@ -81,4 +81,3 @@ class StoreApi(baseUrl: String = "http://petstore.swagger.io/v2") {
       .response(asJson[Order])
 
 }
-

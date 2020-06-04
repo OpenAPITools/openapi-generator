@@ -8,11 +8,19 @@ crossScalaVersions := Seq(scalaVersion.value, "2.12.10", "2.11.12")
 
 libraryDependencies ++= Seq(
   "com.softwaremill.sttp.client" %% "core" % "{{sttpClientVersion}}",
-  "com.softwaremill.sttp.client" %% "json4s" % "{{sttpClientVersion}}",
 {{#joda}}
   "joda-time" % "joda-time" % "{{jodaTimeVersion}}",
 {{/joda}}
+{{#useJson4s}}
+  "com.softwaremill.sttp.client" %% "json4s" % "{{sttpClientVersion}}",
   "org.json4s" %% "json4s-jackson" % "{{json4sVersion}}"
+{{/useJson4s}}
+{{#useCirce}}
+  "com.softwaremill.sttp.client" %% "circe" % "{{sttpClientVersion}}",
+  "io.circe" %% "circe-core" % "{{circeVersion}}",
+  "io.circe" %% "circe-generic" % "{{circeVersion}}",
+  "io.circe" %% "circe-parser" % "{{circeVersion}}"
+{{/useCirce}}
 )
 
 scalacOptions := Seq(

@@ -24,28 +24,40 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements CodegenConfig {
-    public static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
+    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaSttpClientCodegen.class);
+
+    private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
             "sttp " +
                                                                               "client", "2.1.5");
-    public static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
+    private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
             "Whether to " +
                     "return response as " +
                     "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
                     "response's error raising them through enclosing monad (F[ReturnType]).", true);
-    public static final StringProperty JODA_TIME_VERSION = new StringProperty("jodaTimeVersion","The version of " +
+    private static final StringProperty JODA_TIME_VERSION = new StringProperty("jodaTimeVersion","The version of " +
             "joda-time library","2.10.6");
-    public static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
+    private static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
             "library", "3.6.8");
+    private static final BooleanProperty USE_JSON4S = new BooleanProperty("useJson4s", "Whether to use json4s library " +
+            "for json serialization", true);
+    private static final BooleanProperty USE_CIRCE = new BooleanProperty("useCirce", "Whether to use circe library " +
+            "for json serialization", false);
+    private static final StringProperty CIRCE_VERSION = new StringProperty("circeVersion", "The version of circe " +
+            "library", "0.13.0");
 
-    public static final List<Property> properties = Arrays.asList(STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL,
-            JODA_TIME_VERSION, JSON4S_VERSION);
+    private static final List<Property> properties = Arrays.asList(STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL,
+            JODA_TIME_VERSION, JSON4S_VERSION, USE_JSON4S, USE_CIRCE, CIRCE_VERSION);
 
     public ScalaSttpClientCodegen() {
         super();
@@ -71,6 +83,7 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
             additionalProperties.put("apiPackage", apiPackage);
             additionalProperties.put("modelPackage", modelPackage);
         }
+        checkJsonLibraryConflict(additionalProperties);
         properties.forEach(p-> p.updateAdditionalProperties(additionalProperties));
 
         supportingFiles.clear();
@@ -80,8 +93,6 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         supportingFiles.add(new SupportingFile("requests.mustache", invokerFolder, "requests.scala"));
         supportingFiles.add(new SupportingFile("jsonSupport.mustache", invokerFolder, "JsonSupport.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
-        final String apiFolder = (sourceFolder + File.separator + apiPackage).replace(".", File.separator);
-        supportingFiles.add(new SupportingFile("enumsSerializers.mustache", apiFolder, "EnumsSerializers.scala"));
         supportingFiles.add(new SupportingFile("serializers.mustache", invokerFolder, "Serializers.scala"));
     }
 
@@ -111,7 +122,25 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         return op;
     }
 
-    public static abstract class Property<T> {
+    private static  void checkJsonLibraryConflict(Map<String, Object> additionalProperties) {
+        int optionCount = 0;
+        if(USE_CIRCE.getValue(additionalProperties)){
+            optionCount++;
+            USE_JSON4S.setValue(additionalProperties, false);
+        }
+        if(USE_JSON4S.getValue(additionalProperties)){
+            optionCount++;
+            USE_CIRCE.setValue(additionalProperties, false);
+        }
+        if(optionCount > 1) {
+            LOGGER.warn("Multiple json libraries specified, default one will be used.");
+        }
+        if(optionCount < 1) {
+            LOGGER.warn("No json library specified. Please choose one.");
+        }
+    }
+
+    private static abstract class Property<T> {
         final String name;
         final String description;
         final T defaultValue;
@@ -125,9 +154,17 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         public abstract CliOption toCliOption();
 
         public abstract void updateAdditionalProperties(Map<String, Object> additionalProperties);
+
+        public abstract T getValue(Map<String,Object> additionalProperties);
+
+        public abstract Optional<T> getUserValue(Map<String,Object> additionalProperties);
+
+        public void setValue(Map<String,Object> additionalProperties, T value ) {
+            additionalProperties.put(name, value);
+        }
     }
 
-    public static class StringProperty extends Property<String> {
+    private static class StringProperty extends Property<String> {
         private StringProperty(String name, String description, String defaultValue) {
             super(name, description, defaultValue);
         }
@@ -143,9 +180,19 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
                 additionalProperties.put(name, defaultValue);
             }
         }
+
+        @Override
+        public String getValue(Map<String, Object> additionalProperties) {
+            return additionalProperties.getOrDefault(name,defaultValue).toString();
+        }
+
+        @Override
+        public Optional<String> getUserValue(Map<String, Object> additionalProperties) {
+            return Optional.ofNullable(additionalProperties.get(name)).map(Object::toString);
+        }
     }
 
-    public static class BooleanProperty extends Property<Boolean> {
+    private static class BooleanProperty extends Property<Boolean> {
         private BooleanProperty(String name, String description, Boolean defaultValue) {
             super(name, description, defaultValue);
         }
@@ -157,8 +204,18 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
 
         @Override
         public void updateAdditionalProperties(Map<String, Object> additionalProperties) {
-            String stringedBoolean = additionalProperties.getOrDefault(name, defaultValue.toString()).toString();
-            additionalProperties.put(name, Boolean.valueOf(stringedBoolean));
+            Boolean value = getValue(additionalProperties);
+            additionalProperties.put(name, value);
+        }
+
+        @Override
+        public Boolean getValue(Map<String, Object> additionalProperties) {
+            return Boolean.valueOf(additionalProperties.getOrDefault(name, defaultValue.toString()).toString());
+        }
+
+        @Override
+        public Optional<Boolean> getUserValue(Map<String, Object> additionalProperties) {
+            return Optional.ofNullable(additionalProperties.get(name)).map(v -> Boolean.valueOf(v.toString()));
         }
     }
 

@@ -159,4 +159,3 @@ class UserApi(baseUrl: String = "http://petstore.swagger.io/v2") {
       .response(asJson[Unit])
 
 }
-
