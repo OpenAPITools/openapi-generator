@@ -85,6 +85,9 @@ class {{classname}}Test extends TestCase
     public function test{{classname}}()
     {
         $test{{classname}} = new {{classname}}();
+        $this->markTestIncomplete(
+            'Test of "{{classname}}" model has not been implemented yet.'
+        );
     }
 {{#vars}}
 
@@ -93,6 +96,9 @@ class {{classname}}Test extends TestCase
      */
     public function testProperty{{nameInCamelCase}}()
     {
+        $this->markTestIncomplete(
+            'Test of "{{name}}" property in "{{classname}}" model has not been implemented yet.'
+        );
     }
 {{/vars}}
 
