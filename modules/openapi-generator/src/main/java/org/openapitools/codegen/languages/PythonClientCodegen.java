@@ -722,7 +722,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         // correct "&#39;"s into "'"s after toString()
-        if (ModelUtils.isStringSchema(schema) && schema.getDefault() != null) {
+        if (ModelUtils.isStringSchema(schema) && schema.getDefault() != null && !ModelUtils.isDateSchema(schema) && !ModelUtils.isDateTimeSchema(schema)) {
             example = (String) schema.getDefault();
         }
 
