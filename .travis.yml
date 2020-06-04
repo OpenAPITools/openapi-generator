@@ -130,6 +130,7 @@ install:
 script:
   # fail fast
   - set -e
+  - ./run-in-docker.sh mvn clean package
   # fail if templates/generators contain carriage return '\r'
   - /bin/bash ./bin/utils/detect_carriage_return.sh
   # fail if generators contain merge conflicts
