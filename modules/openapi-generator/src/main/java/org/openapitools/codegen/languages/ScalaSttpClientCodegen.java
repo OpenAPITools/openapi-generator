@@ -26,26 +26,26 @@ import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements CodegenConfig {
-    public static final String STTP_CLIENT_VERSION = "sttpClientVersion";
-    public static final String STTP_CLIENT_VERSION_DESC = "The version of sttp client";
-    public static final String STTP_CLIENT_VERSION_DEFAULT = "2.1.5";
+    public static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
+            "sttp " +
+                                                                              "client", "2.1.5");
+    public static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
+            "Whether to " +
+                    "return response as " +
+                    "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
+                    "response's error raising them through enclosing monad (F[ReturnType]).", true);
+    public static final StringProperty JODA_TIME_VERSION = new StringProperty("jodaTimeVersion","The version of " +
+            "joda-time library","2.10.6");
+    public static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
+            "library", "3.6.8");
 
-    public static final String SEPARATE_ERROR_CHANNEL = "separateErrorChannel";
-    public static final String SEPARATE_ERROR_CHANNEL_DESC = "Whether to return response as " +
-            "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
-            "response's error raising them through enclosing monad (F[ReturnType]).";
-    public static final Boolean SEPARATE_ERROR_CHANNEL_DEFAULT = true;
-
-    public static final String JODA_TIME_VERSION = "jodaTimeVersion";
-    public static final String JODA_TIME_VERSION_DESC = "The version of joda-time library";
-    public static final String JODA_TIME_VERSION_DEFAULT = "2.10.6";
-
-    public static final String JSON4S_VERSION = "json4sVersion";
-    public static final String JSON4S_VERSION_DESC = "The version of json4s library";
-    public static final String JSON4S_VERSION_DEFAULT = "3.6.8";
+    public static final List<Property> properties = Arrays.asList(STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL,
+            JODA_TIME_VERSION, JSON4S_VERSION);
 
     public ScalaSttpClientCodegen() {
         super();
@@ -56,10 +56,7 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         embeddedTemplateDir = templateDir = "scala-sttp";
         outputFolder = "generated-code/scala-sttp";
 
-        cliOptions.add(CliOption.newString(STTP_CLIENT_VERSION, STTP_CLIENT_VERSION_DESC).defaultValue(STTP_CLIENT_VERSION_DEFAULT));
-        cliOptions.add(CliOption.newString(JODA_TIME_VERSION, JODA_TIME_VERSION_DESC).defaultValue(JODA_TIME_VERSION_DEFAULT));
-        cliOptions.add(CliOption.newString(JSON4S_VERSION, JSON4S_VERSION_DESC).defaultValue(JSON4S_VERSION_DEFAULT));
-        cliOptions.add(CliOption.newBoolean(SEPARATE_ERROR_CHANNEL, SEPARATE_ERROR_CHANNEL_DESC, SEPARATE_ERROR_CHANNEL_DEFAULT));
+        properties.forEach(p->cliOptions.add(p.toCliOption()));
     }
 
     @Override
@@ -74,17 +71,7 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
             additionalProperties.put("apiPackage", apiPackage);
             additionalProperties.put("modelPackage", modelPackage);
         }
-        if(!additionalProperties.containsKey(STTP_CLIENT_VERSION)) {
-            additionalProperties.put(STTP_CLIENT_VERSION, STTP_CLIENT_VERSION_DEFAULT);
-        }
-        if(!additionalProperties.containsKey(JODA_TIME_VERSION)) {
-            additionalProperties.put(JODA_TIME_VERSION, JODA_TIME_VERSION_DEFAULT);
-        }
-        if(!additionalProperties.containsKey(JSON4S_VERSION)) {
-            additionalProperties.put(JSON4S_VERSION, JSON4S_VERSION_DEFAULT);
-        }
-        Object separateErrorChannel = additionalProperties.getOrDefault(SEPARATE_ERROR_CHANNEL, SEPARATE_ERROR_CHANNEL_DEFAULT);
-        additionalProperties.put(SEPARATE_ERROR_CHANNEL, Boolean.valueOf(separateErrorChannel.toString()));
+        properties.forEach(p-> p.updateAdditionalProperties(additionalProperties));
 
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -123,4 +110,56 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         op.path = encodePath(path);
         return op;
     }
+
+    public static abstract class Property<T> {
+        final String name;
+        final String description;
+        final T defaultValue;
+
+        private Property(String name, String description, T defaultValue) {
+            this.name = name;
+            this.description = description;
+            this.defaultValue = defaultValue;
+        }
+
+        public abstract CliOption toCliOption();
+
+        public abstract void updateAdditionalProperties(Map<String, Object> additionalProperties);
+    }
+
+    public static class StringProperty extends Property<String> {
+        private StringProperty(String name, String description, String defaultValue) {
+            super(name, description, defaultValue);
+        }
+
+        @Override
+        public CliOption toCliOption() {
+            return CliOption.newString(name, description).defaultValue(defaultValue);
+        }
+
+        @Override
+        public void updateAdditionalProperties(Map<String, Object> additionalProperties) {
+            if(!additionalProperties.containsKey(name)) {
+                additionalProperties.put(name, defaultValue);
+            }
+        }
+    }
+
+    public static class BooleanProperty extends Property<Boolean> {
+        private BooleanProperty(String name, String description, Boolean defaultValue) {
+            super(name, description, defaultValue);
+        }
+
+        @Override
+        public CliOption toCliOption() {
+            return CliOption.newBoolean(name, description, defaultValue);
+        }
+
+        @Override
+        public void updateAdditionalProperties(Map<String, Object> additionalProperties) {
+            String stringedBoolean = additionalProperties.getOrDefault(name, defaultValue.toString()).toString();
+            additionalProperties.put(name, Boolean.valueOf(stringedBoolean));
+        }
+    }
+
 }
