@@ -39,9 +39,13 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
             "response's error raising them through enclosing monad (F[ReturnType]).";
     public static final Boolean SEPARATE_ERROR_CHANNEL_DEFAULT = true;
 
-    public static final String JODA_TIME_VERSION= "jodaTimeVersion";
+    public static final String JODA_TIME_VERSION = "jodaTimeVersion";
     public static final String JODA_TIME_VERSION_DESC = "The version of joda-time library";
     public static final String JODA_TIME_VERSION_DEFAULT = "2.10.6";
+
+    public static final String JSON4S_VERSION = "json4sVersion";
+    public static final String JSON4S_VERSION_DESC = "The version of json4s library";
+    public static final String JSON4S_VERSION_DEFAULT = "3.6.8";
 
     public ScalaSttpClientCodegen() {
         super();
@@ -52,8 +56,9 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         embeddedTemplateDir = templateDir = "scala-sttp";
         outputFolder = "generated-code/scala-sttp";
 
-        cliOptions.add(CliOption.newString(STTP_CLIENT_VERSION,STTP_CLIENT_VERSION_DESC).defaultValue(STTP_CLIENT_VERSION_DEFAULT));
-        cliOptions.add(CliOption.newString(JODA_TIME_VERSION,JODA_TIME_VERSION_DESC).defaultValue(JODA_TIME_VERSION_DEFAULT));
+        cliOptions.add(CliOption.newString(STTP_CLIENT_VERSION, STTP_CLIENT_VERSION_DESC).defaultValue(STTP_CLIENT_VERSION_DEFAULT));
+        cliOptions.add(CliOption.newString(JODA_TIME_VERSION, JODA_TIME_VERSION_DESC).defaultValue(JODA_TIME_VERSION_DEFAULT));
+        cliOptions.add(CliOption.newString(JSON4S_VERSION, JSON4S_VERSION_DESC).defaultValue(JSON4S_VERSION_DEFAULT));
         cliOptions.add(CliOption.newBoolean(SEPARATE_ERROR_CHANNEL, SEPARATE_ERROR_CHANNEL_DESC, SEPARATE_ERROR_CHANNEL_DEFAULT));
     }
 
@@ -74,6 +79,9 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         }
         if(!additionalProperties.containsKey(JODA_TIME_VERSION)) {
             additionalProperties.put(JODA_TIME_VERSION, JODA_TIME_VERSION_DEFAULT);
+        }
+        if(!additionalProperties.containsKey(JSON4S_VERSION)) {
+            additionalProperties.put(JSON4S_VERSION, JSON4S_VERSION_DEFAULT);
         }
         Object separateErrorChannel = additionalProperties.getOrDefault(SEPARATE_ERROR_CHANNEL, SEPARATE_ERROR_CHANNEL_DEFAULT);
         additionalProperties.put(SEPARATE_ERROR_CHANNEL, Boolean.valueOf(separateErrorChannel.toString()));
