@@ -13,7 +13,6 @@ package org.openapitools.client.api
 
 import org.openapitools.client.model.User
 import org.openapitools.client.core._
-import alias._
 import sttp.client._
 import sttp.model.Method
 
@@ -24,7 +23,6 @@ object UserApi {
 
 class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
 
-  import Helpers._
   import serializer._
 
   /**
@@ -38,7 +36,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param user Created user object
    */
-  def createUser(user: User)(implicit apiKey: ApiKeyValue): ApiRequestT[Unit] =
+  def createUser(user: User)(implicit apiKey: ApiKeyValue): Request[Either[ResponseError[Exception],Unit], Nothing] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user")
       .contentType("application/json")
@@ -55,7 +53,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param user List of user object
    */
-  def createUsersWithArrayInput(user: Seq[User])(implicit apiKey: ApiKeyValue): ApiRequestT[Unit] =
+  def createUsersWithArrayInput(user: Seq[User])(implicit apiKey: ApiKeyValue): Request[Either[ResponseError[Exception],Unit], Nothing] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithArray")
       .contentType("application/json")
@@ -72,7 +70,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param user List of user object
    */
-  def createUsersWithListInput(user: Seq[User])(implicit apiKey: ApiKeyValue): ApiRequestT[Unit] =
+  def createUsersWithListInput(user: Seq[User])(implicit apiKey: ApiKeyValue): Request[Either[ResponseError[Exception],Unit], Nothing] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithList")
       .contentType("application/json")
@@ -92,7 +90,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param username The name that needs to be deleted
    */
-  def deleteUser(username: String)(implicit apiKey: ApiKeyValue): ApiRequestT[Unit] =
+  def deleteUser(username: String)(implicit apiKey: ApiKeyValue): Request[Either[ResponseError[Exception],Unit], Nothing] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/user/${username}")
       .contentType("application/json")
@@ -107,7 +105,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param username The name that needs to be fetched. Use user1 for testing.
    */
-  def getUserByName(username: String): ApiRequestT[User] =
+  def getUserByName(username: String): Request[Either[ResponseError[Exception],User], Nothing] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/${username}")
       .contentType("application/json")
@@ -125,7 +123,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * @param username The user name for login
    * @param password The password for login in clear text
    */
-  def loginUser(username: String, password: String): ApiRequestT[String] =
+  def loginUser(username: String, password: String): Request[Either[ResponseError[Exception],String], Nothing] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/login?username=$username&password=$password")
       .contentType("application/json")
@@ -138,7 +136,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * Available security schemes:
    *   api_key (apiKey)
    */
-  def logoutUser()(implicit apiKey: ApiKeyValue): ApiRequestT[Unit] =
+  def logoutUser()(implicit apiKey: ApiKeyValue): Request[Either[ResponseError[Exception],Unit], Nothing] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/logout")
       .contentType("application/json")
@@ -158,7 +156,7 @@ class UserApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * @param username name that need to be deleted
    * @param user Updated user object
    */
-  def updateUser(username: String, user: User)(implicit apiKey: ApiKeyValue): ApiRequestT[Unit] =
+  def updateUser(username: String, user: User)(implicit apiKey: ApiKeyValue): Request[Either[ResponseError[Exception],Unit], Nothing] =
     basicRequest
       .method(Method.PUT, uri"$baseUrl/user/${username}")
       .contentType("application/json")
