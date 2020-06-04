@@ -59,6 +59,7 @@ class UserApi(object):
             This can only be done by the logged in user.  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.create_user(user_user, async_req=True)
             >>> result = thread.get()
 
@@ -173,6 +174,7 @@ class UserApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.create_users_with_array_input(user_user, async_req=True)
             >>> result = thread.get()
 
@@ -287,6 +289,7 @@ class UserApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.create_users_with_list_input(user_user, async_req=True)
             >>> result = thread.get()
 
@@ -402,6 +405,7 @@ class UserApi(object):
             This can only be done by the logged in user.  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.delete_user(username, async_req=True)
             >>> result = thread.get()
 
@@ -515,6 +519,7 @@ class UserApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.get_user_by_name(username, async_req=True)
             >>> result = thread.get()
 
@@ -632,6 +637,7 @@ class UserApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.login_user(username, password, async_req=True)
             >>> result = thread.get()
 
@@ -756,6 +762,7 @@ class UserApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.logout_user(async_req=True)
             >>> result = thread.get()
 
@@ -860,6 +867,7 @@ class UserApi(object):
             This can only be done by the logged in user.  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.update_user(username, user_user, async_req=True)
             >>> result = thread.get()
 

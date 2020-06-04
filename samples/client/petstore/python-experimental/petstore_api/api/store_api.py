@@ -59,6 +59,7 @@ class StoreApi(object):
             For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.delete_order(order_id, async_req=True)
             >>> result = thread.get()
 
@@ -172,6 +173,7 @@ class StoreApi(object):
             Returns a map of status codes to quantities  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.get_inventory(async_req=True)
             >>> result = thread.get()
 
@@ -279,6 +281,7 @@ class StoreApi(object):
             For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.get_order_by_id(order_id, async_req=True)
             >>> result = thread.get()
 
@@ -401,6 +404,7 @@ class StoreApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.place_order(body, async_req=True)
             >>> result = thread.get()
 
