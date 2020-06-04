@@ -210,6 +210,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if (name.matches("^\\d.*"))
             name = "Var" + name;
 
+        if ("AdditionalProperties".equals(name)) {
+            // AdditionalProperties is a reserved field (additionalProperties: true), use AdditionalPropertiesField instead
+            return "AdditionalPropertiesField";
+        }
+
         return name;
     }
 
