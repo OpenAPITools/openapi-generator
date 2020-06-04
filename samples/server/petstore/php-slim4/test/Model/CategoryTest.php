@@ -74,6 +74,9 @@ class CategoryTest extends TestCase
     public function testCategory()
     {
         $testCategory = new Category();
+        $this->markTestIncomplete(
+            'Test of "Category" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class CategoryTest extends TestCase
      */
     public function testPropertyId()
     {
+        $this->markTestIncomplete(
+            'Test of "id" property in "Category" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,5 +94,20 @@ class CategoryTest extends TestCase
      */
     public function testPropertyName()
     {
+        $this->markTestIncomplete(
+            'Test of "name" property in "Category" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = Category::getOpenApiSchema();
+        $schemaArr = Category::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

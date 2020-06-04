@@ -74,6 +74,9 @@ class OrderTest extends TestCase
     public function testOrder()
     {
         $testOrder = new Order();
+        $this->markTestIncomplete(
+            'Test of "Order" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class OrderTest extends TestCase
      */
     public function testPropertyId()
     {
+        $this->markTestIncomplete(
+            'Test of "id" property in "Order" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class OrderTest extends TestCase
      */
     public function testPropertyPetId()
     {
+        $this->markTestIncomplete(
+            'Test of "petId" property in "Order" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,6 +104,9 @@ class OrderTest extends TestCase
      */
     public function testPropertyQuantity()
     {
+        $this->markTestIncomplete(
+            'Test of "quantity" property in "Order" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -102,6 +114,9 @@ class OrderTest extends TestCase
      */
     public function testPropertyShipDate()
     {
+        $this->markTestIncomplete(
+            'Test of "shipDate" property in "Order" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -109,6 +124,9 @@ class OrderTest extends TestCase
      */
     public function testPropertyStatus()
     {
+        $this->markTestIncomplete(
+            'Test of "status" property in "Order" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -116,5 +134,20 @@ class OrderTest extends TestCase
      */
     public function testPropertyComplete()
     {
+        $this->markTestIncomplete(
+            'Test of "complete" property in "Order" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = Order::getOpenApiSchema();
+        $schemaArr = Order::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

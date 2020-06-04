@@ -74,6 +74,9 @@ class ReadOnlyFirstTest extends TestCase
     public function testReadOnlyFirst()
     {
         $testReadOnlyFirst = new ReadOnlyFirst();
+        $this->markTestIncomplete(
+            'Test of "ReadOnlyFirst" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class ReadOnlyFirstTest extends TestCase
      */
     public function testPropertyBar()
     {
+        $this->markTestIncomplete(
+            'Test of "bar" property in "ReadOnlyFirst" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,5 +94,20 @@ class ReadOnlyFirstTest extends TestCase
      */
     public function testPropertyBaz()
     {
+        $this->markTestIncomplete(
+            'Test of "baz" property in "ReadOnlyFirst" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = ReadOnlyFirst::getOpenApiSchema();
+        $schemaArr = ReadOnlyFirst::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

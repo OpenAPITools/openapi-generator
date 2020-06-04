@@ -74,6 +74,9 @@ class FileTest extends TestCase
     public function testFile()
     {
         $testFile = new File();
+        $this->markTestIncomplete(
+            'Test of "File" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,5 +84,20 @@ class FileTest extends TestCase
      */
     public function testPropertySourceURI()
     {
+        $this->markTestIncomplete(
+            'Test of "sourceURI" property in "File" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = File::getOpenApiSchema();
+        $schemaArr = File::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

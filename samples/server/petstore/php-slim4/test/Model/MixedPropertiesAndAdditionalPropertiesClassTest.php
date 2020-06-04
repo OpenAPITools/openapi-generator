@@ -74,6 +74,9 @@ class MixedPropertiesAndAdditionalPropertiesClassTest extends TestCase
     public function testMixedPropertiesAndAdditionalPropertiesClass()
     {
         $testMixedPropertiesAndAdditionalPropertiesClass = new MixedPropertiesAndAdditionalPropertiesClass();
+        $this->markTestIncomplete(
+            'Test of "MixedPropertiesAndAdditionalPropertiesClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class MixedPropertiesAndAdditionalPropertiesClassTest extends TestCase
      */
     public function testPropertyUuid()
     {
+        $this->markTestIncomplete(
+            'Test of "uuid" property in "MixedPropertiesAndAdditionalPropertiesClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class MixedPropertiesAndAdditionalPropertiesClassTest extends TestCase
      */
     public function testPropertyDateTime()
     {
+        $this->markTestIncomplete(
+            'Test of "dateTime" property in "MixedPropertiesAndAdditionalPropertiesClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,5 +104,20 @@ class MixedPropertiesAndAdditionalPropertiesClassTest extends TestCase
      */
     public function testPropertyMap()
     {
+        $this->markTestIncomplete(
+            'Test of "map" property in "MixedPropertiesAndAdditionalPropertiesClass" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = MixedPropertiesAndAdditionalPropertiesClass::getOpenApiSchema();
+        $schemaArr = MixedPropertiesAndAdditionalPropertiesClass::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

@@ -74,6 +74,9 @@ class FormatTestTest extends TestCase
     public function testFormatTest()
     {
         $testFormatTest = new FormatTest();
+        $this->markTestIncomplete(
+            'Test of "FormatTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class FormatTestTest extends TestCase
      */
     public function testPropertyInteger()
     {
+        $this->markTestIncomplete(
+            'Test of "integer" property in "FormatTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class FormatTestTest extends TestCase
      */
     public function testPropertyInt32()
     {
+        $this->markTestIncomplete(
+            'Test of "int32" property in "FormatTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,6 +104,9 @@ class FormatTestTest extends TestCase
      */
     public function testPropertyInt64()
     {
+        $this->markTestIncomplete(
+            'Test of "int64" property in "FormatTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -102,6 +114,9 @@ class FormatTestTest extends TestCase
      */
     public function testPropertyNumber()
     {
+        $this->markTestIncomplete(
+            'Test of "number" property in "FormatTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -109,6 +124,9 @@ class FormatTestTest extends TestCase
      */
     public function testPropertyFloat()
     {
+        $this->markTestIncomplete(
+            'Test of "float" property in "FormatTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -116,6 +134,9 @@ class FormatTestTest extends TestCase
      */
     public function testPropertyDouble()
     {
+        $this->markTestIncomplete(
+            'Test of "double" property in "FormatTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -123,6 +144,9 @@ class FormatTestTest extends TestCase
      */
     public function testPropertyString()
     {
+        $this->markTestIncomplete(
+            'Test of "string" property in "FormatTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -130,6 +154,9 @@ class FormatTestTest extends TestCase
      */
     public function testPropertyByte()
     {
+        $this->markTestIncomplete(
+            'Test of "byte" property in "FormatTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -137,6 +164,9 @@ class FormatTestTest extends TestCase
      */
     public function testPropertyBinary()
     {
+        $this->markTestIncomplete(
+            'Test of "binary" property in "FormatTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -144,6 +174,9 @@ class FormatTestTest extends TestCase
      */
     public function testPropertyDate()
     {
+        $this->markTestIncomplete(
+            'Test of "date" property in "FormatTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -151,6 +184,9 @@ class FormatTestTest extends TestCase
      */
     public function testPropertyDateTime()
     {
+        $this->markTestIncomplete(
+            'Test of "dateTime" property in "FormatTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -158,6 +194,9 @@ class FormatTestTest extends TestCase
      */
     public function testPropertyUuid()
     {
+        $this->markTestIncomplete(
+            'Test of "uuid" property in "FormatTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -165,6 +204,9 @@ class FormatTestTest extends TestCase
      */
     public function testPropertyPassword()
     {
+        $this->markTestIncomplete(
+            'Test of "password" property in "FormatTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -172,5 +214,20 @@ class FormatTestTest extends TestCase
      */
     public function testPropertyBigDecimal()
     {
+        $this->markTestIncomplete(
+            'Test of "bigDecimal" property in "FormatTest" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = FormatTest::getOpenApiSchema();
+        $schemaArr = FormatTest::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

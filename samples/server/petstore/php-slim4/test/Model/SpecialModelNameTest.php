@@ -74,6 +74,9 @@ class SpecialModelNameTest extends TestCase
     public function testSpecialModelName()
     {
         $testSpecialModelName = new SpecialModelName();
+        $this->markTestIncomplete(
+            'Test of "SpecialModelName" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,5 +84,20 @@ class SpecialModelNameTest extends TestCase
      */
     public function testPropertySpecialPropertyName()
     {
+        $this->markTestIncomplete(
+            'Test of "specialPropertyName" property in "SpecialModelName" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = SpecialModelName::getOpenApiSchema();
+        $schemaArr = SpecialModelName::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

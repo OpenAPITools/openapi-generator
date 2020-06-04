@@ -74,6 +74,9 @@ class ModelReturnTest extends TestCase
     public function testModelReturn()
     {
         $testModelReturn = new ModelReturn();
+        $this->markTestIncomplete(
+            'Test of "ModelReturn" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,5 +84,20 @@ class ModelReturnTest extends TestCase
      */
     public function testPropertyReturn()
     {
+        $this->markTestIncomplete(
+            'Test of "return" property in "ModelReturn" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = ModelReturn::getOpenApiSchema();
+        $schemaArr = ModelReturn::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

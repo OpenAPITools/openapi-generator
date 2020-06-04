@@ -74,5 +74,20 @@ class EnumClassTest extends TestCase
     public function testEnumClass()
     {
         $testEnumClass = new EnumClass();
+        $this->markTestIncomplete(
+            'Test of "EnumClass" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = EnumClass::getOpenApiSchema();
+        $schemaArr = EnumClass::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

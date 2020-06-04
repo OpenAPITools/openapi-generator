@@ -74,6 +74,9 @@ class ClassModelTest extends TestCase
     public function testClassModel()
     {
         $testClassModel = new ClassModel();
+        $this->markTestIncomplete(
+            'Test of "ClassModel" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,5 +84,20 @@ class ClassModelTest extends TestCase
      */
     public function testPropertyClass()
     {
+        $this->markTestIncomplete(
+            'Test of "class" property in "ClassModel" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = ClassModel::getOpenApiSchema();
+        $schemaArr = ClassModel::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

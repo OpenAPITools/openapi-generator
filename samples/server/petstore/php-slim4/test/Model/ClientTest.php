@@ -74,6 +74,9 @@ class ClientTest extends TestCase
     public function testClient()
     {
         $testClient = new Client();
+        $this->markTestIncomplete(
+            'Test of "Client" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,5 +84,20 @@ class ClientTest extends TestCase
      */
     public function testPropertyClient()
     {
+        $this->markTestIncomplete(
+            'Test of "client" property in "Client" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = Client::getOpenApiSchema();
+        $schemaArr = Client::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

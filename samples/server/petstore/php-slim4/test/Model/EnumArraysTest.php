@@ -74,6 +74,9 @@ class EnumArraysTest extends TestCase
     public function testEnumArrays()
     {
         $testEnumArrays = new EnumArrays();
+        $this->markTestIncomplete(
+            'Test of "EnumArrays" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class EnumArraysTest extends TestCase
      */
     public function testPropertyJustSymbol()
     {
+        $this->markTestIncomplete(
+            'Test of "justSymbol" property in "EnumArrays" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,5 +94,20 @@ class EnumArraysTest extends TestCase
      */
     public function testPropertyArrayEnum()
     {
+        $this->markTestIncomplete(
+            'Test of "arrayEnum" property in "EnumArrays" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = EnumArrays::getOpenApiSchema();
+        $schemaArr = EnumArrays::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

@@ -74,6 +74,9 @@ class BigCatAllOfTest extends TestCase
     public function testBigCatAllOf()
     {
         $testBigCatAllOf = new BigCatAllOf();
+        $this->markTestIncomplete(
+            'Test of "BigCatAllOf" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,5 +84,20 @@ class BigCatAllOfTest extends TestCase
      */
     public function testPropertyKind()
     {
+        $this->markTestIncomplete(
+            'Test of "kind" property in "BigCatAllOf" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = BigCatAllOf::getOpenApiSchema();
+        $schemaArr = BigCatAllOf::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

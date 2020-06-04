@@ -77,6 +77,9 @@ class UserApiTest extends TestCase
      */
     public function testCreateUser()
     {
+        $this->markTestIncomplete(
+            'Test of "createUser" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +91,9 @@ class UserApiTest extends TestCase
      */
     public function testCreateUsersWithArrayInput()
     {
+        $this->markTestIncomplete(
+            'Test of "createUsersWithArrayInput" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -99,6 +105,9 @@ class UserApiTest extends TestCase
      */
     public function testCreateUsersWithListInput()
     {
+        $this->markTestIncomplete(
+            'Test of "createUsersWithListInput" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -110,6 +119,9 @@ class UserApiTest extends TestCase
      */
     public function testDeleteUser()
     {
+        $this->markTestIncomplete(
+            'Test of "deleteUser" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -121,6 +133,9 @@ class UserApiTest extends TestCase
      */
     public function testGetUserByName()
     {
+        $this->markTestIncomplete(
+            'Test of "getUserByName" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -132,6 +147,9 @@ class UserApiTest extends TestCase
      */
     public function testLoginUser()
     {
+        $this->markTestIncomplete(
+            'Test of "loginUser" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -143,6 +161,9 @@ class UserApiTest extends TestCase
      */
     public function testLogoutUser()
     {
+        $this->markTestIncomplete(
+            'Test of "logoutUser" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -154,5 +175,8 @@ class UserApiTest extends TestCase
      */
     public function testUpdateUser()
     {
+        $this->markTestIncomplete(
+            'Test of "updateUser" method has not been implemented yet.'
+        );
     }
 }

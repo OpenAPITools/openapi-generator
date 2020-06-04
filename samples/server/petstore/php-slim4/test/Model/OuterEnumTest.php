@@ -74,5 +74,20 @@ class OuterEnumTest extends TestCase
     public function testOuterEnum()
     {
         $testOuterEnum = new OuterEnum();
+        $this->markTestIncomplete(
+            'Test of "OuterEnum" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = OuterEnum::getOpenApiSchema();
+        $schemaArr = OuterEnum::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

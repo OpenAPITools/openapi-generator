@@ -77,6 +77,9 @@ class StoreApiTest extends TestCase
      */
     public function testDeleteOrder()
     {
+        $this->markTestIncomplete(
+            'Test of "deleteOrder" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +91,9 @@ class StoreApiTest extends TestCase
      */
     public function testGetInventory()
     {
+        $this->markTestIncomplete(
+            'Test of "getInventory" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -99,6 +105,9 @@ class StoreApiTest extends TestCase
      */
     public function testGetOrderById()
     {
+        $this->markTestIncomplete(
+            'Test of "getOrderById" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -110,5 +119,8 @@ class StoreApiTest extends TestCase
      */
     public function testPlaceOrder()
     {
+        $this->markTestIncomplete(
+            'Test of "placeOrder" method has not been implemented yet.'
+        );
     }
 }

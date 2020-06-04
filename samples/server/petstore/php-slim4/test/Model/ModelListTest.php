@@ -74,6 +74,9 @@ class ModelListTest extends TestCase
     public function testModelList()
     {
         $testModelList = new ModelList();
+        $this->markTestIncomplete(
+            'Test of "ModelList" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,5 +84,20 @@ class ModelListTest extends TestCase
      */
     public function testProperty123list()
     {
+        $this->markTestIncomplete(
+            'Test of "_123list" property in "ModelList" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = ModelList::getOpenApiSchema();
+        $schemaArr = ModelList::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

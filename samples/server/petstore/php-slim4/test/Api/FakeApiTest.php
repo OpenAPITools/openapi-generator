@@ -77,6 +77,9 @@ class FakeApiTest extends TestCase
      */
     public function testCreateXmlItem()
     {
+        $this->markTestIncomplete(
+            'Test of "createXmlItem" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +91,9 @@ class FakeApiTest extends TestCase
      */
     public function testFakeOuterBooleanSerialize()
     {
+        $this->markTestIncomplete(
+            'Test of "fakeOuterBooleanSerialize" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -99,6 +105,9 @@ class FakeApiTest extends TestCase
      */
     public function testFakeOuterCompositeSerialize()
     {
+        $this->markTestIncomplete(
+            'Test of "fakeOuterCompositeSerialize" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -110,6 +119,9 @@ class FakeApiTest extends TestCase
      */
     public function testFakeOuterNumberSerialize()
     {
+        $this->markTestIncomplete(
+            'Test of "fakeOuterNumberSerialize" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -121,6 +133,9 @@ class FakeApiTest extends TestCase
      */
     public function testFakeOuterStringSerialize()
     {
+        $this->markTestIncomplete(
+            'Test of "fakeOuterStringSerialize" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -132,6 +147,9 @@ class FakeApiTest extends TestCase
      */
     public function testTestBodyWithFileSchema()
     {
+        $this->markTestIncomplete(
+            'Test of "testBodyWithFileSchema" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -143,6 +161,9 @@ class FakeApiTest extends TestCase
      */
     public function testTestBodyWithQueryParams()
     {
+        $this->markTestIncomplete(
+            'Test of "testBodyWithQueryParams" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -154,17 +175,23 @@ class FakeApiTest extends TestCase
      */
     public function testTestClientModel()
     {
+        $this->markTestIncomplete(
+            'Test of "testClientModel" method has not been implemented yet.'
+        );
     }
 
     /**
      * Test case for testEndpointParameters
      *
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트.
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트.
      *
      * @covers ::testEndpointParameters
      */
     public function testTestEndpointParameters()
     {
+        $this->markTestIncomplete(
+            'Test of "testEndpointParameters" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -176,6 +203,9 @@ class FakeApiTest extends TestCase
      */
     public function testTestEnumParameters()
     {
+        $this->markTestIncomplete(
+            'Test of "testEnumParameters" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -187,6 +217,9 @@ class FakeApiTest extends TestCase
      */
     public function testTestGroupParameters()
     {
+        $this->markTestIncomplete(
+            'Test of "testGroupParameters" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -198,6 +231,9 @@ class FakeApiTest extends TestCase
      */
     public function testTestInlineAdditionalProperties()
     {
+        $this->markTestIncomplete(
+            'Test of "testInlineAdditionalProperties" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -209,6 +245,9 @@ class FakeApiTest extends TestCase
      */
     public function testTestJsonFormData()
     {
+        $this->markTestIncomplete(
+            'Test of "testJsonFormData" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -220,5 +259,8 @@ class FakeApiTest extends TestCase
      */
     public function testTestQueryParameterCollectionFormat()
     {
+        $this->markTestIncomplete(
+            'Test of "testQueryParameterCollectionFormat" method has not been implemented yet.'
+        );
     }
 }

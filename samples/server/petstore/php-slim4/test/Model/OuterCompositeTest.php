@@ -74,6 +74,9 @@ class OuterCompositeTest extends TestCase
     public function testOuterComposite()
     {
         $testOuterComposite = new OuterComposite();
+        $this->markTestIncomplete(
+            'Test of "OuterComposite" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class OuterCompositeTest extends TestCase
      */
     public function testPropertyMyNumber()
     {
+        $this->markTestIncomplete(
+            'Test of "myNumber" property in "OuterComposite" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class OuterCompositeTest extends TestCase
      */
     public function testPropertyMyString()
     {
+        $this->markTestIncomplete(
+            'Test of "myString" property in "OuterComposite" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,5 +104,20 @@ class OuterCompositeTest extends TestCase
      */
     public function testPropertyMyBoolean()
     {
+        $this->markTestIncomplete(
+            'Test of "myBoolean" property in "OuterComposite" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = OuterComposite::getOpenApiSchema();
+        $schemaArr = OuterComposite::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }
