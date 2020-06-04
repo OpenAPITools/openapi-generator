@@ -21,7 +21,6 @@ from dateutil.parser import parse
 from collections import namedtuple
 
 import petstore_api
-from petstore_api.api import FakeApi
 from petstore_api.model import format_test
 import petstore_api.configuration
 
