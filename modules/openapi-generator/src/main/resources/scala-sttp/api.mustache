@@ -5,18 +5,12 @@ package {{package}}
 import {{import}}
 {{/imports}}
 import {{invokerPackage}}._
+import {{invokerPackage}}.JsonSupport._
 import sttp.client._
 import sttp.model.Method
 
 {{#operations}}
-object {{classname}} {
-
-  def apply(baseUrl: String = "{{{basePath}}}")(implicit serializer: SttpSerializer) = new {{classname}}(baseUrl)
-}
-
-class {{classname}}(baseUrl: String)(implicit serializer: SttpSerializer) {
-
-  import serializer._
+class {{classname}}(baseUrl: String = "{{{basePath}}}") {
 
 {{#operation}}
 {{#javadocRenderer}}

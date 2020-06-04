@@ -15,19 +15,11 @@ import org.openapitools.client.model.ApiResponse
 import java.io.File
 import org.openapitools.client.model.Pet
 import org.openapitools.client.core._
+import org.openapitools.client.core.JsonSupport._
 import sttp.client._
 import sttp.model.Method
 
-object PetApi {
-
-  def apply(baseUrl: String = "http://petstore.swagger.io/v2")(
-    implicit serializer: SttpSerializer
-  ) = new PetApi(baseUrl)
-}
-
-class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
-
-  import serializer._
+class PetApi(baseUrl: String = "http://petstore.swagger.io/v2") {
 
   /**
     * Expected answers:
@@ -59,7 +51,6 @@ class PetApi(baseUrl: String)(implicit serializer: SttpSerializer) {
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
-      .header("api_key", apiKey)
       .response(asJson[Unit])
 
   /**

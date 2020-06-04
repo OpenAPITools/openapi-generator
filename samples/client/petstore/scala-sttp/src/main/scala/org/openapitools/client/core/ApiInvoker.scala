@@ -16,9 +16,10 @@ import sttp.client._
 import org.openapitools.client.api.EnumsSerializers
 import sttp.client.json4s.SttpJson4sApi
 
-class SttpSerializer(implicit val format: Formats = DefaultFormats ++ EnumsSerializers.all ++ Serializers.all,
-                     implicit val serialization: org.json4s.Serialization = org.json4s.jackson.Serialization) extends SttpJson4sApi
-
+object JsonSupport extends SttpJson4sApi {
+  implicit val format: Formats = DefaultFormats ++ EnumsSerializers.all ++ Serializers.all
+  implicit val serialization: org.json4s.Serialization = org.json4s.jackson.Serialization
+}
 
 object Helpers {
 
