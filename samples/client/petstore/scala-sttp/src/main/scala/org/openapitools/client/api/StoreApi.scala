@@ -34,7 +34,7 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param orderId ID of the order that needs to be deleted
    */
-  def deleteOrder(orderId: String): Request[Either[ResponseError[Exception],Unit], Nothing] =
+  def deleteOrder(orderId: String): Request[Either[ResponseError[Exception], Unit], Nothing] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
@@ -49,7 +49,7 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * Available security schemes:
    *   api_key (apiKey)
    */
-  def getInventory()(implicit apiKey: ApiKeyValue): Request[Either[ResponseError[Exception],Map[String, Int]], Nothing] =
+  def getInventory()(implicit apiKey: ApiKeyValue): Request[Either[ResponseError[Exception], Map[String, Int]], Nothing] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/store/inventory")
       .contentType("application/json")
@@ -66,7 +66,7 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param orderId ID of pet that needs to be fetched
    */
-  def getOrderById(orderId: Long): Request[Either[ResponseError[Exception],Order], Nothing] =
+  def getOrderById(orderId: Long): Request[Either[ResponseError[Exception], Order], Nothing] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
@@ -79,7 +79,7 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param order order placed for purchasing the pet
    */
-  def placeOrder(order: Order): Request[Either[ResponseError[Exception],Order], Nothing] =
+  def placeOrder(order: Order): Request[Either[ResponseError[Exception], Order], Nothing] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/store/order")
       .contentType("application/json")
