@@ -28,7 +28,7 @@ class OPENAPI_API OpenAPIPet : public Model
 {
 public:
     virtual ~OpenAPIPet() {}
-	bool FromJson(const TSharedPtr<FJsonObject>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 	void WriteJson(JsonWriter& Writer) const final;
 
 	TOptional<int64> Id;

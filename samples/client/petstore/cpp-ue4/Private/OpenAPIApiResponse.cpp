@@ -38,14 +38,19 @@ void OpenAPIApiResponse::WriteJson(JsonWriter& Writer) const
 	Writer->WriteObjectEnd();
 }
 
-bool OpenAPIApiResponse::FromJson(const TSharedPtr<FJsonObject>& JsonObject)
+bool OpenAPIApiResponse::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
+	const TSharedPtr<FJsonObject>* Object;
+	if (!JsonValue->TryGetObject(Object))
+		return false;
+
 	bool ParseSuccess = true;
 
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("code"), Code);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("type"), Type);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("message"), Message);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("code"), Code);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("type"), Type);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("message"), Message);
 
 	return ParseSuccess;
 }
+
 }

@@ -26,7 +26,7 @@ class OPENAPI_API OpenAPIOrder : public Model
 {
 public:
     virtual ~OpenAPIOrder() {}
-	bool FromJson(const TSharedPtr<FJsonObject>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 	void WriteJson(JsonWriter& Writer) const final;
 
 	TOptional<int64> Id;

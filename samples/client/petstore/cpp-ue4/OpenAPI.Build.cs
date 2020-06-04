@@ -26,5 +26,6 @@ public class OpenAPI : ModuleRules
                 "Json",
             }
         );
+        PCHUsage = PCHUsageMode.NoPCHs;
     }
 }
