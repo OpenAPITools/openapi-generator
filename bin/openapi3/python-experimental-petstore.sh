@@ -32,3 +32,8 @@ yaml="modules/openapi-generator/src/test/resources/3_0/python-experimental/petst
 ags="generate -t modules/openapi-generator/src/main/resources/python -i $yaml -g python-experimental -o samples/openapi3/client/petstore/python-experimental/ --additional-properties packageName=petstore_api $@"
 
 java $JAVA_OPTS -jar $executable $ags
+
+yaml="modules/openapi-generator/src/test/resources/3_0/extensions/x-auth-id-alias.yaml"
+ags="generate -t modules/openapi-generator/src/main/resources/python -i $yaml -g python-experimental -o samples/openapi3/client/extensions/x-auth-id-alias/python-experimental/ --additional-properties packageName=x_auth_id_alias $@"
+
+java $JAVA_OPTS -jar $executable $ags

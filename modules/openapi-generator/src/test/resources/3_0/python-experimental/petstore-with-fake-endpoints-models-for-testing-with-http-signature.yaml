@@ -572,9 +572,6 @@ paths:
       summary: To test "client" model
       description: To test "client" model
       operationId: testClientModel
-      security:
-        - api_key_query: []
-          api_key: []
       responses:
         '200':
           description: successful operation
@@ -1164,13 +1161,11 @@ components:
             'read:pets': read your pets
     api_key:
       type: apiKey
-      name: X-Api-Key
+      name: api_key
       in: header
     api_key_query:
       type: apiKey
-      name: api_key
-      # Test key aliasing
-      x-auth-id-alias: api_key
+      name: api_key_query
       in: query
     http_basic_test:
       type: http

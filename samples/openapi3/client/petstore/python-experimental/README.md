@@ -125,6 +125,7 @@ Class | Method | HTTP request | Description
  - [additional_properties_class.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
  - [address.Address](docs/Address.md)
  - [animal.Animal](docs/Animal.md)
+ - [animal_farm.AnimalFarm](docs/AnimalFarm.md)
  - [api_response.ApiResponse](docs/ApiResponse.md)
  - [apple.Apple](docs/Apple.md)
  - [apple_req.AppleReq](docs/AppleReq.md)
@@ -212,14 +213,14 @@ Class | Method | HTTP request | Description
 ## api_key
 
 - **Type**: API key
-- **API key parameter name**: X-Api-Key
+- **API key parameter name**: api_key
 - **Location**: HTTP header
 
 
 ## api_key_query
 
 - **Type**: API key
-- **API key parameter name**: api_key
+- **API key parameter name**: api_key_query
 - **Location**: URL query string
 
 

@@ -464,8 +464,6 @@ To test \"client\" model
 
 ### Example
 
-* Api Key Authentication (api_key):
-* Api Key Authentication (api_key_query):
 ```python
 from __future__ import print_function
 import time
@@ -479,33 +477,9 @@ configuration = petstore_api.Configuration(
     host = "http://petstore.swagger.io:80/v2"
 )
 
-# The client must configure the authentication and authorization parameters
-# in accordance with the API server security policy.
-# Examples for each auth method are provided below, use the example that
-# satisfies your auth use case.
-
-# Configure API key authorization: api_key
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2",
-    api_key = {
-        'api_key': 'YOUR_API_KEY'
-    }
-)
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['api_key'] = 'Bearer'
-
-# Configure API key authorization: api_key_query
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2",
-    api_key = {
-        'api_key_query': 'YOUR_API_KEY'
-    }
-)
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['api_key_query'] = 'Bearer'
 
 # Enter a context with an instance of the API client
-with petstore_api.ApiClient(configuration) as api_client:
+with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
     client_client = client.Client() # client.Client | client model
@@ -531,7 +505,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key), [api_key_query](../README.md#api_key_query)
+No authorization required
 
 ### HTTP request headers
 

@@ -44,31 +44,6 @@ class ApiClientTests(unittest.TestCase):
         config.disabled_client_side_validations = ""
 
 
-    def test_x_auth_id_alias(self):
-        configuration = petstore_api.Configuration(
-            host='http://localhost/',
-            api_key={
-                'api_key': 'SECRET_VALUE'
-            },
-            api_key_prefix={
-                'api_key': 'PREFIX'
-            }
-        )
-
-        def request(*args, **kwargs):
-            assert ('api_key', 'SECRET_VALUE') in kwargs['query_params']
-            assert 'PREFIX SECRET_VALUE' == kwargs['headers']['X-Api-Key']
-            raise RuntimeError("passed")
-
-        with petstore_api.ApiClient(configuration) as client:
-            api = FakeApi(client)
-            client.request = request
-            try:
-                api.test_client_model(client_client={})
-            except RuntimeError as e:
-                assert "passed" == str(e)
-
-
     def checkRaiseRegex(self, expected_exception, expected_regex):
         if sys.version_info < (3, 0):
             return self.assertRaisesRegexp(expected_exception, expected_regex)
