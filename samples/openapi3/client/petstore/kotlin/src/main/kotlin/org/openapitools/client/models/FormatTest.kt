@@ -67,9 +67,9 @@ data class FormatTest (
     @Json(name = "pattern_with_digits_and_delimiter")
     val patternWithDigitsAndDelimiter: kotlin.String? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

@@ -471,13 +471,13 @@ class FakeApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * To test enum parameters
     * To test enum parameters
     * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
-    * @param enumHeaderString Header parameter enum test (string) (optional, default to '-efg')
+    * @param enumHeaderString Header parameter enum test (string) (optional, default to "-efg")
     * @param enumQueryStringArray Query parameter enum test (string array) (optional)
-    * @param enumQueryString Query parameter enum test (string) (optional, default to '-efg')
+    * @param enumQueryString Query parameter enum test (string) (optional, default to "-efg")
     * @param enumQueryInteger Query parameter enum test (double) (optional)
     * @param enumQueryDouble Query parameter enum test (double) (optional)
-    * @param enumFormStringArray Form parameter enum test (string array) (optional, default to '$')
-    * @param enumFormString Form parameter enum test (string) (optional, default to '-efg')
+    * @param enumFormStringArray Form parameter enum test (string array) (optional, default to "$")
+    * @param enumFormString Form parameter enum test (string) (optional, default to "-efg")
     * @return void
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response

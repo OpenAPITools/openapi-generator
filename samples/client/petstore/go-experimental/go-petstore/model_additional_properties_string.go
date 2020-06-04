@@ -111,3 +111,4 @@ func (v *NullableAdditionalPropertiesString) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
+

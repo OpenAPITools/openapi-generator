@@ -41,7 +41,7 @@ class OPENAPI_API OpenAPIPetApi::AddPetResponse : public Response
 public:
     virtual ~AddPetResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };
@@ -66,7 +66,7 @@ class OPENAPI_API OpenAPIPetApi::DeletePetResponse : public Response
 public:
     virtual ~DeletePetResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };
@@ -97,7 +97,7 @@ class OPENAPI_API OpenAPIPetApi::FindPetsByStatusResponse : public Response
 public:
     virtual ~FindPetsByStatusResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     TArray<OpenAPIPet> Content;
 };
@@ -122,7 +122,7 @@ class OPENAPI_API OpenAPIPetApi::FindPetsByTagsResponse : public Response
 public:
     virtual ~FindPetsByTagsResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     TArray<OpenAPIPet> Content;
 };
@@ -147,7 +147,7 @@ class OPENAPI_API OpenAPIPetApi::GetPetByIdResponse : public Response
 public:
     virtual ~GetPetByIdResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     OpenAPIPet Content;
 };
@@ -171,7 +171,7 @@ class OPENAPI_API OpenAPIPetApi::UpdatePetResponse : public Response
 public:
     virtual ~UpdatePetResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };
@@ -199,7 +199,7 @@ class OPENAPI_API OpenAPIPetApi::UpdatePetWithFormResponse : public Response
 public:
     virtual ~UpdatePetWithFormResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };
@@ -227,7 +227,7 @@ class OPENAPI_API OpenAPIPetApi::UploadFileResponse : public Response
 public:
     virtual ~UploadFileResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     OpenAPIApiResponse Content;
 };

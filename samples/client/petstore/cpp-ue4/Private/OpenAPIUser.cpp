@@ -58,19 +58,24 @@ void OpenAPIUser::WriteJson(JsonWriter& Writer) const
 	Writer->WriteObjectEnd();
 }
 
-bool OpenAPIUser::FromJson(const TSharedPtr<FJsonObject>& JsonObject)
+bool OpenAPIUser::FromJson(const TSharedPtr<FJsonValue>& JsonValue)
 {
+	const TSharedPtr<FJsonObject>* Object;
+	if (!JsonValue->TryGetObject(Object))
+		return false;
+
 	bool ParseSuccess = true;
 
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("id"), Id);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("username"), Username);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("firstName"), FirstName);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("lastName"), LastName);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("email"), Email);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("password"), Password);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("phone"), Phone);
-	ParseSuccess &= TryGetJsonValue(JsonObject, TEXT("userStatus"), UserStatus);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("id"), Id);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("username"), Username);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("firstName"), FirstName);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("lastName"), LastName);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("email"), Email);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("password"), Password);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("phone"), Phone);
+	ParseSuccess &= TryGetJsonValue(*Object, TEXT("userStatus"), UserStatus);
 
 	return ParseSuccess;
 }
+
 }
