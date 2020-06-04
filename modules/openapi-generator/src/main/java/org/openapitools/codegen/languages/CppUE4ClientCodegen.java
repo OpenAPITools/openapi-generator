@@ -497,13 +497,20 @@ public class CppUE4ClientCodegen extends AbstractCppCodegen {
             name = name.toLowerCase(Locale.ROOT);
         }
 
+        //Unreal variable names are CamelCase
+        String camelCaseName = camelize(name, false);
+
+        //Avoid empty variable name at all costs
+        if(!camelCaseName.isEmpty()) {
+            name = camelCaseName;
+        }
+
         // for reserved word or word starting with number, append _
         if (isReservedWord(name) || name.matches("^\\d.*")) {
             name = escapeReservedWord(name);
         }
-
-        //Unreal variable names are CamelCase
-        return camelize(name, false);
+        
+        return name;
     }
 
     @Override
