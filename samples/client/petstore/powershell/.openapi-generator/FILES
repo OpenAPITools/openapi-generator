@@ -31,3 +31,14 @@ src/PSPetstore/Private/PSApiClient.ps1
 src/PSPetstore/Private/PSHttpSignatureAuth.ps1
 src/PSPetstore/Private/PSRSAEncryptionProvider.cs
 src/PSPetstore/en-US/about_PSPetstore.help.txt
+tests/Api/PSPetApi.Tests.ps1
+tests/Api/PSStoreApi.Tests.ps1
+tests/Api/PSUserApi.Tests.ps1
+tests/Model/ApiResponse.Tests.ps1
+tests/Model/Category.Tests.ps1
+tests/Model/InlineObject.Tests.ps1
+tests/Model/InlineObject1.Tests.ps1
+tests/Model/Order.Tests.ps1
+tests/Model/Pet.Tests.ps1
+tests/Model/Tag.Tests.ps1
+tests/Model/User.Tests.ps1

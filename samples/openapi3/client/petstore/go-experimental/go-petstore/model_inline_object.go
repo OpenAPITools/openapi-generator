@@ -149,3 +149,4 @@ func (v *NullableInlineObject) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
+

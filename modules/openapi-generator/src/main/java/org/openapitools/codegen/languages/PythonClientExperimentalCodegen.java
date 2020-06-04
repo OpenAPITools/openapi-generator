@@ -38,8 +38,9 @@ import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -196,15 +197,15 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return "python-experimental";
     }
 
-    public String dateToString(Schema p, Date date, DateFormat dateFormatter, DateFormat dateTimeFormatter) {
+    public String dateToString(Schema p, OffsetDateTime date, DateTimeFormatter dateFormatter, DateTimeFormatter dateTimeFormatter) {
         // converts a date into a date or date-time python string
         if (!(ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p))) {
             throw new RuntimeException("passed schema must be of type Date or DateTime");
         }
         if (ModelUtils.isDateSchema(p)) {
-            return "dateutil_parser('" + dateFormatter.format(date) + "').date()";
+            return "dateutil_parser('" + date.format(dateFormatter) + "').date()";
         }
-        return "dateutil_parser('" + dateTimeFormatter.format(date) + "')";
+        return "dateutil_parser('" + date.format(dateTimeFormatter) + "')";
     }
 
     /**
@@ -228,20 +229,17 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
 
         // convert datetime and date enums if they exist
-        DateFormat iso8601Date = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
-        DateFormat iso8601DateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
-        TimeZone utc = TimeZone.getTimeZone("UTC");
-        iso8601Date.setTimeZone(utc);
-        iso8601DateTime.setTimeZone(utc);
+        DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
+        DateTimeFormatter iso8601DateTime = DateTimeFormatter.ISO_DATE_TIME;
 
         if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
             List<Object> currentEnum = p.getEnum();
             List<String> fixedEnum = new ArrayList<String>();
             String fixedValue = null;
-            Date date = null;
+            OffsetDateTime date = null;
             if (currentEnum != null && !currentEnum.isEmpty()) {
                 for (Object enumItem : currentEnum) {
-                    date = (Date) enumItem;
+                    date = (OffsetDateTime) enumItem;
                     fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
                     fixedEnum.add(fixedValue);
                 }
@@ -251,15 +249,21 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             // convert the example if it exists
             Object currentExample = p.getExample();
             if (currentExample != null) {
-                date = (Date) currentExample;
+                try {
+                    date = (OffsetDateTime) currentExample;
+                } catch (ClassCastException e) {
+                    date = ((Date) currentExample).toInstant().atOffset(ZoneOffset.UTC);
+                    LOGGER.warn("Invalid `date-time` format for value {}", currentExample);
+                }
                 fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
                 fixedEnum.add(fixedValue);
                 p.setExample(fixedValue);
+                LOGGER.warn(fixedValue);
             }
 
             // fix defaultObject
             if (defaultObject != null) {
-                date = (Date) defaultObject;
+                date = (OffsetDateTime) defaultObject;
                 fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
                 p.setDefault(fixedValue);
                 defaultObject = fixedValue;
@@ -919,7 +923,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * @return a comma-separated string representation of the Python types
      */
     private String getTypeString(Schema p, String prefix, String suffix, List<String> referencedModelNames) {
-        // this is used to set dataType, which defines a python tuple of classes
         String fullSuffix = suffix;
         if (")".equals(suffix)) {
             fullSuffix = "," + suffix;

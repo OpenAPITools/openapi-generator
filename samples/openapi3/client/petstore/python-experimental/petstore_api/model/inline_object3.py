@@ -210,7 +210,7 @@ class InlineObject3(ModelNormal):
             string (str): None. [optional]  # noqa: E501
             binary (file_type): None. [optional]  # noqa: E501
             date (date): None. [optional]  # noqa: E501
-            date_time (datetime): None. [optional]  # noqa: E501
+            date_time (datetime): None. [optional] if omitted the server will use the default value of dateutil_parser('2010-02-01T10:20:10.11111+01:00')  # noqa: E501
             password (str): None. [optional]  # noqa: E501
             callback (str): None. [optional]  # noqa: E501
         """

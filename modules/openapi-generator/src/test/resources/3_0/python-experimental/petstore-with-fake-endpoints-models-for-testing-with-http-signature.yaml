@@ -758,6 +758,8 @@ paths:
                   description: None
                   type: string
                   format: date-time
+                  default: '2010-02-01T10:20:10.11111+01:00'
+                  example: '2020-02-02T20:20:20.22222Z'
                 password:
                   description: None
                   type: string
@@ -1215,6 +1217,7 @@ components:
         shipDate:
           type: string
           format: date-time
+          example: '2020-02-02T20:20:20.000222Z'
         status:
           type: string
           description: Order Status
@@ -1479,9 +1482,11 @@ components:
         date:
           type: string
           format: date
+          example: '2020-02-02'
         dateTime:
           type: string
           format: date-time
+          example: '2007-12-03T10:15:30+01:00'
         uuid:
           type: string
           format: uuid
@@ -2086,3 +2091,8 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/OuterEnum'
+    DateTimeTest:
+      type: string
+      default: '2010-01-01T10:10:10.000111+01:00'
+      example: '2010-01-01T10:10:10.000111+01:00'
+      format: date-time

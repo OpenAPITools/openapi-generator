@@ -10,8 +10,8 @@ Describe -tag 'PSPetstore' -name 'PSInlineObject1' {
         It 'Initialize-PSInlineObject1' {
             # a simple test to create an object
             #$NewObject = Initialize-PSInlineObject1 -AdditionalMetadata "TEST_VALUE" -File "TEST_VALUE"
-            #$NewObject | Should BeOfType InlineObject1
-            #$NewObject.property | Should Be 0
+            #$NewObject | Should -BeOfType InlineObject1
+            #$NewObject.property | Should -Be 0
         }
     }
 }
