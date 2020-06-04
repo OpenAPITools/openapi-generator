@@ -91,7 +91,7 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
         supportingFiles.add(new SupportingFile("requests.mustache", invokerFolder, "requests.scala"));
-        supportingFiles.add(new SupportingFile("apiInvoker.mustache", invokerFolder, "ApiInvoker.scala"));
+        supportingFiles.add(new SupportingFile("jsonSupport.mustache", invokerFolder, "JsonSupport.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
         final String apiFolder = (sourceFolder + File.separator + apiPackage).replace(".", File.separator);
         supportingFiles.add(new SupportingFile("enumsSerializers.mustache", apiFolder, "EnumsSerializers.scala"));
