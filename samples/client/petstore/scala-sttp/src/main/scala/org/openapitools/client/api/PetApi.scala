@@ -51,6 +51,7 @@ class PetApi(baseUrl: String = "http://petstore.swagger.io/v2") {
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
+      .header("api_key", apiKey)
       .response(asJson[Unit])
 
   /**
@@ -162,7 +163,12 @@ class PetApi(baseUrl: String = "http://petstore.swagger.io/v2") {
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet/${petId}/uploadImage")
       .contentType("multipart/form-data")
-      .body(Map("additionalMetadata" -> additionalMetadata, "file" -> file))
+      .multipartBody(
+        Seq(
+          additionalMetadata.map(multipart("additionalMetadata", _)),
+          file.map(multipartFile("file", _))
+        ).flatten
+      )
       .response(asJson[ApiResponse])
 
 }
