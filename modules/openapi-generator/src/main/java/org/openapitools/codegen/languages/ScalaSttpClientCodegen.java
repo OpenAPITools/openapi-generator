@@ -157,8 +157,6 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
 
         public abstract T getValue(Map<String,Object> additionalProperties);
 
-        public abstract Optional<T> getUserValue(Map<String,Object> additionalProperties);
-
         public void setValue(Map<String,Object> additionalProperties, T value ) {
             additionalProperties.put(name, value);
         }
@@ -185,11 +183,6 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         public String getValue(Map<String, Object> additionalProperties) {
             return additionalProperties.getOrDefault(name,defaultValue).toString();
         }
-
-        @Override
-        public Optional<String> getUserValue(Map<String, Object> additionalProperties) {
-            return Optional.ofNullable(additionalProperties.get(name)).map(Object::toString);
-        }
     }
 
     private static class BooleanProperty extends Property<Boolean> {
@@ -211,11 +204,6 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         @Override
         public Boolean getValue(Map<String, Object> additionalProperties) {
             return Boolean.valueOf(additionalProperties.getOrDefault(name, defaultValue.toString()).toString());
-        }
-
-        @Override
-        public Optional<Boolean> getUserValue(Map<String, Object> additionalProperties) {
-            return Optional.ofNullable(additionalProperties.get(name)).map(v -> Boolean.valueOf(v.toString()));
         }
     }
 
