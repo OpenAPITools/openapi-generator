@@ -30,7 +30,7 @@ import java.util.List;
 
 public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements CodegenConfig {
     public static final String STTP_CLIENT_VERSION = "sttpClientVersion";
-    public static final String STTP_CLIENT_VERSION_DESC = "The version of stpp client";
+    public static final String STTP_CLIENT_VERSION_DESC = "The version of sttp client";
     public static final String STTP_CLIENT_VERSION_DEFAULT = "2.1.5";
 
     public static final String SEPARATE_ERROR_CHANNEL = "separateErrorChannel";
@@ -38,6 +38,10 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
             "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
             "response's error raising them through enclosing monad (F[ReturnType]).";
     public static final Boolean SEPARATE_ERROR_CHANNEL_DEFAULT = true;
+
+    public static final String JODA_TIME_VERSION= "jodaTimeVersion";
+    public static final String JODA_TIME_VERSION_DESC = "The version of joda-time library";
+    public static final String JODA_TIME_VERSION_DEFAULT = "2.10.6";
 
     public ScalaSttpClientCodegen() {
         super();
@@ -49,6 +53,7 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         outputFolder = "generated-code/scala-sttp";
 
         cliOptions.add(CliOption.newString(STTP_CLIENT_VERSION,STTP_CLIENT_VERSION_DESC).defaultValue(STTP_CLIENT_VERSION_DEFAULT));
+        cliOptions.add(CliOption.newString(JODA_TIME_VERSION,JODA_TIME_VERSION_DESC).defaultValue(JODA_TIME_VERSION_DEFAULT));
         cliOptions.add(CliOption.newBoolean(SEPARATE_ERROR_CHANNEL, SEPARATE_ERROR_CHANNEL_DESC, SEPARATE_ERROR_CHANNEL_DEFAULT));
     }
 
@@ -66,6 +71,9 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         }
         if(!additionalProperties.containsKey(STTP_CLIENT_VERSION)) {
             additionalProperties.put(STTP_CLIENT_VERSION, STTP_CLIENT_VERSION_DEFAULT);
+        }
+        if(!additionalProperties.containsKey(JODA_TIME_VERSION)) {
+            additionalProperties.put(JODA_TIME_VERSION, JODA_TIME_VERSION_DEFAULT);
         }
         Object separateErrorChannel = additionalProperties.getOrDefault(SEPARATE_ERROR_CHANNEL, SEPARATE_ERROR_CHANNEL_DEFAULT);
         additionalProperties.put(SEPARATE_ERROR_CHANNEL, Boolean.valueOf(separateErrorChannel.toString()));
