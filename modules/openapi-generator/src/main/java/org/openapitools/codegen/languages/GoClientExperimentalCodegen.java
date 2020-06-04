@@ -222,9 +222,12 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                 if (model.anyOf != null && !model.anyOf.isEmpty()) {
                     imports.add(createMapping("import", "fmt"));
                 }
+
+                // add x-additional-properties
+                if ("map[string]map[string]interface{}".equals(model.parent)) {
+                    model.vendorExtensions.put("x-additional-properties", true);
+                }
             }
-
-
         }
         return objs;
     }

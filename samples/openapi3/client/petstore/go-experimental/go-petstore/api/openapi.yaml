@@ -1925,6 +1925,7 @@ components:
           type: string
       type: object
     banana:
+      additionalProperties: true
       properties:
         lengthCm:
           type: number
