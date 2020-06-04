@@ -38,7 +38,9 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -863,6 +865,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     Date date = (Date) schema.getDefault();
                     LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     return String.format(Locale.ROOT, localDate.toString(), "");
+                } else if (schema.getDefault() instanceof OffsetDateTime){
+                    OffsetDateTime date = (OffsetDateTime) schema.getDefault();
+                    return date.format(DateTimeFormatter.ISO_DATE_TIME);
                 } else {
                     _default = (String) schema.getDefault();
                 }

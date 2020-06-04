@@ -16,6 +16,12 @@ sleep 5
 
 "${root}/bin/generate-samples.sh"
 
+status=$?
+if [ $status -ne 0 ]; then
+  echo "ERROR: One or more generators failed to generate. Halting ensure-up-to-date scripts." >&2
+  exit $status
+fi
+
 # Some special case generators may expect to be run as a stanalone process (e.g. modifying classpath)
 # Docs should always be run, regardless of batch or operation.
 declare -a always_iterate=(
