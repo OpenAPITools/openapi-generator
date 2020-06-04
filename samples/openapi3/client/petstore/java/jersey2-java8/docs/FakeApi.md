@@ -610,7 +610,7 @@ Name | Type | Description  | Notes
  **string** | **String**| None | [optional]
  **binary** | **File**| None | [optional]
  **date** | **LocalDate**| None | [optional]
- **dateTime** | **OffsetDateTime**| None | [optional]
+ **dateTime** | **OffsetDateTime**| None | [optional] [default to 2010-02-01T10:20:10.11111+01:00]
  **password** | **String**| None | [optional]
  **paramCallback** | **String**| None | [optional]
 

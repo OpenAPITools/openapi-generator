@@ -1,0 +1,4 @@
+# OpenAPI Generator Ignore
+# These are "live" test files which should not be overwritten
+src/test/java/org/openapitools/client/JSONTest.java
+src/test/java/org/openapitools/client/JSONComposedSchemaTest.java
