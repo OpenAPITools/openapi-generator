@@ -421,14 +421,12 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
                 Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
                 CodegenProperty modelProperty = fromProperty("value", modelSchema);
+
                 if (cm.isEnum || cm.isAlias) {
-                    if (!modelProperty.isEnum && !modelProperty.hasValidation) {
+                    if (!modelProperty.isEnum && !modelProperty.hasValidation && !cm.isArrayModel) {
                         // remove these models because they are aliases and do not have any enums or validations
                         modelSchemasToRemove.put(cm.name, modelSchema);
                     }
-                } else if (cm.isArrayModel && !modelProperty.isEnum && !modelProperty.hasValidation) {
-                    // remove any ArrayModels which lack validation and enums
-                    modelSchemasToRemove.put(cm.name, modelSchema);
                 }
             }
         }
@@ -829,10 +827,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         result.unescapedDescription = simpleModelName(name);
 
         // make non-object type models have one property so we can use it to store enums and validations
-        if (result.isAlias || result.isEnum) {
+        if (result.isAlias || result.isEnum || result.isArrayModel) {
             Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
             CodegenProperty modelProperty = fromProperty("value", modelSchema);
-            if (modelProperty.isEnum == true || modelProperty.hasValidation == true) {
+            if (modelProperty.isEnum == true || modelProperty.hasValidation == true || result.isArrayModel) {
                 // these models are non-object models with enums and/or validations
                 // add a single property to the model so we can have a way to access validations
                 result.isAlias = true;
@@ -847,7 +845,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                         postProcessModelProperty(result, prop);
                     }
                 }
-
             }
         }
 
