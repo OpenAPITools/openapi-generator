@@ -5,7 +5,6 @@ README.md
 docs/AdditionalPropertiesClass.md
 docs/Address.md
 docs/Animal.md
-docs/AnimalFarm.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
 docs/Apple.md
@@ -110,7 +109,6 @@ petstore_api/model/__init__.py
 petstore_api/model/additional_properties_class.py
 petstore_api/model/address.py
 petstore_api/model/animal.py
-petstore_api/model/animal_farm.py
 petstore_api/model/api_response.py
 petstore_api/model/apple.py
 petstore_api/model/apple_req.py
