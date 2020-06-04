@@ -18,6 +18,7 @@ package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.servers.Server;
+import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
@@ -28,6 +29,10 @@ import java.io.File;
 import java.util.List;
 
 public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements CodegenConfig {
+    public static final String STTP_CLIENT_VERSION = "sttpClientVersion";
+    public static final String STTP_CLIENT_VERSION_DESC = "The version of stpp client";
+    public static final String STTP_CLIENT_VERSION_DEFAULT = "2.1.5";
+
     public ScalaSttpClientCodegen() {
         super();
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
@@ -36,6 +41,8 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
 
         embeddedTemplateDir = templateDir = "scala-sttp";
         outputFolder = "generated-code/scala-sttp";
+
+        cliOptions.add(CliOption.newString(STTP_CLIENT_VERSION,STTP_CLIENT_VERSION_DESC).defaultValue(STTP_CLIENT_VERSION_DEFAULT));
     }
 
     @Override
@@ -49,6 +56,9 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
             invokerPackage = mainPackage + ".core";
             additionalProperties.put("apiPackage", apiPackage);
             additionalProperties.put("modelPackage", modelPackage);
+        }
+        if(!additionalProperties.containsKey(STTP_CLIENT_VERSION)) {
+            additionalProperties.put(STTP_CLIENT_VERSION, STTP_CLIENT_VERSION_DEFAULT);
         }
 
         supportingFiles.clear();
