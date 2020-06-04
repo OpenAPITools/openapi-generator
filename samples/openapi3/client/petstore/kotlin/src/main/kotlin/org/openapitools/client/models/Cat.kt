@@ -31,9 +31,9 @@ data class Cat (
     @Json(name = "declawed")
     val declawed: kotlin.Boolean? = null
 ) : Animal, Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 
