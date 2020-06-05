@@ -15,10 +15,10 @@ Method | HTTP request | Description
 ## {{operationId}}
 
 {{^vendorExtensions.x-group-parameters}}
-> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+> {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
 {{/vendorExtensions.x-group-parameters}}
 {{#vendorExtensions.x-group-parameters}}
-> {{#returnType}}{{returnType}} {{/returnType}}{{operationId}}({{#hasParams}}{{operationId}}Request{{/hasParams}})
+> {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}}{{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void>{{/asyncNative}}{{^asyncNative}}void{{/asyncNative}}{{/returnType}} {{operationId}}({{#hasParams}}{{operationId}}Request{{/hasParams}})
 {{/vendorExtensions.x-group-parameters}}
 
 {{summary}}{{#notes}}
@@ -36,6 +36,9 @@ import {{{invokerPackage}}}.auth.*;{{/hasAuthMethods}}
 import {{{invokerPackage}}}.models.*;
 import {{{package}}}.{{{classname}}};{{#vendorExtensions.x-group-parameters}}
 import {{{package}}}.{{{classname}}}.*;{{/vendorExtensions.x-group-parameters}}
+{{#asyncNative}}
+import java.util.concurrent.CompletableFuture;
+{{/asyncNative}}
 
 public class Example {
     public static void main(String[] args) {
@@ -67,11 +70,11 @@ public class Example {
         {{/allParams}}
         try {
             {{^vendorExtensions.x-group-parameters}}
-            {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#hasParams}}
+            {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}} result = {{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void> result = {{/asyncNative}}{{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#hasParams}}
             API{{operationId}}Request request = API{{operationId}}Request.newBuilder(){{#allParams}}
                 .{{paramName}}({{paramName}}){{/allParams}}
                 .build();{{/hasParams}}
-            {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{operationId}}({{#hasParams}}request{{/hasParams}});{{/vendorExtensions.x-group-parameters}}{{#returnType}}
+            {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}} result = {{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void> result = {{/asyncNative}}{{/returnType}}apiInstance.{{operationId}}({{#hasParams}}request{{/hasParams}});{{/vendorExtensions.x-group-parameters}}{{#returnType}}
             System.out.println(result);{{/returnType}}
         } catch (ApiException e) {
             System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}");
@@ -101,7 +104,8 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-{{#returnType}}{{#returnTypeIsPrimitive}}**{{returnType}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{returnType}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}null (empty response body){{/returnType}}
+{{#returnType}}{{#asyncNative}}CompletableFuture<{{/asyncNative}}{{#returnTypeIsPrimitive}}**{{returnType}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{returnType}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{#asyncNative}}>{{/asyncNative}}{{/returnType}}
+{{^returnType}}{{#asyncNative}}CompletableFuture<void>{{/asyncNative}}{{^asyncNative}}null{{/asyncNative}} (empty response body){{/returnType}}
 
 ### Authorization
 
@@ -128,7 +132,7 @@ Name | Type | Description  | Notes
 {{#allParams}}{{#-last}}
 |     Name      |    Type       | Description   |     Notes    |
 | ------------- | ------------- | ------------- | -------------|{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} |{{^required}} [optional]{{/required}}{{^isContainer}}{{#defaultValue}} [default to {{defaultValue}}]{{/defaultValue}}{{/isContainer}}{{#allowableValues}} [enum: {{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{#isFile}}**{{dataType}}**{{/isFile}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}} | {{description}} |{{^required}} [optional]{{/required}}{{^isContainer}}{{#defaultValue}} [default to {{defaultValue}}]{{/defaultValue}}{{/isContainer}}{{#allowableValues}} [enum: {{#values}}{{{.}}}{{^-last}}, {{/-last}}{{/values}}]{{/allowableValues}}
 {{/allParams}}
 
 {{/hasParams}}{{/vendorExtensions.x-group-parameters}}

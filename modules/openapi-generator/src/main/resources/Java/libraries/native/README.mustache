@@ -83,6 +83,9 @@ import {{{invokerPackage}}}.*;
 import {{{modelPackage}}}.*;
 import {{{package}}}.{{{classname}}};{{#vendorExtensions.x-group-parameters}}
 import {{{package}}}.{{{classname}}}.*;{{/vendorExtensions.x-group-parameters}}
+{{#asyncNative}}
+import java.util.concurrent.CompletableFuture;
+{{/asyncNative}}
 
 public class {{{classname}}}Example {
 
@@ -96,11 +99,11 @@ public class {{{classname}}}Example {
         {{/allParams}}
         try {
             {{^vendorExtensions.x-group-parameters}}
-            {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#hasParams}}
+            {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}} result = {{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void> result = {{/asyncNative}}{{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}{{#hasParams}}
             API{{operationId}}Request request = API{{operationId}}Request.newBuilder(){{#allParams}}
                 .{{paramName}}({{paramName}}){{/allParams}}
                 .build();{{/hasParams}}
-            {{#returnType}}{{{returnType}}} result = {{/returnType}}apiInstance.{{operationId}}({{#hasParams}}request{{/hasParams}});{{/vendorExtensions.x-group-parameters}}{{#returnType}}
+            {{#returnType}}{{#asyncNative}}CompletableFuture<{{{returnType}}}>{{/asyncNative}}{{^asyncNative}}{{{returnType}}}{{/asyncNative}} result = {{/returnType}}{{^returnType}}{{#asyncNative}}CompletableFuture<Void> result = {{/asyncNative}}{{/returnType}}apiInstance.{{operationId}}({{#hasParams}}request{{/hasParams}});{{/vendorExtensions.x-group-parameters}}{{#returnType}}
             System.out.println(result);{{/returnType}}
         } catch (ApiException e) {
             System.err.println("Exception when calling {{{classname}}}#{{{operationId}}}");

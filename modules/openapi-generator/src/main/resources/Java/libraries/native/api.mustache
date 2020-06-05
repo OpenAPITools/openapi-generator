@@ -81,7 +81,7 @@ public class {{classname}} {
     {{#allParams}}
     {{{dataType}}} {{paramName}} = {{operationId}}Request.{{paramName}}();
     {{/allParams}}
-    {{#returnType}}return {{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{#returnType}}return {{/returnType}}{{^returnType}}{{#asyncNative}}return {{/asyncNative}}{{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
   }
 
   {{/hasParams}}
@@ -210,18 +210,17 @@ public class {{classname}} {
                   localVarResponse.body())
               );
           } else {
-               try {
+              {{#returnType}}
+              try {
                   return CompletableFuture.completedFuture(
-                      {{#returnType}}
-                          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {})
-                      {{/returnType}}
-                      {{^returnType}}
-                          null
-                      {{/returnType}}
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {})
                   );
               } catch (IOException e) {
                   return CompletableFuture.failedFuture(new ApiException(e));
               }
+              {{/returnType}}{{^returnType}}
+              return CompletableFuture.completedFuture(null);
+              {{/returnType}}
           }
       });
       {{/asyncNative}}
