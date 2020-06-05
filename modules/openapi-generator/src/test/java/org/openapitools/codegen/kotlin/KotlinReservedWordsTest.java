@@ -16,7 +16,7 @@ import static org.testng.Assert.assertEquals;
 
 @SuppressWarnings("rawtypes")
 public class KotlinReservedWordsTest {
-    final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/kotlin/reserved_words.yaml");
+    final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/kotlin/reserved_words.yaml");
 
     @DataProvider(name = "reservedWords")
     static Object[][] reservedWords() {

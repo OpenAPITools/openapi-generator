@@ -5,6 +5,7 @@ import org.openapitools.client.ApiClient;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
+import java.util.Set;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -209,11 +210,11 @@ public class PetApi {
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid tag value
      * @param tags Tags to filter by (required)
-     * @return List&lt;Pet&gt;
+     * @return Set&lt;Pet&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     @Deprecated
-    public List<Pet> findPetsByTags(List<String> tags) throws RestClientException {
+    public Set<Pet> findPetsByTags(Set<String> tags) throws RestClientException {
         return findPetsByTagsWithHttpInfo(tags).getBody();
     }
 
@@ -223,11 +224,11 @@ public class PetApi {
      * <p><b>200</b> - successful operation
      * <p><b>400</b> - Invalid tag value
      * @param tags Tags to filter by (required)
-     * @return ResponseEntity&lt;List&lt;Pet&gt;&gt;
+     * @return ResponseEntity&lt;Set&lt;Pet&gt;&gt;
      * @throws RestClientException if an error occurs while attempting to invoke the API
      */
     @Deprecated
-    public ResponseEntity<List<Pet>> findPetsByTagsWithHttpInfo(List<String> tags) throws RestClientException {
+    public ResponseEntity<Set<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags) throws RestClientException {
         Object postBody = null;
         
         // verify the required parameter 'tags' is set
@@ -253,7 +254,7 @@ public class PetApi {
 
         String[] authNames = new String[] { "petstore_auth" };
 
-        ParameterizedTypeReference<List<Pet>> returnType = new ParameterizedTypeReference<List<Pet>>() {};
+        ParameterizedTypeReference<Set<Pet>> returnType = new ParameterizedTypeReference<Set<Pet>>() {};
         return apiClient.invokeAPI(path, HttpMethod.GET, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**

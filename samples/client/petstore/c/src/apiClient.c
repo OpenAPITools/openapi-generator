@@ -3,9 +3,6 @@
 #include <string.h>
 #include <stdio.h>
 #include "../include/apiClient.h"
-#ifdef OPENSSL
-#include "openssl/pem.h"
-#endif
 
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp);
 
@@ -13,18 +10,19 @@ apiClient_t *apiClient_create() {
     curl_global_init(CURL_GLOBAL_ALL);
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
     apiClient->basePath = strdup("http://petstore.swagger.io/v2");
-    apiClient->caPath = NULL;
+    apiClient->sslConfig = NULL;
     apiClient->dataReceived = NULL;
+    apiClient->dataReceivedLen = 0;
     apiClient->response_code = 0;
-    apiClient->apiKeys = NULL;
+    apiClient->apiKeys_api_key = NULL;
     apiClient->accessToken = NULL;
 
     return apiClient;
 }
 
 apiClient_t *apiClient_create_with_base_path(const char *basePath
-, const char *caPath
-, list_t *apiKeys
+, sslConfig_t *sslConfig
+, list_t *apiKeys_api_key
 ) {
     curl_global_init(CURL_GLOBAL_ALL);
     apiClient_t *apiClient = malloc(sizeof(apiClient_t));
@@ -34,24 +32,25 @@ apiClient_t *apiClient_create_with_base_path(const char *basePath
         apiClient->basePath = strdup("http://petstore.swagger.io/v2");
     }
 
-    if(caPath){
-        apiClient->caPath = strdup(caPath);
+    if(sslConfig){
+        apiClient->sslConfig = sslConfig;
     }else{
-        apiClient->caPath = NULL;
+        apiClient->sslConfig = NULL;
     }
 
     apiClient->dataReceived = NULL;
+    apiClient->dataReceivedLen = 0;
     apiClient->response_code = 0;
-    if(apiKeys!= NULL) {
-        apiClient->apiKeys = list_create();
+    if(apiKeys_api_key!= NULL) {
+        apiClient->apiKeys_api_key = list_create();
         listEntry_t *listEntry = NULL;
-        list_ForEach(listEntry, apiKeys) {
+        list_ForEach(listEntry, apiKeys_api_key) {
             keyValuePair_t *pair = listEntry->data;
             keyValuePair_t *pairDup = keyValuePair_create(strdup(pair->key), strdup(pair->value));
-            list_addElement(apiClient->apiKeys, pairDup);
+            list_addElement(apiClient->apiKeys_api_key, pairDup);
         }
     }else{
-        apiClient->apiKeys = NULL;
+        apiClient->apiKeys_api_key = NULL;
     }
     apiClient->accessToken = NULL;
 
@@ -62,12 +61,9 @@ void apiClient_free(apiClient_t *apiClient) {
     if(apiClient->basePath) {
         free(apiClient->basePath);
     }
-    if(apiClient->caPath) {
-        free(apiClient->caPath);
-    }
-    if(apiClient->apiKeys) {
+    if(apiClient->apiKeys_api_key) {
         listEntry_t *listEntry = NULL;
-        list_ForEach(listEntry, apiClient->apiKeys) {
+        list_ForEach(listEntry, apiClient->apiKeys_api_key) {
             keyValuePair_t *pair = listEntry->data;
             if(pair->key){
                 free(pair->key);
@@ -77,13 +73,40 @@ void apiClient_free(apiClient_t *apiClient) {
             }
             keyValuePair_free(pair);
         }
-        list_free(apiClient->apiKeys);
+        list_free(apiClient->apiKeys_api_key);
     }
     if(apiClient->accessToken) {
         free(apiClient->accessToken);
     }
     free(apiClient);
     curl_global_cleanup();
+}
+
+sslConfig_t *sslConfig_create(const char *clientCertFile, const char *clientKeyFile, const char *CACertFile, int insecureSkipTlsVerify) {
+    sslConfig_t *sslConfig = calloc(1, sizeof(sslConfig_t));
+    if ( clientCertFile ) {
+        sslConfig->clientCertFile = strdup(clientCertFile);
+    }
+    if ( clientKeyFile ) {
+        sslConfig->clientKeyFile = strdup(clientKeyFile);
+    }
+    if ( CACertFile ) {
+        sslConfig->CACertFile = strdup(CACertFile);
+    }
+    sslConfig->insecureSkipTlsVerify = insecureSkipTlsVerify;
+}
+
+void sslConfig_free(sslConfig_t *sslConfig) {
+    if ( sslConfig->clientCertFile ) {
+        free(sslConfig->clientCertFile);
+    }
+    if ( sslConfig->clientKeyFile ) {
+        free(sslConfig->clientKeyFile);
+    }
+    if ( sslConfig->CACertFile ){
+        free(sslConfig->CACertFile);
+    }
+    free(sslConfig);
 }
 
 void replaceSpaceWithPlus(char *stringToProcess) {
@@ -342,20 +365,34 @@ void apiClient_invoke(apiClient_t    *apiClient,
             }
         }
 
-        if( strstr(apiClient->basePath, "https") != NULL ){
-            if (apiClient->caPath) {
-                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, true);
-                curl_easy_setopt(handle, CURLOPT_CAINFO, apiClient->caPath);
+        if ( strstr(apiClient->basePath, "https") != NULL ) {
+            if ( apiClient->sslConfig ) {
+                if( apiClient->sslConfig->clientCertFile ) {
+                    curl_easy_setopt(handle, CURLOPT_SSLCERT, apiClient->sslConfig->clientCertFile);
+                }
+                if( apiClient->sslConfig->clientKeyFile ) {
+                    curl_easy_setopt(handle, CURLOPT_SSLKEY, apiClient->sslConfig->clientKeyFile);
+                }
+                if( apiClient->sslConfig->CACertFile ) {
+                    curl_easy_setopt(handle, CURLOPT_CAINFO, apiClient->sslConfig->CACertFile);
+                }
+                if ( 1 == apiClient->sslConfig->insecureSkipTlsVerify ) {
+                    curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, 0L);
+                    curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, 0L);
+                } else {
+                    curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, 1L);
+                    curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, 2L);
+                }
             } else {
-                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, false);
-                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, false);
+                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYPEER, 0L);
+                curl_easy_setopt(handle, CURLOPT_SSL_VERIFYHOST, 0L);
             }
         }
 
         // this would only be generated for apiKey authentication
-        if (apiClient->apiKeys != NULL)
+        if (apiClient->apiKeys_api_key != NULL)
         {
-        list_ForEach(listEntry, apiClient->apiKeys) {
+        list_ForEach(listEntry, apiClient->apiKeys_api_key) {
         keyValuePair_t *apiKey = listEntry->data;
         if((apiKey->key != NULL) &&
            (apiKey->value != NULL) )
@@ -379,7 +416,7 @@ void apiClient_invoke(apiClient_t    *apiClient,
                          writeDataCallback);
         curl_easy_setopt(handle,
                          CURLOPT_WRITEDATA,
-                         &apiClient->dataReceived);
+                         apiClient);
         curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
         curl_easy_setopt(handle, CURLOPT_VERBOSE, 0); // to get curl debug msg 0: to disable, 1L:to enable
 
@@ -427,9 +464,12 @@ void apiClient_invoke(apiClient_t    *apiClient,
 }
 
 size_t writeDataCallback(void *buffer, size_t size, size_t nmemb, void *userp) {
-    *(char **) userp = strdup(buffer);
-
-    return size * nmemb;
+    size_t size_this_time = nmemb * size;
+    apiClient_t *apiClient = (apiClient_t *)userp;
+    apiClient->dataReceived = (char *)realloc( apiClient->dataReceived, apiClient->dataReceivedLen + size_this_time + 1);
+    memcpy(apiClient->dataReceived + apiClient->dataReceivedLen, buffer, size_this_time);
+    apiClient->dataReceivedLen += size_this_time;
+    return size_this_time;
 }
 
 char *strReplace(char *orig, char *rep, char *with) {
@@ -484,39 +524,3 @@ char *strReplace(char *orig, char *rep, char *with) {
     return result;
 }
 
-char *sbi_base64encode (const void *b64_encode_this, int encode_this_many_bytes){
-#ifdef OPENSSL
-    BIO *b64_bio, *mem_bio;      //Declares two OpenSSL BIOs: a base64 filter and a memory BIO.
-    BUF_MEM *mem_bio_mem_ptr;    //Pointer to a "memory BIO" structure holding our base64 data.
-    b64_bio = BIO_new(BIO_f_base64());                      //Initialize our base64 filter BIO.
-    mem_bio = BIO_new(BIO_s_mem());                           //Initialize our memory sink BIO.
-    BIO_push(b64_bio, mem_bio);            //Link the BIOs by creating a filter-sink BIO chain.
-    BIO_set_flags(b64_bio, BIO_FLAGS_BASE64_NO_NL);  //No newlines every 64 characters or less.
-    BIO_write(b64_bio, b64_encode_this, encode_this_many_bytes); //Records base64 encoded data.
-    BIO_flush(b64_bio);   //Flush data.  Necessary for b64 encoding, because of pad characters.
-    BIO_get_mem_ptr(mem_bio, &mem_bio_mem_ptr);  //Store address of mem_bio's memory structure.
-    BIO_set_close(mem_bio, BIO_NOCLOSE);   //Permit access to mem_ptr after BIOs are destroyed.
-    BIO_free_all(b64_bio);  //Destroys all BIOs in chain, starting with b64 (i.e. the 1st one).
-    BUF_MEM_grow(mem_bio_mem_ptr, (*mem_bio_mem_ptr).length + 1);   //Makes space for end null.
-    (*mem_bio_mem_ptr).data[(*mem_bio_mem_ptr).length] = '\0';  //Adds null-terminator to tail.
-    return (*mem_bio_mem_ptr).data; //Returns base-64 encoded data. (See: "buf_mem_st" struct).
-#endif
-}
-
-char *sbi_base64decode (const void *b64_decode_this, int decode_this_many_bytes){
-#ifdef OPENSSL
-    BIO *b64_bio, *mem_bio;      //Declares two OpenSSL BIOs: a base64 filter and a memory BIO.
-    char *base64_decoded = calloc( (decode_this_many_bytes*3)/4+1, sizeof(char) ); //+1 = null.
-    b64_bio = BIO_new(BIO_f_base64());                      //Initialize our base64 filter BIO.
-    mem_bio = BIO_new(BIO_s_mem());                         //Initialize our memory source BIO.
-    BIO_write(mem_bio, b64_decode_this, decode_this_many_bytes); //Base64 data saved in source.
-    BIO_push(b64_bio, mem_bio);          //Link the BIOs by creating a filter-source BIO chain.
-    BIO_set_flags(b64_bio, BIO_FLAGS_BASE64_NO_NL);          //Don't require trailing newlines.
-    int decoded_byte_index = 0;   //Index where the next base64_decoded byte should be written.
-    while ( 0 < BIO_read(b64_bio, base64_decoded+decoded_byte_index, 1) ){ //Read byte-by-byte.
-        decoded_byte_index++; //Increment the index until read of BIO decoded data is complete.
-    } //Once we're done reading decoded data, BIO_read returns -1 even though there's no error.
-    BIO_free_all(b64_bio);  //Destroys all BIOs in chain, starting with b64 (i.e. the 1st one).
-    return base64_decoded;        //Returns base-64 decoded data with trailing null terminator.
-#endif
-}

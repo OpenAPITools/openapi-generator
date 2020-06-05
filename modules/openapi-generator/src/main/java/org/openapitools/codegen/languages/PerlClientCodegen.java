@@ -131,6 +131,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("password", "string");
         typeMapping.put("array", "ARRAY");
+        typeMapping.put("set", "ARRAY");
         typeMapping.put("map", "HASH");
         typeMapping.put("object", "object");
         typeMapping.put("binary", "string");
@@ -256,7 +257,7 @@ public class PerlClientCodegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "[string," + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);

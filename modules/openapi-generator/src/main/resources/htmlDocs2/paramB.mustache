@@ -4,7 +4,10 @@
 <script>
 $(document).ready(function() {
   var schemaWrapper = {{{jsonSchema}}};
-  var schema = schemaWrapper.schema;
+  var schema = findNode('schema', schemaWrapper).schema;
+  if (!schema) {
+      schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {

@@ -68,7 +68,7 @@ task validateSpecs(dependsOn: ['validateGoodSpec', 'validateBadSpec'])
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "4.2.3"
+  id "org.openapi.generator" version "4.3.1"
 }
 ----
 
@@ -84,7 +84,7 @@ buildscript {
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:4.2.3"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:4.3.1"
   }
 }
 
@@ -135,10 +135,10 @@ apply plugin: 'org.openapi.generator'
 |None
 |Adds authorization headers when fetching the OpenAPI definitions remotely. Pass in a URL-encoded string of name:header with a comma separating multiple values.
 
-|systemProperties
+|globalProperties
 |Map(String,String)
 |None
-|Sets specified system properties.
+|Sets specified global properties.
 
 |configFile
 |String
@@ -248,7 +248,7 @@ apply plugin: 'org.openapi.generator'
 |httpUserAgent
 |String
 |None
-|HTTP user agent, e.g. codegen_csharp_api_client. Generator default is 'OpenAPI-Generator/{packageVersion}}/{language}', but may be generator-specific.
+|HTTP user agent, e.g. codegen_csharp_api_client. Generator default is 'OpenAPI-Generator/{packageVersion}/{language}', but may be generator-specific.
 
 |reservedWordsMappings
 |Map(String,String)
@@ -330,6 +330,10 @@ apply plugin: 'org.openapi.generator'
 |false
 |To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions. When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
 
+|engine
+|String
+|mustache
+|Templating engine: "mustache" (default) or "handlebars" (beta)
 |===
 
 [NOTE]
@@ -342,12 +346,12 @@ For more control over generation of individual files, configure an ignore file a
 
 [NOTE]
 ====
-When configuring `systemProperties` in order to perform selective generation you can disable generation of some parts by providing `"false"` value:
+When configuring `globalProperties` in order to perform selective generation you can disable generation of some parts by providing `"false"` value:
 [source,groovy]
 ----
 openApiGenerate {
     // other settings omitted
-    systemProperties = [
+    globalProperties = [
         modelDocs: "false",
         apis: "false"
     ]
@@ -358,7 +362,7 @@ When enabling generation of only specific parts you either have to provide CSV l
 ----
 openApiGenerate {
     // other settings omitted
-    systemProperties = [
+    globalProperties = [
         apis: "",
         models: "User,Pet"
     ]
@@ -605,7 +609,7 @@ task buildKotlinClient(type: org.openapitools.generator.gradle.plugin.tasks.Gene
     configOptions = [
             dateLibrary: "java8"
     ]
-    systemProperties = [
+    globalProperties = [
             modelDocs: "false"
     ]
 }

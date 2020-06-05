@@ -3,6 +3,12 @@ package {{packageName}}.infrastructure
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.scalars.ScalarsConverterFactory
+{{#useRxJava}}
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
+{{/useRxJava}}
+{{#useRxJava2}}
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+{{/useRxJava2}}
 {{#gson}}
 import retrofit2.converter.gson.GsonConverterFactory
 {{/gson}}
@@ -11,9 +17,16 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 {{/moshi}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ApiClient(
-    private var baseUrl: String = "{{{basePath}}}",
+    private var baseUrl: String = defaultBasePath,
     private var okHttpClient: OkHttpClient
 ) {
+    companion object {
+        @JvmStatic
+        val defaultBasePath: String by lazy {
+            System.getProperties().getProperty("{{packageName}}.baseUrl", "{{{basePath}}}")
+        }
+    }
+
     init {
         normalizeBaseUrl()
     }
@@ -26,6 +39,12 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         {{#gson}}
         .addConverterFactory(GsonConverterFactory.create(Serializer.gson))
         {{/gson}}
+        {{#useRxJava}}
+        .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+        {{/useRxJava}}
+        {{#useRxJava2}}
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        {{/useRxJava2}}
         {{#moshi}}
         .addConverterFactory(MoshiConverterFactory.create(Serializer.moshi))
         {{/moshi}}

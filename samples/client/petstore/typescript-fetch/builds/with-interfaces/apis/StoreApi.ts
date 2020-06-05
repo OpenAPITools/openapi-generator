@@ -33,9 +33,80 @@ export interface PlaceOrderRequest {
 }
 
 /**
- * no description
+ * StoreApi - interface
+ * 
+ * @export
+ * @interface StoreApiInterface
  */
-export class StoreApi extends runtime.BaseAPI {
+export interface StoreApiInterface {
+    /**
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     * @summary Delete purchase order by ID
+     * @param {string} orderId ID of the order that needs to be deleted
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StoreApiInterface
+     */
+    deleteOrderRaw(requestParameters: DeleteOrderRequest): Promise<runtime.ApiResponse<void>>;
+
+    /**
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     * Delete purchase order by ID
+     */
+    deleteOrder(requestParameters: DeleteOrderRequest): Promise<void>;
+
+    /**
+     * Returns a map of status codes to quantities
+     * @summary Returns pet inventories by status
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StoreApiInterface
+     */
+    getInventoryRaw(): Promise<runtime.ApiResponse<{ [key: string]: number; }>>;
+
+    /**
+     * Returns a map of status codes to quantities
+     * Returns pet inventories by status
+     */
+    getInventory(): Promise<{ [key: string]: number; }>;
+
+    /**
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * @summary Find purchase order by ID
+     * @param {number} orderId ID of pet that needs to be fetched
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StoreApiInterface
+     */
+    getOrderByIdRaw(requestParameters: GetOrderByIdRequest): Promise<runtime.ApiResponse<Order>>;
+
+    /**
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * Find purchase order by ID
+     */
+    getOrderById(requestParameters: GetOrderByIdRequest): Promise<Order>;
+
+    /**
+     * 
+     * @summary Place an order for a pet
+     * @param {Order} body order placed for purchasing the pet
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof StoreApiInterface
+     */
+    placeOrderRaw(requestParameters: PlaceOrderRequest): Promise<runtime.ApiResponse<Order>>;
+
+    /**
+     * Place an order for a pet
+     */
+    placeOrder(requestParameters: PlaceOrderRequest): Promise<Order>;
+
+}
+
+/**
+ * 
+ */
+export class StoreApi extends runtime.BaseAPI implements StoreApiInterface {
 
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors

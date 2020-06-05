@@ -25,7 +25,7 @@ class UserApiTest extends TestCase
         
         $this->assertInternalType('string', $response);
         $this->assertRegExp(
-            '/^logged in user session/',
+            '/logged in user session/',
             $response,
             "response string starts with 'logged in user session'"
         );

@@ -2,6 +2,7 @@
 name = "rust-test-reqwest"
 version = "1.0.0"
 authors = ["OpenAPI Generator team and contributors"]
+edition = "2018"
 
 [dependencies]
 serde = "^1.0"

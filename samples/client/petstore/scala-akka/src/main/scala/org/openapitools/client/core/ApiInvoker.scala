@@ -25,9 +25,6 @@ import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.Source
 import akka.util.{ ByteString, Timeout }
 import de.heikoseeberger.akkahttpjson4s.Json4sSupport
-import org.joda.time.DateTime
-import org.joda.time.format.ISODateTimeFormat
-import org.json4s.JsonAST.JString
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization
@@ -39,10 +36,10 @@ import scala.reflect.ClassTag
 object ApiInvoker {
 
   def apply()(implicit system: ActorSystem): ApiInvoker =
-    apply(DefaultFormats + DateTimeSerializer)
+    apply(DefaultFormats ++ Serializers.all)
 
   def apply(serializers: Iterable[Serializer[_]])(implicit system: ActorSystem): ApiInvoker =
-    apply(DefaultFormats + DateTimeSerializer ++ serializers)
+    apply(DefaultFormats ++ Serializers.all ++ serializers)
 
   def apply(formats: Formats)(implicit system: ActorSystem): ApiInvoker = new ApiInvoker(formats)
 
@@ -76,15 +73,6 @@ object ApiInvoker {
   implicit class ApiMethodExtensions(val method: ApiMethod) {
     def toAkkaHttpMethod: HttpMethod = HttpMethods.getForKey(method.value).getOrElse(HttpMethods.GET)
   }
-
-  case object DateTimeSerializer extends CustomSerializer[DateTime](_ => ( {
-    case JString(s) =>
-      ISODateTimeFormat.dateOptionalTimeParser().parseDateTime(s)
-  }, {
-    case d: DateTime =>
-      JString(ISODateTimeFormat.dateTime().print(d))
-  })
-  )
 
 }
 
@@ -184,7 +172,7 @@ class ApiInvoker(formats: Formats)(implicit system: ActorSystem) extends CustomC
   private def createRequest(uri: Uri, request: ApiRequest[_]): HttpRequest = {
     val httpRequest = request.method.toAkkaHttpMethod match {
       case m@(HttpMethods.GET | HttpMethods.DELETE) => HttpRequest(m, uri)
-      case m@(HttpMethods.POST | HttpMethods.PUT) =>
+      case m@(HttpMethods.POST | HttpMethods.PUT | HttpMethods.PATCH) =>
         formDataContent(request) orElse bodyContent(request) match {
           case Some(c: FormData) =>
             HttpRequest(m, uri, entity = c.toEntity)

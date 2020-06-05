@@ -11,8 +11,6 @@ class {{unescapedDescription}}(ModelSimple):
 
 {{> python-experimental/model_templates/classvars }}
 
-    @staticmethod
-    def _composed_schemas():
-        return None
+    _composed_schemas = None
 
 {{> python-experimental/model_templates/method_init_normal}}

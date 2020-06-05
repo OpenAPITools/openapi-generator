@@ -59,15 +59,17 @@ public enum KindEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("kind")
   public KindEnum getKind() {
     return kind;
   }
+
   public void setKind(KindEnum kind) {
     this.kind = kind;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -106,5 +108,7 @@ public enum KindEnum {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

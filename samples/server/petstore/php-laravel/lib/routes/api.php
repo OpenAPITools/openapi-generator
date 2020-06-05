@@ -3,6 +3,7 @@
 /**
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * PHP version 7.1.3
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -32,8 +33,8 @@ Route::patch('/v2/another-fake/dummy', 'AnotherFakeController@call123TestSpecial
 Route::patch('/v2/fake', 'FakeController@testClientModel');
 /**
  * post testEndpointParameters
- * Summary: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
- * Notes: Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+ * Summary: Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+ * Notes: Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
  */
 Route::post('/v2/fake', 'FakeController@testEndpointParameters');
@@ -114,6 +115,13 @@ Route::post('/v2/fake/outer/number', 'FakeController@fakeOuterNumberSerialize');
  * Output-Formats: [*_/_*]
  */
 Route::post('/v2/fake/outer/string', 'FakeController@fakeOuterStringSerialize');
+/**
+ * put testQueryParameterCollectionFormat
+ * Summary: 
+ * Notes: To test the collection format in query parameters
+
+ */
+Route::put('/v2/fake/test-query-paramters', 'FakeController@testQueryParameterCollectionFormat');
 /**
  * patch testClassname
  * Summary: To test class name in snake case

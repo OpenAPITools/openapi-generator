@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
+import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.CatAllOf;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -32,6 +33,7 @@ import android.os.Parcel;
  * Cat
  */
 
+
 public class Cat extends Animal implements Parcelable {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
@@ -39,6 +41,7 @@ public class Cat extends Animal implements Parcelable {
 
   public Cat() {
     super();
+    this.className = this.getClass().getSimpleName();
   }
 
   public Cat declawed(Boolean declawed) {

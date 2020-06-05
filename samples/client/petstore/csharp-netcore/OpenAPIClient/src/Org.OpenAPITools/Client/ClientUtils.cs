@@ -11,6 +11,7 @@
 
 using System;
 using System.Collections;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -102,7 +103,7 @@ namespace Org.OpenAPITools.Client
             if (obj is ICollection collection)
                 return string.Join(",", collection.Cast<object>());
 
-            return Convert.ToString(obj);
+            return Convert.ToString(obj, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -174,7 +175,7 @@ namespace Org.OpenAPITools.Client
         public static String SelectHeaderContentType(String[] contentTypes)
         {
             if (contentTypes.Length == 0)
-                return "application/json";
+                return null;
 
             foreach (var contentType in contentTypes)
             {

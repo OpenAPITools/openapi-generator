@@ -101,6 +101,31 @@
       //Convert elements with "marked" class to markdown
       processMarked();
     });
+
+    function findNode(id, currentNode) {
+        return (Object.keys(currentNode)[0] === id) ? currentNode : findNodeInChildren(id, currentNode);
+    }
+
+    function findNodeInChildren(id, currentNode) {
+        for (let prop in currentNode) {
+            if (currentNode.hasOwnProperty(prop)) {
+                let currentChild = currentNode[prop];
+                if (id === prop) {
+                    return currentChild;
+                } else {
+                    // Search in the current child
+                    if (typeof (currentChild) === 'object') {
+                        let result = findNode(id, currentChild);
+                        if (result !== false) {
+                            return result;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
   </script>
   <style type="text/css">
     {{>fonts}}
@@ -416,9 +441,14 @@
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {{{jsonSchema}}};
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                            schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -505,8 +535,7 @@
   {{>js_json_stringify_safe}}
   {{>js_webfontloader}}
   <script>
-    var schemaWrapper = {};
-    schemaWrapper.definitions = Object.assign({}, defs);
+    var schemaWrapper = { "components": { "schemas" : defs}};
     defsParser = new $RefParser();
     defsParser.dereference(schemaWrapper).catch(function(err) {
       console.log(err);

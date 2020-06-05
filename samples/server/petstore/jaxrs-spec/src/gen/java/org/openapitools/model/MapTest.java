@@ -65,16 +65,17 @@ public enum InnerEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("map_map_of_string")
   public Map<String, Map<String, String>> getMapMapOfString() {
     return mapMapOfString;
   }
+
   public void setMapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
     this.mapMapOfString = mapMapOfString;
-  }
-
-  /**
+  }/**
    **/
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
@@ -82,16 +83,17 @@ public enum InnerEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("map_of_enum_string")
   public Map<String, InnerEnum> getMapOfEnumString() {
     return mapOfEnumString;
   }
+
   public void setMapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
     this.mapOfEnumString = mapOfEnumString;
-  }
-
-  /**
+  }/**
    **/
   public MapTest directMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
@@ -99,16 +101,17 @@ public enum InnerEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("direct_map")
   public Map<String, Boolean> getDirectMap() {
     return directMap;
   }
+
   public void setDirectMap(Map<String, Boolean> directMap) {
     this.directMap = directMap;
-  }
-
-  /**
+  }/**
    **/
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
@@ -116,15 +119,17 @@ public enum InnerEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("indirect_map")
   public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
+
   public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -169,5 +174,7 @@ public enum InnerEnum {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

@@ -34,7 +34,7 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models import client
+from petstore_api.model import client
 
 
 class AnotherFakeApi(object):
@@ -59,6 +59,7 @@ class AnotherFakeApi(object):
             To test special tags and operation ID starting with number  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.call_123_test_special_tags(client_client, async_req=True)
             >>> result = thread.get()
 
@@ -249,7 +250,8 @@ class Endpoint(object):
                 check_validations(
                     self.validations,
                     (param,),
-                    kwargs[param]
+                    kwargs[param],
+                    configuration=self.api_client.configuration
                 )
 
         if kwargs['_check_input_type'] is False:

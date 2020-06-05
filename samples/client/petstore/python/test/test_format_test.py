@@ -36,19 +36,19 @@ class TestFormatTest(unittest.TestCase):
         # model = petstore_api.models.format_test.FormatTest()  # noqa: E501
         if include_optional :
             return FormatTest(
-                integer = 1E+1, 
-                int32 = 2E+1, 
-                int64 = 56, 
-                number = 32.1, 
-                float = 54.3, 
-                double = 67.8, 
-                string = 'a', 
-                byte = 'YQ==', 
-                binary = bytes(b'blah'), 
-                date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(), 
-                date_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'), 
-                uuid = '72f98069-206d-4f12-9f12-3d1e525a8e84', 
-                password = '0123456789', 
+                integer = 1E+1,
+                int32 = 2E+1,
+                int64 = 56,
+                number = 32.1,
+                float = 54.3,
+                double = 67.8,
+                string = 'a',
+                byte = 'YQ==',
+                binary = 'bytes',
+                date = datetime.datetime.strptime('1975-12-30', '%Y-%m-%d').date(),
+                date_time = datetime.datetime.strptime('2013-10-20 19:20:30.00', '%Y-%m-%d %H:%M:%S.%f'),
+                uuid = '72f98069-206d-4f12-9f12-3d1e525a8e84',
+                password = '0123456789',
                 big_decimal = 1
             )
         else :

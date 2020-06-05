@@ -44,13 +44,15 @@ import java.util.List;
 import java.util.Map;
 
 
+
 public class FakeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
   private final String memberVarBaseUri;
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
-
+  private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
+  
   public FakeApi() {
     this(new ApiClient());
   }
@@ -61,6 +63,7 @@ public class FakeApi {
     memberVarBaseUri = apiClient.getBaseUri();
     memberVarInterceptor = apiClient.getRequestInterceptor();
     memberVarReadTimeout = apiClient.getReadTimeout();
+    memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
   /**
@@ -69,10 +72,10 @@ public class FakeApi {
    * @param xmlItem XmlItem Body (required)
    * @throws ApiException if fails to make API call
    */
-  public void createXmlItem(XmlItem xmlItem) throws ApiException {
+  public void createXmlItem (XmlItem xmlItem) throws ApiException {
     // verify the required parameter 'xmlItem' is set
     if (xmlItem == null) {
-      throw new ApiException(400, "Missing the required parameter 'xmlItem' when calling createXmlItem");
+        throw new ApiException(400, "Missing the required parameter 'xmlItem' when calling createXmlItem");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -93,20 +96,22 @@ public class FakeApi {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "createXmlItem call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+          throw new ApiException(localVarResponse.statusCode(),
+              "createXmlItem call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
-
     } catch (IOException e) {
       throw new ApiException(e);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
@@ -118,7 +123,7 @@ public class FakeApi {
    * @return Boolean
    * @throws ApiException if fails to make API call
    */
-  public Boolean fakeOuterBooleanSerialize(Boolean body) throws ApiException {
+  public Boolean fakeOuterBooleanSerialize (Boolean body) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -138,21 +143,23 @@ public class FakeApi {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "fakeOuterBooleanSerialize call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+          throw new ApiException(localVarResponse.statusCode(),
+              "fakeOuterBooleanSerialize call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
-
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Boolean>() {});
     } catch (IOException e) {
       throw new ApiException(e);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
@@ -164,7 +171,7 @@ public class FakeApi {
    * @return OuterComposite
    * @throws ApiException if fails to make API call
    */
-  public OuterComposite fakeOuterCompositeSerialize(OuterComposite body) throws ApiException {
+  public OuterComposite fakeOuterCompositeSerialize (OuterComposite body) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -184,21 +191,23 @@ public class FakeApi {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "fakeOuterCompositeSerialize call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+          throw new ApiException(localVarResponse.statusCode(),
+              "fakeOuterCompositeSerialize call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
-
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<OuterComposite>() {});
     } catch (IOException e) {
       throw new ApiException(e);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
@@ -210,7 +219,7 @@ public class FakeApi {
    * @return BigDecimal
    * @throws ApiException if fails to make API call
    */
-  public BigDecimal fakeOuterNumberSerialize(BigDecimal body) throws ApiException {
+  public BigDecimal fakeOuterNumberSerialize (BigDecimal body) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -230,21 +239,23 @@ public class FakeApi {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "fakeOuterNumberSerialize call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+          throw new ApiException(localVarResponse.statusCode(),
+              "fakeOuterNumberSerialize call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
-
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<BigDecimal>() {});
     } catch (IOException e) {
       throw new ApiException(e);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
@@ -256,7 +267,7 @@ public class FakeApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String fakeOuterStringSerialize(String body) throws ApiException {
+  public String fakeOuterStringSerialize (String body) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -276,21 +287,23 @@ public class FakeApi {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "fakeOuterStringSerialize call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+          throw new ApiException(localVarResponse.statusCode(),
+              "fakeOuterStringSerialize call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
-
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {});
     } catch (IOException e) {
       throw new ApiException(e);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
@@ -301,10 +314,10 @@ public class FakeApi {
    * @param body  (required)
    * @throws ApiException if fails to make API call
    */
-  public void testBodyWithFileSchema(FileSchemaTestClass body) throws ApiException {
+  public void testBodyWithFileSchema (FileSchemaTestClass body) throws ApiException {
     // verify the required parameter 'body' is set
     if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithFileSchema");
+        throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithFileSchema");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -325,20 +338,22 @@ public class FakeApi {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testBodyWithFileSchema call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+          throw new ApiException(localVarResponse.statusCode(),
+              "testBodyWithFileSchema call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
-
     } catch (IOException e) {
       throw new ApiException(e);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
@@ -350,14 +365,14 @@ public class FakeApi {
    * @param body  (required)
    * @throws ApiException if fails to make API call
    */
-  public void testBodyWithQueryParams(String query, User body) throws ApiException {
+  public void testBodyWithQueryParams (String query, User body) throws ApiException {
     // verify the required parameter 'query' is set
     if (query == null) {
-      throw new ApiException(400, "Missing the required parameter 'query' when calling testBodyWithQueryParams");
+        throw new ApiException(400, "Missing the required parameter 'query' when calling testBodyWithQueryParams");
     }
     // verify the required parameter 'body' is set
     if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithQueryParams");
+        throw new ApiException(400, "Missing the required parameter 'body' when calling testBodyWithQueryParams");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -387,20 +402,22 @@ public class FakeApi {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testBodyWithQueryParams call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+          throw new ApiException(localVarResponse.statusCode(),
+              "testBodyWithQueryParams call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
-
     } catch (IOException e) {
       throw new ApiException(e);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
@@ -412,10 +429,10 @@ public class FakeApi {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client testClientModel(Client body) throws ApiException {
+  public Client testClientModel (Client body) throws ApiException {
     // verify the required parameter 'body' is set
     if (body == null) {
-      throw new ApiException(400, "Missing the required parameter 'body' when calling testClientModel");
+        throw new ApiException(400, "Missing the required parameter 'body' when calling testClientModel");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -436,21 +453,23 @@ public class FakeApi {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testClientModel call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+          throw new ApiException(localVarResponse.statusCode(),
+              "testClientModel call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
-
       return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {});
     } catch (IOException e) {
       throw new ApiException(e);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
@@ -474,22 +493,22 @@ public class FakeApi {
    * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
+  public void testEndpointParameters (BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
     // verify the required parameter 'number' is set
     if (number == null) {
-      throw new ApiException(400, "Missing the required parameter 'number' when calling testEndpointParameters");
+        throw new ApiException(400, "Missing the required parameter 'number' when calling testEndpointParameters");
     }
     // verify the required parameter '_double' is set
     if (_double == null) {
-      throw new ApiException(400, "Missing the required parameter '_double' when calling testEndpointParameters");
+        throw new ApiException(400, "Missing the required parameter '_double' when calling testEndpointParameters");
     }
     // verify the required parameter 'patternWithoutDelimiter' is set
     if (patternWithoutDelimiter == null) {
-      throw new ApiException(400, "Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters");
+        throw new ApiException(400, "Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters");
     }
     // verify the required parameter '_byte' is set
     if (_byte == null) {
-      throw new ApiException(400, "Missing the required parameter '_byte' when calling testEndpointParameters");
+        throw new ApiException(400, "Missing the required parameter '_byte' when calling testEndpointParameters");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -508,20 +527,22 @@ public class FakeApi {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testEndpointParameters call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+          throw new ApiException(localVarResponse.statusCode(),
+              "testEndpointParameters call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
-
     } catch (IOException e) {
       throw new ApiException(e);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
@@ -539,7 +560,7 @@ public class FakeApi {
    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
    * @throws ApiException if fails to make API call
    */
-  public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
+  public void testEnumParameters (List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -575,20 +596,22 @@ public class FakeApi {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testEnumParameters call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+          throw new ApiException(localVarResponse.statusCode(),
+              "testEnumParameters call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
-
     } catch (IOException e) {
       throw new ApiException(e);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
@@ -604,18 +627,18 @@ public class FakeApi {
    * @param int64Group Integer in group parameters (optional)
    * @throws ApiException if fails to make API call
    */
-  public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
+  public void testGroupParameters (Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
     // verify the required parameter 'requiredStringGroup' is set
     if (requiredStringGroup == null) {
-      throw new ApiException(400, "Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
+        throw new ApiException(400, "Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
     }
     // verify the required parameter 'requiredBooleanGroup' is set
     if (requiredBooleanGroup == null) {
-      throw new ApiException(400, "Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
+        throw new ApiException(400, "Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
     }
     // verify the required parameter 'requiredInt64Group' is set
     if (requiredInt64Group == null) {
-      throw new ApiException(400, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
+        throw new ApiException(400, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -652,20 +675,22 @@ public class FakeApi {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testGroupParameters call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+          throw new ApiException(localVarResponse.statusCode(),
+              "testGroupParameters call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
-
     } catch (IOException e) {
       throw new ApiException(e);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
@@ -676,10 +701,10 @@ public class FakeApi {
    * @param param request body (required)
    * @throws ApiException if fails to make API call
    */
-  public void testInlineAdditionalProperties(Map<String, String> param) throws ApiException {
+  public void testInlineAdditionalProperties (Map<String, String> param) throws ApiException {
     // verify the required parameter 'param' is set
     if (param == null) {
-      throw new ApiException(400, "Missing the required parameter 'param' when calling testInlineAdditionalProperties");
+        throw new ApiException(400, "Missing the required parameter 'param' when calling testInlineAdditionalProperties");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -700,20 +725,22 @@ public class FakeApi {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testInlineAdditionalProperties call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+          throw new ApiException(localVarResponse.statusCode(),
+              "testInlineAdditionalProperties call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
-
     } catch (IOException e) {
       throw new ApiException(e);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
@@ -725,14 +752,14 @@ public class FakeApi {
    * @param param2 field2 (required)
    * @throws ApiException if fails to make API call
    */
-  public void testJsonFormData(String param, String param2) throws ApiException {
+  public void testJsonFormData (String param, String param2) throws ApiException {
     // verify the required parameter 'param' is set
     if (param == null) {
-      throw new ApiException(400, "Missing the required parameter 'param' when calling testJsonFormData");
+        throw new ApiException(400, "Missing the required parameter 'param' when calling testJsonFormData");
     }
     // verify the required parameter 'param2' is set
     if (param2 == null) {
-      throw new ApiException(400, "Missing the required parameter 'param2' when calling testJsonFormData");
+        throw new ApiException(400, "Missing the required parameter 'param2' when calling testJsonFormData");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -751,20 +778,22 @@ public class FakeApi {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testJsonFormData call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+          throw new ApiException(localVarResponse.statusCode(),
+              "testJsonFormData call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
-
     } catch (IOException e) {
       throw new ApiException(e);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
@@ -779,26 +808,26 @@ public class FakeApi {
    * @param context  (required)
    * @throws ApiException if fails to make API call
    */
-  public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws ApiException {
+  public void testQueryParameterCollectionFormat (List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws ApiException {
     // verify the required parameter 'pipe' is set
     if (pipe == null) {
-      throw new ApiException(400, "Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat");
+        throw new ApiException(400, "Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat");
     }
     // verify the required parameter 'ioutil' is set
     if (ioutil == null) {
-      throw new ApiException(400, "Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat");
+        throw new ApiException(400, "Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat");
     }
     // verify the required parameter 'http' is set
     if (http == null) {
-      throw new ApiException(400, "Missing the required parameter 'http' when calling testQueryParameterCollectionFormat");
+        throw new ApiException(400, "Missing the required parameter 'http' when calling testQueryParameterCollectionFormat");
     }
     // verify the required parameter 'url' is set
     if (url == null) {
-      throw new ApiException(400, "Missing the required parameter 'url' when calling testQueryParameterCollectionFormat");
+        throw new ApiException(400, "Missing the required parameter 'url' when calling testQueryParameterCollectionFormat");
     }
     // verify the required parameter 'context' is set
     if (context == null) {
-      throw new ApiException(400, "Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
+        throw new ApiException(400, "Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -808,7 +837,7 @@ public class FakeApi {
     List<Pair> localVarQueryParams = new ArrayList<>();
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "pipe", pipe));
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "ioutil", ioutil));
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("space", "http", http));
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("ssv", "http", http));
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "url", url));
     localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "context", context));
 
@@ -830,20 +859,22 @@ public class FakeApi {
       if (memberVarInterceptor != null) {
         memberVarInterceptor.accept(localVarRequestBuilder);
       }
-
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-          localVarRequestBuilder.build(),
-          HttpResponse.BodyHandlers.ofInputStream());
+      localVarRequestBuilder.build(),
+      HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }          
       if (localVarResponse.statusCode()/ 100 != 2) {
-        throw new ApiException(localVarResponse.statusCode(),
-            "testQueryParameterCollectionFormat call received non-success response",
-            localVarResponse.headers(),
-            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+          throw new ApiException(localVarResponse.statusCode(),
+              "testQueryParameterCollectionFormat call received non-success response",
+              localVarResponse.headers(),
+              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
-
     } catch (IOException e) {
       throw new ApiException(e);
-    } catch (InterruptedException e) {
+    }
+    catch (InterruptedException e) {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }

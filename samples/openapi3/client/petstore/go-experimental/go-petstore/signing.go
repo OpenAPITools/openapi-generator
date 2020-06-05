@@ -14,6 +14,7 @@ import (
 	"context"
 	"crypto"
 	"crypto/ecdsa"
+	"crypto/ed25519"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
@@ -390,8 +391,8 @@ func SignRequest(
 		}
 	case *ecdsa.PrivateKey:
 		signature, err = key.Sign(rand.Reader, d, h)
-	//case ed25519.PrivateKey: requires go 1.13
-	//  signature, err = key.Sign(rand.Reader, msg, crypto.Hash(0))
+	case ed25519.PrivateKey: // requires go 1.13
+	  signature, err = key.Sign(rand.Reader, msg, crypto.Hash(0))
 	default:
 		return fmt.Errorf("Unsupported private key")
 	}

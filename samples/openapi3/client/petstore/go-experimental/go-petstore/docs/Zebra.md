@@ -34,22 +34,22 @@ GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *Zebra) GetTypeOk() (string, bool)`
+`func (o *Zebra) GetTypeOk() (*string, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetType
+
+`func (o *Zebra) SetType(v string)`
+
+SetType sets Type field to given value.
 
 ### HasType
 
 `func (o *Zebra) HasType() bool`
 
 HasType returns a boolean if a field has been set.
-
-### SetType
-
-`func (o *Zebra) SetType(v string)`
-
-SetType gets a reference to the given string and assigns it to the Type field.
 
 ### GetClassName
 
@@ -59,29 +59,18 @@ GetClassName returns the ClassName field if non-nil, zero value otherwise.
 
 ### GetClassNameOk
 
-`func (o *Zebra) GetClassNameOk() (string, bool)`
+`func (o *Zebra) GetClassNameOk() (*string, bool)`
 
 GetClassNameOk returns a tuple with the ClassName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### HasClassName
-
-`func (o *Zebra) HasClassName() bool`
-
-HasClassName returns a boolean if a field has been set.
 
 ### SetClassName
 
 `func (o *Zebra) SetClassName(v string)`
 
-SetClassName gets a reference to the given string and assigns it to the ClassName field.
+SetClassName sets ClassName field to given value.
 
 
-### AsMammal
-
-`func (s *Zebra) AsMammal() Mammal`
-
-Convenience method to wrap this instance of Zebra in Mammal
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

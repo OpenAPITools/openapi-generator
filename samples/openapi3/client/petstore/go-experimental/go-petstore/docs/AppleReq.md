@@ -34,22 +34,17 @@ GetCultivar returns the Cultivar field if non-nil, zero value otherwise.
 
 ### GetCultivarOk
 
-`func (o *AppleReq) GetCultivarOk() (string, bool)`
+`func (o *AppleReq) GetCultivarOk() (*string, bool)`
 
 GetCultivarOk returns a tuple with the Cultivar field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
-
-### HasCultivar
-
-`func (o *AppleReq) HasCultivar() bool`
-
-HasCultivar returns a boolean if a field has been set.
 
 ### SetCultivar
 
 `func (o *AppleReq) SetCultivar(v string)`
 
-SetCultivar gets a reference to the given string and assigns it to the Cultivar field.
+SetCultivar sets Cultivar field to given value.
+
 
 ### GetMealy
 
@@ -59,10 +54,16 @@ GetMealy returns the Mealy field if non-nil, zero value otherwise.
 
 ### GetMealyOk
 
-`func (o *AppleReq) GetMealyOk() (bool, bool)`
+`func (o *AppleReq) GetMealyOk() (*bool, bool)`
 
 GetMealyOk returns a tuple with the Mealy field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
+
+### SetMealy
+
+`func (o *AppleReq) SetMealy(v bool)`
+
+SetMealy sets Mealy field to given value.
 
 ### HasMealy
 
@@ -70,18 +71,6 @@ and a boolean to check if the value has been set.
 
 HasMealy returns a boolean if a field has been set.
 
-### SetMealy
-
-`func (o *AppleReq) SetMealy(v bool)`
-
-SetMealy gets a reference to the given bool and assigns it to the Mealy field.
-
-
-### AsFruitReq
-
-`func (s *AppleReq) AsFruitReq() FruitReq`
-
-Convenience method to wrap this instance of AppleReq in FruitReq
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

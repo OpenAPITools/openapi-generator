@@ -28,13 +28,14 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Represents those settings applied to a generation workflow.
  */
 @SuppressWarnings("WeakerAccess")
 public class WorkflowSettings {
-
+    private static final AtomicLong lastWarning = new AtomicLong(0);
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkflowSettings.class);
     public static final String DEFAULT_OUTPUT_DIR = ".";
     public static final boolean DEFAULT_VERBOSE = false;
@@ -46,7 +47,7 @@ public class WorkflowSettings {
     public static final boolean DEFAULT_ENABLE_MINIMAL_UPDATE = false;
     public static final boolean DEFAULT_STRICT_SPEC_BEHAVIOR = true;
     public static final String DEFAULT_TEMPLATING_ENGINE_NAME = "mustache";
-    public static final ImmutableMap<String, String> DEFAULT_SYSTEM_PROPERTIES = ImmutableMap.of();
+    public static final ImmutableMap<String, String> DEFAULT_GLOBAL_PROPERTIES = ImmutableMap.of();
 
     private String inputSpec;
     private String outputDir = DEFAULT_OUTPUT_DIR;
@@ -61,7 +62,7 @@ public class WorkflowSettings {
     private String templateDir;
     private String templatingEngineName = DEFAULT_TEMPLATING_ENGINE_NAME;
     private String ignoreFileOverride;
-    private ImmutableMap<String, String> systemProperties = DEFAULT_SYSTEM_PROPERTIES;
+    private ImmutableMap<String, String> globalProperties = DEFAULT_GLOBAL_PROPERTIES;
 
     private WorkflowSettings(Builder builder) {
         this.inputSpec = builder.inputSpec;
@@ -77,7 +78,7 @@ public class WorkflowSettings {
         this.templateDir = builder.templateDir;
         this.templatingEngineName = builder.templatingEngineName;
         this.ignoreFileOverride = builder.ignoreFileOverride;
-        this.systemProperties = ImmutableMap.copyOf(builder.systemProperties);
+        this.globalProperties = ImmutableMap.copyOf(builder.globalProperties);
     }
 
     /**
@@ -108,7 +109,7 @@ public class WorkflowSettings {
         builder.ignoreFileOverride = copy.getIgnoreFileOverride();
 
         // this, and any other collections, must be mutable in the builder.
-        builder.systemProperties = new HashMap<>(copy.getSystemProperties());
+        builder.globalProperties = new HashMap<>(copy.getGlobalProperties());
 
         // force builder "with" methods to invoke side effects
         builder.withTemplateDir(copy.getTemplateDir());
@@ -255,8 +256,8 @@ public class WorkflowSettings {
      *
      * @return the system properties
      */
-    public Map<String, String> getSystemProperties() {
-        return systemProperties;
+    public Map<String, String> getGlobalProperties() {
+        return globalProperties;
     }
 
     /**
@@ -279,7 +280,7 @@ public class WorkflowSettings {
         private String ignoreFileOverride;
 
         // NOTE: All collections must be mutable in the builder, and copied to a new immutable collection in .build()
-        private Map<String, String> systemProperties = new HashMap<>();;
+        private Map<String, String> globalProperties = new HashMap<>();;
 
         private Builder() {
         }
@@ -460,30 +461,30 @@ public class WorkflowSettings {
         }
 
         /**
-         * Sets the {@code systemProperties} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code globalProperties} and returns a reference to this Builder so that the methods can be chained together.
          *
-         * @param systemProperties the {@code systemProperties} to set
+         * @param globalProperties the {@code globalProperties} to set
          * @return a reference to this Builder
          */
-        public Builder withSystemProperties(Map<String, String> systemProperties) {
-            if (systemProperties != null) {
-                this.systemProperties = systemProperties;
+        public Builder withGlobalProperties(Map<String, String> globalProperties) {
+            if (globalProperties != null) {
+                this.globalProperties = globalProperties;
             }
             return this;
         }
 
         /**
-         * Sets the {@code systemProperties} and returns a reference to this Builder so that the methods can be chained together.
+         * Sets the {@code globalProperties} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param key The key of a system (global) property to set
          * @param value The value of a system (global) property to set
          * @return a reference to this Builder
          */
-        public Builder withSystemProperty(String key, String value) {
-            if (this.systemProperties == null) {
-                this.systemProperties = new HashMap<>();
+        public Builder withGlobalProperty(String key, String value) {
+            if (this.globalProperties == null) {
+                this.globalProperties = new HashMap<>();
             }
-            this.systemProperties.put(key, value);
+            this.globalProperties.put(key, value);
             return this;
         }
 
@@ -517,7 +518,7 @@ public class WorkflowSettings {
                 ", templateDir='" + templateDir + '\'' +
                 ", templatingEngineName='" + templatingEngineName + '\'' +
                 ", ignoreFileOverride='" + ignoreFileOverride + '\'' +
-                ", systemProperties=" + systemProperties +
+                ", globalProperties=" + globalProperties +
                 '}';
     }
 
@@ -539,7 +540,7 @@ public class WorkflowSettings {
                 Objects.equals(getTemplateDir(), that.getTemplateDir()) &&
                 Objects.equals(getTemplatingEngineName(), that.getTemplatingEngineName()) &&
                 Objects.equals(getIgnoreFileOverride(), that.getIgnoreFileOverride()) &&
-                Objects.equals(getSystemProperties(), that.getSystemProperties());
+                Objects.equals(getGlobalProperties(), that.getGlobalProperties());
     }
 
     @Override
@@ -558,7 +559,7 @@ public class WorkflowSettings {
                 getTemplateDir(),
                 getTemplatingEngineName(),
                 getIgnoreFileOverride(),
-                getSystemProperties()
+                getGlobalProperties()
         );
     }
 }
