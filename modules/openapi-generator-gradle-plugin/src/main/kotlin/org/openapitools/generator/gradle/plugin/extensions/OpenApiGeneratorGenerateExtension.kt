@@ -65,9 +65,9 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val auth = project.objects.property<String>()
 
     /**
-     * Sets specified system properties.
+     * Sets specified global properties.
      */
-    val systemProperties = project.objects.mapProperty<String, String>()
+    val globalProperties = project.objects.mapProperty<String, String>()
 
     /**
      * Path to json configuration file.
@@ -182,7 +182,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val releaseNote = project.objects.property<String?>()
 
     /**
-     * HTTP user agent, e.g. codegen_csharp_api_client, default to 'OpenAPI-Generator/{packageVersion}}/{language}'
+     * HTTP user agent, e.g. codegen_csharp_api_client, default to 'OpenAPI-Generator/{packageVersion}/{language}'
      */
     val httpUserAgent = project.objects.property<String?>()
 

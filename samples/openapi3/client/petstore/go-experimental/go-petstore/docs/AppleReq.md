@@ -72,12 +72,6 @@ SetMealy sets Mealy field to given value.
 HasMealy returns a boolean if a field has been set.
 
 
-### AsFruitReq
-
-`func (s *AppleReq) AsFruitReq() FruitReq`
-
-Convenience method to wrap this instance of AppleReq in FruitReq
-
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 
 

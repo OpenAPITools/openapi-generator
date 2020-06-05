@@ -1,13 +1,14 @@
 {{>partial_header}}
+#[allow(unused_imports)]
 use std::rc::Rc;
 use std::borrow::Borrow;
-#[allow(unused_imports)]
 use std::option::Option;
 
 use reqwest;
 
 use super::{Error, configuration};
 
+{{^supportAsync}}
 pub struct {{{classname}}}Client {
     configuration: Rc<configuration::Configuration>,
 }
@@ -20,19 +21,61 @@ impl {{{classname}}}Client {
     }
 }
 
+{{/supportAsync}}
+{{#operations}}
+{{#operation}}
+{{#vendorExtensions.x-group-parameters}}
+{{#allParams}}
+{{#-first}}
+/// struct for passing parameters to the method `{{operationId}}`
+#[derive(Clone, Debug)]
+pub struct {{{operationIdCamelCase}}}Params {
+{{/-first}}
+    {{#description}}
+    /// {{{.}}}
+    {{/description}}
+    pub {{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}String{{/isString}}{{#isUuid}}String{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}},{{/hasMore}}
+{{#-last}}
+}
+
+{{/-last}}
+{{/allParams}}
+{{/vendorExtensions.x-group-parameters}}
+{{/operation}}
+{{/operations}}
+
+{{^supportAsync}}
 pub trait {{{classname}}} {
 {{#operations}}
 {{#operation}}
+    {{#vendorExtensions.x-group-parameters}}
+    fn {{{operationId}}}(&self{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>;
+    {{/vendorExtensions.x-group-parameters}}
+    {{^vendorExtensions.x-group-parameters}}
     fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>;
+    {{/vendorExtensions.x-group-parameters}}
 {{/operation}}
 {{/operations}}
 }
 
 impl {{{classname}}} for {{{classname}}}Client {
+{{/supportAsync}}
 {{#operations}}
 {{#operation}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
+    {{#vendorExtensions.x-group-parameters}}
+    {{#supportAsync}}pub async {{/supportAsync}}fn {{{operationId}}}({{^supportAsync}}&self{{/supportAsync}}{{#supportAsync}}configuration: &configuration::Configuration{{/supportAsync}}{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
+        // unbox the parameters
+        {{#allParams}}
+        let {{paramName}} = params.{{paramName}};
+        {{/allParams}}
+
+    {{/vendorExtensions.x-group-parameters}}
+    {{^vendorExtensions.x-group-parameters}}
+    {{#supportAsync}}pub async {{/supportAsync}}fn {{{operationId}}}({{^supportAsync}}&self{{/supportAsync}}{{#supportAsync}}configuration: &configuration::Configuration{{/supportAsync}}, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
+    {{/vendorExtensions.x-group-parameters}}
+        {{^supportAsync}}
         let configuration: &configuration::Configuration = self.configuration.borrow();
+        {{/supportAsync}}
         let client = &configuration.client;
 
         let uri_str = format!("{}{{{path}}}", configuration.base_path{{#pathParams}}, {{{baseName}}}={{#isString}}crate::apis::urlencode({{/isString}}{{{paramName}}}{{^required}}.unwrap(){{/required}}{{#required}}{{#isNullable}}.unwrap(){{/isNullable}}{{/required}}{{#isListContainer}}.join(",").as_ref(){{/isListContainer}}{{#isString}}){{/isString}}{{/pathParams}});
@@ -125,6 +168,7 @@ impl {{{classname}}} for {{{classname}}}Client {
         let mut form = reqwest::multipart::Form::new();
         {{#formParams}}
         {{#isFile}}
+        {{^supportAsync}}
         {{#required}}
         {{^isNullable}}
         form = form.file("{{{baseName}}}", {{{paramName}}})?;
@@ -141,6 +185,10 @@ impl {{{classname}}} for {{{classname}}}Client {
             form = form.file("{{{baseName}}}", param_value)?;
         }
         {{/required}}
+        {{/supportAsync}}
+        {{#supportAsync}}
+        // TODO: support file upload for '{{{baseName}}}' parameter
+        {{/supportAsync}}
         {{/isFile}}
         {{^isFile}}
         {{#required}}
@@ -214,18 +262,23 @@ impl {{{classname}}} for {{{classname}}}Client {
         {{/bodyParams}}
         {{/hasBodyParam}}
 
-        // send request
         let req = req_builder.build()?;
-
         {{^returnType}}
-        client.execute(req)?.error_for_status()?;
+        client.execute(req){{#supportAsync}}.await{{/supportAsync}}?.error_for_status()?;
         Ok(())
         {{/returnType}}
         {{#returnType}}
+        {{#supportAsync}}
+        Ok(client.execute(req).await?.error_for_status()?.json::<{{{.}}}>().await?)
+        {{/supportAsync}}
+        {{^supportAsync}}
         Ok(client.execute(req)?.error_for_status()?.json()?)
+        {{/supportAsync}}
         {{/returnType}}
     }
 
 {{/operation}}
 {{/operations}}
+{{^supportAsync}}
 }
+{{/supportAsync}}

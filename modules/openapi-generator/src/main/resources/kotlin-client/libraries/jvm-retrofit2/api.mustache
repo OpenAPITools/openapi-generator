@@ -2,10 +2,25 @@ package {{apiPackage}}
 
 import {{packageName}}.infrastructure.CollectionFormats.*
 import retrofit2.http.*
+{{#doNotUseRxAndCoroutines}}
 import retrofit2.Call
+{{/doNotUseRxAndCoroutines}}
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import okhttp3.MultipartBody
+{{^doNotUseRxAndCoroutines}}
+{{#useRxJava}}
+import rx.Observable
+{{/useRxJava}}
+{{#useRxJava2}}
+import io.reactivex.Single
+{{/useRxJava2}}
+{{^returnType}}
+{{#useRxJava2}}
+import io.reactivex.Completable
+{{/useRxJava2}}
+{{/returnType}}
+{{/doNotUseRxAndCoroutines}}
 
 {{#imports}}import {{import}}
 {{/imports}}
@@ -31,7 +46,7 @@ interface {{classname}} {
     {{/prioritizedContentTypes}}
     {{/formParams}}
     @{{httpMethod}}("{{{path}}}")
-    fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/allParams}}: Call<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>
+    {{^doNotUseRxAndCoroutines}}{{#useCoroutines}}suspend {{/useCoroutines}}{{/doNotUseRxAndCoroutines}}fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/allParams}}: {{^doNotUseRxAndCoroutines}}{{#useRxJava}}Observable<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>{{/useRxJava}}{{#useRxJava2}}{{#returnType}}Single<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava2}}{{#useCoroutines}}{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}{{/useCoroutines}}{{/doNotUseRxAndCoroutines}}{{#doNotUseRxAndCoroutines}}Call<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>{{/doNotUseRxAndCoroutines}}
 
     {{/operation}}
 }

@@ -21,8 +21,10 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+import java.time.OffsetDateTime;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.PythonClientExperimentalCodegen;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -268,7 +270,7 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(cm.classname, "sample.Sample");
         Assert.assertEquals(cm.classVarName, "sample");
         Assert.assertEquals(cm.description, "an array model");
-        Assert.assertEquals(cm.vars.size(), 0);
+        Assert.assertEquals(cm.vars.size(), 1);  // there is one value for Childer definition
         Assert.assertEquals(cm.parent, "list");
         Assert.assertEquals(cm.imports.size(), 1);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("children.Children")).size(), 1);
@@ -289,9 +291,18 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(cm.classname, "sample.Sample");
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
-        Assert.assertEquals(cm.parent, "dict");
-        Assert.assertEquals(cm.imports.size(), 1);
-        Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("children.Children")).size(), 1);
+        Assert.assertEquals(cm.parent, null);
+        Assert.assertEquals(cm.imports.size(), 0);
+    }
+
+    @Test(description = "parse date and date-time example value")
+    public void parseDateAndDateTimeExamplesTest() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/python-experimental/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
+        final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
+
+        Schema modelSchema = ModelUtils.getSchema(openAPI, "DateTimeTest");
+        String defaultValue = codegen.toDefaultValue(modelSchema);
+        Assert.assertEquals(defaultValue, "dateutil_parser('2010-01-01T10:10:10.000111+01:00')");
     }
 
 }

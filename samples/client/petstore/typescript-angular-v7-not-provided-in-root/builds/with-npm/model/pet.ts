@@ -25,9 +25,9 @@ export interface Pet {
     /**
      * pet status in the store
      */
-    status?: PetStatus;
+    status?: PetStatusEnum;
 }
-export enum PetStatus {
+export enum PetStatusEnum {
     Available = 'available',
     Pending = 'pending',
     Sold = 'sold'

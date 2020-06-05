@@ -20,10 +20,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -58,13 +57,13 @@ public class FakeApi {
      * this route creates an XmlItem
      * <p><b>200</b> - successful operation
      * @param xmlItem XmlItem Body
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> createXmlItem(XmlItem xmlItem) throws RestClientException {
+    public Mono<Void> createXmlItem(XmlItem xmlItem) throws WebClientResponseException {
         Object postBody = xmlItem;
         // verify the required parameter 'xmlItem' is set
         if (xmlItem == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'xmlItem' when calling createXmlItem");
+            throw new WebClientResponseException("Missing the required parameter 'xmlItem' when calling createXmlItem", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -92,9 +91,9 @@ public class FakeApi {
      * <p><b>200</b> - Output boolean
      * @param body Input boolean as post body
      * @return Boolean
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Boolean> fakeOuterBooleanSerialize(Boolean body) throws RestClientException {
+    public Mono<Boolean> fakeOuterBooleanSerialize(Boolean body) throws WebClientResponseException {
         Object postBody = body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -122,9 +121,9 @@ public class FakeApi {
      * <p><b>200</b> - Output composite
      * @param body Input composite as post body
      * @return OuterComposite
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body) throws RestClientException {
+    public Mono<OuterComposite> fakeOuterCompositeSerialize(OuterComposite body) throws WebClientResponseException {
         Object postBody = body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -152,9 +151,9 @@ public class FakeApi {
      * <p><b>200</b> - Output number
      * @param body Input number as post body
      * @return BigDecimal
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) throws RestClientException {
+    public Mono<BigDecimal> fakeOuterNumberSerialize(BigDecimal body) throws WebClientResponseException {
         Object postBody = body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -182,9 +181,9 @@ public class FakeApi {
      * <p><b>200</b> - Output string
      * @param body Input string as post body
      * @return String
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<String> fakeOuterStringSerialize(String body) throws RestClientException {
+    public Mono<String> fakeOuterStringSerialize(String body) throws WebClientResponseException {
         Object postBody = body;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -211,13 +210,13 @@ public class FakeApi {
      * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
      * <p><b>200</b> - Success
      * @param body The body parameter
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testBodyWithFileSchema(FileSchemaTestClass body) throws RestClientException {
+    public Mono<Void> testBodyWithFileSchema(FileSchemaTestClass body) throws WebClientResponseException {
         Object postBody = body;
         // verify the required parameter 'body' is set
         if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testBodyWithFileSchema");
+            throw new WebClientResponseException("Missing the required parameter 'body' when calling testBodyWithFileSchema", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -245,17 +244,17 @@ public class FakeApi {
      * <p><b>200</b> - Success
      * @param query The query parameter
      * @param body The body parameter
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testBodyWithQueryParams(String query, User body) throws RestClientException {
+    public Mono<Void> testBodyWithQueryParams(String query, User body) throws WebClientResponseException {
         Object postBody = body;
         // verify the required parameter 'query' is set
         if (query == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'query' when calling testBodyWithQueryParams");
+            throw new WebClientResponseException("Missing the required parameter 'query' when calling testBodyWithQueryParams", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'body' is set
         if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testBodyWithQueryParams");
+            throw new WebClientResponseException("Missing the required parameter 'body' when calling testBodyWithQueryParams", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -285,13 +284,13 @@ public class FakeApi {
      * <p><b>200</b> - successful operation
      * @param body client model
      * @return Client
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Client> testClientModel(Client body) throws RestClientException {
+    public Mono<Client> testClientModel(Client body) throws WebClientResponseException {
         Object postBody = body;
         // verify the required parameter 'body' is set
         if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testClientModel");
+            throw new WebClientResponseException("Missing the required parameter 'body' when calling testClientModel", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -334,25 +333,25 @@ public class FakeApi {
      * @param dateTime None
      * @param password None
      * @param paramCallback None
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws RestClientException {
+    public Mono<Void> testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'number' is set
         if (number == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'number' when calling testEndpointParameters");
+            throw new WebClientResponseException("Missing the required parameter 'number' when calling testEndpointParameters", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter '_double' is set
         if (_double == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter '_double' when calling testEndpointParameters");
+            throw new WebClientResponseException("Missing the required parameter '_double' when calling testEndpointParameters", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'patternWithoutDelimiter' is set
         if (patternWithoutDelimiter == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters");
+            throw new WebClientResponseException("Missing the required parameter 'patternWithoutDelimiter' when calling testEndpointParameters", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter '_byte' is set
         if (_byte == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter '_byte' when calling testEndpointParameters");
+            throw new WebClientResponseException("Missing the required parameter '_byte' when calling testEndpointParameters", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -416,9 +415,9 @@ public class FakeApi {
      * @param enumQueryDouble Query parameter enum test (double)
      * @param enumFormStringArray Form parameter enum test (string array)
      * @param enumFormString Form parameter enum test (string)
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws RestClientException {
+    public Mono<Void> testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws WebClientResponseException {
         Object postBody = null;
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -464,21 +463,21 @@ public class FakeApi {
      * @param stringGroup String in group parameters
      * @param booleanGroup Boolean in group parameters
      * @param int64Group Integer in group parameters
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws RestClientException {
+    public Mono<Void> testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'requiredStringGroup' is set
         if (requiredStringGroup == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requiredStringGroup' when calling testGroupParameters");
+            throw new WebClientResponseException("Missing the required parameter 'requiredStringGroup' when calling testGroupParameters", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'requiredBooleanGroup' is set
         if (requiredBooleanGroup == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters");
+            throw new WebClientResponseException("Missing the required parameter 'requiredBooleanGroup' when calling testGroupParameters", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'requiredInt64Group' is set
         if (requiredInt64Group == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'requiredInt64Group' when calling testGroupParameters");
+            throw new WebClientResponseException("Missing the required parameter 'requiredInt64Group' when calling testGroupParameters", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -512,13 +511,13 @@ public class FakeApi {
      * 
      * <p><b>200</b> - successful operation
      * @param param request body
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testInlineAdditionalProperties(Map<String, String> param) throws RestClientException {
+    public Mono<Void> testInlineAdditionalProperties(Map<String, String> param) throws WebClientResponseException {
         Object postBody = param;
         // verify the required parameter 'param' is set
         if (param == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'param' when calling testInlineAdditionalProperties");
+            throw new WebClientResponseException("Missing the required parameter 'param' when calling testInlineAdditionalProperties", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -546,17 +545,17 @@ public class FakeApi {
      * <p><b>200</b> - successful operation
      * @param param field1
      * @param param2 field2
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testJsonFormData(String param, String param2) throws RestClientException {
+    public Mono<Void> testJsonFormData(String param, String param2) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'param' is set
         if (param == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'param' when calling testJsonFormData");
+            throw new WebClientResponseException("Missing the required parameter 'param' when calling testJsonFormData", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'param2' is set
         if (param2 == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'param2' when calling testJsonFormData");
+            throw new WebClientResponseException("Missing the required parameter 'param2' when calling testJsonFormData", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();
@@ -592,29 +591,29 @@ public class FakeApi {
      * @param http The http parameter
      * @param url The url parameter
      * @param context The context parameter
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws RestClientException {
+    public Mono<Void> testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws WebClientResponseException {
         Object postBody = null;
         // verify the required parameter 'pipe' is set
         if (pipe == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat");
+            throw new WebClientResponseException("Missing the required parameter 'pipe' when calling testQueryParameterCollectionFormat", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'ioutil' is set
         if (ioutil == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat");
+            throw new WebClientResponseException("Missing the required parameter 'ioutil' when calling testQueryParameterCollectionFormat", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'http' is set
         if (http == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'http' when calling testQueryParameterCollectionFormat");
+            throw new WebClientResponseException("Missing the required parameter 'http' when calling testQueryParameterCollectionFormat", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'url' is set
         if (url == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'url' when calling testQueryParameterCollectionFormat");
+            throw new WebClientResponseException("Missing the required parameter 'url' when calling testQueryParameterCollectionFormat", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // verify the required parameter 'context' is set
         if (context == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'context' when calling testQueryParameterCollectionFormat");
+            throw new WebClientResponseException("Missing the required parameter 'context' when calling testQueryParameterCollectionFormat", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();

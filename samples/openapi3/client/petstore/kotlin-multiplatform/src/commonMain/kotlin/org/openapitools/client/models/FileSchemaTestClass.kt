@@ -23,7 +23,5 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 data class FileSchemaTestClass (
     @SerialName(value = "file") val file: org.openapitools.client.infrastructure.OctetByteArray? = null,
     @SerialName(value = "files") val files: kotlin.Array<org.openapitools.client.infrastructure.OctetByteArray>? = null
-) 
-
-
+)
 

@@ -15,13 +15,14 @@ openapi-generator help
 usage: openapi-generator-cli <command> [<args>]
 
 The most commonly used openapi-generator-cli commands are:
+    author        Utilities for authoring generators or customizing templates.
     config-help   Config help for chosen lang
     generate      Generate code with the specified generator.
-    help          Display help information
+    help          Display help information about openapi-generator
     list          Lists the available generators
     meta          MetaGenerator. Generator for creating a new template set and configuration for Codegen.  The output will be based on the language you specify, and includes default templates to include.
     validate      Validate specification
-    version       Show version information
+    version       Show version information used in tooling
 
 See 'openapi-generator-cli help <command>' for more information on a specific
 command.
@@ -260,14 +261,14 @@ SYNOPSIS
                 [(-a <authorization> | --auth <authorization>)]
                 [--api-name-suffix <api name suffix>] [--api-package <api package>]
                 [--artifact-id <artifact id>] [--artifact-version <artifact version>]
-                [(-c <configuration file> | --config <configuration file>)]
-                [-D <system properties>...] [--dry-run]
+                [(-c <configuration file> | --config <configuration file>)] [--dry-run]
                 [(-e <templating engine> | --engine <templating engine>)]
                 [--enable-post-process-file]
                 [(-g <generator name> | --generator-name <generator name>)]
                 [--generate-alias-as-model] [--git-host <git host>]
                 [--git-repo-id <git repo id>] [--git-user-id <git user id>]
-                [--group-id <group id>] [--http-user-agent <http user agent>]
+                [--global-property <global properties>...] [--group-id <group id>]
+                [--http-user-agent <http user agent>]
                 (-i <spec file> | --input-spec <spec file>)
                 [--ignore-file-override <ignore file override location>]
                 [--import-mappings <import mappings>...]
@@ -323,10 +324,6 @@ OPTIONS
             different for each language. Run config-help -g {generator name}
             command for language-specific config options.
 
-        -D <system properties>
-            sets specified system properties in the format of
-            name=value,name=value (or multiple options, each with name=value)
-
         --dry-run
             Try things out and report on potential changes (without actually
             making changes).
@@ -342,11 +339,11 @@ OPTIONS
 
         --generate-alias-as-model
             Generate model implementation for aliases to map and array schemas.
-            An 'alias' is an array, map, or list which is defined inline in a 
-            OpenAPI document and becomes a model in the generated code.
-            A 'map' schema is an object that can have undeclared properties,
-            i.e. the 'additionalproperties' attribute is set on that object.
-            An 'array' schema is a list of sub schemas in a OAS document.
+            An 'alias' is an array, map, or list which is defined inline in a
+            OpenAPI document and becomes a model in the generated code. A 'map'
+            schema is an object that can have undeclared properties, i.e. the
+            'additionalproperties' attribute is set on that object. An 'array'
+            schema is a list of sub schemas in a OAS document
 
         --git-host <git host>
             Git host, e.g. gitlab.com.
@@ -357,12 +354,17 @@ OPTIONS
         --git-user-id <git user id>
             Git user ID, e.g. openapitools.
 
+        --global-property <global properties>
+            sets specified global properties (previously called 'system
+            properties') in the format of name=value,name=value (or multiple
+            options, each with name=value)
+
         --group-id <group id>
             groupId in generated pom.xml
 
         --http-user-agent <http user agent>
             HTTP user agent, e.g. codegen_csharp_api_client, default to
-            'OpenAPI-Generator/{packageVersion}}/{language}'
+            'OpenAPI-Generator/{packageVersion}/{language}'
 
         -i <spec file>, --input-spec <spec file>
             location of the OpenAPI spec, as URL or file (required)
@@ -670,3 +672,87 @@ EOF
 openapi-generator batch *.yaml
 ```
 
+## author
+
+This command group contains utilities for authoring generators or customizing templates.
+
+```
+openapi-generator help author
+NAME
+        openapi-generator-cli author - Utilities for authoring generators or
+        customizing templates.
+
+SYNOPSIS
+        openapi-generator-cli author
+        openapi-generator-cli author template [(-v | --verbose)]
+                [(-o <output directory> | --output <output directory>)]
+                [--library <library>]
+                (-g <generator name> | --generator-name <generator name>)
+
+OPTIONS
+        --help
+            Display help about the tool
+
+        --version
+            Display full version output
+
+COMMANDS
+        With no arguments, Display help information about openapi-generator
+
+        template
+            Retrieve templates for local modification
+
+            With --verbose option, verbose mode
+
+            With --output option, where to write the template files (defaults to
+            'out')
+
+            With --library option, library template (sub-template)
+
+            With --generator-name option, generator to use (see list command for
+            list)
+```
+
+### template
+
+This command allows user to extract templates from the CLI jar which simplifies customization efforts.
+
+```
+NAME
+        openapi-generator-cli author template - Retrieve templates for local
+        modification
+
+SYNOPSIS
+        openapi-generator-cli author template
+                (-g <generator name> | --generator-name <generator name>)
+                [--library <library>]
+                [(-o <output directory> | --output <output directory>)]
+                [(-v | --verbose)]
+
+OPTIONS
+        -g <generator name>, --generator-name <generator name>
+            generator to use (see list command for list)
+
+        --library <library>
+            library template (sub-template)
+
+        -o <output directory>, --output <output directory>
+            where to write the template files (defaults to 'out')
+
+        -v, --verbose
+            verbose mode
+```
+
+Example:
+
+Extract Java templates, limiting to the `webclient` library.
+
+```
+openapi-generator author template -g java --library webclient
+```
+
+Extract all Java templates:
+
+```
+openapi-generator author template -g java
+```

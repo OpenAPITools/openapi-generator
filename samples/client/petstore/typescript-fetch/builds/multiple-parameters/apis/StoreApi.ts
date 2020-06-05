@@ -33,7 +33,7 @@ export interface PlaceOrderRequest {
 }
 
 /**
- * no description
+ * 
  */
 export class StoreApi extends runtime.BaseAPI {
 

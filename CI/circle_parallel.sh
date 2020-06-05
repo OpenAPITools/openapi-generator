@@ -24,8 +24,8 @@ if [ "$NODE_INDEX" = "1" ]; then
   export PATH="/usr/local/go1.14/go/bin:$PATH"
   go version
 
-  mvn --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  mvn --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  mvn --no-snapshot-updates --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  mvn --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
 elif [ "$NODE_INDEX" = "2" ]; then
   # run ensure-up-to-date sample script on SNAPSHOT version only
@@ -33,9 +33,6 @@ elif [ "$NODE_INDEX" = "2" ]; then
   if [[ $project_version == *"-SNAPSHOT" ]]; then
     echo "Running node $NODE_INDEX to test ensure-up-to-date"
     java -version
-
-    # install elm-format
-    npm install -g elm-format
 
     # clear any changes to the samples
     git checkout -- .
@@ -61,7 +58,7 @@ elif [ "$NODE_INDEX" = "2" ]; then
   sudo apt-get -y install libcurl4-gnutls-dev
 
   # run integration tests
-  mvn --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  mvn --no-snapshot-updates --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.jdk7' defined in pom.xml ..."
   sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
@@ -76,7 +73,7 @@ else
   sudo apt-get install dart
   export PATH="$PATH:/usr/lib/dart/bin"
 
-  mvn --quiet verify -Psamples.circleci.jdk7 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.jdk7 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
 
 

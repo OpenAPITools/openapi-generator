@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **string** | **str** | None | [optional] 
 **binary** | **file_type** | None | [optional] 
 **date** | **date** | None | [optional] 
-**date_time** | **datetime** | None | [optional] 
+**date_time** | **datetime** | None | [optional]  if omitted the server will use the default value of dateutil_parser('2010-02-01T10:20:10.11111+01:00')
 **password** | **str** | None | [optional] 
 **callback** | **str** | None | [optional] 
 

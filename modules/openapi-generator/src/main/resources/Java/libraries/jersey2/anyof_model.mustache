@@ -1,0 +1,97 @@
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
+@JsonDeserialize(using={{classname}}.{{classname}}Deserializer.class)
+public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
+    private static final Logger log = Logger.getLogger({{classname}}.class.getName());
+
+    public static class {{classname}}Deserializer extends StdDeserializer<{{classname}}> {
+        public {{classname}}Deserializer() {
+            this({{classname}}.class);
+        }
+
+        public {{classname}}Deserializer(Class<?> vc) {
+            super(vc);
+        }
+
+        @Override
+        public {{classname}} deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+            JsonNode tree = jp.readValueAsTree();
+
+            Object deserialized = null;
+            {{#anyOf}}
+            // deserialzie {{{.}}}
+            try {
+                deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
+                {{classname}} ret = new {{classname}}();
+                ret.setActualInstance(deserialized);
+                return ret;
+            } catch (Exception e) {
+                // deserialization failed, continue, log to help debugging
+                log.log(Level.FINER, "Input data does not match '{{classname}}'", e);
+            }
+
+            {{/anyOf}}
+            throw new IOException(String.format("Failed deserialization for {{classname}}: no match found"));
+        }
+    }
+
+    // store a list of schema names defined in anyOf
+    public final static Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+
+    public {{classname}}() {
+        super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
+    }
+
+    {{#anyOf}}
+    public {{classname}}({{{.}}} o) {
+        super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
+        setActualInstance(o);
+    }
+
+    {{/anyOf}}
+    static {
+        {{#anyOf}}
+        schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
+        });
+        {{/anyOf}}
+    }
+
+    @Override
+    public Map<String, GenericType> getSchemas() {
+        return {{classname}}.schemas;
+    }
+
+    @Override
+    public void setActualInstance(Object instance) {
+        {{#isNulalble}}
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
+        {{/isNulalble}}
+        {{#anyOf}}
+        if (instance instanceof {{{.}}}) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        {{/anyOf}}
+        throw new RuntimeException("Invalid instance type. Must be {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
+    }
+}

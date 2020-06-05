@@ -41,7 +41,6 @@ class TestPetController(BaseTestCase):
   "status" : "available"
 }
         headers = { 
-            'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': 'Bearer special-key',
         }
@@ -146,7 +145,6 @@ class TestPetController(BaseTestCase):
   "status" : "available"
 }
         headers = { 
-            'Accept': 'application/json',
             'Content-Type': 'application/json',
             'Authorization': 'Bearer special-key',
         }
