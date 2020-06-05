@@ -110,7 +110,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
             return self.call_with_http_info(**kwargs)
@@ -229,7 +229,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
             return self.call_with_http_info(**kwargs)
@@ -351,7 +351,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['status'] = \
                 status
             return self.call_with_http_info(**kwargs)
@@ -479,7 +479,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['tags'] = \
                 tags
             return self.call_with_http_info(**kwargs)
@@ -600,7 +600,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
             return self.call_with_http_info(**kwargs)
@@ -719,7 +719,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
             return self.call_with_http_info(**kwargs)
@@ -839,7 +839,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
             return self.call_with_http_info(**kwargs)
@@ -970,7 +970,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
             return self.call_with_http_info(**kwargs)
@@ -1109,7 +1109,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
             kwargs['required_file'] = \

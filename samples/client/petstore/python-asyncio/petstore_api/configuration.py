@@ -128,7 +128,7 @@ conf = petstore_api.Configuration(
         """
         self.server_variables = server_variables or {}
         self.server_operation_variables = server_operation_variables or {}
-        """Default sever variables
+        """Default server variables
         """
         self.temp_folder_path = None
         """Temp file folder for downloading files
@@ -446,6 +446,7 @@ conf = petstore_api.Configuration(
         """Gets host URL based on the index and variables
         :param index: array index of the host settings
         :param variables: hash of variable and the corresponding value
+        :param servers: host settings for the endpoint
         :return: URL based on host settings
         """
         variables = {} if variables is None else variables

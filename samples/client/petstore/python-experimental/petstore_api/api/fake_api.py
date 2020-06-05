@@ -116,7 +116,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['xml_item'] = \
                 xml_item
             return self.call_with_http_info(**kwargs)
@@ -235,7 +235,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
         self.fake_outer_boolean_serialize = Endpoint(
@@ -345,7 +345,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
         self.fake_outer_composite_serialize = Endpoint(
@@ -455,7 +455,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
         self.fake_outer_enum_serialize = Endpoint(
@@ -565,7 +565,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
         self.fake_outer_number_serialize = Endpoint(
@@ -675,7 +675,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
         self.fake_outer_string_serialize = Endpoint(
@@ -787,7 +787,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
             return self.call_with_http_info(**kwargs)
@@ -904,7 +904,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['query'] = \
                 query
             kwargs['body'] = \
@@ -1028,7 +1028,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
             return self.call_with_http_info(**kwargs)
@@ -1154,7 +1154,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['query_integer'] = \
                 query_integer
             kwargs['query_string'] = \
@@ -1342,7 +1342,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['number'] = \
                 number
             kwargs['double'] = \
@@ -1589,7 +1589,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
         self.test_enum_parameters = Endpoint(
@@ -1798,7 +1798,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['required_string_group'] = \
                 required_string_group
             kwargs['required_boolean_group'] = \
@@ -1943,7 +1943,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['param'] = \
                 param
             return self.call_with_http_info(**kwargs)
@@ -2060,7 +2060,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['param'] = \
                 param
             kwargs['param2'] = \

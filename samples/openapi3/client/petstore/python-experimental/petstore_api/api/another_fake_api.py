@@ -110,7 +110,7 @@ class AnotherFakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['client_client'] = \
                 client_client
             return self.call_with_http_info(**kwargs)

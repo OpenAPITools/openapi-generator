@@ -110,7 +110,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['user_user'] = \
                 user_user
             return self.call_with_http_info(**kwargs)
@@ -225,7 +225,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['user_user'] = \
                 user_user
             return self.call_with_http_info(**kwargs)
@@ -340,7 +340,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['user_user'] = \
                 user_user
             return self.call_with_http_info(**kwargs)
@@ -456,7 +456,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['username'] = \
                 username
             return self.call_with_http_info(**kwargs)
@@ -570,7 +570,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['username'] = \
                 username
             return self.call_with_http_info(**kwargs)
@@ -689,7 +689,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['username'] = \
                 username
             kwargs['password'] = \
@@ -811,7 +811,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
         self.logout_user = Endpoint(
@@ -919,7 +919,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', None)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['username'] = \
                 username
             kwargs['user_user'] = \
