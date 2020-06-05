@@ -3,7 +3,9 @@ package org.openapitools.client;
 import org.openapitools.client.model.Order;
 
 import java.lang.Exception;
-
+import java.util.Date;
+import java.util.TimeZone;
+import java.text.SimpleDateFormat;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -30,6 +32,19 @@ public class JSONTest {
         String str = json.getContext(null).writeValueAsString(order);
         Order o = json.getContext(null).readValue(str, Order.class);
         assertEquals(dateStr, dateFormat.format(o.getShipDate()));
+    }
+
+    @Test
+    public void testRFC3339DateFormatDate() throws Exception {
+        String dateStr = "2011-01-18 00:00:00.0Z";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S'Z'");
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Date date = sdf.parse(dateStr);
+        
+        RFC3339DateFormat df = new RFC3339DateFormat();
+        StringBuffer sb = new StringBuffer();
+        String s = df.format(date);
+        assertEquals("2011-01-18[T00:00:00.000Z]", s);
     }
 
     @Test
