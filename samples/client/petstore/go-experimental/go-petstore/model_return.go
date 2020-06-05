@@ -111,3 +111,4 @@ func (v *NullableReturn) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
+

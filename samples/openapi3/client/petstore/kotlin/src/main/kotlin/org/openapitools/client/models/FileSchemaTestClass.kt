@@ -26,9 +26,9 @@ data class FileSchemaTestClass (
     @Json(name = "files")
     val files: kotlin.Array<java.io.File>? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 
