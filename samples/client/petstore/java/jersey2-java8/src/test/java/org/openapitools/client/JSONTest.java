@@ -1,6 +1,7 @@
 package org.openapitools.client;
 
 import org.openapitools.client.model.Order;
+import org.openapitools.client.model.SpecialModelName;
 
 import java.lang.Exception;
 
@@ -55,5 +56,6 @@ public class JSONTest {
         // of the @JsonSubTypes annotation.
         SpecialModelName o = json.getContext(null).readValue(str, SpecialModelName.class);
         assertNotNull(o);
+        assertEquals((long)12345, (long)o.get$SpecialPropertyName());
     }    
 }
