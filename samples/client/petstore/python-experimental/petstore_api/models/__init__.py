@@ -20,6 +20,7 @@ from petstore_api.model.additional_properties_number import AdditionalProperties
 from petstore_api.model.additional_properties_object import AdditionalPropertiesObject
 from petstore_api.model.additional_properties_string import AdditionalPropertiesString
 from petstore_api.model.animal import Animal
+from petstore_api.model.animal_farm import AnimalFarm
 from petstore_api.model.api_response import ApiResponse
 from petstore_api.model.array_of_array_of_number_only import ArrayOfArrayOfNumberOnly
 from petstore_api.model.array_of_number_only import ArrayOfNumberOnly

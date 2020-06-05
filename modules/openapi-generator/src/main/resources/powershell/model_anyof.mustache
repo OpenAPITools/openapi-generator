@@ -44,7 +44,7 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
         $JsonData = ConvertFrom-Json -InputObject $Json
         {{/-first}}
         # check if the discriminator value is '{{{mappingName}}}'
-        if ($JsonData.PSobject.Properties["{{{propertyBaseName}}}"].value == "{{{mappingName}}}") {
+        if ($JsonData.PSobject.Properties["{{{propertyBaseName}}}"].value -eq "{{{mappingName}}}") {
             # try to match {{{modelName}}} defined in the anyOf schemas
             try {
                 $matchInstance = ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{modelName}}} $Json

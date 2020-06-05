@@ -85,7 +85,7 @@ public class InlineObject3 {
   private LocalDate date;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
-  private OffsetDateTime dateTime;
+  private OffsetDateTime dateTime = OffsetDateTime.parse("2010-02-01T17:20:10.111110+08:00[Asia/Hong_Kong]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()));
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
   private String password;
@@ -385,7 +385,7 @@ public class InlineObject3 {
    * @return dateTime
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "None")
+  @ApiModelProperty(example = "2020-02-02T20:20:20.222220Z", value = "None")
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

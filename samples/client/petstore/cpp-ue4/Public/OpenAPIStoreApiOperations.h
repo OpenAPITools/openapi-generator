@@ -40,7 +40,7 @@ class OPENAPI_API OpenAPIStoreApi::DeleteOrderResponse : public Response
 public:
     virtual ~DeleteOrderResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };
@@ -63,7 +63,7 @@ class OPENAPI_API OpenAPIStoreApi::GetInventoryResponse : public Response
 public:
     virtual ~GetInventoryResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     TMap<FString, int32> Content;
 };
@@ -88,7 +88,7 @@ class OPENAPI_API OpenAPIStoreApi::GetOrderByIdResponse : public Response
 public:
     virtual ~GetOrderByIdResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     OpenAPIOrder Content;
 };
@@ -112,7 +112,7 @@ class OPENAPI_API OpenAPIStoreApi::PlaceOrderResponse : public Response
 public:
     virtual ~PlaceOrderResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     OpenAPIOrder Content;
 };

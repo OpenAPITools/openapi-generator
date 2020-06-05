@@ -65,6 +65,7 @@ class FakeApi(object):
             this route creates an XmlItem  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.create_xml_item(xml_item, async_req=True)
             >>> result = thread.get()
 
@@ -184,6 +185,7 @@ class FakeApi(object):
             Test serialization of outer boolean types  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.fake_outer_boolean_serialize(async_req=True)
             >>> result = thread.get()
 
@@ -293,6 +295,7 @@ class FakeApi(object):
             Test serialization of object with outer number type  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.fake_outer_composite_serialize(async_req=True)
             >>> result = thread.get()
 
@@ -402,6 +405,7 @@ class FakeApi(object):
             Test serialization of outer enum  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.fake_outer_enum_serialize(async_req=True)
             >>> result = thread.get()
 
@@ -511,6 +515,7 @@ class FakeApi(object):
             Test serialization of outer number types  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.fake_outer_number_serialize(async_req=True)
             >>> result = thread.get()
 
@@ -620,6 +625,7 @@ class FakeApi(object):
             Test serialization of outer string types  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.fake_outer_string_serialize(async_req=True)
             >>> result = thread.get()
 
@@ -730,6 +736,7 @@ class FakeApi(object):
             For this test, the body for this request much reference a schema named `File`.  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_body_with_file_schema(body, async_req=True)
             >>> result = thread.get()
 
@@ -845,6 +852,7 @@ class FakeApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_body_with_query_params(query, body, async_req=True)
             >>> result = thread.get()
 
@@ -969,6 +977,7 @@ class FakeApi(object):
             To test \"client\" model  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_client_model(body, async_req=True)
             >>> result = thread.get()
 
@@ -1090,6 +1099,7 @@ class FakeApi(object):
             This route has required values with enums of 1  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_endpoint_enums_length_one(query_integer=3, query_string='brillig', path_string='hello', path_integer=34, header_number=1.234, async_req=True)
             >>> result = thread.get()
 
@@ -1268,6 +1278,7 @@ class FakeApi(object):
             Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, async_req=True)
             >>> result = thread.get()
 
@@ -1521,6 +1532,7 @@ class FakeApi(object):
             To test enum parameters  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_enum_parameters(async_req=True)
             >>> result = thread.get()
 
@@ -1730,6 +1742,7 @@ class FakeApi(object):
             Fake endpoint to test group parameters (optional)  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, async_req=True)
             >>> result = thread.get()
 
@@ -1879,6 +1892,7 @@ class FakeApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_inline_additional_properties(param, async_req=True)
             >>> result = thread.get()
 
@@ -1994,6 +2008,7 @@ class FakeApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_json_form_data(param, param2, async_req=True)
             >>> result = thread.get()
 

@@ -11,6 +11,7 @@ docs/AdditionalPropertiesNumber.md
 docs/AdditionalPropertiesObject.md
 docs/AdditionalPropertiesString.md
 docs/Animal.md
+docs/AnimalFarm.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
 docs/ArrayOfArrayOfNumberOnly.md
@@ -93,6 +94,7 @@ petstore_api/model/additional_properties_number.py
 petstore_api/model/additional_properties_object.py
 petstore_api/model/additional_properties_string.py
 petstore_api/model/animal.py
+petstore_api/model/animal_farm.py
 petstore_api/model/api_response.py
 petstore_api/model/array_of_array_of_number_only.py
 petstore_api/model/array_of_number_only.py

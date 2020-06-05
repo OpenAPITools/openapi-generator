@@ -28,9 +28,9 @@ data class InlineObject2 (
     @Json(name = "enum_form_string")
     val enumFormString: InlineObject2.EnumFormString? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
     /**
     * Form parameter enum test (string array)
