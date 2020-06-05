@@ -73,7 +73,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_property: The map_property of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, str)
+        :type map_property: dict(str, str)
         """
 
         self._map_property = map_property
@@ -94,7 +94,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_of_map_property: The map_of_map_property of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, dict(str, str))
+        :type map_of_map_property: dict(str, dict(str, str))
         """
 
         self._map_of_map_property = map_of_map_property

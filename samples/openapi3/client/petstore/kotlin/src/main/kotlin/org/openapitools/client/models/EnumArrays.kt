@@ -27,9 +27,9 @@ data class EnumArrays (
     @Json(name = "array_enum")
     val arrayEnum: kotlin.collections.List<EnumArrays.ArrayEnum>? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
     /**
     * 

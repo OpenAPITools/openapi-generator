@@ -24,9 +24,9 @@ data class CatAllOf (
     @Json(name = "declawed")
     val declawed: kotlin.Boolean? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

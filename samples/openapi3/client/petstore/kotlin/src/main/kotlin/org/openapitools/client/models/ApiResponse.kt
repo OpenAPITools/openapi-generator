@@ -30,9 +30,9 @@ data class ApiResponse (
     @Json(name = "message")
     val message: kotlin.String? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

@@ -27,9 +27,9 @@ data class HasOnlyReadOnly (
     @SerializedName("foo")
     val foo: kotlin.String? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

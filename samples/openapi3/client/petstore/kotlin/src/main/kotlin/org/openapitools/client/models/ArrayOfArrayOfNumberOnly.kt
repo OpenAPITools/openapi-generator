@@ -24,9 +24,9 @@ data class ArrayOfArrayOfNumberOnly (
     @Json(name = "ArrayArrayNumber")
     val arrayArrayNumber: kotlin.collections.List<kotlin.collections.List<java.math.BigDecimal>>? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

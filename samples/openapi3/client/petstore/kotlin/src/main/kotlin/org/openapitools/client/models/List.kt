@@ -24,9 +24,9 @@ data class List (
     @Json(name = "123-list")
     val `123minusList`: kotlin.String? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

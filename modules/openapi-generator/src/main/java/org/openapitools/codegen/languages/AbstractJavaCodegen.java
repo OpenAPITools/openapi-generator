@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.base.Strings;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -42,7 +41,6 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig {
@@ -814,11 +812,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             } else {
                 pattern = "new HashMap<%s>()";
             }
-            if (ModelUtils.getAdditionalProperties(schema) == null) {
+            if (getAdditionalProperties(schema) == null) {
                 return null;
             }
 
-            String typeDeclaration = String.format(Locale.ROOT, "String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(schema)));
+            String typeDeclaration = String.format(Locale.ROOT, "String, %s", getTypeDeclaration(getAdditionalProperties(schema)));
             Object java8obj = additionalProperties.get("java8");
             if (java8obj != null) {
                 Boolean java8 = Boolean.valueOf(java8obj.toString());
@@ -863,9 +861,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     Date date = (Date) schema.getDefault();
                     LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     return String.format(Locale.ROOT, localDate.toString(), "");
+                } else if (schema.getDefault() instanceof java.time.OffsetDateTime) {
+                    return "OffsetDateTime.parse(\"" +  String.format(Locale.ROOT, ((java.time.OffsetDateTime) schema.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))";
                 } else {
                     _default = (String) schema.getDefault();
                 }
+
                 if (schema.getEnum() == null) {
                     return "\"" + escapeText(_default) + "\"";
                 } else {
@@ -1034,12 +1035,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         if (serializeBigDecimalAsString) {
             if (property.baseType.equals("BigDecimal")) {
-
-                // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-                once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
                 // we serialize BigDecimal as `string` to avoid precision loss
-                property.vendorExtensions.put("extraAnnotation", "@JsonSerialize(using = ToStringSerializer.class)");  // TODO: 5.0 Remove
                 property.vendorExtensions.put("x-extra-annotation", "@JsonSerialize(using = ToStringSerializer.class)");
 
                 // this requires some more imports to be added for this model...
@@ -1654,7 +1650,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
 
         // See https://github.com/OpenAPITools/openapi-generator/pull/1729#issuecomment-449937728
-        codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getSchemaType(getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 }

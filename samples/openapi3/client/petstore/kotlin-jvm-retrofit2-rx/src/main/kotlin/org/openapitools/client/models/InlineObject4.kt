@@ -29,9 +29,9 @@ data class InlineObject4 (
     @SerializedName("param2")
     val param2: kotlin.String
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

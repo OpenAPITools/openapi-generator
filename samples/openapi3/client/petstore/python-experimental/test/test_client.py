@@ -11,10 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.client import Client
 
 
 class TestClient(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestClient(unittest.TestCase):
     def testClient(self):
         """Test Client"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.Client()  # noqa: E501
+        # model = Client()  # noqa: E501
         pass
 
 

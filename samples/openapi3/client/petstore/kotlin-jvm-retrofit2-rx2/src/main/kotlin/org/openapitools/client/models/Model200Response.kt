@@ -27,9 +27,9 @@ data class Model200Response (
     @SerializedName("class")
     val propertyClass: kotlin.String? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

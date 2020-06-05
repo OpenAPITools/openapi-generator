@@ -35,6 +35,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GoClientExperimentalCodegen.class);
     protected String goImportAlias = "openapiclient";
+    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     public GoClientExperimentalCodegen() {
         super();
@@ -44,6 +45,8 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         usesOptionals = false;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
+
+        cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
     }
 
     /**
@@ -93,6 +96,20 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
             additionalProperties.put("goImportAlias", goImportAlias);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP)) {
+            setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
+        }
+
+    }
+
+    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
+        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
+    }
+
+    public boolean getUseOneOfDiscriminatorLookup() {
+        return this.useOneOfDiscriminatorLookup;
     }
 
     public void setGoImportAlias(String goImportAlias) {
@@ -205,9 +222,12 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                 if (model.anyOf != null && !model.anyOf.isEmpty()) {
                     imports.add(createMapping("import", "fmt"));
                 }
+
+                // add x-additional-properties
+                if ("map[string]map[string]interface{}".equals(model.parent)) {
+                    model.vendorExtensions.put("x-additional-properties", true);
+                }
             }
-
-
         }
         return objs;
     }

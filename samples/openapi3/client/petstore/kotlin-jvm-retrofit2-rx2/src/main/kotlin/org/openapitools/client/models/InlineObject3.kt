@@ -77,9 +77,9 @@ data class InlineObject3 (
     @SerializedName("callback")
     val callback: kotlin.String? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

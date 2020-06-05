@@ -27,9 +27,9 @@ data class Category (
     @Json(name = "id")
     val id: kotlin.Long? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

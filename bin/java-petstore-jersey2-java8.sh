@@ -35,9 +35,9 @@ find samples/client/petstore/java/jersey2-java8 -maxdepth 1 -type f ! -name "REA
 java $JAVA_OPTS -jar $executable $ags
 
 # copy additional manually written unit-tests
-mkdir samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client
-mkdir samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/auth
-mkdir samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/model
+mkdir -p samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client
+mkdir -p samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/auth
+mkdir -p samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/model
 
 cp CI/samples.ci/client/petstore/java/test-manual/common/StringUtilTest.java samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/StringUtilTest.java
 cp CI/samples.ci/client/petstore/java/test-manual/jersey2/ApiClientTest.java samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/ApiClientTest.java

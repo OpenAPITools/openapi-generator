@@ -24,9 +24,9 @@ data class DogAllOf (
     @SerializedName("breed")
     val breed: kotlin.String? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

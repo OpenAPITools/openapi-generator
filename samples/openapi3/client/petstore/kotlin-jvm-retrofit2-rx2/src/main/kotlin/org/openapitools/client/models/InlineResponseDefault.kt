@@ -25,9 +25,9 @@ data class InlineResponseDefault (
     @SerializedName("string")
     val string: Foo? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

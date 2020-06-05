@@ -68,7 +68,7 @@ class NumberOnly(object):
 
 
         :param just_number: The just_number of this NumberOnly.  # noqa: E501
-        :type: float
+        :type just_number: float
         """
 
         self._just_number = just_number

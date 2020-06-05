@@ -24,9 +24,9 @@ data class ClassModel (
     @Json(name = "_class")
     val propertyClass: kotlin.String? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 
