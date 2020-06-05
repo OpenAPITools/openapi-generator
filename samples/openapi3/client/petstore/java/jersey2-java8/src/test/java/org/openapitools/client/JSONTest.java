@@ -36,15 +36,29 @@ public class JSONTest {
 
     @Test
     public void testRFC3339DateFormatDate() throws Exception {
-        String dateStr = "2011-01-18 00:00:00.0Z";
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S'Z'");
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-        Date date = sdf.parse(dateStr);
-        
-        RFC3339DateFormat df = new RFC3339DateFormat();
-        StringBuffer sb = new StringBuffer();
-        String s = df.format(date);
-        assertEquals("2011-01-18[T00:00:00.000Z]", s);
+        {
+            String dateStr = "2011-01-18 00:00:00.0Z";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S'Z'");
+            sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+            Date date = sdf.parse(dateStr);
+            
+            RFC3339DateFormat df = new RFC3339DateFormat();
+            StringBuffer sb = new StringBuffer();
+            String s = df.format(date);
+            System.out.println("DATE: " + s);
+            assertEquals("2011-01-18T00:00:00.000Z", s);
+        }
+        {
+            String dateStr = "2011-01-18 00:00:00.0";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
+            sdf.setTimeZone(TimeZone.getTimeZone("America/Los_Angeles"));
+            Date date = sdf.parse(dateStr);
+            
+            RFC3339DateFormat df = new RFC3339DateFormat();
+            StringBuffer sb = new StringBuffer();
+            String s = df.format(date);
+            assertEquals("2011-01-18T08:00:00.000Z", s);
+        }
     }
 
     @Test
