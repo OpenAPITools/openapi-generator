@@ -85,6 +85,9 @@ class DefaultApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :param _access_token: set to override the default access token defined
+                              in the ApiClient's configuration for a single request.
+        :type _access_token: str, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -100,7 +103,8 @@ class DefaultApi(object):
                 'async_req',
                 '_return_http_data_only',
                 '_preload_content',
-                '_request_timeout'
+                '_request_timeout',
+                '_access_token'
             ]
         )
 
@@ -146,4 +150,5 @@ class DefaultApi(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            _access_token=local_var_params.get('_access_token'))

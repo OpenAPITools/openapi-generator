@@ -122,7 +122,8 @@ class ApiClient(object):
             query_params=None, header_params=None, body=None, post_params=None,
             files=None, response_type=None, auth_settings=None,
             _return_http_data_only=None, collection_formats=None,
-            _preload_content=True, _request_timeout=None, _host=None):
+            _preload_content=True, _request_timeout=None, _host=None,
+            _access_token=None):
 
         config = self.configuration
 
@@ -163,7 +164,9 @@ class ApiClient(object):
             post_params.extend(self.files_parameters(files))
 
         # auth setting
-        self.update_params_for_auth(header_params, query_params, auth_settings)
+        self.update_params_for_auth(
+            header_params, query_params, auth_settings,
+            access_token=_access_token)
 
         # body
         if body:
@@ -323,7 +326,8 @@ class ApiClient(object):
                  body=None, post_params=None, files=None,
                  response_type=None, auth_settings=None, async_req=None,
                  _return_http_data_only=None, collection_formats=None,
-                 _preload_content=True, _request_timeout=None, _host=None):
+                 _preload_content=True, _request_timeout=None, _host=None,
+                 _access_token=None):
         """Makes the HTTP request (synchronous) and returns deserialized data.
 
         To make an async_req request, set the async_req parameter.
@@ -353,6 +357,9 @@ class ApiClient(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :param _access_token: set to override the default access token defined
+                              in the ApiClient's configuration for a single request.
+        :type _access_token: str, optional
         :return:
             If async_req parameter is True,
             the request will be called asynchronously.
@@ -366,7 +373,8 @@ class ApiClient(object):
                                    body, post_params, files,
                                    response_type, auth_settings,
                                    _return_http_data_only, collection_formats,
-                                   _preload_content, _request_timeout, _host)
+                                   _preload_content, _request_timeout, _host,
+                                   _access_token)
 
         return self.pool.apply_async(self.__call_api, (resource_path,
                                                        method, path_params,
@@ -379,7 +387,7 @@ class ApiClient(object):
                                                        collection_formats,
                                                        _preload_content,
                                                        _request_timeout,
-                                                       _host))
+                                                       _host, _access_token))
 
     def request(self, method, url, query_params=None, headers=None,
                 post_params=None, body=None, _preload_content=True,
@@ -526,12 +534,15 @@ class ApiClient(object):
         else:
             return content_types[0]
 
-    def update_params_for_auth(self, headers, querys, auth_settings):
+    def update_params_for_auth(self, headers, querys, auth_settings,
+                               access_token=None):
         """Updates header and query params based on authentication setting.
 
         :param headers: Header parameters dict to be updated.
         :param querys: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
+        :param access_token: if set, the provided access token will be used
+                             instead of the token in the configuration.
         """
         if not auth_settings:
             return
@@ -539,12 +550,16 @@ class ApiClient(object):
         for auth in auth_settings:
             auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
+                value = auth_setting['value']
+                if access_token is not None:
+                    value = access_token
+
                 if auth_setting['in'] == 'cookie':
-                    headers['Cookie'] = auth_setting['value']
+                    headers['Cookie'] = value
                 elif auth_setting['in'] == 'header':
-                    headers[auth_setting['key']] = auth_setting['value']
+                    headers[auth_setting['key']] = value
                 elif auth_setting['in'] == 'query':
-                    querys.append((auth_setting['key'], auth_setting['value']))
+                    querys.append((auth_setting['key'], value))
                 else:
                     raise ApiValueError(
                         'Authentication token must be in `query` or `header`'

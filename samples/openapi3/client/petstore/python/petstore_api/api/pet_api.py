@@ -89,6 +89,9 @@ class PetApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :param _access_token: set to override the default access token defined
+                              in the ApiClient's configuration for a single request.
+        :type _access_token: str, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -118,7 +121,8 @@ class PetApi(object):
                 'async_req',
                 '_return_http_data_only',
                 '_preload_content',
-                '_request_timeout'
+                '_request_timeout',
+                '_access_token'
             ]
         )
 
@@ -171,7 +175,8 @@ class PetApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             _host=local_var_host,
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            _access_token=local_var_params.get('_access_token'))
 
     def delete_pet(self, pet_id, **kwargs):  # noqa: E501
         """Deletes a pet  # noqa: E501
@@ -230,6 +235,9 @@ class PetApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :param _access_token: set to override the default access token defined
+                              in the ApiClient's configuration for a single request.
+        :type _access_token: str, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -247,7 +255,8 @@ class PetApi(object):
                 'async_req',
                 '_return_http_data_only',
                 '_preload_content',
-                '_request_timeout'
+                '_request_timeout',
+                '_access_token'
             ]
         )
 
@@ -297,7 +306,8 @@ class PetApi(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            _access_token=local_var_params.get('_access_token'))
 
     def find_pets_by_status(self, status, **kwargs):  # noqa: E501
         """Finds Pets by status  # noqa: E501
@@ -354,6 +364,9 @@ class PetApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :param _access_token: set to override the default access token defined
+                              in the ApiClient's configuration for a single request.
+        :type _access_token: str, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -370,7 +383,8 @@ class PetApi(object):
                 'async_req',
                 '_return_http_data_only',
                 '_preload_content',
-                '_request_timeout'
+                '_request_timeout',
+                '_access_token'
             ]
         )
 
@@ -423,7 +437,8 @@ class PetApi(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            _access_token=local_var_params.get('_access_token'))
 
     def find_pets_by_tags(self, tags, **kwargs):  # noqa: E501
         """Finds Pets by tags  # noqa: E501
@@ -480,6 +495,9 @@ class PetApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :param _access_token: set to override the default access token defined
+                              in the ApiClient's configuration for a single request.
+        :type _access_token: str, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -496,7 +514,8 @@ class PetApi(object):
                 'async_req',
                 '_return_http_data_only',
                 '_preload_content',
-                '_request_timeout'
+                '_request_timeout',
+                '_access_token'
             ]
         )
 
@@ -549,7 +568,8 @@ class PetApi(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            _access_token=local_var_params.get('_access_token'))
 
     def get_pet_by_id(self, pet_id, **kwargs):  # noqa: E501
         """Find pet by ID  # noqa: E501
@@ -606,6 +626,9 @@ class PetApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :param _access_token: set to override the default access token defined
+                              in the ApiClient's configuration for a single request.
+        :type _access_token: str, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -622,7 +645,8 @@ class PetApi(object):
                 'async_req',
                 '_return_http_data_only',
                 '_preload_content',
-                '_request_timeout'
+                '_request_timeout',
+                '_access_token'
             ]
         )
 
@@ -674,7 +698,8 @@ class PetApi(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            _access_token=local_var_params.get('_access_token'))
 
     def update_pet(self, pet, **kwargs):  # noqa: E501
         """Update an existing pet  # noqa: E501
@@ -729,6 +754,9 @@ class PetApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :param _access_token: set to override the default access token defined
+                              in the ApiClient's configuration for a single request.
+        :type _access_token: str, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -758,7 +786,8 @@ class PetApi(object):
                 'async_req',
                 '_return_http_data_only',
                 '_preload_content',
-                '_request_timeout'
+                '_request_timeout',
+                '_access_token'
             ]
         )
 
@@ -811,7 +840,8 @@ class PetApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             _host=local_var_host,
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            _access_token=local_var_params.get('_access_token'))
 
     def update_pet_with_form(self, pet_id, **kwargs):  # noqa: E501
         """Updates a pet in the store with form data  # noqa: E501
@@ -874,6 +904,9 @@ class PetApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :param _access_token: set to override the default access token defined
+                              in the ApiClient's configuration for a single request.
+        :type _access_token: str, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -892,7 +925,8 @@ class PetApi(object):
                 'async_req',
                 '_return_http_data_only',
                 '_preload_content',
-                '_request_timeout'
+                '_request_timeout',
+                '_access_token'
             ]
         )
 
@@ -948,7 +982,8 @@ class PetApi(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            _access_token=local_var_params.get('_access_token'))
 
     def upload_file(self, pet_id, **kwargs):  # noqa: E501
         """uploads an image  # noqa: E501
@@ -1011,6 +1046,9 @@ class PetApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :param _access_token: set to override the default access token defined
+                              in the ApiClient's configuration for a single request.
+        :type _access_token: str, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1029,7 +1067,8 @@ class PetApi(object):
                 'async_req',
                 '_return_http_data_only',
                 '_preload_content',
-                '_request_timeout'
+                '_request_timeout',
+                '_access_token'
             ]
         )
 
@@ -1089,7 +1128,8 @@ class PetApi(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            _access_token=local_var_params.get('_access_token'))
 
     def upload_file_with_required_file(self, pet_id, required_file, **kwargs):  # noqa: E501
         """uploads an image (required)  # noqa: E501
@@ -1152,6 +1192,9 @@ class PetApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
+        :param _access_token: set to override the default access token defined
+                              in the ApiClient's configuration for a single request.
+        :type _access_token: str, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1170,7 +1213,8 @@ class PetApi(object):
                 'async_req',
                 '_return_http_data_only',
                 '_preload_content',
-                '_request_timeout'
+                '_request_timeout',
+                '_access_token'
             ]
         )
 
@@ -1234,4 +1278,5 @@ class PetApi(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            _access_token=local_var_params.get('_access_token'))
