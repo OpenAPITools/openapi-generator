@@ -131,7 +131,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param integer: The integer of this InlineObject3.  # noqa: E501
-        :type: int
+        :type integer: int
         """
         if (self.local_vars_configuration.client_side_validation and
                 integer is not None and integer > 100):  # noqa: E501
@@ -160,7 +160,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param int32: The int32 of this InlineObject3.  # noqa: E501
-        :type: int
+        :type int32: int
         """
         if (self.local_vars_configuration.client_side_validation and
                 int32 is not None and int32 > 200):  # noqa: E501
@@ -189,7 +189,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param int64: The int64 of this InlineObject3.  # noqa: E501
-        :type: int
+        :type int64: int
         """
 
         self._int64 = int64
@@ -212,7 +212,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param number: The number of this InlineObject3.  # noqa: E501
-        :type: float
+        :type number: float
         """
         if self.local_vars_configuration.client_side_validation and number is None:  # noqa: E501
             raise ValueError("Invalid value for `number`, must not be `None`")  # noqa: E501
@@ -243,7 +243,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param float: The float of this InlineObject3.  # noqa: E501
-        :type: float
+        :type float: float
         """
         if (self.local_vars_configuration.client_side_validation and
                 float is not None and float > 987.6):  # noqa: E501
@@ -269,7 +269,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param double: The double of this InlineObject3.  # noqa: E501
-        :type: float
+        :type double: float
         """
         if self.local_vars_configuration.client_side_validation and double is None:  # noqa: E501
             raise ValueError("Invalid value for `double`, must not be `None`")  # noqa: E501
@@ -300,7 +300,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param string: The string of this InlineObject3.  # noqa: E501
-        :type: str
+        :type string: str
         """
         if (self.local_vars_configuration.client_side_validation and
                 string is not None and not re.search(r'[a-z]', string, flags=re.IGNORECASE)):  # noqa: E501
@@ -326,7 +326,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param pattern_without_delimiter: The pattern_without_delimiter of this InlineObject3.  # noqa: E501
-        :type: str
+        :type pattern_without_delimiter: str
         """
         if self.local_vars_configuration.client_side_validation and pattern_without_delimiter is None:  # noqa: E501
             raise ValueError("Invalid value for `pattern_without_delimiter`, must not be `None`")  # noqa: E501
@@ -354,7 +354,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param byte: The byte of this InlineObject3.  # noqa: E501
-        :type: str
+        :type byte: str
         """
         if self.local_vars_configuration.client_side_validation and byte is None:  # noqa: E501
             raise ValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
@@ -379,7 +379,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param binary: The binary of this InlineObject3.  # noqa: E501
-        :type: file
+        :type binary: file
         """
 
         self._binary = binary
@@ -402,7 +402,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param date: The date of this InlineObject3.  # noqa: E501
-        :type: date
+        :type date: date
         """
 
         self._date = date
@@ -425,7 +425,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param date_time: The date_time of this InlineObject3.  # noqa: E501
-        :type: datetime
+        :type date_time: datetime
         """
 
         self._date_time = date_time
@@ -448,7 +448,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param password: The password of this InlineObject3.  # noqa: E501
-        :type: str
+        :type password: str
         """
         if (self.local_vars_configuration.client_side_validation and
                 password is not None and len(password) > 64):
@@ -477,7 +477,7 @@ class InlineObject3(object):
         None  # noqa: E501
 
         :param callback: The callback of this InlineObject3.  # noqa: E501
-        :type: str
+        :type callback: str
         """
 
         self._callback = callback

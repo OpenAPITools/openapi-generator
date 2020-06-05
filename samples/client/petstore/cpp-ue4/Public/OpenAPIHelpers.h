@@ -17,6 +17,7 @@
 #include "Serialization/JsonSerializer.h"
 #include "Dom/JsonObject.h"
 #include "Misc/Base64.h"
+#include "PlatformHttp.h"
 
 class IHttpRequest;
 
@@ -205,10 +206,22 @@ inline FString CollectionToUrlString_multi(const TArray<T>& Collection, const TC
 
 //////////////////////////////////////////////////////////////////////////
 
-template<typename T, typename std::enable_if<!std::is_base_of<Model, T>::value, int>::type = 0>
-inline void WriteJsonValue(JsonWriter& Writer, const T& Value)
+inline void WriteJsonValue(JsonWriter& Writer, const TSharedPtr<FJsonObject>& Value)
 {
-	Writer->WriteValue(Value);
+	if (Value.IsValid())
+	{
+		FJsonSerializer::Serialize(Value.ToSharedRef(), Writer, false);
+	}
+	else
+	{
+		Writer->WriteObjectStart();
+		Writer->WriteObjectEnd();
+	}
+}
+
+inline void WriteJsonValue(JsonWriter& Writer, const TArray<uint8>& Value)
+{
+	Writer->WriteValue(ToString(Value));
 }
 
 inline void WriteJsonValue(JsonWriter& Writer, const FDateTime& Value)
@@ -219,6 +232,12 @@ inline void WriteJsonValue(JsonWriter& Writer, const FDateTime& Value)
 inline void WriteJsonValue(JsonWriter& Writer, const Model& Value)
 {
 	Value.WriteJson(Writer);
+}
+
+template<typename T, typename std::enable_if<!std::is_base_of<Model, T>::value, int>::type = 0>
+inline void WriteJsonValue(JsonWriter& Writer, const T& Value)
+{
+	Writer->WriteValue(Value);
 }
 
 template<typename T>
@@ -244,53 +263,7 @@ inline void WriteJsonValue(JsonWriter& Writer, const TMap<FString, T>& Value)
 	Writer->WriteObjectEnd();
 }
 
-inline void WriteJsonValue(JsonWriter& Writer, const TSharedPtr<FJsonObject>& Value)
-{
-	if (Value.IsValid())
-	{
-		FJsonSerializer::Serialize(Value.ToSharedRef(), Writer, false);
-	}
-	else
-	{
-		Writer->WriteObjectStart();
-		Writer->WriteObjectEnd();
-	}
-}
-
-inline void WriteJsonValue(JsonWriter& Writer, const TArray<uint8>& Value)
-{
-	Writer->WriteValue(ToString(Value));
-}
-
 //////////////////////////////////////////////////////////////////////////
-
-template<typename T>
-inline bool TryGetJsonValue(const TSharedPtr<FJsonObject>& JsonObject, const FString& Key, T& Value)
-{
-	const TSharedPtr<FJsonValue> JsonValue = JsonObject->TryGetField(Key);
-	if (JsonValue.IsValid() && !JsonValue->IsNull())
-	{
-		return TryGetJsonValue(JsonValue, Value);
-	}
-	return false;
-}
-
-template<typename T>
-inline bool TryGetJsonValue(const TSharedPtr<FJsonObject>& JsonObject, const FString& Key, TOptional<T>& OptionalValue)
-{
-	if(JsonObject->HasField(Key))
-	{
-		T Value;
-		if (TryGetJsonValue(JsonObject, Key, Value))
-		{
-			OptionalValue = Value;
-			return true;
-		}
-		else
-			return false;
-	}
-	return true; // Absence of optional value is not a parsing error
-}
 
 inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, FString& Value)
 {
@@ -325,6 +298,34 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, bool& Value
 		return false;
 }
 
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TSharedPtr<FJsonObject>& JsonObjectValue)
+{
+	const TSharedPtr<FJsonObject>* Object;
+	if (JsonValue->TryGetObject(Object))
+	{
+		JsonObjectValue = *Object;
+		return true;
+	}
+	return false;
+}
+
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TArray<uint8>& Value)
+{
+	FString TmpValue;
+	if (JsonValue->TryGetString(TmpValue))
+	{
+		Base64UrlDecode(TmpValue, Value);
+		return true;
+	}
+	else
+		return false;
+}
+
+inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, Model& Value)
+{
+	return Value.FromJson(JsonValue);
+}
+
 template<typename T, typename std::enable_if<!std::is_base_of<Model, T>::value, int>::type = 0>
 inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, T& Value)
 {
@@ -334,15 +335,6 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, T& Value)
 		Value = TmpValue;
 		return true;
 	}
-	else
-		return false;
-}
-
-inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, Model& Value)
-{
-	const TSharedPtr<FJsonObject>* Object;
-	if (JsonValue->TryGetObject(Object))
-		return Value.FromJson(*Object);
 	else
 		return false;
 }
@@ -386,27 +378,32 @@ inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TMap<FStrin
 	return false;
 }
 
-inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TSharedPtr<FJsonObject>& JsonObjectValue)
+template<typename T>
+inline bool TryGetJsonValue(const TSharedPtr<FJsonObject>& JsonObject, const FString& Key, T& Value)
 {
-	const TSharedPtr<FJsonObject>* Object;
-	if (JsonValue->TryGetObject(Object))
+	const TSharedPtr<FJsonValue> JsonValue = JsonObject->TryGetField(Key);
+	if (JsonValue.IsValid() && !JsonValue->IsNull())
 	{
-		JsonObjectValue = *Object;
-		return true;
+		return TryGetJsonValue(JsonValue, Value);
 	}
 	return false;
 }
 
-inline bool TryGetJsonValue(const TSharedPtr<FJsonValue>& JsonValue, TArray<uint8>& Value)
+template<typename T>
+inline bool TryGetJsonValue(const TSharedPtr<FJsonObject>& JsonObject, const FString& Key, TOptional<T>& OptionalValue)
 {
-	FString TmpValue;
-	if (JsonValue->TryGetString(TmpValue))
+	if(JsonObject->HasField(Key))
 	{
-		Base64UrlDecode(TmpValue, Value);
-		return true;
+		T Value;
+		if (TryGetJsonValue(JsonObject, Key, Value))
+		{
+			OptionalValue = Value;
+			return true;
+		}
+		else
+			return false;
 	}
-	else
-		return false;
+	return true; // Absence of optional value is not a parsing error
 }
 
 }

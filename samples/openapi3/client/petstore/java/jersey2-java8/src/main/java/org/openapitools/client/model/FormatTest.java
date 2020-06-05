@@ -339,7 +339,7 @@ public class FormatTest {
    * Get date
    * @return date
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(example = "Sun Feb 02 08:00:00 HKT 2020", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -364,7 +364,7 @@ public class FormatTest {
    * @return dateTime
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "2007-12-03T10:15:30+01:00", value = "")
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

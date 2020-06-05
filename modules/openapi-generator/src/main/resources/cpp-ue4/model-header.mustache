@@ -21,9 +21,26 @@ class {{dllapi}} {{classname}} : public Model
 {
 public:
     virtual ~{{classname}}() {}
-	bool FromJson(const TSharedPtr<FJsonObject>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
 	void WriteJson(JsonWriter& Writer) const final;
 
+	{{#isString}}
+	{{#isEnum}}
+	{{#allowableValues}}
+	enum class Values
+	{
+		{{#enumVars}}
+		{{name}},
+		{{/enumVars}}
+  	};
+
+	Values Value{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
+	{{/allowableValues}}
+	{{/isEnum}}
+	{{^isEnum}}
+	FString Value{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
+	{{/isEnum}}
+	{{/isString}}
     {{#vars}}
 	{{#isEnum}}
 	{{#allowableValues}}

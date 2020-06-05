@@ -68,7 +68,7 @@ class BigCatAllOf(object):
 
 
         :param kind: The kind of this BigCatAllOf.  # noqa: E501
-        :type: str
+        :type kind: str
         """
         allowed_values = ["lions", "tigers", "leopards", "jaguars"]  # noqa: E501
         if self.local_vars_configuration.client_side_validation and kind not in allowed_values:  # noqa: E501

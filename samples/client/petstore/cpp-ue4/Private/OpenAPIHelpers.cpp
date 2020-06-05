@@ -17,6 +17,7 @@
 #include "Interfaces/IHttpRequest.h"
 #include "PlatformHttp.h"
 #include "Misc/FileHelper.h"
+#include "Misc/Paths.h"
 
 namespace OpenAPI 
 {

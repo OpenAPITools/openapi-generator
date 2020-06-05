@@ -78,7 +78,7 @@ class ArrayTest(object):
 
 
         :param array_of_string: The array_of_string of this ArrayTest.  # noqa: E501
-        :type: list[str]
+        :type array_of_string: list[str]
         """
 
         self._array_of_string = array_of_string
@@ -99,7 +99,7 @@ class ArrayTest(object):
 
 
         :param array_array_of_integer: The array_array_of_integer of this ArrayTest.  # noqa: E501
-        :type: list[list[int]]
+        :type array_array_of_integer: list[list[int]]
         """
 
         self._array_array_of_integer = array_array_of_integer
@@ -120,7 +120,7 @@ class ArrayTest(object):
 
 
         :param array_array_of_model: The array_array_of_model of this ArrayTest.  # noqa: E501
-        :type: list[list[ReadOnlyFirst]]
+        :type array_array_of_model: list[list[ReadOnlyFirst]]
         """
 
         self._array_array_of_model = array_array_of_model

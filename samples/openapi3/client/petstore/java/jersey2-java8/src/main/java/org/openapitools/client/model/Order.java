@@ -179,7 +179,7 @@ public class Order {
    * @return shipDate
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "2020-02-02T20:20:20.000222Z", value = "")
   @JsonProperty(JSON_PROPERTY_SHIP_DATE)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 

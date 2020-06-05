@@ -59,6 +59,7 @@ class AnotherFakeApi(object):
             To test special tags and operation ID starting with number  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.call_123_test_special_tags(body, async_req=True)
             >>> result = thread.get()
 
