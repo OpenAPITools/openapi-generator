@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.base.Strings;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -42,7 +41,6 @@ import java.time.ZoneId;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractJavaCodegen extends DefaultCodegen implements CodegenConfig {
@@ -863,9 +861,12 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                     Date date = (Date) schema.getDefault();
                     LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                     return String.format(Locale.ROOT, localDate.toString(), "");
+                } else if (schema.getDefault() instanceof java.time.OffsetDateTime) {
+                    return "OffsetDateTime.parse(\"" +  String.format(Locale.ROOT, ((java.time.OffsetDateTime) schema.getDefault()).atZoneSameInstant(ZoneId.systemDefault()).toString(), "") + "\", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))";
                 } else {
                     _default = (String) schema.getDefault();
                 }
+
                 if (schema.getEnum() == null) {
                     return "\"" + escapeText(_default) + "\"";
                 } else {

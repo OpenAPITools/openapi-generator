@@ -895,7 +895,9 @@ paths:
                   format: date
                   type: string
                 dateTime:
+                  default: 2010-02-01T10:20:10.11111+01:00
                   description: None
+                  example: 2020-02-02T20:20:20.22222Z
                   format: date-time
                   type: string
                 password:
@@ -1234,6 +1236,20 @@ paths:
       tags:
       - fake
       x-accepts: application/json
+  /fake/array-of-enums:
+    get:
+      operationId: getArrayOfEnums
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfEnums'
+          description: Got named array of enums
+      summary: Array of Enums
+      tags:
+      - fake
+      x-accepts: application/json
 components:
   requestBodies:
     UserArray:
@@ -1309,7 +1325,7 @@ components:
         petId: 6
         quantity: 1
         id: 0
-        shipDate: 2000-01-23T04:56:07.000+00:00
+        shipDate: 2020-02-02T20:20:20.000222Z
         complete: false
         status: placed
       properties:
@@ -1323,6 +1339,7 @@ components:
           format: int32
           type: integer
         shipDate:
+          example: 2020-02-02T20:20:20.000222Z
           format: date-time
           type: string
         status:
@@ -1602,9 +1619,11 @@ components:
           format: binary
           type: string
         date:
+          example: 2020-02-02
           format: date
           type: string
         dateTime:
+          example: 2007-12-03T10:15:30+01:00
           format: date-time
           type: string
         uuid:
@@ -2214,6 +2233,15 @@ components:
       allOf:
       - $ref: '#/components/schemas/ParentPet'
       - $ref: '#/components/schemas/ChildCat_allOf'
+    ArrayOfEnums:
+      items:
+        $ref: '#/components/schemas/OuterEnum'
+      type: array
+    DateTimeTest:
+      default: 2010-01-01T10:10:10.000111+01:00
+      example: 2010-01-01T10:10:10.000111+01:00
+      format: date-time
+      type: string
     inline_response_default:
       example:
         string:
@@ -2314,7 +2342,9 @@ components:
           format: date
           type: string
         dateTime:
+          default: 2010-02-01T10:20:10.11111+01:00
           description: None
+          example: 2020-02-02T20:20:20.22222Z
           format: date-time
           type: string
         password:

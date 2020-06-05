@@ -73,7 +73,7 @@ class HasOnlyReadOnly(object):
 
 
         :param bar: The bar of this HasOnlyReadOnly.  # noqa: E501
-        :type: str
+        :type bar: str
         """
 
         self._bar = bar
@@ -94,7 +94,7 @@ class HasOnlyReadOnly(object):
 
 
         :param foo: The foo of this HasOnlyReadOnly.  # noqa: E501
-        :type: str
+        :type foo: str
         """
 
         self._foo = foo

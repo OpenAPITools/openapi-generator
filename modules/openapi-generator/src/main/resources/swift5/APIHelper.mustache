@@ -55,8 +55,9 @@ import Foundation
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} static func mapValuesToQueryItems(_ source: [String:Any?]) -> [URLQueryItem]? {
         let destination = source.filter({ $0.value != nil}).reduce(into: [URLQueryItem]()) { (result, item) in
             if let collection = item.value as? Array<Any?> {
-                let value = collection.filter({ $0 != nil }).map({"\($0!)"}).joined(separator: ",")
-                result.append(URLQueryItem(name: item.key, value: value))
+                collection.filter({ $0 != nil }).map({"\($0!)"}).forEach { value in
+                    result.append(URLQueryItem(name: item.key, value: value))
+                }
             } else if let value = item.value {
                 result.append(URLQueryItem(name: item.key, value: "\(value)"))
             }
