@@ -85,7 +85,7 @@ class FakeApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -111,7 +111,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             return self.call_with_http_info(**kwargs)
 
         self.fake_health_get = Endpoint(
@@ -191,7 +191,7 @@ class FakeApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -217,7 +217,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             return self.call_with_http_info(**kwargs)
 
         self.fake_outer_boolean_serialize = Endpoint(
@@ -303,7 +303,7 @@ class FakeApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -329,7 +329,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             return self.call_with_http_info(**kwargs)
 
         self.fake_outer_composite_serialize = Endpoint(
@@ -415,7 +415,7 @@ class FakeApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -441,7 +441,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             return self.call_with_http_info(**kwargs)
 
         self.fake_outer_number_serialize = Endpoint(
@@ -527,7 +527,7 @@ class FakeApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -553,7 +553,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             return self.call_with_http_info(**kwargs)
 
         self.fake_outer_string_serialize = Endpoint(
@@ -637,7 +637,7 @@ class FakeApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -663,7 +663,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             return self.call_with_http_info(**kwargs)
 
         self.get_array_of_enums = Endpoint(
@@ -745,7 +745,7 @@ class FakeApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -771,7 +771,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             kwargs['file_schema_test_class_file_schema_test_class'] = \
                 file_schema_test_class_file_schema_test_class
             return self.call_with_http_info(**kwargs)
@@ -862,7 +862,7 @@ class FakeApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -888,7 +888,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             kwargs['query'] = \
                 query
             kwargs['user_user'] = \
@@ -986,7 +986,7 @@ class FakeApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -1012,7 +1012,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             kwargs['client_client'] = \
                 client_client
             return self.call_with_http_info(**kwargs)
@@ -1120,7 +1120,7 @@ class FakeApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -1146,7 +1146,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             kwargs['number'] = \
                 number
             kwargs['double'] = \
@@ -1367,7 +1367,7 @@ class FakeApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -1393,7 +1393,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             return self.call_with_http_info(**kwargs)
 
         self.test_enum_parameters = Endpoint(
@@ -1576,7 +1576,7 @@ class FakeApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -1602,7 +1602,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             kwargs['required_string_group'] = \
                 required_string_group
             kwargs['required_boolean_group'] = \
@@ -1723,7 +1723,7 @@ class FakeApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -1749,7 +1749,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             kwargs['request_body'] = \
                 request_body
             return self.call_with_http_info(**kwargs)
@@ -1840,7 +1840,7 @@ class FakeApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -1866,7 +1866,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             kwargs['param'] = \
                 param
             kwargs['param2'] = \
@@ -1973,7 +1973,7 @@ class FakeApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -1999,7 +1999,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             kwargs['pipe'] = \
                 pipe
             kwargs['ioutil'] = \
@@ -2144,7 +2144,7 @@ class Endpoint(object):
         self.openapi_types = root_map['openapi_types']
         extra_types = {
             'async_req': (bool,),
-            '_host_index': (int,),
+            '_host_index': (none_type, int),
             '_preload_content': (bool,),
             '_request_timeout': (none_type, int, (int,), [int]),
             '_return_http_data_only': (bool,),
@@ -2243,7 +2243,15 @@ class Endpoint(object):
     def call_with_http_info(self, **kwargs):
 
         try:
-            _host = self.settings['servers'][kwargs['_host_index']]
+            index = self.api_client.configuration.server_operation_index.get(
+                self.settings['operation_id'], self.api_client.configuration.server_index
+            ) if kwargs['_host_index'] is None else kwargs['_host_index']
+            server_variables = self.api_client.configuration.server_operation_variables.get(
+                self.settings['operation_id']
+            )
+            _host = self.api_client.configuration.get_host_from_settings(
+                index, variables=server_variables, servers=self.settings['servers']
+            )
         except IndexError:
             if self.settings['servers']:
                 raise ApiValueError(

@@ -84,7 +84,7 @@ class UserApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -110,7 +110,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             kwargs['user_user'] = \
                 user_user
             return self.call_with_http_info(**kwargs)
@@ -199,7 +199,7 @@ class UserApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -225,7 +225,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             kwargs['user_user'] = \
                 user_user
             return self.call_with_http_info(**kwargs)
@@ -314,7 +314,7 @@ class UserApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -340,7 +340,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             kwargs['user_user'] = \
                 user_user
             return self.call_with_http_info(**kwargs)
@@ -430,7 +430,7 @@ class UserApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -456,7 +456,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             kwargs['username'] = \
                 username
             return self.call_with_http_info(**kwargs)
@@ -544,7 +544,7 @@ class UserApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -570,7 +570,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             kwargs['username'] = \
                 username
             return self.call_with_http_info(**kwargs)
@@ -663,7 +663,7 @@ class UserApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -689,7 +689,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             kwargs['username'] = \
                 username
             kwargs['password'] = \
@@ -785,7 +785,7 @@ class UserApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -811,7 +811,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             return self.call_with_http_info(**kwargs)
 
         self.logout_user = Endpoint(
@@ -893,7 +893,7 @@ class UserApi(object):
                     Default is True.
                 _host_index (int): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -919,7 +919,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index', None)
             kwargs['username'] = \
                 username
             kwargs['user_user'] = \
@@ -1036,7 +1036,7 @@ class Endpoint(object):
         self.openapi_types = root_map['openapi_types']
         extra_types = {
             'async_req': (bool,),
-            '_host_index': (int,),
+            '_host_index': (none_type, int),
             '_preload_content': (bool,),
             '_request_timeout': (none_type, int, (int,), [int]),
             '_return_http_data_only': (bool,),
@@ -1135,7 +1135,15 @@ class Endpoint(object):
     def call_with_http_info(self, **kwargs):
 
         try:
-            _host = self.settings['servers'][kwargs['_host_index']]
+            index = self.api_client.configuration.server_operation_index.get(
+                self.settings['operation_id'], self.api_client.configuration.server_index
+            ) if kwargs['_host_index'] is None else kwargs['_host_index']
+            server_variables = self.api_client.configuration.server_operation_variables.get(
+                self.settings['operation_id']
+            )
+            _host = self.api_client.configuration.get_host_from_settings(
+                index, variables=server_variables, servers=self.settings['servers']
+            )
         except IndexError:
             if self.settings['servers']:
                 raise ApiValueError(
