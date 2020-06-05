@@ -153,12 +153,12 @@ public class FruitReq extends AbstractOpenApiSchema {
            return;
         }
 
-        if (JSON.isInstanceOf(AppleReq.class, instance, new HashSet<Class>())) {
+        if (JSON.isInstanceOf(AppleReq.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(BananaReq.class, instance, new HashSet<Class>())) {
+        if (JSON.isInstanceOf(BananaReq.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }

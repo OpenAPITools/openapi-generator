@@ -35,7 +35,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
             Object deserialized = null;
             {{#discriminator}}
-            Class cls = JSON.getClassForElement(tree, {{classname}}.class);
+            Class<?> cls = JSON.getClassForElement(tree, {{classname}}.class);
             if (cls != null) {
                 // When the OAS schema includes a discriminator, use the discriminator value to
                 // discriminate the anyOf schemas.
@@ -71,7 +71,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
             return null;
         {{/isNullable}}
         {{^isNullable}}
-            throw new JsonMappingException("{{classname}} cannot be null");
+            throw new JsonMappingException(ctxt.getParser(), "{{classname}} cannot be null");
         {{/isNullable}}
         }
     }
@@ -98,7 +98,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         JSON.registerDescendants({{classname}}.class, Collections.unmodifiableMap(schemas));
         {{#discriminator}}
         // Initialize and register the discriminator mappings.
-        Map<String, Class> mappings = new HashMap<String, Class>();
+        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
         {{#mappedModels}}
         mappings.put("{{mappingName}}", {{modelName}}.class);
         {{/mappedModels}}
@@ -122,7 +122,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
         {{/isNullable}}
         {{#anyOf}}
-        if (JSON.isInstanceOf({{{.}}}.class, instance, new HashSet<Class>())) {
+        if (JSON.isInstanceOf({{{.}}}.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }

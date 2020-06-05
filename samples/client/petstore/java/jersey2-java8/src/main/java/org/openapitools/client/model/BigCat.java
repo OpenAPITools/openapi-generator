@@ -152,7 +152,7 @@ public class BigCat extends Cat {
 
 static {
   // Initialize and register the discriminator mappings.
-  Map<String, Class> mappings = new HashMap<String, Class>();
+  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
   mappings.put("BigCat", BigCat.class);
   JSON.registerDiscriminator(BigCat.class, "className", mappings);
 }

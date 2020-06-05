@@ -67,7 +67,7 @@ public class Pig extends AbstractOpenApiSchema {
 
             int match = 0;
             Object deserialized = null;
-            Class cls = JSON.getClassForElement(tree, Pig.class);
+            Class<?> cls = JSON.getClassForElement(tree, Pig.class);
             if (cls != null) {
                 // When the OAS schema includes a discriminator, use the discriminator value to
                 // discriminate the oneOf schemas.
@@ -116,7 +116,7 @@ public class Pig extends AbstractOpenApiSchema {
          */
         @Override
         public Pig getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException("Pig cannot be null");
+            throw new JsonMappingException(ctxt.getParser(), "Pig cannot be null");
         }
     }
 
@@ -144,7 +144,7 @@ public class Pig extends AbstractOpenApiSchema {
         });
         JSON.registerDescendants(Pig.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
-        Map<String, Class> mappings = new HashMap<String, Class>();
+        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
         mappings.put("BasquePig", BasquePig.class);
         mappings.put("DanishPig", DanishPig.class);
         mappings.put("Pig", Pig.class);
@@ -165,12 +165,12 @@ public class Pig extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(BasquePig.class, instance, new HashSet<Class>())) {
+        if (JSON.isInstanceOf(BasquePig.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(DanishPig.class, instance, new HashSet<Class>())) {
+        if (JSON.isInstanceOf(DanishPig.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }

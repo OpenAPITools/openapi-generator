@@ -68,7 +68,7 @@ public class Mammal extends AbstractOpenApiSchema {
 
             int match = 0;
             Object deserialized = null;
-            Class cls = JSON.getClassForElement(tree, Mammal.class);
+            Class<?> cls = JSON.getClassForElement(tree, Mammal.class);
             if (cls != null) {
                 // When the OAS schema includes a discriminator, use the discriminator value to
                 // discriminate the oneOf schemas.
@@ -130,7 +130,7 @@ public class Mammal extends AbstractOpenApiSchema {
          */
         @Override
         public Mammal getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException("Mammal cannot be null");
+            throw new JsonMappingException(ctxt.getParser(), "Mammal cannot be null");
         }
     }
 
@@ -165,7 +165,7 @@ public class Mammal extends AbstractOpenApiSchema {
         });
         JSON.registerDescendants(Mammal.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
-        Map<String, Class> mappings = new HashMap<String, Class>();
+        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
         mappings.put("Pig", Pig.class);
         mappings.put("whale", Whale.class);
         mappings.put("zebra", Zebra.class);
@@ -187,17 +187,17 @@ public class Mammal extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Pig.class, instance, new HashSet<Class>())) {
+        if (JSON.isInstanceOf(Pig.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Whale.class, instance, new HashSet<Class>())) {
+        if (JSON.isInstanceOf(Whale.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Zebra.class, instance, new HashSet<Class>())) {
+        if (JSON.isInstanceOf(Zebra.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }

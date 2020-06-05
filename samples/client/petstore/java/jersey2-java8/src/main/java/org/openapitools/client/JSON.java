@@ -59,10 +59,10 @@ public class JSON implements ContextResolver<ObjectMapper> {
    * @param node The input data.
    * @param modelClass The class that contains the discriminator mappings.
    */
-  public static Class getClassForElement(JsonNode node, Class modelClass) {
+  public static Class<?> getClassForElement(JsonNode node, Class<?> modelClass) {
     ClassDiscriminatorMapping cdm = modelDiscriminators.get(modelClass);
     if (cdm != null) {
-      return cdm.getClassForElement(node, new HashSet<Class>());
+      return cdm.getClassForElement(node, new HashSet<Class<?>>());
     }
     return null;
   }
@@ -72,17 +72,17 @@ public class JSON implements ContextResolver<ObjectMapper> {
    */
   private static class ClassDiscriminatorMapping {
     // The model class name.
-    Class modelClass;
+    Class<?> modelClass;
     // The name of the discriminator property.
     String discriminatorName;
     // The discriminator mappings for a model class.
-    Map<String, Class> discriminatorMappings;
+    Map<String, Class<?>> discriminatorMappings;
 
     // Constructs a new class discriminator.
-    ClassDiscriminatorMapping(Class cls, String propertyName, Map<String, Class> mappings) {
+    ClassDiscriminatorMapping(Class<?> cls, String propertyName, Map<String, Class<?>> mappings) {
       modelClass = cls;
       discriminatorName = propertyName;
-      discriminatorMappings = new HashMap<String, Class>();
+      discriminatorMappings = new HashMap<String, Class<?>>();
       if (mappings != null) {
         discriminatorMappings.putAll(mappings);
       }
@@ -118,7 +118,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
      * @param node The input data.
      * @param visitedClasses The set of classes that have already been visited.
      */
-    Class getClassForElement(JsonNode node, Set<Class> visitedClasses) {
+    Class<?> getClassForElement(JsonNode node, Set<Class<?>> visitedClasses) {
       if (visitedClasses.contains(modelClass)) {
         // Class has already been visited.
         return null;
@@ -128,11 +128,11 @@ public class JSON implements ContextResolver<ObjectMapper> {
       if (discrValue == null) {
         return null;
       }
-      Class cls = discriminatorMappings.get(discrValue);
+      Class<?> cls = discriminatorMappings.get(discrValue);
       // It may not be sufficient to return this cls directly because that target class
       // may itself be a composed schema, possibly with its own discriminator.
       visitedClasses.add(modelClass);
-      for (Class childClass : discriminatorMappings.values()) {
+      for (Class<?> childClass : discriminatorMappings.values()) {
         ClassDiscriminatorMapping childCdm = modelDiscriminators.get(childClass);
         if (childCdm == null) {
           continue;
@@ -145,7 +145,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
         }
         if (childCdm != null) {
           // Recursively traverse the discriminator mappings.
-          Class childDiscr = childCdm.getClassForElement(node, visitedClasses);
+          Class<?> childDiscr = childCdm.getClassForElement(node, visitedClasses);
           if (childDiscr != null) {
             return childDiscr;
           }
@@ -164,7 +164,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
    * @param modelClass A OpenAPI model class.
    * @param inst The instance object.
    */
-  public static boolean isInstanceOf(Class modelClass, Object inst, Set<Class> visitedClasses) {
+  public static boolean isInstanceOf(Class<?> modelClass, Object inst, Set<Class<?>> visitedClasses) {
     if (modelClass.isInstance(inst)) {
       // This handles the 'allOf' use case with single parent inheritance.
       return true;
@@ -191,12 +191,12 @@ public class JSON implements ContextResolver<ObjectMapper> {
   /**
    * A map of discriminators for all model classes.
    */
-  private static Map<Class, ClassDiscriminatorMapping> modelDiscriminators = new HashMap<Class, ClassDiscriminatorMapping>();
+  private static Map<Class<?>, ClassDiscriminatorMapping> modelDiscriminators = new HashMap<Class<?>, ClassDiscriminatorMapping>();
 
   /**
    * A map of oneOf/anyOf descendants for each model class.
    */
-  private static Map<Class, Map<String, GenericType>> modelDescendants = new HashMap<Class, Map<String, GenericType>>();
+  private static Map<Class<?>, Map<String, GenericType>> modelDescendants = new HashMap<Class<?>, Map<String, GenericType>>();
 
   /**
     * Register a model class discriminator.
@@ -205,7 +205,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
     * @param discriminatorPropertyName the name of the discriminator property
     * @param mappings a map with the discriminator mappings.
     */
-  public static void registerDiscriminator(Class modelClass, String discriminatorPropertyName, Map<String, Class> mappings) {
+  public static void registerDiscriminator(Class<?> modelClass, String discriminatorPropertyName, Map<String, Class<?>> mappings) {
     ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(modelClass, discriminatorPropertyName, mappings);
     modelDiscriminators.put(modelClass, m);
   }
@@ -216,7 +216,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
     * @param modelClass the model class
     * @param descendants a map of oneOf/anyOf descendants.
     */
-  public static void registerDescendants(Class modelClass, Map<String, GenericType> descendants) {
+  public static void registerDescendants(Class<?> modelClass, Map<String, GenericType> descendants) {
     modelDescendants.put(modelClass, descendants);
   }
 }
