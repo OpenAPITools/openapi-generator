@@ -614,6 +614,7 @@ class FakeApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.get_array_of_enums(async_req=True)
             >>> result = thread.get()
 
