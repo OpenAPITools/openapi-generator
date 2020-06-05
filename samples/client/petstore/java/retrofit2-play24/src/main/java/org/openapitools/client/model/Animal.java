@@ -43,6 +43,7 @@ import javax.validation.Valid;
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
+  @JsonSubTypes.Type(value = Animal.class, name = "Animal"),
 })
 
 public class Animal {
