@@ -111,6 +111,7 @@ public class Pig extends AbstractOpenApiSchema {
             throw new IOException(String.format("Failed deserialization for Pig: %d classes match result, expected 1", match));
         }
 
+
         /**
          * Handle deserialization of the 'null' value.
          */

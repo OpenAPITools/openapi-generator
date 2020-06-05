@@ -90,6 +90,7 @@ public class GmFruit extends AbstractOpenApiSchema {
             throw new IOException(String.format("Failed deserialization for GmFruit: no match found"));
         }
 
+
         /**
          * Handle deserialization of the 'null' value.
          */

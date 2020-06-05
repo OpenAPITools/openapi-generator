@@ -111,6 +111,7 @@ public class Shape extends AbstractOpenApiSchema {
             throw new IOException(String.format("Failed deserialization for Shape: %d classes match result, expected 1", match));
         }
 
+
         /**
          * Handle deserialization of the 'null' value.
          */

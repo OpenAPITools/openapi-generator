@@ -125,6 +125,7 @@ public class Mammal extends AbstractOpenApiSchema {
             throw new IOException(String.format("Failed deserialization for Mammal: %d classes match result, expected 1", match));
         }
 
+
         /**
          * Handle deserialization of the 'null' value.
          */

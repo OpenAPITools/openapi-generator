@@ -111,6 +111,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
             throw new IOException(String.format("Failed deserialization for Quadrilateral: %d classes match result, expected 1", match));
         }
 
+
         /**
          * Handle deserialization of the 'null' value.
          */

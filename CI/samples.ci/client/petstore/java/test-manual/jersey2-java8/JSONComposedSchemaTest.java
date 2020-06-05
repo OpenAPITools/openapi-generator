@@ -94,23 +94,14 @@ public class JSONComposedSchemaTest {
             assertNotNull(o);
             assertTrue(o.getActualInstance() instanceof Zebra);
             Zebra z = (Zebra)o.getActualInstance();
-            // TODO: this is incorrect: assert the value is Zebra.TypeEnum.PLAINS
-            assertNull(z.getType());
-            //assertEquals(Zebra.TypeEnum.PLAINS, z.getType());
+            assertEquals(Zebra.TypeEnum.PLAINS, z.getType());
         }
         {
             // The discriminator value is valid but the 'type' value is invalid.
-            // TODO: the current deserialization code is incorrectly accepting the input data.
-            // The unit test code below should be rewritten to assert an exception.
             String str = "{ \"className\": \"zebra\", \"type\": \"garbage_value\" }";
-            AbstractOpenApiSchema o = json.getContext(null).readValue(str, Mammal.class);
-            assertNotNull(o);
-            assertTrue(o.getActualInstance() instanceof Zebra);
-            Zebra z = (Zebra)o.getActualInstance();
-            assertNull(z.getType());
-            //Exception exception = assertThrows(JsonMappingException.class, () -> {
-            //json.getContext(null).readValue(str, Mammal.class);
-            //});
+            Exception exception = assertThrows(JsonMappingException.class, () -> {
+                json.getContext(null).readValue(str, Mammal.class);
+            });
         }
         {
             // The discriminator value is zebra but the properties belong to Whale.

@@ -111,6 +111,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
             throw new IOException(String.format("Failed deserialization for ShapeOrNull: %d classes match result, expected 1", match));
         }
 
+
         /**
          * Handle deserialization of the 'null' value.
          */
