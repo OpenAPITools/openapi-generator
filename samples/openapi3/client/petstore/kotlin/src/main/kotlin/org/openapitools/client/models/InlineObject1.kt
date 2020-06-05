@@ -28,9 +28,9 @@ data class InlineObject1 (
     @Json(name = "file")
     val file: java.io.File? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

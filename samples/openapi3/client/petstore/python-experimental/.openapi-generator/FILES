@@ -11,6 +11,7 @@ docs/ApiResponse.md
 docs/Apple.md
 docs/AppleReq.md
 docs/ArrayOfArrayOfNumberOnly.md
+docs/ArrayOfEnums.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
 docs/Banana.md
@@ -115,6 +116,7 @@ petstore_api/model/api_response.py
 petstore_api/model/apple.py
 petstore_api/model/apple_req.py
 petstore_api/model/array_of_array_of_number_only.py
+petstore_api/model/array_of_enums.py
 petstore_api/model/array_of_number_only.py
 petstore_api/model/array_test.py
 petstore_api/model/banana.py

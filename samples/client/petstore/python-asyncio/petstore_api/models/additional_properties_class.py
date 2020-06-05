@@ -118,7 +118,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_string: The map_string of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, str)
+        :type map_string: dict(str, str)
         """
 
         self._map_string = map_string
@@ -139,7 +139,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_number: The map_number of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, float)
+        :type map_number: dict(str, float)
         """
 
         self._map_number = map_number
@@ -160,7 +160,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_integer: The map_integer of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, int)
+        :type map_integer: dict(str, int)
         """
 
         self._map_integer = map_integer
@@ -181,7 +181,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_boolean: The map_boolean of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, bool)
+        :type map_boolean: dict(str, bool)
         """
 
         self._map_boolean = map_boolean
@@ -202,7 +202,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_array_integer: The map_array_integer of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, list[int])
+        :type map_array_integer: dict(str, list[int])
         """
 
         self._map_array_integer = map_array_integer
@@ -223,7 +223,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_array_anytype: The map_array_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, list[object])
+        :type map_array_anytype: dict(str, list[object])
         """
 
         self._map_array_anytype = map_array_anytype
@@ -244,7 +244,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_map_string: The map_map_string of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, dict(str, str))
+        :type map_map_string: dict(str, dict(str, str))
         """
 
         self._map_map_string = map_map_string
@@ -265,7 +265,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param map_map_anytype: The map_map_anytype of this AdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, dict(str, object))
+        :type map_map_anytype: dict(str, dict(str, object))
         """
 
         self._map_map_anytype = map_map_anytype
@@ -286,7 +286,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param anytype_1: The anytype_1 of this AdditionalPropertiesClass.  # noqa: E501
-        :type: object
+        :type anytype_1: object
         """
 
         self._anytype_1 = anytype_1
@@ -307,7 +307,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param anytype_2: The anytype_2 of this AdditionalPropertiesClass.  # noqa: E501
-        :type: object
+        :type anytype_2: object
         """
 
         self._anytype_2 = anytype_2
@@ -328,7 +328,7 @@ class AdditionalPropertiesClass(object):
 
 
         :param anytype_3: The anytype_3 of this AdditionalPropertiesClass.  # noqa: E501
-        :type: object
+        :type anytype_3: object
         """
 
         self._anytype_3 = anytype_3
