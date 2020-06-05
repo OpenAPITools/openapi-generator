@@ -565,7 +565,7 @@ conf = petstore_api.Configuration(
         url = server['url']
 
         # go through variables and replace placeholders
-        for variable_name, variable in server['variables'].items():
+        for variable_name, variable in server.get('variables', {}).items():
             used_value = variables.get(
                 variable_name, variable['default_value'])
 
