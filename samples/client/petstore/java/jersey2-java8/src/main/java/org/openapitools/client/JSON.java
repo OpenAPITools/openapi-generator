@@ -79,15 +79,13 @@ public class JSON implements ContextResolver<ObjectMapper> {
     Map<String, Class> discriminatorMappings;
 
     // Constructs a new class discriminator.
-    ClassDiscriminatorMapping(Class cls, String name) {
+    ClassDiscriminatorMapping(Class cls, String propertyName, Map<String, Class> mappings) {
       modelClass = cls;
-      discriminatorName = name;
+      discriminatorName = propertyName;
       discriminatorMappings = new HashMap<String, Class>();
-    }
-
-    // Register a discriminator mapping for the specified model class.
-    void registerMapping(String mapping, Class cls) {
-      discriminatorMappings.put(mapping, cls);
+      if (mappings != null) {
+        discriminatorMappings.putAll(mappings);
+      }
     }
 
     // Return the name of the discriminator property for this model class.
@@ -190,54 +188,35 @@ public class JSON implements ContextResolver<ObjectMapper> {
     return false;
   }
 
+  /**
+   * A map of discriminators for all model classes.
+   */
   private static Map<Class, ClassDiscriminatorMapping> modelDiscriminators = new HashMap<Class, ClassDiscriminatorMapping>();
 
   /**
-   * Register the discriminators for all composed models.
+   * A map of oneOf/anyOf descendants for each model class.
    */
-  private static void registerDiscriminators() {
-    {
-      // Initialize the discriminator mappings for 'Animal'.
-      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(Animal.class, "className");
-      m.registerMapping("BigCat", BigCat.class);
-      m.registerMapping("Cat", Cat.class);
-      m.registerMapping("Dog", Dog.class);
-      m.registerMapping("Animal", Animal.class);
-      modelDiscriminators.put(Animal.class, m);
-    }
-    {
-      // Initialize the discriminator mappings for 'BigCat'.
-      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(BigCat.class, "className");
-      m.registerMapping("BigCat", BigCat.class);
-      modelDiscriminators.put(BigCat.class, m);
-    }
-    {
-      // Initialize the discriminator mappings for 'Cat'.
-      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(Cat.class, "className");
-      m.registerMapping("BigCat", BigCat.class);
-      m.registerMapping("Cat", Cat.class);
-      modelDiscriminators.put(Cat.class, m);
-    }
-    {
-      // Initialize the discriminator mappings for 'Dog'.
-      ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(Dog.class, "className");
-      m.registerMapping("Dog", Dog.class);
-      modelDiscriminators.put(Dog.class, m);
-    }
-  }
-
   private static Map<Class, Map<String, GenericType>> modelDescendants = new HashMap<Class, Map<String, GenericType>>();
 
   /**
-   * Register the oneOf/anyOf descendants.
-   * TODO: this should not be a public method.
-   */
+    * Register a model class discriminator.
+    *
+    * @param modelClass the model class
+    * @param discriminatorPropertyName the name of the discriminator property
+    * @param mappings a map with the discriminator mappings.
+    */
+  public static void registerDiscriminator(Class modelClass, String discriminatorPropertyName, Map<String, Class> mappings) {
+    ClassDiscriminatorMapping m = new ClassDiscriminatorMapping(modelClass, discriminatorPropertyName, mappings);
+    modelDiscriminators.put(modelClass, m);
+  }
+
+  /**
+    * Register the oneOf/anyOf descendants of the modelClass.
+    *
+    * @param modelClass the model class
+    * @param descendants a map of oneOf/anyOf descendants.
+    */
   public static void registerDescendants(Class modelClass, Map<String, GenericType> descendants) {
     modelDescendants.put(modelClass, descendants);
   }
-
-  static {
-    registerDiscriminators();
-  }
-
 }
