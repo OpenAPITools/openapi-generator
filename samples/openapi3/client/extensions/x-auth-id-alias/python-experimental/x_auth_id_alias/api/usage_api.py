@@ -57,6 +57,7 @@ class UsageApi(object):
             Use any API key  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.any_key(async_req=True)
             >>> result = thread.get()
 
@@ -164,6 +165,7 @@ class UsageApi(object):
             Use both API keys  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.both_keys(async_req=True)
             >>> result = thread.get()
 
@@ -271,6 +273,7 @@ class UsageApi(object):
             Use API key in header  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.key_in_header(async_req=True)
             >>> result = thread.get()
 
@@ -377,6 +380,7 @@ class UsageApi(object):
             Use API key in query  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.key_in_query(async_req=True)
             >>> result = thread.get()
 
