@@ -554,7 +554,7 @@ impl<C, S> Api<C> for Client<S> where
 
             let string_field_str = match serde_json::to_string(&param_string_field) {
                 Ok(str) => str,
-                Err(e) => return Err(ApiError(format!("Unable to parse string_field to string: {}", e))),
+                Err(e) => return Err(ApiError(format!("Unable to serialize string_field to string: {}", e))),
             };
 
             let string_field_vec = string_field_str.as_bytes().to_vec();
@@ -566,7 +566,7 @@ impl<C, S> Api<C> for Client<S> where
 
             let optional_string_field_str = match serde_json::to_string(&param_optional_string_field) {
                 Ok(str) => str,
-                Err(e) => return Err(ApiError(format!("Unable to parse optional_string_field to string: {}", e))),
+                Err(e) => return Err(ApiError(format!("Unable to serialize optional_string_field to string: {}", e))),
             };
 
             let optional_string_field_vec = optional_string_field_str.as_bytes().to_vec();
@@ -578,7 +578,7 @@ impl<C, S> Api<C> for Client<S> where
 
             let object_field_str = match serde_json::to_string(&param_object_field) {
                 Ok(str) => str,
-                Err(e) => return Err(ApiError(format!("Unable to parse object_field to string: {}", e))),
+                Err(e) => return Err(ApiError(format!("Unable to serialize object_field to string: {}", e))),
             };
 
             let object_field_vec = object_field_str.as_bytes().to_vec();

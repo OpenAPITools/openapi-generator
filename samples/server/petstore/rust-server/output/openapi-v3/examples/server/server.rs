@@ -99,6 +99,7 @@ use openapi_v3::{
     CallbackWithHeaderPostResponse,
     ComplexQueryParamGetResponse,
     EnumInPathPathParamGetResponse,
+    JsonComplexQueryParamGetResponse,
     MandatoryRequestHeaderGetResponse,
     MergePatchJsonGetResponse,
     MultigetGetResponse,
@@ -154,6 +155,16 @@ impl<C> Api<C> for Server<C> where C: Has<XSpanIdString> + Send + Sync
     {
         let context = context.clone();
         info!("enum_in_path_path_param_get({:?}) - X-Span-ID: {:?}", path_param, context.get().0.clone());
+        Err("Generic failuare".into())
+    }
+
+    async fn json_complex_query_param_get(
+        &self,
+        list_of_strings: Option<&Vec<models::StringObject>>,
+        context: &C) -> Result<JsonComplexQueryParamGetResponse, ApiError>
+    {
+        let context = context.clone();
+        info!("json_complex_query_param_get({:?}) - X-Span-ID: {:?}", list_of_strings, context.get().0.clone());
         Err("Generic failuare".into())
     }
 
