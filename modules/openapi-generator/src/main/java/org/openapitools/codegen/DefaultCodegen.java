@@ -4518,6 +4518,11 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenProperty cp = fromProperty(headerEntry.getKey(), schema);
                 cp.setDescription(escapeText(description));
                 cp.setUnescapedDescription(description);
+                if (header.getRequired() != null) {
+                    cp.setRequired(header.getRequired());
+                } else {
+                    cp.setRequired(false);
+                }
                 properties.add(cp);
             }
         }
