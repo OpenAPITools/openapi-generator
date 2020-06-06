@@ -521,6 +521,13 @@ components:
       type: boolean
     OptionalObjectHeader:
       type: integer
+    AdditionalPropertiesWithList:
+      type: object
+      maxProperties: 1
+      additionalProperties:
+        type: list
+        items:
+          type: string
     NullableTest:
       type: object
       required:
