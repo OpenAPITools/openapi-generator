@@ -3399,32 +3399,34 @@ impl<C, S> Api<C> for Client<S> where
         match response.status().as_u16() {
             200 => {
                 let response_x_rate_limit = match response.headers().get(HeaderName::from_static("x-rate-limit")) {
-                    Some(response_x_rate_limit) => response_x_rate_limit.clone(),
-                    None => {
-                        return Err(ApiError(String::from("Required response header X-Rate-Limit for response 200 was not found.")));
-                    }
+                    Some(response_x_rate_limit) => {
+                        let response_x_rate_limit = response_x_rate_limit.clone();
+                        let response_x_rate_limit = match TryInto::<header::IntoHeaderValue<i32>>::try_into(response_x_rate_limit) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header X-Rate-Limit for response 200 - {}", e)));
+                            },
+                        };
+                        let response_x_rate_limit = response_x_rate_limit.0;
+                        Some(response_x_rate_limit)
+                        },
+                    None => None,
                 };
-                let response_x_rate_limit = match TryInto::<header::IntoHeaderValue<i32>>::try_into(response_x_rate_limit) {
-                    Ok(value) => value,
-                    Err(e) => {
-                        return Err(ApiError(format!("Invalid response header X-Rate-Limit for response 200 - {}", e)));
-                    },
-                };
-                let response_x_rate_limit = response_x_rate_limit.0;
 
                 let response_x_expires_after = match response.headers().get(HeaderName::from_static("x-expires-after")) {
-                    Some(response_x_expires_after) => response_x_expires_after.clone(),
-                    None => {
-                        return Err(ApiError(String::from("Required response header X-Expires-After for response 200 was not found.")));
-                    }
+                    Some(response_x_expires_after) => {
+                        let response_x_expires_after = response_x_expires_after.clone();
+                        let response_x_expires_after = match TryInto::<header::IntoHeaderValue<chrono::DateTime::<chrono::Utc>>>::try_into(response_x_expires_after) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header X-Expires-After for response 200 - {}", e)));
+                            },
+                        };
+                        let response_x_expires_after = response_x_expires_after.0;
+                        Some(response_x_expires_after)
+                        },
+                    None => None,
                 };
-                let response_x_expires_after = match TryInto::<header::IntoHeaderValue<chrono::DateTime::<chrono::Utc>>>::try_into(response_x_expires_after) {
-                    Ok(value) => value,
-                    Err(e) => {
-                        return Err(ApiError(format!("Invalid response header X-Expires-After for response 200 - {}", e)));
-                    },
-                };
-                let response_x_expires_after = response_x_expires_after.0;
 
                 let body = response.into_body();
                 let body = body

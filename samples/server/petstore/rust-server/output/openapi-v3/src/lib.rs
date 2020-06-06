@@ -118,16 +118,32 @@ pub enum ResponsesWithHeadersGetResponse {
     Success
     {
         body: String,
-        success_info: String,
-        bool_header: bool,
-        object_header: models::ObjectHeader
+        success_info:
+        String
+        ,
+        bool_header:
+        Option<
+        bool
+        >
+        ,
+        object_header:
+        Option<
+        models::ObjectHeader
+        >
     }
     ,
     /// Precondition Failed
     PreconditionFailed
     {
-        further_info: String,
-        failure_info: String
+        further_info:
+        Option<
+        String
+        >
+        ,
+        failure_info:
+        Option<
+        String
+        >
     }
 }
 

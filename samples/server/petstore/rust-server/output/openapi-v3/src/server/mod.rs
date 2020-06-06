@@ -877,6 +877,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         }
                                                     };
 
+                                                    response.headers_mut().insert(
+                                                        HeaderName::from_static("success-info"),
+                                                        success_info
+                                                    );
+                                                    if let Some(bool_header) = bool_header {
                                                     let bool_header = match header::IntoHeaderValue(bool_header).try_into() {
                                                         Ok(val) => val,
                                                         Err(e) => {
@@ -887,6 +892,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         }
                                                     };
 
+                                                    response.headers_mut().insert(
+                                                        HeaderName::from_static("bool-header"),
+                                                        bool_header
+                                                    );
+                                                    }
+                                                    if let Some(object_header) = object_header {
                                                     let object_header = match header::IntoHeaderValue(object_header).try_into() {
                                                         Ok(val) => val,
                                                         Err(e) => {
@@ -897,19 +908,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         }
                                                     };
 
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-                                                    response.headers_mut().insert(
-                                                        HeaderName::from_static("success-info"),
-                                                        success_info
-                                                    );
-                                                    response.headers_mut().insert(
-                                                        HeaderName::from_static("bool-header"),
-                                                        bool_header
-                                                    );
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("object-header"),
                                                         object_header
                                                     );
+                                                    }
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -923,6 +927,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         failure_info
                                                     }
                                                 => {
+                                                    if let Some(further_info) = further_info {
                                                     let further_info = match header::IntoHeaderValue(further_info).try_into() {
                                                         Ok(val) => val,
                                                         Err(e) => {
@@ -933,6 +938,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         }
                                                     };
 
+                                                    response.headers_mut().insert(
+                                                        HeaderName::from_static("further-info"),
+                                                        further_info
+                                                    );
+                                                    }
+                                                    if let Some(failure_info) = failure_info {
                                                     let failure_info = match header::IntoHeaderValue(failure_info).try_into() {
                                                         Ok(val) => val,
                                                         Err(e) => {
@@ -943,15 +954,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         }
                                                     };
 
-                                                    *response.status_mut() = StatusCode::from_u16(412).expect("Unable to turn 412 into a StatusCode");
-                                                    response.headers_mut().insert(
-                                                        HeaderName::from_static("further-info"),
-                                                        further_info
-                                                    );
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("failure-info"),
                                                         failure_info
                                                     );
+                                                    }
+                                                    *response.status_mut() = StatusCode::from_u16(412).expect("Unable to turn 412 into a StatusCode");
                                                 },
                                             },
                                             Err(_) => {

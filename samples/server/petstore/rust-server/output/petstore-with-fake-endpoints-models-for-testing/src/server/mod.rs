@@ -2734,6 +2734,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         x_expires_after
                                                     }
                                                 => {
+                                                    if let Some(x_rate_limit) = x_rate_limit {
                                                     let x_rate_limit = match header::IntoHeaderValue(x_rate_limit).try_into() {
                                                         Ok(val) => val,
                                                         Err(e) => {
@@ -2744,6 +2745,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         }
                                                     };
 
+                                                    response.headers_mut().insert(
+                                                        HeaderName::from_static("x-rate-limit"),
+                                                        x_rate_limit
+                                                    );
+                                                    }
+                                                    if let Some(x_expires_after) = x_expires_after {
                                                     let x_expires_after = match header::IntoHeaderValue(x_expires_after).try_into() {
                                                         Ok(val) => val,
                                                         Err(e) => {
@@ -2754,15 +2761,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         }
                                                     };
 
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-                                                    response.headers_mut().insert(
-                                                        HeaderName::from_static("x-rate-limit"),
-                                                        x_rate_limit
-                                                    );
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("x-expires-after"),
                                                         x_expires_after
                                                     );
+                                                    }
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/xml")
