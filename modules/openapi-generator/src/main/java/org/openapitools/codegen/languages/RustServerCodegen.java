@@ -188,7 +188,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
         instantiationTypes.clear();
         instantiationTypes.put("array", "Vec");
-        instantiationTypes.put("map", "Map");
+        instantiationTypes.put("map", "std::collections::HashMap");
 
         typeMapping.clear();
         typeMapping.put("number", "f64");
@@ -1235,7 +1235,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         Schema additionalProperties = getAdditionalProperties(model);
 
         if (additionalProperties != null) {
-            mdl.additionalPropertiesType = getSchemaType(additionalProperties);
+            mdl.additionalPropertiesType = getTypeDeclaration(additionalProperties);
         }
 
         return mdl;
@@ -1537,16 +1537,10 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                     // the user than the alternative.
                     LOGGER.warn("Ignoring additionalProperties (see https://github.com/OpenAPITools/openapi-generator/issues/318) alongside defined properties");
                     cm.dataType = null;
-                } else {
-                    String type;
-
-                    if (typeMapping.containsKey(cm.additionalPropertiesType)) {
-                        type = typeMapping.get(cm.additionalPropertiesType);
-                    } else {
-                        type = toModelName(cm.additionalPropertiesType);
-                    }
-
-                    cm.dataType = "std::collections::HashMap<String, " + type + ">";
+                }
+                else
+                {
+                    cm.dataType = "std::collections::HashMap<String, " + cm.additionalPropertiesType + ">";
                 }
             } else if (cm.dataType != null) {
                 // We need to hack about with single-parameter models to
