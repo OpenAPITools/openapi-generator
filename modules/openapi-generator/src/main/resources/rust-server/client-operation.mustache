@@ -373,18 +373,29 @@
             {{{code}}} => {
 {{#headers}}
                 let response_{{{name}}} = match response.headers().get(HeaderName::from_static("{{{nameInLowerCase}}}")) {
-                    Some(response_{{{name}}}) => response_{{{name}}}.clone(),
-                    None => {
-                        return Err(ApiError(String::from("Required response header {{{baseName}}} for response {{{code}}} was not found.")));
-                    }
+                    Some(response_{{{name}}}) => {
+                        let response_{{{name}}} = response_{{{name}}}.clone();
+                        let response_{{{name}}} = match TryInto::<header::IntoHeaderValue<{{{dataType}}}>>::try_into(response_{{{name}}}) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header {{baseName}} for response {{code}} - {}", e)));
+                            },
+                        };
+                        let response_{{{name}}} = response_{{{name}}}.0;
+  {{#required}}
+                        response_{{{name}}}
+  {{/required}}
+  {{^required}}
+                        Some(response_{{{name}}})
+  {{/required}}
+                        },
+  {{#required}}
+                    None => return Err(ApiError(String::from("Required response header {{{baseName}}} for response {{{code}}} was not found."))),
+  {{/required}}
+  {{^required}}
+                    None => None,
+  {{/required}}
                 };
-                let response_{{{name}}} = match TryInto::<header::IntoHeaderValue<{{{dataType}}}>>::try_into(response_{{{name}}}) {
-                    Ok(value) => value,
-                    Err(e) => {
-                        return Err(ApiError(format!("Invalid response header {{baseName}} for response {{code}} - {}", e)));
-                    },
-                };
-                let response_{{{name}}} = response_{{{name}}}.0;
 
 {{/headers}}
                 let body = response.into_body();
