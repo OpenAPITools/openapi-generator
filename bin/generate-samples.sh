@@ -18,7 +18,7 @@ if [ ! -f "$executable" ]; then
   (cd "${root}" && mvn -B --no-snapshot-updates clean package -DskipTests=true -Dmaven.javadoc.skip=true -Djacoco.skip=true)
 fi
 
-export JAVA_OPTS="${JAVA_OPTS} -server"
+export JAVA_OPTS="${JAVA_OPTS} -server -Duser.timezone=UTC"
 
 configs=${@:-"${root}"/bin/configs/*.yaml}
 

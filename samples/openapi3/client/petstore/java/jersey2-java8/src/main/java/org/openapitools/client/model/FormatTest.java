@@ -339,7 +339,7 @@ public class FormatTest {
    * Get date
    * @return date
   **/
-  @ApiModelProperty(example = "Sat Feb 01 19:00:00 EST 2020", required = true, value = "")
+  @ApiModelProperty(example = "Sun Feb 02 00:00:00 UTC 2020", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
