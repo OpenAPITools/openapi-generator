@@ -16,6 +16,7 @@ import org.openapitools.client.model.HealthCheckResult;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
+import org.openapitools.client.model.OuterEnum;
 import org.openapitools.client.model.User;
 
 import java.util.ArrayList;
@@ -362,6 +363,66 @@ public class FakeApi {
                                localVarAuthNames, localVarReturnType, null);
   }
   /**
+   * Array of Enums
+   * 
+   * @return List&lt;OuterEnum&gt;
+   * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> Got named array of enums </td><td>  -  </td></tr>
+     </table>
+   */
+  public List<OuterEnum> getArrayOfEnums() throws ApiException {
+    return getArrayOfEnumsWithHttpInfo().getData();
+  }
+
+  /**
+   * Array of Enums
+   * 
+   * @return ApiResponse&lt;List&lt;OuterEnum&gt;&gt;
+   * @throws ApiException if fails to make API call
+   * @http.response.details
+     <table summary="Response Details" border="1">
+       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
+       <tr><td> 200 </td><td> Got named array of enums </td><td>  -  </td></tr>
+     </table>
+   */
+  public ApiResponse<List<OuterEnum>> getArrayOfEnumsWithHttpInfo() throws ApiException {
+    Object localVarPostBody = null;
+    
+    // create path and map variables
+    String localVarPath = "/fake/array-of-enums";
+
+    // query params
+    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+    Map<String, String> localVarCookieParams = new HashMap<String, String>();
+    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+
+    
+    
+    
+    final String[] localVarAccepts = {
+      "application/json"
+    };
+    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+    final String[] localVarContentTypes = {
+      
+    };
+    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+    String[] localVarAuthNames = new String[] {  };
+
+    GenericType<List<OuterEnum>> localVarReturnType = new GenericType<List<OuterEnum>>() {};
+
+    return apiClient.invokeAPI("FakeApi.getArrayOfEnums", localVarPath, "GET", localVarQueryParams, localVarPostBody,
+                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
+                               localVarAuthNames, localVarReturnType, null);
+  }
+  /**
    * 
    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
    * @param fileSchemaTestClass  (required)
@@ -578,7 +639,7 @@ public class FakeApi {
    * @param string None (optional)
    * @param binary None (optional)
    * @param date None (optional)
-   * @param dateTime None (optional, default to 2010-02-01T10:20:10.11111+01:00)
+   * @param dateTime None (optional, default to OffsetDateTime.parse(&quot;2010-02-01T04:20:10.111110-05:00[America/New_York]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
@@ -607,7 +668,7 @@ public class FakeApi {
    * @param string None (optional)
    * @param binary None (optional)
    * @param date None (optional)
-   * @param dateTime None (optional, default to 2010-02-01T10:20:10.11111+01:00)
+   * @param dateTime None (optional, default to OffsetDateTime.parse(&quot;2010-02-01T04:20:10.111110-05:00[America/New_York]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @return ApiResponse&lt;Void&gt;
@@ -1170,7 +1231,7 @@ if (param2 != null)
 
     localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "pipe", pipe));
     localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "ioutil", ioutil));
-    localVarQueryParams.addAll(apiClient.parameterToPairs("space", "http", http));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("ssv", "http", http));
     localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "url", url));
     localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "context", context));
 

@@ -1236,6 +1236,20 @@ paths:
       tags:
       - fake
       x-accepts: application/json
+  /fake/array-of-enums:
+    get:
+      operationId: getArrayOfEnums
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfEnums'
+          description: Got named array of enums
+      summary: Array of Enums
+      tags:
+      - fake
+      x-accepts: application/json
 components:
   requestBodies:
     UserArray:
@@ -2219,6 +2233,10 @@ components:
       allOf:
       - $ref: '#/components/schemas/ParentPet'
       - $ref: '#/components/schemas/ChildCat_allOf'
+    ArrayOfEnums:
+      items:
+        $ref: '#/components/schemas/OuterEnum'
+      type: array
     DateTimeTest:
       default: 2010-01-01T10:10:10.000111+01:00
       example: 2010-01-01T10:10:10.000111+01:00

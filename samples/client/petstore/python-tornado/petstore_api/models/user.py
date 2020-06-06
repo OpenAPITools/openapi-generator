@@ -103,7 +103,7 @@ class User(object):
 
 
         :param id: The id of this User.  # noqa: E501
-        :type: int
+        :type id: int
         """
 
         self._id = id
@@ -124,7 +124,7 @@ class User(object):
 
 
         :param username: The username of this User.  # noqa: E501
-        :type: str
+        :type username: str
         """
 
         self._username = username
@@ -145,7 +145,7 @@ class User(object):
 
 
         :param first_name: The first_name of this User.  # noqa: E501
-        :type: str
+        :type first_name: str
         """
 
         self._first_name = first_name
@@ -166,7 +166,7 @@ class User(object):
 
 
         :param last_name: The last_name of this User.  # noqa: E501
-        :type: str
+        :type last_name: str
         """
 
         self._last_name = last_name
@@ -187,7 +187,7 @@ class User(object):
 
 
         :param email: The email of this User.  # noqa: E501
-        :type: str
+        :type email: str
         """
 
         self._email = email
@@ -208,7 +208,7 @@ class User(object):
 
 
         :param password: The password of this User.  # noqa: E501
-        :type: str
+        :type password: str
         """
 
         self._password = password
@@ -229,7 +229,7 @@ class User(object):
 
 
         :param phone: The phone of this User.  # noqa: E501
-        :type: str
+        :type phone: str
         """
 
         self._phone = phone
@@ -252,7 +252,7 @@ class User(object):
         User Status  # noqa: E501
 
         :param user_status: The user_status of this User.  # noqa: E501
-        :type: int
+        :type user_status: int
         """
 
         self._user_status = user_status
