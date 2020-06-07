@@ -3,10 +3,12 @@ import time
 import {{{pythonPackageName}}}
 from {{{pythonPackageName}}}.rest import ApiException
 from pprint import pprint
-{{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
+{{#hasAuthMethods}}
+{{#authMethods}}
+{{^isBasicBearer}}{{#isBasic}}
 # Configure HTTP basic authorization: {{{name}}}
 {{{pythonPackageName}}}.configuration.username = 'YOUR_USERNAME'
-{{{pythonPackageName}}}.configuration.password = 'YOUR_PASSWORD'{{/isBasic}}{{#isBasicBearer}}
+{{{pythonPackageName}}}.configuration.password = 'YOUR_PASSWORD'{{/isBasic}}{{/isBasicBearer}}{{#isBasicBearer}}
 # Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
 {{{pythonPackageName}}}.configuration.access_token = 'YOUR_ACCESS_TOKEN'{{/isBasicBearer}}{{#isApiKey}}
 # Configure API key authorization: {{{name}}}
@@ -14,10 +16,11 @@ from pprint import pprint
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # {{{pythonPackageName}}}.configuration.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isApiKey}}{{#isOAuth}}
 # Configure OAuth2 access token for authorization: {{{name}}}
-{{{pythonPackageName}}}.configuration.access_token = 'YOUR_ACCESS_TOKEN'{{/isOAuth}}{{/authMethods}}
+{{{pythonPackageName}}}.configuration.access_token = 'YOUR_ACCESS_TOKEN'{{/isOAuth}}
+{{/authMethods}}
 {{/hasAuthMethods}}
 
-# create an instance of the API class
+# Create an instance of the API class
 api_instance = {{{pythonPackageName}}}.{{{classname}}}()
 {{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{unescapedDescription}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
 {{/allParams}}
