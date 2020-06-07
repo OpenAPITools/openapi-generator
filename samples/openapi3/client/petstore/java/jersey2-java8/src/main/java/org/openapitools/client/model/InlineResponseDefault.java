@@ -40,7 +40,6 @@ public class InlineResponseDefault {
 
 
   public InlineResponseDefault string(Foo string) {
-    
     this.string = string;
     return this;
   }

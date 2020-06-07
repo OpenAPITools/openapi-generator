@@ -39,7 +39,6 @@ public class TriangleInterface {
 
 
   public TriangleInterface triangleType(String triangleType) {
-    
     this.triangleType = triangleType;
     return this;
   }

@@ -49,7 +49,6 @@ public class GrandparentAnimal {
 
 
   public GrandparentAnimal petType(String petType) {
-    
     this.petType = petType;
     return this;
   }

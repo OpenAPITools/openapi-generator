@@ -44,7 +44,6 @@ public class InlineObject5 {
 
 
   public InlineObject5 additionalMetadata(String additionalMetadata) {
-    
     this.additionalMetadata = additionalMetadata;
     return this;
   }
@@ -69,7 +68,6 @@ public class InlineObject5 {
 
 
   public InlineObject5 requiredFile(File requiredFile) {
-    
     this.requiredFile = requiredFile;
     return this;
   }

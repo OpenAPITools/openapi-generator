@@ -15,7 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Map;
 import java.util.HashMap;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -97,7 +98,6 @@ public class NullableClass {
 
   public NullableClass integerProp(Integer integerProp) {
     this.integerProp = JsonNullable.<Integer>of(integerProp);
-    
     return this;
   }
 
@@ -132,7 +132,6 @@ public class NullableClass {
 
   public NullableClass numberProp(BigDecimal numberProp) {
     this.numberProp = JsonNullable.<BigDecimal>of(numberProp);
-    
     return this;
   }
 
@@ -167,7 +166,6 @@ public class NullableClass {
 
   public NullableClass booleanProp(Boolean booleanProp) {
     this.booleanProp = JsonNullable.<Boolean>of(booleanProp);
-    
     return this;
   }
 
@@ -202,7 +200,6 @@ public class NullableClass {
 
   public NullableClass stringProp(String stringProp) {
     this.stringProp = JsonNullable.<String>of(stringProp);
-    
     return this;
   }
 
@@ -237,7 +234,6 @@ public class NullableClass {
 
   public NullableClass dateProp(LocalDate dateProp) {
     this.dateProp = JsonNullable.<LocalDate>of(dateProp);
-    
     return this;
   }
 
@@ -272,7 +268,6 @@ public class NullableClass {
 
   public NullableClass datetimeProp(OffsetDateTime datetimeProp) {
     this.datetimeProp = JsonNullable.<OffsetDateTime>of(datetimeProp);
-    
     return this;
   }
 
@@ -307,7 +302,6 @@ public class NullableClass {
 
   public NullableClass arrayNullableProp(List<Object> arrayNullableProp) {
     this.arrayNullableProp = JsonNullable.<List<Object>>of(arrayNullableProp);
-    
     return this;
   }
 
@@ -354,7 +348,6 @@ public class NullableClass {
 
   public NullableClass arrayAndItemsNullableProp(List<Object> arrayAndItemsNullableProp) {
     this.arrayAndItemsNullableProp = JsonNullable.<List<Object>>of(arrayAndItemsNullableProp);
-    
     return this;
   }
 
@@ -400,7 +393,6 @@ public class NullableClass {
 
 
   public NullableClass arrayItemsNullable(List<Object> arrayItemsNullable) {
-    
     this.arrayItemsNullable = arrayItemsNullable;
     return this;
   }
@@ -434,7 +426,6 @@ public class NullableClass {
 
   public NullableClass objectNullableProp(Map<String, Object> objectNullableProp) {
     this.objectNullableProp = JsonNullable.<Map<String, Object>>of(objectNullableProp);
-    
     return this;
   }
 
@@ -481,7 +472,6 @@ public class NullableClass {
 
   public NullableClass objectAndItemsNullableProp(Map<String, Object> objectAndItemsNullableProp) {
     this.objectAndItemsNullableProp = JsonNullable.<Map<String, Object>>of(objectAndItemsNullableProp);
-    
     return this;
   }
 
@@ -527,7 +517,6 @@ public class NullableClass {
 
 
   public NullableClass objectItemsNullable(Map<String, Object> objectItemsNullable) {
-    
     this.objectItemsNullable = objectItemsNullable;
     return this;
   }
@@ -563,19 +552,27 @@ public class NullableClass {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  @JsonUnwrapped
   private Map<String, Object> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
    */
+  @JsonAnySetter
   public NullableClass putAdditionalProperty(String key, Object value) {
     if (this.additionalProperties == null) {
         this.additionalProperties = new HashMap<String, Object>();
     }
     this.additionalProperties.put(key, value);
     return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
   }
 
   /**

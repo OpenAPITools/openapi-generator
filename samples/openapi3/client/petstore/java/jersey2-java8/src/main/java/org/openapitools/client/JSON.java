@@ -107,7 +107,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
           }
         }
       }
-      return null;      
+      return null;
     }
 
     /**

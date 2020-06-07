@@ -59,7 +59,6 @@ public class ReadOnlyFirst {
 
 
   public ReadOnlyFirst baz(String baz) {
-    
     this.baz = baz;
     return this;
   }

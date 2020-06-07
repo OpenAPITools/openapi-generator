@@ -100,7 +100,6 @@ public class Pet {
 
 
   public Pet id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -125,7 +124,6 @@ public class Pet {
 
 
   public Pet category(Category category) {
-    
     this.category = category;
     return this;
   }
@@ -150,7 +148,6 @@ public class Pet {
 
 
   public Pet name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -174,7 +171,6 @@ public class Pet {
 
 
   public Pet photoUrls(List<String> photoUrls) {
-    
     this.photoUrls = photoUrls;
     return this;
   }
@@ -203,7 +199,6 @@ public class Pet {
 
 
   public Pet tags(List<Tag> tags) {
-    
     this.tags = tags;
     return this;
   }
@@ -236,7 +231,6 @@ public class Pet {
 
 
   public Pet status(StatusEnum status) {
-    
     this.status = status;
     return this;
   }

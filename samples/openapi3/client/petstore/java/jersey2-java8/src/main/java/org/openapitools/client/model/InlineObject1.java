@@ -44,7 +44,6 @@ public class InlineObject1 {
 
 
   public InlineObject1 additionalMetadata(String additionalMetadata) {
-    
     this.additionalMetadata = additionalMetadata;
     return this;
   }
@@ -69,7 +68,6 @@ public class InlineObject1 {
 
 
   public InlineObject1 file(File file) {
-    
     this.file = file;
     return this;
   }

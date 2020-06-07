@@ -73,7 +73,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
-    
     this.mapProperty = mapProperty;
     return this;
   }
@@ -106,7 +105,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
-    
     this.mapOfMapProperty = mapOfMapProperty;
     return this;
   }
@@ -140,7 +138,6 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass anytype1(Object anytype1) {
     this.anytype1 = JsonNullable.<Object>of(anytype1);
-    
     return this;
   }
 
@@ -174,7 +171,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapWithUndeclaredPropertiesAnytype1(Object mapWithUndeclaredPropertiesAnytype1) {
-    
     this.mapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
     return this;
   }
@@ -199,7 +195,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapWithUndeclaredPropertiesAnytype2(Object mapWithUndeclaredPropertiesAnytype2) {
-    
     this.mapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
     return this;
   }
@@ -224,7 +219,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapWithUndeclaredPropertiesAnytype3(Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
-    
     this.mapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
     return this;
   }
@@ -257,7 +251,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass emptyMap(Object emptyMap) {
-    
     this.emptyMap = emptyMap;
     return this;
   }
@@ -282,7 +275,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
-    
     this.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
     return this;
   }

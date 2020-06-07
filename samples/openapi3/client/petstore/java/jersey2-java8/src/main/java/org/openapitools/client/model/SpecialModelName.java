@@ -39,7 +39,6 @@ public class SpecialModelName {
 
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
-    
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }

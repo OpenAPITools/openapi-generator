@@ -95,7 +95,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 integer(Integer integer) {
-    
     this.integer = integer;
     return this;
   }
@@ -122,7 +121,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 int32(Integer int32) {
-    
     this.int32 = int32;
     return this;
   }
@@ -149,7 +147,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 int64(Long int64) {
-    
     this.int64 = int64;
     return this;
   }
@@ -174,7 +171,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 number(BigDecimal number) {
-    
     this.number = number;
     return this;
   }
@@ -200,7 +196,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 _float(Float _float) {
-    
     this._float = _float;
     return this;
   }
@@ -226,7 +221,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 _double(Double _double) {
-    
     this._double = _double;
     return this;
   }
@@ -252,7 +246,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 string(String string) {
-    
     this.string = string;
     return this;
   }
@@ -277,7 +270,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 patternWithoutDelimiter(String patternWithoutDelimiter) {
-    
     this.patternWithoutDelimiter = patternWithoutDelimiter;
     return this;
   }
@@ -301,7 +293,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 _byte(byte[] _byte) {
-    
     this._byte = _byte;
     return this;
   }
@@ -325,7 +316,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 binary(File binary) {
-    
     this.binary = binary;
     return this;
   }
@@ -350,7 +340,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 date(LocalDate date) {
-    
     this.date = date;
     return this;
   }
@@ -375,7 +364,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 dateTime(OffsetDateTime dateTime) {
-    
     this.dateTime = dateTime;
     return this;
   }
@@ -400,7 +388,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 password(String password) {
-    
     this.password = password;
     return this;
   }
@@ -425,7 +412,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 callback(String callback) {
-    
     this.callback = callback;
     return this;
   }

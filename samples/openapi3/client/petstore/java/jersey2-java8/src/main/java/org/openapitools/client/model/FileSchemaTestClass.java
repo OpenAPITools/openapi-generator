@@ -45,7 +45,6 @@ public class FileSchemaTestClass {
 
 
   public FileSchemaTestClass file(java.io.File file) {
-    
     this.file = file;
     return this;
   }
@@ -70,7 +69,6 @@ public class FileSchemaTestClass {
 
 
   public FileSchemaTestClass files(List<java.io.File> files) {
-    
     this.files = files;
     return this;
   }

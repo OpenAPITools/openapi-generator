@@ -4,19 +4,27 @@
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  @JsonUnwrapped
   private Map<String, {{{.}}}> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
    */
+  @JsonAnySetter
   public {{classname}} putAdditionalProperty(String key, {{{.}}} value) {
     if (this.additionalProperties == null) {
         this.additionalProperties = new HashMap<String, {{{.}}}>();
     }
     this.additionalProperties.put(key, value);
     return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  @JsonAnyGetter
+  public Map<String, {{{.}}}> getAdditionalProperties() {
+    return additionalProperties;
   }
 
   /**

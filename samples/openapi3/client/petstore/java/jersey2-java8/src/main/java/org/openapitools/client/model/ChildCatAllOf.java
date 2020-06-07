@@ -39,7 +39,6 @@ public class ChildCatAllOf {
 
 
   public ChildCatAllOf name(String name) {
-    
     this.name = name;
     return this;
   }

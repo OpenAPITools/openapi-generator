@@ -39,7 +39,6 @@ public class DanishPig {
 
 
   public DanishPig className(String className) {
-    
     this.className = className;
     return this;
   }

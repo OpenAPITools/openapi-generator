@@ -39,7 +39,6 @@ public class CatAllOf {
 
 
   public CatAllOf declawed(Boolean declawed) {
-    
     this.declawed = declawed;
     return this;
   }

@@ -39,7 +39,6 @@ public class BasquePig {
 
 
   public BasquePig className(String className) {
-    
     this.className = className;
     return this;
   }

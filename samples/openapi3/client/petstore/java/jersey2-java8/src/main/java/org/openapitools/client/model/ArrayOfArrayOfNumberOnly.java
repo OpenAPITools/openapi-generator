@@ -42,7 +42,6 @@ public class ArrayOfArrayOfNumberOnly {
 
 
   public ArrayOfArrayOfNumberOnly arrayArrayNumber(List<List<BigDecimal>> arrayArrayNumber) {
-    
     this.arrayArrayNumber = arrayArrayNumber;
     return this;
   }

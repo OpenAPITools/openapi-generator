@@ -39,7 +39,6 @@ public class DogAllOf {
 
 
   public DogAllOf breed(String breed) {
-    
     this.breed = breed;
     return this;
   }

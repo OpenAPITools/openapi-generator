@@ -40,7 +40,6 @@ public class Banana {
 
 
   public Banana lengthCm(BigDecimal lengthCm) {
-    
     this.lengthCm = lengthCm;
     return this;
   }

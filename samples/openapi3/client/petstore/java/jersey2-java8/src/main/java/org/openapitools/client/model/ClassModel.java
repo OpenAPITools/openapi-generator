@@ -40,7 +40,6 @@ public class ClassModel {
 
 
   public ClassModel propertyClass(String propertyClass) {
-    
     this.propertyClass = propertyClass;
     return this;
   }

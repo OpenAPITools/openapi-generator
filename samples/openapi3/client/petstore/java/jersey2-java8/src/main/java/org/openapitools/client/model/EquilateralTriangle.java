@@ -45,7 +45,6 @@ public class EquilateralTriangle {
 
 
   public EquilateralTriangle shapeType(String shapeType) {
-    
     this.shapeType = shapeType;
     return this;
   }
@@ -69,7 +68,6 @@ public class EquilateralTriangle {
 
 
   public EquilateralTriangle triangleType(String triangleType) {
-    
     this.triangleType = triangleType;
     return this;
   }

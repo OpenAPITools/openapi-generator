@@ -53,7 +53,6 @@ public class Animal {
 
 
   public Animal className(String className) {
-    
     this.className = className;
     return this;
   }
@@ -77,7 +76,6 @@ public class Animal {
 
 
   public Animal color(String color) {
-    
     this.color = color;
     return this;
   }

@@ -39,7 +39,6 @@ public class ShapeInterface {
 
 
   public ShapeInterface shapeType(String shapeType) {
-    
     this.shapeType = shapeType;
     return this;
   }

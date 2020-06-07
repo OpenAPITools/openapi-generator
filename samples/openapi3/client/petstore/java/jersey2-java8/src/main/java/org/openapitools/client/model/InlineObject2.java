@@ -117,7 +117,6 @@ public class InlineObject2 {
 
 
   public InlineObject2 enumFormStringArray(List<EnumFormStringArrayEnum> enumFormStringArray) {
-    
     this.enumFormStringArray = enumFormStringArray;
     return this;
   }
@@ -150,7 +149,6 @@ public class InlineObject2 {
 
 
   public InlineObject2 enumFormString(EnumFormStringEnum enumFormString) {
-    
     this.enumFormString = enumFormString;
     return this;
   }

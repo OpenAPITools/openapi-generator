@@ -52,7 +52,6 @@ public class Name {
 
 
   public Name name(Integer name) {
-    
     this.name = name;
     return this;
   }
@@ -92,7 +91,6 @@ public class Name {
 
 
   public Name property(String property) {
-    
     this.property = property;
     return this;
   }

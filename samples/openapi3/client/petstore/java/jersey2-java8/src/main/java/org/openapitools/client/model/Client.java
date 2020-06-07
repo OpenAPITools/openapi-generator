@@ -39,7 +39,6 @@ public class Client {
 
 
   public Client client(String client) {
-    
     this.client = client;
     return this;
   }

@@ -50,7 +50,6 @@ public class ArrayTest {
 
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
-    
     this.arrayOfString = arrayOfString;
     return this;
   }
@@ -83,7 +82,6 @@ public class ArrayTest {
 
 
   public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
-    
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
@@ -116,7 +114,6 @@ public class ArrayTest {
 
 
   public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
-    
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }

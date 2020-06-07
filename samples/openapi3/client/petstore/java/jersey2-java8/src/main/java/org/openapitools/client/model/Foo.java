@@ -39,7 +39,6 @@ public class Foo {
 
 
   public Foo bar(String bar) {
-    
     this.bar = bar;
     return this;
   }

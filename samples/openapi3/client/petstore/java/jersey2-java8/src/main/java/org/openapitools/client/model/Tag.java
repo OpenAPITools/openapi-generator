@@ -43,7 +43,6 @@ public class Tag {
 
 
   public Tag id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -68,7 +67,6 @@ public class Tag {
 
 
   public Tag name(String name) {
-    
     this.name = name;
     return this;
   }

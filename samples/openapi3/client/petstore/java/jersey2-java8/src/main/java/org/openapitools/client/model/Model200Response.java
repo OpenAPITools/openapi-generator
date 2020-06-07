@@ -44,7 +44,6 @@ public class Model200Response {
 
 
   public Model200Response name(Integer name) {
-    
     this.name = name;
     return this;
   }
@@ -69,7 +68,6 @@ public class Model200Response {
 
 
   public Model200Response propertyClass(String propertyClass) {
-    
     this.propertyClass = propertyClass;
     return this;
   }

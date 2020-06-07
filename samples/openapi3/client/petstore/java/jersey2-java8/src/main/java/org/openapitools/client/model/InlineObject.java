@@ -43,7 +43,6 @@ public class InlineObject {
 
 
   public InlineObject name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -68,7 +67,6 @@ public class InlineObject {
 
 
   public InlineObject status(String status) {
-    
     this.status = status;
     return this;
   }
