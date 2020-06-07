@@ -13,6 +13,9 @@
 
 package org.openapitools.client.model;
 
+import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openapitools.client.JSON;
@@ -61,7 +64,23 @@ public class ZebraTest {
      */
     @Test
     public void typeTest() {
-        // TODO: test type
+        String zebraJson = "{\"type\":\"mountain\",\"className\":\"zebra\",\"key1\":\"value1\",\"key2\":12321}";
+
+        JSON j = new JSON();
+        TypeFactory typeFactory = j.getMapper().getTypeFactory();
+        MapType mapType = typeFactory.constructMapType(HashMap.class, String.class, Object.class);
+        try {
+            HashMap<String, Object> map = j.getMapper().readValue(zebraJson, mapType);
+            Assert.assertEquals(map.get("type"), "mountain");
+
+            Map<String,Object> result =
+                    j.getMapper().readValue(zebraJson, new TypeReference<Map<String,Object>>() {});
+
+            Assert.assertEquals(result.get("type"), "mountain");
+        } catch (Exception ex) {
+            Assert.assertEquals(true, false); // exception shouldn't be thrown
+        }
+
     }
 
     /**
@@ -69,7 +88,7 @@ public class ZebraTest {
      */
     @Test
     public void classNameTest() {
-        // TODO: test className
+
     }
 
 }

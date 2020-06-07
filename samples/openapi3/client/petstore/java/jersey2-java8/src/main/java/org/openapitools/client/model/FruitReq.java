@@ -29,6 +29,8 @@ import org.openapitools.client.model.BananaReq;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -64,9 +66,8 @@ public class FruitReq extends AbstractOpenApiSchema {
         @Override
         public FruitReq deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             JsonNode tree = jp.readValueAsTree();
-
-            int match = 0;
             Object deserialized = null;
+            int match = 0;
             // deserialize AppleReq
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(AppleReq.class);

@@ -30,6 +30,7 @@ import org.openapitools.client.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * Pet
  */

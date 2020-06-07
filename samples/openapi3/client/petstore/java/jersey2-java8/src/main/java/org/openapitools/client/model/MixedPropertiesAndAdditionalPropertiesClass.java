@@ -32,6 +32,7 @@ import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */

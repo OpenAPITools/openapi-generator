@@ -55,6 +55,12 @@ import {{invokerPackage}}.JSON;
 
 {{#models}}
 {{#model}}
+{{#oneOf}}
+{{#-first}}
+import com.fasterxml.jackson.core.type.TypeReference;
+{{/-first}}
+{{/oneOf}}
+
 {{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{#-first}}{{>oneof_model}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}{{>anyof_model}}{{/-first}}{{/anyOf}}{{^anyOf}}{{>pojo}}{{/anyOf}}{{/oneOf}}{{/isEnum}}
 {{/model}}
 {{/models}}

@@ -30,6 +30,8 @@ import org.openapitools.client.model.DanishPig;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -65,19 +67,24 @@ public class Pig extends AbstractOpenApiSchema {
         @Override
         public Pig deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             JsonNode tree = jp.readValueAsTree();
+            Object deserialized = null;
+            Pig newPig = new Pig();
+            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            String discriminatorValue = (String)result2.get("className");
+            switch (discriminatorValue) {
+                case "BasquePig":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(BasquePig.class);
+                    newPig.setActualInstance(deserialized);
+                    return newPig;
+                case "DanishPig":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(DanishPig.class);
+                    newPig.setActualInstance(deserialized);
+                    return newPig;
+                default:
+                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Mammal. Possible values: BasquePig DanishPig", discriminatorValue));
+            }
 
             int match = 0;
-            Object deserialized = null;
-            Class cls = JSON.getClassForElement(tree, Pig.class);
-            if (cls != null) {
-                // When the OAS schema includes a discriminator, use the discriminator value to
-                // discriminate the oneOf schemas.
-                // Get the discriminator mapping value to get the class.
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
-                Pig ret = new Pig();
-                ret.setActualInstance(deserialized);
-                return ret;
-            }
             // deserialize BasquePig
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(BasquePig.class);

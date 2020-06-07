@@ -30,6 +30,8 @@ import org.openapitools.client.model.Triangle;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -65,19 +67,24 @@ public class NullableShape extends AbstractOpenApiSchema {
         @Override
         public NullableShape deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             JsonNode tree = jp.readValueAsTree();
+            Object deserialized = null;
+            NullableShape newNullableShape = new NullableShape();
+            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            String discriminatorValue = (String)result2.get("shapeType");
+            switch (discriminatorValue) {
+                case "Quadrilateral":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Quadrilateral.class);
+                    newNullableShape.setActualInstance(deserialized);
+                    return newNullableShape;
+                case "Triangle":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(Triangle.class);
+                    newNullableShape.setActualInstance(deserialized);
+                    return newNullableShape;
+                default:
+                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Mammal. Possible values: Quadrilateral Triangle", discriminatorValue));
+            }
 
             int match = 0;
-            Object deserialized = null;
-            Class cls = JSON.getClassForElement(tree, NullableShape.class);
-            if (cls != null) {
-                // When the OAS schema includes a discriminator, use the discriminator value to
-                // discriminate the oneOf schemas.
-                // Get the discriminator mapping value to get the class.
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
-                NullableShape ret = new NullableShape();
-                ret.setActualInstance(deserialized);
-                return ret;
-            }
             // deserialize Quadrilateral
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Quadrilateral.class);

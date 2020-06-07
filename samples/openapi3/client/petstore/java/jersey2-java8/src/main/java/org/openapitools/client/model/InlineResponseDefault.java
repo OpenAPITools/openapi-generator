@@ -27,6 +27,7 @@ import org.openapitools.client.model.Foo;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * InlineResponseDefault
  */

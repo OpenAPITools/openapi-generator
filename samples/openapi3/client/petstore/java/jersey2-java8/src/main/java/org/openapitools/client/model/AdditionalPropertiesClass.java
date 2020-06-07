@@ -32,6 +32,7 @@ import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * AdditionalPropertiesClass
  */

@@ -33,21 +33,26 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         @Override
         public {{classname}} deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             JsonNode tree = jp.readValueAsTree();
-
-            int match = 0;
             Object deserialized = null;
+            {{#useOneOfDiscriminatorLookup}}
             {{#discriminator}}
-            Class cls = JSON.getClassForElement(tree, {{classname}}.class);
-            if (cls != null) {
-                // When the OAS schema includes a discriminator, use the discriminator value to
-                // discriminate the oneOf schemas.
-                // Get the discriminator mapping value to get the class.
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
-                {{classname}} ret = new {{classname}}();
-                ret.setActualInstance(deserialized);
-                return ret;
+            {{classname}} new{{classname}} = new {{classname}}();
+            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            String discriminatorValue = (String)result2.get("{{{propertyBaseName}}}");
+            switch (discriminatorValue) {
+        	{{#mappedModels}}
+                case "{{{mappingName}}}":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs({{{modelName}}}.class);
+                    new{{classname}}.setActualInstance(deserialized);
+                    return new{{classname}};
+        	{{/mappedModels}}
+                default:
+                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Mammal. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
             }
+
             {{/discriminator}}
+            {{/useOneOfDiscriminatorLookup}}
+            int match = 0;
             {{#oneOf}}
             // deserialize {{{.}}}
             try {

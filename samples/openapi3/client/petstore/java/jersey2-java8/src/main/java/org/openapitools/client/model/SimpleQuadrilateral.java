@@ -28,6 +28,7 @@ import org.openapitools.client.model.ShapeInterface;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * SimpleQuadrilateral
  */

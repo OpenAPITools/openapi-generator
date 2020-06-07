@@ -30,6 +30,8 @@ import org.openapitools.client.model.SimpleQuadrilateral;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
@@ -65,19 +67,24 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         @Override
         public Quadrilateral deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             JsonNode tree = jp.readValueAsTree();
+            Object deserialized = null;
+            Quadrilateral newQuadrilateral = new Quadrilateral();
+            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            String discriminatorValue = (String)result2.get("quadrilateralType");
+            switch (discriminatorValue) {
+                case "ComplexQuadrilateral":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(ComplexQuadrilateral.class);
+                    newQuadrilateral.setActualInstance(deserialized);
+                    return newQuadrilateral;
+                case "SimpleQuadrilateral":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(SimpleQuadrilateral.class);
+                    newQuadrilateral.setActualInstance(deserialized);
+                    return newQuadrilateral;
+                default:
+                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Mammal. Possible values: ComplexQuadrilateral SimpleQuadrilateral", discriminatorValue));
+            }
 
             int match = 0;
-            Object deserialized = null;
-            Class cls = JSON.getClassForElement(tree, Quadrilateral.class);
-            if (cls != null) {
-                // When the OAS schema includes a discriminator, use the discriminator value to
-                // discriminate the oneOf schemas.
-                // Get the discriminator mapping value to get the class.
-                deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
-                Quadrilateral ret = new Quadrilateral();
-                ret.setActualInstance(deserialized);
-                return ret;
-            }
             // deserialize ComplexQuadrilateral
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(ComplexQuadrilateral.class);
