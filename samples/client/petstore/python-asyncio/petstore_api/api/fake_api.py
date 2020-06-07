@@ -91,9 +91,10 @@ class FakeApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :param _access_token: set to override the default access token defined
-                              in the ApiClient's configuration for a single request.
-        :type _access_token: str, optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -111,7 +112,7 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_access_token'
+                '_request_auth'
             ]
         )
 
@@ -164,7 +165,7 @@ class FakeApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats,
-            _access_token=local_var_params.get('_access_token'))
+            _request_auth=local_var_params.get('_request_auth'))
 
     def fake_outer_boolean_serialize(self, **kwargs):  # noqa: E501
         """fake_outer_boolean_serialize  # noqa: E501
@@ -221,9 +222,10 @@ class FakeApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :param _access_token: set to override the default access token defined
-                              in the ApiClient's configuration for a single request.
-        :type _access_token: str, optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -241,7 +243,7 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_access_token'
+                '_request_auth'
             ]
         )
 
@@ -290,7 +292,7 @@ class FakeApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats,
-            _access_token=local_var_params.get('_access_token'))
+            _request_auth=local_var_params.get('_request_auth'))
 
     def fake_outer_composite_serialize(self, **kwargs):  # noqa: E501
         """fake_outer_composite_serialize  # noqa: E501
@@ -347,9 +349,10 @@ class FakeApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :param _access_token: set to override the default access token defined
-                              in the ApiClient's configuration for a single request.
-        :type _access_token: str, optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -367,7 +370,7 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_access_token'
+                '_request_auth'
             ]
         )
 
@@ -416,7 +419,7 @@ class FakeApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats,
-            _access_token=local_var_params.get('_access_token'))
+            _request_auth=local_var_params.get('_request_auth'))
 
     def fake_outer_number_serialize(self, **kwargs):  # noqa: E501
         """fake_outer_number_serialize  # noqa: E501
@@ -473,9 +476,10 @@ class FakeApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :param _access_token: set to override the default access token defined
-                              in the ApiClient's configuration for a single request.
-        :type _access_token: str, optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -493,7 +497,7 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_access_token'
+                '_request_auth'
             ]
         )
 
@@ -542,7 +546,7 @@ class FakeApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats,
-            _access_token=local_var_params.get('_access_token'))
+            _request_auth=local_var_params.get('_request_auth'))
 
     def fake_outer_string_serialize(self, **kwargs):  # noqa: E501
         """fake_outer_string_serialize  # noqa: E501
@@ -599,9 +603,10 @@ class FakeApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :param _access_token: set to override the default access token defined
-                              in the ApiClient's configuration for a single request.
-        :type _access_token: str, optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -619,7 +624,7 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_access_token'
+                '_request_auth'
             ]
         )
 
@@ -668,7 +673,7 @@ class FakeApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats,
-            _access_token=local_var_params.get('_access_token'))
+            _request_auth=local_var_params.get('_request_auth'))
 
     def test_body_with_file_schema(self, body, **kwargs):  # noqa: E501
         """test_body_with_file_schema  # noqa: E501
@@ -725,9 +730,10 @@ class FakeApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :param _access_token: set to override the default access token defined
-                              in the ApiClient's configuration for a single request.
-        :type _access_token: str, optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -745,7 +751,7 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_access_token'
+                '_request_auth'
             ]
         )
 
@@ -798,7 +804,7 @@ class FakeApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats,
-            _access_token=local_var_params.get('_access_token'))
+            _request_auth=local_var_params.get('_request_auth'))
 
     def test_body_with_query_params(self, query, body, **kwargs):  # noqa: E501
         """test_body_with_query_params  # noqa: E501
@@ -857,9 +863,10 @@ class FakeApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :param _access_token: set to override the default access token defined
-                              in the ApiClient's configuration for a single request.
-        :type _access_token: str, optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -878,7 +885,7 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_access_token'
+                '_request_auth'
             ]
         )
 
@@ -937,7 +944,7 @@ class FakeApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats,
-            _access_token=local_var_params.get('_access_token'))
+            _request_auth=local_var_params.get('_request_auth'))
 
     def test_client_model(self, body, **kwargs):  # noqa: E501
         """To test \"client\" model  # noqa: E501
@@ -994,9 +1001,10 @@ class FakeApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :param _access_token: set to override the default access token defined
-                              in the ApiClient's configuration for a single request.
-        :type _access_token: str, optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1014,7 +1022,7 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_access_token'
+                '_request_auth'
             ]
         )
 
@@ -1071,7 +1079,7 @@ class FakeApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats,
-            _access_token=local_var_params.get('_access_token'))
+            _request_auth=local_var_params.get('_request_auth'))
 
     def test_endpoint_parameters(self, number, double, pattern_without_delimiter, byte, **kwargs):  # noqa: E501
         """Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트  # noqa: E501
@@ -1180,9 +1188,10 @@ class FakeApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :param _access_token: set to override the default access token defined
-                              in the ApiClient's configuration for a single request.
-        :type _access_token: str, optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1213,7 +1222,7 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_access_token'
+                '_request_auth'
             ]
         )
 
@@ -1332,7 +1341,7 @@ class FakeApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats,
-            _access_token=local_var_params.get('_access_token'))
+            _request_auth=local_var_params.get('_request_auth'))
 
     def test_enum_parameters(self, **kwargs):  # noqa: E501
         """To test enum parameters  # noqa: E501
@@ -1417,9 +1426,10 @@ class FakeApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :param _access_token: set to override the default access token defined
-                              in the ApiClient's configuration for a single request.
-        :type _access_token: str, optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1444,7 +1454,7 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_access_token'
+                '_request_auth'
             ]
         )
 
@@ -1510,7 +1520,7 @@ class FakeApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats,
-            _access_token=local_var_params.get('_access_token'))
+            _request_auth=local_var_params.get('_request_auth'))
 
     def test_group_parameters(self, required_string_group, required_boolean_group, required_int64_group, **kwargs):  # noqa: E501
         """Fake endpoint to test group parameters (optional)  # noqa: E501
@@ -1587,9 +1597,10 @@ class FakeApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :param _access_token: set to override the default access token defined
-                              in the ApiClient's configuration for a single request.
-        :type _access_token: str, optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1612,7 +1623,7 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_access_token'
+                '_request_auth'
             ]
         )
 
@@ -1679,7 +1690,7 @@ class FakeApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats,
-            _access_token=local_var_params.get('_access_token'))
+            _request_auth=local_var_params.get('_request_auth'))
 
     def test_inline_additional_properties(self, param, **kwargs):  # noqa: E501
         """test inline additionalProperties  # noqa: E501
@@ -1734,9 +1745,10 @@ class FakeApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :param _access_token: set to override the default access token defined
-                              in the ApiClient's configuration for a single request.
-        :type _access_token: str, optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1754,7 +1766,7 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_access_token'
+                '_request_auth'
             ]
         )
 
@@ -1807,7 +1819,7 @@ class FakeApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats,
-            _access_token=local_var_params.get('_access_token'))
+            _request_auth=local_var_params.get('_request_auth'))
 
     def test_json_form_data(self, param, param2, **kwargs):  # noqa: E501
         """test json serialization of form data  # noqa: E501
@@ -1866,9 +1878,10 @@ class FakeApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :param _access_token: set to override the default access token defined
-                              in the ApiClient's configuration for a single request.
-        :type _access_token: str, optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -1887,7 +1900,7 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_access_token'
+                '_request_auth'
             ]
         )
 
@@ -1946,7 +1959,7 @@ class FakeApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats,
-            _access_token=local_var_params.get('_access_token'))
+            _request_auth=local_var_params.get('_request_auth'))
 
     def test_query_parameter_collection_format(self, pipe, ioutil, http, url, context, **kwargs):  # noqa: E501
         """test_query_parameter_collection_format  # noqa: E501
@@ -2019,9 +2032,10 @@ class FakeApi(object):
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :param _access_token: set to override the default access token defined
-                              in the ApiClient's configuration for a single request.
-        :type _access_token: str, optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
         :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
@@ -2043,7 +2057,7 @@ class FakeApi(object):
                 '_return_http_data_only',
                 '_preload_content',
                 '_request_timeout',
-                '_access_token'
+                '_request_auth'
             ]
         )
 
@@ -2121,4 +2135,4 @@ class FakeApi(object):
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
             collection_formats=collection_formats,
-            _access_token=local_var_params.get('_access_token'))
+            _request_auth=local_var_params.get('_request_auth'))
