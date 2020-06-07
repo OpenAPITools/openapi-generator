@@ -5,7 +5,11 @@ var defaultClient = {{{jsModuleName}}}.ApiClient.instance;
 // Configure HTTP basic authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.username = 'YOUR USERNAME'
-{{{name}}}.password = 'YOUR PASSWORD'{{/isBasic}}{{#isApiKey}}
+{{{name}}}.password = 'YOUR PASSWORD'{{/isBasic}}{{#isBasicBearer}}
+// Configure HTTP bearer authorization: {{{name}}}
+var {{{name}}} = defaultClient.authentications['{{{name}}}'];
+{{{name}}}.apiKey = "YOUR API KEY";
+{{{name}}}.apiKeyPrefix['{{{keyParamName}}}'] = "Bearer";{{/isBasicBearer}}{{#isApiKey}}
 // Configure API key authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.apiKey = "YOUR API KEY"
