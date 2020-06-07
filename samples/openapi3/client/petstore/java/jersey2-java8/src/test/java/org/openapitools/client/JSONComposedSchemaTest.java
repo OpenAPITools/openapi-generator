@@ -74,6 +74,7 @@ public class JSONComposedSchemaTest {
      * The oneOf schema has a discriminator. 
      */
     @Test
+    @Ignore
     public void testOneOfSchemaWithDiscriminator() throws Exception {
         // Mammal can be one of whale, pig and zebra.
         // pig has sub-classes.
