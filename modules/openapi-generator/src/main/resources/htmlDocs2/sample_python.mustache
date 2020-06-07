@@ -7,9 +7,8 @@ from pprint import pprint
 # Configure HTTP basic authorization: {{{name}}}
 {{{pythonPackageName}}}.configuration.username = 'YOUR_USERNAME'
 {{{pythonPackageName}}}.configuration.password = 'YOUR_PASSWORD'{{/isBasic}}{{#isBasicBearer}}
-# Configure HTTP bearer authorization: {{{name}}}
-{{{pythonPackageName}}}.configuration.api_key['{{{keyParamName}}}'] = 'YOUR_API_KEY'
-{{{pythonPackageName}}}.configuration.api_key_prefix['{{{keyParamName}}}'] = 'Bearer'{{/isBasicBearer}}{{#isApiKey}}
+# Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
+{{{pythonPackageName}}}.configuration.access_token = 'YOUR_ACCESS_TOKEN'{{/isBasicBearer}}{{#isApiKey}}
 # Configure API key authorization: {{{name}}}
 {{{pythonPackageName}}}.configuration.api_key['{{{keyParamName}}}'] = 'YOUR_API_KEY'
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed

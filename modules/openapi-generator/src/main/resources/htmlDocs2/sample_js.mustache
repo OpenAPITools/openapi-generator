@@ -6,10 +6,9 @@ var defaultClient = {{{jsModuleName}}}.ApiClient.instance;
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.username = 'YOUR USERNAME'
 {{{name}}}.password = 'YOUR PASSWORD'{{/isBasic}}{{#isBasicBearer}}
-// Configure HTTP bearer authorization: {{{name}}}
+// Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
-{{{name}}}.apiKey = "YOUR API KEY";
-{{{name}}}.apiKeyPrefix['{{{keyParamName}}}'] = "Bearer";{{/isBasicBearer}}{{#isApiKey}}
+{{{name}}}.accessToken = "YOUR ACCESS TOKEN";{{/isBasicBearer}}{{#isApiKey}}
 // Configure API key authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
 {{{name}}}.apiKey = "YOUR API KEY"

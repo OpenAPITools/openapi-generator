@@ -5,9 +5,8 @@ use {{perlModuleName}}::{{classname}};
 # Configure HTTP basic authorization: {{{name}}}
 ${{{perlModuleName}}}::Configuration::username = 'YOUR_USERNAME';
 ${{{perlModuleName}}}::Configuration::password = 'YOUR_PASSWORD';{{/isBasic}}{{#isBasicBearer}}
-# Configure HTTP bearer authorization: {{{name}}}
-${{{perlModuleName}}}::Configuration::api_key->{'{{{keyParamName}}}'} = 'YOUR_API_KEY';
-${{{perlModuleName}}}::Configuration::api_key_prefix->{'{{{keyParamName}}}'} = "Bearer";{{/isBasicBearer}}{{#isApiKey}}
+# Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
+${{{perlModuleName}}}::Configuration::access_token->{'{{{keyParamName}}}'} = 'YOUR_ACCESS_TOKEN';{{/isBasicBearer}}{{#isApiKey}}
 # Configure API key authorization: {{{name}}}
 ${{{perlModuleName}}}::Configuration::api_key->{'{{{keyParamName}}}'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed

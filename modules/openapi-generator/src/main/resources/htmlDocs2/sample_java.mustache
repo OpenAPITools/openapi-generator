@@ -15,7 +15,7 @@ public class {{{classname}}}Example {
         HttpBasicAuth {{{name}}} = (HttpBasicAuth) defaultClient.getAuthentication("{{{name}}}");
         {{{name}}}.setUsername("YOUR USERNAME");
         {{{name}}}.setPassword("YOUR PASSWORD");{{/isBasic}}{{#isBasicBearer}}
-        // Configure HTTP bearer authorization: {{{name}}}
+        // Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
         HttpBearerAuth {{{name}}} = (HttpBearerAuth) defaultClient.getAuthentication("{{{name}}}");
         {{{name}}}.setBearerToken("BEARER TOKEN");{{/isBasicBearer}}{{#isApiKey}}
         // Configure API key authorization: {{{name}}}

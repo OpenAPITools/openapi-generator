@@ -4,9 +4,8 @@ require_once(__DIR__ . '/vendor/autoload.php');
 // Configure HTTP basic authorization: {{{name}}}
 {{phpInvokerPackage}}\Configuration::getDefaultConfiguration()->setUsername('YOUR_USERNAME');
 {{phpInvokerPackage}}\Configuration::getDefaultConfiguration()->setPassword('YOUR_PASSWORD');{{/isBasic}}{{#isBasicBearer}}
-// Configure HTTP bearer authorization: {{{name}}}
-{{phpInvokerPackage}}\Configuration::getDefaultConfiguration()->setApiKey('{{{keyParamName}}}', 'YOUR_API_KEY');
-{{phpInvokerPackage}}\Configuration::getDefaultConfiguration()->setApiKeyPrefix('{{{keyParamName}}}', 'Bearer');{{/isBasicBearer}}{{#isApiKey}}
+// Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
+{{phpInvokerPackage}}\Configuration::getDefaultConfiguration()->setAccessToken('{{{keyParamName}}}', 'YOUR_ACCESS_TOKEN');{{/isBasicBearer}}{{#isApiKey}}
 // Configure API key authorization: {{{name}}}
 {{phpInvokerPackage}}\Configuration::getDefaultConfiguration()->setApiKey('{{{keyParamName}}}', 'YOUR_API_KEY');
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
