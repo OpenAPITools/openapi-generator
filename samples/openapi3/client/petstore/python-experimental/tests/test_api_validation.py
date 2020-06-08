@@ -61,12 +61,11 @@ class ApiClientTests(unittest.TestCase):
         except RuntimeError as e:
             assert "pass" == str(e)
 
-        api_client.request = functools.partial(request, 'http://path-server-test.petstore.local/v2/pet')
+        api_client.request = functools.partial(request, 'https://localhost:8080/v1/pet/123456789')
         try:
-            api.delete_pet({'id': 'xxx'})
+            api.delete_pet(123456789)
         except RuntimeError as e:
             assert "pass" == str(e)
-
 
     def test_array_of_enums(self):
         data = [

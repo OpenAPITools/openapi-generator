@@ -326,7 +326,7 @@ class Endpoint(object):
                 self.settings['operation_id'], self.api_client.configuration.server_index
             ) if kwargs['_host_index'] is None else kwargs['_host_index']
             server_variables = self.api_client.configuration.server_operation_variables.get(
-                self.settings['operation_id']
+                self.settings['operation_id'], self.api_client.configuration.server_variables
             )
             _host = self.api_client.configuration.get_host_from_settings(
                 index, variables=server_variables, servers=self.settings['servers']
