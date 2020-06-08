@@ -12,10 +12,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -51,13 +50,13 @@ public class AnotherFakeApi {
      * <p><b>200</b> - successful operation
      * @param body client model
      * @return Client
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Client> call123testSpecialTags(Client body) throws RestClientException {
+    public Mono<Client> call123testSpecialTags(Client body) throws WebClientResponseException {
         Object postBody = body;
         // verify the required parameter 'body' is set
         if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling call123testSpecialTags");
+            throw new WebClientResponseException("Missing the required parameter 'body' when calling call123testSpecialTags", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();

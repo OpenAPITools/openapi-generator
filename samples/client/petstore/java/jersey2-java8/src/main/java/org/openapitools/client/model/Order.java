@@ -15,41 +15,43 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
-import org.threeten.bp.OffsetDateTime;
+import java.time.OffsetDateTime;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Order
  */
+@JsonPropertyOrder({
+  Order.JSON_PROPERTY_ID,
+  Order.JSON_PROPERTY_PET_ID,
+  Order.JSON_PROPERTY_QUANTITY,
+  Order.JSON_PROPERTY_SHIP_DATE,
+  Order.JSON_PROPERTY_STATUS,
+  Order.JSON_PROPERTY_COMPLETE
+})
 
 public class Order {
-  public static final String SERIALIZED_NAME_ID = "id";
-  @SerializedName(SERIALIZED_NAME_ID)
+  public static final String JSON_PROPERTY_ID = "id";
   private Long id;
 
-  public static final String SERIALIZED_NAME_PET_ID = "petId";
-  @SerializedName(SERIALIZED_NAME_PET_ID)
+  public static final String JSON_PROPERTY_PET_ID = "petId";
   private Long petId;
 
-  public static final String SERIALIZED_NAME_QUANTITY = "quantity";
-  @SerializedName(SERIALIZED_NAME_QUANTITY)
+  public static final String JSON_PROPERTY_QUANTITY = "quantity";
   private Integer quantity;
 
-  public static final String SERIALIZED_NAME_SHIP_DATE = "shipDate";
-  @SerializedName(SERIALIZED_NAME_SHIP_DATE)
+  public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
   private OffsetDateTime shipDate;
 
   /**
    * Order Status
    */
-  @JsonAdapter(StatusEnum.Adapter.class)
   public enum StatusEnum {
     PLACED("placed"),
     
@@ -63,6 +65,7 @@ public class Order {
       this.value = value;
     }
 
+    @JsonValue
     public String getValue() {
       return value;
     }
@@ -72,6 +75,7 @@ public class Order {
       return String.valueOf(value);
     }
 
+    @JsonCreator
     public static StatusEnum fromValue(String value) {
       for (StatusEnum b : StatusEnum.values()) {
         if (b.value.equals(value)) {
@@ -80,27 +84,12 @@ public class Order {
       }
       throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
-
-    public static class Adapter extends TypeAdapter<StatusEnum> {
-      @Override
-      public void write(final JsonWriter jsonWriter, final StatusEnum enumeration) throws IOException {
-        jsonWriter.value(enumeration.getValue());
-      }
-
-      @Override
-      public StatusEnum read(final JsonReader jsonReader) throws IOException {
-        String value =  jsonReader.nextString();
-        return StatusEnum.fromValue(value);
-      }
-    }
   }
 
-  public static final String SERIALIZED_NAME_STATUS = "status";
-  @SerializedName(SERIALIZED_NAME_STATUS)
+  public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
-  public static final String SERIALIZED_NAME_COMPLETE = "complete";
-  @SerializedName(SERIALIZED_NAME_COMPLETE)
+  public static final String JSON_PROPERTY_COMPLETE = "complete";
   private Boolean complete = false;
 
 
@@ -116,6 +105,8 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
     return id;
@@ -139,6 +130,8 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PET_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getPetId() {
     return petId;
@@ -162,6 +155,8 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_QUANTITY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getQuantity() {
     return quantity;
@@ -185,6 +180,8 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public OffsetDateTime getShipDate() {
     return shipDate;
@@ -208,6 +205,8 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "Order Status")
+  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public StatusEnum getStatus() {
     return status;
@@ -231,6 +230,8 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_COMPLETE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getComplete() {
     return complete;

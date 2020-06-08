@@ -26,6 +26,9 @@ import java.io.IOException;
 import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.Cat;
 import org.openapitools.client.model.Dog;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * Animal
@@ -55,6 +58,7 @@ public class Animal {
    * Get className
    * @return className
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "")
 
   public String getClassName() {

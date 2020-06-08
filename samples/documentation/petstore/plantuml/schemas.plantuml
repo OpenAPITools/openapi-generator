@@ -13,6 +13,16 @@ entity Category {
     name: String
 }
 
+entity InlineObject { 
+    name: String
+    status: String
+}
+
+entity InlineObject1 { 
+    additionalMetadata: String
+    file: File
+}
+
 entity Order { 
     id: Long
     petId: Long

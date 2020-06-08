@@ -758,6 +758,8 @@ paths:
                   description: None
                   type: string
                   format: date-time
+                  default: '2010-02-01T10:20:10.11111+01:00'
+                  example: '2020-02-02T20:20:20.22222Z'
                 password:
                   description: None
                   type: string
@@ -1097,6 +1099,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
+  /fake/array-of-enums:
+    get:
+      tags:
+        - fake
+      summary: Array of Enums
+      operationId: getArrayOfEnums
+      responses:
+        200:
+          description: Got named array of enums
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfEnums'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1202,6 +1217,7 @@ components:
         shipDate:
           type: string
           format: date-time
+          example: '2020-02-02T20:20:20.000222Z'
         status:
           type: string
           description: Order Status
@@ -1252,10 +1268,14 @@ components:
           description: User Status
         objectWithNoDeclaredProps:
           type: object
+          # Note: the 'additionalProperties' keyword is not specified, which is
+          # equivalent to allowing undeclared properties of any type.
           description: test code generation for objects
             Value must be a map of strings to values. It cannot be the 'null' value.
         objectWithNoDeclaredPropsNullable:
           type: object
+          # Note: the 'additionalProperties' keyword is not specified, which is
+          # equivalent to allowing undeclared properties of any type.
           description: test code generation for nullable objects.
             Value must be a map of strings to values or the 'null' value.
           nullable: true
@@ -1426,6 +1446,7 @@ components:
           type: integer
           maximum: 100
           minimum: 10
+          multipleOf: 2
         int32:
           type: integer
           format: int32
@@ -1438,6 +1459,7 @@ components:
           maximum: 543.2
           minimum: 32.1
           type: number
+          multipleOf: 32.5
         float:
           type: number
           format: float
@@ -1460,9 +1482,11 @@ components:
         date:
           type: string
           format: date
+          example: '2020-02-02'
         dateTime:
           type: string
           format: date-time
+          example: '2007-12-03T10:15:30+01:00'
         uuid:
           type: string
           format: uuid
@@ -1537,6 +1561,24 @@ components:
             type: object
             additionalProperties:
               type: string
+        anytype_1: {}
+        map_with_undeclared_properties_anytype_1:
+          type: object
+        map_with_undeclared_properties_anytype_2:
+          type: object
+          properties: {}
+        map_with_undeclared_properties_anytype_3:
+          type: object
+          additionalProperties: true
+        empty_map:
+          type: object
+          description: an object with no declared properties and no undeclared
+            properties, hence it's an empty map.
+          additionalProperties: false
+        map_with_undeclared_properties_string:
+          type: object
+          additionalProperties:
+            type: string
     MixedPropertiesAndAdditionalPropertiesClass:
       type: object
       properties:
@@ -1813,6 +1855,9 @@ components:
       oneOf:
         - $ref: '#/components/schemas/apple'
         - $ref: '#/components/schemas/banana'
+      # Below additionalProperties is set to false to validate the use
+      # case when a composed schema has additionalProperties set to false.
+      additionalProperties: false
     apple:
       type: object
       properties:
@@ -1822,6 +1867,7 @@ components:
         origin:
           type: string
           pattern: /^[A-Z\s]*$/i
+      nullable: true
     banana:
       type: object
       properties:
@@ -1831,11 +1877,9 @@ components:
       oneOf:
         - $ref: '#/components/schemas/whale'
         - $ref: '#/components/schemas/zebra'
+        - $ref: '#/components/schemas/Pig'
       discriminator:
         propertyName: className
-        mapping:
-          whale: '#/components/schemas/whale'
-          zebra: '#/components/schemas/zebra'
     whale:
       type: object
       properties:
@@ -1860,6 +1904,27 @@ components:
           type: string
       required:
         - className
+      additionalProperties: true
+    Pig:
+      oneOf:
+        - $ref: '#/components/schemas/BasquePig'
+        - $ref: '#/components/schemas/DanishPig'
+      discriminator:
+        propertyName: className
+    BasquePig:
+      type: object
+      properties:
+        className:
+          type: string
+      required:
+        - className
+    DanishPig:
+      type: object
+      properties:
+        className:
+          type: string
+      required:
+        - className
     gmFruit:
        properties:
           color:
@@ -1867,11 +1932,13 @@ components:
        anyOf:
           - $ref: '#/components/schemas/apple'
           - $ref: '#/components/schemas/banana'
+       additionalProperties: false
     fruitReq:
        oneOf:
           - type: 'null'
           - $ref: '#/components/schemas/appleReq'
           - $ref: '#/components/schemas/bananaReq'
+       additionalProperties: false
     appleReq:
       type: object
       properties:
@@ -1881,6 +1948,7 @@ components:
           type: boolean
       required:
         - cultivar
+      additionalProperties: false
     bananaReq:
       type: object
       properties:
@@ -1890,6 +1958,7 @@ components:
           type: boolean
       required:
         - lengthCm
+      additionalProperties: false
     # go-experimental is unable to make Triangle and Quadrilateral models
     # correctly https://github.com/OpenAPITools/openapi-generator/issues/6149
     Drawing:
@@ -1897,18 +1966,53 @@ components:
       properties:
         mainShape:
           # A property whose value is a 'oneOf' type, and the type is referenced instead
-          # of being define inline.
+          # of being defined inline. The value cannot be null.
           $ref: '#/components/schemas/Shape'
+        shapeOrNull:
+          # A property whose value is a 'oneOf' type, and the type is referenced instead
+          # of being defined inline. The value may be null because ShapeOrNull has 'null'
+          # type as a child schema of 'oneOf'.
+          $ref: '#/components/schemas/ShapeOrNull'
+        nullableShape:
+          # A property whose value is a 'oneOf' type, and the type is referenced instead
+          # of being defined inline. The value may be null because NullableShape has the
+          # 'nullable: true' attribute. For this specific scenario this is exactly the
+          # same thing as 'shapeOrNull'.
+          $ref: '#/components/schemas/NullableShape'
         shapes:
           type: array
           items:
             $ref: '#/components/schemas/Shape'
+      additionalProperties:
+        # Here the additional properties are specified using a referenced schema.
+        # This is just to validate the generated code works when using $ref
+        # under 'additionalProperties'.
+        $ref: '#/components/schemas/fruit'
     Shape:
       oneOf:
         - $ref: '#/components/schemas/Triangle'
         - $ref: '#/components/schemas/Quadrilateral'
       discriminator:
         propertyName: shapeType
+    ShapeOrNull:
+      description: The value may be a shape or the 'null' value.
+        This is introduced in OAS schema >= 3.1.
+      oneOf:
+        - type: 'null'
+        - $ref: '#/components/schemas/Triangle'
+        - $ref: '#/components/schemas/Quadrilateral'
+      discriminator:
+        propertyName: shapeType
+    NullableShape:
+      description: The value may be a shape or the 'null' value.
+        The 'nullable' attribute was introduced in OAS schema >= 3.0
+        and has been deprecated in OAS schema >= 3.1.
+      oneOf:
+        - $ref: '#/components/schemas/Triangle'
+        - $ref: '#/components/schemas/Quadrilateral'
+      discriminator:
+        propertyName: shapeType
+      nullable: true
     ShapeInterface:
       properties:
         shapeType:
@@ -1928,6 +2032,8 @@ components:
         - $ref: '#/components/schemas/ScaleneTriangle'
       discriminator:
         propertyName: triangleType
+      # Note: the 'additionalProperties' keyword is not specified, which is
+      # equivalent to allowing undeclared properties of any type.
     EquilateralTriangle:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
@@ -1936,6 +2042,7 @@ components:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/TriangleInterface'
+      additionalProperties: false
     ScaleneTriangle:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
@@ -1960,26 +2067,32 @@ components:
       allOf:
         - $ref: '#/components/schemas/ShapeInterface'
         - $ref: '#/components/schemas/QuadrilateralInterface'
-    # The following hierarchy is used to test discriminators
-    # that require recursive lookups.
-    biology.Chordate:
+    GrandparentAnimal:
       type: object
-      discriminator:
-        propertyName: className
       required:
-        - className
+        - pet_type
       properties:
-        className:
+        pet_type:
           type: string
-    biology.Reptile:
+      discriminator:
+        propertyName: pet_type
+    ParentPet:
+      type: object
       allOf:
-        - $ref: '#/components/schemas/biology.Chordate'
-    biology.Mammal:
+        - $ref: '#/components/schemas/GrandparentAnimal'
+    ChildCat:
       allOf:
-        - $ref: '#/components/schemas/biology.Chordate'
-    biology.Primate:
-      allOf:
-        - $ref: '#/components/schemas/biology.Mammal'
-    biology.Hominid:
-      allOf:
-        - $ref: '#/components/schemas/biology.Primate'
+        - $ref: '#/components/schemas/ParentPet'
+        - type: object
+          properties:
+            name:
+              type: string
+    ArrayOfEnums:
+      type: array
+      items:
+        $ref: '#/components/schemas/OuterEnum'
+    DateTimeTest:
+      type: string
+      default: '2010-01-01T10:10:10.000111+01:00'
+      example: '2010-01-01T10:10:10.000111+01:00'
+      format: date-time

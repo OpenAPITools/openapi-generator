@@ -57,6 +57,9 @@
                 {{#-first}}'flags': (re.{{.}}{{/-first}}{{^-first}}          re.{{.}}{{/-first}}{{^-last}} | {{/-last}}{{#-last}}){{/-last}}{{/vendorExtensions.x-modifiers}}
             },
 {{/pattern}}
+{{#multipleOf}}
+            'multiple_of': {{multipleOf}},
+{{/multipleOf}}
         },
 {{/hasValidation}}
 {{/requiredVars}}
@@ -87,12 +90,17 @@
                 {{#-first}}'flags': (re.{{.}}{{/-first}}{{^-first}}          re.{{.}}{{/-first}}{{^-last}} | {{/-last}}{{#-last}}){{/-last}}{{/vendorExtensions.x-modifiers}}
             },
 {{/pattern}}
+{{#multipleOf}}
+            'multiple_of': {{multipleOf}},
+{{/multipleOf}}
         },
 {{/hasValidation}}
 {{/optionalVars}}
     }
 
     additional_properties_type = {{#additionalPropertiesType}}({{{additionalPropertiesType}}},)  # noqa: E501{{/additionalPropertiesType}}{{^additionalPropertiesType}}None{{/additionalPropertiesType}}
+
+    _nullable = {{#isNullable}}True{{/isNullable}}{{^isNullable}}False{{/isNullable}}
 
     @cached_property
     def openapi_types():

@@ -37,8 +37,8 @@ ags="generate -t $resources -i $input -g $generator -o $out_folder $@"
 rm -rf $out_folder/.openapi*
 rm -rf $out_folder/openapi_server
 rm -rf $out_folder/tests*
-rm $out_folder/README.md
-rm $out_folder/requirements.txt
-rm $out_folder/test-requirements.txt
+rm -f $out_folder/README.md
+rm -f $out_folder/requirements.txt
+rm -f $out_folder/test-requirements.txt
 
 java $JAVA_OPTS -jar $executable $ags

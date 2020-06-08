@@ -15,22 +15,23 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * CatAllOf
  */
+@JsonPropertyOrder({
+  CatAllOf.JSON_PROPERTY_DECLAWED
+})
 
 public class CatAllOf {
-  public static final String SERIALIZED_NAME_DECLAWED = "declawed";
-  @SerializedName(SERIALIZED_NAME_DECLAWED)
+  public static final String JSON_PROPERTY_DECLAWED = "declawed";
   private Boolean declawed;
 
 
@@ -46,6 +47,8 @@ public class CatAllOf {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getDeclawed() {
     return declawed;

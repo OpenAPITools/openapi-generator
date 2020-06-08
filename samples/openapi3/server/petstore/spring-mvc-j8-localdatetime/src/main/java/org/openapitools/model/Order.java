@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.v3.oas.annotations.media.Schema;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -27,7 +27,7 @@ public class Order   {
 
   @JsonProperty("shipDate")
   @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
-  private OffsetDateTime shipDate;
+  private LocalDateTime shipDate;
 
   /**
    * Order Status
@@ -132,7 +132,7 @@ public class Order   {
     this.quantity = quantity;
   }
 
-  public Order shipDate(OffsetDateTime shipDate) {
+  public Order shipDate(LocalDateTime shipDate) {
     this.shipDate = shipDate;
     return this;
   }
@@ -145,11 +145,11 @@ public class Order   {
 
   @Valid
 
-  public OffsetDateTime getShipDate() {
+  public LocalDateTime getShipDate() {
     return shipDate;
   }
 
-  public void setShipDate(OffsetDateTime shipDate) {
+  public void setShipDate(LocalDateTime shipDate) {
     this.shipDate = shipDate;
   }
 

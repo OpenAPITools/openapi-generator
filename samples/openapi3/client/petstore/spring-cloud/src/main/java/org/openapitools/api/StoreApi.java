@@ -30,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,7 +47,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Validated
-@Tag(name = "store", description = "the store API")
+@Tag(name = "Store", description = "the Store API")
 public interface StoreApi {
 
     /**
@@ -63,7 +64,8 @@ public interface StoreApi {
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
     @RequestMapping(value = "/store/order/{orderId}",
         method = RequestMethod.DELETE)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId);
+    
+    com.netflix.hystrix.HystrixCommand<Void deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId);
 
 
     /**
@@ -78,9 +80,10 @@ public interface StoreApi {
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( mediaType = "Map",  schema = @Schema(implementation = Map.class)) }) })
     @RequestMapping(value = "/store/inventory",
-        produces = { "application/json" }, 
+        produces = "application/json", 
         method = RequestMethod.GET)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Map<String, Integer>>> getInventory();
+    
+    com.netflix.hystrix.HystrixCommand<Map<String, Integer> getInventory();
 
 
     /**
@@ -98,9 +101,10 @@ public interface StoreApi {
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
     @RequestMapping(value = "/store/order/{orderId}",
-        produces = { "application/xml", "application/json" }, 
+        produces = "application/json", 
         method = RequestMethod.GET)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId);
+    
+    com.netflix.hystrix.HystrixCommand<Order getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId);
 
 
     /**
@@ -115,9 +119,10 @@ public interface StoreApi {
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Order.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid Order" ) })
     @RequestMapping(value = "/store/order",
-        produces = { "application/xml", "application/json" }, 
-        consumes = { "application/json" },
+        produces = "application/json", 
+        consumes = "application/json",
         method = RequestMethod.POST)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Order>> placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order);
+    
+    com.netflix.hystrix.HystrixCommand<Order placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order);
 
 }

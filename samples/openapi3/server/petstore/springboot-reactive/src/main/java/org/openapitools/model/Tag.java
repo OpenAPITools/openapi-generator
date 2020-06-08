@@ -9,8 +9,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Tag
+ * A tag for a pet
  */
+@Schema(description = "A tag for a pet")
 
 public class Tag   {
   @JsonProperty("id")

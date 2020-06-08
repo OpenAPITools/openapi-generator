@@ -36,6 +36,8 @@ import org.glassfish.jersey.logging.LoggingFeature;
 import org.apache.commons.io.FileUtils;
 import org.glassfish.jersey.filter.LoggingFilter;
 {{/supportJava6}}
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -59,7 +61,9 @@ import java.util.regex.Pattern;
 import {{invokerPackage}}.auth.Authentication;
 import {{invokerPackage}}.auth.HttpBasicAuth;
 import {{invokerPackage}}.auth.HttpBearerAuth;
+{{#hasHttpSignatureMethods}}
 import {{invokerPackage}}.auth.HttpSignatureAuth;
+{{/hasHttpSignatureMethods}}
 import {{invokerPackage}}.auth.ApiKeyAuth;
 {{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth;
@@ -71,6 +75,8 @@ public class ApiClient {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
   protected String basePath = "{{{basePath}}}";
+  private static final Logger log = Logger.getLogger(ApiClient.class.getName());
+
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>({{#servers}}{{#-first}}Arrays.asList(
 {{/-first}}    new ServerConfiguration(
       "{{{url}}}",
@@ -152,7 +158,19 @@ public class ApiClient {
 
   protected DateFormat dateFormat;
 
+  /**
+   * Constructs a new ApiClient with default parameters.
+   */
   public ApiClient() {
+    this(null);
+  }
+
+  /**
+   * Constructs a new ApiClient with the specified authentication parameters.
+   *
+   * @param authMap A hash map containing authentication parameters.
+   */
+  public ApiClient(Map<String, Authentication> authMap) {
     json = new JSON();
     httpClient = buildHttpClient(debugging);
 
@@ -163,23 +181,45 @@ public class ApiClient {
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
+    Authentication auth = null;
     {{#authMethods}}
+    if (authMap != null) {
+      auth = authMap.get("{{name}}");
+    }
     {{#isBasic}}
     {{#isBasicBasic}}
-    authentications.put("{{name}}", new HttpBasicAuth());
+    if (auth instanceof HttpBasicAuth) {
+      authentications.put("{{name}}", auth);
+    } else {
+      authentications.put("{{name}}", new HttpBasicAuth());
+    }
     {{/isBasicBasic}}
     {{#isBasicBearer}}
-    authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));
+    if (auth instanceof HttpBearerAuth) {
+      authentications.put("{{name}}", auth);
+    } else {
+      authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));
+    }
     {{/isBasicBearer}}
     {{#isHttpSignature}}
-    authentications.put("{{name}}", new HttpSignatureAuth("{{name}}", null, null));
+    if (auth instanceof HttpSignatureAuth) {
+      authentications.put("{{name}}", auth);
+    }
     {{/isHttpSignature}}
     {{/isBasic}}
     {{#isApiKey}}
-    authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));
+    if (auth instanceof ApiKeyAuth) {
+      authentications.put("{{name}}", auth);
+    } else {
+      authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"));
+    }
     {{/isApiKey}}
     {{#isOAuth}}
-    authentications.put("{{name}}", new OAuth(basePath, "{{tokenUrl}}"));
+    if (auth instanceof OAuth) {
+      authentications.put("{{name}}", auth);
+    } else {
+      authentications.put("{{name}}", new OAuth(basePath, "{{tokenUrl}}"));
+    }
     {{/isOAuth}}
     {{/authMethods}}
     // Prevent the authentications from being modified.
@@ -208,10 +248,20 @@ public class ApiClient {
     return this;
   }
 
+  /**
+   * Returns the base URL to the location where the OpenAPI document is being served.
+   *
+   * @return The base URL to the target host.
+   */
   public String getBasePath() {
     return basePath;
   }
 
+  /**
+   * Sets the base URL to the location where the OpenAPI document is being served.
+   *
+   * @param basePath The base URL to the target host.
+   */
   public ApiClient setBasePath(String basePath) {
     this.basePath = basePath;
     {{#hasOAuthMethods}}
@@ -251,7 +301,9 @@ public class ApiClient {
   }
 
   private void updateBasePath() {
-    setBasePath(servers.get(serverIndex).URL(serverVariables));
+    if (serverIndex != null) {
+        setBasePath(servers.get(serverIndex).URL(serverVariables));
+    }
   }
 
   {{#hasOAuthMethods}}
@@ -880,6 +932,9 @@ public class ApiClient {
           }
         } catch (Exception ex) {
           // failed to deserialize, do nothing and try next one (schema)
+          // Logging the error may be useful to troubleshoot why a payload fails to match
+          // the schema.
+          log.log(Level.FINE, "Input data does not match schema '" + schemaName + "'", ex);
         }
       } else {// unknown type
         throw new ApiException(schemaType.getClass() + " is not a GenericType and cannot be handled properly in deserialization.");
@@ -890,7 +945,7 @@ public class ApiClient {
     if (matchCounter > 1 && "oneOf".equals(schema.getSchemaType())) {// more than 1 match for oneOf
       throw new ApiException("Response body is invalid as it matches more than one schema (" + StringUtil.join(matchSchemas, ", ") + ") defined in the oneOf model: " + schema.getClass().getName());
     } else if (matchCounter == 0) { // fail to match any in oneOf/anyOf schemas
-      throw new ApiException("Response body is invalid as it doens't match any schemas (" + StringUtil.join(schema.getSchemas().keySet(), ", ") + ") defined in the oneOf/anyOf model: " + schema.getClass().getName());
+      throw new ApiException("Response body is invalid as it does not match any schemas (" + StringUtil.join(schema.getSchemas().keySet(), ", ") + ") defined in the oneOf/anyOf model: " + schema.getClass().getName());
     } else { // only one matched
       schema.setActualInstance(result);
       return schema;
@@ -1030,7 +1085,7 @@ public class ApiClient {
     // Not using `.target(targetURL).path(path)` below,
     // to support (constant) query string in `path`, e.g. "/posts?draft=1"
     String targetURL;
-    if (operationServers.containsKey(operation)) {
+    if (serverIndex != null && operationServers.containsKey(operation)) {
       Integer index = operationServerIndex.containsKey(operation) ? operationServerIndex.get(operation) : serverIndex;
       Map<String, String> variables = operationServerVariables.containsKey(operation) ?
         operationServerVariables.get(operation) : serverVariables;
@@ -1241,7 +1296,7 @@ public class ApiClient {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
       if (auth == null) {
-        throw new RuntimeException("Authentication undefined: " + authName);
+        continue;
       }
       auth.applyToParams(queryParams, headerParams, cookieParams, payload, method, uri);
     }

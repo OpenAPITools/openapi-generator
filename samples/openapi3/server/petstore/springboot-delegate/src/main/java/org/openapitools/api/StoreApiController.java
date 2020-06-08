@@ -19,10 +19,11 @@ import io.swagger.v3.oas.annotations.security.OAuthScope;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -37,7 +38,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class StoreApiController implements StoreApi {
 
@@ -56,7 +57,7 @@ public class StoreApiController implements StoreApi {
      *         or Order not found (status code 404)
      * @see StoreApi#deleteOrder
      */
-    public ResponseEntity<Void> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId) {
+    public Void deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId) {
         return delegate.deleteOrder(orderId);
     }
 
@@ -67,7 +68,7 @@ public class StoreApiController implements StoreApi {
      * @return successful operation (status code 200)
      * @see StoreApi#getInventory
      */
-    public ResponseEntity<Map<String, Integer>> getInventory() {
+    public Map<String, Integer> getInventory() {
         return delegate.getInventory();
     }
 
@@ -81,7 +82,7 @@ public class StoreApiController implements StoreApi {
      *         or Order not found (status code 404)
      * @see StoreApi#getOrderById
      */
-    public ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId) {
+    public Order getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId) {
         return delegate.getOrderById(orderId);
     }
 
@@ -93,7 +94,7 @@ public class StoreApiController implements StoreApi {
      *         or Invalid Order (status code 400)
      * @see StoreApi#placeOrder
      */
-    public ResponseEntity<Order> placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order) {
+    public Order placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order) {
         return delegate.placeOrder(order);
     }
 

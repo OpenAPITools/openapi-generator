@@ -11,8 +11,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Order
+ * An order for a pets from the pet store
  */
+@Schema(description = "An order for a pets from the pet store")
 
 public class Order   {
   @JsonProperty("id")

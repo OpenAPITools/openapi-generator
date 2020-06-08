@@ -30,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,12 +48,8 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Validated
-@Tag(name = "store", description = "the store API")
+@Tag(name = "Store", description = "the Store API")
 public interface StoreApi {
-
-    default Optional<NativeWebRequest> getRequest() {
-        return Optional.empty();
-    }
 
     /**
      * DELETE /store/order/{orderId} : Delete purchase order by ID
@@ -68,10 +65,8 @@ public interface StoreApi {
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
     @RequestMapping(value = "/store/order/{orderId}",
         method = RequestMethod.DELETE)
-    default CompletableFuture<ResponseEntity<Void>> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId) {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
-
-    }
+    
+    CompletableFuture<Void deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId);
 
 
     /**
@@ -86,12 +81,10 @@ public interface StoreApi {
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( mediaType = "Map",  schema = @Schema(implementation = Map.class)) }) })
     @RequestMapping(value = "/store/inventory",
-        produces = { "application/json" }, 
+        produces = "application/json", 
         method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<Map<String, Integer>>> getInventory() {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
-
-    }
+    
+    CompletableFuture<Map<String, Integer> getInventory();
 
 
     /**
@@ -109,28 +102,10 @@ public interface StoreApi {
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
     @RequestMapping(value = "/store/order/{orderId}",
-        produces = { "application/xml", "application/json" }, 
+        produces = "application/json", 
         method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId) {
-        return CompletableFuture.supplyAsync(()-> {
-            getRequest().ifPresent(request -> {
-                for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                        String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
-                        ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                        break;
-                    }
-                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                        String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
-                        ApiUtil.setExampleResponse(request, "application/xml", exampleString);
-                        break;
-                    }
-                }
-            });
-            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-        }, Runnable::run);
-
-    }
+    
+    CompletableFuture<Order getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId);
 
 
     /**
@@ -145,28 +120,10 @@ public interface StoreApi {
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Order.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid Order" ) })
     @RequestMapping(value = "/store/order",
-        produces = { "application/xml", "application/json" }, 
-        consumes = { "application/json" },
+        produces = "application/json", 
+        consumes = "application/json",
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<Order>> placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order) {
-        return CompletableFuture.supplyAsync(()-> {
-            getRequest().ifPresent(request -> {
-                for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                        String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";
-                        ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                        break;
-                    }
-                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                        String exampleString = "<Order> <id>123456789</id> <petId>123456789</petId> <quantity>123</quantity> <shipDate>2000-01-23T04:56:07.000Z</shipDate> <status>aeiou</status> <complete>true</complete> </Order>";
-                        ApiUtil.setExampleResponse(request, "application/xml", exampleString);
-                        break;
-                    }
-                }
-            });
-            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-        }, Runnable::run);
-
-    }
+    
+    CompletableFuture<Order placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order);
 
 }

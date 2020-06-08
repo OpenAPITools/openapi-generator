@@ -58,8 +58,8 @@ import qualified Prelude as P
 -- * Parameter newtypes
 {{#x-allUniqueParams}}{{#x-newtype}}
 
--- ** {{{x-paramNameType}}}
-newtype {{{x-paramNameType}}} = {{{x-paramNameType}}} { un{{{x-paramNameType}}} :: {{{x-dataType}}} } deriving (P.Eq, P.Show{{#x-isBodyParam}}, A.ToJSON{{/x-isBodyParam}}){{/x-newtype}}{{/x-allUniqueParams}}
+-- ** {{{x-param-name-type}}}
+newtype {{{x-param-name-type}}} = {{{x-param-name-type}}} { un{{{x-param-name-type}}} :: {{{x-data-type}}} } deriving (P.Eq, P.Show{{#x-isBodyParam}}, A.ToJSON{{/x-isBodyParam}}){{/x-newtype}}{{/x-allUniqueParams}}
 
 -- * Models
 
@@ -125,30 +125,30 @@ mk{{classname}} {{#vars}}{{#required}}{{name}} {{/required}}{{/vars}}=
 {{#x-hasEnumSection}}-- * Enums
 {{#x-allUniqueParams}}{{#x-enum}}
 
--- ** {{{x-paramNameType}}}
+-- ** {{{x-param-name-type}}}
 
--- | Enum of '{{{x-dataType}}}'{{#description}} . 
+-- | Enum of '{{{x-data-type}}}'{{#description}} .
 -- {{{.}}}{{/description}}
-data {{{x-paramNameType}}}
+data {{{x-param-name-type}}}
   = {{#allowableValues}}{{#enumVars}}{{{name}}} -- ^ @{{{value}}}@
   {{^-last}}| {{/-last}}{{#-last}}deriving (P.Show, P.Eq, P.Typeable, P.Ord, P.Bounded, P.Enum){{/-last}}{{/enumVars}}{{/allowableValues}}
 
-instance A.ToJSON {{{x-paramNameType}}} where toJSON = A.toJSON . from{{{x-paramNameType}}}
-instance A.FromJSON {{{x-paramNameType}}} where parseJSON o = P.either P.fail (pure . P.id) . to{{{x-paramNameType}}} =<< A.parseJSON o
-instance WH.ToHttpApiData {{{x-paramNameType}}} where toQueryParam = WH.toQueryParam . from{{{x-paramNameType}}}
-instance WH.FromHttpApiData {{{x-paramNameType}}} where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . to{{{x-paramNameType}}}
-instance MimeRender MimeMultipartFormData {{{x-paramNameType}}} where mimeRender _ = mimeRenderDefaultMultipartFormData
+instance A.ToJSON {{{x-param-name-type}}} where toJSON = A.toJSON . from{{{x-param-name-type}}}
+instance A.FromJSON {{{x-param-name-type}}} where parseJSON o = P.either P.fail (pure . P.id) . to{{{x-param-name-type}}} =<< A.parseJSON o
+instance WH.ToHttpApiData {{{x-param-name-type}}} where toQueryParam = WH.toQueryParam . from{{{x-param-name-type}}}
+instance WH.FromHttpApiData {{{x-param-name-type}}} where parseQueryParam o = WH.parseQueryParam o >>= P.left T.pack . to{{{x-param-name-type}}}
+instance MimeRender MimeMultipartFormData {{{x-param-name-type}}} where mimeRender _ = mimeRenderDefaultMultipartFormData
 
--- | unwrap '{{{x-paramNameType}}}' enum
-from{{{x-paramNameType}}} :: {{{x-paramNameType}}} -> {{{x-dataType}}}
-from{{{x-paramNameType}}} = \case{{#allowableValues}}{{#enumVars}}
+-- | unwrap '{{{x-param-name-type}}}' enum
+from{{{x-param-name-type}}} :: {{{x-param-name-type}}} -> {{{x-data-type}}}
+from{{{x-param-name-type}}} = \case{{#allowableValues}}{{#enumVars}}
   {{{name}}} -> {{{value}}}{{/enumVars}}{{/allowableValues}}
 
--- | parse '{{{x-paramNameType}}}' enum
-to{{{x-paramNameType}}} :: {{{x-dataType}}} -> P.Either String {{{x-paramNameType}}}
-to{{{x-paramNameType}}} = \case{{#allowableValues}}{{#enumVars}}
+-- | parse '{{{x-param-name-type}}}' enum
+to{{{x-param-name-type}}} :: {{{x-data-type}}} -> P.Either String {{{x-param-name-type}}}
+to{{{x-param-name-type}}} = \case{{#allowableValues}}{{#enumVars}}
   {{{value}}} -> P.Right {{{name}}}{{/enumVars}}{{/allowableValues}}
-  s -> P.Left $ "to{{{x-paramNameType}}}: enum parse failure: " P.++ P.show s
+  s -> P.Left $ "to{{{x-param-name-type}}}: enum parse failure: " P.++ P.show s
 {{/x-enum}}{{/x-allUniqueParams}}{{/x-hasEnumSection}}
 
 {{#authMethods}}{{#-first}}-- * Auth Methods

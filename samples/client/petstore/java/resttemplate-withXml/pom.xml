@@ -2,9 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openapitools</groupId>
-    <artifactId>petstore-resttemplate</artifactId>
+    <artifactId>petstore-resttemplate-withxml</artifactId>
     <packaging>jar</packaging>
-    <name>petstore-resttemplate</name>
+    <name>petstore-resttemplate-withxml</name>
     <version>1.0.0</version>
     <url>https://github.com/openapitools/openapi-generator</url>
     <description>OpenAPI Java</description>
@@ -270,8 +270,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <swagger-annotations-version>1.5.22</swagger-annotations-version>
         <spring-web-version>4.3.9.RELEASE</spring-web-version>
-        <jackson-version>2.10.3</jackson-version>
-        <jackson-databind-version>2.10.3</jackson-databind-version>
+        <jackson-version>2.10.4</jackson-version>
+        <jackson-databind-version>2.10.4</jackson-databind-version>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>

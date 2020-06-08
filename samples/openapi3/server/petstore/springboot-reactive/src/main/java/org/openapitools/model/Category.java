@@ -9,15 +9,16 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Category
+ * A category for a pet
  */
+@Schema(description = "A category for a pet")
 
 public class Category   {
   @JsonProperty("id")
   private Long id;
 
   @JsonProperty("name")
-  private String name = "default-name";
+  private String name;
 
   public Category id(Long id) {
     this.id = id;
@@ -48,10 +49,9 @@ public class Category   {
    * Get name
    * @return name
   */
-  @Schema(required = true, description = "")
-  @NotNull
+  @Schema(description = "")
 
-
+@Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
   public String getName() {
     return name;
   }

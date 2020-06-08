@@ -11,6 +11,7 @@ sidebar_label: powershell
 |packageName|Client package name (e.g. PSTwitter).| |PSOpenAPITools|
 |packageVersion|Package version (e.g. 0.1.2).| |0.1.2|
 |powershellGalleryUrl|URL to the module in PowerShell Gallery (e.g. https://www.powershellgallery.com/packages/PSTwitter/).| |null|
+|useOneOfDiscriminatorLookup|Use the discriminator's mapping in oneOf to speed up the model lookup. IMPORTANT: Validation (e.g. one and onlye one match in oneOf's schemas) will be skipped.| |null|
 
 ## IMPORT MAPPING
 
@@ -23,6 +24,7 @@ sidebar_label: powershell
 |DateTime|org.joda.time.*|
 |File|java.io.File|
 |HashMap|java.util.HashMap|
+|LinkedHashSet|java.util.LinkedHashSet|
 |List|java.util.*|
 |LocalDate|org.joda.time.*|
 |LocalDateTime|org.joda.time.*|

@@ -30,6 +30,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,12 +48,8 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Validated
-@Tag(name = "user", description = "the user API")
+@Tag(name = "User", description = "the User API")
 public interface UserApi {
-
-    default Optional<NativeWebRequest> getRequest() {
-        return Optional.empty();
-    }
 
     /**
      * POST /user : Create user
@@ -61,16 +58,16 @@ public interface UserApi {
      * @param user Created user object (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Create user", operationId = "createUser" , tags={ "user", })
+    @Operation(summary = "Create user", operationId = "createUser" , security = {
+        @SecurityRequirement(name = "api_key")
+    }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
     @RequestMapping(value = "/user",
-        consumes = { "application/json" },
+        consumes = "application/json",
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<Void>> createUser(@Parameter(description = "Created user object" ,required=true )  @Valid @RequestBody User user) {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
-
-    }
+    
+    CompletableFuture<Void createUser(@Parameter(description = "Created user object" ,required=true )  @Valid @RequestBody User user);
 
 
     /**
@@ -79,16 +76,16 @@ public interface UserApi {
      * @param user List of user object (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithArrayInput" , tags={ "user", })
+    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithArrayInput" , security = {
+        @SecurityRequirement(name = "api_key")
+    }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
     @RequestMapping(value = "/user/createWithArray",
-        consumes = { "application/json" },
+        consumes = "application/json",
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<Void>> createUsersWithArrayInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody List<User> user) {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
-
-    }
+    
+    CompletableFuture<Void createUsersWithArrayInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody List<User> user);
 
 
     /**
@@ -97,16 +94,16 @@ public interface UserApi {
      * @param user List of user object (required)
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithListInput" , tags={ "user", })
+    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithListInput" , security = {
+        @SecurityRequirement(name = "api_key")
+    }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
     @RequestMapping(value = "/user/createWithList",
-        consumes = { "application/json" },
+        consumes = "application/json",
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<Void>> createUsersWithListInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody List<User> user) {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
-
-    }
+    
+    CompletableFuture<Void createUsersWithListInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody List<User> user);
 
 
     /**
@@ -117,16 +114,16 @@ public interface UserApi {
      * @return Invalid username supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Delete user", operationId = "deleteUser" , tags={ "user", })
+    @Operation(summary = "Delete user", operationId = "deleteUser" , security = {
+        @SecurityRequirement(name = "api_key")
+    }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid username supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })
     @RequestMapping(value = "/user/{username}",
         method = RequestMethod.DELETE)
-    default CompletableFuture<ResponseEntity<Void>> deleteUser(@Parameter(description = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
-
-    }
+    
+    CompletableFuture<Void deleteUser(@Parameter(description = "The name that needs to be deleted",required=true) @PathVariable("username") String username);
 
 
     /**
@@ -143,28 +140,10 @@ public interface UserApi {
        @ApiResponse(responseCode = "400", description = "Invalid username supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })
     @RequestMapping(value = "/user/{username}",
-        produces = { "application/xml", "application/json" }, 
+        produces = "application/json", 
         method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<User>> getUserByName(@Parameter(description = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username) {
-        return CompletableFuture.supplyAsync(()-> {
-            getRequest().ifPresent(request -> {
-                for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                        String exampleString = "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
-                        ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                        break;
-                    }
-                    if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
-                        String exampleString = "<User> <id>123456789</id> <username>aeiou</username> <firstName>aeiou</firstName> <lastName>aeiou</lastName> <email>aeiou</email> <password>aeiou</password> <phone>aeiou</phone> <userStatus>123</userStatus> </User>";
-                        ApiUtil.setExampleResponse(request, "application/xml", exampleString);
-                        break;
-                    }
-                }
-            });
-            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-        }, Runnable::run);
-
-    }
+    
+    CompletableFuture<User getUserByName(@Parameter(description = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username);
 
 
     /**
@@ -180,12 +159,10 @@ public interface UserApi {
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = String.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid username/password supplied" ) })
     @RequestMapping(value = "/user/login",
-        produces = { "application/xml", "application/json" }, 
+        produces = "application/json", 
         method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<String>> loginUser(@NotNull @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password) {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
-
-    }
+    
+    CompletableFuture<String loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password);
 
 
     /**
@@ -193,15 +170,15 @@ public interface UserApi {
      *
      * @return successful operation (status code 200)
      */
-    @Operation(summary = "Logs out current logged in user session", operationId = "logoutUser" , tags={ "user", })
+    @Operation(summary = "Logs out current logged in user session", operationId = "logoutUser" , security = {
+        @SecurityRequirement(name = "api_key")
+    }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
     @RequestMapping(value = "/user/logout",
         method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<Void>> logoutUser() {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
-
-    }
+    
+    CompletableFuture<Void logoutUser();
 
 
     /**
@@ -213,16 +190,16 @@ public interface UserApi {
      * @return Invalid user supplied (status code 400)
      *         or User not found (status code 404)
      */
-    @Operation(summary = "Updated user", operationId = "updateUser" , tags={ "user", })
+    @Operation(summary = "Updated user", operationId = "updateUser" , security = {
+        @SecurityRequirement(name = "api_key")
+    }, tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid user supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })
     @RequestMapping(value = "/user/{username}",
-        consumes = { "application/json" },
+        consumes = "application/json",
         method = RequestMethod.PUT)
-    default CompletableFuture<ResponseEntity<Void>> updateUser(@Parameter(description = "name that need to be deleted",required=true) @PathVariable("username") String username,@Parameter(description = "Updated user object" ,required=true )  @Valid @RequestBody User user) {
-        return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
-
-    }
+    
+    CompletableFuture<Void updateUser(@Parameter(description = "name that need to be deleted",required=true) @PathVariable("username") String username,@Parameter(description = "Updated user object" ,required=true )  @Valid @RequestBody User user);
 
 }

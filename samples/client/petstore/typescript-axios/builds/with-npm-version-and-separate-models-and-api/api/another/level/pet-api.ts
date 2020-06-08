@@ -762,5 +762,4 @@ export class PetApi extends BaseAPI {
     public uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any) {
         return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
     }
-
 }

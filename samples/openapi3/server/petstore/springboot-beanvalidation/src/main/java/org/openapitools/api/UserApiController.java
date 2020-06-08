@@ -19,10 +19,11 @@ import io.swagger.v3.oas.annotations.security.OAuthScope;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -38,13 +39,13 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public class UserApiController implements UserApi {
 
     private final NativeWebRequest request;
 
-    @org.springframework.beans.factory.annotation.Autowired
+    @Autowired
     public UserApiController(NativeWebRequest request) {
         this.request = request;
     }
@@ -57,7 +58,7 @@ public class UserApiController implements UserApi {
      * @return successful operation (status code 200)
      * @see UserApi#createUser
      */
-    public ResponseEntity<Void> createUser(@Parameter(description = "Created user object" ,required=true )  @Valid @RequestBody User user) {
+    public Void createUser(@Parameter(description = "Created user object" ,required=true )  @Valid @RequestBody User user) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -69,7 +70,7 @@ public class UserApiController implements UserApi {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithArrayInput
      */
-    public ResponseEntity<Void> createUsersWithArrayInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody List<User> user) {
+    public Void createUsersWithArrayInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody List<User> user) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -81,7 +82,7 @@ public class UserApiController implements UserApi {
      * @return successful operation (status code 200)
      * @see UserApi#createUsersWithListInput
      */
-    public ResponseEntity<Void> createUsersWithListInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody List<User> user) {
+    public Void createUsersWithListInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody List<User> user) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -95,7 +96,7 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#deleteUser
      */
-    public ResponseEntity<Void> deleteUser(@Parameter(description = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
+    public Void deleteUser(@Parameter(description = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -109,7 +110,7 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#getUserByName
      */
-    public ResponseEntity<User> getUserByName(@Parameter(description = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username) {
+    public User getUserByName(@Parameter(description = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"firstName\" : \"firstName\", \"lastName\" : \"lastName\", \"password\" : \"password\", \"userStatus\" : 6, \"phone\" : \"phone\", \"id\" : 0, \"email\" : \"email\", \"username\" : \"username\" }";
@@ -135,7 +136,7 @@ public class UserApiController implements UserApi {
      *         or Invalid username/password supplied (status code 400)
      * @see UserApi#loginUser
      */
-    public ResponseEntity<String> loginUser(@NotNull @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password) {
+    public String loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -146,7 +147,7 @@ public class UserApiController implements UserApi {
      * @return successful operation (status code 200)
      * @see UserApi#logoutUser
      */
-    public ResponseEntity<Void> logoutUser() {
+    public Void logoutUser() {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -161,7 +162,7 @@ public class UserApiController implements UserApi {
      *         or User not found (status code 404)
      * @see UserApi#updateUser
      */
-    public ResponseEntity<Void> updateUser(@Parameter(description = "name that need to be deleted",required=true) @PathVariable("username") String username,@Parameter(description = "Updated user object" ,required=true )  @Valid @RequestBody User user) {
+    public Void updateUser(@Parameter(description = "name that need to be deleted",required=true) @PathVariable("username") String username,@Parameter(description = "Updated user object" ,required=true )  @Valid @RequestBody User user) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

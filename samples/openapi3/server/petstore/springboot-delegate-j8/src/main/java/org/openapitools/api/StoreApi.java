@@ -28,6 +28,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,7 +64,8 @@ public interface StoreApi {
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
     @RequestMapping(value = "/store/order/{orderId}",
         method = RequestMethod.DELETE)
-    default ResponseEntity<Void> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId) {
+    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    default Void deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId) {
         return getDelegate().deleteOrder(orderId);
     }
 
@@ -82,7 +84,8 @@ public interface StoreApi {
     @RequestMapping(value = "/store/inventory",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<Map<String, Integer>> getInventory() {
+    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    default Map<String, Integer> getInventory() {
         return getDelegate().getInventory();
     }
 
@@ -104,7 +107,8 @@ public interface StoreApi {
     @RequestMapping(value = "/store/order/{orderId}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId) {
+    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    default Order getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId) {
         return getDelegate().getOrderById(orderId);
     }
 
@@ -124,7 +128,8 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default ResponseEntity<Order> placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order) {
+    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    default Order placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order) {
         return getDelegate().placeOrder(order);
     }
 

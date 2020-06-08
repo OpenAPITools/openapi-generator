@@ -27,6 +27,8 @@ This can only be done by the logged in user.
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import user_api
+from petstore_api.model import user
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -38,8 +40,8 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
-    body = petstore_api.User() # user.User | Created user object
+    api_instance = user_api.UserApi(api_client)
+    body = user.User() # user.User | Created user object
     
     # example passing only required values which don't have defaults set
     try:
@@ -86,6 +88,8 @@ Creates list of users with given input array
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import user_api
+from petstore_api.model import user
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -97,8 +101,8 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
-    body = [petstore_api.User()] # [user.User] | List of user object
+    api_instance = user_api.UserApi(api_client)
+    body = [user.User()] # [user.User] | List of user object
     
     # example passing only required values which don't have defaults set
     try:
@@ -145,6 +149,8 @@ Creates list of users with given input array
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import user_api
+from petstore_api.model import user
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -156,8 +162,8 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
-    body = [petstore_api.User()] # [user.User] | List of user object
+    api_instance = user_api.UserApi(api_client)
+    body = [user.User()] # [user.User] | List of user object
     
     # example passing only required values which don't have defaults set
     try:
@@ -206,6 +212,7 @@ This can only be done by the logged in user.
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import user_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -217,7 +224,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
+    api_instance = user_api.UserApi(api_client)
     username = 'username_example' # str | The name that needs to be deleted
     
     # example passing only required values which don't have defaults set
@@ -266,6 +273,8 @@ Get user by user name
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import user_api
+from petstore_api.model import user
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -277,7 +286,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
+    api_instance = user_api.UserApi(api_client)
     username = 'username_example' # str | The name that needs to be fetched. Use user1 for testing.
     
     # example passing only required values which don't have defaults set
@@ -328,6 +337,7 @@ Logs user into the system
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import user_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -339,7 +349,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
+    api_instance = user_api.UserApi(api_client)
     username = 'username_example' # str | The user name for login
     password = 'password_example' # str | The password for login in clear text
     
@@ -391,6 +401,7 @@ Logs out current logged in user session
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import user_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -402,7 +413,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
+    api_instance = user_api.UserApi(api_client)
     
     # example, this endpoint has no required or optional parameters
     try:
@@ -448,6 +459,8 @@ This can only be done by the logged in user.
 from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import user_api
+from petstore_api.model import user
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -459,9 +472,9 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.UserApi(api_client)
+    api_instance = user_api.UserApi(api_client)
     username = 'username_example' # str | name that need to be deleted
-    body = petstore_api.User() # user.User | Updated user object
+    body = user.User() # user.User | Updated user object
     
     # example passing only required values which don't have defaults set
     try:

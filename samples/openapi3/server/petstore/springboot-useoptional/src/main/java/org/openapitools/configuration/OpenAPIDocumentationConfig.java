@@ -8,6 +8,7 @@ import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Optional;
 import javax.servlet.ServletContext;
 
 
@@ -18,11 +19,11 @@ public class OpenAPIDocumentationConfig {
     public OpenAPI apiInfo() {
         return new OpenAPI()
             .info(new Info().title("OpenAPI Petstore")
-            .description("A test spec based on the Petstore spec with OAS3 related test cases such as nullable")
+            .description("This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.")
             .version("1.0.0")
             .license(new License().name("Apache-2.0").url("https://www.apache.org/licenses/LICENSE-2.0.html")))
             .externalDocs(new ExternalDocumentation()
-                .description("A test spec based on the Petstore spec with OAS3 related test cases such as nullable")
+                .description("This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.")
                 .url(""));
     }
 

@@ -15,31 +15,32 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * OuterComposite
  */
+@JsonPropertyOrder({
+  OuterComposite.JSON_PROPERTY_MY_NUMBER,
+  OuterComposite.JSON_PROPERTY_MY_STRING,
+  OuterComposite.JSON_PROPERTY_MY_BOOLEAN
+})
 
 public class OuterComposite {
-  public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
-  @SerializedName(SERIALIZED_NAME_MY_NUMBER)
+  public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
   private BigDecimal myNumber;
 
-  public static final String SERIALIZED_NAME_MY_STRING = "my_string";
-  @SerializedName(SERIALIZED_NAME_MY_STRING)
+  public static final String JSON_PROPERTY_MY_STRING = "my_string";
   private String myString;
 
-  public static final String SERIALIZED_NAME_MY_BOOLEAN = "my_boolean";
-  @SerializedName(SERIALIZED_NAME_MY_BOOLEAN)
+  public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
   private Boolean myBoolean;
 
 
@@ -55,6 +56,8 @@ public class OuterComposite {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public BigDecimal getMyNumber() {
     return myNumber;
@@ -78,6 +81,8 @@ public class OuterComposite {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MY_STRING)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getMyString() {
     return myString;
@@ -101,6 +106,8 @@ public class OuterComposite {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Boolean getMyBoolean() {
     return myBoolean;

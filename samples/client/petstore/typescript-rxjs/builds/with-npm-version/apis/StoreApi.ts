@@ -39,7 +39,7 @@ export class StoreApi extends BaseAPI {
      * Delete purchase order by ID
      */
     deleteOrder = ({ orderId }: DeleteOrderRequest): Observable<void> => {
-        throwIfNullOrUndefined(orderId, 'deleteOrder');
+        throwIfNullOrUndefined(orderId, 'orderId', 'deleteOrder');
 
         return this.request<void>({
             path: '/store/order/{orderId}'.replace('{orderId}', encodeURI(orderId)),
@@ -68,7 +68,7 @@ export class StoreApi extends BaseAPI {
      * Find purchase order by ID
      */
     getOrderById = ({ orderId }: GetOrderByIdRequest): Observable<Order> => {
-        throwIfNullOrUndefined(orderId, 'getOrderById');
+        throwIfNullOrUndefined(orderId, 'orderId', 'getOrderById');
 
         return this.request<Order>({
             path: '/store/order/{orderId}'.replace('{orderId}', encodeURI(orderId)),
@@ -80,7 +80,7 @@ export class StoreApi extends BaseAPI {
      * Place an order for a pet
      */
     placeOrder = ({ body }: PlaceOrderRequest): Observable<Order> => {
-        throwIfNullOrUndefined(body, 'placeOrder');
+        throwIfNullOrUndefined(body, 'body', 'placeOrder');
 
         const headers: HttpHeaders = {
             'Content-Type': 'application/json',

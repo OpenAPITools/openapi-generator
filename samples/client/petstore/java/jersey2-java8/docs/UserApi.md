@@ -14,8 +14,9 @@ Method | HTTP request | Description
 [**updateUser**](UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
 
 
-<a name="createUser"></a>
-# **createUser**
+
+## createUser
+
 > createUser(body)
 
 Create user
@@ -23,6 +24,7 @@ Create user
 This can only be done by the logged in user.
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -32,26 +34,27 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
-    UserApi apiInstance = new UserApi(defaultClient);
-    User body = new User(); // User | Created user object
-    try {
-      apiInstance.createUser(body);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#createUser");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        UserApi apiInstance = new UserApi(defaultClient);
+        User body = new User(); // User | Created user object
+        try {
+            apiInstance.createUser(body);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserApi#createUser");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -67,21 +70,23 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**0** | successful operation |  -  |
+| **0** | successful operation |  -  |
 
-<a name="createUsersWithArrayInput"></a>
-# **createUsersWithArrayInput**
+
+## createUsersWithArrayInput
+
 > createUsersWithArrayInput(body)
 
 Creates list of users with given input array
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -91,26 +96,27 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
-    UserApi apiInstance = new UserApi(defaultClient);
-    List<User> body = Arrays.asList(); // List<User> | List of user object
-    try {
-      apiInstance.createUsersWithArrayInput(body);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#createUsersWithArrayInput");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        UserApi apiInstance = new UserApi(defaultClient);
+        List<User> body = Arrays.asList(); // List<User> | List of user object
+        try {
+            apiInstance.createUsersWithArrayInput(body);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserApi#createUsersWithArrayInput");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -126,21 +132,23 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**0** | successful operation |  -  |
+| **0** | successful operation |  -  |
 
-<a name="createUsersWithListInput"></a>
-# **createUsersWithListInput**
+
+## createUsersWithListInput
+
 > createUsersWithListInput(body)
 
 Creates list of users with given input array
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -150,26 +158,27 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
-    UserApi apiInstance = new UserApi(defaultClient);
-    List<User> body = Arrays.asList(); // List<User> | List of user object
-    try {
-      apiInstance.createUsersWithListInput(body);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#createUsersWithListInput");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        UserApi apiInstance = new UserApi(defaultClient);
+        List<User> body = Arrays.asList(); // List<User> | List of user object
+        try {
+            apiInstance.createUsersWithListInput(body);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserApi#createUsersWithListInput");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -185,16 +194,17 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**0** | successful operation |  -  |
+| **0** | successful operation |  -  |
 
-<a name="deleteUser"></a>
-# **deleteUser**
+
+## deleteUser
+
 > deleteUser(username)
 
 Delete user
@@ -202,6 +212,7 @@ Delete user
 This can only be done by the logged in user.
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -211,26 +222,27 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
-    UserApi apiInstance = new UserApi(defaultClient);
-    String username = "username_example"; // String | The name that needs to be deleted
-    try {
-      apiInstance.deleteUser(username);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#deleteUser");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        UserApi apiInstance = new UserApi(defaultClient);
+        String username = "username_example"; // String | The name that needs to be deleted
+        try {
+            apiInstance.deleteUser(username);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserApi#deleteUser");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -246,22 +258,24 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**400** | Invalid username supplied |  -  |
-**404** | User not found |  -  |
+| **400** | Invalid username supplied |  -  |
+| **404** | User not found |  -  |
 
-<a name="getUserByName"></a>
-# **getUserByName**
+
+## getUserByName
+
 > User getUserByName(username)
 
 Get user by user name
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -271,27 +285,28 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
-    UserApi apiInstance = new UserApi(defaultClient);
-    String username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing.
-    try {
-      User result = apiInstance.getUserByName(username);
-      System.out.println(result);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#getUserByName");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        UserApi apiInstance = new UserApi(defaultClient);
+        String username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing.
+        try {
+            User result = apiInstance.getUserByName(username);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserApi#getUserByName");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -307,23 +322,25 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  -  |
-**400** | Invalid username supplied |  -  |
-**404** | User not found |  -  |
+| **200** | successful operation |  -  |
+| **400** | Invalid username supplied |  -  |
+| **404** | User not found |  -  |
 
-<a name="loginUser"></a>
-# **loginUser**
+
+## loginUser
+
 > String loginUser(username, password)
 
 Logs user into the system
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -333,28 +350,29 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
-    UserApi apiInstance = new UserApi(defaultClient);
-    String username = "username_example"; // String | The user name for login
-    String password = "password_example"; // String | The password for login in clear text
-    try {
-      String result = apiInstance.loginUser(username, password);
-      System.out.println(result);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#loginUser");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        UserApi apiInstance = new UserApi(defaultClient);
+        String username = "username_example"; // String | The user name for login
+        String password = "password_example"; // String | The password for login in clear text
+        try {
+            String result = apiInstance.loginUser(username, password);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserApi#loginUser");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -371,22 +389,24 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/xml, application/json
+- **Content-Type**: Not defined
+- **Accept**: application/xml, application/json
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**200** | successful operation |  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  |
-**400** | Invalid username/password supplied |  -  |
+| **200** | successful operation |  * X-Rate-Limit - calls per hour allowed by the user <br>  * X-Expires-After - date in UTC when token expires <br>  |
+| **400** | Invalid username/password supplied |  -  |
 
-<a name="logoutUser"></a>
-# **logoutUser**
+
+## logoutUser
+
 > logoutUser()
 
 Logs out current logged in user session
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -396,25 +416,26 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
-    UserApi apiInstance = new UserApi(defaultClient);
-    try {
-      apiInstance.logoutUser();
-    } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#logoutUser");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        UserApi apiInstance = new UserApi(defaultClient);
+        try {
+            apiInstance.logoutUser();
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserApi#logoutUser");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 This endpoint does not need any parameter.
 
 ### Return type
@@ -427,16 +448,17 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**0** | successful operation |  -  |
+| **0** | successful operation |  -  |
 
-<a name="updateUser"></a>
-# **updateUser**
+
+## updateUser
+
 > updateUser(username, body)
 
 Updated user
@@ -444,6 +466,7 @@ Updated user
 This can only be done by the logged in user.
 
 ### Example
+
 ```java
 // Import classes:
 import org.openapitools.client.ApiClient;
@@ -453,27 +476,28 @@ import org.openapitools.client.models.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {
-  public static void main(String[] args) {
-    ApiClient defaultClient = Configuration.getDefaultApiClient();
-    defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
-    UserApi apiInstance = new UserApi(defaultClient);
-    String username = "username_example"; // String | name that need to be deleted
-    User body = new User(); // User | Updated user object
-    try {
-      apiInstance.updateUser(username, body);
-    } catch (ApiException e) {
-      System.err.println("Exception when calling UserApi#updateUser");
-      System.err.println("Status code: " + e.getCode());
-      System.err.println("Reason: " + e.getResponseBody());
-      System.err.println("Response headers: " + e.getResponseHeaders());
-      e.printStackTrace();
+        UserApi apiInstance = new UserApi(defaultClient);
+        String username = "username_example"; // String | name that need to be deleted
+        User body = new User(); // User | Updated user object
+        try {
+            apiInstance.updateUser(username, body);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling UserApi#updateUser");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
     }
-  }
 }
 ```
 
 ### Parameters
+
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
@@ -490,12 +514,12 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-**400** | Invalid user supplied |  -  |
-**404** | User not found |  -  |
+| **400** | Invalid user supplied |  -  |
+| **404** | User not found |  -  |
 

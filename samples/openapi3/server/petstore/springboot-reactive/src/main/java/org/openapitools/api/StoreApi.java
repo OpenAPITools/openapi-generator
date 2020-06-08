@@ -28,6 +28,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,7 +54,7 @@ public interface StoreApi {
     }
 
     /**
-     * DELETE /store/order/{order_id} : Delete purchase order by ID
+     * DELETE /store/order/{orderId} : Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      *
      * @param orderId ID of the order that needs to be deleted (required)
@@ -64,9 +65,10 @@ public interface StoreApi {
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
-    @RequestMapping(value = "/store/order/{order_id}",
+    @RequestMapping(value = "/store/order/{orderId}",
         method = RequestMethod.DELETE)
-    default Mono<ResponseEntity<Void>> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId, ServerWebExchange exchange) {
+    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    default Mono<Void deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId, ServerWebExchange exchange) {
         return getDelegate().deleteOrder(orderId, exchange);
     }
 
@@ -85,13 +87,14 @@ public interface StoreApi {
     @RequestMapping(value = "/store/inventory",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default Mono<ResponseEntity<Map<String, Integer>>> getInventory(ServerWebExchange exchange) {
+    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    default Mono<Map<String, Integer> getInventory(ServerWebExchange exchange) {
         return getDelegate().getInventory(exchange);
     }
 
 
     /**
-     * GET /store/order/{order_id} : Find purchase order by ID
+     * GET /store/order/{orderId} : Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      *
      * @param orderId ID of pet that needs to be fetched (required)
@@ -104,10 +107,11 @@ public interface StoreApi {
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Order.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
-    @RequestMapping(value = "/store/order/{order_id}",
+    @RequestMapping(value = "/store/order/{orderId}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default Mono<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId, ServerWebExchange exchange) {
+    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    default Mono<Order getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId, ServerWebExchange exchange) {
         return getDelegate().getOrderById(orderId, exchange);
     }
 
@@ -115,7 +119,7 @@ public interface StoreApi {
     /**
      * POST /store/order : Place an order for a pet
      *
-     * @param body order placed for purchasing the pet (required)
+     * @param order order placed for purchasing the pet (required)
      * @return successful operation (status code 200)
      *         or Invalid Order (status code 400)
      */
@@ -125,9 +129,11 @@ public interface StoreApi {
        @ApiResponse(responseCode = "400", description = "Invalid Order" ) })
     @RequestMapping(value = "/store/order",
         produces = { "application/xml", "application/json" }, 
+        consumes = { "application/json" },
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<Order>> placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Mono<Order> body, ServerWebExchange exchange) {
-        return getDelegate().placeOrder(body, exchange);
+    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
+    default Mono<Order placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Mono<Order> order, ServerWebExchange exchange) {
+        return getDelegate().placeOrder(order, exchange);
     }
 
 }

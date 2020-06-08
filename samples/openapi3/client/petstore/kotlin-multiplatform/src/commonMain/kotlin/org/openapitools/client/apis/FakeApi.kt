@@ -15,6 +15,7 @@ import org.openapitools.client.models.Client
 import org.openapitools.client.models.FileSchemaTestClass
 import org.openapitools.client.models.HealthCheckResult
 import org.openapitools.client.models.OuterComposite
+import org.openapitools.client.models.Pet
 import org.openapitools.client.models.User
 
 import org.openapitools.client.infrastructure.*
@@ -72,6 +73,42 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
         ).wrap()
     }
 
+
+    /**
+    * test http signature authentication
+    * 
+    * @param pet Pet object that needs to be added to the store 
+    * @param query1 query parameter (optional)
+    * @param header1 header parameter (optional)
+    * @return void
+    */
+    suspend fun fakeHttpSignatureTest(pet: Pet, query1: kotlin.String?, header1: kotlin.String?) : HttpResponse<Unit> {
+
+        val localVariableAuthNames = listOf<String>("http_signature_test")
+
+        val localVariableBody = pet
+
+        val localVariableQuery = mutableMapOf<String, List<String>>()
+        query1?.apply { localVariableQuery["query_1"] = listOf("$query1") }
+
+        val localVariableHeaders = mutableMapOf<String, String>()
+        header1?.apply { localVariableHeaders["header_1"] = this.toString() }
+
+        val localVariableConfig = RequestConfig(
+            RequestMethod.GET,
+            "/fake/http-signature-test",
+            query = localVariableQuery,
+            headers = localVariableHeaders
+        )
+
+        return jsonRequest(
+            localVariableConfig,
+            localVariableBody,
+            localVariableAuthNames
+        ).wrap()
+    }
+
+    
 
     /**
     * 
@@ -368,13 +405,13 @@ class FakeApi @UseExperimental(UnstableDefault::class) constructor(
     * To test enum parameters
     * To test enum parameters
     * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
-    * @param enumHeaderString Header parameter enum test (string) (optional, default to '-efg')
+    * @param enumHeaderString Header parameter enum test (string) (optional, default to "-efg")
     * @param enumQueryStringArray Query parameter enum test (string array) (optional)
-    * @param enumQueryString Query parameter enum test (string) (optional, default to '-efg')
+    * @param enumQueryString Query parameter enum test (string) (optional, default to "-efg")
     * @param enumQueryInteger Query parameter enum test (double) (optional)
     * @param enumQueryDouble Query parameter enum test (double) (optional)
-    * @param enumFormStringArray Form parameter enum test (string array) (optional, default to '$')
-    * @param enumFormString Form parameter enum test (string) (optional, default to '-efg')
+    * @param enumFormStringArray Form parameter enum test (string array) (optional, default to "$")
+    * @param enumFormString Form parameter enum test (string) (optional, default to "-efg")
     * @return void
     */
     suspend fun testEnumParameters(enumHeaderStringArray: kotlin.Array<kotlin.String>?, enumHeaderString: kotlin.String?, enumQueryStringArray: kotlin.Array<kotlin.String>?, enumQueryString: kotlin.String?, enumQueryInteger: kotlin.Int?, enumQueryDouble: kotlin.Double?, enumFormStringArray: kotlin.Array<kotlin.String>?, enumFormString: kotlin.String?) : HttpResponse<Unit> {
@@ -576,6 +613,7 @@ private class TestInlineAdditionalPropertiesRequest(val value: Map<kotlin.String
 
     companion object {
         internal fun setMappers(serializer: KotlinxSerializer) {
+            
             
             
             

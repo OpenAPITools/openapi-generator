@@ -21,10 +21,11 @@ public interface PetApiDelegate {
      * POST /pet : Add a new pet to the store
      *
      * @param pet Pet object that needs to be added to the store (required)
-     * @return Invalid input (status code 405)
+     * @return successful operation (status code 200)
+     *         or Invalid input (status code 405)
      * @see PetApi#addPet
      */
-    ResponseEntity<Void> addPet(Pet pet);
+    ResponseEntity<Pet> addPet(Pet pet);
 
     /**
      * DELETE /pet/{petId} : Deletes a pet
@@ -76,12 +77,13 @@ public interface PetApiDelegate {
      * PUT /pet : Update an existing pet
      *
      * @param pet Pet object that needs to be added to the store (required)
-     * @return Invalid ID supplied (status code 400)
+     * @return successful operation (status code 200)
+     *         or Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
      *         or Validation exception (status code 405)
      * @see PetApi#updatePet
      */
-    ResponseEntity<Void> updatePet(Pet pet);
+    ResponseEntity<Pet> updatePet(Pet pet);
 
     /**
      * POST /pet/{petId} : Updates a pet in the store with form data
