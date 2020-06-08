@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenModel;
@@ -28,6 +29,7 @@ import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.openapitools.codegen.utils.ProcessUtils;
 
 import java.io.File;
 import java.util.HashMap;
@@ -67,6 +69,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     // backwards compatibility for openapi configs that specify neither rx1 nor rx2
     // (mustache does not allow for boolean operators so we need this extra field)
     protected boolean doNotUseRxAndCoroutines = true;
+
+    protected String authFolder;
 
     public enum DateLibrary {
         STRING("string"),
@@ -300,6 +304,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         // infrastructure destination folder
         final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", "/");
+        authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", "/");
 
         // additional properties
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
@@ -403,6 +408,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         additionalProperties.put(JVM, true);
         additionalProperties.put(JVM_RETROFIT2, true);
         supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/ResponseExt.kt.mustache", infrastructureFolder, "ResponseExt.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/CollectionFormats.kt.mustache", infrastructureFolder, "CollectionFormats.kt"));
         addSupportingSerializerAdapters(infrastructureFolder);
     }
@@ -494,7 +500,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("infrastructure/OctetByteArray.kt.mustache", infrastructureFolder, "OctetByteArray.kt"));
 
         // multiplatform specific auth
-        final String authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", "/");
         supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
         supportingFiles.add(new SupportingFile("auth/Authentication.kt.mustache", authFolder, "Authentication.kt"));
         supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
@@ -558,6 +563,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         return objects;
     }
 
+        private boolean usesRetrofit2Library() {
+        return getLibrary() != null && getLibrary().contains(JVM_RETROFIT2);
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
@@ -571,6 +580,22 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 if (operation.hasConsumes == Boolean.TRUE) {
                     if (isMultipartType(operation.consumes)) {
                         operation.isMultipart = Boolean.TRUE;
+                    }
+                }
+
+                if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
+                    operation.path = operation.path.substring(1);
+                    if (ProcessUtils.hasOAuthMethods(objs)) {
+                        supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
+                        supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
+                        supportingFiles.add(new SupportingFile("auth/OAuthFlow.kt.mustache", authFolder, "OAuthFlow.kt"));
+                        supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.kt.mustache", authFolder, "OAuthOkHttpClient.kt"));
+                    }
+                    if(ProcessUtils.hasBearerMethods(objs)) {
+                        supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
+                    }
+                    if(ProcessUtils.hasHttpBasicMethods(objs)) {
+                        supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
                     }
                 }
 
