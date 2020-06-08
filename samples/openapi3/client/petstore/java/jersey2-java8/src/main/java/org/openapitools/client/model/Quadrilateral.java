@@ -41,19 +41,40 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import org.openapitools.client.JSON;
 
 
-@JsonDeserialize(using=Quadrilateral.QuadrilateralDeserializer.class)
+@JsonDeserialize(using = Quadrilateral.QuadrilateralDeserializer.class)
+@JsonSerialize(using = Quadrilateral.QuadrilateralSerializer.class)
 public class Quadrilateral extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Quadrilateral.class.getName());
+
+    public static class QuadrilateralSerializer extends StdSerializer<Quadrilateral> {
+        public QuadrilateralSerializer(Class<Quadrilateral> t) {
+            super(t);
+        }
+
+        public QuadrilateralSerializer() {
+            this(null);
+        }
+
+        @Override
+        public void serialize(Quadrilateral value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+            jgen.writeObject(value.getActualInstance());
+        }
+    }
 
     public static class QuadrilateralDeserializer extends StdDeserializer<Quadrilateral> {
         public QuadrilateralDeserializer() {
@@ -81,7 +102,7 @@ public class Quadrilateral extends AbstractOpenApiSchema {
                     newQuadrilateral.setActualInstance(deserialized);
                     return newQuadrilateral;
                 default:
-                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Mammal. Possible values: ComplexQuadrilateral SimpleQuadrilateral", discriminatorValue));
+                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Quadrilateral. Possible values: ComplexQuadrilateral SimpleQuadrilateral", discriminatorValue));
             }
 
             int match = 0;

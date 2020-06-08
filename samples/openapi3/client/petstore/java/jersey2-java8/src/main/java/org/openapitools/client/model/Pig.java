@@ -41,19 +41,40 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import org.openapitools.client.JSON;
 
 
-@JsonDeserialize(using=Pig.PigDeserializer.class)
+@JsonDeserialize(using = Pig.PigDeserializer.class)
+@JsonSerialize(using = Pig.PigSerializer.class)
 public class Pig extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Pig.class.getName());
+
+    public static class PigSerializer extends StdSerializer<Pig> {
+        public PigSerializer(Class<Pig> t) {
+            super(t);
+        }
+
+        public PigSerializer() {
+            this(null);
+        }
+
+        @Override
+        public void serialize(Pig value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+            jgen.writeObject(value.getActualInstance());
+        }
+    }
 
     public static class PigDeserializer extends StdDeserializer<Pig> {
         public PigDeserializer() {
@@ -81,7 +102,7 @@ public class Pig extends AbstractOpenApiSchema {
                     newPig.setActualInstance(deserialized);
                     return newPig;
                 default:
-                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Mammal. Possible values: BasquePig DanishPig", discriminatorValue));
+                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Pig. Possible values: BasquePig DanishPig", discriminatorValue));
             }
 
             int match = 0;

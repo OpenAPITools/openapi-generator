@@ -7,19 +7,40 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import org.openapitools.client.JSON;
 
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
-@JsonDeserialize(using={{classname}}.{{classname}}Deserializer.class)
+@JsonDeserialize(using = {{classname}}.{{classname}}Deserializer.class)
+@JsonSerialize(using = {{classname}}.{{classname}}Serializer.class)
 public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
     private static final Logger log = Logger.getLogger({{classname}}.class.getName());
+
+    public static class {{classname}}Serializer extends StdSerializer<{{classname}}> {
+        public {{classname}}Serializer(Class<{{classname}}> t) {
+            super(t);
+        }
+
+        public {{classname}}Serializer() {
+            this(null);
+        }
+
+        @Override
+        public void serialize({{classname}} value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+            jgen.writeObject(value.getActualInstance());
+        }
+    }
 
     public static class {{classname}}Deserializer extends StdDeserializer<{{classname}}> {
         public {{classname}}Deserializer() {
@@ -47,7 +68,7 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
                     return new{{classname}};
         	{{/mappedModels}}
                 default:
-                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Mammal. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
+                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for {{classname}}. Possible values:{{#mappedModels}} {{{mappingName}}}{{/mappedModels}}", discriminatorValue));
             }
 
             {{/discriminator}}

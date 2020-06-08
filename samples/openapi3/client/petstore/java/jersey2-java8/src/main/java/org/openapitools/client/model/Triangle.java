@@ -42,19 +42,40 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import org.openapitools.client.JSON;
 
 
-@JsonDeserialize(using=Triangle.TriangleDeserializer.class)
+@JsonDeserialize(using = Triangle.TriangleDeserializer.class)
+@JsonSerialize(using = Triangle.TriangleSerializer.class)
 public class Triangle extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Triangle.class.getName());
+
+    public static class TriangleSerializer extends StdSerializer<Triangle> {
+        public TriangleSerializer(Class<Triangle> t) {
+            super(t);
+        }
+
+        public TriangleSerializer() {
+            this(null);
+        }
+
+        @Override
+        public void serialize(Triangle value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+            jgen.writeObject(value.getActualInstance());
+        }
+    }
 
     public static class TriangleDeserializer extends StdDeserializer<Triangle> {
         public TriangleDeserializer() {
@@ -86,7 +107,7 @@ public class Triangle extends AbstractOpenApiSchema {
                     newTriangle.setActualInstance(deserialized);
                     return newTriangle;
                 default:
-                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Mammal. Possible values: EquilateralTriangle IsoscelesTriangle ScaleneTriangle", discriminatorValue));
+                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Triangle. Possible values: EquilateralTriangle IsoscelesTriangle ScaleneTriangle", discriminatorValue));
             }
 
             int match = 0;
