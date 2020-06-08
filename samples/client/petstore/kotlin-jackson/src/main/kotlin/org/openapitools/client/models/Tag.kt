@@ -21,9 +21,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 
 data class Tag (
-    @JsonProperty("id")
+    @field:JsonProperty("id")
     val id: kotlin.Long? = null,
-    @JsonProperty("name")
+    @field:JsonProperty("name")
     val name: kotlin.String? = null
 )
 
