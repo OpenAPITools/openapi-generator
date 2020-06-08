@@ -34,14 +34,13 @@ import org.openapitools.codegen.api.TemplatingExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.Map;
 
 public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
-    static Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
     private final String[] extensions = new String[]{"handlebars", "hbs"};
 
     // We use this as a simple lookup for valid file name extensions. This adapter will inspect .mustache (built-in) and infer the relevant handlebars filename

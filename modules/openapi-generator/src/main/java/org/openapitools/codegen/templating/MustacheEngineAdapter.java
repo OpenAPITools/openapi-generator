@@ -18,14 +18,12 @@ package org.openapitools.codegen.templating;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
-import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplatingExecutor;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.util.Arrays;
 import java.util.Map;
 
 
@@ -41,7 +39,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
         return "mustache";
     }
 
-    public String[] extensions = new String[]{"mustache"};
+    private final String[] extensions = new String[]{"mustache"};
     Mustache.Compiler compiler = Mustache.compiler();
 
     /**
@@ -63,6 +61,7 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
         return tmpl.execute(bundle);
     }
 
+    @SuppressWarnings({"java:S108"}) // catch-all is expected, and is later thrown
     public Reader findTemplate(TemplatingExecutor generator, String name) {
         for (String extension : extensions) {
             try {

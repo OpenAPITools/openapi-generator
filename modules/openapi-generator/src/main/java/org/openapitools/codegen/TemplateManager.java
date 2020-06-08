@@ -102,6 +102,8 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      * @param name The location of the template
      * @return The raw template contents
      */
+    @SuppressWarnings({"java:S112"})
+    // ignored rule java:S112 as RuntimeException is used to match previous exception type
     public String readTemplate(String name) {
         if (name == null || name.contains("..")) {
             throw new IllegalArgumentException("Template location must be constrained to template directory.");
@@ -119,8 +121,9 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
         throw new RuntimeException("can't load template " + name);
     }
 
-    @SuppressWarnings("squid:S2095")
-    // ignored rule as used in the CLI and it's required to return a reader
+    @SuppressWarnings({"squid:S2095", "java:S112"})
+    // ignored rule squid:S2095 as used in the CLI and it's required to return a reader
+    // ignored rule java:S112 as RuntimeException is used to match previous exception type
     public Reader getTemplateReader(String name) {
         InputStream is;
         try {
@@ -163,12 +166,12 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
 
     @Override
     public void ignore(Path path, String context) {
-        LOGGER.info("Ignored {} ({})", path.toString(), context);
+        LOGGER.info("Ignored {} ({})", path, context);
     }
 
     @Override
     public void skip(Path path, String context) {
-        LOGGER.info("Skipped {} ({})", path.toString(), context);
+        LOGGER.info("Skipped {} ({})", path, context);
     }
 
     /**
@@ -201,23 +204,23 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
             try {
                 tempFile = writeToFileRaw(tempFilename, contents);
                 if (!filesEqual(tempFile, outputFile)) {
-                    LOGGER.info("writing file " + filename);
+                    LOGGER.info("writing file {}", filename);
                     Files.move(tempFile.toPath(), outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     tempFile = null;
                 } else {
-                    LOGGER.info("skipping unchanged file " + filename);
+                    LOGGER.info("skipping unchanged file {}", filename);
                 }
             } finally {
                 if (tempFile != null && tempFile.exists()) {
                     try {
-                        tempFile.delete();
+                        Files.delete(tempFile.toPath());
                     } catch (Exception ex) {
-                        LOGGER.error("Error removing temporary file " + tempFile, ex);
+                        LOGGER.error("Error removing temporary file {}", tempFile, ex);
                     }
                 }
             }
         } else {
-            LOGGER.info("writing file " + filename);
+            LOGGER.info("writing file {}", filename);
             outputFile = writeToFileRaw(filename, contents);
         }
 
@@ -228,7 +231,7 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
         // Use Paths.get here to normalize path (for Windows file separator, space escaping on Linux/Mac, etc)
         File output = Paths.get(filename).toFile();
         if (this.options.isSkipOverwrite() && output.exists()) {
-            LOGGER.info("skip overwrite of file " + filename);
+            LOGGER.info("skip overwrite of file {}", filename);
             return output;
         }
 
