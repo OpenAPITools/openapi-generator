@@ -449,6 +449,9 @@ conf = petstore_api.Configuration(
         :param servers: host settings for the endpoint
         :return: URL based on host settings
         """
+        if index is None:
+            return self._base_path
+
         variables = {} if variables is None else variables
         servers = self.get_host_settings() if servers is None else servers
 
