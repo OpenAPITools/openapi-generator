@@ -46,6 +46,16 @@ public interface TemplatingEngineAdapter {
     String[] getFileExtensions();
 
     /**
+     * Determine if the adapter handles compilation of the file
+     * @param filename The template filename
+     *
+     * @return True if the file should be compiled by this adapter, else false.
+     */
+    default boolean handlesFile(String filename) {
+        return filename != null && filename.length() > 0 && Arrays.stream(getFileExtensions()).anyMatch(i -> filename.endsWith("." + i));
+    }
+
+    /**
      * Compiles a template into a string
      *
      * @param executor    From where we can fetch the templates content (e.g. an instance of DefaultGenerator)

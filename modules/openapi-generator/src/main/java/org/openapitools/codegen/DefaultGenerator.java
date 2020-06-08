@@ -911,6 +911,10 @@ public class DefaultGenerator implements Generator {
         File target = new File(adjustedOutputFilename);
         if (ignoreProcessor.allowsFile(target)) {
             if (shouldGenerate) {
+                Path outDir = java.nio.file.Paths.get(this.config.getOutputDir()).toAbsolutePath();
+                if (!target.toPath().toAbsolutePath().startsWith(outDir)) {
+                    throw new RuntimeException("Target files must be generated within the output directory");
+                }
                 return this.templateProcessor.write(templateData,templateName, target);
             } else {
                 this.templateProcessor.skip(target.toPath(), String.format(Locale.ROOT, "Skipped by %s options supplied by user.", skippedByOption));

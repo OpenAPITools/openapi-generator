@@ -12,14 +12,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Scanner;
+import java.nio.file.*;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -57,6 +51,10 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
 
         if (StringUtils.isEmpty(template)) {
             throw new TemplateNotFoundException(name);
+        }
+
+        if (name == null || name.contains("..")) {
+            throw new IllegalArgumentException("Template location must be constrained to template directory.");
         }
 
         return template;
@@ -105,6 +103,9 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      * @return The raw template contents
      */
     public String readTemplate(String name) {
+        if (name == null || name.contains("..")) {
+            throw new IllegalArgumentException("Template location must be constrained to template directory.");
+        }
         try {
             Reader reader = getTemplateReader(name);
             if (reader == null) {
@@ -121,10 +122,13 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     @SuppressWarnings("squid:S2095")
     // ignored rule as used in the CLI and it's required to return a reader
     public Reader getTemplateReader(String name) {
-        InputStream is = null;
+        InputStream is;
         try {
             is = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(name));
             if (is == null) {
+                if (name == null || name.contains("..")) {
+                    throw new IllegalArgumentException("Template location must be constrained to template directory.");
+                }
                 is = new FileInputStream(new File(name)); // May throw but never return a null value
             }
             return new InputStreamReader(is, StandardCharsets.UTF_8);
@@ -145,8 +149,16 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
      */
     @Override
     public File write(Map<String, Object> data, String template, File target) throws IOException {
-        String templateContent = this.engineAdapter.compileTemplate(this, data, template);
-        return writeToFile(target.getPath(), templateContent);
+        if (this.engineAdapter.handlesFile(template)) {
+            // Only pass files with valid endings through template engine
+            String templateContent = this.engineAdapter.compileTemplate(this, data, template);
+            return writeToFile(target.getPath(), templateContent);
+        } else {
+            // Do a straight copy of the file if not listed as supported by the template engine.
+            String templateContent = getFullTemplateContents(template);
+            Path written = Files.write(target.toPath(), templateContent.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE_NEW);
+            return written.toFile();
+        }
     }
 
     @Override

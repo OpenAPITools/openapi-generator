@@ -18,12 +18,14 @@ package org.openapitools.codegen.templating;
 
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.api.TemplatingExecutor;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.Map;
 
 
@@ -67,12 +69,6 @@ public class MustacheEngineAdapter implements TemplatingEngineAdapter {
                 return new StringReader(generator.getFullTemplateContents(name + "." + extension));
             } catch (Exception ignored) {
             }
-        }
-
-        // support files without targeted extension (e.g. .gitignore, README.md), etc.
-        try {
-            return new StringReader(generator.getFullTemplateContents(name));
-        } catch (Exception ignored) {
         }
 
         throw new TemplateNotFoundException(name);
