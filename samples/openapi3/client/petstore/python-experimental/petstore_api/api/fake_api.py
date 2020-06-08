@@ -121,7 +121,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake/health',
                 'operation_id': 'fake_health_get',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -227,7 +227,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake/outer/boolean',
                 'operation_id': 'fake_outer_boolean_serialize',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -339,7 +339,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake/outer/composite',
                 'operation_id': 'fake_outer_composite_serialize',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -451,7 +451,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake/outer/number',
                 'operation_id': 'fake_outer_number_serialize',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -563,7 +563,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake/outer/string',
                 'operation_id': 'fake_outer_string_serialize',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -673,7 +673,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake/array-of-enums',
                 'operation_id': 'get_array_of_enums',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -783,7 +783,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake/body-with-file-schema',
                 'operation_id': 'test_body_with_file_schema',
                 'http_method': 'PUT',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -902,7 +902,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake/body-with-query-params',
                 'operation_id': 'test_body_with_query_params',
                 'http_method': 'PUT',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -1024,7 +1024,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake',
                 'operation_id': 'test_client_model',
                 'http_method': 'PATCH',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -1166,7 +1166,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake',
                 'operation_id': 'test_endpoint_parameters',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -1403,7 +1403,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake',
                 'operation_id': 'test_enum_parameters',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -1620,7 +1620,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake',
                 'operation_id': 'test_group_parameters',
                 'http_method': 'DELETE',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -1761,7 +1761,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake/inline-additionalProperties',
                 'operation_id': 'test_inline_additional_properties',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -1880,7 +1880,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake/jsonFormData',
                 'operation_id': 'test_json_form_data',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -2019,7 +2019,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake/test-query-paramters',
                 'operation_id': 'test_query_parameter_collection_format',
                 'http_method': 'PUT',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [

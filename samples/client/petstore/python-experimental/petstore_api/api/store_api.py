@@ -122,7 +122,7 @@ class StoreApi(object):
                 'endpoint_path': '/store/order/{order_id}',
                 'operation_id': 'delete_order',
                 'http_method': 'DELETE',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -234,7 +234,7 @@ class StoreApi(object):
                 'endpoint_path': '/store/inventory',
                 'operation_id': 'get_inventory',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -344,7 +344,7 @@ class StoreApi(object):
                 'endpoint_path': '/store/order/{order_id}',
                 'operation_id': 'get_order_by_id',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -467,7 +467,7 @@ class StoreApi(object):
                 'endpoint_path': '/store/order',
                 'operation_id': 'place_order',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [

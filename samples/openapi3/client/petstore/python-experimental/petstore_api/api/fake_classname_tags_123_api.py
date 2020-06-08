@@ -124,7 +124,7 @@ class FakeClassnameTags123Api(object):
                 'endpoint_path': '/fake_classname_test',
                 'operation_id': 'test_classname',
                 'http_method': 'PATCH',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [

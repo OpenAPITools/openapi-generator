@@ -122,7 +122,7 @@ class AnotherFakeApi(object):
                 'endpoint_path': '/another-fake/dummy',
                 'operation_id': 'call_123_test_special_tags',
                 'http_method': 'PATCH',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [

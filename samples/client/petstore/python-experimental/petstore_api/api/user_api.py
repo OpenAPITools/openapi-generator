@@ -122,7 +122,7 @@ class UserApi(object):
                 'endpoint_path': '/user',
                 'operation_id': 'create_user',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -235,7 +235,7 @@ class UserApi(object):
                 'endpoint_path': '/user/createWithArray',
                 'operation_id': 'create_users_with_array_input',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -348,7 +348,7 @@ class UserApi(object):
                 'endpoint_path': '/user/createWithList',
                 'operation_id': 'create_users_with_list_input',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -462,7 +462,7 @@ class UserApi(object):
                 'endpoint_path': '/user/{username}',
                 'operation_id': 'delete_user',
                 'http_method': 'DELETE',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -576,7 +576,7 @@ class UserApi(object):
                 'endpoint_path': '/user/{username}',
                 'operation_id': 'get_user_by_name',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -697,7 +697,7 @@ class UserApi(object):
                 'endpoint_path': '/user/login',
                 'operation_id': 'login_user',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -815,7 +815,7 @@ class UserApi(object):
                 'endpoint_path': '/user/logout',
                 'operation_id': 'logout_user',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -927,7 +927,7 @@ class UserApi(object):
                 'endpoint_path': '/user/{username}',
                 'operation_id': 'update_user',
                 'http_method': 'PUT',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [

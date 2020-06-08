@@ -116,7 +116,7 @@ class DefaultApi(object):
                 'endpoint_path': '/foo',
                 'operation_id': 'foo_get',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [

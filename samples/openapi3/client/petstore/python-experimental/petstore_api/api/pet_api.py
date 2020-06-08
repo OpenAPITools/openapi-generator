@@ -253,7 +253,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/{petId}',
                 'operation_id': 'delete_pet',
                 'http_method': 'DELETE',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -376,7 +376,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/findByStatus',
                 'operation_id': 'find_pets_by_status',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -505,7 +505,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/findByTags',
                 'operation_id': 'find_pets_by_tags',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -626,7 +626,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/{petId}',
                 'operation_id': 'get_pet_by_id',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -875,7 +875,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/{petId}',
                 'operation_id': 'update_pet_with_form',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -1005,7 +1005,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/{petId}/uploadImage',
                 'operation_id': 'upload_file',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -1140,7 +1140,7 @@ class PetApi(object):
                 'endpoint_path': '/fake/{petId}/uploadImageWithRequiredFile',
                 'operation_id': 'upload_file_with_required_file',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
