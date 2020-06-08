@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * DanishPig
  */
@@ -39,7 +40,6 @@ public class DanishPig {
 
 
   public DanishPig className(String className) {
-    
     this.className = className;
     return this;
   }

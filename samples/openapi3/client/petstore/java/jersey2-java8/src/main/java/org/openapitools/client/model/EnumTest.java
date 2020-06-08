@@ -33,6 +33,7 @@ import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * EnumTest
  */
@@ -218,7 +219,6 @@ public class EnumTest {
 
 
   public EnumTest enumString(EnumStringEnum enumString) {
-    
     this.enumString = enumString;
     return this;
   }
@@ -243,7 +243,6 @@ public class EnumTest {
 
 
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
-    
     this.enumStringRequired = enumStringRequired;
     return this;
   }
@@ -267,7 +266,6 @@ public class EnumTest {
 
 
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
-    
     this.enumInteger = enumInteger;
     return this;
   }
@@ -292,7 +290,6 @@ public class EnumTest {
 
 
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
-    
     this.enumNumber = enumNumber;
     return this;
   }
@@ -318,7 +315,6 @@ public class EnumTest {
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
     this.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
-    
     return this;
   }
 
@@ -352,7 +348,6 @@ public class EnumTest {
 
 
   public EnumTest outerEnumInteger(OuterEnumInteger outerEnumInteger) {
-    
     this.outerEnumInteger = outerEnumInteger;
     return this;
   }
@@ -377,7 +372,6 @@ public class EnumTest {
 
 
   public EnumTest outerEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
-    
     this.outerEnumDefaultValue = outerEnumDefaultValue;
     return this;
   }
@@ -402,7 +396,6 @@ public class EnumTest {
 
 
   public EnumTest outerEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
-    
     this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
     return this;
   }

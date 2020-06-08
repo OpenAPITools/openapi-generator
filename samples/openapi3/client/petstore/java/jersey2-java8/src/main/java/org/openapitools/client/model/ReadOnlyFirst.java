@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * ReadOnlyFirst
  */
@@ -59,7 +60,6 @@ public class ReadOnlyFirst {
 
 
   public ReadOnlyFirst baz(String baz) {
-    
     this.baz = baz;
     return this;
   }

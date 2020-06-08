@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * ShapeInterface
  */
@@ -39,7 +40,6 @@ public class ShapeInterface {
 
 
   public ShapeInterface shapeType(String shapeType) {
-    
     this.shapeType = shapeType;
     return this;
   }

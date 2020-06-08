@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * Whale
  */
@@ -47,7 +48,6 @@ public class Whale {
 
 
   public Whale hasBaleen(Boolean hasBaleen) {
-    
     this.hasBaleen = hasBaleen;
     return this;
   }
@@ -72,7 +72,6 @@ public class Whale {
 
 
   public Whale hasTeeth(Boolean hasTeeth) {
-    
     this.hasTeeth = hasTeeth;
     return this;
   }
@@ -97,7 +96,6 @@ public class Whale {
 
 
   public Whale className(String className) {
-    
     this.className = className;
     return this;
   }

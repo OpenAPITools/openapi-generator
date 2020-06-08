@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
@@ -40,7 +41,6 @@ public class ClassModel {
 
 
   public ClassModel propertyClass(String propertyClass) {
-    
     this.propertyClass = propertyClass;
     return this;
   }

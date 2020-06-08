@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * Apple
  */
@@ -43,7 +44,6 @@ public class Apple {
 
 
   public Apple cultivar(String cultivar) {
-    
     this.cultivar = cultivar;
     return this;
   }
@@ -68,7 +68,6 @@ public class Apple {
 
 
   public Apple origin(String origin) {
-    
     this.origin = origin;
     return this;
   }

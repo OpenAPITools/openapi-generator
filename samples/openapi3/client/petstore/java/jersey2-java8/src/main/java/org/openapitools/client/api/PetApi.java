@@ -109,7 +109,7 @@ public class PetApi {
 
     return apiClient.invokeAPI("PetApi.addPet", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null, null);
+                               localVarAuthNames, null);
   }
   /**
    * Deletes a pet
@@ -178,7 +178,7 @@ public class PetApi {
 
     return apiClient.invokeAPI("PetApi.deletePet", localVarPath, "DELETE", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null, null);
+                               localVarAuthNames, null);
   }
   /**
    * Finds Pets by status
@@ -248,7 +248,7 @@ public class PetApi {
 
     return apiClient.invokeAPI("PetApi.findPetsByStatus", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, null);
+                               localVarAuthNames, localVarReturnType);
   }
   /**
    * Finds Pets by tags
@@ -322,7 +322,7 @@ public class PetApi {
 
     return apiClient.invokeAPI("PetApi.findPetsByTags", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, null);
+                               localVarAuthNames, localVarReturnType);
   }
   /**
    * Find pet by ID
@@ -394,7 +394,7 @@ public class PetApi {
 
     return apiClient.invokeAPI("PetApi.getPetById", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, null);
+                               localVarAuthNames, localVarReturnType);
   }
   /**
    * Update an existing pet
@@ -462,7 +462,7 @@ public class PetApi {
 
     return apiClient.invokeAPI("PetApi.updatePet", localVarPath, "PUT", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null, null);
+                               localVarAuthNames, null);
   }
   /**
    * Updates a pet in the store with form data
@@ -535,7 +535,7 @@ if (status != null)
 
     return apiClient.invokeAPI("PetApi.updatePetWithForm", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null, null);
+                               localVarAuthNames, null);
   }
   /**
    * uploads an image
@@ -611,7 +611,7 @@ if (file != null)
 
     return apiClient.invokeAPI("PetApi.uploadFile", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, null);
+                               localVarAuthNames, localVarReturnType);
   }
   /**
    * uploads an image (required)
@@ -692,6 +692,6 @@ if (requiredFile != null)
 
     return apiClient.invokeAPI("PetApi.uploadFileWithRequiredFile", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, null);
+                               localVarAuthNames, localVarReturnType);
   }
 }

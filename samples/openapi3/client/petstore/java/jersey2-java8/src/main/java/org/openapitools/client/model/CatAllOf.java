@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * CatAllOf
  */
@@ -39,7 +40,6 @@ public class CatAllOf {
 
 
   public CatAllOf declawed(Boolean declawed) {
-    
     this.declawed = declawed;
     return this;
   }

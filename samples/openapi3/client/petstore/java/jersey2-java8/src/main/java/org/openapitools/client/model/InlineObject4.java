@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * InlineObject4
  */
@@ -43,7 +44,6 @@ public class InlineObject4 {
 
 
   public InlineObject4 param(String param) {
-    
     this.param = param;
     return this;
   }
@@ -67,7 +67,6 @@ public class InlineObject4 {
 
 
   public InlineObject4 param2(String param2) {
-    
     this.param2 = param2;
     return this;
   }

@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * BasquePig
  */
@@ -39,7 +40,6 @@ public class BasquePig {
 
 
   public BasquePig className(String className) {
-    
     this.className = className;
     return this;
   }

@@ -27,6 +27,7 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * NumberOnly
  */
@@ -40,7 +41,6 @@ public class NumberOnly {
 
 
   public NumberOnly justNumber(BigDecimal justNumber) {
-    
     this.justNumber = justNumber;
     return this;
   }

@@ -84,7 +84,7 @@ public class JSONComposedSchemaTest {
             // it has additionalProperties: true. Hence without a discriminator the above
             // JSON payload would match both 'whale' and 'zebra'. This is because the 'hasBaleen'
             // and 'hasTeeth' would be considered additional (undeclared) properties for 'zebra'.
-            AbstractOpenApiSchema o = json.getContext(null).readValue(str, Mammal.class);
+            AbstractOpenApiSchema o = json.getMapper().readValue(str, Mammal.class);
             assertNotNull(o);
             assertTrue(o.getActualInstance() instanceof Whale);
         }
@@ -110,7 +110,7 @@ public class JSONComposedSchemaTest {
             // to true.
             // TODO: The outcome should depend on the value of the 'useOneOfDiscriminatorLookup' CLI.
             String str = "{ \"className\": \"zebra\", \"hasBaleen\": true, \"hasTeeth\": false }";
-            AbstractOpenApiSchema o = json.getContext(null).readValue(str, Mammal.class);
+            AbstractOpenApiSchema o = json.getMapper().readValue(str, Mammal.class);
             assertNotNull(o);
             assertTrue(o.getActualInstance() instanceof Zebra);
         }
@@ -124,7 +124,7 @@ public class JSONComposedSchemaTest {
             // Deserialization test with indirections of 'oneOf' child schemas.
             // Mammal is oneOf whale, zebra and pig, and pig is itself one of BasquePig, DanishPig.
             String str = "{ \"className\": \"BasquePig\" }";
-            AbstractOpenApiSchema o = json.getContext(null).readValue(str, Mammal.class);
+            AbstractOpenApiSchema o = json.getMapper().readValue(str, Mammal.class);
             assertTrue(o.getActualInstance() instanceof BasquePig);
         }
     }
@@ -155,27 +155,27 @@ public class JSONComposedSchemaTest {
     @Test
     public void testOneOfMultipleDiscriminators() throws Exception {
         // 'shapeType' is a discriminator for the 'Shape' model and
-        // 'triangleType' is a discriminator forr the 'Triangle' model.
+        // 'triangleType' is a discriminator for the 'Triangle' model.
         String str = "{ \"shapeType\": \"Triangle\", \"triangleType\": \"EquilateralTriangle\" }";
 
         // We should be able to deserialize a equilateral triangle into a EquilateralTriangle class.
-        EquilateralTriangle t = json.getContext(null).readValue(str, EquilateralTriangle.class);
+        EquilateralTriangle t = json.getMapper().readValue(str, EquilateralTriangle.class);
         assertNotNull(t);
 
         // We should be able to deserialize a equilateral triangle into a triangle.
-        AbstractOpenApiSchema o = json.getContext(null).readValue(str, Triangle.class);
+        AbstractOpenApiSchema o = json.getMapper().readValue(str, Triangle.class);
         assertNotNull(o);
         assertTrue(o.getActualInstance() instanceof EquilateralTriangle);
 
         // We should be able to deserialize a equilateral triangle into a shape.
-        o = json.getContext(null).readValue(str, Shape.class);
-        // The container is a shape, and the actual instance should be a EquilateralTriangle.        
+        o = json.getMapper().readValue(str, Shape.class);
+        // The container is a shape, and the actual instance should be a EquilateralTriangle.
         assertTrue(o instanceof Shape);
         assertTrue(o.getActualInstance() instanceof EquilateralTriangle);
 
         // It is not valid to deserialize a equilateral triangle into a quadrilateral.
         Exception exception = assertThrows(JsonMappingException.class, () -> {
-            json.getContext(null).readValue(str, Quadrilateral.class);
+            json.getMapper().readValue(str, Quadrilateral.class);
         });
         assertTrue(exception.getMessage().contains("Failed deserialization for Quadrilateral: 0 classes match result"));
     }

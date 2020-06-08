@@ -596,38 +596,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             objs = AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
         }
 
-        if (JERSEY2.equals(getLibrary())) {
-            // index the model
-            HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-            for (Object o : allModels) {
-                HashMap<String, Object> h = (HashMap<String, Object>) o;
-                CodegenModel m = (CodegenModel) h.get("model");
-                modelMaps.put(m.classname, m);
-            }
-
-            // check if return type is oneOf/anyeOf model
-            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-            List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-            for (CodegenOperation op : operationList) {
-                if (op.returnType != null) {
-                    // look up the model to see if it's anyOf/oneOf
-                    if (modelMaps.containsKey(op.returnType) && modelMaps.get(op.returnType) != null) {
-                        CodegenModel cm = modelMaps.get(op.returnType);
-
-                        if (cm.oneOf != null && !cm.oneOf.isEmpty()) {
-                            op.vendorExtensions.put("x-java-return-type-one-of", true);
-                        }
-
-                        if (cm.anyOf != null && !cm.anyOf.isEmpty()) {
-                            op.vendorExtensions.put("x-java-return-type-any-of", true);
-                        }
-                    } else {
-                        //LOGGER.error("cannot lookup model " + op.returnType);
-                    }
-                }
-            }
-        }
-
         return objs;
     }
 

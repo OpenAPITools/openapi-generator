@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * Model for testing model name same as property name
  */
@@ -52,7 +53,6 @@ public class Name {
 
 
   public Name name(Integer name) {
-    
     this.name = name;
     return this;
   }
@@ -92,7 +92,6 @@ public class Name {
 
 
   public Name property(String property) {
-    
     this.property = property;
     return this;
   }

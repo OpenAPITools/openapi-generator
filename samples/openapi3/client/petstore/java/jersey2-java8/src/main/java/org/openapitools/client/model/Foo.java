@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * Foo
  */
@@ -39,7 +40,6 @@ public class Foo {
 
 
   public Foo bar(String bar) {
-    
     this.bar = bar;
     return this;
   }

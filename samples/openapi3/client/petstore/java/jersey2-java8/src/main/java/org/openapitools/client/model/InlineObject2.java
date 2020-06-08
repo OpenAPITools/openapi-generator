@@ -28,6 +28,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * InlineObject2
  */
@@ -117,7 +118,6 @@ public class InlineObject2 {
 
 
   public InlineObject2 enumFormStringArray(List<EnumFormStringArrayEnum> enumFormStringArray) {
-    
     this.enumFormStringArray = enumFormStringArray;
     return this;
   }
@@ -150,7 +150,6 @@ public class InlineObject2 {
 
 
   public InlineObject2 enumFormString(EnumFormStringEnum enumFormString) {
-    
     this.enumFormString = enumFormString;
     return this;
   }

@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * ChildCatAllOf
  */
@@ -39,7 +40,6 @@ public class ChildCatAllOf {
 
 
   public ChildCatAllOf name(String name) {
-    
     this.name = name;
     return this;
   }

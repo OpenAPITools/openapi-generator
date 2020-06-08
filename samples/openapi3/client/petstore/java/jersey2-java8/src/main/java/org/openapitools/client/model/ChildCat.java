@@ -30,6 +30,7 @@ import org.openapitools.client.model.ParentPet;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * ChildCat
  */
@@ -47,7 +48,6 @@ public class ChildCat extends ParentPet {
 
 
   public ChildCat name(String name) {
-    
     this.name = name;
     return this;
   }

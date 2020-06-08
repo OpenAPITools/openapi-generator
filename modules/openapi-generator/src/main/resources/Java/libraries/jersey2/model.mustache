@@ -11,7 +11,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 {{#additionalPropertiesType}}
 import java.util.Map;
 import java.util.HashMap;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 {{/additionalPropertiesType}}
 {{/model}}
 {{/models}}
@@ -54,6 +55,12 @@ import {{invokerPackage}}.JSON;
 
 {{#models}}
 {{#model}}
+{{#oneOf}}
+{{#-first}}
+import com.fasterxml.jackson.core.type.TypeReference;
+{{/-first}}
+{{/oneOf}}
+
 {{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{#oneOf}}{{#-first}}{{>oneof_model}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}{{>anyof_model}}{{/-first}}{{/anyOf}}{{^anyOf}}{{>pojo}}{{/anyOf}}{{/oneOf}}{{/isEnum}}
 {{/model}}
 {{/models}}

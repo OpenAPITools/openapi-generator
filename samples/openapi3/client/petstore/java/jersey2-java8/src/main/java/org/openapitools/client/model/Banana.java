@@ -27,6 +27,7 @@ import java.math.BigDecimal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * Banana
  */
@@ -40,7 +41,6 @@ public class Banana {
 
 
   public Banana lengthCm(BigDecimal lengthCm) {
-    
     this.lengthCm = lengthCm;
     return this;
   }

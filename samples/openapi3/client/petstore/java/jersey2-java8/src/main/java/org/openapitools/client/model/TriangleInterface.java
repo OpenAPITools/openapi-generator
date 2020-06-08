@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * TriangleInterface
  */
@@ -39,7 +40,6 @@ public class TriangleInterface {
 
 
   public TriangleInterface triangleType(String triangleType) {
-    
     this.triangleType = triangleType;
     return this;
   }

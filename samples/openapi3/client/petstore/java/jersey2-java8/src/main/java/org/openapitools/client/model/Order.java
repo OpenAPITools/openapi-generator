@@ -27,6 +27,7 @@ import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * Order
  */
@@ -97,7 +98,6 @@ public class Order {
 
 
   public Order id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -122,7 +122,6 @@ public class Order {
 
 
   public Order petId(Long petId) {
-    
     this.petId = petId;
     return this;
   }
@@ -147,7 +146,6 @@ public class Order {
 
 
   public Order quantity(Integer quantity) {
-    
     this.quantity = quantity;
     return this;
   }
@@ -172,7 +170,6 @@ public class Order {
 
 
   public Order shipDate(OffsetDateTime shipDate) {
-    
     this.shipDate = shipDate;
     return this;
   }
@@ -197,7 +194,6 @@ public class Order {
 
 
   public Order status(StatusEnum status) {
-    
     this.status = status;
     return this;
   }
@@ -222,7 +218,6 @@ public class Order {
 
 
   public Order complete(Boolean complete) {
-    
     this.complete = complete;
     return this;
   }

@@ -29,6 +29,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * ArrayOfNumberOnly
  */
@@ -42,7 +43,6 @@ public class ArrayOfNumberOnly {
 
 
   public ArrayOfNumberOnly arrayNumber(List<BigDecimal> arrayNumber) {
-    
     this.arrayNumber = arrayNumber;
     return this;
   }

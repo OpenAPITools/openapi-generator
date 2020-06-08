@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * AppleReq
  */
@@ -43,7 +44,6 @@ public class AppleReq {
 
 
   public AppleReq cultivar(String cultivar) {
-    
     this.cultivar = cultivar;
     return this;
   }
@@ -67,7 +67,6 @@ public class AppleReq {
 
 
   public AppleReq mealy(Boolean mealy) {
-    
     this.mealy = mealy;
     return this;
   }

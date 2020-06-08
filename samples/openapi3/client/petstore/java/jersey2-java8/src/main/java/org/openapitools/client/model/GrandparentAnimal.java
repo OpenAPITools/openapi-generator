@@ -30,6 +30,7 @@ import org.openapitools.client.model.ParentPet;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * GrandparentAnimal
  */
@@ -49,7 +50,6 @@ public class GrandparentAnimal {
 
 
   public GrandparentAnimal petType(String petType) {
-    
     this.petType = petType;
     return this;
   }

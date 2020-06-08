@@ -28,6 +28,7 @@ import org.openapitools.client.model.TriangleInterface;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * ScaleneTriangle
  */
@@ -45,7 +46,6 @@ public class ScaleneTriangle {
 
 
   public ScaleneTriangle shapeType(String shapeType) {
-    
     this.shapeType = shapeType;
     return this;
   }
@@ -69,7 +69,6 @@ public class ScaleneTriangle {
 
 
   public ScaleneTriangle triangleType(String triangleType) {
-    
     this.triangleType = triangleType;
     return this;
   }

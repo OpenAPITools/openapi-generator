@@ -30,6 +30,7 @@ import org.openapitools.client.model.Dog;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * Animal
  */
@@ -53,7 +54,6 @@ public class Animal {
 
 
   public Animal className(String className) {
-    
     this.className = className;
     return this;
   }
@@ -77,7 +77,6 @@ public class Animal {
 
 
   public Animal color(String color) {
-    
     this.color = color;
     return this;
   }
