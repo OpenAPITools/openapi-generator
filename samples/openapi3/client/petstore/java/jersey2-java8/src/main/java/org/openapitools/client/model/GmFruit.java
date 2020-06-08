@@ -39,18 +39,40 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import org.openapitools.client.JSON;
 
 
 @JsonDeserialize(using=GmFruit.GmFruitDeserializer.class)
+@JsonSerialize(using = GmFruit.GmFruitSerializer.class)
 public class GmFruit extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(GmFruit.class.getName());
+
+    public static class GmFruitSerializer extends StdSerializer<GmFruit> {
+        public GmFruitSerializer(Class<GmFruit> t) {
+            super(t);
+        }
+
+        public GmFruitSerializer() {
+            this(null);
+        }
+
+        @Override
+        public void serialize(GmFruit value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+            jgen.writeObject(value.getActualInstance());
+        }
+    }
 
     public static class GmFruitDeserializer extends StdDeserializer<GmFruit> {
         public GmFruitDeserializer() {
