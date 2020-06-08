@@ -2077,7 +2077,7 @@ class FakeApi(object):
                 'collection_format_map': {
                     'pipe': 'multi',
                     'ioutil': 'csv',
-                    'http': 'space',
+                    'http': 'ssv',
                     'url': 'csv',
                     'context': 'multi',
                 }
