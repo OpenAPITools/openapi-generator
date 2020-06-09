@@ -7,7 +7,9 @@
 
 import Foundation
 
-public struct Client: Codable {
+
+public struct Client: Codable { 
+
 
     public private(set) var client: String?
 

@@ -52,15 +52,3 @@ src/gen/java/org/openapitools/model/TypeHolderDefault.java
 src/gen/java/org/openapitools/model/TypeHolderExample.java
 src/gen/java/org/openapitools/model/User.java
 src/gen/java/org/openapitools/model/XmlItem.java
-src/main/java/org/openapitools/api/impl/AnotherFakeApiServiceImpl.java
-src/main/java/org/openapitools/api/impl/FakeApiServiceImpl.java
-src/main/java/org/openapitools/api/impl/FakeClassnameTags123ApiServiceImpl.java
-src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java
-src/main/java/org/openapitools/api/impl/StoreApiServiceImpl.java
-src/main/java/org/openapitools/api/impl/UserApiServiceImpl.java
-src/test/java/org/openapitools/api/AnotherFakeApiTest.java
-src/test/java/org/openapitools/api/FakeApiTest.java
-src/test/java/org/openapitools/api/FakeClassnameTags123ApiTest.java
-src/test/java/org/openapitools/api/PetApiTest.java
-src/test/java/org/openapitools/api/StoreApiTest.java
-src/test/java/org/openapitools/api/UserApiTest.java
