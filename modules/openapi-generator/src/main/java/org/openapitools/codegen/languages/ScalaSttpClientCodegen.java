@@ -34,12 +34,11 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
             "sttp client", "2.1.5");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
-            "Whether to " +
-                    "return response as " +
+            "Whether to return response as " +
                     "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +
                     "response's error raising them through enclosing monad (F[ReturnType]).", true);
-    private static final StringProperty JODA_TIME_VERSION = new StringProperty("jodaTimeVersion","The version of " +
-            "joda-time library","2.10.6");
+    private static final StringProperty JODA_TIME_VERSION = new StringProperty("jodaTimeVersion", "The version of " +
+            "joda-time library", "2.10.6");
     private static final StringProperty JSON4S_VERSION = new StringProperty("json4sVersion", "The version of json4s " +
             "library", "3.6.8");
     private static final StringProperty CIRCE_VERSION = new StringProperty("circeVersion", "The version of circe " +
@@ -58,7 +57,7 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         embeddedTemplateDir = templateDir = "scala-sttp";
         outputFolder = "generated-code/scala-sttp";
 
-        properties.forEach(p-> cliOptions.add(p.toCliOption()));
+        properties.forEach(p -> cliOptions.add(p.toCliOption()));
     }
 
     @Override
@@ -73,7 +72,7 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
             additionalProperties.put("apiPackage", apiPackage);
             additionalProperties.put("modelPackage", modelPackage);
         }
-        properties.forEach(p-> p.updateAdditionalProperties(additionalProperties));
+        properties.forEach(p -> p.updateAdditionalProperties(additionalProperties));
 
         supportingFiles.clear();
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
@@ -126,9 +125,9 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
 
         public abstract void updateAdditionalProperties(Map<String, Object> additionalProperties);
 
-        public abstract T getValue(Map<String,Object> additionalProperties);
+        public abstract T getValue(Map<String, Object> additionalProperties);
 
-        public void setValue(Map<String,Object> additionalProperties, T value ) {
+        public void setValue(Map<String, Object> additionalProperties, T value) {
             additionalProperties.put(name, value);
         }
     }
@@ -145,14 +144,14 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
 
         @Override
         public void updateAdditionalProperties(Map<String, Object> additionalProperties) {
-            if(!additionalProperties.containsKey(name)) {
+            if (!additionalProperties.containsKey(name)) {
                 additionalProperties.put(name, defaultValue);
             }
         }
 
         @Override
         public String getValue(Map<String, Object> additionalProperties) {
-            return additionalProperties.getOrDefault(name,defaultValue).toString();
+            return additionalProperties.getOrDefault(name, defaultValue).toString();
         }
     }
 
