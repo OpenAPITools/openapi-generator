@@ -64,8 +64,7 @@ public interface StoreApi {
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
     @RequestMapping(value = "/store/order/{orderId}",
         method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default Void deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId) {
+    default ResponseEntity<Void> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId) {
         return getDelegate().deleteOrder(orderId);
     }
 
@@ -84,8 +83,7 @@ public interface StoreApi {
     @RequestMapping(value = "/store/inventory",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default Map<String, Integer> getInventory() {
+    default ResponseEntity<Map<String, Integer>> getInventory() {
         return getDelegate().getInventory();
     }
 
@@ -107,8 +105,7 @@ public interface StoreApi {
     @RequestMapping(value = "/store/order/{orderId}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default Order getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId) {
+    default ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId) {
         return getDelegate().getOrderById(orderId);
     }
 
@@ -128,8 +125,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default Order placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order) {
+    default ResponseEntity<Order> placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order) {
         return getDelegate().placeOrder(order);
     }
 

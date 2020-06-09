@@ -72,8 +72,7 @@ public interface PetApi {
         produces = "application/json", 
         consumes = "application/json",
         method = RequestMethod.POST)
-    
-    CompletableFuture<Pet addPet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet);
+    CompletableFuture<ResponseEntity<Pet> addPet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet);
 
 
     /**
@@ -93,8 +92,7 @@ public interface PetApi {
        @ApiResponse(responseCode = "400", description = "Invalid pet value" ) })
     @RequestMapping(value = "/pet/{petId}",
         method = RequestMethod.DELETE)
-    
-    CompletableFuture<Void deletePet(@Parameter(description = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@Parameter(description = "" ) @RequestHeader(value="api_key" , required=false) String apiKey);
+    CompletableFuture<ResponseEntity<Void> deletePet(@Parameter(description = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@Parameter(description = "" ) @RequestHeader(value="api_key" , required=false) String apiKey);
 
 
     /**
@@ -116,8 +114,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByStatus",
         produces = "application/json", 
         method = RequestMethod.GET)
-    
-    CompletableFuture<List<Pet> findPetsByStatus(@NotNull @Parameter(description = "Status values that need to be considered for filter", required = true) @Valid @RequestParam(value = "status", required = true) List<String> status);
+    CompletableFuture<ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @Parameter(description = "Status values that need to be considered for filter", required = true) @Valid @RequestParam(value = "status", required = true) List<String> status);
 
 
     /**
@@ -140,8 +137,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByTags",
         produces = "application/json", 
         method = RequestMethod.GET)
-    
-    CompletableFuture<List<Pet> findPetsByTags(@NotNull @Parameter(description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags);
+    CompletableFuture<ResponseEntity<List<Pet>> findPetsByTags(@NotNull @Parameter(description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags);
 
 
     /**
@@ -163,8 +159,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/{petId}",
         produces = "application/json", 
         method = RequestMethod.GET)
-    
-    CompletableFuture<Pet getPetById(@Parameter(description = "ID of pet to return",required=true) @PathVariable("petId") Long petId);
+    CompletableFuture<ResponseEntity<Pet> getPetById(@Parameter(description = "ID of pet to return",required=true) @PathVariable("petId") Long petId);
 
 
     /**
@@ -191,8 +186,7 @@ public interface PetApi {
         produces = "application/json", 
         consumes = "application/json",
         method = RequestMethod.PUT)
-    
-    CompletableFuture<Pet updatePet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet);
+    CompletableFuture<ResponseEntity<Pet> updatePet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet);
 
 
     /**
@@ -214,8 +208,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/{petId}",
         consumes = "application/x-www-form-urlencoded",
         method = RequestMethod.POST)
-    
-    CompletableFuture<Void updatePetWithForm(@Parameter(description = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@Parameter(description = "Updated name of the pet" ) @RequestParam(value="name", required=false)  String name,@Parameter(description = "Updated status of the pet" ) @RequestParam(value="status", required=false)  String status);
+    CompletableFuture<ResponseEntity<Void> updatePetWithForm(@Parameter(description = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@Parameter(description = "Updated name of the pet" ) @RequestParam(value="name", required=false)  String name,@Parameter(description = "Updated status of the pet" ) @RequestParam(value="status", required=false)  String status);
 
 
     /**
@@ -238,7 +231,6 @@ public interface PetApi {
         produces = "application/json", 
         consumes = "multipart/form-data",
         method = RequestMethod.POST)
-    
-    CompletableFuture<ModelApiResponse uploadFile(@Parameter(description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@Parameter(description = "Additional data to pass to server" ) @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@Parameter(description = "file to upload") @RequestParam("file") MultipartFile file);
+    CompletableFuture<ResponseEntity<ModelApiResponse> uploadFile(@Parameter(description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@Parameter(description = "Additional data to pass to server" ) @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@Parameter(description = "file to upload") @RequestParam("file") MultipartFile file);
 
 }

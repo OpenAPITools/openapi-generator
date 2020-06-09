@@ -67,8 +67,7 @@ public interface StoreApi {
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
     @RequestMapping(value = "/store/order/{orderId}",
         method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default Mono<Void deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId, ServerWebExchange exchange) {
         return getDelegate().deleteOrder(orderId, exchange);
     }
 
@@ -87,8 +86,7 @@ public interface StoreApi {
     @RequestMapping(value = "/store/inventory",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default Mono<Map<String, Integer> getInventory(ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Map<String, Integer>> getInventory(ServerWebExchange exchange) {
         return getDelegate().getInventory(exchange);
     }
 
@@ -110,8 +108,7 @@ public interface StoreApi {
     @RequestMapping(value = "/store/order/{orderId}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default Mono<Order getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId, ServerWebExchange exchange) {
         return getDelegate().getOrderById(orderId, exchange);
     }
 
@@ -131,8 +128,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default Mono<Order placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Mono<Order> order, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Order> placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Mono<Order> order, ServerWebExchange exchange) {
         return getDelegate().placeOrder(order, exchange);
     }
 

@@ -65,8 +65,7 @@ public interface StoreApi {
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
     @RequestMapping(value = "/store/order/{orderId}",
         method = RequestMethod.DELETE)
-    
-    CompletableFuture<Void deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId);
+    CompletableFuture<ResponseEntity<Void> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId);
 
 
     /**
@@ -83,8 +82,7 @@ public interface StoreApi {
     @RequestMapping(value = "/store/inventory",
         produces = "application/json", 
         method = RequestMethod.GET)
-    
-    CompletableFuture<Map<String, Integer> getInventory();
+    CompletableFuture<ResponseEntity<Map<String, Integer>> getInventory();
 
 
     /**
@@ -104,8 +102,7 @@ public interface StoreApi {
     @RequestMapping(value = "/store/order/{orderId}",
         produces = "application/json", 
         method = RequestMethod.GET)
-    
-    CompletableFuture<Order getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId);
+    CompletableFuture<ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId);
 
 
     /**
@@ -123,7 +120,6 @@ public interface StoreApi {
         produces = "application/json", 
         consumes = "application/json",
         method = RequestMethod.POST)
-    
-    CompletableFuture<Order placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order);
+    CompletableFuture<ResponseEntity<Order> placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order);
 
 }

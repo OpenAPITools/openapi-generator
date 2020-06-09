@@ -70,8 +70,7 @@ public interface UserApi {
     @RequestMapping(value = "/user",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default CompletableFuture<Void createUser(@Parameter(description = "Created user object" ,required=true )  @Valid @RequestBody User user) {
+    default CompletableFuture<ResponseEntity<Void> createUser(@Parameter(description = "Created user object" ,required=true )  @Valid @RequestBody User user) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -91,8 +90,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/createWithArray",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default CompletableFuture<Void createUsersWithArrayInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody List<User> user) {
+    default CompletableFuture<ResponseEntity<Void> createUsersWithArrayInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody List<User> user) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -112,8 +110,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/createWithList",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default CompletableFuture<Void createUsersWithListInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody List<User> user) {
+    default CompletableFuture<ResponseEntity<Void> createUsersWithListInput(@Parameter(description = "List of user object" ,required=true )  @Valid @RequestBody List<User> user) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -135,8 +132,7 @@ public interface UserApi {
        @ApiResponse(responseCode = "404", description = "User not found" ) })
     @RequestMapping(value = "/user/{username}",
         method = RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default CompletableFuture<Void deleteUser(@Parameter(description = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
+    default CompletableFuture<ResponseEntity<Void> deleteUser(@Parameter(description = "The name that needs to be deleted",required=true) @PathVariable("username") String username) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -158,8 +154,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{username}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default CompletableFuture<User getUserByName(@Parameter(description = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username) {
+    default CompletableFuture<ResponseEntity<User> getUserByName(@Parameter(description = "The name that needs to be fetched. Use user1 for testing.",required=true) @PathVariable("username") String username) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -196,8 +191,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/login",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default CompletableFuture<String loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password) {
+    default CompletableFuture<ResponseEntity<String> loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -215,8 +209,7 @@ public interface UserApi {
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
     @RequestMapping(value = "/user/logout",
         method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default CompletableFuture<Void logoutUser() {
+    default CompletableFuture<ResponseEntity<Void> logoutUser() {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -240,8 +233,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{username}",
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
-    default CompletableFuture<Void updateUser(@Parameter(description = "name that need to be deleted",required=true) @PathVariable("username") String username,@Parameter(description = "Updated user object" ,required=true )  @Valid @RequestBody User user) {
+    default CompletableFuture<ResponseEntity<Void> updateUser(@Parameter(description = "name that need to be deleted",required=true) @PathVariable("username") String username,@Parameter(description = "Updated user object" ,required=true )  @Valid @RequestBody User user) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
