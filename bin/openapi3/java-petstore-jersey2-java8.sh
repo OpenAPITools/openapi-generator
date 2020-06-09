@@ -40,5 +40,5 @@ mkdir -p samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitoo
 mkdir -p samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/auth
 mkdir -p samples/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/model
 
-cp CI/samples.ci/client/petstore/java/test-manual/jersey2-java8/JSONTest.java samples/openapi3/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/JSONTest.java
+#cp CI/samples.ci/client/petstore/java/test-manual/jersey2-java8/JSONTest.java samples/openapi3/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/JSONTest.java
 #cp CI/samples.ci/client/petstore/java/test-manual/jersey2-java8/JSONComposedSchemaTest.java samples/openapi3/client/petstore/java/jersey2-java8/src/test/java/org/openapitools/client/JSONComposedSchemaTest.java
