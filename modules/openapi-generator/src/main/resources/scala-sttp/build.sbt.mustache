@@ -11,16 +11,16 @@ libraryDependencies ++= Seq(
 {{#joda}}
   "joda-time" % "joda-time" % "{{jodaTimeVersion}}",
 {{/joda}}
-{{#useJson4s}}
+{{#json4s}}
   "com.softwaremill.sttp.client" %% "json4s" % "{{sttpClientVersion}}",
   "org.json4s" %% "json4s-jackson" % "{{json4sVersion}}"
-{{/useJson4s}}
-{{#useCirce}}
+{{/json4s}}
+{{#circe}}
   "com.softwaremill.sttp.client" %% "circe" % "{{sttpClientVersion}}",
   "io.circe" %% "circe-core" % "{{circeVersion}}",
   "io.circe" %% "circe-generic" % "{{circeVersion}}",
   "io.circe" %% "circe-parser" % "{{circeVersion}}"
-{{/useCirce}}
+{{/circe}}
 )
 
 scalacOptions := Seq(

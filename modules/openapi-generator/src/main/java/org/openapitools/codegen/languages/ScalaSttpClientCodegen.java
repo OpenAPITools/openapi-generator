@@ -87,7 +87,7 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         supportingFiles.add(new SupportingFile("requests.mustache", invokerFolder, "requests.scala"));
         supportingFiles.add(new SupportingFile("jsonSupport.mustache", invokerFolder, "JsonSupport.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
-        supportingFiles.add(new SupportingFile("serializers.mustache", invokerFolder, "Serializers.scala"));
+        supportingFiles.add(new SupportingFile("dateSerializers.mustache", invokerFolder, "DateSerializers.scala"));
     }
 
     @Override
@@ -186,8 +186,8 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
     private static class JsonLibraryProperty extends StringProperty {
         private static final String JSON4S = "json4s";
         private static final String CIRCE = "circe";
-        private static final String USE_CIRCE_PROPERTY = "useCirce";
-        private static final String USE_JSON4S_PROPERTY = "useJson4s";
+        private static final String USE_CIRCE_PROPERTY = "circe";
+        private static final String USE_JSON4S_PROPERTY = "json4s";
 
         private JsonLibraryProperty() {
             super("jsonLibrary", "Json library to use. Possible values are: json4s and circe.", JSON4S);

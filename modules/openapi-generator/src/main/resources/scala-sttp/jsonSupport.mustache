@@ -4,7 +4,7 @@ package {{invokerPackage}}
 {{#models.0}}
 import {{modelPackage}}._
 {{/models.0}}
-{{#useJson4s}}
+{{#json4s}}
 import org.json4s._
 import sttp.client.json4s.SttpJson4sApi
 import scala.reflect.ClassTag
@@ -35,20 +35,19 @@ object JsonSupport extends SttpJson4sApi {
       }
     }
 
-  implicit val format: Formats = DefaultFormats ++ enumSerializers ++ Serializers.all
+  implicit val format: Formats = DefaultFormats ++ enumSerializers ++ DateSerializers.all
   implicit val serialization: org.json4s.Serialization = org.json4s.jackson.Serialization
 }
-{{/useJson4s}}
-{{#useCirce}}
+{{/json4s}}
+{{#circe}}
 import io.circe.{Decoder, Encoder}
 import io.circe.generic.AutoDerivation
 import sttp.client.circe.SttpCirceApi
 
-object JsonSupport extends SttpCirceApi with AutoDerivation {
-
+object JsonSupport extends SttpCirceApi with AutoDerivation with DateSerializers {
 {{#models}}{{#model}}{{#hasEnums}}{{#vars}}{{#isEnum}}
   implicit val {{classname}}{{datatypeWithEnum}}Decoder: Decoder[{{classname}}Enums.{{datatypeWithEnum}}] = Decoder.decodeEnumeration({{classname}}Enums.{{datatypeWithEnum}})
   implicit val {{classname}}{{datatypeWithEnum}}Encoder: Encoder[{{classname}}Enums.{{datatypeWithEnum}}] = Encoder.encodeEnumeration({{classname}}Enums.{{datatypeWithEnum}})
 {{/isEnum}}{{/vars}}{{/hasEnums}}{{/model}}{{/models}}
 }
-{{/useCirce}}
+{{/circe}}

@@ -43,6 +43,6 @@ object JsonSupport extends SttpJson4sApi {
       }
     }
 
-  implicit val format: Formats = DefaultFormats ++ enumSerializers ++ Serializers.all
+  implicit val format: Formats = DefaultFormats ++ enumSerializers ++ DateSerializers.all
   implicit val serialization: org.json4s.Serialization = org.json4s.jackson.Serialization
 }
