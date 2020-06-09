@@ -32,8 +32,7 @@ import java.util.Map;
 
 public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
-            "sttp " +
-                                                                              "client", "2.1.5");
+            "sttp client", "2.1.5");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
             "Whether to " +
                     "return response as " +
