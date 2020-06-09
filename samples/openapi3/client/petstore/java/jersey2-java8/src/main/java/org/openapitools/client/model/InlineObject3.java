@@ -86,7 +86,7 @@ public class InlineObject3 {
   private LocalDate date;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
-  private OffsetDateTime dateTime = OffsetDateTime.parse("2010-02-01T17:20:10.111110+08:00[Asia/Hong_Kong]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()));
+  private OffsetDateTime dateTime = OffsetDateTime.parse("2010-02-01T09:20:10.111110Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()));
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
   private String password;

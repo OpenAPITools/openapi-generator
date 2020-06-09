@@ -639,7 +639,7 @@ public class FakeApi {
    * @param string None (optional)
    * @param binary None (optional)
    * @param date None (optional)
-   * @param dateTime None (optional, default to OffsetDateTime.parse(&quot;2010-02-01T17:20:10.111110+08:00[Asia/Hong_Kong]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
+   * @param dateTime None (optional, default to OffsetDateTime.parse(&quot;2010-02-01T09:20:10.111110Z[UTC]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
@@ -668,7 +668,7 @@ public class FakeApi {
    * @param string None (optional)
    * @param binary None (optional)
    * @param date None (optional)
-   * @param dateTime None (optional, default to OffsetDateTime.parse(&quot;2010-02-01T17:20:10.111110+08:00[Asia/Hong_Kong]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
+   * @param dateTime None (optional, default to OffsetDateTime.parse(&quot;2010-02-01T09:20:10.111110Z[UTC]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @return ApiResponse&lt;Void&gt;
@@ -1231,7 +1231,7 @@ if (param2 != null)
 
     localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "pipe", pipe));
     localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "ioutil", ioutil));
-    localVarQueryParams.addAll(apiClient.parameterToPairs("space", "http", http));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("ssv", "http", http));
     localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "url", url));
     localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "context", context));
 

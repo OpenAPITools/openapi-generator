@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.airlift.airline.Arguments;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.DefaultGenerator;
@@ -47,13 +48,15 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection", "java:S106"})
 @Command(name = "batch", description = "Generate code in batch via external configs.", hidden = true)
 public class GenerateBatch extends OpenApiGeneratorCommand {
-
+    private static AtomicInteger failures = new AtomicInteger(0);
+    private static AtomicInteger successes = new AtomicInteger(0);
     private static final Logger LOGGER = LoggerFactory.getLogger(GenerateBatch.class);
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
@@ -151,7 +154,13 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
 
             executor.awaitTermination(awaitFor, TimeUnit.MINUTES);
 
-            System.out.println("COMPLETE.");
+            int failCount = failures.intValue();
+            if (failCount > 0) {
+                System.err.println(String.format(Locale.ROOT, "[FAIL] Completed with %d failures, %d successes", failCount, successes.intValue()));
+                System.exit(1);
+            } else {
+                System.out.println(String.format(Locale.ROOT, "[SUCCESS] Batch generation finished %d generators successfully.", successes.intValue()));
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
             // re-interrupt
@@ -183,12 +192,13 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
          */
         @Override
         public void run() {
+            String name = "";
             try {
                 GlobalSettings.reset();
 
                 ClientOptInput opts = configurator.toClientOptInput();
                 CodegenConfig config = opts.getConfig();
-                String name = config.getName();
+                name = config.getName();
                 
                 Path target = Paths.get(config.getOutputDir());
                 Path updated = rootDir.resolve(target);
@@ -202,8 +212,14 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
                 defaultGenerator.generate();
 
                 System.out.printf(Locale.ROOT, "[%s] Finished generating %s…%n", Thread.currentThread().getName(), name);
+                successes.incrementAndGet();
             } catch (Throwable e) {
-                System.err.printf(Locale.ROOT, "[%s] Generation failed: (%s) %s%n", Thread.currentThread().getName(), e.getClass().getSimpleName(), e.getMessage());
+                failures.incrementAndGet();
+                String failedOn = name;
+                if (StringUtils.isEmpty(failedOn)) {
+                    failedOn = "unspecified";
+                }
+                System.err.printf(Locale.ROOT, "[%s] Generation failed for %s: (%s) %s%n", Thread.currentThread().getName(), failedOn, e.getClass().getSimpleName(), e.getMessage());
                 e.printStackTrace(System.err);
                 if (exitOnError) {
                     System.exit(1);

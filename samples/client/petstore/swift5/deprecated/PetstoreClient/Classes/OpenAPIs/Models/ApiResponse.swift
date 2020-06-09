@@ -8,7 +8,8 @@
 import Foundation
 
 /** Describes the result of uploading an image resource */
-public struct ApiResponse: Codable {
+public struct ApiResponse: Codable { 
+
 
     public var code: Int?
     public var type: String?
