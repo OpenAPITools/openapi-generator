@@ -416,11 +416,16 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                     }
                 }
 
-                // fix the imports that each model has, change them to absolute
-                fixModelImports(cm.imports);
-
                 Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
                 CodegenProperty modelProperty = fromProperty("value", modelSchema);
+
+                // import complex type from additional properties
+                if (cm.additionalPropertiesType != null && modelProperty.items != null && modelProperty.items.complexType != null) {
+                    cm.imports.add(modelProperty.items.complexType);
+                }
+
+                // fix the imports that each model has, change them to absolute
+                fixModelImports(cm.imports);
 
                 if (cm.isEnum || cm.isAlias) {
                     if (!modelProperty.isEnum && !modelProperty.hasValidation && !cm.isArrayModel) {
@@ -827,10 +832,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         result.unescapedDescription = simpleModelName(name);
 
         // make non-object type models have one property so we can use it to store enums and validations
-        if (result.isAlias || result.isEnum || result.isArrayModel) {
+        if (result.isAlias || result.isEnum || result.isArrayModel || result.isMapModel) {
             Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
             CodegenProperty modelProperty = fromProperty("value", modelSchema);
-            if (modelProperty.isEnum == true || modelProperty.hasValidation == true || result.isArrayModel) {
+            if (modelProperty.isEnum == true || modelProperty.hasValidation == true || result.isArrayModel || result.isMapModel) {
                 // these models are non-object models with enums and/or validations
                 // add a single property to the model so we can have a way to access validations
                 result.isAlias = true;
