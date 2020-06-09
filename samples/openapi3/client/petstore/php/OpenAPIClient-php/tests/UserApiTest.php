@@ -24,10 +24,14 @@ class UserApiTest extends TestCase
         $response = $this->api->loginUser('xxxxx', 'yyyyyyyy');
         
         $this->assertIsString($response);
-        $this->assertRegExp(
-            '/logged in user session/',
-            $response,
-            "response string starts with 'logged in user session'"
-        );
+
+        $pattern = '/logged in user session/';
+        $assertMessage = "response string starts with 'logged in user session'";
+        $this->assertIsString($response);
+        if (method_exists($this, 'assertMatchesRegularExpression')) {
+            $this->assertMatchesRegularExpression($pattern, $response, $assertMessage);
+        } else {
+            $this->assertRegExp($pattern, $response, $assertMessage);
+        }
     }
 }
