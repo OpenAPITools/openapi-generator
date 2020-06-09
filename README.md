@@ -598,6 +598,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [GoDaddy](https://godaddy.com)
 - [Here](https://developer.here.com/)
 - [IBM](https://www.ibm.com/)
+- [Instana](https://www.instana.com)
 - [JustStar](https://www.juststarinfo.com)
 - [k6.io](https://k6.io/)
 - [Klarna](https://www.klarna.com/)
