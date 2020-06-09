@@ -40,26 +40,7 @@ pub fn urlencode<T: AsRef<str>>(s: T) -> String {
 
 {{#apiInfo}}
 {{#apis}}
-mod {{{classFilename}}};
-{{#operations}}
-{{#operation}}
-{{^supportAsync}}
-{{#-first}}
-pub use self::{{{classFilename}}}::{ {{{classname}}}, {{{classname}}}Client };
-{{/-first}}
-{{/supportAsync}}
-{{#supportAsync}}
-pub use self::{{{classFilename}}}::{ {{{operationId}}} };
-{{/supportAsync}}
-{{#vendorExtensions.x-group-parameters}}
-{{#allParams}}
-{{#-first}}
-pub use self::{{{classFilename}}}::{{{operationIdCamelCase}}} as {{{classname}}}{{{operationIdCamelCase}}};
-{{/-first}}
-{{/allParams}}
-{{/vendorExtensions.x-group-parameters}}
-{{/operation}}
-{{/operations}}
+pub mod {{{classFilename}}};
 {{/apis}}
 {{/apiInfo}}
 

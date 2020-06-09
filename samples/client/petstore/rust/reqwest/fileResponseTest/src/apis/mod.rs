@@ -38,8 +38,7 @@ pub fn urlencode<T: AsRef<str>>(s: T) -> String {
     ::url::form_urlencoded::byte_serialize(s.as_ref().as_bytes()).collect()
 }
 
-mod default_api;
-pub use self::default_api::{ DefaultApi, DefaultApiClient };
+pub mod default_api;
 
 pub mod client;
 pub mod configuration;
