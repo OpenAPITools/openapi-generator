@@ -67,6 +67,7 @@
                     <argLine>-Xms512m -Xmx1500m</argLine>
                     <parallel>methods</parallel>
                     <threadCount>10</threadCount>
+                    <trimStackTrace>false</trimStackTrace>
                 </configuration>
             </plugin>
             <plugin>
