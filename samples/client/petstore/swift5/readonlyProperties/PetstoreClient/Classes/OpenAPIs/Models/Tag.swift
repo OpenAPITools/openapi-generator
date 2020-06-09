@@ -7,7 +7,9 @@
 
 import Foundation
 
-public struct Tag: Codable {
+
+public struct Tag: Codable { 
+
 
     public private(set) var id: Int64?
     public private(set) var name: String?
