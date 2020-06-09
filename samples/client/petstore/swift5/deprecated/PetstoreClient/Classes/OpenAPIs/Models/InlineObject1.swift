@@ -7,7 +7,9 @@
 
 import Foundation
 
-public struct InlineObject1: Codable {
+
+public struct InlineObject1: Codable { 
+
 
     /** Additional data to pass to server */
     public var additionalMetadata: String?
