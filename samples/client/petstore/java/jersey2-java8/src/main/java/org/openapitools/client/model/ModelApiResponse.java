@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -22,6 +24,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * ModelApiResponse
@@ -44,7 +48,6 @@ public class ModelApiResponse {
 
 
   public ModelApiResponse code(Integer code) {
-    
     this.code = code;
     return this;
   }
@@ -69,7 +72,6 @@ public class ModelApiResponse {
 
 
   public ModelApiResponse type(String type) {
-    
     this.type = type;
     return this;
   }
@@ -94,7 +96,6 @@ public class ModelApiResponse {
 
 
   public ModelApiResponse message(String message) {
-    
     this.message = message;
     return this;
   }
