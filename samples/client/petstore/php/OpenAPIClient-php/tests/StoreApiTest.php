@@ -51,7 +51,7 @@ class StoreApiTest extends TestCase
     {
         $result = $this->api->getInventory();
 
-        $this->assertInternalType('array', $result);
-        $this->assertInternalType('int', $result['available']);
+        $this->assertIsArray($result);
+        $this->assertIsInt($result['available']);
     }
 }

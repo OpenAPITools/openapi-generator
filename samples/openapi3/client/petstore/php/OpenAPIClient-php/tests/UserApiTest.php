@@ -23,7 +23,7 @@ class UserApiTest extends TestCase
         // login
         $response = $this->api->loginUser('xxxxx', 'yyyyyyyy');
         
-        $this->assertInternalType('string', $response);
+        $this->assertIsString($response);
         $this->assertRegExp(
             '/logged in user session/',
             $response,

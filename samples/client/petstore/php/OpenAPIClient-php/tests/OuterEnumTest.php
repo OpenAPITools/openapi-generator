@@ -15,7 +15,7 @@ class OuterEnumTest extends TestCase
             OuterEnum::class
         );
 
-        $this->assertInternalType('string', $result);
+        $this->assertIsString($result);
         $this->assertEquals('placed', $result);
     }
 
@@ -58,7 +58,7 @@ class OuterEnumTest extends TestCase
             $json
         );
 
-        $this->assertInternalType('string', $result);
+        $this->assertIsString($result);
     }
 
     public function testSanitizeNested()
@@ -74,10 +74,10 @@ class OuterEnumTest extends TestCase
             $input
         );
 
-        $this->assertInternalType('object', $result);
+        $this->assertIsObject($result);
         $this->assertInstanceOf(\stdClass::class, $result);
 
-        $this->assertInternalType('string', $result->outerEnum);
+        $this->assertIsString($result->outerEnum);
         $this->assertEquals('approved', $result->outerEnum);
     }
 

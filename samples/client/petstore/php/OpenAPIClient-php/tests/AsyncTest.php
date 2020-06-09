@@ -58,7 +58,7 @@ class AsyncTest extends TestCase
 
         list($pet, $status, $headers) = $promise->wait();
         $this->assertEquals(200, $status);
-        $this->assertInternalType('array', $headers);
+        $this->assertIsArray($headers);
         $this->assertInstanceOf(Pet::class, $pet);
     }
 
