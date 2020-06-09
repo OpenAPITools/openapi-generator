@@ -1,5 +1,6 @@
 package org.openapitools.codegen;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.api.TemplateProcessor;
@@ -125,20 +126,25 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
     // ignored rule squid:S2095 as used in the CLI and it's required to return a reader
     // ignored rule java:S112 as RuntimeException is used to match previous exception type
     public Reader getTemplateReader(String name) {
-        InputStream is;
         try {
-            is = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(name));
-            if (is == null) {
-                if (name == null || name.contains("..")) {
-                    throw new IllegalArgumentException("Template location must be constrained to template directory.");
-                }
-                is = new FileInputStream(new File(name)); // May throw but never return a null value
-            }
+            InputStream is = getInputStream(name);
             return new InputStreamReader(is, StandardCharsets.UTF_8);
         } catch (FileNotFoundException e) {
             LOGGER.error(e.getMessage());
             throw new RuntimeException("can't load template " + name);
         }
+    }
+
+    private InputStream getInputStream(String name) throws FileNotFoundException {
+        InputStream is;
+        is = this.getClass().getClassLoader().getResourceAsStream(getCPResourcePath(name));
+        if (is == null) {
+            if (name == null || name.contains("..")) {
+                throw new IllegalArgumentException("Template location must be constrained to template directory.");
+            }
+            is = new FileInputStream(new File(name)); // May throw but never return a null value
+        }
+        return is;
     }
 
     /**
@@ -158,9 +164,15 @@ public class TemplateManager implements TemplatingExecutor, TemplateProcessor {
             return writeToFile(target.getPath(), templateContent);
         } else {
             // Do a straight copy of the file if not listed as supported by the template engine.
-            String templateContent = getFullTemplateContents(template);
-            Path written = Files.write(target.toPath(), templateContent.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE_NEW);
-            return written.toFile();
+            InputStream is;
+            try {
+                // look up the file using the same template resolution logic the adapters would use.
+                String fullTemplatePath = getFullTemplateFile(template);
+                is = getInputStream(fullTemplatePath);
+            } catch (TemplateNotFoundException ex) {
+                is = new FileInputStream(Paths.get(template).toFile());
+            }
+            return writeToFile(target.getAbsolutePath(), IOUtils.toByteArray(is));
         }
     }
 
