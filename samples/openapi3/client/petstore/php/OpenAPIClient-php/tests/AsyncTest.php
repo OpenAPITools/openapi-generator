@@ -14,7 +14,7 @@ class AsyncTest extends TestCase
     /** @var  int */
     private $petId;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->api = new Api\PetApi();
 

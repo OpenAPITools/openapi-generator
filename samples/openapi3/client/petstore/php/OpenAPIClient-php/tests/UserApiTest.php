@@ -11,7 +11,7 @@ class UserApiTest extends TestCase
     /** @var UserApi*/
     private $api;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->api = new Api\UserApi();
     }

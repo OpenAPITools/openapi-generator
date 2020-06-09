@@ -16,7 +16,7 @@ class ResponseTypesTest extends TestCase
     /** @var  FakeHttpClient */
     private $fakeHttpClient;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fakeHttpClient = new FakeHttpClient();
         $this->api = new PetApi($this->fakeHttpClient);
