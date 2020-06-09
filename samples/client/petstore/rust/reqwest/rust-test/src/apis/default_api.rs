@@ -15,6 +15,7 @@ use std::option::Option;
 
 use reqwest;
 
+use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
 pub struct DefaultApiClient {
@@ -30,10 +31,19 @@ impl DefaultApiClient {
 }
 
 
+/// struct for typed successes of method `dummy_get`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DummyGetSuccess {
+    Status200(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method `dummy_get`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum DummyGetErrors {
+pub enum DummyGetError {
     DefaultResponse(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
@@ -41,11 +51,11 @@ pub enum DummyGetErrors {
 
 
 pub trait DefaultApi {
-    fn dummy_get(&self, ) -> Result<(), Error<DummyGetErrors>>;
+    fn dummy_get(&self, ) -> Result<ResponseContent<DummyGetSuccess>, Error<DummyGetError>>;
 }
 
 impl DefaultApi for DefaultApiClient {
-    fn dummy_get(&self, ) -> Result<(), Error<DummyGetErrors>> {
+    fn dummy_get(&self, ) -> Result<ResponseContent<DummyGetSuccess>, Error<DummyGetError>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -58,13 +68,17 @@ impl DefaultApi for DefaultApiClient {
 
         let req = req_builder.build()?;
         let mut resp = client.execute(req)?;
-        if resp.status().is_success() {
-            Ok(())
+
+        let status = resp.status();
+        let content = resp.text()?;
+
+        if status.is_success() {
+            let entity: Option<DummyGetSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
         } else {
-            let status = resp.status();
-            let content = resp.text()?;
-            let entity: Option<DummyGetErrors> = serde_json::from_str(&content).ok();
-            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            let entity: Option<DummyGetError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }

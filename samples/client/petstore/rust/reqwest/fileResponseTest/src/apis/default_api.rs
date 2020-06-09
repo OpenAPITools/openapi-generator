@@ -15,6 +15,7 @@ use std::option::Option;
 
 use reqwest;
 
+use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
 pub struct DefaultApiClient {
@@ -30,10 +31,19 @@ impl DefaultApiClient {
 }
 
 
+/// struct for typed successes of method `fileresponsetest`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum FileresponsetestSuccess {
+    Status200(std::path::PathBuf),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
 /// struct for typed errors of method `fileresponsetest`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum FileresponsetestErrors {
+pub enum FileresponsetestError {
     DefaultResponse(std::path::PathBuf),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
@@ -41,11 +51,11 @@ pub enum FileresponsetestErrors {
 
 
 pub trait DefaultApi {
-    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error<FileresponsetestErrors>>;
+    fn fileresponsetest(&self, ) -> Result<ResponseContent<FileresponsetestSuccess>, Error<FileresponsetestError>>;
 }
 
 impl DefaultApi for DefaultApiClient {
-    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error<FileresponsetestErrors>> {
+    fn fileresponsetest(&self, ) -> Result<ResponseContent<FileresponsetestSuccess>, Error<FileresponsetestError>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -58,13 +68,17 @@ impl DefaultApi for DefaultApiClient {
 
         let req = req_builder.build()?;
         let mut resp = client.execute(req)?;
-        if resp.status().is_success() {
-            Ok(resp.json()?)
+
+        let status = resp.status();
+        let content = resp.text()?;
+
+        if status.is_success() {
+            let entity: Option<FileresponsetestSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
         } else {
-            let status = resp.status();
-            let content = resp.text()?;
-            let entity: Option<FileresponsetestErrors> = serde_json::from_str(&content).ok();
-            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            let entity: Option<FileresponsetestError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }

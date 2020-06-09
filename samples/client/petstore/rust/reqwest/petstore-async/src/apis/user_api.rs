@@ -15,13 +15,80 @@ use std::option::Option;
 
 use reqwest;
 
+use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
+
+/// struct for typed successes of method `create_user`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CreateUserSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `create_users_with_array_input`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CreateUsersWithArrayInputSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `create_users_with_list_input`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CreateUsersWithListInputSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `delete_user`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DeleteUserSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `get_user_by_name`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetUserByNameSuccess {
+    Status200(crate::models::User),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `login_user`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum LoginUserSuccess {
+    Status200(String),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `logout_user`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum LogoutUserSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `update_user`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UpdateUserSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
 
 /// struct for typed errors of method `create_user`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum CreateUserErrors {
+pub enum CreateUserError {
     DefaultResponse(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
@@ -30,7 +97,7 @@ pub enum CreateUserErrors {
 /// struct for typed errors of method `create_users_with_array_input`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum CreateUsersWithArrayInputErrors {
+pub enum CreateUsersWithArrayInputError {
     DefaultResponse(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
@@ -39,7 +106,7 @@ pub enum CreateUsersWithArrayInputErrors {
 /// struct for typed errors of method `create_users_with_list_input`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum CreateUsersWithListInputErrors {
+pub enum CreateUsersWithListInputError {
     DefaultResponse(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
@@ -48,7 +115,7 @@ pub enum CreateUsersWithListInputErrors {
 /// struct for typed errors of method `delete_user`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum DeleteUserErrors {
+pub enum DeleteUserError {
     Status400(),
     Status404(),
     UnknownList(Vec<serde_json::Value>),
@@ -58,7 +125,7 @@ pub enum DeleteUserErrors {
 /// struct for typed errors of method `get_user_by_name`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum GetUserByNameErrors {
+pub enum GetUserByNameError {
     DefaultResponse(crate::models::User),
     Status400(),
     Status404(),
@@ -69,7 +136,7 @@ pub enum GetUserByNameErrors {
 /// struct for typed errors of method `login_user`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum LoginUserErrors {
+pub enum LoginUserError {
     DefaultResponse(String),
     Status400(),
     UnknownList(Vec<serde_json::Value>),
@@ -79,7 +146,7 @@ pub enum LoginUserErrors {
 /// struct for typed errors of method `logout_user`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum LogoutUserErrors {
+pub enum LogoutUserError {
     DefaultResponse(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
@@ -88,7 +155,7 @@ pub enum LogoutUserErrors {
 /// struct for typed errors of method `update_user`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
-pub enum UpdateUserErrors {
+pub enum UpdateUserError {
     Status400(),
     Status404(),
     UnknownList(Vec<serde_json::Value>),
@@ -96,7 +163,7 @@ pub enum UpdateUserErrors {
 }
 
 
-    pub async fn create_user(configuration: &configuration::Configuration, body: crate::models::User) -> Result<(), Error<CreateUserErrors>> {
+    pub async fn create_user(configuration: &configuration::Configuration, body: crate::models::User) -> Result<ResponseContent<CreateUserSuccess>, Error<CreateUserError>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user", configuration.base_path);
@@ -109,18 +176,22 @@ pub enum UpdateUserErrors {
 
         let req = req_builder.build()?;
         let resp = client.execute(req).await?;
-        if resp.status().is_success() {
-            Ok(())
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<CreateUserSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
         } else {
-            let status = resp.status();
-            let content = resp.text().await?;
-            let entity: Option<CreateUserErrors> = serde_json::from_str(&content).ok();
-            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            let entity: Option<CreateUserError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn create_users_with_array_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error<CreateUsersWithArrayInputErrors>> {
+    pub async fn create_users_with_array_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<ResponseContent<CreateUsersWithArrayInputSuccess>, Error<CreateUsersWithArrayInputError>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/createWithArray", configuration.base_path);
@@ -133,18 +204,22 @@ pub enum UpdateUserErrors {
 
         let req = req_builder.build()?;
         let resp = client.execute(req).await?;
-        if resp.status().is_success() {
-            Ok(())
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<CreateUsersWithArrayInputSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
         } else {
-            let status = resp.status();
-            let content = resp.text().await?;
-            let entity: Option<CreateUsersWithArrayInputErrors> = serde_json::from_str(&content).ok();
-            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            let entity: Option<CreateUsersWithArrayInputError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn create_users_with_list_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<(), Error<CreateUsersWithListInputErrors>> {
+    pub async fn create_users_with_list_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<ResponseContent<CreateUsersWithListInputSuccess>, Error<CreateUsersWithListInputError>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/createWithList", configuration.base_path);
@@ -157,18 +232,22 @@ pub enum UpdateUserErrors {
 
         let req = req_builder.build()?;
         let resp = client.execute(req).await?;
-        if resp.status().is_success() {
-            Ok(())
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<CreateUsersWithListInputSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
         } else {
-            let status = resp.status();
-            let content = resp.text().await?;
-            let entity: Option<CreateUsersWithListInputErrors> = serde_json::from_str(&content).ok();
-            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            let entity: Option<CreateUsersWithListInputError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn delete_user(configuration: &configuration::Configuration, username: &str) -> Result<(), Error<DeleteUserErrors>> {
+    pub async fn delete_user(configuration: &configuration::Configuration, username: &str) -> Result<ResponseContent<DeleteUserSuccess>, Error<DeleteUserError>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
@@ -180,18 +259,22 @@ pub enum UpdateUserErrors {
 
         let req = req_builder.build()?;
         let resp = client.execute(req).await?;
-        if resp.status().is_success() {
-            Ok(())
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<DeleteUserSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
         } else {
-            let status = resp.status();
-            let content = resp.text().await?;
-            let entity: Option<DeleteUserErrors> = serde_json::from_str(&content).ok();
-            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            let entity: Option<DeleteUserError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn get_user_by_name(configuration: &configuration::Configuration, username: &str) -> Result<crate::models::User, Error<GetUserByNameErrors>> {
+    pub async fn get_user_by_name(configuration: &configuration::Configuration, username: &str) -> Result<ResponseContent<GetUserByNameSuccess>, Error<GetUserByNameError>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
@@ -203,18 +286,22 @@ pub enum UpdateUserErrors {
 
         let req = req_builder.build()?;
         let resp = client.execute(req).await?;
-        if resp.status().is_success() {
-            Ok(resp.json::<crate::models::User>().await?)
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<GetUserByNameSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
         } else {
-            let status = resp.status();
-            let content = resp.text().await?;
-            let entity: Option<GetUserByNameErrors> = serde_json::from_str(&content).ok();
-            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            let entity: Option<GetUserByNameError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn login_user(configuration: &configuration::Configuration, username: &str, password: &str) -> Result<String, Error<LoginUserErrors>> {
+    pub async fn login_user(configuration: &configuration::Configuration, username: &str, password: &str) -> Result<ResponseContent<LoginUserSuccess>, Error<LoginUserError>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/login", configuration.base_path);
@@ -228,18 +315,22 @@ pub enum UpdateUserErrors {
 
         let req = req_builder.build()?;
         let resp = client.execute(req).await?;
-        if resp.status().is_success() {
-            Ok(resp.json::<String>().await?)
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<LoginUserSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
         } else {
-            let status = resp.status();
-            let content = resp.text().await?;
-            let entity: Option<LoginUserErrors> = serde_json::from_str(&content).ok();
-            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            let entity: Option<LoginUserError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn logout_user(configuration: &configuration::Configuration, ) -> Result<(), Error<LogoutUserErrors>> {
+    pub async fn logout_user(configuration: &configuration::Configuration, ) -> Result<ResponseContent<LogoutUserSuccess>, Error<LogoutUserError>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/logout", configuration.base_path);
@@ -251,18 +342,22 @@ pub enum UpdateUserErrors {
 
         let req = req_builder.build()?;
         let resp = client.execute(req).await?;
-        if resp.status().is_success() {
-            Ok(())
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<LogoutUserSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
         } else {
-            let status = resp.status();
-            let content = resp.text().await?;
-            let entity: Option<LogoutUserErrors> = serde_json::from_str(&content).ok();
-            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            let entity: Option<LogoutUserError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }
 
-    pub async fn update_user(configuration: &configuration::Configuration, username: &str, body: crate::models::User) -> Result<(), Error<UpdateUserErrors>> {
+    pub async fn update_user(configuration: &configuration::Configuration, username: &str, body: crate::models::User) -> Result<ResponseContent<UpdateUserSuccess>, Error<UpdateUserError>> {
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
@@ -275,13 +370,17 @@ pub enum UpdateUserErrors {
 
         let req = req_builder.build()?;
         let resp = client.execute(req).await?;
-        if resp.status().is_success() {
-            Ok(())
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<UpdateUserSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
         } else {
-            let status = resp.status();
-            let content = resp.text().await?;
-            let entity: Option<UpdateUserErrors> = serde_json::from_str(&content).ok();
-            let error = crate::apis::ResponseErrorContent { status, content, entity };
+            let entity: Option<UpdateUserError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
             Err(Error::ResponseError(error))
         }
     }

@@ -2,7 +2,7 @@ use reqwest;
 use serde_json;
 
 #[derive(Debug, Clone)]
-pub struct ResponseErrorContent<T> {
+pub struct ResponseContent<T> {
     pub status: reqwest::StatusCode,
     pub content: String,
     pub entity: Option<T>,
@@ -13,7 +13,7 @@ pub enum Error<T> {
     Reqwest(reqwest::Error),
     Serde(serde_json::Error),
     Io(std::io::Error),
-    ResponseError(ResponseErrorContent<T>),
+    ResponseError(ResponseContent<T>),
 }
 
 impl <T> From<reqwest::Error> for Error<T> {
