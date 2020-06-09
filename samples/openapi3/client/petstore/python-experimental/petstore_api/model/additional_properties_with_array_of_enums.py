@@ -33,6 +33,11 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_get_composed_info,
 )
+try:
+    from petstore_api.model import enum_class
+except ImportError:
+    enum_class = sys.modules[
+        'petstore_api.model.enum_class']
 
 
 class AdditionalPropertiesWithArrayOfEnums(ModelNormal):
