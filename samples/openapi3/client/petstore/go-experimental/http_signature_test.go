@@ -231,24 +231,20 @@ func TestHttpSignaturePrivateKeys(t *testing.T) {
 		}
 	}
 
-	/*
-		Unfortunately, currently the build environment for OpenAPITools is using an old version
-		of golang that does not support ECDSA keys.
-		{
-			privateKeyPath := "privatekey.pem"
-			authConfig := sw.HttpSignatureAuth{
-				KeyId:         "my-key-id",
-				SigningScheme:     "hs2019",
-				SignedHeaders: []string{"Content-Type"},
-			}
-			// Generate test private key.
-			writeRandomTestEcdsaPemKey(t, privateKeyPath)
-			err := authConfig.LoadPrivateKey(privateKeyPath)
-			if err != nil {
-				t.Fatalf("Error loading private key '%s': %v", privateKeyPath, err)
-			}
-		}
-	*/
+  {
+    privateKeyPath := "privatekey.pem"
+    authConfig := sw.HttpSignatureAuth{
+      KeyId:         "my-key-id",
+      SigningScheme:     "hs2019",
+      SignedHeaders: []string{"Content-Type"},
+    }
+    // Generate test private key.
+    writeRandomTestEcdsaPemKey(t, privateKeyPath)
+    err := authConfig.LoadPrivateKey(privateKeyPath)
+    if err != nil {
+      t.Fatalf("Error loading private key '%s': %v", privateKeyPath, err)
+    }
+  }
 }
 
 func executeHttpSignatureAuth(t *testing.T, authConfig *sw.HttpSignatureAuth, expectSuccess bool) string {
