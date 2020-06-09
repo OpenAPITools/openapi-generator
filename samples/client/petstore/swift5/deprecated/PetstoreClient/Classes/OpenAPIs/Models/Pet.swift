@@ -8,7 +8,8 @@
 import Foundation
 
 /** A pet for sale in the pet store */
-public struct Pet: Codable {
+public struct Pet: Codable { 
+
 
     public enum Status: String, Codable, CaseIterable {
         case available = "available"
@@ -18,7 +19,7 @@ public struct Pet: Codable {
     public var id: Int64?
     public var category: Category?
     public var name: String?
-
+    
     @available(*, deprecated, message: "This property is deprecated.")
     public var photoUrls: [String]
     public var tags: [Tag]?

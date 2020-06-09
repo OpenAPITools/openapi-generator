@@ -38,6 +38,6 @@ steps:
   # generate test scripts
   - /bin/bash bin/tests/run-all-test
   # generate all petstore samples (client, servers, doc)
-  - /bin/bash bin/run-all-petstore
+  - /bin/bash bin/generate-samples.sh
   # generate all petstore samples (openapi3)
-  - /bin/bash bin/openapi3/run-all-petstore
+  - /bin/bash bin/generate-samples.sh bin/configs/other/*.yaml

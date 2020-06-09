@@ -1,4 +1,4 @@
-## @openapitools/typescript-angular-petstore@1.0.0
+## @openapitools/angular2-typescript-petstore@1.0.0
 
 ### Building
 
@@ -19,7 +19,7 @@ Navigate to the folder of your consuming project and run one of next commands.
 _published:_
 
 ```
-npm install @openapitools/typescript-angular-petstore@1.0.0 --save
+npm install @openapitools/angular2-typescript-petstore@1.0.0 --save
 ```
 
 _without publishing (not recommended):_
@@ -39,7 +39,7 @@ npm link
 
 In your project:
 ```
-npm link @openapitools/typescript-angular-petstore
+npm link @openapitools/angular2-typescript-petstore
 ```
 
 __Note for Windows users:__ The Angular CLI has troubles to use linked npm packages.
@@ -54,7 +54,7 @@ In your Angular project:
 
 ```
 // without configuring providers
-import { ApiModule } from '@openapitools/typescript-angular-petstore';
+import { ApiModule } from '@openapitools/angular2-typescript-petstore';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -73,7 +73,7 @@ export class AppModule {}
 
 ```
 // configuring providers
-import { ApiModule, Configuration, ConfigurationParameters } from '@openapitools/typescript-angular-petstore';
+import { ApiModule, Configuration, ConfigurationParameters } from '@openapitools/angular2-typescript-petstore';
 
 export function apiConfigFactory (): Configuration => {
   const params: ConfigurationParameters = {
@@ -93,7 +93,7 @@ export class AppModule {}
 
 ```
 // configuring providers with an authentication service that manages your access tokens
-import { ApiModule, Configuration } from '@openapitools/typescript-angular-petstore';
+import { ApiModule, Configuration } from '@openapitools/angular2-typescript-petstore';
 
 @NgModule({
     imports: [ ApiModule ],
@@ -117,7 +117,7 @@ export class AppModule {}
 ```
 
 ```
-import { DefaultApi } from '@openapitools/typescript-angular-petstore';
+import { DefaultApi } from '@openapitools/angular2-typescript-petstore';
 
 export class AppComponent {
 	 constructor(private apiGateway: DefaultApi) { }
@@ -155,7 +155,7 @@ export class AppModule {
 If different than the generated base path, during app bootstrap, you can provide the base path to your service. 
 
 ```
-import { BASE_PATH } from '@openapitools/typescript-angular-petstore';
+import { BASE_PATH } from '@openapitools/angular2-typescript-petstore';
 
 bootstrap(AppComponent, [
     { provide: BASE_PATH, useValue: 'https://your-web-service.com' },
@@ -164,7 +164,7 @@ bootstrap(AppComponent, [
 or
 
 ```
-import { BASE_PATH } from '@openapitools/typescript-angular-petstore';
+import { BASE_PATH } from '@openapitools/angular2-typescript-petstore';
 
 @NgModule({
     imports: [],
@@ -188,7 +188,7 @@ export const environment = {
 
 In the src/app/app.module.ts:
 ```
-import { BASE_PATH } from '@openapitools/typescript-angular-petstore';
+import { BASE_PATH } from '@openapitools/angular2-typescript-petstore';
 import { environment } from '../environments/environment';
 
 @NgModule({
