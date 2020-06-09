@@ -31,13 +31,11 @@ class OrderApiTest extends TestCase
         $order->setStatus("placed");
         $this->assertSame("placed", $order->getStatus());
     }
- 
-    /**
-     * @expectedException InvalidArgumentException
-     */
+
     public function testOrderException()
     {
         // initialize the API client
+        $this->expectException(\InvalidArgumentException::class);
         $order = new Model\Order();
         $order->setStatus("invalid_value");
     }

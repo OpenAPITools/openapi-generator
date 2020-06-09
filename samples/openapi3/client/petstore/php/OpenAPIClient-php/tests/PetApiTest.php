@@ -362,13 +362,12 @@ class PetApiTest extends TestCase
 
     /**
      * test invalid argument
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Missing the required parameter $status when calling findPetsByStatus
      */
     public function testInvalidArgument()
     {
         // the argument is required, and we must specify one or some from 'available', 'pending', 'sold'
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Missing the required parameter $status when calling findPetsByStatus');
         $this->api->findPetsByStatus([]);
     }
 
