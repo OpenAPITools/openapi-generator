@@ -16,21 +16,31 @@
 
 package org.openapitools.codegen.languages;
 
+import com.samskivert.mustache.Mustache;
+import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.SupportingFile;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.*;
 
-public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements CodegenConfig {
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+
+public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
             "sttp client", "2.1.5");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
@@ -44,9 +54,25 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
     private static final StringProperty CIRCE_VERSION = new StringProperty("circeVersion", "The version of circe " +
             "library", "0.13.0");
     private static final JsonLibraryProperty JSON_LIBRARY_PROPERTY = new JsonLibraryProperty();
+    private static final StringProperty MAIN_PACKAGE = new StringProperty("mainPackage","Top-level package name, " +
+            "which defines 'apiPackage', 'modelPackage', 'invokerPackage'","org.openapitools.client");
 
     private static final List<Property> properties = Arrays.asList(STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL,
-            JODA_TIME_VERSION, JSON4S_VERSION, CIRCE_VERSION, JSON_LIBRARY_PROPERTY);
+            JODA_TIME_VERSION, JSON4S_VERSION, CIRCE_VERSION, JSON_LIBRARY_PROPERTY, MAIN_PACKAGE);
+
+    private final Logger LOGGER = LoggerFactory.getLogger(ScalaSttpClientCodegen.class);
+
+    protected String mainPackage = "org.openapitools.client";
+    protected String groupId = "org.openapitools";
+    protected String artifactId = "openapi-client";
+    protected String artifactVersion = "1.0.0";
+    protected String resourcesFolder = "src/main/resources";
+    protected String configKey = "apiRequest";
+    protected int defaultTimeoutInMs = 5000;
+    protected String configKeyPath = mainPackage;
+    protected boolean registerNonStandardStatusCodes = true;
+    protected boolean renderJavadoc = true;
+    protected boolean removeOAuthSecurities = true;
 
     public ScalaSttpClientCodegen() {
         super();
@@ -54,8 +80,87 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
                 .stability(Stability.BETA)
                 .build();
 
-        embeddedTemplateDir = templateDir = "scala-sttp";
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.BearerToken
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath,
+                        ClientModificationFeature.UserAgent
+                )
+        );
+
         outputFolder = "generated-code/scala-sttp";
+        modelTemplateFiles.put("model.mustache", ".scala");
+        apiTemplateFiles.put("api.mustache", ".scala");
+        embeddedTemplateDir = templateDir = "scala-sttp";
+        apiPackage = mainPackage + ".api";
+        modelPackage = mainPackage + ".model";
+        invokerPackage = mainPackage + ".core";
+
+        setReservedWordsLowerCase(
+                Arrays.asList(
+                        "abstract", "case", "catch", "class", "def", "do", "else", "extends",
+                        "false", "final", "finally", "for", "forSome", "if", "implicit",
+                        "import", "lazy", "match", "new", "null", "object", "override", "package",
+                        "private", "protected", "return", "sealed", "super", "this", "throw",
+                        "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
+        );
+
+        additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
+        additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
+        additionalProperties.put("configKey", configKey);
+        additionalProperties.put("configKeyPath", configKeyPath);
+        additionalProperties.put("defaultTimeout", defaultTimeoutInMs);
+        if (renderJavadoc) {
+            additionalProperties.put("javadocRenderer", new JavadocLambda());
+        }
+        additionalProperties.put("fnCapitalize", new CapitalizeLambda());
+        additionalProperties.put("fnCamelize", new CamelizeLambda(false));
+        additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
+
+        importMapping.remove("Seq");
+        importMapping.remove("List");
+        importMapping.remove("Set");
+        importMapping.remove("Map");
+
+        typeMapping = new HashMap<>();
+        typeMapping.put("array", "Seq");
+        typeMapping.put("set", "Set");
+        typeMapping.put("boolean", "Boolean");
+        typeMapping.put("string", "String");
+        typeMapping.put("int", "Int");
+        typeMapping.put("integer", "Int");
+        typeMapping.put("long", "Long");
+        typeMapping.put("float", "Float");
+        typeMapping.put("byte", "Byte");
+        typeMapping.put("short", "Short");
+        typeMapping.put("char", "Char");
+        typeMapping.put("double", "Double");
+        typeMapping.put("object", "Any");
+        typeMapping.put("file", "File");
+        typeMapping.put("binary", "File");
+        typeMapping.put("number", "Double");
+
+        instantiationTypes.put("array", "ListBuffer");
+        instantiationTypes.put("map", "Map");
 
         properties.forEach(p -> cliOptions.add(p.toCliOption()));
     }
@@ -63,18 +168,27 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
     @Override
     public void processOpts() {
         super.processOpts();
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+        }
         if (additionalProperties.containsKey("mainPackage")) {
             setMainPackage((String) additionalProperties.get("mainPackage"));
             additionalProperties.replace("configKeyPath", this.configKeyPath);
-            apiPackage = mainPackage + ".api";
-            modelPackage = mainPackage + ".model";
-            invokerPackage = mainPackage + ".core";
-            additionalProperties.put("apiPackage", apiPackage);
-            additionalProperties.put("modelPackage", modelPackage);
+            if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)){
+                apiPackage = mainPackage + ".api";
+                additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
+            }
+            if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)){
+                modelPackage = mainPackage + ".model";
+                additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
+            }
+            if (!additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)){
+                invokerPackage = mainPackage + ".core";
+            }
         }
+        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         properties.forEach(p -> p.updateAdditionalProperties(additionalProperties));
 
-        supportingFiles.clear();
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
@@ -108,6 +222,122 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         CodegenOperation op = super.fromOperation(path, httpMethod, operation, servers);
         op.path = encodePath(path);
         return op;
+    }
+
+    @Override
+    public CodegenType getTag() {
+        return CodegenType.CLIENT;
+    }
+
+    @Override
+    public String escapeReservedWord(String name) {
+        if (this.reservedWordsMappings().containsKey(name)) {
+            return this.reservedWordsMappings().get(name);
+        }
+        return "`" + name + "`";
+    }
+
+    @Override
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        if (registerNonStandardStatusCodes) {
+            try {
+                @SuppressWarnings("unchecked")
+                Map<String, ArrayList<CodegenOperation>> opsMap = (Map<String, ArrayList<CodegenOperation>>) objs.get("operations");
+                HashSet<Integer> unknownCodes = new HashSet<Integer>();
+                for (CodegenOperation operation : opsMap.get("operation")) {
+                    for (CodegenResponse response : operation.responses) {
+                        if ("default".equals(response.code)) {
+                            continue;
+                        }
+                        try {
+                            int code = Integer.parseInt(response.code);
+                            if (code >= 600) {
+                                unknownCodes.add(code);
+                            }
+                        } catch (NumberFormatException e) {
+                            LOGGER.error("Status code is not an integer : response.code", e);
+                        }
+                    }
+                }
+                if (!unknownCodes.isEmpty()) {
+                    additionalProperties.put("unknownStatusCodes", unknownCodes);
+                }
+            } catch (Exception e) {
+                LOGGER.error("Unable to find operations List", e);
+            }
+        }
+        return super.postProcessOperationsWithModels(objs, allModels);
+    }
+
+    @Override
+    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemes) {
+        final List<CodegenSecurity> codegenSecurities = super.fromSecurity(schemes);
+        if (!removeOAuthSecurities) {
+            return codegenSecurities;
+        }
+
+        // Remove OAuth securities
+        Iterator<CodegenSecurity> it = codegenSecurities.iterator();
+        while (it.hasNext()) {
+            final CodegenSecurity security = it.next();
+            if (security.isOAuth) {
+                it.remove();
+            }
+        }
+        // Adapt 'hasMore'
+        it = codegenSecurities.iterator();
+        while (it.hasNext()) {
+            final CodegenSecurity security = it.next();
+            security.hasMore = it.hasNext();
+        }
+
+        if (codegenSecurities.isEmpty()) {
+            return null;
+        }
+        return codegenSecurities;
+    }
+
+    @Override
+    public String toParamName(String name) {
+        return formatIdentifier(name, false);
+    }
+
+    @Override
+    public String toEnumName(CodegenProperty property) {
+        return formatIdentifier(property.baseName, true);
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        if (p.getRequired() != null && p.getRequired().contains(p.getName())) {
+            return "None";
+        }
+
+        if (ModelUtils.isBooleanSchema(p)) {
+            return null;
+        } else if (ModelUtils.isDateSchema(p)) {
+            return null;
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            return null;
+        } else if (ModelUtils.isNumberSchema(p)) {
+            return null;
+        } else if (ModelUtils.isIntegerSchema(p)) {
+            return null;
+        } else if (ModelUtils.isMapSchema(p)) {
+            String inner = getSchemaType(getAdditionalProperties(p));
+            return "Map[String, " + inner + "].empty ";
+        } else if (ModelUtils.isArraySchema(p)) {
+            ArraySchema ap = (ArraySchema) p;
+            String inner = getSchemaType(ap.getItems());
+            if (ModelUtils.isSet(ap)) {
+                return "Set[" + inner + "].empty ";
+            }
+            return "Seq[" + inner + "].empty ";
+        } else if (ModelUtils.isStringSchema(p)) {
+            return null;
+        } else {
+            return null;
+        }
     }
 
     private static abstract class Property<T> {
@@ -199,5 +429,59 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
             }
         }
     }
+    private static abstract class CustomLambda implements Mustache.Lambda {
+        @Override
+        public void execute(Template.Fragment frag, Writer out) throws IOException {
+            final StringWriter tempWriter = new StringWriter();
+            frag.execute(tempWriter);
+            out.write(formatFragment(tempWriter.toString()));
+        }
 
+        public abstract String formatFragment(String fragment);
+    }
+
+    private static class JavadocLambda extends CustomLambda {
+        @Override
+        public String formatFragment(String fragment) {
+            final String[] lines = fragment.split("\\r?\\n");
+            final StringBuilder sb = new StringBuilder();
+            sb.append("  /**\n");
+            for (String line : lines) {
+                sb.append("   * ").append(line).append("\n");
+            }
+            sb.append("   */\n");
+            return sb.toString();
+        }
+    }
+
+    private static class CapitalizeLambda extends CustomLambda {
+        @Override
+        public String formatFragment(String fragment) {
+            return StringUtils.capitalize(fragment);
+        }
+    }
+
+    private static class CamelizeLambda extends CustomLambda {
+        private final boolean capitalizeFirst;
+
+        public CamelizeLambda(boolean capitalizeFirst) {
+            this.capitalizeFirst = capitalizeFirst;
+        }
+
+        @Override
+        public String formatFragment(String fragment) {
+            return camelize(fragment, !capitalizeFirst);
+        }
+    }
+
+    private class EnumEntryLambda extends CustomLambda {
+        @Override
+        public String formatFragment(String fragment) {
+            return formatIdentifier(fragment, true);
+        }
+    }
+
+    public void setMainPackage(String mainPackage) {
+        this.configKeyPath = this.mainPackage = mainPackage;
+    }
 }
