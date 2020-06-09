@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * DogAllOf
  */
@@ -39,7 +40,6 @@ public class DogAllOf {
 
 
   public DogAllOf breed(String breed) {
-    
     this.breed = breed;
     return this;
   }

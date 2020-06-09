@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * User
  */
@@ -67,7 +68,6 @@ public class User {
 
 
   public User id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -92,7 +92,6 @@ public class User {
 
 
   public User username(String username) {
-    
     this.username = username;
     return this;
   }
@@ -117,7 +116,6 @@ public class User {
 
 
   public User firstName(String firstName) {
-    
     this.firstName = firstName;
     return this;
   }
@@ -142,7 +140,6 @@ public class User {
 
 
   public User lastName(String lastName) {
-    
     this.lastName = lastName;
     return this;
   }
@@ -167,7 +164,6 @@ public class User {
 
 
   public User email(String email) {
-    
     this.email = email;
     return this;
   }
@@ -192,7 +188,6 @@ public class User {
 
 
   public User password(String password) {
-    
     this.password = password;
     return this;
   }
@@ -217,7 +212,6 @@ public class User {
 
 
   public User phone(String phone) {
-    
     this.phone = phone;
     return this;
   }
@@ -242,7 +236,6 @@ public class User {
 
 
   public User userStatus(Integer userStatus) {
-    
     this.userStatus = userStatus;
     return this;
   }

@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * SpecialModelName
  */
@@ -39,7 +40,6 @@ public class SpecialModelName {
 
 
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
-    
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }

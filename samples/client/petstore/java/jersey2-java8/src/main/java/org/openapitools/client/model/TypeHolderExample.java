@@ -29,6 +29,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * TypeHolderExample
  */
@@ -62,7 +63,6 @@ public class TypeHolderExample {
 
 
   public TypeHolderExample stringItem(String stringItem) {
-    
     this.stringItem = stringItem;
     return this;
   }
@@ -86,7 +86,6 @@ public class TypeHolderExample {
 
 
   public TypeHolderExample numberItem(BigDecimal numberItem) {
-    
     this.numberItem = numberItem;
     return this;
   }
@@ -110,7 +109,6 @@ public class TypeHolderExample {
 
 
   public TypeHolderExample floatItem(Float floatItem) {
-    
     this.floatItem = floatItem;
     return this;
   }
@@ -134,7 +132,6 @@ public class TypeHolderExample {
 
 
   public TypeHolderExample integerItem(Integer integerItem) {
-    
     this.integerItem = integerItem;
     return this;
   }
@@ -158,7 +155,6 @@ public class TypeHolderExample {
 
 
   public TypeHolderExample boolItem(Boolean boolItem) {
-    
     this.boolItem = boolItem;
     return this;
   }
@@ -182,7 +178,6 @@ public class TypeHolderExample {
 
 
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
-    
     this.arrayItem = arrayItem;
     return this;
   }

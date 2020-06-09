@@ -107,7 +107,7 @@ public class JSON implements ContextResolver<ObjectMapper> {
           }
         }
       }
-      return null;      
+      return null;
     }
 
     /**
@@ -218,5 +218,30 @@ public class JSON implements ContextResolver<ObjectMapper> {
     */
   public static void registerDescendants(Class<?> modelClass, Map<String, GenericType> descendants) {
     modelDescendants.put(modelClass, descendants);
+  }
+
+  private static JSON json;
+
+  static
+  {
+    json = new JSON();
+  }
+
+  /**
+    * Get the default JSON instance.
+    *
+    * @return the default JSON instance
+    */
+  public static JSON getDefault() {
+    return json;
+  }
+
+  /**
+    * Set the default JSON instance.
+    *
+    * @param json JSON instance to be used
+    */
+  public static void setDefault(JSON json) {
+    JSON.json = json;
   }
 }

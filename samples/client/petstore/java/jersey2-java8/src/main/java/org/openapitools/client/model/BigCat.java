@@ -30,6 +30,7 @@ import org.openapitools.client.model.Cat;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * BigCat
  */
@@ -86,7 +87,6 @@ public class BigCat extends Cat {
 
 
   public BigCat kind(KindEnum kind) {
-    
     this.kind = kind;
     return this;
   }
