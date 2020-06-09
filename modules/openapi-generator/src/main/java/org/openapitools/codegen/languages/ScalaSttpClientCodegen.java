@@ -24,8 +24,6 @@ import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.Arrays;
@@ -33,8 +31,6 @@ import java.util.List;
 import java.util.Map;
 
 public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScalaSttpClientCodegen.class);
-
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
             "sttp " +
                                                                               "client", "2.1.5");
@@ -186,8 +182,6 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
     private static class JsonLibraryProperty extends StringProperty {
         private static final String JSON4S = "json4s";
         private static final String CIRCE = "circe";
-        private static final String USE_CIRCE_PROPERTY = "circe";
-        private static final String USE_JSON4S_PROPERTY = "json4s";
 
         private JsonLibraryProperty() {
             super("jsonLibrary", "Json library to use. Possible values are: json4s and circe.", JSON4S);
@@ -197,11 +191,12 @@ public class ScalaSttpClientCodegen extends ScalaAkkaClientCodegen implements Co
         public void updateAdditionalProperties(Map<String, Object> additionalProperties) {
             String value = getValue(additionalProperties);
             if (value.equals(CIRCE) || value.equals(JSON4S)) {
-                additionalProperties.put(USE_CIRCE_PROPERTY, value.equals(CIRCE));
-                additionalProperties.put(USE_JSON4S_PROPERTY, value.equals(JSON4S));
+                additionalProperties.put(CIRCE, value.equals(CIRCE));
+                additionalProperties.put(JSON4S, value.equals(JSON4S));
             } else {
-                IllegalArgumentException exception = new IllegalArgumentException("Unsupported json library: " + value);
-                LOGGER.error("Unsupported json library " + value, exception);
+                IllegalArgumentException exception =
+                        new IllegalArgumentException("Invalid json library: " + value + ". Must be " + CIRCE + " " +
+                                "or " + JSON4S);
                 throw exception;
             }
         }
