@@ -7,3 +7,4 @@ additionalProperties:
   hideGenerationTimestamp: "true"
   serverPort: "8082"
   dateLibrary: java8
+  useOneOfDiscriminatorLookup: true
