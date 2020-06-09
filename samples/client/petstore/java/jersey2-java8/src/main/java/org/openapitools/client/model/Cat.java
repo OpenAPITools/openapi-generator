@@ -31,6 +31,7 @@ import org.openapitools.client.model.CatAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * Cat
  */
@@ -49,7 +50,6 @@ public class Cat extends Animal {
 
 
   public Cat declawed(Boolean declawed) {
-    
     this.declawed = declawed;
     return this;
   }

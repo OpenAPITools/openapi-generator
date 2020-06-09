@@ -32,6 +32,7 @@ import org.openapitools.client.model.Tag;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * Pet
  */
@@ -102,7 +103,6 @@ public class Pet {
 
 
   public Pet id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -127,7 +127,6 @@ public class Pet {
 
 
   public Pet category(Category category) {
-    
     this.category = category;
     return this;
   }
@@ -152,7 +151,6 @@ public class Pet {
 
 
   public Pet name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -176,7 +174,6 @@ public class Pet {
 
 
   public Pet photoUrls(Set<String> photoUrls) {
-    
     this.photoUrls = photoUrls;
     return this;
   }
@@ -205,7 +202,6 @@ public class Pet {
 
 
   public Pet tags(List<Tag> tags) {
-    
     this.tags = tags;
     return this;
   }
@@ -238,7 +234,6 @@ public class Pet {
 
 
   public Pet status(StatusEnum status) {
-    
     this.status = status;
     return this;
   }

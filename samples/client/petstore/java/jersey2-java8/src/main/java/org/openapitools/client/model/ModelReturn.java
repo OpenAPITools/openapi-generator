@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * Model for testing reserved words
  */
@@ -40,7 +41,6 @@ public class ModelReturn {
 
 
   public ModelReturn _return(Integer _return) {
-    
     this._return = _return;
     return this;
   }

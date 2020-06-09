@@ -15,7 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Map;
 import java.util.HashMap;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -30,6 +31,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * AdditionalPropertiesArray
  */
@@ -43,7 +45,6 @@ public class AdditionalPropertiesArray {
 
 
   public AdditionalPropertiesArray name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -71,19 +72,27 @@ public class AdditionalPropertiesArray {
    * This is a holder for any undeclared properties as specified with
    * the 'additionalProperties' keyword in the OAS document.
    */
-  @JsonUnwrapped
   private Map<String, List> additionalProperties;
 
   /**
    * Set the additional (undeclared) property with the specified name and value.
    * If the property does not already exist, create it otherwise replace it.
    */
+  @JsonAnySetter
   public AdditionalPropertiesArray putAdditionalProperty(String key, List value) {
     if (this.additionalProperties == null) {
         this.additionalProperties = new HashMap<String, List>();
     }
     this.additionalProperties.put(key, value);
     return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  @JsonAnyGetter
+  public Map<String, List> getAdditionalProperties() {
+    return additionalProperties;
   }
 
   /**

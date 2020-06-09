@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * BigCatAllOf
  */
@@ -78,7 +79,6 @@ public class BigCatAllOf {
 
 
   public BigCatAllOf kind(KindEnum kind) {
-    
     this.kind = kind;
     return this;
   }

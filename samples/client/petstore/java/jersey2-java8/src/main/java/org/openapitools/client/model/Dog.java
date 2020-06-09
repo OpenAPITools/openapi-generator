@@ -30,6 +30,7 @@ import org.openapitools.client.model.DogAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * Dog
  */
@@ -47,7 +48,6 @@ public class Dog extends Animal {
 
 
   public Dog breed(String breed) {
-    
     this.breed = breed;
     return this;
   }

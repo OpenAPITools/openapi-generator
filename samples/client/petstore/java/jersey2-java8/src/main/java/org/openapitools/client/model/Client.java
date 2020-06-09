@@ -26,6 +26,7 @@ import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * Client
  */
@@ -39,7 +40,6 @@ public class Client {
 
 
   public Client client(String client) {
-    
     this.client = client;
     return this;
   }

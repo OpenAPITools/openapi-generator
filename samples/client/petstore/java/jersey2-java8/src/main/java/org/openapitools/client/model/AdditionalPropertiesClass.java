@@ -30,6 +30,7 @@ import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
+
 /**
  * AdditionalPropertiesClass
  */
@@ -83,7 +84,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
-    
     this.mapString = mapString;
     return this;
   }
@@ -116,7 +116,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapNumber(Map<String, BigDecimal> mapNumber) {
-    
     this.mapNumber = mapNumber;
     return this;
   }
@@ -149,7 +148,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapInteger(Map<String, Integer> mapInteger) {
-    
     this.mapInteger = mapInteger;
     return this;
   }
@@ -182,7 +180,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapBoolean(Map<String, Boolean> mapBoolean) {
-    
     this.mapBoolean = mapBoolean;
     return this;
   }
@@ -215,7 +212,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapArrayInteger(Map<String, List<Integer>> mapArrayInteger) {
-    
     this.mapArrayInteger = mapArrayInteger;
     return this;
   }
@@ -248,7 +244,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapArrayAnytype(Map<String, List<Object>> mapArrayAnytype) {
-    
     this.mapArrayAnytype = mapArrayAnytype;
     return this;
   }
@@ -281,7 +276,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapMapString(Map<String, Map<String, String>> mapMapString) {
-    
     this.mapMapString = mapMapString;
     return this;
   }
@@ -314,7 +308,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapMapAnytype(Map<String, Map<String, Object>> mapMapAnytype) {
-    
     this.mapMapAnytype = mapMapAnytype;
     return this;
   }
@@ -347,7 +340,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass anytype1(Object anytype1) {
-    
     this.anytype1 = anytype1;
     return this;
   }
@@ -372,7 +364,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass anytype2(Object anytype2) {
-    
     this.anytype2 = anytype2;
     return this;
   }
@@ -397,7 +388,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass anytype3(Object anytype3) {
-    
     this.anytype3 = anytype3;
     return this;
   }
