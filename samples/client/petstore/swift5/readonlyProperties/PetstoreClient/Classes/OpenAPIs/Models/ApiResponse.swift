@@ -7,7 +7,9 @@
 
 import Foundation
 
-public struct ApiResponse: Codable {
+
+public struct ApiResponse: Codable { 
+
 
     public private(set) var code: Int?
     public private(set) var type: String?
