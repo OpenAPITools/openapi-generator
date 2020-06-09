@@ -283,7 +283,7 @@ To generate code with this image, you'll need to mount a local location as a vol
 Example:
 
 ```sh
-docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli generate \
+docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
     -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
     -g go \
     -o /local/out/go
@@ -598,6 +598,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [GoDaddy](https://godaddy.com)
 - [Here](https://developer.here.com/)
 - [IBM](https://www.ibm.com/)
+- [Instana](https://www.instana.com)
 - [JustStar](https://www.juststarinfo.com)
 - [k6.io](https://k6.io/)
 - [Klarna](https://www.klarna.com/)

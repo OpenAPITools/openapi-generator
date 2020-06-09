@@ -28,6 +28,8 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -53,13 +55,14 @@ import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
-import org.openapitools.client.model.AbstractOpenApiSchema;
 
 
 public class ApiClient {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
   protected String basePath = "http://petstore.swagger.io:80/v2";
+  private static final Logger log = Logger.getLogger(ApiClient.class.getName());
+
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
     new ServerConfiguration(
       "http://petstore.swagger.io:80/v2",
@@ -807,64 +810,6 @@ public class ApiClient {
     }
   }
 
-  public AbstractOpenApiSchema deserializeSchemas(Response response, AbstractOpenApiSchema schema) throws ApiException{
-
-    Object result = null;
-    int matchCounter = 0;
-    ArrayList<String> matchSchemas = new ArrayList<>();
-
-    if (schema.isNullable()) {
-      response.bufferEntity();
-      if ("{}".equals(String.valueOf(response.readEntity(String.class))) ||
-          "".equals(String.valueOf(response.readEntity(String.class)))) {
-        // schema is nullable and the response body is {} or empty string
-        return schema;
-      }
-    }
-
-    for (Map.Entry<String, GenericType> entry : schema.getSchemas().entrySet()) {
-      String schemaName = entry.getKey();
-      GenericType schemaType = entry.getValue();
-
-      if (schemaType instanceof GenericType) { // model
-        try {
-          Object deserializedObject = deserialize(response, schemaType);
-          if (deserializedObject != null) {
-            result = deserializedObject;
-            matchCounter++;
-
-            if ("anyOf".equals(schema.getSchemaType())) {
-              break;
-            } else if ("oneOf".equals(schema.getSchemaType())) {
-              matchSchemas.add(schemaName);
-            } else {
-              throw new ApiException("Unknowe type found while expecting anyOf/oneOf:" + schema.getSchemaType());
-            }
-          } else {
-            // failed to deserialize the response in the schema provided, proceed to the next one if any
-          }
-        } catch (Exception ex) {
-          // failed to deserialize, do nothing and try next one (schema)
-        }
-      } else {// unknown type
-        throw new ApiException(schemaType.getClass() + " is not a GenericType and cannot be handled properly in deserialization.");
-      }
-
-    }
-
-    if (matchCounter > 1 && "oneOf".equals(schema.getSchemaType())) {// more than 1 match for oneOf
-      throw new ApiException("Response body is invalid as it matches more than one schema (" + StringUtil.join(matchSchemas, ", ") + ") defined in the oneOf model: " + schema.getClass().getName());
-    } else if (matchCounter == 0) { // fail to match any in oneOf/anyOf schemas
-      throw new ApiException("Response body is invalid as it doens't match any schemas (" + StringUtil.join(schema.getSchemas().keySet(), ", ") + ") defined in the oneOf/anyOf model: " + schema.getClass().getName());
-    } else { // only one matched
-      schema.setActualInstance(result);
-      return schema;
-    }
-
-  }
-
-
-
   /**
    * Deserialize response body to Java object according to the Content-Type.
    * @param <T> Type
@@ -966,7 +911,6 @@ public class ApiClient {
    * @param contentType The request's Content-Type header
    * @param authNames The authentications to apply
    * @param returnType The return type into which to deserialize the response
-   * @param schema An instance of the response that uses oneOf/anyOf
    * @return The response body in type of string
    * @throws ApiException API exception
    */
@@ -982,8 +926,7 @@ public class ApiClient {
       String accept,
       String contentType,
       String[] authNames,
-      GenericType<T> returnType,
-      AbstractOpenApiSchema schema)
+      GenericType<T> returnType)
       throws ApiException {
 
     // Not using `.target(targetURL).path(path)` below,
@@ -1080,12 +1023,10 @@ public class ApiClient {
       if (response.getStatusInfo() == Status.NO_CONTENT) {
         return new ApiResponse<T>(statusCode, responseHeaders);
       } else if (response.getStatusInfo().getFamily() == Status.Family.SUCCESSFUL) {
-        if (returnType == null) return new ApiResponse<T>(statusCode, responseHeaders);
-        else if (schema == null) {
+        if (returnType == null) {
+          return new ApiResponse<T>(statusCode, responseHeaders);
+        } else {
           return new ApiResponse<T>(statusCode, responseHeaders, deserialize(response, returnType));
-        } else { // oneOf/anyOf
-          return new ApiResponse<T>(
-              statusCode, responseHeaders, (T) deserializeSchemas(response, schema));
         }
       } else {
         String message = "error";
@@ -1131,8 +1072,8 @@ public class ApiClient {
    * @deprecated Add qualified name of the operation as a first parameter.
    */
   @Deprecated
-  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType, AbstractOpenApiSchema schema) throws ApiException {
-    return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType, schema);
+  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+    return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
   }
 
   /**

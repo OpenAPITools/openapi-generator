@@ -249,11 +249,7 @@ public class TypeScriptRxjsClientCodegen extends AbstractTypeScriptClientCodegen
 
     private void setParamNameAlternative(CodegenParameter param, String paramName, String paramNameAlternative) {
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         if (param.paramName.equals(paramName)) {
-            param.vendorExtensions.put("paramNameAlternative", paramNameAlternative); // TODO: 5.0 Remove
             param.vendorExtensions.put("x-param-name-alternative", paramNameAlternative);
         }
     }

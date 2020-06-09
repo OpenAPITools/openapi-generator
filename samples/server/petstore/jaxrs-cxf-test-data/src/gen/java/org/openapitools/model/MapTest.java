@@ -3,7 +3,6 @@ package org.openapitools.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.model.StringBooleanMap;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -17,6 +16,7 @@ import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 
 public class MapTest  {
   
@@ -63,8 +63,7 @@ public enum InnerEnum {
   private Map<String, Boolean> directMap = null;
 
   @ApiModelProperty(value = "")
-  @Valid
-  private StringBooleanMap indirectMap = new StringBooleanMap();
+  private Map<String, Boolean> indirectMap = null;
  /**
   * Get mapMapOfString
   * @return mapMapOfString
@@ -166,22 +165,30 @@ public enum InnerEnum {
   * @return indirectMap
   */
   @JsonProperty("indirect_map")
-  public StringBooleanMap getIndirectMap() {
+  public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
 
   /**
    * Sets the <code>indirectMap</code> property.
    */
-  public void setIndirectMap(StringBooleanMap indirectMap) {
+  public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
 
   /**
    * Sets the <code>indirectMap</code> property.
    */
-  public MapTest indirectMap(StringBooleanMap indirectMap) {
+  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
+    return this;
+  }
+
+  /**
+   * Puts a new item into the <code>indirectMap</code> map.
+   */
+  public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
+    this.indirectMap.put(key, indirectMapItem);
     return this;
   }
 

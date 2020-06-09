@@ -27,7 +27,7 @@ class OPENAPI_API Model
 public:
 	virtual ~Model() {}
 	virtual void WriteJson(JsonWriter& Writer) const = 0;
-	virtual bool FromJson(const TSharedPtr<FJsonObject>& JsonObject) = 0;
+	virtual bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) = 0;
 };
 
 class OPENAPI_API Request
@@ -42,7 +42,7 @@ class OPENAPI_API Response
 {
 public:
 	virtual ~Response() {}
-	virtual bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) = 0;
+	virtual bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) = 0;
 
 	void SetSuccessful(bool InSuccessful) { Successful = InSuccessful; }
 	bool IsSuccessful() const { return Successful; }

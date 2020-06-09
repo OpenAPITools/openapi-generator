@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.List;
 import java.security.spec.AlgorithmParameterSpec;
+import java.security.InvalidKeyException;
 
 import org.tomitribe.auth.signatures.Algorithm;
 import org.tomitribe.auth.signatures.Signer;
@@ -204,7 +205,7 @@ public class HttpSignatureAuth implements Authentication {
    * @throws InvalidKeyException Unable to parse the key, or the security provider for this key
    * is not installed.
    */
-  public void setPrivateKey(Key key) throws InvalidKeyException {
+  public void setPrivateKey(Key key) throws InvalidKeyException, ApiException {
     if (key == null) {
       throw new ApiException("Private key (java.security.Key) cannot be null");
     }

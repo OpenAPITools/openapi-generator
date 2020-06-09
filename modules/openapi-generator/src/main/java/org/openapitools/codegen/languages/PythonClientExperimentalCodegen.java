@@ -38,8 +38,9 @@ import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -97,6 +98,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         apiDocTemplateFiles.remove("api_doc.mustache");
         apiDocTemplateFiles.put("python-experimental/api_doc.mustache", ".md");
 
+        apiTestTemplateFiles.remove("api_test.mustache", ".py");
+        apiTestTemplateFiles.put("python-experimental/api_test.mustache", ".py");
+
         modelDocTemplateFiles.remove("model_doc.mustache");
         modelDocTemplateFiles.put("python-experimental/model_doc.mustache", ".md");
 
@@ -123,6 +127,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         this.setLegacyDiscriminatorBehavior(false);
 
         super.processOpts();
+        modelPackage = packageName + "." + "model";
 
         supportingFiles.remove(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
         supportingFiles.add(new SupportingFile("python-experimental/api_client.mustache", packagePath(), "api_client.py"));
@@ -130,11 +135,14 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         supportingFiles.add(new SupportingFile("python-experimental/model_utils.mustache", packagePath(), "model_utils.py"));
 
         supportingFiles.remove(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
-        supportingFiles.add(new SupportingFile("python-experimental/__init__model.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/__init__model.mustache", packagePath() + File.separatorChar + "model", "__init__.py"));
 
         supportingFiles.remove(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("python-experimental/__init__package.mustache", packagePath(), "__init__.py"));
 
+        // add the models and apis folders
+        supportingFiles.add(new SupportingFile("python-experimental/__init__models.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/__init__apis.mustache", packagePath() + File.separatorChar + "apis", "__init__.py"));
 
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
         Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
@@ -189,15 +197,15 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return "python-experimental";
     }
 
-    public String dateToString(Schema p, Date date, DateFormat dateFormatter, DateFormat dateTimeFormatter) {
+    public String dateToString(Schema p, OffsetDateTime date, DateTimeFormatter dateFormatter, DateTimeFormatter dateTimeFormatter) {
         // converts a date into a date or date-time python string
         if (!(ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p))) {
             throw new RuntimeException("passed schema must be of type Date or DateTime");
         }
         if (ModelUtils.isDateSchema(p)) {
-            return "dateutil_parser('" + dateFormatter.format(date) + "').date()";
+            return "dateutil_parser('" + date.format(dateFormatter) + "').date()";
         }
-        return "dateutil_parser('" + dateTimeFormatter.format(date) + "')";
+        return "dateutil_parser('" + date.format(dateTimeFormatter) + "')";
     }
 
     /**
@@ -221,20 +229,17 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
 
         // convert datetime and date enums if they exist
-        DateFormat iso8601Date = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
-        DateFormat iso8601DateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
-        TimeZone utc = TimeZone.getTimeZone("UTC");
-        iso8601Date.setTimeZone(utc);
-        iso8601DateTime.setTimeZone(utc);
+        DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
+        DateTimeFormatter iso8601DateTime = DateTimeFormatter.ISO_DATE_TIME;
 
         if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
             List<Object> currentEnum = p.getEnum();
             List<String> fixedEnum = new ArrayList<String>();
             String fixedValue = null;
-            Date date = null;
+            OffsetDateTime date = null;
             if (currentEnum != null && !currentEnum.isEmpty()) {
                 for (Object enumItem : currentEnum) {
-                    date = (Date) enumItem;
+                    date = (OffsetDateTime) enumItem;
                     fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
                     fixedEnum.add(fixedValue);
                 }
@@ -244,15 +249,21 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             // convert the example if it exists
             Object currentExample = p.getExample();
             if (currentExample != null) {
-                date = (Date) currentExample;
+                try {
+                    date = (OffsetDateTime) currentExample;
+                } catch (ClassCastException e) {
+                    date = ((Date) currentExample).toInstant().atOffset(ZoneOffset.UTC);
+                    LOGGER.warn("Invalid `date-time` format for value {}", currentExample);
+                }
                 fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
                 fixedEnum.add(fixedValue);
                 p.setExample(fixedValue);
+                LOGGER.warn(fixedValue);
             }
 
             // fix defaultObject
             if (defaultObject != null) {
-                date = (Date) defaultObject;
+                date = (OffsetDateTime) defaultObject;
                 fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
                 p.setDefault(fixedValue);
                 defaultObject = fixedValue;
@@ -370,7 +381,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     /**
      * Override with special post-processing for all models.
-     */ 
+     */
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         // loop through all models and delete ones where type!=object and the model has no validations and enums
@@ -410,14 +421,12 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
                 Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
                 CodegenProperty modelProperty = fromProperty("value", modelSchema);
+
                 if (cm.isEnum || cm.isAlias) {
-                    if (!modelProperty.isEnum && !modelProperty.hasValidation) {
+                    if (!modelProperty.isEnum && !modelProperty.hasValidation && !cm.isArrayModel) {
                         // remove these models because they are aliases and do not have any enums or validations
                         modelSchemasToRemove.put(cm.name, modelSchema);
                     }
-                } else if (cm.isArrayModel && !modelProperty.isEnum && !modelProperty.hasValidation) {
-                    // remove any ArrayModels which lack validation and enums
-                    modelSchemasToRemove.put(cm.name, modelSchema);
                 }
             }
         }
@@ -518,9 +527,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             // set the example value
             if (modelProp.isEnum) {
                 String value = modelProp._enum.get(0).toString();
-                result.example = this.packageName + "." + result.baseType + "(" + toEnumValue(value, simpleDataType) + ")";
+                result.example = result.dataType + "(" + toEnumValue(value, simpleDataType) + ")";
             } else {
-                result.example = this.packageName + "." + result.baseType + "(" + result.example + ")";
+                result.example = result.dataType + "(" + result.example + ")";
             }
         } else if (!result.isPrimitiveType) {
             // fix the baseType for the api docs so the .md link to the class's documentation file is correct
@@ -818,10 +827,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         result.unescapedDescription = simpleModelName(name);
 
         // make non-object type models have one property so we can use it to store enums and validations
-        if (result.isAlias || result.isEnum) {
+        if (result.isAlias || result.isEnum || result.isArrayModel) {
             Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
             CodegenProperty modelProperty = fromProperty("value", modelSchema);
-            if (modelProperty.isEnum == true || modelProperty.hasValidation == true) {
+            if (modelProperty.isEnum == true || modelProperty.hasValidation == true || result.isArrayModel) {
                 // these models are non-object models with enums and/or validations
                 // add a single property to the model so we can have a way to access validations
                 result.isAlias = true;
@@ -836,7 +845,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                         postProcessModelProperty(result, prop);
                     }
                 }
-
             }
         }
 
@@ -898,7 +906,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * Primitive types in the OAS specification are implemented in Python using the corresponding
      * Python primitive types.
      * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types.
-     * 
+     *
      * The caller should set the prefix and suffix arguments to empty string, except when
      * getTypeString invokes itself recursively. A non-empty prefix/suffix may be specified
      * to wrap the return value in a python dict, list or tuple.
@@ -906,7 +914,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * Examples:
      * - "bool, date, float"  The data must be a bool, date or float.
      * - "[bool, date]"       The data must be an array, and the array items must be a bool or date.
-     * 
+     *
      * @param p The OAS schema.
      * @param prefix prepended to the returned value.
      * @param suffix appended to the returned value.
@@ -915,7 +923,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * @return a comma-separated string representation of the Python types
      */
     private String getTypeString(Schema p, String prefix, String suffix, List<String> referencedModelNames) {
-        // this is used to set dataType, which defines a python tuple of classes
         String fullSuffix = suffix;
         if (")".equals(suffix)) {
             fullSuffix = "," + suffix;
@@ -961,7 +968,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             } else {
                 return prefix + getTypeString(inner, "[", "]", referencedModelNames) + fullSuffix;
             }
-        } 
+        }
         if (ModelUtils.isFileSchema(p)) {
             return prefix + "file_type" + fullSuffix;
         }
@@ -1064,7 +1071,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             example = "'" + escapeText(example) + "'";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. user.User
-            example = this.packageName + "." + getPythonClassName(type) + "()";
+            example = type + "()";
         } else {
             LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
         }
