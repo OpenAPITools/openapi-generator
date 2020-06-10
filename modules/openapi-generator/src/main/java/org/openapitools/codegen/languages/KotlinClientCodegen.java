@@ -344,6 +344,21 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             typeMapping.put("list", "kotlin.collections.List");
             additionalProperties.put("isList", true);
         }
+
+        if (ProcessUtils.hasOAuthMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
+            supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
+            supportingFiles.add(new SupportingFile("auth/OAuthFlow.kt.mustache", authFolder, "OAuthFlow.kt"));
+            supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.kt.mustache", authFolder, "OAuthOkHttpClient.kt"));
+        }
+
+        if(ProcessUtils.hasHttpBearerMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
+        }
+        
+        if(ProcessUtils.hasHttpBasicMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
+        }
     }
 
     private void processDateLibrary() {
@@ -563,7 +578,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         return objects;
     }
 
-        private boolean usesRetrofit2Library() {
+    private boolean usesRetrofit2Library() {
         return getLibrary() != null && getLibrary().contains(JVM_RETROFIT2);
     }
 
@@ -583,20 +598,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     }
                 }
 
-                if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
+                if (StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
                     operation.path = operation.path.substring(1);
-                    if (ProcessUtils.hasOAuthMethods(objs)) {
-                        supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
-                        supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
-                        supportingFiles.add(new SupportingFile("auth/OAuthFlow.kt.mustache", authFolder, "OAuthFlow.kt"));
-                        supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.kt.mustache", authFolder, "OAuthOkHttpClient.kt"));
-                    }
-                    if(ProcessUtils.hasBearerMethods(objs)) {
-                        supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
-                    }
-                    if(ProcessUtils.hasHttpBasicMethods(objs)) {
-                        supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
-                    }
                 }
 
                 // modify the data type of binary form parameters to a more friendly type for multiplatform builds
