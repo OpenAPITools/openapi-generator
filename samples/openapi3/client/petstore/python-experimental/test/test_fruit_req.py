@@ -176,5 +176,9 @@ class TestFruitReq(unittest.TestCase):
             fruit._additional_properties_model_instances, []
         )
 
+        # we can pass in None
+        fruit = FruitReq(None)
+        assert fruit is None
+
 if __name__ == '__main__':
     unittest.main()

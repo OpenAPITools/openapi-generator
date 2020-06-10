@@ -15,11 +15,11 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.outer_enum import OuterEnum
+from petstore_api.model.string_enum import StringEnum
 
 
-class TestOuterEnum(unittest.TestCase):
-    """OuterEnum unit test stubs"""
+class TestStringEnum(unittest.TestCase):
+    """StringEnum unit test stubs"""
 
     def setUp(self):
         pass
@@ -27,18 +27,24 @@ class TestOuterEnum(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testOuterEnum(self):
-        """Test OuterEnum"""
-        # Since 'OuterEnum' is nullable, validate the null value can be assigned
-        # to OuterEnum.
-        inst = OuterEnum(None)
+    def testStringEnum(self):
+        """Test StringEnum"""
+        inst = StringEnum(None)
         self.assertIsNone(inst)
 
-        inst = OuterEnum('approved')
-        assert isinstance(inst, OuterEnum)
+        inst = StringEnum('approved')
+        assert isinstance(inst, StringEnum)
 
         with self.assertRaises(petstore_api.ApiValueError):
-            OuterEnum('garbage')
+            StringEnum('garbage')
+
+        # make sure that we can access its allowed_values
+        assert StringEnum.allowed_values[('value',)] == {
+            'None': None,
+            'PLACED': "placed",
+            'APPROVED': "approved",
+            'DELIVERED': "delivered"
+        }
 
 
 if __name__ == '__main__':

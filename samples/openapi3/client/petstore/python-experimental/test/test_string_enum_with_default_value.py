@@ -15,11 +15,11 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.outer_enum_integer import OuterEnumInteger
+from petstore_api.model.string_enum_with_default_value import StringEnumWithDefaultValue
 
 
-class TestOuterEnumInteger(unittest.TestCase):
-    """OuterEnumInteger unit test stubs"""
+class TestStringEnumWithDefaultValue(unittest.TestCase):
+    """StringEnumWithDefaultValue unit test stubs"""
 
     def setUp(self):
         pass
@@ -27,10 +27,10 @@ class TestOuterEnumInteger(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testOuterEnumInteger(self):
-        """Test OuterEnumInteger"""
+    def testStringEnumWithDefaultValue(self):
+        """Test StringEnumWithDefaultValue"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = OuterEnumInteger()  # noqa: E501
+        # model = StringEnumWithDefaultValue()  # noqa: E501
         pass
 
 

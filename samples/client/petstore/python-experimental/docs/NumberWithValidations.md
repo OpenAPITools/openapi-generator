@@ -1,9 +1,9 @@
-# outer_enum_integer_default_value.OuterEnumIntegerDefaultValue
+# number_with_validations.NumberWithValidations
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**value** | **int** |  | defaults to 0
+**value** | **float** |  | 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -31,8 +31,8 @@ paths:
                     $ref: '#/components/schemas/Foo'
   /pet:
     servers:
-    - url: 'http://petstore.swagger.io/v2'
-    - url: 'http://path-server-test.petstore.local/v2'
+      - url: 'http://petstore.swagger.io/v2'
+      - url: 'http://path-server-test.petstore.local/v2'
     post:
       tags:
         - pet
@@ -822,82 +822,191 @@ paths:
       responses:
         '400':
           description: Someting wrong
-  /fake/outer/number:
+  /fake/refs/number:
     post:
       tags:
         - fake
       description: Test serialization of outer number types
-      operationId: fakeOuterNumberSerialize
+      operationId: NumberWithValidations
+      requestBody:
+        description: Input number as post body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NumberWithValidations'
+        required: false
       responses:
         '200':
           description: Output number
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/OuterNumber'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OuterNumber'
-        description: Input number as post body
-  /fake/outer/string:
+                $ref: '#/components/schemas/NumberWithValidations'
+  /fake/refs/string:
     post:
       tags:
         - fake
       description: Test serialization of outer string types
-      operationId: fakeOuterStringSerialize
+      operationId: String
+      requestBody:
+        description: Input string as post body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/String'
+        required: false
       responses:
         '200':
           description: Output string
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/OuterString'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OuterString'
-        description: Input string as post body
-  /fake/outer/boolean:
+                $ref: '#/components/schemas/String'
+      x-codegen-request-body-name: body
+  /fake/refs/boolean:
     post:
       tags:
         - fake
       description: Test serialization of outer boolean types
-      operationId: fakeOuterBooleanSerialize
+      operationId: Boolean
+      requestBody:
+        description: Input boolean as post body
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Boolean'
+        required: false
       responses:
         '200':
           description: Output boolean
           content:
-            '*/*':
+            application/json:
               schema:
-                $ref: '#/components/schemas/OuterBoolean'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OuterBoolean'
-        description: Input boolean as post body
-  /fake/outer/composite:
+                $ref: '#/components/schemas/Boolean'
+      x-codegen-request-body-name: body
+  /fake/refs/arraymodel:
     post:
       tags:
         - fake
-      description: Test serialization of object with outer number type
-      operationId: fakeOuterCompositeSerialize
-      responses:
-        '200':
-          description: Output composite
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/OuterComposite'
+      description: Test serialization of ArrayModel
+      operationId: ArrayModel
       requestBody:
+        description: Input model
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OuterComposite'
-        description: Input composite as post body
+              $ref: '#/components/schemas/AnimalFarm'
+        required: false
+      responses:
+        '200':
+          description: Output model
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnimalFarm'
+      x-codegen-request-body-name: body
+  /fake/refs/composed_one_of_number_with_validations:
+    post:
+      tags:
+        - fake
+      description: Test serialization of object with $refed properties
+      operationId: ComposedOneOfNumberWithValidations
+      requestBody:
+        description: Input model
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComposedOneOfNumberWithValidations'
+        required: false
+      responses:
+        '200':
+          description: Output model
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComposedOneOfNumberWithValidations'
+  /fake/refs/object_model_with_ref_props:
+    post:
+      tags:
+        - fake
+      description: Test serialization of object with $refed properties
+      operationId: ObjectModelWithRefProps
+      requestBody:
+        description: Input model
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectModelWithRefProps'
+        required: false
+      responses:
+        '200':
+          description: Output model
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectModelWithRefProps'
+      x-codegen-request-body-name: body
+  /fake/refs/enum:
+    post:
+      tags:
+        - fake
+      description: Test serialization of outer enum
+      operationId: StringEnum
+      requestBody:
+        description: Input enum
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StringEnum'
+        required: false
+      responses:
+        '200':
+          description: Output enum
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringEnum'
+      x-codegen-request-body-name: body
+  /fake/refs/array-of-enums:
+    post:
+      tags:
+        - fake
+      summary: Array of Enums
+      operationId: ArrayOfEnums
+      requestBody:
+        description: Input enum
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArrayOfEnums'
+        required: false
+      responses:
+        200:
+          description: Got named array of enums
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfEnums'
+  /fake/additional-properties-with-array-of-enums:
+    get:
+      tags:
+        - fake
+      summary: Additional Properties with Array of Enums
+      operationId: AdditionalPropertiesWithArrayOfEnums
+      requestBody:
+        description: Input enum
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdditionalPropertiesWithArrayOfEnums'
+        required: false
+      responses:
+        200:
+          description: Got object with additional properties with array of enums
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalPropertiesWithArrayOfEnums'
   /fake/jsonFormData:
     get:
       tags:
@@ -1099,32 +1208,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
-  /fake/array-of-enums:
-    get:
-      tags:
-        - fake
-      summary: Array of Enums
-      operationId: getArrayOfEnums
-      responses:
-        200:
-          description: Got named array of enums
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ArrayOfEnums'
-  /fake/additional-properties-with-array-of-enums:
-    get:
-      tags:
-        - fake
-      summary: Additional Properties with Array of Enums
-      operationId: getAdditionalPropertiesWithArrayOfEnums
-      responses:
-        200:
-          description: Got object with additional properties with array of enums
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AdditionalPropertiesWithArrayOfEnums'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1430,7 +1513,7 @@ components:
     Address:
       type: object
       additionalProperties:
-         type: integer
+        type: integer
     Animal:
       type: object
       discriminator:
@@ -1553,14 +1636,16 @@ components:
           enum:
             - 1.1
             - -1.2
-        outerEnum:
-          $ref: '#/components/schemas/OuterEnum'
-        outerEnumInteger:
-          $ref: '#/components/schemas/OuterEnumInteger'
-        outerEnumDefaultValue:
-          $ref: '#/components/schemas/OuterEnumDefaultValue'
-        outerEnumIntegerDefaultValue:
-          $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
+        stringEnum:
+          $ref: '#/components/schemas/StringEnum'
+        IntegerEnum:
+          $ref: '#/components/schemas/IntegerEnum'
+        StringEnumWithDefaultValue:
+          $ref: '#/components/schemas/StringEnumWithDefaultValue'
+        IntegerEnumWithDefaultValue:
+          $ref: '#/components/schemas/IntegerEnumWithDefaultValue'
+        IntegerEnumOneValue:
+          $ref: '#/components/schemas/IntegerEnumOneValue'
     AdditionalPropertiesClass:
       type: object
       properties:
@@ -1727,47 +1812,64 @@ components:
             enum:
               - fish
               - crab
-    OuterEnum:
+    StringEnum:
       nullable: true
+      type: string
+      enum:
+        - "placed"
+        - "approved"
+        - "delivered"
+    IntegerEnum:
+      type: integer
+      enum:
+        - 0
+        - 1
+        - 2
+    StringEnumWithDefaultValue:
       type: string
       enum:
         - placed
         - approved
         - delivered
-    OuterEnumInteger:
-      type: integer
-      enum:
-      - 0
-      - 1
-      - 2
-    OuterEnumDefaultValue:
-      type: string
-      enum:
-      - placed
-      - approved
-      - delivered
       default: placed
-    OuterEnumIntegerDefaultValue:
+    IntegerEnumWithDefaultValue:
       type: integer
       enum:
-      - 0
-      - 1
-      - 2
+        - 0
+        - 1
+        - 2
       default: 0
-    OuterComposite:
+    IntegerEnumOneValue:
+      type: integer
+      enum:
+        - 0
+    ObjectModelWithRefProps:
+      description: a model that includes properties which should stay primitive (String + Boolean) and one which is defined as a class, NumberWithValidations
       type: object
       properties:
         my_number:
-          $ref: '#/components/schemas/OuterNumber'
+          $ref: '#/definitions/NumberWithValidations'
         my_string:
-          $ref: '#/components/schemas/OuterString'
+          $ref: '#/definitions/String'
         my_boolean:
-          $ref: '#/components/schemas/OuterBoolean'
-    OuterNumber:
+          $ref: '#/definitions/Boolean'
+    NumberWithValidations:
       type: number
-    OuterString:
+      minimum: 10
+      maximum: 20
+    ComposedOneOfNumberWithValidations:
+      description: this is a model that allows payloads of type object or number
+      oneOf:
+        - $ref: '#/components/schemas/NumberWithValidations'
+        - $ref: '#/components/schemas/Animal'
+        - type: 'null'
+        - type: string
+          format: date
+    Number:
+      type: number
+    String:
       type: string
-    OuterBoolean:
+    Boolean:
       type: boolean
       x-codegen-body-parameter-name: boolean_post_body
     StringBooleanMap:
@@ -1939,19 +2041,19 @@ components:
       required:
         - className
     gmFruit:
-       properties:
-          color:
-             type: string
-       anyOf:
-          - $ref: '#/components/schemas/apple'
-          - $ref: '#/components/schemas/banana'
-       additionalProperties: false
+      properties:
+        color:
+          type: string
+      anyOf:
+        - $ref: '#/components/schemas/apple'
+        - $ref: '#/components/schemas/banana'
+      additionalProperties: false
     fruitReq:
-       oneOf:
-          - type: 'null'
-          - $ref: '#/components/schemas/appleReq'
-          - $ref: '#/components/schemas/bananaReq'
-       additionalProperties: false
+      oneOf:
+        - type: 'null'
+        - $ref: '#/components/schemas/appleReq'
+        - $ref: '#/components/schemas/bananaReq'
+      additionalProperties: false
     appleReq:
       type: object
       properties:
@@ -2103,7 +2205,7 @@ components:
     ArrayOfEnums:
       type: array
       items:
-        $ref: '#/components/schemas/OuterEnum'
+        $ref: '#/components/schemas/StringEnum'
     AdditionalPropertiesWithArrayOfEnums:
       type: object
       additionalProperties:

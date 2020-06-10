@@ -1,9 +1,9 @@
-# outer_enum_default_value.OuterEnumDefaultValue
+# string_enum.StringEnum
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**value** | **str** |  | defaults to 'placed'
+**value** | **str** |  |  must be one of ["placed", "approved", "delivered", ]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

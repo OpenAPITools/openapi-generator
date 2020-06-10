@@ -34,10 +34,10 @@ from petstore_api.model_utils import (  # noqa: F401
     validate_get_composed_info,
 )
 try:
-    from petstore_api.model import outer_enum
+    from petstore_api.model import string_enum
 except ImportError:
-    outer_enum = sys.modules[
-        'petstore_api.model.outer_enum']
+    string_enum = sys.modules[
+        'petstore_api.model.string_enum']
 
 
 class EnumTest(ModelNormal):
@@ -107,7 +107,7 @@ class EnumTest(ModelNormal):
             'enum_string': (str,),  # noqa: E501
             'enum_integer': (int,),  # noqa: E501
             'enum_number': (float,),  # noqa: E501
-            'outer_enum': (outer_enum.OuterEnum,),  # noqa: E501
+            'string_enum': (string_enum.StringEnum,),  # noqa: E501
         }
 
     @cached_property
@@ -119,7 +119,7 @@ class EnumTest(ModelNormal):
         'enum_string': 'enum_string',  # noqa: E501
         'enum_integer': 'enum_integer',  # noqa: E501
         'enum_number': 'enum_number',  # noqa: E501
-        'outer_enum': 'outerEnum',  # noqa: E501
+        'string_enum': 'stringEnum',  # noqa: E501
     }
 
     _composed_schemas = {}
@@ -174,7 +174,7 @@ class EnumTest(ModelNormal):
             enum_string (str): [optional]  # noqa: E501
             enum_integer (int): [optional]  # noqa: E501
             enum_number (float): [optional]  # noqa: E501
-            outer_enum (outer_enum.OuterEnum): [optional]  # noqa: E501
+            string_enum (string_enum.StringEnum): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
