@@ -425,7 +425,7 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         @Override
         public void updateAdditionalProperties(Map<String, Object> additionalProperties) {
             if (additionalProperties.containsKey(name)) {
-                String mainPackage = (String) additionalProperties.get(name);
+                String mainPackage = getValue(additionalProperties);
                 if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)){
                     String apiPackage = mainPackage + ".api";
                     additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
