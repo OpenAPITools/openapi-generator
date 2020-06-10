@@ -1,12 +1,15 @@
 import "reflect-metadata";
+import { Container } from "inversify";
 
 import * as petstore from "ts-petstore-client"
 
 import { expect, assert } from "chai";
 import * as fs from "fs";
 
-const configuration = petstore.createConfiguration()
-const petApi = new petstore.PetApi(configuration)
+const container = new Container();
+const apiServiceBinder = new petstore.ApiServiceBinder(container);
+
+const petApi = container.resolve(petstore.PetApi);
 
 const tag = new petstore.Tag();
 tag.name = "tag1"
