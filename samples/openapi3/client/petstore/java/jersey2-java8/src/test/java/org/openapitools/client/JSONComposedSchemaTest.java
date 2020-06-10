@@ -148,7 +148,7 @@ public class JSONComposedSchemaTest {
         Exception exception = assertThrows(JsonMappingException.class, () -> {
             json.getContext(null).readValue(str, Shape.class);
         });
-        assertEquals("Shape cannot be null", exception.getMessage());
+        assertTrue(exception.getMessage().contains("Shape cannot be null"));
     }
 
     /**
@@ -317,7 +317,7 @@ public class JSONComposedSchemaTest {
             Exception exception = assertThrows(JsonMappingException.class, () -> {
                 GmFruit o = json.getContext(null).readValue(str, GmFruit.class);
             });
-            assertEquals("GmFruit cannot be null", exception.getMessage());
+            assertTrue(exception.getMessage().contains("GmFruit cannot be null"));
         }  
     }
 }

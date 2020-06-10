@@ -129,7 +129,7 @@ public class Fruit extends AbstractOpenApiSchema {
          */
         @Override
         public Fruit getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException("Fruit cannot be null");
+            throw new JsonMappingException(ctxt.getParser(), "Fruit cannot be null");
         }
     }
 
@@ -172,12 +172,12 @@ public class Fruit extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(Apple.class, instance, new HashSet<Class>())) {
+        if (JSON.isInstanceOf(Apple.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Banana.class, instance, new HashSet<Class>())) {
+        if (JSON.isInstanceOf(Banana.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
