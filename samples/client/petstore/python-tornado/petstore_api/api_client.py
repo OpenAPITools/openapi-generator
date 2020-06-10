@@ -550,19 +550,32 @@ class ApiClient(object):
         if not auth_settings:
             return
 
+        if request_auth:
+            self._apply_auth_params(headers, querys, request_auth)
+            return
+
         for auth in auth_settings:
-            auth_setting = request_auth or self.configuration.auth_settings().get(auth)
+            auth_setting = self.configuration.auth_settings().get(auth)
             if auth_setting:
-                if auth_setting['in'] == 'cookie':
-                    headers['Cookie'] = auth_setting['value']
-                elif auth_setting['in'] == 'header':
-                    headers[auth_setting['key']] = auth_setting['value']
-                elif auth_setting['in'] == 'query':
-                    querys.append((auth_setting['key'], auth_setting['value']))
-                else:
-                    raise ApiValueError(
-                        'Authentication token must be in `query` or `header`'
-                    )
+                self._apply_auth_params(headers, querys, auth_setting)
+
+    def _apply_auth_params(self, headers, querys, auth_setting):
+        """Updates the request parameters based on a single auth_setting
+
+        :param headers: Header parameters dict to be updated.
+        :param querys: Query parameters tuple list to be updated.
+        :param auth_setting: auth settings for the endpoint
+        """
+        if auth_setting['in'] == 'cookie':
+            headers['Cookie'] = auth_setting['value']
+        elif auth_setting['in'] == 'header':
+            headers[auth_setting['key']] = auth_setting['value']
+        elif auth_setting['in'] == 'query':
+            querys.append((auth_setting['key'], auth_setting['value']))
+        else:
+            raise ApiValueError(
+                'Authentication token must be in `query` or `header`'
+            )
 
     def __deserialize_file(self, response):
         """Deserializes body to file
