@@ -65,6 +65,7 @@ Name | Type | Description  | Notes
 
 [**Client**](Client.md)
 
+
 ### Authorization
 
 [api_key_query](../README.md#api_key_query)

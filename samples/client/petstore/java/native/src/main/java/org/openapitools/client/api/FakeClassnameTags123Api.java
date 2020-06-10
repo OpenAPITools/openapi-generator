@@ -44,7 +44,7 @@ public class FakeClassnameTags123Api {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  
+
   public FakeClassnameTags123Api() {
     this(new ApiClient());
   }
@@ -94,7 +94,7 @@ public class FakeClassnameTags123Api {
       HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
-      }          
+      }
       if (localVarResponse.statusCode()/ 100 != 2) {
           throw new ApiException(localVarResponse.statusCode(),
               "testClassname call received non-success response",

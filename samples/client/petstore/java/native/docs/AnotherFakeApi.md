@@ -58,6 +58,7 @@ Name | Type | Description  | Notes
 
 [**Client**](Client.md)
 
+
 ### Authorization
 
 No authorization required
