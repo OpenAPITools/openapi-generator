@@ -177,7 +177,6 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
         final String invokerFolder = (sourceFolder + File.separator + invokerPackage).replace(".", File.separator);
-        supportingFiles.add(new SupportingFile("credentials.mustache", invokerFolder, "credentials.scala"));
         supportingFiles.add(new SupportingFile("jsonSupport.mustache", invokerFolder, "JsonSupport.scala"));
         supportingFiles.add(new SupportingFile("project/build.properties.mustache", "project", "build.properties"));
         supportingFiles.add(new SupportingFile("dateSerializers.mustache", invokerFolder, "DateSerializers.scala"));

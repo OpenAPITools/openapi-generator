@@ -28,7 +28,8 @@ class PetApi(baseUrl: String = "http://petstore.swagger.io/v2") {
    * 
    * @param pet Pet object that needs to be added to the store
    */
-  def addPet(pet: Pet): Request[Either[ResponseError[Exception], Pet], Nothing] =
+  def addPet(pet: Pet
+): Request[Either[ResponseError[Exception], Pet], Nothing] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet")
       .contentType("application/json")
@@ -42,7 +43,8 @@ class PetApi(baseUrl: String = "http://petstore.swagger.io/v2") {
    * @param petId Pet id to delete
    * @param apiKey 
    */
-  def deletePet(petId: Long, apiKey: Option[String] = None): Request[Either[ResponseError[Exception], Unit], Nothing] =
+  def deletePet(petId: Long, apiKey: Option[String] = None
+): Request[Either[ResponseError[Exception], Unit], Nothing] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
@@ -58,7 +60,8 @@ class PetApi(baseUrl: String = "http://petstore.swagger.io/v2") {
    * 
    * @param status Status values that need to be considered for filter
    */
-  def findPetsByStatus(status: Seq[String]): Request[Either[ResponseError[Exception], Seq[Pet]], Nothing] =
+  def findPetsByStatus(status: Seq[String]
+): Request[Either[ResponseError[Exception], Seq[Pet]], Nothing] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/findByStatus?status=$status")
       .contentType("application/json")
@@ -73,7 +76,8 @@ class PetApi(baseUrl: String = "http://petstore.swagger.io/v2") {
    * 
    * @param tags Tags to filter by
    */
-  def findPetsByTags(tags: Seq[String]): Request[Either[ResponseError[Exception], Seq[Pet]], Nothing] =
+  def findPetsByTags(tags: Seq[String]
+): Request[Either[ResponseError[Exception], Seq[Pet]], Nothing] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/findByTags?tags=$tags")
       .contentType("application/json")
@@ -92,11 +96,12 @@ class PetApi(baseUrl: String = "http://petstore.swagger.io/v2") {
    * 
    * @param petId ID of pet to return
    */
-  def getPetById(petId: Long)(implicit apiKey: ApiKeyValue): Request[Either[ResponseError[Exception], Pet], Nothing] =
+  def getPetById(petId: Long, apiKey: String
+): Request[Either[ResponseError[Exception], Pet], Nothing] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/${petId}")
       .contentType("application/json")
-      .header("api_key", apiKey.value)
+      .header("api_key", apiKey)
       .response(asJson[Pet])
 
   /**
@@ -108,7 +113,8 @@ class PetApi(baseUrl: String = "http://petstore.swagger.io/v2") {
    * 
    * @param pet Pet object that needs to be added to the store
    */
-  def updatePet(pet: Pet): Request[Either[ResponseError[Exception], Pet], Nothing] =
+  def updatePet(pet: Pet
+): Request[Either[ResponseError[Exception], Pet], Nothing] =
     basicRequest
       .method(Method.PUT, uri"$baseUrl/pet")
       .contentType("application/json")
@@ -123,7 +129,8 @@ class PetApi(baseUrl: String = "http://petstore.swagger.io/v2") {
    * @param name Updated name of the pet
    * @param status Updated status of the pet
    */
-  def updatePetWithForm(petId: Long, name: Option[String] = None, status: Option[String] = None): Request[Either[ResponseError[Exception], Unit], Nothing] =
+  def updatePetWithForm(petId: Long, name: Option[String] = None, status: Option[String] = None
+): Request[Either[ResponseError[Exception], Unit], Nothing] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet/${petId}")
       .contentType("application/x-www-form-urlencoded")
@@ -141,7 +148,8 @@ class PetApi(baseUrl: String = "http://petstore.swagger.io/v2") {
    * @param additionalMetadata Additional data to pass to server
    * @param file file to upload
    */
-  def uploadFile(petId: Long, additionalMetadata: Option[String] = None, file: Option[File] = None): Request[Either[ResponseError[Exception], ApiResponse], Nothing] =
+  def uploadFile(petId: Long, additionalMetadata: Option[String] = None, file: Option[File] = None
+): Request[Either[ResponseError[Exception], ApiResponse], Nothing] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/pet/${petId}/uploadImage")
       .contentType("multipart/form-data")
