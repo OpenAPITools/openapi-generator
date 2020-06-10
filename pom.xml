@@ -1210,6 +1210,8 @@
                 <module>samples/openapi3/client/petstore/typescript/tests/jquery</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/object_params</module>
                 <module>samples/openapi3/client/petstore/typescript/tests/object_params</module>
+                <module>samples/openapi3/client/petstore/typescript/builds/inversify</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/inversify</module>
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>

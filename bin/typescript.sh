@@ -27,16 +27,20 @@ fi
 
 # if you've executed sbt assembly previously it will use that instead.
 export JAVA_OPTS="${JAVA_OPTS} -XX:MaxPermSize=256M -Xmx1024M -DloggerPath=conf/log4j.properties"
-echo "Creating default (fetch) client!"
-ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g typescript -o samples/openapi3/client/petstore/typescript/builds/default --additional-properties=platform=node,npmName=ts-petstore-client $@"
 
-java $JAVA_OPTS -jar $executable $ags
-echo "Creating jquery client!"
-ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml  -g typescript -o samples/openapi3/client/petstore/typescript/builds/jquery --additional-properties=framework=jquery,npmName=ts-petstore-client $@"
+printf "\033[32m## Creating default (fetch) client!\033[0m\n"
+args="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g typescript -o samples/openapi3/client/petstore/typescript/builds/default --additional-properties=platform=node,npmName=ts-petstore-client $@"
+java $JAVA_OPTS -jar $executable $args
 
-java $JAVA_OPTS -jar $executable $ags
+printf "\033[32m## Creating jquery client!\033[0m\n"
+args="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml  -g typescript -o samples/openapi3/client/petstore/typescript/builds/jquery --additional-properties=framework=jquery,npmName=ts-petstore-client $@"
+java $JAVA_OPTS -jar $executable $args
 
-echo "Creating fetch object client!"
-ags="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml  -g typescript -o samples/openapi3/client/petstore/typescript/builds/object_params --additional-properties=platform=node,npmName=ts-petstore-client,useObjectParameters $@"
+printf "\033[32m## Creating fetch object client!\033[0m\n"
+args="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml  -g typescript -o samples/openapi3/client/petstore/typescript/builds/object_params --additional-properties=platform=node,npmName=ts-petstore-client,useObjectParameters $@"
+java $JAVA_OPTS -jar $executable $args
 
-java $JAVA_OPTS -jar $executable $ags
+printf "\033[32m## Creating fetch client with InversifyJS support!\033[0m\n"
+args="generate -i modules/openapi-generator/src/test/resources/3_0/petstore.yaml -g typescript -o samples/openapi3/client/petstore/typescript/builds/inversify --additional-properties=platform=node,npmName=ts-petstore-client,useInversify $@"
+java $JAVA_OPTS -jar $executable $args
+
