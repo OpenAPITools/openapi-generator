@@ -11,9 +11,6 @@ import { AbstractConfiguration, AbstractAuthMethod, AbstractTokenProvider } from
 
 export { AbstractHttpLibrary, AbstractMiddleware, AbstractServerConfiguration, AbstractConfiguration, AbstractAuthMethod, AbstractTokenProvider };
 
-export * from "./PromiseAPI";
-
-
 @injectable()
 class InjectableConfiguration implements AbstractConfiguration {
     public authMethods: AuthMethods = {};

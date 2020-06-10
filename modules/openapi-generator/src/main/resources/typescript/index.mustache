@@ -27,4 +27,10 @@ export { {{#apiInfo}}{{#apis}}{{#operations}}Promise{{classname}} as {{classname
 
 {{#useInversify}}
 export * from "./services/index";
+{{#useRxJS}}
+export { {{#apiInfo}}{{#apis}}{{#operations}}AbstractObservable{{classname}} as Abstract{{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './services/ObservableAPI';
+{{/useRxJS}}
+{{^useRxJS}}
+export { {{#apiInfo}}{{#apis}}{{#operations}}AbstractPromise{{classname}} as Abstract{{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './services/PromiseAPI';
+{{/useRxJS}}
 {{/useInversify}}
