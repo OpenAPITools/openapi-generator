@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
 [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+[**getAdditionalPropertiesWithArrayOfEnums**](FakeApi.md#getAdditionalPropertiesWithArrayOfEnums) | **GET** /fake/additional-properties-with-array-of-enums | Additional Properties with Array of Enums
 [**getArrayOfEnums**](FakeApi.md#getArrayOfEnums) | **GET** /fake/array-of-enums | Array of Enums
 [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
@@ -339,6 +340,65 @@ No authorization required
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 | **200** | Output string |  -  |
+
+
+## getAdditionalPropertiesWithArrayOfEnums
+
+> Map&lt;String, List&lt;EnumClass&gt;&gt; getAdditionalPropertiesWithArrayOfEnums()
+
+Additional Properties with Array of Enums
+
+### Example
+
+```java
+// Import classes:
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.FakeApi;
+
+public class Example {
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
+
+        FakeApi apiInstance = new FakeApi(defaultClient);
+        try {
+            Map<String, List<EnumClass>> result = apiInstance.getAdditionalPropertiesWithArrayOfEnums();
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling FakeApi#getAdditionalPropertiesWithArrayOfEnums");
+            System.err.println("Status code: " + e.getCode());
+            System.err.println("Reason: " + e.getResponseBody());
+            System.err.println("Response headers: " + e.getResponseHeaders());
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**Map&lt;String, List&lt;EnumClass&gt;&gt;**](List.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Got object with additional properties with array of enums |  -  |
 
 
 ## getArrayOfEnums
