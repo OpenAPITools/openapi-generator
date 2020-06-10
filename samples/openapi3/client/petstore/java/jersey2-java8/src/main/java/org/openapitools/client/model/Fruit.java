@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -25,6 +27,9 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Apple;
 import org.openapitools.client.model.Banana;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -32,20 +37,43 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collections;
+import java.util.HashSet;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import org.openapitools.client.JSON;
 
 
-@JsonDeserialize(using=Fruit.FruitDeserializer.class)
+@JsonDeserialize(using = Fruit.FruitDeserializer.class)
+@JsonSerialize(using = Fruit.FruitSerializer.class)
 public class Fruit extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Fruit.class.getName());
+
+    public static class FruitSerializer extends StdSerializer<Fruit> {
+        public FruitSerializer(Class<Fruit> t) {
+            super(t);
+        }
+
+        public FruitSerializer() {
+            this(null);
+        }
+
+        @Override
+        public void serialize(Fruit value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+            jgen.writeObject(value.getActualInstance());
+        }
+    }
 
     public static class FruitDeserializer extends StdDeserializer<Fruit> {
         public FruitDeserializer() {
@@ -59,12 +87,14 @@ public class Fruit extends AbstractOpenApiSchema {
         @Override
         public Fruit deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             JsonNode tree = jp.readValueAsTree();
-
-            int match = 0;
             Object deserialized = null;
+            int match = 0;
             // deserialize Apple
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Apple.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Apple'");
             } catch (Exception e) {
@@ -75,6 +105,9 @@ public class Fruit extends AbstractOpenApiSchema {
             // deserialize Banana
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(Banana.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'Banana'");
             } catch (Exception e) {
@@ -88,6 +121,15 @@ public class Fruit extends AbstractOpenApiSchema {
                 return ret;
             }
             throw new IOException(String.format("Failed deserialization for Fruit: %d classes match result, expected 1", match));
+        }
+
+
+        /**
+         * Handle deserialization of the 'null' value.
+         */
+        @Override
+        public Fruit getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+            throw new JsonMappingException(ctxt.getParser(), "Fruit cannot be null");
         }
     }
 
@@ -113,6 +155,7 @@ public class Fruit extends AbstractOpenApiSchema {
         });
         schemas.put("Banana", new GenericType<Banana>() {
         });
+        JSON.registerDescendants(Fruit.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override
@@ -120,14 +163,21 @@ public class Fruit extends AbstractOpenApiSchema {
         return Fruit.schemas;
     }
 
+    /**
+     * Set the instance that matches the oneOf child schema, check
+     * the instance parameter is valid against the oneOf child schemas.
+     *
+     * It could be an instance of the 'oneOf' schemas.
+     * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
+     */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance instanceof Apple) {
+        if (JSON.isInstanceOf(Apple.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof Banana) {
+        if (JSON.isInstanceOf(Banana.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
