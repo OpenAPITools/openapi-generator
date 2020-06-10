@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -22,6 +24,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * AppleReq
@@ -40,7 +44,6 @@ public class AppleReq {
 
 
   public AppleReq cultivar(String cultivar) {
-    
     this.cultivar = cultivar;
     return this;
   }
@@ -64,7 +67,6 @@ public class AppleReq {
 
 
   public AppleReq mealy(Boolean mealy) {
-    
     this.mealy = mealy;
     return this;
   }

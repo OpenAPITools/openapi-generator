@@ -1,9 +1,12 @@
 {{#hasAuthMethods}}
 {{classPrefix}}Configuration *apiConfig = [{{classPrefix}}Configuration sharedConfig];
-{{#authMethods}}{{#isBasic}}// Configure HTTP basic authorization (authentication scheme: {{{name}}})
+{{#authMethods}}
+{{^isBasicBearer}}{{#isBasic}}
+// Configure HTTP basic authorization (authentication scheme: {{{name}}})
 [apiConfig setUsername:@"YOUR_USERNAME"];
-[apiConfig setPassword:@"YOUR_PASSWORD"];
-{{/isBasic}}{{#isApiKey}}
+[apiConfig setPassword:@"YOUR_PASSWORD"];{{/isBasic}}{{/isBasicBearer}}{{#isBasicBearer}}
+// Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];{{/isBasicBearer}}{{#isApiKey}}
 // Configure API key authorization: (authentication scheme: {{{name}}})
 [apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"{{{keyParamName}}}"];
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -11,23 +14,27 @@
 {{/isApiKey}}{{#isOAuth}}
 // Configure OAuth2 access token for authorization: (authentication scheme: {{{name}}})
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
-{{/isOAuth}}{{/authMethods}}
+{{/isOAuth}}
+{{/authMethods}}
 {{/hasAuthMethods}}
-{{#allParams}}{{{dataType}}} *{{paramName}} = {{{example}}}; // {{{unescapedDescription}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
-{{/allParams}}
 
+
+// Create an instance of the API class
 {{classname}} *apiInstance = [[{{classname}} alloc] init];
+{{#allParams}}
+{{{dataType}}} *{{paramName}} = {{{example}}}; // {{{unescapedDescription}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+{{/allParams}}
 
 {{#summary}}// {{{.}}}
 {{/summary}}[apiInstance {{#vendorExtensions.x-objc-operationId}}{{vendorExtensions.x-objc-operationId}}{{/vendorExtensions.x-objc-operationId}}{{^vendorExtensions.x-objc-operationId}}{{nickname}}{{#hasParams}}With{{vendorExtensions.x-first-param-alt-name}}{{/hasParams}}{{^hasParams}}WithCompletionHandler: {{/hasParams}}{{/vendorExtensions.x-objc-operationId}}{{#allParams}}{{#secondaryParam}}
     {{paramName}}{{/secondaryParam}}:{{paramName}}{{/allParams}}
               {{#hasParams}}completionHandler: {{/hasParams}}^({{#returnBaseType}}{{{returnType}}} output, {{/returnBaseType}}NSError* error) {
 {{#returnType}}
-                            if (output) {
-                                NSLog(@"%@", output);
-                            }
+    if (output) {
+        NSLog(@"%@", output);
+    }
 {{/returnType}}
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
+    if (error) {
+        NSLog(@"Error: %@", error);
+    }
+}];

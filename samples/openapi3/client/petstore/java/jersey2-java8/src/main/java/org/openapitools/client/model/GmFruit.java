@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -25,6 +27,8 @@ import java.math.BigDecimal;
 import org.openapitools.client.model.Apple;
 import org.openapitools.client.model.Banana;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -32,20 +36,43 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collections;
+import java.util.HashSet;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import org.openapitools.client.JSON;
 
 
 @JsonDeserialize(using=GmFruit.GmFruitDeserializer.class)
+@JsonSerialize(using = GmFruit.GmFruitSerializer.class)
 public class GmFruit extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(GmFruit.class.getName());
+
+    public static class GmFruitSerializer extends StdSerializer<GmFruit> {
+        public GmFruitSerializer(Class<GmFruit> t) {
+            super(t);
+        }
+
+        public GmFruitSerializer() {
+            this(null);
+        }
+
+        @Override
+        public void serialize(GmFruit value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+            jgen.writeObject(value.getActualInstance());
+        }
+    }
 
     public static class GmFruitDeserializer extends StdDeserializer<GmFruit> {
         public GmFruitDeserializer() {
@@ -85,6 +112,15 @@ public class GmFruit extends AbstractOpenApiSchema {
 
             throw new IOException(String.format("Failed deserialization for GmFruit: no match found"));
         }
+
+
+        /**
+         * Handle deserialization of the 'null' value.
+         */
+        @Override
+        public GmFruit getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+            throw new JsonMappingException(ctxt.getParser(), "GmFruit cannot be null");
+        }
     }
 
     // store a list of schema names defined in anyOf
@@ -109,6 +145,7 @@ public class GmFruit extends AbstractOpenApiSchema {
         });
         schemas.put("Banana", new GenericType<Banana>() {
         });
+        JSON.registerDescendants(GmFruit.class, Collections.unmodifiableMap(schemas));
     }
 
     @Override
@@ -118,12 +155,12 @@ public class GmFruit extends AbstractOpenApiSchema {
 
     @Override
     public void setActualInstance(Object instance) {
-        if (instance instanceof Apple) {
+        if (JSON.isInstanceOf(Apple.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof Banana) {
+        if (JSON.isInstanceOf(Banana.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }

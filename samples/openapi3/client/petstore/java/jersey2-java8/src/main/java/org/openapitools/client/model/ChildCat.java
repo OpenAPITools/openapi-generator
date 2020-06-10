@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -26,6 +28,8 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.ChildCatAllOf;
 import org.openapitools.client.model.ParentPet;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * ChildCat
@@ -44,7 +48,6 @@ public class ChildCat extends ParentPet {
 
 
   public ChildCat name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -108,5 +111,11 @@ public class ChildCat extends ParentPet {
     return o.toString().replace("\n", "\n    ");
   }
 
+static {
+  // Initialize and register the discriminator mappings.
+  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+  mappings.put("ChildCat", ChildCat.class);
+  JSON.registerDiscriminator(ChildCat.class, "pet_type", mappings);
+}
 }
 

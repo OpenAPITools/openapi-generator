@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -23,6 +25,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * InlineObject1
@@ -41,7 +45,6 @@ public class InlineObject1 {
 
 
   public InlineObject1 additionalMetadata(String additionalMetadata) {
-    
     this.additionalMetadata = additionalMetadata;
     return this;
   }
@@ -66,7 +69,6 @@ public class InlineObject1 {
 
 
   public InlineObject1 file(File file) {
-    
     this.file = file;
     return this;
   }

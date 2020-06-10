@@ -1,0 +1,3 @@
+generatorName: typescript-axios
+outputDir: samples/client/petstore/typescript-axios/builds/with-complex-headers
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-complex-headers.yaml

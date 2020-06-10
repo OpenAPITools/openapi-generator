@@ -1,0 +1,5 @@
+generatorName: typescript-rxjs
+outputDir: samples/client/petstore/typescript-rxjs/builds/with-interfaces
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+additionalProperties:
+  withInterfaces: "true"
