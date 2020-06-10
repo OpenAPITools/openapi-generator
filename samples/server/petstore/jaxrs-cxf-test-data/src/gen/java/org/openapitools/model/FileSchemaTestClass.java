@@ -16,11 +16,12 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class FileSchemaTestClass  {
   
   @ApiModelProperty(value = "")
   @Valid
-  private java.io.File file = null;
+  private java.io.File file;
 
   @ApiModelProperty(value = "")
   @Valid

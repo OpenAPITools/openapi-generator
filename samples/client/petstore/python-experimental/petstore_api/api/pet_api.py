@@ -59,6 +59,7 @@ class PetApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.add_pet(body, async_req=True)
             >>> result = thread.get()
 
@@ -176,6 +177,7 @@ class PetApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.delete_pet(pet_id, async_req=True)
             >>> result = thread.get()
 
@@ -298,6 +300,7 @@ class PetApi(object):
             Multiple status values can be provided with comma separated strings  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.find_pets_by_status(status, async_req=True)
             >>> result = thread.get()
 
@@ -425,6 +428,7 @@ class PetApi(object):
             Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.find_pets_by_tags(tags, async_req=True)
             >>> result = thread.get()
 
@@ -545,6 +549,7 @@ class PetApi(object):
             Returns a single pet  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.get_pet_by_id(pet_id, async_req=True)
             >>> result = thread.get()
 
@@ -663,6 +668,7 @@ class PetApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.update_pet(body, async_req=True)
             >>> result = thread.get()
 
@@ -780,6 +786,7 @@ class PetApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.update_pet_with_form(pet_id, async_req=True)
             >>> result = thread.get()
 
@@ -909,6 +916,7 @@ class PetApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.upload_file(pet_id, async_req=True)
             >>> result = thread.get()
 
@@ -1048,6 +1056,7 @@ class PetApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.upload_file_with_required_file(pet_id, required_file, async_req=True)
             >>> result = thread.get()
 

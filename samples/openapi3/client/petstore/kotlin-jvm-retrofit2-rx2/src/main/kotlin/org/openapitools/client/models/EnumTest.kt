@@ -48,9 +48,9 @@ data class EnumTest (
     @SerializedName("outerEnumIntegerDefaultValue")
     val outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
     /**
     * 

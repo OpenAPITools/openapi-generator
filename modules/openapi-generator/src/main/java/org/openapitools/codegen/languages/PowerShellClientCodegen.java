@@ -60,7 +60,6 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
      */
     public PowerShellClientCodegen() {
         super();
-
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
@@ -546,6 +545,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public void processOpts() {
+        this.setLegacyDiscriminatorBehavior(false);
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("POWERSHELL_POST_PROCESS_FILE"))) {

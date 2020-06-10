@@ -30,9 +30,9 @@ data class ArrayTest (
     @SerializedName("array_array_of_model")
     val arrayArrayOfModel: kotlin.Array<kotlin.Array<ReadOnlyFirst>>? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

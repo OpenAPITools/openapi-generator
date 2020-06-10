@@ -57,6 +57,7 @@ class DefaultApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.foo_get(async_req=True)
             >>> result = thread.get()
 

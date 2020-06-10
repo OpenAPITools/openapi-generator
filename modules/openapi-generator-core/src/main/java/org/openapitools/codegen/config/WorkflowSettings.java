@@ -46,6 +46,7 @@ public class WorkflowSettings {
     public static final boolean DEFAULT_ENABLE_POST_PROCESS_FILE = false;
     public static final boolean DEFAULT_ENABLE_MINIMAL_UPDATE = false;
     public static final boolean DEFAULT_STRICT_SPEC_BEHAVIOR = true;
+    public static final boolean DEFAULT_GENERATE_ALIAS_AS_MODEL = false;
     public static final String DEFAULT_TEMPLATING_ENGINE_NAME = "mustache";
     public static final ImmutableMap<String, String> DEFAULT_GLOBAL_PROPERTIES = ImmutableMap.of();
 
@@ -59,6 +60,7 @@ public class WorkflowSettings {
     private boolean enablePostProcessFile = DEFAULT_ENABLE_POST_PROCESS_FILE;
     private boolean enableMinimalUpdate = DEFAULT_ENABLE_MINIMAL_UPDATE;
     private boolean strictSpecBehavior = DEFAULT_STRICT_SPEC_BEHAVIOR;
+    private boolean generateAliasAsModel = DEFAULT_GENERATE_ALIAS_AS_MODEL;
     private String templateDir;
     private String templatingEngineName = DEFAULT_TEMPLATING_ENGINE_NAME;
     private String ignoreFileOverride;
@@ -79,6 +81,7 @@ public class WorkflowSettings {
         this.templatingEngineName = builder.templatingEngineName;
         this.ignoreFileOverride = builder.ignoreFileOverride;
         this.globalProperties = ImmutableMap.copyOf(builder.globalProperties);
+        this.generateAliasAsModel = builder.generateAliasAsModel;
     }
 
     /**
@@ -104,6 +107,7 @@ public class WorkflowSettings {
         builder.validateSpec = copy.isValidateSpec();
         builder.enablePostProcessFile = copy.isEnablePostProcessFile();
         builder.enableMinimalUpdate = copy.isEnableMinimalUpdate();
+        builder.generateAliasAsModel = copy.isGenerateAliasAsModel();
         builder.strictSpecBehavior = copy.isStrictSpecBehavior();
         builder.templatingEngineName = copy.getTemplatingEngineName();
         builder.ignoreFileOverride = copy.getIgnoreFileOverride();
@@ -213,6 +217,15 @@ public class WorkflowSettings {
     }
 
     /**
+     * Indicates whether or not the generation should convert aliases (primitives defined as schema for use within documents) as models.
+     *
+     * @return <code>true</code> if generate-alias-as-model is enabled, otherwise <code>false</code>.
+     */
+    public boolean isGenerateAliasAsModel() {
+        return generateAliasAsModel;
+    }
+
+    /**
      * Indicates whether or not 'MUST' and 'SHALL' wording in the api specification is strictly adhered to.
      * For example, when <code>false</code>, no automatic 'fixes' will be applied to documents which pass validation but don't follow the spec.
      *
@@ -275,6 +288,7 @@ public class WorkflowSettings {
         private Boolean enablePostProcessFile = DEFAULT_ENABLE_POST_PROCESS_FILE;
         private Boolean enableMinimalUpdate = DEFAULT_ENABLE_MINIMAL_UPDATE;
         private Boolean strictSpecBehavior = DEFAULT_STRICT_SPEC_BEHAVIOR;
+        private Boolean generateAliasAsModel = DEFAULT_GENERATE_ALIAS_AS_MODEL;
         private String templateDir;
         private String templatingEngineName = DEFAULT_TEMPLATING_ENGINE_NAME;
         private String ignoreFileOverride;
@@ -403,6 +417,18 @@ public class WorkflowSettings {
         }
 
         /**
+         * Sets the {@code generateAliasAsModel} and returns a reference to this Builder so that the methods can be chained together.
+         * An 'alias' is a primitive type defined as a schema, and this option will attempt to construct a model for that primitive.
+         *
+         * @param generateAliasAsModel the {@code generateAliasAsModel} to set
+         * @return a reference to this Builder
+         */
+        public Builder withGenerateAliasAsModel(Boolean generateAliasAsModel) {
+            this.generateAliasAsModel = generateAliasAsModel != null ? generateAliasAsModel : Boolean.valueOf(DEFAULT_GENERATE_ALIAS_AS_MODEL);
+            return this;
+        }
+
+        /**
          * Sets the {@code templateDir} and returns a reference to this Builder so that the methods can be chained together.
          *
          * @param templateDir the {@code templateDir} to set
@@ -519,6 +545,7 @@ public class WorkflowSettings {
                 ", templatingEngineName='" + templatingEngineName + '\'' +
                 ", ignoreFileOverride='" + ignoreFileOverride + '\'' +
                 ", globalProperties=" + globalProperties +
+                ", generateAliasAsModel=" + generateAliasAsModel +
                 '}';
     }
 
@@ -535,6 +562,7 @@ public class WorkflowSettings {
                 isEnablePostProcessFile() == that.isEnablePostProcessFile() &&
                 isEnableMinimalUpdate() == that.isEnableMinimalUpdate() &&
                 isStrictSpecBehavior() == that.isStrictSpecBehavior() &&
+                isGenerateAliasAsModel() == that.isGenerateAliasAsModel() &&
                 Objects.equals(getInputSpec(), that.getInputSpec()) &&
                 Objects.equals(getOutputDir(), that.getOutputDir()) &&
                 Objects.equals(getTemplateDir(), that.getTemplateDir()) &&
@@ -553,6 +581,7 @@ public class WorkflowSettings {
                 isRemoveOperationIdPrefix(),
                 isLogToStderr(),
                 isValidateSpec(),
+                isGenerateAliasAsModel(),
                 isEnablePostProcessFile(),
                 isEnableMinimalUpdate(),
                 isStrictSpecBehavior(),
