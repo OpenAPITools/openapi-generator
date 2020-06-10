@@ -14,7 +14,6 @@ package org.openapitools.client.api
 import org.openapitools.client.model.ApiResponse
 import java.io.File
 import org.openapitools.client.model.Pet
-import org.openapitools.client.core._
 import org.openapitools.client.core.JsonSupport._
 import sttp.client._
 import sttp.model.Method
@@ -96,7 +95,7 @@ class PetApi(baseUrl: String = "http://petstore.swagger.io/v2") {
    * 
    * @param petId ID of pet to return
    */
-  def getPetById(petId: Long, apiKey: String
+  def getPetById(apiKey: String)(petId: Long
 ): Request[Either[ResponseError[Exception], Pet], Nothing] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/pet/${petId}")

@@ -12,7 +12,6 @@
 package org.openapitools.client.api
 
 import org.openapitools.client.model.User
-import org.openapitools.client.core._
 import org.openapitools.client.core.JsonSupport._
 import sttp.client._
 import sttp.model.Method
@@ -30,7 +29,7 @@ class UserApi(baseUrl: String = "http://petstore.swagger.io/v2") {
    * 
    * @param user Created user object
    */
-  def createUser(user: User, apiKey: String
+  def createUser(apiKey: String)(user: User
 ): Request[Either[ResponseError[Exception], Unit], Nothing] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user")
@@ -48,7 +47,7 @@ class UserApi(baseUrl: String = "http://petstore.swagger.io/v2") {
    * 
    * @param user List of user object
    */
-  def createUsersWithArrayInput(user: Seq[User], apiKey: String
+  def createUsersWithArrayInput(apiKey: String)(user: Seq[User]
 ): Request[Either[ResponseError[Exception], Unit], Nothing] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithArray")
@@ -66,7 +65,7 @@ class UserApi(baseUrl: String = "http://petstore.swagger.io/v2") {
    * 
    * @param user List of user object
    */
-  def createUsersWithListInput(user: Seq[User], apiKey: String
+  def createUsersWithListInput(apiKey: String)(user: Seq[User]
 ): Request[Either[ResponseError[Exception], Unit], Nothing] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/user/createWithList")
@@ -87,7 +86,7 @@ class UserApi(baseUrl: String = "http://petstore.swagger.io/v2") {
    * 
    * @param username The name that needs to be deleted
    */
-  def deleteUser(username: String, apiKey: String
+  def deleteUser(apiKey: String)(username: String
 ): Request[Either[ResponseError[Exception], Unit], Nothing] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/user/${username}")
@@ -136,7 +135,7 @@ class UserApi(baseUrl: String = "http://petstore.swagger.io/v2") {
    * Available security schemes:
    *   api_key (apiKey)
    */
-  def logoutUser(apiKey: String
+  def logoutUser(apiKey: String)(
 ): Request[Either[ResponseError[Exception], Unit], Nothing] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/user/logout")
@@ -157,7 +156,7 @@ class UserApi(baseUrl: String = "http://petstore.swagger.io/v2") {
    * @param username name that need to be deleted
    * @param user Updated user object
    */
-  def updateUser(username: String, user: User, apiKey: String
+  def updateUser(apiKey: String)(username: String, user: User
 ): Request[Either[ResponseError[Exception], Unit], Nothing] =
     basicRequest
       .method(Method.PUT, uri"$baseUrl/user/${username}")
