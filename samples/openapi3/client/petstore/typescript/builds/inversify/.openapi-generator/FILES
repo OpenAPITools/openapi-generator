@@ -28,6 +28,7 @@ models/all.ts
 package.json
 rxjsStub.ts
 servers.ts
+services/ObjectParamAPI.ts
 services/ObservableAPI.ts
 services/PromiseAPI.ts
 services/configuration.ts

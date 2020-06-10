@@ -803,6 +803,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             supportingFiles.add(new SupportingFile("services" + File.separator + "configuration.mustache", "services", "configuration.ts"));
             supportingFiles.add(new SupportingFile("services" + File.separator + "PromiseAPI.mustache", "services", "PromiseAPI.ts"));
             supportingFiles.add(new SupportingFile("services" + File.separator + "ObservableAPI.mustache", "services", "ObservableAPI.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "ObjectParamAPI.mustache", "services", "ObjectParamAPI.ts"));
             supportingFiles.add(new SupportingFile("services" + File.separator + "http.mustache", "services", "http.ts"));
             apiTemplateFiles.put("services" + File.separator + "api.mustache", ".service.ts");
         }
