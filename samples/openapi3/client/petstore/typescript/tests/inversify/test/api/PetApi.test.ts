@@ -1,3 +1,5 @@
+import "reflect-metadata";
+
 import * as petstore from "ts-petstore-client"
 
 import { expect, assert } from "chai";

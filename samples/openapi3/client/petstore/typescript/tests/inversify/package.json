@@ -3,8 +3,9 @@
   "dependencies": {
     "@types/rewire": "^2.5.28",
     "form-data": "^2.5.0",
+    "reflect-metadata": "^0.1.13",
     "rewire": "^4.0.1",
-    "ts-node": "^3.3.0",
+    "ts-node": "^8.10.2",
     "ts-petstore-client": "file:../../builds/inversify"
   },
   "scripts": {
@@ -18,8 +19,8 @@
     "@types/node": "^8.10.38",
     "chai": "^4.1.0",
     "mocha": "^5.2.0",
-    "ts-loader": "^2.3.0",
-    "typescript": "^2.4.1"
+    "ts-loader": "^7.0.5",
+    "typescript": "^3.9.5"
   },
   "name": "typescript-test",
   "version": "1.0.0",
