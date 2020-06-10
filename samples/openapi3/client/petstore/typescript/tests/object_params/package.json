@@ -8,7 +8,6 @@
     "ts-petstore-client": "file:../../builds/object_params"
   },
   "scripts": {
-    "prepublish": "npm install ../../builds/object_params && npm run build",
     "test": "mocha test/**/*.ts -r ts-node/register --timeout 10000",
     "build": "tsc"
   },

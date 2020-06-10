@@ -8,7 +8,6 @@
     "ts-petstore-client": "file:../../builds/inversify"
   },
   "scripts": {
-    "prepublish": "npm install ../../builds/default && npm run build",
     "test": "mocha test/**/*.ts -r ts-node/register --timeout 10000",
     "build": "tsc"
   },
