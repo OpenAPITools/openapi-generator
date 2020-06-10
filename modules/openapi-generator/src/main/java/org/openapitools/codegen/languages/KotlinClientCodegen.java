@@ -345,19 +345,21 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             additionalProperties.put("isList", true);
         }
 
-        if (ProcessUtils.hasOAuthMethods(openAPI)) {
-            supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
-            supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
-            supportingFiles.add(new SupportingFile("auth/OAuthFlow.kt.mustache", authFolder, "OAuthFlow.kt"));
-            supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.kt.mustache", authFolder, "OAuthOkHttpClient.kt"));
-        }
+        if(usesRetrofit2Library()) {
+            if (ProcessUtils.hasOAuthMethods(openAPI)) {
+                supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
+                supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
+                supportingFiles.add(new SupportingFile("auth/OAuthFlow.kt.mustache", authFolder, "OAuthFlow.kt"));
+                supportingFiles.add(new SupportingFile("auth/OAuthOkHttpClient.kt.mustache", authFolder, "OAuthOkHttpClient.kt"));
+            }
 
-        if(ProcessUtils.hasHttpBearerMethods(openAPI)) {
-            supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
-        }
-        
-        if(ProcessUtils.hasHttpBasicMethods(openAPI)) {
-            supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
+            if(ProcessUtils.hasHttpBearerMethods(openAPI)) {
+                supportingFiles.add(new SupportingFile("auth/HttpBearerAuth.kt.mustache", authFolder, "HttpBearerAuth.kt"));
+            }
+            
+            if(ProcessUtils.hasHttpBasicMethods(openAPI)) {
+                supportingFiles.add(new SupportingFile("auth/HttpBasicAuth.kt.mustache", authFolder, "HttpBasicAuth.kt"));
+            }
         }
     }
 
@@ -598,7 +600,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                     }
                 }
 
-                if (StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
+                if (usesRetrofit2Library() && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
                     operation.path = operation.path.substring(1);
                 }
 
