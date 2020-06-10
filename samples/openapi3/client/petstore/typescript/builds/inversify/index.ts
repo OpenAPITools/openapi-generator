@@ -10,3 +10,4 @@ export * from "./servers";
 export { PromiseMiddleware as Middleware } from './middleware';
 export { PromisePetApi as PetApi,  PromiseStoreApi as StoreApi,  PromiseUserApi as UserApi } from './types/PromiseAPI';
 
+export * from "./services/index";

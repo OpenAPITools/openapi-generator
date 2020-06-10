@@ -18,6 +18,7 @@
     "outDir": "./dist",
     "noLib": false,
     "lib": [ "es6" ],
+    "experimentalDecorators": true,
   },
   "exclude": [
   	"dist",

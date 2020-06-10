@@ -1,7 +1,10 @@
 .gitignore
 README.md
+apis/PetApi.service.ts
 apis/PetApi.ts
+apis/StoreApi.service.ts
 apis/StoreApi.ts
+apis/UserApi.service.ts
 apis/UserApi.ts
 apis/baseapi.ts
 apis/exception.ts
@@ -25,6 +28,11 @@ models/all.ts
 package.json
 rxjsStub.ts
 servers.ts
+services/ObservableAPI.ts
+services/PromiseAPI.ts
+services/configuration.ts
+services/http.ts
+services/index.ts
 tsconfig.json
 types/ObjectParamAPI.ts
 types/ObservableAPI.ts

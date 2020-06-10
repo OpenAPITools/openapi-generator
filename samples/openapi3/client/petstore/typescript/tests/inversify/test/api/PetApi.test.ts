@@ -1,7 +1,7 @@
-import * as petstore from 'ts-petstore-client'
+import * as petstore from "ts-petstore-client"
 
 import { expect, assert } from "chai";
-import * as fs from 'fs';
+import * as fs from "fs";
 
 const configuration = petstore.createConfiguration()
 const petApi = new petstore.PetApi(configuration)
@@ -14,11 +14,11 @@ const pet = new petstore.Pet()
 pet.id = Math.floor(Math.random() * 100000)
 pet.name = "PetName"
 pet.photoUrls = []
-pet.status = 'available'
+pet.status = "available"
 pet.tags = [ tag ]
 pet.category = undefined
 
-describe("PetApi", () =>{ 
+describe("PetApi", () => {
     it("addPet", (done) => {
         petApi.addPet(pet).then(() => {
             return petApi.getPetById(pet.id)
@@ -39,7 +39,7 @@ describe("PetApi", () =>{
             done("Pet with id " + pet.id + " was not deleted!");
         }).catch((err: any) => {
             if (err.code && err.code == 404) {
-                done();                
+                done();
             } else {
                 done(err)
             }
@@ -56,18 +56,6 @@ describe("PetApi", () =>{
             done(err)
         })
     })
-
-    // bugged on server side! Code 500
-/*    it("findPetsByTag", (done) => {
-        petApi.addPet(pet).then(() => {
-            return petApi.findPetsByTags([tag.name])
-        }).then((pets: Pet[]) => {
-            expect(pets.length).to.be.at.least(1);
-            done();
-        }).catch((err: any) => {
-            done(err);
-        })
-    })*/
 
     it("getPetById", (done) => {
         petApi.addPet(pet).then(() => {
@@ -101,22 +89,6 @@ describe("PetApi", () =>{
             done(err)
         })
     })
-
-// not supported by online swagger api?
-/*    it("updatePetWithForm", (done) => {
-        const updatedName = "updated name";
-        petApi.addPet(pet).then(() => {
-            return petApi.updatePetWithForm(pet.id, updatedName)
-        }).then(() => {
-            return petApi.getPetById(pet.id)
-        }).then((returnedPet: Pet) => {
-            expect(returnedPet.id).to.equal(pet.id)
-            expect(returnedPet.name).to.equal(updatedName);
-            done()
-        }).catch((err: any) => {
-            done(err)
-        })
-    })*/
 
     it("uploadFile", (done) => {
         const image = fs.readFileSync(__dirname + "/pet.png")
