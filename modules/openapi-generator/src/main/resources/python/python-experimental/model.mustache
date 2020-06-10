@@ -33,17 +33,22 @@ from {{packageName}}.model_utils import (  # noqa: F401
 
 
 {{^interfaces}}
-{{#isAlias}}
-{{> python-experimental/model_templates/model_simple }}
-{{/isAlias}}
-{{^isAlias}}
 {{#isArrayModel}}
 {{> python-experimental/model_templates/model_simple }}
 {{/isArrayModel}}
-{{^isArrayModel}}
-{{> python-experimental/model_templates/model_normal }}
-{{/isArrayModel}}
+{{#isEnum}}
+{{> python-experimental/model_templates/model_simple }}
+{{/isEnum}}
+{{#isAlias}}
+{{> python-experimental/model_templates/model_simple }}
 {{/isAlias}}
+{{^isArrayModel}}
+{{^isEnum}}
+{{^isAlias}}
+{{> python-experimental/model_templates/model_normal }}
+{{/isAlias}}
+{{/isEnum}}
+{{/isArrayModel}}
 {{/interfaces}}
 {{#interfaces}}
 {{#-last}}

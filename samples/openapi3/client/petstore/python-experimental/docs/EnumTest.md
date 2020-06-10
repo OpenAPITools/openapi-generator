@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **enum_string** | **str** |  | [optional] 
 **enum_integer** | **int** |  | [optional] 
 **enum_number** | **float** |  | [optional] 
-**string_enum** | [**string_enum.StringEnum**](StringEnum.md) |  | [optional] 
+**string_enum** | [**string_enum.StringEnum, none_type**](StringEnum.md) |  | [optional] 
 **integer_enum** | [**integer_enum.IntegerEnum**](IntegerEnum.md) |  | [optional] 
 **string_enum_with_default_value** | [**string_enum_with_default_value.StringEnumWithDefaultValue**](StringEnumWithDefaultValue.md) |  | [optional] 
 **integer_enum_with_default_value** | [**integer_enum_with_default_value.IntegerEnumWithDefaultValue**](IntegerEnumWithDefaultValue.md) |  | [optional] 
