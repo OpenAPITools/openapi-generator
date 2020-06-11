@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -28,6 +30,8 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
@@ -50,7 +54,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
 
   public MixedPropertiesAndAdditionalPropertiesClass uuid(UUID uuid) {
-    
     this.uuid = uuid;
     return this;
   }
@@ -75,7 +78,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
 
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(OffsetDateTime dateTime) {
-    
     this.dateTime = dateTime;
     return this;
   }
@@ -100,7 +102,6 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
 
 
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
-    
     this.map = map;
     return this;
   }

@@ -1,0 +1,11 @@
+generatorName: kotlin
+outputDir: samples/openapi3/client/petstore/kotlin-jvm-retrofit2-rx2
+library: jvm-retrofit2
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  serializationLibrary: gson
+  useRxJava2: "true"
+  artifactId: kotlin-petstore-rx2-client
+  serializableModel: "true"
+  dateLibrary: java8
