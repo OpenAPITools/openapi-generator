@@ -3,7 +3,7 @@ import * as FormData from "form-data";
 // typings of url-parse are incorrect...
 // @ts-ignore 
 import * as URLParse from "url-parse";
-import { Observable } from '../rxjsStub';
+import { Observable, from } from '../rxjsStub';
 
 export * from './isomorphic-fetch';
 
@@ -191,4 +191,16 @@ export class ResponseContext {
 
 export interface HttpLibrary {
     send(request: RequestContext): Observable<ResponseContext>;
+}
+
+export interface PromiseHttpLibrary {
+    send(request: RequestContext): Promise<ResponseContext>;
+}
+
+export function wrapHttpLibrary(promiseHttpLibrary: PromiseHttpLibrary): HttpLibrary {
+  return {
+    send(request: RequestContext): Observable<ResponseContext> {
+      return from(promiseHttpLibrary.send(request));
+    }
+  }
 }
