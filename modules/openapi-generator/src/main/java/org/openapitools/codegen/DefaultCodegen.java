@@ -3613,7 +3613,7 @@ public class DefaultCodegen implements CodegenConfig {
                     op.uniqueItems = true;
                     imports.add(typeMapping.get(r.containerType));
                 }
-                //r.isDefault = response == methodResponse;
+
                 op.responses.add(r);
                 if (Boolean.TRUE.equals(r.isBinary) && Boolean.TRUE.equals(r.is2xx) && Boolean.FALSE.equals(op.isResponseBinary)) {
                     op.isResponseBinary = Boolean.TRUE;
