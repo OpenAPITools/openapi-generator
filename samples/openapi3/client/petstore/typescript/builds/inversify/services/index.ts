@@ -2,6 +2,8 @@ import { inject, injectable, multiInject, optional, interfaces } from "inversify
 
 import { Configuration } from "../configuration";
 import { ServerConfiguration, servers } from "../servers";
+import { HttpLibrary, wrapHttpLibrary } from "../http/http";
+import { Middleware, PromiseMiddlewareWrapper } from "../middleware";
 import { authMethodServices, AuthMethods } from "../auth/auth";
 
 import { IsomorphicFetchHttpLibrary as DefaultHttpLibrary } from "../http/isomorphic-fetch";
@@ -13,14 +15,20 @@ export { AbstractHttpLibrary, AbstractMiddleware, AbstractServerConfiguration, A
 
 @injectable()
 class InjectableConfiguration implements AbstractConfiguration {
+    public httpApi: HttpLibrary = new DefaultHttpLibrary();
+    public middleware: Middleware[] = [];
     public authMethods: AuthMethods = {};
 
     constructor(
         @inject(AbstractServerConfiguration) @optional() public baseServer: AbstractServerConfiguration = servers[0],
-        @inject(AbstractHttpLibrary) @optional() public httpApi: AbstractHttpLibrary = new DefaultHttpLibrary(),
-        @multiInject(AbstractMiddleware) @optional() public middleware: AbstractMiddleware[] = [],
+        @inject(AbstractHttpLibrary) @optional() httpApi: AbstractHttpLibrary,
+        @multiInject(AbstractMiddleware) @optional() middleware: AbstractMiddleware[] = [],
         @multiInject(AbstractAuthMethod) @optional() securityConfiguration: AbstractAuthMethod[] = []
     ) {
+        this.httpApi = httpApi === undefined ? new DefaultHttpLibrary() : wrapHttpLibrary(httpApi);
+        for (const _middleware of middleware) {
+            this.middleware.push(new PromiseMiddlewareWrapper(_middleware));
+        }
         for (const authMethod of securityConfiguration) {
             const authName = authMethod.getName();
             // @ts-ignore
@@ -78,8 +86,6 @@ export class ApiServiceBinder {
      * Allows you to bind a middleware without having to import the service identifier.
      *
      * You can bind multiple middlewares by calling this multiple method times.
-     *
-     * TODO: How to conveniently support PromiseMiddleware? It would be nice if the user would not have to be aware of the base (observable) Middleware and everthing is automatically wrapped.
      */
     public get bindMiddleware() {
         return this.container.bind(AbstractMiddleware);

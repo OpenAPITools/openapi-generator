@@ -1,14 +1,14 @@
-import type { HttpLibrary, HttpMethod, RequestContext, ResponseContext } from "../http/http";
-import type { Observable } from "../rxjsStub";
+import type { PromiseHttpLibrary, HttpMethod, RequestContext, ResponseContext } from "../http/http";
+import type { PromiseMiddleware } from "../middleware";
 import type { BaseServerConfiguration } from "../servers";
 
-export abstract class AbstractHttpLibrary implements HttpLibrary {
-    public abstract send(request: RequestContext): Observable<ResponseContext>;
+export abstract class AbstractHttpLibrary implements PromiseHttpLibrary {
+    public abstract send(request: RequestContext): Promise<ResponseContext>;
 };
 
-export abstract class AbstractMiddleware {
-    public abstract pre(context: RequestContext): Observable<RequestContext>;
-    public abstract post(context: ResponseContext): Observable<ResponseContext>;
+export abstract class AbstractMiddleware implements PromiseMiddleware {
+    public abstract pre(context: RequestContext): Promise<RequestContext>;
+    public abstract post(context: ResponseContext): Promise<ResponseContext>;
 }
 
 export abstract class AbstractServerConfiguration implements BaseServerConfiguration {
