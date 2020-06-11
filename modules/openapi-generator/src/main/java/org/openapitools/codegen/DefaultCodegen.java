@@ -3613,7 +3613,7 @@ public class DefaultCodegen implements CodegenConfig {
                     op.uniqueItems = true;
                     imports.add(typeMapping.get(r.containerType));
                 }
-                r.isDefault = response == methodResponse;
+                //r.isDefault = response == methodResponse;
                 op.responses.add(r);
                 if (Boolean.TRUE.equals(r.isBinary) && Boolean.TRUE.equals(r.isDefault)) {
                     op.isResponseBinary = Boolean.TRUE;
@@ -3845,11 +3845,14 @@ public class DefaultCodegen implements CodegenConfig {
             }
         }
 
+        r.code = responseCode;
         if ("default".equals(responseCode) || "defaultResponse".equals(responseCode)) {
             r.code = "0";
-        } else {
-            r.code = responseCode;
+        }
             switch (r.code.charAt(0)) {
+                case '0':
+                    r.isDefault = true;
+                    break;
                 case '1':
                     r.is1xx = true;
                     break;
@@ -3868,7 +3871,7 @@ public class DefaultCodegen implements CodegenConfig {
                 default:
                     throw new RuntimeException("Invalid response code " + responseCode);
             }
-        }
+        
         Schema responseSchema;
         if (this.openAPI != null && this.openAPI.getComponents() != null) {
             responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(response),
