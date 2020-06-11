@@ -2,7 +2,7 @@
 //@ts-ignore
 import * as btoa from "btoa";
 import { RequestContext } from "../http/http";
-import { injectable, inject } from "inversify";
+import { injectable, inject, named } from "inversify";
 import { AbstractTokenProvider } from "../services/configuration";
 
 /**
@@ -22,6 +22,10 @@ export interface SecurityAuthentication {
     applySecurityAuthentication(context: RequestContext): void | Promise<void>;
 }
 
+export const AuthApiKey = Symbol("auth.api_key");
+export const AuthUsername = Symbol("auth.username");
+export const AuthPassword = Symbol("auth.password");
+
 export interface TokenProvider {
   getToken(): Promise<string> | string;
 }
@@ -36,7 +40,7 @@ export class ApiKeyAuthentication implements SecurityAuthentication {
      *
      * @param apiKey: The api key to be used for every request
      */
-    public constructor(private apiKey: string) {}
+    public constructor(@inject(AuthApiKey) @named("api_key") private apiKey: string) {}
 
     public getName(): string {
         return "api_key";

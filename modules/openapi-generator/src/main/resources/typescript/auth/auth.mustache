@@ -7,7 +7,7 @@ import * as btoa from "btoa";
 {{/platforms}}
 import { RequestContext } from "../http/http";
 {{#useInversify}}
-import { injectable, inject } from "inversify";
+import { injectable, inject, named } from "inversify";
 import { AbstractTokenProvider } from "../services/configuration";
 {{/useInversify}}
 
@@ -28,6 +28,12 @@ export interface SecurityAuthentication {
     applySecurityAuthentication(context: RequestContext): void | Promise<void>;
 }
 
+{{#useInversify}}
+export const AuthApiKey = Symbol("auth.api_key");
+export const AuthUsername = Symbol("auth.username");
+export const AuthPassword = Symbol("auth.password");
+
+{{/useInversify}}
 export interface TokenProvider {
   getToken(): Promise<string> | string;
 }
@@ -46,7 +52,7 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
      *
      * @param apiKey: The api key to be used for every request
      */
-    public constructor(private apiKey: string) {}
+    public constructor({{#useInversify}}@inject(AuthApiKey) @named("{{name}}") {{/useInversify}}private apiKey: string) {}
     {{/isApiKey}}
     {{#isBasicBasic}}
     /**
@@ -55,7 +61,10 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
      * @param username username for http basic authentication
      * @param password password for http basic authentication
      */
-    public constructor(private username: string, private password: string) {}
+    public constructor(
+        {{#useInversify}}@inject(AuthUsername) @named("{{name}}") {{/useInversify}}private username: string,
+        {{#useInversify}}@inject(AuthPassword) @named("{{name}}") {{/useInversify}}private password: string
+    ) {}
     {{/isBasicBasic}}
     {{#isBasicBearer}}
     /**
@@ -63,7 +72,7 @@ export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication 
      *
      * @param tokenProvider service that can provide the up-to-date token when needed
      */
-    public constructor({{#useInversify}}@inject(AbstractTokenProvider) {{/useInversify}}private tokenProvider: TokenProvider) {}
+    public constructor({{#useInversify}}@inject(AbstractTokenProvider) @named("{{name}}") {{/useInversify}}private tokenProvider: TokenProvider) {}
     {{/isBasicBearer}}
     {{#isOAuth}}
     // TODO: How to handle oauth2 authentication!
