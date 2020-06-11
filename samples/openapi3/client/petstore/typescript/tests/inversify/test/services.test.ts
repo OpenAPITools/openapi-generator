@@ -129,4 +129,11 @@ describe("ApiServiceBinder", () => {
 
         expect(request.getHeaders()["api_key"]).to.equal(value);
     });
+
+    it("binds all api services", () => {
+        apiServiceBinder.bindAllApiServices();
+        const petApi = container.get(petstore.AbstractPetApi);
+
+        expect(petApi).to.be.an.instanceof(petstore.PetApi);
+    });
 })

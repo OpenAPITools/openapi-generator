@@ -20,6 +20,21 @@ import { AbstractConfiguration, AbstractAuthMethod, AbstractTokenProvider } from
 
 export { AbstractHttpLibrary, AbstractMiddleware, AbstractServerConfiguration, AbstractConfiguration, AbstractAuthMethod, AbstractTokenProvider };
 
+{{#useObjectParameters}}
+import * as apis from "../types/ObjectParamAPI";
+import * as apiServices from "./ObjectParamAPI";
+{{/useObjectParameters}}
+{{^useObjectParameters}}
+{{#useRxJS}}
+import * as apis from "../types/ObservableAPI";
+import * as apiServices from "./ObservableAPI";
+{{/useRxJS}}
+{{^useRxJS}}
+import * as apis from "../types/PromiseAPI";
+import * as apiServices from "./PromiseAPI";
+{{/useRxJS}}
+{{/useObjectParameters}}
+
 @injectable()
 class InjectableConfiguration implements AbstractConfiguration {
     public httpApi: HttpLibrary = new DefaultHttpLibrary();
@@ -121,5 +136,30 @@ export class ApiServiceBinder {
      */
     public bindAuthMethodToPredefined(name: keyof AuthMethods) {
         return this.bindAuthMethod.to(authMethodServices[name]);
+    }
+
+    /**
+     * Bind all the apis to their respective service identifiers
+     *
+     * If you want to only bind some of the apis, you need to do that manually.
+     */
+    public bindAllApiServices() {
+        {{#apiInfo}}
+        {{#apis}}
+        {{#operations}}
+        {{#useObjectParameters}}
+        this.container.bind(apiServices.AbstractObject{{classname}}).to(apis.Object{{classname}}).inSingletonScope();
+        {{/useObjectParameters}}
+        {{^useObjectParameters}}
+        {{#useRxJS}}
+        this.container.bind(apiServices.AbstractObservable{{classname}}).to(apis.Observable{{classname}}).inSingletonScope();
+        {{/useRxJS}}
+        {{^useRxJS}}
+        this.container.bind(apiServices.AbstractPromise{{classname}}).to(apis.Promise{{classname}}).inSingletonScope();
+        {{/useRxJS}}
+        {{/useObjectParameters}}
+        {{/operations}}
+        {{/apis}}
+        {{/apiInfo}}
     }
 }

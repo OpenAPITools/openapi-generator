@@ -13,6 +13,9 @@ import { AbstractConfiguration, AbstractAuthMethod, AbstractTokenProvider } from
 
 export { AbstractHttpLibrary, AbstractMiddleware, AbstractServerConfiguration, AbstractConfiguration, AbstractAuthMethod, AbstractTokenProvider };
 
+import * as apis from "../types/PromiseAPI";
+import * as apiServices from "./PromiseAPI";
+
 @injectable()
 class InjectableConfiguration implements AbstractConfiguration {
     public httpApi: HttpLibrary = new DefaultHttpLibrary();
@@ -108,5 +111,16 @@ export class ApiServiceBinder {
      */
     public bindAuthMethodToPredefined(name: keyof AuthMethods) {
         return this.bindAuthMethod.to(authMethodServices[name]);
+    }
+
+    /**
+     * Bind all the apis to their respective service identifiers
+     *
+     * If you want to only bind some of the apis, you need to do that manually.
+     */
+    public bindAllApiServices() {
+        this.container.bind(apiServices.AbstractPromisePetApi).to(apis.PromisePetApi).inSingletonScope();
+        this.container.bind(apiServices.AbstractPromiseStoreApi).to(apis.PromiseStoreApi).inSingletonScope();
+        this.container.bind(apiServices.AbstractPromiseUserApi).to(apis.PromiseUserApi).inSingletonScope();
     }
 }
