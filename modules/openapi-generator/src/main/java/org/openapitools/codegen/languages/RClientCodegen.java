@@ -585,7 +585,7 @@ public class RClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (example == null) {
             example = "NULL";
         } else if (Boolean.TRUE.equals(p.isListContainer)) {
-            example = "[" + example + "]";
+            example = "list(" + example + ")";
         } else if (Boolean.TRUE.equals(p.isMapContainer)) {
             example = "{'key' => " + example + "}";
         }
