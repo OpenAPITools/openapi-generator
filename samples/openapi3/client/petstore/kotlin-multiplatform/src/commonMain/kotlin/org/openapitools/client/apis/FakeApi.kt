@@ -589,7 +589,7 @@ private class TestInlineAdditionalPropertiesRequest(val value: Map<kotlin.String
         val localVariableQuery = mutableMapOf<String, List<String>>()
         pipe?.apply { localVariableQuery["pipe"] = toMultiValue(this, "multi") }
         ioutil?.apply { localVariableQuery["ioutil"] = toMultiValue(this, "csv") }
-        http?.apply { localVariableQuery["http"] = toMultiValue(this, "space") }
+        http?.apply { localVariableQuery["http"] = toMultiValue(this, "ssv") }
         url?.apply { localVariableQuery["url"] = toMultiValue(this, "csv") }
         context?.apply { localVariableQuery["context"] = toMultiValue(this, "multi") }
 
