@@ -7,6 +7,14 @@ parameters:
     open_api_server.validator:  'OpenAPI\Server\Service\SymfonyValidator'
 
 services:
+    jms_serializer.json_deserialization_visitor: 
+        class: 'JMS\Serializer\JsonDeserializationVisitor'
+    OpenAPI\Server\Service\StrictJsonDeserializationVisitorFactory:
+        decorates: jms_serializer.json_deserialization_visitor
+        arguments:
+            - '@OpenAPI\Server\Service\StrictJsonDeserializationVisitorFactory.inner'
+        tags:
+            - { name: jms_serializer.deserialization_visitor, format: json }
     open_api_server.api.api_server:
         class: OpenAPI\Server\Api\ApiServer
 

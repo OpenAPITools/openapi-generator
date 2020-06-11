@@ -2,7 +2,7 @@
 /**
  * OpenAPIServerBundle
  *
- * PHP version 7.1.3
+ * PHP version 7.2.5
  *
  * @category Class
  * @package  OpenAPI\Server

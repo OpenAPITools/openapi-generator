@@ -66,3 +66,6 @@ composer.lock
 
 # No reason to commit PHP CS Fixer cache files
 /.php_cs.cache
+
+# PHPUnit cache
+/.phpunit.result.cache
