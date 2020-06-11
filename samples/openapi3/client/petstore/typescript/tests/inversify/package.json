@@ -10,7 +10,7 @@
     "ts-petstore-client": "file:../../builds/inversify"
   },
   "scripts": {
-    "test": "mocha test/**/*.ts -r ts-node/register --timeout 10000",
+    "test": "mocha test/**/*.test.ts test/*.test.ts -r ts-node/register --timeout 10000",
     "build": "tsc"
   },
   "devDependencies": {
