@@ -613,9 +613,6 @@ conf = {{{packageName}}}.Configuration(
     @property
     def host(self):
         """Return generated host."""
-        if self.server_index is None:
-            return self._base_path
-
         return self.get_host_from_settings(self.server_index, variables=self.server_variables)
 
     @host.setter
