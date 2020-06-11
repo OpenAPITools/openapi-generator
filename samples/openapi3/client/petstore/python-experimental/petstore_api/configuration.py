@@ -549,7 +549,7 @@ conf = petstore_api.Configuration(
         """Gets host URL based on the index and variables
         :param index: array index of the host settings
         :param variables: hash of variable and the corresponding value
-        :param servers: host settings for the endpoint
+        :param servers: an array of host settings or None
         :return: URL based on host settings
         """
         if index is None:
@@ -587,9 +587,6 @@ conf = petstore_api.Configuration(
     @property
     def host(self):
         """Return generated host."""
-        if self.server_index is None:
-            return self._base_path
-
         return self.get_host_from_settings(self.server_index, variables=self.server_variables)
 
     @host.setter

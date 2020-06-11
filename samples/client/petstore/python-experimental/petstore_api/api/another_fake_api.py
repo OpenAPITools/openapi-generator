@@ -82,7 +82,7 @@ class AnotherFakeApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
                     Default is read from the configuration.
                 async_req (bool): execute request asynchronously
