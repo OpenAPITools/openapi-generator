@@ -30,7 +30,7 @@ interface UserApi {
     * @return [Call]<[Unit]>
      */
     @POST("user/createWithArray")
-    fun createUsersWithArrayInput(@Body body: kotlin.Array<User>): Call<Unit>
+    fun createUsersWithArrayInput(@Body body: kotlin.collections.List<User>): Call<Unit>
 
     /**
      * Creates list of users with given input array
@@ -42,7 +42,7 @@ interface UserApi {
     * @return [Call]<[Unit]>
      */
     @POST("user/createWithList")
-    fun createUsersWithListInput(@Body body: kotlin.Array<User>): Call<Unit>
+    fun createUsersWithListInput(@Body body: kotlin.collections.List<User>): Call<Unit>
 
     /**
      * Delete user
