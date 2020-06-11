@@ -1,0 +1,24 @@
+<?php
+
+namespace {{servicePackage}};
+
+use JMS\Serializer\Visitor\DeserializationVisitorInterface;
+use JMS\Serializer\Visitor\Factory\DeserializationVisitorFactory;
+use JMS\Serializer\Visitor\Factory\JsonDeserializationVisitorFactory;
+use {{servicePackage}}\StrictJsonDeserializationVisitor;
+
+final class StrictJsonDeserializationVisitorFactory implements DeserializationVisitorFactory
+{
+    /** @var JsonDeserializationVisitorFactory */
+    private $jsonDeserializationVisitorFactory;
+
+    public function __construct(JsonDeserializationVisitorFactory $jsonDeserializationVisitorFactory)
+    {
+        $this->jsonDeserializationVisitorFactory = $jsonDeserializationVisitorFactory;
+    }
+
+    public function getVisitor(): DeserializationVisitorInterface
+    {
+        return new StrictJsonDeserializationVisitor($this->jsonDeserializationVisitorFactory->getVisitor());
+    }
+}

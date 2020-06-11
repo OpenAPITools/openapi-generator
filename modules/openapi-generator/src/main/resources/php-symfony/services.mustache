@@ -7,6 +7,14 @@ parameters:
     {{bundleAlias}}.validator:  '{{servicePackage}}\SymfonyValidator'
 
 services:
+    jms_serializer.json_deserialization_visitor: 
+        class: 'JMS\Serializer\JsonDeserializationVisitor'
+    {{servicePackage}}\StrictJsonDeserializationVisitorFactory:
+        decorates: jms_serializer.json_deserialization_visitor
+        arguments:
+            - '@{{servicePackage}}\StrictJsonDeserializationVisitorFactory.inner'
+        tags:
+            - { name: jms_serializer.deserialization_visitor, format: json }
     {{bundleAlias}}.api.api_server:
         class: {{apiPackage}}\ApiServer
 
