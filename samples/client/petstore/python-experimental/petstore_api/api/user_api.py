@@ -34,7 +34,7 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models import user
+from petstore_api.model import user
 
 
 class UserApi(object):
@@ -59,6 +59,7 @@ class UserApi(object):
             This can only be done by the logged in user.  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.create_user(body, async_req=True)
             >>> result = thread.get()
 
@@ -171,6 +172,7 @@ class UserApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.create_users_with_array_input(body, async_req=True)
             >>> result = thread.get()
 
@@ -283,6 +285,7 @@ class UserApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.create_users_with_list_input(body, async_req=True)
             >>> result = thread.get()
 
@@ -396,6 +399,7 @@ class UserApi(object):
             This can only be done by the logged in user.  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.delete_user(username, async_req=True)
             >>> result = thread.get()
 
@@ -509,6 +513,7 @@ class UserApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.get_user_by_name(username, async_req=True)
             >>> result = thread.get()
 
@@ -626,6 +631,7 @@ class UserApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.login_user(username, password, async_req=True)
             >>> result = thread.get()
 
@@ -750,6 +756,7 @@ class UserApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.logout_user(async_req=True)
             >>> result = thread.get()
 
@@ -854,6 +861,7 @@ class UserApi(object):
             This can only be done by the logged in user.  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.update_user(username, body, async_req=True)
             >>> result = thread.get()
 
@@ -1049,7 +1057,8 @@ class Endpoint(object):
                 check_validations(
                     self.validations,
                     (param,),
-                    kwargs[param]
+                    kwargs[param],
+                    configuration=self.api_client.configuration
                 )
 
         if kwargs['_check_input_type'] is False:

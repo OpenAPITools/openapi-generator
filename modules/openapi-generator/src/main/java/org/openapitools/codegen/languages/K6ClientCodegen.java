@@ -184,7 +184,6 @@ public class K6ClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     protected String invokerPackage;
     protected String sourceFolder = "";
-    protected String localVariablePrefix = "";
     private String modelPropertyNaming = "camelCase";
     protected boolean preserveLeadingParamChar = false;
 

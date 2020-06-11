@@ -18,14 +18,14 @@ import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
 /**
  * 
+ * @param className 
+ * @param color 
  * @param declawed 
  */
 @Serializable
 data class Cat (
-    @SerialName(value = "className") @Required val className: kotlin.String,
-    @SerialName(value = "declawed") val declawed: kotlin.Boolean? = null,
-    @SerialName(value = "color") val color: kotlin.String? = null
-) 
-
-
+    @SerialName(value = "className") @Required override val className: kotlin.String,
+    @SerialName(value = "color") override val color: kotlin.String? = null,
+    @SerialName(value = "declawed") val declawed: kotlin.Boolean? = null
+) : Animal
 

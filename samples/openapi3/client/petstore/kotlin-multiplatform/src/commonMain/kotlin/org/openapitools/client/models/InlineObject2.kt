@@ -25,10 +25,8 @@ data class InlineObject2 (
     @SerialName(value = "enum_form_string_array") val enumFormStringArray: kotlin.Array<InlineObject2.EnumFormStringArray>? = null,
     /* Form parameter enum test (string) */
     @SerialName(value = "enum_form_string") val enumFormString: InlineObject2.EnumFormString? = null
-) 
+) {
 
-
-{
     /**
     * Form parameter enum test (string array)
     * Values: greaterThan,dollar
