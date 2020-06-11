@@ -10,11 +10,12 @@
 
 #[allow(unused_imports)]
 use std::rc::Rc;
-use std::borrow::Borrow;
+
 use std::option::Option;
 
 use reqwest;
 
+use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
 /// struct for passing parameters to the method `add_pet`
@@ -87,6 +88,157 @@ pub struct UploadFileParams {
         // unbox the parameters
         let body = params.body;
 
+<<<<<<< HEAD
+=======
+/// struct for typed successes of method `add_pet`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum AddPetSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `delete_pet`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DeletePetSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `find_pets_by_status`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum FindPetsByStatusSuccess {
+    Status200(Vec<crate::models::Pet>),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `find_pets_by_tags`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum FindPetsByTagsSuccess {
+    Status200(Vec<crate::models::Pet>),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `get_pet_by_id`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetPetByIdSuccess {
+    Status200(crate::models::Pet),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `update_pet`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UpdatePetSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `update_pet_with_form`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UpdatePetWithFormSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `upload_file`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UploadFileSuccess {
+    Status200(crate::models::ApiResponse),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `add_pet`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum AddPetError {
+    Status405(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `delete_pet`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DeletePetError {
+    Status400(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `find_pets_by_status`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum FindPetsByStatusError {
+    DefaultResponse(Vec<crate::models::Pet>),
+    Status400(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `find_pets_by_tags`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum FindPetsByTagsError {
+    DefaultResponse(Vec<crate::models::Pet>),
+    Status400(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `get_pet_by_id`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetPetByIdError {
+    DefaultResponse(crate::models::Pet),
+    Status400(),
+    Status404(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `update_pet`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UpdatePetError {
+    Status400(),
+    Status404(),
+    Status405(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `update_pet_with_form`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UpdatePetWithFormError {
+    Status405(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `upload_file`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UploadFileError {
+    DefaultResponse(crate::models::ApiResponse),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+
+    pub async fn add_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<ResponseContent<AddPetSuccess>, Error<AddPetError>> {
+>>>>>>> 733fd9d601b19862de26b8424106f60cd9716e6c
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet", configuration.base_path);
@@ -101,15 +253,31 @@ pub struct UploadFileParams {
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        client.execute(req).await?.error_for_status()?;
-        Ok(())
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<AddPetSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<AddPetError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
+<<<<<<< HEAD
     pub async fn delete_pet(configuration: &configuration::Configuration, params: DeletePetParams) -> Result<(), Error> {
         // unbox the parameters
         let pet_id = params.pet_id;
         let api_key = params.api_key;
 
+=======
+    pub async fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api_key: Option<&str>) -> Result<ResponseContent<DeletePetSuccess>, Error<DeletePetError>> {
+>>>>>>> 733fd9d601b19862de26b8424106f60cd9716e6c
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
@@ -126,14 +294,30 @@ pub struct UploadFileParams {
         };
 
         let req = req_builder.build()?;
-        client.execute(req).await?.error_for_status()?;
-        Ok(())
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<DeletePetSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<DeletePetError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
+<<<<<<< HEAD
     pub async fn find_pets_by_status(configuration: &configuration::Configuration, params: FindPetsByStatusParams) -> Result<Vec<crate::models::Pet>, Error> {
         // unbox the parameters
         let status = params.status;
 
+=======
+    pub async fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>) -> Result<ResponseContent<FindPetsByStatusSuccess>, Error<FindPetsByStatusError>> {
+>>>>>>> 733fd9d601b19862de26b8424106f60cd9716e6c
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/findByStatus", configuration.base_path);
@@ -148,13 +332,30 @@ pub struct UploadFileParams {
         };
 
         let req = req_builder.build()?;
-        Ok(client.execute(req).await?.error_for_status()?.json::<Vec<crate::models::Pet>>().await?)
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<FindPetsByStatusSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<FindPetsByStatusError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
+<<<<<<< HEAD
     pub async fn find_pets_by_tags(configuration: &configuration::Configuration, params: FindPetsByTagsParams) -> Result<Vec<crate::models::Pet>, Error> {
         // unbox the parameters
         let tags = params.tags;
 
+=======
+    pub async fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec<String>) -> Result<ResponseContent<FindPetsByTagsSuccess>, Error<FindPetsByTagsError>> {
+>>>>>>> 733fd9d601b19862de26b8424106f60cd9716e6c
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/findByTags", configuration.base_path);
@@ -169,13 +370,30 @@ pub struct UploadFileParams {
         };
 
         let req = req_builder.build()?;
-        Ok(client.execute(req).await?.error_for_status()?.json::<Vec<crate::models::Pet>>().await?)
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<FindPetsByTagsSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<FindPetsByTagsError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
+<<<<<<< HEAD
     pub async fn get_pet_by_id(configuration: &configuration::Configuration, params: GetPetByIdParams) -> Result<crate::models::Pet, Error> {
         // unbox the parameters
         let pet_id = params.pet_id;
 
+=======
+    pub async fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) -> Result<ResponseContent<GetPetByIdSuccess>, Error<GetPetByIdError>> {
+>>>>>>> 733fd9d601b19862de26b8424106f60cd9716e6c
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
@@ -194,13 +412,30 @@ pub struct UploadFileParams {
         };
 
         let req = req_builder.build()?;
-        Ok(client.execute(req).await?.error_for_status()?.json::<crate::models::Pet>().await?)
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<GetPetByIdSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<GetPetByIdError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
+<<<<<<< HEAD
     pub async fn update_pet(configuration: &configuration::Configuration, params: UpdatePetParams) -> Result<(), Error> {
         // unbox the parameters
         let body = params.body;
 
+=======
+    pub async fn update_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<ResponseContent<UpdatePetSuccess>, Error<UpdatePetError>> {
+>>>>>>> 733fd9d601b19862de26b8424106f60cd9716e6c
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet", configuration.base_path);
@@ -215,16 +450,32 @@ pub struct UploadFileParams {
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        client.execute(req).await?.error_for_status()?;
-        Ok(())
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<UpdatePetSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<UpdatePetError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
+<<<<<<< HEAD
     pub async fn update_pet_with_form(configuration: &configuration::Configuration, params: UpdatePetWithFormParams) -> Result<(), Error> {
         // unbox the parameters
         let pet_id = params.pet_id;
         let name = params.name;
         let status = params.status;
 
+=======
+    pub async fn update_pet_with_form(configuration: &configuration::Configuration, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<ResponseContent<UpdatePetWithFormSuccess>, Error<UpdatePetWithFormError>> {
+>>>>>>> 733fd9d601b19862de26b8424106f60cd9716e6c
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
@@ -246,16 +497,32 @@ pub struct UploadFileParams {
         req_builder = req_builder.form(&form_params);
 
         let req = req_builder.build()?;
-        client.execute(req).await?.error_for_status()?;
-        Ok(())
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<UpdatePetWithFormSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<UpdatePetWithFormError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
+<<<<<<< HEAD
     pub async fn upload_file(configuration: &configuration::Configuration, params: UploadFileParams) -> Result<crate::models::ApiResponse, Error> {
         // unbox the parameters
         let pet_id = params.pet_id;
         let additional_metadata = params.additional_metadata;
         let file = params.file;
 
+=======
+    pub async fn upload_file(configuration: &configuration::Configuration, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<ResponseContent<UploadFileSuccess>, Error<UploadFileError>> {
+>>>>>>> 733fd9d601b19862de26b8424106f60cd9716e6c
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=pet_id);
@@ -275,6 +542,19 @@ pub struct UploadFileParams {
         req_builder = req_builder.multipart(form);
 
         let req = req_builder.build()?;
-        Ok(client.execute(req).await?.error_for_status()?.json::<crate::models::ApiResponse>().await?)
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<UploadFileSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<UploadFileError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
