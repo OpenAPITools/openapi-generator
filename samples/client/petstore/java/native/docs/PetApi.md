@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 ## addPet
 
-> addPet(body)
+> void addPet(body)
 
 Add a new pet to the store
 
@@ -66,6 +66,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
+
 null (empty response body)
 
 ### Authorization
@@ -86,7 +87,7 @@ null (empty response body)
 
 ## deletePet
 
-> deletePet(petId, apiKey)
+> void deletePet(petId, apiKey)
 
 Deletes a pet
 
@@ -136,6 +137,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
+
 null (empty response body)
 
 ### Authorization
@@ -156,7 +158,7 @@ null (empty response body)
 
 ## findPetsByStatus
 
-> List&lt;Pet&gt; findPetsByStatus(status)
+> List<Pet> findPetsByStatus(status)
 
 Finds Pets by status
 
@@ -209,6 +211,7 @@ Name | Type | Description  | Notes
 
 [**List&lt;Pet&gt;**](Pet.md)
 
+
 ### Authorization
 
 [petstore_auth](../README.md#petstore_auth)
@@ -227,7 +230,7 @@ Name | Type | Description  | Notes
 
 ## findPetsByTags
 
-> Set&lt;Pet&gt; findPetsByTags(tags)
+> Set<Pet> findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -279,6 +282,7 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Set&lt;Pet&gt;**](Pet.md)
+
 
 ### Authorization
 
@@ -353,6 +357,7 @@ Name | Type | Description  | Notes
 
 [**Pet**](Pet.md)
 
+
 ### Authorization
 
 [api_key](../README.md#api_key)
@@ -372,7 +377,7 @@ Name | Type | Description  | Notes
 
 ## updatePet
 
-> updatePet(body)
+> void updatePet(body)
 
 Update an existing pet
 
@@ -420,6 +425,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
+
 null (empty response body)
 
 ### Authorization
@@ -442,7 +448,7 @@ null (empty response body)
 
 ## updatePetWithForm
 
-> updatePetWithForm(petId, name, status)
+> void updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
 
@@ -493,6 +499,7 @@ Name | Type | Description  | Notes
  **status** | **String**| Updated status of the pet | [optional]
 
 ### Return type
+
 
 null (empty response body)
 
@@ -568,6 +575,7 @@ Name | Type | Description  | Notes
 
 [**ModelApiResponse**](ModelApiResponse.md)
 
+
 ### Authorization
 
 [petstore_auth](../README.md#petstore_auth)
@@ -639,6 +647,7 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ModelApiResponse**](ModelApiResponse.md)
+
 
 ### Authorization
 

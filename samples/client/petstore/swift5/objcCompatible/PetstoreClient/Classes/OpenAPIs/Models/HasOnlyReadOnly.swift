@@ -7,7 +7,9 @@
 
 import Foundation
 
-@objc public class HasOnlyReadOnly: NSObject, Codable {
+
+
+@objc public class HasOnlyReadOnly: NSObject, Codable { 
 
     public var bar: String?
     public var foo: String?

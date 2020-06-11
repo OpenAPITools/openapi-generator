@@ -17,8 +17,32 @@ use reqwest;
 
 use super::{Error, configuration};
 
+/// struct for passing parameters to the method `delete_order`
+#[derive(Clone, Debug)]
+pub struct DeleteOrderParams {
+    /// ID of the order that needs to be deleted
+    pub order_id: String
+}
 
-    pub async fn delete_order(configuration: &configuration::Configuration, order_id: &str) -> Result<(), Error> {
+/// struct for passing parameters to the method `get_order_by_id`
+#[derive(Clone, Debug)]
+pub struct GetOrderByIdParams {
+    /// ID of pet that needs to be fetched
+    pub order_id: i64
+}
+
+/// struct for passing parameters to the method `place_order`
+#[derive(Clone, Debug)]
+pub struct PlaceOrderParams {
+    /// order placed for purchasing the pet
+    pub body: crate::models::Order
+}
+
+
+    pub async fn delete_order(configuration: &configuration::Configuration, params: DeleteOrderParams) -> Result<(), Error> {
+        // unbox the parameters
+        let order_id = params.order_id;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=crate::apis::urlencode(order_id));
@@ -33,7 +57,9 @@ use super::{Error, configuration};
         Ok(())
     }
 
-    pub async fn get_inventory(configuration: &configuration::Configuration, ) -> Result<::std::collections::HashMap<String, i32>, Error> {
+    pub async fn get_inventory(configuration: &configuration::Configuration) -> Result<::std::collections::HashMap<String, i32>, Error> {
+        // unbox the parameters
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/inventory", configuration.base_path);
@@ -55,7 +81,10 @@ use super::{Error, configuration};
         Ok(client.execute(req).await?.error_for_status()?.json::<::std::collections::HashMap<String, i32>>().await?)
     }
 
-    pub async fn get_order_by_id(configuration: &configuration::Configuration, order_id: i64) -> Result<crate::models::Order, Error> {
+    pub async fn get_order_by_id(configuration: &configuration::Configuration, params: GetOrderByIdParams) -> Result<crate::models::Order, Error> {
+        // unbox the parameters
+        let order_id = params.order_id;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=order_id);
@@ -69,7 +98,10 @@ use super::{Error, configuration};
         Ok(client.execute(req).await?.error_for_status()?.json::<crate::models::Order>().await?)
     }
 
-    pub async fn place_order(configuration: &configuration::Configuration, body: crate::models::Order) -> Result<crate::models::Order, Error> {
+    pub async fn place_order(configuration: &configuration::Configuration, params: PlaceOrderParams) -> Result<crate::models::Order, Error> {
+        // unbox the parameters
+        let body = params.body;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order", configuration.base_path);

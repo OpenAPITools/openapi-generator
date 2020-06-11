@@ -15,29 +15,21 @@ Method | HTTP request | Description
 [**uploadFileWithRequiredFile**](PetApi.md#uploadFileWithRequiredFile) | **POST** fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
-<a name="addPet"></a>
-# **addPet**
-> addPet(pet)
 
 Add a new pet to the store
 
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(PetApi::class.java)
 val pet : Pet =  // Pet | Pet object that needs to be added to the store
-try {
-    apiInstance.addPet(pet)
-} catch (e: ClientException) {
-    println("4xx response calling PetApi#addPet")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling PetApi#addPet")
-    e.printStackTrace()
-}
+
+webService.addPet(pet)
 ```
 
 ### Parameters
@@ -53,38 +45,28 @@ null (empty response body)
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
-<a name="deletePet"></a>
-# **deletePet**
-> deletePet(petId, apiKey)
 
 Deletes a pet
 
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(PetApi::class.java)
 val petId : kotlin.Long = 789 // kotlin.Long | Pet id to delete
 val apiKey : kotlin.String = apiKey_example // kotlin.String | 
-try {
-    apiInstance.deletePet(petId, apiKey)
-} catch (e: ClientException) {
-    println("4xx response calling PetApi#deletePet")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling PetApi#deletePet")
-    e.printStackTrace()
-}
+
+webService.deletePet(petId, apiKey)
 ```
 
 ### Parameters
@@ -101,17 +83,12 @@ null (empty response body)
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
 
-<a name="findPetsByStatus"></a>
-# **findPetsByStatus**
-> kotlin.collections.List&lt;Pet&gt; findPetsByStatus(status)
 
 Finds Pets by status
 
@@ -120,47 +97,36 @@ Multiple status values can be provided with comma separated strings
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
-val status : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Status values that need to be considered for filter
-try {
-    val result : kotlin.collections.List<Pet> = apiInstance.findPetsByStatus(status)
-    println(result)
-} catch (e: ClientException) {
-    println("4xx response calling PetApi#findPetsByStatus")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling PetApi#findPetsByStatus")
-    e.printStackTrace()
-}
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(PetApi::class.java)
+val status : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | Status values that need to be considered for filter
+
+val result : kotlin.Array<Pet> = webService.findPetsByStatus(status)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
+ **status** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
 
 ### Return type
 
-[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
+[**kotlin.Array&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-<a name="findPetsByTags"></a>
-# **findPetsByTags**
-> kotlin.collections.List&lt;Pet&gt; findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -169,47 +135,36 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
-val tags : kotlin.collections.List<kotlin.String> =  // kotlin.collections.List<kotlin.String> | Tags to filter by
-try {
-    val result : kotlin.collections.List<Pet> = apiInstance.findPetsByTags(tags)
-    println(result)
-} catch (e: ClientException) {
-    println("4xx response calling PetApi#findPetsByTags")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling PetApi#findPetsByTags")
-    e.printStackTrace()
-}
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(PetApi::class.java)
+val tags : kotlin.Array<kotlin.String> =  // kotlin.Array<kotlin.String> | Tags to filter by
+
+val result : kotlin.Array<Pet> = webService.findPetsByTags(tags)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**kotlin.collections.List&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by |
+ **tags** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by |
 
 ### Return type
 
-[**kotlin.collections.List&lt;Pet&gt;**](Pet.md)
+[**kotlin.Array&lt;Pet&gt;**](Pet.md)
 
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-<a name="getPetById"></a>
-# **getPetById**
-> Pet getPetById(petId)
 
 Find pet by ID
 
@@ -218,21 +173,15 @@ Returns a single pet
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(PetApi::class.java)
 val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to return
-try {
-    val result : Pet = apiInstance.getPetById(petId)
-    println(result)
-} catch (e: ClientException) {
-    println("4xx response calling PetApi#getPetById")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling PetApi#getPetById")
-    e.printStackTrace()
-}
+
+val result : Pet = webService.getPetById(petId)
 ```
 
 ### Parameters
@@ -248,38 +197,27 @@ Name | Type | Description  | Notes
 ### Authorization
 
 
-Configure api_key:
-    ApiClient.apiKey["api_key"] = ""
-    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 
  - **Content-Type**: Not defined
  - **Accept**: application/xml, application/json
 
-<a name="updatePet"></a>
-# **updatePet**
-> updatePet(pet)
 
 Update an existing pet
 
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(PetApi::class.java)
 val pet : Pet =  // Pet | Pet object that needs to be added to the store
-try {
-    apiInstance.updatePet(pet)
-} catch (e: ClientException) {
-    println("4xx response calling PetApi#updatePet")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling PetApi#updatePet")
-    e.printStackTrace()
-}
+
+webService.updatePet(pet)
 ```
 
 ### Parameters
@@ -295,39 +233,29 @@ null (empty response body)
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
  - **Accept**: Not defined
 
-<a name="updatePetWithForm"></a>
-# **updatePetWithForm**
-> updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
 
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(PetApi::class.java)
 val petId : kotlin.Long = 789 // kotlin.Long | ID of pet that needs to be updated
 val name : kotlin.String = name_example // kotlin.String | Updated name of the pet
 val status : kotlin.String = status_example // kotlin.String | Updated status of the pet
-try {
-    apiInstance.updatePetWithForm(petId, name, status)
-} catch (e: ClientException) {
-    println("4xx response calling PetApi#updatePetWithForm")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling PetApi#updatePetWithForm")
-    e.printStackTrace()
-}
+
+webService.updatePetWithForm(petId, name, status)
 ```
 
 ### Parameters
@@ -345,40 +273,29 @@ null (empty response body)
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
  - **Accept**: Not defined
 
-<a name="uploadFile"></a>
-# **uploadFile**
-> ApiResponse uploadFile(petId, additionalMetadata, file)
 
 uploads an image
 
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(PetApi::class.java)
 val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
 val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
 val file : java.io.File = BINARY_DATA_HERE // java.io.File | file to upload
-try {
-    val result : ApiResponse = apiInstance.uploadFile(petId, additionalMetadata, file)
-    println(result)
-} catch (e: ClientException) {
-    println("4xx response calling PetApi#uploadFile")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling PetApi#uploadFile")
-    e.printStackTrace()
-}
+
+val result : ApiResponse = webService.uploadFile(petId, additionalMetadata, file)
 ```
 
 ### Parameters
@@ -396,40 +313,29 @@ Name | Type | Description  | Notes
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
-<a name="uploadFileWithRequiredFile"></a>
-# **uploadFileWithRequiredFile**
-> ApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
 
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = PetApi()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(PetApi::class.java)
 val petId : kotlin.Long = 789 // kotlin.Long | ID of pet to update
 val requiredFile : java.io.File = BINARY_DATA_HERE // java.io.File | file to upload
 val additionalMetadata : kotlin.String = additionalMetadata_example // kotlin.String | Additional data to pass to server
-try {
-    val result : ApiResponse = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
-    println(result)
-} catch (e: ClientException) {
-    println("4xx response calling PetApi#uploadFileWithRequiredFile")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling PetApi#uploadFileWithRequiredFile")
-    e.printStackTrace()
-}
+
+val result : ApiResponse = webService.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 ```
 
 ### Parameters
@@ -447,8 +353,6 @@ Name | Type | Description  | Notes
 ### Authorization
 
 
-Configure petstore_auth:
-    ApiClient.accessToken = ""
 
 ### HTTP request headers
 

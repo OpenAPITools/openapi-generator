@@ -110,6 +110,6 @@ public class FakeClassnameTags123Api {
 
     return apiClient.invokeAPI("FakeClassnameTags123Api.testClassname", localVarPath, "PATCH", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, null);
+                               localVarAuthNames, localVarReturnType);
   }
 }

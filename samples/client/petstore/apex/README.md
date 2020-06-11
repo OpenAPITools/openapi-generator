@@ -91,6 +91,8 @@ Class | Method | HTTP request | Description
 
  - [OASApiResponse](OASApiResponse.md)
  - [OASCategory](OASCategory.md)
+ - [OASInlineObject](OASInlineObject.md)
+ - [OASInlineObject1](OASInlineObject1.md)
  - [OASOrder](OASOrder.md)
  - [OASPet](OASPet.md)
  - [OASTag](OASTag.md)

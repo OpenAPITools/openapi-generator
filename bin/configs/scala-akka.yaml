@@ -1,0 +1,6 @@
+generatorName: scala-akka
+outputDir: samples/client/petstore/scala-akka
+inputSpec: modules/openapi-generator/src/test/resources/3_0/scala-akka/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/scala-akka-client
+additionalProperties:
+  artifactId: scala-akka-petstore-client

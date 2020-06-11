@@ -684,7 +684,7 @@ class FakeApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
             .apply {
                 put("pipe", toMultiValue(pipe.toList(), "multi"))
                 put("ioutil", toMultiValue(ioutil.toList(), "csv"))
-                put("http", toMultiValue(http.toList(), "space"))
+                put("http", toMultiValue(http.toList(), "ssv"))
                 put("url", toMultiValue(url.toList(), "csv"))
                 put("context", toMultiValue(context.toList(), "multi"))
             }
