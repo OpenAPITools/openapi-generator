@@ -35,7 +35,7 @@ class PetApi(baseUrl: String) {
   def addPet(pet: Pet): ApiRequest[Pet] =
     ApiRequest[Pet](ApiMethods.POST, baseUrl, "/pet", "application/json")
       .withBody(pet)
-      .withErrorResponse[Pet](200)
+      .withSuccessResponse[Pet](200)
       .withErrorResponse[Unit](405)
       
 
@@ -65,7 +65,7 @@ class PetApi(baseUrl: String) {
   def findPetsByStatus(status: Seq[String]): ApiRequest[Seq[Pet]] =
     ApiRequest[Seq[Pet]](ApiMethods.GET, baseUrl, "/pet/findByStatus", "application/json")
       .withQueryParam("status", ArrayValues(status, CSV))
-      .withErrorResponse[Seq[Pet]](200)
+      .withSuccessResponse[Seq[Pet]](200)
       .withErrorResponse[Unit](400)
       
 
@@ -81,7 +81,7 @@ class PetApi(baseUrl: String) {
   def findPetsByTags(tags: Seq[String]): ApiRequest[Seq[Pet]] =
     ApiRequest[Seq[Pet]](ApiMethods.GET, baseUrl, "/pet/findByTags", "application/json")
       .withQueryParam("tags", ArrayValues(tags, CSV))
-      .withErrorResponse[Seq[Pet]](200)
+      .withSuccessResponse[Seq[Pet]](200)
       .withErrorResponse[Unit](400)
       
 
@@ -102,7 +102,7 @@ class PetApi(baseUrl: String) {
     ApiRequest[Pet](ApiMethods.GET, baseUrl, "/pet/{petId}", "application/json")
       .withApiKey(apiKey, "api_key", HEADER)
       .withPathParam("petId", petId)
-      .withErrorResponse[Pet](200)
+      .withSuccessResponse[Pet](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
       
@@ -119,7 +119,7 @@ class PetApi(baseUrl: String) {
   def updatePet(pet: Pet): ApiRequest[Pet] =
     ApiRequest[Pet](ApiMethods.PUT, baseUrl, "/pet", "application/json")
       .withBody(pet)
-      .withErrorResponse[Pet](200)
+      .withSuccessResponse[Pet](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
       .withErrorResponse[Unit](405)
@@ -139,7 +139,7 @@ class PetApi(baseUrl: String) {
       .withFormParam("name", name)
       .withFormParam("status", status)
       .withPathParam("petId", petId)
-      .withErrorResponse[Unit](200)
+      .withSuccessResponse[Unit](200)
       .withErrorResponse[Unit](405)
       
 
@@ -156,7 +156,7 @@ class PetApi(baseUrl: String) {
       .withFormParam("additionalMetadata", additionalMetadata)
       .withFormParam("file", file)
       .withPathParam("petId", petId)
-      .withErrorResponse[ApiResponse](200)
+      .withSuccessResponse[ApiResponse](200)
       
 
 
