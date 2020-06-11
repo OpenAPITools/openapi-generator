@@ -51,7 +51,7 @@ class StoreApi(baseUrl: String) {
   def getInventory()(implicit apiKey: ApiKeyValue): ApiRequest[Map[String, Int]] =
     ApiRequest[Map[String, Int]](ApiMethods.GET, baseUrl, "/store/inventory", "application/json")
       .withApiKey(apiKey, "api_key", HEADER)
-      .withSuccessResponse[Map[String, Int]](200)
+      .withErrorResponse[Map[String, Int]](200)
       
 
   /**
@@ -67,7 +67,7 @@ class StoreApi(baseUrl: String) {
   def getOrderById(orderId: Long): ApiRequest[Order] =
     ApiRequest[Order](ApiMethods.GET, baseUrl, "/store/order/{orderId}", "application/json")
       .withPathParam("orderId", orderId)
-      .withSuccessResponse[Order](200)
+      .withErrorResponse[Order](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
       
@@ -82,7 +82,7 @@ class StoreApi(baseUrl: String) {
   def placeOrder(order: Order): ApiRequest[Order] =
     ApiRequest[Order](ApiMethods.POST, baseUrl, "/store/order", "application/json")
       .withBody(order)
-      .withSuccessResponse[Order](200)
+      .withErrorResponse[Order](200)
       .withErrorResponse[Unit](400)
       
 

@@ -114,7 +114,7 @@ stringFromEnum model =
 
 
 
-headerPost : String -> Maybe Int -> Maybe HeaderType -> Api.Request String
+headerPost : String -> Maybe Int -> Maybe HeaderType -> Api.Request 
 headerPost string_header integer_header headerType_header =
     Api.request
         "POST"
@@ -123,11 +123,11 @@ headerPost string_header integer_header headerType_header =
         []
         [ ( "string", Just <| identity string_header ), ( "integer", Maybe.map String.fromInt integer_header ), ( "headerType", Maybe.map stringFromHeaderType headerType_header ) ]
         Nothing
-        Json.Decode.string
+        
 
 
 
-maybeGet : Api.Request Api.Data.Maybe_
+maybeGet : Api.Request 
 maybeGet =
     Api.request
         "GET"
@@ -136,11 +136,11 @@ maybeGet =
         []
         []
         Nothing
-        Api.Data.maybeDecoder
+        
 
 
 
-pathStringIntegerEnumerationGet : String -> Int -> Enumeration -> Api.Request ()
+pathStringIntegerEnumerationGet : String -> Int -> Enumeration -> Api.Request 
 pathStringIntegerEnumerationGet string_path integer_path enumeration_path =
     Api.request
         "GET"
@@ -149,11 +149,11 @@ pathStringIntegerEnumerationGet string_path integer_path enumeration_path =
         []
         []
         Nothing
-        (Json.Decode.succeed ())
+        
 
 
 
-queryGet : Maybe String -> Maybe Int -> Maybe Enum -> Api.Request ()
+queryGet : Maybe String -> Maybe Int -> Maybe Enum -> Api.Request 
 queryGet string_query int_query enum_query =
     Api.request
         "GET"
@@ -162,11 +162,11 @@ queryGet string_query int_query enum_query =
         [ ( "string", Maybe.map identity string_query ), ( "int", Maybe.map String.fromInt int_query ), ( "enum", Maybe.map stringFromEnum enum_query ) ]
         []
         Nothing
-        (Json.Decode.succeed ())
+        
 
 
 
-securedPost : String -> Api.Request ()
+securedPost : String -> Api.Request 
 securedPost auth_token =
     Api.request
         "POST"
@@ -175,12 +175,12 @@ securedPost auth_token =
         []
         []
         Nothing
-        (Json.Decode.succeed ())
+        
         |> Api.withBearerToken auth_token
 
 
 
-uuidGet : Maybe Uuid -> Api.Request Uuid
+uuidGet : Maybe Uuid -> Api.Request 
 uuidGet value_query =
     Api.request
         "GET"
@@ -189,4 +189,4 @@ uuidGet value_query =
         [ ( "value", Maybe.map Uuid.toString value_query ) ]
         []
         Nothing
-        Uuid.decoder
+        

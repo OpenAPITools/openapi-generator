@@ -104,7 +104,7 @@ class UserApi(baseUrl: String) {
   def getUserByName(username: String): ApiRequest[User] =
     ApiRequest[User](ApiMethods.GET, baseUrl, "/user/{username}", "application/json")
       .withPathParam("username", username)
-      .withSuccessResponse[User](200)
+      .withErrorResponse[User](200)
       .withErrorResponse[Unit](400)
       .withErrorResponse[Unit](404)
       
@@ -125,7 +125,7 @@ class UserApi(baseUrl: String) {
     ApiRequest[String](ApiMethods.GET, baseUrl, "/user/login", "application/json")
       .withQueryParam("username", username)
       .withQueryParam("password", password)
-      .withSuccessResponse[String](200)
+      .withErrorResponse[String](200)
       .withErrorResponse[Unit](400)
       
   object LoginUserHeaders {
