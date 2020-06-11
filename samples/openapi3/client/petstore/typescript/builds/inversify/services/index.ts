@@ -43,7 +43,7 @@ export class ApiServiceBinder {
     /**
      * Allows you to bind a server configuration without having to import the service identifier.
      */
-    public bindServerConfiguration() {
+    public get bindServerConfiguration() {
         return this.container.bind(AbstractServerConfiguration);
     }
 
@@ -54,7 +54,7 @@ export class ApiServiceBinder {
      * return value;
      */
     public bindServerConfigurationToPredefined(idx: number) {
-        this.container.bind(AbstractServerConfiguration).toConstantValue(servers[idx]);
+        this.bindServerConfiguration.toConstantValue(servers[idx]);
         return servers[idx];
     }
 
@@ -62,7 +62,7 @@ export class ApiServiceBinder {
      * Explicitly define the service base url
      */
     public bindServerConfigurationToURL(url: string) {
-        return this.container.bind(AbstractServerConfiguration).toConstantValue(
+        return this.bindServerConfiguration.toConstantValue(
             new ServerConfiguration<{}>(url, {})
         );
     }
@@ -70,7 +70,7 @@ export class ApiServiceBinder {
     /**
      * Allows you to bind a http library without having to import the service identifier.
      */
-    public bindHttpLibrary() {
+    public get bindHttpLibrary() {
       return this.container.bind(AbstractHttpLibrary);
     }
 
@@ -81,7 +81,7 @@ export class ApiServiceBinder {
      *
      * TODO: How to conveniently support PromiseMiddleware? It would be nice if the user would not have to be aware of the base (observable) Middleware and everthing is automatically wrapped.
      */
-    public bindMiddleware() {
+    public get bindMiddleware() {
         return this.container.bind(AbstractMiddleware);
     }
 
@@ -91,7 +91,7 @@ export class ApiServiceBinder {
      * Note: The name of the bound auth method needs to be known in the specs,
      * because the name is used to decide for which endpoints to apply the authentication.
      */
-    public bindAuthMethod() {
+    public get bindAuthMethod() {
         return this.container.bind(AbstractAuthMethod);
     }
 
@@ -101,6 +101,6 @@ export class ApiServiceBinder {
      * Make sure that you have injected all dependencies for it.
      */
     public bindAuthMethodToPredefined(name: keyof AuthMethods) {
-        return this.container.bind(AbstractAuthMethod).to(authMethodServices[name]);
+        return this.bindAuthMethod.to(authMethodServices[name]);
     }
 }
