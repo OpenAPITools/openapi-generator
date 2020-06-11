@@ -551,7 +551,7 @@ public class ApiClient {
         updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(basePath).path(path);
-        if (queryParams != null) {         
+        if (queryParams != null) {
             builder.queryParams(queryParams);
         }
 

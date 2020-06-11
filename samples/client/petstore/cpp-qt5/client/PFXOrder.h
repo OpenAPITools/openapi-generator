@@ -41,21 +41,33 @@ public:
 
     qint64 getId() const;
     void setId(const qint64 &id);
+    bool is_id_Set() const;
+    bool is_id_Valid() const;
 
     qint64 getPetId() const;
     void setPetId(const qint64 &pet_id);
+    bool is_pet_id_Set() const;
+    bool is_pet_id_Valid() const;
 
     qint32 getQuantity() const;
     void setQuantity(const qint32 &quantity);
+    bool is_quantity_Set() const;
+    bool is_quantity_Valid() const;
 
     QDateTime getShipDate() const;
     void setShipDate(const QDateTime &ship_date);
+    bool is_ship_date_Set() const;
+    bool is_ship_date_Valid() const;
 
     QString getStatus() const;
     void setStatus(const QString &status);
+    bool is_status_Set() const;
+    bool is_status_Valid() const;
 
     bool isComplete() const;
     void setComplete(const bool &complete);
+    bool is_complete_Set() const;
+    bool is_complete_Valid() const;
 
     virtual bool isSet() const override;
     virtual bool isValid() const override;

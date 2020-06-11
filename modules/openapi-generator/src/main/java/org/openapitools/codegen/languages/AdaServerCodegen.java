@@ -36,7 +36,7 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
         super();
 
         // TODO: Ada maintainer review.
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .excludeWireFormatFeatures(
                         WireFormatFeature.XML,
@@ -64,7 +64,7 @@ public class AdaServerCodegen extends AbstractAdaCodegen implements CodegenConfi
                         ParameterFeature.Cookie
                 )
                 .includeClientModificationFeatures(ClientModificationFeature.BasePath)
-                .build();
+        );
     }
 
     @Override

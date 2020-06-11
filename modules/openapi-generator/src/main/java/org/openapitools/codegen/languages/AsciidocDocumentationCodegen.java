@@ -62,9 +62,11 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
 
         private long includeCount = 0;
         private long notFoundCount = 0;
+        private String attributePathReference;
         private String basePath;
 
-        public IncludeMarkupLambda(final String basePath) {
+        public IncludeMarkupLambda(final String attributePathReference, final String basePath) {
+            this.attributePathReference = attributePathReference;
             this.basePath = basePath;
         }
 
@@ -81,14 +83,18 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
             final String relativeFileName = AsciidocDocumentationCodegen.sanitize(frag.execute());
             final Path filePathToInclude = Paths.get(basePath, relativeFileName).toAbsolutePath();
 
+            String includeStatement = "include::{" + attributePathReference + "}" + escapeCurlyBrackets(relativeFileName) + "[opts=optional]";
             if (Files.isRegularFile(filePathToInclude)) {
-                LOGGER.debug(
-                        "including " + ++includeCount + ". file into markup from: " + filePathToInclude.toString());
-                out.write("\ninclude::" + relativeFileName + "[opts=optional]\n");
+                LOGGER.debug("including " + ++includeCount + ". file into markup from: " + filePathToInclude.toString());
+                out.write("\n" + includeStatement + "\n");
             } else {
                 LOGGER.debug(++notFoundCount + ". file not found, skip include for: " + filePathToInclude.toString());
-                out.write("\n// markup not found, no include ::" + relativeFileName + "[opts=optional]\n");
+                out.write("\n// markup not found, no " + includeStatement + "\n");
             }
+        }
+
+        private String escapeCurlyBrackets(String relativeFileName) {
+            return relativeFileName.replaceAll("\\{","\\\\{").replaceAll("\\}","\\\\}");
         }
     }
 
@@ -187,13 +193,13 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
         super();
 
         // TODO: Asciidoc maintainer review.
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .documentationFeatures(EnumSet.noneOf(DocumentationFeature.class))
                 .globalFeatures(EnumSet.noneOf(GlobalFeature.class))
                 .schemaSupportFeatures(EnumSet.noneOf(SchemaSupportFeature.class))
                 .clientModificationFeatures(EnumSet.noneOf(ClientModificationFeature.class))
-                .build();
+        );
 
         LOGGER.trace("start asciidoc codegen");
 
@@ -270,7 +276,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
                     + Paths.get(specDir).toAbsolutePath());
         }
 
-        this.includeSpecMarkupLambda = new IncludeMarkupLambda(specDir);
+        this.includeSpecMarkupLambda = new IncludeMarkupLambda(SPEC_DIR,specDir);
         additionalProperties.put("specinclude", this.includeSpecMarkupLambda);
 
         String snippetDir = this.additionalProperties.get(SNIPPET_DIR) + "";
@@ -279,7 +285,7 @@ public class AsciidocDocumentationCodegen extends DefaultCodegen implements Code
                     + Paths.get(snippetDir).toAbsolutePath());
         }
 
-        this.includeSnippetMarkupLambda = new IncludeMarkupLambda(snippetDir);
+        this.includeSnippetMarkupLambda = new IncludeMarkupLambda(SNIPPET_DIR,snippetDir);
         additionalProperties.put("snippetinclude", this.includeSnippetMarkupLambda);
 
         this.linkSnippetMarkupLambda = new LinkMarkupLambda(snippetDir);

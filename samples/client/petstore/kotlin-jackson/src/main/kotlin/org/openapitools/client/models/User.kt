@@ -13,7 +13,6 @@ package org.openapitools.client.models
 
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonFormat
 /**
  * A User who is purchasing from the pet store
  * @param id 
@@ -27,30 +26,22 @@ import com.fasterxml.jackson.annotation.JsonFormat
  */
 
 data class User (
-    @JsonProperty("id")
-    val id: kotlin.Long? = null
-,
-    @JsonProperty("username")
-    val username: kotlin.String? = null
-,
-    @JsonProperty("firstName")
-    val firstName: kotlin.String? = null
-,
-    @JsonProperty("lastName")
-    val lastName: kotlin.String? = null
-,
-    @JsonProperty("email")
-    val email: kotlin.String? = null
-,
-    @JsonProperty("password")
-    val password: kotlin.String? = null
-,
-    @JsonProperty("phone")
-    val phone: kotlin.String? = null
-,
+    @field:JsonProperty("id")
+    val id: kotlin.Long? = null,
+    @field:JsonProperty("username")
+    val username: kotlin.String? = null,
+    @field:JsonProperty("firstName")
+    val firstName: kotlin.String? = null,
+    @field:JsonProperty("lastName")
+    val lastName: kotlin.String? = null,
+    @field:JsonProperty("email")
+    val email: kotlin.String? = null,
+    @field:JsonProperty("password")
+    val password: kotlin.String? = null,
+    @field:JsonProperty("phone")
+    val phone: kotlin.String? = null,
     /* User Status */
-    @JsonProperty("userStatus")
+    @field:JsonProperty("userStatus")
     val userStatus: kotlin.Int? = null
-
 )
 

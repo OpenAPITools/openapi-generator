@@ -10,8 +10,8 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
+	"fmt"
 )
 
 // EnumClass the model 'EnumClass'
@@ -24,25 +24,61 @@ const (
 	ENUMCLASS_XYZ EnumClass = "(xyz)"
 )
 
+func (v *EnumClass) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := EnumClass(value)
+	for _, existing := range []EnumClass{ "_abc", "-efg", "(xyz)",   } {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid EnumClass", *v)
+}
+
+// Ptr returns reference to EnumClass value
+func (v EnumClass) Ptr() *EnumClass {
+	return &v
+}
+
 type NullableEnumClass struct {
-	Value EnumClass
-	ExplicitNull bool
+	value *EnumClass
+	isSet bool
+}
+
+func (v NullableEnumClass) Get() *EnumClass {
+	return v.value
+}
+
+func (v *NullableEnumClass) Set(val *EnumClass) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableEnumClass) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableEnumClass) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableEnumClass(val *EnumClass) *NullableEnumClass {
+	return &NullableEnumClass{value: val, isSet: true}
 }
 
 func (v NullableEnumClass) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableEnumClass) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+

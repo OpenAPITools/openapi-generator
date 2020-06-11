@@ -1,18 +1,24 @@
 use Data::Dumper;
 use {{{perlModuleName}}}::Configuration;
 use {{perlModuleName}}::{{classname}};
-{{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
+{{#hasAuthMethods}}
+{{#authMethods}}
+{{^isBasicBearer}}{{#isBasic}}
 # Configure HTTP basic authorization: {{{name}}}
 ${{{perlModuleName}}}::Configuration::username = 'YOUR_USERNAME';
-${{{perlModuleName}}}::Configuration::password = 'YOUR_PASSWORD';{{/isBasic}}{{#isApiKey}}
+${{{perlModuleName}}}::Configuration::password = 'YOUR_PASSWORD';{{/isBasic}}{{/isBasicBearer}}{{#isBasicBearer}}
+# Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
+${{{perlModuleName}}}::Configuration::access_token = 'YOUR_ACCESS_TOKEN';{{/isBasicBearer}}{{#isApiKey}}
 # Configure API key authorization: {{{name}}}
 ${{{perlModuleName}}}::Configuration::api_key->{'{{{keyParamName}}}'} = 'YOUR_API_KEY';
 # uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #${{{perlModuleName}}}::Configuration::api_key_prefix->{'{{{keyParamName}}}'} = "Bearer";{{/isApiKey}}{{#isOAuth}}
 # Configure OAuth2 access token for authorization: {{{name}}}
-${{{perlModuleName}}}::Configuration::access_token = 'YOUR_ACCESS_TOKEN';{{/isOAuth}}{{/authMethods}}
+${{{perlModuleName}}}::Configuration::access_token = 'YOUR_ACCESS_TOKEN';{{/isOAuth}}
+{{/authMethods}}
 {{/hasAuthMethods}}
 
+# Create an instance of the API class
 my $api_instance = {{perlModuleName}}::{{classname}}->new();
 {{#allParams}}my ${{paramName}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{{perlModuleName}}}::Object::{{dataType}}->new(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}; # {{{dataType}}} | {{{unescapedDescription}}}
 {{/allParams}}

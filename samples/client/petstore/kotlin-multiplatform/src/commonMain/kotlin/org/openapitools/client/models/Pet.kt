@@ -27,19 +27,13 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  */
 @Serializable
 data class Pet (
-    @SerialName(value = "name") @Required val name: kotlin.String
-,
-    @SerialName(value = "photoUrls") @Required val photoUrls: kotlin.Array<kotlin.String>
-,
-    @SerialName(value = "id") val id: kotlin.Long? = null
-,
-    @SerialName(value = "category") val category: Category? = null
-,
-    @SerialName(value = "tags") val tags: kotlin.Array<Tag>? = null
-,
+    @SerialName(value = "name") @Required val name: kotlin.String,
+    @SerialName(value = "photoUrls") @Required val photoUrls: kotlin.Array<kotlin.String>,
+    @SerialName(value = "id") val id: kotlin.Long? = null,
+    @SerialName(value = "category") val category: Category? = null,
+    @SerialName(value = "tags") val tags: kotlin.Array<Tag>? = null,
     /* pet status in the store */
     @SerialName(value = "status") val status: Pet.Status? = null
-
 ) {
 
     /**
@@ -47,7 +41,6 @@ data class Pet (
     * Values: available,pending,sold
     */
     @Serializable(with = Status.Serializer::class)
-    
     enum class Status(val value: kotlin.String){
         available("available"),
         pending("pending"),

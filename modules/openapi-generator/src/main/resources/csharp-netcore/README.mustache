@@ -105,11 +105,15 @@ namespace Example
             config.BasePath = "{{{basePath}}}";
             {{#hasAuthMethods}}
             {{#authMethods}}
-            {{#isBasic}}
+            {{#isBasicBasic}}
             // Configure HTTP basic authorization: {{{name}}}
             config.Username = "YOUR_USERNAME";
             config.Password = "YOUR_PASSWORD";
-            {{/isBasic}}
+            {{/isBasicBasic}}
+            {{#isBasicBearer}}
+            // Configure Bearer token for authorization: {{{name}}}
+            config.AccessToken = "YOUR_BEARER_TOKEN";
+            {{/isBasicBearer}}
             {{#isApiKey}}
             // Configure API key authorization: {{{name}}}
             config.ApiKey.Add("{{{keyParamName}}}", "YOUR_API_KEY");
@@ -193,8 +197,10 @@ Authentication schemes defined for the API:
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
-{{/isBasic}}
+{{#isBasicBasic}}- **Type**: HTTP basic authentication
+{{/isBasicBasic}}
+{{#isBasicBearer}}- **Type**: Bearer Authentication
+{{/isBasicBearer}}
 {{#isOAuth}}- **Type**: OAuth
 - **Flow**: {{flow}}
 - **Authorization URL**: {{authorizationUrl}}

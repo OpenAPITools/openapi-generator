@@ -27,16 +27,17 @@ public class HasOnlyReadOnly  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("bar")
   public String getBar() {
     return bar;
   }
+
   public void setBar(String bar) {
     this.bar = bar;
-  }
-
-  /**
+  }/**
    **/
   public HasOnlyReadOnly foo(String foo) {
     this.foo = foo;
@@ -44,15 +45,17 @@ public class HasOnlyReadOnly  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("foo")
   public String getFoo() {
     return foo;
   }
+
   public void setFoo(String foo) {
     this.foo = foo;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -93,5 +96,7 @@ public class HasOnlyReadOnly  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

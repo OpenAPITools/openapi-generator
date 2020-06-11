@@ -14,6 +14,9 @@
 require_once __DIR__ . '/vendor/autoload.php';
 
 use OpenAPIServer\SlimRouter;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use OpenAPIServer\Mock\OpenApiDataMocker;
 
 $config = [];
 
@@ -48,6 +51,35 @@ $config['tokenAuthenticationOptions'] = [
      * Default: null
      */
     // 'error' => null,
+];
+
+/**
+ * Mocker Middleware options.
+ */
+$config['mockerOptions'] = [
+    // 'dataMocker' => new OpenApiDataMocker(),
+
+    // 'getMockResponseCallback' => function (ServerRequestInterface $request, array $responses) {
+    //     // check if client clearly asks for mocked response
+    //     if (
+    //         $request->hasHeader('X-OpenAPIServer-Mock')
+    //         && $request->getHeader('X-OpenAPIServer-Mock')[0] === 'ping'
+    //     ) {
+    //         if (array_key_exists('default', $responses)) {
+    //             return $responses['default'];
+    //         }
+
+    //         // return first response
+    //         return $responses[array_key_first($responses)];
+    //     }
+
+    //     return false;
+    // },
+
+    // 'afterCallback' => function ($request, $response) {
+    //     // mark mocked response to distinguish real and fake responses
+    //     return $response->withHeader('X-OpenAPIServer-Mock', 'pong');
+    // },
 ];
 
 $router = new SlimRouter($config);

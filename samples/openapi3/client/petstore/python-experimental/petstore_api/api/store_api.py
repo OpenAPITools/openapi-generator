@@ -34,7 +34,7 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models import order
+from petstore_api.model import order
 
 
 class StoreApi(object):
@@ -59,6 +59,7 @@ class StoreApi(object):
             For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.delete_order(order_id, async_req=True)
             >>> result = thread.get()
 
@@ -172,6 +173,7 @@ class StoreApi(object):
             Returns a map of status codes to quantities  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.get_inventory(async_req=True)
             >>> result = thread.get()
 
@@ -279,6 +281,7 @@ class StoreApi(object):
             For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.get_order_by_id(order_id, async_req=True)
             >>> result = thread.get()
 
@@ -401,6 +404,7 @@ class StoreApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.place_order(order_order, async_req=True)
             >>> result = thread.get()
 
@@ -592,7 +596,8 @@ class Endpoint(object):
                 check_validations(
                     self.validations,
                     (param,),
-                    kwargs[param]
+                    kwargs[param],
+                    configuration=self.api_client.configuration
                 )
 
         if kwargs['_check_input_type'] is False:

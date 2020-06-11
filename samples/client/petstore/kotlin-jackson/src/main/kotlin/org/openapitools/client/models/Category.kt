@@ -13,7 +13,6 @@ package org.openapitools.client.models
 
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonFormat
 /**
  * A category for a pet
  * @param id 
@@ -21,11 +20,9 @@ import com.fasterxml.jackson.annotation.JsonFormat
  */
 
 data class Category (
-    @JsonProperty("id")
-    val id: kotlin.Long? = null
-,
-    @JsonProperty("name")
+    @field:JsonProperty("id")
+    val id: kotlin.Long? = null,
+    @field:JsonProperty("name")
     val name: kotlin.String? = null
-
 )
 

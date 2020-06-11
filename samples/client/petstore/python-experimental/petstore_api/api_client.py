@@ -15,6 +15,7 @@ import atexit
 import mimetypes
 from multiprocessing.pool import ThreadPool
 import os
+import re
 
 # python 2 and python 3 compatibility library
 import six
@@ -22,10 +23,11 @@ from six.moves.urllib.parse import quote
 
 from petstore_api import rest
 from petstore_api.configuration import Configuration
-from petstore_api.exceptions import ApiValueError
+from petstore_api.exceptions import ApiValueError, ApiException
 from petstore_api.model_utils import (
     ModelNormal,
     ModelSimple,
+    ModelComposed,
     date,
     datetime,
     deserialize_file,
@@ -177,26 +179,43 @@ class ApiClient(object):
             # use server/host defined in path or operation instead
             url = _host + resource_path
 
-        # perform request and return response
-        response_data = self.request(
-            method, url, query_params=query_params, headers=header_params,
-            post_params=post_params, body=body,
-            _preload_content=_preload_content,
-            _request_timeout=_request_timeout)
+        try:
+            # perform request and return response
+            response_data = self.request(
+                method, url, query_params=query_params, headers=header_params,
+                post_params=post_params, body=body,
+                _preload_content=_preload_content,
+                _request_timeout=_request_timeout)
+        except ApiException as e:
+            e.body = e.body.decode('utf-8') if six.PY3 else e.body
+            raise e
+
+        content_type = response_data.getheader('content-type')
 
         self.last_response = response_data
 
         return_data = response_data
-        if _preload_content:
-            # deserialize response data
-            if response_type:
-                return_data = self.deserialize(
-                    response_data,
-                    response_type,
-                    _check_type
-                )
-            else:
-                return_data = None
+
+        if not _preload_content:
+            return (return_data)
+            return return_data
+
+        if six.PY3 and response_type not in ["file", "bytes"]:
+            match = None
+            if content_type is not None:
+                match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
+            encoding = match.group(1) if match else "utf-8"
+            response_data.data = response_data.data.decode(encoding)
+
+        # deserialize response data
+        if response_type:
+            return_data = self.deserialize(
+                response_data,
+                response_type,
+                _check_type
+            )
+        else:
+            return_data = None
 
         if _return_http_data_only:
             return (return_data)
@@ -233,7 +252,7 @@ class ApiClient(object):
 
         if isinstance(obj, dict):
             obj_dict = obj
-        elif isinstance(obj, ModelNormal):
+        elif isinstance(obj, ModelNormal) or isinstance(obj, ModelComposed):
             # Convert model obj to dict
             # Convert attribute name to json key in
             # model definition for request
@@ -260,6 +279,7 @@ class ApiClient(object):
             ({str: (bool, str, int, float, date, datetime, str, none_type)},)
         :param _check_type: boolean, whether to check the types of the data
             received from the server
+        :type _check_type: bool
 
         :return: deserialized object.
         """
@@ -319,22 +339,28 @@ class ApiClient(object):
             (float, none_type)
             ([int, none_type],)
             ({str: (bool, str, int, float, date, datetime, str, none_type)},)
-        :param files dict: key -> field name, value -> a list of open file
+        :param files: key -> field name, value -> a list of open file
             objects for `multipart/form-data`.
+        :type files: dict
         :param async_req bool: execute request asynchronously
+        :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
                                        and headers
+        :type _return_http_data_only: bool, optional
         :param collection_formats: dict of collection formats for path, query,
             header, and post parameters.
+        :type collection_formats: dict, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
+        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
         :param _check_type: boolean describing if the data back from the server
             should have its type checked.
+        :type _check_type: bool, optional
         :return:
             If async_req parameter is True,
             the request will be called asynchronously.
@@ -528,9 +554,9 @@ class ApiClient(object):
         :param headers: Header parameters dict to be updated.
         :param querys: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
-        :resource_path: A string representation of the HTTP request resource path.
-        :method: A string representation of the HTTP request method.
-        :body: A object representing the body of the HTTP request.
+        :param resource_path: A string representation of the HTTP request resource path.
+        :param method: A string representation of the HTTP request method.
+        :param body: A object representing the body of the HTTP request.
             The object type is the return value of sanitize_for_serialization().
         """
         if not auth_settings:

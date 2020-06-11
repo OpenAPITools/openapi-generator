@@ -163,21 +163,24 @@ public enum EnumNumberEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_string")
   public EnumStringEnum getEnumString() {
     return enumString;
   }
+
   public void setEnumString(EnumStringEnum enumString) {
     this.enumString = enumString;
-  }
-
-  /**
+  }/**
    **/
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
     return this;
   }
+
+  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -186,11 +189,10 @@ public enum EnumNumberEnum {
   public EnumStringRequiredEnum getEnumStringRequired() {
     return enumStringRequired;
   }
+
   public void setEnumStringRequired(EnumStringRequiredEnum enumStringRequired) {
     this.enumStringRequired = enumStringRequired;
-  }
-
-  /**
+  }/**
    **/
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
@@ -198,16 +200,17 @@ public enum EnumNumberEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_integer")
   public EnumIntegerEnum getEnumInteger() {
     return enumInteger;
   }
+
   public void setEnumInteger(EnumIntegerEnum enumInteger) {
     this.enumInteger = enumInteger;
-  }
-
-  /**
+  }/**
    **/
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
@@ -215,16 +218,17 @@ public enum EnumNumberEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("enum_number")
   public EnumNumberEnum getEnumNumber() {
     return enumNumber;
   }
+
   public void setEnumNumber(EnumNumberEnum enumNumber) {
     this.enumNumber = enumNumber;
-  }
-
-  /**
+  }/**
    **/
   public EnumTest outerEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
@@ -232,15 +236,17 @@ public enum EnumNumberEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("outerEnum")
   public OuterEnum getOuterEnum() {
     return outerEnum;
   }
+
   public void setOuterEnum(OuterEnum outerEnum) {
     this.outerEnum = outerEnum;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -287,5 +293,7 @@ public enum EnumNumberEnum {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

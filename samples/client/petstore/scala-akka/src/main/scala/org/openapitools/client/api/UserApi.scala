@@ -131,7 +131,7 @@ class UserApi(baseUrl: String) {
   object LoginUserHeaders {
     def setCookie(r: ApiReturnWithHeaders) = r.getStringHeader("Set-Cookie")
     def xRateLimit(r: ApiReturnWithHeaders) = r.getIntHeader("X-Rate-Limit")
-    def xExpiresAfter(r: ApiReturnWithHeaders) = r.getDateTimeHeader("X-Expires-After")
+    def xExpiresAfter(r: ApiReturnWithHeaders) = r.getOffsetDateTimeHeader("X-Expires-After")
   }
 
   /**

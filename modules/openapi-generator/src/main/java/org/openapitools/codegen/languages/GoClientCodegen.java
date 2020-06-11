@@ -44,7 +44,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public GoClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
@@ -71,7 +71,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
                 )
-                .build();
+        );
 
         outputFolder = "generated-code/go";
         modelTemplateFiles.put("model.mustache", ".go");

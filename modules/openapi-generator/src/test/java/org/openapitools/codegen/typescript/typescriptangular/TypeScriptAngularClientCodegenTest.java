@@ -19,6 +19,18 @@ import org.testng.annotations.Test;
 
 public class TypeScriptAngularClientCodegenTest {
     @Test
+    public void toVarName() {
+        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toVarName("valid_var"), "valid_var");
+
+        codegen = new TypeScriptAngularClientCodegen();
+        codegen.additionalProperties().put(CodegenConstants.MODEL_PROPERTY_NAMING, "camelCase");
+        codegen.processOpts();
+        Assert.assertEquals(codegen.toVarName("valid_var"), "validVar");
+    }
+
+    @Test
     public void toEnumVarName() {
         TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
         // unspecified option should default to PascalCase
@@ -75,29 +87,6 @@ public class TypeScriptAngularClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.ENUM_NAME_SUFFIX, "");
         codegen.processOpts();
         Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestName");
-    }
-
-    @Test
-    public void testToEnumNameCompatMode() {
-        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
-        // default - stringEnums=false
-        codegen.processOpts();
-
-        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameEnum");
-
-        // model suffix is prepended to "Enum" suffix
-        codegen = new TypeScriptAngularClientCodegen();
-        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Model1");
-        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.MODEL_SUFFIX, "Model2");
-        codegen.processOpts();
-        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameModel2Model1Enum");
-
-        codegen = new TypeScriptAngularClientCodegen();
-        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.STRING_ENUMS, true);
-        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Model1");
-        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.MODEL_SUFFIX, "Model2");
-        codegen.processOpts();
-        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameModel2Model1");
     }
 
     private CodegenProperty makeEnumProperty(String name) {

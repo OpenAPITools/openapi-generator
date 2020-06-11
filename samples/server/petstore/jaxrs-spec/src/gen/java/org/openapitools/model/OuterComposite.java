@@ -29,16 +29,17 @@ public class OuterComposite  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("my_number")
   public BigDecimal getMyNumber() {
     return myNumber;
   }
+
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
-  }
-
-  /**
+  }/**
    **/
   public OuterComposite myString(String myString) {
     this.myString = myString;
@@ -46,16 +47,17 @@ public class OuterComposite  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("my_string")
   public String getMyString() {
     return myString;
   }
+
   public void setMyString(String myString) {
     this.myString = myString;
-  }
-
-  /**
+  }/**
    **/
   public OuterComposite myBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
@@ -63,15 +65,17 @@ public class OuterComposite  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("my_boolean")
   public Boolean getMyBoolean() {
     return myBoolean;
   }
+
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -114,5 +118,7 @@ public class OuterComposite  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

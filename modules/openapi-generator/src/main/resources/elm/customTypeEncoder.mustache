@@ -1,10 +1,4 @@
-{{vendorExtensions.x-elm-encoder}} : {{vendorExtensions.x-elm-custom-type}} -> Encode.Value
-{{vendorExtensions.x-elm-encoder}} model =
-    case model of
-{{#allowableValues}}
-{{#enumVars}}
-        {{name}} ->
-            Encode.string {{{value}}}
-
-{{/enumVars}}
-{{/allowableValues}}
+{{>customTypeToString}}
+{{#lambda.camelcase}}encode{{classname}}{{enumName}}{{/lambda.camelcase}} : {{classname}}{{enumName}} -> Json.Encode.Value
+{{#lambda.camelcase}}encode{{classname}}{{enumName}}{{/lambda.camelcase}} =
+{{#isString}}    Json.Encode.string << stringFrom{{classname}}{{enumName}}{{/isString}}{{^isString}}    Json.Encode.int << intFrom{{classname}}{{enumName}}{{/isString}}

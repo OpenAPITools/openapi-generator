@@ -25,7 +25,5 @@ data class InlineObject (
     @SerialName(value = "name") val name: kotlin.String? = null,
     /* Updated status of the pet */
     @SerialName(value = "status") val status: kotlin.String? = null
-) 
-
-
+)
 

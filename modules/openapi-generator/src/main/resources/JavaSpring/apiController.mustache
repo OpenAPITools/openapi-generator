@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 {{/jdk8}}
 import org.springframework.web.bind.annotation.RequestMapping;
 {{^jdk8}}
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 {{/jdk8}}
@@ -109,7 +110,7 @@ public class {{classname}}Controller implements {{classname}} {
     {{/externalDocs}}
      * @see {{classname}}#{{operationId}}
      */
-    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
+    public {{#responseWrapper}}{{.}}<{{/responseWrapper}}ResponseEntity<{{>returnTypes}}>{{#responseWrapper}}>{{/responseWrapper}} {{operationId}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{>cookieParams}}{{#hasMore}},{{/hasMore}}{{/allParams}}) {
     {{^isDelegate}}
         {{^async}}
         {{>methodBody}}

@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -25,6 +27,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * TypeHolderDefault
@@ -55,7 +59,6 @@ public class TypeHolderDefault {
 
 
   public TypeHolderDefault stringItem(String stringItem) {
-    
     this.stringItem = stringItem;
     return this;
   }
@@ -79,7 +82,6 @@ public class TypeHolderDefault {
 
 
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
-    
     this.numberItem = numberItem;
     return this;
   }
@@ -103,7 +105,6 @@ public class TypeHolderDefault {
 
 
   public TypeHolderDefault integerItem(Integer integerItem) {
-    
     this.integerItem = integerItem;
     return this;
   }
@@ -127,7 +128,6 @@ public class TypeHolderDefault {
 
 
   public TypeHolderDefault boolItem(Boolean boolItem) {
-    
     this.boolItem = boolItem;
     return this;
   }
@@ -151,7 +151,6 @@ public class TypeHolderDefault {
 
 
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
-    
     this.arrayItem = arrayItem;
     return this;
   }

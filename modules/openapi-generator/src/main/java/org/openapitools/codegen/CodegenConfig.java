@@ -192,6 +192,8 @@ public interface CodegenConfig {
 
     void postProcessParameter(CodegenParameter parameter);
 
+    String modelFilename(String templateName, String modelName);
+
     String apiFilename(String templateName, String tag);
 
     String apiTestFilename(String templateName, String tag);
@@ -247,8 +249,6 @@ public interface CodegenConfig {
 
     String getDocExtension();
 
-    String getCommonTemplateDir();
-
     void setIgnoreFilePathOverride(String ignoreFileOverride);
 
     String getIgnoreFilePathOverride();
@@ -286,8 +286,6 @@ public interface CodegenConfig {
     void setStrictSpecBehavior(boolean strictSpecBehavior);
 
     FeatureSet getFeatureSet();
-
-    void setFeatureSet(FeatureSet featureSet);
 
     boolean isRemoveEnumValuePrefix();
 

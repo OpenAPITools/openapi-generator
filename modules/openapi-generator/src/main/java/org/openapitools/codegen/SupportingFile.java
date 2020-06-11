@@ -23,6 +23,7 @@ public class SupportingFile {
     public String templateFile;
     public String folder;
     public String destinationFilename;
+    public boolean canOverwrite = true;
 
     public SupportingFile(String templateFile, String destinationFilename) {
         this(templateFile, "", destinationFilename);
@@ -35,14 +36,8 @@ public class SupportingFile {
     }
 
     @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("SupportingFile:").append("\n");
-        builder.append("\ttemplateFile: ").append(templateFile).append("\n");
-        builder.append("\tfolder: ").append(folder).append("\n");
-        builder.append("\tdestinationFilename: ").append(destinationFilename).append("\n");
-
-        return builder.toString();
+    public int hashCode() {
+        return Objects.hash(templateFile, folder, destinationFilename, canOverwrite);
     }
 
     @Override
@@ -53,13 +48,32 @@ public class SupportingFile {
         SupportingFile that = (SupportingFile) o;
 
         return Objects.equals(templateFile, that.templateFile) &&
-            Objects.equals(folder, that.folder) &&
-            Objects.equals(destinationFilename, that.destinationFilename);
+                Objects.equals(folder, that.folder) &&
+                Objects.equals(destinationFilename, that.destinationFilename) &&
+                canOverwrite == that.canOverwrite;
     }
 
+    @SuppressWarnings("StringBufferReplaceableByString")
     @Override
-    public int hashCode() {
-        return Objects.hash(templateFile, folder, destinationFilename);
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SupportingFile:").append("\n");
+        builder.append("\ttemplateFile: ").append(templateFile).append("\n");
+        builder.append("\tfolder: ").append(folder).append("\n");
+        builder.append("\tcanOverwrite: ").append(Boolean.valueOf(canOverwrite)).append("\n");
+        builder.append("\tdestinationFilename: ").append(destinationFilename).append("\n");
+
+        return builder.toString();
+    }
+
+    /**
+     * Identifies this instance as referring to a supporting file which should not overwrite a file of the same name.
+     *
+     * @return This object, for chaining.
+     */
+    public SupportingFile doNotOverwrite() {
+        canOverwrite = false;
+        return this;
     }
 }
 

@@ -34,11 +34,12 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models import health_check_result
-from petstore_api.models import outer_composite
-from petstore_api.models import file_schema_test_class
-from petstore_api.models import user
-from petstore_api.models import client
+from petstore_api.model import health_check_result
+from petstore_api.model import outer_composite
+from petstore_api.model import array_of_enums
+from petstore_api.model import file_schema_test_class
+from petstore_api.model import user
+from petstore_api.model import client
 
 
 class FakeApi(object):
@@ -61,6 +62,7 @@ class FakeApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.fake_health_get(async_req=True)
             >>> result = thread.get()
 
@@ -165,6 +167,7 @@ class FakeApi(object):
             Test serialization of outer boolean types  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.fake_outer_boolean_serialize(async_req=True)
             >>> result = thread.get()
 
@@ -276,6 +279,7 @@ class FakeApi(object):
             Test serialization of object with outer number type  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.fake_outer_composite_serialize(async_req=True)
             >>> result = thread.get()
 
@@ -387,6 +391,7 @@ class FakeApi(object):
             Test serialization of outer number types  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.fake_outer_number_serialize(async_req=True)
             >>> result = thread.get()
 
@@ -498,6 +503,7 @@ class FakeApi(object):
             Test serialization of outer string types  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.fake_outer_string_serialize(async_req=True)
             >>> result = thread.get()
 
@@ -600,6 +606,110 @@ class FakeApi(object):
             callable=__fake_outer_string_serialize
         )
 
+        def __get_array_of_enums(
+            self,
+            **kwargs
+        ):
+            """Array of Enums  # noqa: E501
+
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.get_array_of_enums(async_req=True)
+            >>> result = thread.get()
+
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int): specifies the index of the server
+                    that we want to use.
+                    Default is 0.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                array_of_enums.ArrayOfEnums
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            return self.call_with_http_info(**kwargs)
+
+        self.get_array_of_enums = Endpoint(
+            settings={
+                'response_type': (array_of_enums.ArrayOfEnums,),
+                'auth': [],
+                'endpoint_path': '/fake/array-of-enums',
+                'operation_id': 'get_array_of_enums',
+                'http_method': 'GET',
+                'servers': [],
+            },
+            params_map={
+                'all': [
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [],
+            },
+            api_client=api_client,
+            callable=__get_array_of_enums
+        )
+
         def __test_body_with_file_schema(
             self,
             file_schema_test_class_file_schema_test_class,
@@ -610,6 +720,7 @@ class FakeApi(object):
             For this test, the body for this request much reference a schema named `File`.  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_body_with_file_schema(file_schema_test_class_file_schema_test_class, async_req=True)
             >>> result = thread.get()
 
@@ -725,6 +836,7 @@ class FakeApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_body_with_query_params(query, user_user, async_req=True)
             >>> result = thread.get()
 
@@ -849,6 +961,7 @@ class FakeApi(object):
             To test \"client\" model  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_client_model(client_client, async_req=True)
             >>> result = thread.get()
 
@@ -969,6 +1082,7 @@ class FakeApi(object):
             Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트   # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_endpoint_parameters(number, double, pattern_without_delimiter, byte, async_req=True)
             >>> result = thread.get()
 
@@ -1222,6 +1336,7 @@ class FakeApi(object):
             To test enum parameters  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_enum_parameters(async_req=True)
             >>> result = thread.get()
 
@@ -1431,6 +1546,7 @@ class FakeApi(object):
             Fake endpoint to test group parameters (optional)  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_group_parameters(required_string_group, required_boolean_group, required_int64_group, async_req=True)
             >>> result = thread.get()
 
@@ -1582,6 +1698,7 @@ class FakeApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_inline_additional_properties(request_body, async_req=True)
             >>> result = thread.get()
 
@@ -1697,6 +1814,7 @@ class FakeApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_json_form_data(param, param2, async_req=True)
             >>> result = thread.get()
 
@@ -1826,6 +1944,7 @@ class FakeApi(object):
             To test the collection format in query parameters  # noqa: E501
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.test_query_parameter_collection_format(pipe, ioutil, http, url, context, async_req=True)
             >>> result = thread.get()
 
@@ -1958,7 +2077,7 @@ class FakeApi(object):
                 'collection_format_map': {
                     'pipe': 'multi',
                     'ioutil': 'csv',
-                    'http': 'space',
+                    'http': 'ssv',
                     'url': 'csv',
                     'context': 'multi',
                 }
@@ -2054,7 +2173,8 @@ class Endpoint(object):
                 check_validations(
                     self.validations,
                     (param,),
-                    kwargs[param]
+                    kwargs[param],
+                    configuration=self.api_client.configuration
                 )
 
         if kwargs['_check_input_type'] is False:

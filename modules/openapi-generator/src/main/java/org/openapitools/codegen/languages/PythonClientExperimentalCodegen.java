@@ -38,8 +38,9 @@ import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -53,7 +54,16 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public PythonClientExperimentalCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
+        // In principle, this should be enabled by default for all code generators. However due to limitations
+        // in other code generators, support needs to be enabled on a case-by-case basis.
+        supportsAdditionalPropertiesWithComposedSchema = true;
+
+        // When the 'additionalProperties' keyword is not present in a OAS schema, allow
+        // undeclared properties. This is compliant with the JSON schema specification.
+        this.setDisallowAdditionalPropertiesIfNotPresent(false);
+
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -74,7 +84,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+         );
 
         // this may set datatype right for additional properties
         instantiationTypes.put("map", "dict");
@@ -87,6 +97,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         apiDocTemplateFiles.remove("api_doc.mustache");
         apiDocTemplateFiles.put("python-experimental/api_doc.mustache", ".md");
+
+        apiTestTemplateFiles.remove("api_test.mustache", ".py");
+        apiTestTemplateFiles.put("python-experimental/api_test.mustache", ".py");
 
         modelDocTemplateFiles.remove("model_doc.mustache");
         modelDocTemplateFiles.put("python-experimental/model_doc.mustache", ".md");
@@ -111,7 +124,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     @Override
     public void processOpts() {
+        this.setLegacyDiscriminatorBehavior(false);
+
         super.processOpts();
+        modelPackage = packageName + "." + "model";
 
         supportingFiles.remove(new SupportingFile("api_client.mustache", packagePath(), "api_client.py"));
         supportingFiles.add(new SupportingFile("python-experimental/api_client.mustache", packagePath(), "api_client.py"));
@@ -119,11 +135,14 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         supportingFiles.add(new SupportingFile("python-experimental/model_utils.mustache", packagePath(), "model_utils.py"));
 
         supportingFiles.remove(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
-        supportingFiles.add(new SupportingFile("python-experimental/__init__model.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/__init__model.mustache", packagePath() + File.separatorChar + "model", "__init__.py"));
 
         supportingFiles.remove(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("python-experimental/__init__package.mustache", packagePath(), "__init__.py"));
 
+        // add the models and apis folders
+        supportingFiles.add(new SupportingFile("python-experimental/__init__models.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/__init__apis.mustache", packagePath() + File.separatorChar + "apis", "__init__.py"));
 
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
         Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
@@ -178,15 +197,15 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return "python-experimental";
     }
 
-    public String dateToString(Schema p, Date date, DateFormat dateFormatter, DateFormat dateTimeFormatter) {
+    public String dateToString(Schema p, OffsetDateTime date, DateTimeFormatter dateFormatter, DateTimeFormatter dateTimeFormatter) {
         // converts a date into a date or date-time python string
         if (!(ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p))) {
             throw new RuntimeException("passed schema must be of type Date or DateTime");
         }
         if (ModelUtils.isDateSchema(p)) {
-            return "dateutil_parser('" + dateFormatter.format(date) + "').date()";
+            return "dateutil_parser('" + date.format(dateFormatter) + "').date()";
         }
-        return "dateutil_parser('" + dateTimeFormatter.format(date) + "')";
+        return "dateutil_parser('" + date.format(dateTimeFormatter) + "')";
     }
 
     /**
@@ -210,20 +229,17 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
 
         // convert datetime and date enums if they exist
-        DateFormat iso8601Date = new SimpleDateFormat("yyyy-MM-dd", Locale.ROOT);
-        DateFormat iso8601DateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT);
-        TimeZone utc = TimeZone.getTimeZone("UTC");
-        iso8601Date.setTimeZone(utc);
-        iso8601DateTime.setTimeZone(utc);
+        DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
+        DateTimeFormatter iso8601DateTime = DateTimeFormatter.ISO_DATE_TIME;
 
         if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
             List<Object> currentEnum = p.getEnum();
             List<String> fixedEnum = new ArrayList<String>();
             String fixedValue = null;
-            Date date = null;
+            OffsetDateTime date = null;
             if (currentEnum != null && !currentEnum.isEmpty()) {
                 for (Object enumItem : currentEnum) {
-                    date = (Date) enumItem;
+                    date = (OffsetDateTime) enumItem;
                     fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
                     fixedEnum.add(fixedValue);
                 }
@@ -233,15 +249,21 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             // convert the example if it exists
             Object currentExample = p.getExample();
             if (currentExample != null) {
-                date = (Date) currentExample;
+                try {
+                    date = (OffsetDateTime) currentExample;
+                } catch (ClassCastException e) {
+                    date = ((Date) currentExample).toInstant().atOffset(ZoneOffset.UTC);
+                    LOGGER.warn("Invalid `date-time` format for value {}", currentExample);
+                }
                 fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
                 fixedEnum.add(fixedValue);
                 p.setExample(fixedValue);
+                LOGGER.warn(fixedValue);
             }
 
             // fix defaultObject
             if (defaultObject != null) {
-                date = (Date) defaultObject;
+                date = (OffsetDateTime) defaultObject;
                 fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
                 p.setDefault(fixedValue);
                 defaultObject = fixedValue;
@@ -357,7 +379,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
     }
 
-    // override with any special post-processing for all models
+    /**
+     * Override with special post-processing for all models.
+     */
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         // loop through all models and delete ones where type!=object and the model has no validations and enums
@@ -369,7 +393,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             for (Map<String, Object> mo : models) {
                 CodegenModel cm = (CodegenModel) mo.get("model");
 
-                // make sure discrimonator models are included in imports
+                // make sure discriminator models are included in imports
                 CodegenDiscriminator discriminator = cm.discriminator;
                 if (discriminator != null) {
                     Set<CodegenDiscriminator.MappedModel> mappedModels = discriminator.getMappedModels();
@@ -386,7 +410,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 composedSchemaSets.add(cm.oneOf);
                 for (Set<String> importSet : composedSchemaSets) {
                     for (String otherModelName : importSet) {
-                        cm.imports.add(otherModelName);
+                        if (!languageSpecificPrimitives.contains(otherModelName)) {
+                            cm.imports.add(otherModelName);
+                        }
                     }
                 }
 
@@ -395,14 +421,12 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
                 Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
                 CodegenProperty modelProperty = fromProperty("value", modelSchema);
+
                 if (cm.isEnum || cm.isAlias) {
-                    if (!modelProperty.isEnum && !modelProperty.hasValidation) {
+                    if (!modelProperty.isEnum && !modelProperty.hasValidation && !cm.isArrayModel) {
                         // remove these models because they are aliases and do not have any enums or validations
                         modelSchemasToRemove.put(cm.name, modelSchema);
                     }
-                } else if (cm.isArrayModel && !modelProperty.isEnum && !modelProperty.hasValidation) {
-                    // remove any ArrayModels which lack validation and enums
-                    modelSchemasToRemove.put(cm.name, modelSchema);
                 }
             }
         }
@@ -503,9 +527,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             // set the example value
             if (modelProp.isEnum) {
                 String value = modelProp._enum.get(0).toString();
-                result.example = this.packageName + "." + result.baseType + "(" + toEnumValue(value, simpleDataType) + ")";
+                result.example = result.dataType + "(" + toEnumValue(value, simpleDataType) + ")";
             } else {
-                result.example = this.packageName + "." + result.baseType + "(" + result.example + ")";
+                result.example = result.dataType + "(" + result.example + ")";
             }
         } else if (!result.isPrimitiveType) {
             // fix the baseType for the api docs so the .md link to the class's documentation file is correct
@@ -706,6 +730,56 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
     }
 
+    private void addNullDefaultToOneOfAnyOfReqProps(Schema schema, CodegenModel result){
+        // for composed schema models, if the required properties are only from oneOf or anyOf models
+        // give them a nulltype.Null so the user can omit including them in python
+        ComposedSchema cs = (ComposedSchema) schema;
+
+        // these are the properties that are from properties in self cs or cs allOf
+        Map<String, Schema> selfProperties = new LinkedHashMap<String, Schema>();
+        List<String> selfRequired = new ArrayList<String>();
+
+        // these are the properties that are from properties in cs oneOf or cs anyOf
+        Map<String, Schema> otherProperties = new LinkedHashMap<String, Schema>();
+        List<String> otherRequired = new ArrayList<String>();
+
+        List<Schema> oneOfanyOfSchemas = new ArrayList<>();
+        List<Schema> oneOf = cs.getOneOf();
+        if (oneOf != null) {
+            oneOfanyOfSchemas.addAll(oneOf);
+        }
+        List<Schema> anyOf = cs.getAnyOf();
+        if (anyOf != null) {
+            oneOfanyOfSchemas.addAll(anyOf);
+        }
+        for (Schema sc: oneOfanyOfSchemas) {
+            Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, sc);
+            addProperties(otherProperties, otherRequired, refSchema);
+        }
+        Set<String> otherRequiredSet = new HashSet<String>(otherRequired);
+
+        List<Schema> allOf = cs.getAllOf();
+        if ((schema.getProperties() != null && !schema.getProperties().isEmpty()) || allOf != null) {
+            // NOTE: this function also adds the allOf propesrties inside schema
+            addProperties(selfProperties, selfRequired, schema);
+        }
+        if (result.discriminator != null) {
+            selfRequired.add(result.discriminator.getPropertyBaseName());
+        }
+        Set<String> selfRequiredSet = new HashSet<String>(selfRequired);
+
+        List<CodegenProperty> reqVars = result.getRequiredVars();
+        if (reqVars != null) {
+            for (CodegenProperty cp: reqVars) {
+                String propName = cp.baseName;
+                if (otherRequiredSet.contains(propName) && !selfRequiredSet.contains(propName)) {
+                    // if var is in otherRequiredSet and is not in selfRequiredSet and is in result.requiredVars
+                    // then set it to nullable because the user doesn't have to give a value for it
+                    cp.setDefaultValue("nulltype.Null");
+                }
+            }
+        }
+    }
 
     /**
      * Convert OAS Model object to Codegen Model object
@@ -753,10 +827,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         result.unescapedDescription = simpleModelName(name);
 
         // make non-object type models have one property so we can use it to store enums and validations
-        if (result.isAlias || result.isEnum) {
+        if (result.isAlias || result.isEnum || result.isArrayModel) {
             Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
             CodegenProperty modelProperty = fromProperty("value", modelSchema);
-            if (modelProperty.isEnum == true || modelProperty.hasValidation == true) {
+            if (modelProperty.isEnum == true || modelProperty.hasValidation == true || result.isArrayModel) {
                 // these models are non-object models with enums and/or validations
                 // add a single property to the model so we can have a way to access validations
                 result.isAlias = true;
@@ -771,7 +845,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                         postProcessModelProperty(result, prop);
                     }
                 }
-
             }
         }
 
@@ -806,6 +879,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (result.imports.contains(result.classname)) {
             result.imports.remove(result.classname);
         }
+
+        if (result.requiredVars.size() > 0 && (result.oneOf.size() > 0 || result.anyOf.size() > 0)) {
+            addNullDefaultToOneOfAnyOfReqProps(schema, result);
+        }
+
         return result;
     }
 
@@ -824,36 +902,72 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     }
 
     /**
-     * Return a string representation of the Python types for the specified schema.
+     * Return a string representation of the Python types for the specified OAS schema.
      * Primitive types in the OAS specification are implemented in Python using the corresponding
      * Python primitive types.
-     * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types. 
-     * 
+     * Composed types (e.g. allAll, oneOf, anyOf) are represented in Python using list of types.
+     *
+     * The caller should set the prefix and suffix arguments to empty string, except when
+     * getTypeString invokes itself recursively. A non-empty prefix/suffix may be specified
+     * to wrap the return value in a python dict, list or tuple.
+     *
+     * Examples:
+     * - "bool, date, float"  The data must be a bool, date or float.
+     * - "[bool, date]"       The data must be an array, and the array items must be a bool or date.
+     *
      * @param p The OAS schema.
      * @param prefix prepended to the returned value.
      * @param suffix appended to the returned value.
-     * @return a string representation of the Python types
+     * @param referencedModelNames a list of models that are being referenced while generating the types,
+     *          may be used to generate imports.
+     * @return a comma-separated string representation of the Python types
      */
-    public String getTypeString(Schema p, String prefix, String suffix) {
-        // this is used to set dataType, which defines a python tuple of classes
+    private String getTypeString(Schema p, String prefix, String suffix, List<String> referencedModelNames) {
         String fullSuffix = suffix;
         if (")".equals(suffix)) {
             fullSuffix = "," + suffix;
+        }
+        if (StringUtils.isNotEmpty(p.get$ref())) {
+            // The input schema is a reference. If the resolved schema is
+            // a composed schema, convert the name to a Python class.
+            Schema s = ModelUtils.getReferencedSchema(this.openAPI, p);
+            if (s instanceof ComposedSchema) {
+                String modelName = ModelUtils.getSimpleRef(p.get$ref());
+                if (referencedModelNames != null) {
+                    referencedModelNames.add(modelName);
+                }
+                return prefix + toModelName(modelName) + fullSuffix;
+            }
+        }
+        if (isAnyTypeSchema(p)) {
+            return prefix + "bool, date, datetime, dict, float, int, list, str, none_type" + suffix;
         }
         // Resolve $ref because ModelUtils.isXYZ methods do not automatically resolve references.
         if (ModelUtils.isNullable(ModelUtils.getReferencedSchema(this.openAPI, p))) {
             fullSuffix = ", none_type" + suffix;
         }
-        if (ModelUtils.isFreeFormObject(p) && ModelUtils.getAdditionalProperties(p) == null) {
+        if (isFreeFormObject(p) && getAdditionalProperties(p) == null) {
             return prefix + "bool, date, datetime, dict, float, int, list, str" + fullSuffix;
         }
-        if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && ModelUtils.getAdditionalProperties(p) != null) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
-            return prefix + "{str: " + getTypeString(inner, "(", ")") + "}" + fullSuffix;
+        if ((ModelUtils.isMapSchema(p) || "object".equals(p.getType())) && getAdditionalProperties(p) != null) {
+            Schema inner = getAdditionalProperties(p);
+            return prefix + "{str: " + getTypeString(inner, "(", ")", referencedModelNames) + "}" + fullSuffix;
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return prefix + "[" + getTypeString(inner, "", "") + "]" + fullSuffix;
+            if (inner == null) {
+                // In OAS 3.0.x, the array "items" attribute is required.
+                // In OAS >= 3.1, the array "items" attribute is optional such that the OAS
+                // specification is aligned with the JSON schema specification.
+                // When "items" is not specified, the elements of the array may be anything at all.
+                // In that case, the return value should be:
+                //    "[bool, date, datetime, dict, float, int, list, str, none_type]"
+                // Using recursion to wrap the allowed python types in an array.
+                Schema anyType = new Schema(); // A Schema without any attribute represents 'any type'.
+                return getTypeString(anyType, "[", "]", referencedModelNames);
+            } else {
+                return prefix + getTypeString(inner, "[", "]", referencedModelNames) + fullSuffix;
+            }
         }
         if (ModelUtils.isFileSchema(p)) {
             return prefix + "file_type" + fullSuffix;
@@ -874,7 +988,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // in Python we will wrap this in () to make it a tuple but here we
         // will omit the parens so the generated documentaion will not include
         // them
-        return getTypeString(p, "", "");
+        return getTypeString(p, "", "", null);
     }
 
     @Override
@@ -887,14 +1001,22 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        Schema addProps = ModelUtils.getAdditionalProperties(schema);
-        if (addProps != null && addProps.get$ref() == null) {
-            // if AdditionalProperties exists and is an inline definition, get its datatype and store it in m.parent
-            String typeString = getTypeDeclaration(addProps);
-            codegenModel.additionalPropertiesType = typeString;
-        } else {
-            addParentContainer(codegenModel, codegenModel.name, schema);
+        Schema addProps = getAdditionalProperties(schema);
+        if (addProps != null) {
+            // if AdditionalProperties exists, get its datatype and
+            // store it in codegenModel.additionalPropertiesType.
+            // The 'addProps' may be a reference, getTypeDeclaration will resolve
+            // the reference.
+            List<String> referencedModelNames = new ArrayList<String>();
+            codegenModel.additionalPropertiesType = getTypeString(addProps, "", "", referencedModelNames);
+            if (referencedModelNames.size() != 0) {
+                // Models that are referenced in the 'additionalPropertiesType' keyword
+                // must be added to the imports.
+                codegenModel.imports.addAll(referencedModelNames);
+            }
         }
+        // If addProps is null, the value of the 'additionalProperties' keyword is set
+        // to false, i.e. no additional properties are allowed.
     }
 
     @Override
@@ -949,7 +1071,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             example = "'" + escapeText(example) + "'";
         } else if (!languageSpecificPrimitives.contains(type)) {
             // type is a model class, e.g. user.User
-            example = this.packageName + "." + getPythonClassName(type) + "()";
+            example = type + "()";
         } else {
             LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
         }

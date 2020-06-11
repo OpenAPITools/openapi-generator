@@ -1,0 +1,188 @@
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import {{invokerPackage}}.JSON;
+
+{{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{>xmlAnnotation}}
+@JsonDeserialize(using={{classname}}.{{classname}}Deserializer.class)
+@JsonSerialize(using = {{classname}}.{{classname}}Serializer.class)
+public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-implements}}, {{{.}}}{{/vendorExtensions.x-implements}} {
+    private static final Logger log = Logger.getLogger({{classname}}.class.getName());
+
+    public static class {{classname}}Serializer extends StdSerializer<{{classname}}> {
+        public {{classname}}Serializer(Class<{{classname}}> t) {
+            super(t);
+        }
+
+        public {{classname}}Serializer() {
+            this(null);
+        }
+
+        @Override
+        public void serialize({{classname}} value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+            jgen.writeObject(value.getActualInstance());
+        }
+    }
+
+    public static class {{classname}}Deserializer extends StdDeserializer<{{classname}}> {
+        public {{classname}}Deserializer() {
+            this({{classname}}.class);
+        }
+
+        public {{classname}}Deserializer(Class<?> vc) {
+            super(vc);
+        }
+
+        @Override
+        public {{classname}} deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+            JsonNode tree = jp.readValueAsTree();
+
+            Object deserialized = null;
+            {{#discriminator}}
+            Class<?> cls = JSON.getClassForElement(tree, {{classname}}.class);
+            if (cls != null) {
+                // When the OAS schema includes a discriminator, use the discriminator value to
+                // discriminate the anyOf schemas.
+                // Get the discriminator mapping value to get the class.
+                deserialized = tree.traverse(jp.getCodec()).readValueAs(cls);
+                {{classname}} ret = new {{classname}}();
+                ret.setActualInstance(deserialized);
+                return ret;
+            }
+            {{/discriminator}}
+            {{#anyOf}}
+            // deserialzie {{{.}}}
+            try {
+                deserialized = tree.traverse(jp.getCodec()).readValueAs({{{.}}}.class);
+                {{classname}} ret = new {{classname}}();
+                ret.setActualInstance(deserialized);
+                return ret;
+            } catch (Exception e) {
+                // deserialization failed, continue, log to help debugging
+                log.log(Level.FINER, "Input data does not match '{{classname}}'", e);
+            }
+
+            {{/anyOf}}
+            throw new IOException(String.format("Failed deserialization for {{classname}}: no match found"));
+        }
+
+        {{#additionalPropertiesType}}
+        /**
+         * Method called to deal with a property that did not map to a known Bean property.
+         * Method can deal with the problem as it sees fit (ignore, throw exception); but if it does return,
+         * it has to skip the matching Json content parser has.
+         *
+         * @param p - Parser that points to value of the unknown property
+         * @param ctxt - Context for deserialization; allows access to the parser, error reporting functionality
+         * @param instanceOrClass - Instance that is being populated by this deserializer, or if not known, Class that would be instantiated. If null, will assume type is what getValueClass() returns.
+         * @param propName - Name of the property that cannot be mapped
+         */
+        @Override
+        protected void handleUnknownProperty(JsonParser p,
+                                     DeserializationContext ctxt,
+                                     Object instanceOrClass,
+                                     String propName) throws IOException {
+            System.out.println("Deserializing unknown property " + propName);
+            {{{.}}} deserialized = p.readValueAs({{{.}}}.class);
+            additionalProperties.put(propName, deserialized);
+        }
+        {{/additionalPropertiesType}}
+
+        /**
+         * Handle deserialization of the 'null' value.
+         */
+        @Override
+        public {{classname}} getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+        {{#isNullable}}
+            return null;
+        {{/isNullable}}
+        {{^isNullable}}
+            throw new JsonMappingException(ctxt.getParser(), "{{classname}} cannot be null");
+        {{/isNullable}}
+        }
+    }
+
+    // store a list of schema names defined in anyOf
+    public final static Map<String, GenericType> schemas = new HashMap<String, GenericType>();
+
+    public {{classname}}() {
+        super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
+    }
+{{> libraries/jersey2/additional_properties }}
+    {{#additionalPropertiesType}}
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o) && Objects.equals(this.additionalProperties, o.additionalProperties)
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(instance, isNullable, schemaType, additionalProperties);
+    }
+    {{/additionalPropertiesType}}
+    {{#anyOf}}
+    public {{classname}}({{{.}}} o) {
+        super("anyOf", {{#isNullable}}Boolean.TRUE{{/isNullable}}{{^isNullable}}Boolean.FALSE{{/isNullable}});
+        setActualInstance(o);
+    }
+
+    {{/anyOf}}
+    static {
+        {{#anyOf}}
+        schemas.put("{{{.}}}", new GenericType<{{{.}}}>() {
+        });
+        {{/anyOf}}
+        JSON.registerDescendants({{classname}}.class, Collections.unmodifiableMap(schemas));
+        {{#discriminator}}
+        // Initialize and register the discriminator mappings.
+        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        {{#mappedModels}}
+        mappings.put("{{mappingName}}", {{modelName}}.class);
+        {{/mappedModels}}
+        mappings.put("{{name}}", {{classname}}.class);
+        JSON.registerDiscriminator({{classname}}.class, "{{propertyBaseName}}", mappings);
+        {{/discriminator}}
+    }
+
+    @Override
+    public Map<String, GenericType> getSchemas() {
+        return {{classname}}.schemas;
+    }
+
+    @Override
+    public void setActualInstance(Object instance) {
+        {{#isNullable}}
+        if (instance == null) {
+           super.setActualInstance(instance);
+           return;
+        }
+
+        {{/isNullable}}
+        {{#anyOf}}
+        if (JSON.isInstanceOf({{{.}}}.class, instance, new HashSet<Class<?>>())) {
+            super.setActualInstance(instance);
+            return;
+        }
+
+        {{/anyOf}}
+        throw new RuntimeException("Invalid instance type. Must be {{#anyOf}}{{{.}}}{{^-last}}, {{/-last}}{{/anyOf}}");
+    }
+}

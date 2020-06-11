@@ -10,8 +10,8 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
+	"fmt"
 )
 
 // OuterEnumDefaultValue the model 'OuterEnumDefaultValue'
@@ -24,25 +24,61 @@ const (
 	OUTERENUMDEFAULTVALUE_DELIVERED OuterEnumDefaultValue = "delivered"
 )
 
+func (v *OuterEnumDefaultValue) UnmarshalJSON(src []byte) error {
+	var value string
+	err := json.Unmarshal(src, &value)
+	if err != nil {
+		return err
+	}
+	enumTypeValue := OuterEnumDefaultValue(value)
+	for _, existing := range []OuterEnumDefaultValue{ "placed", "approved", "delivered",   } {
+		if existing == enumTypeValue {
+			*v = enumTypeValue
+			return nil
+		}
+	}
+
+	return fmt.Errorf("%+v is not a valid OuterEnumDefaultValue", *v)
+}
+
+// Ptr returns reference to OuterEnumDefaultValue value
+func (v OuterEnumDefaultValue) Ptr() *OuterEnumDefaultValue {
+	return &v
+}
+
 type NullableOuterEnumDefaultValue struct {
-	Value OuterEnumDefaultValue
-	ExplicitNull bool
+	value *OuterEnumDefaultValue
+	isSet bool
+}
+
+func (v NullableOuterEnumDefaultValue) Get() *OuterEnumDefaultValue {
+	return v.value
+}
+
+func (v *NullableOuterEnumDefaultValue) Set(val *OuterEnumDefaultValue) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableOuterEnumDefaultValue) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableOuterEnumDefaultValue) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableOuterEnumDefaultValue(val *OuterEnumDefaultValue) *NullableOuterEnumDefaultValue {
+	return &NullableOuterEnumDefaultValue{value: val, isSet: true}
 }
 
 func (v NullableOuterEnumDefaultValue) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableOuterEnumDefaultValue) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+

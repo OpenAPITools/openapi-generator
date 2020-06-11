@@ -34,16 +34,17 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;
   }
+
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
-  }
-
-  /**
+  }/**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(Date dateTime) {
     this.dateTime = dateTime;
@@ -51,16 +52,17 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
     return dateTime;
   }
+
   public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
-  }
-
-  /**
+  }/**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
     this.map = map;
@@ -68,15 +70,17 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("map")
   public Map<String, Animal> getMap() {
     return map;
   }
+
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -119,5 +123,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

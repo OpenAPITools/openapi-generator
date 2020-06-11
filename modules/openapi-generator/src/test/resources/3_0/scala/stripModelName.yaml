@@ -1,0 +1,46 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+paths:
+  /deprecated-test:
+    x-swagger-router-controller: /deprecated-test
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Non.Stripped.Request'
+      responses:
+        '200':
+          description: responses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+components:
+  schemas:
+    Non.Stripped.Request:
+      type: object
+      properties:
+        customerCode:
+          type: string
+          example: '0001'
+        firstName:
+          type: string
+          deprecated: true
+          example: 'first'
+    Response:
+      type: object
+      properties:
+        customerCode:
+          type: string
+          example: '0001'
+        firstName:
+          type: string
+          deprecated: true
+          example: 'first'

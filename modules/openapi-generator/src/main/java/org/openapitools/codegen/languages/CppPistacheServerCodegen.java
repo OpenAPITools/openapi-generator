@@ -69,7 +69,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         super();
 
         // TODO: cpp-pistache-server maintainer review
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .excludeGlobalFeatures(
@@ -85,7 +85,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         if (StringUtils.isEmpty(modelNamePrefix)) {
             modelNamePrefix = PREFIX;
@@ -107,8 +107,9 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         addOption(HELPERS_PACKAGE_NAME, HELPERS_PACKAGE_NAME_DESC, this.helpersPackage);
         addOption(RESERVED_WORD_PREFIX_OPTION, RESERVED_WORD_PREFIX_DESC, this.reservedWordPrefix);
         addSwitch(OPTION_USE_STRUCT_MODEL, OPTION_USE_STRUCT_MODEL_DESC, this.isUseStructModel);
-
-        reservedWords = new HashSet<>();
+        addOption(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION,
+                VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
+                Boolean.toString(this.variableNameFirstCharacterUppercase));
 
         supportingFiles.add(new SupportingFile("helpers-header.mustache", "model", modelNamePrefix + "Helpers.h"));
         supportingFiles.add(new SupportingFile("helpers-source.mustache", "model", modelNamePrefix + "Helpers.cpp"));
@@ -252,10 +253,6 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         String classname = (String) operations.get("classname");
         operations.put("classnameSnakeUpperCase", underscore(classname).toUpperCase(Locale.ROOT));
         operations.put("classnameSnakeLowerCase", underscore(classname).toLowerCase(Locale.ROOT));
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         for (CodegenOperation op : operationList) {
             boolean consumeJson = false;
@@ -266,7 +263,6 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
                 }
 
                 boolean isStringOrDate = op.bodyParam.isString || op.bodyParam.isDate;
-                op.bodyParam.vendorExtensions.put("x-codegen-pistache-isStringOrDate", isStringOrDate); // TODO: 5.0 Remove
                 op.bodyParam.vendorExtensions.put("x-codegen-pistache-is-string-or-date", isStringOrDate);
             }
             if (op.consumes != null) {
@@ -301,9 +297,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             if (op.vendorExtensions == null) {
                 op.vendorExtensions = new HashMap<>();
             }
-            op.vendorExtensions.put("x-codegen-pistache-consumesJson", consumeJson); // TODO: 5.0 Remove
             op.vendorExtensions.put("x-codegen-pistache-consumes-json", consumeJson);
-            op.vendorExtensions.put("x-codegen-pistache-isParsingSupported", isParsingSupported); // TODO: 5.0 Remove
             op.vendorExtensions.put("x-codegen-pistache-is-parsing-supported", isParsingSupported);
 
             // Check if any one of the operations needs a model, then at API file level, at least one model has to be included.
@@ -362,7 +356,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         }
         if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isByteArraySchema(p)) {
             return "std::string";
@@ -398,7 +392,7 @@ public class CppPistacheServerCodegen extends AbstractCppCodegen {
         } else if (ModelUtils.isByteArraySchema(p)) {
             return "\"\"";
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
+            String inner = getSchemaType(getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

@@ -244,7 +244,7 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if auth, ok := auth["{{keyParamName}}"]; ok {
+			if auth, ok := auth["{{#vendorExtensions.x-auth-id-alias}}{{.}}{{/vendorExtensions.x-auth-id-alias}}{{^vendorExtensions.x-auth-id-alias}}{{name}}{{/vendorExtensions.x-auth-id-alias}}"]; ok {
 				var key string
 				if auth.Prefix != "" {
 					key = auth.Prefix + " " + auth.Key
@@ -286,6 +286,8 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 		}
 		{{#responses}}
 		{{#dataType}}
+		{{^is1xx}}
+		{{^is2xx}}
 		{{^wildcard}}
 		if localVarHTTPResponse.StatusCode == {{{code}}} {
 		{{/wildcard}}
@@ -302,6 +304,8 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 		{{^wildcard}}
 		}
 		{{/wildcard}}
+		{{/is2xx}}
+		{{/is1xx}}
 		{{/dataType}}
 		{{/responses}}
 		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
