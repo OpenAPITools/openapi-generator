@@ -60,6 +60,9 @@ public class HttpSignatureAuth implements Authentication {
   // The digest algorithm which is used to calculate a cryptographic digest of the HTTP request body.
   private String digestAlgorithm;
 
+  // The maximum validity duration of the HTTP signature. 
+  private Long maxSignatureValidity;
+
   /**
    * Construct a new HTTP signature auth configuration object.
    *
@@ -68,19 +71,23 @@ public class HttpSignatureAuth implements Authentication {
    * @param algorithm The cryptographic algorithm.
    * @param digestAlgorithm The digest algorithm.
    * @param headers The list of HTTP headers that should be included in the HTTP signature.
+   * @param maxSignatureValidity The maximum validity duration of the HTTP signature.
+   *                             Used to set the '(expires)' field in the HTTP signature.
    */
   public HttpSignatureAuth(String keyId,
                            SigningAlgorithm signingAlgorithm,
                            Algorithm algorithm,
                            String digestAlgorithm,
                            AlgorithmParameterSpec parameterSpec,
-                           List<String> headers) {
+                           List<String> headers,
+                           Long maxSignatureValidity) {
     this.keyId = keyId;
     this.signingAlgorithm = signingAlgorithm;
     this.algorithm = algorithm;
     this.parameterSpec = parameterSpec;
     this.digestAlgorithm = digestAlgorithm;
     this.headers = headers;
+    this.maxSignatureValidity = maxSignatureValidity;
   }
 
   /**
@@ -191,6 +198,14 @@ public class HttpSignatureAuth implements Authentication {
   }
 
   /**
+   * Returns the maximum validity duration of the HTTP signature.
+   * @return The maximum validity duration of the HTTP signature.
+   */
+  public Long getMaxSignatureValidity() {
+    return maxSignatureValidity;
+  }
+
+  /**
    * Returns the signer instance used to sign HTTP messages.
    *
    * @return the signer instance.
@@ -220,7 +235,7 @@ public class HttpSignatureAuth implements Authentication {
     if (key == null) {
       throw new ApiException("Private key (java.security.Key) cannot be null");
     }
-    signer = new Signer(key, new Signature(keyId, signingAlgorithm, algorithm, parameterSpec, null, headers));
+    signer = new Signer(key, new Signature(keyId, signingAlgorithm, algorithm, parameterSpec, null, headers, maxSignatureValidity));
   }
 
   @Override
