@@ -8,7 +8,8 @@
 import Foundation
 
 /** Model for testing model name same as property name */
-internal struct Name: Codable {
+internal struct Name: Codable { 
+
 
     internal var name: Int
     internal var snakeCase: Int?
@@ -22,7 +23,7 @@ internal struct Name: Codable {
         self._123number = _123number
     }
 
-    internal enum CodingKeys: String, CodingKey, CaseIterable {
+    internal enum CodingKeys: String, CodingKey, CaseIterable { 
         case name
         case snakeCase = "snake_case"
         case property

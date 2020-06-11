@@ -10,8 +10,8 @@ Describe -tag 'PSPetstore' -name 'PSApiResponse' {
         It 'Initialize-PSApiResponse' {
             # a simple test to create an object
             #$NewObject = Initialize-PSApiResponse -Code "TEST_VALUE" -Type "TEST_VALUE" -Message "TEST_VALUE"
-            #$NewObject | Should BeOfType ApiResponse
-            #$NewObject.property | Should Be 0
+            #$NewObject | Should -BeOfType ApiResponse
+            #$NewObject.property | Should -Be 0
         }
     }
 }

@@ -77,6 +77,16 @@ function ConvertFrom-PSJsonToTag {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $JsonParameters = ConvertFrom-Json -InputObject $Json
+        $PSTagAdditionalProperties = @{}
+
+        # check if Json contains properties not defined in PSTag
+        $AllProperties = ("id", "name")
+        foreach ($name in $JsonParameters.PsObject.Properties.Name) {
+            # store undefined properties in additionalProperties
+            if (!($AllProperties.Contains($name))) {
+                $PSTagAdditionalProperties[$name] = $JsonParameters.PSobject.Properties[$name].value
+            }
+        }
 
         if (!([bool]($JsonParameters.PSobject.Properties.name -match "id"))) { #optional property not found
             $Id = $null
@@ -93,6 +103,7 @@ function ConvertFrom-PSJsonToTag {
         $PSO = [PSCustomObject]@{
             "id" = ${Id}
             "name" = ${Name}
+            "AdditionalProperties" = $PSTagAdditionalProperties
         }
 
         return $PSO

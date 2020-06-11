@@ -115,18 +115,26 @@ function ConvertFrom-PSJsonToPet {
 
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
+        # check if Json contains properties not defined in PSPet
+        $AllProperties = ("id", "category", "name", "photoUrls", "tags", "status")
+        foreach ($name in $JsonParameters.PsObject.Properties.Name) {
+            if (!($AllProperties.Contains($name))) {
+                throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
+            }
+        }
+
         If ([string]::IsNullOrEmpty($Json) -or $Json -eq "{}") { # empty json
             throw "Error! Empty JSON cannot be serialized due to the required property `name` missing."
         }
 
         if (!([bool]($JsonParameters.PSobject.Properties.name -match "name"))) {
-            throw "Error! JSON cannot be serialized due to the required property `name` missing." 
+            throw "Error! JSON cannot be serialized due to the required property `name` missing."
         } else {
             $Name = $JsonParameters.PSobject.Properties["name"].value
         }
 
         if (!([bool]($JsonParameters.PSobject.Properties.name -match "photoUrls"))) {
-            throw "Error! JSON cannot be serialized due to the required property `photoUrls` missing." 
+            throw "Error! JSON cannot be serialized due to the required property `photoUrls` missing."
         } else {
             $PhotoUrls = $JsonParameters.PSobject.Properties["photoUrls"].value
         }

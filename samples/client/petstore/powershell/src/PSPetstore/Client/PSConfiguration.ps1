@@ -92,7 +92,7 @@ Access token for authentication/authorization
 .PARAMETER SkipCertificateCheck
 Skip certificate verification
 
-.PARAMETER DefaultHeaders 
+.PARAMETER DefaultHeaders
 Default HTTP headers to be included in the HTTP request
 
 .PARAMETER PassThru
@@ -130,7 +130,6 @@ function Set-PSConfiguration {
             if (!($null -ne $URL.AbsoluteURI -and $URL.Scheme -match '[http|https]')) {
                 throw "Invalid URL '$($BaseUrl)' cannot be used in the base URL."
             }
-    
             $Script:Configuration["BaseUrl"] = $BaseUrl
         }
 
@@ -162,7 +161,7 @@ function Set-PSConfiguration {
             $Script:Configuration['SkipCertificateCheck'] = $true
         } else {
             $Script:Configuration['SkipCertificateCheck'] = $false
-        } 
+        }
 
         If ($DefaultHeaders) {
             $Script:Configuration['DefaultHeaders'] = $DefaultHeaders
@@ -341,7 +340,7 @@ Get the URL from the host settings.
 .PARAMETER Index
 Index of the host settings (array)
 
-.PARAMETER Variables 
+.PARAMETER Variables
 Names and values of the variables (hashtable)
 
 .DESCRIPTION
@@ -388,4 +387,141 @@ function Get-PSUrlFromHostSetting {
         return $Url;
 
     }
+}
+
+<#
+.SYNOPSIS
+Sets the configuration for http signing.
+.DESCRIPTION
+
+Sets the configuration for the HTTP signature security scheme.
+The HTTP signature security scheme is used to sign HTTP requests with a key
+which is in possession of the API client.
+An 'Authorization' header is calculated by creating a hash of select headers,
+and optionally the body of the HTTP request, then signing the hash value using
+a key. The 'Authorization' header is added to outbound HTTP requests.
+
+Ref: https://openapi-generator.tech
+
+.PARAMETER KeyId
+KeyId for HTTP signing 
+
+.PARAMETER KeyFilePath
+KeyFilePath for HTTP signing
+
+.PARAMETER KeyPassPhrase
+KeyPassPhrase, if the HTTP signing key is protected
+
+.PARAMETER HttpSigningHeader
+HttpSigningHeader list of HTTP headers used to calculate the signature. The two special signature headers '(request-target)' and '(created)' 
+SHOULD be included.
+    The '(created)' header expresses when the signature was created.
+    The '(request-target)' header is a concatenation of the lowercased :method, an
+    ASCII space, and the :path pseudo-headers.
+If no headers are specified then '(created)' sets as default.
+
+.PARAMETER HashAlgorithm
+HashAlgrithm to calculate the hash, Supported values are "sha256" and "sha512"
+
+.PARAMETER SigningAlgorithm
+SigningAlgorithm specifies the signature algorithm, supported values are "RSASSA-PKCS1-v1_5" and "RSASSA-PSS" 
+RSA key : Supported values "RSASSA-PKCS1-v1_5" and "RSASSA-PSS", for ECDSA key this parameter is not applicable
+
+.PARAMETER SignatureValidityPeriod
+SignatureValidityPeriod specifies the signature maximum validity time in seconds. It accepts integer value 
+
+.OUTPUTS
+
+System.Collections.Hashtable
+#>
+function Set-PSConfigurationHttpSigning {
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        [string]$KeyId,
+        [Parameter(Mandatory = $true)]
+        [string]$KeyFilePath,
+        [Parameter(Mandatory = $false)]
+        [securestring]$KeyPassPhrase,
+        [Parameter(Mandatory = $false)]
+        [ValidateNotNullOrEmpty()]
+        [string[]] $HttpSigningHeader = @("(created)"),
+        [Parameter(Mandatory = $false)]
+        [ValidateSet("sha256", "sha512")]
+        [string] $HashAlgorithm = "sha256",
+        [Parameter(Mandatory = $false)]
+        [ValidateSet("RSASSA-PKCS1-v1_5", "RSASSA-PSS")]
+        [string]$SigningAlgorithm ,
+        [Parameter(Mandatory = $false)]
+        [int]$SignatureValidityPeriod
+    )
+
+    Process {
+        $httpSignatureConfiguration = @{ }
+
+        if (Test-Path -Path $KeyFilePath) {
+            $httpSignatureConfiguration["KeyId"] = $KeyId
+            $httpSignatureConfiguration["KeyFilePath"] = $KeyFilePath
+        }
+        else {
+            throw "Private key file path does not exist"
+        }
+
+        $keyType = Get-PSKeyTypeFromFile -KeyFilePath $KeyFilePath
+        if ([String]::IsNullOrEmpty($SigningAlgorithm)) {
+            if ($keyType -eq "RSA") {
+                $SigningAlgorithm = "RSASSA-PKCS1-v1_5"
+            }
+        }
+
+        if ($keyType -eq "RSA" -and 
+            ($SigningAlgorithm -ne "RSASSA-PKCS1-v1_5" -and $SigningAlgorithm -ne "RSASSA-PSS" )) {
+            throw "Provided Key and SigningAlgorithm : $SigningAlgorithm is not compatible."
+        }
+    
+        if ($HttpSigningHeader -contains "(expires)" -and $SignatureValidityPeriod -le 0) {
+            throw "SignatureValidityPeriod must be greater than 0 seconds."
+        }
+
+        if ($HttpSigningHeader -contains "(expires)") {
+            $httpSignatureConfiguration["SignatureValidityPeriod"] = $SignatureValidityPeriod
+        }
+        if ($null -ne $HttpSigningHeader -and $HttpSigningHeader.Length -gt 0) {
+            $httpSignatureConfiguration["HttpSigningHeader"] = $HttpSigningHeader
+        }
+
+        if ($null -ne $HashAlgorithm ) {
+            $httpSignatureConfiguration["HashAlgorithm"] = $HashAlgorithm
+        }
+
+        if ($null -ne $SigningAlgorithm) {
+            $httpSignatureConfiguration["SigningAlgorithm"] = $SigningAlgorithm
+        }
+
+        if ($null -ne $KeyPassPhrase) {
+            $httpSignatureConfiguration["KeyPassPhrase"] = $KeyPassPhrase
+        }
+    
+        $Script:Configuration["HttpSigning"] = New-Object -TypeName PSCustomObject -Property $httpSignatureConfiguration
+    }
+}
+
+<#
+.SYNOPSIS
+
+Get the configuration object 'PSConfigurationHttpSigning'.
+
+.DESCRIPTION
+
+Get the configuration object 'PSConfigurationHttpSigning'.
+
+.OUTPUTS
+
+[PSCustomObject]
+#>
+function Get-PSConfigurationHttpSigning{
+
+    $httpSignatureConfiguration = $Script:Configuration["HttpSigning"]
+    return $httpSignatureConfiguration
 }

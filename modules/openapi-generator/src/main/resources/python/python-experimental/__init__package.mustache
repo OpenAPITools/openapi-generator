@@ -8,13 +8,6 @@ from __future__ import absolute_import
 
 __version__ = "{{packageVersion}}"
 
-# import apis into sdk package
-{{#apiInfo}}
-{{#apis}}
-from {{apiPackage}}.{{classVarName}} import {{classname}}
-{{/apis}}
-{{/apiInfo}}
-
 # import ApiClient
 from {{packageName}}.api_client import ApiClient
 
@@ -26,14 +19,8 @@ from {{packageName}}.signing import HttpSigningConfiguration
 
 # import exceptions
 from {{packageName}}.exceptions import OpenApiException
+from {{packageName}}.exceptions import ApiAttributeError
 from {{packageName}}.exceptions import ApiTypeError
 from {{packageName}}.exceptions import ApiValueError
 from {{packageName}}.exceptions import ApiKeyError
 from {{packageName}}.exceptions import ApiException
-
-# import models into sdk package
-{{#models}}
-{{#model}}
-from {{modelPackage}}.{{classFilename}} import {{unescapedDescription}}
-{{/model}}
-{{/models}}

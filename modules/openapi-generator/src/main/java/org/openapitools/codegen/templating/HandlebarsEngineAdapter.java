@@ -30,14 +30,13 @@ import com.github.jknack.handlebars.io.StringTemplateSource;
 import com.github.jknack.handlebars.io.TemplateLoader;
 import com.github.jknack.handlebars.io.TemplateSource;
 import org.openapitools.codegen.api.AbstractTemplatingEngineAdapter;
-import org.openapitools.codegen.api.TemplatingGenerator;
+import org.openapitools.codegen.api.TemplatingExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Map;
-
 
 public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
     static Logger LOGGER = LoggerFactory.getLogger(HandlebarsEngineAdapter.class);
@@ -53,12 +52,12 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
         return "handlebars";
     }
 
-    public String compileTemplate(TemplatingGenerator generator,
+    public String compileTemplate(TemplatingExecutor executor,
                                   Map<String, Object> bundle, String templateFile) throws IOException {
         TemplateLoader loader = new AbstractTemplateLoader() {
             @Override
             public TemplateSource sourceAt(String location) {
-                return findTemplate(generator, location);
+                return findTemplate(executor, location);
             }
         };
 
@@ -83,14 +82,22 @@ public class HandlebarsEngineAdapter extends AbstractTemplatingEngineAdapter {
         return tmpl.apply(context);
     }
 
-    public TemplateSource findTemplate(TemplatingGenerator generator, String templateFile) {
-        for (String file : getModifiedFileLocation(templateFile)) {
+    public TemplateSource findTemplate(TemplatingExecutor generator, String templateFile) {
+        String[] possibilities = getModifiedFileLocation(templateFile);
+        for (String file : possibilities) {
             try {
                 return new StringTemplateSource(file, generator.getFullTemplateContents(file));
             } catch (Exception ignored) {
             }
         }
-        throw new TemplateNotFoundException(templateFile);
+
+        // allow lookup of files without extension modification (such as .openapi-generator-ignore, README.md, etc)
+        try {
+            return new StringTemplateSource(templateFile, generator.getFullTemplateContents(templateFile));
+        } catch (Exception ignored) {
+        }
+
+        throw new TemplateNotFoundException(String.join(", ", possibilities));
     }
 
     @Override

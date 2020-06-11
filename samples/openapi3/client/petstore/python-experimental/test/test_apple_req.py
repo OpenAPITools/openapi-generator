@@ -11,10 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.apple_req import AppleReq
 
 
 class TestAppleReq(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestAppleReq(unittest.TestCase):
     def testAppleReq(self):
         """Test AppleReq"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.AppleReq()  # noqa: E501
+        # model = AppleReq()  # noqa: E501
         pass
 
 

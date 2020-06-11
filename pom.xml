@@ -227,6 +227,7 @@
                     <argLine>@{argLine} -XX:+StartAttachListener</argLine>
                     <systemPropertyVariables>
                         <org.openapitools.codegen.utils.oncelogger.expiry>1000</org.openapitools.codegen.utils.oncelogger.expiry>
+                        <org.openapitools.codegen.utils.oncelogger.cachesize>5000</org.openapitools.codegen.utils.oncelogger.cachesize>
                     </systemPropertyVariables>
                 </configuration>
                 <dependencies>
@@ -484,47 +485,6 @@
         </profile>
 
         <profile>
-            <id>release-profile</id>
-            <properties>
-                <skipTests>true</skipTests>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>net.alchim31.maven</groupId>
-                        <artifactId>scala-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>compile</goal>
-                                    <goal>testCompile</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration/>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>add-source</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>add-source</goal>
-                                </goals>
-                                <configuration>
-                                    <sources>
-                                        <source>src/main/scala</source>
-                                    </sources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
             <id>release-sign-artifacts</id>
             <activation>
                 <property>
@@ -691,7 +651,7 @@
             </modules>
         </profile>
         <profile>
-            <id>java-client-jersey2-java7</id>
+            <id>java-client-jersey2-java8</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -699,11 +659,11 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/jersey2-java7</module>
+                <module>samples/client/petstore/java/jersey2-java8</module>
             </modules>
         </profile>
         <profile>
-            <id>java-client-jersey2-java6</id>
+            <id>java-client-openapi3-jersey2-java8</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -711,7 +671,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/jersey2-java6</module>
+                <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
             </modules>
         </profile>
         <profile>
@@ -736,18 +696,6 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/java/okhttp-gson-parcelableModel</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>java-client-retrofit</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/java/retrofit</module>
             </modules>
         </profile>
         <profile>
@@ -783,19 +731,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/feign</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>javascript-client</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>javascript</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/javascript</module>
+                <module>samples/client/petstore/java/feign10x</module>
             </modules>
         </profile>
         <profile>
@@ -808,18 +744,6 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/javascript-es6</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>javascript-client-promise</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>javascript</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/javascript-promise</module>
             </modules>
         </profile>
         <profile>
@@ -1087,7 +1011,6 @@
                 <module>samples/client/petstore/python</module>
             </modules>
         </profile>
-        <!--
         <profile>
             <id>ruby-client</id>
             <activation>
@@ -1100,7 +1023,6 @@
                 <module>samples/client/petstore/ruby</module>
             </modules>
         </profile>
-        -->
         <profile>
             <id>go-client</id>
             <activation>
@@ -1239,18 +1161,18 @@
                 <module>samples/server/petstore/php-slim4</module>
                 <module>samples/server/petstore/rust-server</module>
                 <!-- clients -->
+                <module>samples/client/petstore/perl</module>
+                <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/bash</module>
                 <module>samples/client/petstore/c</module>
                 <module>samples/client/petstore/cpp-qt5</module>
                 <module>samples/client/petstore/rust</module>
-                <!--<module>samples/client/petstore/perl</module>-->
+                <module>samples/client/petstore/rust/reqwest/petstore</module>
+                <module>samples/client/petstore/rust/reqwest/petstore-async</module>
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
-                <module>samples/client/petstore/javascript</module>
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/javascript-es6</module>
-                <module>samples/openapi3/client/petstore/javascript-es6</module>
-                <module>samples/client/petstore/javascript-promise</module>
                 <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/python</module>
@@ -1295,17 +1217,16 @@
                 <module>samples/openapi3/client/petstore/go-experimental</module>
                 <module>samples/openapi3/client/petstore/go</module>
                 <!-- test java-related projects -->
-                <module>samples/openapi3/client/petstore/scala-akka</module>
-                <module>samples/openapi3/client/petstore/scala-sttp</module>
+                <module>samples/client/petstore/scala-akka</module>
+                <module>samples/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/feign10x</module>
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
+                <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
-                <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>
                 <module>samples/client/petstore/java/retrofit2rx</module>
                 <module>samples/client/petstore/java/retrofit2-play25</module>
@@ -1386,19 +1307,14 @@
             <modules>
                 <module>samples/server/petstore/go-api-server</module>
                 <module>samples/server/petstore/go-gin-api-server</module>
-                <!-- clients -->
-                <module>samples/openapi3/client/petstore/ruby</module>
                 <!-- test java-related projects -->
-                <module>samples/openapi3/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/dart2/petstore</module>
                 <module>samples/client/petstore/dart-jaguar/openapi</module>
                 <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
+                <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-httpclient</module>
-                <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
-                <module>samples/client/petstore/java/jersey2-java7</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
-                <module>samples/client/petstore/java/retrofit</module>
                 <module>samples/client/petstore/java/retrofit2</module>
                 <module>samples/client/petstore/java/retrofit2rx</module>
                 <module>samples/client/petstore/jaxrs-cxf-client</module>
@@ -1465,7 +1381,7 @@
                 <module>samples/client/petstore/kotlin-moshi-codegen/</module>
                 <module>samples/client/petstore/kotlin-json-request-string/</module>
                 <!-- servers -->
-                <module>samples/server/petstore/erlang-server</module>
+                <!--<module>samples/server/petstore/erlang-server</module>-->
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
                 <module>samples/server/petstore/spring-mvc</module>

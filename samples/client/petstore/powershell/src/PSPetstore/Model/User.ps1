@@ -121,6 +121,14 @@ function ConvertFrom-PSJsonToUser {
 
         $JsonParameters = ConvertFrom-Json -InputObject $Json
 
+        # check if Json contains properties not defined in PSUser
+        $AllProperties = ("id", "username", "firstName", "lastName", "email", "password", "phone", "userStatus")
+        foreach ($name in $JsonParameters.PsObject.Properties.Name) {
+            if (!($AllProperties.Contains($name))) {
+                throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
+            }
+        }
+
         if (!([bool]($JsonParameters.PSobject.Properties.name -match "id"))) { #optional property not found
             $Id = $null
         } else {

@@ -68,7 +68,7 @@ class AdditionalPropertiesArray(object):
 
 
         :param name: The name of this AdditionalPropertiesArray.  # noqa: E501
-        :type: str
+        :type name: str
         """
 
         self._name = name

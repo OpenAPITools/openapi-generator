@@ -291,6 +291,7 @@ class ApiClient(object):
             ({str: (bool, str, int, float, date, datetime, str, none_type)},)
         :param _check_type: boolean, whether to check the types of the data
             received from the server
+        :type _check_type: bool
 
         :return: deserialized object.
         """
@@ -350,22 +351,28 @@ class ApiClient(object):
             (float, none_type)
             ([int, none_type],)
             ({str: (bool, str, int, float, date, datetime, str, none_type)},)
-        :param files dict: key -> field name, value -> a list of open file
+        :param files: key -> field name, value -> a list of open file
             objects for `multipart/form-data`.
+        :type files: dict
         :param async_req bool: execute request asynchronously
+        :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
                                        and headers
+        :type _return_http_data_only: bool, optional
         :param collection_formats: dict of collection formats for path, query,
             header, and post parameters.
+        :type collection_formats: dict, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
+        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
         :param _check_type: boolean describing if the data back from the server
             should have its type checked.
+        :type _check_type: bool, optional
         :return:
             If async_req parameter is True,
             the request will be called asynchronously.
@@ -559,9 +566,9 @@ class ApiClient(object):
         :param headers: Header parameters dict to be updated.
         :param querys: Query parameters tuple list to be updated.
         :param auth_settings: Authentication setting identifiers list.
-        :resource_path: A string representation of the HTTP request resource path.
-        :method: A string representation of the HTTP request method.
-        :body: A object representing the body of the HTTP request.
+        :param resource_path: A string representation of the HTTP request resource path.
+        :param method: A string representation of the HTTP request method.
+        :param body: A object representing the body of the HTTP request.
             The object type is the return value of sanitize_for_serialization().
         """
         if not auth_settings:
