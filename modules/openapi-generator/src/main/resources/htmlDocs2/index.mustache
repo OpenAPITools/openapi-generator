@@ -243,7 +243,11 @@
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-{{baseName}}-{{nickname}}-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X {{vendorExtensions.x-codegen-http-method-upper-case}}{{#authMethods}}{{#isApiKey}}{{#isKeyInHeader}} -H "{{keyParamName}}: [[apiKey]]"{{/isKeyInHeader}}{{/isApiKey}}{{#isBasic}}{{#hasProduces}} -H "Accept: {{#produces}}{{{mediaType}}}{{#hasMore}},{{/hasMore}}{{/produces}}"{{/hasProduces}}{{#hasConsumes}} -H "Content-Type: {{#consumes}}{{{mediaType}}}{{#hasMore}},{{/hasMore}}{{/consumes}}"{{/hasConsumes}} -H "Authorization: Basic [[basicHash]]"{{/isBasic}}{{/authMethods}} "{{basePath}}{{path}}{{#hasQueryParams}}?{{#queryParams}}{{^-first}}&{{/-first}}{{baseName}}={{vendorExtensions.x-eg}}{{/queryParams}}{{/hasQueryParams}}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X {{vendorExtensions.x-codegen-http-method-upper-case}}{{#authMethods}}\
+{{#isApiKey}}{{#isKeyInHeader}}-H "{{keyParamName}}: [[apiKey]]"{{/isKeyInHeader}}{{/isApiKey}}{{^isBasicBearer}}{{#isBasic}} -H "Authorization: Basic [[basicHash]]"{{/isBasic}}{{/isBasicBearer}}{{#isBasicBearer}} -H "Authorization: Bearer [[accessToken]]"{{/isBasicBearer}}{{/authMethods}}{{#hasProduces}}\
+ -H "Accept: {{#produces}}{{{mediaType}}}{{#hasMore}},{{/hasMore}}{{/produces}}"{{/hasProduces}}{{#hasConsumes}}\
+ -H "Content-Type: {{#consumes}}{{{mediaType}}}{{#hasMore}},{{/hasMore}}{{/consumes}}"{{/hasConsumes}}\
+ "{{basePath}}{{path}}{{#hasQueryParams}}?{{#queryParams}}{{^-first}}&{{/-first}}{{baseName}}={{vendorExtensions.x-eg}}{{/queryParams}}{{/hasQueryParams}}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-{{baseName}}-{{nickname}}-0-java">
                             <pre class="prettyprint"><code class="language-java">{{>sample_java}}</code></pre>

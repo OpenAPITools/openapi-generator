@@ -121,6 +121,30 @@ class PetApiTests(unittest.TestCase):
         self.pet_api.add_pet(self.pet, _request_timeout=5)
         self.pet_api.add_pet(self.pet, _request_timeout=(1, 2))
 
+    def test_auth_settings(self):
+        mock_pool = MockPoolManager(self)
+        self.api_client.rest_client.pool_manager = mock_pool
+
+        mock_pool.expect_request('POST', HOST + '/pet',
+                                 body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
+                                 headers={'Content-Type': 'application/json',
+                                          'Authorization': 'Bearer ACCESS_TOKEN',
+                                          'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
+                                 preload_content=True, timeout=None)
+        mock_pool.expect_request('POST', HOST + '/pet',
+                                 body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
+                                 headers={'Content-Type': 'application/json',
+                                          'Authorization': 'Prefix ANOTHER_TOKEN',
+                                          'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
+                                 preload_content=True, timeout=None)
+
+        self.pet_api.add_pet(self.pet, _request_auth=None)
+        self.pet_api.add_pet(self.pet, _request_auth={
+            'in': 'header',
+            'key': 'Authorization',
+            'value': 'Prefix ANOTHER_TOKEN'
+        })
+
     def test_separate_default_client_instances(self):
         pet_api = petstore_api.PetApi()
         pet_api2 = petstore_api.PetApi()
