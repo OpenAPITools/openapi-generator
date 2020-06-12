@@ -466,7 +466,7 @@ public class CodegenConfigurator {
 
     @SuppressWarnings("WeakerAccess")
     public Context<?> toContext() {
-        Validate.notEmpty(generatorName, "language/generatorName must be specified");
+        Validate.notEmpty(generatorName, "generator name must be specified");
         Validate.notEmpty(inputSpec, "input spec must be specified");
 
         if (isEmpty(templatingEngineName)) {
