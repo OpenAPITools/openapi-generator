@@ -29,6 +29,5 @@
     "importMappings" : {
         "type1" : "import1"
     },
-    "languageSpecificPrimitives" : [ "rolex" ],
-    "localVariablePrefix" : "_"
+    "languageSpecificPrimitives" : [ "rolex" ]
 }

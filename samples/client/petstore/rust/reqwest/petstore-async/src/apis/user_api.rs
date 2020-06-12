@@ -18,6 +18,59 @@ use reqwest;
 use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
+/// struct for passing parameters to the method `create_user`
+#[derive(Clone, Debug)]
+pub struct CreateUserParams {
+    /// Created user object
+    pub body: crate::models::User
+}
+
+/// struct for passing parameters to the method `create_users_with_array_input`
+#[derive(Clone, Debug)]
+pub struct CreateUsersWithArrayInputParams {
+    /// List of user object
+    pub body: Vec<crate::models::User>
+}
+
+/// struct for passing parameters to the method `create_users_with_list_input`
+#[derive(Clone, Debug)]
+pub struct CreateUsersWithListInputParams {
+    /// List of user object
+    pub body: Vec<crate::models::User>
+}
+
+/// struct for passing parameters to the method `delete_user`
+#[derive(Clone, Debug)]
+pub struct DeleteUserParams {
+    /// The name that needs to be deleted
+    pub username: String
+}
+
+/// struct for passing parameters to the method `get_user_by_name`
+#[derive(Clone, Debug)]
+pub struct GetUserByNameParams {
+    /// The name that needs to be fetched. Use user1 for testing.
+    pub username: String
+}
+
+/// struct for passing parameters to the method `login_user`
+#[derive(Clone, Debug)]
+pub struct LoginUserParams {
+    /// The user name for login
+    pub username: String,
+    /// The password for login in clear text
+    pub password: String
+}
+
+/// struct for passing parameters to the method `update_user`
+#[derive(Clone, Debug)]
+pub struct UpdateUserParams {
+    /// name that need to be deleted
+    pub username: String,
+    /// Updated user object
+    pub body: crate::models::User
+}
+
 
 /// struct for typed successes of method `create_user`
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -126,7 +179,6 @@ pub enum DeleteUserError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUserByNameError {
-    DefaultResponse(crate::models::User),
     Status400(),
     Status404(),
     UnknownList(Vec<serde_json::Value>),
@@ -137,7 +189,6 @@ pub enum GetUserByNameError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LoginUserError {
-    DefaultResponse(String),
     Status400(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
@@ -163,7 +214,10 @@ pub enum UpdateUserError {
 }
 
 
-    pub async fn create_user(configuration: &configuration::Configuration, body: crate::models::User) -> Result<ResponseContent<CreateUserSuccess>, Error<CreateUserError>> {
+    pub async fn create_user(configuration: &configuration::Configuration, params: CreateUserParams) -> Result<ResponseContent<CreateUserSuccess>, Error<CreateUserError>> {
+        // unbox the parameters
+        let body = params.body;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/user", configuration.base_path);
@@ -191,7 +245,10 @@ pub enum UpdateUserError {
         }
     }
 
-    pub async fn create_users_with_array_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<ResponseContent<CreateUsersWithArrayInputSuccess>, Error<CreateUsersWithArrayInputError>> {
+    pub async fn create_users_with_array_input(configuration: &configuration::Configuration, params: CreateUsersWithArrayInputParams) -> Result<ResponseContent<CreateUsersWithArrayInputSuccess>, Error<CreateUsersWithArrayInputError>> {
+        // unbox the parameters
+        let body = params.body;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/createWithArray", configuration.base_path);
@@ -219,7 +276,10 @@ pub enum UpdateUserError {
         }
     }
 
-    pub async fn create_users_with_list_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<ResponseContent<CreateUsersWithListInputSuccess>, Error<CreateUsersWithListInputError>> {
+    pub async fn create_users_with_list_input(configuration: &configuration::Configuration, params: CreateUsersWithListInputParams) -> Result<ResponseContent<CreateUsersWithListInputSuccess>, Error<CreateUsersWithListInputError>> {
+        // unbox the parameters
+        let body = params.body;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/createWithList", configuration.base_path);
@@ -247,7 +307,10 @@ pub enum UpdateUserError {
         }
     }
 
-    pub async fn delete_user(configuration: &configuration::Configuration, username: &str) -> Result<ResponseContent<DeleteUserSuccess>, Error<DeleteUserError>> {
+    pub async fn delete_user(configuration: &configuration::Configuration, params: DeleteUserParams) -> Result<ResponseContent<DeleteUserSuccess>, Error<DeleteUserError>> {
+        // unbox the parameters
+        let username = params.username;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
@@ -274,7 +337,10 @@ pub enum UpdateUserError {
         }
     }
 
-    pub async fn get_user_by_name(configuration: &configuration::Configuration, username: &str) -> Result<ResponseContent<GetUserByNameSuccess>, Error<GetUserByNameError>> {
+    pub async fn get_user_by_name(configuration: &configuration::Configuration, params: GetUserByNameParams) -> Result<ResponseContent<GetUserByNameSuccess>, Error<GetUserByNameError>> {
+        // unbox the parameters
+        let username = params.username;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));
@@ -301,7 +367,11 @@ pub enum UpdateUserError {
         }
     }
 
-    pub async fn login_user(configuration: &configuration::Configuration, username: &str, password: &str) -> Result<ResponseContent<LoginUserSuccess>, Error<LoginUserError>> {
+    pub async fn login_user(configuration: &configuration::Configuration, params: LoginUserParams) -> Result<ResponseContent<LoginUserSuccess>, Error<LoginUserError>> {
+        // unbox the parameters
+        let username = params.username;
+        let password = params.password;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/login", configuration.base_path);
@@ -330,7 +400,9 @@ pub enum UpdateUserError {
         }
     }
 
-    pub async fn logout_user(configuration: &configuration::Configuration, ) -> Result<ResponseContent<LogoutUserSuccess>, Error<LogoutUserError>> {
+    pub async fn logout_user(configuration: &configuration::Configuration) -> Result<ResponseContent<LogoutUserSuccess>, Error<LogoutUserError>> {
+        // unbox the parameters
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/logout", configuration.base_path);
@@ -357,7 +429,11 @@ pub enum UpdateUserError {
         }
     }
 
-    pub async fn update_user(configuration: &configuration::Configuration, username: &str, body: crate::models::User) -> Result<ResponseContent<UpdateUserSuccess>, Error<UpdateUserError>> {
+    pub async fn update_user(configuration: &configuration::Configuration, params: UpdateUserParams) -> Result<ResponseContent<UpdateUserSuccess>, Error<UpdateUserError>> {
+        // unbox the parameters
+        let username = params.username;
+        let body = params.body;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/user/{username}", configuration.base_path, username=crate::apis::urlencode(username));

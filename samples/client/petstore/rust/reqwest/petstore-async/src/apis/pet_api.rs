@@ -18,6 +18,71 @@ use reqwest;
 use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
+/// struct for passing parameters to the method `add_pet`
+#[derive(Clone, Debug)]
+pub struct AddPetParams {
+    /// Pet object that needs to be added to the store
+    pub body: crate::models::Pet
+}
+
+/// struct for passing parameters to the method `delete_pet`
+#[derive(Clone, Debug)]
+pub struct DeletePetParams {
+    /// Pet id to delete
+    pub pet_id: i64,
+    pub api_key: Option<String>
+}
+
+/// struct for passing parameters to the method `find_pets_by_status`
+#[derive(Clone, Debug)]
+pub struct FindPetsByStatusParams {
+    /// Status values that need to be considered for filter
+    pub status: Vec<String>
+}
+
+/// struct for passing parameters to the method `find_pets_by_tags`
+#[derive(Clone, Debug)]
+pub struct FindPetsByTagsParams {
+    /// Tags to filter by
+    pub tags: Vec<String>
+}
+
+/// struct for passing parameters to the method `get_pet_by_id`
+#[derive(Clone, Debug)]
+pub struct GetPetByIdParams {
+    /// ID of pet to return
+    pub pet_id: i64
+}
+
+/// struct for passing parameters to the method `update_pet`
+#[derive(Clone, Debug)]
+pub struct UpdatePetParams {
+    /// Pet object that needs to be added to the store
+    pub body: crate::models::Pet
+}
+
+/// struct for passing parameters to the method `update_pet_with_form`
+#[derive(Clone, Debug)]
+pub struct UpdatePetWithFormParams {
+    /// ID of pet that needs to be updated
+    pub pet_id: i64,
+    /// Updated name of the pet
+    pub name: Option<String>,
+    /// Updated status of the pet
+    pub status: Option<String>
+}
+
+/// struct for passing parameters to the method `upload_file`
+#[derive(Clone, Debug)]
+pub struct UploadFileParams {
+    /// ID of pet to update
+    pub pet_id: i64,
+    /// Additional data to pass to server
+    pub additional_metadata: Option<String>,
+    /// file to upload
+    pub file: Option<std::path::PathBuf>
+}
+
 
 /// struct for typed successes of method `add_pet`
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -109,7 +174,6 @@ pub enum DeletePetError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByStatusError {
-    DefaultResponse(Vec<crate::models::Pet>),
     Status400(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
@@ -119,7 +183,6 @@ pub enum FindPetsByStatusError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByTagsError {
-    DefaultResponse(Vec<crate::models::Pet>),
     Status400(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
@@ -129,7 +192,6 @@ pub enum FindPetsByTagsError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPetByIdError {
-    DefaultResponse(crate::models::Pet),
     Status400(),
     Status404(),
     UnknownList(Vec<serde_json::Value>),
@@ -160,13 +222,15 @@ pub enum UpdatePetWithFormError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UploadFileError {
-    DefaultResponse(crate::models::ApiResponse),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
 
-    pub async fn add_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<ResponseContent<AddPetSuccess>, Error<AddPetError>> {
+    pub async fn add_pet(configuration: &configuration::Configuration, params: AddPetParams) -> Result<ResponseContent<AddPetSuccess>, Error<AddPetError>> {
+        // unbox the parameters
+        let body = params.body;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet", configuration.base_path);
@@ -197,7 +261,11 @@ pub enum UploadFileError {
         }
     }
 
-    pub async fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api_key: Option<&str>) -> Result<ResponseContent<DeletePetSuccess>, Error<DeletePetError>> {
+    pub async fn delete_pet(configuration: &configuration::Configuration, params: DeletePetParams) -> Result<ResponseContent<DeletePetSuccess>, Error<DeletePetError>> {
+        // unbox the parameters
+        let pet_id = params.pet_id;
+        let api_key = params.api_key;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
@@ -230,7 +298,10 @@ pub enum UploadFileError {
         }
     }
 
-    pub async fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>) -> Result<ResponseContent<FindPetsByStatusSuccess>, Error<FindPetsByStatusError>> {
+    pub async fn find_pets_by_status(configuration: &configuration::Configuration, params: FindPetsByStatusParams) -> Result<ResponseContent<FindPetsByStatusSuccess>, Error<FindPetsByStatusError>> {
+        // unbox the parameters
+        let status = params.status;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/findByStatus", configuration.base_path);
@@ -261,7 +332,10 @@ pub enum UploadFileError {
         }
     }
 
-    pub async fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec<String>) -> Result<ResponseContent<FindPetsByTagsSuccess>, Error<FindPetsByTagsError>> {
+    pub async fn find_pets_by_tags(configuration: &configuration::Configuration, params: FindPetsByTagsParams) -> Result<ResponseContent<FindPetsByTagsSuccess>, Error<FindPetsByTagsError>> {
+        // unbox the parameters
+        let tags = params.tags;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/findByTags", configuration.base_path);
@@ -292,7 +366,10 @@ pub enum UploadFileError {
         }
     }
 
-    pub async fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) -> Result<ResponseContent<GetPetByIdSuccess>, Error<GetPetByIdError>> {
+    pub async fn get_pet_by_id(configuration: &configuration::Configuration, params: GetPetByIdParams) -> Result<ResponseContent<GetPetByIdSuccess>, Error<GetPetByIdError>> {
+        // unbox the parameters
+        let pet_id = params.pet_id;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
@@ -327,7 +404,10 @@ pub enum UploadFileError {
         }
     }
 
-    pub async fn update_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<ResponseContent<UpdatePetSuccess>, Error<UpdatePetError>> {
+    pub async fn update_pet(configuration: &configuration::Configuration, params: UpdatePetParams) -> Result<ResponseContent<UpdatePetSuccess>, Error<UpdatePetError>> {
+        // unbox the parameters
+        let body = params.body;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet", configuration.base_path);
@@ -358,7 +438,12 @@ pub enum UploadFileError {
         }
     }
 
-    pub async fn update_pet_with_form(configuration: &configuration::Configuration, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<ResponseContent<UpdatePetWithFormSuccess>, Error<UpdatePetWithFormError>> {
+    pub async fn update_pet_with_form(configuration: &configuration::Configuration, params: UpdatePetWithFormParams) -> Result<ResponseContent<UpdatePetWithFormSuccess>, Error<UpdatePetWithFormError>> {
+        // unbox the parameters
+        let pet_id = params.pet_id;
+        let name = params.name;
+        let status = params.status;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
@@ -396,7 +481,12 @@ pub enum UploadFileError {
         }
     }
 
-    pub async fn upload_file(configuration: &configuration::Configuration, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<ResponseContent<UploadFileSuccess>, Error<UploadFileError>> {
+    pub async fn upload_file(configuration: &configuration::Configuration, params: UploadFileParams) -> Result<ResponseContent<UploadFileSuccess>, Error<UploadFileError>> {
+        // unbox the parameters
+        let pet_id = params.pet_id;
+        let additional_metadata = params.additional_metadata;
+        let file = params.file;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=pet_id);

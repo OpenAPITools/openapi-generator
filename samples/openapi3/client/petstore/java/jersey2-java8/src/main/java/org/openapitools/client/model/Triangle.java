@@ -164,7 +164,7 @@ public class Triangle extends AbstractOpenApiSchema {
          */
         @Override
         public Triangle getNullValue(DeserializationContext ctxt) throws JsonMappingException {
-            throw new JsonMappingException("Triangle cannot be null");
+            throw new JsonMappingException(ctxt.getParser(), "Triangle cannot be null");
         }
     }
 
@@ -199,7 +199,7 @@ public class Triangle extends AbstractOpenApiSchema {
         });
         JSON.registerDescendants(Triangle.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
-        Map<String, Class> mappings = new HashMap<String, Class>();
+        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
         mappings.put("EquilateralTriangle", EquilateralTriangle.class);
         mappings.put("IsoscelesTriangle", IsoscelesTriangle.class);
         mappings.put("ScaleneTriangle", ScaleneTriangle.class);
@@ -221,17 +221,17 @@ public class Triangle extends AbstractOpenApiSchema {
      */
     @Override
     public void setActualInstance(Object instance) {
-        if (JSON.isInstanceOf(EquilateralTriangle.class, instance, new HashSet<Class>())) {
+        if (JSON.isInstanceOf(EquilateralTriangle.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(IsoscelesTriangle.class, instance, new HashSet<Class>())) {
+        if (JSON.isInstanceOf(IsoscelesTriangle.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(ScaleneTriangle.class, instance, new HashSet<Class>())) {
+        if (JSON.isInstanceOf(ScaleneTriangle.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }

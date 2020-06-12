@@ -60,7 +60,6 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
      */
     public PowerShellClientCodegen() {
         super();
-
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
@@ -546,6 +545,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
     @Override
     public void processOpts() {
+        this.setLegacyDiscriminatorBehavior(false);
         super.processOpts();
 
         if (StringUtils.isEmpty(System.getenv("POWERSHELL_POST_PROCESS_FILE"))) {
@@ -925,27 +925,6 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             // add vendor extension for additonalProperties: true
             if ("null<String, SystemCollectionsHashtable>".equals(model.parent)) {
                 model.vendorExtensions.put("x-additional-properties", true);
-            }
-
-            // automatically create discriminator mapping for oneOf/anyOf if not present
-            if (((model.oneOf != null && !model.oneOf.isEmpty()) || (model.anyOf != null && !model.anyOf.isEmpty())) &&
-                    model.discriminator != null && model.discriminator.getMapping() == null) {
-                // create mappedModels
-                Set<String> schemas = new HashSet<>();
-                if (model.oneOf != null && !model.oneOf.isEmpty()) {
-                    schemas = model.oneOf;
-                } else if (model.anyOf != null && !model.anyOf.isEmpty()) {
-                    schemas = model.anyOf;
-                }
-
-                HashSet<CodegenDiscriminator.MappedModel> mappedModels = new HashSet<>();
-
-                for (String s: schemas) {
-                    mappedModels.add(new CodegenDiscriminator.MappedModel(s, s));
-                }
-
-                model.discriminator.setMappedModels(mappedModels);
-
             }
         }
 

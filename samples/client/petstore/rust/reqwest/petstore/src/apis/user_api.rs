@@ -138,7 +138,6 @@ pub enum DeleteUserError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUserByNameError {
-    DefaultResponse(crate::models::User),
     Status400(),
     Status404(),
     UnknownList(Vec<serde_json::Value>),
@@ -149,7 +148,6 @@ pub enum GetUserByNameError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LoginUserError {
-    DefaultResponse(String),
     Status400(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),

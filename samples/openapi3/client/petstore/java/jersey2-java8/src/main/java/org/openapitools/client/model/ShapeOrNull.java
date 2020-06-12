@@ -174,7 +174,7 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
         });
         JSON.registerDescendants(ShapeOrNull.class, Collections.unmodifiableMap(schemas));
         // Initialize and register the discriminator mappings.
-        Map<String, Class> mappings = new HashMap<String, Class>();
+        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
         mappings.put("Quadrilateral", Quadrilateral.class);
         mappings.put("Triangle", Triangle.class);
         mappings.put("ShapeOrNull", ShapeOrNull.class);
@@ -200,12 +200,12 @@ public class ShapeOrNull extends AbstractOpenApiSchema {
            return;
         }
 
-        if (JSON.isInstanceOf(Quadrilateral.class, instance, new HashSet<Class>())) {
+        if (JSON.isInstanceOf(Quadrilateral.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (JSON.isInstanceOf(Triangle.class, instance, new HashSet<Class>())) {
+        if (JSON.isInstanceOf(Triangle.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }

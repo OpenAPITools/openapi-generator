@@ -18,6 +18,27 @@ use reqwest;
 use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
+/// struct for passing parameters to the method `delete_order`
+#[derive(Clone, Debug)]
+pub struct DeleteOrderParams {
+    /// ID of the order that needs to be deleted
+    pub order_id: String
+}
+
+/// struct for passing parameters to the method `get_order_by_id`
+#[derive(Clone, Debug)]
+pub struct GetOrderByIdParams {
+    /// ID of pet that needs to be fetched
+    pub order_id: i64
+}
+
+/// struct for passing parameters to the method `place_order`
+#[derive(Clone, Debug)]
+pub struct PlaceOrderParams {
+    /// order placed for purchasing the pet
+    pub body: crate::models::Order
+}
+
 
 /// struct for typed successes of method `delete_order`
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -68,7 +89,6 @@ pub enum DeleteOrderError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInventoryError {
-    DefaultResponse(::std::collections::HashMap<String, i32>),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
@@ -77,7 +97,6 @@ pub enum GetInventoryError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetOrderByIdError {
-    DefaultResponse(crate::models::Order),
     Status400(),
     Status404(),
     UnknownList(Vec<serde_json::Value>),
@@ -88,14 +107,16 @@ pub enum GetOrderByIdError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PlaceOrderError {
-    DefaultResponse(crate::models::Order),
     Status400(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
 
-    pub async fn delete_order(configuration: &configuration::Configuration, order_id: &str) -> Result<ResponseContent<DeleteOrderSuccess>, Error<DeleteOrderError>> {
+    pub async fn delete_order(configuration: &configuration::Configuration, params: DeleteOrderParams) -> Result<ResponseContent<DeleteOrderSuccess>, Error<DeleteOrderError>> {
+        // unbox the parameters
+        let order_id = params.order_id;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=crate::apis::urlencode(order_id));
@@ -122,7 +143,9 @@ pub enum PlaceOrderError {
         }
     }
 
-    pub async fn get_inventory(configuration: &configuration::Configuration, ) -> Result<ResponseContent<GetInventorySuccess>, Error<GetInventoryError>> {
+    pub async fn get_inventory(configuration: &configuration::Configuration) -> Result<ResponseContent<GetInventorySuccess>, Error<GetInventoryError>> {
+        // unbox the parameters
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/inventory", configuration.base_path);
@@ -157,7 +180,10 @@ pub enum PlaceOrderError {
         }
     }
 
-    pub async fn get_order_by_id(configuration: &configuration::Configuration, order_id: i64) -> Result<ResponseContent<GetOrderByIdSuccess>, Error<GetOrderByIdError>> {
+    pub async fn get_order_by_id(configuration: &configuration::Configuration, params: GetOrderByIdParams) -> Result<ResponseContent<GetOrderByIdSuccess>, Error<GetOrderByIdError>> {
+        // unbox the parameters
+        let order_id = params.order_id;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=order_id);
@@ -184,7 +210,10 @@ pub enum PlaceOrderError {
         }
     }
 
-    pub async fn place_order(configuration: &configuration::Configuration, body: crate::models::Order) -> Result<ResponseContent<PlaceOrderSuccess>, Error<PlaceOrderError>> {
+    pub async fn place_order(configuration: &configuration::Configuration, params: PlaceOrderParams) -> Result<ResponseContent<PlaceOrderSuccess>, Error<PlaceOrderError>> {
+        // unbox the parameters
+        let body = params.body;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order", configuration.base_path);

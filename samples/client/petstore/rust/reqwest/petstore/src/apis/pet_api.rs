@@ -121,7 +121,6 @@ pub enum DeletePetError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByStatusError {
-    DefaultResponse(Vec<crate::models::Pet>),
     Status400(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
@@ -131,7 +130,6 @@ pub enum FindPetsByStatusError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByTagsError {
-    DefaultResponse(Vec<crate::models::Pet>),
     Status400(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
@@ -141,7 +139,6 @@ pub enum FindPetsByTagsError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPetByIdError {
-    DefaultResponse(crate::models::Pet),
     Status400(),
     Status404(),
     UnknownList(Vec<serde_json::Value>),
@@ -172,7 +169,6 @@ pub enum UpdatePetWithFormError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UploadFileError {
-    DefaultResponse(crate::models::ApiResponse),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }

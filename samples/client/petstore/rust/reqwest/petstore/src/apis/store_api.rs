@@ -80,7 +80,6 @@ pub enum DeleteOrderError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInventoryError {
-    DefaultResponse(::std::collections::HashMap<String, i32>),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
@@ -89,7 +88,6 @@ pub enum GetInventoryError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetOrderByIdError {
-    DefaultResponse(crate::models::Order),
     Status400(),
     Status404(),
     UnknownList(Vec<serde_json::Value>),
@@ -100,7 +98,6 @@ pub enum GetOrderByIdError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PlaceOrderError {
-    DefaultResponse(crate::models::Order),
     Status400(),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
