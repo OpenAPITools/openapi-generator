@@ -882,6 +882,7 @@ public class ApiClient {
           return formString.substring(0, formString.length() - 1);
         }
       } else {
+        // The BodyHolder obj is null if the request has an empty body.
         return obj == null ? "" : json.getMapper().writeValueAsString(obj.body);
       }
     } catch (Exception ex) {
