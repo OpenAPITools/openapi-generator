@@ -78,7 +78,10 @@ public class PetApi {
      </table>
    */
   public ApiResponse<Void> addPetWithHttpInfo(Pet body) throws ApiException {
-    Object localVarPostBody = body;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(body);
     
     // verify the required parameter 'body' is set
     if (body == null) {
@@ -146,7 +149,10 @@ public class PetApi {
      </table>
    */
   public ApiResponse<Void> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -216,7 +222,10 @@ public class PetApi {
      </table>
    */
   public ApiResponse<List<Pet>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'status' is set
     if (status == null) {
@@ -290,7 +299,10 @@ public class PetApi {
    */
   @Deprecated
   public ApiResponse<Set<Pet>> findPetsByTagsWithHttpInfo(Set<String> tags) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'tags' is set
     if (tags == null) {
@@ -362,7 +374,10 @@ public class PetApi {
      </table>
    */
   public ApiResponse<Pet> getPetByIdWithHttpInfo(Long petId) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -435,7 +450,10 @@ public class PetApi {
      </table>
    */
   public ApiResponse<Void> updatePetWithHttpInfo(Pet body) throws ApiException {
-    Object localVarPostBody = body;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(body);
     
     // verify the required parameter 'body' is set
     if (body == null) {
@@ -503,7 +521,10 @@ public class PetApi {
      </table>
    */
   public ApiResponse<Void> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -577,7 +598,10 @@ if (status != null)
      </table>
    */
   public ApiResponse<ModelApiResponse> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {
@@ -653,7 +677,10 @@ if (file != null)
      </table>
    */
   public ApiResponse<ModelApiResponse> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'petId' is set
     if (petId == null) {

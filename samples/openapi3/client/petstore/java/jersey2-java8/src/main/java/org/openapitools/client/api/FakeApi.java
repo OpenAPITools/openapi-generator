@@ -81,7 +81,10 @@ public class FakeApi {
      </table>
    */
   public ApiResponse<HealthCheckResult> fakeHealthGetWithHttpInfo() throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // create path and map variables
     String localVarPath = "/fake/health";
@@ -143,7 +146,10 @@ public class FakeApi {
      </table>
    */
   public ApiResponse<Boolean> fakeOuterBooleanSerializeWithHttpInfo(Boolean body) throws ApiException {
-    Object localVarPostBody = body;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(body);
     
     // create path and map variables
     String localVarPath = "/fake/outer/boolean";
@@ -205,7 +211,10 @@ public class FakeApi {
      </table>
    */
   public ApiResponse<OuterComposite> fakeOuterCompositeSerializeWithHttpInfo(OuterComposite outerComposite) throws ApiException {
-    Object localVarPostBody = outerComposite;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(outerComposite);
     
     // create path and map variables
     String localVarPath = "/fake/outer/composite";
@@ -267,7 +276,10 @@ public class FakeApi {
      </table>
    */
   public ApiResponse<BigDecimal> fakeOuterNumberSerializeWithHttpInfo(BigDecimal body) throws ApiException {
-    Object localVarPostBody = body;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(body);
     
     // create path and map variables
     String localVarPath = "/fake/outer/number";
@@ -329,7 +341,10 @@ public class FakeApi {
      </table>
    */
   public ApiResponse<String> fakeOuterStringSerializeWithHttpInfo(String body) throws ApiException {
-    Object localVarPostBody = body;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(body);
     
     // create path and map variables
     String localVarPath = "/fake/outer/string";
@@ -389,7 +404,10 @@ public class FakeApi {
      </table>
    */
   public ApiResponse<List<OuterEnum>> getArrayOfEnumsWithHttpInfo() throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // create path and map variables
     String localVarPath = "/fake/array-of-enums";
@@ -450,7 +468,10 @@ public class FakeApi {
      </table>
    */
   public ApiResponse<Void> testBodyWithFileSchemaWithHttpInfo(FileSchemaTestClass fileSchemaTestClass) throws ApiException {
-    Object localVarPostBody = fileSchemaTestClass;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(fileSchemaTestClass);
     
     // verify the required parameter 'fileSchemaTestClass' is set
     if (fileSchemaTestClass == null) {
@@ -516,7 +537,10 @@ public class FakeApi {
      </table>
    */
   public ApiResponse<Void> testBodyWithQueryParamsWithHttpInfo(String query, User user) throws ApiException {
-    Object localVarPostBody = user;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(user);
     
     // verify the required parameter 'query' is set
     if (query == null) {
@@ -587,7 +611,10 @@ public class FakeApi {
      </table>
    */
   public ApiResponse<Client> testClientModelWithHttpInfo(Client client) throws ApiException {
-    Object localVarPostBody = client;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(client);
     
     // verify the required parameter 'client' is set
     if (client == null) {
@@ -681,7 +708,10 @@ public class FakeApi {
      </table>
    */
   public ApiResponse<Void> testEndpointParametersWithHttpInfo(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, File binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'number' is set
     if (number == null) {
@@ -804,7 +834,10 @@ if (paramCallback != null)
      </table>
    */
   public ApiResponse<Void> testEnumParametersWithHttpInfo(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // create path and map variables
     String localVarPath = "/fake";
@@ -849,7 +882,10 @@ if (enumFormString != null)
   }
 
 private ApiResponse<Void> testGroupParametersWithHttpInfo(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'requiredStringGroup' is set
     if (requiredStringGroup == null) {
@@ -1046,7 +1082,10 @@ if (booleanGroup != null)
      </table>
    */
   public ApiResponse<Void> testInlineAdditionalPropertiesWithHttpInfo(Map<String, String> requestBody) throws ApiException {
-    Object localVarPostBody = requestBody;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(requestBody);
     
     // verify the required parameter 'requestBody' is set
     if (requestBody == null) {
@@ -1112,7 +1151,10 @@ if (booleanGroup != null)
      </table>
    */
   public ApiResponse<Void> testJsonFormDataWithHttpInfo(String param, String param2) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'param' is set
     if (param == null) {
@@ -1193,7 +1235,10 @@ if (param2 != null)
      </table>
    */
   public ApiResponse<Void> testQueryParameterCollectionFormatWithHttpInfo(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'pipe' is set
     if (pipe == null) {

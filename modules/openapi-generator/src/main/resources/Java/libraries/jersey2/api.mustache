@@ -116,7 +116,10 @@ public class {{classname}} {
   @Deprecated
   {{/isDeprecated}}
   public{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}private{{/vendorExtensions.x-group-parameters}} ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
-    Object localVarPostBody = {{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = {{#bodyParam}}new ApiClient.BodyHolder({{paramName}}){{/bodyParam}}{{^bodyParam}}null{{/bodyParam}};
     {{#allParams}}{{#required}}
     // verify the required parameter '{{paramName}}' is set
     if ({{paramName}} == null) {

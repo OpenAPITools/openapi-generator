@@ -74,7 +74,10 @@ public class FakeClassnameTags123Api {
      </table>
    */
   public ApiResponse<Client> testClassnameWithHttpInfo(Client client) throws ApiException {
-    Object localVarPostBody = client;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(client);
     
     // verify the required parameter 'client' is set
     if (client == null) {

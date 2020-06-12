@@ -72,7 +72,10 @@ public class DefaultApi {
      </table>
    */
   public ApiResponse<InlineResponseDefault> fooGetWithHttpInfo() throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // create path and map variables
     String localVarPath = "/foo";

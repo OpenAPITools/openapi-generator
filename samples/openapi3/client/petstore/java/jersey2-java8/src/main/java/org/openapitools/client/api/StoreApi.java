@@ -75,7 +75,10 @@ public class StoreApi {
      </table>
    */
   public ApiResponse<Void> deleteOrderWithHttpInfo(String orderId) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
@@ -139,7 +142,10 @@ public class StoreApi {
      </table>
    */
   public ApiResponse<Map<String, Integer>> getInventoryWithHttpInfo() throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // create path and map variables
     String localVarPath = "/store/inventory";
@@ -205,7 +211,10 @@ public class StoreApi {
      </table>
    */
   public ApiResponse<Order> getOrderByIdWithHttpInfo(Long orderId) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
@@ -275,7 +284,10 @@ public class StoreApi {
      </table>
    */
   public ApiResponse<Order> placeOrderWithHttpInfo(Order order) throws ApiException {
-    Object localVarPostBody = order;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(order);
     
     // verify the required parameter 'order' is set
     if (order == null) {

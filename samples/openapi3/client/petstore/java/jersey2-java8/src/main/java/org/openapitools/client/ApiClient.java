@@ -828,7 +828,7 @@ public class ApiClient {
    * @return Entity
    * @throws ApiException API exception
    */
-  public Entity<?> serialize(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
+  public Entity<?> serialize(BodyHolder obj, Map<String, Object> formParams, String contentType) throws ApiException {
     Entity<?> entity;
     if (contentType.startsWith("multipart/form-data")) {
       MultiPart multiPart = new MultiPart();
@@ -852,7 +852,7 @@ public class ApiClient {
       entity = Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE);
     } else {
       // We let jersey handle the serialization
-      entity = Entity.entity(obj == null ? Entity.text("") : obj, contentType);
+      entity = Entity.entity(obj == null ? Entity.text("") : obj.body, contentType);
     }
     return entity;
   }
@@ -866,7 +866,7 @@ public class ApiClient {
    * @return String
    * @throws ApiException API exception
    */
-  public String serializeToString(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
+  public String serializeToString(BodyHolder obj, Map<String, Object> formParams, String contentType) throws ApiException {
     try {
       if (contentType.startsWith("multipart/form-data")) {
         throw new ApiException("multipart/form-data not yet supported for serializeToString (http signature authentication)");
@@ -882,7 +882,7 @@ public class ApiClient {
           return formString.substring(0, formString.length() - 1);
         }
       } else {
-        return json.getMapper().writeValueAsString(obj);
+        return obj == null ? "" : json.getMapper().writeValueAsString(obj.body);
       }
     } catch (Exception ex) {
       throw new ApiException("Failed to perform serializeToString: " + ex.toString());
@@ -975,6 +975,19 @@ public class ApiClient {
   }
 
   /**
+   * A wrapper class for the request body.
+   *
+   * This is needed to differentiate between a request without body (e.g. HTTP GET)
+   * versus a request with the 'null' value in the body.
+   */
+  public static class BodyHolder {
+    private Object  body;
+    public BodyHolder(Object body) {
+      this.body = body;
+    }
+  }
+
+  /**
    * Invoke API by sending HTTP request with the given options.
    *
    * @param <T> Type
@@ -998,7 +1011,7 @@ public class ApiClient {
       String path,
       String method,
       List<Pair> queryParams,
-      Object body,
+      BodyHolder body,
       Map<String, String> headerParams,
       Map<String, String> cookieParams,
       Map<String, Object> formParams,
@@ -1151,7 +1164,7 @@ public class ApiClient {
    * @deprecated Add qualified name of the operation as a first parameter.
    */
   @Deprecated
-  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
+  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, BodyHolder body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
     return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
   }
 

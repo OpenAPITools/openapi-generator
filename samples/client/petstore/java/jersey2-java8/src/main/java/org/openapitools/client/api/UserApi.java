@@ -73,7 +73,10 @@ public class UserApi {
      </table>
    */
   public ApiResponse<Void> createUserWithHttpInfo(User body) throws ApiException {
-    Object localVarPostBody = body;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(body);
     
     // verify the required parameter 'body' is set
     if (body == null) {
@@ -137,7 +140,10 @@ public class UserApi {
      </table>
    */
   public ApiResponse<Void> createUsersWithArrayInputWithHttpInfo(List<User> body) throws ApiException {
-    Object localVarPostBody = body;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(body);
     
     // verify the required parameter 'body' is set
     if (body == null) {
@@ -201,7 +207,10 @@ public class UserApi {
      </table>
    */
   public ApiResponse<Void> createUsersWithListInputWithHttpInfo(List<User> body) throws ApiException {
-    Object localVarPostBody = body;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(body);
     
     // verify the required parameter 'body' is set
     if (body == null) {
@@ -267,7 +276,10 @@ public class UserApi {
      </table>
    */
   public ApiResponse<Void> deleteUserWithHttpInfo(String username) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'username' is set
     if (username == null) {
@@ -337,7 +349,10 @@ public class UserApi {
      </table>
    */
   public ApiResponse<User> getUserByNameWithHttpInfo(String username) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'username' is set
     if (username == null) {
@@ -409,7 +424,10 @@ public class UserApi {
      </table>
    */
   public ApiResponse<String> loginUserWithHttpInfo(String username, String password) throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // verify the required parameter 'username' is set
     if (username == null) {
@@ -480,7 +498,10 @@ public class UserApi {
      </table>
    */
   public ApiResponse<Void> logoutUserWithHttpInfo() throws ApiException {
-    Object localVarPostBody = null;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = null;
     
     // create path and map variables
     String localVarPath = "/user/logout";
@@ -543,7 +564,10 @@ public class UserApi {
      </table>
    */
   public ApiResponse<Void> updateUserWithHttpInfo(String username, User body) throws ApiException {
-    Object localVarPostBody = body;
+    // BodyHolder is set to null when the HTTP request body is not set (e.g. for HTTP GET requests).
+    // When the body is set (e.g HTTP POST request), the object maybe have a null value which needs
+    // to be serialized as the 'null' value.
+    ApiClient.BodyHolder localVarPostBody = new ApiClient.BodyHolder(body);
     
     // verify the required parameter 'username' is set
     if (username == null) {
