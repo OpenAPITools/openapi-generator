@@ -1,0 +1,119 @@
+openapi: 3.0.0
+info:
+  description: This specification shows how to use x-auth-id-alias extension for API
+    keys.
+  license:
+    name: Apache-2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  title: OpenAPI Extension x-auth-id-alias
+  version: 1.0.0
+servers:
+- description: petstore server
+  url: http://{server}.swagger.io:{port}/v2
+  variables:
+    server:
+      default: petstore
+      enum:
+      - petstore
+      - qa-petstore
+      - dev-petstore
+    port:
+      default: "80"
+      enum:
+      - "80"
+      - "8080"
+- description: The local server
+  url: https://localhost:8080/{version}
+  variables:
+    version:
+      default: v2
+      enum:
+      - v1
+      - v2
+tags:
+- description: Show usage of x-auth-id-alias
+  name: usage
+paths:
+  /both:
+    get:
+      description: Use both API keys
+      operationId: bothKeys
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: successful operation
+      security:
+      - api_key_query: []
+        api_key: []
+      summary: Use both API keys
+      tags:
+      - usage
+      x-accepts: application/json
+  /any:
+    get:
+      description: Use any API key
+      operationId: anyKey
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: successful operation
+      security:
+      - api_key_query: []
+      - api_key: []
+      summary: Use any API key
+      tags:
+      - usage
+      x-accepts: application/json
+  /query:
+    get:
+      description: Use API key in query
+      operationId: keyInQuery
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: successful operation
+      security:
+      - api_key_query: []
+      summary: Use API key in query
+      tags:
+      - usage
+      x-accepts: application/json
+  /header:
+    get:
+      description: Use API key in header
+      operationId: keyInHeader
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+          description: successful operation
+      security:
+      - api_key: []
+      summary: Use API key in header
+      tags:
+      - usage
+      x-accepts: application/json
+components:
+  schemas: {}
+  securitySchemes:
+    api_key:
+      in: header
+      name: X-Api-Key
+      type: apiKey
+    api_key_query:
+      in: query
+      name: api_key
+      type: apiKey
+      x-auth-id-alias: api_key
+
