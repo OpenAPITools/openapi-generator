@@ -436,6 +436,9 @@ public class InlineObject3 {
   }
 
 
+  /**
+   * Return true if this inline_object_3 object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

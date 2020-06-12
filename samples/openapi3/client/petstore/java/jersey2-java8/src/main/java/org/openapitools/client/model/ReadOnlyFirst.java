@@ -83,6 +83,9 @@ public class ReadOnlyFirst {
   }
 
 
+  /**
+   * Return true if this ReadOnlyFirst object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

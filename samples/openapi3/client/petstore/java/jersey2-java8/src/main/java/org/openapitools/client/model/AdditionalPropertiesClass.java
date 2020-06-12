@@ -307,6 +307,9 @@ public class AdditionalPropertiesClass {
   }
 
 
+  /**
+   * Return true if this AdditionalPropertiesClass object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

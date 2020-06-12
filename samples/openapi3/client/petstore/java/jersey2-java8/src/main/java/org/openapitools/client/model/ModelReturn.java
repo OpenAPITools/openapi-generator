@@ -64,6 +64,9 @@ public class ModelReturn {
   }
 
 
+  /**
+   * Return true if this Return object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

@@ -133,6 +133,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
+  /**
+   * Return true if this MixedPropertiesAndAdditionalPropertiesClass object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

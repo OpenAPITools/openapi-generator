@@ -217,6 +217,9 @@ public class MapTest {
   }
 
 
+  /**
+   * Return true if this MapTest object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

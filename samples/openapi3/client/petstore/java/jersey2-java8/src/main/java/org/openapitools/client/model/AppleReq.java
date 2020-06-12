@@ -90,6 +90,9 @@ public class AppleReq {
   }
 
 
+  /**
+   * Return true if this appleReq object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

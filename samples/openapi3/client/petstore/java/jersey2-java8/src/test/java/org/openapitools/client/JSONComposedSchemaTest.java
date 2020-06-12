@@ -308,13 +308,16 @@ public class JSONComposedSchemaTest {
             assertEquals("white", d.getColor());
         }
         {
-            String str = "{ \"pet_type\": \"ChildCat\", \"name\": \"fluffy\" }";
+            String str = "{ \"pet_type\": \"ChildCat\", \"name\": \"fluffy\", " +
+                " \"more_stuff\": \"the_value\"" +  // additional, undeclared property.
+                " }";
             GrandparentAnimal o = json.getContext(null).readValue(str, GrandparentAnimal.class);            
             assertNotNull(o);
             assertTrue(o instanceof ParentPet);
             assertTrue(o instanceof ChildCat);
             ChildCat c = (ChildCat)o;
             assertEquals("fluffy", c.getName());
+            assertNotNull(c.getAdditionalProperties());
         }
         {
             String str = "{ \"pet_type\": \"ChildCat\", \"name\": \"fluffy\" }";

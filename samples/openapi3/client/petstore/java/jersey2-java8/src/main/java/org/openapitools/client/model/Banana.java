@@ -64,6 +64,9 @@ public class Banana {
   }
 
 
+  /**
+   * Return true if this banana object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

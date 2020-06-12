@@ -118,6 +118,9 @@ public class Whale {
   }
 
 
+  /**
+   * Return true if this whale object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

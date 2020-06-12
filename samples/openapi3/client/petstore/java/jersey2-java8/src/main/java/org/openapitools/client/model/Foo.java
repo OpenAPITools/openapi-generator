@@ -63,6 +63,9 @@ public class Foo {
   }
 
 
+  /**
+   * Return true if this Foo object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

@@ -63,6 +63,9 @@ public class ChildCatAllOf {
   }
 
 
+  /**
+   * Return true if this ChildCat_allOf object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

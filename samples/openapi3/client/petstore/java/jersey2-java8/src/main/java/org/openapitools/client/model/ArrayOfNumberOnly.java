@@ -74,6 +74,9 @@ public class ArrayOfNumberOnly {
   }
 
 
+  /**
+   * Return true if this ArrayOfNumberOnly object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

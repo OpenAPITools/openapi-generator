@@ -100,6 +100,9 @@ public class Animal {
   }
 
 
+  /**
+   * Return true if this Animal object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

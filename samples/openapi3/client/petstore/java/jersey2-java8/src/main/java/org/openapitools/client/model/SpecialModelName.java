@@ -63,6 +63,9 @@ public class SpecialModelName {
   }
 
 
+  /**
+   * Return true if this _special_model.name_ object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

@@ -91,6 +91,9 @@ public class IsoscelesTriangle {
   }
 
 
+  /**
+   * Return true if this IsoscelesTriangle object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
