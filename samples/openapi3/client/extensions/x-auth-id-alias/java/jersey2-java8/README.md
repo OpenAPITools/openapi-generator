@@ -4,8 +4,6 @@ OpenAPI Extension x-auth-id-alias
 
 - API version: 1.0.0
 
-- Build date: 2020-06-12T09:27:08.137627Z[UTC]
-
 This specification shows how to use x-auth-id-alias extension for API keys.
 
 

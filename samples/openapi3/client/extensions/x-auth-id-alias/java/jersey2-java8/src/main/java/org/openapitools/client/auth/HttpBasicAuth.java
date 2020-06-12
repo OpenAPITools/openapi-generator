@@ -24,7 +24,7 @@ import java.util.List;
 
 import java.io.UnsupportedEncodingException;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-06-12T09:27:08.137627Z[UTC]")
+
 public class HttpBasicAuth implements Authentication {
   private String username;
   private String password;

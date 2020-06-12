@@ -13,7 +13,7 @@
 
 package org.openapitools.client;
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2020-06-12T09:27:08.137627Z[UTC]")
+
 public class Configuration {
     private static ApiClient defaultApiClient = new ApiClient();
 
