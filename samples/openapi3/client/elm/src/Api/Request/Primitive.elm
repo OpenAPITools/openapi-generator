@@ -36,4 +36,3 @@ update primitive_body =
         []
         (Just (Api.Data.encodePrimitive primitive_body))
         Api.Data.primitiveDecoder
-
