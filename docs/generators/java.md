@@ -61,6 +61,7 @@ If false: the 'additionalProperties' implementation is compliant with the OAS an
 |useRuntimeException|Use RuntimeException instead of Exception| |false|
 |useRxJava|Whether to use the RxJava adapter with the retrofit2 library.| |false|
 |useRxJava2|Whether to use the RxJava2 adapter with the retrofit2 library.| |false|
+|useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library.| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
 
 ## IMPORT MAPPING
