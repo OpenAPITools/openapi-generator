@@ -113,12 +113,47 @@ public class JSONComposedSchemaTest {
             AbstractOpenApiSchema o = json.getContext(null).readValue(str, Mammal.class);
             assertNotNull(o);
             assertTrue(o.getActualInstance() instanceof Zebra);
+            Zebra z = (Zebra)o.getActualInstance();
+            assertNotNull(z.getAdditionalProperties());
+            assertEquals(2, z.getAdditionalProperties().size());
+            assertTrue(z.getAdditionalProperties().containsKey("hasBaleen"));
+        }
+        {
+            // Same test as above, but this time deserializing directly into the Zebra class.
+            String str = "{ \"className\": \"zebra\", \"hasBaleen\": true, \"hasTeeth\": false }";
+            Zebra o = json.getContext(null).readValue(str, Zebra.class);
+            assertNotNull(o);
+            assertNotNull(o.getAdditionalProperties());
+            assertEquals(2, o.getAdditionalProperties().size());
+        }
+        {
+            // Same test as above, but with properties that belong neither to zebra nor whale
+            String str = "{ \"className\": \"zebra\", \"some_other_property\": \"abc\" }";
+            AbstractOpenApiSchema o = json.getContext(null).readValue(str, Mammal.class);
+            assertNotNull(o);
+            assertTrue(o.getActualInstance() instanceof Zebra);
+            Zebra z = (Zebra)o.getActualInstance();
+            assertNotNull(z.getAdditionalProperties());
+            assertEquals(1, z.getAdditionalProperties().size());
+        }
+        {
+            // Same test as above, but with properties that belong neither to zebra nor whale
+            // Deserialize directly into Zebra.
+            String str = "{ \"className\": \"zebra\", \"some_other_property\": \"abc\" }";
+            Zebra o = json.getContext(null).readValue(str, Zebra.class);
+            assertNotNull(o);
+            assertNotNull(o.getAdditionalProperties());
+            assertEquals(1, o.getAdditionalProperties().size());
+            assertTrue(o.getAdditionalProperties().containsKey("some_other_property"));
+            assertTrue(o.getAdditionalProperties().containsValue("abc"));
         }
         {
             String str = "{ \"className\": \"zebra\" }";
             AbstractOpenApiSchema o = json.getContext(null).readValue(str, Mammal.class);
             assertNotNull(o);
             assertTrue(o.getActualInstance() instanceof Zebra);
+            Zebra z = (Zebra)o.getActualInstance();
+            assertNull(z.getAdditionalProperties());
         }
         {
             /* comment out while unboxing nested oneOf/anyOf is still in discussion
