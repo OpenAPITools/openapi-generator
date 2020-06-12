@@ -8,11 +8,8 @@ declare root="$(cd "$cwd" && cd ../../ && pwd)"
 declare executable="${root}/modules/openapi-generator-cli/target/openapi-generator-cli.jar"
 
 echo "# START SCRIPT: $0"
-
 echo "IMPORTANT: this script should be run by the CI (e.g. Shippable) to ensure that the 'samples/' folder is up to date."
-echo "Please press CTRL+C to stop or the script will continue in 5 seconds."
-
-sleep 5
+echo ""
 
 "${root}/bin/generate-samples.sh"
 
