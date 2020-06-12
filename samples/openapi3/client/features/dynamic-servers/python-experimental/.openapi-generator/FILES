@@ -1,6 +1,5 @@
 .gitignore
 .gitlab-ci.yml
-.openapi-generator-ignore
 .travis.yml
 README.md
 docs/UsageApi.md
@@ -21,5 +20,4 @@ setup.cfg
 setup.py
 test-requirements.txt
 test/__init__.py
-test/test_usage_api.py
 tox.ini
