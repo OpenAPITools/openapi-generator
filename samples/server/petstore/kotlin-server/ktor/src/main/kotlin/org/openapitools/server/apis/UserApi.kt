@@ -44,7 +44,6 @@ fun Route.UserApi() {
     route("/user") {
         post {
             call.respond(HttpStatusCode.NotImplemented)
-
         }
     }
 
@@ -52,7 +51,6 @@ fun Route.UserApi() {
     route("/user/createWithArray") {
         post {
             call.respond(HttpStatusCode.NotImplemented)
-
         }
     }
 
@@ -60,20 +58,18 @@ fun Route.UserApi() {
     route("/user/createWithList") {
         post {
             call.respond(HttpStatusCode.NotImplemented)
-
         }
     }
 
 
     delete<Paths.deleteUser> {  _: Paths.deleteUser ->
         call.respond(HttpStatusCode.NotImplemented)
-
     }
 
 
     get<Paths.getUserByName> {  _: Paths.getUserByName ->
         val exampleContentType = "application/json"
-val exampleContentString = """{
+        val exampleContentString = """{
           "firstName" : "firstName",
           "lastName" : "lastName",
           "password" : "password",
@@ -83,32 +79,28 @@ val exampleContentString = """{
           "email" : "email",
           "username" : "username"
         }"""
-
-when(exampleContentType) {
-    "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
-    "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
-    else -> call.respondText(exampleContentString)
-}
-
+        
+        when(exampleContentType) {
+            "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+            "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
+            else -> call.respondText(exampleContentString)
+        }
     }
 
 
     get<Paths.loginUser> {  _: Paths.loginUser ->
         call.respond(HttpStatusCode.NotImplemented)
-
     }
 
 
     get<Paths.logoutUser> {  _: Paths.logoutUser ->
         call.respond(HttpStatusCode.NotImplemented)
-
     }
 
 
     route("/user/{username}") {
         put {
             call.respond(HttpStatusCode.NotImplemented)
-
         }
     }
 

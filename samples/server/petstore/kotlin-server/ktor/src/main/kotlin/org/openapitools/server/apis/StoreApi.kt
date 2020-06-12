@@ -43,25 +43,23 @@ fun Route.StoreApi() {
 
     delete<Paths.deleteOrder> {  _: Paths.deleteOrder ->
         call.respond(HttpStatusCode.NotImplemented)
-
     }
 
 
     get<Paths.getInventory> {  _: Paths.getInventory ->
         val principal = call.authentication.principal<ApiPrincipal>()
-
-if (principal == null) {
-    call.respond(HttpStatusCode.Unauthorized)
-} else {
-    call.respond(HttpStatusCode.NotImplemented)
-}
-
+        
+        if (principal == null) {
+            call.respond(HttpStatusCode.Unauthorized)
+        } else {
+            call.respond(HttpStatusCode.NotImplemented)
+        }
     }
 
 
     get<Paths.getOrderById> {  _: Paths.getOrderById ->
         val exampleContentType = "application/json"
-val exampleContentString = """{
+        val exampleContentString = """{
           "petId" : 6,
           "quantity" : 1,
           "id" : 0,
@@ -69,20 +67,19 @@ val exampleContentString = """{
           "complete" : false,
           "status" : "placed"
         }"""
-
-when(exampleContentType) {
-    "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
-    "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
-    else -> call.respondText(exampleContentString)
-}
-
+        
+        when(exampleContentType) {
+            "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+            "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
+            else -> call.respondText(exampleContentString)
+        }
     }
 
 
     route("/store/order") {
         post {
             val exampleContentType = "application/json"
-val exampleContentString = """{
+            val exampleContentString = """{
               "petId" : 6,
               "quantity" : 1,
               "id" : 0,
@@ -90,13 +87,12 @@ val exampleContentString = """{
               "complete" : false,
               "status" : "placed"
             }"""
-
-when(exampleContentType) {
-    "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
-    "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
-    else -> call.respondText(exampleContentString)
-}
-
+            
+            when(exampleContentType) {
+                "application/json" -> call.respond(gson.fromJson(exampleContentString, empty::class.java))
+                "application/xml" -> call.respondText(exampleContentString, ContentType.Text.Xml)
+                else -> call.respondText(exampleContentString)
+            }
         }
     }
 

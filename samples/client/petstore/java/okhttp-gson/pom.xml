@@ -128,7 +128,7 @@
                         </goals>
                         <configuration>
                             <sources>
-                                <source>src/main\java</source>
+                                <source>src/main/java</source>
                             </sources>
                         </configuration>
                     </execution>

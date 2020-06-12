@@ -49,11 +49,11 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 pub struct AdditionalPropertiesClass {
     #[serde(rename = "map_property")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub map_property: Option<std::collections::HashMap<String,String>>,
+    pub map_property: Option<std::collections::HashMap<String, String>>,
 
     #[serde(rename = "map_of_map_property")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub map_of_map_property: Option<std::collections::HashMap<String, std::collections::HashMap<String,String>>>,
+    pub map_of_map_property: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
 }
 
@@ -91,8 +91,8 @@ impl std::str::FromStr for AdditionalPropertiesClass {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
-            pub map_property: Vec<std::collections::HashMap<String,String>>,
-            pub map_of_map_property: Vec<std::collections::HashMap<String, std::collections::HashMap<String,String>>>,
+            pub map_property: Vec<std::collections::HashMap<String, String>>,
+            pub map_of_map_property: Vec<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
@@ -3059,17 +3059,17 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 pub struct MapTest {
     #[serde(rename = "map_map_of_string")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub map_map_of_string: Option<std::collections::HashMap<String, std::collections::HashMap<String,String>>>,
+    pub map_map_of_string: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "map_map_of_enum")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub map_map_of_enum: Option<std::collections::HashMap<String, std::collections::HashMap<String,String>>>,
+    pub map_map_of_enum: Option<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
 
     // Note: inline enums are not fully supported by openapi-generator
     #[serde(rename = "map_of_enum_string")]
     #[serde(skip_serializing_if="Option::is_none")]
-    pub map_of_enum_string: Option<std::collections::HashMap<String,String>>,
+    pub map_of_enum_string: Option<std::collections::HashMap<String, String>>,
 
 }
 
@@ -3111,9 +3111,9 @@ impl std::str::FromStr for MapTest {
         #[derive(Default)]
         // An intermediate representation of the struct to use for parsing.
         struct IntermediateRep {
-            pub map_map_of_string: Vec<std::collections::HashMap<String, std::collections::HashMap<String,String>>>,
-            pub map_map_of_enum: Vec<std::collections::HashMap<String, std::collections::HashMap<String,String>>>,
-            pub map_of_enum_string: Vec<std::collections::HashMap<String,String>>,
+            pub map_map_of_string: Vec<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
+            pub map_map_of_enum: Vec<std::collections::HashMap<String, std::collections::HashMap<String, String>>>,
+            pub map_of_enum_string: Vec<std::collections::HashMap<String, String>>,
         }
 
         let mut intermediate_rep = IntermediateRep::default();
