@@ -1250,20 +1250,6 @@ paths:
       tags:
       - fake
       x-accepts: application/json
-  /fake/additional-properties-with-array-of-enums:
-    get:
-      operationId: getAdditionalPropertiesWithArrayOfEnums
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AdditionalPropertiesWithArrayOfEnums'
-          description: Got object with additional properties with array of enums
-      summary: Additional Properties with Array of Enums
-      tags:
-      - fake
-      x-accepts: application/json
 components:
   requestBodies:
     UserArray:
@@ -2251,12 +2237,6 @@ components:
       items:
         $ref: '#/components/schemas/OuterEnum'
       type: array
-    AdditionalPropertiesWithArrayOfEnums:
-      additionalProperties:
-        items:
-          $ref: '#/components/schemas/EnumClass'
-        type: array
-      type: object
     DateTimeTest:
       default: 2010-01-01T10:10:10.000111+01:00
       example: 2010-01-01T10:10:10.000111+01:00

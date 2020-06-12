@@ -363,66 +363,6 @@ public class FakeApi {
                                localVarAuthNames, localVarReturnType);
   }
   /**
-   * Additional Properties with Array of Enums
-   * 
-   * @return Map&lt;String, List&lt;EnumClass&gt;&gt;
-   * @throws ApiException if fails to make API call
-   * @http.response.details
-     <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> Got object with additional properties with array of enums </td><td>  -  </td></tr>
-     </table>
-   */
-  public Map<String, List<EnumClass>> getAdditionalPropertiesWithArrayOfEnums() throws ApiException {
-    return getAdditionalPropertiesWithArrayOfEnumsWithHttpInfo().getData();
-  }
-
-  /**
-   * Additional Properties with Array of Enums
-   * 
-   * @return ApiResponse&lt;Map&lt;String, List&lt;EnumClass&gt;&gt;&gt;
-   * @throws ApiException if fails to make API call
-   * @http.response.details
-     <table summary="Response Details" border="1">
-       <tr><td> Status Code </td><td> Description </td><td> Response Headers </td></tr>
-       <tr><td> 200 </td><td> Got object with additional properties with array of enums </td><td>  -  </td></tr>
-     </table>
-   */
-  public ApiResponse<Map<String, List<EnumClass>>> getAdditionalPropertiesWithArrayOfEnumsWithHttpInfo() throws ApiException {
-    Object localVarPostBody = null;
-    
-    // create path and map variables
-    String localVarPath = "/fake/additional-properties-with-array-of-enums";
-
-    // query params
-    List<Pair> localVarQueryParams = new ArrayList<Pair>();
-    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
-    Map<String, String> localVarCookieParams = new HashMap<String, String>();
-    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
-
-
-    
-    
-    
-    final String[] localVarAccepts = {
-      "application/json"
-    };
-    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
-
-    final String[] localVarContentTypes = {
-      
-    };
-    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
-
-    String[] localVarAuthNames = new String[] {  };
-
-    GenericType<Map<String, List<EnumClass>>> localVarReturnType = new GenericType<Map<String, List<EnumClass>>>() {};
-
-    return apiClient.invokeAPI("FakeApi.getAdditionalPropertiesWithArrayOfEnums", localVarPath, "GET", localVarQueryParams, localVarPostBody,
-                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
-  }
-  /**
    * Array of Enums
    * 
    * @return List&lt;OuterEnum&gt;
