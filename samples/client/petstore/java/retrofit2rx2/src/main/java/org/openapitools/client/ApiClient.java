@@ -126,7 +126,7 @@ public class ApiClient {
       .baseUrl(baseUrl)
 
       .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-      .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(ScalarsConverterFactory.create())
       .addConverterFactory(GsonCustomConverterFactory.create(json.getGson()));
   }
 
