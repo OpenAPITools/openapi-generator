@@ -2,6 +2,8 @@ package org.openapitools.client;
 
 import org.openapitools.client.model.*;
 import java.lang.Exception;
+import java.util.List;
+import java.util.Map;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import org.junit.*;
@@ -309,7 +311,10 @@ public class JSONComposedSchemaTest {
         }
         {
             String str = "{ \"pet_type\": \"ChildCat\", \"name\": \"fluffy\", " +
-                " \"more_stuff\": \"the_value\"" +  // additional, undeclared property.
+                " \"stuff1\": \"the_value\", " +      // additional, undeclared property of type string.
+                " \"stuff2\": { \"p1\": 123 }, " +    // additional, undeclared property of type object.
+                " \"stuff3\": null," +                // additional, undeclared property with null value.
+                " \"stuff4\": [ 12, \"abc\" ]" +      // additional, undeclared property of type array.
                 " }";
             GrandparentAnimal o = json.getContext(null).readValue(str, GrandparentAnimal.class);            
             assertNotNull(o);
@@ -318,6 +323,17 @@ public class JSONComposedSchemaTest {
             ChildCat c = (ChildCat)o;
             assertEquals("fluffy", c.getName());
             assertNotNull(c.getAdditionalProperties());
+            assertEquals(4, c.getAdditionalProperties().size());
+            assertTrue(c.getAdditionalProperties().containsKey("stuff1"));
+            assertTrue(c.getAdditionalProperties().containsKey("stuff2"));
+            assertTrue(c.getAdditionalProperties().containsKey("stuff3"));
+            assertTrue(c.getAdditionalProperties().containsKey("stuff4"));
+            assertEquals("the_value", c.getAdditionalProperties().get("stuff1"));
+            assertNotNull(c.getAdditionalProperties().get("stuff2"));
+            assertTrue(c.getAdditionalProperties().get("stuff2") instanceof Map);
+            assertNull(c.getAdditionalProperties().get("stuff3"));
+            assertNotNull(c.getAdditionalProperties().get("stuff4"));
+            assertTrue(c.getAdditionalProperties().get("stuff4") instanceof List);
         }
         {
             String str = "{ \"pet_type\": \"ChildCat\", \"name\": \"fluffy\" }";

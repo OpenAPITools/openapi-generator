@@ -241,6 +241,9 @@ public class Order {
   }
 
 
+  /**
+   * Return true if this Order object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

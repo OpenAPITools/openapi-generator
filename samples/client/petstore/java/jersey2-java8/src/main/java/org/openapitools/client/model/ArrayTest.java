@@ -146,6 +146,9 @@ public class ArrayTest {
   }
 
 
+  /**
+   * Return true if this ArrayTest object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

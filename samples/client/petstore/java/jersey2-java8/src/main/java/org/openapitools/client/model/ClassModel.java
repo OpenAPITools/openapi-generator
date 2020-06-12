@@ -64,6 +64,9 @@ public class ClassModel {
   }
 
 
+  /**
+   * Return true if this ClassModel object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

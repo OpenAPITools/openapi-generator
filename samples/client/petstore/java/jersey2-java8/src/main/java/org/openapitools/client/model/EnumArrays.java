@@ -171,6 +171,9 @@ public class EnumArrays {
   }
 
 
+  /**
+   * Return true if this EnumArrays object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

@@ -232,6 +232,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   {{/vars}}
 {{>libraries/jersey2/additional_properties}}
 {{^supportJava6}}
+  /**
+   * Return true if this {{name}} object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
   {{#useReflectionEqualsHashCode}}

@@ -63,6 +63,9 @@ public class Client {
   }
 
 
+  /**
+   * Return true if this Client object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

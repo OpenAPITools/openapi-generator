@@ -63,6 +63,9 @@ public class SpecialModelName {
   }
 
 
+  /**
+   * Return true if this $special[model.name] object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

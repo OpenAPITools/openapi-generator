@@ -163,26 +163,6 @@ public class Triangle extends AbstractOpenApiSchema {
         }
 
         /**
-         * Method called to deal with a property that did not map to a known Bean property.
-         * Method can deal with the problem as it sees fit (ignore, throw exception); but if it does return,
-         * it has to skip the matching Json content parser has.
-         *
-         * @param p - Parser that points to value of the unknown property
-         * @param ctxt - Context for deserialization; allows access to the parser, error reporting functionality
-         * @param instanceOrClass - Instance that is being populated by this deserializer, or if not known, Class that would be instantiated. If null, will assume type is what getValueClass() returns.
-         * @param propName - Name of the property that cannot be mapped
-         */
-        @Override
-        protected void handleUnknownProperty(JsonParser p,
-                                     DeserializationContext ctxt,
-                                     Object instanceOrClass,
-                                     String propName) throws IOException {
-            System.out.println("Deserializing unknown property " + propName);
-            Object deserialized = p.readValueAs(Object.class);
-            //additionalProperties.put(propName, deserialized);
-        }
-
-        /**
          * Handle deserialization of the 'null' value.
          */
         @Override

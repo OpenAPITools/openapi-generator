@@ -123,7 +123,6 @@ public class FruitReq extends AbstractOpenApiSchema {
             throw new IOException(String.format("Failed deserialization for FruitReq: %d classes match result, expected 1", match));
         }
 
-
         /**
          * Handle deserialization of the 'null' value.
          */

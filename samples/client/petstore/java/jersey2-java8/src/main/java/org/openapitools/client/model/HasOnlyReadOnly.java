@@ -75,6 +75,9 @@ public class HasOnlyReadOnly {
 
 
 
+  /**
+   * Return true if this hasOnlyReadOnly object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

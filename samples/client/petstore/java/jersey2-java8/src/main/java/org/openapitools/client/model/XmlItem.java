@@ -922,6 +922,9 @@ public class XmlItem {
   }
 
 
+  /**
+   * Return true if this XmlItem object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
