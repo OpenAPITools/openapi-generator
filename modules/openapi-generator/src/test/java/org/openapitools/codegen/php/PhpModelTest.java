@@ -336,7 +336,7 @@ public class PhpModelTest {
     }
 
     @Test(description = "test enum model for values (numeric, string, etc)")
-    public void enumMdoelValueTest() {
+    public void enumModelValueTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         final DefaultCodegen codegen = new PhpClientCodegen();
         codegen.setOpenAPI(openAPI);
@@ -374,7 +374,7 @@ public class PhpModelTest {
     }
 
     // datetime (or primitive type) not yet supported in HTTP request body
-    @Test(description = "returns DateTime when using `--model-name-prefix`")
+    @Test(description = "returns date when using `--model-name-prefix`")
     public void dateTest() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new PhpClientCodegen();
@@ -385,7 +385,7 @@ public class PhpModelTest {
         final Operation p = openAPI.getPaths().get(path).getPost();
         final CodegenOperation op = codegen.fromOperation(path, "post", p, null);
 
-        Assert.assertEquals(op.returnType, "\\DateTime");
-        Assert.assertEquals(op.bodyParam.dataType, "\\DateTime");
+        Assert.assertEquals(op.returnType, "FooDate");
+        Assert.assertEquals(op.bodyParam.dataType, "FooDate");
     }
 }

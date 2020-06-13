@@ -1745,7 +1745,7 @@ class FakeApi
             $query = ObjectSerializer::serializeCollection($query, '', true);
         }
         if ($query !== null) {
-            $queryParams['query'] = $query;
+            $queryParams['query'] = ObjectSerializer::toQueryValue($query, null);
         }
 
 
@@ -2677,28 +2677,28 @@ class FakeApi
             $enum_query_string_array = ObjectSerializer::serializeCollection($enum_query_string_array, 'form', true);
         }
         if ($enum_query_string_array !== null) {
-            $queryParams['enum_query_string_array'] = $enum_query_string_array;
+            $queryParams['enum_query_string_array'] = ObjectSerializer::toQueryValue($enum_query_string_array, null);
         }
         // query params
         if (is_array($enum_query_string)) {
             $enum_query_string = ObjectSerializer::serializeCollection($enum_query_string, '', true);
         }
         if ($enum_query_string !== null) {
-            $queryParams['enum_query_string'] = $enum_query_string;
+            $queryParams['enum_query_string'] = ObjectSerializer::toQueryValue($enum_query_string, null);
         }
         // query params
         if (is_array($enum_query_integer)) {
             $enum_query_integer = ObjectSerializer::serializeCollection($enum_query_integer, '', true);
         }
         if ($enum_query_integer !== null) {
-            $queryParams['enum_query_integer'] = $enum_query_integer;
+            $queryParams['enum_query_integer'] = ObjectSerializer::toQueryValue($enum_query_integer, 'int32');
         }
         // query params
         if (is_array($enum_query_double)) {
             $enum_query_double = ObjectSerializer::serializeCollection($enum_query_double, '', true);
         }
         if ($enum_query_double !== null) {
-            $queryParams['enum_query_double'] = $enum_query_double;
+            $queryParams['enum_query_double'] = ObjectSerializer::toQueryValue($enum_query_double, 'double');
         }
 
         // header params
@@ -2996,28 +2996,28 @@ class FakeApi
             $required_string_group = ObjectSerializer::serializeCollection($required_string_group, '', true);
         }
         if ($required_string_group !== null) {
-            $queryParams['required_string_group'] = $required_string_group;
+            $queryParams['required_string_group'] = ObjectSerializer::toQueryValue($required_string_group, null);
         }
         // query params
         if (is_array($required_int64_group)) {
             $required_int64_group = ObjectSerializer::serializeCollection($required_int64_group, '', true);
         }
         if ($required_int64_group !== null) {
-            $queryParams['required_int64_group'] = $required_int64_group;
+            $queryParams['required_int64_group'] = ObjectSerializer::toQueryValue($required_int64_group, 'int64');
         }
         // query params
         if (is_array($string_group)) {
             $string_group = ObjectSerializer::serializeCollection($string_group, '', true);
         }
         if ($string_group !== null) {
-            $queryParams['string_group'] = $string_group;
+            $queryParams['string_group'] = ObjectSerializer::toQueryValue($string_group, null);
         }
         // query params
         if (is_array($int64_group)) {
             $int64_group = ObjectSerializer::serializeCollection($int64_group, '', true);
         }
         if ($int64_group !== null) {
-            $queryParams['int64_group'] = $int64_group;
+            $queryParams['int64_group'] = ObjectSerializer::toQueryValue($int64_group, 'int64');
         }
 
         // header params
@@ -3745,28 +3745,28 @@ class FakeApi
             $pipe = ObjectSerializer::serializeCollection($pipe, 'form', true);
         }
         if ($pipe !== null) {
-            $queryParams['pipe'] = $pipe;
+            $queryParams['pipe'] = ObjectSerializer::toQueryValue($pipe, null);
         }
         // query params
         if (is_array($ioutil)) {
             $ioutil = ObjectSerializer::serializeCollection($ioutil, 'csv', true);
         }
         if ($ioutil !== null) {
-            $queryParams['ioutil'] = $ioutil;
+            $queryParams['ioutil'] = ObjectSerializer::toQueryValue($ioutil, null);
         }
         // query params
         if (is_array($http)) {
             $http = ObjectSerializer::serializeCollection($http, 'spaceDelimited', true);
         }
         if ($http !== null) {
-            $queryParams['http'] = $http;
+            $queryParams['http'] = ObjectSerializer::toQueryValue($http, null);
         }
         // query params
         if (is_array($url)) {
             $url = ObjectSerializer::serializeCollection($url, 'form', true);
         }
         if ($url !== null) {
-            $queryParams['url'] = $url;
+            $queryParams['url'] = ObjectSerializer::toQueryValue($url, null);
         }
         // query params
         if ($context !== null) {

@@ -67,7 +67,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
         'pattern_without_delimiter' => 'string',
         'byte' => 'string',
         'binary' => '\SplFileObject',
-        'date' => '\DateTime',
+        'date' => 'date',
         'date_time' => '\DateTime',
         'password' => 'string',
         'callback' => 'string'

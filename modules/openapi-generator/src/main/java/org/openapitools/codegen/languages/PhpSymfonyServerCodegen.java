@@ -181,7 +181,7 @@ public class PhpSymfonyServerCodegen extends AbstractPhpCodegen implements Codeg
         typeMapping.put("string", "string");
         typeMapping.put("byte", "int");
         typeMapping.put("boolean", "bool");
-        typeMapping.put("Date", "\\DateTime");
+        typeMapping.put("Date", "date");
         typeMapping.put("DateTime", "\\DateTime");
         typeMapping.put("file", "UploadedFile");
         typeMapping.put("map", "array");

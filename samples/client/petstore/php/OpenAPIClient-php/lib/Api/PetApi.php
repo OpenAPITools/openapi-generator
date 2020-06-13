@@ -780,7 +780,7 @@ class PetApi
             $status = ObjectSerializer::serializeCollection($status, 'form', true);
         }
         if ($status !== null) {
-            $queryParams['status'] = $status;
+            $queryParams['status'] = ObjectSerializer::toQueryValue($status, null);
         }
 
 
@@ -1056,7 +1056,7 @@ class PetApi
             $tags = ObjectSerializer::serializeCollection($tags, 'form', true);
         }
         if ($tags !== null) {
-            $queryParams['tags'] = $tags;
+            $queryParams['tags'] = ObjectSerializer::toQueryValue($tags, null);
         }
 
 

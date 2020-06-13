@@ -4075,21 +4075,21 @@ class FakeApi
             $ioutil = ObjectSerializer::serializeCollection($ioutil, 'form', true);
         }
         if ($ioutil !== null) {
-            $queryParams['ioutil'] = $ioutil;
+            $queryParams['ioutil'] = ObjectSerializer::toQueryValue($ioutil, null);
         }
         // query params
         if (is_array($http)) {
             $http = ObjectSerializer::serializeCollection($http, 'spaceDelimited', true);
         }
         if ($http !== null) {
-            $queryParams['http'] = $http;
+            $queryParams['http'] = ObjectSerializer::toQueryValue($http, null);
         }
         // query params
         if (is_array($url)) {
             $url = ObjectSerializer::serializeCollection($url, 'form', true);
         }
         if ($url !== null) {
-            $queryParams['url'] = $url;
+            $queryParams['url'] = ObjectSerializer::toQueryValue($url, null);
         }
         // query params
         if ($context !== null) {

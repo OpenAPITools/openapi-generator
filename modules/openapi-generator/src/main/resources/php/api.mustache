@@ -495,7 +495,7 @@ use {{invokerPackage}}\ObjectSerializer;
             ${{paramName}} = ObjectSerializer::serializeCollection(${{paramName}}, '{{#style}}{{style}}{{/style}}{{^style}}{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}{{/style}}', true);
         }
         if (${{paramName}} !== null) {
-            $queryParams['{{baseName}}'] = ${{paramName}};
+            $queryParams['{{baseName}}'] = ObjectSerializer::toQueryValue(${{paramName}}, {{#dataFormat}}'{{{dataFormat}}}'{{/dataFormat}}{{^dataFormat}}null{{/dataFormat}});
         }
         {{/isExplode}}
         {{/queryParams}}

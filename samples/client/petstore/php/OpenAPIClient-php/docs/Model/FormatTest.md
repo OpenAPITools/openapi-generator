@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **string** | **string** |  | [optional] 
 **byte** | **string** |  | 
 **binary** | [**\SplFileObject**](\SplFileObject.md) |  | [optional] 
-**date** | [**\DateTime**](\DateTime.md) |  | 
+**date** | **date** |  | 
 **date_time** | [**\DateTime**](\DateTime.md) |  | [optional] 
 **uuid** | **string** |  | [optional] 
 **password** | **string** |  | 
