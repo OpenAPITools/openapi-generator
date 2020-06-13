@@ -10,11 +10,12 @@
 
 #[allow(unused_imports)]
 use std::rc::Rc;
-use std::borrow::Borrow;
+
 use std::option::Option;
 
 use reqwest;
 
+use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
 /// struct for passing parameters to the method `create_user`
@@ -71,7 +72,149 @@ pub struct UpdateUserParams {
 }
 
 
-    pub async fn create_user(configuration: &configuration::Configuration, params: CreateUserParams) -> Result<(), Error> {
+/// struct for typed successes of method `create_user`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CreateUserSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `create_users_with_array_input`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CreateUsersWithArrayInputSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `create_users_with_list_input`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CreateUsersWithListInputSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `delete_user`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DeleteUserSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `get_user_by_name`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetUserByNameSuccess {
+    Status200(crate::models::User),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `login_user`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum LoginUserSuccess {
+    Status200(String),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `logout_user`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum LogoutUserSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `update_user`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UpdateUserSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `create_user`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CreateUserError {
+    DefaultResponse(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `create_users_with_array_input`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CreateUsersWithArrayInputError {
+    DefaultResponse(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `create_users_with_list_input`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum CreateUsersWithListInputError {
+    DefaultResponse(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `delete_user`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DeleteUserError {
+    Status400(),
+    Status404(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `get_user_by_name`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetUserByNameError {
+    Status400(),
+    Status404(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `login_user`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum LoginUserError {
+    Status400(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `logout_user`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum LogoutUserError {
+    DefaultResponse(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `update_user`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UpdateUserError {
+    Status400(),
+    Status404(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+
+    pub async fn create_user(configuration: &configuration::Configuration, params: CreateUserParams) -> Result<ResponseContent<CreateUserSuccess>, Error<CreateUserError>> {
         // unbox the parameters
         let body = params.body;
 
@@ -86,11 +229,23 @@ pub struct UpdateUserParams {
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        client.execute(req).await?.error_for_status()?;
-        Ok(())
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<CreateUserSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<CreateUserError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn create_users_with_array_input(configuration: &configuration::Configuration, params: CreateUsersWithArrayInputParams) -> Result<(), Error> {
+    pub async fn create_users_with_array_input(configuration: &configuration::Configuration, params: CreateUsersWithArrayInputParams) -> Result<ResponseContent<CreateUsersWithArrayInputSuccess>, Error<CreateUsersWithArrayInputError>> {
         // unbox the parameters
         let body = params.body;
 
@@ -105,11 +260,23 @@ pub struct UpdateUserParams {
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        client.execute(req).await?.error_for_status()?;
-        Ok(())
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<CreateUsersWithArrayInputSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<CreateUsersWithArrayInputError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn create_users_with_list_input(configuration: &configuration::Configuration, params: CreateUsersWithListInputParams) -> Result<(), Error> {
+    pub async fn create_users_with_list_input(configuration: &configuration::Configuration, params: CreateUsersWithListInputParams) -> Result<ResponseContent<CreateUsersWithListInputSuccess>, Error<CreateUsersWithListInputError>> {
         // unbox the parameters
         let body = params.body;
 
@@ -124,11 +291,23 @@ pub struct UpdateUserParams {
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        client.execute(req).await?.error_for_status()?;
-        Ok(())
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<CreateUsersWithListInputSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<CreateUsersWithListInputError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn delete_user(configuration: &configuration::Configuration, params: DeleteUserParams) -> Result<(), Error> {
+    pub async fn delete_user(configuration: &configuration::Configuration, params: DeleteUserParams) -> Result<ResponseContent<DeleteUserSuccess>, Error<DeleteUserError>> {
         // unbox the parameters
         let username = params.username;
 
@@ -142,11 +321,23 @@ pub struct UpdateUserParams {
         }
 
         let req = req_builder.build()?;
-        client.execute(req).await?.error_for_status()?;
-        Ok(())
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<DeleteUserSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<DeleteUserError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn get_user_by_name(configuration: &configuration::Configuration, params: GetUserByNameParams) -> Result<crate::models::User, Error> {
+    pub async fn get_user_by_name(configuration: &configuration::Configuration, params: GetUserByNameParams) -> Result<ResponseContent<GetUserByNameSuccess>, Error<GetUserByNameError>> {
         // unbox the parameters
         let username = params.username;
 
@@ -160,10 +351,23 @@ pub struct UpdateUserParams {
         }
 
         let req = req_builder.build()?;
-        Ok(client.execute(req).await?.error_for_status()?.json::<crate::models::User>().await?)
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<GetUserByNameSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<GetUserByNameError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn login_user(configuration: &configuration::Configuration, params: LoginUserParams) -> Result<String, Error> {
+    pub async fn login_user(configuration: &configuration::Configuration, params: LoginUserParams) -> Result<ResponseContent<LoginUserSuccess>, Error<LoginUserError>> {
         // unbox the parameters
         let username = params.username;
         let password = params.password;
@@ -180,10 +384,23 @@ pub struct UpdateUserParams {
         }
 
         let req = req_builder.build()?;
-        Ok(client.execute(req).await?.error_for_status()?.json::<String>().await?)
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<LoginUserSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<LoginUserError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn logout_user(configuration: &configuration::Configuration) -> Result<(), Error> {
+    pub async fn logout_user(configuration: &configuration::Configuration) -> Result<ResponseContent<LogoutUserSuccess>, Error<LogoutUserError>> {
         // unbox the parameters
 
         let client = &configuration.client;
@@ -196,11 +413,23 @@ pub struct UpdateUserParams {
         }
 
         let req = req_builder.build()?;
-        client.execute(req).await?.error_for_status()?;
-        Ok(())
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<LogoutUserSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<LogoutUserError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn update_user(configuration: &configuration::Configuration, params: UpdateUserParams) -> Result<(), Error> {
+    pub async fn update_user(configuration: &configuration::Configuration, params: UpdateUserParams) -> Result<ResponseContent<UpdateUserSuccess>, Error<UpdateUserError>> {
         // unbox the parameters
         let username = params.username;
         let body = params.body;
@@ -216,7 +445,19 @@ pub struct UpdateUserParams {
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        client.execute(req).await?.error_for_status()?;
-        Ok(())
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<UpdateUserSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<UpdateUserError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
