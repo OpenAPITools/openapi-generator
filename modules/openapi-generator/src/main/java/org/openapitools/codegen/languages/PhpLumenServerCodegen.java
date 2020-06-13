@@ -105,6 +105,18 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
          * are available in models, apis, and supporting files
          */
         additionalProperties.put("apiVersion", apiVersion);
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        // reset supporting files defined in AbstractPhpCodegen
+        supportingFiles.clear();
+
+        // AbstractPhpCodegen generates .gitignore in output folder
+        // current build needs .gitignore in a "lib" folder which is srcBasePath
+        supportingFiles.add(new SupportingFile("gitignore", srcBasePath, ".gitignore"));
 
         /*
          * Supporting Files.  You can write single files for the generator with the
