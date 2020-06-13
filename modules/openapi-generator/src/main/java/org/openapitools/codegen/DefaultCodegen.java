@@ -2206,25 +2206,6 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
 
-        String modelJson = Json.pretty(schema);
-        if (schema.getType() == null ) {
-            Schema copy = ModelUtils.unaliasSchema(this.openAPI, schema, importMapping);
-            if (ModelUtils.isIntegerSchema(schema)) {
-                copy.setType(SchemaTypeUtil.INTEGER_TYPE);
-            } else if (ModelUtils.isNumberSchema(schema)) {
-                copy.setType(SchemaTypeUtil.NUMBER_TYPE);
-            } else if (ModelUtils.isStringSchema(schema)) {
-                copy.setType(SchemaTypeUtil.STRING_TYPE);
-            } else if (ModelUtils.isBooleanSchema(schema)) {
-                copy.setType(SchemaTypeUtil.BOOLEAN_TYPE);
-            } else if (ModelUtils.isArraySchema(schema)) {
-                copy.setType("array");
-            } else if (ModelUtils.isObjectSchema(schema) || ModelUtils.isComposedSchema(schema) || ModelUtils.isMapSchema(schema)) {
-                copy.setType(SchemaTypeUtil.OBJECT_TYPE);
-            }
-            modelJson = Json.pretty(copy);
-        }
-
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
 
         if (reservedWords.contains(name)) {
@@ -2238,7 +2219,7 @@ public class DefaultCodegen implements CodegenConfig {
         m.classname = toModelName(name);
         m.classVarName = toVarName(name);
         m.classFilename = toModelFilename(name);
-        m.modelJson = modelJson;
+        m.modelJson = Json.pretty(schema);
         m.externalDocumentation = schema.getExternalDocs();
         if (schema.getExtensions() != null && !schema.getExtensions().isEmpty()) {
             m.getVendorExtensions().putAll(schema.getExtensions());

@@ -19,8 +19,6 @@ package org.openapitools.codegen;
 
 import com.google.common.collect.Sets;
 import com.samskivert.mustache.Mustache.Lambda;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.Components;
@@ -51,7 +49,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.testng.Assert.*;
-import static org.testng.AssertJUnit.assertNull;
 
 
 public class DefaultCodegenTest {
@@ -2164,22 +2161,5 @@ public class DefaultCodegenTest {
         // for the array schema, assert that a oneOf interface was added to schema map
         Schema items = ((ArraySchema) openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema")).getItems();
         Assert.assertEquals(items.getExtensions().get("x-one-of-name"), "CustomOneOfArraySchemaOneOf");
-    }
-
-    @Test
-    public void testTypeOfInlineResponseSchema() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/6150_model_json_inline.yaml");
-        final DefaultCodegen codegen = new DefaultCodegen();
-        final Schema schema = openAPI.getComponents().getSchemas().get("inline_response_200");
-        assertNull(schema.getType());
-        codegen.setOpenAPI(openAPI);
-        CodegenModel InlineResponse200 = codegen.fromModel("inline_response_200", schema);
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            Map<String,String> modelJson = mapper.readValue(InlineResponse200.getModelJson(), Map.class);
-            Assert.assertEquals(modelJson.get("type"), "object");
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
     }
 }
