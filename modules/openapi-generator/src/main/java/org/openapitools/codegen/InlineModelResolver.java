@@ -621,6 +621,9 @@ public class InlineModelResolver {
         XML xml = object.getXml();
         Map<String, Schema> properties = object.getProperties();
         Schema model = new Schema();
+        if (object.getType() != null) {
+            model.setType(object.getType());
+        }
         model.setDescription(description);
         model.setExample(example);
         model.setName(object.getName());
