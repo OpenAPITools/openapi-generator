@@ -12,7 +12,7 @@ import java.util.Date;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class Order   {
   @JsonProperty("id")
   private Long id;

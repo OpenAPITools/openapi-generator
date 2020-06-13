@@ -38,7 +38,7 @@ import org.openapitools.client.JSON;
   Zebra.JSON_PROPERTY_TYPE,
   Zebra.JSON_PROPERTY_CLASS_NAME
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Zebra {
   /**
    * Gets or Sets type

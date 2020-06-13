@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implements Serializable {
   
   private @Valid String name;
 
@@ -28,15 +28,17 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implem
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("name")
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -76,5 +78,7 @@ public class AdditionalPropertiesBoolean extends HashMap<String, Boolean> implem
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

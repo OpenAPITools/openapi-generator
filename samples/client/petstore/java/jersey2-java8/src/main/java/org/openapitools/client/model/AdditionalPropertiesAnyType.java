@@ -37,7 +37,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   AdditionalPropertiesAnyType.JSON_PROPERTY_NAME
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesAnyType {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;

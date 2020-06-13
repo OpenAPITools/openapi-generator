@@ -36,7 +36,7 @@ import org.openapitools.client.JSON;
   InlineObject2.JSON_PROPERTY_ENUM_FORM_STRING_ARRAY,
   InlineObject2.JSON_PROPERTY_ENUM_FORM_STRING
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class InlineObject2 {
   /**
    * Gets or Sets enumFormStringArray

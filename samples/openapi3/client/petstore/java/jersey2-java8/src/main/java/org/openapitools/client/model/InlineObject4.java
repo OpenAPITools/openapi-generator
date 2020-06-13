@@ -34,7 +34,7 @@ import org.openapitools.client.JSON;
   InlineObject4.JSON_PROPERTY_PARAM,
   InlineObject4.JSON_PROPERTY_PARAM2
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class InlineObject4 {
   public static final String JSON_PROPERTY_PARAM = "param";
   private String param;

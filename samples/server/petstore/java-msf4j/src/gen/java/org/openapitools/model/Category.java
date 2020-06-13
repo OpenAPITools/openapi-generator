@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * Category
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class Category   {
   @JsonProperty("id")
   private Long id;

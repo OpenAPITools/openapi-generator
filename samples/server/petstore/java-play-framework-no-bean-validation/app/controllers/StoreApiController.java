@@ -20,7 +20,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class StoreApiController extends Controller {
 
     private final StoreApiControllerImpInterface imp;

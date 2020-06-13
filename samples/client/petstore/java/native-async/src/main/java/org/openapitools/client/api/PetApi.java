@@ -19,6 +19,7 @@ import org.openapitools.client.Pair;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
+import java.util.Set;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,7 +40,7 @@ import java.util.Map;
 
 import java.util.concurrent.CompletableFuture;
 
-
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class PetApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -47,7 +48,7 @@ public class PetApi {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  
+
   public PetApi() {
     this(new ApiClient());
   }
@@ -101,9 +102,8 @@ public class PetApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
     } catch (IOException e) {
@@ -152,9 +152,8 @@ public class PetApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
   }
@@ -205,22 +204,26 @@ public class PetApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
   }
   /**
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return List&lt;Pet&gt;
+   * @return Set&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    * @deprecated
    */
   @Deprecated
-  public CompletableFuture<List<Pet>> findPetsByTags (List<String> tags) throws ApiException {
+  public CompletableFuture<Set<Pet>> findPetsByTags (Set<String> tags) throws ApiException {
     // verify the required parameter 'tags' is set
     if (tags == null) {
         return CompletableFuture.failedFuture(new ApiException(400, "Missing the required parameter 'tags' when calling findPetsByTags"));
@@ -260,10 +263,14 @@ public class PetApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Set<Pet>>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
   }
   /**
@@ -305,10 +312,14 @@ public class PetApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
   }
   /**
@@ -351,9 +362,8 @@ public class PetApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
     } catch (IOException e) {
@@ -400,9 +410,8 @@ public class PetApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
   }
@@ -447,10 +456,14 @@ public class PetApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
   }
   /**
@@ -498,10 +511,14 @@ public class PetApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
   }
 }

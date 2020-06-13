@@ -33,7 +33,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   SpecialModelName.JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class SpecialModelName {
   public static final String JSON_PROPERTY_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   private Long $specialPropertyName;

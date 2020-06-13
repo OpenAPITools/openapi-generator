@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 /**
  * XmlItem
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class XmlItem   {
   @JsonProperty("attribute_string")
   private String attributeString;

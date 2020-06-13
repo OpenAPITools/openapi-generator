@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Describes the result of uploading an image resource
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ModelApiResponse   {
   @JsonProperty("code")
