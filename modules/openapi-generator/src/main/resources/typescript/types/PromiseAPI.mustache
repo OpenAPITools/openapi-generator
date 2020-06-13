@@ -1,6 +1,10 @@
 import { ResponseContext, RequestContext, HttpFile } from '../http/http';
 import * as models from '../models/all';
 import { Configuration} from '../configuration'
+{{#useInversify}}
+import { injectable, inject, optional } from "inversify";
+import { AbstractConfiguration } from "../services/configuration";
+{{/useInversify}}
 
 {{#models}}
 {{#model}}
@@ -14,12 +18,28 @@ import { Observable{{classname}} } from './ObservableAPI';
 
 {{#operations}}
 import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}";
+{{#useInversify}}
+import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../apis/{{classname}}.service";
+
+@injectable()
+{{/useInversify}}
 export class Promise{{classname}} {
     private api: Observable{{classname}}
- 
-    public constructor(configuration: Configuration, requestFactory?: {{classname}}RequestFactory, responseProcessor?: {{classname}}ResponseProcessor) {
+
+    public constructor(
+        {{#useInversify}}
+        @inject(AbstractConfiguration) configuration: Configuration,
+        @inject(Abstract{{classname}}RequestFactory) @optional() requestFactory?: Abstract{{classname}}RequestFactory,
+        @inject(Abstract{{classname}}ResponseProcessor) @optional() responseProcessor?: Abstract{{classname}}ResponseProcessor
+        {{/useInversify}}
+        {{^useInversify}}
+        configuration: Configuration,
+        requestFactory?: {{classname}}RequestFactory,
+        responseProcessor?: {{classname}}ResponseProcessor
+        {{/useInversify}}
+    ) {
         this.api = new Observable{{classname}}(configuration, requestFactory, responseProcessor);
-	}
+    }
 
 {{#operation}}
     /**

@@ -4,6 +4,7 @@
     /* Basic Options */
     "target": "{{#supportsES6}}es6{{/supportsES6}}{{^supportsES6}}es5{{/supportsES6}}",
     "module": "{{#supportsES6}}es6{{/supportsES6}}{{^supportsES6}}commonjs{{/supportsES6}}",
+    "moduleResolution": "node",
     "declaration": true,
  
     /* Additional Checks */
@@ -18,12 +19,15 @@
     "noLib": false,
     {{#platforms}}
     {{#node}}
-    "lib": [ "es6" ]
+    "lib": [ "es6" ],
     {{/node}}
     {{#browser}}
-    "lib": [ "es6", "dom" ]
+    "lib": [ "es6", "dom" ],
     {{/browser}}
     {{/platforms}}
+    {{#useInversify}}
+    "experimentalDecorators": true,
+    {{/useInversify}}
   },
   "exclude": [
   	"dist",

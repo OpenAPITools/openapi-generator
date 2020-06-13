@@ -15,15 +15,19 @@ import { User } from '../models/User';
 
 import { PetApiRequestFactory, PetApiResponseProcessor} from "../apis/PetApi";
 export class ObservablePetApi {
-	private requestFactory: PetApiRequestFactory;
-	private responseProcessor: PetApiResponseProcessor;
+    private requestFactory: PetApiRequestFactory;
+    private responseProcessor: PetApiResponseProcessor;
     private configuration: Configuration;
-    
-	public constructor(configuration: Configuration, requestFactory?: PetApiRequestFactory, responseProcessor?: PetApiResponseProcessor) {
-	    this.configuration = configuration;
-		this.requestFactory = requestFactory || new PetApiRequestFactory(configuration);
-		this.responseProcessor = responseProcessor || new PetApiResponseProcessor();
-	}
+
+    public constructor(
+        configuration: Configuration,
+        requestFactory?: PetApiRequestFactory,
+        responseProcessor?: PetApiResponseProcessor
+    ) {
+        this.configuration = configuration;
+        this.requestFactory = requestFactory || new PetApiRequestFactory(configuration);
+        this.responseProcessor = responseProcessor || new PetApiResponseProcessor();
+    }
 
     /**
      * Add a new pet to the store
@@ -225,15 +229,19 @@ export class ObservablePetApi {
 
 import { StoreApiRequestFactory, StoreApiResponseProcessor} from "../apis/StoreApi";
 export class ObservableStoreApi {
-	private requestFactory: StoreApiRequestFactory;
-	private responseProcessor: StoreApiResponseProcessor;
+    private requestFactory: StoreApiRequestFactory;
+    private responseProcessor: StoreApiResponseProcessor;
     private configuration: Configuration;
-    
-	public constructor(configuration: Configuration, requestFactory?: StoreApiRequestFactory, responseProcessor?: StoreApiResponseProcessor) {
-	    this.configuration = configuration;
-		this.requestFactory = requestFactory || new StoreApiRequestFactory(configuration);
-		this.responseProcessor = responseProcessor || new StoreApiResponseProcessor();
-	}
+
+    public constructor(
+        configuration: Configuration,
+        requestFactory?: StoreApiRequestFactory,
+        responseProcessor?: StoreApiResponseProcessor
+    ) {
+        this.configuration = configuration;
+        this.requestFactory = requestFactory || new StoreApiRequestFactory(configuration);
+        this.responseProcessor = responseProcessor || new StoreApiResponseProcessor();
+    }
 
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -337,15 +345,19 @@ export class ObservableStoreApi {
 
 import { UserApiRequestFactory, UserApiResponseProcessor} from "../apis/UserApi";
 export class ObservableUserApi {
-	private requestFactory: UserApiRequestFactory;
-	private responseProcessor: UserApiResponseProcessor;
+    private requestFactory: UserApiRequestFactory;
+    private responseProcessor: UserApiResponseProcessor;
     private configuration: Configuration;
-    
-	public constructor(configuration: Configuration, requestFactory?: UserApiRequestFactory, responseProcessor?: UserApiResponseProcessor) {
-	    this.configuration = configuration;
-		this.requestFactory = requestFactory || new UserApiRequestFactory(configuration);
-		this.responseProcessor = responseProcessor || new UserApiResponseProcessor();
-	}
+
+    public constructor(
+        configuration: Configuration,
+        requestFactory?: UserApiRequestFactory,
+        responseProcessor?: UserApiResponseProcessor
+    ) {
+        this.configuration = configuration;
+        this.requestFactory = requestFactory || new UserApiRequestFactory(configuration);
+        this.responseProcessor = responseProcessor || new UserApiResponseProcessor();
+    }
 
     /**
      * This can only be done by the logged in user.

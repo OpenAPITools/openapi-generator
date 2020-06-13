@@ -56,6 +56,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final String FILE_CONTENT_DATA_TYPE_DESC = "Specifies the type to use for the content of a file - i.e. Blob (Browser) / Buffer (node)";
     private static final String USE_RXJS_SWITCH = "useRxJS";
     private static final String USE_RXJS_SWITCH_DESC = "Enable this to internally use rxjs observables. If disabled, a stub is used instead. This is required for the 'angular' framework.";
+    private static final String USE_INVERSIFY_SWITCH = "useInversify";
+    private static final String USE_INVERSIFY_SWITCH_DESC = "Enable this to generate decorators and service identifiers for the InversifyJS inversion of control container.";
 
     private static final String USE_OBJECT_PARAMS_SWITCH = "useObjectParameters";
     private static final String USE_OBJECT_PARAMS_DESC = "Use aggregate parameter objects as function arguments for api operations instead of passing each parameter as a separate function argument.";
@@ -167,7 +169,8 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(CodegenConstants.SUPPORTS_ES6, CodegenConstants.SUPPORTS_ES6_DESC).defaultValue("false"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE, TypeScriptClientCodegen.FILE_CONTENT_DATA_TYPE_DESC).defaultValue("Buffer"));
         cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_RXJS_SWITCH, TypeScriptClientCodegen.USE_RXJS_SWITCH_DESC).defaultValue("false"));
-        cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_OBJECT_PARAMS_SWITCH, TypeScriptClientCodegen.USE_OBJECT_PARAMS_SWITCH).defaultValue("false"));
+        cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_OBJECT_PARAMS_SWITCH, TypeScriptClientCodegen.USE_OBJECT_PARAMS_DESC).defaultValue("false"));
+        cliOptions.add(new CliOption(TypeScriptClientCodegen.USE_INVERSIFY_SWITCH, TypeScriptClientCodegen.USE_INVERSIFY_SWITCH_DESC).defaultValue("false"));
 
         CliOption frameworkOption = new CliOption(TypeScriptClientCodegen.FRAMEWORK_SWITCH, TypeScriptClientCodegen.FRAMEWORK_SWITCH_DESC);
         for (String option: TypeScriptClientCodegen.FRAMEWORKS) {
@@ -208,15 +211,15 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         supportingFiles.add(new SupportingFile("types" + File.separator + "ObjectParamAPI.mustache", "types", "ObjectParamAPI.ts"));
 
         // models
-        this.setModelPackage("");
+        setModelPackage("");
         supportingFiles.add(new SupportingFile("model" + File.separator + "ObjectSerializer.mustache", "models", "ObjectSerializer.ts"));
         modelTemplateFiles.put("model" + File.separator + "model.mustache", ".ts");
 
         // api
-        this.setApiPackage("");
+        setApiPackage("");
         supportingFiles.add(new SupportingFile("api" + File.separator + "middleware.mustache", "", "middleware.ts"));
-        this.supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", "apis", "baseapi.ts"));
-        this.apiTemplateFiles.put("api" + File.separator + "api.mustache", ".ts");
+        supportingFiles.add(new SupportingFile("api" + File.separator + "baseapi.mustache", "apis", "baseapi.ts"));
+        apiTemplateFiles.put("api" + File.separator + "api.mustache", ".ts");
     }
 
     public String getNpmName() {
@@ -791,7 +794,18 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
 
         final boolean useRxJS = convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH);
         if (!useRxJS) {
-          supportingFiles.add(new SupportingFile("rxjsStub.mustache", "rxjsStub.ts"));
+            supportingFiles.add(new SupportingFile("rxjsStub.mustache", "rxjsStub.ts"));
+        }
+
+        final boolean useInversify = convertPropertyToBooleanAndWriteBack(USE_INVERSIFY_SWITCH);
+        if (useInversify) {
+            supportingFiles.add(new SupportingFile("services" + File.separator + "index.mustache", "services", "index.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "configuration.mustache", "services", "configuration.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "PromiseAPI.mustache", "services", "PromiseAPI.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "ObservableAPI.mustache", "services", "ObservableAPI.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "ObjectParamAPI.mustache", "services", "ObjectParamAPI.ts"));
+            supportingFiles.add(new SupportingFile("services" + File.separator + "http.mustache", "services", "http.ts"));
+            apiTemplateFiles.put("services" + File.separator + "api.mustache", ".service.ts");
         }
 
         // NPM Settings
@@ -806,10 +820,6 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
-
-        
-        
-        
     }
 
     private String getHttpLibForFramework(String object) {

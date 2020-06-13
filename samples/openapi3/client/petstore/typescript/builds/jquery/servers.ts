@@ -1,4 +1,8 @@
-import {RequestContext, HttpMethod} from './http/http';
+import { RequestContext, HttpMethod } from "./http/http";
+
+export interface BaseServerConfiguration {
+    makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext;
+}
 
 /**
  *
@@ -6,7 +10,7 @@ import {RequestContext, HttpMethod} from './http/http';
  * url template and variable configuration based on the url.
  *
  */
-export class ServerConfiguration<T extends { [key: string]: string }> {
+export class ServerConfiguration<T extends { [key: string]: string }> implements BaseServerConfiguration {
     public constructor(private url: string, private variableConfiguration: T) {}
 
     /**
@@ -45,3 +49,5 @@ export class ServerConfiguration<T extends { [key: string]: string }> {
 }
 
 export const server1 = new ServerConfiguration<{  }>("http://petstore.swagger.io/v2", {  })
+
+export const servers = [server1];

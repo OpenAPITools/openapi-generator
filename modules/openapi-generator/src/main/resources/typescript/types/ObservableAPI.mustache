@@ -3,6 +3,10 @@ import * as models from '../models/all';
 import { Configuration} from '../configuration'
 import { Observable, of, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub'{{/useRxJS}};
 import {mergeMap, map} from  {{#useRxJS}}'rxjs/operators'{{/useRxJS}}{{^useRxJS}}'../rxjsStub'{{/useRxJS}};
+{{#useInversify}}
+import { injectable, inject, optional } from "inversify";
+import { AbstractConfiguration } from "../services/configuration";
+{{/useInversify}}
 
 {{#models}}
 {{#model}}
@@ -14,16 +18,38 @@ import { {{{ classname }}} } from '../models/{{{ classFilename }}}';
 
 {{#operations}}
 import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}";
+{{#useInversify}}
+import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../apis/{{classname}}.service";
+
+@injectable()
+{{/useInversify}}
 export class Observable{{classname}} {
-	private requestFactory: {{classname}}RequestFactory;
-	private responseProcessor: {{classname}}ResponseProcessor;
+    {{#useInversify}}
+    private requestFactory: Abstract{{classname}}RequestFactory;
+    private responseProcessor: Abstract{{classname}}ResponseProcessor;
+    {{/useInversify}}
+    {{^useInversify}}
+    private requestFactory: {{classname}}RequestFactory;
+    private responseProcessor: {{classname}}ResponseProcessor;
+    {{/useInversify}}
     private configuration: Configuration;
-    
-	public constructor(configuration: Configuration, requestFactory?: {{classname}}RequestFactory, responseProcessor?: {{classname}}ResponseProcessor) {
-	    this.configuration = configuration;
-		this.requestFactory = requestFactory || new {{classname}}RequestFactory(configuration);
-		this.responseProcessor = responseProcessor || new {{classname}}ResponseProcessor();
-	}
+
+    public constructor(
+        {{#useInversify}}
+        @inject(AbstractConfiguration) configuration: Configuration,
+        @inject(Abstract{{classname}}RequestFactory) @optional() requestFactory?: Abstract{{classname}}RequestFactory,
+        @inject(Abstract{{classname}}ResponseProcessor) @optional() responseProcessor?: Abstract{{classname}}ResponseProcessor
+        {{/useInversify}}
+        {{^useInversify}}
+        configuration: Configuration,
+        requestFactory?: {{classname}}RequestFactory,
+        responseProcessor?: {{classname}}ResponseProcessor
+        {{/useInversify}}
+    ) {
+        this.configuration = configuration;
+        this.requestFactory = requestFactory || new {{classname}}RequestFactory(configuration);
+        this.responseProcessor = responseProcessor || new {{classname}}ResponseProcessor();
+    }
 
 {{#operation}}
     /**

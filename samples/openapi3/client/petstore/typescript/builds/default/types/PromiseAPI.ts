@@ -16,10 +16,14 @@ import { ObservablePetApi } from './ObservableAPI';
 import { PetApiRequestFactory, PetApiResponseProcessor} from "../apis/PetApi";
 export class PromisePetApi {
     private api: ObservablePetApi
- 
-    public constructor(configuration: Configuration, requestFactory?: PetApiRequestFactory, responseProcessor?: PetApiResponseProcessor) {
+
+    public constructor(
+        configuration: Configuration,
+        requestFactory?: PetApiRequestFactory,
+        responseProcessor?: PetApiResponseProcessor
+    ) {
         this.api = new ObservablePetApi(configuration, requestFactory, responseProcessor);
-	}
+    }
 
     /**
      * Add a new pet to the store
@@ -112,10 +116,14 @@ import { ObservableStoreApi } from './ObservableAPI';
 import { StoreApiRequestFactory, StoreApiResponseProcessor} from "../apis/StoreApi";
 export class PromiseStoreApi {
     private api: ObservableStoreApi
- 
-    public constructor(configuration: Configuration, requestFactory?: StoreApiRequestFactory, responseProcessor?: StoreApiResponseProcessor) {
+
+    public constructor(
+        configuration: Configuration,
+        requestFactory?: StoreApiRequestFactory,
+        responseProcessor?: StoreApiResponseProcessor
+    ) {
         this.api = new ObservableStoreApi(configuration, requestFactory, responseProcessor);
-	}
+    }
 
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -166,10 +174,14 @@ import { ObservableUserApi } from './ObservableAPI';
 import { UserApiRequestFactory, UserApiResponseProcessor} from "../apis/UserApi";
 export class PromiseUserApi {
     private api: ObservableUserApi
- 
-    public constructor(configuration: Configuration, requestFactory?: UserApiRequestFactory, responseProcessor?: UserApiResponseProcessor) {
+
+    public constructor(
+        configuration: Configuration,
+        requestFactory?: UserApiRequestFactory,
+        responseProcessor?: UserApiResponseProcessor
+    ) {
         this.api = new ObservableUserApi(configuration, requestFactory, responseProcessor);
-	}
+    }
 
     /**
      * This can only be done by the logged in user.

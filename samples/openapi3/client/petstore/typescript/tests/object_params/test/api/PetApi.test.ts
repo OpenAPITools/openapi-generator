@@ -3,8 +3,9 @@ import * as petstore from 'ts-petstore-client'
 import { expect, assert } from "chai";
 import * as fs from 'fs';
 
-const configuration = new petstore.Configuration()
+const configuration = petstore.createConfiguration()
 const petApi = new petstore.PetApi(configuration)
+
 
 const tag = new petstore.Tag();
 tag.name = "tag1"
