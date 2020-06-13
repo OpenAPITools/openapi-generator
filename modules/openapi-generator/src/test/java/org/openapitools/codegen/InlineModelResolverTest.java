@@ -264,6 +264,21 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void testInlineResponseModelType() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/6150_model_json_inline.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        
+        Schema InlineResponse200 = openAPI.getComponents().getSchemas().get("inline_response_200");
+        assertEquals("object", InlineResponse200.getType());
+        Schema FooBarObject = openAPI.getComponents().getSchemas().get("FooBarObject");
+        assertEquals("object", FooBarObject.getType());
+        Schema Animal = openAPI.getComponents().getSchemas().get("Animal");
+        assertEquals("object", Animal.getType());
+        Schema Dog = openAPI.getComponents().getSchemas().get("Dog");
+        assertNull(Dog.getType());
+    }
+
+    @Test
     public void testInlineResponseModelWithTitle() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
