@@ -2206,7 +2206,7 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
 
-        String modelJson;
+        String modelJson = Json.pretty(schema);
         if (schema.getType() == null ) {
             Schema copy = ModelUtils.unaliasSchema(this.openAPI, schema, importMapping);
             if (ModelUtils.isIntegerSchema(schema)) {
@@ -2223,8 +2223,6 @@ public class DefaultCodegen implements CodegenConfig {
                 copy.setType(SchemaTypeUtil.OBJECT_TYPE);
             }
             modelJson = Json.pretty(copy);
-        } else {
-            modelJson = Json.pretty(schema);
         }
 
         CodegenModel m = CodegenModelFactory.newInstance(CodegenModelType.MODEL);
