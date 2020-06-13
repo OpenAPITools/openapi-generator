@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -24,6 +26,8 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.QuadrilateralInterface;
 import org.openapitools.client.model.ShapeInterface;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * ComplexQuadrilateral
@@ -42,7 +46,6 @@ public class ComplexQuadrilateral {
 
 
   public ComplexQuadrilateral shapeType(String shapeType) {
-    
     this.shapeType = shapeType;
     return this;
   }
@@ -66,7 +69,6 @@ public class ComplexQuadrilateral {
 
 
   public ComplexQuadrilateral quadrilateralType(String quadrilateralType) {
-    
     this.quadrilateralType = quadrilateralType;
     return this;
   }

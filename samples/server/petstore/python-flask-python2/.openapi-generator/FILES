@@ -1,6 +1,5 @@
 .dockerignore
 .gitignore
-.openapi-generator-ignore
 .travis.yml
 Dockerfile
 README.md
@@ -23,9 +22,6 @@ openapi_server/models/tag.py
 openapi_server/models/user.py
 openapi_server/openapi/openapi.yaml
 openapi_server/test/__init__.py
-openapi_server/test/test_pet_controller.py
-openapi_server/test/test_store_controller.py
-openapi_server/test/test_user_controller.py
 openapi_server/typing_utils.py
 openapi_server/util.py
 requirements.txt

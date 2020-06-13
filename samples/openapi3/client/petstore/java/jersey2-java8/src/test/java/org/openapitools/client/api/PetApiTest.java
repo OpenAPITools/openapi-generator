@@ -16,14 +16,15 @@ package org.openapitools.client.api;
 import org.openapitools.client.*;
 import org.openapitools.client.auth.*;
 import java.io.File;
-import org.openapitools.client.model.ModelApiResponse;
-import org.openapitools.client.model.Pet;
+import org.openapitools.client.model.*;
 import org.junit.Test;
 import org.junit.Ignore;
 import org.junit.Assert;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -33,6 +34,7 @@ import java.util.Map;
 public class PetApiTest {
 
     private final PetApi api = new PetApi();
+    private final long petId = 5638l;
 
     /**
      * Add a new pet to the store
@@ -44,9 +46,61 @@ public class PetApiTest {
      */
     @Test
     public void addPetTest() throws ApiException {
-        //Pet pet = null;
-        //api.addPet(pet);
-        // TODO: test validations
+        // add pet
+        Pet body = new Pet();
+        body.setId(petId);
+        body.setName("jersey2 java8 pet");
+        Category category = new Category();
+        category.setId(petId);
+        category.setName("jersey2 java8 category");
+        body.setCategory(category);
+        body.setStatus(Pet.StatusEnum.AVAILABLE);
+        body.setPhotoUrls(Arrays.asList("A", "B", "C"));
+        Tag tag = new Tag();
+        tag.setId(petId);
+        tag.setName("jersey2 java8 tag");
+        body.setTags(Arrays.asList(tag));
+
+        api.addPet(body);
+
+        //get pet by ID
+        Pet result = api.getPetById(petId);
+        Assert.assertEquals(result.getId(), body.getId());
+        Assert.assertEquals(result.getCategory(), category);
+        Assert.assertEquals(result.getName(), body.getName());
+        Assert.assertEquals(result.getPhotoUrls(), body.getPhotoUrls());
+        Assert.assertEquals(result.getStatus(), body.getStatus());
+        Assert.assertEquals(result.getTags(), body.getTags());
+
+        // update pet
+        api.updatePetWithForm(petId, "jersey2 java8 pet 2", "sold");
+
+        //get pet by ID
+        Pet result2 = api.getPetById(petId);
+        Assert.assertEquals(result2.getId(), body.getId());
+        Assert.assertEquals(result2.getCategory(), category);
+        Assert.assertEquals(result2.getName(), "jersey2 java8 pet 2");
+        Assert.assertEquals(result2.getPhotoUrls(), body.getPhotoUrls());
+        Assert.assertEquals(result2.getStatus(), Pet.StatusEnum.SOLD);
+        Assert.assertEquals(result2.getTags(), body.getTags());
+
+        // delete pet
+        api.deletePet(petId, "empty api key");
+
+        try {
+            Pet result3 = api.getPetById(petId);
+            Assert.assertEquals(false, true);
+        } catch (ApiException e) {
+//            System.err.println("Exception when calling PetApi#getPetById");
+//            System.err.println("Status code: " + e.getCode());
+//            System.err.println("Reason: " + e.getResponseBody());
+//            System.err.println("Response headers: " + e.getResponseHeaders());
+
+            Assert.assertEquals(e.getCode(), 404);
+            Assert.assertEquals(e.getResponseBody(), "{\"code\":1,\"type\":\"error\",\"message\":\"Pet not found\"}");
+
+        }
+
     }
 
     /**
