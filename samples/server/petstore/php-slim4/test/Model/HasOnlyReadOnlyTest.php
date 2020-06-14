@@ -74,6 +74,9 @@ class HasOnlyReadOnlyTest extends TestCase
     public function testHasOnlyReadOnly()
     {
         $testHasOnlyReadOnly = new HasOnlyReadOnly();
+        $this->markTestIncomplete(
+            'Test of "HasOnlyReadOnly" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class HasOnlyReadOnlyTest extends TestCase
      */
     public function testPropertyBar()
     {
+        $this->markTestIncomplete(
+            'Test of "bar" property in "HasOnlyReadOnly" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,5 +94,20 @@ class HasOnlyReadOnlyTest extends TestCase
      */
     public function testPropertyFoo()
     {
+        $this->markTestIncomplete(
+            'Test of "foo" property in "HasOnlyReadOnly" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = HasOnlyReadOnly::getOpenApiSchema();
+        $schemaArr = HasOnlyReadOnly::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

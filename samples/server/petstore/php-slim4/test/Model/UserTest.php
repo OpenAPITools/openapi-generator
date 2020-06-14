@@ -74,6 +74,9 @@ class UserTest extends TestCase
     public function testUser()
     {
         $testUser = new User();
+        $this->markTestIncomplete(
+            'Test of "User" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class UserTest extends TestCase
      */
     public function testPropertyId()
     {
+        $this->markTestIncomplete(
+            'Test of "id" property in "User" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class UserTest extends TestCase
      */
     public function testPropertyUsername()
     {
+        $this->markTestIncomplete(
+            'Test of "username" property in "User" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,6 +104,9 @@ class UserTest extends TestCase
      */
     public function testPropertyFirstName()
     {
+        $this->markTestIncomplete(
+            'Test of "firstName" property in "User" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -102,6 +114,9 @@ class UserTest extends TestCase
      */
     public function testPropertyLastName()
     {
+        $this->markTestIncomplete(
+            'Test of "lastName" property in "User" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -109,6 +124,9 @@ class UserTest extends TestCase
      */
     public function testPropertyEmail()
     {
+        $this->markTestIncomplete(
+            'Test of "email" property in "User" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -116,6 +134,9 @@ class UserTest extends TestCase
      */
     public function testPropertyPassword()
     {
+        $this->markTestIncomplete(
+            'Test of "password" property in "User" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -123,6 +144,9 @@ class UserTest extends TestCase
      */
     public function testPropertyPhone()
     {
+        $this->markTestIncomplete(
+            'Test of "phone" property in "User" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -130,5 +154,20 @@ class UserTest extends TestCase
      */
     public function testPropertyUserStatus()
     {
+        $this->markTestIncomplete(
+            'Test of "userStatus" property in "User" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = User::getOpenApiSchema();
+        $schemaArr = User::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

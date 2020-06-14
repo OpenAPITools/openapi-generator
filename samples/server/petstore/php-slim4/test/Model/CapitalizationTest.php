@@ -74,6 +74,9 @@ class CapitalizationTest extends TestCase
     public function testCapitalization()
     {
         $testCapitalization = new Capitalization();
+        $this->markTestIncomplete(
+            'Test of "Capitalization" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class CapitalizationTest extends TestCase
      */
     public function testPropertySmallCamel()
     {
+        $this->markTestIncomplete(
+            'Test of "smallCamel" property in "Capitalization" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class CapitalizationTest extends TestCase
      */
     public function testPropertyCapitalCamel()
     {
+        $this->markTestIncomplete(
+            'Test of "capitalCamel" property in "Capitalization" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,6 +104,9 @@ class CapitalizationTest extends TestCase
      */
     public function testPropertySmallSnake()
     {
+        $this->markTestIncomplete(
+            'Test of "smallSnake" property in "Capitalization" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -102,6 +114,9 @@ class CapitalizationTest extends TestCase
      */
     public function testPropertyCapitalSnake()
     {
+        $this->markTestIncomplete(
+            'Test of "capitalSnake" property in "Capitalization" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -109,6 +124,9 @@ class CapitalizationTest extends TestCase
      */
     public function testPropertySCAETHFlowPoints()
     {
+        $this->markTestIncomplete(
+            'Test of "sCAETHFlowPoints" property in "Capitalization" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -116,5 +134,20 @@ class CapitalizationTest extends TestCase
      */
     public function testPropertyATTNAME()
     {
+        $this->markTestIncomplete(
+            'Test of "aTTNAME" property in "Capitalization" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = Capitalization::getOpenApiSchema();
+        $schemaArr = Capitalization::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

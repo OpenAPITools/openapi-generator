@@ -74,6 +74,9 @@ class AdditionalPropertiesAnyTypeTest extends TestCase
     public function testAdditionalPropertiesAnyType()
     {
         $testAdditionalPropertiesAnyType = new AdditionalPropertiesAnyType();
+        $this->markTestIncomplete(
+            'Test of "AdditionalPropertiesAnyType" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,5 +84,20 @@ class AdditionalPropertiesAnyTypeTest extends TestCase
      */
     public function testPropertyName()
     {
+        $this->markTestIncomplete(
+            'Test of "name" property in "AdditionalPropertiesAnyType" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = AdditionalPropertiesAnyType::getOpenApiSchema();
+        $schemaArr = AdditionalPropertiesAnyType::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

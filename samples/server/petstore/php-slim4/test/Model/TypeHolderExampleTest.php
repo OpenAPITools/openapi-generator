@@ -74,6 +74,9 @@ class TypeHolderExampleTest extends TestCase
     public function testTypeHolderExample()
     {
         $testTypeHolderExample = new TypeHolderExample();
+        $this->markTestIncomplete(
+            'Test of "TypeHolderExample" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class TypeHolderExampleTest extends TestCase
      */
     public function testPropertyStringItem()
     {
+        $this->markTestIncomplete(
+            'Test of "stringItem" property in "TypeHolderExample" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class TypeHolderExampleTest extends TestCase
      */
     public function testPropertyNumberItem()
     {
+        $this->markTestIncomplete(
+            'Test of "numberItem" property in "TypeHolderExample" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,6 +104,9 @@ class TypeHolderExampleTest extends TestCase
      */
     public function testPropertyFloatItem()
     {
+        $this->markTestIncomplete(
+            'Test of "floatItem" property in "TypeHolderExample" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -102,6 +114,9 @@ class TypeHolderExampleTest extends TestCase
      */
     public function testPropertyIntegerItem()
     {
+        $this->markTestIncomplete(
+            'Test of "integerItem" property in "TypeHolderExample" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -109,6 +124,9 @@ class TypeHolderExampleTest extends TestCase
      */
     public function testPropertyBoolItem()
     {
+        $this->markTestIncomplete(
+            'Test of "boolItem" property in "TypeHolderExample" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -116,5 +134,20 @@ class TypeHolderExampleTest extends TestCase
      */
     public function testPropertyArrayItem()
     {
+        $this->markTestIncomplete(
+            'Test of "arrayItem" property in "TypeHolderExample" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = TypeHolderExample::getOpenApiSchema();
+        $schemaArr = TypeHolderExample::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

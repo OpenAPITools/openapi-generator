@@ -74,6 +74,9 @@ class AdditionalPropertiesBooleanTest extends TestCase
     public function testAdditionalPropertiesBoolean()
     {
         $testAdditionalPropertiesBoolean = new AdditionalPropertiesBoolean();
+        $this->markTestIncomplete(
+            'Test of "AdditionalPropertiesBoolean" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,5 +84,20 @@ class AdditionalPropertiesBooleanTest extends TestCase
      */
     public function testPropertyName()
     {
+        $this->markTestIncomplete(
+            'Test of "name" property in "AdditionalPropertiesBoolean" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = AdditionalPropertiesBoolean::getOpenApiSchema();
+        $schemaArr = AdditionalPropertiesBoolean::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

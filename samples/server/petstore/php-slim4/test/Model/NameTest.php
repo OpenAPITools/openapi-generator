@@ -74,6 +74,9 @@ class NameTest extends TestCase
     public function testName()
     {
         $testName = new Name();
+        $this->markTestIncomplete(
+            'Test of "Name" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class NameTest extends TestCase
      */
     public function testPropertyName()
     {
+        $this->markTestIncomplete(
+            'Test of "name" property in "Name" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class NameTest extends TestCase
      */
     public function testPropertySnakeCase()
     {
+        $this->markTestIncomplete(
+            'Test of "snakeCase" property in "Name" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,6 +104,9 @@ class NameTest extends TestCase
      */
     public function testPropertyProperty()
     {
+        $this->markTestIncomplete(
+            'Test of "property" property in "Name" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -102,5 +114,20 @@ class NameTest extends TestCase
      */
     public function testProperty123number()
     {
+        $this->markTestIncomplete(
+            'Test of "_123number" property in "Name" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = Name::getOpenApiSchema();
+        $schemaArr = Name::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

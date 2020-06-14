@@ -74,6 +74,9 @@ class DogAllOfTest extends TestCase
     public function testDogAllOf()
     {
         $testDogAllOf = new DogAllOf();
+        $this->markTestIncomplete(
+            'Test of "DogAllOf" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,5 +84,20 @@ class DogAllOfTest extends TestCase
      */
     public function testPropertyBreed()
     {
+        $this->markTestIncomplete(
+            'Test of "breed" property in "DogAllOf" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = DogAllOf::getOpenApiSchema();
+        $schemaArr = DogAllOf::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

@@ -74,6 +74,9 @@ class EnumTestTest extends TestCase
     public function testEnumTest()
     {
         $testEnumTest = new EnumTest();
+        $this->markTestIncomplete(
+            'Test of "EnumTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class EnumTestTest extends TestCase
      */
     public function testPropertyEnumString()
     {
+        $this->markTestIncomplete(
+            'Test of "enumString" property in "EnumTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class EnumTestTest extends TestCase
      */
     public function testPropertyEnumStringRequired()
     {
+        $this->markTestIncomplete(
+            'Test of "enumStringRequired" property in "EnumTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,6 +104,9 @@ class EnumTestTest extends TestCase
      */
     public function testPropertyEnumInteger()
     {
+        $this->markTestIncomplete(
+            'Test of "enumInteger" property in "EnumTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -102,6 +114,9 @@ class EnumTestTest extends TestCase
      */
     public function testPropertyEnumNumber()
     {
+        $this->markTestIncomplete(
+            'Test of "enumNumber" property in "EnumTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -109,5 +124,20 @@ class EnumTestTest extends TestCase
      */
     public function testPropertyOuterEnum()
     {
+        $this->markTestIncomplete(
+            'Test of "outerEnum" property in "EnumTest" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = EnumTest::getOpenApiSchema();
+        $schemaArr = EnumTest::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

@@ -74,6 +74,9 @@ class ArrayOfNumberOnlyTest extends TestCase
     public function testArrayOfNumberOnly()
     {
         $testArrayOfNumberOnly = new ArrayOfNumberOnly();
+        $this->markTestIncomplete(
+            'Test of "ArrayOfNumberOnly" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,5 +84,20 @@ class ArrayOfNumberOnlyTest extends TestCase
      */
     public function testPropertyArrayNumber()
     {
+        $this->markTestIncomplete(
+            'Test of "arrayNumber" property in "ArrayOfNumberOnly" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = ArrayOfNumberOnly::getOpenApiSchema();
+        $schemaArr = ArrayOfNumberOnly::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

@@ -74,6 +74,9 @@ class TypeHolderDefaultTest extends TestCase
     public function testTypeHolderDefault()
     {
         $testTypeHolderDefault = new TypeHolderDefault();
+        $this->markTestIncomplete(
+            'Test of "TypeHolderDefault" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class TypeHolderDefaultTest extends TestCase
      */
     public function testPropertyStringItem()
     {
+        $this->markTestIncomplete(
+            'Test of "stringItem" property in "TypeHolderDefault" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class TypeHolderDefaultTest extends TestCase
      */
     public function testPropertyNumberItem()
     {
+        $this->markTestIncomplete(
+            'Test of "numberItem" property in "TypeHolderDefault" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,6 +104,9 @@ class TypeHolderDefaultTest extends TestCase
      */
     public function testPropertyIntegerItem()
     {
+        $this->markTestIncomplete(
+            'Test of "integerItem" property in "TypeHolderDefault" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -102,6 +114,9 @@ class TypeHolderDefaultTest extends TestCase
      */
     public function testPropertyBoolItem()
     {
+        $this->markTestIncomplete(
+            'Test of "boolItem" property in "TypeHolderDefault" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -109,5 +124,20 @@ class TypeHolderDefaultTest extends TestCase
      */
     public function testPropertyArrayItem()
     {
+        $this->markTestIncomplete(
+            'Test of "arrayItem" property in "TypeHolderDefault" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = TypeHolderDefault::getOpenApiSchema();
+        $schemaArr = TypeHolderDefault::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

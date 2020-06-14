@@ -77,5 +77,8 @@ class AnotherFakeApiTest extends TestCase
      */
     public function testCall123TestSpecialTags()
     {
+        $this->markTestIncomplete(
+            'Test of "call123TestSpecialTags" method has not been implemented yet.'
+        );
     }
 }

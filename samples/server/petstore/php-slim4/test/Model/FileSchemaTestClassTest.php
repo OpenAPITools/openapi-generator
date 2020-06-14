@@ -74,6 +74,9 @@ class FileSchemaTestClassTest extends TestCase
     public function testFileSchemaTestClass()
     {
         $testFileSchemaTestClass = new FileSchemaTestClass();
+        $this->markTestIncomplete(
+            'Test of "FileSchemaTestClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class FileSchemaTestClassTest extends TestCase
      */
     public function testPropertyFile()
     {
+        $this->markTestIncomplete(
+            'Test of "file" property in "FileSchemaTestClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,5 +94,20 @@ class FileSchemaTestClassTest extends TestCase
      */
     public function testPropertyFiles()
     {
+        $this->markTestIncomplete(
+            'Test of "files" property in "FileSchemaTestClass" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = FileSchemaTestClass::getOpenApiSchema();
+        $schemaArr = FileSchemaTestClass::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

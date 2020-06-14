@@ -74,6 +74,9 @@ class MapTestTest extends TestCase
     public function testMapTest()
     {
         $testMapTest = new MapTest();
+        $this->markTestIncomplete(
+            'Test of "MapTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class MapTestTest extends TestCase
      */
     public function testPropertyMapMapOfString()
     {
+        $this->markTestIncomplete(
+            'Test of "mapMapOfString" property in "MapTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class MapTestTest extends TestCase
      */
     public function testPropertyMapOfEnumString()
     {
+        $this->markTestIncomplete(
+            'Test of "mapOfEnumString" property in "MapTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,6 +104,9 @@ class MapTestTest extends TestCase
      */
     public function testPropertyDirectMap()
     {
+        $this->markTestIncomplete(
+            'Test of "directMap" property in "MapTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -102,5 +114,20 @@ class MapTestTest extends TestCase
      */
     public function testPropertyIndirectMap()
     {
+        $this->markTestIncomplete(
+            'Test of "indirectMap" property in "MapTest" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = MapTest::getOpenApiSchema();
+        $schemaArr = MapTest::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

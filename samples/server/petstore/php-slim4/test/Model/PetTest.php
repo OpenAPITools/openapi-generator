@@ -74,6 +74,9 @@ class PetTest extends TestCase
     public function testPet()
     {
         $testPet = new Pet();
+        $this->markTestIncomplete(
+            'Test of "Pet" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class PetTest extends TestCase
      */
     public function testPropertyId()
     {
+        $this->markTestIncomplete(
+            'Test of "id" property in "Pet" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class PetTest extends TestCase
      */
     public function testPropertyCategory()
     {
+        $this->markTestIncomplete(
+            'Test of "category" property in "Pet" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,6 +104,9 @@ class PetTest extends TestCase
      */
     public function testPropertyName()
     {
+        $this->markTestIncomplete(
+            'Test of "name" property in "Pet" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -102,6 +114,9 @@ class PetTest extends TestCase
      */
     public function testPropertyPhotoUrls()
     {
+        $this->markTestIncomplete(
+            'Test of "photoUrls" property in "Pet" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -109,6 +124,9 @@ class PetTest extends TestCase
      */
     public function testPropertyTags()
     {
+        $this->markTestIncomplete(
+            'Test of "tags" property in "Pet" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -116,5 +134,20 @@ class PetTest extends TestCase
      */
     public function testPropertyStatus()
     {
+        $this->markTestIncomplete(
+            'Test of "status" property in "Pet" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = Pet::getOpenApiSchema();
+        $schemaArr = Pet::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

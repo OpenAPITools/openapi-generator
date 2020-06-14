@@ -74,6 +74,9 @@ class CatTest extends TestCase
     public function testCat()
     {
         $testCat = new Cat();
+        $this->markTestIncomplete(
+            'Test of "Cat" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class CatTest extends TestCase
      */
     public function testPropertyClassName()
     {
+        $this->markTestIncomplete(
+            'Test of "className" property in "Cat" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class CatTest extends TestCase
      */
     public function testPropertyColor()
     {
+        $this->markTestIncomplete(
+            'Test of "color" property in "Cat" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,5 +104,20 @@ class CatTest extends TestCase
      */
     public function testPropertyDeclawed()
     {
+        $this->markTestIncomplete(
+            'Test of "declawed" property in "Cat" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = Cat::getOpenApiSchema();
+        $schemaArr = Cat::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

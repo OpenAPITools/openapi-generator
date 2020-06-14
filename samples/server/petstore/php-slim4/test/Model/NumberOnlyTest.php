@@ -74,6 +74,9 @@ class NumberOnlyTest extends TestCase
     public function testNumberOnly()
     {
         $testNumberOnly = new NumberOnly();
+        $this->markTestIncomplete(
+            'Test of "NumberOnly" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,5 +84,20 @@ class NumberOnlyTest extends TestCase
      */
     public function testPropertyJustNumber()
     {
+        $this->markTestIncomplete(
+            'Test of "justNumber" property in "NumberOnly" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = NumberOnly::getOpenApiSchema();
+        $schemaArr = NumberOnly::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

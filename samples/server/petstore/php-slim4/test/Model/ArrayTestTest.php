@@ -74,6 +74,9 @@ class ArrayTestTest extends TestCase
     public function testArrayTest()
     {
         $testArrayTest = new ArrayTest();
+        $this->markTestIncomplete(
+            'Test of "ArrayTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class ArrayTestTest extends TestCase
      */
     public function testPropertyArrayOfString()
     {
+        $this->markTestIncomplete(
+            'Test of "arrayOfString" property in "ArrayTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class ArrayTestTest extends TestCase
      */
     public function testPropertyArrayArrayOfInteger()
     {
+        $this->markTestIncomplete(
+            'Test of "arrayArrayOfInteger" property in "ArrayTest" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,5 +104,20 @@ class ArrayTestTest extends TestCase
      */
     public function testPropertyArrayArrayOfModel()
     {
+        $this->markTestIncomplete(
+            'Test of "arrayArrayOfModel" property in "ArrayTest" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = ArrayTest::getOpenApiSchema();
+        $schemaArr = ArrayTest::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

@@ -74,6 +74,9 @@ class AnimalTest extends TestCase
     public function testAnimal()
     {
         $testAnimal = new Animal();
+        $this->markTestIncomplete(
+            'Test of "Animal" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class AnimalTest extends TestCase
      */
     public function testPropertyClassName()
     {
+        $this->markTestIncomplete(
+            'Test of "className" property in "Animal" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,5 +94,20 @@ class AnimalTest extends TestCase
      */
     public function testPropertyColor()
     {
+        $this->markTestIncomplete(
+            'Test of "color" property in "Animal" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = Animal::getOpenApiSchema();
+        $schemaArr = Animal::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }
