@@ -31,7 +31,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   BigCatAllOf.JSON_PROPERTY_KIND
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BigCatAllOf {
   /**
    * Gets or Sets kind

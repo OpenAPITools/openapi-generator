@@ -21,7 +21,7 @@ import play.Configuration;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class FakeClassnameTags123ApiController extends Controller {
 
     private final FakeClassnameTags123ApiControllerImpInterface imp;

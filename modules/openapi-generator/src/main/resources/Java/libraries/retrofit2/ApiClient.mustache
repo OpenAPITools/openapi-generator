@@ -152,9 +152,11 @@ public class ApiClient {
       .baseUrl(baseUrl)
       {{#useRxJava}}
       .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-      {{/useRxJava}}{{#useRxJava2}}
+      {{/useRxJava}}
+      {{#useRxJava2}}
       .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-      {{/useRxJava2}}{{#useRxJava3}}
+      {{/useRxJava2}}
+      {{#useRxJava3}}
       .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
       {{/useRxJava3}}
       .addConverterFactory(ScalarsConverterFactory.create())

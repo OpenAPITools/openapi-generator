@@ -33,7 +33,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   BasquePig.JSON_PROPERTY_CLASS_NAME
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BasquePig {
   public static final String JSON_PROPERTY_CLASS_NAME = "className";
   private String className;

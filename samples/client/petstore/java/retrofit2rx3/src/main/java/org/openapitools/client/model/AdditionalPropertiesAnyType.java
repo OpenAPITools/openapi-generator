@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * AdditionalPropertiesAnyType
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)

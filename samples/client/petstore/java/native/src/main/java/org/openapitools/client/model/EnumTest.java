@@ -34,7 +34,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EnumTest.JSON_PROPERTY_ENUM_NUMBER,
   EnumTest.JSON_PROPERTY_OUTER_ENUM
 })
-
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class EnumTest {
   /**
    * Gets or Sets enumString

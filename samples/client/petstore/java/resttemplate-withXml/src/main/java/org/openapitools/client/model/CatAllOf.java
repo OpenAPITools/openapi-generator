@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   CatAllOf.JSON_PROPERTY_DECLAWED
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "CatAllOf")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "CatAllOf")

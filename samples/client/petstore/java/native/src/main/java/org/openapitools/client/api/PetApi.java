@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 
-
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class PetApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;

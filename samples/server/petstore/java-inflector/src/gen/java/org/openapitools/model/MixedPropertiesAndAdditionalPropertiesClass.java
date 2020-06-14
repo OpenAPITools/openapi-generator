@@ -16,7 +16,7 @@ import org.openapitools.model.Animal;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   @JsonProperty("uuid")
   private UUID uuid;

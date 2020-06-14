@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * A User who is purchasing from the pet store
  */
 @ApiModel(description = "A User who is purchasing from the pet store")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class User   {
   @JsonProperty("id")
   private Long id;

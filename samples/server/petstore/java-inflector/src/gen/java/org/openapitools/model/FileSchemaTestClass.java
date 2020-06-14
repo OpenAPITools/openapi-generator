@@ -12,7 +12,7 @@ import java.util.List;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class FileSchemaTestClass   {
   @JsonProperty("file")
   private java.io.File file;

@@ -59,7 +59,7 @@ If false: the 'additionalProperties' implementation is compliant with the OAS an
 |usePlayWS|Use Play! Async HTTP client (Play WS API)| |false|
 |useReflectionEqualsHashCode|Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact.| |false|
 |useRuntimeException|Use RuntimeException instead of Exception| |false|
-|useRxJava|Whether to use the RxJava adapter with the retrofit2 library.| |false|
+|useRxJava|Whether to use the RxJava adapter with the retrofit2 library. IMPORTANT: this option has been deprecated and will be removed in the 5.x release.| |false|
 |useRxJava2|Whether to use the RxJava2 adapter with the retrofit2 library.| |false|
 |useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library.| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
