@@ -77,5 +77,8 @@ class FakeClassnameTags123ApiTest extends TestCase
      */
     public function testTestClassname()
     {
+        $this->markTestIncomplete(
+            'Test of "testClassname" method has not been implemented yet.'
+        );
     }
 }

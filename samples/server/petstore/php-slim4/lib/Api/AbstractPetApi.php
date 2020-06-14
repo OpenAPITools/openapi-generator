@@ -28,7 +28,7 @@ namespace OpenAPIServer\Api;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Exception;
+use Slim\Exception\HttpNotImplementedException;
 
 /**
  * AbstractPetApi Class Doc Comment
@@ -65,16 +65,13 @@ abstract class AbstractPetApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function addPet(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing addPet as a POST method in OpenAPIServer\Api\PetApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -86,7 +83,7 @@ abstract class AbstractPetApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function deletePet(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
@@ -94,10 +91,7 @@ abstract class AbstractPetApi
         $apiKey = $request->hasHeader('api_key') ? $headers['api_key'] : null;
         $petId = $args['petId'];
         $message = "How about implementing deletePet as a DELETE method in OpenAPIServer\Api\PetApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -111,17 +105,14 @@ abstract class AbstractPetApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function findPetsByStatus(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $queryParams = $request->getQueryParams();
         $status = (key_exists('status', $queryParams)) ? $queryParams['status'] : null;
         $message = "How about implementing findPetsByStatus as a GET method in OpenAPIServer\Api\PetApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -135,17 +126,14 @@ abstract class AbstractPetApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function findPetsByTags(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $queryParams = $request->getQueryParams();
         $tags = (key_exists('tags', $queryParams)) ? $queryParams['tags'] : null;
         $message = "How about implementing findPetsByTags as a GET method in OpenAPIServer\Api\PetApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -159,16 +147,13 @@ abstract class AbstractPetApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function getPetById(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $petId = $args['petId'];
         $message = "How about implementing getPetById as a GET method in OpenAPIServer\Api\PetApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -180,16 +165,13 @@ abstract class AbstractPetApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function updatePet(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing updatePet as a PUT method in OpenAPIServer\Api\PetApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -201,7 +183,7 @@ abstract class AbstractPetApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function updatePetWithForm(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
@@ -210,10 +192,7 @@ abstract class AbstractPetApi
         $name = (isset($body['name'])) ? $body['name'] : null;
         $status = (isset($body['status'])) ? $body['status'] : null;
         $message = "How about implementing updatePetWithForm as a POST method in OpenAPIServer\Api\PetApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -226,7 +205,7 @@ abstract class AbstractPetApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function uploadFile(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
@@ -235,10 +214,7 @@ abstract class AbstractPetApi
         $additionalMetadata = (isset($body['additionalMetadata'])) ? $body['additionalMetadata'] : null;
         $file = (key_exists('file', $request->getUploadedFiles())) ? $request->getUploadedFiles()['file'] : null;
         $message = "How about implementing uploadFile as a POST method in OpenAPIServer\Api\PetApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -251,7 +227,7 @@ abstract class AbstractPetApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function uploadFileWithRequiredFile(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
@@ -260,9 +236,6 @@ abstract class AbstractPetApi
         $additionalMetadata = (isset($body['additionalMetadata'])) ? $body['additionalMetadata'] : null;
         $requiredFile = (key_exists('requiredFile', $request->getUploadedFiles())) ? $request->getUploadedFiles()['requiredFile'] : null;
         $message = "How about implementing uploadFileWithRequiredFile as a POST method in OpenAPIServer\Api\PetApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 }

@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 /**
  * Tag
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Tag   {
   @JsonProperty("id")
   private Long id;

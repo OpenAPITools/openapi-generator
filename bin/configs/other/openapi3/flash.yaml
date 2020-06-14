@@ -1,0 +1,7 @@
+generatorName: flash
+outputDir: samples/client/petstore/flash
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/flash
+additionalProperties:
+  invokerPackage: org.openapitools
+  packageName: org.openapitools

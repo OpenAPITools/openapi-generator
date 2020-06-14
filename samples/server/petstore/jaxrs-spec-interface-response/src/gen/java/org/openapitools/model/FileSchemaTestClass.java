@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class FileSchemaTestClass  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class FileSchemaTestClass  implements Serializable {
   
   private @Valid java.io.File file;
   private @Valid List<java.io.File> files = new ArrayList<java.io.File>();
@@ -29,16 +29,17 @@ public class FileSchemaTestClass  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("file")
   public java.io.File getFile() {
     return file;
   }
+
   public void setFile(java.io.File file) {
     this.file = file;
-  }
-
-  /**
+  }/**
    **/
   public FileSchemaTestClass files(List<java.io.File> files) {
     this.files = files;
@@ -46,15 +47,17 @@ public class FileSchemaTestClass  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("files")
   public List<java.io.File> getFiles() {
     return files;
   }
+
   public void setFiles(List<java.io.File> files) {
     this.files = files;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -95,5 +98,7 @@ public class FileSchemaTestClass  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

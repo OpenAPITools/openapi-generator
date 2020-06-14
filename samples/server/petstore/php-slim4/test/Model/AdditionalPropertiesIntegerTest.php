@@ -74,6 +74,9 @@ class AdditionalPropertiesIntegerTest extends TestCase
     public function testAdditionalPropertiesInteger()
     {
         $testAdditionalPropertiesInteger = new AdditionalPropertiesInteger();
+        $this->markTestIncomplete(
+            'Test of "AdditionalPropertiesInteger" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,5 +84,20 @@ class AdditionalPropertiesIntegerTest extends TestCase
      */
     public function testPropertyName()
     {
+        $this->markTestIncomplete(
+            'Test of "name" property in "AdditionalPropertiesInteger" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = AdditionalPropertiesInteger::getOpenApiSchema();
+        $schemaArr = AdditionalPropertiesInteger::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

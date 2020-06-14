@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 
-
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class PetApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -47,7 +47,7 @@ public class PetApi {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  
+
   public PetApi() {
     this(new ApiClient());
   }
@@ -96,7 +96,7 @@ public class PetApi {
       HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
-      }          
+      }
       if (localVarResponse.statusCode()/ 100 != 2) {
           throw new ApiException(localVarResponse.statusCode(),
               "addPet call received non-success response",
@@ -149,7 +149,7 @@ public class PetApi {
       HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
-      }          
+      }
       if (localVarResponse.statusCode()/ 100 != 2) {
           throw new ApiException(localVarResponse.statusCode(),
               "deletePet call received non-success response",
@@ -207,7 +207,7 @@ public class PetApi {
       HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
-      }          
+      }
       if (localVarResponse.statusCode()/ 100 != 2) {
           throw new ApiException(localVarResponse.statusCode(),
               "findPetsByStatus call received non-success response",
@@ -268,7 +268,7 @@ public class PetApi {
       HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
-      }          
+      }
       if (localVarResponse.statusCode()/ 100 != 2) {
           throw new ApiException(localVarResponse.statusCode(),
               "findPetsByTags call received non-success response",
@@ -319,7 +319,7 @@ public class PetApi {
       HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
-      }          
+      }
       if (localVarResponse.statusCode()/ 100 != 2) {
           throw new ApiException(localVarResponse.statusCode(),
               "getPetById call received non-success response",
@@ -370,7 +370,7 @@ public class PetApi {
       HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
-      }          
+      }
       if (localVarResponse.statusCode()/ 100 != 2) {
           throw new ApiException(localVarResponse.statusCode(),
               "updatePet call received non-success response",
@@ -421,7 +421,7 @@ public class PetApi {
       HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
-      }          
+      }
       if (localVarResponse.statusCode()/ 100 != 2) {
           throw new ApiException(localVarResponse.statusCode(),
               "updatePetWithForm call received non-success response",
@@ -473,7 +473,7 @@ public class PetApi {
       HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
-      }          
+      }
       if (localVarResponse.statusCode()/ 100 != 2) {
           throw new ApiException(localVarResponse.statusCode(),
               "uploadFile call received non-success response",
@@ -530,7 +530,7 @@ public class PetApi {
       HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
-      }          
+      }
       if (localVarResponse.statusCode()/ 100 != 2) {
           throw new ApiException(localVarResponse.statusCode(),
               "uploadFileWithRequiredFile call received non-success response",

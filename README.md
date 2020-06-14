@@ -257,6 +257,7 @@ To reinstall with the latest master, run `brew uninstall openapi-generator && br
 
 To install OpenJDK (pre-requisites), please run
 ```sh
+brew tap AdoptOpenJDK/openjdk
 brew cask install adoptopenjdk12
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk-12.0.2.jdk/Contents/Home/
 ```
@@ -598,6 +599,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [GoDaddy](https://godaddy.com)
 - [Here](https://developer.here.com/)
 - [IBM](https://www.ibm.com/)
+- [Instana](https://www.instana.com)
 - [JustStar](https://www.juststarinfo.com)
 - [k6.io](https://k6.io/)
 - [Klarna](https://www.klarna.com/)

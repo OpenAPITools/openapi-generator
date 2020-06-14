@@ -74,6 +74,9 @@ class CatAllOfTest extends TestCase
     public function testCatAllOf()
     {
         $testCatAllOf = new CatAllOf();
+        $this->markTestIncomplete(
+            'Test of "CatAllOf" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,5 +84,20 @@ class CatAllOfTest extends TestCase
      */
     public function testPropertyDeclawed()
     {
+        $this->markTestIncomplete(
+            'Test of "declawed" property in "CatAllOf" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = CatAllOf::getOpenApiSchema();
+        $schemaArr = CatAllOf::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

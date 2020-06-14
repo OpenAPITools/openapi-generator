@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 /**
  * FormatTest
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class FormatTest   {
   @JsonProperty("integer")

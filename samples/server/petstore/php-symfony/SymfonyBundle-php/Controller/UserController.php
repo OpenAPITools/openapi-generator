@@ -406,7 +406,7 @@ class UserController extends Controller
             $result = $handler->getUserByName($username, $responseCode, $responseHeaders);
 
             // Find default response message
-            $message = 'successful operation';
+            $message = '';
 
             // Find a more specific message, if available
             switch ($responseCode) {
@@ -499,7 +499,7 @@ class UserController extends Controller
             $result = $handler->loginUser($username, $password, $responseCode, $responseHeaders);
 
             // Find default response message
-            $message = 'successful operation';
+            $message = '';
 
             // Find a more specific message, if available
             switch ($responseCode) {

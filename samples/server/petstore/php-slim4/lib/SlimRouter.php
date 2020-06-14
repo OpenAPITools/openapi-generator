@@ -27,6 +27,7 @@ namespace OpenAPIServer;
 
 use Slim\Factory\AppFactory;
 use Slim\Interfaces\RouteInterface;
+use Slim\Exception\HttpNotImplementedException;
 use Psr\Container\ContainerInterface;
 use InvalidArgumentException;
 use Dyorg\TokenAuthentication;
@@ -1307,7 +1308,8 @@ class SlimRouter
      *
      * @param ContainerInterface|array $settings Either a ContainerInterface or an associative array of app settings
      *
-     * @throws Exception When implementation class doesn't exists
+     * @throws HttpNotImplementedException When implementation class doesn't exists
+     * @throws Exception when not supported authorization schema type provided
      */
     public function __construct($settings = [])
     {
@@ -1323,15 +1325,15 @@ class SlimRouter
         $authPackage = 'OpenAPIServer\Auth';
         $basicAuthenticator = function (ServerRequestInterface &$request, TokenSearch $tokenSearch) use ($authPackage) {
             $message = "How about extending AbstractAuthenticator class by {$authPackage}\BasicAuthenticator?";
-            throw new Exception($message);
+            throw new HttpNotImplementedException($request, $message);
         };
         $apiKeyAuthenticator = function (ServerRequestInterface &$request, TokenSearch $tokenSearch) use ($authPackage) {
             $message = "How about extending AbstractAuthenticator class by {$authPackage}\ApiKeyAuthenticator?";
-            throw new Exception($message);
+            throw new HttpNotImplementedException($request, $message);
         };
         $oAuthAuthenticator = function (ServerRequestInterface &$request, TokenSearch $tokenSearch) use ($authPackage) {
             $message = "How about extending AbstractAuthenticator class by {$authPackage}\OAuthAuthenticator?";
-            throw new Exception($message);
+            throw new HttpNotImplementedException($request, $message);
         };
 
         $userOptions = $this->getSetting($settings, 'tokenAuthenticationOptions', null);
@@ -1345,9 +1347,7 @@ class SlimRouter
         foreach ($this->operations as $operation) {
             $callback = function ($request, $response, $arguments) use ($operation) {
                 $message = "How about extending {$operation['classname']} by {$operation['apiPackage']}\\{$operation['userClassname']} class implementing {$operation['operationId']} as a {$operation['httpMethod']} method?";
-                throw new Exception($message);
-                $response->getBody()->write($message);
-                return $response->withStatus(501);
+                throw new HttpNotImplementedException($request, $message);
             };
             $middlewares = [new JsonBodyParserMiddleware()];
 

@@ -670,7 +670,7 @@ Name | Type | Description  | Notes
  **string** | **String**| None | [optional]
  **binary** | **File**| None | [optional]
  **date** | **LocalDate**| None | [optional]
- **dateTime** | **OffsetDateTime**| None | [optional] [default to OffsetDateTime.parse(&quot;2010-02-01T17:20:10.111110+08:00[Asia/Hong_Kong]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))]
+ **dateTime** | **OffsetDateTime**| None | [optional] [default to OffsetDateTime.parse(&quot;2010-02-01T09:20:10.111110Z[UTC]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()))]
  **password** | **String**| None | [optional]
  **paramCallback** | **String**| None | [optional]
 

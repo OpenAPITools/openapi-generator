@@ -1,11 +1,12 @@
 {{>partial_header}}
 #[allow(unused_imports)]
 use std::rc::Rc;
-use std::borrow::Borrow;
+{{^supportAsync}}use std::borrow::Borrow;{{/supportAsync}}
 use std::option::Option;
 
 use reqwest;
 
+use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
 {{^supportAsync}}
@@ -44,15 +45,59 @@ pub struct {{{operationIdCamelCase}}}Params {
 {{/operation}}
 {{/operations}}
 
+{{#operations}}
+{{#operation}}
+/// struct for typed successes of method `{{operationId}}`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum {{{operationIdCamelCase}}}Success {
+    {{#responses}}
+    {{#is2xx}}
+    Status{{code}}({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
+    {{/is2xx}}
+    {{#is3xx}}
+    Status{{code}}({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
+    {{/is3xx}}
+    {{/responses}}
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+{{/operation}}
+{{/operations}}
+{{#operations}}
+{{#operation}}
+/// struct for typed errors of method `{{operationId}}`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum {{{operationIdCamelCase}}}Error {
+    {{#responses}}
+    {{#is4xx}}
+    Status{{code}}({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
+    {{/is4xx}}
+    {{#is5xx}}
+    Status{{code}}({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
+    {{/is5xx}}
+    {{#isDefault}}
+    DefaultResponse({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
+    {{/isDefault}}
+    {{/responses}}
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+{{/operation}}
+{{/operations}}
+
 {{^supportAsync}}
 pub trait {{{classname}}} {
 {{#operations}}
 {{#operation}}
     {{#vendorExtensions.x-group-parameters}}
-    fn {{{operationId}}}(&self{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>;
+    fn {{{operationId}}}(&self{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<ResponseContent<{{{operationIdCamelCase}}}Success>, Error<{{{operationIdCamelCase}}}Error>>;
     {{/vendorExtensions.x-group-parameters}}
     {{^vendorExtensions.x-group-parameters}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error>;
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<ResponseContent<{{{operationIdCamelCase}}}Success>, Error<{{{operationIdCamelCase}}}Error>>;
     {{/vendorExtensions.x-group-parameters}}
 {{/operation}}
 {{/operations}}
@@ -63,7 +108,7 @@ impl {{{classname}}} for {{{classname}}}Client {
 {{#operations}}
 {{#operation}}
     {{#vendorExtensions.x-group-parameters}}
-    {{#supportAsync}}pub async {{/supportAsync}}fn {{{operationId}}}({{^supportAsync}}&self{{/supportAsync}}{{#supportAsync}}configuration: &configuration::Configuration{{/supportAsync}}{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
+    {{#supportAsync}}pub async {{/supportAsync}}fn {{{operationId}}}({{^supportAsync}}&self{{/supportAsync}}{{#supportAsync}}configuration: &configuration::Configuration{{/supportAsync}}{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<ResponseContent<{{{operationIdCamelCase}}}Success>, Error<{{{operationIdCamelCase}}}Error>> {
         // unbox the parameters
         {{#allParams}}
         let {{paramName}} = params.{{paramName}};
@@ -71,7 +116,7 @@ impl {{{classname}}} for {{{classname}}}Client {
 
     {{/vendorExtensions.x-group-parameters}}
     {{^vendorExtensions.x-group-parameters}}
-    {{#supportAsync}}pub async {{/supportAsync}}fn {{{operationId}}}({{^supportAsync}}&self{{/supportAsync}}{{#supportAsync}}configuration: &configuration::Configuration{{/supportAsync}}, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}, Error> {
+    {{#supportAsync}}pub async {{/supportAsync}}fn {{{operationId}}}({{^supportAsync}}&self{{/supportAsync}}{{#supportAsync}}configuration: &configuration::Configuration{{/supportAsync}}, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<ResponseContent<{{{operationIdCamelCase}}}Success>, Error<{{{operationIdCamelCase}}}Error>> {
     {{/vendorExtensions.x-group-parameters}}
         {{^supportAsync}}
         let configuration: &configuration::Configuration = self.configuration.borrow();
@@ -263,18 +308,20 @@ impl {{{classname}}} for {{{classname}}}Client {
         {{/hasBodyParam}}
 
         let req = req_builder.build()?;
-        {{^returnType}}
-        client.execute(req){{#supportAsync}}.await{{/supportAsync}}?.error_for_status()?;
-        Ok(())
-        {{/returnType}}
-        {{#returnType}}
-        {{#supportAsync}}
-        Ok(client.execute(req).await?.error_for_status()?.json::<{{{.}}}>().await?)
-        {{/supportAsync}}
-        {{^supportAsync}}
-        Ok(client.execute(req)?.error_for_status()?.json()?)
-        {{/supportAsync}}
-        {{/returnType}}
+        let {{^supportAsync}}mut {{/supportAsync}}resp = client.execute(req){{#supportAsync}}.await{{/supportAsync}}?;
+
+        let status = resp.status();
+        let content = resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
+
+        if status.is_success() {
+            let entity: Option<{{{operationIdCamelCase}}}Success> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<{{{operationIdCamelCase}}}Error> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
 {{/operation}}

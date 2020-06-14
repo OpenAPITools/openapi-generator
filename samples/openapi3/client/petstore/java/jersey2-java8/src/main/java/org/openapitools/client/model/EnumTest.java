@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -29,6 +31,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * EnumTest
@@ -43,7 +47,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EnumTest.JSON_PROPERTY_OUTER_ENUM_DEFAULT_VALUE,
   EnumTest.JSON_PROPERTY_OUTER_ENUM_INTEGER_DEFAULT_VALUE
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class EnumTest {
   /**
    * Gets or Sets enumString
@@ -215,7 +219,6 @@ public class EnumTest {
 
 
   public EnumTest enumString(EnumStringEnum enumString) {
-    
     this.enumString = enumString;
     return this;
   }
@@ -240,7 +243,6 @@ public class EnumTest {
 
 
   public EnumTest enumStringRequired(EnumStringRequiredEnum enumStringRequired) {
-    
     this.enumStringRequired = enumStringRequired;
     return this;
   }
@@ -264,7 +266,6 @@ public class EnumTest {
 
 
   public EnumTest enumInteger(EnumIntegerEnum enumInteger) {
-    
     this.enumInteger = enumInteger;
     return this;
   }
@@ -289,7 +290,6 @@ public class EnumTest {
 
 
   public EnumTest enumNumber(EnumNumberEnum enumNumber) {
-    
     this.enumNumber = enumNumber;
     return this;
   }
@@ -315,7 +315,6 @@ public class EnumTest {
 
   public EnumTest outerEnum(OuterEnum outerEnum) {
     this.outerEnum = JsonNullable.<OuterEnum>of(outerEnum);
-    
     return this;
   }
 
@@ -349,7 +348,6 @@ public class EnumTest {
 
 
   public EnumTest outerEnumInteger(OuterEnumInteger outerEnumInteger) {
-    
     this.outerEnumInteger = outerEnumInteger;
     return this;
   }
@@ -374,7 +372,6 @@ public class EnumTest {
 
 
   public EnumTest outerEnumDefaultValue(OuterEnumDefaultValue outerEnumDefaultValue) {
-    
     this.outerEnumDefaultValue = outerEnumDefaultValue;
     return this;
   }
@@ -399,7 +396,6 @@ public class EnumTest {
 
 
   public EnumTest outerEnumIntegerDefaultValue(OuterEnumIntegerDefaultValue outerEnumIntegerDefaultValue) {
-    
     this.outerEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
     return this;
   }

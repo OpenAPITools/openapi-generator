@@ -14,7 +14,7 @@ import java.util.Map;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_string")
   private Map<String, String> mapString = null;

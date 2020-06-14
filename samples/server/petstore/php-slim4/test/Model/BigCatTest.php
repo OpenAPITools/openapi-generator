@@ -74,6 +74,9 @@ class BigCatTest extends TestCase
     public function testBigCat()
     {
         $testBigCat = new BigCat();
+        $this->markTestIncomplete(
+            'Test of "BigCat" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class BigCatTest extends TestCase
      */
     public function testPropertyClassName()
     {
+        $this->markTestIncomplete(
+            'Test of "className" property in "BigCat" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class BigCatTest extends TestCase
      */
     public function testPropertyColor()
     {
+        $this->markTestIncomplete(
+            'Test of "color" property in "BigCat" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,6 +104,9 @@ class BigCatTest extends TestCase
      */
     public function testPropertyDeclawed()
     {
+        $this->markTestIncomplete(
+            'Test of "declawed" property in "BigCat" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -102,5 +114,20 @@ class BigCatTest extends TestCase
      */
     public function testPropertyKind()
     {
+        $this->markTestIncomplete(
+            'Test of "kind" property in "BigCat" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = BigCat::getOpenApiSchema();
+        $schemaArr = BigCat::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

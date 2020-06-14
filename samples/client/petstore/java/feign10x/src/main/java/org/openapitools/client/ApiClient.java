@@ -23,7 +23,7 @@ import feign.slf4j.Slf4jLogger;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.auth.OAuth.AccessTokenListener;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient {
   public interface Api {}
 

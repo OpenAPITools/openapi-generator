@@ -74,6 +74,9 @@ class XmlItemTest extends TestCase
     public function testXmlItem()
     {
         $testXmlItem = new XmlItem();
+        $this->markTestIncomplete(
+            'Test of "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyAttributeString()
     {
+        $this->markTestIncomplete(
+            'Test of "attributeString" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyAttributeNumber()
     {
+        $this->markTestIncomplete(
+            'Test of "attributeNumber" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,6 +104,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyAttributeInteger()
     {
+        $this->markTestIncomplete(
+            'Test of "attributeInteger" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -102,6 +114,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyAttributeBoolean()
     {
+        $this->markTestIncomplete(
+            'Test of "attributeBoolean" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -109,6 +124,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyWrappedArray()
     {
+        $this->markTestIncomplete(
+            'Test of "wrappedArray" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -116,6 +134,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyNameString()
     {
+        $this->markTestIncomplete(
+            'Test of "nameString" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -123,6 +144,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyNameNumber()
     {
+        $this->markTestIncomplete(
+            'Test of "nameNumber" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -130,6 +154,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyNameInteger()
     {
+        $this->markTestIncomplete(
+            'Test of "nameInteger" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -137,6 +164,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyNameBoolean()
     {
+        $this->markTestIncomplete(
+            'Test of "nameBoolean" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -144,6 +174,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyNameArray()
     {
+        $this->markTestIncomplete(
+            'Test of "nameArray" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -151,6 +184,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyNameWrappedArray()
     {
+        $this->markTestIncomplete(
+            'Test of "nameWrappedArray" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -158,6 +194,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyPrefixString()
     {
+        $this->markTestIncomplete(
+            'Test of "prefixString" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -165,6 +204,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyPrefixNumber()
     {
+        $this->markTestIncomplete(
+            'Test of "prefixNumber" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -172,6 +214,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyPrefixInteger()
     {
+        $this->markTestIncomplete(
+            'Test of "prefixInteger" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -179,6 +224,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyPrefixBoolean()
     {
+        $this->markTestIncomplete(
+            'Test of "prefixBoolean" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -186,6 +234,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyPrefixArray()
     {
+        $this->markTestIncomplete(
+            'Test of "prefixArray" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -193,6 +244,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyPrefixWrappedArray()
     {
+        $this->markTestIncomplete(
+            'Test of "prefixWrappedArray" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -200,6 +254,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyNamespaceString()
     {
+        $this->markTestIncomplete(
+            'Test of "namespaceString" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -207,6 +264,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyNamespaceNumber()
     {
+        $this->markTestIncomplete(
+            'Test of "namespaceNumber" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -214,6 +274,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyNamespaceInteger()
     {
+        $this->markTestIncomplete(
+            'Test of "namespaceInteger" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -221,6 +284,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyNamespaceBoolean()
     {
+        $this->markTestIncomplete(
+            'Test of "namespaceBoolean" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -228,6 +294,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyNamespaceArray()
     {
+        $this->markTestIncomplete(
+            'Test of "namespaceArray" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -235,6 +304,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyNamespaceWrappedArray()
     {
+        $this->markTestIncomplete(
+            'Test of "namespaceWrappedArray" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -242,6 +314,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyPrefixNsString()
     {
+        $this->markTestIncomplete(
+            'Test of "prefixNsString" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -249,6 +324,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyPrefixNsNumber()
     {
+        $this->markTestIncomplete(
+            'Test of "prefixNsNumber" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -256,6 +334,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyPrefixNsInteger()
     {
+        $this->markTestIncomplete(
+            'Test of "prefixNsInteger" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -263,6 +344,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyPrefixNsBoolean()
     {
+        $this->markTestIncomplete(
+            'Test of "prefixNsBoolean" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -270,6 +354,9 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyPrefixNsArray()
     {
+        $this->markTestIncomplete(
+            'Test of "prefixNsArray" property in "XmlItem" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -277,5 +364,20 @@ class XmlItemTest extends TestCase
      */
     public function testPropertyPrefixNsWrappedArray()
     {
+        $this->markTestIncomplete(
+            'Test of "prefixNsWrappedArray" property in "XmlItem" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = XmlItem::getOpenApiSchema();
+        $schemaArr = XmlItem::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

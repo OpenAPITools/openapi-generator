@@ -28,7 +28,7 @@ namespace OpenAPIServer\Api;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Exception;
+use Slim\Exception\HttpNotImplementedException;
 
 /**
  * AbstractFakeApi Class Doc Comment
@@ -66,16 +66,13 @@ abstract class AbstractFakeApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function createXmlItem(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing createXmlItem as a POST method in OpenAPIServer\Api\FakeApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -88,16 +85,13 @@ abstract class AbstractFakeApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function fakeOuterBooleanSerialize(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing fakeOuterBooleanSerialize as a POST method in OpenAPIServer\Api\FakeApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -110,16 +104,13 @@ abstract class AbstractFakeApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function fakeOuterCompositeSerialize(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing fakeOuterCompositeSerialize as a POST method in OpenAPIServer\Api\FakeApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -132,16 +123,13 @@ abstract class AbstractFakeApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function fakeOuterNumberSerialize(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing fakeOuterNumberSerialize as a POST method in OpenAPIServer\Api\FakeApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -154,16 +142,13 @@ abstract class AbstractFakeApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function fakeOuterStringSerialize(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing fakeOuterStringSerialize as a POST method in OpenAPIServer\Api\FakeApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -175,16 +160,13 @@ abstract class AbstractFakeApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function testBodyWithFileSchema(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing testBodyWithFileSchema as a PUT method in OpenAPIServer\Api\FakeApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -195,7 +177,7 @@ abstract class AbstractFakeApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function testBodyWithQueryParams(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
@@ -203,10 +185,7 @@ abstract class AbstractFakeApi
         $query = (key_exists('query', $queryParams)) ? $queryParams['query'] : null;
         $body = $request->getParsedBody();
         $message = "How about implementing testBodyWithQueryParams as a PUT method in OpenAPIServer\Api\FakeApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -220,16 +199,13 @@ abstract class AbstractFakeApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function testClientModel(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing testClientModel as a PATCH method in OpenAPIServer\Api\FakeApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -242,7 +218,7 @@ abstract class AbstractFakeApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function testEndpointParameters(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
@@ -262,10 +238,7 @@ abstract class AbstractFakeApi
         $password = (isset($body['password'])) ? $body['password'] : null;
         $callback = (isset($body['callback'])) ? $body['callback'] : null;
         $message = "How about implementing testEndpointParameters as a POST method in OpenAPIServer\Api\FakeApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -278,7 +251,7 @@ abstract class AbstractFakeApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function testEnumParameters(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
@@ -294,10 +267,7 @@ abstract class AbstractFakeApi
         $enumFormStringArray = (isset($body['enum_form_string_array'])) ? $body['enum_form_string_array'] : null;
         $enumFormString = (isset($body['enum_form_string'])) ? $body['enum_form_string'] : null;
         $message = "How about implementing testEnumParameters as a GET method in OpenAPIServer\Api\FakeApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -310,7 +280,7 @@ abstract class AbstractFakeApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function testGroupParameters(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
@@ -323,10 +293,7 @@ abstract class AbstractFakeApi
         $stringGroup = (key_exists('string_group', $queryParams)) ? $queryParams['string_group'] : null;
         $int64Group = (key_exists('int64_group', $queryParams)) ? $queryParams['int64_group'] : null;
         $message = "How about implementing testGroupParameters as a DELETE method in OpenAPIServer\Api\FakeApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -338,16 +305,13 @@ abstract class AbstractFakeApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function testInlineAdditionalProperties(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing testInlineAdditionalProperties as a POST method in OpenAPIServer\Api\FakeApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -359,7 +323,7 @@ abstract class AbstractFakeApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function testJsonFormData(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
@@ -367,10 +331,7 @@ abstract class AbstractFakeApi
         $param = (isset($body['param'])) ? $body['param'] : null;
         $param2 = (isset($body['param2'])) ? $body['param2'] : null;
         $message = "How about implementing testJsonFormData as a GET method in OpenAPIServer\Api\FakeApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 
     /**
@@ -382,7 +343,7 @@ abstract class AbstractFakeApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function testQueryParameterCollectionFormat(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
@@ -393,9 +354,6 @@ abstract class AbstractFakeApi
         $url = (key_exists('url', $queryParams)) ? $queryParams['url'] : null;
         $context = (key_exists('context', $queryParams)) ? $queryParams['context'] : null;
         $message = "How about implementing testQueryParameterCollectionFormat as a PUT method in OpenAPIServer\Api\FakeApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 }

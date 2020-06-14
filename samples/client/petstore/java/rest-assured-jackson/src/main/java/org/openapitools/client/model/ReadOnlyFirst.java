@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.*;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ReadOnlyFirst {
   public static final String JSON_PROPERTY_BAR = "bar";
   private String bar;

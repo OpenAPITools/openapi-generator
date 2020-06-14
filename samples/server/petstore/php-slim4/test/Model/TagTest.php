@@ -74,6 +74,9 @@ class TagTest extends TestCase
     public function testTag()
     {
         $testTag = new Tag();
+        $this->markTestIncomplete(
+            'Test of "Tag" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class TagTest extends TestCase
      */
     public function testPropertyId()
     {
+        $this->markTestIncomplete(
+            'Test of "id" property in "Tag" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,5 +94,20 @@ class TagTest extends TestCase
      */
     public function testPropertyName()
     {
+        $this->markTestIncomplete(
+            'Test of "name" property in "Tag" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = Tag::getOpenApiSchema();
+        $schemaArr = Tag::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

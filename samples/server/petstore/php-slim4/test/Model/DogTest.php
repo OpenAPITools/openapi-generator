@@ -74,6 +74,9 @@ class DogTest extends TestCase
     public function testDog()
     {
         $testDog = new Dog();
+        $this->markTestIncomplete(
+            'Test of "Dog" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class DogTest extends TestCase
      */
     public function testPropertyClassName()
     {
+        $this->markTestIncomplete(
+            'Test of "className" property in "Dog" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class DogTest extends TestCase
      */
     public function testPropertyColor()
     {
+        $this->markTestIncomplete(
+            'Test of "color" property in "Dog" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,5 +104,20 @@ class DogTest extends TestCase
      */
     public function testPropertyBreed()
     {
+        $this->markTestIncomplete(
+            'Test of "breed" property in "Dog" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = Dog::getOpenApiSchema();
+        $schemaArr = Dog::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

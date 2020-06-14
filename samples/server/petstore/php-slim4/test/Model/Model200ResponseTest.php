@@ -74,6 +74,9 @@ class Model200ResponseTest extends TestCase
     public function testModel200Response()
     {
         $testModel200Response = new Model200Response();
+        $this->markTestIncomplete(
+            'Test of "Model200Response" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class Model200ResponseTest extends TestCase
      */
     public function testPropertyName()
     {
+        $this->markTestIncomplete(
+            'Test of "name" property in "Model200Response" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,5 +94,20 @@ class Model200ResponseTest extends TestCase
      */
     public function testPropertyClass()
     {
+        $this->markTestIncomplete(
+            'Test of "class" property in "Model200Response" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = Model200Response::getOpenApiSchema();
+        $schemaArr = Model200Response::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

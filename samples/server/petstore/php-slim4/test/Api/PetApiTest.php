@@ -77,6 +77,9 @@ class PetApiTest extends TestCase
      */
     public function testAddPet()
     {
+        $this->markTestIncomplete(
+            'Test of "addPet" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +91,9 @@ class PetApiTest extends TestCase
      */
     public function testDeletePet()
     {
+        $this->markTestIncomplete(
+            'Test of "deletePet" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -99,6 +105,9 @@ class PetApiTest extends TestCase
      */
     public function testFindPetsByStatus()
     {
+        $this->markTestIncomplete(
+            'Test of "findPetsByStatus" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -110,6 +119,9 @@ class PetApiTest extends TestCase
      */
     public function testFindPetsByTags()
     {
+        $this->markTestIncomplete(
+            'Test of "findPetsByTags" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -121,6 +133,9 @@ class PetApiTest extends TestCase
      */
     public function testGetPetById()
     {
+        $this->markTestIncomplete(
+            'Test of "getPetById" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -132,6 +147,9 @@ class PetApiTest extends TestCase
      */
     public function testUpdatePet()
     {
+        $this->markTestIncomplete(
+            'Test of "updatePet" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -143,6 +161,9 @@ class PetApiTest extends TestCase
      */
     public function testUpdatePetWithForm()
     {
+        $this->markTestIncomplete(
+            'Test of "updatePetWithForm" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -154,6 +175,9 @@ class PetApiTest extends TestCase
      */
     public function testUploadFile()
     {
+        $this->markTestIncomplete(
+            'Test of "uploadFile" method has not been implemented yet.'
+        );
     }
 
     /**
@@ -165,5 +189,8 @@ class PetApiTest extends TestCase
      */
     public function testUploadFileWithRequiredFile()
     {
+        $this->markTestIncomplete(
+            'Test of "uploadFileWithRequiredFile" method has not been implemented yet.'
+        );
     }
 }

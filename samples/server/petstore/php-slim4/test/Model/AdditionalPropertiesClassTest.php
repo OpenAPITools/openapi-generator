@@ -74,6 +74,9 @@ class AdditionalPropertiesClassTest extends TestCase
     public function testAdditionalPropertiesClass()
     {
         $testAdditionalPropertiesClass = new AdditionalPropertiesClass();
+        $this->markTestIncomplete(
+            'Test of "AdditionalPropertiesClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class AdditionalPropertiesClassTest extends TestCase
      */
     public function testPropertyMapString()
     {
+        $this->markTestIncomplete(
+            'Test of "mapString" property in "AdditionalPropertiesClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class AdditionalPropertiesClassTest extends TestCase
      */
     public function testPropertyMapNumber()
     {
+        $this->markTestIncomplete(
+            'Test of "mapNumber" property in "AdditionalPropertiesClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,6 +104,9 @@ class AdditionalPropertiesClassTest extends TestCase
      */
     public function testPropertyMapInteger()
     {
+        $this->markTestIncomplete(
+            'Test of "mapInteger" property in "AdditionalPropertiesClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -102,6 +114,9 @@ class AdditionalPropertiesClassTest extends TestCase
      */
     public function testPropertyMapBoolean()
     {
+        $this->markTestIncomplete(
+            'Test of "mapBoolean" property in "AdditionalPropertiesClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -109,6 +124,9 @@ class AdditionalPropertiesClassTest extends TestCase
      */
     public function testPropertyMapArrayInteger()
     {
+        $this->markTestIncomplete(
+            'Test of "mapArrayInteger" property in "AdditionalPropertiesClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -116,6 +134,9 @@ class AdditionalPropertiesClassTest extends TestCase
      */
     public function testPropertyMapArrayAnytype()
     {
+        $this->markTestIncomplete(
+            'Test of "mapArrayAnytype" property in "AdditionalPropertiesClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -123,6 +144,9 @@ class AdditionalPropertiesClassTest extends TestCase
      */
     public function testPropertyMapMapString()
     {
+        $this->markTestIncomplete(
+            'Test of "mapMapString" property in "AdditionalPropertiesClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -130,6 +154,9 @@ class AdditionalPropertiesClassTest extends TestCase
      */
     public function testPropertyMapMapAnytype()
     {
+        $this->markTestIncomplete(
+            'Test of "mapMapAnytype" property in "AdditionalPropertiesClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -137,6 +164,9 @@ class AdditionalPropertiesClassTest extends TestCase
      */
     public function testPropertyAnytype1()
     {
+        $this->markTestIncomplete(
+            'Test of "anytype1" property in "AdditionalPropertiesClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -144,6 +174,9 @@ class AdditionalPropertiesClassTest extends TestCase
      */
     public function testPropertyAnytype2()
     {
+        $this->markTestIncomplete(
+            'Test of "anytype2" property in "AdditionalPropertiesClass" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -151,5 +184,20 @@ class AdditionalPropertiesClassTest extends TestCase
      */
     public function testPropertyAnytype3()
     {
+        $this->markTestIncomplete(
+            'Test of "anytype3" property in "AdditionalPropertiesClass" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = AdditionalPropertiesClass::getOpenApiSchema();
+        $schemaArr = AdditionalPropertiesClass::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }

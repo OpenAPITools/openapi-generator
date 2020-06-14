@@ -10,15 +10,113 @@
 
 #[allow(unused_imports)]
 use std::rc::Rc;
-use std::borrow::Borrow;
+
 use std::option::Option;
 
 use reqwest;
 
+use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
+/// struct for passing parameters to the method `delete_order`
+#[derive(Clone, Debug)]
+pub struct DeleteOrderParams {
+    /// ID of the order that needs to be deleted
+    pub order_id: String
+}
 
-    pub async fn delete_order(configuration: &configuration::Configuration, order_id: &str) -> Result<(), Error> {
+/// struct for passing parameters to the method `get_order_by_id`
+#[derive(Clone, Debug)]
+pub struct GetOrderByIdParams {
+    /// ID of pet that needs to be fetched
+    pub order_id: i64
+}
+
+/// struct for passing parameters to the method `place_order`
+#[derive(Clone, Debug)]
+pub struct PlaceOrderParams {
+    /// order placed for purchasing the pet
+    pub body: crate::models::Order
+}
+
+
+/// struct for typed successes of method `delete_order`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DeleteOrderSuccess {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `get_inventory`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetInventorySuccess {
+    Status200(::std::collections::HashMap<String, i32>),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `get_order_by_id`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetOrderByIdSuccess {
+    Status200(crate::models::Order),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `place_order`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PlaceOrderSuccess {
+    Status200(crate::models::Order),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `delete_order`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DeleteOrderError {
+    Status400(),
+    Status404(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `get_inventory`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetInventoryError {
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `get_order_by_id`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetOrderByIdError {
+    Status400(),
+    Status404(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `place_order`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum PlaceOrderError {
+    Status400(),
+    UnknownList(Vec<serde_json::Value>),
+    UnknownValue(serde_json::Value),
+}
+
+
+    pub async fn delete_order(configuration: &configuration::Configuration, params: DeleteOrderParams) -> Result<ResponseContent<DeleteOrderSuccess>, Error<DeleteOrderError>> {
+        // unbox the parameters
+        let order_id = params.order_id;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=crate::apis::urlencode(order_id));
@@ -29,11 +127,25 @@ use super::{Error, configuration};
         }
 
         let req = req_builder.build()?;
-        client.execute(req).await?.error_for_status()?;
-        Ok(())
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<DeleteOrderSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<DeleteOrderError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn get_inventory(configuration: &configuration::Configuration, ) -> Result<::std::collections::HashMap<String, i32>, Error> {
+    pub async fn get_inventory(configuration: &configuration::Configuration) -> Result<ResponseContent<GetInventorySuccess>, Error<GetInventoryError>> {
+        // unbox the parameters
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/inventory", configuration.base_path);
@@ -52,10 +164,26 @@ use super::{Error, configuration};
         };
 
         let req = req_builder.build()?;
-        Ok(client.execute(req).await?.error_for_status()?.json::<::std::collections::HashMap<String, i32>>().await?)
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<GetInventorySuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<GetInventoryError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn get_order_by_id(configuration: &configuration::Configuration, order_id: i64) -> Result<crate::models::Order, Error> {
+    pub async fn get_order_by_id(configuration: &configuration::Configuration, params: GetOrderByIdParams) -> Result<ResponseContent<GetOrderByIdSuccess>, Error<GetOrderByIdError>> {
+        // unbox the parameters
+        let order_id = params.order_id;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=order_id);
@@ -66,10 +194,26 @@ use super::{Error, configuration};
         }
 
         let req = req_builder.build()?;
-        Ok(client.execute(req).await?.error_for_status()?.json::<crate::models::Order>().await?)
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<GetOrderByIdSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<GetOrderByIdError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn place_order(configuration: &configuration::Configuration, body: crate::models::Order) -> Result<crate::models::Order, Error> {
+    pub async fn place_order(configuration: &configuration::Configuration, params: PlaceOrderParams) -> Result<ResponseContent<PlaceOrderSuccess>, Error<PlaceOrderError>> {
+        // unbox the parameters
+        let body = params.body;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/store/order", configuration.base_path);
@@ -81,6 +225,19 @@ use super::{Error, configuration};
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        Ok(client.execute(req).await?.error_for_status()?.json::<crate::models::Order>().await?)
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<PlaceOrderSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<PlaceOrderError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 

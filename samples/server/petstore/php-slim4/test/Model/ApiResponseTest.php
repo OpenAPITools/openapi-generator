@@ -74,6 +74,9 @@ class ApiResponseTest extends TestCase
     public function testApiResponse()
     {
         $testApiResponse = new ApiResponse();
+        $this->markTestIncomplete(
+            'Test of "ApiResponse" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -81,6 +84,9 @@ class ApiResponseTest extends TestCase
      */
     public function testPropertyCode()
     {
+        $this->markTestIncomplete(
+            'Test of "code" property in "ApiResponse" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -88,6 +94,9 @@ class ApiResponseTest extends TestCase
      */
     public function testPropertyType()
     {
+        $this->markTestIncomplete(
+            'Test of "type" property in "ApiResponse" model has not been implemented yet.'
+        );
     }
 
     /**
@@ -95,5 +104,20 @@ class ApiResponseTest extends TestCase
      */
     public function testPropertyMessage()
     {
+        $this->markTestIncomplete(
+            'Test of "message" property in "ApiResponse" model has not been implemented yet.'
+        );
+    }
+
+    /**
+     * Test getOpenApiSchema static method
+     * @covers ::getOpenApiSchema
+     */
+    public function testGetOpenApiSchema()
+    {
+        $schemaObject = ApiResponse::getOpenApiSchema();
+        $schemaArr = ApiResponse::getOpenApiSchema(true);
+        $this->assertIsObject($schemaObject);
+        $this->assertIsArray($schemaArr);
     }
 }
