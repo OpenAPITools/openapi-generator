@@ -25,7 +25,8 @@ class ExceptionTest extends TestCase
     public function testWrongHost()
     {
         $this->expectException(\OpenAPI\Client\ApiException::class);
-        $this->expectExceptionMessage('Could not resolve: wrong_host.zxc');
+        $this->expectExceptionMessage('Could not resolve');
+        $this->expectExceptionMessage('wrong_host.zxc');
         $config = new Configuration();
         $config->setHost('http://wrong_host.zxc');
 
