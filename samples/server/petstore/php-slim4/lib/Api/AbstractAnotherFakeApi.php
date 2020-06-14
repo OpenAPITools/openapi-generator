@@ -28,7 +28,7 @@ namespace OpenAPIServer\Api;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Exception;
+use Slim\Exception\HttpNotImplementedException;
 
 /**
  * AbstractAnotherFakeApi Class Doc Comment
@@ -67,15 +67,12 @@ abstract class AbstractAnotherFakeApi
      * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
-     * @throws Exception to force implementation class to override this method
+     * @throws HttpNotImplementedException to force implementation class to override this method
      */
     public function call123TestSpecialTags(ServerRequestInterface $request, ResponseInterface $response, array $args)
     {
         $body = $request->getParsedBody();
         $message = "How about implementing call123TestSpecialTags as a PATCH method in OpenAPIServer\Api\AnotherFakeApi class?";
-        throw new Exception($message);
-
-        $response->getBody()->write($message);
-        return $response->withStatus(501);
+        throw new HttpNotImplementedException($request, $message);
     }
 }
