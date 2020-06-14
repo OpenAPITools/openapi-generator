@@ -28,7 +28,6 @@ message("A ${CMAKE_BUILD_TYPE} build configuration is detected")
 if (UNIX)
     message(STATUS "Building client library for Linux/Unix")
 
-    set(CMAKE_BUILD_TYPE Debug)
     set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fPIC -Wall -Wno-unused-variable")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wno-unused-variable")
 
