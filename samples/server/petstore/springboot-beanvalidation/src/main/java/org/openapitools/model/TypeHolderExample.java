@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 /**
  * TypeHolderExample
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TypeHolderExample   {
   @JsonProperty("string_item")
   private String stringItem;

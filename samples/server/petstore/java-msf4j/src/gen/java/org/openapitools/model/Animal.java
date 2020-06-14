@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * Animal
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class Animal   {
   @JsonProperty("className")
   private String className;

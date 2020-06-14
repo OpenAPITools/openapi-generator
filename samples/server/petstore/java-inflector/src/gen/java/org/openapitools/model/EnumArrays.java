@@ -13,7 +13,7 @@ import java.util.List;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class EnumArrays   {
   /**
    * Gets or Sets justSymbol
