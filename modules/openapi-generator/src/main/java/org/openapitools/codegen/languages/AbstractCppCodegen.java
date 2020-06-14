@@ -375,14 +375,14 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         }
         for(CodegenProperty property : model.vars){
             if((property.isContainer && property.mostInnerItems.isModel) || (property.isModel)) {
-                String innerPropertyName = property.isContainer?property.mostInnerItems.baseType:property.baseType;
+                String innerPropertyType = property.isContainer? property.mostInnerItems.baseType : property.baseType;
                 for(final Entry<String, Object> mo : objs.entrySet()) {
                     CodegenModel innerModel = ModelUtils.getModelByName(mo.getKey(), objs);
-                    if(innerPropertyName.equals(innerModel.classname) && !innerPropertyName.equals(model.classname)){
+                    if(innerPropertyType.equals(innerModel.classname) && !innerPropertyType.equals(model.classname)){
                         if(innerModel.hasVars) {
                             for(CodegenProperty p : innerModel.vars) {
                                 if(((p.isModel && p.dataType.equals(model.classname)) || (p.isContainer && p.mostInnerItems.baseType.equals(model.classname)))) {
-                                    String forwardDecl = "class " + innerModel.classname + ";\n";
+                                    String forwardDecl = "class " + innerModel.classname + ";";
                                     if(!forwardDeclarations.contains(forwardDecl)) {
                                         forwardDeclarations.add(forwardDecl);
                                     }
