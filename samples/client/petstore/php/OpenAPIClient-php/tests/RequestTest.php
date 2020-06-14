@@ -15,7 +15,7 @@ class RequestTest extends TestCase
     /** @var  FakeHttpClient */
     private $fakeClient;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->fakeClient = new FakeHttpClient();
         $this->api = new Api\FakeApi($this->fakeClient);
