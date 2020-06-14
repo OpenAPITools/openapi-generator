@@ -162,7 +162,7 @@ class StoreController extends Controller
             $result = $handler->getInventory($responseCode, $responseHeaders);
 
             // Find default response message
-            $message = 'successful operation';
+            $message = '';
 
             // Find a more specific message, if available
             switch ($responseCode) {
@@ -241,7 +241,7 @@ class StoreController extends Controller
             $result = $handler->getOrderById($orderId, $responseCode, $responseHeaders);
 
             // Find default response message
-            $message = 'successful operation';
+            $message = '';
 
             // Find a more specific message, if available
             switch ($responseCode) {
@@ -334,7 +334,7 @@ class StoreController extends Controller
             $result = $handler->placeOrder($body, $responseCode, $responseHeaders);
 
             // Find default response message
-            $message = 'successful operation';
+            $message = '';
 
             // Find a more specific message, if available
             switch ($responseCode) {

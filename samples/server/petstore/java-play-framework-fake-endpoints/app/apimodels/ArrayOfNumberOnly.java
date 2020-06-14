@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 /**
  * ArrayOfNumberOnly
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ArrayOfNumberOnly   {
   @JsonProperty("ArrayNumber")

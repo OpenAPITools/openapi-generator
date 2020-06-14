@@ -275,7 +275,7 @@ class PetController extends Controller
             $result = $handler->findPetsByStatus($status, $responseCode, $responseHeaders);
 
             // Find default response message
-            $message = 'successful operation';
+            $message = '';
 
             // Find a more specific message, if available
             switch ($responseCode) {
@@ -363,7 +363,7 @@ class PetController extends Controller
             $result = $handler->findPetsByTags($tags, $responseCode, $responseHeaders);
 
             // Find default response message
-            $message = 'successful operation';
+            $message = '';
 
             // Find a more specific message, if available
             switch ($responseCode) {
@@ -448,7 +448,7 @@ class PetController extends Controller
             $result = $handler->getPetById($petId, $responseCode, $responseHeaders);
 
             // Find default response message
-            $message = 'successful operation';
+            $message = '';
 
             // Find a more specific message, if available
             switch ($responseCode) {
@@ -727,7 +727,7 @@ class PetController extends Controller
             $result = $handler->uploadFile($petId, $additionalMetadata, $file, $responseCode, $responseHeaders);
 
             // Find default response message
-            $message = 'successful operation';
+            $message = '';
 
             // Find a more specific message, if available
             switch ($responseCode) {

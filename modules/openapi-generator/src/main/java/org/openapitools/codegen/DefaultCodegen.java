@@ -3614,12 +3614,12 @@ public class DefaultCodegen implements CodegenConfig {
                     op.uniqueItems = true;
                     imports.add(typeMapping.get(r.containerType));
                 }
-                r.isDefault = response == methodResponse;
+
                 op.responses.add(r);
-                if (Boolean.TRUE.equals(r.isBinary) && Boolean.TRUE.equals(r.isDefault)) {
+                if (Boolean.TRUE.equals(r.isBinary) && Boolean.TRUE.equals(r.is2xx) && Boolean.FALSE.equals(op.isResponseBinary)) {
                     op.isResponseBinary = Boolean.TRUE;
                 }
-                if (Boolean.TRUE.equals(r.isFile) && Boolean.TRUE.equals(r.isDefault)) {
+                if (Boolean.TRUE.equals(r.isFile) && Boolean.TRUE.equals(r.is2xx) && Boolean.FALSE.equals(op.isResponseFile)) {
                     op.isResponseFile = Boolean.TRUE;
                 }
             }
@@ -3848,6 +3848,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if ("default".equals(responseCode) || "defaultResponse".equals(responseCode)) {
             r.code = "0";
+            r.isDefault = true;
         } else {
             r.code = responseCode;
             switch (r.code.charAt(0)) {

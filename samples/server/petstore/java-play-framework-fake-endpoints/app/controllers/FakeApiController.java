@@ -30,7 +30,7 @@ import play.Configuration;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class FakeApiController extends Controller {
 
     private final FakeApiControllerImpInterface imp;

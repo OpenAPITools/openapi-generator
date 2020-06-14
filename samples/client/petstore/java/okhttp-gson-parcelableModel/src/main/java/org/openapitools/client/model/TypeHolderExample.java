@@ -32,7 +32,7 @@ import android.os.Parcel;
 /**
  * TypeHolderExample
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderExample implements Parcelable {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)

@@ -1112,6 +1112,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ArrayOfEnums'
+  /fake/additional-properties-with-array-of-enums:
+    get:
+      tags:
+        - fake
+      summary: Additional Properties with Array of Enums
+      operationId: getAdditionalPropertiesWithArrayOfEnums
+      responses:
+        200:
+          description: Got object with additional properties with array of enums
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdditionalPropertiesWithArrayOfEnums'
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -2091,6 +2104,12 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/OuterEnum'
+    AdditionalPropertiesWithArrayOfEnums:
+      type: object
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/EnumClass'
     DateTimeTest:
       type: string
       default: '2010-01-01T10:10:10.000111+01:00'

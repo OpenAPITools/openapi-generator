@@ -30,7 +30,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * ModelApiResponse
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelApiResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)

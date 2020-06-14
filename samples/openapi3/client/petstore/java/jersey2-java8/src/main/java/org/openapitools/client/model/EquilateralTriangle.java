@@ -36,7 +36,7 @@ import org.openapitools.client.JSON;
   EquilateralTriangle.JSON_PROPERTY_SHAPE_TYPE,
   EquilateralTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class EquilateralTriangle {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   private String shapeType;

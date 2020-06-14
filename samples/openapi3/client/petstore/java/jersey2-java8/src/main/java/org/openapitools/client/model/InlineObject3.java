@@ -50,7 +50,7 @@ import org.openapitools.client.JSON;
   InlineObject3.JSON_PROPERTY_PASSWORD,
   InlineObject3.JSON_PROPERTY_CALLBACK
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class InlineObject3 {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   private Integer integer;
