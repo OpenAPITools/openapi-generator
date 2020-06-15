@@ -3908,7 +3908,7 @@ public class DefaultCodegen implements CodegenConfig {
                     innerCp = innerCp.items;
                 }
             } else {
-                //fix for the operations containing custom reference schema
+                //fix for the operations containing reference schema
                 if (cp.complexType != null) {
                     if (cp.items != null) {
                         r.baseType = cp.items.complexType;
