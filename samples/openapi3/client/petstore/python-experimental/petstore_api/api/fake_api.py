@@ -636,9 +636,9 @@ class FakeApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -664,7 +664,7 @@ class FakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
         self.get_additional_properties_with_array_of_enums = Endpoint(
@@ -674,7 +674,7 @@ class FakeApi(object):
                 'endpoint_path': '/fake/additional-properties-with-array-of-enums',
                 'operation_id': 'get_additional_properties_with_array_of_enums',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
