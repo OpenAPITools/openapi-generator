@@ -143,6 +143,7 @@ Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AdditionalPropertiesWithList](docs/AdditionalPropertiesWithList.md)
  - [AnotherXmlArray](docs/AnotherXmlArray.md)
  - [AnotherXmlInner](docs/AnotherXmlInner.md)
  - [AnotherXmlObject](docs/AnotherXmlObject.md)
