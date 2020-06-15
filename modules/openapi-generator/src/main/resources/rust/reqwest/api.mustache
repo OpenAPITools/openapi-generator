@@ -45,6 +45,7 @@ pub struct {{{operationIdCamelCase}}}Params {
 {{/operation}}
 {{/operations}}
 
+{{#supportMultipleReturns}}
 {{#operations}}
 {{#operation}}
 /// struct for typed successes of method `{{operationId}}`
@@ -65,6 +66,7 @@ pub enum {{{operationIdCamelCase}}}Success {
 
 {{/operation}}
 {{/operations}}
+{{/supportMultipleReturns}}
 {{#operations}}
 {{#operation}}
 /// struct for typed errors of method `{{operationId}}`
@@ -94,10 +96,10 @@ pub trait {{{classname}}} {
 {{#operations}}
 {{#operation}}
     {{#vendorExtensions.x-group-parameters}}
-    fn {{{operationId}}}(&self{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<ResponseContent<{{{operationIdCamelCase}}}Success>, Error<{{{operationIdCamelCase}}}Error>>;
+    fn {{{operationId}}}(&self{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{#supportMultipleReturns}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleReturns}}{{^supportMultipleReturns}}{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}{{/supportMultipleReturns}}, Error<{{{operationIdCamelCase}}}Error>>;
     {{/vendorExtensions.x-group-parameters}}
     {{^vendorExtensions.x-group-parameters}}
-    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<ResponseContent<{{{operationIdCamelCase}}}Success>, Error<{{{operationIdCamelCase}}}Error>>;
+    fn {{{operationId}}}(&self, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{#supportMultipleReturns}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleReturns}}{{^supportMultipleReturns}}{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}{{/supportMultipleReturns}}, Error<{{{operationIdCamelCase}}}Error>>;
     {{/vendorExtensions.x-group-parameters}}
 {{/operation}}
 {{/operations}}
@@ -108,7 +110,7 @@ impl {{{classname}}} for {{{classname}}}Client {
 {{#operations}}
 {{#operation}}
     {{#vendorExtensions.x-group-parameters}}
-    {{#supportAsync}}pub async {{/supportAsync}}fn {{{operationId}}}({{^supportAsync}}&self{{/supportAsync}}{{#supportAsync}}configuration: &configuration::Configuration{{/supportAsync}}{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<ResponseContent<{{{operationIdCamelCase}}}Success>, Error<{{{operationIdCamelCase}}}Error>> {
+    {{#supportAsync}}pub async {{/supportAsync}}fn {{{operationId}}}({{^supportAsync}}&self{{/supportAsync}}{{#supportAsync}}configuration: &configuration::Configuration{{/supportAsync}}{{#allParams}}{{#-first}}, params: {{{operationIdCamelCase}}}Params{{/-first}}{{/allParams}}) -> Result<{{#supportMultipleReturns}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleReturns}}{{^supportMultipleReturns}}{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}{{/supportMultipleReturns}}, Error<{{{operationIdCamelCase}}}Error>> {
         // unbox the parameters
         {{#allParams}}
         let {{paramName}} = params.{{paramName}};
@@ -116,7 +118,7 @@ impl {{{classname}}} for {{{classname}}}Client {
 
     {{/vendorExtensions.x-group-parameters}}
     {{^vendorExtensions.x-group-parameters}}
-    {{#supportAsync}}pub async {{/supportAsync}}fn {{{operationId}}}({{^supportAsync}}&self{{/supportAsync}}{{#supportAsync}}configuration: &configuration::Configuration{{/supportAsync}}, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<ResponseContent<{{{operationIdCamelCase}}}Success>, Error<{{{operationIdCamelCase}}}Error>> {
+    {{#supportAsync}}pub async {{/supportAsync}}fn {{{operationId}}}({{^supportAsync}}&self{{/supportAsync}}{{#supportAsync}}configuration: &configuration::Configuration{{/supportAsync}}, {{#allParams}}{{{paramName}}}: {{^required}}Option<{{/required}}{{#required}}{{#isNullable}}Option<{{/isNullable}}{{/required}}{{#isString}}&str{{/isString}}{{#isUuid}}&str{{/isUuid}}{{^isString}}{{^isUuid}}{{^isPrimitiveType}}{{^isContainer}}crate::models::{{/isContainer}}{{/isPrimitiveType}}{{{dataType}}}{{/isUuid}}{{/isString}}{{^required}}>{{/required}}{{#required}}{{#isNullable}}>{{/isNullable}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) -> Result<{{#supportMultipleReturns}}ResponseContent<{{{operationIdCamelCase}}}Success>{{/supportMultipleReturns}}{{^supportMultipleReturns}}{{^returnType}}(){{/returnType}}{{#returnType}}{{{returnType}}}{{/returnType}}{{/supportMultipleReturns}}, Error<{{{operationIdCamelCase}}}Error>> {
     {{/vendorExtensions.x-group-parameters}}
         {{^supportAsync}}
         let configuration: &configuration::Configuration = self.configuration.borrow();
@@ -314,9 +316,19 @@ impl {{{classname}}} for {{{classname}}}Client {
         let content = resp.text(){{#supportAsync}}.await{{/supportAsync}}?;
 
         if status.is_success() {
+            {{^supportMultipleReturns}}
+            {{^returnType}}
+            Ok(())
+            {{/returnType}}
+            {{#returnType}}
+            serde_json::from_str(&content).map_err(Error::from)
+            {{/returnType}}
+            {{/supportMultipleReturns}}
+            {{#supportMultipleReturns}}
             let entity: Option<{{{operationIdCamelCase}}}Success> = serde_json::from_str(&content).ok();
             let result = ResponseContent { status, content, entity };
             Ok(result)
+            {{/supportMultipleReturns}}
         } else {
             let entity: Option<{{{operationIdCamelCase}}}Error> = serde_json::from_str(&content).ok();
             let error = ResponseContent { status, content, entity };

@@ -31,31 +31,21 @@ impl DefaultApiClient {
 }
 
 
-/// struct for typed successes of method `fileresponsetest`
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum FileresponsetestSuccess {
-    Status200(std::path::PathBuf),
-    UnknownList(Vec<serde_json::Value>),
-    UnknownValue(serde_json::Value),
-}
-
 /// struct for typed errors of method `fileresponsetest`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FileresponsetestError {
-    DefaultResponse(std::path::PathBuf),
     UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
 
 pub trait DefaultApi {
-    fn fileresponsetest(&self, ) -> Result<ResponseContent<FileresponsetestSuccess>, Error<FileresponsetestError>>;
+    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error<FileresponsetestError>>;
 }
 
 impl DefaultApi for DefaultApiClient {
-    fn fileresponsetest(&self, ) -> Result<ResponseContent<FileresponsetestSuccess>, Error<FileresponsetestError>> {
+    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error<FileresponsetestError>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -73,9 +63,7 @@ impl DefaultApi for DefaultApiClient {
         let content = resp.text()?;
 
         if status.is_success() {
-            let entity: Option<FileresponsetestSuccess> = serde_json::from_str(&content).ok();
-            let result = ResponseContent { status, content, entity };
-            Ok(result)
+            serde_json::from_str(&content).map_err(Error::from)
         } else {
             let entity: Option<FileresponsetestError> = serde_json::from_str(&content).ok();
             let error = ResponseContent { status, content, entity };
