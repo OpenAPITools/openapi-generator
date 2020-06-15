@@ -211,6 +211,7 @@ paths:
           headers:
             Success-Info:
               explode: false
+              required: true
               schema:
                 type: String
               style: simple

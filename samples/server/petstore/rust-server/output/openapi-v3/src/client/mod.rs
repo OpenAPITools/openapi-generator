@@ -1445,46 +1445,49 @@ impl<S, C> Api<C> for Client<S, C> where
         match response.status().as_u16() {
             200 => {
                 let response_success_info = match response.headers().get(HeaderName::from_static("success-info")) {
-                    Some(response_success_info) => response_success_info.clone(),
-                    None => {
-                        return Err(ApiError(String::from("Required response header Success-Info for response 200 was not found.")));
-                    }
+                    Some(response_success_info) => {
+                        let response_success_info = response_success_info.clone();
+                        let response_success_info = match TryInto::<header::IntoHeaderValue<String>>::try_into(response_success_info) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header Success-Info for response 200 - {}", e)));
+                            },
+                        };
+                        let response_success_info = response_success_info.0;
+                        response_success_info
+                        },
+                    None => return Err(ApiError(String::from("Required response header Success-Info for response 200 was not found."))),
                 };
-                let response_success_info = match TryInto::<header::IntoHeaderValue<String>>::try_into(response_success_info) {
-                    Ok(value) => value,
-                    Err(e) => {
-                        return Err(ApiError(format!("Invalid response header Success-Info for response 200 - {}", e)));
-                    },
-                };
-                let response_success_info = response_success_info.0;
 
                 let response_bool_header = match response.headers().get(HeaderName::from_static("bool-header")) {
-                    Some(response_bool_header) => response_bool_header.clone(),
-                    None => {
-                        return Err(ApiError(String::from("Required response header Bool-Header for response 200 was not found.")));
-                    }
+                    Some(response_bool_header) => {
+                        let response_bool_header = response_bool_header.clone();
+                        let response_bool_header = match TryInto::<header::IntoHeaderValue<bool>>::try_into(response_bool_header) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header Bool-Header for response 200 - {}", e)));
+                            },
+                        };
+                        let response_bool_header = response_bool_header.0;
+                        Some(response_bool_header)
+                        },
+                    None => None,
                 };
-                let response_bool_header = match TryInto::<header::IntoHeaderValue<bool>>::try_into(response_bool_header) {
-                    Ok(value) => value,
-                    Err(e) => {
-                        return Err(ApiError(format!("Invalid response header Bool-Header for response 200 - {}", e)));
-                    },
-                };
-                let response_bool_header = response_bool_header.0;
 
                 let response_object_header = match response.headers().get(HeaderName::from_static("object-header")) {
-                    Some(response_object_header) => response_object_header.clone(),
-                    None => {
-                        return Err(ApiError(String::from("Required response header Object-Header for response 200 was not found.")));
-                    }
+                    Some(response_object_header) => {
+                        let response_object_header = response_object_header.clone();
+                        let response_object_header = match TryInto::<header::IntoHeaderValue<models::ObjectHeader>>::try_into(response_object_header) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header Object-Header for response 200 - {}", e)));
+                            },
+                        };
+                        let response_object_header = response_object_header.0;
+                        Some(response_object_header)
+                        },
+                    None => None,
                 };
-                let response_object_header = match TryInto::<header::IntoHeaderValue<models::ObjectHeader>>::try_into(response_object_header) {
-                    Ok(value) => value,
-                    Err(e) => {
-                        return Err(ApiError(format!("Invalid response header Object-Header for response 200 - {}", e)));
-                    },
-                };
-                let response_object_header = response_object_header.0;
 
                 let body = response.into_body();
                 let body = body
@@ -1504,32 +1507,34 @@ impl<S, C> Api<C> for Client<S, C> where
             }
             412 => {
                 let response_further_info = match response.headers().get(HeaderName::from_static("further-info")) {
-                    Some(response_further_info) => response_further_info.clone(),
-                    None => {
-                        return Err(ApiError(String::from("Required response header Further-Info for response 412 was not found.")));
-                    }
+                    Some(response_further_info) => {
+                        let response_further_info = response_further_info.clone();
+                        let response_further_info = match TryInto::<header::IntoHeaderValue<String>>::try_into(response_further_info) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header Further-Info for response 412 - {}", e)));
+                            },
+                        };
+                        let response_further_info = response_further_info.0;
+                        Some(response_further_info)
+                        },
+                    None => None,
                 };
-                let response_further_info = match TryInto::<header::IntoHeaderValue<String>>::try_into(response_further_info) {
-                    Ok(value) => value,
-                    Err(e) => {
-                        return Err(ApiError(format!("Invalid response header Further-Info for response 412 - {}", e)));
-                    },
-                };
-                let response_further_info = response_further_info.0;
 
                 let response_failure_info = match response.headers().get(HeaderName::from_static("failure-info")) {
-                    Some(response_failure_info) => response_failure_info.clone(),
-                    None => {
-                        return Err(ApiError(String::from("Required response header Failure-Info for response 412 was not found.")));
-                    }
+                    Some(response_failure_info) => {
+                        let response_failure_info = response_failure_info.clone();
+                        let response_failure_info = match TryInto::<header::IntoHeaderValue<String>>::try_into(response_failure_info) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header Failure-Info for response 412 - {}", e)));
+                            },
+                        };
+                        let response_failure_info = response_failure_info.0;
+                        Some(response_failure_info)
+                        },
+                    None => None,
                 };
-                let response_failure_info = match TryInto::<header::IntoHeaderValue<String>>::try_into(response_failure_info) {
-                    Ok(value) => value,
-                    Err(e) => {
-                        return Err(ApiError(format!("Invalid response header Failure-Info for response 412 - {}", e)));
-                    },
-                };
-                let response_failure_info = response_failure_info.0;
 
                 let body = response.into_body();
                 Ok(

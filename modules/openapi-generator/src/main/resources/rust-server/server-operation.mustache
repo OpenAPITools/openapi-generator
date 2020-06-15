@@ -496,6 +496,9 @@
 {{/dataType}}
                                                 => {
 {{#headers}}
+  {{^required}}
+                                                    if let Some({{{name}}}) = {{{name}}} {
+  {{/required}}
                                                     let {{{name}}} = match header::IntoHeaderValue({{{name}}}).try_into() {
                                                         Ok(val) => val,
                                                         Err(e) => {
@@ -506,14 +509,15 @@
                                                         }
                                                     };
 
-{{/headers}}
-                                                    *response.status_mut() = StatusCode::from_u16({{{code}}}).expect("Unable to turn {{{code}}} into a StatusCode");
-{{#headers}}
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("{{{nameInLowerCase}}}"),
                                                         {{name}}
                                                     );
+  {{^required}}
+                                                    }
+  {{/required}}
 {{/headers}}
+                                                    *response.status_mut() = StatusCode::from_u16({{{code}}}).expect("Unable to turn {{{code}}} into a StatusCode");
 {{#produces}}
 {{#-first}}
 {{#dataType}}

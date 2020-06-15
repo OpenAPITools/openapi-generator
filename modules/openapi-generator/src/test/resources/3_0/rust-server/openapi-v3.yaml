@@ -227,6 +227,7 @@ paths:
             Success-Info:
               schema:
                 type: String
+              required: true
             Bool-Header:
               schema:
                 type: bool
