@@ -12,6 +12,7 @@ package petstore
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -207,6 +208,21 @@ func getServerOperationVariables(ctx context.Context, endpoint string) (map[stri
 	return getServerVariables(ctx)
 }
 
+func getOverridenBasePath(ctx context.Context) (string, error) {
+	v := ctx.Value(ContextBasePath)
+	if v != nil {
+		if ctx.Value(ContextServerIndex) != nil {
+			log.Printf("WARNING: ContextServerIndex and ContextBasePath are both set. ContextBasePath will take precedence.\n")
+		}
+		if basePath, ok := v.(string); ok {
+			return basePath, nil
+		}
+		return "", reportError("ctx value of ContextBasePath has Invalid type %T should be string", v)
+	}
+
+	return "", nil
+}
+
 // ServerURLWithContext returns a new server URL given an endpoint
 func (c *Configuration) ServerURLWithContext(ctx context.Context, endpoint string) (string, error) {
 	sc, ok := c.OperationServers[endpoint]
@@ -218,12 +234,12 @@ func (c *Configuration) ServerURLWithContext(ctx context.Context, endpoint strin
 		return sc.URL(0, nil)
 	}
 
-	v := ctx.Value(ContextBasePath)
-	if v != nil {
-		if basePath, ok := v.(string); ok {
-			return basePath, nil
-		}
-		return "", reportError("ctx value of ContextBasePath has Invalid type %T should be string", v)
+	basePath, err := getOverridenBasePath(ctx)
+	if err != nil {
+		return "", err
+	}
+	if basePath != "" {
+		return basePath, nil
 	}
 
 	index, err := getServerOperationIndex(ctx, endpoint)
