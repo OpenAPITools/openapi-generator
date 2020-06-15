@@ -38,7 +38,7 @@ workflows:
 
             set -e
 
-            #sh bin/swift5-all.sh
+            bin/generate-samples.sh ./bin/configs/other/swift5-*
     - script@1.1.6:
         title: Run Swift5 tests
         inputs:
