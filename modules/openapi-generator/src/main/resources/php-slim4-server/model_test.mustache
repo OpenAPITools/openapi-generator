@@ -59,6 +59,12 @@ class {{classname}}Test extends TestCase
     public function test{{classname}}()
     {
         $test{{classname}} = new {{classname}}();
+        $namespacedClassname = {{classname}}::getModelsNamespace() . '\\{{classname}}';
+        $this->assertSame('\\' . {{classname}}::class, $namespacedClassname);
+        $this->assertTrue(
+            class_exists($namespacedClassname),
+            sprintf('Assertion failed that "%s" class exists', $namespacedClassname)
+        );
         $this->markTestIncomplete(
             'Test of "{{classname}}" model has not been implemented yet.'
         );

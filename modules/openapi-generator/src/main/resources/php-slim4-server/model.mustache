@@ -20,6 +20,12 @@ use {{invokerPackage}}\BaseModel;
 class {{classname}} extends BaseModel
 {
     /**
+     * @var string Models namespace.
+     * Can be required for data deserialization when model contains referenced schemas.
+     */
+    protected const MODELS_NAMESPACE = '\{{modelPackage}}';
+
+    /**
      * @var string Constant with OAS schema of current class.
      * Should be overwritten by inherited class.
      */
