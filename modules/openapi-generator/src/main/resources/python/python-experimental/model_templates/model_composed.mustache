@@ -15,6 +15,12 @@ class {{classname}}(ModelComposed):
 
 {{> python-experimental/model_templates/classvars }}
 
+{{#oneOf}}
+{{#-first}}
+    attribute_map = {}
+{{/-first}}
+{{/oneOf}}
+{{^oneOf}}
     attribute_map = {
 {{#requiredVars}}
         '{{name}}': '{{baseName}}',  # noqa: E501
@@ -23,6 +29,7 @@ class {{classname}}(ModelComposed):
         '{{name}}': '{{baseName}}',  # noqa: E501
 {{/optionalVars}}
     }
+{{/oneOf}}
 
 {{> python-experimental/model_templates/method_init_composed }}
 

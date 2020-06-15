@@ -90,11 +90,7 @@ class Triangle(ModelComposed):
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
-        lazy_import()
-        return {
-            'shape_type': (str,),  # noqa: E501
-            'triangle_type': (str,),  # noqa: E501
-        }
+        return {}
 
     @cached_property
     def discriminator():
@@ -108,10 +104,7 @@ class Triangle(ModelComposed):
             return None
         return {'triangle_type': val}
 
-    attribute_map = {
-        'shape_type': 'shapeType',  # noqa: E501
-        'triangle_type': 'triangleType',  # noqa: E501
-    }
+    attribute_map = {}
 
     required_properties = set([
         '_data_store',

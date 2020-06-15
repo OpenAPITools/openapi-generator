@@ -88,21 +88,14 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
-        lazy_import()
-        return {
-            'class_name': (str,),  # noqa: E501
-            'color': (str,),  # noqa: E501
-        }
+        return {}
 
     @cached_property
     def discriminator():
         return None
 
 
-    attribute_map = {
-        'class_name': 'className',  # noqa: E501
-        'color': 'color',  # noqa: E501
-    }
+    attribute_map = {}
 
     required_properties = set([
         '_data_store',
