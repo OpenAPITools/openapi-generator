@@ -36,7 +36,23 @@
   {{^required}}
             if let Some(param_{{{paramName}}}) = param_{{{paramName}}} {
   {{/required}}
-                query_string.append_pair("{{{baseName}}}", &param_{{{paramName}}}{{#isListContainer}}.iter().map(ToString::to_string).collect::<Vec<String>>().join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});
+                query_string.append_pair("{{{baseName}}}",
+  {{#vendorExtensions}}
+    {{#x-consumes-json}}
+                    &match serde_json::to_string(&param_{{{paramName}}}) {
+                        Ok(str) => str,
+                        Err(e) => return Err(ApiError(format!("Unable to serialize {{{paramName}}} to string: {}", e))),
+                    });
+    {{/x-consumes-json}}
+    {{^x-consumes-json}}
+      {{#isListContainer}}
+                    &param_{{{paramName}}}.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
+      {{/isListContainer}}
+      {{^isListContainer}}
+                    &param_{{{paramName}}}.to_string());
+      {{/isListContainer}}
+    {{/x-consumes-json}}
+  {{/vendorExtensions}}
   {{^required}}
             }
   {{/required}}
@@ -87,7 +103,7 @@
           {{#jsonSchema}}
             let {{{paramName}}}_str = match serde_json::to_string(&param_{{{paramName}}}) {
                 Ok(str) => str,
-                Err(e) => return Err(ApiError(format!("Unable to parse {{{paramName}}} to string: {}", e))),
+                Err(e) => return Err(ApiError(format!("Unable to serialize {{{paramName}}} to string: {}", e))),
             };
 
             let {{{paramName}}}_vec = {{{paramName}}}_str.as_bytes().to_vec();

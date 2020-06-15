@@ -1080,7 +1080,8 @@ impl<S, C> Api<C> for Client<S, C> where
         // Query parameters
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-                query_string.append_pair("query", &param_query.to_string());
+                query_string.append_pair("query",
+                    &param_query.to_string());
             query_string.finish()
         };
         if !query_string.is_empty() {
@@ -1380,16 +1381,20 @@ impl<S, C> Api<C> for Client<S, C> where
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
             if let Some(param_enum_query_string_array) = param_enum_query_string_array {
-                query_string.append_pair("enum_query_string_array", &param_enum_query_string_array.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
+                query_string.append_pair("enum_query_string_array",
+                    &param_enum_query_string_array.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
             }
             if let Some(param_enum_query_string) = param_enum_query_string {
-                query_string.append_pair("enum_query_string", &param_enum_query_string.to_string());
+                query_string.append_pair("enum_query_string",
+                    &param_enum_query_string.to_string());
             }
             if let Some(param_enum_query_integer) = param_enum_query_integer {
-                query_string.append_pair("enum_query_integer", &param_enum_query_integer.to_string());
+                query_string.append_pair("enum_query_integer",
+                    &param_enum_query_integer.to_string());
             }
             if let Some(param_enum_query_double) = param_enum_query_double {
-                query_string.append_pair("enum_query_double", &param_enum_query_double.to_string());
+                query_string.append_pair("enum_query_double",
+                    &param_enum_query_double.to_string());
             }
             query_string.finish()
         };
@@ -1970,7 +1975,8 @@ impl<S, C> Api<C> for Client<S, C> where
         // Query parameters
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-                query_string.append_pair("status", &param_status.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
+                query_string.append_pair("status",
+                    &param_status.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
             query_string.finish()
         };
         if !query_string.is_empty() {
@@ -2073,7 +2079,8 @@ impl<S, C> Api<C> for Client<S, C> where
         // Query parameters
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-                query_string.append_pair("tags", &param_tags.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
+                query_string.append_pair("tags",
+                    &param_tags.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
             query_string.finish()
         };
         if !query_string.is_empty() {
@@ -2514,7 +2521,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
             let additional_metadata_str = match serde_json::to_string(&param_additional_metadata) {
                 Ok(str) => str,
-                Err(e) => return Err(ApiError(format!("Unable to parse additional_metadata to string: {}", e))),
+                Err(e) => return Err(ApiError(format!("Unable to serialize additional_metadata to string: {}", e))),
             };
 
             let additional_metadata_vec = additional_metadata_str.as_bytes().to_vec();
@@ -2526,7 +2533,7 @@ impl<S, C> Api<C> for Client<S, C> where
 
             let file_str = match serde_json::to_string(&param_file) {
                 Ok(str) => str,
-                Err(e) => return Err(ApiError(format!("Unable to parse file to string: {}", e))),
+                Err(e) => return Err(ApiError(format!("Unable to serialize file to string: {}", e))),
             };
 
             let file_vec = file_str.as_bytes().to_vec();
@@ -3386,8 +3393,10 @@ impl<S, C> Api<C> for Client<S, C> where
         // Query parameters
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-                query_string.append_pair("username", &param_username.to_string());
-                query_string.append_pair("password", &param_password.to_string());
+                query_string.append_pair("username",
+                    &param_username.to_string());
+                query_string.append_pair("password",
+                    &param_password.to_string());
             query_string.finish()
         };
         if !query_string.is_empty() {

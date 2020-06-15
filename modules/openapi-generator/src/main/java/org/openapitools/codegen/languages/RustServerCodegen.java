@@ -1027,6 +1027,13 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             }
         }
 
+        for (CodegenParameter param : op.queryParams) {
+            // If the MIME type is JSON, mark it.  We don't currently support any other MIME types.
+            if (param.contentType != null && isMimetypeJson(param.contentType)) {
+                param.vendorExtensions.put("x-consumes-json", true);
+            }
+        }
+
         for (CodegenParameter param : op.formParams) {
             processParam(param, op);
         }

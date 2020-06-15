@@ -39,6 +39,7 @@ use crate::{Api,
      CallbackWithHeaderPostResponse,
      ComplexQueryParamGetResponse,
      EnumInPathPathParamGetResponse,
+     JsonComplexQueryParamGetResponse,
      MandatoryRequestHeaderGetResponse,
      MergePatchJsonGetResponse,
      MultigetGetResponse,
@@ -418,7 +419,8 @@ impl<S, C> Api<C> for Client<S, C> where
         // Query parameters
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-                query_string.append_pair("url", &param_url.to_string());
+                query_string.append_pair("url",
+                    &param_url.to_string());
             query_string.finish()
         };
         if !query_string.is_empty() {
@@ -490,7 +492,8 @@ impl<S, C> Api<C> for Client<S, C> where
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
             if let Some(param_list_of_strings) = param_list_of_strings {
-                query_string.append_pair("list-of-strings", &param_list_of_strings.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
+                query_string.append_pair("list-of-strings",
+                    &param_list_of_strings.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
             }
             query_string.finish()
         };
@@ -597,6 +600,83 @@ impl<S, C> Api<C> for Client<S, C> where
                 let body = response.into_body();
                 Ok(
                     EnumInPathPathParamGetResponse::Success
+                )
+            }
+            code => {
+                let headers = response.headers().clone();
+                let body = response.into_body()
+                       .take(100)
+                       .to_raw().await;
+                Err(ApiError(format!("Unexpected response code {}:\n{:?}\n\n{}",
+                    code,
+                    headers,
+                    match body {
+                        Ok(body) => match String::from_utf8(body) {
+                            Ok(body) => body,
+                            Err(e) => format!("<Body was not UTF8: {:?}>", e),
+                        },
+                        Err(e) => format!("<Failed to read body: {}>", e),
+                    }
+                )))
+            }
+        }
+    }
+
+    async fn json_complex_query_param_get(
+        &self,
+        param_list_of_strings: Option<&Vec<models::StringObject>>,
+        context: &C) -> Result<JsonComplexQueryParamGetResponse, ApiError>
+    {
+        let mut client_service = self.client_service.clone();
+        let mut uri = format!(
+            "{}/json-complex-query-param",
+            self.base_path
+        );
+
+        // Query parameters
+        let query_string = {
+            let mut query_string = form_urlencoded::Serializer::new("".to_owned());
+            if let Some(param_list_of_strings) = param_list_of_strings {
+                query_string.append_pair("list-of-strings",
+                    &match serde_json::to_string(&param_list_of_strings) {
+                        Ok(str) => str,
+                        Err(e) => return Err(ApiError(format!("Unable to serialize list_of_strings to string: {}", e))),
+                    });
+            }
+            query_string.finish()
+        };
+        if !query_string.is_empty() {
+            uri += "?";
+            uri += &query_string;
+        }
+
+        let uri = match Uri::from_str(&uri) {
+            Ok(uri) => uri,
+            Err(err) => return Err(ApiError(format!("Unable to build URI: {}", err))),
+        };
+
+        let mut request = match Request::builder()
+            .method("GET")
+            .uri(uri)
+            .body(Body::empty()) {
+                Ok(req) => req,
+                Err(e) => return Err(ApiError(format!("Unable to create request: {}", e)))
+        };
+
+        let header = HeaderValue::from_str(Has::<XSpanIdString>::get(context).0.clone().to_string().as_str());
+        request.headers_mut().insert(HeaderName::from_static("x-span-id"), match header {
+            Ok(h) => h,
+            Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
+        });
+
+        let mut response = client_service.call(request)
+            .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
+
+        match response.status().as_u16() {
+            200 => {
+                let body = response.into_body();
+                Ok(
+                    JsonComplexQueryParamGetResponse::Success
                 )
             }
             code => {
@@ -1095,13 +1175,16 @@ impl<S, C> Api<C> for Client<S, C> where
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
             if let Some(param_uuid) = param_uuid {
-                query_string.append_pair("uuid", &param_uuid.to_string());
+                query_string.append_pair("uuid",
+                    &param_uuid.to_string());
             }
             if let Some(param_some_object) = param_some_object {
-                query_string.append_pair("someObject", &param_some_object.to_string());
+                query_string.append_pair("someObject",
+                    &param_some_object.to_string());
             }
             if let Some(param_some_list) = param_some_list {
-                query_string.append_pair("someList", &param_some_list.to_string());
+                query_string.append_pair("someList",
+                    &param_some_list.to_string());
             }
             query_string.finish()
         };
@@ -1265,7 +1348,8 @@ impl<S, C> Api<C> for Client<S, C> where
         // Query parameters
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-                query_string.append_pair("url", &param_url.to_string());
+                query_string.append_pair("url",
+                    &param_url.to_string());
             query_string.finish()
         };
         if !query_string.is_empty() {

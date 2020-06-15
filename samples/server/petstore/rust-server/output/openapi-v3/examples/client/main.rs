@@ -9,6 +9,7 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       CallbackWithHeaderPostResponse,
                       ComplexQueryParamGetResponse,
                       EnumInPathPathParamGetResponse,
+                      JsonComplexQueryParamGetResponse,
                       MandatoryRequestHeaderGetResponse,
                       MergePatchJsonGetResponse,
                       MultigetGetResponse,
@@ -52,6 +53,7 @@ fn main() {
             .possible_values(&[
                 "CallbackWithHeaderPost",
                 "ComplexQueryParamGet",
+                "JsonComplexQueryParamGet",
                 "MandatoryRequestHeaderGet",
                 "MergePatchJsonGet",
                 "MultigetGet",
@@ -138,6 +140,12 @@ fn main() {
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },
         */
+        Some("JsonComplexQueryParamGet") => {
+            let result = rt.block_on(client.json_complex_query_param_get(
+                  Some(&Vec::new())
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("MandatoryRequestHeaderGet") => {
             let result = rt.block_on(client.mandatory_request_header_get(
                   "x_header_example".to_string()
