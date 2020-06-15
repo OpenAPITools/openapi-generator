@@ -361,7 +361,8 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("lowercase", new LowercaseLambda().generator(this))
                 .put("uppercase", new UppercaseLambda())
                 .put("titlecase", new TitlecaseLambda())
-                .put("camelcase", new CamelCaseLambda().generator(this))
+                .put("camelcase", new CamelCaseLambda(true).generator(this))
+                .put("pascalcase", new CamelCaseLambda(false).generator(this))
                 .put("indented", new IndentedLambda())
                 .put("indented_8", new IndentedLambda(8, " "))
                 .put("indented_12", new IndentedLambda(12, " "))
@@ -3499,8 +3500,9 @@ public class DefaultCodegen implements CodegenConfig {
             op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
             op.defaultResponse = toDefaultValue(responseSchema);
             op.returnType = cm.dataType;
-            op.hasReference = schemas.containsKey(op.returnBaseType);
-
+            op.returnFormat = cm.dataFormat;
+            op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);
+             
             // lookup discriminator
             Schema schema = schemas.get(op.returnBaseType);
             if (schema != null) {
@@ -4313,7 +4315,7 @@ public class DefaultCodegen implements CodegenConfig {
             return false;
         }
     }
-
+    
     // TODO revise below as it should be replaced by ModelUtils.isFileSchema(parameterSchema)
     public boolean isDataTypeFile(String dataType) {
         if (dataType != null) {
