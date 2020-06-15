@@ -1104,7 +1104,7 @@ module Petstore
       query_params = opts[:query_params] || {}
       query_params[:'pipe'] = @api_client.build_collection_param(pipe, :multi)
       query_params[:'ioutil'] = @api_client.build_collection_param(ioutil, :csv)
-      query_params[:'http'] = @api_client.build_collection_param(http, :space)
+      query_params[:'http'] = @api_client.build_collection_param(http, :ssv)
       query_params[:'url'] = @api_client.build_collection_param(url, :csv)
       query_params[:'context'] = @api_client.build_collection_param(context, :multi)
 

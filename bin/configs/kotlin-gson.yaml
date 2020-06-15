@@ -1,0 +1,7 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-gson
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  serializationLibrary: gson
+  artifactId: kotlin-petstore-gson

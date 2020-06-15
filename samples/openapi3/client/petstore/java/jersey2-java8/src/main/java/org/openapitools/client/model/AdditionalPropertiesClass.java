@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -28,6 +30,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * AdditionalPropertiesClass
@@ -42,7 +46,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   AdditionalPropertiesClass.JSON_PROPERTY_EMPTY_MAP,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   private Map<String, String> mapProperty = null;
@@ -70,7 +74,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapProperty(Map<String, String> mapProperty) {
-    
     this.mapProperty = mapProperty;
     return this;
   }
@@ -103,7 +106,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapOfMapProperty(Map<String, Map<String, String>> mapOfMapProperty) {
-    
     this.mapOfMapProperty = mapOfMapProperty;
     return this;
   }
@@ -137,7 +139,6 @@ public class AdditionalPropertiesClass {
 
   public AdditionalPropertiesClass anytype1(Object anytype1) {
     this.anytype1 = JsonNullable.<Object>of(anytype1);
-    
     return this;
   }
 
@@ -171,7 +172,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapWithUndeclaredPropertiesAnytype1(Object mapWithUndeclaredPropertiesAnytype1) {
-    
     this.mapWithUndeclaredPropertiesAnytype1 = mapWithUndeclaredPropertiesAnytype1;
     return this;
   }
@@ -196,7 +196,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapWithUndeclaredPropertiesAnytype2(Object mapWithUndeclaredPropertiesAnytype2) {
-    
     this.mapWithUndeclaredPropertiesAnytype2 = mapWithUndeclaredPropertiesAnytype2;
     return this;
   }
@@ -221,7 +220,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapWithUndeclaredPropertiesAnytype3(Map<String, Object> mapWithUndeclaredPropertiesAnytype3) {
-    
     this.mapWithUndeclaredPropertiesAnytype3 = mapWithUndeclaredPropertiesAnytype3;
     return this;
   }
@@ -254,7 +252,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass emptyMap(Object emptyMap) {
-    
     this.emptyMap = emptyMap;
     return this;
   }
@@ -279,7 +276,6 @@ public class AdditionalPropertiesClass {
 
 
   public AdditionalPropertiesClass mapWithUndeclaredPropertiesString(Map<String, String> mapWithUndeclaredPropertiesString) {
-    
     this.mapWithUndeclaredPropertiesString = mapWithUndeclaredPropertiesString;
     return this;
   }

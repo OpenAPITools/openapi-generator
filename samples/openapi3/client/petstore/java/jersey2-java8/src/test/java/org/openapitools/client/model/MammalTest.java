@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.openapitools.client.JSON;
 import org.openapitools.client.model.Pig;
 import org.openapitools.client.model.Whale;
 import org.openapitools.client.model.Zebra;
@@ -39,8 +40,15 @@ public class MammalTest {
      * Model tests for Mammal
      */
     @Test
-    public void testMammal() {
-        // TODO: test Mammal
+    public void testMammal() throws Exception {
+        Mammal m = new Mammal();
+        Zebra z = new Zebra();
+        z.setType(Zebra.TypeEnum.MOUNTAIN);
+        z.setClassName("zebra");
+
+        m.setActualInstance(z);
+
+        Assert.assertEquals(JSON.getDefault().getMapper().writeValueAsString(m), "{\"type\":\"mountain\",\"className\":\"zebra\"}");
     }
 
     /**

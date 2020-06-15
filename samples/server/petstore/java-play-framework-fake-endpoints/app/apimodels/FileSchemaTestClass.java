@@ -10,7 +10,7 @@ import javax.validation.constraints.*;
 /**
  * FileSchemaTestClass
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class FileSchemaTestClass   {
   @JsonProperty("file")

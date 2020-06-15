@@ -267,6 +267,12 @@
                 <artifactId>jackson-databind-nullable</artifactId>
                 <version>${jackson-databind-nullable-version}</version>
             </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${javax-annotation-version}</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- test dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -287,6 +293,7 @@
         <play-version>2.4.11</play-version>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
         <retrofit-version>2.5.0</retrofit-version>
+        <javax-annotation-version>1.3.2</javax-annotation-version>
         <oltu-version>1.0.1</oltu-version>
         <junit-version>4.13</junit-version>
     </properties>

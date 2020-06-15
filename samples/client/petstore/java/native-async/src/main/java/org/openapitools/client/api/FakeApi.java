@@ -45,7 +45,7 @@ import java.util.Map;
 
 import java.util.concurrent.CompletableFuture;
 
-
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -53,7 +53,7 @@ public class FakeApi {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  
+
   public FakeApi() {
     this(new ApiClient());
   }
@@ -107,9 +107,8 @@ public class FakeApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
     } catch (IOException e) {
@@ -153,10 +152,14 @@ public class FakeApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Boolean>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
     } catch (IOException e) {
       return CompletableFuture.failedFuture(new ApiException(e));
@@ -199,10 +202,14 @@ public class FakeApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<OuterComposite>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
     } catch (IOException e) {
       return CompletableFuture.failedFuture(new ApiException(e));
@@ -245,10 +252,14 @@ public class FakeApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<BigDecimal>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
     } catch (IOException e) {
       return CompletableFuture.failedFuture(new ApiException(e));
@@ -291,10 +302,14 @@ public class FakeApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
     } catch (IOException e) {
       return CompletableFuture.failedFuture(new ApiException(e));
@@ -340,9 +355,8 @@ public class FakeApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
     } catch (IOException e) {
@@ -403,9 +417,8 @@ public class FakeApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
     } catch (IOException e) {
@@ -453,10 +466,14 @@ public class FakeApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
     } catch (IOException e) {
       return CompletableFuture.failedFuture(new ApiException(e));
@@ -524,9 +541,8 @@ public class FakeApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
   }
@@ -588,12 +604,27 @@ public class FakeApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
   }
+  /**
+   * Fake endpoint to test group parameters (optional)
+   * Fake endpoint to test group parameters (optional)
+   * @param testGroupParametersRequest {@link APItestGroupParametersRequest}
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<Void> testGroupParameters(APItestGroupParametersRequest testGroupParametersRequest) throws ApiException {
+    Integer requiredStringGroup = testGroupParametersRequest.requiredStringGroup();
+    Boolean requiredBooleanGroup = testGroupParametersRequest.requiredBooleanGroup();
+    Long requiredInt64Group = testGroupParametersRequest.requiredInt64Group();
+    Integer stringGroup = testGroupParametersRequest.stringGroup();
+    Boolean booleanGroup = testGroupParametersRequest.booleanGroup();
+    Long int64Group = testGroupParametersRequest.int64Group();
+    return testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+  }
+
   /**
    * Fake endpoint to test group parameters (optional)
    * Fake endpoint to test group parameters (optional)
@@ -662,12 +693,88 @@ public class FakeApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
   }
+
+  public static final class APItestGroupParametersRequest {
+    private Integer requiredStringGroup; // Required String in group parameters (required)
+    private Boolean requiredBooleanGroup; // Required Boolean in group parameters (required)
+    private Long requiredInt64Group; // Required Integer in group parameters (required)
+    private Integer stringGroup; // String in group parameters (optional)
+    private Boolean booleanGroup; // Boolean in group parameters (optional)
+    private Long int64Group; // Integer in group parameters (optional)
+
+    private APItestGroupParametersRequest(Builder builder) {
+      this.requiredStringGroup = builder.requiredStringGroup;
+      this.requiredBooleanGroup = builder.requiredBooleanGroup;
+      this.requiredInt64Group = builder.requiredInt64Group;
+      this.stringGroup = builder.stringGroup;
+      this.booleanGroup = builder.booleanGroup;
+      this.int64Group = builder.int64Group;
+    }
+    public Integer requiredStringGroup() {
+      return requiredStringGroup;
+    }
+    public Boolean requiredBooleanGroup() {
+      return requiredBooleanGroup;
+    }
+    public Long requiredInt64Group() {
+      return requiredInt64Group;
+    }
+    public Integer stringGroup() {
+      return stringGroup;
+    }
+    public Boolean booleanGroup() {
+      return booleanGroup;
+    }
+    public Long int64Group() {
+      return int64Group;
+    }
+    public static Builder newBuilder() {
+      return new Builder();
+    }
+
+    public static class Builder {
+      private Integer requiredStringGroup;
+      private Boolean requiredBooleanGroup;
+      private Long requiredInt64Group;
+      private Integer stringGroup;
+      private Boolean booleanGroup;
+      private Long int64Group;
+
+      public Builder requiredStringGroup(Integer requiredStringGroup) {
+        this.requiredStringGroup = requiredStringGroup;
+        return this;
+      }
+      public Builder requiredBooleanGroup(Boolean requiredBooleanGroup) {
+        this.requiredBooleanGroup = requiredBooleanGroup;
+        return this;
+      }
+      public Builder requiredInt64Group(Long requiredInt64Group) {
+        this.requiredInt64Group = requiredInt64Group;
+        return this;
+      }
+      public Builder stringGroup(Integer stringGroup) {
+        this.stringGroup = stringGroup;
+        return this;
+      }
+      public Builder booleanGroup(Boolean booleanGroup) {
+        this.booleanGroup = booleanGroup;
+        return this;
+      }
+      public Builder int64Group(Long int64Group) {
+        this.int64Group = int64Group;
+        return this;
+      }
+      public APItestGroupParametersRequest build() {
+        return new APItestGroupParametersRequest(this);
+      }
+    }
+  }
+
   /**
    * test inline additionalProperties
    * 
@@ -708,9 +815,8 @@ public class FakeApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
     } catch (IOException e) {
@@ -759,9 +865,8 @@ public class FakeApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
   }
@@ -804,7 +909,7 @@ public class FakeApi {
     List<Pair> localVarQueryParams = new ArrayList<>();
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "pipe", pipe));
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "ioutil", ioutil));
-    localVarQueryParams.addAll(ApiClient.parameterToPairs("space", "http", http));
+    localVarQueryParams.addAll(ApiClient.parameterToPairs("ssv", "http", http));
     localVarQueryParams.addAll(ApiClient.parameterToPairs("csv", "url", url));
     localVarQueryParams.addAll(ApiClient.parameterToPairs("multi", "context", context));
 
@@ -835,9 +940,8 @@ public class FakeApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
   }

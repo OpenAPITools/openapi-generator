@@ -12,6 +12,7 @@ composer.lock
 
 # Do not commit local PHPUnit config
 /phpunit.xml
+/.phpunit.result.cache
 
 # Do not commit local PHP_CodeSniffer config
 /phpcs.xml

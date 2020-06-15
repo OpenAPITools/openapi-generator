@@ -361,7 +361,8 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("lowercase", new LowercaseLambda().generator(this))
                 .put("uppercase", new UppercaseLambda())
                 .put("titlecase", new TitlecaseLambda())
-                .put("camelcase", new CamelCaseLambda().generator(this))
+                .put("camelcase", new CamelCaseLambda(true).generator(this))
+                .put("pascalcase", new CamelCaseLambda(false).generator(this))
                 .put("indented", new IndentedLambda())
                 .put("indented_8", new IndentedLambda(8, " "))
                 .put("indented_12", new IndentedLambda(12, " "))
@@ -3499,8 +3500,9 @@ public class DefaultCodegen implements CodegenConfig {
             op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
             op.defaultResponse = toDefaultValue(responseSchema);
             op.returnType = cm.dataType;
-            op.hasReference = schemas.containsKey(op.returnBaseType);
-
+            op.returnFormat = cm.dataFormat;
+            op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);
+             
             // lookup discriminator
             Schema schema = schemas.get(op.returnBaseType);
             if (schema != null) {
@@ -3613,12 +3615,12 @@ public class DefaultCodegen implements CodegenConfig {
                     op.uniqueItems = true;
                     imports.add(typeMapping.get(r.containerType));
                 }
-                r.isDefault = response == methodResponse;
+
                 op.responses.add(r);
-                if (Boolean.TRUE.equals(r.isBinary) && Boolean.TRUE.equals(r.isDefault)) {
+                if (Boolean.TRUE.equals(r.isBinary) && Boolean.TRUE.equals(r.is2xx) && Boolean.FALSE.equals(op.isResponseBinary)) {
                     op.isResponseBinary = Boolean.TRUE;
                 }
-                if (Boolean.TRUE.equals(r.isFile) && Boolean.TRUE.equals(r.isDefault)) {
+                if (Boolean.TRUE.equals(r.isFile) && Boolean.TRUE.equals(r.is2xx) && Boolean.FALSE.equals(op.isResponseFile)) {
                     op.isResponseFile = Boolean.TRUE;
                 }
             }
@@ -3847,6 +3849,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if ("default".equals(responseCode) || "defaultResponse".equals(responseCode)) {
             r.code = "0";
+            r.isDefault = true;
         } else {
             r.code = responseCode;
             switch (r.code.charAt(0)) {
@@ -4312,7 +4315,7 @@ public class DefaultCodegen implements CodegenConfig {
             return false;
         }
     }
-
+    
     // TODO revise below as it should be replaced by ModelUtils.isFileSchema(parameterSchema)
     public boolean isDataTypeFile(String dataType) {
         if (dataType != null) {
@@ -5594,9 +5597,9 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (Parameter.StyleEnum.SIMPLE.equals(parameter.getStyle())) {
             return "csv";
         } else if (Parameter.StyleEnum.PIPEDELIMITED.equals(parameter.getStyle())) {
-            return "pipe";
+            return "pipes";
         } else if (Parameter.StyleEnum.SPACEDELIMITED.equals(parameter.getStyle())) {
-            return "space";
+            return "ssv";
         } else {
             return null;
         }

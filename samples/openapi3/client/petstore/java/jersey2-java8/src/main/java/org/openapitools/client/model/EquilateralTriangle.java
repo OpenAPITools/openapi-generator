@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -24,6 +26,8 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.ShapeInterface;
 import org.openapitools.client.model.TriangleInterface;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * EquilateralTriangle
@@ -32,7 +36,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   EquilateralTriangle.JSON_PROPERTY_SHAPE_TYPE,
   EquilateralTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class EquilateralTriangle {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   private String shapeType;
@@ -42,7 +46,6 @@ public class EquilateralTriangle {
 
 
   public EquilateralTriangle shapeType(String shapeType) {
-    
     this.shapeType = shapeType;
     return this;
   }
@@ -66,7 +69,6 @@ public class EquilateralTriangle {
 
 
   public EquilateralTriangle triangleType(String triangleType) {
-    
     this.triangleType = triangleType;
     return this;
   }

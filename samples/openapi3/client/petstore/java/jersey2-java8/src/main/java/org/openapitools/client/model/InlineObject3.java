@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -26,6 +28,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * InlineObject3
@@ -46,7 +50,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   InlineObject3.JSON_PROPERTY_PASSWORD,
   InlineObject3.JSON_PROPERTY_CALLBACK
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class InlineObject3 {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   private Integer integer;
@@ -82,7 +86,8 @@ public class InlineObject3 {
   private LocalDate date;
 
   public static final String JSON_PROPERTY_DATE_TIME = "dateTime";
-  private OffsetDateTime dateTime = OffsetDateTime.parse("2010-02-01T10:20:10.111110+01:00[Europe/Warsaw]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()));
+
+  private OffsetDateTime dateTime = OffsetDateTime.parse("2010-02-01T09:20:10.111110Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault()));
 
   public static final String JSON_PROPERTY_PASSWORD = "password";
   private String password;
@@ -92,7 +97,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 integer(Integer integer) {
-    
     this.integer = integer;
     return this;
   }
@@ -119,7 +123,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 int32(Integer int32) {
-    
     this.int32 = int32;
     return this;
   }
@@ -146,7 +149,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 int64(Long int64) {
-    
     this.int64 = int64;
     return this;
   }
@@ -171,7 +173,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 number(BigDecimal number) {
-    
     this.number = number;
     return this;
   }
@@ -197,7 +198,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 _float(Float _float) {
-    
     this._float = _float;
     return this;
   }
@@ -223,7 +223,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 _double(Double _double) {
-    
     this._double = _double;
     return this;
   }
@@ -249,7 +248,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 string(String string) {
-    
     this.string = string;
     return this;
   }
@@ -274,7 +272,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 patternWithoutDelimiter(String patternWithoutDelimiter) {
-    
     this.patternWithoutDelimiter = patternWithoutDelimiter;
     return this;
   }
@@ -298,7 +295,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 _byte(byte[] _byte) {
-    
     this._byte = _byte;
     return this;
   }
@@ -322,7 +318,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 binary(File binary) {
-    
     this.binary = binary;
     return this;
   }
@@ -347,7 +342,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 date(LocalDate date) {
-    
     this.date = date;
     return this;
   }
@@ -372,7 +366,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 dateTime(OffsetDateTime dateTime) {
-    
     this.dateTime = dateTime;
     return this;
   }
@@ -397,7 +390,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 password(String password) {
-    
     this.password = password;
     return this;
   }
@@ -422,7 +414,6 @@ public class InlineObject3 {
 
 
   public InlineObject3 callback(String callback) {
-    
     this.callback = callback;
     return this;
   }
