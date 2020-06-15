@@ -368,35 +368,34 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         return models;
     }
 
-    private void addForwardDeclarations(CodegenModel model, Map<String, Object> objs) {
+    private void addForwardDeclarations(CodegenModel parentModel, Map<String, Object> objs) {
         List<String> forwardDeclarations = new ArrayList<String>();
-        if(!model.hasVars) {
+        if(!parentModel.hasVars) {
             return;
         }
-        for(CodegenProperty property : model.vars){
-            if((property.isContainer && property.mostInnerItems.isModel) || (property.isModel)) {
-                String innerPropertyType = property.isContainer? property.mostInnerItems.baseType : property.baseType;
-                for(final Entry<String, Object> mo : objs.entrySet()) {
-                    CodegenModel innerModel = ModelUtils.getModelByName(mo.getKey(), objs);
-                    if(innerPropertyType.equals(innerModel.classname) && !innerPropertyType.equals(model.classname)){
-                        if(innerModel.hasVars) {
-                            for(CodegenProperty p : innerModel.vars) {
-                                if(((p.isModel && p.dataType.equals(model.classname)) || (p.isContainer && p.mostInnerItems.baseType.equals(model.classname)))) {
-                                    String forwardDecl = "class " + innerModel.classname + ";";
-                                    if(!forwardDeclarations.contains(forwardDecl)) {
-                                        forwardDeclarations.add(forwardDecl);
-                                    }
-                                }
-                            }
+        for(CodegenProperty property : parentModel.vars){
+            if(!( (property.isContainer && property.mostInnerItems.isModel) || (property.isModel) ) ){
+                continue;
+            }
+            String childPropertyType = property.isContainer? property.mostInnerItems.baseType : property.baseType;
+            for(final Entry<String, Object> mo : objs.entrySet()) {
+                CodegenModel childModel = ModelUtils.getModelByName(mo.getKey(), objs);
+                if( !childPropertyType.equals(childModel.classname) || childPropertyType.equals(parentModel.classname) || !childModel.hasVars ){
+                    continue;
+                }
+                for(CodegenProperty p : childModel.vars) {
+                    if(((p.isModel && p.dataType.equals(parentModel.classname)) || (p.isContainer && p.mostInnerItems.baseType.equals(parentModel.classname)))) {
+                        String forwardDecl = "class " + childModel.classname + ";";
+                        if(!forwardDeclarations.contains(forwardDecl)) {
+                            forwardDeclarations.add(forwardDecl);
                         }
                     }
                 }
             }
         }
-        if(!forwardDeclarations.isEmpty())
-        {
-            model.vendorExtensions.put("x-has-forward-declarations", true);
-            model.vendorExtensions.put("x-forward-declarations", forwardDeclarations);
+        if(!forwardDeclarations.isEmpty()){
+            parentModel.vendorExtensions.put("x-has-forward-declarations", true);
+            parentModel.vendorExtensions.put("x-forward-declarations", forwardDeclarations);
         }
         return;
     }
