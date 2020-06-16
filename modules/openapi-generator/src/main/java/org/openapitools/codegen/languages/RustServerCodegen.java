@@ -97,14 +97,11 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
                         SecurityFeature.OAuth2_Implicit
                 ))
                 .excludeGlobalFeatures(
-                        GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.LinkObjects,
                         GlobalFeature.ParameterStyling
                 )
                 .excludeSchemaSupportFeatures(
-                        SchemaSupportFeature.Polymorphism,
-                        SchemaSupportFeature.Union,
-                        SchemaSupportFeature.Composite
+                        SchemaSupportFeature.Polymorphism
                 )
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
