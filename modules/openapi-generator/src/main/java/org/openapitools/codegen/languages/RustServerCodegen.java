@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.FileSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.XML;
@@ -1238,6 +1239,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
             } else {
                 mdl.arrayModelType = toModelName(mdl.arrayModelType);
             }
+        } else if ((mdl.anyOf.size() > 0) || (mdl.oneOf.size() > 0)) {
+            mdl.dataType = getSchemaType(model);
         }
 
         if (mdl.xmlNamespace != null) {
@@ -1408,6 +1411,28 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if ((defaultValue != null) && (ModelUtils.isNullable(p)))
             defaultValue = "swagger::Nullable::Present(" + defaultValue + ")";
         return defaultValue;
+    }
+
+    @Override
+    public String toOneOfName(List<String> names, ComposedSchema composedSchema) {
+        List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
+
+        List<String> types = new ArrayList<>();
+        for (Schema s : schemas) {
+            types.add(getTypeDeclaration(s));
+        }
+        return "swagger::OneOf" + types.size() + "<" + String.join(",", types) + ">";
+    }
+
+    @Override
+    public String toAnyOfName(List<String> names, ComposedSchema composedSchema) {
+        List<Schema> schemas = ModelUtils.getInterfaces(composedSchema);
+
+        List<String> types = new ArrayList<>();
+        for (Schema s : schemas) {
+            types.add(getTypeDeclaration(s));
+        }
+        return "swagger::AnyOf" + types.size() + "<" + String.join(",", types) + ">";
     }
 
     @Override
