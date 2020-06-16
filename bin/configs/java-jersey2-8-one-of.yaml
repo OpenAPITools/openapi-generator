@@ -1,0 +1,9 @@
+generatorName: java
+outputDir: samples/openapi3/client/features/one-of/java/jersey2-java8
+library: jersey2
+inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOfOverlapingTypes.yaml
+additionalProperties:
+  artifactId: one-of-openapi3-jersey2-java8
+  hideGenerationTimestamp: true
+  serverPort: "8082"
+  dateLibrary: java8
