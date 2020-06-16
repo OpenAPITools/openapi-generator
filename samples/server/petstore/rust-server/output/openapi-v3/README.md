@@ -61,6 +61,7 @@ cargo run --example server
 To run a client, follow one of the following simple steps:
 
 ```
+cargo run --example client AnyOfGet
 cargo run --example client CallbackWithHeaderPost
 cargo run --example client ComplexQueryParamGet
 cargo run --example client JsonComplexQueryParamGet
@@ -68,6 +69,7 @@ cargo run --example client MandatoryRequestHeaderGet
 cargo run --example client MergePatchJsonGet
 cargo run --example client MultigetGet
 cargo run --example client MultipleAuthSchemeGet
+cargo run --example client OneOfGet
 cargo run --example client OverrideServerGet
 cargo run --example client ParamgetGet
 cargo run --example client ReadonlyAuthSchemeGet
@@ -117,6 +119,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[****](docs/default_api.md#) | **GET** /any-of | 
 [****](docs/default_api.md#) | **POST** /callback-with-header | 
 [****](docs/default_api.md#) | **GET** /complex-query-param | 
 [****](docs/default_api.md#) | **GET** /enum_in_path/{path_param} | 
@@ -125,6 +128,7 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **GET** /merge-patch-json | 
 [****](docs/default_api.md#) | **GET** /multiget | Get some stuff.
 [****](docs/default_api.md#) | **GET** /multiple_auth_scheme | 
+[****](docs/default_api.md#) | **GET** /one-of | 
 [****](docs/default_api.md#) | **GET** /override-server | 
 [****](docs/default_api.md#) | **GET** /paramget | Get some stuff with parameters.
 [****](docs/default_api.md#) | **GET** /readonly_auth_scheme | 
@@ -149,11 +153,16 @@ Method | HTTP request | Description
  - [AnotherXmlArray](docs/AnotherXmlArray.md)
  - [AnotherXmlInner](docs/AnotherXmlInner.md)
  - [AnotherXmlObject](docs/AnotherXmlObject.md)
+ - [AnyOfObject](docs/AnyOfObject.md)
+ - [AnyOfObjectAnyOf](docs/AnyOfObjectAnyOf.md)
+ - [AnyOfProperty](docs/AnyOfProperty.md)
  - [DuplicateXmlObject](docs/DuplicateXmlObject.md)
  - [EnumWithStarObject](docs/EnumWithStarObject.md)
  - [Err](docs/Err.md)
  - [Error](docs/Error.md)
  - [InlineResponse201](docs/InlineResponse201.md)
+ - [Model12345AnyOfObject](docs/Model12345AnyOfObject.md)
+ - [Model12345AnyOfObjectAnyOf](docs/Model12345AnyOfObjectAnyOf.md)
  - [MyId](docs/MyId.md)
  - [MyIdList](docs/MyIdList.md)
  - [NullableTest](docs/NullableTest.md)

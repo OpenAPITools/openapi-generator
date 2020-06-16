@@ -6,6 +6,7 @@ mod server;
 use futures::{future, Stream, stream};
 #[allow(unused_imports)]
 use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
+                      AnyOfGetResponse,
                       CallbackWithHeaderPostResponse,
                       ComplexQueryParamGetResponse,
                       EnumInPathPathParamGetResponse,
@@ -14,6 +15,7 @@ use openapi_v3::{Api, ApiNoContext, Client, ContextWrapperExt, models,
                       MergePatchJsonGetResponse,
                       MultigetGetResponse,
                       MultipleAuthSchemeGetResponse,
+                      OneOfGetResponse,
                       OverrideServerGetResponse,
                       ParamgetGetResponse,
                       ReadonlyAuthSchemeGetResponse,
@@ -51,6 +53,7 @@ fn main() {
         .arg(Arg::with_name("operation")
             .help("Sets the operation to run")
             .possible_values(&[
+                "AnyOfGet",
                 "CallbackWithHeaderPost",
                 "ComplexQueryParamGet",
                 "JsonComplexQueryParamGet",
@@ -58,6 +61,7 @@ fn main() {
                 "MergePatchJsonGet",
                 "MultigetGet",
                 "MultipleAuthSchemeGet",
+                "OneOfGet",
                 "OverrideServerGet",
                 "ParamgetGet",
                 "ReadonlyAuthSchemeGet",
@@ -120,6 +124,12 @@ fn main() {
     rt.spawn(server::create("127.0.0.1:8081", false));
 
     match matches.value_of("operation") {
+        Some("AnyOfGet") => {
+            let result = rt.block_on(client.any_of_get(
+                  Some(&Vec::new())
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
         Some("CallbackWithHeaderPost") => {
             let result = rt.block_on(client.callback_with_header_post(
                   "url_example".to_string()
@@ -164,6 +174,11 @@ fn main() {
         },
         Some("MultipleAuthSchemeGet") => {
             let result = rt.block_on(client.multiple_auth_scheme_get(
+            ));
+            info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
+        },
+        Some("OneOfGet") => {
+            let result = rt.block_on(client.one_of_get(
             ));
             info!("{:?} (X-Span-ID: {:?})", result, (client.context() as &dyn Has<XSpanIdString>).get().clone());
         },

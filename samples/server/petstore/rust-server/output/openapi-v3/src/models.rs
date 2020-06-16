@@ -4,7 +4,6 @@ use crate::models;
 #[cfg(any(feature = "client", feature = "server"))]
 use crate::header;
 
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct AdditionalPropertiesWithList(std::collections::HashMap<String, Vec<String>>);
@@ -14,7 +13,6 @@ impl std::convert::From<std::collections::HashMap<String, Vec<String>>> for Addi
         AdditionalPropertiesWithList(x)
     }
 }
-
 
 impl std::convert::From<AdditionalPropertiesWithList> for std::collections::HashMap<String, Vec<String>> {
     fn from(x: AdditionalPropertiesWithList) -> Self {
@@ -62,44 +60,6 @@ impl AdditionalPropertiesWithList {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<AnotherXmlArray> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<AnotherXmlArray>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<AnotherXmlArray>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for AnotherXmlArray - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<AnotherXmlArray> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <AnotherXmlArray as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into AnotherXmlArray - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
     }
 }
 
@@ -203,6 +163,45 @@ impl std::str::FromStr for AnotherXmlArray {
 }
 
 
+// Methods for converting between header::IntoHeaderValue<AnotherXmlArray> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<AnotherXmlArray>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<AnotherXmlArray>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for AnotherXmlArray - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<AnotherXmlArray> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <AnotherXmlArray as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into AnotherXmlArray - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+
 impl AnotherXmlArray {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
@@ -266,45 +265,6 @@ impl AnotherXmlInner {
 }
 
 /// An XML object
-// Methods for converting between header::IntoHeaderValue<AnotherXmlObject> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<AnotherXmlObject>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<AnotherXmlObject>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for AnotherXmlObject - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<AnotherXmlObject> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <AnotherXmlObject as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into AnotherXmlObject - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "snake_another_xml_object")]
@@ -366,7 +326,7 @@ impl std::str::FromStr for AnotherXmlObject {
 
             if let Some(key) = key_result {
                 match key {
-                    "inner_string" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    "inner_string" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing AnotherXmlObject".to_string())
                 }
             }
@@ -379,6 +339,44 @@ impl std::str::FromStr for AnotherXmlObject {
         std::result::Result::Ok(AnotherXmlObject {
             inner_string: intermediate_rep.inner_string.into_iter().next(),
         })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<AnotherXmlObject> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<AnotherXmlObject>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<AnotherXmlObject>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for AnotherXmlObject - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<AnotherXmlObject> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <AnotherXmlObject as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into AnotherXmlObject - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
     }
 }
 
@@ -401,35 +399,97 @@ impl AnotherXmlObject {
     }
 }
 
-/// An XML object
-// Methods for converting between header::IntoHeaderValue<DuplicateXmlObject> and hyper::header::HeaderValue
+/// Test a model containing an anyOf
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct AnyOfObject {
+}
+
+impl AnyOfObject {
+    pub fn new() -> AnyOfObject {
+        AnyOfObject {
+        }
+    }
+}
+
+/// Converts the AnyOfObject value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for AnyOfObject {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a AnyOfObject value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for AnyOfObject {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing AnyOfObject".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    _ => return std::result::Result::Err("Unexpected key while parsing AnyOfObject".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(AnyOfObject {
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<AnyOfObject> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<DuplicateXmlObject>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<AnyOfObject>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<DuplicateXmlObject>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<AnyOfObject>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for DuplicateXmlObject - value: {} is invalid {}",
+                 format!("Invalid header value for AnyOfObject - value: {} is invalid {}",
                      hdr_value, e))
         }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<DuplicateXmlObject> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<AnyOfObject> {
     type Error = String;
 
     fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
              std::result::Result::Ok(value) => {
-                    match <DuplicateXmlObject as std::str::FromStr>::from_str(value) {
+                    match <AnyOfObject as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into DuplicateXmlObject - {}",
+                            format!("Unable to convert header value '{}' into AnyOfObject - {}",
                                 value, err))
                     }
              },
@@ -441,6 +501,190 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
 }
 
 
+impl AnyOfObject {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+/// Enumeration of values.
+/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// which helps with FFI.
+#[allow(non_camel_case_types)]
+#[repr(C)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
+pub enum AnyOfObjectAnyOf {
+    #[serde(rename = "FOO")]
+    FOO,
+    #[serde(rename = "BAR")]
+    BAR,
+}
+
+impl std::fmt::Display for AnyOfObjectAnyOf {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match *self {
+            AnyOfObjectAnyOf::FOO => write!(f, "{}", "FOO"),
+            AnyOfObjectAnyOf::BAR => write!(f, "{}", "BAR"),
+        }
+    }
+}
+
+impl std::str::FromStr for AnyOfObjectAnyOf {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match s {
+            "FOO" => std::result::Result::Ok(AnyOfObjectAnyOf::FOO),
+            "BAR" => std::result::Result::Ok(AnyOfObjectAnyOf::BAR),
+            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+        }
+    }
+}
+
+impl AnyOfObjectAnyOf {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+/// Test containing an anyOf object
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct AnyOfProperty {
+    #[serde(rename = "requiredAnyOf")]
+    pub required_any_of: models::AnyOfObject,
+
+    #[serde(rename = "optionalAnyOf")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub optional_any_of: Option<models::Model12345AnyOfObject>,
+
+}
+
+impl AnyOfProperty {
+    pub fn new(required_any_of: models::AnyOfObject, ) -> AnyOfProperty {
+        AnyOfProperty {
+            required_any_of: required_any_of,
+            optional_any_of: None,
+        }
+    }
+}
+
+/// Converts the AnyOfProperty value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for AnyOfProperty {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+        // Skipping requiredAnyOf in query parameter serialization
+
+        // Skipping optionalAnyOf in query parameter serialization
+
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a AnyOfProperty value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for AnyOfProperty {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+            pub required_any_of: Vec<models::AnyOfObject>,
+            pub optional_any_of: Vec<models::Model12345AnyOfObject>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing AnyOfProperty".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    "requiredAnyOf" => intermediate_rep.required_any_of.push(<models::AnyOfObject as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "optionalAnyOf" => intermediate_rep.optional_any_of.push(<models::Model12345AnyOfObject as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    _ => return std::result::Result::Err("Unexpected key while parsing AnyOfProperty".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(AnyOfProperty {
+            required_any_of: intermediate_rep.required_any_of.into_iter().next().ok_or("requiredAnyOf missing in AnyOfProperty".to_string())?,
+            optional_any_of: intermediate_rep.optional_any_of.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<AnyOfProperty> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<AnyOfProperty>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<AnyOfProperty>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for AnyOfProperty - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<AnyOfProperty> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <AnyOfProperty as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into AnyOfProperty - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+
+impl AnyOfProperty {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+/// An XML object
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "camelDuplicateXmlObject")]
@@ -510,8 +754,8 @@ impl std::str::FromStr for DuplicateXmlObject {
 
             if let Some(key) = key_result {
                 match key {
-                    "inner_string" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| format!("{}", x))?),
-                    "inner_array" => intermediate_rep.inner_array.push(models::XmlArray::from_str(val).map_err(|x| format!("{}", x))?),
+                    "inner_string" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "inner_array" => intermediate_rep.inner_array.push(<models::XmlArray as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing DuplicateXmlObject".to_string())
                 }
             }
@@ -525,6 +769,44 @@ impl std::str::FromStr for DuplicateXmlObject {
             inner_string: intermediate_rep.inner_string.into_iter().next(),
             inner_array: intermediate_rep.inner_array.into_iter().next().ok_or("inner_array missing in DuplicateXmlObject".to_string())?,
         })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<DuplicateXmlObject> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<DuplicateXmlObject>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<DuplicateXmlObject>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for DuplicateXmlObject - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<DuplicateXmlObject> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <DuplicateXmlObject as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into DuplicateXmlObject - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
     }
 }
 
@@ -555,7 +837,7 @@ impl DuplicateXmlObject {
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
-pub enum EnumWithStarObject { 
+pub enum EnumWithStarObject {
     #[serde(rename = "FOO")]
     FOO,
     #[serde(rename = "BAR")]
@@ -566,7 +848,7 @@ pub enum EnumWithStarObject {
 
 impl std::fmt::Display for EnumWithStarObject {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match *self { 
+        match *self {
             EnumWithStarObject::FOO => write!(f, "{}", "FOO"),
             EnumWithStarObject::BAR => write!(f, "{}", "BAR"),
             EnumWithStarObject::STAR => write!(f, "{}", "*"),
@@ -700,45 +982,6 @@ impl Error {
     }
 }
 
-// Methods for converting between header::IntoHeaderValue<InlineResponse201> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<InlineResponse201>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<InlineResponse201>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for InlineResponse201 - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineResponse201> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <InlineResponse201 as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into InlineResponse201 - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct InlineResponse201 {
@@ -799,7 +1042,7 @@ impl std::str::FromStr for InlineResponse201 {
 
             if let Some(key) = key_result {
                 match key {
-                    "foo" => intermediate_rep.foo.push(String::from_str(val).map_err(|x| format!("{}", x))?),
+                    "foo" => intermediate_rep.foo.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing InlineResponse201".to_string())
                 }
             }
@@ -815,8 +1058,205 @@ impl std::str::FromStr for InlineResponse201 {
     }
 }
 
+// Methods for converting between header::IntoHeaderValue<InlineResponse201> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<InlineResponse201>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<InlineResponse201>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for InlineResponse201 - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<InlineResponse201> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <InlineResponse201 as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into InlineResponse201 - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
 
 impl InlineResponse201 {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+/// Test a model containing an anyOf that starts with a number
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct Model12345AnyOfObject {
+}
+
+impl Model12345AnyOfObject {
+    pub fn new() -> Model12345AnyOfObject {
+        Model12345AnyOfObject {
+        }
+    }
+}
+
+/// Converts the Model12345AnyOfObject value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for Model12345AnyOfObject {
+    fn to_string(&self) -> String {
+        let mut params: Vec<String> = vec![];
+        params.join(",").to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a Model12345AnyOfObject value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for Model12345AnyOfObject {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        #[derive(Default)]
+        // An intermediate representation of the struct to use for parsing.
+        struct IntermediateRep {
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',').into_iter();
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing Model12345AnyOfObject".to_string())
+            };
+
+            if let Some(key) = key_result {
+                match key {
+                    _ => return std::result::Result::Err("Unexpected key while parsing Model12345AnyOfObject".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(Model12345AnyOfObject {
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<Model12345AnyOfObject> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<Model12345AnyOfObject>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<Model12345AnyOfObject>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for Model12345AnyOfObject - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Model12345AnyOfObject> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <Model12345AnyOfObject as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into Model12345AnyOfObject - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+
+impl Model12345AnyOfObject {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
+/// Enumeration of values.
+/// Since this enum's variants do not hold data, we can easily define them them as `#[repr(C)]`
+/// which helps with FFI.
+#[allow(non_camel_case_types)]
+#[repr(C)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
+pub enum Model12345AnyOfObjectAnyOf {
+    #[serde(rename = "FOO")]
+    FOO,
+    #[serde(rename = "BAR")]
+    BAR,
+    #[serde(rename = "*")]
+    STAR,
+}
+
+impl std::fmt::Display for Model12345AnyOfObjectAnyOf {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match *self {
+            Model12345AnyOfObjectAnyOf::FOO => write!(f, "{}", "FOO"),
+            Model12345AnyOfObjectAnyOf::BAR => write!(f, "{}", "BAR"),
+            Model12345AnyOfObjectAnyOf::STAR => write!(f, "{}", "*"),
+        }
+    }
+}
+
+impl std::str::FromStr for Model12345AnyOfObjectAnyOf {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        match s {
+            "FOO" => std::result::Result::Ok(Model12345AnyOfObjectAnyOf::FOO),
+            "BAR" => std::result::Result::Ok(Model12345AnyOfObjectAnyOf::BAR),
+            "*" => std::result::Result::Ok(Model12345AnyOfObjectAnyOf::STAR),
+            _ => std::result::Result::Err(format!("Value not valid: {}", s)),
+        }
+    }
+}
+
+impl Model12345AnyOfObjectAnyOf {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
     #[allow(dead_code)]
@@ -834,7 +1274,6 @@ impl std::convert::From<i32> for MyId {
         MyId(x)
     }
 }
-
 
 impl std::convert::From<MyId> for i32 {
     fn from(x: MyId) -> Self {
@@ -862,44 +1301,6 @@ impl MyId {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<MyIdList> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<MyIdList>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<MyIdList>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for MyIdList - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MyIdList> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <MyIdList as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into MyIdList - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
     }
 }
 
@@ -993,43 +1394,34 @@ impl std::str::FromStr for MyIdList {
 }
 
 
-impl MyIdList {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<NullableTest> and hyper::header::HeaderValue
+// Methods for converting between header::IntoHeaderValue<MyIdList> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<NullableTest>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<MyIdList>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<NullableTest>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<MyIdList>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for NullableTest - value: {} is invalid {}",
+                 format!("Invalid header value for MyIdList - value: {} is invalid {}",
                      hdr_value, e))
         }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<NullableTest> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<MyIdList> {
     type Error = String;
 
     fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
              std::result::Result::Ok(value) => {
-                    match <NullableTest as std::str::FromStr>::from_str(value) {
+                    match <MyIdList as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into NullableTest - {}",
+                            format!("Unable to convert header value '{}' into MyIdList - {}",
                                 value, err))
                     }
              },
@@ -1040,6 +1432,15 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
+
+impl MyIdList {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
@@ -1178,44 +1579,34 @@ impl std::str::FromStr for NullableTest {
     }
 }
 
-
-impl NullableTest {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<ObjectHeader> and hyper::header::HeaderValue
+// Methods for converting between header::IntoHeaderValue<NullableTest> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<ObjectHeader>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<NullableTest>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<ObjectHeader>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<NullableTest>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for ObjectHeader - value: {} is invalid {}",
+                 format!("Invalid header value for NullableTest - value: {} is invalid {}",
                      hdr_value, e))
         }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectHeader> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<NullableTest> {
     type Error = String;
 
     fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
              std::result::Result::Ok(value) => {
-                    match <ObjectHeader as std::str::FromStr>::from_str(value) {
+                    match <NullableTest as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into ObjectHeader - {}",
+                            format!("Unable to convert header value '{}' into NullableTest - {}",
                                 value, err))
                     }
              },
@@ -1226,6 +1617,15 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
+
+impl NullableTest {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
@@ -1296,8 +1696,8 @@ impl std::str::FromStr for ObjectHeader {
 
             if let Some(key) = key_result {
                 match key {
-                    "requiredObjectHeader" => intermediate_rep.required_object_header.push(bool::from_str(val).map_err(|x| format!("{}", x))?),
-                    "optionalObjectHeader" => intermediate_rep.optional_object_header.push(isize::from_str(val).map_err(|x| format!("{}", x))?),
+                    "requiredObjectHeader" => intermediate_rep.required_object_header.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "optionalObjectHeader" => intermediate_rep.optional_object_header.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectHeader".to_string())
                 }
             }
@@ -1314,44 +1714,34 @@ impl std::str::FromStr for ObjectHeader {
     }
 }
 
-
-impl ObjectHeader {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<ObjectParam> and hyper::header::HeaderValue
+// Methods for converting between header::IntoHeaderValue<ObjectHeader> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<ObjectParam>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<ObjectHeader>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<ObjectParam>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ObjectHeader>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for ObjectParam - value: {} is invalid {}",
+                 format!("Invalid header value for ObjectHeader - value: {} is invalid {}",
                      hdr_value, e))
         }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectParam> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectHeader> {
     type Error = String;
 
     fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
              std::result::Result::Ok(value) => {
-                    match <ObjectParam as std::str::FromStr>::from_str(value) {
+                    match <ObjectHeader as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into ObjectParam - {}",
+                            format!("Unable to convert header value '{}' into ObjectHeader - {}",
                                 value, err))
                     }
              },
@@ -1362,6 +1752,15 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
+
+impl ObjectHeader {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
@@ -1432,8 +1831,8 @@ impl std::str::FromStr for ObjectParam {
 
             if let Some(key) = key_result {
                 match key {
-                    "requiredParam" => intermediate_rep.required_param.push(bool::from_str(val).map_err(|x| format!("{}", x))?),
-                    "optionalParam" => intermediate_rep.optional_param.push(isize::from_str(val).map_err(|x| format!("{}", x))?),
+                    "requiredParam" => intermediate_rep.required_param.push(<bool as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "optionalParam" => intermediate_rep.optional_param.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectParam".to_string())
                 }
             }
@@ -1450,44 +1849,34 @@ impl std::str::FromStr for ObjectParam {
     }
 }
 
-
-impl ObjectParam {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<ObjectUntypedProps> and hyper::header::HeaderValue
+// Methods for converting between header::IntoHeaderValue<ObjectParam> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<ObjectUntypedProps>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<ObjectParam>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<ObjectUntypedProps>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ObjectParam>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for ObjectUntypedProps - value: {} is invalid {}",
+                 format!("Invalid header value for ObjectParam - value: {} is invalid {}",
                      hdr_value, e))
         }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectUntypedProps> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectParam> {
     type Error = String;
 
     fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
              std::result::Result::Ok(value) => {
-                    match <ObjectUntypedProps as std::str::FromStr>::from_str(value) {
+                    match <ObjectParam as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into ObjectUntypedProps - {}",
+                            format!("Unable to convert header value '{}' into ObjectParam - {}",
                                 value, err))
                     }
              },
@@ -1498,6 +1887,15 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
+
+impl ObjectParam {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
@@ -1577,10 +1975,10 @@ impl std::str::FromStr for ObjectUntypedProps {
 
             if let Some(key) = key_result {
                 match key {
-                    "required_untyped" => intermediate_rep.required_untyped.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
+                    "required_untyped" => intermediate_rep.required_untyped.push(<serde_json::Value as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     "required_untyped_nullable" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in ObjectUntypedProps".to_string()),
-                    "not_required_untyped" => intermediate_rep.not_required_untyped.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
-                    "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(serde_json::Value::from_str(val).map_err(|x| format!("{}", x))?),
+                    "not_required_untyped" => intermediate_rep.not_required_untyped.push(<serde_json::Value as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "not_required_untyped_nullable" => intermediate_rep.not_required_untyped_nullable.push(<serde_json::Value as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing ObjectUntypedProps".to_string())
                 }
             }
@@ -1599,44 +1997,34 @@ impl std::str::FromStr for ObjectUntypedProps {
     }
 }
 
-
-impl ObjectUntypedProps {
-    /// Helper function to allow us to convert this model to an XML string.
-    /// Will panic if serialisation fails.
-    #[allow(dead_code)]
-    pub(crate) fn to_xml(&self) -> String {
-        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<ObjectWithArrayOfObjects> and hyper::header::HeaderValue
+// Methods for converting between header::IntoHeaderValue<ObjectUntypedProps> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<ObjectWithArrayOfObjects>> for hyper::header::HeaderValue {
+impl std::convert::TryFrom<header::IntoHeaderValue<ObjectUntypedProps>> for hyper::header::HeaderValue {
     type Error = String;
 
-    fn try_from(hdr_value: header::IntoHeaderValue<ObjectWithArrayOfObjects>) -> std::result::Result<Self, Self::Error> {
+    fn try_from(hdr_value: header::IntoHeaderValue<ObjectUntypedProps>) -> std::result::Result<Self, Self::Error> {
         let hdr_value = hdr_value.to_string();
         match hyper::header::HeaderValue::from_str(&hdr_value) {
              std::result::Result::Ok(value) => std::result::Result::Ok(value),
              std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for ObjectWithArrayOfObjects - value: {} is invalid {}",
+                 format!("Invalid header value for ObjectUntypedProps - value: {} is invalid {}",
                      hdr_value, e))
         }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectWithArrayOfObjects> {
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectUntypedProps> {
     type Error = String;
 
     fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
         match hdr_value.to_str() {
              std::result::Result::Ok(value) => {
-                    match <ObjectWithArrayOfObjects as std::str::FromStr>::from_str(value) {
+                    match <ObjectUntypedProps as std::str::FromStr>::from_str(value) {
                         std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
                         std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into ObjectWithArrayOfObjects - {}",
+                            format!("Unable to convert header value '{}' into ObjectUntypedProps - {}",
                                 value, err))
                     }
              },
@@ -1647,6 +2035,15 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
+
+impl ObjectUntypedProps {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
 
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
@@ -1724,6 +2121,44 @@ impl std::str::FromStr for ObjectWithArrayOfObjects {
     }
 }
 
+// Methods for converting between header::IntoHeaderValue<ObjectWithArrayOfObjects> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<ObjectWithArrayOfObjects>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<ObjectWithArrayOfObjects>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for ObjectWithArrayOfObjects - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<ObjectWithArrayOfObjects> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <ObjectWithArrayOfObjects as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into ObjectWithArrayOfObjects - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
 
 impl ObjectWithArrayOfObjects {
     /// Helper function to allow us to convert this model to an XML string.
@@ -1796,7 +2231,6 @@ impl std::convert::From<i32> for OptionalObjectHeader {
     }
 }
 
-
 impl std::convert::From<OptionalObjectHeader> for i32 {
     fn from(x: OptionalObjectHeader) -> Self {
         x.0
@@ -1835,7 +2269,6 @@ impl std::convert::From<bool> for RequiredObjectHeader {
         RequiredObjectHeader(x)
     }
 }
-
 
 impl std::convert::From<RequiredObjectHeader> for bool {
     fn from(x: RequiredObjectHeader) -> Self {
@@ -1925,7 +2358,7 @@ impl Result {
 #[repr(C)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk_enum_derive::LabelledGenericEnum))]
-pub enum StringEnum { 
+pub enum StringEnum {
     #[serde(rename = "FOO")]
     FOO,
     #[serde(rename = "BAR")]
@@ -1934,7 +2367,7 @@ pub enum StringEnum {
 
 impl std::fmt::Display for StringEnum {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match *self { 
+        match *self {
             StringEnum::FOO => write!(f, "{}", "FOO"),
             StringEnum::BAR => write!(f, "{}", "BAR"),
         }
@@ -2025,7 +2458,6 @@ impl std::convert::From<uuid::Uuid> for UuidObject {
     }
 }
 
-
 impl std::convert::From<UuidObject> for uuid::Uuid {
     fn from(x: UuidObject) -> Self {
         x.0
@@ -2052,44 +2484,6 @@ impl UuidObject {
     #[allow(dead_code)]
     pub(crate) fn to_xml(&self) -> String {
         serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
-    }
-}
-
-// Methods for converting between header::IntoHeaderValue<XmlArray> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<XmlArray>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<XmlArray>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for XmlArray - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<XmlArray> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <XmlArray as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into XmlArray - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
     }
 }
 
@@ -2193,6 +2587,45 @@ impl std::str::FromStr for XmlArray {
 }
 
 
+// Methods for converting between header::IntoHeaderValue<XmlArray> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<XmlArray>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<XmlArray>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for XmlArray - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<XmlArray> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <XmlArray as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into XmlArray - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+
 impl XmlArray {
     /// Helper function to allow us to convert this model to an XML string.
     /// Will panic if serialisation fails.
@@ -2256,45 +2689,6 @@ impl XmlInner {
 }
 
 /// An XML object
-// Methods for converting between header::IntoHeaderValue<XmlObject> and hyper::header::HeaderValue
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<header::IntoHeaderValue<XmlObject>> for hyper::header::HeaderValue {
-    type Error = String;
-
-    fn try_from(hdr_value: header::IntoHeaderValue<XmlObject>) -> std::result::Result<Self, Self::Error> {
-        let hdr_value = hdr_value.to_string();
-        match hyper::header::HeaderValue::from_str(&hdr_value) {
-             std::result::Result::Ok(value) => std::result::Result::Ok(value),
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Invalid header value for XmlObject - value: {} is invalid {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-#[cfg(any(feature = "client", feature = "server"))]
-impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<XmlObject> {
-    type Error = String;
-
-    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
-        match hdr_value.to_str() {
-             std::result::Result::Ok(value) => {
-                    match <XmlObject as std::str::FromStr>::from_str(value) {
-                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
-                        std::result::Result::Err(err) => std::result::Result::Err(
-                            format!("Unable to convert header value '{}' into XmlObject - {}",
-                                value, err))
-                    }
-             },
-             std::result::Result::Err(e) => std::result::Result::Err(
-                 format!("Unable to convert header: {:?} to string: {}",
-                     hdr_value, e))
-        }
-    }
-}
-
-
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 #[serde(rename = "camelXmlObject")]
@@ -2368,8 +2762,8 @@ impl std::str::FromStr for XmlObject {
 
             if let Some(key) = key_result {
                 match key {
-                    "innerString" => intermediate_rep.inner_string.push(String::from_str(val).map_err(|x| format!("{}", x))?),
-                    "other_inner_rename" => intermediate_rep.other_inner_rename.push(isize::from_str(val).map_err(|x| format!("{}", x))?),
+                    "innerString" => intermediate_rep.inner_string.push(<String as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
+                    "other_inner_rename" => intermediate_rep.other_inner_rename.push(<isize as std::str::FromStr>::from_str(val).map_err(|x| format!("{}", x))?),
                     _ => return std::result::Result::Err("Unexpected key while parsing XmlObject".to_string())
                 }
             }
@@ -2383,6 +2777,44 @@ impl std::str::FromStr for XmlObject {
             inner_string: intermediate_rep.inner_string.into_iter().next(),
             other_inner_rename: intermediate_rep.other_inner_rename.into_iter().next(),
         })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<XmlObject> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<XmlObject>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<XmlObject>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for XmlObject - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<XmlObject> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <XmlObject as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into XmlObject - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
     }
 }
 
