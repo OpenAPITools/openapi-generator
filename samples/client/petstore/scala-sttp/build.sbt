@@ -4,8 +4,6 @@ organization := "org.openapitools"
 
 scalaVersion := "2.13.2"
 
-crossScalaVersions := Seq(scalaVersion.value, "2.12.10", "2.11.12")
-
 libraryDependencies ++= Seq(
   "com.softwaremill.sttp.client" %% "core" % "2.1.5",
   "com.softwaremill.sttp.client" %% "json4s" % "2.1.5",
@@ -17,5 +15,3 @@ scalacOptions := Seq(
   "-deprecation",
   "-feature"
 )
-
-publishArtifact in (Compile, packageDoc) := false
