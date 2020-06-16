@@ -400,7 +400,7 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // model name starts with number
-        else if (name.matches("^\\d.*")) {
+        else if (camelizedName.matches("^\\d.*")) {
             // e.g. 200Response => Model200Response (after camelize)
             camelizedName = "Model" + camelizedName;
             LOGGER.warn(name + " (model name starts with number) cannot be used as model name. Renamed to " + camelizedName);
