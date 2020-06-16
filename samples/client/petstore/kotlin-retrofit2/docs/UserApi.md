@@ -64,7 +64,7 @@ Creates list of users with given input array
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(UserApi::class.java)
-val body : kotlin.Array<User> =  // kotlin.Array<User> | List of user object
+val body : kotlin.collections.List<User> =  // kotlin.collections.List<User> | List of user object
 
 webService.createUsersWithArrayInput(body)
 ```
@@ -73,7 +73,7 @@ webService.createUsersWithArrayInput(body)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**kotlin.Array&lt;User&gt;**](User.md)| List of user object |
+ **body** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 
@@ -100,7 +100,7 @@ Creates list of users with given input array
 
 val apiClient = ApiClient()
 val webService = apiClient.createWebservice(UserApi::class.java)
-val body : kotlin.Array<User> =  // kotlin.Array<User> | List of user object
+val body : kotlin.collections.List<User> =  // kotlin.collections.List<User> | List of user object
 
 webService.createUsersWithListInput(body)
 ```
@@ -109,7 +109,7 @@ webService.createUsersWithListInput(body)
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**kotlin.Array&lt;User&gt;**](User.md)| List of user object |
+ **body** | [**kotlin.collections.List&lt;User&gt;**](User.md)| List of user object |
 
 ### Return type
 

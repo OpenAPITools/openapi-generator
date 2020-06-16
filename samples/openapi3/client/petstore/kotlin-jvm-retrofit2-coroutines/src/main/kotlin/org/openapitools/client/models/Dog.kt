@@ -16,6 +16,7 @@ import org.openapitools.client.models.DogAllOf
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+
 /**
  * 
  * @param className 

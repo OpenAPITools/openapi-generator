@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * 
  * @param file 
@@ -22,6 +23,6 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class FileSchemaTestClass (
     @SerialName(value = "file") val file: org.openapitools.client.infrastructure.OctetByteArray? = null,
-    @SerialName(value = "files") val files: kotlin.Array<org.openapitools.client.infrastructure.OctetByteArray>? = null
+    @SerialName(value = "files") val files: kotlin.collections.List<org.openapitools.client.infrastructure.OctetByteArray>? = null
 )
 
