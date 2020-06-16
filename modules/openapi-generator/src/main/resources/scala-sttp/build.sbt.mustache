@@ -4,8 +4,6 @@ organization := "{{groupId}}"
 
 scalaVersion := "2.13.2"
 
-crossScalaVersions := Seq(scalaVersion.value, "2.12.10", "2.11.12")
-
 libraryDependencies ++= Seq(
   "com.softwaremill.sttp.client" %% "core" % "{{sttpClientVersion}}",
 {{#joda}}
@@ -28,5 +26,3 @@ scalacOptions := Seq(
   "-deprecation",
   "-feature"
 )
-
-publishArtifact in (Compile, packageDoc) := false
