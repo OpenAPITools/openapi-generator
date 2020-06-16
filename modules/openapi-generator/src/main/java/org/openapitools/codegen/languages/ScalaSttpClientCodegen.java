@@ -42,7 +42,7 @@ import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements CodegenConfig {
     private static final StringProperty STTP_CLIENT_VERSION = new StringProperty("sttpClientVersion", "The version of " +
-            "sttp client", "2.1.5");
+            "sttp client", "2.2.0");
     private static final BooleanProperty USE_SEPARATE_ERROR_CHANNEL = new BooleanProperty("separateErrorChannel",
             "Whether to return response as " +
                     "F[Either[ResponseError[ErrorType], ReturnType]]] or to flatten " +

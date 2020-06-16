@@ -7,7 +7,7 @@ sidebar_label: scala-sttp
 | ------ | ----------- | ------ | ------- |
 |allowUnicodeIdentifiers|boolean, toggles whether unicode identifiers are allowed in names or not, default is false| |false|
 |apiPackage|package for generated api classes| |null|
-|sttpClientVersion|Option. Allows to override default version of sttp client library.|2.1.5
+|sttpClientVersion|Option. Allows to override default version of sttp client library. Minimal version required for this project to compile is 2.2.0 |2.2.0
 |dateLibrary|Option. Date library to use|<dl><dt>**joda**</dt><dd>Joda (for legacy app)</dd><dt>**java8**</dt><dd>Java 8 native JSR310 (prefered for JDK 1.8+)</dd></dl>|java8|
 |jodaTimeVersion|Only if dateLibrary was set to joda. Allows to override default jodatime version.|2.10.6
 |json4sVersion|Only if jsonLibrary was set to json4s. Allows to override default json4s version.|3.6.8
