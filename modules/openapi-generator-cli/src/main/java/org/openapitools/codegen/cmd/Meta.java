@@ -30,6 +30,11 @@ import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.TemplateManager;
+import org.openapitools.codegen.api.TemplatePathLocator;
+import org.openapitools.codegen.templating.MustacheEngineAdapter;
+import org.openapitools.codegen.templating.TemplateManagerOptions;
+import org.openapitools.codegen.templating.CommonTemplateContentLocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -136,52 +141,38 @@ public class Meta extends OpenApiGeneratorCommand {
      */
     private static Converter<SupportingFile, File> processFiles(final File targetDir,
             final Map<String, Object> data) {
-        return new Converter<SupportingFile, File>() {
-            private DefaultGenerator generator = new DefaultGenerator();
+        return support -> {
+            try {
+                File destinationFolder =
+                        new File(new File(targetDir.getAbsolutePath()), support.folder);
+                File outputFile = new File(destinationFolder, support.destinationFilename);
 
-            @Override
-            public File convert(SupportingFile support) {
-                try {
-                    File destinationFolder =
-                            new File(new File(targetDir.getAbsolutePath()), support.folder);
-                    File outputFile = new File(destinationFolder, support.destinationFilename);
+                TemplateManager templateProcessor = new TemplateManager(
+                        new TemplateManagerOptions(false, false),
+                        new MustacheEngineAdapter(),
+                        new TemplatePathLocator[]{ new CommonTemplateContentLocator("codegen") }
+                );
 
-                    String template =
-                            generator.readTemplate(new File(TEMPLATE_DIR_CLASSPATH,
-                                    support.templateFile).getPath());
-                    String formatted = template;
+                String template = templateProcessor.readTemplate(new File(TEMPLATE_DIR_CLASSPATH, support.templateFile).getPath());
 
-                    if (support.templateFile.endsWith(MUSTACHE_EXTENSION)) {
-                        LOGGER.info("writing file to {}", outputFile.getAbsolutePath());
-                        formatted =
-                                Mustache.compiler().withLoader(loader(generator)).defaultValue("")
-                                        .compile(template).execute(data);
-                    } else {
-                        LOGGER.info("copying file to {}", outputFile.getAbsolutePath());
-                    }
+                String formatted = template;
 
-                    FileUtils.writeStringToFile(outputFile, formatted, StandardCharsets.UTF_8);
-                    return outputFile;
+                Mustache.TemplateLoader loader = name -> templateProcessor.getTemplateReader(name.concat(MUSTACHE_EXTENSION));
 
-                } catch (IOException e) {
-                    throw new RuntimeException("Can't generate project", e);
+                if (support.templateFile.endsWith(MUSTACHE_EXTENSION)) {
+                    LOGGER.info("writing file to {}", outputFile.getAbsolutePath());
+                    formatted =
+                            Mustache.compiler().withLoader(loader).defaultValue("")
+                                    .compile(template).execute(data);
+                } else {
+                    LOGGER.info("copying file to {}", outputFile.getAbsolutePath());
                 }
-            }
-        };
-    }
 
-    /**
-     * Creates mustache loader for template using classpath loader
-     *
-     * @param generator - class with reader getter
-     * @return loader for template
-     */
-    private static Mustache.TemplateLoader loader(final DefaultGenerator generator) {
-        return new Mustache.TemplateLoader() {
-            @Override
-            public Reader getTemplate(String name) {
-                return generator.getTemplateReader(TEMPLATE_DIR_CLASSPATH + File.separator
-                        + name.concat(MUSTACHE_EXTENSION));
+                FileUtils.writeStringToFile(outputFile, formatted, StandardCharsets.UTF_8);
+                return outputFile;
+
+            } catch (IOException e) {
+                throw new RuntimeException("Can't generate project", e);
             }
         };
     }

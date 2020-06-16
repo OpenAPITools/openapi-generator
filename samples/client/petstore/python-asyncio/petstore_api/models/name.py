@@ -82,7 +82,7 @@ class Name(object):
 
 
         :param name: The name of this Name.  # noqa: E501
-        :type: int
+        :type name: int
         """
         if self.local_vars_configuration.client_side_validation and name is None:  # noqa: E501
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
@@ -105,7 +105,7 @@ class Name(object):
 
 
         :param snake_case: The snake_case of this Name.  # noqa: E501
-        :type: int
+        :type snake_case: int
         """
 
         self._snake_case = snake_case
@@ -126,7 +126,7 @@ class Name(object):
 
 
         :param _property: The _property of this Name.  # noqa: E501
-        :type: str
+        :type _property: str
         """
 
         self.__property = _property
@@ -147,7 +147,7 @@ class Name(object):
 
 
         :param _123_number: The _123_number of this Name.  # noqa: E501
-        :type: int
+        :type _123_number: int
         """
 
         self.__123_number = _123_number

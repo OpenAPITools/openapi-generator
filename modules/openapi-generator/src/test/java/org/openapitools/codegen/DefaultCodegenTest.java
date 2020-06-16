@@ -40,6 +40,7 @@ import org.openapitools.codegen.templating.mustache.LowercaseLambda;
 import org.openapitools.codegen.templating.mustache.TitlecaseLambda;
 import org.openapitools.codegen.templating.mustache.UppercaseLambda;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.SemVer;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -220,6 +221,157 @@ public class DefaultCodegenTest {
         CodegenParameter codegenParameter = codegen.fromFormProperty("enum_form_string", (Schema) requestBodySchema.getProperties().get("enum_form_string"), new HashSet<String>());
 
         Assert.assertEquals(codegenParameter.defaultValue, "-efg");
+    }
+
+    @Test
+    public void testOriginalOpenApiDocumentVersion() {
+        // Test with OAS 2.0 document.
+        String location = "src/test/resources/2_0/python-client-experimental/petstore-with-fake-endpoints-models-for-testing.yaml";
+        OpenAPI openAPI = TestUtils.parseFlattenSpec(location);
+        SemVer version = ModelUtils.getOpenApiVersion(openAPI, location, null);
+        Assert.assertEquals(version, new SemVer("2.0.0"));
+
+        // Test with OAS 3.0 document.
+        location = "src/test/resources/3_0/python-experimental/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml";
+        openAPI = TestUtils.parseFlattenSpec(location);
+        version = ModelUtils.getOpenApiVersion(openAPI, location, null);
+        Assert.assertEquals(version, new SemVer("3.0.0"));
+    }
+
+    @Test
+    public void testAdditionalPropertiesV2Spec() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/additional-properties-for-testing.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(true);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
+        Assert.assertEquals(schema.getAdditionalProperties(), null);
+
+        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
+        // The petstore-with-fake-endpoints-models-for-testing.yaml does not set the
+        // 'additionalProperties' keyword for this model, hence assert the value to be null.
+        Assert.assertNull(addProps);
+        CodegenModel cm = codegen.fromModel("AdditionalPropertiesClass", schema);
+        // When the 'additionalProperties' keyword is not present, the model
+        // should allow undeclared properties. However, due to bug
+        // https://github.com/swagger-api/swagger-parser/issues/1369, the swagger
+        // converter does not retain the value of the additionalProperties.
+
+        Map<String, Schema> m = schema.getProperties();
+        Schema child = m.get("map_string");
+        // This property has the following inline schema.
+        // additionalProperties:
+        //   type: string
+        Assert.assertNotNull(child);
+        Assert.assertNotNull(child.getAdditionalProperties());
+
+        child = m.get("map_with_additional_properties");
+        // This property has the following inline schema.
+        // additionalProperties: true
+        Assert.assertNotNull(child);
+        // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
+        // We cannot differentiate between 'additionalProperties' not present and
+        // additionalProperties: true.
+        Assert.assertNull(child.getAdditionalProperties());
+        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNull(addProps);
+
+        child = m.get("map_without_additional_properties");
+        // This property has the following inline schema.
+        // additionalProperties: false
+        Assert.assertNotNull(child);
+        // It is unfortunate that child.getAdditionalProperties() returns null for a V2 schema.
+        // We cannot differentiate between 'additionalProperties' not present and
+        // additionalProperties: false.
+        Assert.assertNull(child.getAdditionalProperties());
+        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNull(addProps);
+    }
+
+    @Test
+    public void testAdditionalPropertiesV3Spec() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/python-experimental/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(false);
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
+        Assert.assertNull(schema.getAdditionalProperties());
+
+        // When the 'additionalProperties' keyword is not present, the schema may be
+        // extended with any undeclared properties.
+        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
+        Assert.assertNotNull(addProps);
+        Assert.assertTrue(addProps instanceof ObjectSchema);
+        CodegenModel cm = codegen.fromModel("AdditionalPropertiesClass", schema);
+
+        Map<String, Schema> m = schema.getProperties();
+        Schema child = m.get("map_with_undeclared_properties_string");
+        // This property has the following inline schema.
+        // additionalProperties:
+        //   type: string
+        Assert.assertNotNull(child);
+        Assert.assertNotNull(child.getAdditionalProperties());
+
+        child = m.get("map_with_undeclared_properties_anytype_1");
+        // This property does not use the additionalProperties keyword,
+        // which means by default undeclared properties are allowed.
+        Assert.assertNotNull(child);
+        Assert.assertNull(child.getAdditionalProperties());
+        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNotNull(addProps);
+        Assert.assertTrue(addProps instanceof ObjectSchema);
+
+        child = m.get("map_with_undeclared_properties_anytype_2");
+        // This property does not use the additionalProperties keyword,
+        // which means by default undeclared properties are allowed.
+        Assert.assertNotNull(child);
+        Assert.assertNull(child.getAdditionalProperties());
+        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNotNull(addProps);
+        Assert.assertTrue(addProps instanceof ObjectSchema);
+
+        child = m.get("map_with_undeclared_properties_anytype_3");
+        // This property has the following inline schema.
+        // additionalProperties: true
+        Assert.assertNotNull(child);
+        // Unlike the V2 spec, in V3 we CAN differentiate between 'additionalProperties' not present and
+        // additionalProperties: true.
+        Assert.assertNotNull(child.getAdditionalProperties());
+        Assert.assertEquals(child.getAdditionalProperties(), Boolean.TRUE);
+        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNotNull(addProps);
+        Assert.assertTrue(addProps instanceof ObjectSchema);
+
+        child = m.get("empty_map");
+        // This property has the following inline schema.
+        // additionalProperties: false
+        Assert.assertNotNull(child);
+        // Unlike the V2 spec, in V3 we CAN differentiate between 'additionalProperties' not present and
+        // additionalProperties: false.
+        Assert.assertNotNull(child.getAdditionalProperties());
+        Assert.assertEquals(child.getAdditionalProperties(), Boolean.FALSE);
+        addProps = ModelUtils.getAdditionalProperties(openAPI, child);
+        Assert.assertNull(addProps);
+    }
+
+    @Test
+    public void testAdditionalPropertiesV3SpecLegacy() {
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setDisallowAdditionalPropertiesIfNotPresent(true);
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("AdditionalPropertiesClass");
+        Assert.assertNull(schema.getAdditionalProperties());
+
+        // As per OAS spec, when the 'additionalProperties' keyword is not present, the schema may be
+        // extended with any undeclared properties.
+        // However, in legacy 'additionalProperties' mode, this is interpreted as
+        // 'no additional properties are allowed'.
+        Schema addProps = ModelUtils.getAdditionalProperties(openAPI, schema);
+        Assert.assertNull(addProps);
     }
 
     @Test
@@ -1187,6 +1339,8 @@ public class DefaultCodegenTest {
         // check that the model's children contain the x-discriminator-values
         modelName = "BaseObj";
         cm = getModel(allModels, modelName);
+        Assert.assertNotNull(cm);
+        Assert.assertNotNull(cm.children);
         List<String> excpectedDiscriminatorValues = new ArrayList<>(Arrays.asList("daily", "sub-obj"));
         ArrayList<String> xDiscriminatorValues = new ArrayList<>();
         for (CodegenModel child: cm.children) {

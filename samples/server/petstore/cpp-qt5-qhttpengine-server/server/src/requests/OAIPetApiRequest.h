@@ -92,13 +92,12 @@ private:
     QHttpEngine::Socket  *socket;
     QSharedPointer<OAIPetApiHandler> handler;
 
-    inline void writeResponseHeaders(){
+    inline void setSocketResponseHeaders(){
         QHttpEngine::Socket::HeaderMap resHeaders;
         for(auto itr = responseHeaders.begin(); itr != responseHeaders.end(); ++itr) {
             resHeaders.insert(itr.key().toUtf8(), itr.value().toUtf8());
         }
         socket->setHeaders(resHeaders);
-        socket->writeHeaders();
     }
 };
 

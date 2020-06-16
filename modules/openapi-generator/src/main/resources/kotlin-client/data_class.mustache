@@ -28,6 +28,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 {{#serializableModel}}
 import java.io.Serializable
 {{/serializableModel}}
+
 /**
  * {{{description}}}
 {{#allVars}}
@@ -48,9 +49,9 @@ import java.io.Serializable
 ){{/discriminator}}{{#parent}}{{^serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMapModel}}(){{/isMapModel}}{{#isArrayModel}}(){{/isArrayModel}}{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{^parcelizeModels}} : {{{parent}}}{{#isMapModel}}(){{/isMapModel}}{{#isArrayModel}}(){{/isArrayModel}}, Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{^serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMapModel}}(){{/isMapModel}}{{#isArrayModel}}(){{/isArrayModel}}, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#parent}}{{#serializableModel}}{{#parcelizeModels}} : {{{parent}}}{{#isMapModel}}(){{/isMapModel}}{{#isArrayModel}}(){{/isArrayModel}}, Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{^parcelizeModels}} : Serializable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{^parent}}{{#serializableModel}}{{#parcelizeModels}} : Serializable, Parcelable{{/parcelizeModels}}{{/serializableModel}}{{/parent}}{{#vendorExtensions.x-has-data-class-body}} {
 {{/vendorExtensions.x-has-data-class-body}}
 {{#serializableModel}}
-	{{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
+        private const val serialVersionUID: Long = 123
+    }
 {{/serializableModel}}
 {{#discriminator}}{{#vars}}{{#required}}
 {{>interface_req_var}}{{/required}}{{^required}}

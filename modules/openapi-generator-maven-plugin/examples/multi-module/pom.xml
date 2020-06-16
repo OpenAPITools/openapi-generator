@@ -20,6 +20,6 @@
         <jodatime-version>2.7</jodatime-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.8.1</junit-version>
-        <http-signature-version>1.3</http-signature-version>
+        <http-signature-version>1.4</http-signature-version>
     </properties>
 </project>

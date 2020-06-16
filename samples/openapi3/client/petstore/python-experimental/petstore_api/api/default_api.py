@@ -34,7 +34,7 @@ from petstore_api.model_utils import (  # noqa: F401
     str,
     validate_and_convert_types
 )
-from petstore_api.models import inline_response_default
+from petstore_api.model import inline_response_default
 
 
 class DefaultApi(object):
@@ -57,6 +57,7 @@ class DefaultApi(object):
 
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
+
             >>> thread = api.foo_get(async_req=True)
             >>> result = thread.get()
 

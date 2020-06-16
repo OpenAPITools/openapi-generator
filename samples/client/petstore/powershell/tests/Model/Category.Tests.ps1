@@ -10,8 +10,8 @@ Describe -tag 'PSPetstore' -name 'PSCategory' {
         It 'Initialize-PSCategory' {
             # a simple test to create an object
             #$NewObject = Initialize-PSCategory -Id "TEST_VALUE" -Name "TEST_VALUE"
-            #$NewObject | Should BeOfType Category
-            #$NewObject.property | Should Be 0
+            #$NewObject | Should -BeOfType Category
+            #$NewObject.property | Should -Be 0
         }
     }
 }

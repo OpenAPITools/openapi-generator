@@ -36,10 +36,12 @@ public interface PetApi  {
     @POST
     @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
+    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Add a new pet to the store", tags={  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
         @ApiResponse(code = 405, message = "Invalid input") })
-    public void addPet(Pet body);
+    public Pet addPet(Pet pet);
 
     /**
      * Deletes a pet
@@ -105,12 +107,14 @@ public interface PetApi  {
     @PUT
     @Path("/pet")
     @Consumes({ "application/json", "application/xml" })
+    @Produces({ "application/xml", "application/json" })
     @ApiOperation(value = "Update an existing pet", tags={  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Pet not found"),
         @ApiResponse(code = 405, message = "Validation exception") })
-    public void updatePet(Pet body);
+    public Pet updatePet(Pet pet);
 
     /**
      * Updates a pet in the store with form data

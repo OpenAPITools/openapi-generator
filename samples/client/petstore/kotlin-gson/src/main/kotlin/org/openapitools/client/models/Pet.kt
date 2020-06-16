@@ -15,6 +15,7 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import com.google.gson.annotations.SerializedName
+
 /**
  * A pet for sale in the pet store
  * @param name 
@@ -29,13 +30,13 @@ data class Pet (
     @SerializedName("name")
     val name: kotlin.String,
     @SerializedName("photoUrls")
-    val photoUrls: kotlin.Array<kotlin.String>,
+    val photoUrls: kotlin.collections.List<kotlin.String>,
     @SerializedName("id")
     val id: kotlin.Long? = null,
     @SerializedName("category")
     val category: Category? = null,
     @SerializedName("tags")
-    val tags: kotlin.Array<Tag>? = null,
+    val tags: kotlin.collections.List<Tag>? = null,
     /* pet status in the store */
     @SerializedName("status")
     val status: Pet.Status? = null

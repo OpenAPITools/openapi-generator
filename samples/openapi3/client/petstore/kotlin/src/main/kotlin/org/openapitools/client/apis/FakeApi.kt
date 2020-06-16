@@ -471,20 +471,20 @@ class FakeApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * To test enum parameters
     * To test enum parameters
     * @param enumHeaderStringArray Header parameter enum test (string array) (optional)
-    * @param enumHeaderString Header parameter enum test (string) (optional, default to '-efg')
+    * @param enumHeaderString Header parameter enum test (string) (optional, default to "-efg")
     * @param enumQueryStringArray Query parameter enum test (string array) (optional)
-    * @param enumQueryString Query parameter enum test (string) (optional, default to '-efg')
+    * @param enumQueryString Query parameter enum test (string) (optional, default to "-efg")
     * @param enumQueryInteger Query parameter enum test (double) (optional)
     * @param enumQueryDouble Query parameter enum test (double) (optional)
-    * @param enumFormStringArray Form parameter enum test (string array) (optional, default to '$')
-    * @param enumFormString Form parameter enum test (string) (optional, default to '-efg')
+    * @param enumFormStringArray Form parameter enum test (string array) (optional, default to "$")
+    * @param enumFormString Form parameter enum test (string) (optional, default to "-efg")
     * @return void
     * @throws UnsupportedOperationException If the API returns an informational or redirection response
     * @throws ClientException If the API returns a client error response
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun testEnumParameters(enumHeaderStringArray: kotlin.Array<kotlin.String>?, enumHeaderString: kotlin.String?, enumQueryStringArray: kotlin.Array<kotlin.String>?, enumQueryString: kotlin.String?, enumQueryInteger: kotlin.Int?, enumQueryDouble: kotlin.Double?, enumFormStringArray: kotlin.Array<kotlin.String>?, enumFormString: kotlin.String?) : Unit {
+    fun testEnumParameters(enumHeaderStringArray: kotlin.collections.List<kotlin.String>?, enumHeaderString: kotlin.String?, enumQueryStringArray: kotlin.collections.List<kotlin.String>?, enumQueryString: kotlin.String?, enumQueryInteger: kotlin.Int?, enumQueryDouble: kotlin.Double?, enumFormStringArray: kotlin.collections.List<kotlin.String>?, enumFormString: kotlin.String?) : Unit {
         val localVariableBody: kotlin.Any? = mapOf("enum_form_string_array" to enumFormStringArray, "enum_form_string" to enumFormString)
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
             .apply {
@@ -678,13 +678,13 @@ class FakeApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun testQueryParameterCollectionFormat(pipe: kotlin.Array<kotlin.String>, ioutil: kotlin.Array<kotlin.String>, http: kotlin.Array<kotlin.String>, url: kotlin.Array<kotlin.String>, context: kotlin.Array<kotlin.String>) : Unit {
+    fun testQueryParameterCollectionFormat(pipe: kotlin.collections.List<kotlin.String>, ioutil: kotlin.collections.List<kotlin.String>, http: kotlin.collections.List<kotlin.String>, url: kotlin.collections.List<kotlin.String>, context: kotlin.collections.List<kotlin.String>) : Unit {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
             .apply {
                 put("pipe", toMultiValue(pipe.toList(), "multi"))
                 put("ioutil", toMultiValue(ioutil.toList(), "csv"))
-                put("http", toMultiValue(http.toList(), "space"))
+                put("http", toMultiValue(http.toList(), "ssv"))
                 put("url", toMultiValue(url.toList(), "csv"))
                 put("context", toMultiValue(context.toList(), "multi"))
             }

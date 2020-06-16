@@ -68,7 +68,7 @@ class CatAllOf(object):
 
 
         :param declawed: The declawed of this CatAllOf.  # noqa: E501
-        :type: bool
+        :type declawed: bool
         """
 
         self._declawed = declawed

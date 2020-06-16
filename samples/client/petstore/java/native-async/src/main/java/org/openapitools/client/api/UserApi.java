@@ -37,7 +37,7 @@ import java.util.Map;
 
 import java.util.concurrent.CompletableFuture;
 
-
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class UserApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -45,7 +45,7 @@ public class UserApi {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  
+
   public UserApi() {
     this(new ApiClient());
   }
@@ -99,9 +99,8 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
     } catch (IOException e) {
@@ -148,9 +147,8 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
     } catch (IOException e) {
@@ -197,9 +195,8 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
     } catch (IOException e) {
@@ -244,9 +241,8 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
   }
@@ -289,10 +285,14 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<User>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
   }
   /**
@@ -348,10 +348,14 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
   }
   /**
@@ -386,9 +390,8 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
   }
@@ -438,9 +441,8 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
     } catch (IOException e) {
