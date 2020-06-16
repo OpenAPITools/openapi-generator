@@ -1191,8 +1191,13 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public CodegenModel fromModel(String name, Schema model) {
+        LOGGER.debug("fromModel (schema): " + model);
+
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel mdl = super.fromModel(name, model);
+
+        LOGGER.debug("fromModel (base end): " + mdl);
+
         mdl.vendorExtensions.put("x-upper-case-name", name.toUpperCase(Locale.ROOT));
         if (!StringUtils.isEmpty(model.get$ref())) {
             Schema schema = allDefinitions.get(ModelUtils.getSimpleRef(model.get$ref()));
@@ -1244,6 +1249,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         if (additionalProperties != null) {
             mdl.additionalPropertiesType = getTypeDeclaration(additionalProperties);
         }
+
+        LOGGER.debug("fromModel (end): " + mdl);
 
         return mdl;
     }
@@ -1528,6 +1535,8 @@ public class RustServerCodegen extends DefaultCodegen implements CodegenConfig {
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
+
+            LOGGER.debug("postProcessModels: " + cm);
 
             if (cm.dataType != null && cm.dataType.equals("object")) {
                 // Object isn't a sensible default. Instead, we set it to
