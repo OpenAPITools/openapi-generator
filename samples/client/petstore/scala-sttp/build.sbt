@@ -5,8 +5,8 @@ organization := "org.openapitools"
 scalaVersion := "2.13.2"
 
 libraryDependencies ++= Seq(
-  "com.softwaremill.sttp.client" %% "core" % "2.1.5",
-  "com.softwaremill.sttp.client" %% "json4s" % "2.1.5",
+  "com.softwaremill.sttp.client" %% "core" % "2.2.0",
+  "com.softwaremill.sttp.client" %% "json4s" % "2.2.0",
   "org.json4s" %% "json4s-jackson" % "3.6.8"
 )
 
