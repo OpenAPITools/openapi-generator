@@ -22,7 +22,7 @@ import javax.validation.constraints.*;
 import play.Configuration;
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiController extends Controller {
 
     private final PetApiControllerImpInterface imp;

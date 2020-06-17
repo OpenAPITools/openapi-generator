@@ -30,7 +30,7 @@ import javax.validation.Valid;
   ReadOnlyFirst.JSON_PROPERTY_BAR,
   ReadOnlyFirst.JSON_PROPERTY_BAZ
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class ReadOnlyFirst  implements Serializable {
   public static final String JSON_PROPERTY_BAR = "bar";
   @JsonProperty(JSON_PROPERTY_BAR)

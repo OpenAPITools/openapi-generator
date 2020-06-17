@@ -33,7 +33,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * AdditionalPropertiesNumber
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)

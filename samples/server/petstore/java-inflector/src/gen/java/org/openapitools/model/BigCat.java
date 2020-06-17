@@ -13,7 +13,7 @@ import org.openapitools.model.Cat;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class BigCat extends Cat  {
   /**
    * Gets or Sets kind

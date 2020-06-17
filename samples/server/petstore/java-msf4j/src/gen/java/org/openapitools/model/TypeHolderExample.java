@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * TypeHolderExample
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class TypeHolderExample   {
   @JsonProperty("string_item")
   private String stringItem;

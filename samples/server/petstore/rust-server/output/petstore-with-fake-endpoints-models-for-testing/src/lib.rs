@@ -281,8 +281,15 @@ pub enum LoginUserResponse {
     SuccessfulOperation
     {
         body: String,
-        x_rate_limit: i32,
-        x_expires_after: chrono::DateTime::<chrono::Utc>
+        x_rate_limit:
+        Option<
+        i32
+        >
+        ,
+        x_expires_after:
+        Option<
+        chrono::DateTime::<chrono::Utc>
+        >
     }
     ,
     /// Invalid username/password supplied

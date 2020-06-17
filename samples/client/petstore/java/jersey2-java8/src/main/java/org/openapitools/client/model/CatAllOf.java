@@ -33,7 +33,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   CatAllOf.JSON_PROPERTY_DECLAWED
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class CatAllOf {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
   private Boolean declawed;

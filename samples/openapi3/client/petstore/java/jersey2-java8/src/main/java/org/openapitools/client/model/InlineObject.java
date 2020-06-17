@@ -34,7 +34,7 @@ import org.openapitools.client.JSON;
   InlineObject.JSON_PROPERTY_NAME,
   InlineObject.JSON_PROPERTY_STATUS
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class InlineObject {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;

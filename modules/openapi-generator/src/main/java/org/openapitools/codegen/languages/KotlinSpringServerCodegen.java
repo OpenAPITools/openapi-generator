@@ -18,12 +18,9 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap.Builder;
 import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
 import com.samskivert.mustache.Mustache.Lambda;
+import com.samskivert.mustache.Template;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.meta.features.*;
@@ -37,7 +34,9 @@ import java.io.Writer;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.stream.Collectors;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 

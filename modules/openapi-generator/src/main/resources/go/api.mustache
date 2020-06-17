@@ -78,7 +78,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#hasParams
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "{{{path}}}"{{#pathParams}}
-	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", _neturl.QueryEscape(parameterToString({{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", _neturl.PathEscape(parameterToString({{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")) , -1)
 	{{/pathParams}}
 
 	localVarHeaderParams := make(map[string]string)

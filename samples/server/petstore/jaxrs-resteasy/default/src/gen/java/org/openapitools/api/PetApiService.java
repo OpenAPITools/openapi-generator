@@ -17,7 +17,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen")
 public interface PetApiService {
       Response addPet(Pet body,SecurityContext securityContext)
       throws NotFoundException;

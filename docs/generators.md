@@ -60,6 +60,7 @@ The following generators are available:
 * [scalaz](generators/scalaz.md)  
 * [swift4-deprecated (deprecated)](generators/swift4-deprecated.md)  
 * [swift5 (beta)](generators/swift5.md)  
+* [typescript (experimental)](generators/typescript.md)  
 * [typescript-angular](generators/typescript-angular.md)  
 * [typescript-angularjs](generators/typescript-angularjs.md)  
 * [typescript-aurelia](generators/typescript-aurelia.md)  

@@ -15,6 +15,7 @@ import org.openapitools.client.models.Category
 import org.openapitools.client.models.Tag
 
 import com.fasterxml.jackson.annotation.JsonProperty
+
 /**
  * A pet for sale in the pet store
  * @param name 
@@ -29,13 +30,13 @@ data class Pet (
     @field:JsonProperty("name")
     val name: kotlin.String,
     @field:JsonProperty("photoUrls")
-    val photoUrls: kotlin.Array<kotlin.String>,
+    val photoUrls: kotlin.collections.List<kotlin.String>,
     @field:JsonProperty("id")
     val id: kotlin.Long? = null,
     @field:JsonProperty("category")
     val category: Category? = null,
     @field:JsonProperty("tags")
-    val tags: kotlin.Array<Tag>? = null,
+    val tags: kotlin.collections.List<Tag>? = null,
     /* pet status in the store */
     @field:JsonProperty("status")
     val status: Pet.Status? = null

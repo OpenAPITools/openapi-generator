@@ -27,23 +27,23 @@ data class Pet(
 
     @get:NotNull 
     @ApiModelProperty(example = "doggie", required = true, value = "")
-    @JsonProperty("name") val name: kotlin.String,
+    @field:JsonProperty("name") val name: kotlin.String,
 
     @get:NotNull 
     @ApiModelProperty(example = "null", required = true, value = "")
-    @JsonProperty("photoUrls") val photoUrls: kotlin.collections.List<kotlin.String>,
+    @field:JsonProperty("photoUrls") val photoUrls: kotlin.collections.List<kotlin.String>,
 
     @ApiModelProperty(example = "null", value = "")
-    @JsonProperty("id") val id: kotlin.Long? = null,
+    @field:JsonProperty("id") val id: kotlin.Long? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @JsonProperty("category") val category: Category? = null,
+    @field:JsonProperty("category") val category: Category? = null,
 
     @ApiModelProperty(example = "null", value = "")
-    @JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
+    @field:JsonProperty("tags") val tags: kotlin.collections.List<Tag>? = null,
 
     @ApiModelProperty(example = "null", value = "pet status in the store")
-    @JsonProperty("status") val status: Pet.Status? = null
+    @field:JsonProperty("status") val status: Pet.Status? = null
 ) {
 
     /**

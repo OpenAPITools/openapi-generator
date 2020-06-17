@@ -2,7 +2,7 @@ package org.openapitools.configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class WebApplication extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
