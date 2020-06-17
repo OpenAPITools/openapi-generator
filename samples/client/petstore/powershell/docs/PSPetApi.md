@@ -5,18 +5,19 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**Add-PSPet**](PSPetApi.md#Add-PSPet) | **POST** /pet | Add a new pet to the store
-[**Remove-Pet**](PSPetApi.md#remove-pet) | **DELETE** /pet/{petId} | Deletes a pet
+[**Remove-PSPet**](PSPetApi.md#Remove-PSPet) | **DELETE** /pet/{petId} | Deletes a pet
 [**Find-PSPetsByStatus**](PSPetApi.md#Find-PSPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
 [**Find-PSPetsByTags**](PSPetApi.md#Find-PSPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
 [**Get-PSPetById**](PSPetApi.md#Get-PSPetById) | **GET** /pet/{petId} | Find pet by ID
 [**Update-PSPet**](PSPetApi.md#Update-PSPet) | **PUT** /pet | Update an existing pet
 [**Update-PSPetWithForm**](PSPetApi.md#Update-PSPetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**Invoke-PSUploadFile**](PSPetApi.md#Invoke-PSUploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+[**Invoke-PSUploadFileWithRequiredFile**](PSPetApi.md#Invoke-PSUploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 <a name="Add-PSPet"></a>
 # **Add-PSPet**
-> Pet Add-PSPet<br>
+> void Add-PSPet<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Pet] <PSCustomObject><br>
 
 Add a new pet to the store
@@ -26,6 +27,9 @@ Add a new pet to the store
 Import-Module -Name PSPetstore
 
 $Configuration = Get-PSPetstoreConfiguration
+# Configure HTTP basic authorization: http_signature_test
+$Configuration["Username"] = "YOUR_USERNAME";
+$Configuration["Password"] = "YOUR_PASSWORD";
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
@@ -33,7 +37,7 @@ $Pet = (Initialize-Pet-Id 123 -Category (Initialize-Category-Id 123 -Name "Name_
 
 # Add a new pet to the store
 try {
-    Pet $Result = Add-PSPet -Pet $Pet
+    Add-PSPet -Pet $Pet
 } catch {
     Write-Host ("Exception occured when calling Add-PSPet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -48,22 +52,22 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Pet**](Pet.md)
+void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-<a name="remove-pet"></a>
-# **Remove-Pet**
-> void Remove-Pet<br>
+<a name="Remove-PSPet"></a>
+# **Remove-PSPet**
+> void Remove-PSPet<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PetId] <Int64><br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-ApiKey] <String><br>
 
@@ -82,9 +86,9 @@ $ApiKey = "ApiKey_example" # String |  (optional) (default to null)
 
 # Deletes a pet
 try {
-    Remove-Pet -PetId $PetId -ApiKey $ApiKey
+    Remove-PSPet -PetId $PetId -ApiKey $ApiKey
 } catch {
-    Write-Host ("Exception occured when calling Remove-Pet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Exception occured when calling Remove-PSPet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
 }
 ```
@@ -125,6 +129,9 @@ Multiple status values can be provided with comma separated strings
 Import-Module -Name PSPetstore
 
 $Configuration = Get-PSPetstoreConfiguration
+# Configure HTTP basic authorization: http_signature_test
+$Configuration["Username"] = "YOUR_USERNAME";
+$Configuration["Password"] = "YOUR_PASSWORD";
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
@@ -151,7 +158,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -174,6 +181,9 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 Import-Module -Name PSPetstore
 
 $Configuration = Get-PSPetstoreConfiguration
+# Configure HTTP basic authorization: http_signature_test
+$Configuration["Username"] = "YOUR_USERNAME";
+$Configuration["Password"] = "YOUR_PASSWORD";
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
@@ -200,7 +210,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
@@ -262,7 +272,7 @@ Name | Type | Description  | Notes
 
 <a name="Update-PSPet"></a>
 # **Update-PSPet**
-> Pet Update-PSPet<br>
+> void Update-PSPet<br>
 > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-Pet] <PSCustomObject><br>
 
 Update an existing pet
@@ -272,6 +282,9 @@ Update an existing pet
 Import-Module -Name PSPetstore
 
 $Configuration = Get-PSPetstoreConfiguration
+# Configure HTTP basic authorization: http_signature_test
+$Configuration["Username"] = "YOUR_USERNAME";
+$Configuration["Password"] = "YOUR_PASSWORD";
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
@@ -279,7 +292,7 @@ $Pet = (Initialize-Pet-Id 123 -Category (Initialize-Category-Id 123 -Name "Name_
 
 # Update an existing pet
 try {
-    Pet $Result = Update-PSPet -Pet $Pet
+    Update-PSPet -Pet $Pet
 } catch {
     Write-Host ("Exception occured when calling Update-PSPet: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -294,16 +307,16 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Pet**](Pet.md)
+void (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+[http_signature_test](../README.md#http_signature_test), [petstore_auth](../README.md#petstore_auth)
 
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -397,6 +410,59 @@ Name | Type | Description  | Notes
  **PetId** | **Int64**| ID of pet to update | [default to null]
  **AdditionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
  **File** | **System.IO.FileInfo****System.IO.FileInfo**| file to upload | [optional] [default to null]
+
+### Return type
+
+[**ApiResponse**](ApiResponse.md)
+
+### Authorization
+
+[petstore_auth](../README.md#petstore_auth)
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+<a name="Invoke-PSUploadFileWithRequiredFile"></a>
+# **Invoke-PSUploadFileWithRequiredFile**
+> ApiResponse Invoke-PSUploadFileWithRequiredFile<br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-PetId] <Int64><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-RequiredFile] <System.IO.FileInfo><br>
+> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[-AdditionalMetadata] <String><br>
+
+uploads an image (required)
+
+### Example
+```powershell
+Import-Module -Name PSPetstore
+
+$Configuration = Get-PSPetstoreConfiguration
+# Configure OAuth2 access token for authorization: petstore_auth
+$Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
+
+$PetId = 987 # Int64 | ID of pet to update (default to null)
+$RequiredFile = 987 # System.IO.FileInfo | file to upload (default to null)
+$AdditionalMetadata = "AdditionalMetadata_example" # String | Additional data to pass to server (optional) (default to null)
+
+# uploads an image (required)
+try {
+    ApiResponse $Result = Invoke-PSUploadFileWithRequiredFile -PetId $PetId -RequiredFile $RequiredFile -AdditionalMetadata $AdditionalMetadata
+} catch {
+    Write-Host ("Exception occured when calling Invoke-PSUploadFileWithRequiredFile: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
+    Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **PetId** | **Int64**| ID of pet to update | [default to null]
+ **RequiredFile** | **System.IO.FileInfo****System.IO.FileInfo**| file to upload | [default to null]
+ **AdditionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
 
 ### Return type
 

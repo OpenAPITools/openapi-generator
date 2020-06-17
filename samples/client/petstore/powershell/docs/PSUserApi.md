@@ -27,13 +27,7 @@ This can only be done by the logged in user.
 ```powershell
 Import-Module -Name PSPetstore
 
-$Configuration = Get-PSPetstoreConfiguration
-# Configure API key authorization: auth_cookie
-$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
-
-$User = (Initialize-User-Id 123 -Username "Username_example" -FirstName "FirstName_example" -LastName "LastName_example" -Email "Email_example" -Password "Password_example" -Phone "Phone_example" -UserStatus 123) # User | Created user object
+$User = (Initialize-User-Id 123 -Username "Username_example" -FirstName "FirstName_example" -LastName "LastName_example" -Email "Email_example" -Password "Password_example" -Phone "Phone_example" -UserStatus 123 -ObjectWithNoDeclaredProps "TODO" -ObjectWithNoDeclaredPropsNullable "TODO" -AnyTypeProp "TODO" -AnyTypePropNullable "TODO") # User | Created user object
 
 # Create user
 try {
@@ -56,7 +50,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
@@ -76,13 +70,7 @@ Creates list of users with given input array
 ```powershell
 Import-Module -Name PSPetstore
 
-$Configuration = Get-PSPetstoreConfiguration
-# Configure API key authorization: auth_cookie
-$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
-
-$User = @((Initialize-User-Id 123 -Username "Username_example" -FirstName "FirstName_example" -LastName "LastName_example" -Email "Email_example" -Password "Password_example" -Phone "Phone_example" -UserStatus 123)) # User[] | List of user object
+$User = @((Initialize-User-Id 123 -Username "Username_example" -FirstName "FirstName_example" -LastName "LastName_example" -Email "Email_example" -Password "Password_example" -Phone "Phone_example" -UserStatus 123 -ObjectWithNoDeclaredProps "TODO" -ObjectWithNoDeclaredPropsNullable "TODO" -AnyTypeProp "TODO" -AnyTypePropNullable "TODO")) # User[] | List of user object
 
 # Creates list of users with given input array
 try {
@@ -105,7 +93,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
@@ -124,12 +112,6 @@ Creates list of users with given input array
 ### Example
 ```powershell
 Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
-# Configure API key authorization: auth_cookie
-$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
 
 $User = @() # User[] | List of user object
 
@@ -154,7 +136,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
@@ -175,12 +157,6 @@ This can only be done by the logged in user.
 ### Example
 ```powershell
 Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
-# Configure API key authorization: auth_cookie
-$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
 
 $Username = "Username_example" # String | The name that needs to be deleted (default to null)
 
@@ -205,7 +181,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
@@ -313,12 +289,6 @@ Logs out current logged in user session
 ```powershell
 Import-Module -Name PSPetstore
 
-$Configuration = Get-PSPetstoreConfiguration
-# Configure API key authorization: auth_cookie
-$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
-
 
 # Logs out current logged in user session
 try {
@@ -338,7 +308,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
@@ -360,12 +330,6 @@ This can only be done by the logged in user.
 ### Example
 ```powershell
 Import-Module -Name PSPetstore
-
-$Configuration = Get-PSPetstoreConfiguration
-# Configure API key authorization: auth_cookie
-$Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-#$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
 
 $Username = "Username_example" # String | name that need to be deleted (default to null)
 $User =  # User | Updated user object
@@ -392,7 +356,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+No authorization required
 
 ### HTTP request headers
 
