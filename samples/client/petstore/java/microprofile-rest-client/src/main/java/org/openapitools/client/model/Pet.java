@@ -29,6 +29,15 @@ import java.util.List;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 
+import java.lang.reflect.Type;
+import javax.json.bind.annotation.JsonbTypeDeserializer;
+import javax.json.bind.annotation.JsonbTypeSerializer;
+import javax.json.bind.serializer.DeserializationContext;
+import javax.json.bind.serializer.JsonbDeserializer;
+import javax.json.bind.serializer.JsonbSerializer;
+import javax.json.bind.serializer.SerializationContext;
+import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonParser;
 import javax.json.bind.annotation.JsonbProperty;
 
 /**
@@ -46,14 +55,14 @@ public class Pet  {
 
   private List<Tag> tags = null;
 
-@XmlType(name="StatusEnum")
-@XmlEnum(String.class)
+@JsonbTypeSerializer(StatusEnum.Serializer.class)
+@JsonbTypeDeserializer(StatusEnum.Deserializer.class)
 public enum StatusEnum {
 
-@XmlEnumValue("available") AVAILABLE(String.valueOf("available")), @XmlEnumValue("pending") PENDING(String.valueOf("pending")), @XmlEnumValue("sold") SOLD(String.valueOf("sold"));
+AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));	
 
 
-    private String value;
+    String value;
 
     StatusEnum (String v) {
         value = v;
@@ -68,13 +77,23 @@ public enum StatusEnum {
         return String.valueOf(value);
     }
 
-    public static StatusEnum fromValue(String v) {
-        for (StatusEnum b : StatusEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
-                return b;
+    public static final class Deserializer implements JsonbDeserializer<StatusEnum> {
+        @Override
+        public StatusEnum deserialize(JsonParser parser, DeserializationContext ctx, Type rtType) {
+            for (StatusEnum b : StatusEnum.values()) {
+                if (String.valueOf(b.value).equals(parser.getString())) {
+                    return b;
+                }
             }
+            throw new IllegalArgumentException("Unexpected value '" + parser.getString() + "'");
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+    }
+
+    public static final class Serializer implements JsonbSerializer<StatusEnum> {
+        @Override
+        public void serialize(StatusEnum obj, JsonGenerator generator, SerializationContext ctx) {
+            generator.write(obj.value);
+        }
     }
 }
 
