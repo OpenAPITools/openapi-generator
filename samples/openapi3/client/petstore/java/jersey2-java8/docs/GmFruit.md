@@ -2,14 +2,28 @@
 
 # GmFruit
 
-## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**color** | **String** |  |  [optional]
-**cultivar** | **String** |  |  [optional]
-**origin** | **String** |  |  [optional]
-**lengthCm** | [**BigDecimal**](BigDecimal.md) |  |  [optional]
+## anyOf schemas
+* [Apple](Apple.md)
+* [Banana](Banana.md)
 
+## Example
+```java
+TODO sample code here
+
+```
+
+# GmFruit
+
+
+## anyOf schemas
+* [Apple](Apple.md)
+* [Banana](Banana.md)
+
+## Example
+```java
+TODO sample code here
+
+```
 
 

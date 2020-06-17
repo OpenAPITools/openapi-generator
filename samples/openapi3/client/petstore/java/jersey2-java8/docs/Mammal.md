@@ -2,24 +2,134 @@
 
 # Mammal
 
-## Properties
 
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**hasBaleen** | **Boolean** |  |  [optional]
-**hasTeeth** | **Boolean** |  |  [optional]
-**className** | **String** |  | 
-**type** | [**TypeEnum**](#TypeEnum) |  |  [optional]
+## oneOf schemas
+* [Pig](Pig.md)
+* [Whale](Whale.md)
+* [Zebra](Zebra.md)
+
+## Example
+```java
+// Import classes:
+import org.openapitools.client.model.Mammal;
+import org.openapitools.client.model.Pig;
+import org.openapitools.client.model.Whale;
+import org.openapitools.client.model.Zebra;
+
+public class Example {
+    public static void main(String[] args) {
+        Mammal exampleMammal = new Mammal();
+
+        // create a new Pig
+        Pig examplePig = new Pig();
+        // set Mammal to Pig
+        exampleMammal.setActualInstance(examplePig);
+        // to get back the Pig set earlier
+        Pig testPig = (Mammal) exampleMammal.getActualInstance();
+
+        // create a new Whale
+        Whale exampleWhale = new Whale();
+        // set Mammal to Whale
+        exampleMammal.setActualInstance(exampleWhale);
+        // to get back the Whale set earlier
+        Whale testWhale = (Mammal) exampleMammal.getActualInstance();
+
+        // create a new Zebra
+        Zebra exampleZebra = new Zebra();
+        // set Mammal to Zebra
+        exampleMammal.setActualInstance(exampleZebra);
+        // to get back the Zebra set earlier
+        Zebra testZebra = (Mammal) exampleMammal.getActualInstance();
+    }
+}
+```
+
+# Mammal
 
 
+## oneOf schemas
+* [Pig](Pig.md)
+* [Whale](Whale.md)
+* [Zebra](Zebra.md)
 
-## Enum: TypeEnum
+## Example
+```java
+// Import classes:
+import org.openapitools.client.model.Mammal;
+import org.openapitools.client.model.Pig;
+import org.openapitools.client.model.Whale;
+import org.openapitools.client.model.Zebra;
 
-Name | Value
----- | -----
-PLAINS | &quot;plains&quot;
-MOUNTAIN | &quot;mountain&quot;
-GREVYS | &quot;grevys&quot;
+public class Example {
+    public static void main(String[] args) {
+        Mammal exampleMammal = new Mammal();
 
+        // create a new Pig
+        Pig examplePig = new Pig();
+        // set Mammal to Pig
+        exampleMammal.setActualInstance(examplePig);
+        // to get back the Pig set earlier
+        Pig testPig = (Mammal) exampleMammal.getActualInstance();
+
+        // create a new Whale
+        Whale exampleWhale = new Whale();
+        // set Mammal to Whale
+        exampleMammal.setActualInstance(exampleWhale);
+        // to get back the Whale set earlier
+        Whale testWhale = (Mammal) exampleMammal.getActualInstance();
+
+        // create a new Zebra
+        Zebra exampleZebra = new Zebra();
+        // set Mammal to Zebra
+        exampleMammal.setActualInstance(exampleZebra);
+        // to get back the Zebra set earlier
+        Zebra testZebra = (Mammal) exampleMammal.getActualInstance();
+    }
+}
+```
+
+# Mammal
+
+
+## oneOf schemas
+* [Pig](Pig.md)
+* [Whale](Whale.md)
+* [Zebra](Zebra.md)
+
+## Example
+```java
+// Import classes:
+import org.openapitools.client.model.Mammal;
+import org.openapitools.client.model.Pig;
+import org.openapitools.client.model.Whale;
+import org.openapitools.client.model.Zebra;
+
+public class Example {
+    public static void main(String[] args) {
+        Mammal exampleMammal = new Mammal();
+
+        // create a new Pig
+        Pig examplePig = new Pig();
+        // set Mammal to Pig
+        exampleMammal.setActualInstance(examplePig);
+        // to get back the Pig set earlier
+        Pig testPig = (Mammal) exampleMammal.getActualInstance();
+
+        // create a new Whale
+        Whale exampleWhale = new Whale();
+        // set Mammal to Whale
+        exampleMammal.setActualInstance(exampleWhale);
+        // to get back the Whale set earlier
+        Whale testWhale = (Mammal) exampleMammal.getActualInstance();
+
+        // create a new Zebra
+        Zebra exampleZebra = new Zebra();
+        // set Mammal to Zebra
+        exampleMammal.setActualInstance(exampleZebra);
+        // to get back the Zebra set earlier
+        Zebra testZebra = (Mammal) exampleMammal.getActualInstance();
+    }
+}
+```
 
 
