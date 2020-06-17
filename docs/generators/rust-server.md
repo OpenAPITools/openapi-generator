@@ -183,7 +183,7 @@ sidebar_label: rust-server
 | Name | Supported | Defined By |
 | ---- | --------- | ---------- |
 |Simple|✓|OAS2,OAS3
-|Composite|✗|OAS2,OAS3
+|Composite|✓|OAS2,OAS3
 |Polymorphism|✗|OAS2,OAS3
 |Union|✗|OAS3
 
