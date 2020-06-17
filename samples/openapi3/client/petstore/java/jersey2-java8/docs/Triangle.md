@@ -25,21 +25,21 @@ public class Example {
         // set Triangle to EquilateralTriangle
         exampleTriangle.setActualInstance(exampleEquilateralTriangle);
         // to get back the EquilateralTriangle set earlier
-        EquilateralTriangle testEquilateralTriangle = (Triangle) exampleTriangle.getActualInstance();
+        EquilateralTriangle testEquilateralTriangle = (EquilateralTriangle) exampleTriangle.getActualInstance();
 
         // create a new IsoscelesTriangle
         IsoscelesTriangle exampleIsoscelesTriangle = new IsoscelesTriangle();
         // set Triangle to IsoscelesTriangle
         exampleTriangle.setActualInstance(exampleIsoscelesTriangle);
         // to get back the IsoscelesTriangle set earlier
-        IsoscelesTriangle testIsoscelesTriangle = (Triangle) exampleTriangle.getActualInstance();
+        IsoscelesTriangle testIsoscelesTriangle = (IsoscelesTriangle) exampleTriangle.getActualInstance();
 
         // create a new ScaleneTriangle
         ScaleneTriangle exampleScaleneTriangle = new ScaleneTriangle();
         // set Triangle to ScaleneTriangle
         exampleTriangle.setActualInstance(exampleScaleneTriangle);
         // to get back the ScaleneTriangle set earlier
-        ScaleneTriangle testScaleneTriangle = (Triangle) exampleTriangle.getActualInstance();
+        ScaleneTriangle testScaleneTriangle = (ScaleneTriangle) exampleTriangle.getActualInstance();
     }
 }
 ```
@@ -69,21 +69,21 @@ public class Example {
         // set Triangle to EquilateralTriangle
         exampleTriangle.setActualInstance(exampleEquilateralTriangle);
         // to get back the EquilateralTriangle set earlier
-        EquilateralTriangle testEquilateralTriangle = (Triangle) exampleTriangle.getActualInstance();
+        EquilateralTriangle testEquilateralTriangle = (EquilateralTriangle) exampleTriangle.getActualInstance();
 
         // create a new IsoscelesTriangle
         IsoscelesTriangle exampleIsoscelesTriangle = new IsoscelesTriangle();
         // set Triangle to IsoscelesTriangle
         exampleTriangle.setActualInstance(exampleIsoscelesTriangle);
         // to get back the IsoscelesTriangle set earlier
-        IsoscelesTriangle testIsoscelesTriangle = (Triangle) exampleTriangle.getActualInstance();
+        IsoscelesTriangle testIsoscelesTriangle = (IsoscelesTriangle) exampleTriangle.getActualInstance();
 
         // create a new ScaleneTriangle
         ScaleneTriangle exampleScaleneTriangle = new ScaleneTriangle();
         // set Triangle to ScaleneTriangle
         exampleTriangle.setActualInstance(exampleScaleneTriangle);
         // to get back the ScaleneTriangle set earlier
-        ScaleneTriangle testScaleneTriangle = (Triangle) exampleTriangle.getActualInstance();
+        ScaleneTriangle testScaleneTriangle = (ScaleneTriangle) exampleTriangle.getActualInstance();
     }
 }
 ```
@@ -113,21 +113,21 @@ public class Example {
         // set Triangle to EquilateralTriangle
         exampleTriangle.setActualInstance(exampleEquilateralTriangle);
         // to get back the EquilateralTriangle set earlier
-        EquilateralTriangle testEquilateralTriangle = (Triangle) exampleTriangle.getActualInstance();
+        EquilateralTriangle testEquilateralTriangle = (EquilateralTriangle) exampleTriangle.getActualInstance();
 
         // create a new IsoscelesTriangle
         IsoscelesTriangle exampleIsoscelesTriangle = new IsoscelesTriangle();
         // set Triangle to IsoscelesTriangle
         exampleTriangle.setActualInstance(exampleIsoscelesTriangle);
         // to get back the IsoscelesTriangle set earlier
-        IsoscelesTriangle testIsoscelesTriangle = (Triangle) exampleTriangle.getActualInstance();
+        IsoscelesTriangle testIsoscelesTriangle = (IsoscelesTriangle) exampleTriangle.getActualInstance();
 
         // create a new ScaleneTriangle
         ScaleneTriangle exampleScaleneTriangle = new ScaleneTriangle();
         // set Triangle to ScaleneTriangle
         exampleTriangle.setActualInstance(exampleScaleneTriangle);
         // to get back the ScaleneTriangle set earlier
-        ScaleneTriangle testScaleneTriangle = (Triangle) exampleTriangle.getActualInstance();
+        ScaleneTriangle testScaleneTriangle = (ScaleneTriangle) exampleTriangle.getActualInstance();
     }
 }
 ```

@@ -23,14 +23,14 @@ public class Example {
         // set Fruit to Apple
         exampleFruit.setActualInstance(exampleApple);
         // to get back the Apple set earlier
-        Apple testApple = (Fruit) exampleFruit.getActualInstance();
+        Apple testApple = (Apple) exampleFruit.getActualInstance();
 
         // create a new Banana
         Banana exampleBanana = new Banana();
         // set Fruit to Banana
         exampleFruit.setActualInstance(exampleBanana);
         // to get back the Banana set earlier
-        Banana testBanana = (Fruit) exampleFruit.getActualInstance();
+        Banana testBanana = (Banana) exampleFruit.getActualInstance();
     }
 }
 ```
@@ -58,14 +58,14 @@ public class Example {
         // set Fruit to Apple
         exampleFruit.setActualInstance(exampleApple);
         // to get back the Apple set earlier
-        Apple testApple = (Fruit) exampleFruit.getActualInstance();
+        Apple testApple = (Apple) exampleFruit.getActualInstance();
 
         // create a new Banana
         Banana exampleBanana = new Banana();
         // set Fruit to Banana
         exampleFruit.setActualInstance(exampleBanana);
         // to get back the Banana set earlier
-        Banana testBanana = (Fruit) exampleFruit.getActualInstance();
+        Banana testBanana = (Banana) exampleFruit.getActualInstance();
     }
 }
 ```

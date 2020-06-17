@@ -23,14 +23,14 @@ public class Example {
         // set Quadrilateral to ComplexQuadrilateral
         exampleQuadrilateral.setActualInstance(exampleComplexQuadrilateral);
         // to get back the ComplexQuadrilateral set earlier
-        ComplexQuadrilateral testComplexQuadrilateral = (Quadrilateral) exampleQuadrilateral.getActualInstance();
+        ComplexQuadrilateral testComplexQuadrilateral = (ComplexQuadrilateral) exampleQuadrilateral.getActualInstance();
 
         // create a new SimpleQuadrilateral
         SimpleQuadrilateral exampleSimpleQuadrilateral = new SimpleQuadrilateral();
         // set Quadrilateral to SimpleQuadrilateral
         exampleQuadrilateral.setActualInstance(exampleSimpleQuadrilateral);
         // to get back the SimpleQuadrilateral set earlier
-        SimpleQuadrilateral testSimpleQuadrilateral = (Quadrilateral) exampleQuadrilateral.getActualInstance();
+        SimpleQuadrilateral testSimpleQuadrilateral = (SimpleQuadrilateral) exampleQuadrilateral.getActualInstance();
     }
 }
 ```
@@ -58,14 +58,14 @@ public class Example {
         // set Quadrilateral to ComplexQuadrilateral
         exampleQuadrilateral.setActualInstance(exampleComplexQuadrilateral);
         // to get back the ComplexQuadrilateral set earlier
-        ComplexQuadrilateral testComplexQuadrilateral = (Quadrilateral) exampleQuadrilateral.getActualInstance();
+        ComplexQuadrilateral testComplexQuadrilateral = (ComplexQuadrilateral) exampleQuadrilateral.getActualInstance();
 
         // create a new SimpleQuadrilateral
         SimpleQuadrilateral exampleSimpleQuadrilateral = new SimpleQuadrilateral();
         // set Quadrilateral to SimpleQuadrilateral
         exampleQuadrilateral.setActualInstance(exampleSimpleQuadrilateral);
         // to get back the SimpleQuadrilateral set earlier
-        SimpleQuadrilateral testSimpleQuadrilateral = (Quadrilateral) exampleQuadrilateral.getActualInstance();
+        SimpleQuadrilateral testSimpleQuadrilateral = (SimpleQuadrilateral) exampleQuadrilateral.getActualInstance();
     }
 }
 ```

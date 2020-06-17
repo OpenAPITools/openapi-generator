@@ -26,14 +26,14 @@ public class Example {
         // set ShapeOrNull to Quadrilateral
         exampleShapeOrNull.setActualInstance(exampleQuadrilateral);
         // to get back the Quadrilateral set earlier
-        Quadrilateral testQuadrilateral = (ShapeOrNull) exampleShapeOrNull.getActualInstance();
+        Quadrilateral testQuadrilateral = (Quadrilateral) exampleShapeOrNull.getActualInstance();
 
         // create a new Triangle
         Triangle exampleTriangle = new Triangle();
         // set ShapeOrNull to Triangle
         exampleShapeOrNull.setActualInstance(exampleTriangle);
         // to get back the Triangle set earlier
-        Triangle testTriangle = (ShapeOrNull) exampleShapeOrNull.getActualInstance();
+        Triangle testTriangle = (Triangle) exampleShapeOrNull.getActualInstance();
     }
 }
 ```
@@ -64,14 +64,14 @@ public class Example {
         // set ShapeOrNull to Quadrilateral
         exampleShapeOrNull.setActualInstance(exampleQuadrilateral);
         // to get back the Quadrilateral set earlier
-        Quadrilateral testQuadrilateral = (ShapeOrNull) exampleShapeOrNull.getActualInstance();
+        Quadrilateral testQuadrilateral = (Quadrilateral) exampleShapeOrNull.getActualInstance();
 
         // create a new Triangle
         Triangle exampleTriangle = new Triangle();
         // set ShapeOrNull to Triangle
         exampleShapeOrNull.setActualInstance(exampleTriangle);
         // to get back the Triangle set earlier
-        Triangle testTriangle = (ShapeOrNull) exampleShapeOrNull.getActualInstance();
+        Triangle testTriangle = (Triangle) exampleShapeOrNull.getActualInstance();
     }
 }
 ```

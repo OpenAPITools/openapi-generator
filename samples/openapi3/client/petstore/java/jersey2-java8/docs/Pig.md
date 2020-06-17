@@ -23,14 +23,14 @@ public class Example {
         // set Pig to BasquePig
         examplePig.setActualInstance(exampleBasquePig);
         // to get back the BasquePig set earlier
-        BasquePig testBasquePig = (Pig) examplePig.getActualInstance();
+        BasquePig testBasquePig = (BasquePig) examplePig.getActualInstance();
 
         // create a new DanishPig
         DanishPig exampleDanishPig = new DanishPig();
         // set Pig to DanishPig
         examplePig.setActualInstance(exampleDanishPig);
         // to get back the DanishPig set earlier
-        DanishPig testDanishPig = (Pig) examplePig.getActualInstance();
+        DanishPig testDanishPig = (DanishPig) examplePig.getActualInstance();
     }
 }
 ```
@@ -58,14 +58,14 @@ public class Example {
         // set Pig to BasquePig
         examplePig.setActualInstance(exampleBasquePig);
         // to get back the BasquePig set earlier
-        BasquePig testBasquePig = (Pig) examplePig.getActualInstance();
+        BasquePig testBasquePig = (BasquePig) examplePig.getActualInstance();
 
         // create a new DanishPig
         DanishPig exampleDanishPig = new DanishPig();
         // set Pig to DanishPig
         examplePig.setActualInstance(exampleDanishPig);
         // to get back the DanishPig set earlier
-        DanishPig testDanishPig = (Pig) examplePig.getActualInstance();
+        DanishPig testDanishPig = (DanishPig) examplePig.getActualInstance();
     }
 }
 ```

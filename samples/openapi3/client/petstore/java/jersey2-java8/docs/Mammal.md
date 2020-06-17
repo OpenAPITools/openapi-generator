@@ -25,21 +25,21 @@ public class Example {
         // set Mammal to Pig
         exampleMammal.setActualInstance(examplePig);
         // to get back the Pig set earlier
-        Pig testPig = (Mammal) exampleMammal.getActualInstance();
+        Pig testPig = (Pig) exampleMammal.getActualInstance();
 
         // create a new Whale
         Whale exampleWhale = new Whale();
         // set Mammal to Whale
         exampleMammal.setActualInstance(exampleWhale);
         // to get back the Whale set earlier
-        Whale testWhale = (Mammal) exampleMammal.getActualInstance();
+        Whale testWhale = (Whale) exampleMammal.getActualInstance();
 
         // create a new Zebra
         Zebra exampleZebra = new Zebra();
         // set Mammal to Zebra
         exampleMammal.setActualInstance(exampleZebra);
         // to get back the Zebra set earlier
-        Zebra testZebra = (Mammal) exampleMammal.getActualInstance();
+        Zebra testZebra = (Zebra) exampleMammal.getActualInstance();
     }
 }
 ```
@@ -69,21 +69,21 @@ public class Example {
         // set Mammal to Pig
         exampleMammal.setActualInstance(examplePig);
         // to get back the Pig set earlier
-        Pig testPig = (Mammal) exampleMammal.getActualInstance();
+        Pig testPig = (Pig) exampleMammal.getActualInstance();
 
         // create a new Whale
         Whale exampleWhale = new Whale();
         // set Mammal to Whale
         exampleMammal.setActualInstance(exampleWhale);
         // to get back the Whale set earlier
-        Whale testWhale = (Mammal) exampleMammal.getActualInstance();
+        Whale testWhale = (Whale) exampleMammal.getActualInstance();
 
         // create a new Zebra
         Zebra exampleZebra = new Zebra();
         // set Mammal to Zebra
         exampleMammal.setActualInstance(exampleZebra);
         // to get back the Zebra set earlier
-        Zebra testZebra = (Mammal) exampleMammal.getActualInstance();
+        Zebra testZebra = (Zebra) exampleMammal.getActualInstance();
     }
 }
 ```
@@ -113,21 +113,21 @@ public class Example {
         // set Mammal to Pig
         exampleMammal.setActualInstance(examplePig);
         // to get back the Pig set earlier
-        Pig testPig = (Mammal) exampleMammal.getActualInstance();
+        Pig testPig = (Pig) exampleMammal.getActualInstance();
 
         // create a new Whale
         Whale exampleWhale = new Whale();
         // set Mammal to Whale
         exampleMammal.setActualInstance(exampleWhale);
         // to get back the Whale set earlier
-        Whale testWhale = (Mammal) exampleMammal.getActualInstance();
+        Whale testWhale = (Whale) exampleMammal.getActualInstance();
 
         // create a new Zebra
         Zebra exampleZebra = new Zebra();
         // set Mammal to Zebra
         exampleMammal.setActualInstance(exampleZebra);
         // to get back the Zebra set earlier
-        Zebra testZebra = (Mammal) exampleMammal.getActualInstance();
+        Zebra testZebra = (Zebra) exampleMammal.getActualInstance();
     }
 }
 ```

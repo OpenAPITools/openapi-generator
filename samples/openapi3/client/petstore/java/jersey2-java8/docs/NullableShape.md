@@ -26,14 +26,14 @@ public class Example {
         // set NullableShape to Quadrilateral
         exampleNullableShape.setActualInstance(exampleQuadrilateral);
         // to get back the Quadrilateral set earlier
-        Quadrilateral testQuadrilateral = (NullableShape) exampleNullableShape.getActualInstance();
+        Quadrilateral testQuadrilateral = (Quadrilateral) exampleNullableShape.getActualInstance();
 
         // create a new Triangle
         Triangle exampleTriangle = new Triangle();
         // set NullableShape to Triangle
         exampleNullableShape.setActualInstance(exampleTriangle);
         // to get back the Triangle set earlier
-        Triangle testTriangle = (NullableShape) exampleNullableShape.getActualInstance();
+        Triangle testTriangle = (Triangle) exampleNullableShape.getActualInstance();
     }
 }
 ```
@@ -64,14 +64,14 @@ public class Example {
         // set NullableShape to Quadrilateral
         exampleNullableShape.setActualInstance(exampleQuadrilateral);
         // to get back the Quadrilateral set earlier
-        Quadrilateral testQuadrilateral = (NullableShape) exampleNullableShape.getActualInstance();
+        Quadrilateral testQuadrilateral = (Quadrilateral) exampleNullableShape.getActualInstance();
 
         // create a new Triangle
         Triangle exampleTriangle = new Triangle();
         // set NullableShape to Triangle
         exampleNullableShape.setActualInstance(exampleTriangle);
         // to get back the Triangle set earlier
-        Triangle testTriangle = (NullableShape) exampleNullableShape.getActualInstance();
+        Triangle testTriangle = (Triangle) exampleNullableShape.getActualInstance();
     }
 }
 ```

@@ -25,14 +25,14 @@ public class Example {
         // set FruitReq to AppleReq
         exampleFruitReq.setActualInstance(exampleAppleReq);
         // to get back the AppleReq set earlier
-        AppleReq testAppleReq = (FruitReq) exampleFruitReq.getActualInstance();
+        AppleReq testAppleReq = (AppleReq) exampleFruitReq.getActualInstance();
 
         // create a new BananaReq
         BananaReq exampleBananaReq = new BananaReq();
         // set FruitReq to BananaReq
         exampleFruitReq.setActualInstance(exampleBananaReq);
         // to get back the BananaReq set earlier
-        BananaReq testBananaReq = (FruitReq) exampleFruitReq.getActualInstance();
+        BananaReq testBananaReq = (BananaReq) exampleFruitReq.getActualInstance();
     }
 }
 ```
@@ -62,14 +62,14 @@ public class Example {
         // set FruitReq to AppleReq
         exampleFruitReq.setActualInstance(exampleAppleReq);
         // to get back the AppleReq set earlier
-        AppleReq testAppleReq = (FruitReq) exampleFruitReq.getActualInstance();
+        AppleReq testAppleReq = (AppleReq) exampleFruitReq.getActualInstance();
 
         // create a new BananaReq
         BananaReq exampleBananaReq = new BananaReq();
         // set FruitReq to BananaReq
         exampleFruitReq.setActualInstance(exampleBananaReq);
         // to get back the BananaReq set earlier
-        BananaReq testBananaReq = (FruitReq) exampleFruitReq.getActualInstance();
+        BananaReq testBananaReq = (BananaReq) exampleFruitReq.getActualInstance();
     }
 }
 ```
