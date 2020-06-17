@@ -4,12 +4,12 @@
 {{>enum_outer_doc}}
 {{/isEnum}}
 {{^isEnum}}
-{{#oneOf}}
+{{^oneOf.isEmpty}}
 {{>model_oneof_doc}}
-{{/oneOf}}
-{{#anyOf}}
+{{/oneOf.isEmpty}}
+{{^anyOf.isEmpty}}
 {{>model_anyof_doc}}
-{{/anyOf}}
+{{/anyOf.isEmpty}}
 {{^anyOf}}
 {{^oneOf}}
 {{>pojo_doc}}
