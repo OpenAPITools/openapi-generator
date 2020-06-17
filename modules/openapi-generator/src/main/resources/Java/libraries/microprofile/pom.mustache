@@ -88,6 +88,13 @@
       <version>1.3.5</version>
       <scope>test</scope>
     </dependency>
+    {{^disableMultipart}}
+    <dependency>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-rt-rs-extension-providers</artifactId>
+        <version>3.2.6</version>
+    </dependency>
+    {{/disableMultipart}}
 
     <dependency>
       <groupId>javax.json.bind</groupId>
