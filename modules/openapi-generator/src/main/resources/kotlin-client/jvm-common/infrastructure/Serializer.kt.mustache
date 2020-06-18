@@ -31,6 +31,24 @@ import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 {{/jackson}}
 import java.util.Date
+{{#kotlin_serialization}}
+import java.math.BigDecimal
+import java.math.BigInteger
+{{^threetenbp}}
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.OffsetDateTime
+{{/threetenbp}}
+{{#threetenbp}}
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.OffsetDateTime
+{{/threetenbp}}
+import java.util.UUID
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.modules.serializersModuleOf
+import kotlin.reflect.KClass
+{{/kotlin_serialization}}
 
 {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer {
 {{#moshi}}
@@ -73,4 +91,27 @@ import java.util.Date
         .setSerializationInclusion(JsonInclude.Include.NON_ABSENT)
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
 {{/jackson}}
+{{#kotlin_serialization}}
+    @JvmStatic
+    val kotlinSerializationAdapters = serializersModuleOf(
+        mapOf<KClass<*>, KSerializer<*>>(
+            BigDecimal::class to BigDecimalAdapter,
+            BigInteger::class to BigIntegerAdapter,
+            Date::class to DateAdapter,
+            LocalDate::class to LocalDateAdapter,
+            LocalDateTime::class to LocalDateTimeAdapter,
+            OffsetDateTime::class to OffsetDateTimeAdapter,
+            UUID::class to UUIDAdapter,
+            AtomicInteger::class to AtomicIntegerAdapter,
+            AtomicLong::class to AtomicLongAdapter,
+            AtomicBoolean::class to AtomicBooleanAdapter,
+            URI::class to UriAdapter,
+            URL::class to UrlAdapter,
+            StringBuilder::class to StringBuilderAdapter
+        )
+    )
+
+    @JvmStatic
+    val json: Json by lazy { Json(context = kotlinSerializationAdapters) }
+{{/kotlin_serialization}}
 }

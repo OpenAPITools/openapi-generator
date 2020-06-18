@@ -1,0 +1,7 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-kotlin_serialization-codegen
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  serializationLibrary: kotlin_serialization
+  artifactId: kotlin-petstore-kotlin_serialization-codegen

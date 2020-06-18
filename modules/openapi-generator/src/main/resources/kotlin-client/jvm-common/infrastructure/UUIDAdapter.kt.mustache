@@ -1,9 +1,19 @@
 package {{packageName}}.infrastructure
 
+{{#kotlin_serialization}}
+import kotlinx.serialization.Decoder
+import kotlinx.serialization.Encoder
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializer
+import kotlinx.serialization.PrimitiveKind
+{{/kotlin_serialization}}
+{{#moshi}}
 import com.squareup.moshi.FromJson
 import com.squareup.moshi.ToJson
+{{/moshi}}
 import java.util.UUID
 
+{{#moshi}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}class UUIDAdapter {
     @ToJson
     fun toJson(uuid: UUID) = uuid.toString()
@@ -11,3 +21,18 @@ import java.util.UUID
     @FromJson
     fun fromJson(s: String) = UUID.fromString(s)
 }
+{{/moshi}}
+{{#kotlin_serialization}}
+@Serializer(forClass = UUID::class)
+object UUIDSerializer : KSerializer<UUID> {
+    override val descriptor: SerialDescriptor = PrimitiveDescriptor("UUID", PrimitiveKind.STRING)
+
+    override fun serialize(encoder: Encoder, value: UUID) {
+        encoder.encodeString(value.toString())
+    }
+
+    override fun deserialize(decoder: Decoder): UUID {
+        return UUID.fromString(decoder.decodeString())
+    }
+}
+{{/kotlin_serialization}}

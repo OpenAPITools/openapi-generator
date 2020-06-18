@@ -11,6 +11,9 @@
     {{#jackson}}
     @field:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
     {{/jackson}}
+    {{#kotlin_serialization}}
+    @SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}")
+    {{/kotlin_serialization}}
     {{/multiplatform}}
     {{#deprecated}}
     @Deprecated(message = "This property is deprecated.")
