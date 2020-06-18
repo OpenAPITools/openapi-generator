@@ -36,6 +36,7 @@ public class ApiClient {
   private OkHttpClient.Builder okBuilder;
   private Retrofit.Builder adapterBuilder;
   private JSON json;
+  private boolean okBuilderUsed = false;
 
   public ApiClient() {
     apiAuthorizations = new LinkedHashMap<String, Interceptor>();
@@ -130,10 +131,16 @@ public class ApiClient {
   }
 
   public <S> S createService(Class<S> serviceClass) {
-    return adapterBuilder
-      .client(okBuilder.build())
-      .build()
-      .create(serviceClass);
+      if(okBuilderUsed){
+          return adapterBuilder
+            .client(okBuilder.build())
+            .build()
+            .create(serviceClass);
+  	  }else{
+  	      return adapterBuilder
+            .build()
+            .create(serviceClass);
+  	  }
   }
 
   public ApiClient setDateFormat(DateFormat dateFormat) {
@@ -306,6 +313,7 @@ public class ApiClient {
     }
     apiAuthorizations.put(authName, authorization);
     okBuilder.addInterceptor(authorization);
+    okBuilderUsed = true;
     return this;
   }
 
@@ -328,6 +336,7 @@ public class ApiClient {
   }
 
   public OkHttpClient.Builder getOkBuilder() {
+    okBuilderUsed = true;
     return okBuilder;
   }
 
@@ -344,6 +353,7 @@ public class ApiClient {
   public void configureFromOkclient(OkHttpClient okClient) {
     this.okBuilder = okClient.newBuilder();
     addAuthsToOkBuilder(this.okBuilder);
+    okBuilderUsed = true;
   }
 }
 
