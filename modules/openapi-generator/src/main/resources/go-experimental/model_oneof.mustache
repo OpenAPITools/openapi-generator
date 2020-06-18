@@ -16,7 +16,6 @@ func {{{.}}}As{{classname}}(v *{{{.}}}) {{classname}} {
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	var err error
-	match := 0
 	{{#isNullable}}
 	// this object is nullable so check if the payload is null or empty string
 	if string(data) == "" || string(data) == "{}" {
@@ -41,20 +40,19 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 		// try to unmarshal JSON data into {{{modelName}}}
 		err = json.Unmarshal(data, &dst.{{{modelName}}})
 		if err == nil {
-			json{{{modelName}}}, _ := json.Marshal(dst.{{{modelName}}})
-			if string(json{{{modelName}}}) == "{}" { // empty struct
-				dst.{{{modelName}}} = nil
-			} else {
-				return nil // data stored in dst.{{{modelName}}}, return on the first match
-			}
+			return nil // data stored in dst.{{{modelName}}}, return on the first match
 		} else {
 			dst.{{{modelName}}} = nil
+			return fmt.Errorf("Failed to unmarshal {{classname}} as {{{modelName}}}: %s", err.Error())
 		}
 	}
 
 	{{/mappedModels}}
 	{{/discriminator}}
+	return nil
 	{{/useOneOfDiscriminatorLookup}}
+	{{^useOneOfDiscriminatorLookup}}
+	match := 0
 	{{#oneOf}}
 	// try to unmarshal data into {{{.}}}
 	err = json.Unmarshal(data, &dst.{{{.}}})
@@ -82,6 +80,7 @@ func (dst *{{classname}}) UnmarshalJSON(data []byte) error {
 	} else { // no match
 		return fmt.Errorf("Data failed to match schemas in oneOf({{classname}})")
 	}
+	{{/useOneOfDiscriminatorLookup}}
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
