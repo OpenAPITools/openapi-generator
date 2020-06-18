@@ -88,7 +88,6 @@ pub struct UploadFileParams {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddPetSuccess {
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -96,7 +95,6 @@ pub enum AddPetSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeletePetSuccess {
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -105,7 +103,6 @@ pub enum DeletePetSuccess {
 #[serde(untagged)]
 pub enum FindPetsByStatusSuccess {
     Status200(Vec<crate::models::Pet>),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -114,7 +111,6 @@ pub enum FindPetsByStatusSuccess {
 #[serde(untagged)]
 pub enum FindPetsByTagsSuccess {
     Status200(Vec<crate::models::Pet>),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -123,7 +119,6 @@ pub enum FindPetsByTagsSuccess {
 #[serde(untagged)]
 pub enum GetPetByIdSuccess {
     Status200(crate::models::Pet),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -131,7 +126,6 @@ pub enum GetPetByIdSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetSuccess {
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -139,7 +133,6 @@ pub enum UpdatePetSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetWithFormSuccess {
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -148,7 +141,6 @@ pub enum UpdatePetWithFormSuccess {
 #[serde(untagged)]
 pub enum UploadFileSuccess {
     Status200(crate::models::ApiResponse),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -157,7 +149,6 @@ pub enum UploadFileSuccess {
 #[serde(untagged)]
 pub enum AddPetError {
     Status405(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -166,7 +157,6 @@ pub enum AddPetError {
 #[serde(untagged)]
 pub enum DeletePetError {
     Status400(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -175,7 +165,6 @@ pub enum DeletePetError {
 #[serde(untagged)]
 pub enum FindPetsByStatusError {
     Status400(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -184,7 +173,6 @@ pub enum FindPetsByStatusError {
 #[serde(untagged)]
 pub enum FindPetsByTagsError {
     Status400(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -194,7 +182,6 @@ pub enum FindPetsByTagsError {
 pub enum GetPetByIdError {
     Status400(),
     Status404(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -205,7 +192,6 @@ pub enum UpdatePetError {
     Status400(),
     Status404(),
     Status405(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -214,7 +200,6 @@ pub enum UpdatePetError {
 #[serde(untagged)]
 pub enum UpdatePetWithFormError {
     Status405(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -222,7 +207,6 @@ pub enum UpdatePetWithFormError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UploadFileError {
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 

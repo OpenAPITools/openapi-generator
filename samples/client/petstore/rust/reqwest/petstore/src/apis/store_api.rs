@@ -37,7 +37,6 @@ impl StoreApiClient {
 pub enum DeleteOrderError {
     Status400(),
     Status404(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -45,7 +44,6 @@ pub enum DeleteOrderError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInventoryError {
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -55,7 +53,6 @@ pub enum GetInventoryError {
 pub enum GetOrderByIdError {
     Status400(),
     Status404(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -64,7 +61,6 @@ pub enum GetOrderByIdError {
 #[serde(untagged)]
 pub enum PlaceOrderError {
     Status400(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 

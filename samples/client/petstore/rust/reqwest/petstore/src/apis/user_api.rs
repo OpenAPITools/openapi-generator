@@ -36,7 +36,6 @@ impl UserApiClient {
 #[serde(untagged)]
 pub enum CreateUserError {
     DefaultResponse(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -45,7 +44,6 @@ pub enum CreateUserError {
 #[serde(untagged)]
 pub enum CreateUsersWithArrayInputError {
     DefaultResponse(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -54,7 +52,6 @@ pub enum CreateUsersWithArrayInputError {
 #[serde(untagged)]
 pub enum CreateUsersWithListInputError {
     DefaultResponse(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -64,7 +61,6 @@ pub enum CreateUsersWithListInputError {
 pub enum DeleteUserError {
     Status400(),
     Status404(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -74,7 +70,6 @@ pub enum DeleteUserError {
 pub enum GetUserByNameError {
     Status400(),
     Status404(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -83,7 +78,6 @@ pub enum GetUserByNameError {
 #[serde(untagged)]
 pub enum LoginUserError {
     Status400(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -92,7 +86,6 @@ pub enum LoginUserError {
 #[serde(untagged)]
 pub enum LogoutUserError {
     DefaultResponse(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -102,7 +95,6 @@ pub enum LogoutUserError {
 pub enum UpdateUserError {
     Status400(),
     Status404(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 

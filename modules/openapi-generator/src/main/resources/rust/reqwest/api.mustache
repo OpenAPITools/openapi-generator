@@ -60,7 +60,6 @@ pub enum {{{operationIdCamelCase}}}Success {
     Status{{code}}({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
     {{/is3xx}}
     {{/responses}}
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -84,7 +83,6 @@ pub enum {{{operationIdCamelCase}}}Error {
     DefaultResponse({{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}),
     {{/isDefault}}
     {{/responses}}
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
