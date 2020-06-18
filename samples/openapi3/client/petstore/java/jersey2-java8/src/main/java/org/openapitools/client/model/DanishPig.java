@@ -62,6 +62,9 @@ public class DanishPig {
   }
 
 
+  /**
+   * Return true if this DanishPig object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

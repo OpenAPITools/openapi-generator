@@ -255,6 +255,9 @@ public class Pet {
   }
 
 
+  /**
+   * Return true if this Pet object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

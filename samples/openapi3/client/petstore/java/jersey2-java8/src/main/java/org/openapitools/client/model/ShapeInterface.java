@@ -62,6 +62,9 @@ public class ShapeInterface {
   }
 
 
+  /**
+   * Return true if this ShapeInterface object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

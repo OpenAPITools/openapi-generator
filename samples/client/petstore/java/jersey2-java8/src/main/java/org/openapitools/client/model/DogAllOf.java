@@ -63,6 +63,9 @@ public class DogAllOf {
   }
 
 
+  /**
+   * Return true if this Dog_allOf object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
