@@ -34,7 +34,7 @@ import javax.validation.Valid;
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response createXmlItem(@Valid XmlItem xmlItem) {
+    public Response createXmlItem(@Valid @NotNull XmlItem xmlItem) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -89,7 +89,7 @@ import javax.validation.Valid;
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testBodyWithFileSchema(@Valid FileSchemaTestClass body) {
+    public Response testBodyWithFileSchema(@Valid @NotNull FileSchemaTestClass body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -100,7 +100,7 @@ import javax.validation.Valid;
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class)
     })
-    public Response testBodyWithQueryParams(@QueryParam("query") @NotNull    String query,@Valid User body) {
+    public Response testBodyWithQueryParams(@QueryParam("query") @NotNull    String query,@Valid @NotNull User body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -111,7 +111,7 @@ import javax.validation.Valid;
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class)
     })
-    public Response testClientModel(@Valid Client body) {
+    public Response testClientModel(@Valid @NotNull Client body) {
         return Response.ok().entity("magic!").build();
     }
 
@@ -156,7 +156,7 @@ import javax.validation.Valid;
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class)
     })
-    public Response testInlineAdditionalProperties(@Valid Map<String, String> param) {
+    public Response testInlineAdditionalProperties(@Valid @NotNull Map<String, String> param) {
         return Response.ok().entity("magic!").build();
     }
 

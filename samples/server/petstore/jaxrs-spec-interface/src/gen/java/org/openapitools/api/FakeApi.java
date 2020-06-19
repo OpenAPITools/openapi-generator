@@ -33,7 +33,7 @@ import javax.validation.Valid;
     @ApiOperation(value = "creates an XmlItem", notes = "this route creates an XmlItem", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void createXmlItem(@Valid XmlItem xmlItem);
+    void createXmlItem(@Valid @NotNull XmlItem xmlItem);
 
     @POST
     @Path("/outer/boolean")
@@ -73,7 +73,7 @@ import javax.validation.Valid;
     @ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
-    void testBodyWithFileSchema(@Valid FileSchemaTestClass body);
+    void testBodyWithFileSchema(@Valid @NotNull FileSchemaTestClass body);
 
     @PUT
     @Path("/body-with-query-params")
@@ -81,7 +81,7 @@ import javax.validation.Valid;
     @ApiOperation(value = "", notes = "", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "Success", response = Void.class) })
-    void testBodyWithQueryParams(@QueryParam("query") @NotNull    String query,@Valid User body);
+    void testBodyWithQueryParams(@QueryParam("query") @NotNull    String query,@Valid @NotNull User body);
 
     @PATCH
     @Consumes({ "application/json" })
@@ -89,7 +89,7 @@ import javax.validation.Valid;
     @ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    Client testClientModel(@Valid Client body);
+    Client testClientModel(@Valid @NotNull Client body);
 
     @POST
     @Consumes({ "application/x-www-form-urlencoded" })
@@ -122,7 +122,7 @@ import javax.validation.Valid;
     @ApiOperation(value = "test inline additionalProperties", notes = "", tags={ "fake" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    void testInlineAdditionalProperties(@Valid Map<String, String> param);
+    void testInlineAdditionalProperties(@Valid @NotNull Map<String, String> param);
 
     @GET
     @Path("/jsonFormData")
