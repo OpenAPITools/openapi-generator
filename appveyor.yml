@@ -22,6 +22,7 @@ install:
         )
         [System.IO.Compression.ZipFile]::ExtractToDirectory("C:\gradle-bin.zip", "C:\gradle")
       }
+  - cmd: dir C:\gradle /s /b /o:gn
   - cmd: SET PATH=C:\maven\apache-maven-3.2.5\bin;C:\gradle\gradle-5.6.4\bin;%JAVA_HOME%\bin;%PATH%
   - cmd: SET MAVEN_OPTS=-Xmx4g
   - cmd: SET JAVA_OPTS=-Xmx4g
