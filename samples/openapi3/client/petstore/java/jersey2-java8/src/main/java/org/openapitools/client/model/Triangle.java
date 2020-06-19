@@ -13,8 +13,14 @@
 
 package org.openapitools.client.model;
 
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -27,6 +33,9 @@ import org.openapitools.client.model.EquilateralTriangle;
 import org.openapitools.client.model.IsoscelesTriangle;
 import org.openapitools.client.model.ScaleneTriangle;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -34,20 +43,43 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collections;
+import java.util.HashSet;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import org.openapitools.client.JSON;
 
-
-@JsonDeserialize(using=Triangle.TriangleDeserializer.class)
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@JsonDeserialize(using = Triangle.TriangleDeserializer.class)
+@JsonSerialize(using = Triangle.TriangleSerializer.class)
 public class Triangle extends AbstractOpenApiSchema {
     private static final Logger log = Logger.getLogger(Triangle.class.getName());
+
+    public static class TriangleSerializer extends StdSerializer<Triangle> {
+        public TriangleSerializer(Class<Triangle> t) {
+            super(t);
+        }
+
+        public TriangleSerializer() {
+            this(null);
+        }
+
+        @Override
+        public void serialize(Triangle value, JsonGenerator jgen, SerializerProvider provider) throws IOException, JsonProcessingException {
+            jgen.writeObject(value.getActualInstance());
+        }
+    }
 
     public static class TriangleDeserializer extends StdDeserializer<Triangle> {
         public TriangleDeserializer() {
@@ -61,12 +93,34 @@ public class Triangle extends AbstractOpenApiSchema {
         @Override
         public Triangle deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
             JsonNode tree = jp.readValueAsTree();
+            Object deserialized = null;
+            Triangle newTriangle = new Triangle();
+            Map<String,Object> result2 = tree.traverse(jp.getCodec()).readValueAs(new TypeReference<Map<String, Object>>() {});
+            String discriminatorValue = (String)result2.get("triangleType");
+            switch (discriminatorValue) {
+                case "EquilateralTriangle":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(EquilateralTriangle.class);
+                    newTriangle.setActualInstance(deserialized);
+                    return newTriangle;
+                case "IsoscelesTriangle":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(IsoscelesTriangle.class);
+                    newTriangle.setActualInstance(deserialized);
+                    return newTriangle;
+                case "ScaleneTriangle":
+                    deserialized = tree.traverse(jp.getCodec()).readValueAs(ScaleneTriangle.class);
+                    newTriangle.setActualInstance(deserialized);
+                    return newTriangle;
+                default:
+                    log.log(Level.WARNING, String.format("Failed to lookup discriminator value `%s` for Triangle. Possible values: EquilateralTriangle IsoscelesTriangle ScaleneTriangle", discriminatorValue));
+            }
 
             int match = 0;
-            Object deserialized = null;
             // deserialize EquilateralTriangle
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(EquilateralTriangle.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'EquilateralTriangle'");
             } catch (Exception e) {
@@ -77,6 +131,9 @@ public class Triangle extends AbstractOpenApiSchema {
             // deserialize IsoscelesTriangle
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(IsoscelesTriangle.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'IsoscelesTriangle'");
             } catch (Exception e) {
@@ -87,6 +144,9 @@ public class Triangle extends AbstractOpenApiSchema {
             // deserialize ScaleneTriangle
             try {
                 deserialized = tree.traverse(jp.getCodec()).readValueAs(ScaleneTriangle.class);
+                // TODO: there is no validation against JSON schema constraints
+                // (min, max, enum, pattern...), this does not perform a strict JSON
+                // validation, which means the 'match' count may be higher than it should be.
                 match++;
                 log.log(Level.FINER, "Input data matches schema 'ScaleneTriangle'");
             } catch (Exception e) {
@@ -101,6 +161,14 @@ public class Triangle extends AbstractOpenApiSchema {
             }
             throw new IOException(String.format("Failed deserialization for Triangle: %d classes match result, expected 1", match));
         }
+
+        /**
+         * Handle deserialization of the 'null' value.
+         */
+        @Override
+        public Triangle getNullValue(DeserializationContext ctxt) throws JsonMappingException {
+            throw new JsonMappingException(ctxt.getParser(), "Triangle cannot be null");
+        }
     }
 
     // store a list of schema names defined in oneOf
@@ -109,7 +177,56 @@ public class Triangle extends AbstractOpenApiSchema {
     public Triangle() {
         super("oneOf", Boolean.FALSE);
     }
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Object> additionalProperties;
 
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   */
+  @JsonAnySetter
+  public Triangle putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
+
+    /**
+     * Return true if this Triangle object is equal to o.
+     */
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o) && Objects.equals(this.additionalProperties, ((Triangle)o).additionalProperties);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
+    }
     public Triangle(EquilateralTriangle o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);
@@ -132,6 +249,14 @@ public class Triangle extends AbstractOpenApiSchema {
         });
         schemas.put("ScaleneTriangle", new GenericType<ScaleneTriangle>() {
         });
+        JSON.registerDescendants(Triangle.class, Collections.unmodifiableMap(schemas));
+        // Initialize and register the discriminator mappings.
+        Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+        mappings.put("EquilateralTriangle", EquilateralTriangle.class);
+        mappings.put("IsoscelesTriangle", IsoscelesTriangle.class);
+        mappings.put("ScaleneTriangle", ScaleneTriangle.class);
+        mappings.put("Triangle", Triangle.class);
+        JSON.registerDiscriminator(Triangle.class, "triangleType", mappings);
     }
 
     @Override
@@ -139,19 +264,26 @@ public class Triangle extends AbstractOpenApiSchema {
         return Triangle.schemas;
     }
 
+    /**
+     * Set the instance that matches the oneOf child schema, check
+     * the instance parameter is valid against the oneOf child schemas.
+     *
+     * It could be an instance of the 'oneOf' schemas.
+     * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
+     */
     @Override
     public void setActualInstance(Object instance) {
-        if (instance instanceof EquilateralTriangle) {
+        if (JSON.isInstanceOf(EquilateralTriangle.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof IsoscelesTriangle) {
+        if (JSON.isInstanceOf(IsoscelesTriangle.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }
 
-        if (instance instanceof ScaleneTriangle) {
+        if (JSON.isInstanceOf(ScaleneTriangle.class, instance, new HashSet<Class<?>>())) {
             super.setActualInstance(instance);
             return;
         }

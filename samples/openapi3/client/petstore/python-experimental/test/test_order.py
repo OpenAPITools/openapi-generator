@@ -11,10 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.order import Order
 
 
 class TestOrder(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestOrder(unittest.TestCase):
     def testOrder(self):
         """Test Order"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.Order()  # noqa: E501
+        # model = Order()  # noqa: E501
         pass
 
 

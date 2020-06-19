@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "Client")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Client")

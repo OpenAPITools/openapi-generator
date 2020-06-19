@@ -129,13 +129,24 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $JsonParameters = ConvertFrom-Json -InputObject $Json
+        {{#vendorExtensions.x-additional-properties}}
+        ${{{apiNamePrefix}}}{{{classname}}}AdditionalProperties = @{}
+        {{/vendorExtensions.x-additional-properties}}
 
         # check if Json contains properties not defined in {{{apiNamePrefix}}}{{{classname}}}
         $AllProperties = ({{#allVars}}"{{{baseName}}}"{{^-last}}, {{/-last}}{{/allVars}})
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
+            {{^vendorExtensions.x-additional-properties}}
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
+            {{/vendorExtensions.x-additional-properties}}
+            {{#vendorExtensions.x-additional-properties}}
+            # store undefined properties in additionalProperties
+            if (!($AllProperties.Contains($name))) {
+                ${{{apiNamePrefix}}}{{{classname}}}AdditionalProperties[$name] = $JsonParameters.PSobject.Properties[$name].value
+            }
+            {{/vendorExtensions.x-additional-properties}}
         }
 
         {{#requiredVars}}
@@ -146,7 +157,7 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
 
         {{/-first}}
         if (!([bool]($JsonParameters.PSobject.Properties.name -match "{{{baseName}}}"))) {
-            throw "Error! JSON cannot be serialized due to the required property `{{{baseName}}}` missing." 
+            throw "Error! JSON cannot be serialized due to the required property `{{{baseName}}}` missing."
         } else {
             ${{name}} = $JsonParameters.PSobject.Properties["{{{baseName}}}"].value
         }
@@ -166,6 +177,9 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
             "<<baseName>>" = ${<<name>>}
             <</allVars>>
             <<={{ }}=>>
+            {{#vendorExtensions.x-additional-properties}}
+            "AdditionalProperties" = ${{{apiNamePrefix}}}{{{classname}}}AdditionalProperties
+            {{/vendorExtensions.x-additional-properties}}
         }
 
         return $PSO

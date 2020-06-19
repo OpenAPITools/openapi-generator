@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import com.squareup.moshi.Json
 import java.io.Serializable
+
 /**
  * 
  * @param mapMapOfString 
@@ -32,9 +33,9 @@ data class MapTest (
     @Json(name = "indirect_map")
     val indirectMap: kotlin.collections.Map<kotlin.String, kotlin.Boolean>? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
     /**
     * 

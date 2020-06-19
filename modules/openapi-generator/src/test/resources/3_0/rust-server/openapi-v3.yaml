@@ -227,6 +227,7 @@ paths:
             Success-Info:
               schema:
                 type: String
+              required: true
             Bool-Header:
               schema:
                 type: bool
@@ -390,6 +391,20 @@ paths:
       responses:
         '200':
           description: Success
+  /json-complex-query-param:
+    get:
+      parameters:
+        - name: list-of-strings
+          in: query
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StringObject'
+      responses:
+        '200':
+          description: Success
 
 components:
   securitySchemes:
@@ -521,6 +536,13 @@ components:
       type: boolean
     OptionalObjectHeader:
       type: integer
+    AdditionalPropertiesWithList:
+      type: object
+      maxProperties: 1
+      additionalProperties:
+        type: list
+        items:
+          type: string
     NullableTest:
       type: object
       required:

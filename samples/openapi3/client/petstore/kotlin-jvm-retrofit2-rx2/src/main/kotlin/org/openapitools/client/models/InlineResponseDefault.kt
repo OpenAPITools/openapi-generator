@@ -15,6 +15,7 @@ import org.openapitools.client.models.Foo
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+
 /**
  * 
  * @param string 
@@ -24,9 +25,9 @@ data class InlineResponseDefault (
     @SerializedName("string")
     val string: Foo? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

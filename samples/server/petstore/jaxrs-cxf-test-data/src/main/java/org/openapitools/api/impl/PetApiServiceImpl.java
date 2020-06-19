@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import java.util.Set;
+import org.openapitools.model.Tag;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -86,9 +88,9 @@ public class PetApiServiceImpl implements PetApi {
      *
      */
     @Override
-    public List<Pet> findPetsByTags(List<String> tags) {
+    public Set<Pet> findPetsByTags(Set<String> tags) {
         try {
-            List<Pet> response = cache.getObjects("/findPetsByTags/response", Pet.class);
+            Set<Pet> response = cache.getObjects("/findPetsByTags/response", Pet.class);
             return response;
         } catch (CacheException e) {
             throw new RuntimeException(e);

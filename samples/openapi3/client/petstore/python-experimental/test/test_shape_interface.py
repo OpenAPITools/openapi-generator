@@ -11,10 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.shape_interface import ShapeInterface
 
 
 class TestShapeInterface(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestShapeInterface(unittest.TestCase):
     def testShapeInterface(self):
         """Test ShapeInterface"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.ShapeInterface()  # noqa: E501
+        # model = ShapeInterface()  # noqa: E501
         pass
 
 

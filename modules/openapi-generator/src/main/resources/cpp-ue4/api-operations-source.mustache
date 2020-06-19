@@ -139,19 +139,17 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const TSha
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		Writer->WriteObjectStart();
 		{{#bodyParams}}
 		{{#required}}
-		Writer->WriteIdentifierPrefix(TEXT("{{baseName}}")); WriteJsonValue(Writer, {{paramName}});
+		WriteJsonValue(Writer, {{paramName}});
 		{{/required}}
 		{{^required}}
 		if ({{paramName}}.IsSet())
 		{
-			Writer->WriteIdentifierPrefix(TEXT("{{baseName}}")); WriteJsonValue(Writer, {{paramName}}.GetValue());
+			WriteJsonValue(Writer, {{paramName}}.GetValue());
 		}
 		{{/required}}
 		{{/bodyParams}}
-		Writer->WriteObjectEnd();
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
@@ -176,14 +174,14 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const TSha
 		{{#isFile}}
 		FormData.AddFilePart(TEXT("{{baseName}}"), {{paramName}});
 		{{/isFile}}
+		{{^isFile}}
 		{{#isBinary}}
 		FormData.AddBinaryPart(TEXT("{{baseName}}"), {{paramName}});
 		{{/isBinary}}
-		{{#isBinary}}
-		{{^isFile}}
+		{{^isBinary}}
 		FormData.AddStringPart(TEXT("{{baseName}}"), *ToUrlString({{paramName}}));
-		{{/isFile}}
 		{{/isBinary}}
+		{{/isFile}}
 		{{/required}}
 		{{^required}}
 		if({{paramName}}.IsSet())
@@ -191,14 +189,14 @@ void {{classname}}::{{operationIdCamelCase}}Request::SetupHttpRequest(const TSha
 			{{#isFile}}
 			FormData.AddFilePart(TEXT("{{baseName}}"), {{paramName}}.GetValue());
 			{{/isFile}}
+			{{^isFile}}
 			{{#isBinary}}
 			FormData.AddBinaryPart(TEXT("{{baseName}}"), {{paramName}}.GetValue());
 			{{/isBinary}}
 			{{^isBinary}}
-			{{^isFile}}
 			FormData.AddStringPart(TEXT("{{baseName}}"), *ToUrlString({{paramName}}.GetValue()));
-			{{/isFile}}
 			{{/isBinary}}
+			{{/isFile}}
 		}
 		{{/required}}
 		{{/isContainer}}

@@ -11,10 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.has_only_read_only import HasOnlyReadOnly
 
 
 class TestHasOnlyReadOnly(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestHasOnlyReadOnly(unittest.TestCase):
     def testHasOnlyReadOnly(self):
         """Test HasOnlyReadOnly"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.HasOnlyReadOnly()  # noqa: E501
+        # model = HasOnlyReadOnly()  # noqa: E501
         pass
 
 

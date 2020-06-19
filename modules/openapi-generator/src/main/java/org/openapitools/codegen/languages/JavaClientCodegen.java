@@ -51,6 +51,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public static final String USE_RX_JAVA = "useRxJava";
     public static final String USE_RX_JAVA2 = "useRxJava2";
+    public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String DO_NOT_USE_RX = "doNotUseRx";
     public static final String USE_PLAY_WS = "usePlayWS";
     public static final String PLAY_VERSION = "playVersion";
@@ -88,11 +89,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected String gradleWrapperPackage = "gradle.wrapper";
     protected boolean useRxJava = false;
     protected boolean useRxJava2 = false;
+    protected boolean useRxJava3 = false;
     // backwards compatibility for openapi configs that specify neither rx1 nor rx2
     // (mustache does not allow for boolean operators so we need this extra field)
     protected boolean doNotUseRx = true;
     protected boolean usePlayWS = false;
-    protected String playVersion = PLAY_25;
+    protected String playVersion = PLAY_26;
     protected String feignVersion = FEIGN_10;
     protected boolean asyncNative = false;
     protected boolean parcelableModel = false;
@@ -129,11 +131,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         modelTestTemplateFiles.put("model_test.mustache", ".java");
 
-        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
+        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library. IMPORTANT: this option has been deprecated and will be removed in the 5.x release."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library."));
+        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(PARCELABLE_MODEL, "Whether to generate models for Android that implement Parcelable with the okhttp-gson library."));
         cliOptions.add(CliOption.newBoolean(USE_PLAY_WS, "Use Play! Async HTTP client (Play WS API)"));
-        cliOptions.add(CliOption.newString(PLAY_VERSION, "Version of Play! Framework (possible values \"play24\", \"play25\" (default), \"play26\")"));
+        cliOptions.add(CliOption.newString(PLAY_VERSION, "Version of Play! Framework (possible values \"play24\" (Deprecated), \"play25\" (Deprecated), \"play26\" (Default))"));
         cliOptions.add(CliOption.newBoolean(SUPPORT_JAVA6, "Whether to support Java6 with the Jersey1 library. This option has been deprecated and will be removed in the 5.x release"));
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
         cliOptions.add(CliOption.newBoolean(PERFORM_BEANVALIDATION, "Perform BeanValidation"));
@@ -148,7 +151,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 9.x (deprecated) or 10.x (default). JSON processing: Jackson 2.9.x.");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
-        supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2]=true'. (RxJava 1.x or 2.x)");
+        supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)");
         supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(WEBCLIENT, "HTTP client: Spring WebClient 5.x. JSON processing: Jackson 2.9.x");
         supportedLibraries.put(RESTEASY, "HTTP client: Resteasy client 3.x. JSON processing: Jackson 2.9.x");
@@ -176,6 +179,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         // inherit from self, any oneOf schemas, any anyOf schemas, any x-discriminator-values,
         // and the discriminator mapping schemas in the OAS document.
         this.setLegacyDiscriminatorBehavior(false);
+
     }
 
     @Override
@@ -205,22 +209,40 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public void processOpts() {
         if ((WEBCLIENT.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) || NATIVE.equals(getLibrary())) {
             dateLibrary = "java8";
-        } else if (MICROPROFILE.equals(getLibrary())) {
+        } else if (MICROPROFILE.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) {
             dateLibrary = "legacy";
         }
 
         super.processOpts();
 
         // RxJava
-        if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2)) {
-            LOGGER.warn("You specified both RxJava versions 1 and 2 but they are mutually exclusive. Defaulting to v2.");
-        } else if (additionalProperties.containsKey(USE_RX_JAVA)) {
-            this.setUseRxJava(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA).toString()));
+        if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)){
+            LOGGER.warn("You specified all RxJava versions 1, 2 and 3 but they are mutually exclusive. Defaulting to v3.");
+            this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
+        }else {
+            if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2)){
+                LOGGER.warn("You specified both RxJava versions 1 and 2 but they are mutually exclusive. Defaulting to v2.");
+                this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
+            }else if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA3)) {
+                LOGGER.warn("You specified both RxJava versions 1 and 3 but they are mutually exclusive. Defaulting to v3.");
+                this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
+            }else if(additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)){
+                LOGGER.warn("You specified both RxJava versions 2 and 3 but they are mutually exclusive. Defaulting to v3.");
+                this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
+            }else{
+                if(additionalProperties.containsKey(USE_RX_JAVA)){
+                    this.setUseRxJava(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA).toString()));
+                }
+                if(additionalProperties.containsKey(USE_RX_JAVA2)){
+                    this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
+                }
+                if(additionalProperties.containsKey(USE_RX_JAVA3)){
+                    this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
+                }
+            }
         }
-        if (additionalProperties.containsKey(USE_RX_JAVA2)) {
-            this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
-        }
-        if (!useRxJava && !useRxJava2) {
+
+        if (!useRxJava && !useRxJava2 && !useRxJava3) {
             additionalProperties.put(DO_NOT_USE_RX, true);
         }
 
@@ -371,6 +393,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
             supportingFiles.add(new SupportingFile("AbstractOpenApiSchema.mustache", (sourceFolder + File.separator + modelPackage().replace('.', File.separatorChar)).replace('/', File.separatorChar), "AbstractOpenApiSchema.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
+
+            // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
+            // In principle, this should be enabled by default for all code generators. However due to limitations
+            // in other code generators, support needs to be enabled on a case-by-case basis.
+            // The flag below should be set for all Java libraries, but the templates need to be ported
+            // one by one for each library.
+            supportsAdditionalPropertiesWithComposedSchema = true;
+
         } else if (NATIVE.equals(getLibrary())) {
             setJava8Mode(true);
             additionalProperties.put("java8", "true");
@@ -421,7 +451,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
             supportingFiles.add(new SupportingFile("api_exception.mustache", apiExceptionFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("api_exception_mapper.mustache", apiExceptionFolder, "ApiExceptionMapper.java"));
-            importMapping.put("LocalDate", "org.joda.time.LocalDate");
             serializationLibrary = "none";
         } else {
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
@@ -440,6 +469,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             apiTemplateFiles.remove("api.mustache");
 
             if (PLAY_24.equals(playVersion)) {
+                LOGGER.warn("`play24` option has been deprecated and will be removed in the 5.x release. Please use `play26` instead.");
                 additionalProperties.put(PLAY_24, true);
                 apiTemplateFiles.put("play24/api.mustache", ".java");
 
@@ -450,6 +480,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             }
 
             if (PLAY_25.equals(playVersion)) {
+                LOGGER.warn("`play25` option has been deprecated and will be removed in the 5.x release. Please use `play26` instead.");
                 additionalProperties.put(PLAY_25, true);
                 apiTemplateFiles.put("play25/api.mustache", ".java");
 
@@ -585,38 +616,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         if (MICROPROFILE.equals(getLibrary())) {
             objs = AbstractJavaJAXRSServerCodegen.jaxrsPostProcessOperations(objs);
-        }
-
-        if (JERSEY2.equals(getLibrary())) {
-            // index the model
-            HashMap<String, CodegenModel> modelMaps = new HashMap<String, CodegenModel>();
-            for (Object o : allModels) {
-                HashMap<String, Object> h = (HashMap<String, Object>) o;
-                CodegenModel m = (CodegenModel) h.get("model");
-                modelMaps.put(m.classname, m);
-            }
-
-            // check if return type is oneOf/anyeOf model
-            Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
-            List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
-            for (CodegenOperation op : operationList) {
-                if (op.returnType != null) {
-                    // look up the model to see if it's anyOf/oneOf
-                    if (modelMaps.containsKey(op.returnType) && modelMaps.get(op.returnType) != null) {
-                        CodegenModel cm = modelMaps.get(op.returnType);
-
-                        if (cm.oneOf != null && !cm.oneOf.isEmpty()) {
-                            op.vendorExtensions.put("x-java-return-type-one-of", true);
-                        }
-
-                        if (cm.anyOf != null && !cm.anyOf.isEmpty()) {
-                            op.vendorExtensions.put("x-java-return-type-any-of", true);
-                        }
-                    } else {
-                        //LOGGER.error("cannot lookup model " + op.returnType);
-                    }
-                }
-            }
         }
 
         return objs;
@@ -823,6 +822,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setUseRxJava2(boolean useRxJava2) {
         this.useRxJava2 = useRxJava2;
+        doNotUseRx = false;
+    }
+    
+    public void setUseRxJava3(boolean useRxJava3) {
+        this.useRxJava3 = useRxJava3;
         doNotUseRx = false;
     }
 

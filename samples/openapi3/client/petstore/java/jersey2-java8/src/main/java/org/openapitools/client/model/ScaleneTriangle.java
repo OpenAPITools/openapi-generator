@@ -13,8 +13,14 @@
 
 package org.openapitools.client.model;
 
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -24,6 +30,8 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.ShapeInterface;
 import org.openapitools.client.model.TriangleInterface;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * ScaleneTriangle
@@ -32,7 +40,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ScaleneTriangle.JSON_PROPERTY_SHAPE_TYPE,
   ScaleneTriangle.JSON_PROPERTY_TRIANGLE_TYPE
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ScaleneTriangle {
   public static final String JSON_PROPERTY_SHAPE_TYPE = "shapeType";
   private String shapeType;
@@ -42,7 +50,6 @@ public class ScaleneTriangle {
 
 
   public ScaleneTriangle shapeType(String shapeType) {
-    
     this.shapeType = shapeType;
     return this;
   }
@@ -66,7 +73,6 @@ public class ScaleneTriangle {
 
 
   public ScaleneTriangle triangleType(String triangleType) {
-    
     this.triangleType = triangleType;
     return this;
   }
@@ -88,7 +94,47 @@ public class ScaleneTriangle {
     this.triangleType = triangleType;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Object> additionalProperties;
 
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   */
+  @JsonAnySetter
+  public ScaleneTriangle putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
+
+  /**
+   * Return true if this ScaleneTriangle object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -99,12 +145,13 @@ public class ScaleneTriangle {
     }
     ScaleneTriangle scaleneTriangle = (ScaleneTriangle) o;
     return Objects.equals(this.shapeType, scaleneTriangle.shapeType) &&
-        Objects.equals(this.triangleType, scaleneTriangle.triangleType);
+        Objects.equals(this.triangleType, scaleneTriangle.triangleType)&&
+        Objects.equals(this.additionalProperties, scaleneTriangle.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(shapeType, triangleType);
+    return Objects.hash(shapeType, triangleType, additionalProperties);
   }
 
 
@@ -114,6 +161,7 @@ public class ScaleneTriangle {
     sb.append("class ScaleneTriangle {\n");
     sb.append("    shapeType: ").append(toIndentedString(shapeType)).append("\n");
     sb.append("    triangleType: ").append(toIndentedString(triangleType)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -11,10 +11,21 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+try:
+    from petstore_api.model import apple_req
+except ImportError:
+    apple_req = sys.modules[
+        'petstore_api.model.apple_req']
+try:
+    from petstore_api.model import banana_req
+except ImportError:
+    banana_req = sys.modules[
+        'petstore_api.model.banana_req']
+from petstore_api.model.fruit_req import FruitReq
 
 
 class TestFruitReq(unittest.TestCase):
@@ -32,7 +43,7 @@ class TestFruitReq(unittest.TestCase):
         # make an instance of Fruit, a composed schema oneOf model
         # banana test
         length_cm = 20.3
-        fruit = petstore_api.FruitReq(length_cm=length_cm)
+        fruit = FruitReq(length_cm=length_cm)
         # check its properties
         self.assertEqual(fruit.length_cm, length_cm)
         self.assertEqual(fruit['length_cm'], length_cm)
@@ -70,8 +81,8 @@ class TestFruitReq(unittest.TestCase):
                 'anyOf': [],
                 'allOf': [],
                 'oneOf': [
-                    petstore_api.AppleReq,
-                    petstore_api.BananaReq,
+                    apple_req.AppleReq,
+                    banana_req.BananaReq,
                     type(None),
                 ],
             }
@@ -79,7 +90,7 @@ class TestFruitReq(unittest.TestCase):
         # model._composed_instances is a list of the instances that were
         # made from the anyOf/allOf/OneOf classes in model._composed_schemas
         for composed_instance in fruit._composed_instances:
-            if composed_instance.__class__ == petstore_api.BananaReq:
+            if composed_instance.__class__ == banana_req.BananaReq:
                 banana_instance = composed_instance
         self.assertEqual(
             fruit._composed_instances,
@@ -111,14 +122,14 @@ class TestFruitReq(unittest.TestCase):
 
         # including extra parameters raises an exception
         with self.assertRaises(petstore_api.ApiValueError):
-            fruit = petstore_api.FruitReq(
+            fruit = FruitReq(
                 length_cm=length_cm,
                 unknown_property='some value'
             )
 
         # including input parameters for two oneOf instances raise an exception
         with self.assertRaises(petstore_api.ApiValueError):
-            fruit = petstore_api.FruitReq(
+            fruit = FruitReq(
                 length_cm=length_cm,
                 cultivar='granny smith'
             )
@@ -126,7 +137,7 @@ class TestFruitReq(unittest.TestCase):
         # make an instance of Fruit, a composed schema oneOf model
         # apple test
         cultivar = 'golden delicious'
-        fruit = petstore_api.FruitReq(cultivar=cultivar)
+        fruit = FruitReq(cultivar=cultivar)
         # check its properties
         self.assertEqual(fruit.cultivar, cultivar)
         self.assertEqual(fruit['cultivar'], cultivar)
@@ -142,7 +153,7 @@ class TestFruitReq(unittest.TestCase):
         # model._composed_instances is a list of the instances that were
         # made from the anyOf/allOf/OneOf classes in model._composed_schemas
         for composed_instance in fruit._composed_instances:
-            if composed_instance.__class__ == petstore_api.AppleReq:
+            if composed_instance.__class__ == apple_req.AppleReq:
                 apple_instance = composed_instance
         self.assertEqual(
             fruit._composed_instances,

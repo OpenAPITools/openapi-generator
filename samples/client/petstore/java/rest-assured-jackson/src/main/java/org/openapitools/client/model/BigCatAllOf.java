@@ -32,7 +32,7 @@ import org.hibernate.validator.constraints.*;
 @JsonPropertyOrder({
   BigCatAllOf.JSON_PROPERTY_KIND
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BigCatAllOf {
   /**
    * Gets or Sets kind

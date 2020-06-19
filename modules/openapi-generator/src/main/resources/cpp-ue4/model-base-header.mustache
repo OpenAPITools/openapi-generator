@@ -18,7 +18,7 @@ class {{dllapi}} Model
 public:
 	virtual ~Model() {}
 	virtual void WriteJson(JsonWriter& Writer) const = 0;
-	virtual bool FromJson(const TSharedPtr<FJsonObject>& JsonObject) = 0;
+	virtual bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) = 0;
 };
 
 class {{dllapi}} Request
@@ -33,7 +33,7 @@ class {{dllapi}} Response
 {
 public:
 	virtual ~Response() {}
-	virtual bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) = 0;
+	virtual bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) = 0;
 
 	void SetSuccessful(bool InSuccessful) { Successful = InSuccessful; }
 	bool IsSuccessful() const { return Successful; }

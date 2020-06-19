@@ -30,7 +30,7 @@ import play.Configuration;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class FakeApiController extends Controller {
 
     private final FakeApiControllerImpInterface imp;
@@ -476,7 +476,7 @@ public class FakeApiController extends Controller {
         if (httpArray == null) {
             throw new IllegalArgumentException("'http' parameter is required");
         }
-        List<String> httpList = OpenAPIUtils.parametersToList("space", httpArray);
+        List<String> httpList = OpenAPIUtils.parametersToList("ssv", httpArray);
         List<String> http = new ArrayList<>();
         for (String curParam : httpList) {
             if (!curParam.isEmpty()) {

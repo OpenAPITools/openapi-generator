@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -25,6 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * MapTest
@@ -35,7 +39,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class MapTest {
   public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
   private Map<String, Map<String, String>> mapMapOfString = null;
@@ -86,7 +90,6 @@ public class MapTest {
 
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
-    
     this.mapMapOfString = mapMapOfString;
     return this;
   }
@@ -119,7 +122,6 @@ public class MapTest {
 
 
   public MapTest mapOfEnumString(Map<String, InnerEnum> mapOfEnumString) {
-    
     this.mapOfEnumString = mapOfEnumString;
     return this;
   }
@@ -152,7 +154,6 @@ public class MapTest {
 
 
   public MapTest directMap(Map<String, Boolean> directMap) {
-    
     this.directMap = directMap;
     return this;
   }
@@ -185,7 +186,6 @@ public class MapTest {
 
 
   public MapTest indirectMap(Map<String, Boolean> indirectMap) {
-    
     this.indirectMap = indirectMap;
     return this;
   }
@@ -217,6 +217,9 @@ public class MapTest {
   }
 
 
+  /**
+   * Return true if this MapTest object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

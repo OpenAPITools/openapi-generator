@@ -23,7 +23,7 @@ Method | HTTP request | Description
 
 ## createXmlItem
 
-> createXmlItem(xmlItem)
+> void createXmlItem(xmlItem)
 
 creates an XmlItem
 
@@ -67,6 +67,7 @@ Name | Type | Description  | Notes
  **xmlItem** | [**XmlItem**](XmlItem.md)| XmlItem Body |
 
 ### Return type
+
 
 null (empty response body)
 
@@ -135,6 +136,7 @@ Name | Type | Description  | Notes
 
 **Boolean**
 
+
 ### Authorization
 
 No authorization required
@@ -199,6 +201,7 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**OuterComposite**](OuterComposite.md)
+
 
 ### Authorization
 
@@ -265,6 +268,7 @@ Name | Type | Description  | Notes
 
 [**BigDecimal**](BigDecimal.md)
 
+
 ### Authorization
 
 No authorization required
@@ -330,6 +334,7 @@ Name | Type | Description  | Notes
 
 **String**
 
+
 ### Authorization
 
 No authorization required
@@ -347,7 +352,7 @@ No authorization required
 
 ## testBodyWithFileSchema
 
-> testBodyWithFileSchema(body)
+> void testBodyWithFileSchema(body)
 
 
 
@@ -392,6 +397,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
+
 null (empty response body)
 
 ### Authorization
@@ -411,7 +417,7 @@ No authorization required
 
 ## testBodyWithQueryParams
 
-> testBodyWithQueryParams(query, body)
+> void testBodyWithQueryParams(query, body)
 
 
 
@@ -455,6 +461,7 @@ Name | Type | Description  | Notes
  **body** | [**User**](User.md)|  |
 
 ### Return type
+
 
 null (empty response body)
 
@@ -523,6 +530,7 @@ Name | Type | Description  | Notes
 
 [**Client**](Client.md)
 
+
 ### Authorization
 
 No authorization required
@@ -540,7 +548,7 @@ No authorization required
 
 ## testEndpointParameters
 
-> testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
+> void testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
@@ -617,6 +625,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
+
 null (empty response body)
 
 ### Authorization
@@ -637,7 +646,7 @@ null (empty response body)
 
 ## testEnumParameters
 
-> testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
+> void testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString)
 
 To test enum parameters
 
@@ -696,6 +705,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
+
 null (empty response body)
 
 ### Authorization
@@ -716,7 +726,7 @@ No authorization required
 
 ## testGroupParameters
 
-> testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group)
+> void testGroupParameters(testGroupParametersRequest)
 
 Fake endpoint to test group parameters (optional)
 
@@ -731,6 +741,7 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.FakeApi;
+import org.openapitools.client.api.FakeApi.*;
 
 public class Example {
     public static void main(String[] args) {
@@ -745,7 +756,16 @@ public class Example {
         Boolean booleanGroup = true; // Boolean | Boolean in group parameters
         Long int64Group = 56L; // Long | Integer in group parameters
         try {
-            apiInstance.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+
+            APItestGroupParametersRequest request = APItestGroupParametersRequest.newBuilder()
+                .requiredStringGroup(requiredStringGroup)
+                .requiredBooleanGroup(requiredBooleanGroup)
+                .requiredInt64Group(requiredInt64Group)
+                .stringGroup(stringGroup)
+                .booleanGroup(booleanGroup)
+                .int64Group(int64Group)
+                .build();
+            apiInstance.testGroupParameters(request);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testGroupParameters");
             System.err.println("Status code: " + e.getCode());
@@ -759,17 +779,12 @@ public class Example {
 
 ### Parameters
 
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **requiredStringGroup** | **Integer**| Required String in group parameters |
- **requiredBooleanGroup** | **Boolean**| Required Boolean in group parameters |
- **requiredInt64Group** | **Long**| Required Integer in group parameters |
- **stringGroup** | **Integer**| String in group parameters | [optional]
- **booleanGroup** | **Boolean**| Boolean in group parameters | [optional]
- **int64Group** | **Long**| Integer in group parameters | [optional]
+|    Name      |    Type       | Description   |     Notes    |
+|------------- | ------------- | ------------- | -------------|
+| testGroupParametersRequest | [**APItestGroupParametersRequest**](FakeApi.md#APItestGroupParametersRequest)|-|-|
 
 ### Return type
+
 
 null (empty response body)
 
@@ -788,9 +803,24 @@ No authorization required
 | **400** | Someting wrong |  -  |
 
 
+<a name="APItestGroupParametersRequest"></a>
+## APItestGroupParametersRequest
+### Properties
+
+|     Name      |    Type       | Description   |     Notes    |
+| ------------- | ------------- | ------------- | -------------|
+ **requiredStringGroup** | **Integer** | Required String in group parameters |
+ **requiredBooleanGroup** | **Boolean** | Required Boolean in group parameters |
+ **requiredInt64Group** | **Long** | Required Integer in group parameters |
+ **stringGroup** | **Integer** | String in group parameters | [optional]
+ **booleanGroup** | **Boolean** | Boolean in group parameters | [optional]
+ **int64Group** | **Long** | Integer in group parameters | [optional]
+
+
+
 ## testInlineAdditionalProperties
 
-> testInlineAdditionalProperties(param)
+> void testInlineAdditionalProperties(param)
 
 test inline additionalProperties
 
@@ -833,6 +863,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
+
 null (empty response body)
 
 ### Authorization
@@ -852,7 +883,7 @@ No authorization required
 
 ## testJsonFormData
 
-> testJsonFormData(param, param2)
+> void testJsonFormData(param, param2)
 
 test json serialization of form data
 
@@ -897,6 +928,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
+
 null (empty response body)
 
 ### Authorization
@@ -916,7 +948,7 @@ No authorization required
 
 ## testQueryParameterCollectionFormat
 
-> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+> void testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
 
 
 
@@ -968,6 +1000,7 @@ Name | Type | Description  | Notes
  **context** | [**List&lt;String&gt;**](String.md)|  |
 
 ### Return type
+
 
 null (empty response body)
 

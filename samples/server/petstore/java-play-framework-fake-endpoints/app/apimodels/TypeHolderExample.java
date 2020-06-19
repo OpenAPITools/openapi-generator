@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 /**
  * TypeHolderExample
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class TypeHolderExample   {
   @JsonProperty("string_item")

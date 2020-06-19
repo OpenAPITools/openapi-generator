@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * AdditionalPropertiesClass
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_string")
   private Map<String, String> mapString = null;
