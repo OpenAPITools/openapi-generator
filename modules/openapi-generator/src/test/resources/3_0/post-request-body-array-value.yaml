@@ -1,0 +1,53 @@
+---
+openapi: 3.0.2
+info:
+  title: OpenApiGeneratorTest
+  version: 1.0.0
+paths:
+  /example:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ExampleComplexType'
+            examples:
+              Random request data:
+                value:
+                - id: 19
+                  text: some text
+                - id: 63
+                  text: some text
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExampleComplexType'
+              examples:
+                Random results:
+                  value:
+                  - id: 50
+                    text: some text
+                  - id: 3
+                    text: some text
+          description: Responce description text
+components:
+  schemas:
+    ExampleComplexType:
+      title: Root Type for ExampleComplexType
+      description: ""
+      type: object
+      properties:
+        id:
+          format: int32
+          type: integer
+        text:
+          type: string
+      example:
+        id: 0
+        text: Some text

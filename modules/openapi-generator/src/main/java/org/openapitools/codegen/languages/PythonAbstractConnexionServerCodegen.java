@@ -963,7 +963,9 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             }
             if (operation.requestBodyExamples != null) {
                 for (Map<String, String> example : operation.requestBodyExamples) {
-                    if (example.get("contentType") != null && example.get("contentType").equals("application/json")) {
+                    if (operation.bodyParam.example == null
+                    		&& example.get("contentType") != null 
+                    		&& example.get("contentType").equals("application/json")) {
                         operation.bodyParam.example = example.get("example");
                     }
                 }
