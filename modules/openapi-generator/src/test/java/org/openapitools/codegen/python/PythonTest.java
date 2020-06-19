@@ -17,7 +17,6 @@
 
 package org.openapitools.codegen.python;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Sets;
@@ -30,28 +29,16 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
-import org.openapitools.codegen.examples.ExampleGenerator;
-import org.openapitools.codegen.languages.AsciidocDocumentationCodegen;
-import org.openapitools.codegen.languages.BashClientCodegen;
 import org.openapitools.codegen.languages.PythonClientCodegen;
-import org.openapitools.codegen.languages.PythonFlaskConnexionServerCodegen;
-import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -132,7 +119,7 @@ public class PythonTest {
         String line = buf.readLine();
         StringBuilder sb = new StringBuilder();
                 
-        while(line != null){
+        while(line != null){	
            sb.append(line);
            line = buf.readLine();
         }
