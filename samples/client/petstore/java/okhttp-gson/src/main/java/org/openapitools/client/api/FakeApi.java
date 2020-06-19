@@ -1791,7 +1791,7 @@ public class FakeApi {
         }
 
         if (http != null) {
-            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("space", "http", http));
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("ssv", "http", http));
         }
 
         if (url != null) {

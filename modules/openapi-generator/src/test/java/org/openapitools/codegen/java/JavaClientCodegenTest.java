@@ -35,7 +35,10 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -263,59 +266,52 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(clientOptInput).generate();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
 
-        Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 37);
-        TestUtils.ensureContainsFile(generatedFiles, output, ".gitignore");
-        TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
-        TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
-        TestUtils.ensureContainsFile(generatedFiles, output, ".travis.yml");
-        TestUtils.ensureContainsFile(generatedFiles, output, "build.gradle");
-        TestUtils.ensureContainsFile(generatedFiles, output, "build.sbt");
-        TestUtils.ensureContainsFile(generatedFiles, output, "docs/DefaultApi.md");
-        TestUtils.ensureContainsFile(generatedFiles, output, "git_push.sh");
-        TestUtils.ensureContainsFile(generatedFiles, output, "gradle.properties");
-        TestUtils.ensureContainsFile(generatedFiles, output, "gradle/wrapper/gradle-wrapper.jar");
-        TestUtils.ensureContainsFile(generatedFiles, output, "gradle/wrapper/gradle-wrapper.properties");
-        TestUtils.ensureContainsFile(generatedFiles, output, "gradlew.bat");
-        TestUtils.ensureContainsFile(generatedFiles, output, "gradlew");
-        TestUtils.ensureContainsFile(generatedFiles, output, "pom.xml");
-        TestUtils.ensureContainsFile(generatedFiles, output, "README.md");
-        TestUtils.ensureContainsFile(generatedFiles, output, "settings.gradle");
-        TestUtils.ensureContainsFile(generatedFiles, output, "api/openapi.yaml");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/AndroidManifest.xml");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/api/DefaultApi.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ApiCallback.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ApiClient.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ApiException.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ApiResponse.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ServerConfiguration.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ServerVariable.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/ApiKeyAuth.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/Authentication.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/HttpBasicAuth.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/HttpBearerAuth.java");
-        //TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/OAuth.java");
-        //TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/auth/OAuthFlow.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/Configuration.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/GzipRequestInterceptor.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/JSON.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/Pair.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ProgressRequestBody.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/ProgressResponseBody.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/xyz/abcdef/StringUtil.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/test/java/xyz/abcdef/api/DefaultApiTest.java");
+        Assert.assertEquals(files.size(), 38);
+        TestUtils.ensureContainsFile(files, output, ".gitignore");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator/FILES");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator/VERSION");
+        TestUtils.ensureContainsFile(files, output, ".travis.yml");
+        TestUtils.ensureContainsFile(files, output, "build.gradle");
+        TestUtils.ensureContainsFile(files, output, "build.sbt");
+        TestUtils.ensureContainsFile(files, output, "docs/DefaultApi.md");
+        TestUtils.ensureContainsFile(files, output, "git_push.sh");
+        TestUtils.ensureContainsFile(files, output, "gradle.properties");
+        TestUtils.ensureContainsFile(files, output, "gradle/wrapper/gradle-wrapper.jar");
+        TestUtils.ensureContainsFile(files, output, "gradle/wrapper/gradle-wrapper.properties");
+        TestUtils.ensureContainsFile(files, output, "gradlew.bat");
+        TestUtils.ensureContainsFile(files, output, "gradlew");
+        TestUtils.ensureContainsFile(files, output, "pom.xml");
+        TestUtils.ensureContainsFile(files, output, "README.md");
+        TestUtils.ensureContainsFile(files, output, "settings.gradle");
+        TestUtils.ensureContainsFile(files, output, "api/openapi.yaml");
+        TestUtils.ensureContainsFile(files, output, "src/main/AndroidManifest.xml");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/api/DefaultApi.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/ApiCallback.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/ApiClient.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/ApiException.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/ApiResponse.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/ServerConfiguration.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/ServerVariable.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/ApiKeyAuth.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/Authentication.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/HttpBasicAuth.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/auth/HttpBearerAuth.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/Configuration.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/GzipRequestInterceptor.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/JSON.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/Pair.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/ProgressRequestBody.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/ProgressResponseBody.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/xyz/abcdef/StringUtil.java");
+        TestUtils.ensureContainsFile(files, output, "src/test/java/xyz/abcdef/api/DefaultApiTest.java");
 
-        validateJavaSourceFiles(generatedFiles);
+        validateJavaSourceFiles(files);
 
-        String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/DefaultApi.java").getAbsolutePath().replace("\\", "/");
-        String defaultApiConent = generatedFiles.get(defaultApiFilename);
-        assertTrue(defaultApiConent.contains("public class DefaultApi"));
-
-        WrittenTemplateBasedFile templateBasedFile = TestUtils.getTemplateBasedFile(generator, output, "src/main/java/xyz/abcdef/api/DefaultApi.java");
-        Assert.assertEquals(templateBasedFile.getTemplateData().get("classname"), "DefaultApi");
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"), "public class DefaultApi");
 
         output.deleteOnExit();
     }
@@ -339,58 +335,57 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(clientOptInput).generate();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
 
-        Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 40);
-        TestUtils.ensureContainsFile(generatedFiles, output, ".gitignore");
-        TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator-ignore");
-        TestUtils.ensureContainsFile(generatedFiles, output, ".openapi-generator/VERSION");
-        TestUtils.ensureContainsFile(generatedFiles, output, ".travis.yml");
-        TestUtils.ensureContainsFile(generatedFiles, output, "build.gradle");
-        TestUtils.ensureContainsFile(generatedFiles, output, "build.sbt");
-        TestUtils.ensureContainsFile(generatedFiles, output, "docs/PingApi.md");
-        TestUtils.ensureContainsFile(generatedFiles, output, "docs/SomeObj.md");
-        TestUtils.ensureContainsFile(generatedFiles, output, "git_push.sh");
-        TestUtils.ensureContainsFile(generatedFiles, output, "gradle.properties");
-        TestUtils.ensureContainsFile(generatedFiles, output, "gradle/wrapper/gradle-wrapper.jar");
-        TestUtils.ensureContainsFile(generatedFiles, output, "gradle/wrapper/gradle-wrapper.properties");
-        TestUtils.ensureContainsFile(generatedFiles, output, "gradlew.bat");
-        TestUtils.ensureContainsFile(generatedFiles, output, "gradlew");
-        TestUtils.ensureContainsFile(generatedFiles, output, "pom.xml");
-        TestUtils.ensureContainsFile(generatedFiles, output, "README.md");
-        TestUtils.ensureContainsFile(generatedFiles, output, "settings.gradle");
-        TestUtils.ensureContainsFile(generatedFiles, output, "api/openapi.yaml");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/AndroidManifest.xml");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/api/xxxx/PingApi.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiCallback.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiClient.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiException.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiResponse.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ServerConfiguration.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ServerVariable.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/ApiKeyAuth.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/Authentication.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/HttpBasicAuth.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/HttpBearerAuth.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/Configuration.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/GzipRequestInterceptor.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/JSON.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/Pair.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ProgressRequestBody.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/ProgressResponseBody.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/invoker/xxxx/StringUtil.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/zz/yyyy/model/xxxx/SomeObj.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/test/java/zz/yyyy/api/xxxx/PingApiTest.java");
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/test/java/zz/yyyy/model/xxxx/SomeObjTest.java");
+        Assert.assertEquals(files.size(), 41);
+        TestUtils.ensureContainsFile(files, output, ".gitignore");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator-ignore");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator/FILES");
+        TestUtils.ensureContainsFile(files, output, ".openapi-generator/VERSION");
+        TestUtils.ensureContainsFile(files, output, ".travis.yml");
+        TestUtils.ensureContainsFile(files, output, "build.gradle");
+        TestUtils.ensureContainsFile(files, output, "build.sbt");
+        TestUtils.ensureContainsFile(files, output, "docs/PingApi.md");
+        TestUtils.ensureContainsFile(files, output, "docs/SomeObj.md");
+        TestUtils.ensureContainsFile(files, output, "git_push.sh");
+        TestUtils.ensureContainsFile(files, output, "gradle.properties");
+        TestUtils.ensureContainsFile(files, output, "gradle/wrapper/gradle-wrapper.jar");
+        TestUtils.ensureContainsFile(files, output, "gradle/wrapper/gradle-wrapper.properties");
+        TestUtils.ensureContainsFile(files, output, "gradlew.bat");
+        TestUtils.ensureContainsFile(files, output, "gradlew");
+        TestUtils.ensureContainsFile(files, output, "pom.xml");
+        TestUtils.ensureContainsFile(files, output, "README.md");
+        TestUtils.ensureContainsFile(files, output, "settings.gradle");
+        TestUtils.ensureContainsFile(files, output, "api/openapi.yaml");
+        TestUtils.ensureContainsFile(files, output, "src/main/AndroidManifest.xml");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/api/xxxx/PingApi.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiCallback.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiClient.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiException.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/ApiResponse.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/ServerConfiguration.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/ServerVariable.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/ApiKeyAuth.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/Authentication.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/HttpBasicAuth.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/auth/HttpBearerAuth.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/Configuration.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/GzipRequestInterceptor.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/JSON.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/Pair.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/ProgressRequestBody.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/ProgressResponseBody.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/invoker/xxxx/StringUtil.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/zz/yyyy/model/xxxx/SomeObj.java");
+        TestUtils.ensureContainsFile(files, output, "src/test/java/zz/yyyy/api/xxxx/PingApiTest.java");
+        TestUtils.ensureContainsFile(files, output, "src/test/java/zz/yyyy/model/xxxx/SomeObjTest.java");
 
-        validateJavaSourceFiles(generatedFiles);
+        validateJavaSourceFiles(files);
 
-        String defaultApiFilename = new File(output, "src/main/java/zz/yyyy/model/xxxx/SomeObj.java").getAbsolutePath().replace("\\", "/");
-        String defaultApiConent = generatedFiles.get(defaultApiFilename);
-        assertTrue(defaultApiConent.contains("public class SomeObj"));
-        assertTrue(defaultApiConent.contains("Boolean isActive()"));
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/zz/yyyy/model/xxxx/SomeObj.java"),
+                "public class SomeObj",
+                "Boolean isActive()");
 
         output.deleteOnExit();
     }
@@ -412,25 +407,22 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(clientOptInput).generate();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
 
-        Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 26);
-        validateJavaSourceFiles(generatedFiles);
+        Assert.assertEquals(files.size(), 27);
+        validateJavaSourceFiles(files);
 
-        String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/DefaultApi.java").getAbsolutePath().replace("\\", "/");
-        String defaultApiContent = generatedFiles.get(defaultApiFilename);
-        assertTrue(defaultApiContent.contains("public class DefaultApi"));
-        assertTrue(defaultApiContent.contains("import java.net.http.HttpClient;"));
-        assertTrue(defaultApiContent.contains("import java.net.http.HttpRequest;"));
-        assertTrue(defaultApiContent.contains("import java.net.http.HttpResponse;"));
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/api/DefaultApi.java"),
+                "public class DefaultApi",
+                "import java.net.http.HttpClient;",
+                "import java.net.http.HttpRequest;",
+                "import java.net.http.HttpResponse;");
 
-        String apiClientFilename = new File(output, "src/main/java/xyz/abcdef/ApiClient.java").getAbsolutePath().replace("\\", "/");
-        String apiClientContent = generatedFiles.get(apiClientFilename);
-        assertTrue(apiClientContent.contains("public class ApiClient"));
-        assertTrue(apiClientContent.contains("import java.net.http.HttpClient;"));
-        assertTrue(apiClientContent.contains("import java.net.http.HttpRequest;"));
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java"),
+                "public class ApiClient",
+                "import java.net.http.HttpClient;",
+                "import java.net.http.HttpRequest;");
     }
 
     @Test
@@ -451,25 +443,25 @@ public class JavaClientCodegenTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(clientOptInput).generate();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
 
-        Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 29);
-        validateJavaSourceFiles(generatedFiles);
-        String defaultApiFilename = new File(output, "src/main/java/xyz/abcdef/api/PingApi.java").getAbsolutePath().replace("\\", "/");
-        String defaultApiContent = generatedFiles.get(defaultApiFilename);
-        assertTrue(defaultApiContent.contains("public class PingApi"));
-        assertTrue(defaultApiContent.contains("import java.net.http.HttpClient;"));
-        assertTrue(defaultApiContent.contains("import java.net.http.HttpRequest;"));
-        assertTrue(defaultApiContent.contains("import java.net.http.HttpResponse;"));
-        assertTrue(defaultApiContent.contains("import java.util.concurrent.CompletableFuture;"));
+        Assert.assertEquals(files.size(), 30);
+        validateJavaSourceFiles(files);
 
-        String apiClientFilename = new File(output, "src/main/java/xyz/abcdef/ApiClient.java").getAbsolutePath().replace("\\", "/");
-        String apiClientContent = generatedFiles.get(apiClientFilename);
-        assertTrue(apiClientContent.contains("public class ApiClient"));
-        assertTrue(apiClientContent.contains("import java.net.http.HttpClient;"));
-        assertTrue(apiClientContent.contains("import java.net.http.HttpRequest;"));
+        Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/PingApi.java");
+        TestUtils.assertFileContains(defaultApi,
+                "public class PingApi",
+                "import java.net.http.HttpClient;",
+                "import java.net.http.HttpRequest;",
+                "import java.net.http.HttpResponse;",
+                "import java.util.concurrent.CompletableFuture;");
+
+        Path apiClient = Paths.get(output + "/src/main/java/xyz/abcdef/ApiClient.java");
+        TestUtils.assertFileContains(apiClient,
+                "public class ApiClient",
+                "import java.net.http.HttpClient;",
+                "import java.net.http.HttpRequest;");
     }
 
     @Test
@@ -544,7 +536,7 @@ public class JavaClientCodegenTest {
         codegen.setOpenAPI(openAPI);
         CodegenModel cm1 = codegen.fromModel("MapTest1", test1);
         Assert.assertEquals(cm1.getDataType(), "Map");
-        Assert.assertEquals(cm1.getParent(), "HashMap<String, oas_any_type_not_mapped>");
+        Assert.assertEquals(cm1.getParent(), "HashMap<String, Object>");
         Assert.assertEquals(cm1.getClassname(), "MapTest1");
 
         Schema test2 = openAPI.getComponents().getSchemas().get("MapTest2");
@@ -594,19 +586,25 @@ public class JavaClientCodegenTest {
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
         Assert.assertEquals(clientOptInput.getConfig().importMapping().get("TypeAlias"), "foo.bar.TypeAlias");
 
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        DefaultGenerator generator = new DefaultGenerator();
         generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
-        generator.opts(clientOptInput).generate();
+        generator.setGenerateMetadata(false);
+        List<File> files = generator.opts(clientOptInput).generate();
 
-        Map<String, String> generatedFiles = generator.getFiles();
-        Assert.assertEquals(generatedFiles.size(), 1);
-        TestUtils.ensureContainsFile(generatedFiles, output, "src/main/java/org/openapitools/client/model/ParentType.java");
+        Assert.assertEquals(files.size(), 1);
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/ParentType.java");
 
-        final String parentTypeContents = generatedFiles.values().iterator().next();
+        String parentTypeContents = "";
+        try {
+            File file = files.stream().filter(f -> f.getName().endsWith("ParentType.java")).findFirst().get();
+            parentTypeContents = new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+        } catch (IOException ignored) {
+
+        }
 
         final Pattern FIELD_PATTERN = Pattern.compile(".* private (.*?) typeAlias;.*", Pattern.DOTALL);
         Matcher fieldMatcher = FIELD_PATTERN.matcher(parentTypeContents);
@@ -683,29 +681,29 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty property1 = cm1.allVars.get(0);
         Assert.assertEquals(property1.baseName, "any_value");
-        Assert.assertEquals(property1.dataType, "oas_any_type_not_mapped");
+        Assert.assertEquals(property1.dataType, "Object");
         Assert.assertTrue(property1.hasMore);
-        Assert.assertFalse(property1.isPrimitiveType);
+        Assert.assertTrue(property1.isPrimitiveType);
         Assert.assertFalse(property1.isContainer);
         Assert.assertFalse(property1.isFreeFormObject);
         Assert.assertTrue(property1.isAnyType);
 
         final CodegenProperty property2 = cm1.allVars.get(1);
         Assert.assertEquals(property2.baseName, "any_value_with_desc");
-        Assert.assertEquals(property2.dataType, "oas_any_type_not_mapped");
+        Assert.assertEquals(property2.dataType, "Object");
         Assert.assertTrue(property2.hasMore);
         Assert.assertFalse(property2.required);
-        Assert.assertFalse(property2.isPrimitiveType);
+        Assert.assertTrue(property2.isPrimitiveType);
         Assert.assertFalse(property2.isContainer);
         Assert.assertFalse(property2.isFreeFormObject);
         Assert.assertTrue(property2.isAnyType);
 
         final CodegenProperty property3 = cm1.allVars.get(2);
         Assert.assertEquals(property3.baseName, "any_value_nullable");
-        Assert.assertEquals(property3.dataType, "oas_any_type_not_mapped");
+        Assert.assertEquals(property3.dataType, "Object");
         Assert.assertFalse(property3.hasMore);
         Assert.assertFalse(property3.required);
-        Assert.assertFalse(property3.isPrimitiveType);
+        Assert.assertTrue(property3.isPrimitiveType);
         Assert.assertFalse(property3.isContainer);
         Assert.assertFalse(property3.isFreeFormObject);
         Assert.assertTrue(property3.isAnyType);
@@ -717,30 +715,30 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty cp1 = cm2.vars.get(0);
         Assert.assertEquals(cp1.baseName, "any_value");
-        Assert.assertEquals(cp1.dataType, "oas_any_type_not_mapped");
+        Assert.assertEquals(cp1.dataType, "Object");
         Assert.assertTrue(cp1.hasMore);
         Assert.assertFalse(cp1.required);
-        Assert.assertFalse(cp1.isPrimitiveType);
+        Assert.assertTrue(cp1.isPrimitiveType);
         Assert.assertFalse(cp1.isContainer);
         Assert.assertFalse(cp1.isFreeFormObject);
         Assert.assertTrue(cp1.isAnyType);
 
         final CodegenProperty cp2 = cm2.vars.get(1);
         Assert.assertEquals(cp2.baseName, "any_value_with_desc");
-        Assert.assertEquals(cp2.dataType, "oas_any_type_not_mapped");
+        Assert.assertEquals(cp2.dataType, "Object");
         Assert.assertTrue(cp2.hasMore);
         Assert.assertFalse(cp2.required);
-        Assert.assertFalse(cp2.isPrimitiveType);
+        Assert.assertTrue(cp2.isPrimitiveType);
         Assert.assertFalse(cp2.isContainer);
         Assert.assertFalse(cp2.isFreeFormObject);
         Assert.assertTrue(cp2.isAnyType);
 
         final CodegenProperty cp3 = cm2.vars.get(2);
         Assert.assertEquals(cp3.baseName, "any_value_nullable");
-        Assert.assertEquals(cp3.dataType, "oas_any_type_not_mapped");
+        Assert.assertEquals(cp3.dataType, "Object");
         Assert.assertTrue(cp3.hasMore);
         Assert.assertFalse(cp3.required);
-        Assert.assertFalse(cp3.isPrimitiveType);
+        Assert.assertTrue(cp3.isPrimitiveType);
         Assert.assertFalse(cp3.isContainer);
         Assert.assertFalse(cp3.isFreeFormObject);
         Assert.assertTrue(cp3.isAnyType);
@@ -748,10 +746,10 @@ public class JavaClientCodegenTest {
         // map
         final CodegenProperty cp4 = cm2.vars.get(3);
         Assert.assertEquals(cp4.baseName, "map_any_value");
-        Assert.assertEquals(cp4.dataType, "Map<String, oas_any_type_not_mapped>");
+        Assert.assertEquals(cp4.dataType, "Map<String, Object>");
         Assert.assertTrue(cp4.hasMore);
         Assert.assertFalse(cp4.required);
-        Assert.assertFalse(cp4.isPrimitiveType);
+        Assert.assertTrue(cp4.isPrimitiveType);
         Assert.assertTrue(cp4.isContainer);
         Assert.assertTrue(cp4.isMapContainer);
         Assert.assertTrue(cp4.isFreeFormObject);
@@ -759,10 +757,10 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty cp5 = cm2.vars.get(4);
         Assert.assertEquals(cp5.baseName, "map_any_value_with_desc");
-        Assert.assertEquals(cp5.dataType, "Map<String, oas_any_type_not_mapped>");
+        Assert.assertEquals(cp5.dataType, "Map<String, Object>");
         Assert.assertTrue(cp5.hasMore);
         Assert.assertFalse(cp5.required);
-        Assert.assertFalse(cp5.isPrimitiveType);
+        Assert.assertTrue(cp5.isPrimitiveType);
         Assert.assertTrue(cp5.isContainer);
         Assert.assertTrue(cp5.isMapContainer);
         Assert.assertTrue(cp5.isFreeFormObject);
@@ -770,10 +768,10 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty cp6 = cm2.vars.get(5);
         Assert.assertEquals(cp6.baseName, "map_any_value_nullable");
-        Assert.assertEquals(cp6.dataType, "Map<String, oas_any_type_not_mapped>");
+        Assert.assertEquals(cp6.dataType, "Map<String, Object>");
         Assert.assertTrue(cp6.hasMore);
         Assert.assertFalse(cp6.required);
-        Assert.assertFalse(cp6.isPrimitiveType);
+        Assert.assertTrue(cp6.isPrimitiveType);
         Assert.assertTrue(cp6.isContainer);
         Assert.assertTrue(cp6.isMapContainer);
         Assert.assertTrue(cp6.isFreeFormObject);
@@ -782,10 +780,10 @@ public class JavaClientCodegenTest {
         // array
         final CodegenProperty cp7 = cm2.vars.get(6);
         Assert.assertEquals(cp7.baseName, "array_any_value");
-        Assert.assertEquals(cp7.dataType, "List<oas_any_type_not_mapped>");
+        Assert.assertEquals(cp7.dataType, "List<Object>");
         Assert.assertTrue(cp7.hasMore);
         Assert.assertFalse(cp7.required);
-        Assert.assertFalse(cp7.isPrimitiveType);
+        Assert.assertTrue(cp7.isPrimitiveType);
         Assert.assertTrue(cp7.isContainer);
         Assert.assertTrue(cp7.isListContainer);
         Assert.assertFalse(cp7.isFreeFormObject);
@@ -793,10 +791,10 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty cp8 = cm2.vars.get(7);
         Assert.assertEquals(cp8.baseName, "array_any_value_with_desc");
-        Assert.assertEquals(cp8.dataType, "List<oas_any_type_not_mapped>");
+        Assert.assertEquals(cp8.dataType, "List<Object>");
         Assert.assertTrue(cp8.hasMore);
         Assert.assertFalse(cp8.required);
-        Assert.assertFalse(cp8.isPrimitiveType);
+        Assert.assertTrue(cp8.isPrimitiveType);
         Assert.assertTrue(cp8.isContainer);
         Assert.assertTrue(cp8.isListContainer);
         Assert.assertFalse(cp8.isFreeFormObject);
@@ -804,10 +802,10 @@ public class JavaClientCodegenTest {
 
         final CodegenProperty cp9 = cm2.vars.get(8);
         Assert.assertEquals(cp9.baseName, "array_any_value_nullable");
-        Assert.assertEquals(cp9.dataType, "List<oas_any_type_not_mapped>");
+        Assert.assertEquals(cp9.dataType, "List<Object>");
         Assert.assertFalse(cp9.hasMore);
         Assert.assertFalse(cp9.required);
-        Assert.assertFalse(cp9.isPrimitiveType);
+        Assert.assertTrue(cp9.isPrimitiveType);
         Assert.assertTrue(cp9.isContainer);
         Assert.assertTrue(cp9.isListContainer);
         Assert.assertFalse(cp9.isFreeFormObject);

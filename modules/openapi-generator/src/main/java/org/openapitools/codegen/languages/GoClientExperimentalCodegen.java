@@ -35,6 +35,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GoClientExperimentalCodegen.class);
     protected String goImportAlias = "openapiclient";
+    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     public GoClientExperimentalCodegen() {
         super();
@@ -42,9 +43,10 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         embeddedTemplateDir = templateDir = "go-experimental";
 
         usesOptionals = false;
-        useOneOfInterfaces = true;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
+
+        cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
     }
 
     /**
@@ -94,6 +96,20 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
             additionalProperties.put("goImportAlias", goImportAlias);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP)) {
+            setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
+        }
+
+    }
+
+    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
+        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
+    }
+
+    public boolean getUseOneOfDiscriminatorLookup() {
+        return this.useOneOfDiscriminatorLookup;
     }
 
     public void setGoImportAlias(String goImportAlias) {
@@ -167,6 +183,8 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         // must be invoked at the beginning of this method.
         objs = super.postProcessModels(objs);
 
+        List<Map<String, String>> imports = (List<Map<String, String>>) objs.get("imports");
+
         List<Map<String, Object>> models = (List<Map<String, Object>>) objs.get("models");
         for (Map<String, Object> m : models) {
             Object v = m.get("model");
@@ -193,21 +211,25 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                                 + param.dataType.substring(1);
                     }
                 }
+
+                // additional import for different cases
+                // oneOf
+                if (model.oneOf != null && !model.oneOf.isEmpty()) {
+                    imports.add(createMapping("import", "fmt"));
+                }
+
+                // anyOf
+                if (model.anyOf != null && !model.anyOf.isEmpty()) {
+                    imports.add(createMapping("import", "fmt"));
+                }
+
+                // add x-additional-properties
+                if ("map[string]map[string]interface{}".equals(model.parent)) {
+                    model.vendorExtensions.put("x-additional-properties", true);
+                }
             }
         }
         return objs;
-    }
-
-    @Override
-    public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
-        for (String i : Arrays.asList("fmt")) {
-            Map<String, String> oneImport = new HashMap<String, String>() {{
-                put("import", i);
-            }};
-            if (!imports.contains(oneImport)) {
-                imports.add(oneImport);
-            }
-        }
     }
 
     @Override
@@ -262,7 +284,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                 return "URL(string: \"https://example.com\")!";
             } else if (codegenParameter.isDateTime || codegenParameter.isDate) { // datetime or date
                 return "Get-Date";
-            } else{ // numeric
+            } else { // numeric
                 if (StringUtils.isEmpty(codegenParameter.example)) {
                     return codegenParameter.example;
                 } else {
@@ -302,7 +324,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                 return "\"https://example.com\")!";
             } else if (codegenProperty.isDateTime || codegenProperty.isDate) { // datetime or date
                 return "time.Now()";
-            } else{ // numeric
+            } else { // numeric
                 String example;
                 if (StringUtils.isEmpty(codegenProperty.example)) {
                     example = codegenProperty.example;

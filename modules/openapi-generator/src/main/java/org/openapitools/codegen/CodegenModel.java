@@ -22,6 +22,9 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 
 import java.util.*;
 
+/**
+ * CodegenModel represents a schema object in a OpenAPI document.
+ */
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
 public class CodegenModel implements IJsonSchemaValidationProperties {
     // The parent model name from the schemas. The parent is determined by inspecting the allOf, anyOf and
@@ -99,7 +102,31 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
 
-    //The type of the value from additional properties. Used in map like objects.
+    /**
+     * The type of the value for the additionalProperties keyword in the OAS document.
+     * Used in map like objects, including composed schemas.
+     * 
+     * In most programming languages, the additional (undeclared) properties are stored
+     * in a map data structure, such as HashMap in Java, map in golang, or a dict in Python.
+     * There are multiple ways to implement the additionalProperties keyword, depending
+     * on the programming language and mustache template.
+     * One way is to use class inheritance. For example in the generated Java code, the
+     * generated model class may extend from HashMap to store the additional properties.
+     * In that case 'CodegenModel.parent' is set to represent the class hierarchy.
+     * Another way is to use CodegenModel.additionalPropertiesType. A code generator
+     * such as Python does not use class inheritance to model additional properties.
+     *
+     * For example, in the OAS schema below, the schema has a declared 'id' property
+     * and additional, undeclared properties of type 'integer' are allowed.
+     * 
+     * type: object
+     * properties:
+     *   id:
+     *     type: integer
+     * additionalProperties:
+     *   type: integer
+     *
+     */
     public String additionalPropertiesType;
 
     private Integer maxProperties;
@@ -220,6 +247,45 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.description = description;
     }
 
+    /**
+     * Returns the discriminator for this schema object, or null if no discriminator has been specified.
+     * 
+     * The list of all possible schema discriminator mapping values is obtained
+     * from explicit discriminator mapping values in the OpenAPI document, and from
+     * inherited discriminators through oneOf, allOf, anyOf.
+     * For example, a discriminator may be defined in a 'Pet' schema as shown below.
+     * The Dog and Cat schemas inherit the discriminator through the allOf reference.
+     * In the 'Pet' schema, the supported discriminator mapping values for the
+     * 'objectType' properties are 'Dog' and 'Cat'.
+     * The allowed discriminator mapping value for the Dog schema is 'Dog'.
+     * The allowed discriminator mapping value for the Cat schema is 'Dog'.
+     * 
+     * Pet:
+     *   type: object
+     *   discriminator:
+     *     propertyName: objectType
+     *   required:
+     *     - objectType
+     *   properties:
+     *     objectType:
+     *     type: string
+     * Dog:
+     *   allOf:
+     *   - $ref: '#/components/schemas/Pet'
+     *   - type: object
+     *     properties:
+     *       p1:
+     *         type: string
+     * Cat:
+     *   allOf:
+     *   - $ref: '#/components/schemas/Pet'
+     *   - type: object
+     *     properties:
+     *       p2:
+     *         type: string
+     * 
+     * @return the discriminator.
+     */
     public CodegenDiscriminator getDiscriminator() {
         return discriminator;
     }
@@ -228,6 +294,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.discriminator = discriminator;
     }
 
+    /**
+     * Returns the name of the discriminator property for this schema in the OpenAPI document.
+     * In the OpenAPI document, the discriminator may be specified in the local schema or
+     * it may be inherited, such as through a 'allOf' schema which references another schema
+     * that has a discriminator, recursively.
+     * 
+     * @return the name of the discriminator property.
+     */
     public String getDiscriminatorName() {
         return discriminator == null ? null : discriminator.getPropertyName();
     }

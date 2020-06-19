@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 ## createUser
 
-> createUser(body)
+> void createUser(body)
 
 Create user
 
@@ -62,6 +62,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
+
 null (empty response body)
 
 ### Authorization
@@ -81,7 +82,7 @@ No authorization required
 
 ## createUsersWithArrayInput
 
-> createUsersWithArrayInput(body)
+> void createUsersWithArrayInput(body)
 
 Creates list of users with given input array
 
@@ -124,6 +125,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
+
 null (empty response body)
 
 ### Authorization
@@ -143,7 +145,7 @@ No authorization required
 
 ## createUsersWithListInput
 
-> createUsersWithListInput(body)
+> void createUsersWithListInput(body)
 
 Creates list of users with given input array
 
@@ -186,6 +188,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
+
 null (empty response body)
 
 ### Authorization
@@ -205,7 +208,7 @@ No authorization required
 
 ## deleteUser
 
-> deleteUser(username)
+> void deleteUser(username)
 
 Delete user
 
@@ -249,6 +252,7 @@ Name | Type | Description  | Notes
  **username** | **String**| The name that needs to be deleted |
 
 ### Return type
+
 
 null (empty response body)
 
@@ -315,6 +319,7 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**User**](User.md)
+
 
 ### Authorization
 
@@ -383,6 +388,7 @@ Name | Type | Description  | Notes
 
 **String**
 
+
 ### Authorization
 
 No authorization required
@@ -401,7 +407,7 @@ No authorization required
 
 ## logoutUser
 
-> logoutUser()
+> void logoutUser()
 
 Logs out current logged in user session
 
@@ -440,6 +446,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
+
 null (empty response body)
 
 ### Authorization
@@ -459,7 +466,7 @@ No authorization required
 
 ## updateUser
 
-> updateUser(username, body)
+> void updateUser(username, body)
 
 Updated user
 
@@ -505,6 +512,7 @@ Name | Type | Description  | Notes
  **body** | [**User**](User.md)| Updated user object |
 
 ### Return type
+
 
 null (empty response body)
 

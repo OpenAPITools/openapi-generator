@@ -1,0 +1,41 @@
+import "es6-promise/auto";
+
+export * from "./http/http";
+export * from "./auth/auth";
+export * from "./models/all";
+export { createConfiguration, Configuration } from "./configuration"
+export * from "./apis/exception";
+export * from "./servers";
+
+{{#useRxJS}}
+export { Middleware } from './middleware';
+{{/useRxJS}}
+{{^useRxJS}}
+export { PromiseMiddleware as Middleware } from './middleware';
+{{/useRxJS}}
+{{#useObjectParameters}}
+export { {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{classname}}{{operationIdCamelCase}}Request, {{/operation}}Object{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/ObjectParamAPI';
+{{/useObjectParameters}}
+{{^useObjectParameters}}
+{{#useRxJS}}
+export { {{#apiInfo}}{{#apis}}{{#operations}}Observable{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/ObservableAPI';
+{{/useRxJS}}
+{{^useRxJS}}
+export { {{#apiInfo}}{{#apis}}{{#operations}}Promise{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/PromiseAPI';
+{{/useRxJS}}
+{{/useObjectParameters}}
+
+{{#useInversify}}
+export * from "./services/index";
+{{#useObjectParameters}}
+export { {{#apiInfo}}{{#apis}}{{#operations}}AbstractObject{{classname}} as Abstract{{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './services/ObjectParamAPI';
+{{/useObjectParameters}}
+{{^useObjectParameters}}
+{{#useRxJS}}
+export { {{#apiInfo}}{{#apis}}{{#operations}}AbstractObservable{{classname}} as Abstract{{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './services/ObservableAPI';
+{{/useRxJS}}
+{{^useRxJS}}
+export { {{#apiInfo}}{{#apis}}{{#operations}}AbstractPromise{{classname}} as Abstract{{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './services/PromiseAPI';
+{{/useRxJS}}
+{{/useObjectParameters}}
+{{/useInversify}}

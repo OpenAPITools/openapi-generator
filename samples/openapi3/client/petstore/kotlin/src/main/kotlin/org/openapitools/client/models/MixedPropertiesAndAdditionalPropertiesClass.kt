@@ -15,6 +15,7 @@ import org.openapitools.client.models.Animal
 
 import com.squareup.moshi.Json
 import java.io.Serializable
+
 /**
  * 
  * @param uuid 
@@ -26,15 +27,13 @@ data class MixedPropertiesAndAdditionalPropertiesClass (
     @Json(name = "uuid")
     val uuid: java.util.UUID? = null,
     @Json(name = "dateTime")
-    val dateTime: java.time.LocalDateTime? = null,
+    val dateTime: java.time.OffsetDateTime? = null,
     @Json(name = "map")
     val map: kotlin.collections.Map<kotlin.String, Animal>? = null
-) 
-: Serializable 
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
-{
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
 }
 

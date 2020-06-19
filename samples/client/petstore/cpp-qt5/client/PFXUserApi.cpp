@@ -23,6 +23,7 @@ PFXUserApi::PFXUserApi(const QString &scheme, const QString &host, int port, con
       _port(port),
       _basePath(basePath),
       _timeOut(timeOut),
+      _manager(nullptr),
       isResponseCompressionEnabled(false),
       isRequestCompressionEnabled(false) {}
 
@@ -53,6 +54,10 @@ void PFXUserApi::setWorkingDirectory(const QString &path) {
     _workingDirectory = path;
 }
 
+void PFXUserApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
+    _manager = manager;  
+}
+
 void PFXUserApi::addHeaders(const QString &key, const QString &value) {
     defaultHeaders.insert(key, value);
 }
@@ -77,7 +82,7 @@ void PFXUserApi::createUser(const PFXUser &body) {
                            .arg(_basePath)
                            .arg("/user");
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
@@ -122,7 +127,7 @@ void PFXUserApi::createUsersWithArrayInput(const QList<PFXUser> &body) {
                            .arg(_basePath)
                            .arg("/user/createWithArray");
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
@@ -168,7 +173,7 @@ void PFXUserApi::createUsersWithListInput(const QList<PFXUser> &body) {
                            .arg(_basePath)
                            .arg("/user/createWithList");
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
@@ -217,7 +222,7 @@ void PFXUserApi::deleteUser(const QString &username) {
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "DELETE");
@@ -262,7 +267,7 @@ void PFXUserApi::getUserByName(const QString &username) {
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "GET");
@@ -317,7 +322,7 @@ void PFXUserApi::loginUser(const QString &username, const QString &password) {
         fullPath.append("?");
     fullPath.append(QUrl::toPercentEncoding("password")).append("=").append(QUrl::toPercentEncoding(::test_namespace::toStringValue(password)));
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "GET");
@@ -361,7 +366,7 @@ void PFXUserApi::logoutUser() {
                            .arg(_basePath)
                            .arg("/user/logout");
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "GET");
@@ -406,7 +411,7 @@ void PFXUserApi::updateUser(const QString &username, const PFXUser &body) {
     usernamePathParam.append("username").append("}");
     fullPath.replace(usernamePathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(username)));
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "PUT");

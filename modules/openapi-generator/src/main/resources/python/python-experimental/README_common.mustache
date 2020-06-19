@@ -4,13 +4,22 @@ from __future__ import print_function
 import time
 import {{{packageName}}}
 from pprint import pprint
-{{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
+{{#apiInfo}}
+{{#apis}}
+{{#-first}}
+from {{apiPackage}} import {{classVarName}}
+{{#imports}}
+{{{import}}}
+{{/imports}}
+{{#operations}}
+{{#operation}}
+{{#-first}}
 {{> python_doc_auth_partial}}
 
 # Enter a context with an instance of the API client
 with {{{packageName}}}.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = {{{packageName}}}.{{{classname}}}(api_client)
+    api_instance = {{classVarName}}.{{{classname}}}(api_client)
     {{#allParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
     {{/allParams}}
 
@@ -20,7 +29,12 @@ with {{{packageName}}}.ApiClient(configuration) as api_client:
         pprint(api_response){{/returnType}}
     except {{{packageName}}}.ApiException as e:
         print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
-    {{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
+{{/-first}}
+{{/operation}}
+{{/operations}}
+{{/-first}}
+{{/apis}}
+{{/apiInfo}}
 ```
 
 ## Documentation for API Endpoints
@@ -77,3 +91,22 @@ Class | Method | HTTP request | Description
 
 {{#apiInfo}}{{#apis}}{{^hasMore}}{{infoEmail}}
 {{/hasMore}}{{/apis}}{{/apiInfo}}
+
+## Notes for Large OpenAPI documents
+If the OpenAPI document is large, imports in {{{packageName}}}.apis and {{{packageName}}}.models may fail with a
+RecursionError indicating the maximum recursion limit has been exceeded. In that case, there are a couple of solutions:
+
+Solution 1:
+Use specific imports for apis and models like:
+- `from {{{packageName}}}.api.default_api import DefaultApi`
+- `from {{{packageName}}}.model.pet import Pet`
+
+Solution 1:
+Before importing the package, adjust the maximum recursion limit as shown below:
+```
+import sys
+sys.setrecursionlimit(1500)
+import {{{packageName}}}
+from {{{packageName}}}.apis import *
+from {{{packageName}}}.models import *
+```

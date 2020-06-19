@@ -29,7 +29,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   InlineResponseDefault.JSON_PROPERTY_STRING
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class InlineResponseDefault   {
   public static final String JSON_PROPERTY_STRING = "string";
   @JsonProperty(JSON_PROPERTY_STRING)

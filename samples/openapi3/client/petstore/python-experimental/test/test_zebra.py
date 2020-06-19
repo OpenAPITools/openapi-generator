@@ -11,10 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.zebra import Zebra
 
 
 class TestZebra(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestZebra(unittest.TestCase):
     def testZebra(self):
         """Test Zebra"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.Zebra()  # noqa: E501
+        # model = Zebra()  # noqa: E501
         pass
 
 

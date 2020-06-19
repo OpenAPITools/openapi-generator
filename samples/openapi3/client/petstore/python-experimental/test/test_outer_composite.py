@@ -11,10 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.outer_composite import OuterComposite
 
 
 class TestOuterComposite(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestOuterComposite(unittest.TestCase):
     def testOuterComposite(self):
         """Test OuterComposite"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.OuterComposite()  # noqa: E501
+        # model = OuterComposite()  # noqa: E501
         pass
 
 

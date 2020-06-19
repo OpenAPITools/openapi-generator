@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## testClassname
 
-> Client testClassname(body)
+> Client testClassname(client)
 
 To test class name in snake case
 
@@ -28,8 +28,8 @@ api_key_query.apiKey = 'YOUR API KEY';
 //api_key_query.apiKeyPrefix = 'Token';
 
 let apiInstance = new OpenApiPetstore.FakeClassnameTags123Api();
-let body = new OpenApiPetstore.Client(); // Client | client model
-apiInstance.testClassname(body, (error, data, response) => {
+let client = new OpenApiPetstore.Client(); // Client | client model
+apiInstance.testClassname(client, (error, data, response) => {
   if (error) {
     console.error(error);
   } else {
@@ -43,7 +43,7 @@ apiInstance.testClassname(body, (error, data, response) => {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md)| client model | 
 
 ### Return type
 

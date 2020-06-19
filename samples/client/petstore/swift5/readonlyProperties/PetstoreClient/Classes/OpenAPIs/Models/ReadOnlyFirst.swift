@@ -7,7 +7,9 @@
 
 import Foundation
 
-public struct ReadOnlyFirst: Codable {
+
+public struct ReadOnlyFirst: Codable { 
+
 
     public private(set) var bar: String?
     public private(set) var baz: String?

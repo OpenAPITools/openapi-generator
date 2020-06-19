@@ -43,23 +43,23 @@ class ConfigurationTest extends TestCase
 
     /**
      * Test invalid index
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Invalid index 2 when selecting the host. Must be less than 2
      */
     public function testInvalidIndex()
     {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Invalid index 2 when selecting the host. Must be less than 2');
         $config = new Configuration();
         $url = $config->getHostFromSettings(2);
     }
 
     /**
      * Test host settings with invalid vaues
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage The variable `port` in the host URL has invalid value 8. Must be 80,8080
      */
     public function testHostUrlWithInvalidValues()
     {
         // using 2 variables with invalid values
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('The variable `port` in the host URL has invalid value 8. Must be 80,8080');
         $config = new Configuration();
         $url = $config->getHostFromSettings(0, array("server" => "dev-petstore", "port" => "8"));
         $this->assertSame("http://dev-petstore.swagger.io:8080/v2", $url);
