@@ -5,6 +5,7 @@ class Tag {
   int id = null;
   
   String name = null;
+
   Tag();
 
   @override
@@ -42,12 +43,14 @@ class Tag {
   // maps a json object with a list of Tag-objects as value to a dart map
   static Map<String, List<Tag>> mapListFromJson(Map<String, dynamic> json) {
     var map = Map<String, List<Tag>>();
-     if (json != null && json.isNotEmpty) {
-       json.forEach((String key, dynamic value) {
-         map[key] = Tag.listFromJson(value);
-       });
-     }
-     return map;
+    if (json != null && json.isNotEmpty) {
+      json.forEach((String key, dynamic value) {
+        map[key] = Tag.listFromJson(value);
+      });
+    }
+    return map;
   }
 }
+
+
 

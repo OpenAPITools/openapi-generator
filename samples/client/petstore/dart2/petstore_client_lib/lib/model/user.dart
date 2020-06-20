@@ -15,8 +15,9 @@ class User {
   String password = null;
   
   String phone = null;
-  /* User Status */
+  /// User Status
   int userStatus = null;
+
   User();
 
   @override
@@ -72,12 +73,14 @@ class User {
   // maps a json object with a list of User-objects as value to a dart map
   static Map<String, List<User>> mapListFromJson(Map<String, dynamic> json) {
     var map = Map<String, List<User>>();
-     if (json != null && json.isNotEmpty) {
-       json.forEach((String key, dynamic value) {
-         map[key] = User.listFromJson(value);
-       });
-     }
-     return map;
+    if (json != null && json.isNotEmpty) {
+      json.forEach((String key, dynamic value) {
+        map[key] = User.listFromJson(value);
+      });
+    }
+    return map;
   }
 }
+
+
 

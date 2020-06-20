@@ -9,11 +9,11 @@ class Order {
   int quantity = null;
   
   DateTime shipDate = null;
-  /* Order Status */
-  String status = null;
-  //enum statusEnum {  placed,  approved,  delivered,  };{
+  /// Order Status
+  StatusEnum status = null;
   
   bool complete = false;
+
   Order();
 
   @override
@@ -65,12 +65,16 @@ class Order {
   // maps a json object with a list of Order-objects as value to a dart map
   static Map<String, List<Order>> mapListFromJson(Map<String, dynamic> json) {
     var map = Map<String, List<Order>>();
-     if (json != null && json.isNotEmpty) {
-       json.forEach((String key, dynamic value) {
-         map[key] = Order.listFromJson(value);
-       });
-     }
-     return map;
+    if (json != null && json.isNotEmpty) {
+      json.forEach((String key, dynamic value) {
+        map[key] = Order.listFromJson(value);
+      });
+    }
+    return map;
   }
 }
+
+
+enum StatusEnum {  placed,  approved,  delivered,  }
+
 
