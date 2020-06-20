@@ -29,10 +29,12 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -57,17 +59,20 @@ public class PythonTest {
         String templateDir = Paths.get(template.toURI()).toAbsolutePath().toString();
 
         // Create template which contains only bodyParam
-        FileWriter templateWriter = new FileWriter(Paths.get(templateDir, "controller_test.mustache").toFile());
-        templateWriter.write("{{#operations}}\n"
+        String templateContent = "{{#operations}}\n"
         		+ "{{#operation}}\n"
         		+ "{{#bodyParam}}\n" 
         		+ "{{{example}}}\n" 
         		+ "{{/bodyParam}}\n"
         		+ "{{/operation}}\n"
-        		+ "{{/operations}}"
-        		);
-        templateWriter.close();
-
+        		+ "{{/operations}}";
+        
+        OutputStream templateWriter = new FileOutputStream(Paths.get(templateDir, "controller_test.mustache").toFile());
+        OutputStreamWriter templateStreamWriter = new OutputStreamWriter(templateWriter, "UTF-8");
+        templateStreamWriter.write(templateContent);
+        templateStreamWriter.close();
+        
+        
         final CodegenConfigurator configurator = new CodegenConfigurator().setGeneratorName("python-flask")
                 .setInputSpec("src/test/resources/3_0/post-request-body-array-value.yaml")
                 .setOutputDir(outDir)
@@ -87,7 +92,7 @@ public class PythonTest {
         InputStream is = new FileInputStream(
         		Paths.get(outDir, defaultControllerPath).toString());
 
-        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+        BufferedReader buf = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
         String line = buf.readLine();
         StringBuilder sb = new StringBuilder();
