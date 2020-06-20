@@ -132,12 +132,14 @@ class {{classname}} {
     return map;
   }
 }
-
 {{#vars}}
 {{#isEnum}}
 {{#allowableValues}}
 {{#min}} // range from {{min}} to {{max}}{{/min}}
-{{^min}}enum {{datatypeWithEnum}} { {{#values}} {{.}}, {{/values}}{{/min}} }
+{{^min}}enum {{datatypeWithEnum}} {
+  {{#values}}{{.}},
+  {{/values}}{{/min}}
+}
 {{/allowableValues}}
 {{/isEnum}}
 {{/vars}}

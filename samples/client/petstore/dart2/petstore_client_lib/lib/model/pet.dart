@@ -78,7 +78,10 @@ class Pet {
   }
 }
 
-
-enum StatusEnum {  available,  pending,  sold,  }
-
+enum StatusEnum {
+  available,
+  pending,
+  sold,
+  
+}
 

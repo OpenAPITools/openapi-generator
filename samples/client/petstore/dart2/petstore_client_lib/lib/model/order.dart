@@ -74,7 +74,10 @@ class Order {
   }
 }
 
-
-enum StatusEnum {  placed,  approved,  delivered,  }
-
+enum StatusEnum {
+  placed,
+  approved,
+  delivered,
+  
+}
 
