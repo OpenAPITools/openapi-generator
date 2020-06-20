@@ -29,10 +29,10 @@ This can only be done by the logged in user.
 ### Example 
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: auth_cookie
-//openapi.api.Configuration.apiKey{'AUTH_KEY'} = 'YOUR_API_KEY';
+// TODO Configure API key authorization: api_key
+//openapi.api.Configuration.apiKey{'api_key'} = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//openapi.api.Configuration.apiKeyPrefix{'AUTH_KEY'} = "Bearer";
+//openapi.api.Configuration.apiKeyPrefix{'api_key'} = "Bearer";
 
 var api_instance = new UserApi();
 var user = new User(); // User | Created user object
@@ -56,7 +56,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -73,10 +73,10 @@ Creates list of users with given input array
 ### Example 
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: auth_cookie
-//openapi.api.Configuration.apiKey{'AUTH_KEY'} = 'YOUR_API_KEY';
+// TODO Configure API key authorization: api_key
+//openapi.api.Configuration.apiKey{'api_key'} = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//openapi.api.Configuration.apiKeyPrefix{'AUTH_KEY'} = "Bearer";
+//openapi.api.Configuration.apiKeyPrefix{'api_key'} = "Bearer";
 
 var api_instance = new UserApi();
 var user = [new List&lt;User&gt;()]; // List<User> | List of user object
@@ -100,7 +100,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -117,10 +117,10 @@ Creates list of users with given input array
 ### Example 
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: auth_cookie
-//openapi.api.Configuration.apiKey{'AUTH_KEY'} = 'YOUR_API_KEY';
+// TODO Configure API key authorization: api_key
+//openapi.api.Configuration.apiKey{'api_key'} = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//openapi.api.Configuration.apiKeyPrefix{'AUTH_KEY'} = "Bearer";
+//openapi.api.Configuration.apiKeyPrefix{'api_key'} = "Bearer";
 
 var api_instance = new UserApi();
 var user = [new List&lt;User&gt;()]; // List<User> | List of user object
@@ -144,7 +144,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -163,10 +163,10 @@ This can only be done by the logged in user.
 ### Example 
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: auth_cookie
-//openapi.api.Configuration.apiKey{'AUTH_KEY'} = 'YOUR_API_KEY';
+// TODO Configure API key authorization: api_key
+//openapi.api.Configuration.apiKey{'api_key'} = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//openapi.api.Configuration.apiKeyPrefix{'AUTH_KEY'} = "Bearer";
+//openapi.api.Configuration.apiKeyPrefix{'api_key'} = "Bearer";
 
 var api_instance = new UserApi();
 var username = username_example; // String | The name that needs to be deleted
@@ -190,7 +190,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -291,10 +291,10 @@ Logs out current logged in user session
 ### Example 
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: auth_cookie
-//openapi.api.Configuration.apiKey{'AUTH_KEY'} = 'YOUR_API_KEY';
+// TODO Configure API key authorization: api_key
+//openapi.api.Configuration.apiKey{'api_key'} = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//openapi.api.Configuration.apiKeyPrefix{'AUTH_KEY'} = "Bearer";
+//openapi.api.Configuration.apiKeyPrefix{'api_key'} = "Bearer";
 
 var api_instance = new UserApi();
 
@@ -314,7 +314,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -333,10 +333,10 @@ This can only be done by the logged in user.
 ### Example 
 ```dart
 import 'package:openapi/api.dart';
-// TODO Configure API key authorization: auth_cookie
-//openapi.api.Configuration.apiKey{'AUTH_KEY'} = 'YOUR_API_KEY';
+// TODO Configure API key authorization: api_key
+//openapi.api.Configuration.apiKey{'api_key'} = 'YOUR_API_KEY';
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//openapi.api.Configuration.apiKeyPrefix{'AUTH_KEY'} = "Bearer";
+//openapi.api.Configuration.apiKeyPrefix{'api_key'} = "Bearer";
 
 var api_instance = new UserApi();
 var username = username_example; // String | name that need to be deleted
@@ -362,7 +362,7 @@ void (empty response body)
 
 ### Authorization
 
-[auth_cookie](../README.md#auth_cookie)
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 

@@ -29,12 +29,16 @@ import org.openapitools.client.model.DogAllOf;
 /**
  * Dog
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 
 public class Dog extends Animal {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)
   private String breed;
 
+  public Dog() {
+    this.className = this.getClass().getSimpleName();
+  }
 
   public Dog breed(String breed) {
     

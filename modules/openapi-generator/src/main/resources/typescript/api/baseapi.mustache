@@ -1,0 +1,44 @@
+import { Configuration } from '../configuration'
+{{#useInversify}}
+import { injectable, inject } from "inversify";
+import { AbstractConfiguration } from "../services/configuration";
+{{/useInversify}}
+
+/**
+ *
+ * @export
+ */
+export const COLLECTION_FORMATS = {
+    csv: ",",
+    ssv: " ",
+    tsv: "\t",
+    pipes: "|",
+};
+
+
+/**
+ * 
+ * @export
+ * @class BaseAPI
+ */
+{{#useInversify}}
+@injectable()
+{{/useInversify}}
+export class BaseAPIRequestFactory {
+
+    constructor({{#useInversify}}@inject(AbstractConfiguration) {{/useInversify}}protected configuration: Configuration) {
+    }
+};
+
+/**
+ * 
+ * @export
+ * @class RequiredError
+ * @extends {Error}
+ */
+export class RequiredError extends Error {
+    name: "RequiredError" = "RequiredError";
+    constructor(public field: string, msg?: string) {
+        super(msg);
+    }
+}

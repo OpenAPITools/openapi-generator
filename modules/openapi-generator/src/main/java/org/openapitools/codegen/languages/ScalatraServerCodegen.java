@@ -31,7 +31,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
     public ScalatraServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -47,7 +47,7 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+         );
 
         outputFolder = "generated-code/scalatra";
         modelTemplateFiles.put("model.mustache", ".scala");
@@ -56,17 +56,6 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         invokerPackage = "org.openapitools";
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";
-
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        "abstract", "continue", "for", "new", "switch", "assert",
-                        "default", "if", "package", "synchronized", "boolean", "do", "goto", "private",
-                        "this", "break", "double", "implements", "protected", "throw", "byte", "else",
-                        "import", "public", "throws", "case", "enum", "instanceof", "return", "transient",
-                        "catch", "extends", "int", "short", "try", "char", "final", "interface", "static",
-                        "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
-                        "native", "super", "while", "type")
-        );
 
         defaultIncludes = new HashSet<String>(
                 Arrays.asList("double",
@@ -128,8 +117,6 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         supportingFiles.add(new SupportingFile("project/plugins.sbt", "project", "plugins.sbt"));
         supportingFiles.add(new SupportingFile("sbt", "", "sbt"));
 
-        instantiationTypes.put("map", "HashMap");
-
         importMapping = new HashMap<String, String>();
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
@@ -149,6 +136,8 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         importMapping.put("Set", "scala.collection.immutable.Set");
         importMapping.put("ListSet", "scala.collection.immutable.ListSet");
 
+        instantiationTypes.put("array", "List");
+        instantiationTypes.put("map", "HashMap");
         instantiationTypes.put("set", "Set");
     }
 

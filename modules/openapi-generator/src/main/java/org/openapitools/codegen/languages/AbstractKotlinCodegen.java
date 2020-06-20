@@ -41,9 +41,9 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 
 public abstract class AbstractKotlinCodegen extends DefaultCodegen implements CodegenConfig {
 
-    public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson'";
+    public static final String SERIALIZATION_LIBRARY_DESC = "What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'";
 
-    public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson}
+    public enum SERIALIZATION_LIBRARY_TYPE {moshi, gson, jackson}
 
     public static final String MODEL_MUTABLE = "modelMutable";
     public static final String MODEL_MUTABLE_DESC = "Create mutable models";
@@ -158,13 +158,13 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("set", "kotlin.collections.Set");
         typeMapping.put("map", "kotlin.collections.Map");
         typeMapping.put("object", "kotlin.Any");
-        typeMapping.put("binary", "kotlin.Array<kotlin.Byte>");
+        typeMapping.put("binary", "kotlin.ByteArray");
         typeMapping.put("Date", "java.time.LocalDate");
         typeMapping.put("DateTime", "java.time.LocalDateTime");
 
-        instantiationTypes.put("array", "kotlin.arrayOf");
-        instantiationTypes.put("list", "kotlin.arrayOf");
-        instantiationTypes.put("map", "kotlin.mapOf");
+        instantiationTypes.put("array", "kotlin.Array");
+        instantiationTypes.put("list", "kotlin.collections.ArrayList");
+        instantiationTypes.put("map", "kotlin.collections.HashMap");
 
         importMapping = new HashMap<String, String>();
         importMapping.put("BigDecimal", "java.math.BigDecimal");
@@ -310,7 +310,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (ModelUtils.isArraySchema(p)) {
             return getArrayTypeDeclaration((ArraySchema) p);
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
 
             // Maps will be keyed only by primitive Kotlin string
             return getSchemaType(p) + "<kotlin.String, " + getTypeDeclaration(inner) + ">";
@@ -940,7 +940,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
             }
         } else if (ModelUtils.isStringSchema(p)) {
             if (p.getDefault() != null) {
-                return "'" + p.getDefault() + "'";
+                return "\"" + p.getDefault() + "\"";
             }
         }
 

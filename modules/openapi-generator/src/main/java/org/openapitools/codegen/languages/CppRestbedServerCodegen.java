@@ -30,7 +30,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class CppRestbedServerCodegen extends AbstractCppCodegen {
 
@@ -47,7 +47,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         super();
 
         // TODO: cpp-restbed-server maintainer review
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
                 .excludeGlobalFeatures(
@@ -63,7 +63,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         apiPackage = "org.openapitools.server.api";
         modelPackage = "org.openapitools.server.model";
@@ -89,6 +89,9 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         addOption(DEFAULT_INCLUDE,
                 "The default include statement that should be placed in all headers for including things like the declspec (convention: #include \"Commons.h\" ",
                 this.defaultInclude);
+        addOption(RESERVED_WORD_PREFIX_OPTION,
+                RESERVED_WORD_PREFIX_DESC,
+                this.reservedWordPrefix);
 
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
@@ -128,7 +131,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         Map<String, CodegenModel> allModels = getAllModels(objs);
 
         // Clean interfaces of ambiguity
-        for (Entry<String, CodegenModel> cm : allModels.entrySet())  {
+        for (Entry<String, CodegenModel> cm : allModels.entrySet()) {
             if (cm.getValue().getInterfaces() != null && !cm.getValue().getInterfaces().isEmpty()) {
                 List<String> newIntf = new ArrayList<String>(cm.getValue().getInterfaces());
 
@@ -209,12 +212,17 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             defaultInclude = additionalProperties.get(DEFAULT_INCLUDE).toString();
         }
 
+        if (additionalProperties.containsKey(RESERVED_WORD_PREFIX_OPTION)) {
+            reservedWordPrefix = additionalProperties.get(RESERVED_WORD_PREFIX_OPTION).toString();
+        }
+
         additionalProperties.put("modelNamespaceDeclarations", modelPackage.split("\\."));
         additionalProperties.put("modelNamespace", modelPackage.replaceAll("\\.", "::"));
         additionalProperties.put("apiNamespaceDeclarations", apiPackage.split("\\."));
         additionalProperties.put("apiNamespace", apiPackage.replaceAll("\\.", "::"));
         additionalProperties.put("declspec", declspec);
         additionalProperties.put("defaultInclude", defaultInclude);
+        additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);
     }
 
     /**
@@ -279,9 +287,6 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         List<CodegenOperation> newOpList = new ArrayList<CodegenOperation>();
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (CodegenOperation op : operationList) {
             String path = op.path;
 
@@ -303,7 +308,6 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 }
                 op.path += item + "/";
             }
-            op.vendorExtensions.put("x-codegen-resourceName", resourceNameCamelCase); // TODO: 5.0 Remove
             op.vendorExtensions.put("x-codegen-resource-name", resourceNameCamelCase);
 
             boolean foundInNewList = false;
@@ -317,7 +321,6 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                         }
                         op.operationIdCamelCase = op1.operationIdCamelCase;
                         currentOtherMethodList.add(op);
-                        op1.vendorExtensions.put("x-codegen-otherMethods", currentOtherMethodList); // TODO: 5.0 Remove
                         op1.vendorExtensions.put("x-codegen-other-methods", currentOtherMethodList);
                     }
                 }
@@ -347,7 +350,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isByteArraySchema(p)) {
             return "std::string";
@@ -422,7 +425,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 return "\"\"";
             }
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
+            String inner = getSchemaType(getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

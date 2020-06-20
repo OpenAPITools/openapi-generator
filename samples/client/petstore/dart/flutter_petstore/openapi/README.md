@@ -107,12 +107,6 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
-## auth_cookie
-
-- **Type**: API key
-- **API key parameter name**: AUTH_KEY
-- **Location**: 
-
 ## petstore_auth
 
 - **Type**: OAuth

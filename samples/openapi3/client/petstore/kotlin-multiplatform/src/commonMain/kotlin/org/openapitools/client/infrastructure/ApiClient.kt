@@ -53,6 +53,7 @@ open class ApiClient(
                 "api_key_query" to ApiKeyAuth("query", "api_key_query"), 
                 "bearer_test" to HttpBearerAuth("bearer"), 
                 "http_basic_test" to HttpBasicAuth(), 
+                "http_signature_test" to HttpBearerAuth("signature"), 
                 "petstore_auth" to OAuth())
     }
 

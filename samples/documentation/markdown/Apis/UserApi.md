@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="createUser"></a>
 # **createUser**
-> createUser(body)
+> createUser(user)
 
 Create user
 
@@ -26,7 +26,7 @@ Create user
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**User**](/Models/User.md)| Created user object |
+ **user** | [**User**](..//Models/User.md)| Created user object |
 
 ### Return type
 
@@ -34,16 +34,16 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 <a name="createUsersWithArrayInput"></a>
 # **createUsersWithArrayInput**
-> createUsersWithArrayInput(body)
+> createUsersWithArrayInput(user)
 
 Creates list of users with given input array
 
@@ -51,7 +51,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List**](/Models/User.md)| List of user object |
+ **user** | [**List**](..//Models/User.md)| List of user object |
 
 ### Return type
 
@@ -59,16 +59,16 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 <a name="createUsersWithListInput"></a>
 # **createUsersWithListInput**
-> createUsersWithListInput(body)
+> createUsersWithListInput(user)
 
 Creates list of users with given input array
 
@@ -76,7 +76,7 @@ Creates list of users with given input array
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List**](/Models/User.md)| List of user object |
+ **user** | [**List**](..//Models/User.md)| List of user object |
 
 ### Return type
 
@@ -84,11 +84,11 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 <a name="deleteUser"></a>
@@ -111,7 +111,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
@@ -132,7 +132,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**User**](/Models/User.md)
+[**User**](..//Models/User.md)
 
 ### Authorization
 
@@ -158,7 +158,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**String**](/Models/string.md)
+[**String**](..//Models/string.md)
 
 ### Authorization
 
@@ -184,7 +184,7 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
@@ -193,7 +193,7 @@ No authorization required
 
 <a name="updateUser"></a>
 # **updateUser**
-> updateUser(username, body)
+> updateUser(username, user)
 
 Updated user
 
@@ -204,7 +204,7 @@ Updated user
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **String**| name that need to be deleted | [default to null]
- **body** | [**User**](/Models/User.md)| Updated user object |
+ **user** | [**User**](..//Models/User.md)| Updated user object |
 
 ### Return type
 
@@ -212,10 +212,10 @@ null (empty response body)
 
 ### Authorization
 
-No authorization required
+[auth_cookie](../README.md#auth_cookie)
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 

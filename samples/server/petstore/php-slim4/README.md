@@ -8,7 +8,7 @@ This server has been generated with [Slim PSR-7](https://github.com/slimphp/Slim
 ## Requirements
 
 * Web server with URL rewriting
-* PHP 7.1 or newer
+* PHP 7.2 or newer
 
 This package contains `.htaccess` for Apache configuration.
 If you use another server(Nginx, HHVM, IIS, lighttpd) check out [Web Servers](https://www.slimframework.com/docs/v3/start/web-servers.html) doc.
@@ -46,6 +46,8 @@ Command | Target
 `$ composer test` | All tests
 `$ composer test-apis` | Apis tests
 `$ composer test-models` | Models tests
+`$ composer test-mock` | Mock feature tests
+`$ composer test-utils` | Utils tests
 
 #### Config
 
@@ -98,6 +100,8 @@ Switch on option in `./index.php`:
 --- $app->addErrorMiddleware(false, true, true);
 +++ $app->addErrorMiddleware(true, true, true);
 ```
+
+## [Mock Server Documentation](./docs/MockServer.md)
 
 ## API Endpoints
 

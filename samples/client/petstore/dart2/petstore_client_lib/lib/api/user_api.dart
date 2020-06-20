@@ -28,10 +28,10 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(contentType.startsWith("multipart/form-data")) {
+    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -46,13 +46,15 @@ class UserApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             contentType,
+                                             nullableContentType,
                                              authNames);
     return response;
   }
 
   /// Create user
   ///
+  ///User body  (required):
+  ///     Created user object
   /// This can only be done by the logged in user.
   Future createUser(User body) async {
     Response response = await createUserWithHttpInfo(body);
@@ -85,10 +87,10 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(contentType.startsWith("multipart/form-data")) {
+    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -103,13 +105,15 @@ class UserApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             contentType,
+                                             nullableContentType,
                                              authNames);
     return response;
   }
 
   /// Creates list of users with given input array
   ///
+  ///List&lt;User&gt; body  (required):
+  ///     List of user object
   /// 
   Future createUsersWithArrayInput(List<User> body) async {
     Response response = await createUsersWithArrayInputWithHttpInfo(body);
@@ -142,10 +146,10 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(contentType.startsWith("multipart/form-data")) {
+    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -160,13 +164,15 @@ class UserApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             contentType,
+                                             nullableContentType,
                                              authNames);
     return response;
   }
 
   /// Creates list of users with given input array
   ///
+  ///List&lt;User&gt; body  (required):
+  ///     List of user object
   /// 
   Future createUsersWithListInput(List<User> body) async {
     Response response = await createUsersWithListInputWithHttpInfo(body);
@@ -199,10 +205,10 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(contentType.startsWith("multipart/form-data")) {
+    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -217,13 +223,15 @@ class UserApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             contentType,
+                                             nullableContentType,
                                              authNames);
     return response;
   }
 
   /// Delete user
   ///
+  ///String username  (required):
+  ///     The name that needs to be deleted
   /// This can only be done by the logged in user.
   Future deleteUser(String username) async {
     Response response = await deleteUserWithHttpInfo(username);
@@ -256,10 +264,10 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(contentType.startsWith("multipart/form-data")) {
+    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -274,13 +282,15 @@ class UserApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             contentType,
+                                             nullableContentType,
                                              authNames);
     return response;
   }
 
   /// Get user by user name
   ///
+  ///String username  (required):
+  ///     The name that needs to be fetched. Use user1 for testing.
   /// 
   Future<User> getUserByName(String username) async {
     Response response = await getUserByNameWithHttpInfo(username);
@@ -319,10 +329,10 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(contentType.startsWith("multipart/form-data")) {
+    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -337,13 +347,17 @@ class UserApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             contentType,
+                                             nullableContentType,
                                              authNames);
     return response;
   }
 
   /// Logs user into the system
   ///
+  ///String username  (required):
+  ///     The user name for login
+  ///String password  (required):
+  ///     The password for login in clear text
   /// 
   Future<String> loginUser(String username, String password) async {
     Response response = await loginUserWithHttpInfo(username, password);
@@ -374,10 +388,10 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(contentType.startsWith("multipart/form-data")) {
+    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -392,7 +406,7 @@ class UserApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             contentType,
+                                             nullableContentType,
                                              authNames);
     return response;
   }
@@ -434,10 +448,10 @@ class UserApi {
 
     List<String> contentTypes = [];
 
-    String contentType = contentTypes.isNotEmpty ? contentTypes[0] : "application/json";
+    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(contentType.startsWith("multipart/form-data")) {
+    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if(hasFields)
@@ -452,13 +466,17 @@ class UserApi {
                                              postBody,
                                              headerParams,
                                              formParams,
-                                             contentType,
+                                             nullableContentType,
                                              authNames);
     return response;
   }
 
   /// Updated user
   ///
+  ///String username  (required):
+  ///     name that need to be deleted
+  ///User body  (required):
+  ///     Updated user object
   /// This can only be done by the logged in user.
   Future updateUser(String username, User body) async {
     Response response = await updateUserWithHttpInfo(username, body);

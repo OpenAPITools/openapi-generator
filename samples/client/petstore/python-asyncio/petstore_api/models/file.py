@@ -70,7 +70,7 @@ class File(object):
         Test capitalization  # noqa: E501
 
         :param source_uri: The source_uri of this File.  # noqa: E501
-        :type: str
+        :type source_uri: str
         """
 
         self._source_uri = source_uri

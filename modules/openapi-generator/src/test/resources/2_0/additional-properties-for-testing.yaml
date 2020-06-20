@@ -1,0 +1,24 @@
+swagger: '2.0'
+info:
+  description: "This spec is for testing additional properties"
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+host: petstore.swagger.io:80
+basePath: /v2
+definitions:
+  AdditionalPropertiesClass:
+    type: object
+    properties:
+      map_string:
+        type: object
+        additionalProperties:
+          type: string
+      map_with_additional_properties:
+        type: object
+        additionalProperties: true
+      map_without_additional_properties:
+        type: object
+        additionalProperties: false

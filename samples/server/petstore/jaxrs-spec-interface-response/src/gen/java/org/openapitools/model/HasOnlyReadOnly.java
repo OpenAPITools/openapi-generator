@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class HasOnlyReadOnly  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class HasOnlyReadOnly  implements Serializable {
   
   private @Valid String bar;
   private @Valid String foo;
@@ -27,16 +27,17 @@ public class HasOnlyReadOnly  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("bar")
   public String getBar() {
     return bar;
   }
+
   public void setBar(String bar) {
     this.bar = bar;
-  }
-
-  /**
+  }/**
    **/
   public HasOnlyReadOnly foo(String foo) {
     this.foo = foo;
@@ -44,15 +45,17 @@ public class HasOnlyReadOnly  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("foo")
   public String getFoo() {
     return foo;
   }
+
   public void setFoo(String foo) {
     this.foo = foo;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -63,8 +66,8 @@ public class HasOnlyReadOnly  implements Serializable {
       return false;
     }
     HasOnlyReadOnly hasOnlyReadOnly = (HasOnlyReadOnly) o;
-    return Objects.equals(bar, hasOnlyReadOnly.bar) &&
-        Objects.equals(foo, hasOnlyReadOnly.foo);
+    return Objects.equals(this.bar, hasOnlyReadOnly.bar) &&
+        Objects.equals(this.foo, hasOnlyReadOnly.foo);
   }
 
   @Override
@@ -93,5 +96,7 @@ public class HasOnlyReadOnly  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

@@ -13,6 +13,7 @@ package org.openapitools.client.core
 
 import java.io.File
 import java.net.URLEncoder
+import java.time.OffsetDateTime
 
 import scala.util.Try
 
@@ -35,6 +36,8 @@ sealed trait ApiReturnWithHeaders {
   def getDoubleHeader(name: String): Option[Double] = castedHeader(name, java.lang.Double.parseDouble)
 
   def getBooleanHeader(name: String): Option[Boolean] = castedHeader(name, java.lang.Boolean.parseBoolean)
+
+  def getOffsetDateTimeHeader(name: String): Option[OffsetDateTime] = castedHeader(name, java.time.OffsetDateTime.parse)
 
   private def castedHeader[U](name: String, conversion: String => U): Option[U] = {
     Try {
@@ -77,6 +80,8 @@ sealed trait Credentials {
 }
 
 sealed case class BasicCredentials(user: String, password: String) extends Credentials
+
+sealed case class BearerToken(token: String) extends Credentials
 
 sealed case class ApiKeyCredentials(key: ApiKeyValue, keyName: String, location: ApiKeyLocation) extends Credentials {
   override def asQueryParam: Option[(String, String)] = location match {

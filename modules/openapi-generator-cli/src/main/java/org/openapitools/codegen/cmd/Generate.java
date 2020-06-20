@@ -29,13 +29,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings({"java:S106"})
 @Command(name = "generate", description = "Generate code with the specified generator.")
-public class Generate implements Runnable {
+public class Generate extends OpenApiGeneratorCommand {
 
     CodegenConfigurator configurator;
     Generator generator;
@@ -51,8 +53,8 @@ public class Generate implements Runnable {
             description = "where to write the generated files (current dir by default)")
     private String output = "";
 
-    @Option(name = {"-i", "--input-spec"}, title = "spec file", required = true,
-            description = "location of the OpenAPI spec, as URL or file (required)")
+    @Option(name = {"-i", "--input-spec"}, title = "spec file",
+            description = "location of the OpenAPI spec, as URL or file (required if not loaded via config using -c)")
     private String spec;
 
     @Option(name = {"-t", "--template-dir"}, title = "template directory",
@@ -71,11 +73,11 @@ public class Generate implements Runnable {
     private String auth;
 
     @Option(
-            name = {"-D"},
-            title = "system properties",
-            description = "sets specified system properties in "
+            name = {"--global-property"},
+            title = "global properties",
+            description = "sets specified global properties (previously called 'system properties') in "
                     + "the format of name=value,name=value (or multiple options, each with name=value)")
-    private List<String> systemProperties = new ArrayList<>();
+    private List<String> globalProperties = new ArrayList<>();
 
     @Option(
             name = {"-c", "--config"},
@@ -229,7 +231,7 @@ public class Generate implements Runnable {
     @Option(name = {"--log-to-stderr"},
             title = "Log to STDERR",
             description = "write all log messages (not just errors) to STDOUT."
-                    + " Useful for piping the JSON output of debug options (e.g. `-DdebugOperations`) to an external parser directly while testing a generator.")
+                    + " Useful for piping the JSON output of debug options (e.g. `--global-property debugOperations`) to an external parser directly while testing a generator.")
     private Boolean logToStderr;
 
     @Option(name = {"--enable-post-process-file"}, title = "enable post-process file", description = CodegenConstants.ENABLE_POST_PROCESS_FILE_DESC)
@@ -238,13 +240,16 @@ public class Generate implements Runnable {
     @Option(name = {"--generate-alias-as-model"}, title = "generate alias (array, map) as model", description = CodegenConstants.GENERATE_ALIAS_AS_MODEL_DESC)
     private Boolean generateAliasAsModel;
 
+    @Option(name = {"--legacy-discriminator-behavior"}, title = "Support legacy logic for evaluating discriminators", description = CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR_DESC)
+    private Boolean legacyDiscriminatorBehavior;
+
     @Option(name = {"--minimal-update"},
         title = "Minimal update",
         description = "Only write output files that have changed.")
     private Boolean minimalUpdate;
 
     @Override
-    public void run() {
+    public void execute() {
         if (logToStderr != null) {
             LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
             Stream.of(Logger.ROOT_LOGGER_NAME, "io.swagger", "org.openapitools")
@@ -260,6 +265,10 @@ public class Generate implements Runnable {
             if (configFile != null && configFile.length() > 0) {
                 // attempt to load from configFile
                 configurator = CodegenConfigurator.fromFile(configFile);
+            } else if (StringUtils.isEmpty(spec)) {
+                // if user doesn't pass configFile and does not pass spec, we can fail immediately because one of these two is required to run.
+                System.err.println("[error] Required option '-i' is missing");
+                System.exit(1);
             }
 
             // if a config file wasn't specified, or we were unable to read it
@@ -291,11 +300,9 @@ public class Generate implements Runnable {
             configurator.setInputSpec(spec);
         }
 
+        // Generator name should not be validated here, as it's validated in toClientOptInput
         if (isNotEmpty(generatorName)) {
             configurator.setGeneratorName(generatorName);
-        } else {
-            System.err.println("[error] A generator name (--generator-name / -g) is required.");
-            System.exit(1);
         }
 
         if (isNotEmpty(output)) {
@@ -402,9 +409,8 @@ public class Generate implements Runnable {
             configurator.setStrictSpecBehavior(strictSpecBehavior);
         }
 
-        if (systemProperties != null && !systemProperties.isEmpty()) {
-            System.err.println("[DEPRECATED] -D arguments after 'generate' are application arguments and not Java System Properties, please consider changing to -p, or apply your options to JAVA_OPTS, or move the -D arguments before the jar option.");
-            applySystemPropertiesKvpList(systemProperties, configurator);
+        if (globalProperties != null && !globalProperties.isEmpty()) {
+            applyGlobalPropertiesKvpList(globalProperties, configurator);
         }
         applyInstantiationTypesKvpList(instantiationTypes, configurator);
         applyImportMappingsKvpList(importMappings, configurator);

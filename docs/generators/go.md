@@ -40,6 +40,8 @@ sidebar_label: go
 <li>int</li>
 <li>int32</li>
 <li>int64</li>
+<li>interface{}</li>
+<li>map[string]interface{}</li>
 <li>rune</li>
 <li>string</li>
 <li>uint</li>
@@ -162,7 +164,7 @@ sidebar_label: go
 |Examples|✓|OAS2,OAS3
 |XMLStructureDefinitions|✗|OAS2,OAS3
 |MultiServer|✗|OAS3
-|ParameterizedServer|✗|OAS3
+|ParameterizedServer|✓|OAS3
 |ParameterStyling|✗|OAS3
 |Callbacks|✗|OAS3
 |LinkObjects|✗|OAS3

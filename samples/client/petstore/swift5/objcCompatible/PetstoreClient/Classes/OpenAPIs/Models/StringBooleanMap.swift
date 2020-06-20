@@ -7,9 +7,12 @@
 
 import Foundation
 
-public struct StringBooleanMap: Codable {
 
-    public var additionalProperties: [String: Bool] = [:]
+
+@objc public class StringBooleanMap: NSObject, Codable { 
+
+
+    public var additionalProperties: [String:Bool] = [:]
 
     public subscript(key: String) -> Bool? {
         get {
@@ -35,11 +38,12 @@ public struct StringBooleanMap: Codable {
 
     // Decodable protocol methods
 
-    public init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
         var nonAdditionalPropertyKeys = Set<String>()
         additionalProperties = try container.decodeMap(Bool.self, excludedKeys: nonAdditionalPropertyKeys)
     }
+
 
 }

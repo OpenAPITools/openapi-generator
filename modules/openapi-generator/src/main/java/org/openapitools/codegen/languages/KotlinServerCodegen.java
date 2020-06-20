@@ -60,7 +60,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
     public KotlinServerCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
@@ -80,7 +80,7 @@ public class KotlinServerCodegen extends AbstractKotlinCodegen {
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         artifactId = "kotlin-server";
         packageName = "org.openapitools.server";

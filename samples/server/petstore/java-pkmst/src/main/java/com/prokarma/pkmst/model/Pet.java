@@ -20,7 +20,7 @@ import java.util.List;
  */
 @ApiModel(description = "A pet for sale in the pet store")
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPKMSTServerCodegen")
 public class Pet   {
   @JsonProperty("id")
   private Long id;

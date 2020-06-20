@@ -1,0 +1,17 @@
+{{#lambda.removeWhitespace}}
+{{#isDateTime}}Api.Time.dateTimeDecoder{{/isDateTime}}
+{{#isDate}}Api.Time.dateDecoder{{/isDate}}
+{{#isByteArray}}Json.Decode.string{{/isByteArray}}
+{{#isBinary}}Json.Decode.string{{/isBinary}}
+{{#isString}}{{^isEnum}}{{^isUuid}}Json.Decode.string{{/isUuid}}{{/isEnum}}{{/isString}}
+{{#isInteger}}Json.Decode.int{{/isInteger}}
+{{#isLong}}Json.Decode.int{{/isLong}}
+{{#isNumber}}Json.Decode.float{{/isNumber}}
+{{#isFloat}}Json.Decode.float{{/isFloat}}
+{{#isDouble}}Json.Decode.float{{/isDouble}}
+{{#isBoolean}}Json.Decode.bool{{/isBoolean}}
+{{#isUuid}}Uuid.decoder{{/isUuid}}
+{{^isDateTime}}{{^isDate}}{{^isByteArray}}{{^isBinary}}{{^isString}}{{^isNumeric}}{{^isBoolean}}{{^isUuid}}
+{{#is2xx}}Api.Data.{{/is2xx}}{{#is3xx}}Api.Data.{{/is3xx}}{{#lambda.camelcase}}{{#isEnum}}{{classname}}{{enumName}}{{/isEnum}}{{^isEnum}}{{dataType}}{{/isEnum}}{{/lambda.camelcase}}Decoder
+{{/isUuid}}{{/isBoolean}}{{/isNumeric}}{{/isString}}{{/isBinary}}{{/isByteArray}}{{/isDate}}{{/isDateTime}}
+{{/lambda.removeWhitespace}}

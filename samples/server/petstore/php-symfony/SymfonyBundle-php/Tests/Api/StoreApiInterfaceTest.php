@@ -1,7 +1,7 @@
 <?php
 /**
  * StoreApiInterfaceTest
- * PHP version 5
+ * PHP version 7.1.3
  *
  * @category Class
  * @package  OpenAPI\Server\Tests\Api
@@ -136,7 +136,7 @@ class StoreApiInterfaceTest extends WebTestCase
 
         $path = '/store/order';
 
-        $crawler = $client->request('POST', $path);
+        $crawler = $client->request('POST', $path, [], [], ['CONTENT_TYPE' => 'application/json']);
     }
 
     protected function genTestData($regexp)

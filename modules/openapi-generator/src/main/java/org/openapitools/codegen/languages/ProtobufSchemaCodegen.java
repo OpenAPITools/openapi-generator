@@ -69,12 +69,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                 .stability(Stability.BETA)
                 .build();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .includeWireFormatFeatures(WireFormatFeature.PROTOBUF)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.PROTOBUF))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
-                .build();
+        );
 
         outputFolder = "generated-code/protobuf-schema";
         modelTemplateFiles.put("model.mustache", ".proto");
@@ -459,7 +459,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
