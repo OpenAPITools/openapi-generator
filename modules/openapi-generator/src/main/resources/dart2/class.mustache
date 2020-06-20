@@ -11,6 +11,8 @@ class {{classname}} {
   {{/isEnum}}
   {{/vars}}
 
+  {{classname}}();
+
   @override
   String toString() {
     return '{{classname}}[{{#vars}}{{name}}=${{name}}, {{/vars}}]';
