@@ -47,10 +47,10 @@ import org.testng.annotations.Test;
 
 @SuppressWarnings("static-method")
 public class PythonTest {
-	@Test(description = "Request body parameters")
-	public void modelRequestBodyParametersTest() throws IOException {
+    @Test(description = "Request body parameters")
+    public void modelRequestBodyParametersTest() throws IOException {
         // Setup inputs and outputs
-		File output = Files.createTempDirectory("test").toFile();
+        File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
         File template = Files.createTempDirectory("test").toFile();
         template.deleteOnExit();
@@ -60,12 +60,12 @@ public class PythonTest {
 
         // Create template which contains only bodyParam
         String templateContent = "{{#operations}}\n"
-        		+ "{{#operation}}\n"
-        		+ "{{#bodyParam}}\n" 
-        		+ "{{{example}}}\n" 
-        		+ "{{/bodyParam}}\n"
-        		+ "{{/operation}}\n"
-        		+ "{{/operations}}";
+                + "{{#operation}}\n"
+                + "{{#bodyParam}}\n" 
+                + "{{{example}}}\n" 
+                + "{{/bodyParam}}\n"
+                + "{{/operation}}\n"
+                + "{{/operations}}";
         
         OutputStream templateWriter = new FileOutputStream(Paths.get(templateDir, "controller_test.mustache").toFile());
         OutputStreamWriter templateStreamWriter = new OutputStreamWriter(templateWriter, "UTF-8");
@@ -90,14 +90,14 @@ public class PythonTest {
         TestUtils.ensureContainsFile(generatedFiles, output, defaultControllerPath );
 
         InputStream is = new FileInputStream(
-        		Paths.get(outDir, defaultControllerPath).toString());
+                Paths.get(outDir, defaultControllerPath).toString());
 
         BufferedReader buf = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
         String line = buf.readLine();
         StringBuilder sb = new StringBuilder();
 
-        while(line != null){	
+        while(line != null){
            sb.append(line);
            line = buf.readLine();
         }
@@ -108,11 +108,11 @@ public class PythonTest {
 
         // Compare generated to expected
         ObjectMapper jsonMapper = ObjectMapperFactory.createJson();
-		JsonNode expected = jsonMapper.readTree("[{\"text\":\"some text\", \"id\":19},{\"id\":63, \"text\":\"some text\"}]");
-		JsonNode actual = jsonMapper.readTree(resultString);
-		System.out.print(resultString);
-		Assert.assertEquals(actual, expected);
-	}
+        JsonNode expected = jsonMapper.readTree("[{\"text\":\"some text\", \"id\":19},{\"id\":63, \"text\":\"some text\"}]");
+        JsonNode actual = jsonMapper.readTree(resultString);
+        System.out.print(resultString);
+        Assert.assertEquals(actual, expected);
+    }
 
 
     @Test(description = "convert a python model with dots")
