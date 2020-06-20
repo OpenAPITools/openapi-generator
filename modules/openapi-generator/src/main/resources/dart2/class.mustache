@@ -1,12 +1,15 @@
 class {{classname}} {
   {{#vars}}
-  {{#description}}/* {{{description}}} */{{/description}}
+  {{#description}}/// {{{description}}}{{/description}}
+  {{^isEnum}}
   {{{dataType}}} {{name}} = {{{defaultValue}}};
+  {{/isEnum}}
+  {{#isEnum}}
   {{#allowableValues}}
-  {{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}{
+  {{#min}} // range from {{min}} to {{max}}{{/min}}{{datatypeWithEnum}} {{name}} = {{{defaultValue}}};
   {{/allowableValues}}
+  {{/isEnum}}
   {{/vars}}
-  {{classname}}();
 
   @override
   String toString() {
@@ -119,11 +122,20 @@ class {{classname}} {
   // maps a json object with a list of {{classname}}-objects as value to a dart map
   static Map<String, List<{{classname}}>> mapListFromJson(Map<String, dynamic> json) {
     var map = Map<String, List<{{classname}}>>();
-     if (json != null && json.isNotEmpty) {
-       json.forEach((String key, dynamic value) {
-         map[key] = {{classname}}.listFromJson(value);
-       });
-     }
-     return map;
+    if (json != null && json.isNotEmpty) {
+      json.forEach((String key, dynamic value) {
+        map[key] = {{classname}}.listFromJson(value);
+      });
+    }
+    return map;
   }
 }
+
+{{#vars}}
+{{#isEnum}}
+{{#allowableValues}}
+{{#min}} // range from {{min}} to {{max}}{{/min}}
+{{^min}}enum {{datatypeWithEnum}} { {{#values}} {{.}}, {{/values}}{{/min}} }
+{{/allowableValues}}
+{{/isEnum}}
+{{/vars}}
