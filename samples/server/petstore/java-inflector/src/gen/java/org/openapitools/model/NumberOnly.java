@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class NumberOnly   {
   @JsonProperty("JustNumber")
   private BigDecimal justNumber;

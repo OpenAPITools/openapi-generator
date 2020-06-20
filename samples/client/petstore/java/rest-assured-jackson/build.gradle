@@ -117,5 +117,6 @@ dependencies {
     compile "com.squareup.okio:okio:$okio_version"
     compile "javax.validation:validation-api:2.0.1.Final"
     compile "org.hibernate:hibernate-validator:6.0.19.Final"
+    compile 'javax.annotation:javax.annotation-api:1.3.2'
     testCompile "junit:junit:$junit_version"
 }

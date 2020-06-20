@@ -1,4 +1,5 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -1079,7 +1080,6 @@ export class PetApi extends BaseAPI implements PetApiInterface {
     public uploadFile(petId: number, additionalMetadata?: string, file?: any, options?: any) {
         return PetApiFp(this.configuration).uploadFile(petId, additionalMetadata, file, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 
@@ -1453,7 +1453,6 @@ export class StoreApi extends BaseAPI implements StoreApiInterface {
     public placeOrder(body: Order, options?: any) {
         return StoreApiFp(this.configuration).placeOrder(body, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 
@@ -2182,7 +2181,6 @@ export class UserApi extends BaseAPI implements UserApiInterface {
     public updateUser(username: string, body: User, options?: any) {
         return UserApiFp(this.configuration).updateUser(username, body, options).then((request) => request(this.axios, this.basePath));
     }
-
 }
 
 

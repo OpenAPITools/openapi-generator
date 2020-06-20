@@ -8,6 +8,7 @@ import com.sun.jersey.multipart.FormDataParam;
 import java.io.File;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import java.util.Set;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;
@@ -20,7 +21,7 @@ import com.sun.jersey.multipart.FormDataParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public abstract class PetApiService {
       public abstract Response addPet(Pet body,SecurityContext securityContext)
       throws NotFoundException;
@@ -28,7 +29,7 @@ public abstract class PetApiService {
       throws NotFoundException;
       public abstract Response findPetsByStatus( @NotNull List<String> status,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response findPetsByTags( @NotNull List<String> tags,SecurityContext securityContext)
+      public abstract Response findPetsByTags( @NotNull Set<String> tags,SecurityContext securityContext)
       throws NotFoundException;
       public abstract Response getPetById(Long petId,SecurityContext securityContext)
       throws NotFoundException;

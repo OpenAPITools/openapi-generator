@@ -154,11 +154,11 @@ class StoreApi(
    * Place an order for a pet
    * 
    *
-   * @param body order placed for purchasing the pet 
+   * @param order order placed for purchasing the pet 
    * @return Order
    */
-  def placeOrder(body: Order): Option[Order] = {
-    val await = Try(Await.result(placeOrderAsync(body), Duration.Inf))
+  def placeOrder(order: Order): Option[Order] = {
+    val await = Try(Await.result(placeOrderAsync(order), Duration.Inf))
     await match {
       case Success(i) => Some(await.get)
       case Failure(t) => None
@@ -169,11 +169,11 @@ class StoreApi(
    * Place an order for a pet asynchronously
    * 
    *
-   * @param body order placed for purchasing the pet 
+   * @param order order placed for purchasing the pet 
    * @return Future(Order)
    */
-  def placeOrderAsync(body: Order): Future[Order] = {
-      helper.placeOrder(body)
+  def placeOrderAsync(order: Order): Future[Order] = {
+      helper.placeOrder(order)
   }
 
 }
@@ -241,7 +241,7 @@ class StoreApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extend
     }
   }
 
-  def placeOrder(body: Order)(implicit reader: ClientResponseReader[Order], writer: RequestWriter[Order]): Future[Order] = {
+  def placeOrder(order: Order)(implicit reader: ClientResponseReader[Order], writer: RequestWriter[Order]): Future[Order] = {
     // create path and map variables
     val path = (addFmt("/store/order"))
 
@@ -249,9 +249,9 @@ class StoreApiAsyncHelper(client: TransportClient, config: SwaggerConfig) extend
     val queryParams = new mutable.HashMap[String, String]
     val headerParams = new mutable.HashMap[String, String]
 
-    if (body == null) throw new Exception("Missing required parameter 'body' when calling StoreApi->placeOrder")
+    if (order == null) throw new Exception("Missing required parameter 'order' when calling StoreApi->placeOrder")
 
-    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(body))
+    val resFuture = client.submit("POST", path, queryParams.toMap, headerParams.toMap, writer.write(order))
     resFuture flatMap { resp =>
       val status = Response.Status.fromStatusCode(resp.statusCode)
       status.getFamily match {

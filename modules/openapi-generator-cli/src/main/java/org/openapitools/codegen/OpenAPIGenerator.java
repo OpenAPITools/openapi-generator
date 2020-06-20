@@ -57,6 +57,11 @@ public class OpenAPIGenerator {
                                 GenerateBatch.class
                         );
 
+        builder.withGroup("author")
+                .withDescription("Utilities for authoring generators or customizing templates.")
+                .withDefaultCommand(HelpCommand.class)
+                .withCommands(AuthorTemplate.class);
+
         try {
             builder.build().parse(args).run();
 

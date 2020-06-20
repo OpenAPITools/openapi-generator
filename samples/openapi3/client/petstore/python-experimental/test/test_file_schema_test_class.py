@@ -11,10 +11,16 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+try:
+    from petstore_api.model import file
+except ImportError:
+    file = sys.modules[
+        'petstore_api.model.file']
+from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 
 
 class TestFileSchemaTestClass(unittest.TestCase):
@@ -29,7 +35,7 @@ class TestFileSchemaTestClass(unittest.TestCase):
     def testFileSchemaTestClass(self):
         """Test FileSchemaTestClass"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.FileSchemaTestClass()  # noqa: E501
+        # model = FileSchemaTestClass()  # noqa: E501
         pass
 
 

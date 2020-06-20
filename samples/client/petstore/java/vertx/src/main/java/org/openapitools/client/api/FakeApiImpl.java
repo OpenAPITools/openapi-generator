@@ -24,7 +24,7 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeApiImpl implements FakeApi {
 
     private ApiClient apiClient;
@@ -650,7 +650,7 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         List<Pair> localVarQueryParams = new ArrayList<>();
         localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "pipe", pipe));
         localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "ioutil", ioutil));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("space", "http", http));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("ssv", "http", http));
         localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "url", url));
         localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "context", context));
 
