@@ -3,17 +3,17 @@
 @XmlEnum({{dataType}}.class)
 {{/withXml}}
 {{^withXml}}
-@JsonbTypeSerializer({{datatypeWithEnum}}.Serializer.class)
-@JsonbTypeDeserializer({{datatypeWithEnum}}.Deserializer.class)
+  @JsonbTypeSerializer({{datatypeWithEnum}}.Serializer.class)
+  @JsonbTypeDeserializer({{datatypeWithEnum}}.Deserializer.class)
 {{/withXml}}
-public enum {{datatypeWithEnum}} {
+  public enum {{datatypeWithEnum}} {
 
     {{#allowableValues}}
     {{#withXml}}
-{{#enumVars}}@XmlEnumValue({{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}{{{value}}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}) {{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
+    {{#enumVars}}@XmlEnumValue({{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}{{{value}}}{{#isInteger}}"{{/isInteger}}{{#isDouble}}"{{/isDouble}}{{#isLong}}"{{/isLong}}{{#isFloat}}"{{/isFloat}}) {{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}
 	{{/withXml}}
 	{{^withXml}}
-{{#enumVars}}{{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}	
+    {{#enumVars}}{{name}}({{dataType}}.valueOf({{{value}}})){{^-last}}, {{/-last}}{{#-last}};{{/-last}}{{/enumVars}}	
 	{{/withXml}}
     {{/allowableValues}}
 
@@ -63,4 +63,4 @@ public enum {{datatypeWithEnum}} {
         }
     }
     {{/withXml}}
-}
+  }
