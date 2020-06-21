@@ -924,6 +924,10 @@ public class DefaultGenerator implements Generator {
 
     public Map<String, List<CodegenOperation>> processPaths(Paths paths) {
         Map<String, List<CodegenOperation>> ops = new TreeMap<>();
+        // when input file is not valid and doesn't contain any paths
+        if(paths == null) {
+            return ops;
+        }
         for (String resourcePath : paths.keySet()) {
             PathItem path = paths.get(resourcePath);
             processOperation(resourcePath, "get", path.getGet(), ops, path);
