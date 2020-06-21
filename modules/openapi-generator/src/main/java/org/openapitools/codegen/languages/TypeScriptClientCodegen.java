@@ -53,7 +53,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
     private static final String PLATFORM_SWITCH_DESC = "Specifies the platform the code should run on. The default is 'node' for the 'request' framework and 'browser' otherwise.";
     private static final String[] PLATFORMS = { "browser", "node", "deno" };
     private static final String FILE_CONTENT_DATA_TYPE= "fileContentDataType";
-    private static final String FILE_CONTENT_DATA_TYPE_DESC = "Specifies the type to use for the content of a file - i.e. Blob (Browser) / Buffer (node)";
+    private static final String FILE_CONTENT_DATA_TYPE_DESC = "Specifies the type to use for the content of a file - i.e. Blob (Browser, Deno) / Buffer (node)";
     private static final String USE_RXJS_SWITCH = "useRxJS";
     private static final String USE_RXJS_SWITCH_DESC = "Enable this to internally use rxjs observables. If disabled, a stub is used instead. This is required for the 'angular' framework.";
     private static final String USE_INVERSIFY_SWITCH = "useInversify";
