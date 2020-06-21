@@ -107,6 +107,10 @@ export class {{classname}} {
         }
 
         if (typeof value === "object") {
+            {{#isQueryParamObjectFormatJson}}
+            httpParams = httpParams.append(key, JSON.stringify(value));
+            {{/isQueryParamObjectFormatJson}}
+            {{^isQueryParamObjectFormatJson}}
             if (Array.isArray(value)) {
                 (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             } else if (value instanceof Date) {
@@ -118,8 +122,9 @@ export class {{classname}} {
                 }
             } else {
                 Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
-                    httpParams, value[k], key != null ? `${key}.${k}` : k));
+                    httpParams, value[k], key != null ? `${key}{{#isQueryParamObjectFormatDot}}.{{/isQueryParamObjectFormatDot}}{{#isQueryParamObjectFormatKey}}[{{/isQueryParamObjectFormatKey}}${k}{{#isQueryParamObjectFormatKey}}]{{/isQueryParamObjectFormatKey}}` : k));
             }
+            {{/isQueryParamObjectFormatJson}}
         } else if (key != null) {
             httpParams = httpParams.append(key, value);
         } else {

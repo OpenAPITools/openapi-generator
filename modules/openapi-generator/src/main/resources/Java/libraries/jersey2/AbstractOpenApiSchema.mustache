@@ -53,6 +53,25 @@ public abstract class AbstractOpenApiSchema {
     public void setActualInstance(Object instance) {this.instance = instance;}
 
     /**
+     * Get the instant recursively when the schemas defined in oneOf/anyof happen to be oneOf/anyOf schema as well
+     *
+     * @return an instance of the actual schema/object
+     */
+    public Object getActualInstanceRecursively() {
+        return getActualInstanceRecursively(this);
+    }
+
+    private Object getActualInstanceRecursively(AbstractOpenApiSchema object) {
+        if (object.getActualInstance() == null) {
+            return null;
+        } else if (object.getActualInstance() instanceof AbstractOpenApiSchema) {
+            return getActualInstanceRecursively((AbstractOpenApiSchema)object.getActualInstance());
+        } else {
+            return object.getActualInstance();
+        }
+    }
+
+    /**
      * Get the schema type (e.g. anyOf, oneOf)
      *
      * @return the schema type

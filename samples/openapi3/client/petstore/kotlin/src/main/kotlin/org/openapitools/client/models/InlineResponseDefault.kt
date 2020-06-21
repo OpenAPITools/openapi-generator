@@ -15,6 +15,7 @@ import org.openapitools.client.models.Foo
 
 import com.squareup.moshi.Json
 import java.io.Serializable
+
 /**
  * 
  * @param string 

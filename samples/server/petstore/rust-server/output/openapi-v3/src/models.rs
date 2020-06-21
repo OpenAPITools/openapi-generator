@@ -5,6 +5,66 @@ use crate::models;
 use crate::header;
 
 
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct AdditionalPropertiesWithList(std::collections::HashMap<String, Vec<String>>);
+
+impl std::convert::From<std::collections::HashMap<String, Vec<String>>> for AdditionalPropertiesWithList {
+    fn from(x: std::collections::HashMap<String, Vec<String>>) -> Self {
+        AdditionalPropertiesWithList(x)
+    }
+}
+
+
+impl std::convert::From<AdditionalPropertiesWithList> for std::collections::HashMap<String, Vec<String>> {
+    fn from(x: AdditionalPropertiesWithList) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for AdditionalPropertiesWithList {
+    type Target = std::collections::HashMap<String, Vec<String>>;
+    fn deref(&self) -> &std::collections::HashMap<String, Vec<String>> {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for AdditionalPropertiesWithList {
+    fn deref_mut(&mut self) -> &mut std::collections::HashMap<String, Vec<String>> {
+        &mut self.0
+    }
+}
+
+/// Converts the AdditionalPropertiesWithList value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl ::std::string::ToString for AdditionalPropertiesWithList {
+    fn to_string(&self) -> String {
+        // Skipping additionalProperties in query parameter serialization
+        "".to_string()
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a AdditionalPropertiesWithList value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl ::std::str::FromStr for AdditionalPropertiesWithList {
+    type Err = &'static str;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Err("Parsing additionalProperties for AdditionalPropertiesWithList is not supported")
+    }
+}
+
+impl AdditionalPropertiesWithList {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn to_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 // Methods for converting between header::IntoHeaderValue<AnotherXmlArray> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]

@@ -17,24 +17,18 @@ lazy val root = (project in file(".")).
       {{#usePlayWS}}
       {{#play24}}
       "com.typesafe.play" % "play-java-ws_2.11" % "2.4.11" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-core" % "2.6.6" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.6.6" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.6" % "compile",
       {{/play24}}
       {{#play25}}
       "com.typesafe.play" % "play-java-ws_2.11" % "2.5.15" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-core" % "2.10.4" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.4" % "compile",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.4" % "compile",
       {{/play25}}
       {{#play26}}
       "com.typesafe.play" % "play-ahc-ws_2.12" % "2.6.7" % "compile",
       "javax.validation" % "validation-api" % "1.1.0.Final" % "compile",
+      {{/play26}}
+      "com.squareup.retrofit2" % "converter-jackson" % "2.3.0" % "compile",
       "com.fasterxml.jackson.core" % "jackson-core" % "2.10.4" % "compile",
       "com.fasterxml.jackson.core" % "jackson-annotations" % "2.10.4" % "compile",
       "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.4" % "compile",
-      {{/play26}}
-      "com.squareup.retrofit2" % "converter-jackson" % "2.3.0" % "compile",
       {{/usePlayWS}}
       {{#useRxJava}}
       "com.squareup.retrofit2" % "adapter-rxjava" % "2.3.0" % "compile",

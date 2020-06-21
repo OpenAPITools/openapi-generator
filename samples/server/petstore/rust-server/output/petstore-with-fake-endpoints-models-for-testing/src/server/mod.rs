@@ -730,17 +730,26 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 let param_query = query_params.iter().filter(|e| e.0 == "query").map(|e| e.1.to_owned())
                     .nth(0);
                 let param_query = match param_query {
-                    Some(param_query) => match param_query.parse::<String>() {
-                        Ok(param_query) => param_query,
-                        Err(e) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse query parameter query - doesn't match schema: {}", e)))
-                                        .expect("Unable to create Bad Request response for invalid query parameter query")),
+                    Some(param_query) => {
+                        let param_query =
+                            <String as std::str::FromStr>::from_str
+                                (&param_query);
+                        match param_query {
+                            Ok(param_query) => Some(param_query),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter query - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter query")),
+                        }
                     },
+                    None => None,
+                };
+                let param_query = match param_query {
+                    Some(param_query) => param_query,
                     None => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from("Missing required query parameter query"))
-                                        .expect("Unable to create Bad Request response for missing qeury parameter query")),
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(Body::from("Missing required query parameter query"))
+                        .expect("Unable to create Bad Request response for missing query parameter query")),
                 };
 
                 // Body parameters (note that non-required body parameters will ignore garbage
@@ -1020,13 +1029,55 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 };
                 let param_enum_query_string = query_params.iter().filter(|e| e.0 == "enum_query_string").map(|e| e.1.to_owned())
                     .nth(0);
-                let param_enum_query_string = param_enum_query_string.and_then(|param_enum_query_string| param_enum_query_string.parse::<>().ok());
+                let param_enum_query_string = match param_enum_query_string {
+                    Some(param_enum_query_string) => {
+                        let param_enum_query_string =
+                            <String as std::str::FromStr>::from_str
+                                (&param_enum_query_string);
+                        match param_enum_query_string {
+                            Ok(param_enum_query_string) => Some(param_enum_query_string),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter enum_query_string - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter enum_query_string")),
+                        }
+                    },
+                    None => None,
+                };
                 let param_enum_query_integer = query_params.iter().filter(|e| e.0 == "enum_query_integer").map(|e| e.1.to_owned())
                     .nth(0);
-                let param_enum_query_integer = param_enum_query_integer.and_then(|param_enum_query_integer| param_enum_query_integer.parse::<>().ok());
+                let param_enum_query_integer = match param_enum_query_integer {
+                    Some(param_enum_query_integer) => {
+                        let param_enum_query_integer =
+                            <i32 as std::str::FromStr>::from_str
+                                (&param_enum_query_integer);
+                        match param_enum_query_integer {
+                            Ok(param_enum_query_integer) => Some(param_enum_query_integer),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter enum_query_integer - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter enum_query_integer")),
+                        }
+                    },
+                    None => None,
+                };
                 let param_enum_query_double = query_params.iter().filter(|e| e.0 == "enum_query_double").map(|e| e.1.to_owned())
                     .nth(0);
-                let param_enum_query_double = param_enum_query_double.and_then(|param_enum_query_double| param_enum_query_double.parse::<>().ok());
+                let param_enum_query_double = match param_enum_query_double {
+                    Some(param_enum_query_double) => {
+                        let param_enum_query_double =
+                            <f64 as std::str::FromStr>::from_str
+                                (&param_enum_query_double);
+                        match param_enum_query_double {
+                            Ok(param_enum_query_double) => Some(param_enum_query_double),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter enum_query_double - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter enum_query_double")),
+                        }
+                    },
+                    None => None,
+                };
 
                                 // Form parameters
                                 let param_enum_form_string = Some("enum_form_string_example".to_string());
@@ -2686,32 +2737,50 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 let param_username = query_params.iter().filter(|e| e.0 == "username").map(|e| e.1.to_owned())
                     .nth(0);
                 let param_username = match param_username {
-                    Some(param_username) => match param_username.parse::<String>() {
-                        Ok(param_username) => param_username,
-                        Err(e) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse query parameter username - doesn't match schema: {}", e)))
-                                        .expect("Unable to create Bad Request response for invalid query parameter username")),
+                    Some(param_username) => {
+                        let param_username =
+                            <String as std::str::FromStr>::from_str
+                                (&param_username);
+                        match param_username {
+                            Ok(param_username) => Some(param_username),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter username - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter username")),
+                        }
                     },
+                    None => None,
+                };
+                let param_username = match param_username {
+                    Some(param_username) => param_username,
                     None => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from("Missing required query parameter username"))
-                                        .expect("Unable to create Bad Request response for missing qeury parameter username")),
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(Body::from("Missing required query parameter username"))
+                        .expect("Unable to create Bad Request response for missing query parameter username")),
                 };
                 let param_password = query_params.iter().filter(|e| e.0 == "password").map(|e| e.1.to_owned())
                     .nth(0);
                 let param_password = match param_password {
-                    Some(param_password) => match param_password.parse::<String>() {
-                        Ok(param_password) => param_password,
-                        Err(e) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse query parameter password - doesn't match schema: {}", e)))
-                                        .expect("Unable to create Bad Request response for invalid query parameter password")),
+                    Some(param_password) => {
+                        let param_password =
+                            <String as std::str::FromStr>::from_str
+                                (&param_password);
+                        match param_password {
+                            Ok(param_password) => Some(param_password),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter password - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter password")),
+                        }
                     },
+                    None => None,
+                };
+                let param_password = match param_password {
+                    Some(param_password) => param_password,
                     None => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from("Missing required query parameter password"))
-                                        .expect("Unable to create Bad Request response for missing qeury parameter password")),
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(Body::from("Missing required query parameter password"))
+                        .expect("Unable to create Bad Request response for missing query parameter password")),
                 };
 
                                 let result = api_impl.login_user(
@@ -2734,6 +2803,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         x_expires_after
                                                     }
                                                 => {
+                                                    if let Some(x_rate_limit) = x_rate_limit {
                                                     let x_rate_limit = match header::IntoHeaderValue(x_rate_limit).try_into() {
                                                         Ok(val) => val,
                                                         Err(e) => {
@@ -2744,6 +2814,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         }
                                                     };
 
+                                                    response.headers_mut().insert(
+                                                        HeaderName::from_static("x-rate-limit"),
+                                                        x_rate_limit
+                                                    );
+                                                    }
+                                                    if let Some(x_expires_after) = x_expires_after {
                                                     let x_expires_after = match header::IntoHeaderValue(x_expires_after).try_into() {
                                                         Ok(val) => val,
                                                         Err(e) => {
@@ -2754,15 +2830,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         }
                                                     };
 
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-                                                    response.headers_mut().insert(
-                                                        HeaderName::from_static("x-rate-limit"),
-                                                        x_rate_limit
-                                                    );
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("x-expires-after"),
                                                         x_expires_after
                                                     );
+                                                    }
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/xml")

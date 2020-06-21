@@ -15,6 +15,7 @@ import org.openapitools.client.models.Animal
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+
 /**
  * 
  * @param uuid 

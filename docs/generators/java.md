@@ -41,7 +41,7 @@ sidebar_label: java
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentVersion|parent version in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |performBeanValidation|Perform BeanValidation| |false|
-|playVersion|Version of Play! Framework (possible values &quot;play24&quot;, &quot;play25&quot; (default), &quot;play26&quot;)| |null|
+|playVersion|Version of Play! Framework (possible values &quot;play24&quot; (Deprecated), &quot;play25&quot; (Deprecated), &quot;play26&quot; (Default))| |null|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |scmConnection|SCM connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|
 |scmDeveloperConnection|SCM developer connection in generated pom.xml| |scm:git:git@github.com:openapitools/openapi-generator.git|

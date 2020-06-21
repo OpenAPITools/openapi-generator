@@ -62,6 +62,9 @@ public class QuadrilateralInterface {
   }
 
 
+  /**
+   * Return true if this QuadrilateralInterface object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

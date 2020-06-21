@@ -23,6 +23,7 @@ sidebar_label: typescript-angular
 |nullSafeAdditionalProps|Set to make additional properties types declare that their indexer may return undefined| |false|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
 |providedInRoot|Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).| |false|
+|queryParamObjectFormat|The format for query param objects: 'dot', 'json', 'key'.| |dot|
 |serviceFileSuffix|The suffix of the file of the generated service (service&lt;suffix&gt;.ts).| |.service|
 |serviceSuffix|The suffix of the generated service.| |Service|
 |snapshot|When setting this property to true, the version will be suffixed with -SNAPSHOT.yyyyMMddHHmm| |false|
