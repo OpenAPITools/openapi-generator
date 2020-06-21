@@ -1,4 +1,4 @@
-import { RequestContext, HttpMethod } from "./http/http{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
+import { RequestContext, HttpMethod } from "./http/http.ts";
 
 export interface BaseServerConfiguration {
     makeRequestContext(endpoint: string, httpMethod: HttpMethod): RequestContext;
@@ -48,8 +48,6 @@ export class ServerConfiguration<T extends { [key: string]: string }> implements
 	}
 }
 
-{{#servers}}
-export const server{{-index}} = new ServerConfiguration<{ {{#variables}} "{{name}}": {{#enumValues}}"{{.}}"{{^-last}} | {{/-last}}{{/enumValues}}{{^enumValues}}string{{/enumValues}}{{^-last}},{{/-last}} {{/variables}} }>("{{url}}", { {{#variables}} "{{name}}": "{{defaultValue}}" {{^-last}},{{/-last}}{{/variables}} })
-{{/servers}}
+export const server1 = new ServerConfiguration<{  }>("http://petstore.swagger.io/v2", {  })
 
-export const servers = [{{#servers}}server{{-index}}{{^-last}}, {{/-last}}{{/servers}}];
+export const servers = [server1];

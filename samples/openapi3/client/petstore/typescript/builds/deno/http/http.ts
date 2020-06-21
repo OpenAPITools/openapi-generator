@@ -1,30 +1,5 @@
-{{#platforms}}
-{{#node}}
-// TODO: evaluate if we can easily get rid of this library
-import * as FormData from "form-data";
-{{/node}}
-{{/platforms}}
-{{#platforms}}
-{{^deno}}
-// typings of url-parse are incorrect...
-// @ts-ignore 
-import * as URLParse from "url-parse";
-{{/deno}}
-{{/platforms}}
-import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}'{{/useRxJS}};
+import { Observable, from } from '../rxjsStub.ts';
 
-{{#platforms}}
-{{^deno}}
-{{#frameworks}}
-{{#fetch-api}}
-export * from './isomorphic-fetch{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
-{{/fetch-api}}
-{{#jquery}}
-export * from './jquery';
-{{/jquery}}
-{{/frameworks}}
-{{/deno}}
-{{/platforms}}
 
 /**
  * Represents an HTTP method.
@@ -44,17 +19,7 @@ export enum HttpMethod {
 /**
  * Represents an HTTP file which will be transferred from or to a server.
  */
-{{#platforms}}
-{{#node}}
-export type HttpFile = {
-    data: {{{fileContentDataType}}},
-    name: string
-};
-{{/node}}
-{{^node}}
-export type HttpFile = {{{fileContentDataType}}} & { readonly name: string };
-{{/node}}
-{{/platforms}}
+export type HttpFile = Blob & { readonly name: string };
 
 
 export class HttpException extends Error {
@@ -74,7 +39,7 @@ export type RequestBody = undefined | string | FormData;
 export class RequestContext {
     private headers: { [key: string]: string } = {};
     private body: RequestBody = undefined;
-    private url: {{#platforms}}{{#deno}}URL{{/deno}}{{^deno}}URLParse{{/deno}}{{/platforms}};
+    private url: URL;
 
 	/**
 	 * Creates the request context using a http method and request resource url
@@ -83,7 +48,7 @@ export class RequestContext {
 	 * @param httpMethod http method
 	 */
     public constructor(url: string, private httpMethod: HttpMethod) {
-        this.url = {{#platforms}}{{#deno}}new URL(url){{/deno}}{{^deno}}URLParse(url, true){{/deno}}{{/platforms}};
+        this.url = new URL(url);
     }
     
     /*
@@ -99,7 +64,7 @@ export class RequestContext {
      *
      */
     public setUrl(url: string) {
-    	this.url = {{#platforms}}{{#deno}}new URL(url){{/deno}}{{^deno}}URLParse(url, true){{/deno}}{{/platforms}};
+    	this.url = new URL(url);
     }
 
     /**
@@ -128,16 +93,7 @@ export class RequestContext {
     }
 
 	public setQueryParam(name: string, value: string) {
-        {{#platforms}}
-        {{#deno}}
         this.url.searchParams.set(name, value);
-        {{/deno}}
-        {{^deno}}
-        let queryObj = this.url.query;
-        queryObj[name] = value;
-        this.url.set("query", queryObj);
-        {{/deno}}
-        {{/platforms}}
     }
 
 	/**
@@ -158,7 +114,7 @@ export class RequestContext {
 
 export interface ResponseBody {
     text(): Promise<string>;
-    binary(): Promise<{{{fileContentDataType}}}>;
+    binary(): Promise<Blob>;
 }
 
 
@@ -166,36 +122,15 @@ export interface ResponseBody {
  * Helper class to generate a `ResponseBody` from binary data
  */
 export class SelfDecodingBody implements ResponseBody {
-    constructor(private dataSource: Promise<{{{fileContentDataType}}}>) {}
+    constructor(private dataSource: Promise<Blob>) {}
 
-    binary(): Promise<{{{fileContentDataType}}}> {
+    binary(): Promise<Blob> {
         return this.dataSource;
     }
 
     async text(): Promise<string> {
-        const data: {{{fileContentDataType}}} = await this.dataSource;
-        {{#platforms}}
-        {{#node}}
-        return data.toString();
-        {{/node}}
-        {{#browser}}
-        // @ts-ignore
-        if (data.text) {
-            // @ts-ignore
-            return data.text();
-        }
-
-        return new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.addEventListener("load", () => resolve(reader.result as string));
-            reader.addEventListener("error", () => reject(reader.error));
-            reader.readAsText(data);
-        });
-        {{/browser}}
-        {{#deno}}
+        const data: Blob = await this.dataSource;
         return data.text();
-        {{/deno}}
-        {{/platforms}}
     }
 }
 
@@ -239,11 +174,6 @@ export class ResponseContext {
     public async getBodyAsFile(): Promise<HttpFile> {
         const data = await this.body.binary();
         const fileName = this.getParsedHeader("content-disposition")["filename"] || "";
-        {{#platforms}}
-        {{#node}}
-        return { data, name: fileName };
-        {{/node}}
-        {{^node}}
         const contentType = this.headers["content-type"] || "";
         try {
             return new File([data], fileName, { type: contentType });
@@ -254,8 +184,6 @@ export class ResponseContext {
                 type: contentType
             });
         }
-        {{/node}}
-        {{/platforms}}
     }
 }
 

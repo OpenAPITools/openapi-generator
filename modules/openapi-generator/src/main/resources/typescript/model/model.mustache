@@ -2,9 +2,9 @@
 {{#models}}
 {{#model}}
 {{#tsImports}}
-import { {{classname}} } from './{{filename}}';
+import { {{classname}} } from './{{filename}}{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
 {{/tsImports}}
-import { HttpFile } from '../http/http';
+import { HttpFile } from '../http/http{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
 
 {{#description}}
 /**

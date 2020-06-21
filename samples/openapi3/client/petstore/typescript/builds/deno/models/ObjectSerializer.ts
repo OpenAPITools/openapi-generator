@@ -1,14 +1,20 @@
-{{#models}}
-{{#model}}
-export * from './{{{ classFilename }}}{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
-{{/model}}
-{{/models}}
+export * from './ApiResponse.ts';
+export * from './Category.ts';
+export * from './InlineObject.ts';
+export * from './InlineObject1.ts';
+export * from './Order.ts';
+export * from './Pet.ts';
+export * from './Tag.ts';
+export * from './User.ts';
 
-{{#models}}
-{{#model}}
-import { {{classname}}{{#hasEnums}}{{#vars}}{{#isEnum}}, {{classname}}{{enumName}} {{/isEnum}} {{/vars}}{{/hasEnums}} } from './{{{ classFilename }}}{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
-{{/model}}
-{{/models}}
+import { ApiResponse } from './ApiResponse.ts';
+import { Category } from './Category.ts';
+import { InlineObject } from './InlineObject.ts';
+import { InlineObject1 } from './InlineObject1.ts';
+import { Order    , OrderStatusEnum    } from './Order.ts';
+import { Pet     , PetStatusEnum   } from './Pet.ts';
+import { Tag } from './Tag.ts';
+import { User } from './User.ts';
 
 /* tslint:disable:no-unused-variable */
 let primitives = [
@@ -29,25 +35,19 @@ const supportedMediaTypes: { [mediaType: string]: number } = {
 
                  
 let enumsMap: Set<string> = new Set<string>([
-    {{#models}}
-        {{#model}}
-            {{#hasEnums}}
-                {{#vars}}
-                    {{#isEnum}}
-					"{{classname}}{{enumName}}",
-                    {{/isEnum}}
-                {{/vars}}
-            {{/hasEnums}}
-        {{/model}}
-    {{/models}}
+					"OrderStatusEnum",
+					"PetStatusEnum",
 ]);
 
 let typeMap: {[index: string]: any} = {
-    {{#models}}
-        {{#model}}
-    "{{classname}}": {{classname}},
-        {{/model}}
-    {{/models}}
+    "ApiResponse": ApiResponse,
+    "Category": Category,
+    "InlineObject": InlineObject,
+    "InlineObject1": InlineObject1,
+    "Order": Order,
+    "Pet": Pet,
+    "Tag": Tag,
+    "User": User,
 }
 
 export class ObjectSerializer {

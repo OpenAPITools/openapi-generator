@@ -1,8 +1,4 @@
-import { Configuration } from '../configuration{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}'
-{{#useInversify}}
-import { injectable, inject } from "inversify";
-import { AbstractConfiguration } from "../services/configuration";
-{{/useInversify}}
+import { Configuration } from '../configuration.ts'
 
 /**
  *
@@ -21,12 +17,9 @@ export const COLLECTION_FORMATS = {
  * @export
  * @class BaseAPI
  */
-{{#useInversify}}
-@injectable()
-{{/useInversify}}
 export class BaseAPIRequestFactory {
 
-    constructor({{#useInversify}}@inject(AbstractConfiguration) {{/useInversify}}protected configuration: Configuration) {
+    constructor(protected configuration: Configuration) {
     }
 };
 

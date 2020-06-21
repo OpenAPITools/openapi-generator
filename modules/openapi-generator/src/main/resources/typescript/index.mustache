@@ -1,41 +1,45 @@
+{{#platforms}}
+{{^deno}}
 import "es6-promise/auto";
+{{/deno}}
+{{/platforms}}
 
-export * from "./http/http";
-export * from "./auth/auth";
-export * from "./models/all";
-export { createConfiguration, Configuration } from "./configuration"
-export * from "./apis/exception";
-export * from "./servers";
+export * from "./http/http{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
+export * from "./auth/auth{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
+export * from "./models/all{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
+export { createConfiguration, Configuration } from "./configuration{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}"
+export * from "./apis/exception{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
+export * from "./servers{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
 
 {{#useRxJS}}
-export { Middleware } from './middleware';
+export { Middleware } from './middleware{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
 {{/useRxJS}}
 {{^useRxJS}}
-export { PromiseMiddleware as Middleware } from './middleware';
+export { PromiseMiddleware as Middleware } from './middleware{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
 {{/useRxJS}}
 {{#useObjectParameters}}
-export { {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{classname}}{{operationIdCamelCase}}Request, {{/operation}}Object{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/ObjectParamAPI';
+export { {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{classname}}{{operationIdCamelCase}}Request, {{/operation}}Object{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/ObjectParamAPI{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
 {{/useObjectParameters}}
 {{^useObjectParameters}}
 {{#useRxJS}}
-export { {{#apiInfo}}{{#apis}}{{#operations}}Observable{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/ObservableAPI';
+export { {{#apiInfo}}{{#apis}}{{#operations}}Observable{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/ObservableAPI{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
 {{/useRxJS}}
 {{^useRxJS}}
-export { {{#apiInfo}}{{#apis}}{{#operations}}Promise{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/PromiseAPI';
+export { {{#apiInfo}}{{#apis}}{{#operations}}Promise{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/PromiseAPI{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
 {{/useRxJS}}
 {{/useObjectParameters}}
 
 {{#useInversify}}
-export * from "./services/index";
+export * from "./services/index{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
 {{#useObjectParameters}}
 export { {{#apiInfo}}{{#apis}}{{#operations}}AbstractObject{{classname}} as Abstract{{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './services/ObjectParamAPI';
 {{/useObjectParameters}}
 {{^useObjectParameters}}
 {{#useRxJS}}
-export { {{#apiInfo}}{{#apis}}{{#operations}}AbstractObservable{{classname}} as Abstract{{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './services/ObservableAPI';
+export { {{#apiInfo}}{{#apis}}{{#operations}}AbstractObservable{{classname}} as Abstract{{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './services/ObservableAPI{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
 {{/useRxJS}}
 {{^useRxJS}}
-export { {{#apiInfo}}{{#apis}}{{#operations}}AbstractPromise{{classname}} as Abstract{{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './services/PromiseAPI';
+export { {{#apiInfo}}{{#apis}}{{#operations}}AbstractPromise{{classname}} as Abstract{{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './services/PromiseAPI{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
 {{/useRxJS}}
 {{/useObjectParameters}}
 {{/useInversify}}

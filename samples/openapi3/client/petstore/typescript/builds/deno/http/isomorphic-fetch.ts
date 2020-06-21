@@ -1,13 +1,5 @@
-import {HttpLibrary, RequestContext, ResponseContext} from './http{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
-import { from, Observable } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}'{{/useRxJS}};
-{{#platforms}}
-{{#node}}
-import fetch from "node-fetch";
-{{/node}}
-{{#browser}}
-import "whatwg-fetch";
-{{/browser}}
-{{/platforms}}
+import {HttpLibrary, RequestContext, ResponseContext} from './http.ts';
+import { from, Observable } from '../rxjsStub.ts';
 
 export class IsomorphicFetchHttpLibrary implements HttpLibrary {
 
@@ -19,31 +11,16 @@ export class IsomorphicFetchHttpLibrary implements HttpLibrary {
             method: method,
             body: body as any,
             headers: request.getHeaders(),
-            {{#platforms}}
-            {{#browser}}
-            credentials: "same-origin"
-            {{/browser}}
-            {{/platforms}}
         }).then((resp: any) => {
             const headers: { [name: string]: string } = {};
             resp.headers.forEach((value: string, name: string) => {
               headers[name] = value;
             });
 
-            {{#platforms}}
-            {{#node}}
-            const body = {
-              text: () => resp.text(),
-              binary: () => resp.buffer()
-            };
-            {{/node}}
-            {{^node}}
             const body = {
               text: () => resp.text(),
               binary: () => resp.blob()
             };
-            {{/node}}
-            {{/platforms}}
             return new ResponseContext(resp.status, headers, body);
         });
 

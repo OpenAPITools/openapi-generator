@@ -1,6 +1,6 @@
-import { ResponseContext, RequestContext, HttpFile } from '../http/http';
-import * as models from '../models/all';
-import { Configuration} from '../configuration'
+import { ResponseContext, RequestContext, HttpFile } from '../http/http{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+import * as models from '../models/all{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+import { Configuration} from '../configuration{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}'
 {{#useInversify}}
 import { injectable, inject, optional } from "inversify";
 import { AbstractConfiguration } from "../services/configuration";
@@ -8,16 +8,16 @@ import { AbstractConfiguration } from "../services/configuration";
 
 {{#models}}
 {{#model}}
-import { {{{ classname }}} } from '../models/{{{ classFilename }}}';
+import { {{{ classname }}} } from '../models/{{{ classFilename }}}{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
 {{/model}}
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
-import { Observable{{classname}} } from './ObservableAPI';
+import { Observable{{classname}} } from './ObservableAPI{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
 
 
 {{#operations}}
-import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}";
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
 {{#useInversify}}
 import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../apis/{{classname}}.service";
 

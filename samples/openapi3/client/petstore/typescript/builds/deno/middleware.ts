@@ -1,5 +1,5 @@
-import {RequestContext, ResponseContext} from './http/http{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
-import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'./rxjsStub{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}'{{/useRxJS}};
+import {RequestContext, ResponseContext} from './http/http.ts';
+import { Observable, from } from './rxjsStub.ts';
 
 /**
  * Defines the contract for a middleware intercepting requests before

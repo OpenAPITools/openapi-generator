@@ -1,25 +1,25 @@
-import { ResponseContext, RequestContext, HttpFile } from '../http/http';
-import * as models from '../models/all';
-import { Configuration} from '../configuration'
-import { Observable, of, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub'{{/useRxJS}};
-import {mergeMap, map} from  {{#useRxJS}}'rxjs/operators'{{/useRxJS}}{{^useRxJS}}'../rxjsStub'{{/useRxJS}};
+import { ResponseContext, RequestContext, HttpFile } from '../http/http{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+import * as models from '../models/all{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+import { Configuration} from '../configuration{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}'
+import { Observable, of, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}'{{/useRxJS}};
+import {mergeMap, map} from  {{#useRxJS}}'rxjs/operators'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}'{{/useRxJS}};
 {{#useInversify}}
 import { injectable, inject, optional } from "inversify";
-import { AbstractConfiguration } from "../services/configuration";
+import { AbstractConfiguration } from "../services/configuration{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
 {{/useInversify}}
 
 {{#models}}
 {{#model}}
-import { {{{ classname }}} } from '../models/{{{ classFilename }}}';
+import { {{{ classname }}} } from '../models/{{{ classFilename }}}{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
 {{/model}}
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
 
 {{#operations}}
-import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}";
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
 {{#useInversify}}
-import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../apis/{{classname}}.service";
+import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../apis/{{classname}}.service{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
 
 @injectable()
 {{/useInversify}}

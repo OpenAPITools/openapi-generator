@@ -45,6 +45,7 @@ cache:
   - $HOME/.npm  
   - $HOME/.rvm/gems/ruby-2.4.1
   - $HOME/website/node_modules/
+  - $HOME/.cache/deno
 
 services:
   - docker
@@ -118,6 +119,9 @@ before_install:
       gpg --check-trustdb ;
     fi;
   - pushd .; cd website; yarn install; popd
+  # install Deno
+  - curl -fsSL https://deno.land/x/install/install.sh | sh -s v1.1.1
+  - export PATH="$HOME/.deno/bin:$PATH"
 
 install:
   # Add Godeps dependencies to GOPATH and PATH
