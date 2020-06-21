@@ -3,4 +3,5 @@ outputDir: samples/client/petstore/objc/default
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.json
 templateDir: modules/openapi-generator/src/main/resources/objc
 additionalProperties:
-  appName: PetstoreClient
+  classPrefix: SWG
+  podName: SwaggerClient
