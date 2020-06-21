@@ -34,6 +34,9 @@ import javax.validation.Valid;
 {{#jdk8}}
 import java.util.Optional;
 {{/jdk8}}
+{{#useOptional}}
+import java.util.Optional;
+{{/useOptional}}
 {{^jdk8}}
 import java.util.List;
 import java.util.Map;
