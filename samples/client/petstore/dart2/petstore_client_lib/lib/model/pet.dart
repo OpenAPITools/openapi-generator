@@ -2,17 +2,17 @@ part of openapi.api;
 
 class Pet {
   
-  int id = null;
+  int id;
   
-  Category category = null;
+  Category category;
   
   String name = null;
   
   List<String> photoUrls = [];
   
-  List<Tag> tags = [];
+  List<Tag> tags;
   /// pet status in the store
-  PetStatusEnum status = null;
+  PetStatusEnum status;
 
   Pet();
 

@@ -2,11 +2,11 @@ class {{classname}} {
   {{#vars}}
   {{#description}}/// {{{description}}}{{/description}}
   {{^isEnum}}
-  {{{dataType}}} {{name}} = {{{defaultValue}}};
+  {{{dataType}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}}{{/required}};
   {{/isEnum}}
   {{#isEnum}}
   {{#allowableValues}}
-  {{#min}} // range from {{min}} to {{max}}{{/min}}{{classname}}{{datatypeWithEnum}} {{name}} = {{{defaultValue}}};
+  {{#min}} // range from {{min}} to {{max}}{{/min}}{{classname}}{{datatypeWithEnum}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}}{{/required}};
   {{/allowableValues}}
   {{/isEnum}}
   {{/vars}}

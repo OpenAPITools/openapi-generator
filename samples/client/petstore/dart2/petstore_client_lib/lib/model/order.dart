@@ -2,17 +2,17 @@ part of openapi.api;
 
 class Order {
   
-  int id = null;
+  int id;
   
-  int petId = null;
+  int petId;
   
-  int quantity = null;
+  int quantity;
   
-  DateTime shipDate = null;
+  DateTime shipDate;
   /// Order Status
-  OrderStatusEnum status = null;
+  OrderStatusEnum status;
   
-  bool complete = false;
+  bool complete;
 
   Order();
 
