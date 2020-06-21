@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 apis/PetApi.ts
 apis/StoreApi.ts
 apis/UserApi.ts
