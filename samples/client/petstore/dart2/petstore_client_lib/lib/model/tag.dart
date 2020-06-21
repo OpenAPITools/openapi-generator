@@ -20,7 +20,7 @@ class Tag {
   }
 
   Map<String, dynamic> toJson() {
-    Map <String, dynamic> json = {};
+    Map<String, dynamic> json = {};
     if (id != null)
       json['id'] = id;
     if (name != null)
@@ -33,7 +33,7 @@ class Tag {
   }
 
   static Map<String, Tag> mapFromJson(Map<String, dynamic> json) {
-    var map = Map<String, Tag>();
+    final map = Map<String, Tag>();
     if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic value) => map[key] = Tag.fromJson(value));
     }
@@ -42,7 +42,7 @@ class Tag {
 
   // maps a json object with a list of Tag-objects as value to a dart map
   static Map<String, List<Tag>> mapListFromJson(Map<String, dynamic> json) {
-    var map = Map<String, List<Tag>>();
+    final map = Map<String, List<Tag>>();
     if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic value) {
         map[key] = Tag.listFromJson(value);

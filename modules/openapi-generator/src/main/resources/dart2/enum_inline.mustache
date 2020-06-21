@@ -1,0 +1,52 @@
+class {{classname}}{{datatypeWithEnum}} {
+  /// The underlying value of this enum member.
+  final {{dataType}} value;
+
+  const {{classname}}{{datatypeWithEnum}}._internal(this.value);
+
+  {{#allowableValues}}
+  {{#enumVars}}
+  {{#description}}
+  /// {{description}}
+  {{/description}}
+  static const {{classname}}{{datatypeWithEnum}} {{name}} = {{classname}}{{datatypeWithEnum}}._internal({{{value}}});
+  {{/enumVars}}
+  {{/allowableValues}}
+
+  {{dataType}} toJson () {
+    return value;
+  }
+
+  @override
+  String toString () {
+    return value;
+  }
+
+  static {{classname}}{{datatypeWithEnum}} fromJson({{dataType}} value) {
+    return {{classname}}{{datatypeWithEnum}}TypeTransformer().decode(value);
+  }
+
+  static List<{{classname}}{{datatypeWithEnum}}> listFromJson(List<dynamic> json) {
+    return json == null
+        ? List<{{classname}}{{datatypeWithEnum}}>()
+        : json.map((value) => {{classname}}{{datatypeWithEnum}}.fromJson(value)).toList();
+  }
+}
+
+class {{classname}}{{datatypeWithEnum}}TypeTransformer {
+
+  dynamic encode({{classname}}{{datatypeWithEnum}} data) {
+    return data.value;
+  }
+
+  {{classname}}{{datatypeWithEnum}} decode(dynamic data) {
+    switch (data) {
+    {{#allowableValues}}
+      {{#enumVars}}
+      case {{{value}}}: return {{classname}}{{datatypeWithEnum}}.{{{name}}};
+      {{/enumVars}}
+    {{/allowableValues}}
+      default: return null;
+    }
+  }
+}
