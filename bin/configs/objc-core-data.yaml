@@ -1,6 +1,8 @@
 generatorName: objc
-outputDir: samples/client/petstore/objc/default
+outputDir: samples/client/petstore/objc/core-data
 inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore.json
 templateDir: modules/openapi-generator/src/main/resources/objc
 additionalProperties:
-  appName: PetstoreClient
+  classPrefix: SWG
+  podName: SwaggerClient
+  coreData: "true"

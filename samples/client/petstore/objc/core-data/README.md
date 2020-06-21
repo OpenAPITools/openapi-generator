@@ -42,6 +42,8 @@ Import the following:
 #import <SwaggerClient/SWGDefaultConfiguration.h>
 // load models
 #import <SwaggerClient/SWGCategory.h>
+#import <SwaggerClient/SWGInlineObject.h>
+#import <SwaggerClient/SWGInlineObject1.h>
 #import <SwaggerClient/SWGOrder.h>
 #import <SwaggerClient/SWGPet.h>
 #import <SwaggerClient/SWGTag.h>
@@ -69,12 +71,12 @@ SWGDefaultConfiguration *apiConfig = [SWGDefaultConfiguration sharedConfig];
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 
-SWGPet* *body = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
+SWGPet* *pet = [[SWGPet alloc] init]; // Pet object that needs to be added to the store (optional)
 
 SWGPetApi *apiInstance = [[SWGPetApi alloc] init];
 
 // Add a new pet to the store
-[apiInstance addPetWithBody:body
+[apiInstance addPetWithPet:pet
               completionHandler: ^(NSError* error) {
                             if (error) {
                                 NSLog(@"Error: %@", error);
@@ -114,6 +116,8 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [SWGCategory](docs/SWGCategory.md)
+ - [SWGInlineObject](docs/SWGInlineObject.md)
+ - [SWGInlineObject1](docs/SWGInlineObject1.md)
  - [SWGOrder](docs/SWGOrder.md)
  - [SWGPet](docs/SWGPet.md)
  - [SWGTag](docs/SWGTag.md)
