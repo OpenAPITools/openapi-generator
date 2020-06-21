@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Cultivar** | Pointer to **string** |  | 
+**Cultivar** | **string** |  | 
 **Mealy** | Pointer to **bool** |  | [optional] 
 
 ## Methods
