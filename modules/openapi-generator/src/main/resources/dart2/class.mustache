@@ -6,7 +6,7 @@ class {{classname}} {
   {{/isEnum}}
   {{#isEnum}}
   {{#allowableValues}}
-  {{#min}} // range from {{min}} to {{max}}{{/min}}{{datatypeWithEnum}} {{name}} = {{{defaultValue}}};
+  {{#min}} // range from {{min}} to {{max}}{{/min}}{{classname}}{{datatypeWithEnum}} {{name}} = {{{defaultValue}}};
   {{/allowableValues}}
   {{/isEnum}}
   {{/vars}}
@@ -136,7 +136,7 @@ class {{classname}} {
 {{#isEnum}}
 {{#allowableValues}}
 {{#min}} // range from {{min}} to {{max}}{{/min}}
-{{^min}}enum {{datatypeWithEnum}} {
+{{^min}}enum {{classname}}{{datatypeWithEnum}} {
   {{#values}}{{.}},
   {{/values}}{{/min}}
 }

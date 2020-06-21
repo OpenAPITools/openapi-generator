@@ -10,7 +10,7 @@ class Order {
   
   DateTime shipDate = null;
   /// Order Status
-  StatusEnum status = null;
+  OrderStatusEnum status = null;
   
   bool complete = false;
 
@@ -74,7 +74,7 @@ class Order {
   }
 }
 
-enum StatusEnum {
+enum OrderStatusEnum {
   placed,
   approved,
   delivered,

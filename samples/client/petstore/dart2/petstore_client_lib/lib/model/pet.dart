@@ -12,7 +12,7 @@ class Pet {
   
   List<Tag> tags = [];
   /// pet status in the store
-  StatusEnum status = null;
+  PetStatusEnum status = null;
 
   Pet();
 
@@ -78,7 +78,7 @@ class Pet {
   }
 }
 
-enum StatusEnum {
+enum PetStatusEnum {
   available,
   pending,
   sold,
