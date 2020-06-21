@@ -62,7 +62,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
 
-    @SuppressWarnings("hiding")
     protected Logger LOGGER = LoggerFactory.getLogger(AspNetCoreServerCodegen.class);
 
     private boolean useSwashbuckle = true;
@@ -328,7 +327,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             newtonsoftVersion = (String) additionalProperties.get(NEWTONSOFT_VERSION);
         }
 
-        // CHeck for the modifiers etc.
+        // Check for the modifiers etc.
         // The order of the checks is important.
         setBuildTarget();
         setClassModifier();
@@ -337,7 +336,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setUseSwashbuckle();
         setOperationIsAsync();
 
-        // CHeck for class modifier if not present set the default value.
+        // Check for class modifier if not present set the default value.
         additionalProperties.put(PROJECT_SDK, projectSdk);
 
         additionalProperties.put("dockerTag", packageName.toLowerCase(Locale.ROOT));
@@ -447,6 +446,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         return escapeText(pattern);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public String getNullableType(Schema p, String type) {
         if (languageSpecificPrimitives.contains(type)) {
@@ -544,7 +544,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
         }
         LOGGER.info("ASP.NET core version: " + aspnetCoreVersion.getOptValue());
-        embeddedTemplateDir = "aspnetcore/" + determineTemplateVersion(aspnetCoreVersion.getOptValue());
+        if(!additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)){
+            templateDir = embeddedTemplateDir = "aspnetcore" + File.separator + determineTemplateVersion(aspnetCoreVersion.getOptValue());
+        }
         additionalProperties.put(COMPATIBILITY_VERSION, compatibilityVersion);
     }
 
