@@ -24,13 +24,13 @@ namespace OpenAPIServer\Model;
 use OpenAPIServer\BaseModel;
 
 /**
- * Tag
+ * InlineObject
  *
  * @package OpenAPIServer\Model
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  */
-class Tag extends BaseModel
+class InlineObject extends BaseModel
 {
     /**
      * @var string Models namespace.
@@ -44,20 +44,16 @@ class Tag extends BaseModel
      */
     protected const MODEL_SCHEMA = <<<'SCHEMA'
 {
-  "title" : "Pet Tag",
   "type" : "object",
   "properties" : {
-    "id" : {
-      "type" : "integer",
-      "format" : "int64"
-    },
     "name" : {
-      "type" : "string"
+      "type" : "string",
+      "description" : "Updated name of the pet"
+    },
+    "status" : {
+      "type" : "string",
+      "description" : "Updated status of the pet"
     }
-  },
-  "description" : "A tag for a pet",
-  "xml" : {
-    "name" : "Tag"
   }
 }
 SCHEMA;

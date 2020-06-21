@@ -23,18 +23,18 @@
 namespace OpenAPIServer\Model;
 
 use PHPUnit\Framework\TestCase;
-use OpenAPIServer\Model\ApiResponse;
+use OpenAPIServer\Model\InlineObject1;
 
 /**
- * ApiResponseTest Class Doc Comment
+ * InlineObject1Test Class Doc Comment
  *
  * @package OpenAPIServer\Model
  * @author  OpenAPI Generator team
  * @link    https://github.com/openapitools/openapi-generator
  *
- * @coversDefaultClass \OpenAPIServer\Model\ApiResponse
+ * @coversDefaultClass \OpenAPIServer\Model\InlineObject1
  */
-class ApiResponseTest extends TestCase
+class InlineObject1Test extends TestCase
 {
 
     /**
@@ -66,49 +66,39 @@ class ApiResponseTest extends TestCase
     }
 
     /**
-     * Test "ApiResponse"
+     * Test "InlineObject1"
      */
-    public function testApiResponse()
+    public function testInlineObject1()
     {
-        $testApiResponse = new ApiResponse();
-        $namespacedClassname = ApiResponse::getModelsNamespace() . '\\ApiResponse';
-        $this->assertSame('\\' . ApiResponse::class, $namespacedClassname);
+        $testInlineObject1 = new InlineObject1();
+        $namespacedClassname = InlineObject1::getModelsNamespace() . '\\InlineObject1';
+        $this->assertSame('\\' . InlineObject1::class, $namespacedClassname);
         $this->assertTrue(
             class_exists($namespacedClassname),
             sprintf('Assertion failed that "%s" class exists', $namespacedClassname)
         );
         $this->markTestIncomplete(
-            'Test of "ApiResponse" model has not been implemented yet.'
+            'Test of "InlineObject1" model has not been implemented yet.'
         );
     }
 
     /**
-     * Test attribute "code"
+     * Test attribute "additionalMetadata"
      */
-    public function testPropertyCode()
+    public function testPropertyAdditionalMetadata()
     {
         $this->markTestIncomplete(
-            'Test of "code" property in "ApiResponse" model has not been implemented yet.'
+            'Test of "additionalMetadata" property in "InlineObject1" model has not been implemented yet.'
         );
     }
 
     /**
-     * Test attribute "type"
+     * Test attribute "file"
      */
-    public function testPropertyType()
+    public function testPropertyFile()
     {
         $this->markTestIncomplete(
-            'Test of "type" property in "ApiResponse" model has not been implemented yet.'
-        );
-    }
-
-    /**
-     * Test attribute "message"
-     */
-    public function testPropertyMessage()
-    {
-        $this->markTestIncomplete(
-            'Test of "message" property in "ApiResponse" model has not been implemented yet.'
+            'Test of "file" property in "InlineObject1" model has not been implemented yet.'
         );
     }
 
@@ -118,7 +108,7 @@ class ApiResponseTest extends TestCase
      */
     public function testGetOpenApiSchema()
     {
-        $schemaArr = ApiResponse::getOpenApiSchema();
+        $schemaArr = InlineObject1::getOpenApiSchema();
         $this->assertIsArray($schemaArr);
     }
 }
