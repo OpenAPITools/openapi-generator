@@ -415,9 +415,9 @@ namespace Org.OpenAPITools.Client
             InterceptRequest(req);
 
             IRestResponse<T> response;
-            if (configuration.RetryPolicy != null)	
+            if (RetryConfiguration.RetryPolicy != null)	
             {
-                var policy = configuration.RetryPolicy;
+                var policy = RetryConfiguration.RetryPolicy;
                 var policyResult = policy.ExecuteAndCapture(() => client.Execute(req));
                 response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
                 {
@@ -499,9 +499,9 @@ namespace Org.OpenAPITools.Client
             InterceptRequest(req);
 
             IRestResponse<T> response;
-            if (configuration.RetryPolicyAsync != null)
+            if (RetryConfiguration.AsyncRetryPolicy != null)
             {
-                var policy = configuration.RetryPolicyAsync;
+                var policy = RetryConfiguration.AsyncRetryPolicy;
                 var policyResult = await policy.ExecuteAndCaptureAsync(() => client.ExecuteAsync(req));
                 response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
                 {
