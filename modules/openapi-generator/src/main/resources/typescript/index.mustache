@@ -1,9 +1,3 @@
-{{#platforms}}
-{{^deno}}
-import "es6-promise/auto";
-{{/deno}}
-{{/platforms}}
-
 export * from "./http/http{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
 export * from "./auth/auth{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
 export * from "./models/all{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";

@@ -17,7 +17,7 @@ import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../r
 {{^deno}}
 {{#frameworks}}
 {{#fetch-api}}
-export * from './isomorphic-fetch{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+export * from './isomorphic-fetch';
 {{/fetch-api}}
 {{#jquery}}
 export * from './jquery';
