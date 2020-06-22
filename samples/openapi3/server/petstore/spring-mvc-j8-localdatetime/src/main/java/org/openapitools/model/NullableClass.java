@@ -194,7 +194,7 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public NullableClass addArrayNullablePropItem(Object arrayNullablePropItem) {
     if (this.arrayNullableProp == null || !this.arrayNullableProp.isPresent()) {
-      this.arrayNullableProp = JsonNullable.of(new ArrayList<>());
+      this.arrayNullableProp = JsonNullable.of((List<Object>) new ArrayList<>());
     }
     this.arrayNullableProp.get().add(arrayNullablePropItem);
     return this;
@@ -222,7 +222,7 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public NullableClass addArrayAndItemsNullablePropItem(Object arrayAndItemsNullablePropItem) {
     if (this.arrayAndItemsNullableProp == null || !this.arrayAndItemsNullableProp.isPresent()) {
-      this.arrayAndItemsNullableProp = JsonNullable.of(new ArrayList<>());
+      this.arrayAndItemsNullableProp = JsonNullable.of((List<Object>) new ArrayList<>());
     }
     this.arrayAndItemsNullableProp.get().add(arrayAndItemsNullablePropItem);
     return this;
@@ -278,7 +278,7 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public NullableClass putObjectNullablePropItem(String key, Object objectNullablePropItem) {
     if (this.objectNullableProp == null || !this.objectNullableProp.isPresent()) {
-      this.objectNullableProp = JsonNullable.of(new HashMap<>());
+      this.objectNullableProp = JsonNullable.of((Map<String, Object>) new HashMap<>());
     }
     this.objectNullableProp.get().put(key, objectNullablePropItem);
     return this;
@@ -306,7 +306,7 @@ public class NullableClass extends HashMap<String, Object>  {
 
   public NullableClass putObjectAndItemsNullablePropItem(String key, Object objectAndItemsNullablePropItem) {
     if (this.objectAndItemsNullableProp == null || !this.objectAndItemsNullableProp.isPresent()) {
-      this.objectAndItemsNullableProp = JsonNullable.of(new HashMap<>());
+      this.objectAndItemsNullableProp = JsonNullable.of((Map<String, Object>) new HashMap<>());
     }
     this.objectAndItemsNullableProp.get().put(key, objectAndItemsNullablePropItem);
     return this;
