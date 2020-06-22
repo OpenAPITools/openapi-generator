@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 class DebugTest extends TestCase
 {
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         $newPet = new Model\Pet;

@@ -37,7 +37,7 @@ import java.util.Map;
 
 import java.util.concurrent.CompletableFuture;
 
-
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AnotherFakeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -45,7 +45,7 @@ public class AnotherFakeApi {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  
+
   public AnotherFakeApi() {
     this(new ApiClient());
   }
@@ -100,10 +100,14 @@ public class AnotherFakeApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
     } catch (IOException e) {
       return CompletableFuture.failedFuture(new ApiException(e));

@@ -37,7 +37,7 @@ import java.util.Map;
 
 import java.util.concurrent.CompletableFuture;
 
-
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class StoreApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -45,7 +45,7 @@ public class StoreApi {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  
+
   public StoreApi() {
     this(new ApiClient());
   }
@@ -97,9 +97,8 @@ public class StoreApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
+
+              return CompletableFuture.completedFuture(null);
           }
       });
   }
@@ -136,10 +135,14 @@ public class StoreApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Map<String, Integer>>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
   }
   /**
@@ -181,10 +184,14 @@ public class StoreApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
   }
   /**
@@ -228,10 +235,14 @@ public class StoreApi {
                   localVarResponse.body())
               );
           } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
+              try {
+                  return CompletableFuture.completedFuture(
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {})
+                  );
+              } catch (IOException e) {
+                  return CompletableFuture.failedFuture(new ApiException(e));
+              }
+                        }
       });
     } catch (IOException e) {
       return CompletableFuture.failedFuture(new ApiException(e));

@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 
-
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AnotherFakeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -44,7 +44,7 @@ public class AnotherFakeApi {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  
+
   public AnotherFakeApi() {
     this(new ApiClient());
   }
@@ -94,7 +94,7 @@ public class AnotherFakeApi {
       HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
-      }          
+      }
       if (localVarResponse.statusCode()/ 100 != 2) {
           throw new ApiException(localVarResponse.statusCode(),
               "call123testSpecialTags call received non-success response",

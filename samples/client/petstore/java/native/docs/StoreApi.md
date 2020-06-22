@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 ## deleteOrder
 
-> deleteOrder(orderId)
+> void deleteOrder(orderId)
 
 Delete purchase order by ID
 
@@ -58,6 +58,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
+
 null (empty response body)
 
 ### Authorization
@@ -78,7 +79,7 @@ No authorization required
 
 ## getInventory
 
-> Map&lt;String, Integer&gt; getInventory()
+> Map<String, Integer> getInventory()
 
 Returns pet inventories by status
 
@@ -128,6 +129,7 @@ This endpoint does not need any parameter.
 ### Return type
 
 **Map&lt;String, Integer&gt;**
+
 
 ### Authorization
 
@@ -194,6 +196,7 @@ Name | Type | Description  | Notes
 
 [**Order**](Order.md)
 
+
 ### Authorization
 
 No authorization required
@@ -258,6 +261,7 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Order**](Order.md)
+
 
 ### Authorization
 

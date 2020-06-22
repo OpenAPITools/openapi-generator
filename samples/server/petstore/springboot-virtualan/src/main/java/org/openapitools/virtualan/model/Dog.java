@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 /**
  * Dog
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Dog extends Animal  {
   @JsonProperty("breed")
   private String breed;

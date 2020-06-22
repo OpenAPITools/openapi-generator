@@ -68,7 +68,7 @@ class DogAllOf(object):
 
 
         :param breed: The breed of this DogAllOf.  # noqa: E501
-        :type: str
+        :type breed: str
         """
 
         self._breed = breed

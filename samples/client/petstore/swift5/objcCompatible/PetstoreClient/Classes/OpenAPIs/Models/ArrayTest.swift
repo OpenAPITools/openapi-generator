@@ -7,7 +7,9 @@
 
 import Foundation
 
-@objc public class ArrayTest: NSObject, Codable {
+
+
+@objc public class ArrayTest: NSObject, Codable { 
 
     public var arrayOfString: [String]?
     public var arrayArrayOfInteger: [[Int64]]?
@@ -19,7 +21,7 @@ import Foundation
         self.arrayArrayOfModel = arrayArrayOfModel
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    public enum CodingKeys: String, CodingKey, CaseIterable { 
         case arrayOfString = "array_of_string"
         case arrayArrayOfInteger = "array_array_of_integer"
         case arrayArrayOfModel = "array_array_of_model"

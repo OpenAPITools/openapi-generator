@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * CatAllOf
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class CatAllOf   {
   @JsonProperty("declawed")
   private Boolean declawed;
