@@ -40,8 +40,8 @@ class ResponseTypesTest extends TestCase
 
     public function testDefinedErrorException()
     {
-        $this->expectException(\OpenAPI\Client\ApiException::class);
         $this->expectExceptionCode(400);
+        $this->expectException(\OpenAPI\Client\ApiException::class);
         $statusCode = 400;
 
         $this->fakeHttpClient->setResponse(new Response($statusCode, [], '{}'));
@@ -69,8 +69,8 @@ class ResponseTypesTest extends TestCase
 
     public function testDefaultErrorException()
     {
-        $this->expectException(\OpenAPI\Client\ApiException::class);
         $this->expectExceptionCode(404);
+        $this->expectException(\OpenAPI\Client\ApiException::class);
         $statusCode = 404;
 
         $this->fakeHttpClient->setResponse(new Response($statusCode, [], '{}'));
