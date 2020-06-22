@@ -13,8 +13,14 @@
 
 package org.openapitools.client.model;
 
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -22,9 +28,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.openapitools.client.model.Fruit;
 import org.openapitools.client.model.NullableShape;
 import org.openapitools.client.model.Shape;
@@ -33,6 +37,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.openapitools.jackson.nullable.JsonNullable;
 import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * Drawing
@@ -43,8 +49,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   Drawing.JSON_PROPERTY_NULLABLE_SHAPE,
   Drawing.JSON_PROPERTY_SHAPES
 })
-
-public class Drawing extends HashMap<String, Fruit> {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class Drawing {
   public static final String JSON_PROPERTY_MAIN_SHAPE = "mainShape";
   private Shape mainShape = null;
 
@@ -59,7 +65,6 @@ public class Drawing extends HashMap<String, Fruit> {
 
 
   public Drawing mainShape(Shape mainShape) {
-    
     this.mainShape = mainShape;
     return this;
   }
@@ -84,7 +89,6 @@ public class Drawing extends HashMap<String, Fruit> {
 
 
   public Drawing shapeOrNull(ShapeOrNull shapeOrNull) {
-    
     this.shapeOrNull = shapeOrNull;
     return this;
   }
@@ -110,7 +114,6 @@ public class Drawing extends HashMap<String, Fruit> {
 
   public Drawing nullableShape(NullableShape nullableShape) {
     this.nullableShape = JsonNullable.<NullableShape>of(nullableShape);
-    
     return this;
   }
 
@@ -144,7 +147,6 @@ public class Drawing extends HashMap<String, Fruit> {
 
 
   public Drawing shapes(List<Shape> shapes) {
-    
     this.shapes = shapes;
     return this;
   }
@@ -175,7 +177,47 @@ public class Drawing extends HashMap<String, Fruit> {
     this.shapes = shapes;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Fruit> additionalProperties;
 
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   */
+  @JsonAnySetter
+  public Drawing putAdditionalProperty(String key, Fruit value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Fruit>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  @JsonAnyGetter
+  public Map<String, Fruit> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   */
+  public Fruit getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
+
+  /**
+   * Return true if this Drawing object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -188,13 +230,13 @@ public class Drawing extends HashMap<String, Fruit> {
     return Objects.equals(this.mainShape, drawing.mainShape) &&
         Objects.equals(this.shapeOrNull, drawing.shapeOrNull) &&
         Objects.equals(this.nullableShape, drawing.nullableShape) &&
-        Objects.equals(this.shapes, drawing.shapes) &&
-        super.equals(o);
+        Objects.equals(this.shapes, drawing.shapes)&&
+        Objects.equals(this.additionalProperties, drawing.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(mainShape, shapeOrNull, nullableShape, shapes, super.hashCode());
+    return Objects.hash(mainShape, shapeOrNull, nullableShape, shapes, additionalProperties);
   }
 
 
@@ -202,11 +244,11 @@ public class Drawing extends HashMap<String, Fruit> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Drawing {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    mainShape: ").append(toIndentedString(mainShape)).append("\n");
     sb.append("    shapeOrNull: ").append(toIndentedString(shapeOrNull)).append("\n");
     sb.append("    nullableShape: ").append(toIndentedString(nullableShape)).append("\n");
     sb.append("    shapes: ").append(toIndentedString(shapes)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }

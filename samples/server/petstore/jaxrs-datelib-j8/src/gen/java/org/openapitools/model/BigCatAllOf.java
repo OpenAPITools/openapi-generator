@@ -30,7 +30,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   BigCatAllOf.JSON_PROPERTY_KIND
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class BigCatAllOf  implements Serializable {
   /**
    * Gets or Sets kind

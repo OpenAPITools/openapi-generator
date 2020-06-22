@@ -42,6 +42,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
     public static final String FILE_NAMING_VALUE = "camelCase";
     public static final String API_MODULE_PREFIX = "";
+    public static final String QUERY_PARAM_OBJECT_FORMAT_VALUE = "dot";
     public static String SERVICE_SUFFIX = "Service";
     public static String SERVICE_FILE_SUFFIX = ".service";
     public static String MODEL_SUFFIX = "";
@@ -83,6 +84,7 @@ public class TypeScriptAngularClientOptionsProvider implements OptionsProvider {
                 .put(TypeScriptAngularClientCodegen.FILE_NAMING, FILE_NAMING_VALUE)
                 .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
+                .put(TypeScriptAngularClientCodegen.QUERY_PARAM_OBJECT_FORMAT, QUERY_PARAM_OBJECT_FORMAT_VALUE)
                 .build();
     }
 

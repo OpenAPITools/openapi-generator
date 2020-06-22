@@ -177,6 +177,12 @@
         <artifactId>jackson-datatype-joda</artifactId>
         <version>${jackson-jaxrs-version}</version>
     </dependency>
+    <dependency>
+        <groupId>javax.annotation</groupId>
+        <artifactId>javax.annotation-api</artifactId>
+        <version>${javax-annotation-version}</version>
+        <scope>provided</scope>
+    </dependency>
   </dependencies>
   <repositories>
     <repository>
@@ -199,6 +205,7 @@
     <beanvalidation-version>1.1.0.Final</beanvalidation-version>
     <cxf-version>3.3.0</cxf-version>
     <jackson-jaxrs-version>2.9.9</jackson-jaxrs-version>
+    <javax-annotation-version>1.3.2</javax-annotation-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>

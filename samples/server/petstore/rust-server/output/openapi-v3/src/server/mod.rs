@@ -25,6 +25,7 @@ use crate::{Api,
      CallbackWithHeaderPostResponse,
      ComplexQueryParamGetResponse,
      EnumInPathPathParamGetResponse,
+     JsonComplexQueryParamGetResponse,
      MandatoryRequestHeaderGetResponse,
      MergePatchJsonGetResponse,
      MultigetGetResponse,
@@ -57,6 +58,7 @@ mod paths {
             r"^/callback-with-header$",
             r"^/complex-query-param$",
             r"^/enum_in_path/(?P<path_param>[^/?#]*)$",
+            r"^/json-complex-query-param$",
             r"^/mandatory-request-header$",
             r"^/merge-patch-json$",
             r"^/multiget$",
@@ -86,29 +88,30 @@ mod paths {
             regex::Regex::new(r"^/enum_in_path/(?P<path_param>[^/?#]*)$")
                 .expect("Unable to create regex for ENUM_IN_PATH_PATH_PARAM");
     }
-    pub(crate) static ID_MANDATORY_REQUEST_HEADER: usize = 3;
-    pub(crate) static ID_MERGE_PATCH_JSON: usize = 4;
-    pub(crate) static ID_MULTIGET: usize = 5;
-    pub(crate) static ID_MULTIPLE_AUTH_SCHEME: usize = 6;
-    pub(crate) static ID_OVERRIDE_SERVER: usize = 7;
-    pub(crate) static ID_PARAMGET: usize = 8;
-    pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 9;
-    pub(crate) static ID_REGISTER_CALLBACK: usize = 10;
-    pub(crate) static ID_REPOS: usize = 11;
-    pub(crate) static ID_REPOS_REPOID: usize = 12;
+    pub(crate) static ID_JSON_COMPLEX_QUERY_PARAM: usize = 3;
+    pub(crate) static ID_MANDATORY_REQUEST_HEADER: usize = 4;
+    pub(crate) static ID_MERGE_PATCH_JSON: usize = 5;
+    pub(crate) static ID_MULTIGET: usize = 6;
+    pub(crate) static ID_MULTIPLE_AUTH_SCHEME: usize = 7;
+    pub(crate) static ID_OVERRIDE_SERVER: usize = 8;
+    pub(crate) static ID_PARAMGET: usize = 9;
+    pub(crate) static ID_READONLY_AUTH_SCHEME: usize = 10;
+    pub(crate) static ID_REGISTER_CALLBACK: usize = 11;
+    pub(crate) static ID_REPOS: usize = 12;
+    pub(crate) static ID_REPOS_REPOID: usize = 13;
     lazy_static! {
         pub static ref REGEX_REPOS_REPOID: regex::Regex =
             regex::Regex::new(r"^/repos/(?P<repoId>[^/?#]*)$")
                 .expect("Unable to create regex for REPOS_REPOID");
     }
-    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 13;
-    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 14;
-    pub(crate) static ID_RFC7807: usize = 15;
-    pub(crate) static ID_UNTYPED_PROPERTY: usize = 16;
-    pub(crate) static ID_UUID: usize = 17;
-    pub(crate) static ID_XML: usize = 18;
-    pub(crate) static ID_XML_EXTRA: usize = 19;
-    pub(crate) static ID_XML_OTHER: usize = 20;
+    pub(crate) static ID_REQUIRED_OCTET_STREAM: usize = 14;
+    pub(crate) static ID_RESPONSES_WITH_HEADERS: usize = 15;
+    pub(crate) static ID_RFC7807: usize = 16;
+    pub(crate) static ID_UNTYPED_PROPERTY: usize = 17;
+    pub(crate) static ID_UUID: usize = 18;
+    pub(crate) static ID_XML: usize = 19;
+    pub(crate) static ID_XML_EXTRA: usize = 20;
+    pub(crate) static ID_XML_OTHER: usize = 21;
 }
 
 pub struct MakeService<T, C> where
@@ -220,17 +223,26 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 let param_url = query_params.iter().filter(|e| e.0 == "url").map(|e| e.1.to_owned())
                     .nth(0);
                 let param_url = match param_url {
-                    Some(param_url) => match param_url.parse::<String>() {
-                        Ok(param_url) => param_url,
-                        Err(e) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse query parameter url - doesn't match schema: {}", e)))
-                                        .expect("Unable to create Bad Request response for invalid query parameter url")),
+                    Some(param_url) => {
+                        let param_url =
+                            <String as std::str::FromStr>::from_str
+                                (&param_url);
+                        match param_url {
+                            Ok(param_url) => Some(param_url),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter url - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter url")),
+                        }
                     },
+                    None => None,
+                };
+                let param_url = match param_url {
+                    Some(param_url) => param_url,
                     None => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from("Missing required query parameter url"))
-                                        .expect("Unable to create Bad Request response for missing qeury parameter url")),
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(Body::from("Missing required query parameter url"))
+                        .expect("Unable to create Bad Request response for missing query parameter url")),
                 };
 
                                 let result = api_impl.callback_with_header_post(
@@ -340,6 +352,56 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                         match result {
                                             Ok(rsp) => match rsp {
                                                 EnumInPathPathParamGetResponse::Success
+                                                => {
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
+                                                },
+                                            },
+                                            Err(_) => {
+                                                // Application code returned an error. This should not happen, as the implementation should
+                                                // return a valid response.
+                                                *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;
+                                                *response.body_mut() = Body::from("An internal error occurred");
+                                            },
+                                        }
+
+                                        Ok(response)
+            },
+
+            // JsonComplexQueryParamGet - GET /json-complex-query-param
+            &hyper::Method::GET if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => {
+                // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
+                let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
+                let param_list_of_strings = query_params.iter().filter(|e| e.0 == "list-of-strings").map(|e| e.1.to_owned())
+                    .nth(0);
+                let param_list_of_strings = match param_list_of_strings {
+                    Some(param_list_of_strings) => {
+                        let param_list_of_strings =
+                            serde_json::from_str::<Vec<models::StringObject>>
+                                (&param_list_of_strings);
+                        match param_list_of_strings {
+                            Ok(param_list_of_strings) => Some(param_list_of_strings),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter list-of-strings - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter list-of-strings")),
+                        }
+                    },
+                    None => None,
+                };
+
+                                let result = api_impl.json_complex_query_param_get(
+                                            param_list_of_strings.as_ref(),
+                                        &context
+                                    ).await;
+                                let mut response = Response::new(Body::empty());
+                                response.headers_mut().insert(
+                                            HeaderName::from_static("x-span-id"),
+                                            HeaderValue::from_str((&context as &dyn Has<XSpanIdString>).get().0.clone().to_string().as_str())
+                                                .expect("Unable to create X-Span-ID header value"));
+
+                                        match result {
+                                            Ok(rsp) => match rsp {
+                                                JsonComplexQueryParamGetResponse::Success
                                                 => {
                                                     *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                 },
@@ -640,13 +702,55 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
                 let param_uuid = query_params.iter().filter(|e| e.0 == "uuid").map(|e| e.1.to_owned())
                     .nth(0);
-                let param_uuid = param_uuid.and_then(|param_uuid| param_uuid.parse::<>().ok());
+                let param_uuid = match param_uuid {
+                    Some(param_uuid) => {
+                        let param_uuid =
+                            <uuid::Uuid as std::str::FromStr>::from_str
+                                (&param_uuid);
+                        match param_uuid {
+                            Ok(param_uuid) => Some(param_uuid),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter uuid - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter uuid")),
+                        }
+                    },
+                    None => None,
+                };
                 let param_some_object = query_params.iter().filter(|e| e.0 == "someObject").map(|e| e.1.to_owned())
                     .nth(0);
-                let param_some_object = param_some_object.and_then(|param_some_object| param_some_object.parse::<>().ok());
+                let param_some_object = match param_some_object {
+                    Some(param_some_object) => {
+                        let param_some_object =
+                            <models::ObjectParam as std::str::FromStr>::from_str
+                                (&param_some_object);
+                        match param_some_object {
+                            Ok(param_some_object) => Some(param_some_object),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter someObject - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter someObject")),
+                        }
+                    },
+                    None => None,
+                };
                 let param_some_list = query_params.iter().filter(|e| e.0 == "someList").map(|e| e.1.to_owned())
                     .nth(0);
-                let param_some_list = param_some_list.and_then(|param_some_list| param_some_list.parse::<>().ok());
+                let param_some_list = match param_some_list {
+                    Some(param_some_list) => {
+                        let param_some_list =
+                            <models::MyIdList as std::str::FromStr>::from_str
+                                (&param_some_list);
+                        match param_some_list {
+                            Ok(param_some_list) => Some(param_some_list),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter someList - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter someList")),
+                        }
+                    },
+                    None => None,
+                };
 
                                 let result = api_impl.paramget_get(
                                             param_uuid,
@@ -750,17 +854,26 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                 let param_url = query_params.iter().filter(|e| e.0 == "url").map(|e| e.1.to_owned())
                     .nth(0);
                 let param_url = match param_url {
-                    Some(param_url) => match param_url.parse::<String>() {
-                        Ok(param_url) => param_url,
-                        Err(e) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse query parameter url - doesn't match schema: {}", e)))
-                                        .expect("Unable to create Bad Request response for invalid query parameter url")),
+                    Some(param_url) => {
+                        let param_url =
+                            <String as std::str::FromStr>::from_str
+                                (&param_url);
+                        match param_url {
+                            Ok(param_url) => Some(param_url),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter url - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter url")),
+                        }
                     },
+                    None => None,
+                };
+                let param_url = match param_url {
+                    Some(param_url) => param_url,
                     None => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from("Missing required query parameter url"))
-                                        .expect("Unable to create Bad Request response for missing qeury parameter url")),
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(Body::from("Missing required query parameter url"))
+                        .expect("Unable to create Bad Request response for missing query parameter url")),
                 };
 
                                 let result = api_impl.register_callback_post(
@@ -877,6 +990,11 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         }
                                                     };
 
+                                                    response.headers_mut().insert(
+                                                        HeaderName::from_static("success-info"),
+                                                        success_info
+                                                    );
+                                                    if let Some(bool_header) = bool_header {
                                                     let bool_header = match header::IntoHeaderValue(bool_header).try_into() {
                                                         Ok(val) => val,
                                                         Err(e) => {
@@ -887,6 +1005,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         }
                                                     };
 
+                                                    response.headers_mut().insert(
+                                                        HeaderName::from_static("bool-header"),
+                                                        bool_header
+                                                    );
+                                                    }
+                                                    if let Some(object_header) = object_header {
                                                     let object_header = match header::IntoHeaderValue(object_header).try_into() {
                                                         Ok(val) => val,
                                                         Err(e) => {
@@ -897,19 +1021,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         }
                                                     };
 
-                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
-                                                    response.headers_mut().insert(
-                                                        HeaderName::from_static("success-info"),
-                                                        success_info
-                                                    );
-                                                    response.headers_mut().insert(
-                                                        HeaderName::from_static("bool-header"),
-                                                        bool_header
-                                                    );
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("object-header"),
                                                         object_header
                                                     );
+                                                    }
+                                                    *response.status_mut() = StatusCode::from_u16(200).expect("Unable to turn 200 into a StatusCode");
                                                     response.headers_mut().insert(
                                                         CONTENT_TYPE,
                                                         HeaderValue::from_str("application/json")
@@ -923,6 +1040,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         failure_info
                                                     }
                                                 => {
+                                                    if let Some(further_info) = further_info {
                                                     let further_info = match header::IntoHeaderValue(further_info).try_into() {
                                                         Ok(val) => val,
                                                         Err(e) => {
@@ -933,6 +1051,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         }
                                                     };
 
+                                                    response.headers_mut().insert(
+                                                        HeaderName::from_static("further-info"),
+                                                        further_info
+                                                    );
+                                                    }
+                                                    if let Some(failure_info) = failure_info {
                                                     let failure_info = match header::IntoHeaderValue(failure_info).try_into() {
                                                         Ok(val) => val,
                                                         Err(e) => {
@@ -943,15 +1067,12 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
                                                         }
                                                     };
 
-                                                    *response.status_mut() = StatusCode::from_u16(412).expect("Unable to turn 412 into a StatusCode");
-                                                    response.headers_mut().insert(
-                                                        HeaderName::from_static("further-info"),
-                                                        further_info
-                                                    );
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("failure-info"),
                                                         failure_info
                                                     );
+                                                    }
+                                                    *response.status_mut() = StatusCode::from_u16(412).expect("Unable to turn 412 into a StatusCode");
                                                 },
                                             },
                                             Err(_) => {
@@ -1604,6 +1725,7 @@ impl<T, C> hyper::service::Service<(Request<Body>, C)> for Service<T, C> where
             _ if path.matched(paths::ID_CALLBACK_WITH_HEADER) => method_not_allowed(),
             _ if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => method_not_allowed(),
             _ if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => method_not_allowed(),
+            _ if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => method_not_allowed(),
             _ if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => method_not_allowed(),
             _ if path.matched(paths::ID_MERGE_PATCH_JSON) => method_not_allowed(),
             _ if path.matched(paths::ID_MULTIGET) => method_not_allowed(),
@@ -1641,6 +1763,8 @@ impl<T> RequestParser<T> for ApiRequestParser {
             &hyper::Method::GET if path.matched(paths::ID_COMPLEX_QUERY_PARAM) => Ok("ComplexQueryParamGet"),
             // EnumInPathPathParamGet - GET /enum_in_path/{path_param}
             &hyper::Method::GET if path.matched(paths::ID_ENUM_IN_PATH_PATH_PARAM) => Ok("EnumInPathPathParamGet"),
+            // JsonComplexQueryParamGet - GET /json-complex-query-param
+            &hyper::Method::GET if path.matched(paths::ID_JSON_COMPLEX_QUERY_PARAM) => Ok("JsonComplexQueryParamGet"),
             // MandatoryRequestHeaderGet - GET /mandatory-request-header
             &hyper::Method::GET if path.matched(paths::ID_MANDATORY_REQUEST_HEADER) => Ok("MandatoryRequestHeaderGet"),
             // MergePatchJsonGet - GET /merge-patch-json

@@ -8,7 +8,7 @@ import javax.validation.constraints.*;
 /**
  * Model for testing model name same as property name
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Name   {
   @JsonProperty("name")

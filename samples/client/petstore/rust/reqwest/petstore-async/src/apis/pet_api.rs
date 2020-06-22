@@ -10,15 +10,211 @@
 
 #[allow(unused_imports)]
 use std::rc::Rc;
-use std::borrow::Borrow;
+
 use std::option::Option;
 
 use reqwest;
 
+use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
+/// struct for passing parameters to the method `add_pet`
+#[derive(Clone, Debug)]
+pub struct AddPetParams {
+    /// Pet object that needs to be added to the store
+    pub body: crate::models::Pet
+}
 
-    pub async fn add_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<(), Error> {
+/// struct for passing parameters to the method `delete_pet`
+#[derive(Clone, Debug)]
+pub struct DeletePetParams {
+    /// Pet id to delete
+    pub pet_id: i64,
+    pub api_key: Option<String>
+}
+
+/// struct for passing parameters to the method `find_pets_by_status`
+#[derive(Clone, Debug)]
+pub struct FindPetsByStatusParams {
+    /// Status values that need to be considered for filter
+    pub status: Vec<String>
+}
+
+/// struct for passing parameters to the method `find_pets_by_tags`
+#[derive(Clone, Debug)]
+pub struct FindPetsByTagsParams {
+    /// Tags to filter by
+    pub tags: Vec<String>
+}
+
+/// struct for passing parameters to the method `get_pet_by_id`
+#[derive(Clone, Debug)]
+pub struct GetPetByIdParams {
+    /// ID of pet to return
+    pub pet_id: i64
+}
+
+/// struct for passing parameters to the method `update_pet`
+#[derive(Clone, Debug)]
+pub struct UpdatePetParams {
+    /// Pet object that needs to be added to the store
+    pub body: crate::models::Pet
+}
+
+/// struct for passing parameters to the method `update_pet_with_form`
+#[derive(Clone, Debug)]
+pub struct UpdatePetWithFormParams {
+    /// ID of pet that needs to be updated
+    pub pet_id: i64,
+    /// Updated name of the pet
+    pub name: Option<String>,
+    /// Updated status of the pet
+    pub status: Option<String>
+}
+
+/// struct for passing parameters to the method `upload_file`
+#[derive(Clone, Debug)]
+pub struct UploadFileParams {
+    /// ID of pet to update
+    pub pet_id: i64,
+    /// Additional data to pass to server
+    pub additional_metadata: Option<String>,
+    /// file to upload
+    pub file: Option<std::path::PathBuf>
+}
+
+
+/// struct for typed successes of method `add_pet`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum AddPetSuccess {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `delete_pet`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DeletePetSuccess {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `find_pets_by_status`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum FindPetsByStatusSuccess {
+    Status200(Vec<crate::models::Pet>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `find_pets_by_tags`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum FindPetsByTagsSuccess {
+    Status200(Vec<crate::models::Pet>),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `get_pet_by_id`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetPetByIdSuccess {
+    Status200(crate::models::Pet),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `update_pet`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UpdatePetSuccess {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `update_pet_with_form`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UpdatePetWithFormSuccess {
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed successes of method `upload_file`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UploadFileSuccess {
+    Status200(crate::models::ApiResponse),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `add_pet`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum AddPetError {
+    Status405(),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `delete_pet`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum DeletePetError {
+    Status400(),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `find_pets_by_status`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum FindPetsByStatusError {
+    Status400(),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `find_pets_by_tags`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum FindPetsByTagsError {
+    Status400(),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `get_pet_by_id`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum GetPetByIdError {
+    Status400(),
+    Status404(),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `update_pet`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UpdatePetError {
+    Status400(),
+    Status404(),
+    Status405(),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `update_pet_with_form`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UpdatePetWithFormError {
+    Status405(),
+    UnknownValue(serde_json::Value),
+}
+
+/// struct for typed errors of method `upload_file`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UploadFileError {
+    UnknownValue(serde_json::Value),
+}
+
+
+    pub async fn add_pet(configuration: &configuration::Configuration, params: AddPetParams) -> Result<ResponseContent<AddPetSuccess>, Error<AddPetError>> {
+        // unbox the parameters
+        let body = params.body;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet", configuration.base_path);
@@ -33,11 +229,27 @@ use super::{Error, configuration};
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        client.execute(req).await?.error_for_status()?;
-        Ok(())
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<AddPetSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<AddPetError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api_key: Option<&str>) -> Result<(), Error> {
+    pub async fn delete_pet(configuration: &configuration::Configuration, params: DeletePetParams) -> Result<ResponseContent<DeletePetSuccess>, Error<DeletePetError>> {
+        // unbox the parameters
+        let pet_id = params.pet_id;
+        let api_key = params.api_key;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
@@ -54,11 +266,26 @@ use super::{Error, configuration};
         };
 
         let req = req_builder.build()?;
-        client.execute(req).await?.error_for_status()?;
-        Ok(())
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<DeletePetSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<DeletePetError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error> {
+    pub async fn find_pets_by_status(configuration: &configuration::Configuration, params: FindPetsByStatusParams) -> Result<ResponseContent<FindPetsByStatusSuccess>, Error<FindPetsByStatusError>> {
+        // unbox the parameters
+        let status = params.status;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/findByStatus", configuration.base_path);
@@ -73,10 +300,26 @@ use super::{Error, configuration};
         };
 
         let req = req_builder.build()?;
-        Ok(client.execute(req).await?.error_for_status()?.json::<Vec<crate::models::Pet>>().await?)
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<FindPetsByStatusSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<FindPetsByStatusError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error> {
+    pub async fn find_pets_by_tags(configuration: &configuration::Configuration, params: FindPetsByTagsParams) -> Result<ResponseContent<FindPetsByTagsSuccess>, Error<FindPetsByTagsError>> {
+        // unbox the parameters
+        let tags = params.tags;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/findByTags", configuration.base_path);
@@ -91,10 +334,26 @@ use super::{Error, configuration};
         };
 
         let req = req_builder.build()?;
-        Ok(client.execute(req).await?.error_for_status()?.json::<Vec<crate::models::Pet>>().await?)
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<FindPetsByTagsSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<FindPetsByTagsError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) -> Result<crate::models::Pet, Error> {
+    pub async fn get_pet_by_id(configuration: &configuration::Configuration, params: GetPetByIdParams) -> Result<ResponseContent<GetPetByIdSuccess>, Error<GetPetByIdError>> {
+        // unbox the parameters
+        let pet_id = params.pet_id;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
@@ -113,10 +372,26 @@ use super::{Error, configuration};
         };
 
         let req = req_builder.build()?;
-        Ok(client.execute(req).await?.error_for_status()?.json::<crate::models::Pet>().await?)
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<GetPetByIdSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<GetPetByIdError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn update_pet(configuration: &configuration::Configuration, body: crate::models::Pet) -> Result<(), Error> {
+    pub async fn update_pet(configuration: &configuration::Configuration, params: UpdatePetParams) -> Result<ResponseContent<UpdatePetSuccess>, Error<UpdatePetError>> {
+        // unbox the parameters
+        let body = params.body;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet", configuration.base_path);
@@ -131,11 +406,28 @@ use super::{Error, configuration};
         req_builder = req_builder.json(&body);
 
         let req = req_builder.build()?;
-        client.execute(req).await?.error_for_status()?;
-        Ok(())
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<UpdatePetSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<UpdatePetError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn update_pet_with_form(configuration: &configuration::Configuration, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error> {
+    pub async fn update_pet_with_form(configuration: &configuration::Configuration, params: UpdatePetWithFormParams) -> Result<ResponseContent<UpdatePetWithFormSuccess>, Error<UpdatePetWithFormError>> {
+        // unbox the parameters
+        let pet_id = params.pet_id;
+        let name = params.name;
+        let status = params.status;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}", configuration.base_path, petId=pet_id);
@@ -157,11 +449,28 @@ use super::{Error, configuration};
         req_builder = req_builder.form(&form_params);
 
         let req = req_builder.build()?;
-        client.execute(req).await?.error_for_status()?;
-        Ok(())
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<UpdatePetWithFormSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<UpdatePetWithFormError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
-    pub async fn upload_file(configuration: &configuration::Configuration, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error> {
+    pub async fn upload_file(configuration: &configuration::Configuration, params: UploadFileParams) -> Result<ResponseContent<UploadFileSuccess>, Error<UploadFileError>> {
+        // unbox the parameters
+        let pet_id = params.pet_id;
+        let additional_metadata = params.additional_metadata;
+        let file = params.file;
+
         let client = &configuration.client;
 
         let uri_str = format!("{}/pet/{petId}/uploadImage", configuration.base_path, petId=pet_id);
@@ -181,6 +490,19 @@ use super::{Error, configuration};
         req_builder = req_builder.multipart(form);
 
         let req = req_builder.build()?;
-        Ok(client.execute(req).await?.error_for_status()?.json::<crate::models::ApiResponse>().await?)
+        let resp = client.execute(req).await?;
+
+        let status = resp.status();
+        let content = resp.text().await?;
+
+        if status.is_success() {
+            let entity: Option<UploadFileSuccess> = serde_json::from_str(&content).ok();
+            let result = ResponseContent { status, content, entity };
+            Ok(result)
+        } else {
+            let entity: Option<UploadFileError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 

@@ -234,16 +234,12 @@ public class HttpSignatureAuth implements Authentication {
         throw new ApiException("Signer cannot be null. Please call the method `setPrivateKey` to set it up correctly");
       }
 
-      // construct the path with the URL query string
-      String path = uri.getPath();
-
-      List<String> urlQueries = new ArrayList<String>();
-      for (Pair queryParam : queryParams) {
-        urlQueries.add(queryParam.getName() + "=" + URLEncoder.encode(queryParam.getValue(), "utf8").replaceAll("\\+", "%20"));
-      }
-
-      if (!urlQueries.isEmpty()) {
-        path = path + "?" + String.join("&", urlQueries);
+      // construct the path with the URL-encoded path and query.
+      // Calling getRawPath and getRawQuery ensures the path is URL-encoded as it will be serialized
+      // on the wire. The HTTP signature must use the encode URL as it is sent on the wire.
+      String path = uri.getRawPath();
+      if (uri.getRawQuery() != "") {
+        path += "?" + uri.getRawQuery();
       }
 
       headerParams.put("Authorization", signer.sign(method, path, headerParams).toString());

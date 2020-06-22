@@ -9,13 +9,14 @@ use std::io::{ErrorKind, Read};
 use std::error::Error;
 use std::future::Future;
 use std::fmt;
+use std::marker::PhantomData;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
 use std::task::{Context, Poll};
-use swagger::{ApiError, AuthData, BodyExt, Connector, Has, XSpanIdString};
+use swagger::{ApiError, AuthData, BodyExt, Connector, DropContextService, Has, XSpanIdString};
 use url::form_urlencoded;
 
 use mime::Mime;
@@ -95,49 +96,57 @@ fn into_base_path(input: impl TryInto<Uri, Error=hyper::http::uri::InvalidUri>, 
 }
 
 /// A client that implements the API by making HTTP calls out to a server.
-pub struct Client<S> where
+pub struct Client<S, C> where
     S: Service<
-           Request<Body>,
+           (Request<Body>, C),
            Response=Response<Body>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
+    C: Clone + Send + Sync + 'static
 {
     /// Inner service
     client_service: S,
 
     /// Base path of the API
     base_path: String,
+
+    /// Marker
+    marker: PhantomData<fn(C)>,
 }
 
-impl<S> fmt::Debug for Client<S> where
+impl<S, C> fmt::Debug for Client<S, C> where
     S: Service<
-           Request<Body>,
+           (Request<Body>, C),
            Response=Response<Body>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
+    C: Clone + Send + Sync + 'static
 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "Client {{ base_path: {} }}", self.base_path)
     }
 }
 
-impl<S> Clone for Client<S> where
+impl<S, C> Clone for Client<S, C> where
     S: Service<
-           Request<Body>,
+           (Request<Body>, C),
            Response=Response<Body>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
+    C: Clone + Send + Sync + 'static
 {
     fn clone(&self) -> Self {
         Self {
             client_service: self.client_service.clone(),
             base_path: self.base_path.clone(),
+            marker: PhantomData,
         }
     }
 }
 
-impl<C> Client<hyper::client::Client<C, Body>> where
-      C: hyper::client::connect::Connect + Clone + Send + Sync + 'static
+impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Body>, C>, C> where
+    Connector: hyper::client::connect::Connect + Clone + Send + Sync + 'static,
+    C: Clone + Send + Sync + 'static,
 {
     /// Create a client with a custom implementation of hyper::client::Connect.
     ///
@@ -156,14 +165,16 @@ impl<C> Client<hyper::client::Client<C, Body>> where
     pub fn try_new_with_connector(
         base_path: &str,
         protocol: Option<&'static str>,
-        connector: C,
+        connector: Connector,
     ) -> Result<Self, ClientInitError>
     {
         let client_service = hyper::client::Client::builder().build(connector);
+        let client_service = DropContextService::new(client_service);
 
         Ok(Self {
             client_service,
             base_path: into_base_path(base_path, protocol)?,
+            marker: PhantomData,
         })
     }
 }
@@ -194,7 +205,9 @@ impl Service<Request<Body>> for HyperClient {
     }
 }
 
-impl Client<HyperClient> {
+impl<C> Client<DropContextService<HyperClient, C>, C> where
+    C: Clone + Send + Sync + 'static,
+{
     /// Create an HTTP client.
     ///
     /// # Arguments
@@ -224,14 +237,18 @@ impl Client<HyperClient> {
             }
         };
 
+        let client_service = DropContextService::new(client_service);
+
         Ok(Self {
             client_service,
             base_path: into_base_path(base_path, None)?,
+            marker: PhantomData,
         })
     }
 }
 
-impl Client<hyper::client::Client<hyper::client::HttpConnector, Body>>
+impl<C> Client<DropContextService<hyper::client::Client<hyper::client::HttpConnector, Body>, C>, C> where
+    C: Clone + Send + Sync + 'static
 {
     /// Create an HTTP client.
     ///
@@ -252,7 +269,8 @@ type HttpsConnector = hyper_tls::HttpsConnector<hyper::client::HttpConnector>;
 #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
 type HttpsConnector = hyper_openssl::HttpsConnector<hyper::client::HttpConnector>;
 
-impl Client<hyper::client::Client<HttpsConnector, Body>>
+impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C>, C> where
+    C: Clone + Send + Sync + 'static
 {
     /// Create a client with a TLS connection to the server
     ///
@@ -317,12 +335,13 @@ impl Client<hyper::client::Client<HttpsConnector, Body>>
     }
 }
 
-impl<S> Client<S> where
+impl<S, C> Client<S, C> where
     S: Service<
-           Request<Body>,
+           (Request<Body>, C),
            Response=Response<Body>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
+    C: Clone + Send + Sync + 'static
 {
     /// Constructor for creating a `Client` by passing in a pre-made `hyper::service::Service` /
     /// `tower::Service`
@@ -336,6 +355,7 @@ impl<S> Client<S> where
         Ok(Self {
             client_service,
             base_path: into_base_path(base_path, None)?,
+            marker: PhantomData,
         })
     }
 }
@@ -381,13 +401,13 @@ impl Error for ClientInitError {
 }
 
 #[async_trait]
-impl<C, S> Api<C> for Client<S> where
-    C: Has<XSpanIdString> + Has<Option<AuthData>> + Clone + Send + Sync + 'static,
+impl<S, C> Api<C> for Client<S, C> where
     S: Service<
-       Request<Body>,
+       (Request<Body>, C),
        Response=Response<Body>> + Clone + Sync + Send + 'static,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
+    C: Has<XSpanIdString> + Has<Option<AuthData>> + Clone + Send + Sync + 'static,
 {
     fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), crate::ServiceError>> {
         match self.client_service.clone().poll_ready(cx) {
@@ -448,7 +468,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -523,7 +543,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -605,7 +625,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -693,7 +713,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -781,7 +801,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -869,7 +889,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -944,7 +964,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -1015,7 +1035,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -1060,7 +1080,8 @@ impl<C, S> Api<C> for Client<S> where
         // Query parameters
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-                query_string.append_pair("query", &param_query.to_string());
+                query_string.append_pair("query",
+                    &param_query.to_string());
             query_string.finish()
         };
         if !query_string.is_empty() {
@@ -1095,7 +1116,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -1173,7 +1194,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -1303,7 +1324,7 @@ impl<C, S> Api<C> for Client<S> where
             }
         }
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -1360,16 +1381,20 @@ impl<C, S> Api<C> for Client<S> where
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
             if let Some(param_enum_query_string_array) = param_enum_query_string_array {
-                query_string.append_pair("enum_query_string_array", &param_enum_query_string_array.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
+                query_string.append_pair("enum_query_string_array",
+                    &param_enum_query_string_array.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
             }
             if let Some(param_enum_query_string) = param_enum_query_string {
-                query_string.append_pair("enum_query_string", &param_enum_query_string.to_string());
+                query_string.append_pair("enum_query_string",
+                    &param_enum_query_string.to_string());
             }
             if let Some(param_enum_query_integer) = param_enum_query_integer {
-                query_string.append_pair("enum_query_integer", &param_enum_query_integer.to_string());
+                query_string.append_pair("enum_query_integer",
+                    &param_enum_query_integer.to_string());
             }
             if let Some(param_enum_query_double) = param_enum_query_double {
-                query_string.append_pair("enum_query_double", &param_enum_query_double.to_string());
+                query_string.append_pair("enum_query_double",
+                    &param_enum_query_double.to_string());
             }
             query_string.finish()
         };
@@ -1439,7 +1464,7 @@ impl<C, S> Api<C> for Client<S> where
             None => {}
         }
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -1523,7 +1548,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -1606,7 +1631,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -1699,7 +1724,7 @@ impl<C, S> Api<C> for Client<S> where
             }
         }
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -1801,7 +1826,7 @@ impl<C, S> Api<C> for Client<S> where
             }
         }
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -1906,7 +1931,7 @@ impl<C, S> Api<C> for Client<S> where
             None => {}
         }
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -1950,7 +1975,8 @@ impl<C, S> Api<C> for Client<S> where
         // Query parameters
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-                query_string.append_pair("status", &param_status.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
+                query_string.append_pair("status",
+                    &param_status.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
             query_string.finish()
         };
         if !query_string.is_empty() {
@@ -1994,7 +2020,7 @@ impl<C, S> Api<C> for Client<S> where
             }
         }
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2053,7 +2079,8 @@ impl<C, S> Api<C> for Client<S> where
         // Query parameters
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-                query_string.append_pair("tags", &param_tags.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
+                query_string.append_pair("tags",
+                    &param_tags.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
             query_string.finish()
         };
         if !query_string.is_empty() {
@@ -2097,7 +2124,7 @@ impl<C, S> Api<C> for Client<S> where
             }
         }
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2190,7 +2217,7 @@ impl<C, S> Api<C> for Client<S> where
             }
         }
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2306,7 +2333,7 @@ impl<C, S> Api<C> for Client<S> where
             }
         }
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2420,7 +2447,7 @@ impl<C, S> Api<C> for Client<S> where
             }
         }
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2494,7 +2521,7 @@ impl<C, S> Api<C> for Client<S> where
 
             let additional_metadata_str = match serde_json::to_string(&param_additional_metadata) {
                 Ok(str) => str,
-                Err(e) => return Err(ApiError(format!("Unable to parse additional_metadata to string: {}", e))),
+                Err(e) => return Err(ApiError(format!("Unable to serialize additional_metadata to string: {}", e))),
             };
 
             let additional_metadata_vec = additional_metadata_str.as_bytes().to_vec();
@@ -2506,7 +2533,7 @@ impl<C, S> Api<C> for Client<S> where
 
             let file_str = match serde_json::to_string(&param_file) {
                 Ok(str) => str,
-                Err(e) => return Err(ApiError(format!("Unable to parse file to string: {}", e))),
+                Err(e) => return Err(ApiError(format!("Unable to serialize file to string: {}", e))),
             };
 
             let file_vec = file_str.as_bytes().to_vec();
@@ -2536,6 +2563,7 @@ impl<C, S> Api<C> for Client<S> where
         };
 
         *request.body_mut() = Body::from(body_string);
+
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(&multipart_header) {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", multipart_header, e)))
@@ -2564,7 +2592,7 @@ impl<C, S> Api<C> for Client<S> where
             }
         }
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2641,7 +2669,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2723,7 +2751,7 @@ impl<C, S> Api<C> for Client<S> where
             }
         }
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2800,7 +2828,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2901,7 +2929,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -2995,7 +3023,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -3073,7 +3101,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -3151,7 +3179,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -3222,7 +3250,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -3299,7 +3327,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -3365,8 +3393,10 @@ impl<C, S> Api<C> for Client<S> where
         // Query parameters
         let query_string = {
             let mut query_string = form_urlencoded::Serializer::new("".to_owned());
-                query_string.append_pair("username", &param_username.to_string());
-                query_string.append_pair("password", &param_password.to_string());
+                query_string.append_pair("username",
+                    &param_username.to_string());
+                query_string.append_pair("password",
+                    &param_password.to_string());
             query_string.finish()
         };
         if !query_string.is_empty() {
@@ -3393,38 +3423,40 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
             200 => {
                 let response_x_rate_limit = match response.headers().get(HeaderName::from_static("x-rate-limit")) {
-                    Some(response_x_rate_limit) => response_x_rate_limit.clone(),
-                    None => {
-                        return Err(ApiError(String::from("Required response header X-Rate-Limit for response 200 was not found.")));
-                    }
+                    Some(response_x_rate_limit) => {
+                        let response_x_rate_limit = response_x_rate_limit.clone();
+                        let response_x_rate_limit = match TryInto::<header::IntoHeaderValue<i32>>::try_into(response_x_rate_limit) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header X-Rate-Limit for response 200 - {}", e)));
+                            },
+                        };
+                        let response_x_rate_limit = response_x_rate_limit.0;
+                        Some(response_x_rate_limit)
+                        },
+                    None => None,
                 };
-                let response_x_rate_limit = match TryInto::<header::IntoHeaderValue<i32>>::try_into(response_x_rate_limit) {
-                    Ok(value) => value,
-                    Err(e) => {
-                        return Err(ApiError(format!("Invalid response header X-Rate-Limit for response 200 - {}", e)));
-                    },
-                };
-                let response_x_rate_limit = response_x_rate_limit.0;
 
                 let response_x_expires_after = match response.headers().get(HeaderName::from_static("x-expires-after")) {
-                    Some(response_x_expires_after) => response_x_expires_after.clone(),
-                    None => {
-                        return Err(ApiError(String::from("Required response header X-Expires-After for response 200 was not found.")));
-                    }
+                    Some(response_x_expires_after) => {
+                        let response_x_expires_after = response_x_expires_after.clone();
+                        let response_x_expires_after = match TryInto::<header::IntoHeaderValue<chrono::DateTime::<chrono::Utc>>>::try_into(response_x_expires_after) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header X-Expires-After for response 200 - {}", e)));
+                            },
+                        };
+                        let response_x_expires_after = response_x_expires_after.0;
+                        Some(response_x_expires_after)
+                        },
+                    None => None,
                 };
-                let response_x_expires_after = match TryInto::<header::IntoHeaderValue<chrono::DateTime::<chrono::Utc>>>::try_into(response_x_expires_after) {
-                    Ok(value) => value,
-                    Err(e) => {
-                        return Err(ApiError(format!("Invalid response header X-Expires-After for response 200 - {}", e)));
-                    },
-                };
-                let response_x_expires_after = response_x_expires_after.0;
 
                 let body = response.into_body();
                 let body = body
@@ -3509,7 +3541,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -3591,7 +3623,7 @@ impl<C, S> Api<C> for Client<S> where
             Err(e) => return Err(ApiError(format!("Unable to create X-Span ID header value: {}", e)))
         });
 
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
