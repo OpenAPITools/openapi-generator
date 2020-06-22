@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 /**
  * InlineObject1
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class InlineObject1   {
   @JsonProperty("additionalMetadata")
   private String additionalMetadata;

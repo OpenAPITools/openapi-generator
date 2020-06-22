@@ -46,7 +46,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "Pet", description = "the Pet API")
 public interface PetApi {
@@ -71,7 +71,7 @@ public interface PetApi {
         produces = "application/json", 
         consumes = "application/json",
         method = RequestMethod.POST)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Pet> addPet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Pet>> addPet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet);
 
 
     /**
@@ -91,7 +91,7 @@ public interface PetApi {
        @ApiResponse(responseCode = "400", description = "Invalid pet value" ) })
     @RequestMapping(value = "/pet/{petId}",
         method = RequestMethod.DELETE)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void> deletePet(@Parameter(description = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@Parameter(description = "" ) @RequestHeader(value="api_key" , required=false) String apiKey);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> deletePet(@Parameter(description = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@Parameter(description = "" ) @RequestHeader(value="api_key" , required=false) String apiKey);
 
 
     /**
@@ -113,7 +113,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByStatus",
         produces = "application/json", 
         method = RequestMethod.GET)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<List<Pet>> findPetsByStatus(@NotNull @Parameter(description = "Status values that need to be considered for filter", required = true) @Valid @RequestParam(value = "status", required = true) List<String> status);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<List<Pet>>> findPetsByStatus(@NotNull @Parameter(description = "Status values that need to be considered for filter", required = true) @Valid @RequestParam(value = "status", required = true) List<String> status);
 
 
     /**
@@ -136,7 +136,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/findByTags",
         produces = "application/json", 
         method = RequestMethod.GET)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<List<Pet>> findPetsByTags(@NotNull @Parameter(description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<List<Pet>>> findPetsByTags(@NotNull @Parameter(description = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags);
 
 
     /**
@@ -158,7 +158,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/{petId}",
         produces = "application/json", 
         method = RequestMethod.GET)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Pet> getPetById(@Parameter(description = "ID of pet to return",required=true) @PathVariable("petId") Long petId);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Pet>> getPetById(@Parameter(description = "ID of pet to return",required=true) @PathVariable("petId") Long petId);
 
 
     /**
@@ -185,7 +185,7 @@ public interface PetApi {
         produces = "application/json", 
         consumes = "application/json",
         method = RequestMethod.PUT)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Pet> updatePet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Pet>> updatePet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet);
 
 
     /**
@@ -207,7 +207,7 @@ public interface PetApi {
     @RequestMapping(value = "/pet/{petId}",
         consumes = "application/x-www-form-urlencoded",
         method = RequestMethod.POST)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void> updatePetWithForm(@Parameter(description = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@Parameter(description = "Updated name of the pet" ) @RequestParam(value="name", required=false)  String name,@Parameter(description = "Updated status of the pet" ) @RequestParam(value="status", required=false)  String status);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<Void>> updatePetWithForm(@Parameter(description = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@Parameter(description = "Updated name of the pet" ) @RequestParam(value="name", required=false)  String name,@Parameter(description = "Updated status of the pet" ) @RequestParam(value="status", required=false)  String status);
 
 
     /**
@@ -230,6 +230,6 @@ public interface PetApi {
         produces = "application/json", 
         consumes = "multipart/form-data",
         method = RequestMethod.POST)
-    com.netflix.hystrix.HystrixCommand<ResponseEntity<ModelApiResponse> uploadFile(@Parameter(description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@Parameter(description = "Additional data to pass to server" ) @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@Parameter(description = "file to upload") @RequestParam("file") MultipartFile file);
+    com.netflix.hystrix.HystrixCommand<ResponseEntity<ModelApiResponse>> uploadFile(@Parameter(description = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@Parameter(description = "Additional data to pass to server" ) @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@Parameter(description = "file to upload") @RequestParam("file") MultipartFile file);
 
 }

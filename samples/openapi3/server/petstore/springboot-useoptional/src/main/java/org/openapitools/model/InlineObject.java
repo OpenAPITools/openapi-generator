@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 /**
  * InlineObject
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class InlineObject   {
   @JsonProperty("name")
   private String name;

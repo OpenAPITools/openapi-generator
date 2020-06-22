@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.ServletContext;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Configuration
 public class OpenAPIDocumentationConfig {
 
@@ -18,11 +18,11 @@ public class OpenAPIDocumentationConfig {
     public OpenAPI apiInfo() {
         return new OpenAPI()
             .info(new Info().title("OpenAPI Petstore")
-            .description("This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.")
+            .description("This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\")
             .version("1.0.0")
             .license(new License().name("Apache-2.0").url("https://www.apache.org/licenses/LICENSE-2.0.html")))
             .externalDocs(new ExternalDocumentation()
-                .description("This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.")
+                .description("This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\")
                 .url(""));
     }
 

@@ -31,6 +31,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,7 +59,8 @@ public interface PetApi {
      * POST /pet : Add a new pet to the store
      *
      * @param pet Pet object that needs to be added to the store (required)
-     * @return Invalid input (status code 405)
+     * @return successful operation (status code 200)
+     *         or Invalid input (status code 405)
      */
     @Operation(summary = "Add a new pet to the store", operationId = "addPet" , security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
@@ -67,11 +69,27 @@ public interface PetApi {
             })
     }, tags={ "pet", })
     @ApiResponses(value = { 
+       @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Pet.class)) }),
        @ApiResponse(responseCode = "405", description = "Invalid input" ) })
     @RequestMapping(value = "/pet",
+        produces = "application/json", 
         consumes = "application/json",
         method = RequestMethod.POST)
-    default ResponseEntity<Void> addPet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
+    default ResponseEntity<Pet> addPet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<Pet> <id>123456789</id> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> </tags> <status>aeiou</status> </Pet>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+            }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -110,7 +128,6 @@ public interface PetApi {
      */
     @Operation(summary = "Finds Pets by status", operationId = "findPetsByStatus" , security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
-            "write:pets",
             "read:pets"
             })
     }, tags={ "pet", })
@@ -151,7 +168,6 @@ public interface PetApi {
      */
     @Operation(summary = "Finds Pets by tags", operationId = "findPetsByTags" , security = {
         @SecurityRequirement(name = "petstore_auth", scopes = {
-            "write:pets",
             "read:pets"
             })
     }, tags={ "pet", })
@@ -224,7 +240,8 @@ public interface PetApi {
      * PUT /pet : Update an existing pet
      *
      * @param pet Pet object that needs to be added to the store (required)
-     * @return Invalid ID supplied (status code 400)
+     * @return successful operation (status code 200)
+     *         or Invalid ID supplied (status code 400)
      *         or Pet not found (status code 404)
      *         or Validation exception (status code 405)
      */
@@ -235,13 +252,29 @@ public interface PetApi {
             })
     }, tags={ "pet", })
     @ApiResponses(value = { 
+       @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Pet.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
        @ApiResponse(responseCode = "404", description = "Pet not found" ),
        @ApiResponse(responseCode = "405", description = "Validation exception" ) })
     @RequestMapping(value = "/pet",
+        produces = "application/json", 
         consumes = "application/json",
         method = RequestMethod.PUT)
-    default ResponseEntity<Void> updatePet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
+    default ResponseEntity<Pet> updatePet(@Parameter(description = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet pet) {
+        getRequest().ifPresent(request -> {
+            for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
+                    String exampleString = "{ \"photoUrls\" : [ \"photoUrls\", \"photoUrls\" ], \"name\" : \"doggie\", \"id\" : 0, \"category\" : { \"name\" : \"name\", \"id\" : 6 }, \"tags\" : [ { \"name\" : \"name\", \"id\" : 1 }, { \"name\" : \"name\", \"id\" : 1 } ], \"status\" : \"available\" }";
+                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
+                    break;
+                }
+                if (mediaType.isCompatibleWith(MediaType.valueOf("application/xml"))) {
+                    String exampleString = "<Pet> <id>123456789</id> <name>doggie</name> <photoUrls> <photoUrls>aeiou</photoUrls> </photoUrls> <tags> </tags> <status>aeiou</status> </Pet>";
+                    ApiUtil.setExampleResponse(request, "application/xml", exampleString);
+                    break;
+                }
+            }
+        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }

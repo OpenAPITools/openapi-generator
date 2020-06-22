@@ -56,7 +56,7 @@ public interface StoreApi {
     }
 
     /**
-     * DELETE /store/order/{orderId} : Delete purchase order by ID
+     * DELETE /store/order/{order_id} : Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      *
      * @param orderId ID of the order that needs to be deleted (required)
@@ -67,9 +67,9 @@ public interface StoreApi {
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
-    @RequestMapping(value = "/store/order/{orderId}",
+    @RequestMapping(value = "/store/order/{order_id}",
         method = RequestMethod.DELETE)
-    default CompletableFuture<ResponseEntity<Void> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId) {
+    default CompletableFuture<ResponseEntity<Void>> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
@@ -89,14 +89,14 @@ public interface StoreApi {
     @RequestMapping(value = "/store/inventory",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<Map<String, Integer>> getInventory() {
+    default CompletableFuture<ResponseEntity<Map<String, Integer>>> getInventory() {
         return CompletableFuture.completedFuture(new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED));
 
     }
 
 
     /**
-     * GET /store/order/{orderId} : Find purchase order by ID
+     * GET /store/order/{order_id} : Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      *
      * @param orderId ID of pet that needs to be fetched (required)
@@ -109,10 +109,10 @@ public interface StoreApi {
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Order.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
-    @RequestMapping(value = "/store/order/{orderId}",
+    @RequestMapping(value = "/store/order/{order_id}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default CompletableFuture<ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId) {
+    default CompletableFuture<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
@@ -149,7 +149,7 @@ public interface StoreApi {
         produces = { "application/xml", "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    default CompletableFuture<ResponseEntity<Order> placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order) {
+    default CompletableFuture<ResponseEntity<Order>> placeOrder(@Parameter(description = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order order) {
         return CompletableFuture.supplyAsync(()-> {
             getRequest().ifPresent(request -> {
                 for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {

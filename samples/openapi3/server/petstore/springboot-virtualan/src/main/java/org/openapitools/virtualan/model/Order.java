@@ -11,10 +11,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * An order for a pets from the pet store
+ * Order
  */
-@Schema(description = "An order for a pets from the pet store")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Order   {
   @JsonProperty("id")
   private Long id;

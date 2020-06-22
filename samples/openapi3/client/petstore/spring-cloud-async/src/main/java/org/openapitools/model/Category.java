@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  * A category for a pet
  */
 @Schema(description = "A category for a pet")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Category   {
   @JsonProperty("id")
   private Long id;

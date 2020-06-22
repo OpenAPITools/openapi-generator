@@ -65,9 +65,7 @@ public interface UserApi {
      * @return successful operation (status code 200)
      */
     @ApiVirtual
-    @Operation(summary = "Create user", operationId = "createUser" , security = {
-        @SecurityRequirement(name = "api_key")
-    }, tags={ "user", })
+    @Operation(summary = "Create user", operationId = "createUser" , tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
     @RequestMapping(value = "/user",
@@ -86,9 +84,7 @@ public interface UserApi {
      * @return successful operation (status code 200)
      */
     @ApiVirtual
-    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithArrayInput" , security = {
-        @SecurityRequirement(name = "api_key")
-    }, tags={ "user", })
+    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithArrayInput" , tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
     @RequestMapping(value = "/user/createWithArray",
@@ -107,9 +103,7 @@ public interface UserApi {
      * @return successful operation (status code 200)
      */
     @ApiVirtual
-    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithListInput" , security = {
-        @SecurityRequirement(name = "api_key")
-    }, tags={ "user", })
+    @Operation(summary = "Creates list of users with given input array", operationId = "createUsersWithListInput" , tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
     @RequestMapping(value = "/user/createWithList",
@@ -130,9 +124,7 @@ public interface UserApi {
      *         or User not found (status code 404)
      */
     @ApiVirtual
-    @Operation(summary = "Delete user", operationId = "deleteUser" , security = {
-        @SecurityRequirement(name = "api_key")
-    }, tags={ "user", })
+    @Operation(summary = "Delete user", operationId = "deleteUser" , tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid username supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })
@@ -197,7 +189,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/login",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    default ResponseEntity<String> loginUser(@NotNull @Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password) {
+    default ResponseEntity<String> loginUser(@NotNull @Parameter(description = "The user name for login", required = true) @Valid @RequestParam(value = "username", required = true) String username,@NotNull @Parameter(description = "The password for login in clear text", required = true) @Valid @RequestParam(value = "password", required = true) String password) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -209,9 +201,7 @@ public interface UserApi {
      * @return successful operation (status code 200)
      */
     @ApiVirtual
-    @Operation(summary = "Logs out current logged in user session", operationId = "logoutUser" , security = {
-        @SecurityRequirement(name = "api_key")
-    }, tags={ "user", })
+    @Operation(summary = "Logs out current logged in user session", operationId = "logoutUser" , tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "200", description = "successful operation" ) })
     @RequestMapping(value = "/user/logout",
@@ -232,9 +222,7 @@ public interface UserApi {
      *         or User not found (status code 404)
      */
     @ApiVirtual
-    @Operation(summary = "Updated user", operationId = "updateUser" , security = {
-        @SecurityRequirement(name = "api_key")
-    }, tags={ "user", })
+    @Operation(summary = "Updated user", operationId = "updateUser" , tags={ "user", })
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid user supplied" ),
        @ApiResponse(responseCode = "404", description = "User not found" ) })

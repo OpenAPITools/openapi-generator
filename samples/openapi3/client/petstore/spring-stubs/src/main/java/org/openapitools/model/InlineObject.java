@@ -11,13 +11,13 @@ import javax.validation.constraints.*;
 /**
  * InlineObject
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class InlineObject   {
   @JsonProperty("name")
   private String name;
 
   @JsonProperty("status")
-  private JsonNullable<String> status = JsonNullable.undefined();
+  private String status;
 
   public InlineObject name(String name) {
     this.name = name;
@@ -40,7 +40,7 @@ public class InlineObject   {
   }
 
   public InlineObject status(String status) {
-    this.status = JsonNullable.of(status);
+    this.status = status;
     return this;
   }
 
@@ -51,11 +51,11 @@ public class InlineObject   {
   @Schema(description = "Updated status of the pet")
 
 
-  public JsonNullable<String> getStatus() {
+  public String getStatus() {
     return status;
   }
 
-  public void setStatus(JsonNullable<String> status) {
+  public void setStatus(String status) {
     this.status = status;
   }
 

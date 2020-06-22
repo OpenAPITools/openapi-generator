@@ -41,13 +41,13 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Tag(name = "store", description = "the store API")
 public interface StoreApi {
 
     /**
-     * DELETE /store/order/{orderId} : Delete purchase order by ID
+     * DELETE /store/order/{order_id} : Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      *
      * @param orderId ID of the order that needs to be deleted (required)
@@ -58,9 +58,9 @@ public interface StoreApi {
     @ApiResponses(value = { 
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
-    @RequestMapping(value = "/store/order/{orderId}",
+    @RequestMapping(value = "/store/order/{order_id}",
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId);
+    ResponseEntity<Void> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId);
 
 
     /**
@@ -81,7 +81,7 @@ public interface StoreApi {
 
 
     /**
-     * GET /store/order/{orderId} : Find purchase order by ID
+     * GET /store/order/{order_id} : Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      *
      * @param orderId ID of pet that needs to be fetched (required)
@@ -94,10 +94,10 @@ public interface StoreApi {
        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Order.class)) }),
        @ApiResponse(responseCode = "400", description = "Invalid ID supplied" ),
        @ApiResponse(responseCode = "404", description = "Order not found" ) })
-    @RequestMapping(value = "/store/order/{orderId}",
+    @RequestMapping(value = "/store/order/{order_id}",
         produces = { "application/xml", "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId);
+    ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId);
 
 
     /**

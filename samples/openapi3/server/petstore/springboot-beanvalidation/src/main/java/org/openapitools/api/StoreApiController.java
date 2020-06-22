@@ -51,7 +51,7 @@ public class StoreApiController implements StoreApi {
     }
 
     /**
-     * DELETE /store/order/{orderId} : Delete purchase order by ID
+     * DELETE /store/order/{order_id} : Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
      *
      * @param orderId ID of the order that needs to be deleted (required)
@@ -59,7 +59,7 @@ public class StoreApiController implements StoreApi {
      *         or Order not found (status code 404)
      * @see StoreApi#deleteOrder
      */
-    public ResponseEntity<Void> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId) {
+    public ResponseEntity<Void> deleteOrder(@Parameter(description = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -77,7 +77,7 @@ public class StoreApiController implements StoreApi {
     }
 
     /**
-     * GET /store/order/{orderId} : Find purchase order by ID
+     * GET /store/order/{order_id} : Find purchase order by ID
      * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
      *
      * @param orderId ID of pet that needs to be fetched (required)
@@ -86,7 +86,7 @@ public class StoreApiController implements StoreApi {
      *         or Order not found (status code 404)
      * @see StoreApi#getOrderById
      */
-    public ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId) {
+    public ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @Parameter(description = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId) {
         for (MediaType mediaType: MediaType.parseMediaTypes(request.getHeader("Accept"))) {
             if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
                 String exampleString = "{ \"petId\" : 6, \"quantity\" : 1, \"id\" : 0, \"shipDate\" : \"2000-01-23T04:56:07.000+00:00\", \"complete\" : false, \"status\" : \"placed\" }";

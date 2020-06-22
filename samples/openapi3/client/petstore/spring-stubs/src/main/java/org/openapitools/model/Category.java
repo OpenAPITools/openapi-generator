@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  * A category for a pet
  */
 @Schema(description = "A category for a pet")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Category   {
   @JsonProperty("id")
   private Long id;
@@ -51,7 +51,7 @@ public class Category   {
   */
   @Schema(description = "")
 
-
+@Pattern(regexp="^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$") 
   public String getName() {
     return name;
   }
