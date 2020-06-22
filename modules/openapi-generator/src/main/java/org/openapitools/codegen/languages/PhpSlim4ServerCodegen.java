@@ -70,7 +70,7 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a PHP Slim 4 Framework server library.";
+        return "Generates a PHP Slim 4 Framework server library(with Mock server).";
     }
 
     @Override
