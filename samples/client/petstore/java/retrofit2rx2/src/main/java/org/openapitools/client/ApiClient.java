@@ -36,11 +36,18 @@ public class ApiClient {
   private OkHttpClient.Builder okBuilder;
   private Retrofit.Builder adapterBuilder;
   private JSON json;
-  private boolean okBuilderUsed = false;
+  private OkHttpClient okHttpClient;
 
   public ApiClient() {
     apiAuthorizations = new LinkedHashMap<String, Interceptor>();
     createDefaultAdapter();
+    okBuilder = new OkHttpClient.Builder();
+  }
+
+  public ApiClient(OkHttpClient client){
+    apiAuthorizations = new LinkedHashMap<String, Interceptor>();
+    createDefaultAdapter();
+    okHttpClient = client;
   }
 
   public ApiClient(String[] authNames) {
@@ -116,7 +123,6 @@ public class ApiClient {
 
   public void createDefaultAdapter() {
     json = new JSON();
-    okBuilder = new OkHttpClient.Builder();
 
     String baseUrl = "http://petstore.swagger.io:80/v2";
     if (!baseUrl.endsWith("/"))
@@ -131,16 +137,11 @@ public class ApiClient {
   }
 
   public <S> S createService(Class<S> serviceClass) {
-      if(okBuilderUsed){
-          return adapterBuilder
-            .client(okBuilder.build())
-            .build()
-            .create(serviceClass);
-  	  }else{
-  	      return adapterBuilder
-            .build()
-            .create(serviceClass);
-  	  }
+    if (okHttpClient != null) {
+        return adapterBuilder.client(okHttpClient).build().create(serviceClass);
+    else {
+        return adapterBuilder.client(okBuilder.build()).build().create(serviceClass);
+    }
   }
 
   public ApiClient setDateFormat(DateFormat dateFormat) {
@@ -312,8 +313,9 @@ public class ApiClient {
       throw new RuntimeException("auth name \"" + authName + "\" already in api authorizations");
     }
     apiAuthorizations.put(authName, authorization);
-    okBuilder.addInterceptor(authorization);
-    okBuilderUsed = true;
+    if(okBuilder != null){
+      okBuilder.addInterceptor(authorization);
+    }
     return this;
   }
 
@@ -336,7 +338,6 @@ public class ApiClient {
   }
 
   public OkHttpClient.Builder getOkBuilder() {
-    okBuilderUsed = true;
     return okBuilder;
   }
 
@@ -353,7 +354,6 @@ public class ApiClient {
   public void configureFromOkclient(OkHttpClient okClient) {
     this.okBuilder = okClient.newBuilder();
     addAuthsToOkBuilder(this.okBuilder);
-    okBuilderUsed = true;
   }
 }
 
