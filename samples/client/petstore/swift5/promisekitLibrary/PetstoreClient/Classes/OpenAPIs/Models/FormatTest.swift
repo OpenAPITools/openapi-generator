@@ -7,7 +7,9 @@
 
 import Foundation
 
-public struct FormatTest: Codable {
+
+public struct FormatTest: Codable { 
+
 
     public var integer: Int?
     public var int32: Int?

@@ -92,7 +92,7 @@ public class Swift5ClientCodegenTest {
     public void binaryDataTest() {
         // TODO update json file
 
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/binaryDataTest.json");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/binaryDataTest.json");
         final DefaultCodegen codegen = new Swift5ClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/binaryResponse";
@@ -107,7 +107,7 @@ public class Swift5ClientCodegenTest {
 
     @Test(description = "returns Date when response format is date", enabled = true)
     public void dateTest() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/datePropertyTest.json");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new Swift5ClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/dateResponse";

@@ -1,0 +1,8 @@
+generatorName: kotlin
+outputDir: samples/client/petstore/kotlin-moshi-codegen
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-client
+additionalProperties:
+  serializationLibrary: moshi
+  artifactId: kotlin-petstore-moshi-codegen
+  moshiCodeGen: "true"

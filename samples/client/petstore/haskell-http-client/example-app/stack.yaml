@@ -1,2 +1,2 @@
-resolver: lts-14.7
+resolver: lts-14.27
 extra-deps: [ '..' ]

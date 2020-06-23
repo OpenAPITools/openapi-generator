@@ -103,7 +103,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
         super();
 
         // TODO: Bash maintainer review
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .documentationFeatures(EnumSet.of(
                         DocumentationFeature.Readme
                 ))
@@ -125,7 +125,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
                         SchemaSupportFeature.Polymorphism,
                         SchemaSupportFeature.Union
                 )
-                .build();
+        );
 
         setReservedWordsLowerCase(
                 Arrays.asList(
@@ -428,7 +428,7 @@ public class BashClientCodegen extends DefaultCodegen implements CodegenConfig {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);

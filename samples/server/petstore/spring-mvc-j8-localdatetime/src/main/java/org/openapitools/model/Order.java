@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 /**
  * Order
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Order   {
 
   @JsonProperty("id")
@@ -30,6 +30,7 @@ public class Order   {
 
 
   @JsonProperty("shipDate")
+  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime shipDate;
 
   /**

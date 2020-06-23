@@ -107,7 +107,7 @@ declare -a xml_files=(
     "${root}/modules/openapi-generator-gradle-plugin/samples/local-spec/README.md"
     "${root}/README.md"
     "${root}/docs/installation.md"
-    "${root}/website/pages/en/index.js"
+    "${root}/website/src/pages/index.js"
 )
 
 declare -a commented_files=(

@@ -1,0 +1,13 @@
+{
+    "supports": {},
+    "dependencies": {
+        "Newtonsoft.Json": "12.0.1",
+        "CompareNETObjects": "4.57.0",
+        "System.ComponentModel.Annotations": "4.5.0",
+        "JsonSubTypes": "1.5.2",
+        "RestSharp": "106.10.1"
+    },
+    "frameworks": {
+        "netstandard2.0": {}
+    }
+}

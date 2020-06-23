@@ -38,7 +38,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getInventory**
-> HashMap<String, i32> getInventory(ctx, )
+> std::collections::HashMap<String, i32> getInventory(ctx, )
 Returns pet inventories by status
 
 Returns a map of status codes to quantities
@@ -48,7 +48,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**HashMap<String, i32>**](integer.md)
+[**std::collections::HashMap<String, i32>**](integer.md)
 
 ### Authorization
 

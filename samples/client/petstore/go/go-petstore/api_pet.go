@@ -116,7 +116,7 @@ func (a *PetApiService) DeletePet(ctx _context.Context, petId int64, localVarOpt
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/pet/{petId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(petId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -231,16 +231,6 @@ func (a *PetApiService) FindPetsByStatus(ctx _context.Context, status []string) 
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v []Pet
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -318,16 +308,6 @@ func (a *PetApiService) FindPetsByTags(ctx _context.Context, tags []string) ([]P
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v []Pet
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -362,7 +342,7 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/pet/{petId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(petId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -417,16 +397,6 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v Pet
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -534,7 +504,7 @@ func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, loc
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/pet/{petId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(petId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -617,7 +587,7 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/pet/{petId}/uploadImage"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(petId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -679,15 +649,6 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v ApiResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -729,7 +690,7 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/{petId}/uploadImageWithRequiredFile"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(petId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -783,15 +744,6 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v ApiResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

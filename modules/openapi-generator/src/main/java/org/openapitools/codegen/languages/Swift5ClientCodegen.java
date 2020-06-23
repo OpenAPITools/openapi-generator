@@ -53,6 +53,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String POD_DESCRIPTION = "podDescription";
     public static final String POD_SCREENSHOTS = "podScreenshots";
     public static final String POD_DOCUMENTATION_URL = "podDocumentationURL";
+    public static final String READONLY_PROPERTIES = "readonlyProperties";
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
     public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
@@ -67,6 +68,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean nonPublicApi = false;
     protected boolean objcCompatible = false;
     protected boolean lenientTypeCast = false;
+    protected boolean readonlyProperties = false;
     protected boolean swiftUseApiNamespace;
     protected String[] responseAs = new String[0];
     protected String sourceFolder = "Classes" + File.separator + "OpenAPIs";
@@ -133,7 +135,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 Arrays.asList(
                         // Added for Objective-C compatibility
                         "id", "description", "NSArray", "NSURL", "CGFloat", "NSSet", "NSString", "NSInteger", "NSUInteger",
-                        "NSError", "NSDictionary"
+                        "NSError", "NSDictionary",
+                        // Cannot override with a stored property 'className'
+                        "className"
                 )
         );
 
@@ -235,6 +239,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(POD_SCREENSHOTS, "Screenshots used for Podspec"));
         cliOptions.add(new CliOption(POD_DOCUMENTATION_URL,
                 "Documentation URL used for Podspec"));
+        cliOptions.add(new CliOption(READONLY_PROPERTIES, "Make properties "
+                        + "readonly (default: false)"));
         cliOptions.add(new CliOption(SWIFT_USE_API_NAMESPACE,
                 "Flag to make all the API classes inner-class "
                         + "of {{projectName}}API"));
@@ -245,6 +251,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 "Accept and cast values for simple types (string->bool, "
                         + "string->int, int->string)")
                 .defaultValue(Boolean.FALSE.toString()));
+
+        cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, CodegenConstants.API_NAME_PREFIX_DESC));
 
         supportedLibraries.put(LIBRARY_URLSESSION, "[DEFAULT] HTTP client: URLSession");
         supportedLibraries.put(LIBRARY_ALAMOFIRE, "HTTP client: Alamofire");
@@ -322,7 +330,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel,
                                                        Schema schema) {
 
-        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+        final Schema additionalProperties = getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
@@ -387,6 +395,13 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_COMBINE)) {
             additionalProperties.put("useCombine", true);
         }
+
+        // Setup readonlyProperties option, which declares properties so they can only
+        // be set at initialization
+        if (additionalProperties.containsKey(READONLY_PROPERTIES)) {
+            setReadonlyProperties(convertPropertyToBooleanAndWriteBack(READONLY_PROPERTIES));
+        }
+        additionalProperties.put(READONLY_PROPERTIES, readonlyProperties);
 
         // Setup swiftUseApiNamespace option, which makes all the API
         // classes inner-class of {{projectName}}API
@@ -507,7 +522,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
             Schema inner = ap.getItems();
             return "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return "[String:" + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -620,7 +635,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            return getSchemaType(ModelUtils.getAdditionalProperties(p));
+            return getSchemaType(getAdditionalProperties(p));
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
@@ -634,7 +649,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (name.length() == 0) {
             return "DefaultAPI";
         }
-        return camelize(name) + "API";
+        return camelize(apiNamePrefix + "_" + name) + "API";
     }
 
     @Override
@@ -771,6 +786,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setLenientTypeCast(boolean lenientTypeCast) {
         this.lenientTypeCast = lenientTypeCast;
+    }
+
+    public void setReadonlyProperties(boolean readonlyProperties) {
+        this.readonlyProperties = readonlyProperties;
     }
 
     public void setResponseAs(String[] responseAs) {

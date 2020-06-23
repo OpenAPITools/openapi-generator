@@ -25,11 +25,60 @@ export interface {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterIn
 {{/allParams.0}}
 {{/operation}}
 {{/operations}}
+{{#withInterfaces}}
 {{#operations}}
 /**
- * {{#description}}{{{description}}}{{/description}}{{^description}}no description{{/description}}
+ * {{classname}} - interface
+ * {{#lambda.indented_1}}{{{unescapedDescription}}}{{/lambda.indented_1}}
+ * @export
+ * @interface {{classname}}Interface
  */
+export interface {{classname}}Interface {
+{{#operation}}
+    /**
+     * {{&notes}}
+     {{#summary}}
+     * @summary {{&summary}}
+     {{/summary}}
+     {{#allParams}}
+     * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
+     {{/allParams}}
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof {{classname}}Interface
+     */
+    {{nickname}}Raw({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}): Promise<runtime.ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>>;
+
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * {{&summary}}
+     {{/summary}}
+     */
+    {{^useSingleRequestParameter}}
+    {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
+    {{/useSingleRequestParameter}}
+    {{#useSingleRequestParameter}}
+    {{nickname}}({{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}Request{{/allParams.0}}): Promise<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>;
+    {{/useSingleRequestParameter}}
+
+{{/operation}}
+}
+
+{{/operations}}
+{{/withInterfaces}}
+{{#operations}}
+/**
+ * {{#lambda.indented_star_1}}{{{unescapedDescription}}}{{/lambda.indented_star_1}}
+ */
+{{#withInterfaces}}
+export class {{classname}} extends runtime.BaseAPI implements {{classname}}Interface {
+{{/withInterfaces}}
+{{^withInterfaces}}
 export class {{classname}} extends runtime.BaseAPI {
+{{/withInterfaces}}
 
     {{#operation}}
     /**
@@ -73,7 +122,12 @@ export class {{classname}} extends runtime.BaseAPI {
             queryParameters['{{baseName}}'] = (requestParameters.{{paramName}} as any).toISOString().substr(0,10);
             {{/isDate}}
             {{^isDate}}
+            {{#vendorExtensions.x-codegen-isDeepObject}}
+            queryParameters['{{baseName}}'] = runtime.querystring(requestParameters.{{paramName}} as unknown as runtime.HTTPQuery, '{{baseName}}');
+            {{/vendorExtensions.x-codegen-isDeepObject}}
+            {{^vendorExtensions.x-codegen-isDeepObject}}
             queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
+            {{/vendorExtensions.x-codegen-isDeepObject}}
             {{/isDate}}
             {{/isDateTime}}
         }
@@ -241,7 +295,12 @@ export class {{classname}} extends runtime.BaseAPI {
         return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map({{returnBaseType}}FromJSON));
         {{/isListContainer}}
         {{^isListContainer}}
+        {{#isMapContainer}}
+        return new runtime.JSONApiResponse(response, (jsonValue) => runtime.mapValues(jsonValue, {{returnBaseType}}FromJSON));
+        {{/isMapContainer}}
+        {{^isMapContainer}}
         return new runtime.JSONApiResponse(response, (jsonValue) => {{returnBaseType}}FromJSON(jsonValue));
+        {{/isMapContainer}}
         {{/isListContainer}}
         {{/returnTypeIsPrimitive}}
         {{/isResponseFile}}

@@ -9,13 +9,12 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.openapitools.model.StringBooleanMap;
 
 
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class MapTest   {
   @JsonProperty("map_map_of_string")
   private Map<String, Map<String, String>> mapMapOfString = null;
@@ -47,7 +46,7 @@ public class MapTest   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
@@ -58,7 +57,7 @@ public class MapTest   {
   private Map<String, Boolean> directMap = null;
 
   @JsonProperty("indirect_map")
-  private StringBooleanMap indirectMap = null;
+  private Map<String, Boolean> indirectMap = null;
 
   /**
    **/
@@ -113,7 +112,7 @@ public class MapTest   {
 
   /**
    **/
-  public MapTest indirectMap(StringBooleanMap indirectMap) {
+  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
     return this;
   }
@@ -121,10 +120,10 @@ public class MapTest   {
   
   @ApiModelProperty(value = "")
   @JsonProperty("indirect_map")
-  public StringBooleanMap getIndirectMap() {
+  public Map<String, Boolean> getIndirectMap() {
     return indirectMap;
   }
-  public void setIndirectMap(StringBooleanMap indirectMap) {
+  public void setIndirectMap(Map<String, Boolean> indirectMap) {
     this.indirectMap = indirectMap;
   }
 

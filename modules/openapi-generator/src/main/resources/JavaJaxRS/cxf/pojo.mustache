@@ -52,9 +52,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
    * @return {{name}}
   **/
   @JsonProperty("{{baseName}}")
-{{#vendorExtensions.extraAnnotation}}
-  {{{vendorExtensions.extraAnnotation}}}
-{{/vendorExtensions.extraAnnotation}}
+{{#vendorExtensions.x-extra-annotation}}
+  {{{vendorExtensions.x-extra-annotation}}}
+{{/vendorExtensions.x-extra-annotation}}
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  {{#isEnum}}{{^isListContainer}}{{^isMapContainer}}public {{dataType}} {{getter}}() {
     if ({{name}} == null) {
       return null;

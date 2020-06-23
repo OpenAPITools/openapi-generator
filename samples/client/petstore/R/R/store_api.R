@@ -111,7 +111,7 @@
 #'
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' ####################  DeleteOrder  ####################
 #'
 #' library(petstore)
@@ -160,7 +160,7 @@
 #'
 #' }
 #' @importFrom R6 R6Class
-#' @importFrom caTools base64encode
+#' @importFrom base64enc base64encode
 #' @export
 StoreApi <- R6::R6Class(
   'StoreApi',

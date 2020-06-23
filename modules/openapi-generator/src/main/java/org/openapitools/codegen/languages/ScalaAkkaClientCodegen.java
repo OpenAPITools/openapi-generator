@@ -50,14 +50,13 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     protected boolean renderJavadoc = true;
     protected boolean removeOAuthSecurities = true;
 
-
     @SuppressWarnings("hiding")
     protected Logger LOGGER = LoggerFactory.getLogger(ScalaAkkaClientCodegen.class);
 
     public ScalaAkkaClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -81,7 +80,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
                 )
-                .build();
+        );
 
         outputFolder = "generated-code/scala-akka";
         modelTemplateFiles.put("model.mustache", ".scala");
@@ -100,7 +99,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
                         "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
         );
 
-        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
@@ -113,14 +111,11 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         additionalProperties.put("fnCapitalize", new CapitalizeLambda());
         additionalProperties.put("fnCamelize", new CamelizeLambda(false));
         additionalProperties.put("fnEnumEntry", new EnumEntryLambda());
-        additionalProperties.put("mainPackage", mainPackage);
 
         importMapping.remove("Seq");
         importMapping.remove("List");
         importMapping.remove("Set");
         importMapping.remove("Map");
-
-        importMapping.put("DateTime", "org.joda.time.DateTime");
 
         typeMapping = new HashMap<>();
         typeMapping.put("array", "Seq");
@@ -149,16 +144,25 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     @Override
     public void processOpts() {
         super.processOpts();
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            this.setInvokerPackage((String) additionalProperties.get(CodegenConstants.INVOKER_PACKAGE));
+        }
         if (additionalProperties.containsKey("mainPackage")) {
             setMainPackage((String) additionalProperties.get("mainPackage"));
             additionalProperties.replace("configKeyPath", this.configKeyPath);
-            apiPackage = mainPackage + ".api";
-            modelPackage = mainPackage + ".model";
-            invokerPackage = mainPackage + ".core";
-            additionalProperties.put("apiPackage", apiPackage);
-            additionalProperties.put("modelPackage", modelPackage);
-            additionalProperties.put("invokerPackage", invokerPackage);
+            if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)){
+                apiPackage = mainPackage + ".api";
+                additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
+            }
+            if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)){
+                modelPackage = mainPackage + ".model";
+                additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
+            }
+            if (!additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)){
+                invokerPackage = mainPackage + ".core";
+            }
         }
+        additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml"));
@@ -171,6 +175,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         supportingFiles.add(new SupportingFile("apiSettings.mustache", invokerFolder, "ApiSettings.scala"));
         final String apiFolder = (sourceFolder + File.separator + apiPackage).replace(".", File.separator);
         supportingFiles.add(new SupportingFile("enumsSerializers.mustache", apiFolder, "EnumsSerializers.scala"));
+        supportingFiles.add(new SupportingFile("serializers.mustache", invokerFolder, "Serializers.scala"));
     }
 
     @Override
@@ -262,11 +267,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public String toVarName(String name) {
-        return formatIdentifier(name, false);
-    }
-
-    @Override
     public String toEnumName(CodegenProperty property) {
         return formatIdentifier(property.baseName, true);
     }
@@ -288,7 +288,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         } else if (ModelUtils.isIntegerSchema(p)) {
             return null;
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
+            String inner = getSchemaType(getAdditionalProperties(p));
             return "Map[String, " + inner + "].empty ";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
@@ -302,11 +302,6 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
         } else {
             return null;
         }
-    }
-
-    @Override
-    public String toModelName(final String name) {
-        return formatIdentifier(name, true);
     }
 
     private static abstract class CustomLambda implements Mustache.Lambda {

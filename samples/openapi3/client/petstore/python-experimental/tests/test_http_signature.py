@@ -25,6 +25,8 @@ from Crypto.Signature import pkcs1_15, pss, DSS
 from six.moves.urllib.parse import urlencode, urlparse
 
 import petstore_api
+from petstore_api.model import category, tag, pet
+from petstore_api.api.pet_api import PetApi
 from petstore_api import Configuration, signing
 from petstore_api.rest import (
     RESTClientObject,
@@ -151,12 +153,12 @@ class MockPoolManager(object):
             "{0}: {1}".format(key.lower(), value) for key, value in signed_headers_list]
         string_to_sign = "\n".join(header_items)
         digest = None
-        if self.signing_cfg.signing_scheme in {signing.SCHEME_RSA_SHA512, signing.SCHEME_HS2019}:
+        if self.signing_cfg.hash_algorithm == signing.HASH_SHA512:
             digest = SHA512.new()
-        elif self.signing_cfg.signing_scheme == signing.SCHEME_RSA_SHA256:
+        elif self.signing_cfg.hash_algorithm == signing.HASH_SHA256:
             digest = SHA256.new()
         else:
-            self._tc.fail("Unsupported signature scheme: {0}".format(self.signing_cfg.signing_scheme))
+            self._tc.fail("Unsupported hash algorithm: {0}".format(self.signing_cfg.hash_algorithm))
         digest.update(string_to_sign.encode())
         b64_body_digest = base64.b64encode(digest.digest()).decode()
 
@@ -182,67 +184,85 @@ class MockPoolManager(object):
         elif signing_alg == signing.ALGORITHM_RSASSA_PSS:
             pss.new(self.pubkey).verify(digest, signature)
         elif signing_alg == signing.ALGORITHM_ECDSA_MODE_FIPS_186_3:
-            verifier = DSS.new(self.pubkey, signing.ALGORITHM_ECDSA_MODE_FIPS_186_3)
+            verifier = DSS.new(key=self.pubkey, mode=signing.ALGORITHM_ECDSA_MODE_FIPS_186_3,
+                                encoding='der')
             verifier.verify(digest, signature)
         elif signing_alg == signing.ALGORITHM_ECDSA_MODE_DETERMINISTIC_RFC6979:
-            verifier = DSS.new(self.pubkey, signing.ALGORITHM_ECDSA_MODE_DETERMINISTIC_RFC6979)
+            verifier = DSS.new(key=self.pubkey, mode=signing.ALGORITHM_ECDSA_MODE_DETERMINISTIC_RFC6979,
+                                encoding='der')
             verifier.verify(digest, signature)
         else:
             self._tc.fail("Unsupported signing algorithm: {0}".format(signing_alg))
 
 class PetApiTests(unittest.TestCase):
 
-    def setUp(self):
-        self.setUpModels()
-        self.setUpFiles()
+    @classmethod
+    def setUpClass(cls):
+        cls.setUpModels()
+        cls.setUpFiles()
 
+    @classmethod
+    def tearDownClass(cls):
+        file_paths = [
+            cls.rsa_key_path,
+            cls.rsa4096_key_path,
+            cls.ec_p521_key_path,
+        ]
+        for file_path in file_paths:
+            os.unlink(file_path)
 
-    def setUpModels(self):
-        self.category = petstore_api.Category()
-        self.category.id = id_gen()
-        self.category.name = "dog"
-        self.tag = petstore_api.Tag()
-        self.tag.id = id_gen()
-        self.tag.name = "python-pet-tag"
-        self.pet = petstore_api.Pet(name="hello kity", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
-        self.pet.id = id_gen()
-        self.pet.status = "sold"
-        self.pet.category = self.category
-        self.pet.tags = [self.tag]
+    @classmethod
+    def setUpModels(cls):
+        cls.category = category.Category()
+        cls.category.id = id_gen()
+        cls.category.name = "dog"
+        cls.tag = tag.Tag()
+        cls.tag.id = id_gen()
+        cls.tag.name = "python-pet-tag"
+        cls.pet = pet.Pet(
+            name="hello kity",
+            photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"]
+        )
+        cls.pet.id = id_gen()
+        cls.pet.status = "sold"
+        cls.pet.category = cls.category
+        cls.pet.tags = [cls.tag]
 
-    def setUpFiles(self):
-        self.test_file_dir = os.path.join(os.path.dirname(__file__), "..", "testfiles")
-        self.test_file_dir = os.path.realpath(self.test_file_dir)
-        if not os.path.exists(self.test_file_dir):
-            os.mkdir(self.test_file_dir)
+    @classmethod
+    def setUpFiles(cls):
+        cls.test_file_dir = os.path.join(
+            os.path.dirname(__file__), "..", "testfiles")
+        cls.test_file_dir = os.path.realpath(cls.test_file_dir)
+        if not os.path.exists(cls.test_file_dir):
+            os.mkdir(cls.test_file_dir)
 
-        self.private_key_passphrase = 'test-passphrase'
-        self.rsa_key_path = os.path.join(self.test_file_dir, 'rsa.pem')
-        self.rsa4096_key_path = os.path.join(self.test_file_dir, 'rsa4096.pem')
-        self.ec_p521_key_path = os.path.join(self.test_file_dir, 'ecP521.pem')
+        cls.private_key_passphrase = 'test-passphrase'
+        cls.rsa_key_path = os.path.join(cls.test_file_dir, 'rsa.pem')
+        cls.rsa4096_key_path = os.path.join(cls.test_file_dir, 'rsa4096.pem')
+        cls.ec_p521_key_path = os.path.join(cls.test_file_dir, 'ecP521.pem')
 
-        if not os.path.exists(self.rsa_key_path):
-            with open(self.rsa_key_path, 'w') as f:
+        if not os.path.exists(cls.rsa_key_path):
+            with open(cls.rsa_key_path, 'w') as f:
                 f.write(RSA_TEST_PRIVATE_KEY)
 
-        if not os.path.exists(self.rsa4096_key_path):
+        if not os.path.exists(cls.rsa4096_key_path):
             key = RSA.generate(4096)
             private_key = key.export_key(
-                passphrase=self.private_key_passphrase,
+                passphrase=cls.private_key_passphrase,
                 protection='PEM'
             )
-            with open(self.rsa4096_key_path, "wb") as f:
+            with open(cls.rsa4096_key_path, "wb") as f:
                 f.write(private_key)
 
-        if not os.path.exists(self.ec_p521_key_path):
+        if not os.path.exists(cls.ec_p521_key_path):
             key = ECC.generate(curve='P-521')
             private_key = key.export_key(
                 format='PEM',
-                passphrase=self.private_key_passphrase,
+                passphrase=cls.private_key_passphrase,
                 use_pkcs8=True,
                 protection='PBKDF2WithHMAC-SHA1AndAES128-CBC'
             )
-            with open(self.ec_p521_key_path, "wt") as f:
+            with open(cls.ec_p521_key_path, "wt") as f:
                 f.write(private_key)
 
     def test_valid_http_signature(self):
@@ -268,7 +288,7 @@ class PetApiTests(unittest.TestCase):
         config.access_token = None
 
         api_client = petstore_api.ApiClient(config)
-        pet_api = petstore_api.PetApi(api_client)
+        pet_api = PetApi(api_client)
 
         mock_pool = MockPoolManager(self)
         api_client.rest_client.pool_manager = mock_pool
@@ -279,7 +299,7 @@ class PetApiTests(unittest.TestCase):
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
                                                 r'headers="\(request-target\) \(created\) host date digest content-type",'
-                                                r'signature="[a-zA-Z0-9+/]+="',
+                                                r'signature="[a-zA-Z0-9+/=]+"',
                                           'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
@@ -299,7 +319,7 @@ class PetApiTests(unittest.TestCase):
         config.access_token = None
 
         api_client = petstore_api.ApiClient(config)
-        pet_api = petstore_api.PetApi(api_client)
+        pet_api = PetApi(api_client)
 
         mock_pool = MockPoolManager(self)
         api_client.rest_client.pool_manager = mock_pool
@@ -310,7 +330,7 @@ class PetApiTests(unittest.TestCase):
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
                                                 r'headers="\(created\)",'
-                                                r'signature="[a-zA-Z0-9+/]+="',
+                                                r'signature="[a-zA-Z0-9+/=]+"',
                                           'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
@@ -335,7 +355,7 @@ class PetApiTests(unittest.TestCase):
         config.access_token = None
 
         api_client = petstore_api.ApiClient(config)
-        pet_api = petstore_api.PetApi(api_client)
+        pet_api = PetApi(api_client)
 
         mock_pool = MockPoolManager(self)
         api_client.rest_client.pool_manager = mock_pool
@@ -346,7 +366,7 @@ class PetApiTests(unittest.TestCase):
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
                                                 r'headers="\(request-target\) \(created\)",'
-                                                r'signature="[a-zA-Z0-9+/]+="',
+                                                r'signature="[a-zA-Z0-9+/=]+"',
                                           'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
@@ -371,7 +391,7 @@ class PetApiTests(unittest.TestCase):
         config.access_token = None
 
         api_client = petstore_api.ApiClient(config)
-        pet_api = petstore_api.PetApi(api_client)
+        pet_api = PetApi(api_client)
 
         mock_pool = MockPoolManager(self)
         api_client.rest_client.pool_manager = mock_pool
@@ -382,7 +402,7 @@ class PetApiTests(unittest.TestCase):
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
                                                 r'headers="\(request-target\) \(created\)",'
-                                                r'signature="[a-zA-Z0-9+/]+="',
+                                                r'signature="[a-zA-Z0-9+/=]+"',
                                           'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 
@@ -395,6 +415,7 @@ class PetApiTests(unittest.TestCase):
             signing_scheme=signing.SCHEME_HS2019,
             private_key_path=privkey_path,
             private_key_passphrase=self.private_key_passphrase,
+            hash_algorithm=signing.HASH_SHA512,
             signed_headers=[
                 signing.HEADER_REQUEST_TARGET,
                 signing.HEADER_CREATED,
@@ -406,7 +427,7 @@ class PetApiTests(unittest.TestCase):
         config.access_token = None
 
         api_client = petstore_api.ApiClient(config)
-        pet_api = petstore_api.PetApi(api_client)
+        pet_api = PetApi(api_client)
 
         mock_pool = MockPoolManager(self)
         api_client.rest_client.pool_manager = mock_pool
@@ -417,7 +438,7 @@ class PetApiTests(unittest.TestCase):
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
                                                 r'headers="\(request-target\) \(created\)",'
-                                                r'signature="[a-zA-Z0-9+/]+"',
+                                                r'signature="[a-zA-Z0-9+/=]+"',
                                           'User-Agent': r'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=None)
 

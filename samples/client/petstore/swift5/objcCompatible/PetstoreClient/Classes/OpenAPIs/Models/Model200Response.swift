@@ -8,9 +8,15 @@
 import Foundation
 
 /** Model for testing model name starting with number */
-public struct Model200Response: Codable {
+
+@objc public class Model200Response: NSObject, Codable { 
 
     public var name: Int?
+    public var nameNum: NSNumber? {
+        get {
+            return name as NSNumber?
+        }
+    }
     public var _class: String?
 
     public init(name: Int?, _class: String?) {
@@ -18,7 +24,7 @@ public struct Model200Response: Codable {
         self._class = _class
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable {
+    public enum CodingKeys: String, CodingKey, CaseIterable { 
         case name
         case _class = "class"
     }

@@ -15,7 +15,7 @@ Add to your `build->plugins` section (default phase is `generate-sources` phase)
 <plugin>
     <groupId>org.openapitools</groupId>
     <artifactId>openapi-generator-maven-plugin</artifactId>
-    <version>3.3.4</version>
+    <version>4.3.1</version>
     <executions>
         <execution>
             <goals>
@@ -40,6 +40,28 @@ mvn clean compile
 ```
 
 For full details of all options, see the [plugin README](https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin).
+
+### Dependencies
+
+The generated models use commonly use Swagger v2 annotations like `@ApiModelProperty`. A user may add Swagger v3 annotations:
+
+```xml
+<dependency>
+    <groupId>io.swagger.core.v3</groupId>
+    <artifactId>swagger-annotations</artifactId>
+</dependency>
+```
+
+But this will not work. This dependency is not binary compatible with Swagger v2 annotations. The resulting code will fail to compile.
+
+As alternative instead use the following dependency:
+
+```xml
+<dependency>
+    <groupId>io.swagger.parser.v3</groupId>
+    <artifactId>swagger-parser</artifactId>
+</dependency>
+```
 
 ## Gradle
 

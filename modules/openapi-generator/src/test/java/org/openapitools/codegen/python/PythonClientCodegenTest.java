@@ -63,7 +63,7 @@ public class PythonClientCodegenTest {
 
     @Test(description = "test enum null/nullable patterns")
     public void testEnumNull() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue_1997.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_1997.yaml");
 
         StringSchema prop = (StringSchema) openAPI.getComponents().getSchemas().get("Type").getProperties().get("prop");
         ArrayList<Object> expected = new ArrayList<>(Arrays.asList("A", "B", "C"));
@@ -73,7 +73,7 @@ public class PythonClientCodegenTest {
 
     @Test(description = "test regex patterns")
     public void testRegularExpressionOpenAPISchemaVersion3() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/issue_1517.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_1517.yaml");
         final PythonClientCodegen codegen = new PythonClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/ping";

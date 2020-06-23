@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * 
  * @param bar 
@@ -21,7 +22,5 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class Foo (
     @SerialName(value = "bar") val bar: kotlin.String? = null
-) 
-
-
+)
 

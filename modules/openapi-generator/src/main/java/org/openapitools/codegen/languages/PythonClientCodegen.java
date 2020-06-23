@@ -59,7 +59,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public PythonClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -80,7 +80,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         // clear import mapping (from default generator) as python does not use it
         // at the moment
@@ -119,6 +119,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         languageSpecificPrimitives.add("object");
         // TODO file and binary is mapped as `file`
         languageSpecificPrimitives.add("file");
+        languageSpecificPrimitives.add("bytes");
 
         typeMapping.clear();
         typeMapping.put("integer", "int");
@@ -127,12 +128,14 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("long", "int");
         typeMapping.put("double", "float");
         typeMapping.put("array", "list");
+        typeMapping.put("set", "list");
         typeMapping.put("map", "dict");
         typeMapping.put("boolean", "bool");
         typeMapping.put("string", "str");
         typeMapping.put("date", "date");
         typeMapping.put("DateTime", "datetime");
         typeMapping.put("object", "object");
+        typeMapping.put("AnyType", "object");
         typeMapping.put("file", "file");
         // TODO binary should be mapped to byte array
         // mapped to String as a workaround
@@ -141,6 +144,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         // map uuid to string for the time being
         typeMapping.put("UUID", "str");
         typeMapping.put("URI", "str");
+        typeMapping.put("null", "none_type");
 
         // from https://docs.python.org/3/reference/lexical_analysis.html#keywords
         setReservedWordsLowerCase(
@@ -266,6 +270,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
             supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
             supportingFiles.add(new SupportingFile("travis.mustache", "", ".travis.yml"));
+            supportingFiles.add(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
             supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
         }
         supportingFiles.add(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
@@ -456,7 +461,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
 
             return getSchemaType(p) + "(str, " + getTypeDeclaration(inner) + ")";
         }
@@ -717,7 +722,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         // correct "&#39;"s into "'"s after toString()
-        if (ModelUtils.isStringSchema(schema) && schema.getDefault() != null) {
+        if (ModelUtils.isStringSchema(schema) && schema.getDefault() != null && !ModelUtils.isDateSchema(schema) && !ModelUtils.isDateTimeSchema(schema)) {
             example = (String) schema.getDefault();
         }
 
@@ -827,7 +832,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             if (schema.getDiscriminator()!=null) {
                 toExclude = schema.getDiscriminator().getPropertyName();
             }
-            
+
             example = packageName + ".models." + underscore(schema.getTitle())+"."+schema.getTitle()+"(";
 
             // if required only:

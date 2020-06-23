@@ -81,9 +81,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   {{/maximum}}
    * @return {{name}}
   **/
- {{#vendorExtensions.extraAnnotation}}
-  {{{vendorExtensions.extraAnnotation}}}
-  {{/vendorExtensions.extraAnnotation}}
+ {{#vendorExtensions.x-extra-annotation}}
+  {{{vendorExtensions.x-extra-annotation}}}
+  {{/vendorExtensions.x-extra-annotation}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}{{#isReadOnly}}readOnly = {{{isReadOnly}}}, {{/isReadOnly}}value = "{{{description}}}")
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};

@@ -1,0 +1,23 @@
+# Test for an API where we can't generate any examples
+
+openapi: 3.0.1
+info:
+   title: Regression test for an API which doesn't have any example
+   version: 0.0.1
+paths:
+  /op:
+    get:
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                propery:
+                  type: string
+              required:
+                - property
+      responses:
+        '200':
+          description: 'OK'

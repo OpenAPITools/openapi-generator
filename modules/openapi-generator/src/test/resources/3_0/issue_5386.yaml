@@ -1,0 +1,40 @@
+openapi: 3.0.0
+servers:
+  - url: 'localhost:8080'
+info:
+  version: 1.0.0
+  title: OpenAPI Zoo
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /elephants:
+    get:
+      operationId: getElephants
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: number
+        - in: cookie
+          name: userToken
+          required: true
+          schema:
+            type: string
+  /zebras:
+    get:
+      operationId: getZebras
+      parameters:
+        - in: cookie
+          name: userToken
+          required: true
+          schema:
+            type: string
+  /birds:
+    get:
+      operationId: getBirds
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: number

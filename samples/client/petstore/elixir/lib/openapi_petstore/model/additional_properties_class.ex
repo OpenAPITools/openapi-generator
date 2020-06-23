@@ -38,12 +38,8 @@ defmodule OpenapiPetstore.Model.AdditionalPropertiesClass do
 end
 
 defimpl Poison.Decoder, for: OpenapiPetstore.Model.AdditionalPropertiesClass do
-  import OpenapiPetstore.Deserializer
-  def decode(value, options) do
+  def decode(value, _options) do
     value
-    |> deserialize(:"anytype_1", :struct, OpenapiPetstore.Model.Map, options)
-    |> deserialize(:"anytype_2", :struct, OpenapiPetstore.Model.Map, options)
-    |> deserialize(:"anytype_3", :struct, OpenapiPetstore.Model.Map, options)
   end
 end
 

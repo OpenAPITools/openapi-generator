@@ -46,5 +46,6 @@ public class ScalaAkkaClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setSourceFolder(ScalaAkkaClientOptionsProvider.SOURCE_FOLDER_VALUE);
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(ScalaAkkaClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
         verify(clientCodegen).setMainPackage(ScalaAkkaClientOptionsProvider.MAIN_PACKAGE_VALUE);
+        verify(clientCodegen).setModelPropertyNaming(ScalaAkkaClientOptionsProvider.MODEL_PROPERTY_NAMING);
     }
 }

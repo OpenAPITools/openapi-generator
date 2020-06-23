@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
 /**
  * FormatTest
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FormatTest   {
 
   @JsonProperty("integer")
@@ -57,10 +57,12 @@ public class FormatTest   {
 
 
   @JsonProperty("date")
+  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
   private LocalDate date;
 
 
   @JsonProperty("dateTime")
+  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dateTime;
 
 

@@ -8,12 +8,12 @@
 user_t *user_create(
     long id,
     char *username,
-    char *firstName,
-    char *lastName,
+    char *first_name,
+    char *last_name,
     char *email,
     char *password,
     char *phone,
-    int userStatus
+    int user_status
     ) {
     user_t *user_local_var = malloc(sizeof(user_t));
     if (!user_local_var) {
@@ -21,22 +21,25 @@ user_t *user_create(
     }
     user_local_var->id = id;
     user_local_var->username = username;
-    user_local_var->firstName = firstName;
-    user_local_var->lastName = lastName;
+    user_local_var->first_name = first_name;
+    user_local_var->last_name = last_name;
     user_local_var->email = email;
     user_local_var->password = password;
     user_local_var->phone = phone;
-    user_local_var->userStatus = userStatus;
+    user_local_var->user_status = user_status;
 
     return user_local_var;
 }
 
 
 void user_free(user_t *user) {
+    if(NULL == user){
+        return ;
+    }
     listEntry_t *listEntry;
     free(user->username);
-    free(user->firstName);
-    free(user->lastName);
+    free(user->first_name);
+    free(user->last_name);
     free(user->email);
     free(user->password);
     free(user->phone);
@@ -62,17 +65,17 @@ cJSON *user_convertToJSON(user_t *user) {
      } 
 
 
-    // user->firstName
-    if(user->firstName) { 
-    if(cJSON_AddStringToObject(item, "firstName", user->firstName) == NULL) {
+    // user->first_name
+    if(user->first_name) { 
+    if(cJSON_AddStringToObject(item, "firstName", user->first_name) == NULL) {
     goto fail; //String
     }
      } 
 
 
-    // user->lastName
-    if(user->lastName) { 
-    if(cJSON_AddStringToObject(item, "lastName", user->lastName) == NULL) {
+    // user->last_name
+    if(user->last_name) { 
+    if(cJSON_AddStringToObject(item, "lastName", user->last_name) == NULL) {
     goto fail; //String
     }
      } 
@@ -102,9 +105,9 @@ cJSON *user_convertToJSON(user_t *user) {
      } 
 
 
-    // user->userStatus
-    if(user->userStatus) { 
-    if(cJSON_AddNumberToObject(item, "userStatus", user->userStatus) == NULL) {
+    // user->user_status
+    if(user->user_status) { 
+    if(cJSON_AddNumberToObject(item, "userStatus", user->user_status) == NULL) {
     goto fail; //Numeric
     }
      } 
@@ -139,19 +142,19 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     }
     }
 
-    // user->firstName
-    cJSON *firstName = cJSON_GetObjectItemCaseSensitive(userJSON, "firstName");
-    if (firstName) { 
-    if(!cJSON_IsString(firstName))
+    // user->first_name
+    cJSON *first_name = cJSON_GetObjectItemCaseSensitive(userJSON, "firstName");
+    if (first_name) { 
+    if(!cJSON_IsString(first_name))
     {
     goto end; //String
     }
     }
 
-    // user->lastName
-    cJSON *lastName = cJSON_GetObjectItemCaseSensitive(userJSON, "lastName");
-    if (lastName) { 
-    if(!cJSON_IsString(lastName))
+    // user->last_name
+    cJSON *last_name = cJSON_GetObjectItemCaseSensitive(userJSON, "lastName");
+    if (last_name) { 
+    if(!cJSON_IsString(last_name))
     {
     goto end; //String
     }
@@ -184,10 +187,10 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     }
     }
 
-    // user->userStatus
-    cJSON *userStatus = cJSON_GetObjectItemCaseSensitive(userJSON, "userStatus");
-    if (userStatus) { 
-    if(!cJSON_IsNumber(userStatus))
+    // user->user_status
+    cJSON *user_status = cJSON_GetObjectItemCaseSensitive(userJSON, "userStatus");
+    if (user_status) { 
+    if(!cJSON_IsNumber(user_status))
     {
     goto end; //Numeric
     }
@@ -197,12 +200,12 @@ user_t *user_parseFromJSON(cJSON *userJSON){
     user_local_var = user_create (
         id ? id->valuedouble : 0,
         username ? strdup(username->valuestring) : NULL,
-        firstName ? strdup(firstName->valuestring) : NULL,
-        lastName ? strdup(lastName->valuestring) : NULL,
+        first_name ? strdup(first_name->valuestring) : NULL,
+        last_name ? strdup(last_name->valuestring) : NULL,
         email ? strdup(email->valuestring) : NULL,
         password ? strdup(password->valuestring) : NULL,
         phone ? strdup(phone->valuestring) : NULL,
-        userStatus ? userStatus->valuedouble : 0
+        user_status ? user_status->valuedouble : 0
         );
 
     return user_local_var;

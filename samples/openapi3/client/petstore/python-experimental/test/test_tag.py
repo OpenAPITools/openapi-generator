@@ -15,6 +15,7 @@ from __future__ import absolute_import
 import unittest
 
 import petstore_api
+from petstore_api.model.tag import Tag
 
 
 class TestTag(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestTag(unittest.TestCase):
     def testTag(self):
         """Test Tag"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.Tag()  # noqa: E501
+        # model = Tag()  # noqa: E501
         pass
 
 

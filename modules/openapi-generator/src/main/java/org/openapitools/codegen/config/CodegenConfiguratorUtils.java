@@ -42,16 +42,16 @@ import java.util.*;
  */
 public final class CodegenConfiguratorUtils {
 
-    public static void applySystemPropertiesKvpList(List<String> systemProperties, CodegenConfigurator configurator) {
-        for(String propString : systemProperties) {
-            applySystemPropertiesKvp(propString, configurator);
+    public static void applyGlobalPropertiesKvpList(List<String> globalProperties, CodegenConfigurator configurator) {
+        for(String propString : globalProperties) {
+            applyGlobalPropertiesKvp(propString, configurator);
         }
     }
 
-    public static void applySystemPropertiesKvp(String systemProperties, CodegenConfigurator configurator) {
-        final Map<String, String> map = createMapFromKeyValuePairs(systemProperties);
+    public static void applyGlobalPropertiesKvp(String globalProperties, CodegenConfigurator configurator) {
+        final Map<String, String> map = createMapFromKeyValuePairs(globalProperties);
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            configurator.addSystemProperty(entry.getKey(), entry.getValue());
+            configurator.addGlobalProperty(entry.getKey(), entry.getValue());
         }
     }
 

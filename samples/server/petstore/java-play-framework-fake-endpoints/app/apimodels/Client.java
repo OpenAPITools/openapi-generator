@@ -8,7 +8,7 @@ import javax.validation.constraints.*;
 /**
  * Client
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Client   {
   @JsonProperty("client")

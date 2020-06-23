@@ -1,33 +1,23 @@
+{{>partial_header}}
 #region Import functions
 
-'API', 'Model', 'Private' | Get-ChildItem -Path {
+# set $ErrorActionPreference to 'Stop' globally
+$ErrorActionPreference = 'Stop'
+
+# store the API client's configuration 
+$Script:Configuration = [System.Collections.HashTable]@{}
+
+$Script:CmdletBindingParameters = @('Verbose','Debug','ErrorAction','WarningAction','InformationAction','ErrorVariable','WarningVariable','InformationVariable','OutVariable','OutBuffer','PipelineVariable')
+
+'Api', 'Model', 'Client', 'Private' | Get-ChildItem -Path {
     Join-Path $PSScriptRoot $_
 } -Filter '*.ps1' | ForEach-Object {
-    Write-Verbose "Importing file: $($_.BaseName)"
+    Write-Debug "Importing file: $($_.BaseName)"
     try {
         . $_.FullName
     } catch {
-        Write-Verbose "Can't import function!"
+        Write-Error -Message "Failed to import function $($_.Fullname): $_"
     }
 }
-
-#endregion
-
-
-#region Initialize APIs
-
-{{#apiInfo}}
-{{#apis}}
-{{#operations}}
-{{#operation}}
-{{#-first}}
-'Creating object: {{{packageName}}}.Api.{{{classname}}}' | Write-Verbose
-$Script:{{{classname}}}= New-Object -TypeName {{{packageName}}}.Api.{{{classname}}} -ArgumentList @($null)
-
-{{/-first}}
-{{/operation}}
-{{/operations}}
-{{/apis}}
-{{/apiInfo}}
 
 #endregion

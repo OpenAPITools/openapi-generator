@@ -24,7 +24,7 @@ abstract class Order implements Built<Order, OrderBuilder> {
     /* Order Status */
         @nullable
     @BuiltValueField(wireName: r'status')
-    String get status;
+    OrderStatus get status;
         //enum statusEnum {  placed,  approved,  delivered,  };
     
         @nullable
@@ -36,6 +36,26 @@ abstract class Order implements Built<Order, OrderBuilder> {
 
     factory Order([updates(OrderBuilder b)]) = _$Order;
     static Serializer<Order> get serializer => _$orderSerializer;
-
 }
+
+class OrderStatus extends EnumClass {
+
+  /// Order Status
+  @BuiltValueEnumConst(wireName: "placed")
+  static const OrderStatus placed = _$placed;
+  /// Order Status
+  @BuiltValueEnumConst(wireName: "approved")
+  static const OrderStatus approved = _$approved;
+  /// Order Status
+  @BuiltValueEnumConst(wireName: "delivered")
+  static const OrderStatus delivered = _$delivered;
+
+  static Serializer<OrderStatus> get serializer => _$orderStatusSerializer;
+
+  const OrderStatus._(String name): super(name);
+
+  static BuiltSet<OrderStatus> get values => _$orderStatusValues;
+  static OrderStatus valueOf(String name) => _$orderStatusValueOf(name);
+}
+
 

@@ -46,13 +46,19 @@ export class Configuration {
     }
 
     get apiKey(): ((name: string) => string) | undefined {
-        const apiKey = this.configuration.apiKey;
-        return apiKey && (typeof apiKey === 'function' ? apiKey : () => apiKey);
+        const { apiKey } = this.configuration;
+        if (!apiKey) {
+            return undefined;
+        }
+        return typeof apiKey === 'string' ? () => apiKey : apiKey;
     }
 
     get accessToken(): ((name: string, scopes?: string[]) => string) | undefined {
-        const accessToken = this.configuration.accessToken;
-        return accessToken && (typeof accessToken === 'function' ? accessToken : () => accessToken);
+        const { accessToken } = this.configuration;
+        if (!accessToken) {
+            return undefined;
+        }
+        return typeof accessToken === 'string' ? () => accessToken : accessToken;
     }
 }
 
@@ -66,7 +72,7 @@ export class BaseAPI {
         this.middleware = configuration.middleware;
     }
 
-    withMiddleware = (middlewares: Middleware[]) => {
+    withMiddleware = (middlewares: Middleware[]): this => {
         const next = this.clone();
         next.middleware = next.middleware.concat(middlewares);
         return next;
@@ -126,7 +132,7 @@ export class BaseAPI {
      * Create a shallow clone of `this` by constructing a new instance
      * and then shallow cloning data members.
      */
-    private clone = (): BaseAPI =>
+    private clone = (): this =>
         Object.assign(Object.create(Object.getPrototypeOf(this)), this);
 }
 
@@ -183,9 +189,9 @@ export const throwIfRequired = (params: {[key: string]: any}, key: string, nickn
     }
 };
 
-export const throwIfNullOrUndefined = (value: any, nickname?: string) => {
+export const throwIfNullOrUndefined = (value: any, paramName: string, nickname: string) => {
     if (value == null) {
-        throw new Error(`Parameter "${value}" was null or undefined when calling "${nickname}".`);
+        throw new Error(`Parameter "${paramName}" was null or undefined when calling "${nickname}".`);
     }
 };
 

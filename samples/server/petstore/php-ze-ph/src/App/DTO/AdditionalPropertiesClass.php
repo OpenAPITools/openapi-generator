@@ -87,22 +87,19 @@ class AdditionalPropertiesClass
     public $map_map_anytype;
     /**
      * @DTA\Data(field="anytype_1", nullable=true)
-     * @DTA\Strategy(name="Object", options={"type":object::class})
-     * @DTA\Validator(name="Dictionary", options={"type":object::class})
+     * @DTA\Validator(name="Type", options={"type":"object"})
      * @var object
      */
     public $anytype_1;
     /**
      * @DTA\Data(field="anytype_2", nullable=true)
-     * @DTA\Strategy(name="Object", options={"type":object::class})
-     * @DTA\Validator(name="Dictionary", options={"type":object::class})
+     * @DTA\Validator(name="Type", options={"type":"object"})
      * @var object
      */
     public $anytype_2;
     /**
      * @DTA\Data(field="anytype_3", nullable=true)
-     * @DTA\Strategy(name="Object", options={"type":object::class})
-     * @DTA\Validator(name="Dictionary", options={"type":object::class})
+     * @DTA\Validator(name="Type", options={"type":"object"})
      * @var object
      */
     public $anytype_3;

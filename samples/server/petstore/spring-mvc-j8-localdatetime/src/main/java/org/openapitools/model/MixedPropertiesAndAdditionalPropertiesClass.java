@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass   {
 
   @JsonProperty("uuid")
@@ -26,6 +26,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass   {
 
 
   @JsonProperty("dateTime")
+  @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
   private LocalDateTime dateTime;
 
 

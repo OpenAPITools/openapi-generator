@@ -75,7 +75,7 @@ public class TypeScriptAngularJsModelTest {
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
         Assert.assertEquals(property3.complexType, null);
-        Assert.assertEquals(property3.dataType, "Date");
+        Assert.assertEquals(property3.dataType, "string");
         Assert.assertEquals(property3.name, "createdAt");
         Assert.assertEquals(property3.defaultValue, "undefined");
         Assert.assertTrue(property3.hasMore);

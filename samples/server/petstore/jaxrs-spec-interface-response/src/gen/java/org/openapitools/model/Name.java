@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Model for testing model name same as property name
  **/
 @ApiModel(description = "Model for testing model name same as property name")
-public class Name  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Name  implements Serializable {
   
   private @Valid Integer name;
   private @Valid Integer snakeCase;
@@ -31,17 +31,18 @@ public class Name  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("name")
   @NotNull
   public Integer getName() {
     return name;
   }
+
   public void setName(Integer name) {
     this.name = name;
-  }
-
-  /**
+  }/**
    **/
   public Name snakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
@@ -49,16 +50,17 @@ public class Name  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("snake_case")
   public Integer getSnakeCase() {
     return snakeCase;
   }
+
   public void setSnakeCase(Integer snakeCase) {
     this.snakeCase = snakeCase;
-  }
-
-  /**
+  }/**
    **/
   public Name property(String property) {
     this.property = property;
@@ -66,16 +68,17 @@ public class Name  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("property")
   public String getProperty() {
     return property;
   }
+
   public void setProperty(String property) {
     this.property = property;
-  }
-
-  /**
+  }/**
    **/
   public Name _123number(Integer _123number) {
     this._123number = _123number;
@@ -83,15 +86,17 @@ public class Name  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("123Number")
   public Integer get123number() {
     return _123number;
   }
+
   public void set123number(Integer _123number) {
     this._123number = _123number;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -102,10 +107,10 @@ public class Name  implements Serializable {
       return false;
     }
     Name name = (Name) o;
-    return Objects.equals(name, name.name) &&
-        Objects.equals(snakeCase, name.snakeCase) &&
-        Objects.equals(property, name.property) &&
-        Objects.equals(_123number, name._123number);
+    return Objects.equals(this.name, name.name) &&
+        Objects.equals(this.snakeCase, name.snakeCase) &&
+        Objects.equals(this.property, name.property) &&
+        Objects.equals(this._123number, name._123number);
   }
 
   @Override
@@ -136,5 +141,7 @@ public class Name  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

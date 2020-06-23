@@ -26,7 +26,7 @@ using namespace {{modelNamespace}};
 }
 
 {{#operation}}
-pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{classname}}::{{operationId}}({{#allParams}}{{^required}}boost::optional<{{/required}}{{#isFile}}std::shared_ptr<{{/isFile}}{{{dataType}}}{{#isFile}}>{{/isFile}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) const
+pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}> {{classname}}::{{operationId}}({{#allParams}}{{^required}}boost::optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) const
 {
 {{#allParams}}{{#required}}{{^isPrimitiveType}}{{^isContainer}}
     // verify the required parameter '{{paramName}}' is set
@@ -160,13 +160,13 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
         web::json::value localVarJson;
 
         {{#isPrimitiveType}}
-        localVarJson = ModelBase::toJson({{paramName}});
+        localVarJson = ModelBase::toJson({{paramName}}{{^required}}.get(){{/required}});
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         {{#isListContainer}}
         {
             std::vector<web::json::value> localVarJsonArray;
-            for( auto& localVarItem : {{paramName}} )
+            for( auto& localVarItem : {{paramName}}{{^required}}.get(){{/required}} )
             {
                 {{#items.isPrimitiveType}}localVarJsonArray.push_back(ModelBase::toJson(localVarItem));
                 {{/items.isPrimitiveType}}{{^items.isPrimitiveType}}{{#items.isString}}localVarJsonArray.push_back(ModelBase::toJson(localVarItem));
@@ -193,30 +193,32 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
         {{#bodyParam}}
         std::shared_ptr<MultipartFormData> localVarMultipart(new MultipartFormData);
         {{#isPrimitiveType}}
-        localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), {{paramName}}));
-        {{/isPrimitiveType}}
-        {{^isPrimitiveType}}
-        {{#isListContainer}}
+        localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), {{paramName}}{{^required}}.get(){{/required}}));
+        {{/isPrimitiveType}}{{^isPrimitiveType}}{{#isListContainer}}
         {
             std::vector<web::json::value> localVarJsonArray;
-            for( auto& localVarItem : {{paramName}} )
+            for( auto& localVarItem : {{paramName}}{{^required}}.get(){{/required}} )
             {
-                {{#items.isPrimitiveType}}localVarJsonArray.push_back(ModelBase::toJson(localVarItem));
-                {{/items.isPrimitiveType}}{{^items.isPrimitiveType}}{{#items.isString}}localVarJsonArray.push_back(ModelBase::toJson(localVarItem));
-                {{/items.isString}}{{^items.isString}}{{#items.isDateTime}}localVarJsonArray.push_back(ModelBase::toJson(localVarItem));
-                {{/items.isDateTime}}{{^items.isDateTime}}localVarJsonArray.push_back( localVarItem.get() ? localVarItem->toJson() : web::json::value::null() );
-                {{/items.isDateTime}}{{/items.isString}}{{/items.isPrimitiveType}}
+                localVarJsonArray.push_back(ModelBase::toJson(localVarItem));
             }
-            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), web::json::value::array(localVarJsonArray), utility::conversions::to_string_t("application/json")));
-        }{{/isListContainer}}
-        {{^isListContainer}}{{#isString}}localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), {{paramName}}));
+            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), localVarJsonArray, utility::conversions::to_string_t("application/json")));
+        }{{/isListContainer}}{{#isMapContainer}}
+        {
+            std::map<utility::string_t, web::json::value> localVarJsonMap;
+            for( auto& localVarItem : {{paramName}}{{^required}}.get(){{/required}} )
+            {
+                web::json::value jval;
+                localVarJsonMap.insert( std::pair<utility::string_t, web::json::value>(localVarItem.first, ModelBase::toJson(localVarItem.second) ));
+            }
+            localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), localVarJsonMap, utility::conversions::to_string_t("application/json")));
+        }{{/isMapContainer}}
+        {{^isListContainer}}{{^isMapContainer}}{{#isString}}localVarMultipart->add(ModelBase::toHttpContent(utility::conversions::to_string_t("{{paramName}}"), {{paramName}}));
         {{/isString}}{{^isString}}if({{^required}}{{paramName}} && (*{{paramName}}){{/required}}{{#required}}{{paramName}}{{/required}}.get())
         {
             {{^required}}(*{{/required}}{{paramName}}{{^required}}){{/required}}->toMultipart(localVarMultipart, utility::conversions::to_string_t("{{paramName}}"));
         }
         {{/isString}}
-        {{/isListContainer}}
-        {{/isPrimitiveType}}
+        {{/isMapContainer}}{{/isListContainer}}{{/isPrimitiveType}}
 
         localVarHttpBody = localVarMultipart;
         localVarRequestHttpContentType += utility::conversions::to_string_t("; boundary=") + localVarMultipart->getBoundary();
@@ -318,29 +320,20 @@ pplx::task<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/r
         if(localVarResponseHttpContentType == utility::conversions::to_string_t("application/json"))
         {
             web::json::value localVarJson = web::json::value::parse(localVarResponse);
-
-            {{#isListContainer}}for( auto& localVarItem : localVarJson.as_array() )
+            {{#isListContainer}}
+            for( auto& localVarItem : localVarJson.as_array() )
             {
-                {{#vendorExtensions.x-codegen-response.items.isPrimitiveType}}localVarResult.push_back(ModelBase::{{vendorExtensions.x-codegen-response.items.datatype}}FromJson(localVarItem));
-                {{/vendorExtensions.x-codegen-response.items.isPrimitiveType}}{{^vendorExtensions.x-codegen-response.items.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.items.isString}}localVarResult.push_back(ModelBase::stringFromJson(localVarItem));
-                {{/vendorExtensions.x-codegen-response.items.isString}}{{^vendorExtensions.x-codegen-response.items.isString}}{{{vendorExtensions.x-codegen-response.items.datatype}}} localVarItemObj({{{vendorExtensions.x-codegen-response.items.defaultValue}}});
-                localVarItemObj->fromJson(localVarItem);
+                {{{vendorExtensions.x-codegen-response.items.datatype}}} localVarItemObj;
+                ModelBase::fromJson(localVarItem, localVarItemObj);
                 localVarResult.push_back(localVarItemObj);
-                {{/vendorExtensions.x-codegen-response.items.isString}}{{/vendorExtensions.x-codegen-response.items.isPrimitiveType}}
-            }
-            {{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}for( auto& localVarItem : localVarJson.as_object() )
+            }{{/isListContainer}}{{#isMapContainer}}
+            for( auto& localVarItem : localVarJson.as_object() )
             {
-                {{#vendorExtensions.x-codegen-response.items.isPrimitiveType}}localVarResult[localVarItem.first] = ModelBase::{{vendorExtensions.x-codegen-response.items.datatype}}FromJson(localVarItem.second);
-                {{/vendorExtensions.x-codegen-response.items.isPrimitiveType}}{{^vendorExtensions.x-codegen-response.items.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.items.isString}}localVarResult[localVarItem.first] = ModelBase::stringFromJson(localVarItem.second);
-                {{/vendorExtensions.x-codegen-response.items.isString}}{{^vendorExtensions.x-codegen-response.items.isString}}{{{vendorExtensions.x-codegen-response.items.datatype}}} localVarItemObj({{{vendorExtensions.x-codegen-response.items.defaultValue}}});
-                localVarItemObj->fromJson(localVarItem.second);
+                {{{vendorExtensions.x-codegen-response.items.datatype}}} localVarItemObj;
+                ModelBase::fromJson(localVarItem.second, localVarItemObj);
                 localVarResult[localVarItem.first] = localVarItemObj;
-                {{/vendorExtensions.x-codegen-response.items.isString}}{{/vendorExtensions.x-codegen-response.items.isPrimitiveType}}
-            }
-            {{/isMapContainer}}{{^isMapContainer}}{{#vendorExtensions.x-codegen-response.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.items.datatype}}localVarResult = ModelBase::{{vendorExtensions.x-codegen-response.items.datatype}}FromJson(localVarJson);
-            {{/vendorExtensions.x-codegen-response.items.datatype}}{{^vendorExtensions.x-codegen-response.items.datatype}}localVarResult = ModelBase::{{vendorExtensions.x-codegen-response.datatype}}FromJson(localVarJson);
-            {{/vendorExtensions.x-codegen-response.items.datatype}}{{/vendorExtensions.x-codegen-response.isPrimitiveType}}{{^vendorExtensions.x-codegen-response.isPrimitiveType}}{{#vendorExtensions.x-codegen-response.isString}}localVarResult = ModelBase::stringFromJson(localVarJson);
-            {{/vendorExtensions.x-codegen-response.isString}}{{^vendorExtensions.x-codegen-response.isString}}localVarResult->fromJson(localVarJson);{{/vendorExtensions.x-codegen-response.isString}}{{/vendorExtensions.x-codegen-response.isPrimitiveType}}{{/isMapContainer}}{{/isListContainer}}
+            }{{/isMapContainer}}{{^isListContainer}}{{^isMapContainer}}
+            ModelBase::fromJson(localVarJson, localVarResult);{{/isMapContainer}}{{/isListContainer}}
         }{{#vendorExtensions.x-codegen-response.isString}}
         else if(localVarResponseHttpContentType == utility::conversions::to_string_t("text/plain"))
         {
