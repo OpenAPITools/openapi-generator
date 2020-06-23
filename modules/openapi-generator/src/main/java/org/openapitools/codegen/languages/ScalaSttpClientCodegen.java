@@ -118,15 +118,6 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         modelPackage = mainPackage + ".model";
         invokerPackage = mainPackage + ".core";
 
-        setReservedWordsLowerCase(
-                Arrays.asList(
-                        "abstract", "case", "catch", "class", "def", "do", "else", "extends",
-                        "false", "final", "finally", "for", "forSome", "if", "implicit",
-                        "import", "lazy", "match", "new", "null", "object", "override", "package",
-                        "private", "protected", "return", "sealed", "super", "this", "throw",
-                        "trait", "try", "true", "type", "val", "var", "while", "with", "yield")
-        );
-
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
