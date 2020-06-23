@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 openapi_server/__init__.py
 openapi_server/__main__.py
@@ -24,7 +23,4 @@ setup.py
 test-requirements.txt
 tests/__init__.py
 tests/conftest.py
-tests/test_pet_controller.py
-tests/test_store_controller.py
-tests/test_user_controller.py
 tox.ini

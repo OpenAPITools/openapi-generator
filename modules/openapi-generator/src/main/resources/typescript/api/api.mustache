@@ -1,0 +1,221 @@
+// TODO: better import syntax?
+import { BaseAPIRequestFactory, RequiredError } from './baseapi';
+import {Configuration} from '../configuration';
+import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
+{{#platforms}}
+{{#node}}
+import * as FormData from "form-data";
+{{/node}}
+{{/platforms}}
+import {ObjectSerializer} from '../models/ObjectSerializer';
+import {ApiException} from './exception';
+import {isCodeInRange} from '../util';
+{{#useInversify}}
+import { injectable } from "inversify";
+{{/useInversify}}
+
+{{#imports}}
+import { {{classname}} } from '..{{filename}}';
+{{/imports}}
+{{#operations}}
+
+/**
+ * {{#description}}{{{description}}}{{/description}}{{^description}}no description{{/description}}
+ */
+{{#useInversify}}
+@injectable()
+{{/useInversify}}
+export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
+	
+	{{#operation}}
+    /**
+     {{#notes}}
+     * {{&notes}}
+     {{/notes}}
+     {{#summary}}
+     * {{&summary}}
+     {{/summary}}
+     {{#allParams}}
+     * @param {{paramName}} {{description}}
+     {{/allParams}}
+     */
+    public async {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: Configuration): Promise<RequestContext> {
+		let config = options || this.configuration;
+		{{#allParams}}
+		
+		{{#required}}
+        // verify required parameter '{{paramName}}' is not null or undefined
+        if ({{paramName}} === null || {{paramName}} === undefined) {
+            throw new RequiredError('Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
+        }
+
+		{{/required}}
+		{{/allParams}}
+		
+		// Path Params
+    	const localVarPath = '{{{path}}}'{{#pathParams}}
+            .replace('{' + '{{baseName}}' + '}', encodeURIComponent(String({{paramName}}))){{/pathParams}};
+
+		// Make Request Context
+    	const requestContext = config.baseServer.makeRequestContext(localVarPath, HttpMethod.{{httpMethod}});
+        requestContext.setHeaderParam("Accept", "application/json, */*;q=0.8")
+
+        // Query Params
+		{{#queryParams}}
+        if ({{paramName}} !== undefined) {
+        	requestContext.setQueryParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
+        }
+		{{/queryParams}}
+	
+		// Header Params
+		{{#headerParams}}
+		requestContext.setHeaderParam("{{baseName}}", ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"));
+		{{/headerParams}}
+	
+		// Form Params
+	    {{#hasFormParams}}
+		let localVarFormParams = new FormData();
+		{{/hasFormParams}}	
+
+		{{#formParams}}
+        {{#isListContainer}}
+        if ({{paramName}}) {
+        {{#isCollectionFormatMulti}}
+            {{paramName}}.forEach((element) => {
+                localVarFormParams.append('{{baseName}}', element as any);
+            })
+        {{/isCollectionFormatMulti}}
+        {{^isCollectionFormatMulti}}
+        // TODO: replace .append with .set
+                localVarFormParams.append('{{baseName}}', {{paramName}}.join(COLLECTION_FORMATS["{{collectionFormat}}"]));
+        {{/isCollectionFormatMulti}}
+        }
+        {{/isListContainer}}
+        {{^isListContainer}}
+        if ({{paramName}} !== undefined) {
+        // TODO: replace .append with .set
+             {{^isFile}}
+             localVarFormParams.append('{{baseName}}', {{paramName}} as any);
+             {{/isFile}}
+             {{#isFile}}
+             {{#platforms}}
+             {{#node}}
+             localVarFormParams.append('{{baseName}}', {{paramName}}.data, {{paramName}}.name);
+             {{/node}}
+             {{#browser}}
+             localVarFormParams.append('{{baseName}}', {{paramName}}, {{paramName}}.name);
+             {{/browser}}
+             {{/platforms}}
+             {{/isFile}}
+        }
+        {{/isListContainer}}
+		{{/formParams}}		
+	    {{#hasFormParams}}
+		requestContext.setBody(localVarFormParams);
+		{{/hasFormParams}}	
+
+		// Body Params
+	    {{#bodyParam}}
+        const contentType = ObjectSerializer.getPreferredMediaType([{{#consumes}}
+            "{{{mediaType}}}"{{#hasMore}},{{/hasMore}}
+        {{/consumes}}]);
+        requestContext.setHeaderParam("Content-Type", contentType);
+        const serializedBody = ObjectSerializer.stringify(
+            ObjectSerializer.serialize({{paramName}}, "{{{dataType}}}", "{{dataFormat}}"),
+            contentType
+        );
+        requestContext.setBody(serializedBody);
+	    {{/bodyParam}}
+
+        {{#hasAuthMethods}}
+        let authMethod = null;
+        {{/hasAuthMethods}}
+        // Apply auth methods
+        {{#authMethods}}
+        authMethod = config.authMethods["{{name}}"]
+        if (authMethod) {
+            await authMethod.applySecurityAuthentication(requestContext);
+        }
+        {{/authMethods}}
+
+        return requestContext;
+    }
+
+    {{/operation}}
+}
+{{/operations}}
+
+
+{{#operations}}
+
+{{#useInversify}}
+@injectable()
+{{/useInversify}}
+export class {{classname}}ResponseProcessor {
+
+    {{#operation}}
+    /**
+     * Unwraps the actual response sent by the server from the response context and deserializes the response content
+     * to the expected objects
+     *
+     * @params response Response returned by the server for a request to {{nickname}}
+     * @throws ApiException if the response code was not in [200, 299]
+     */
+     public async {{nickname}}(response: ResponseContext): Promise<{{#returnType}}{{{returnType}}}{{/returnType}} {{^returnType}}void{{/returnType}}> {
+        const contentType = ObjectSerializer.normalizeMediaType(response.headers["content-type"]);
+        {{#responses}}
+        if (isCodeInRange("{{code}}", response.httpStatusCode)) {
+            {{#dataType}}
+            {{#isBinary}}
+            const body: {{{dataType}}} = await response.getBodyAsFile() as any as {{{returnType}}};
+            {{/isBinary}}
+            {{^isBinary}}
+            const body: {{{dataType}}} = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "{{{dataType}}}", "{{returnFormat}}"
+            ) as {{{dataType}}};
+            {{/isBinary}}
+            {{#is2xx}}
+            return body;
+            {{/is2xx}}
+            {{^is2xx}}
+            throw new ApiException<{{{dataType}}}>({{code}}, body);
+            {{/is2xx}}
+            {{/dataType}}
+            {{^dataType}}
+            {{#is2xx}}
+            return;
+            {{/is2xx}}
+            {{^is2xx}}
+            throw new ApiException<string>(response.httpStatusCode, "{{message}}");
+            {{/is2xx}}
+            {{/dataType}}
+        }
+        {{/responses}}
+
+        // Work around for missing responses in specification, e.g. for petstore.yaml
+        if (response.httpStatusCode >= 200 && response.httpStatusCode <= 299) {
+            {{#returnType}}
+            {{#isBinary}}
+            const body: {{{returnType}}} = await response.getBodyAsFile() as any as {{{returnType}}};
+            {{/isBinary}}
+            {{^isBinary}}
+            const body: {{{returnType}}} = ObjectSerializer.deserialize(
+                ObjectSerializer.parse(await response.body.text(), contentType),
+                "{{{returnType}}}", "{{returnFormat}}"
+            ) as {{{returnType}}};
+            {{/isBinary}}
+            return body;
+            {{/returnType}}
+            {{^returnType}}
+            return;
+            {{/returnType}}
+        }
+
+        let body = response.body || "";
+    	throw new ApiException<string>(response.httpStatusCode, "Unknown API Status Code!\nBody: \"" + body + "\"");
+    }
+			
+	{{/operation}}
+}
+{{/operations}}

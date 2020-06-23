@@ -734,7 +734,7 @@ export default class FakeApi {
       let queryParams = {
         'pipe': this.apiClient.buildCollectionParam(pipe, 'multi'),
         'ioutil': this.apiClient.buildCollectionParam(ioutil, 'csv'),
-        'http': this.apiClient.buildCollectionParam(http, 'space'),
+        'http': this.apiClient.buildCollectionParam(http, 'ssv'),
         'url': this.apiClient.buildCollectionParam(url, 'csv'),
         'context': this.apiClient.buildCollectionParam(context, 'multi')
       };

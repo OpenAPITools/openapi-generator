@@ -36,7 +36,7 @@ func (dst *Fruit) UnmarshalJSON(data []byte) error {
 	var err error
 	match := 0
 	// try to unmarshal data into Apple
-	err = json.Unmarshal(data, &dst.Apple);
+	err = json.Unmarshal(data, &dst.Apple)
 	if err == nil {
 		jsonApple, _ := json.Marshal(dst.Apple)
 		if string(jsonApple) == "{}" { // empty struct
@@ -49,7 +49,7 @@ func (dst *Fruit) UnmarshalJSON(data []byte) error {
 	}
 
 	// try to unmarshal data into Banana
-	err = json.Unmarshal(data, &dst.Banana);
+	err = json.Unmarshal(data, &dst.Banana)
 	if err == nil {
 		jsonBanana, _ := json.Marshal(dst.Banana)
 		if string(jsonBanana) == "{}" { // empty struct
@@ -136,4 +136,5 @@ func (v *NullableFruit) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
 

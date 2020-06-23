@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.*;
   EnumTest.JSON_PROPERTY_ENUM_NUMBER,
   EnumTest.JSON_PROPERTY_OUTER_ENUM
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "EnumTest")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "EnumTest")

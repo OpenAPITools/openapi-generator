@@ -39,13 +39,15 @@ import static org.openapitools.codegen.utils.StringUtils.underscore;
 public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(RustClientCodegen.class);
     private boolean useSingleRequestParameter = false;
-    private boolean supportAsync = false;
+    private boolean supportAsync = true;
+    private boolean supportMultipleResponses = false;
 
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
     public static final String HYPER_LIBRARY = "hyper";
     public static final String REQWEST_LIBRARY = "reqwest";
     public static final String SUPPORT_ASYNC = "supportAsync";
+    public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
 
     protected String packageName = "openapi";
     protected String packageVersion = "1.0.0";
@@ -173,18 +175,20 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(CodegenConstants.USE_SINGLE_REQUEST_PARAMETER, CodegenConstants.USE_SINGLE_REQUEST_PARAMETER_DESC, SchemaTypeUtil.BOOLEAN_TYPE)
                 .defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(SUPPORT_ASYNC, "If set, generate async function call instead", SchemaTypeUtil.BOOLEAN_TYPE)
-                .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(SUPPORT_ASYNC, "If set, generate async function call instead. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
+            .defaultValue(Boolean.FALSE.toString()));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use.");
         libraryOption.setEnum(supportedLibraries);
-        // set hyper as the default
-        libraryOption.setDefault(HYPER_LIBRARY);
+        // set reqwest as the default
+        libraryOption.setDefault(REQWEST_LIBRARY);
         cliOptions.add(libraryOption);
-        setLibrary(HYPER_LIBRARY);
+        setLibrary(REQWEST_LIBRARY);
     }
 
     @Override
@@ -197,9 +201,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
         // Index all CodegenModels by model name.
         Map<String, CodegenModel> allModels = new HashMap<>();
-
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
 
         for (Map.Entry<String, Object> entry : objs.entrySet()) {
             String modelName = toModelName(entry.getKey());
@@ -229,9 +230,7 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                     }
                     // TODO: figure out how to properly have the original property type that didn't go through toVarName
                     String vendorExtensionTagName = cm.discriminator.getPropertyName().replace("_", "");
-                    cm.vendorExtensions.put("tagName", vendorExtensionTagName); // TODO: 5.0 Remove
                     cm.vendorExtensions.put("x-tag-name", vendorExtensionTagName);
-                    cm.vendorExtensions.put("mappedModels", discriminatorVars); // TODO: 5.0 Remove
                     cm.vendorExtensions.put("x-mapped-models", discriminatorVars);
                 }
             }
@@ -264,6 +263,11 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             this.setSupportAsync(convertPropertyToBoolean(SUPPORT_ASYNC));
         }
         writePropertyBack(SUPPORT_ASYNC, getSupportAsync());
+
+        if (additionalProperties.containsKey(SUPPORT_MULTIPLE_RESPONSES)) {
+            this.setSupportMultipleReturns(convertPropertyToBoolean(SUPPORT_MULTIPLE_RESPONSES));
+        }
+        writePropertyBack(SUPPORT_MULTIPLE_RESPONSES, getSupportMultipleReturns());
 
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
@@ -308,6 +312,14 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     private void setSupportAsync(boolean supportAsync) {
         this.supportAsync = supportAsync;
+    }
+
+    public boolean getSupportMultipleReturns() {
+        return supportMultipleResponses;
+    }
+
+    public void setSupportMultipleReturns(boolean supportMultipleResponses) {
+        this.supportMultipleResponses = supportMultipleResponses;
     }
 
     private boolean getUseSingleRequestParameter() {

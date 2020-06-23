@@ -21,7 +21,7 @@ import javax.validation.constraints.*;
 import play.Configuration;
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class StoreApiController extends Controller {
 
     private final StoreApiControllerImpInterface imp;

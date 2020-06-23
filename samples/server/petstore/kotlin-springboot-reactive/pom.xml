@@ -8,6 +8,7 @@
     <properties>
         <kotlin.version>1.3.30</kotlin.version>
 	    <kotlinx-coroutines.version>1.2.0</kotlinx-coroutines.version>
+        <javax-annotation-version>1.3.2</javax-annotation-version>
     </properties>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -122,6 +123,12 @@
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${javax-annotation-version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

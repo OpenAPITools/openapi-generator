@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+
 /**
  * A tag for a pet
  * @param id 
@@ -26,9 +27,9 @@ data class Tag (
     @SerializedName("name")
     val name: kotlin.String? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

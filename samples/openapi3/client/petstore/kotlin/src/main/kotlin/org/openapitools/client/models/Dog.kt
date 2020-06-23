@@ -16,6 +16,7 @@ import org.openapitools.client.models.DogAllOf
 
 import com.squareup.moshi.Json
 import java.io.Serializable
+
 /**
  * 
  * @param className 
@@ -31,9 +32,9 @@ data class Dog (
     @Json(name = "breed")
     val breed: kotlin.String? = null
 ) : Animal, Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

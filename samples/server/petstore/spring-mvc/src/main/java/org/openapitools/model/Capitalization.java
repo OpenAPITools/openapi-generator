@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 /**
  * Capitalization
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Capitalization   {
   @JsonProperty("smallCamel")
   private String smallCamel;

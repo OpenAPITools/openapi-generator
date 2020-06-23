@@ -21,7 +21,7 @@ import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
 import org.openapitools.model.XmlItem;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class FakeController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map

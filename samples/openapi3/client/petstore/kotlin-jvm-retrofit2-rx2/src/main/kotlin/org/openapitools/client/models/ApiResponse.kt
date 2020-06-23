@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+
 /**
  * 
  * @param code 
@@ -29,9 +30,9 @@ data class ApiResponse (
     @SerializedName("message")
     val message: kotlin.String? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

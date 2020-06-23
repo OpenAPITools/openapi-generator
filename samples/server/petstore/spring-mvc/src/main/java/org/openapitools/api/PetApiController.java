@@ -23,7 +23,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Controller
 @RequestMapping("${openapi.openAPIPetstore.base-path:/}")
 public class PetApiController implements PetApi {

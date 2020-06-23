@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * Model for testing reserved words
  * @param `return` 

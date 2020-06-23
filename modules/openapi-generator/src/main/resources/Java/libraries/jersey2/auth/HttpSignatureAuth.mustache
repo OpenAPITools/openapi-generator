@@ -17,6 +17,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.List;
 import java.security.spec.AlgorithmParameterSpec;
+import java.security.InvalidKeyException;
 
 import org.tomitribe.auth.signatures.Algorithm;
 import org.tomitribe.auth.signatures.Signer;
@@ -204,7 +205,7 @@ public class HttpSignatureAuth implements Authentication {
    * @throws InvalidKeyException Unable to parse the key, or the security provider for this key
    * is not installed.
    */
-  public void setPrivateKey(Key key) throws InvalidKeyException {
+  public void setPrivateKey(Key key) throws InvalidKeyException, ApiException {
     if (key == null) {
       throw new ApiException("Private key (java.security.Key) cannot be null");
     }
@@ -233,16 +234,12 @@ public class HttpSignatureAuth implements Authentication {
         throw new ApiException("Signer cannot be null. Please call the method `setPrivateKey` to set it up correctly");
       }
 
-      // construct the path with the URL query string
-      String path = uri.getPath();
-
-      List<String> urlQueries = new ArrayList<String>();
-      for (Pair queryParam : queryParams) {
-        urlQueries.add(queryParam.getName() + "=" + URLEncoder.encode(queryParam.getValue(), "utf8").replaceAll("\\+", "%20"));
-      }
-
-      if (!urlQueries.isEmpty()) {
-        path = path + "?" + String.join("&", urlQueries);
+      // construct the path with the URL-encoded path and query.
+      // Calling getRawPath and getRawQuery ensures the path is URL-encoded as it will be serialized
+      // on the wire. The HTTP signature must use the encode URL as it is sent on the wire.
+      String path = uri.getRawPath();
+      if (uri.getRawQuery() != "") {
+        path += "?" + uri.getRawQuery();
       }
 
       headerParams.put("Authorization", signer.sign(method, path, headerParams).toString());

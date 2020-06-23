@@ -68,7 +68,7 @@ class List(object):
 
 
         :param _123_list: The _123_list of this List.  # noqa: E501
-        :type: str
+        :type _123_list: str
         """
 
         self.__123_list = _123_list

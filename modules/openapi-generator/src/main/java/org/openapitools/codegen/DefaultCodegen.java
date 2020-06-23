@@ -25,23 +25,7 @@ import com.google.common.collect.ImmutableMap;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
-import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.callbacks.Callback;
-import io.swagger.v3.oas.models.examples.Example;
-import io.swagger.v3.oas.models.headers.Header;
-import io.swagger.v3.oas.models.media.*;
-import io.swagger.v3.oas.models.parameters.*;
-import io.swagger.v3.oas.models.responses.ApiResponse;
-import io.swagger.v3.oas.models.responses.ApiResponses;
-import io.swagger.v3.oas.models.security.OAuthFlow;
-import io.swagger.v3.oas.models.security.OAuthFlows;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.oas.models.servers.ServerVariable;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -59,7 +43,6 @@ import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.openapitools.codegen.templating.mustache.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.OneOfImplementorAdditionalData;
-import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,6 +55,24 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import io.swagger.v3.core.util.Json;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.PathItem;
+import io.swagger.v3.oas.models.callbacks.Callback;
+import io.swagger.v3.oas.models.examples.Example;
+import io.swagger.v3.oas.models.headers.Header;
+import io.swagger.v3.oas.models.media.*;
+import io.swagger.v3.oas.models.parameters.*;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.responses.ApiResponses;
+import io.swagger.v3.oas.models.security.OAuthFlow;
+import io.swagger.v3.oas.models.security.OAuthFlows;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.servers.ServerVariable;
+import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -164,7 +165,6 @@ public class DefaultCodegen implements CodegenConfig {
     protected Map<String, String> reservedWordsMappings = new HashMap<String, String>();
     protected String templateDir;
     protected String embeddedTemplateDir;
-    protected String commonTemplateDir = "_common";
     protected Map<String, Object> additionalProperties = new HashMap<String, Object>();
     protected Map<String, String> serverVariables = new HashMap<String, String>();
     protected Map<String, Object> vendorExtensions = new HashMap<String, Object>();
@@ -362,7 +362,8 @@ public class DefaultCodegen implements CodegenConfig {
                 .put("lowercase", new LowercaseLambda().generator(this))
                 .put("uppercase", new UppercaseLambda())
                 .put("titlecase", new TitlecaseLambda())
-                .put("camelcase", new CamelCaseLambda().generator(this))
+                .put("camelcase", new CamelCaseLambda(true).generator(this))
+                .put("pascalcase", new CamelCaseLambda(false).generator(this))
                 .put("indented", new IndentedLambda())
                 .put("indented_8", new IndentedLambda(8, " "))
                 .put("indented_12", new IndentedLambda(12, " "))
@@ -982,14 +983,6 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    public String getCommonTemplateDir() {
-        return this.commonTemplateDir;
-    }
-
-    public void setCommonTemplateDir(String commonTemplateDir) {
-        this.commonTemplateDir = commonTemplateDir;
-    }
-
     public Map<String, String> apiDocTemplateFiles() {
         return apiDocTemplateFiles;
     }
@@ -1469,12 +1462,6 @@ public class DefaultCodegen implements CodegenConfig {
         importMapping.put("LocalDateTime", "org.joda.time.*");
         importMapping.put("LocalDate", "org.joda.time.*");
         importMapping.put("LocalTime", "org.joda.time.*");
-
-        // we've used the .openapi-generator-ignore approach as
-        // suppportingFiles can be cleared by code generator that extends
-        // the default codegen, leaving the commented code below for
-        // future reference
-        //supportingFiles.add(new GlobalSupportingFile("LICENSE", "LICENSE"));
 
         cliOptions.add(CliOption.newBoolean(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG,
                 CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG_DESC).defaultValue(Boolean.TRUE.toString()));
@@ -3514,8 +3501,9 @@ public class DefaultCodegen implements CodegenConfig {
             op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
             op.defaultResponse = toDefaultValue(responseSchema);
             op.returnType = cm.dataType;
-            op.hasReference = schemas.containsKey(op.returnBaseType);
-
+            op.returnFormat = cm.dataFormat;
+            op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);
+             
             // lookup discriminator
             Schema schema = schemas.get(op.returnBaseType);
             if (schema != null) {
@@ -3628,12 +3616,12 @@ public class DefaultCodegen implements CodegenConfig {
                     op.uniqueItems = true;
                     imports.add(typeMapping.get(r.containerType));
                 }
-                r.isDefault = response == methodResponse;
+
                 op.responses.add(r);
-                if (Boolean.TRUE.equals(r.isBinary) && Boolean.TRUE.equals(r.isDefault)) {
+                if (Boolean.TRUE.equals(r.isBinary) && Boolean.TRUE.equals(r.is2xx) && Boolean.FALSE.equals(op.isResponseBinary)) {
                     op.isResponseBinary = Boolean.TRUE;
                 }
-                if (Boolean.TRUE.equals(r.isFile) && Boolean.TRUE.equals(r.isDefault)) {
+                if (Boolean.TRUE.equals(r.isFile) && Boolean.TRUE.equals(r.is2xx) && Boolean.FALSE.equals(op.isResponseFile)) {
                     op.isResponseFile = Boolean.TRUE;
                 }
             }
@@ -3862,6 +3850,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if ("default".equals(responseCode) || "defaultResponse".equals(responseCode)) {
             r.code = "0";
+            r.isDefault = true;
         } else {
             r.code = responseCode;
             switch (r.code.charAt(0)) {
@@ -4108,22 +4097,23 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.vendorExtensions.putAll(parameter.getExtensions());
         }
 
-        Schema s;
+        Schema parameterSchema;
         if (parameter.getSchema() != null) {
-            s = parameter.getSchema();
+            parameterSchema = parameter.getSchema();
         } else if (parameter.getContent() != null) {
             Content content = parameter.getContent();
             if (content.size() > 1) {
                 once(LOGGER).warn("Multiple schemas found in content, returning only the first one");
             }
-            MediaType mediaType = content.values().iterator().next();
-            s = mediaType.getSchema();
+            Map.Entry<String, MediaType> entry = content.entrySet().iterator().next();
+            codegenParameter.contentType = entry.getKey();
+            parameterSchema = entry.getValue().getSchema();
         } else {
-            s = null;
+            parameterSchema = null;
         }
 
-        if (s != null) {
-            Schema parameterSchema = ModelUtils.unaliasSchema(this.openAPI, s, importMapping);
+        if (parameterSchema != null) {
+            parameterSchema = ModelUtils.unaliasSchema(this.openAPI, parameterSchema);
             if (parameterSchema == null) {
                 LOGGER.warn("warning!  Schema not found for parameter \"" + parameter.getName() + "\", using String");
                 parameterSchema = new StringSchema().description("//TODO automatically added by openapi-generator due to missing type definition.");
@@ -4327,7 +4317,7 @@ public class DefaultCodegen implements CodegenConfig {
             return false;
         }
     }
-
+    
     // TODO revise below as it should be replaced by ModelUtils.isFileSchema(parameterSchema)
     public boolean isDataTypeFile(String dataType) {
         if (dataType != null) {
@@ -4533,6 +4523,11 @@ public class DefaultCodegen implements CodegenConfig {
                 CodegenProperty cp = fromProperty(headerEntry.getKey(), schema);
                 cp.setDescription(escapeText(description));
                 cp.setUnescapedDescription(description);
+                if (header.getRequired() != null) {
+                    cp.setRequired(header.getRequired());
+                } else {
+                    cp.setRequired(false);
+                }
                 properties.add(cp);
             }
         }
@@ -4841,6 +4836,11 @@ public class DefaultCodegen implements CodegenConfig {
     public String apiFilename(String templateName, String tag) {
         String suffix = apiTemplateFiles().get(templateName);
         return apiFileFolder() + File.separator + toApiFilename(tag) + suffix;
+    }
+
+    public String modelFilename(String templateName, String modelName) {
+        String suffix = modelTemplateFiles().get(templateName);
+        return modelFileFolder() + File.separator + toModelFilename(modelName) + suffix;
     }
 
     /**
@@ -5604,9 +5604,9 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (Parameter.StyleEnum.SIMPLE.equals(parameter.getStyle())) {
             return "csv";
         } else if (Parameter.StyleEnum.PIPEDELIMITED.equals(parameter.getStyle())) {
-            return "pipe";
+            return "pipes";
         } else if (Parameter.StyleEnum.SPACEDELIMITED.equals(parameter.getStyle())) {
-            return "space";
+            return "ssv";
         } else {
             return null;
         }

@@ -159,25 +159,25 @@ impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderVal
     }
 }
 
-{{#arrayModelType}}{{#vendorExtensions}}{{#itemXmlName}}// Utility function for wrapping list elements when serializing xml
+{{#arrayModelType}}{{#vendorExtensions}}{{#x-item-xml-name}}// Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
-fn wrap_in_{{{itemXmlName}}}<S>(item: &Vec<{{{arrayModelType}}}>, serializer: S) -> std::result::Result<S::Ok, S::Error>
+fn wrap_in_{{{x-item-xml-name}}}<S>(item: &Vec<{{{arrayModelType}}}>, serializer: S) -> std::result::Result<S::Ok, S::Error>
 where
     S: serde::ser::Serializer,
 {
-    serde_xml_rs::wrap_primitives(item, serializer, "{{{itemXmlName}}}")
+    serde_xml_rs::wrap_primitives(item, serializer, "{{{x-item-xml-name}}}")
 }
 
-{{/itemXmlName}}
+{{/x-item-xml-name}}
 {{/vendorExtensions}}
 {{! vec}}
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct {{{classname}}}(
 {{#vendorExtensions}}
-{{#itemXmlName}}
-    #[serde(serialize_with = "wrap_in_{{{itemXmlName}}}")]
-{{/itemXmlName}}
+{{#x-item-xml-name}}
+    #[serde(serialize_with = "wrap_in_{{{x-item-xml-name}}}")]
+{{/x-item-xml-name}}
 {{/vendorExtensions}}
     Vec<{{{arrayModelType}}}>
 );
@@ -277,9 +277,9 @@ pub struct {{{classname}}} {
 {{/isEnum}}
     #[serde(rename = "{{{baseName}}}")]
 {{#vendorExtensions}}
-{{#itemXmlName}}
-    #[serde(serialize_with = "wrap_in_{{{itemXmlName}}}")]
-{{/itemXmlName}}
+{{#x-item-xml-name}}
+    #[serde(serialize_with = "wrap_in_{{{x-item-xml-name}}}")]
+{{/x-item-xml-name}}
 {{/vendorExtensions}}
 {{#required}}
     pub {{{name}}}: {{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},

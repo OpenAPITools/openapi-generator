@@ -297,3 +297,4 @@ func (v *NullableOrder) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
+

@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.io.FileInputStream;
 import javax.validation.constraints.*;
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiControllerImp implements PetApiControllerImpInterface {
     @Override
     public void addPet(Pet body) throws Exception {

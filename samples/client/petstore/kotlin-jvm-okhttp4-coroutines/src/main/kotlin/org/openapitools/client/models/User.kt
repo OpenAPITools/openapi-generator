@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+
 /**
  * A User who is purchasing from the pet store
  * @param id 
@@ -45,9 +46,9 @@ data class User (
     @SerializedName("userStatus")
     val userStatus: kotlin.Int? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

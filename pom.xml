@@ -485,47 +485,6 @@
         </profile>
 
         <profile>
-            <id>release-profile</id>
-            <properties>
-                <skipTests>true</skipTests>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>net.alchim31.maven</groupId>
-                        <artifactId>scala-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>compile</goal>
-                                    <goal>testCompile</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration/>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>build-helper-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>add-source</id>
-                                <phase>prepare-package</phase>
-                                <goals>
-                                    <goal>add-source</goal>
-                                </goals>
-                                <configuration>
-                                    <sources>
-                                        <source>src/main/scala</source>
-                                    </sources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
             <id>release-sign-artifacts</id>
             <activation>
                 <property>
@@ -701,6 +660,18 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/java/jersey2-java8</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>java-client-openapi3-jersey2-java8</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
             </modules>
         </profile>
         <profile>
@@ -945,6 +916,30 @@
             </modules>
         </profile>
         <profile>
+            <id>typescript-client-tests-default</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/typescript/tests/default</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>typescript-client-tests-jquery</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/typescript/tests/jquery</module>
+            </modules>
+        </profile>
+        <profile>
             <id>typescript-fetch-client-tests-default</id>
             <activation>
                 <property>
@@ -1002,18 +997,6 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/typescript-fetch/builds/prefix-parameter-interfaces</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>typescript-angularjs-client</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/typescript-angularjs</module>
             </modules>
         </profile>
         <profile>
@@ -1186,18 +1169,18 @@
                 <module>samples/server/petstore/python-aiohttp-srclayout</module>
                 <module>samples/server/petstore/python-flask</module>
                 <module>samples/server/petstore/python-flask-python2</module>
-                <module>samples/server/petstore/php-slim</module>
                 <module>samples/server/petstore/php-slim4</module>
                 <module>samples/server/petstore/rust-server</module>
                 <!-- clients -->
+                <module>samples/client/petstore/perl</module>
+                <module>samples/client/petstore/ruby</module>
                 <module>samples/client/petstore/bash</module>
                 <module>samples/client/petstore/c</module>
                 <module>samples/client/petstore/cpp-qt5</module>
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
-                <!--<module>samples/client/petstore/perl</module>-->
+                <module>samples/client/petstore/rust/reqwest/petstore-async</module>
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
-                <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/javascript-es6</module>
                 <module>samples/client/petstore/javascript-promise-es6</module>
@@ -1208,6 +1191,14 @@
                 <module>samples/client/petstore/python-tornado</module>
                 <module>samples/openapi3/client/petstore/python</module>
                 <module>samples/openapi3/client/petstore/python-experimental</module>
+                <module>samples/openapi3/client/petstore/typescript/builds/default</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/default</module>
+                <module>samples/openapi3/client/petstore/typescript/builds/jquery</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/jquery</module>
+                <module>samples/openapi3/client/petstore/typescript/builds/object_params</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/object_params</module>
+                <module>samples/openapi3/client/petstore/typescript/builds/inversify</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/inversify</module>
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
@@ -1216,8 +1207,6 @@
                 <module>samples/client/petstore/typescript-axios/tests/default</module>-->
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
-                <!-- comment out due to github rate limit error
-                <module>samples/client/petstore/typescript-angularjs</module>-->
                 <!-- comment out due to error `npm run build`
                 <module>samples/client/petstore/typescript-jquery/npm</module>-->
                 <!--<module>samples/client/petstore/typescript-angular-v2/npm</module>-->
@@ -1252,10 +1241,11 @@
                 <module>samples/client/petstore/java/feign10x</module>
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
+                <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit2</module>
-                <module>samples/client/petstore/java/retrofit2rx</module>
-                <module>samples/client/petstore/java/retrofit2-play25</module>
+                <module>samples/client/petstore/java/retrofit2rx2</module>
+                <module>samples/client/petstore/java/retrofit2rx3</module>
                 <module>samples/client/petstore/java/retrofit2-play26</module>
                 <module>samples/client/petstore/jaxrs-cxf-client</module>
                 <module>samples/client/petstore/java/resttemplate</module>
@@ -1333,8 +1323,6 @@
             <modules>
                 <module>samples/server/petstore/go-api-server</module>
                 <module>samples/server/petstore/go-gin-api-server</module>
-                <!-- clients -->
-                <module>samples/client/petstore/ruby</module>
                 <!-- test java-related projects -->
                 <module>samples/client/petstore/dart2/petstore</module>
                 <module>samples/client/petstore/dart-jaguar/openapi</module>
@@ -1344,7 +1332,6 @@
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit2</module>
-                <module>samples/client/petstore/java/retrofit2rx</module>
                 <module>samples/client/petstore/jaxrs-cxf-client</module>
                 <module>samples/client/petstore/java/resttemplate</module>
                 <module>samples/client/petstore/java/resttemplate-withXml</module>
@@ -1409,7 +1396,7 @@
                 <module>samples/client/petstore/kotlin-moshi-codegen/</module>
                 <module>samples/client/petstore/kotlin-json-request-string/</module>
                 <!-- servers -->
-                <module>samples/server/petstore/erlang-server</module>
+                <!--<module>samples/server/petstore/erlang-server</module>-->
                 <module>samples/server/petstore/jaxrs/jersey2</module>
                 <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
                 <module>samples/server/petstore/spring-mvc</module>
