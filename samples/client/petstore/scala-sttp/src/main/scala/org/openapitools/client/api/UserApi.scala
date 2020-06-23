@@ -16,7 +16,12 @@ import org.openapitools.client.core.JsonSupport._
 import sttp.client._
 import sttp.model.Method
 
-class UserApi(baseUrl: String = "http://petstore.swagger.io/v2") {
+object UserApi {
+
+def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new UserApi(baseUrl)
+}
+
+class UserApi(baseUrl: String) {
 
   /**
    * This can only be done by the logged in user.

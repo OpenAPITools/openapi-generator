@@ -9,7 +9,12 @@ import sttp.client._
 import sttp.model.Method
 
 {{#operations}}
-class {{classname}}(baseUrl: String = "{{{basePath}}}") {
+object {{classname}} {
+
+def apply(baseUrl: String = "{{{basePath}}}") = new {{classname}}(baseUrl)
+}
+
+class {{classname}}(baseUrl: String) {
 
 {{#operation}}
 {{#javadocRenderer}}

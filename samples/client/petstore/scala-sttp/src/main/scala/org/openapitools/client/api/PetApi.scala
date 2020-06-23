@@ -18,7 +18,12 @@ import org.openapitools.client.core.JsonSupport._
 import sttp.client._
 import sttp.model.Method
 
-class PetApi(baseUrl: String = "http://petstore.swagger.io/v2") {
+object PetApi {
+
+def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new PetApi(baseUrl)
+}
+
+class PetApi(baseUrl: String) {
 
   /**
    * Expected answers:
