@@ -102,7 +102,7 @@ public class OAuth implements Authentication {
 
     public synchronized OAuth2AccessToken obtainAccessToken(String refreshToken) throws ApiException {
         if (service == null) {
-            log.log(Level.DEBUG, "service is null in obtainAccessToken.");
+            log.log(Level.FINE, "service is null in obtainAccessToken.");
             return null;
         }
         try {
