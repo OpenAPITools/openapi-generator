@@ -301,9 +301,6 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         if (HYPER_LIBRARY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("request.rs", apiFolder, "request.rs"));
         }
-        if (!getSupportAsync()) { // for sync only
-            supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
-        }
     }
 
     private boolean getSupportAsync() {
