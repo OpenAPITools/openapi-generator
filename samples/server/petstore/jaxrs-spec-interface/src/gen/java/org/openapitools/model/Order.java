@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Order  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Order implements Serializable  {
   
   private @Valid Long id;
   private @Valid Long petId;
@@ -218,4 +218,6 @@ public enum StatusEnum {
 
 
 }
+
+
 
