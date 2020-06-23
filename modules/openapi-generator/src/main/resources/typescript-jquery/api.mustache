@@ -82,6 +82,7 @@ export class {{classname}} {
         {{#isListContainer}}
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
+            queryParameters['{{baseName}}'] = [];
             {{paramName}}.forEach((element: any) => {
                 queryParameters['{{baseName}}'].push(element);
             });

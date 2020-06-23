@@ -63,6 +63,9 @@ public class CatAllOf {
   }
 
 
+  /**
+   * Return true if this Cat_allOf object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

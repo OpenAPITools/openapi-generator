@@ -1,3 +1,0 @@
-generatorName: typescript-angularjs
-outputDir: samples/client/petstore/typescript-angularjs
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml

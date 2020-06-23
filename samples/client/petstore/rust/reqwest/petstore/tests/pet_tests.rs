@@ -24,6 +24,11 @@ fn test_pet() {
 
     match pet_result {
         Ok(resp) => {
+            /* Test code when multiple returns option is not set. */
+            assert_eq!(resp.id, Option::Some(8787));
+            assert_eq!(resp.name, "Rust Pet");
+            assert_eq!(resp.photo_urls, vec!["https://11".to_string(), "https://22".to_string()]);
+            /* Test code for multiple returns option.
             match resp.entity {
                 Some(petstore_reqwest::apis::pet_api::GetPetByIdSuccess::Status200(pet)) => {
                     assert_eq!(pet.id, Option::Some(8787));
@@ -34,6 +39,7 @@ fn test_pet() {
                     panic!("Response should contain a pet entity");
                 },
             };
+            */
         },
         Err(error) => {
             println!("error: {:?}", error);

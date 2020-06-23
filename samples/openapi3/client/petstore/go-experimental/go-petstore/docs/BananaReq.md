@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**LengthCm** | Pointer to **float32** |  | 
+**LengthCm** | **float32** |  | 
 **Sweet** | Pointer to **bool** |  | [optional] 
 
 ## Methods

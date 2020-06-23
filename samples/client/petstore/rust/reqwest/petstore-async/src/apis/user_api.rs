@@ -76,7 +76,6 @@ pub struct UpdateUserParams {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUserSuccess {
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -84,7 +83,6 @@ pub enum CreateUserSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUsersWithArrayInputSuccess {
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -92,7 +90,6 @@ pub enum CreateUsersWithArrayInputSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum CreateUsersWithListInputSuccess {
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -100,7 +97,6 @@ pub enum CreateUsersWithListInputSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteUserSuccess {
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -109,7 +105,6 @@ pub enum DeleteUserSuccess {
 #[serde(untagged)]
 pub enum GetUserByNameSuccess {
     Status200(crate::models::User),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -118,7 +113,6 @@ pub enum GetUserByNameSuccess {
 #[serde(untagged)]
 pub enum LoginUserSuccess {
     Status200(String),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -126,7 +120,6 @@ pub enum LoginUserSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LogoutUserSuccess {
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -134,7 +127,6 @@ pub enum LogoutUserSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateUserSuccess {
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -143,7 +135,6 @@ pub enum UpdateUserSuccess {
 #[serde(untagged)]
 pub enum CreateUserError {
     DefaultResponse(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -152,7 +143,6 @@ pub enum CreateUserError {
 #[serde(untagged)]
 pub enum CreateUsersWithArrayInputError {
     DefaultResponse(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -161,7 +151,6 @@ pub enum CreateUsersWithArrayInputError {
 #[serde(untagged)]
 pub enum CreateUsersWithListInputError {
     DefaultResponse(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -171,7 +160,6 @@ pub enum CreateUsersWithListInputError {
 pub enum DeleteUserError {
     Status400(),
     Status404(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -181,7 +169,6 @@ pub enum DeleteUserError {
 pub enum GetUserByNameError {
     Status400(),
     Status404(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -190,7 +177,6 @@ pub enum GetUserByNameError {
 #[serde(untagged)]
 pub enum LoginUserError {
     Status400(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -199,7 +185,6 @@ pub enum LoginUserError {
 #[serde(untagged)]
 pub enum LogoutUserError {
     DefaultResponse(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -209,7 +194,6 @@ pub enum LogoutUserError {
 pub enum UpdateUserError {
     Status400(),
     Status404(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
