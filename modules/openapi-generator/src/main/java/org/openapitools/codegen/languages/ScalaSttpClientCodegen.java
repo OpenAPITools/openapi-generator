@@ -55,22 +55,15 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
             "library", "0.13.0");
     private static final JsonLibraryProperty JSON_LIBRARY_PROPERTY = new JsonLibraryProperty();
 
-    private static final String DEFAULT_PACKAGE_NAME = "org.openapitools.client";
-    private static final MainPackageProperty MAIN_PACKAGE = new MainPackageProperty();
-    private static final StringProperty MODEL_PACKAGE = new StringProperty(CodegenConstants.MODEL_PACKAGE,
-            CodegenConstants.MODEL_PACKAGE_DESC, DEFAULT_PACKAGE_NAME + ".model");
-    private static final StringProperty INVOKER_PACKAGE = new StringProperty(CodegenConstants.INVOKER_PACKAGE,
-            CodegenConstants.MODEL_PACKAGE_DESC, DEFAULT_PACKAGE_NAME + ".core");
-    private static final StringProperty API_PACKAGE = new StringProperty(CodegenConstants.API_PACKAGE,
-            CodegenConstants.API_PACKAGE_DESC, DEFAULT_PACKAGE_NAME + ".api");
+    public static final String DEFAULT_PACKAGE_NAME = "org.openapitools.client";
+    private static final PackageProperty PACKAGE_PROPERTY = new PackageProperty();
 
-    private static final List<Property> properties = Arrays.asList(STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL,
-            JODA_TIME_VERSION, JSON4S_VERSION, CIRCE_VERSION, JSON_LIBRARY_PROPERTY,MAIN_PACKAGE, API_PACKAGE,
-            MODEL_PACKAGE, INVOKER_PACKAGE);
+    private static final List<Property<?>> properties = Arrays.asList(
+            STTP_CLIENT_VERSION, USE_SEPARATE_ERROR_CHANNEL, JODA_TIME_VERSION,
+            JSON4S_VERSION, CIRCE_VERSION, JSON_LIBRARY_PROPERTY, PACKAGE_PROPERTY);
 
     private final Logger LOGGER = LoggerFactory.getLogger(ScalaSttpClientCodegen.class);
 
-    protected String mainPackage = "org.openapitools.client";
     protected String groupId = "org.openapitools";
     protected String artifactId = "openapi-client";
     protected String artifactVersion = "1.0.0";
@@ -114,9 +107,6 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         modelTemplateFiles.put("model.mustache", ".scala");
         apiTemplateFiles.put("api.mustache", ".scala");
         embeddedTemplateDir = templateDir = "scala-sttp";
-        apiPackage = mainPackage + ".api";
-        modelPackage = mainPackage + ".model";
-        invokerPackage = mainPackage + ".core";
 
         additionalProperties.put(CodegenConstants.GROUP_ID, groupId);
         additionalProperties.put(CodegenConstants.ARTIFACT_ID, artifactId);
@@ -154,16 +144,19 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         instantiationTypes.put("array", "ListBuffer");
         instantiationTypes.put("map", "Map");
 
-        properties.forEach(p -> cliOptions.add(p.toCliOption()));
+        properties.stream()
+                .map(Property::toCliOptions)
+                .flatMap(Collection::stream)
+                .forEach(option -> cliOptions.add(option));
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
         properties.forEach(p -> p.updateAdditionalProperties(additionalProperties));
-        invokerPackage = INVOKER_PACKAGE.getValue(additionalProperties);
-        apiPackage = API_PACKAGE.getValue(additionalProperties);
-        modelPackage = MODEL_PACKAGE.getValue(additionalProperties);
+        invokerPackage = PACKAGE_PROPERTY.getInvokerPackage(additionalProperties);
+        apiPackage = PACKAGE_PROPERTY.getApiPackage(additionalProperties);
+        modelPackage = PACKAGE_PROPERTY.getModelPackage(additionalProperties);
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         supportingFiles.add(new SupportingFile("build.sbt.mustache", "", "build.sbt"));
@@ -315,18 +308,18 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         }
     }
 
-    private static abstract class Property<T> {
+    public static abstract class Property<T> {
         final String name;
         final String description;
         final T defaultValue;
 
-        private Property(String name, String description, T defaultValue) {
+        public Property(String name, String description, T defaultValue) {
             this.name = name;
             this.description = description;
             this.defaultValue = defaultValue;
         }
 
-        public abstract CliOption toCliOption();
+        public abstract List<CliOption> toCliOptions();
 
         public abstract void updateAdditionalProperties(Map<String, Object> additionalProperties);
 
@@ -337,14 +330,14 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         }
     }
 
-    private static class StringProperty extends Property<String> {
-        private StringProperty(String name, String description, String defaultValue) {
+    public static class StringProperty extends Property<String> {
+        public StringProperty(String name, String description, String defaultValue) {
             super(name, description, defaultValue);
         }
 
         @Override
-        public CliOption toCliOption() {
-            return CliOption.newString(name, description).defaultValue(defaultValue);
+        public List<CliOption> toCliOptions() {
+            return Collections.singletonList(CliOption.newString(name, description).defaultValue(defaultValue));
         }
 
         @Override
@@ -360,14 +353,14 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         }
     }
 
-    private static class BooleanProperty extends Property<Boolean> {
-        private BooleanProperty(String name, String description, Boolean defaultValue) {
+    public static class BooleanProperty extends Property<Boolean> {
+        public BooleanProperty(String name, String description, Boolean defaultValue) {
             super(name, description, defaultValue);
         }
 
         @Override
-        public CliOption toCliOption() {
-            return CliOption.newBoolean(name, description, defaultValue);
+        public List<CliOption> toCliOptions() {
+            return Collections.singletonList(CliOption.newBoolean(name, description, defaultValue));
         }
 
         @Override
@@ -382,11 +375,11 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         }
     }
 
-    private static class JsonLibraryProperty extends StringProperty {
+    public static class JsonLibraryProperty extends StringProperty {
         private static final String JSON4S = "json4s";
         private static final String CIRCE = "circe";
 
-        private JsonLibraryProperty() {
+        public JsonLibraryProperty() {
             super("jsonLibrary", "Json library to use. Possible values are: json4s and circe.", JSON4S);
         }
 
@@ -405,30 +398,40 @@ public class ScalaSttpClientCodegen extends AbstractScalaCodegen implements Code
         }
     }
 
-    private static class MainPackageProperty extends StringProperty {
+    public static class PackageProperty extends StringProperty {
 
-        private MainPackageProperty() {
+        public PackageProperty() {
             super("mainPackage", "Top-level package name, which defines 'apiPackage', 'modelPackage', " +
                     "'invokerPackage'", DEFAULT_PACKAGE_NAME);
         }
 
         @Override
         public void updateAdditionalProperties(Map<String, Object> additionalProperties) {
-            if (additionalProperties.containsKey(name)) {
-                String mainPackage = getValue(additionalProperties);
-                if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)){
-                    String apiPackage = mainPackage + ".api";
-                    additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
-                }
-                if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)){
-                    String modelPackage = mainPackage + ".model";
-                    additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
-                }
-                if (!additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)){
-                    String invokerPackage = mainPackage + ".core";
-                    additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
-                }
+            String mainPackage = getValue(additionalProperties);
+            if (!additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
+                String apiPackage = mainPackage + ".api";
+                additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage);
             }
+            if (!additionalProperties.containsKey(CodegenConstants.MODEL_PACKAGE)) {
+                String modelPackage = mainPackage + ".model";
+                additionalProperties.put(CodegenConstants.MODEL_PACKAGE, modelPackage);
+            }
+            if (!additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+                String invokerPackage = mainPackage + ".core";
+                additionalProperties.put(CodegenConstants.INVOKER_PACKAGE, invokerPackage);
+            }
+        }
+
+        public String getApiPackage(Map<String, Object> additionalProperties) {
+            return additionalProperties.getOrDefault(CodegenConstants.API_PACKAGE, DEFAULT_PACKAGE_NAME + ".api").toString();
+        }
+
+        public String getModelPackage(Map<String, Object> additionalProperties) {
+            return additionalProperties.getOrDefault(CodegenConstants.MODEL_PACKAGE, DEFAULT_PACKAGE_NAME + ".model").toString();
+        }
+
+        public String getInvokerPackage(Map<String, Object> additionalProperties) {
+            return additionalProperties.getOrDefault(CodegenConstants.INVOKER_PACKAGE, DEFAULT_PACKAGE_NAME + ".core").toString();
         }
     }
 
