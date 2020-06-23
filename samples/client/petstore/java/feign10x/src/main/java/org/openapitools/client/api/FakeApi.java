@@ -181,7 +181,7 @@ public interface FakeApi extends ApiClient.Api {
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
   })
-  void testEndpointParameters(@Param("number") BigDecimal number, @Param("_double") Double _double, @Param("patternWithoutDelimiter") String patternWithoutDelimiter, @Param("_byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("_float") Float _float, @Param("string") String string, @Param("binary") File binary, @Param("date") LocalDate date, @Param("dateTime") OffsetDateTime dateTime, @Param("password") String password, @Param("paramCallback") String paramCallback);
+  void testEndpointParameters(@Param("number") BigDecimal number, @Param("double") Double _double, @Param("pattern_without_delimiter") String patternWithoutDelimiter, @Param("byte") byte[] _byte, @Param("integer") Integer integer, @Param("int32") Integer int32, @Param("int64") Long int64, @Param("float") Float _float, @Param("string") String string, @Param("binary") File binary, @Param("date") LocalDate date, @Param("dateTime") OffsetDateTime dateTime, @Param("password") String password, @Param("callback") String paramCallback);
 
   /**
    * To test enum parameters
@@ -199,11 +199,11 @@ public interface FakeApi extends ApiClient.Api {
   @Headers({
     "Content-Type: application/x-www-form-urlencoded",
     "Accept: application/json",
-    "enum_header_string_array: {enumHeaderStringArray}",
+    "enum_header_string_array: {enum_header_string_array}",
     
-    "enum_header_string: {enumHeaderString}"
+    "enum_header_string: {enum_header_string}"
   })
-  void testEnumParameters(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumQueryStringArray") List<String> enumQueryStringArray, @Param("enumQueryString") String enumQueryString, @Param("enumQueryInteger") Integer enumQueryInteger, @Param("enumQueryDouble") Double enumQueryDouble, @Param("enumFormStringArray") List<String> enumFormStringArray, @Param("enumFormString") String enumFormString);
+  void testEnumParameters(@Param("enum_header_string_array") List<String> enumHeaderStringArray, @Param("enum_header_string") String enumHeaderString, @Param("enum_query_string_array") List<String> enumQueryStringArray, @Param("enum_query_string") String enumQueryString, @Param("enum_query_integer") Integer enumQueryInteger, @Param("enum_query_double") Double enumQueryDouble, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString);
 
   /**
    * To test enum parameters
@@ -230,11 +230,11 @@ public interface FakeApi extends ApiClient.Api {
   @Headers({
   "Content-Type: application/x-www-form-urlencoded",
   "Accept: application/json",
-      "enum_header_string_array: {enumHeaderStringArray}",
+      "enum_header_string_array: {enum_header_string_array}",
       
-      "enum_header_string: {enumHeaderString}"
+      "enum_header_string: {enum_header_string}"
   })
-  void testEnumParameters(@Param("enumHeaderStringArray") List<String> enumHeaderStringArray, @Param("enumHeaderString") String enumHeaderString, @Param("enumFormStringArray") List<String> enumFormStringArray, @Param("enumFormString") String enumFormString, @QueryMap(encoded=true) Map<String, Object> queryParams);
+  void testEnumParameters(@Param("enum_header_string_array") List<String> enumHeaderStringArray, @Param("enum_header_string") String enumHeaderString, @Param("enum_form_string_array") List<String> enumFormStringArray, @Param("enum_form_string") String enumFormString, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
   /**
    * A convenience class for generating query parameters for the
@@ -272,11 +272,11 @@ public interface FakeApi extends ApiClient.Api {
   @RequestLine("DELETE /fake?required_string_group={requiredStringGroup}&required_int64_group={requiredInt64Group}&string_group={stringGroup}&int64_group={int64Group}")
   @Headers({
     "Accept: application/json",
-    "required_boolean_group: {requiredBooleanGroup}",
+    "required_boolean_group: {required_boolean_group}",
     
-    "boolean_group: {booleanGroup}"
+    "boolean_group: {boolean_group}"
   })
-  void testGroupParameters(@Param("requiredStringGroup") Integer requiredStringGroup, @Param("requiredBooleanGroup") Boolean requiredBooleanGroup, @Param("requiredInt64Group") Long requiredInt64Group, @Param("stringGroup") Integer stringGroup, @Param("booleanGroup") Boolean booleanGroup, @Param("int64Group") Long int64Group);
+  void testGroupParameters(@Param("required_string_group") Integer requiredStringGroup, @Param("required_boolean_group") Boolean requiredBooleanGroup, @Param("required_int64_group") Long requiredInt64Group, @Param("string_group") Integer stringGroup, @Param("boolean_group") Boolean booleanGroup, @Param("int64_group") Long int64Group);
 
   /**
    * Fake endpoint to test group parameters (optional)
@@ -300,11 +300,11 @@ public interface FakeApi extends ApiClient.Api {
   @RequestLine("DELETE /fake?required_string_group={requiredStringGroup}&required_int64_group={requiredInt64Group}&string_group={stringGroup}&int64_group={int64Group}")
   @Headers({
   "Accept: application/json",
-      "required_boolean_group: {requiredBooleanGroup}",
+      "required_boolean_group: {required_boolean_group}",
       
-      "boolean_group: {booleanGroup}"
+      "boolean_group: {boolean_group}"
   })
-  void testGroupParameters(@Param("requiredBooleanGroup") Boolean requiredBooleanGroup, @Param("booleanGroup") Boolean booleanGroup, @QueryMap(encoded=true) Map<String, Object> queryParams);
+  void testGroupParameters(@Param("required_boolean_group") Boolean requiredBooleanGroup, @Param("boolean_group") Boolean booleanGroup, @QueryMap(encoded=true) Map<String, Object> queryParams);
 
   /**
    * A convenience class for generating query parameters for the

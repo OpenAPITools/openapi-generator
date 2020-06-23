@@ -9,12 +9,12 @@ import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.MockDefaultGenerator;
+import org.openapitools.codegen.DefaultGenerator;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.JavaClientCodegen;
@@ -121,17 +121,18 @@ public class FeignClientCodegenTest {
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
         final ClientOptInput clientOptInput = configurator.toClientOptInput();
-        MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(clientOptInput).generate();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> generatedFiles = generator.opts(clientOptInput).generate();
 
-        Map<String, String> generatedFiles = generator.getFiles();
         TestUtils.validateJavaSourceFiles(generatedFiles);
-        Optional<Entry<String, String>> exampleApiContentEntryOptional = generatedFiles.entrySet().stream()
-        	.filter(entry -> entry.getKey().endsWith("org/openapitools/client/api/ExampleApi.java"))
+        
+        
+        Optional<File> exampleApiContentOptional = generatedFiles.stream()
+        	.filter(file -> file.getPath().endsWith("ExampleApi.java"))
         	.findFirst();
-        if(!exampleApiContentEntryOptional.isPresent() ) {
+        if(!exampleApiContentOptional.isPresent() ) {
         	fail("ExampleApi not found");
         }
-		return exampleApiContentEntryOptional.get().getValue();
+		return FileUtils.readFileToString(exampleApiContentOptional.get());
 	}
 }
