@@ -163,6 +163,7 @@
                 </executions>
                 <configuration>
                     <doclint>none</doclint>
+                        <source>1.8</source>
                     <tags>
                         <tag>
                             <name>http.response.details</name>

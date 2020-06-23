@@ -38,7 +38,17 @@ pub enum {{{operationId}}}Response {
       {{/hasHeaders}}
     {{/dataType}}
     {{#headers}}
-        {{{name}}}: {{{datatype}}}{{^-last}},{{/-last}}
+        {{{name}}}:
+      {{^required}}
+        Option<
+      {{/required}}
+        {{{datatype}}}
+      {{^required}}
+        >
+      {{/required}}
+        {{^-last}}
+        ,
+        {{/-last}}
       {{#-last}}
     }
       {{/-last}}

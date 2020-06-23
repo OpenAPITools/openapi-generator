@@ -62,7 +62,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
     protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
-    protected String collectionType = CollectionType.ARRAY.value;
+    protected String collectionType = CollectionType.LIST.value;
     protected boolean useRxJava = false;
     protected boolean useRxJava2 = false;
     protected boolean useCoroutines = false;
@@ -592,6 +592,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
+
+                if (JVM_RETROFIT2.equals(getLibrary()) && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
+                    operation.path = operation.path.substring(1);
+                }
 
                 // set multipart against all relevant operations
                 if (operation.hasConsumes == Boolean.TRUE) {

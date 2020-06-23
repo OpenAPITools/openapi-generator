@@ -64,6 +64,9 @@ public class InlineResponseDefault {
   }
 
 
+  /**
+   * Return true if this inline_response_default object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

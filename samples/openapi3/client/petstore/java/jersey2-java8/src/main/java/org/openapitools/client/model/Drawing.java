@@ -215,6 +215,9 @@ public class Drawing {
     return this.additionalProperties.get(key);
   }
 
+  /**
+   * Return true if this Drawing object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

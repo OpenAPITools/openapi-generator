@@ -45,10 +45,27 @@ public class MammalTest {
         Zebra z = new Zebra();
         z.setType(Zebra.TypeEnum.MOUNTAIN);
         z.setClassName("zebra");
-
         m.setActualInstance(z);
-
         Assert.assertEquals(JSON.getDefault().getMapper().writeValueAsString(m), "{\"type\":\"mountain\",\"className\":\"zebra\"}");
+    }
+
+    /**
+     * Model tests for getActualInstanceRecursively
+     */
+    @Test
+    public void testGetActualInstanceRecursively() throws Exception {
+        Mammal m = new Mammal();
+        Pig p = new Pig();
+        DanishPig dp = new DanishPig();
+        dp.setClassName("danish_pig");
+        p.setActualInstance(dp);
+        m.setActualInstance(p);
+        Assert.assertTrue(m.getActualInstanceRecursively() instanceof DanishPig);
+
+        Pig p2 = new Pig();
+        m.setActualInstance(p2);
+        Assert.assertEquals(m.getActualInstanceRecursively(), null);
+
     }
 
     /**

@@ -21,6 +21,10 @@ cache:
   - $HOME/samples/client/petstore/php/OpenAPIToolsClient-php/vendor
   - $HOME/samples/client/petstore/ruby/vendor/bundle
   - $HOME/samples/client/petstore/python/.venv/
+  - $HOME/samples/openapi3/client/petstore/typescript/tests/default/node_modules
+  - $HOME/samples/openapi3/client/petstore/typescript/tests/jquery/node_modules
+  - $HOME/samples/openapi3/client/petstore/typescript/tests/object_params/node_modules
+  - $HOME/samples/openapi3/client/petstore/typescript/tests/inversify/node_modules
   - $HOME/samples/client/petstore/typescript-node/npm/node_modules
   - $HOME/samples/client/petstore/typescript-node/npm/typings/
   - $HOME/samples/client/petstore/typescript-fetch/tests/default/node_modules

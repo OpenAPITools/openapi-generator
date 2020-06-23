@@ -36,6 +36,7 @@ public class Example {
         Client body = new Client(); // Client | client model
         try {
             CompletableFuture<Client> result = apiInstance.call123testSpecialTags(body);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AnotherFakeApi#call123testSpecialTags");
