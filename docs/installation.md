@@ -8,11 +8,11 @@ Installing OpenAPI Generator's CLI tool allows users to generate all available g
 
 Some of the following are cross-platform options and some are not, these are called out where possible.
 
-## NPM
+## npm
 
 > **Platform(s)**: Linux, macOS, Windows
 
-The [NPM package wrapper](https://github.com/openapitools/openapi-generator-cli) is cross-platform wrapper around the .jar artifact. It works by providing a CLI wrapper atop the JAR's command line options. This gives a simple interface layer which normalizes usage of the command line across operating systems, removing some differences in how options or switches are passed to the tool (depending on OS).
+The [npm package wrapper](https://github.com/openapitools/openapi-generator-cli) is cross-platform wrapper around the .jar artifact. It works by providing a CLI wrapper atop the JAR's command line options. This gives a simple interface layer which normalizes usage of the command line across operating systems, removing some differences in how options or switches are passed to the tool (depending on OS).
 **Install** the latest version of the tool globally, exposing the CLI on the command line:
 
 ```bash
@@ -33,7 +33,7 @@ npm install @openapitools/openapi-generator-cli -D
 Then, **generate** a ruby client from a valid [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml) doc:
 
 ```bash
-npx openapi-generator generate -i petstore.yaml -g ruby -o /tmp/test/
+npx @openapitools/openapi-generator-cli generate -i petstore.yaml -g ruby -o /tmp/test/
 ```
 
 > `npx` will execute a globally available `openapi-generator`, and if not found it will fall back to project-local commands. The result is that the above command will work regardless of which installation method you've chosen.

@@ -53,6 +53,8 @@ class UserApi {
 
   /// Create user
   ///
+  ///User body  (required):
+  ///     Created user object
   /// This can only be done by the logged in user.
   Future createUser(User body) async {
     Response response = await createUserWithHttpInfo(body);
@@ -110,6 +112,8 @@ class UserApi {
 
   /// Creates list of users with given input array
   ///
+  ///List&lt;User&gt; body  (required):
+  ///     List of user object
   /// 
   Future createUsersWithArrayInput(List<User> body) async {
     Response response = await createUsersWithArrayInputWithHttpInfo(body);
@@ -167,6 +171,8 @@ class UserApi {
 
   /// Creates list of users with given input array
   ///
+  ///List&lt;User&gt; body  (required):
+  ///     List of user object
   /// 
   Future createUsersWithListInput(List<User> body) async {
     Response response = await createUsersWithListInputWithHttpInfo(body);
@@ -224,6 +230,8 @@ class UserApi {
 
   /// Delete user
   ///
+  ///String username  (required):
+  ///     The name that needs to be deleted
   /// This can only be done by the logged in user.
   Future deleteUser(String username) async {
     Response response = await deleteUserWithHttpInfo(username);
@@ -281,6 +289,8 @@ class UserApi {
 
   /// Get user by user name
   ///
+  ///String username  (required):
+  ///     The name that needs to be fetched. Use user1 for testing.
   /// 
   Future<User> getUserByName(String username) async {
     Response response = await getUserByNameWithHttpInfo(username);
@@ -344,6 +354,10 @@ class UserApi {
 
   /// Logs user into the system
   ///
+  ///String username  (required):
+  ///     The user name for login
+  ///String password  (required):
+  ///     The password for login in clear text
   /// 
   Future<String> loginUser(String username, String password) async {
     Response response = await loginUserWithHttpInfo(username, password);
@@ -459,6 +473,10 @@ class UserApi {
 
   /// Updated user
   ///
+  ///String username  (required):
+  ///     name that need to be deleted
+  ///User body  (required):
+  ///     Updated user object
   /// This can only be done by the logged in user.
   Future updateUser(String username, User body) async {
     Response response = await updateUserWithHttpInfo(username, body);

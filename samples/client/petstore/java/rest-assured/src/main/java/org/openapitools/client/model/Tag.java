@@ -30,7 +30,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * Tag
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Tag {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)

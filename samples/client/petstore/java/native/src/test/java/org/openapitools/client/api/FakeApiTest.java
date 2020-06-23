@@ -170,9 +170,9 @@ public class FakeApiTest {
     }
     
     /**
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      *
-     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
      *
      * @throws ApiException
      *          if the Api call fails
@@ -237,7 +237,16 @@ public class FakeApiTest {
         Integer stringGroup = null;
         Boolean booleanGroup = null;
         Long int64Group = null;
-        api.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
+
+        FakeApi.APItestGroupParametersRequest request = FakeApi.APItestGroupParametersRequest.newBuilder()
+          .requiredStringGroup(requiredStringGroup)
+          .requiredBooleanGroup(requiredBooleanGroup)
+          .requiredInt64Group(requiredInt64Group)
+          .stringGroup(stringGroup)
+          .booleanGroup(booleanGroup)
+          .int64Group(int64Group)
+          .build();
+        api.testGroupParameters(request);
 
         // TODO: test validations
     }
@@ -271,6 +280,26 @@ public class FakeApiTest {
         String param = null;
         String param2 = null;
         api.testJsonFormData(param, param2);
+
+        // TODO: test validations
+    }
+    
+    /**
+     * 
+     *
+     * To test the collection format in query parameters
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void testQueryParameterCollectionFormatTest() throws ApiException {
+        List<String> pipe = null;
+        List<String> ioutil = null;
+        List<String> http = null;
+        List<String> url = null;
+        List<String> context = null;
+        api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
 
         // TODO: test validations
     }

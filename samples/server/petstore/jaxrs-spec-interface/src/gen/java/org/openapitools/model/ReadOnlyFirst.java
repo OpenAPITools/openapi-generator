@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class ReadOnlyFirst implements Serializable  {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ReadOnlyFirst  implements Serializable {
   
   private @Valid String bar;
   private @Valid String baz;
@@ -99,6 +99,4 @@ public class ReadOnlyFirst implements Serializable  {
 
 
 }
-
-
 

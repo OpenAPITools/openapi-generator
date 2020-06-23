@@ -321,6 +321,16 @@ SetArbitraryTypeValue sets ArbitraryTypeValue field to given value.
 
 HasArbitraryTypeValue returns a boolean if a field has been set.
 
+### SetArbitraryTypeValueNil
+
+`func (o *User) SetArbitraryTypeValueNil(b bool)`
+
+ SetArbitraryTypeValueNil sets the value for ArbitraryTypeValue to be an explicit nil
+
+### UnsetArbitraryTypeValue
+`func (o *User) UnsetArbitraryTypeValue()`
+
+UnsetArbitraryTypeValue ensures that no value is present for ArbitraryTypeValue, not even an explicit nil
 ### GetArbitraryNullableTypeValue
 
 `func (o *User) GetArbitraryNullableTypeValue() interface{}`

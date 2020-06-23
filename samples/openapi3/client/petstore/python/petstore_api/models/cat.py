@@ -68,7 +68,7 @@ class Cat(object):
 
 
         :param declawed: The declawed of this Cat.  # noqa: E501
-        :type: bool
+        :type declawed: bool
         """
 
         self._declawed = declawed

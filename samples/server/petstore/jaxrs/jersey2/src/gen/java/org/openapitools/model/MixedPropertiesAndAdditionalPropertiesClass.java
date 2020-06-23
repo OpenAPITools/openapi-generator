@@ -36,7 +36,7 @@ import javax.validation.Valid;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass   {
   public static final String JSON_PROPERTY_UUID = "uuid";
   @JsonProperty(JSON_PROPERTY_UUID)

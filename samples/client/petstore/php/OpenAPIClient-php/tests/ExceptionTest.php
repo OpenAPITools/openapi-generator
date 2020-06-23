@@ -7,13 +7,11 @@ use PHPUnit\Framework\TestCase;
 
 class ExceptionTest extends TestCase
 {
-    /**
-     * @expectedException \OpenAPI\Client\ApiException
-     * @expectedExceptionCode 404
-     * @expectedExceptionMessage http://petstore.swagger.io/INVALID_URL/store/inventory
-     */
     public function testNotFound()
     {
+        $this->expectException(\OpenAPI\Client\ApiException::class);
+        $this->expectExceptionCode(404);
+        $this->expectExceptionMessage('http://petstore.swagger.io/INVALID_URL/store/inventory');
         $config = new Configuration();
         $config->setHost('http://petstore.swagger.io/INVALID_URL');
 
@@ -24,12 +22,11 @@ class ExceptionTest extends TestCase
         $api->getInventory();
     }
 
-    /**
-     * @expectedException \OpenAPI\Client\ApiException
-     * @expectedExceptionMessage Could not resolve host
-     */
     public function testWrongHost()
     {
+        $this->expectException(\OpenAPI\Client\ApiException::class);
+        $this->expectExceptionMessage('Could not resolve');
+        $this->expectExceptionMessage('wrong_host.zxc');
         $config = new Configuration();
         $config->setHost('http://wrong_host.zxc');
 

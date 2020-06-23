@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Param** | Pointer to **string** | field1 | 
-**Param2** | Pointer to **string** | field2 | 
+**Param** | **string** | field1 | 
+**Param2** | **string** | field2 | 
 
 ## Methods
 

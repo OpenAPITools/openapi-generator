@@ -1,7 +1,7 @@
 <?php
 /**
  * Configuration
- * PHP version 7.1
+ * PHP version 7.2
  *
  * @category Class
  * @package  {{invokerPackage}}
@@ -20,7 +20,7 @@ namespace {{invokerPackage}};
 
 /**
  * Configuration Class Doc Comment
- * PHP version 7.1
+ * PHP version 7.2
  *
  * @category Class
  * @package  {{invokerPackage}}
@@ -427,35 +427,35 @@ class Configuration
      */
     public function getHostSettings()
     {
-        return array(
+        return [
         {{#servers}}
-          array(
-            "url" => "{{{url}}}",
-            "description" => "{{{description}}}{{^description}}No description provided{{/description}}",
-            {{#variables}}
-            {{#-first}}
-            "variables" => array(
-            {{/-first}}
-              "{{{name}}}" => array(
-                  "description" => "{{{description}}}{{^description}}No description provided{{/description}}",
-                  "default_value" => "{{{defaultValue}}}",
-                  {{#enumValues}}
-                  {{#-first}}
-                  "enum_values" => array(
-                  {{/-first}}
-                    "{{{.}}}"{{^-last}},{{/-last}}
-                  {{#-last}}
-                  )
-                  {{/-last}}
-                  {{/enumValues}}
-                ){{^-last}},{{/-last}}
-              {{#-last}}
-              )
-              {{/-last}}
-            {{/variables}}
-          ){{^-last}},{{/-last}}
+            [
+                "url" => "{{{url}}}",
+                "description" => "{{{description}}}{{^description}}No description provided{{/description}}",
+                {{#variables}}
+                {{#-first}}
+                "variables" => [
+                {{/-first}}
+                    "{{{name}}}" => [
+                        "description" => "{{{description}}}{{^description}}No description provided{{/description}}",
+                        "default_value" => "{{{defaultValue}}}",
+                        {{#enumValues}}
+                        {{#-first}}
+                        "enum_values" => [
+                        {{/-first}}
+                            "{{{.}}}"{{^-last}},{{/-last}}
+                        {{#-last}}
+                        ]
+                        {{/-last}}
+                        {{/enumValues}}
+                    ]{{^-last}},{{/-last}}
+                {{#-last}}
+                ]
+                {{/-last}}
+                {{/variables}}
+            ]{{^-last}},{{/-last}}
         {{/servers}}
-        );
+        ];
     }
 
     /**
@@ -468,7 +468,7 @@ class Configuration
     public function getHostFromSettings($index, $variables = null)
     {
         if (null === $variables) {
-            $variables = array();
+            $variables = [];
         }
 
         $hosts = $this->getHostSettings();
@@ -484,7 +484,7 @@ class Configuration
         // go through variable and assign a value
         foreach ($host["variables"] as $name => $variable) {
             if (array_key_exists($name, $variables)) { // check to see if it's in the variables provided by the user
-                if (in_array($variables[$name], $variable["enum_values"])) { // check to see if the value is in the enum
+                if (in_array($variables[$name], $variable["enum_values"], true)) { // check to see if the value is in the enum
                     $url = str_replace("{".$name."}", $variables[$name], $url);
                 } else {
                     throw new \InvalidArgumentException("The variable `$name` in the host URL has invalid value ".$variables[$name].". Must be ".join(',', $variable["enum_values"]).".");

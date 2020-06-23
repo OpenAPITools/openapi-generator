@@ -29,7 +29,7 @@ import javax.validation.Valid;
   InlineObject.JSON_PROPERTY_NAME,
   InlineObject.JSON_PROPERTY_STATUS
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class InlineObject   {
   public static final String JSON_PROPERTY_NAME = "name";
   @JsonProperty(JSON_PROPERTY_NAME)

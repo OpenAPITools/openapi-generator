@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * A tag for a pet
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Tag   {
   @JsonProperty("id")

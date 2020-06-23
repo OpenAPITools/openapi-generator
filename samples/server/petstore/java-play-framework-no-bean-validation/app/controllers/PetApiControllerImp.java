@@ -8,8 +8,9 @@ import play.mvc.Http;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.io.FileInputStream;
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiControllerImp implements PetApiControllerImpInterface {
     @Override
     public void addPet(Pet body) throws Exception {

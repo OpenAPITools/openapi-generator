@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## testClassname
 
-> \OpenAPI\Client\Model\Client testClassname($body)
+> \OpenAPI\Client\Model\Client testClassname($client)
 
 To test class name in snake case
 
@@ -35,10 +35,10 @@ $apiInstance = new OpenAPI\Client\Api\FakeClassnameTags123Api(
     new GuzzleHttp\Client(),
     $config
 );
-$body = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
+$client = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
 
 try {
-    $result = $apiInstance->testClassname($body);
+    $result = $apiInstance->testClassname($client);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeClassnameTags123Api->testClassname: ', $e->getMessage(), PHP_EOL;
@@ -51,7 +51,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\OpenAPI\Client\Model\Client**](../Model/Client.md)| client model |
+ **client** | [**\OpenAPI\Client\Model\Client**](../Model/Client.md)| client model |
 
 ### Return type
 
