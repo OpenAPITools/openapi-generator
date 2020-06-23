@@ -14,7 +14,15 @@ class Pet {
   /* pet status in the store */
   String status = null;
   //enum statusEnum {  available,  pending,  sold,  };{
-  Pet();
+
+  Pet({
+    this.id,
+    this.category,
+    this.name,
+    this.photoUrls,
+    this.tags,
+    this.status,
+  });
 
   @override
   String toString() {
