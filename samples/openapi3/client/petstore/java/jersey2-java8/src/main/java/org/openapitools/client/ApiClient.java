@@ -458,7 +458,7 @@ public class ApiClient {
   public ApiClient setOauthCredentials(String clientId, String clientSecret) {
     for (Authentication auth : authentications.values()) {
       if (auth instanceof OAuth) {
-        ((OAuth) auth).setCredentials(clientId, clientSecret);
+        ((OAuth) auth).setCredentials(clientId, clientSecret, isDebugging());
         return this;
       }
     }
