@@ -37,7 +37,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   GrandparentAnimal.JSON_PROPERTY_PET_TYPE
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "pet_type", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = ChildCat.class, name = "ChildCat"),
@@ -72,6 +72,9 @@ public class GrandparentAnimal {
   }
 
 
+  /**
+   * Return true if this GrandparentAnimal object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

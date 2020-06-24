@@ -41,7 +41,7 @@ import org.openapitools.client.JSON;
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_DATE_TIME,
   MixedPropertiesAndAdditionalPropertiesClass.JSON_PROPERTY_MAP
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String JSON_PROPERTY_UUID = "uuid";
   private UUID uuid;
@@ -133,6 +133,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   }
 
 
+  /**
+   * Return true if this MixedPropertiesAndAdditionalPropertiesClass object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

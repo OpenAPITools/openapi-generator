@@ -14,12 +14,13 @@ package org.openapitools.client.models
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * 
  * @param arrayNumber 
  */
 @Serializable
 data class ArrayOfNumberOnly (
-    @SerialName(value = "ArrayNumber") val arrayNumber: kotlin.Array<kotlin.Double>? = null
+    @SerialName(value = "ArrayNumber") val arrayNumber: kotlin.collections.List<kotlin.Double>? = null
 )
 

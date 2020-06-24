@@ -13,6 +13,10 @@
 
 package org.openapitools.client.model;
 
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -56,7 +60,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonDeserialize(using = Triangle.TriangleDeserializer.class)
 @JsonSerialize(using = Triangle.TriangleSerializer.class)
 public class Triangle extends AbstractOpenApiSchema {
@@ -158,7 +162,6 @@ public class Triangle extends AbstractOpenApiSchema {
             throw new IOException(String.format("Failed deserialization for Triangle: %d classes match result, expected 1", match));
         }
 
-
         /**
          * Handle deserialization of the 'null' value.
          */
@@ -174,7 +177,56 @@ public class Triangle extends AbstractOpenApiSchema {
     public Triangle() {
         super("oneOf", Boolean.FALSE);
     }
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Object> additionalProperties;
 
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   */
+  @JsonAnySetter
+  public Triangle putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
+
+    /**
+     * Return true if this Triangle object is equal to o.
+     */
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o) && Objects.equals(this.additionalProperties, ((Triangle)o).additionalProperties);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getActualInstance(), isNullable(), getSchemaType(), additionalProperties);
+    }
     public Triangle(EquilateralTriangle o) {
         super("oneOf", Boolean.FALSE);
         setActualInstance(o);

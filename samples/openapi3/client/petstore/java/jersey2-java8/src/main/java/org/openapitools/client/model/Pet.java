@@ -42,7 +42,7 @@ import org.openapitools.client.JSON;
   Pet.JSON_PROPERTY_TAGS,
   Pet.JSON_PROPERTY_STATUS
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Pet {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -255,6 +255,9 @@ public class Pet {
   }
 
 
+  /**
+   * Return true if this Pet object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

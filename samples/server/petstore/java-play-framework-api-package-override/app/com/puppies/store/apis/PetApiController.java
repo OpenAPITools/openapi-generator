@@ -23,7 +23,7 @@ import play.Configuration;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiController extends Controller {
 
     private final PetApiControllerImpInterface imp;

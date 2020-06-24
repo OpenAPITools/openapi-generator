@@ -36,7 +36,7 @@ import org.openapitools.client.JSON;
   FileSchemaTestClass.JSON_PROPERTY_FILE,
   FileSchemaTestClass.JSON_PROPERTY_FILES
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FileSchemaTestClass {
   public static final String JSON_PROPERTY_FILE = "file";
   private java.io.File file;
@@ -101,6 +101,9 @@ public class FileSchemaTestClass {
   }
 
 
+  /**
+   * Return true if this FileSchemaTestClass object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

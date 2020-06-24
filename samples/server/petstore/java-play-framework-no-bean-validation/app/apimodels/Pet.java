@@ -11,7 +11,7 @@ import java.util.Objects;
 /**
  * A pet for sale in the pet store
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Pet   {
   @JsonProperty("id")

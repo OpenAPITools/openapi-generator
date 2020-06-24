@@ -35,7 +35,7 @@ import org.openapitools.client.JSON;
   ModelApiResponse.JSON_PROPERTY_TYPE,
   ModelApiResponse.JSON_PROPERTY_MESSAGE
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelApiResponse {
   public static final String JSON_PROPERTY_CODE = "code";
   private Integer code;
@@ -119,6 +119,9 @@ public class ModelApiResponse {
   }
 
 
+  /**
+   * Return true if this ApiResponse object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

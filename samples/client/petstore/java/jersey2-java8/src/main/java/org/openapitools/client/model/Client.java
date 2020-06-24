@@ -33,7 +33,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   Client.JSON_PROPERTY_CLIENT
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Client {
   public static final String JSON_PROPERTY_CLIENT = "client";
   private String client;
@@ -63,6 +63,9 @@ public class Client {
   }
 
 
+  /**
+   * Return true if this Client object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

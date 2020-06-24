@@ -63,6 +63,7 @@ To run a client, follow one of the following simple steps:
 ```
 cargo run --example client CallbackWithHeaderPost
 cargo run --example client ComplexQueryParamGet
+cargo run --example client JsonComplexQueryParamGet
 cargo run --example client MandatoryRequestHeaderGet
 cargo run --example client MergePatchJsonGet
 cargo run --example client MultigetGet
@@ -119,6 +120,7 @@ Method | HTTP request | Description
 [****](docs/default_api.md#) | **POST** /callback-with-header | 
 [****](docs/default_api.md#) | **GET** /complex-query-param | 
 [****](docs/default_api.md#) | **GET** /enum_in_path/{path_param} | 
+[****](docs/default_api.md#) | **GET** /json-complex-query-param | 
 [****](docs/default_api.md#) | **GET** /mandatory-request-header | 
 [****](docs/default_api.md#) | **GET** /merge-patch-json | 
 [****](docs/default_api.md#) | **GET** /multiget | Get some stuff.
@@ -143,6 +145,7 @@ Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AdditionalPropertiesWithList](docs/AdditionalPropertiesWithList.md)
  - [AnotherXmlArray](docs/AnotherXmlArray.md)
  - [AnotherXmlInner](docs/AnotherXmlInner.md)
  - [AnotherXmlObject](docs/AnotherXmlObject.md)

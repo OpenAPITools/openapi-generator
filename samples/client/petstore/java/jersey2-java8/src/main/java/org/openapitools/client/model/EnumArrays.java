@@ -36,7 +36,7 @@ import org.openapitools.client.JSON;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
@@ -171,6 +171,9 @@ public class EnumArrays {
   }
 
 
+  /**
+   * Return true if this EnumArrays object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

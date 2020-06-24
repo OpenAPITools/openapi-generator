@@ -34,7 +34,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   Banana.JSON_PROPERTY_LENGTH_CM
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Banana {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
   private BigDecimal lengthCm;
@@ -64,6 +64,9 @@ public class Banana {
   }
 
 
+  /**
+   * Return true if this banana object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

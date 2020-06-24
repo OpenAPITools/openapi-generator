@@ -58,7 +58,7 @@ import org.openapitools.client.JSON;
   NullableClass.JSON_PROPERTY_OBJECT_AND_ITEMS_NULLABLE_PROP,
   NullableClass.JSON_PROPERTY_OBJECT_ITEMS_NULLABLE
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class NullableClass {
   public static final String JSON_PROPERTY_INTEGER_PROP = "integer_prop";
   private JsonNullable<Integer> integerProp = JsonNullable.<Integer>undefined();
@@ -586,6 +586,9 @@ public class NullableClass {
     return this.additionalProperties.get(key);
   }
 
+  /**
+   * Return true if this NullableClass object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * XmlItem
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class XmlItem   {
   @JsonProperty("attribute_string")
   private String attributeString;

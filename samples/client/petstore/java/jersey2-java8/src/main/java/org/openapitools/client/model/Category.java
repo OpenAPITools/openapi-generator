@@ -34,7 +34,7 @@ import org.openapitools.client.JSON;
   Category.JSON_PROPERTY_ID,
   Category.JSON_PROPERTY_NAME
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Category {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -90,6 +90,9 @@ public class Category {
   }
 
 
+  /**
+   * Return true if this Category object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

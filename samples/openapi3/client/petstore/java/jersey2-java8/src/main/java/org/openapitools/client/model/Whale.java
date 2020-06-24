@@ -35,7 +35,7 @@ import org.openapitools.client.JSON;
   Whale.JSON_PROPERTY_HAS_TEETH,
   Whale.JSON_PROPERTY_CLASS_NAME
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Whale {
   public static final String JSON_PROPERTY_HAS_BALEEN = "hasBaleen";
   private Boolean hasBaleen;
@@ -118,6 +118,9 @@ public class Whale {
   }
 
 
+  /**
+   * Return true if this whale object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

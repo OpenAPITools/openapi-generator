@@ -37,7 +37,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   Dog.JSON_PROPERTY_BREED
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
 })
@@ -71,6 +71,9 @@ public class Dog extends Animal {
   }
 
 
+  /**
+   * Return true if this Dog object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

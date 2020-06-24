@@ -37,7 +37,7 @@ import org.openapitools.client.JSON;
   Name.JSON_PROPERTY_PROPERTY,
   Name.JSON_PROPERTY_123NUMBER
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Name {
   public static final String JSON_PROPERTY_NAME = "name";
   private Integer name;
@@ -131,6 +131,9 @@ public class Name {
 
 
 
+  /**
+   * Return true if this Name object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

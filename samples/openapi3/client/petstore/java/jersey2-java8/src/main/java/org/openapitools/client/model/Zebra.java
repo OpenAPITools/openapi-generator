@@ -38,7 +38,7 @@ import org.openapitools.client.JSON;
   Zebra.JSON_PROPERTY_TYPE,
   Zebra.JSON_PROPERTY_CLASS_NAME
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Zebra {
   /**
    * Gets or Sets type
@@ -168,6 +168,9 @@ public class Zebra {
     return this.additionalProperties.get(key);
   }
 
+  /**
+   * Return true if this zebra object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

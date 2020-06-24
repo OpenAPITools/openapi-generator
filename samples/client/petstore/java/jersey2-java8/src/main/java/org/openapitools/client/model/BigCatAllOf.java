@@ -33,7 +33,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   BigCatAllOf.JSON_PROPERTY_KIND
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BigCatAllOf {
   /**
    * Gets or Sets kind
@@ -102,6 +102,9 @@ public class BigCatAllOf {
   }
 
 
+  /**
+   * Return true if this BigCat_allOf object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

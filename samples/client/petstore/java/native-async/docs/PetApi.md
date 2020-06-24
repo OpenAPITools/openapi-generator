@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 ## addPet
 
-> addPet(body)
+> CompletableFuture<Void> addPet(body)
 
 Add a new pet to the store
 
@@ -32,6 +32,7 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
+import java.util.concurrent.CompletableFuture;
 
 public class Example {
     public static void main(String[] args) {
@@ -45,7 +46,8 @@ public class Example {
         PetApi apiInstance = new PetApi(defaultClient);
         Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            apiInstance.addPet(body);
+            CompletableFuture<Void> result = apiInstance.addPet(body);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#addPet");
             System.err.println("Status code: " + e.getCode());
@@ -66,7 +68,8 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+
+CompletableFuture<void> (empty response body)
 
 ### Authorization
 
@@ -86,7 +89,7 @@ null (empty response body)
 
 ## deletePet
 
-> deletePet(petId, apiKey)
+> CompletableFuture<Void> deletePet(petId, apiKey)
 
 Deletes a pet
 
@@ -100,6 +103,7 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
+import java.util.concurrent.CompletableFuture;
 
 public class Example {
     public static void main(String[] args) {
@@ -114,7 +118,8 @@ public class Example {
         Long petId = 56L; // Long | Pet id to delete
         String apiKey = "apiKey_example"; // String | 
         try {
-            apiInstance.deletePet(petId, apiKey);
+            CompletableFuture<Void> result = apiInstance.deletePet(petId, apiKey);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#deletePet");
             System.err.println("Status code: " + e.getCode());
@@ -136,7 +141,8 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+
+CompletableFuture<void> (empty response body)
 
 ### Authorization
 
@@ -156,7 +162,7 @@ null (empty response body)
 
 ## findPetsByStatus
 
-> List&lt;Pet&gt; findPetsByStatus(status)
+> CompletableFuture<List<Pet>> findPetsByStatus(status)
 
 Finds Pets by status
 
@@ -172,6 +178,7 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
+import java.util.concurrent.CompletableFuture;
 
 public class Example {
     public static void main(String[] args) {
@@ -185,7 +192,8 @@ public class Example {
         PetApi apiInstance = new PetApi(defaultClient);
         List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
         try {
-            List<Pet> result = apiInstance.findPetsByStatus(status);
+            CompletableFuture<List<Pet>> result = apiInstance.findPetsByStatus(status);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#findPetsByStatus");
@@ -207,7 +215,8 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**List&lt;Pet&gt;**](Pet.md)
+CompletableFuture<[**List&lt;Pet&gt;**](Pet.md)>
+
 
 ### Authorization
 
@@ -227,7 +236,7 @@ Name | Type | Description  | Notes
 
 ## findPetsByTags
 
-> List&lt;Pet&gt; findPetsByTags(tags)
+> CompletableFuture<Set<Pet>> findPetsByTags(tags)
 
 Finds Pets by tags
 
@@ -243,6 +252,7 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
+import java.util.concurrent.CompletableFuture;
 
 public class Example {
     public static void main(String[] args) {
@@ -254,9 +264,10 @@ public class Example {
         petstore_auth.setAccessToken("YOUR ACCESS TOKEN");
 
         PetApi apiInstance = new PetApi(defaultClient);
-        List<String> tags = Arrays.asList(); // List<String> | Tags to filter by
+        Set<String> tags = Arrays.asList(); // Set<String> | Tags to filter by
         try {
-            List<Pet> result = apiInstance.findPetsByTags(tags);
+            CompletableFuture<Set<Pet>> result = apiInstance.findPetsByTags(tags);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#findPetsByTags");
@@ -274,11 +285,12 @@ public class Example {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by |
+ **tags** | [**Set&lt;String&gt;**](String.md)| Tags to filter by |
 
 ### Return type
 
-[**List&lt;Pet&gt;**](Pet.md)
+CompletableFuture<[**Set&lt;Pet&gt;**](Pet.md)>
+
 
 ### Authorization
 
@@ -298,7 +310,7 @@ Name | Type | Description  | Notes
 
 ## getPetById
 
-> Pet getPetById(petId)
+> CompletableFuture<Pet> getPetById(petId)
 
 Find pet by ID
 
@@ -314,6 +326,7 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
+import java.util.concurrent.CompletableFuture;
 
 public class Example {
     public static void main(String[] args) {
@@ -329,7 +342,8 @@ public class Example {
         PetApi apiInstance = new PetApi(defaultClient);
         Long petId = 56L; // Long | ID of pet to return
         try {
-            Pet result = apiInstance.getPetById(petId);
+            CompletableFuture<Pet> result = apiInstance.getPetById(petId);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#getPetById");
@@ -351,7 +365,8 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Pet**](Pet.md)
+CompletableFuture<[**Pet**](Pet.md)>
+
 
 ### Authorization
 
@@ -372,7 +387,7 @@ Name | Type | Description  | Notes
 
 ## updatePet
 
-> updatePet(body)
+> CompletableFuture<Void> updatePet(body)
 
 Update an existing pet
 
@@ -386,6 +401,7 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
+import java.util.concurrent.CompletableFuture;
 
 public class Example {
     public static void main(String[] args) {
@@ -399,7 +415,8 @@ public class Example {
         PetApi apiInstance = new PetApi(defaultClient);
         Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
-            apiInstance.updatePet(body);
+            CompletableFuture<Void> result = apiInstance.updatePet(body);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePet");
             System.err.println("Status code: " + e.getCode());
@@ -420,7 +437,8 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+
+CompletableFuture<void> (empty response body)
 
 ### Authorization
 
@@ -442,7 +460,7 @@ null (empty response body)
 
 ## updatePetWithForm
 
-> updatePetWithForm(petId, name, status)
+> CompletableFuture<Void> updatePetWithForm(petId, name, status)
 
 Updates a pet in the store with form data
 
@@ -456,6 +474,7 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
+import java.util.concurrent.CompletableFuture;
 
 public class Example {
     public static void main(String[] args) {
@@ -471,7 +490,8 @@ public class Example {
         String name = "name_example"; // String | Updated name of the pet
         String status = "status_example"; // String | Updated status of the pet
         try {
-            apiInstance.updatePetWithForm(petId, name, status);
+            CompletableFuture<Void> result = apiInstance.updatePetWithForm(petId, name, status);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePetWithForm");
             System.err.println("Status code: " + e.getCode());
@@ -494,7 +514,8 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+
+CompletableFuture<void> (empty response body)
 
 ### Authorization
 
@@ -513,7 +534,7 @@ null (empty response body)
 
 ## uploadFile
 
-> ModelApiResponse uploadFile(petId, additionalMetadata, file)
+> CompletableFuture<ModelApiResponse> uploadFile(petId, additionalMetadata, file)
 
 uploads an image
 
@@ -527,6 +548,7 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
+import java.util.concurrent.CompletableFuture;
 
 public class Example {
     public static void main(String[] args) {
@@ -542,7 +564,8 @@ public class Example {
         String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
         File file = new File("/path/to/file"); // File | file to upload
         try {
-            ModelApiResponse result = apiInstance.uploadFile(petId, additionalMetadata, file);
+            CompletableFuture<ModelApiResponse> result = apiInstance.uploadFile(petId, additionalMetadata, file);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#uploadFile");
@@ -566,7 +589,8 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ModelApiResponse**](ModelApiResponse.md)
+CompletableFuture<[**ModelApiResponse**](ModelApiResponse.md)>
+
 
 ### Authorization
 
@@ -585,7 +609,7 @@ Name | Type | Description  | Notes
 
 ## uploadFileWithRequiredFile
 
-> ModelApiResponse uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
+> CompletableFuture<ModelApiResponse> uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata)
 
 uploads an image (required)
 
@@ -599,6 +623,7 @@ import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
 import org.openapitools.client.models.*;
 import org.openapitools.client.api.PetApi;
+import java.util.concurrent.CompletableFuture;
 
 public class Example {
     public static void main(String[] args) {
@@ -614,7 +639,8 @@ public class Example {
         File requiredFile = new File("/path/to/file"); // File | file to upload
         String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
         try {
-            ModelApiResponse result = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
+            CompletableFuture<ModelApiResponse> result = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#uploadFileWithRequiredFile");
@@ -638,7 +664,8 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ModelApiResponse**](ModelApiResponse.md)
+CompletableFuture<[**ModelApiResponse**](ModelApiResponse.md)>
+
 
 ### Authorization
 

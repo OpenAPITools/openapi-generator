@@ -35,7 +35,7 @@ import org.openapitools.client.JSON;
   BananaReq.JSON_PROPERTY_LENGTH_CM,
   BananaReq.JSON_PROPERTY_SWEET
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BananaReq {
   public static final String JSON_PROPERTY_LENGTH_CM = "lengthCm";
   private BigDecimal lengthCm;
@@ -91,6 +91,9 @@ public class BananaReq {
   }
 
 
+  /**
+   * Return true if this bananaReq object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

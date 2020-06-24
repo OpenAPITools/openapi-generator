@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 /**
  * DogAllOf
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class DogAllOf   {
   @JsonProperty("breed")
   private String breed;

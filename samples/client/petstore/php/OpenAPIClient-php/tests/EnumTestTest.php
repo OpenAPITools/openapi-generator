@@ -32,11 +32,9 @@ class EnumTestTest extends TestCase
         $this->assertSame($expected, $enum->listInvalidProperties());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testThrowExceptionWhenInvalidAmbiguousValueHasPassed()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $enum = new EnumTest();
         $enum->setEnumString(0);
     }

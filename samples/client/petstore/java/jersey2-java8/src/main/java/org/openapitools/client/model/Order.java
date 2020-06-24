@@ -39,7 +39,7 @@ import org.openapitools.client.JSON;
   Order.JSON_PROPERTY_STATUS,
   Order.JSON_PROPERTY_COMPLETE
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Order {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -241,6 +241,9 @@ public class Order {
   }
 
 
+  /**
+   * Return true if this Order object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

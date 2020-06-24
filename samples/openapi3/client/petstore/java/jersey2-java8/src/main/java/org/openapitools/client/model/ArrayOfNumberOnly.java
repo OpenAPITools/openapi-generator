@@ -36,7 +36,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   ArrayOfNumberOnly.JSON_PROPERTY_ARRAY_NUMBER
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayOfNumberOnly {
   public static final String JSON_PROPERTY_ARRAY_NUMBER = "ArrayNumber";
   private List<BigDecimal> arrayNumber = null;
@@ -74,6 +74,9 @@ public class ArrayOfNumberOnly {
   }
 
 
+  /**
+   * Return true if this ArrayOfNumberOnly object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

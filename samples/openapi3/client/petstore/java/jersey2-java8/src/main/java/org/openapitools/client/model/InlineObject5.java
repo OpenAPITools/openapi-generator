@@ -35,7 +35,7 @@ import org.openapitools.client.JSON;
   InlineObject5.JSON_PROPERTY_ADDITIONAL_METADATA,
   InlineObject5.JSON_PROPERTY_REQUIRED_FILE
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class InlineObject5 {
   public static final String JSON_PROPERTY_ADDITIONAL_METADATA = "additionalMetadata";
   private String additionalMetadata;
@@ -91,6 +91,9 @@ public class InlineObject5 {
   }
 
 
+  /**
+   * Return true if this inline_object_5 object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

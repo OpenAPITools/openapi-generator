@@ -34,7 +34,7 @@ import org.openapitools.client.JSON;
   Apple.JSON_PROPERTY_CULTIVAR,
   Apple.JSON_PROPERTY_ORIGIN
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Apple {
   public static final String JSON_PROPERTY_CULTIVAR = "cultivar";
   private String cultivar;
@@ -91,6 +91,9 @@ public class Apple {
   }
 
 
+  /**
+   * Return true if this apple object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

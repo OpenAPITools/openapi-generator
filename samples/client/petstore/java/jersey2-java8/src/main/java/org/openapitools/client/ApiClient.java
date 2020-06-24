@@ -25,6 +25,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.net.URI;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.security.cert.X509Certificate;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
@@ -56,7 +63,7 @@ import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
@@ -1099,11 +1106,62 @@ public class ApiClient {
       java.util.logging.Logger.getLogger("org.glassfish.jersey.client").setLevel(java.util.logging.Level.SEVERE);
     }
     performAdditionalClientConfiguration(clientConfig);
-    return ClientBuilder.newClient(clientConfig);
+    ClientBuilder clientBuilder = ClientBuilder.newBuilder();
+    customizeClientBuilder(clientBuilder);
+    clientBuilder = clientBuilder.withConfig(clientConfig);
+    return clientBuilder.build();
   }
 
+  /**
+   * Perform additional configuration of the API client.
+   * This method can be overriden to customize the API client.
+   */
   protected void performAdditionalClientConfiguration(ClientConfig clientConfig) {
     // No-op extension point
+  }
+
+  /**
+   * Customize the client builder.
+   *
+   * This method can be overriden to customize the API client. For example, this can be used to:
+   * 1. Set the hostname verifier to be used by the client to verify the endpoint's hostname
+   *    against its identification information.
+   * 2. Set the client-side key store.
+   * 3. Set the SSL context that will be used when creating secured transport connections to
+   *    server endpoints from web targets created by the client instance that is using this SSL context.
+   * 4. Set the client-side trust store.
+   *
+   * To completely disable certificate validation (at your own risk), you can
+   * override this method and invoke disableCertificateValidation(clientBuilder).
+   */
+  protected void customizeClientBuilder(ClientBuilder clientBuilder) {
+    // No-op extension point
+  }
+
+  /**
+   * Disable X.509 certificate validation in TLS connections.
+   *
+   * Please note that trusting all certificates is extremely risky.
+   * This may be useful in a development environment with self-signed certificates.
+   */
+  protected void disableCertificateValidation(ClientBuilder clientBuilder) throws KeyManagementException, NoSuchAlgorithmException {
+    TrustManager[] trustAllCerts = new X509TrustManager[] {
+      new X509TrustManager() {
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+          return null;
+        }
+        @Override
+        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+        }
+        @Override
+        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+        }
+      }
+    };
+    SSLContext sslContext = SSLContext.getInstance("TLS");
+    sslContext.init(null, trustAllCerts, new SecureRandom());
+    clientBuilder.sslContext(sslContext);
   }
 
   protected Map<String, List<String>> buildResponseHeaders(Response response) {

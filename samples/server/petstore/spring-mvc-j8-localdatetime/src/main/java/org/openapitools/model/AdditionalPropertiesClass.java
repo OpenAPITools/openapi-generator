@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
 /**
  * AdditionalPropertiesClass
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_string")
   @Valid

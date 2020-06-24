@@ -40,7 +40,7 @@ import org.openapitools.client.JSON;
   User.JSON_PROPERTY_PHONE,
   User.JSON_PROPERTY_USER_STATUS
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class User {
   public static final String JSON_PROPERTY_ID = "id";
   private Long id;
@@ -259,6 +259,9 @@ public class User {
   }
 
 
+  /**
+   * Return true if this User object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

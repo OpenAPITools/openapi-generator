@@ -54,7 +54,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.openapitools.client.JSON;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonDeserialize(using = FruitReq.FruitReqDeserializer.class)
 @JsonSerialize(using = FruitReq.FruitReqSerializer.class)
 public class FruitReq extends AbstractOpenApiSchema {
@@ -122,7 +122,6 @@ public class FruitReq extends AbstractOpenApiSchema {
             }
             throw new IOException(String.format("Failed deserialization for FruitReq: %d classes match result, expected 1", match));
         }
-
 
         /**
          * Handle deserialization of the 'null' value.

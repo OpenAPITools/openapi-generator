@@ -31,6 +31,7 @@ test {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.0"
     compile "com.google.code.gson:gson:2.8.6"
     compile "io.reactivex:rxjava:$rxJavaVersion"
     compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"

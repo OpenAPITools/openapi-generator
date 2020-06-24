@@ -33,7 +33,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   TriangleInterface.JSON_PROPERTY_TRIANGLE_TYPE
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TriangleInterface {
   public static final String JSON_PROPERTY_TRIANGLE_TYPE = "triangleType";
   private String triangleType;
@@ -62,6 +62,9 @@ public class TriangleInterface {
   }
 
 
+  /**
+   * Return true if this TriangleInterface object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

@@ -15,6 +15,7 @@ use std::option::Option;
 
 use reqwest;
 
+use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
 pub struct DefaultApiClient {
@@ -30,12 +31,20 @@ impl DefaultApiClient {
 }
 
 
+/// struct for typed errors of method `fileresponsetest`
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum FileresponsetestError {
+    UnknownValue(serde_json::Value),
+}
+
+
 pub trait DefaultApi {
-    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error>;
+    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error<FileresponsetestError>>;
 }
 
 impl DefaultApi for DefaultApiClient {
-    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error> {
+    fn fileresponsetest(&self, ) -> Result<std::path::PathBuf, Error<FileresponsetestError>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -47,7 +56,18 @@ impl DefaultApi for DefaultApiClient {
         }
 
         let req = req_builder.build()?;
-        Ok(client.execute(req)?.error_for_status()?.json()?)
+        let mut resp = client.execute(req)?;
+
+        let status = resp.status();
+        let content = resp.text()?;
+
+        if status.is_success() {
+            serde_json::from_str(&content).map_err(Error::from)
+        } else {
+            let entity: Option<FileresponsetestError> = serde_json::from_str(&content).ok();
+            let error = ResponseContent { status, content, entity };
+            Err(Error::ResponseError(error))
+        }
     }
 
 }

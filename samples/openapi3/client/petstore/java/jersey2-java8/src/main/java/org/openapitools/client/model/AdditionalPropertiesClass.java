@@ -46,7 +46,7 @@ import org.openapitools.client.JSON;
   AdditionalPropertiesClass.JSON_PROPERTY_EMPTY_MAP,
   AdditionalPropertiesClass.JSON_PROPERTY_MAP_WITH_UNDECLARED_PROPERTIES_STRING
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String JSON_PROPERTY_MAP_PROPERTY = "map_property";
   private Map<String, String> mapProperty = null;
@@ -307,6 +307,9 @@ public class AdditionalPropertiesClass {
   }
 
 
+  /**
+   * Return true if this AdditionalPropertiesClass object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

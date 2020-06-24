@@ -362,7 +362,7 @@ func (r apiDeleteUserRequest) Execute() (*_nethttp.Response, error) {
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(r.username, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(parameterToString(r.username, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -453,7 +453,7 @@ func (r apiGetUserByNameRequest) Execute() (User, *_nethttp.Response, error) {
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(r.username, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(parameterToString(r.username, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -763,7 +763,7 @@ func (r apiUpdateUserRequest) Execute() (*_nethttp.Response, error) {
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(r.username, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(parameterToString(r.username, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

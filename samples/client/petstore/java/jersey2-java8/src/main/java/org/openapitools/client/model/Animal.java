@@ -39,7 +39,7 @@ import org.openapitools.client.JSON;
   Animal.JSON_PROPERTY_CLASS_NAME,
   Animal.JSON_PROPERTY_COLOR
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
@@ -102,6 +102,9 @@ public class Animal {
   }
 
 
+  /**
+   * Return true if this Animal object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

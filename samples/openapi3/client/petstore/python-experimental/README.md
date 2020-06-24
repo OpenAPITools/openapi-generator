@@ -87,6 +87,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**get_additional_properties_with_array_of_enums**](docs/FakeApi.md#get_additional_properties_with_array_of_enums) | **GET** /fake/additional-properties-with-array-of-enums | Additional Properties with Array of Enums
 *FakeApi* | [**get_array_of_enums**](docs/FakeApi.md#get_array_of_enums) | **GET** /fake/array-of-enums | Array of Enums
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
@@ -124,6 +125,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [additional_properties_class.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [additional_properties_with_array_of_enums.AdditionalPropertiesWithArrayOfEnums](docs/AdditionalPropertiesWithArrayOfEnums.md)
  - [address.Address](docs/Address.md)
  - [animal.Animal](docs/Animal.md)
  - [animal_farm.AnimalFarm](docs/AnimalFarm.md)

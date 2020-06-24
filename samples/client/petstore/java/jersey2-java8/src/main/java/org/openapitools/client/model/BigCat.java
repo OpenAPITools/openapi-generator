@@ -37,7 +37,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   BigCat.JSON_PROPERTY_KIND
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
 })
@@ -110,6 +110,9 @@ public class BigCat extends Cat {
   }
 
 
+  /**
+   * Return true if this BigCat object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

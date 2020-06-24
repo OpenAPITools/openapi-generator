@@ -38,7 +38,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   AdditionalPropertiesNumber.JSON_PROPERTY_NAME
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesNumber {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
@@ -105,6 +105,9 @@ public class AdditionalPropertiesNumber {
     return this.additionalProperties.get(key);
   }
 
+  /**
+   * Return true if this AdditionalPropertiesNumber object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

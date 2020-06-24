@@ -33,7 +33,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   ChildCatAllOf.JSON_PROPERTY_NAME
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ChildCatAllOf {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
@@ -63,6 +63,9 @@ public class ChildCatAllOf {
   }
 
 
+  /**
+   * Return true if this ChildCat_allOf object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

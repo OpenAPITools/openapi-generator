@@ -41,7 +41,7 @@ import org.openapitools.client.JSON;
   TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderExample {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
   private String stringItem;
@@ -205,6 +205,9 @@ public class TypeHolderExample {
   }
 
 
+  /**
+   * Return true if this TypeHolderExample object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
