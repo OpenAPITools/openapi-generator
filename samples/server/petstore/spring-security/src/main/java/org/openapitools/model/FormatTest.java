@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
 /**
  * FormatTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-06-24T03:35:14.757397Z[UTC]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-06-24T06:25:32.351251Z[UTC]")
 public class FormatTest   {
   @JsonProperty("integer")
   private Integer integer;
