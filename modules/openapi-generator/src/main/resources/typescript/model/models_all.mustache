@@ -1,5 +1,5 @@
 {{#models}}
 {{#model}}
-export * from './{{{ classFilename }}}{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}'
+export * from './{{{ classFilename }}}{{extensionForDeno}}'
 {{/model}}
 {{/models}}

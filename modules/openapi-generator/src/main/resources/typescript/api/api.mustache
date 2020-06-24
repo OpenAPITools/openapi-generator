@@ -1,21 +1,21 @@
 // TODO: better import syntax?
-import { BaseAPIRequestFactory, RequiredError } from './baseapi{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
-import {Configuration} from '../configuration{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
-import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+import { BaseAPIRequestFactory, RequiredError } from './baseapi{{extensionForDeno}}';
+import {Configuration} from '../configuration{{extensionForDeno}}';
+import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http{{extensionForDeno}}';
 {{#platforms}}
 {{#node}}
 import * as FormData from "form-data";
 {{/node}}
 {{/platforms}}
-import {ObjectSerializer} from '../models/ObjectSerializer{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
-import {ApiException} from './exception{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
-import {isCodeInRange} from '../util{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+import {ObjectSerializer} from '../models/ObjectSerializer{{extensionForDeno}}';
+import {ApiException} from './exception{{extensionForDeno}}';
+import {isCodeInRange} from '../util{{extensionForDeno}}';
 {{#useInversify}}
 import { injectable } from "inversify";
 {{/useInversify}}
 
 {{#imports}}
-import { {{classname}} } from '..{{filename}}{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+import { {{classname}} } from '..{{filename}}{{extensionForDeno}}';
 {{/imports}}
 {{#operations}}
 

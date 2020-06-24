@@ -1,5 +1,5 @@
-import {HttpLibrary, RequestContext, ResponseContext} from './http{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
-import { from, Observable } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}'{{/useRxJS}};
+import {HttpLibrary, RequestContext, ResponseContext} from './http{{extensionForDeno}}';
+import { from, Observable } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};
 {{#platforms}}
 {{#node}}
 import fetch from "node-fetch";

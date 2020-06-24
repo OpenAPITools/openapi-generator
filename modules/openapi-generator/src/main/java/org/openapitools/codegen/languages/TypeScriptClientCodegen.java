@@ -795,6 +795,10 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
             supportingFiles.add(new SupportingFile("tsconfig.mustache", "", "tsconfig.json"));
         }
 
+        if (propPlatform.equals("deno")) {
+            additionalProperties.put("extensionForDeno", ".ts");
+        }
+
         final boolean useRxJS = convertPropertyToBooleanAndWriteBack(USE_RXJS_SWITCH);
         if (!useRxJS) {
             supportingFiles.add(new SupportingFile("rxjsStub.mustache", "rxjsStub.ts"));

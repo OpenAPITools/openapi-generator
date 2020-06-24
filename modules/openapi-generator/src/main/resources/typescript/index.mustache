@@ -1,39 +1,39 @@
-export * from "./http/http{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
-export * from "./auth/auth{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
-export * from "./models/all{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
-export { createConfiguration, Configuration } from "./configuration{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}"
-export * from "./apis/exception{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
-export * from "./servers{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
+export * from "./http/http{{extensionForDeno}}";
+export * from "./auth/auth{{extensionForDeno}}";
+export * from "./models/all{{extensionForDeno}}";
+export { createConfiguration, Configuration } from "./configuration{{extensionForDeno}}"
+export * from "./apis/exception{{extensionForDeno}}";
+export * from "./servers{{extensionForDeno}}";
 
 {{#useRxJS}}
-export { Middleware } from './middleware{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+export { Middleware } from './middleware{{extensionForDeno}}';
 {{/useRxJS}}
 {{^useRxJS}}
-export { PromiseMiddleware as Middleware } from './middleware{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+export { PromiseMiddleware as Middleware } from './middleware{{extensionForDeno}}';
 {{/useRxJS}}
 {{#useObjectParameters}}
-export { {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{classname}}{{operationIdCamelCase}}Request, {{/operation}}Object{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/ObjectParamAPI{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+export { {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}{{classname}}{{operationIdCamelCase}}Request, {{/operation}}Object{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/ObjectParamAPI{{extensionForDeno}}';
 {{/useObjectParameters}}
 {{^useObjectParameters}}
 {{#useRxJS}}
-export { {{#apiInfo}}{{#apis}}{{#operations}}Observable{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/ObservableAPI{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+export { {{#apiInfo}}{{#apis}}{{#operations}}Observable{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/ObservableAPI{{extensionForDeno}}';
 {{/useRxJS}}
 {{^useRxJS}}
-export { {{#apiInfo}}{{#apis}}{{#operations}}Promise{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/PromiseAPI{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+export { {{#apiInfo}}{{#apis}}{{#operations}}Promise{{classname}} as {{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './types/PromiseAPI{{extensionForDeno}}';
 {{/useRxJS}}
 {{/useObjectParameters}}
 
 {{#useInversify}}
-export * from "./services/index{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
+export * from "./services/index{{extensionForDeno}}";
 {{#useObjectParameters}}
 export { {{#apiInfo}}{{#apis}}{{#operations}}AbstractObject{{classname}} as Abstract{{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './services/ObjectParamAPI';
 {{/useObjectParameters}}
 {{^useObjectParameters}}
 {{#useRxJS}}
-export { {{#apiInfo}}{{#apis}}{{#operations}}AbstractObservable{{classname}} as Abstract{{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './services/ObservableAPI{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+export { {{#apiInfo}}{{#apis}}{{#operations}}AbstractObservable{{classname}} as Abstract{{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './services/ObservableAPI{{extensionForDeno}}';
 {{/useRxJS}}
 {{^useRxJS}}
-export { {{#apiInfo}}{{#apis}}{{#operations}}AbstractPromise{{classname}} as Abstract{{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './services/PromiseAPI{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+export { {{#apiInfo}}{{#apis}}{{#operations}}AbstractPromise{{classname}} as Abstract{{classname}}{{^-last}}, {{/-last}} {{/operations}}{{/apis}}{{/apiInfo}}} from './services/PromiseAPI{{extensionForDeno}}';
 {{/useRxJS}}
 {{/useObjectParameters}}
 {{/useInversify}}

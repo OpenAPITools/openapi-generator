@@ -11,7 +11,7 @@ import * as FormData from "form-data";
 import * as URLParse from "url-parse";
 {{/deno}}
 {{/platforms}}
-import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}'{{/useRxJS}};
+import { Observable, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};
 
 {{#platforms}}
 {{^deno}}

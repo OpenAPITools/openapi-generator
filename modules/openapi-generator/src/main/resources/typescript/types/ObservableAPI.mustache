@@ -1,25 +1,25 @@
-import { ResponseContext, RequestContext, HttpFile } from '../http/http{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
-import * as models from '../models/all{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
-import { Configuration} from '../configuration{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}'
-import { Observable, of, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}'{{/useRxJS}};
-import {mergeMap, map} from  {{#useRxJS}}'rxjs/operators'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}'{{/useRxJS}};
+import { ResponseContext, RequestContext, HttpFile } from '../http/http{{extensionForDeno}}';
+import * as models from '../models/all{{extensionForDeno}}';
+import { Configuration} from '../configuration{{extensionForDeno}}'
+import { Observable, of, from } from {{#useRxJS}}'rxjs'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};
+import {mergeMap, map} from  {{#useRxJS}}'rxjs/operators'{{/useRxJS}}{{^useRxJS}}'../rxjsStub{{extensionForDeno}}'{{/useRxJS}};
 {{#useInversify}}
 import { injectable, inject, optional } from "inversify";
-import { AbstractConfiguration } from "../services/configuration{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
+import { AbstractConfiguration } from "../services/configuration{{extensionForDeno}}";
 {{/useInversify}}
 
 {{#models}}
 {{#model}}
-import { {{{ classname }}} } from '../models/{{{ classFilename }}}{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}';
+import { {{{ classname }}} } from '../models/{{{ classFilename }}}{{extensionForDeno}}';
 {{/model}}
 {{/models}}
 {{#apiInfo}}
 {{#apis}}
 
 {{#operations}}
-import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
+import { {{classname}}RequestFactory, {{classname}}ResponseProcessor} from "../apis/{{classname}}{{extensionForDeno}}";
 {{#useInversify}}
-import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../apis/{{classname}}.service{{#platforms}}{{#deno}}.ts{{/deno}}{{/platforms}}";
+import { Abstract{{classname}}RequestFactory, Abstract{{classname}}ResponseProcessor } from "../apis/{{classname}}.service{{extensionForDeno}}";
 
 @injectable()
 {{/useInversify}}
