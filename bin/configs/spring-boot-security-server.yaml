@@ -5,3 +5,4 @@ inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-e
 templateDir: modules/openapi-generator/src/main/resources/JavaSpring
 additionalProperties:
   useSpringSecurity: true
+  hideGenerationTimestamp: "true"
