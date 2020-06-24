@@ -125,4 +125,3 @@ src/Org.OpenAPITools/Model/TypeHolderDefault.cs
 src/Org.OpenAPITools/Model/TypeHolderExample.cs
 src/Org.OpenAPITools/Model/User.cs
 src/Org.OpenAPITools/Model/XmlItem.cs
-src/Org.OpenAPITools/Org.OpenAPITools.csproj
