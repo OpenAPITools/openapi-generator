@@ -255,7 +255,18 @@ class ObjectSerializer
             $subClass = substr($class, 0, -2);
             $values = [];
             foreach ($data as $key => $value) {
-                $values[] = self::deserialize($value, $subClass, null);
+                //$values[] = self::deserialize($value, $subClass, null);
+                
+                $mTemp = self::deserialize($value, $subClass, null);
+
+				if (is_object($mTemp) && $mTemp instanceof {{invokerPackage}}\Model\ModelInterface) {
+					$a_invalidProperties = $mTemp->listInvalidProperties();
+
+					if (count($a_invalidProperties) != 0) {
+						throw new \InvalidArgumentException(implode (' ', $a_invalidProperties));
+					}
+				}
+				$values[] = $mTemp;
             }
             return $values;
         } elseif (substr($class, 0, 4) === 'map[') { // for associative array e.g. map[string,int]
