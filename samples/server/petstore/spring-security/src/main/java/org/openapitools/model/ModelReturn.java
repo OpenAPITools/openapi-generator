@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * Model for testing reserved words
  */
 @ApiModel(description = "Model for testing reserved words")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-06-24T03:35:14.757397Z[UTC]")
 public class ModelReturn   {
   @JsonProperty("return")
   private Integer _return;

@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 /**
  * TypeHolderDefault
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-06-24T03:35:14.757397Z[UTC]")
 public class TypeHolderDefault   {
   @JsonProperty("string_item")
   private String stringItem = "what";
@@ -31,7 +31,7 @@ public class TypeHolderDefault   {
 
   @JsonProperty("array_item")
   @Valid
-  private List<Integer> arrayItem = new ArrayList<Integer>();
+  private List<Integer> arrayItem = new ArrayList<>();
 
   public TypeHolderDefault stringItem(String stringItem) {
     this.stringItem = stringItem;

@@ -635,14 +635,20 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "true");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileContains(generator, path,
+        assertFileContains(Paths.get(path),
                 "@PreAuthorize(\"(hasAuthority('write_pets') and hasAuthority('rw_pets')) or (hasAuthority('read_pets'))\")");
     }
 
@@ -661,14 +667,20 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "true");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileContains(generator, path,
+        assertFileContains(Paths.get(path),
                 "@PreAuthorize(\"(hasAuthority('read_pets'))\")");
     }
 
@@ -687,18 +699,27 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "false");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileNotContains(generator, path,
+        assertFileNotContains(Paths.get(path),
                 "hasAuthority('write_pets'");
-        checkFileNotContains(generator, path, "hasAuthority('read_pets");
-        checkFileNotContains(generator, path, "@PreAuthorize(\"");
-        checkFileNotContains(generator, path, "import org.springframework.security.access.prepost.PreAuthorize;\n");
+        assertFileNotContains(Paths.get(path),
+                "hasAuthority('read_pets");
+        assertFileNotContains(Paths.get(path),
+                "@PreAuthorize(\"");
+        assertFileNotContains(Paths.get(path),
+                "import org.springframework.security.access.prepost.PreAuthorize;\n");
     }
 
     @Test
@@ -716,14 +737,20 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "true");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileContains(generator, path,
+        assertFileContains(Paths.get(path),
                 "@PreAuthorize(\"(hasAuthority('scope:another')) or (hasAuthority('scope:specific'))\")");
     }
 
@@ -742,14 +769,20 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "false");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileNotContains(generator, path,
+        assertFileNotContains(Paths.get(path),
                 "@PreAuthorize(\"hasAuthority('scope:another') or hasAuthority('scope:specific')\")");
     }
 
@@ -768,14 +801,20 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "true");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileContains(generator, path,
+        assertFileContains(Paths.get(path),
                 "@PreAuthorize(\"(hasAuthority('scope:global'))\")");
     }
 
@@ -794,14 +833,20 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "true");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileContains(generator, path,
+        assertFileContains(Paths.get(path),
                 "@PreAuthorize(\"(hasAuthority('user') and hasAuthority('admin'))\")");
     }
 
@@ -820,14 +865,20 @@ public class SpringCodegenTest {
         codegen.additionalProperties().put(SpringCodegen.USE_SPRING_SECURITY, "true");
 
         ClientOptInput input = new ClientOptInput();
-        input.setOpenAPI(openAPI);
-        input.setConfig(codegen);
+        input.openAPI(openAPI);
+        input.config(codegen);
 
-        MockDefaultGenerator generator = new MockDefaultGenerator();
+        DefaultGenerator generator = new DefaultGenerator();
+
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileContains(generator, path,
+        assertFileContains(Paths.get(path),
                 "@ApiOperation(value = \"Get the pet\", nickname = \"petsGet\", notes = \"\", tags={  })",
                 "@ApiResponses(value = {  })",
                 "@RequestMapping(value = \"/pets\",",

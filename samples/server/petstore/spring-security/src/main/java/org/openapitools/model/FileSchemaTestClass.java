@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 /**
  * FileSchemaTestClass
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-06-24T03:35:14.757397Z[UTC]")
 public class FileSchemaTestClass   {
   @JsonProperty("file")
   private java.io.File file;
@@ -51,7 +51,7 @@ public class FileSchemaTestClass   {
 
   public FileSchemaTestClass addFilesItem(java.io.File filesItem) {
     if (this.files == null) {
-      this.files = new ArrayList<java.io.File>();
+      this.files = new ArrayList<>();
     }
     this.files.add(filesItem);
     return this;

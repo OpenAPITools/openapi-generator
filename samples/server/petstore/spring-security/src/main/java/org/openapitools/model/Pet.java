@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
 /**
  * Pet
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-06-24T03:35:14.757397Z[UTC]")
 public class Pet   {
   @JsonProperty("id")
   private Long id;
@@ -30,7 +30,7 @@ public class Pet   {
 
   @JsonProperty("photoUrls")
   @Valid
-  private List<String> photoUrls = new ArrayList<String>();
+  private List<String> photoUrls = new ArrayList<>();
 
   @JsonProperty("tags")
   @Valid
@@ -171,7 +171,7 @@ public class Pet   {
 
   public Pet addTagsItem(Tag tagsItem) {
     if (this.tags == null) {
-      this.tags = new ArrayList<Tag>();
+      this.tags = new ArrayList<>();
     }
     this.tags.add(tagsItem);
     return this;

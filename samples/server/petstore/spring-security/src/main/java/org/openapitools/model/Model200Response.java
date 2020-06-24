@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * Model for testing model name starting with number
  */
 @ApiModel(description = "Model for testing model name starting with number")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-06-24T03:35:14.757397Z[UTC]")
 public class Model200Response   {
   @JsonProperty("name")
   private Integer name;

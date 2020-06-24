@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 /**
  * Animal
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2020-06-24T03:35:14.757397Z[UTC]")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
