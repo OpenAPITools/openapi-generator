@@ -359,7 +359,7 @@ class ObjectSerializer
 
 		}
 		else if (is_array ($data)) {
-			foreach ($data as $item) {
+			foreach ($data as &$item) {
 				self::verifyDeserializedData($item);
 			}
 		}
