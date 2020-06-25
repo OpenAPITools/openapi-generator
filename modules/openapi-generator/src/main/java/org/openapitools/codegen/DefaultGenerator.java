@@ -892,7 +892,7 @@ public class DefaultGenerator implements Generator {
 
             sb.append(System.lineSeparator());
 
-            LOGGER.debug(sb.toString());
+            LOGGER.error(sb.toString());
         } else {
             // This exists here rather than in the method which generates supporting files to avoid accidentally adding files after this metadata.
             if (generateSupportingFiles) {
