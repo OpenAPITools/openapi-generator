@@ -932,7 +932,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
             // Mark the last readonly false property
             if(this.discardReadOnly && lastWritableProperty != null) {
-                lastWritableProperty.vendorExtensions.put("x-lastWritable", true);
+                lastWritableProperty.vendorExtensions.put("x-powershell-last-writable", true);
                 model.allVars.set(model.allVars.indexOf(lastWritableProperty), lastWritableProperty);
             }
 

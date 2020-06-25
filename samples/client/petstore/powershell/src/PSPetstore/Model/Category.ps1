@@ -39,12 +39,12 @@ function Initialize-PSCategory {
         'Creating PSCustomObject: PSPetstore => PSCategory' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-		
-		$PSO = [PSCustomObject]@{
+
+        $PSO = [PSCustomObject]@{
             "id" = ${Id}
             "name" = ${Name}
         }
-	
+
 
         return $PSO
     }

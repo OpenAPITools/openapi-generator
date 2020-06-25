@@ -38,12 +38,12 @@ function Initialize-PSInlineObject1 {
         'Creating PSCustomObject: PSPetstore => PSInlineObject1' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-		
-		$PSO = [PSCustomObject]@{
+
+        $PSO = [PSCustomObject]@{
             "additionalMetadata" = ${AdditionalMetadata}
             "file" = ${File}
         }
-	
+
 
         return $PSO
     }

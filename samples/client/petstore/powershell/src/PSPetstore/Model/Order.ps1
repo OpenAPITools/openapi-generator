@@ -59,8 +59,8 @@ function Initialize-PSOrder {
         'Creating PSCustomObject: PSPetstore => PSOrder' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-		
-		$PSO = [PSCustomObject]@{
+
+        $PSO = [PSCustomObject]@{
             "id" = ${Id}
             "petId" = ${PetId}
             "quantity" = ${Quantity}
@@ -68,7 +68,7 @@ function Initialize-PSOrder {
             "status" = ${Status}
             "complete" = ${Complete}
         }
-	
+
 
         return $PSO
     }

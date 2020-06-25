@@ -67,8 +67,8 @@ function Initialize-PSPet {
             throw "invalid value for 'PhotoUrls', 'PhotoUrls' cannot be null."
         }
 
-		
-		$PSO = [PSCustomObject]@{
+
+        $PSO = [PSCustomObject]@{
             "id" = ${Id}
             "category" = ${Category}
             "name" = ${Name}
@@ -76,7 +76,7 @@ function Initialize-PSPet {
             "tags" = ${Tags}
             "status" = ${Status}
         }
-	
+
 
         return $PSO
     }
