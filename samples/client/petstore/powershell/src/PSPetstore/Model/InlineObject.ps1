@@ -38,12 +38,12 @@ function Initialize-PSInlineObject {
         'Creating PSCustomObject: PSPetstore => PSInlineObject' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-		
-		$PSO = [PSCustomObject]@{
+
+        $PSO = [PSCustomObject]@{
             "name" = ${Name}
             "status" = ${Status}
         }
-	
+
 
         return $PSO
     }

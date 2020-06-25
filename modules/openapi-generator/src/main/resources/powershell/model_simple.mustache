@@ -41,7 +41,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{/isEnum}}
         [{{vendorExtensions.x-powershell-data-type}}]
         {{=<% %>=}}
-        ${<%name%>}<%^vendorExtensions.x-lastWritable%>,<%/vendorExtensions.x-lastWritable%>
+        ${<%name%>}<%^vendorExtensions.x-powershell-last-writable%>,<%/vendorExtensions.x-powershell-last-writable%>
         <%={{ }}=%>
     {{/isReadOnly}}
 {{/allVars}}
@@ -118,15 +118,15 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{/minItems}}
         {{/hasValidation}}
         {{/vars}} 
-		
-		$PSO = [PSCustomObject]@{
+
+        $PSO = [PSCustomObject]@{
             {{=<< >>=}}
             <<#allVars>>
             "<<baseName>>" = ${<<name>>}
             <</allVars>>
             <<={{ }}=>>
         }
-	
+
         {{/discardReadOnly}}
         {{#discardReadOnly}}
         {{#vars}}

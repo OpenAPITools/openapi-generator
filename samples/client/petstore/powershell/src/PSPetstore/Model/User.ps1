@@ -69,8 +69,8 @@ function Initialize-PSUser {
         'Creating PSCustomObject: PSPetstore => PSUser' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-		
-		$PSO = [PSCustomObject]@{
+
+        $PSO = [PSCustomObject]@{
             "id" = ${Id}
             "username" = ${Username}
             "firstName" = ${FirstName}
@@ -80,7 +80,7 @@ function Initialize-PSUser {
             "phone" = ${Phone}
             "userStatus" = ${UserStatus}
         }
-	
+
 
         return $PSO
     }

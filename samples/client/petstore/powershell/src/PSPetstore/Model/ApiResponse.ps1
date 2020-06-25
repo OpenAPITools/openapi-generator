@@ -43,13 +43,13 @@ function Initialize-PSApiResponse {
         'Creating PSCustomObject: PSPetstore => PSApiResponse' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
-		
-		$PSO = [PSCustomObject]@{
+
+        $PSO = [PSCustomObject]@{
             "code" = ${Code}
             "type" = ${Type}
             "message" = ${Message}
         }
-	
+
 
         return $PSO
     }
