@@ -9,7 +9,6 @@ require_once __DIR__ . '/FakeHttpClient.php';
 
 class RequestTest extends TestCase
 {
-
     /** @var FakeApi */
     private $api;
     /** @var  FakeHttpClient */
