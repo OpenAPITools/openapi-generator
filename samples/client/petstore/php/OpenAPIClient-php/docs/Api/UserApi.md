@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 ## createUser
 
-> createUser($body)
+> createUser($user)
 
 Create user
 
@@ -35,10 +35,10 @@ $apiInstance = new OpenAPI\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User | Created user object
+$user = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User | Created user object
 
 try {
-    $apiInstance->createUser($body);
+    $apiInstance->createUser($user);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->createUser: ', $e->getMessage(), PHP_EOL;
 }
@@ -50,7 +50,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\OpenAPI\Client\Model\User**](../Model/User.md)| Created user object |
+ **user** | [**\OpenAPI\Client\Model\User**](../Model/User.md)| Created user object |
 
 ### Return type
 
@@ -62,7 +62,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
@@ -72,7 +72,7 @@ No authorization required
 
 ## createUsersWithArrayInput
 
-> createUsersWithArrayInput($body)
+> createUsersWithArrayInput($user)
 
 Creates list of users with given input array
 
@@ -88,10 +88,10 @@ $apiInstance = new OpenAPI\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = array(new \OpenAPI\Client\Model\User()); // \OpenAPI\Client\Model\User[] | List of user object
+$user = array(new \OpenAPI\Client\Model\User()); // \OpenAPI\Client\Model\User[] | List of user object
 
 try {
-    $apiInstance->createUsersWithArrayInput($body);
+    $apiInstance->createUsersWithArrayInput($user);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->createUsersWithArrayInput: ', $e->getMessage(), PHP_EOL;
 }
@@ -103,7 +103,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\OpenAPI\Client\Model\User[]**](../Model/User.md)| List of user object |
+ **user** | [**\OpenAPI\Client\Model\User[]**](../Model/User.md)| List of user object |
 
 ### Return type
 
@@ -115,7 +115,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
@@ -125,7 +125,7 @@ No authorization required
 
 ## createUsersWithListInput
 
-> createUsersWithListInput($body)
+> createUsersWithListInput($user)
 
 Creates list of users with given input array
 
@@ -141,10 +141,10 @@ $apiInstance = new OpenAPI\Client\Api\UserApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = array(new \OpenAPI\Client\Model\User()); // \OpenAPI\Client\Model\User[] | List of user object
+$user = array(new \OpenAPI\Client\Model\User()); // \OpenAPI\Client\Model\User[] | List of user object
 
 try {
-    $apiInstance->createUsersWithListInput($body);
+    $apiInstance->createUsersWithListInput($user);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->createUsersWithListInput: ', $e->getMessage(), PHP_EOL;
 }
@@ -156,7 +156,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\OpenAPI\Client\Model\User[]**](../Model/User.md)| List of user object |
+ **user** | [**\OpenAPI\Client\Model\User[]**](../Model/User.md)| List of user object |
 
 ### Return type
 
@@ -168,7 +168,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
@@ -392,7 +392,7 @@ No authorization required
 
 ## updateUser
 
-> updateUser($username, $body)
+> updateUser($username, $user)
 
 Updated user
 
@@ -411,10 +411,10 @@ $apiInstance = new OpenAPI\Client\Api\UserApi(
     new GuzzleHttp\Client()
 );
 $username = 'username_example'; // string | name that need to be deleted
-$body = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User | Updated user object
+$user = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User | Updated user object
 
 try {
-    $apiInstance->updateUser($username, $body);
+    $apiInstance->updateUser($username, $user);
 } catch (Exception $e) {
     echo 'Exception when calling UserApi->updateUser: ', $e->getMessage(), PHP_EOL;
 }
@@ -427,7 +427,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| name that need to be deleted |
- **body** | [**\OpenAPI\Client\Model\User**](../Model/User.md)| Updated user object |
+ **user** | [**\OpenAPI\Client\Model\User**](../Model/User.md)| Updated user object |
 
 ### Return type
 
@@ -439,7 +439,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)

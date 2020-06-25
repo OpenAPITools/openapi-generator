@@ -50,11 +50,11 @@ public class Order  {
 
   private Date shipDate;
 
-@JsonbTypeSerializer(StatusEnum.Serializer.class)
-@JsonbTypeDeserializer(StatusEnum.Deserializer.class)
-public enum StatusEnum {
+  @JsonbTypeSerializer(StatusEnum.Serializer.class)
+  @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
+  public enum StatusEnum {
 
-PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));	
+    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));	
 
 
     String value;
@@ -90,7 +90,7 @@ PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERE
             generator.write(obj.value);
         }
     }
-}
+  }
 
  /**
    * Order Status
@@ -188,11 +188,8 @@ PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERE
    * @return status
   **/
   @JsonbProperty("status")
-  public String getStatus() {
-    if (status == null) {
-      return null;
-    }
-    return status.value();
+  public StatusEnum getStatus() {
+    return status;
   }
 
   /**

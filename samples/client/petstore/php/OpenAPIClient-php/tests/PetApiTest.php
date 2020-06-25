@@ -5,8 +5,8 @@ namespace OpenAPI\Client;
 use OpenAPI\Client\Api\PetApi;
 use OpenAPI\Client\Model\ApiResponse;
 use OpenAPI\Client\Model\Pet;
-use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Assert;
 
 class PetApiTest extends TestCase
 {

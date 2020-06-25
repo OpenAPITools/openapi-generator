@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | Pointer to **string** |  | [optional] 
-**ClassName** | Pointer to **string** |  | 
+**ClassName** | **string** |  | 
 
 ## Methods
 
