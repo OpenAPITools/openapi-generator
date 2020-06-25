@@ -16,10 +16,8 @@ A category for a pet
 
 .PARAMETER Id
 No description available.
-
 .PARAMETER Name
 No description available.
-
 .OUTPUTS
 
 Category<PSCustomObject>
@@ -41,10 +39,12 @@ function Initialize-PSCategory {
         'Creating PSCustomObject: PSPetstore => PSCategory' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
+
         $PSO = [PSCustomObject]@{
             "id" = ${Id}
             "name" = ${Name}
         }
+
 
         return $PSO
     }
