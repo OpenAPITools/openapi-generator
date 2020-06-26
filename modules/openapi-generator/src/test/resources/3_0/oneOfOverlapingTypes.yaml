@@ -28,6 +28,8 @@ components:
     apple:
       title: apple
       type: object
+      required:
+        - color
       properties:
         kind:
           type: string
