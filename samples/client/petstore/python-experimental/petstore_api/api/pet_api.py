@@ -78,9 +78,9 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -106,7 +106,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
             return self.call_with_http_info(**kwargs)
@@ -120,7 +120,7 @@ class PetApi(object):
                 'endpoint_path': '/pet',
                 'operation_id': 'add_pet',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -197,9 +197,9 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -225,7 +225,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
             return self.call_with_http_info(**kwargs)
@@ -239,7 +239,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/{petId}',
                 'operation_id': 'delete_pet',
                 'http_method': 'DELETE',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -319,9 +319,9 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -347,7 +347,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['status'] = \
                 status
             return self.call_with_http_info(**kwargs)
@@ -361,7 +361,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/findByStatus',
                 'operation_id': 'find_pets_by_status',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -447,9 +447,9 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -475,7 +475,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['tags'] = \
                 tags
             return self.call_with_http_info(**kwargs)
@@ -489,7 +489,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/findByTags',
                 'operation_id': 'find_pets_by_tags',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -568,9 +568,9 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -596,7 +596,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
             return self.call_with_http_info(**kwargs)
@@ -610,7 +610,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/{petId}',
                 'operation_id': 'get_pet_by_id',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -687,9 +687,9 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -715,7 +715,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
             return self.call_with_http_info(**kwargs)
@@ -729,7 +729,7 @@ class PetApi(object):
                 'endpoint_path': '/pet',
                 'operation_id': 'update_pet',
                 'http_method': 'PUT',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -807,9 +807,9 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -835,7 +835,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
             return self.call_with_http_info(**kwargs)
@@ -849,7 +849,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/{petId}',
                 'operation_id': 'update_pet_with_form',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -938,9 +938,9 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -966,7 +966,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
             return self.call_with_http_info(**kwargs)
@@ -980,7 +980,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/{petId}/uploadImage',
                 'operation_id': 'upload_file',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -1077,9 +1077,9 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -1105,7 +1105,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
             kwargs['required_file'] = \
@@ -1121,7 +1121,7 @@ class PetApi(object):
                 'endpoint_path': '/fake/{petId}/uploadImageWithRequiredFile',
                 'operation_id': 'upload_file_with_required_file',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
