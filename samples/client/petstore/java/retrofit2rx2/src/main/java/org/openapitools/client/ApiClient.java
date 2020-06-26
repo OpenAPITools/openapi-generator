@@ -314,7 +314,7 @@ public class ApiClient {
     }
     apiAuthorizations.put(authName, authorization);
     if(okBuilder == null){
-    	throw new Exception("okBuilder is null")
+    	throw new Exception("okBuilder is null");
     }
     okBuilder.addInterceptor(authorization);
     
