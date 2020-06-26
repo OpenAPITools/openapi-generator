@@ -795,10 +795,11 @@ public class ApiClient {
    * @param obj Object
    * @param formParams Form parameters
    * @param contentType Context type
+   * @param isBodyNulalble True if the body is nullable
    * @return String
    * @throws ApiException API exception
    */
-  public String serializeToString(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
+  public String serializeToString(Object obj, Map<String, Object> formParams, String contentType, boolean isBodyNullable) throws ApiException {
     try {
       if (contentType.startsWith("multipart/form-data")) {
         throw new ApiException("multipart/form-data not yet supported for serializeToString (http signature authentication)");
@@ -814,7 +815,11 @@ public class ApiClient {
           return formString.substring(0, formString.length() - 1);
         }
       } else {
-        return json.getMapper().writeValueAsString(obj);
+        if (isBodyNullable) {
+          return obj == null ? "null" : json.getMapper().writeValueAsString(obj);
+        } else {
+          return json.getMapper().writeValueAsString(obj);
+        }
       }
     } catch (Exception ex) {
       throw new ApiException("Failed to perform serializeToString: " + ex.toString());
@@ -998,7 +1003,7 @@ public class ApiClient {
         queryParams,
         allHeaderParams,
         cookieParams,
-        serializeToString(body, formParams, contentType),
+        serializeToString(body, formParams, contentType, isBodyNullable),
         method,
         target.getUri());
 
