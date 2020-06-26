@@ -5863,6 +5863,9 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.description = escapeText(body.getDescription());
         codegenParameter.required = body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
         codegenParameter.isBodyParam = Boolean.TRUE;
+        if (body.getExtensions() != null) {
+            codegenParameter.vendorExtensions.putAll(body.getExtensions());
+        }
 
         String name = null;
         LOGGER.debug("Request body = " + body);
