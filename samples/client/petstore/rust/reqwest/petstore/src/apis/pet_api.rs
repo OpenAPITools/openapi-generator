@@ -144,6 +144,7 @@ pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api
     }
 }
 
+/// Multiple status values can be provided with comma separated strings
 pub fn find_pets_by_status(configuration: &configuration::Configuration, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<FindPetsByStatusError>> {
 
     let client = &configuration.client;
@@ -174,6 +175,7 @@ pub fn find_pets_by_status(configuration: &configuration::Configuration, status:
     }
 }
 
+/// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<FindPetsByTagsError>> {
 
     let client = &configuration.client;
@@ -204,6 +206,7 @@ pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec
     }
 }
 
+/// Returns a single pet
 pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) -> Result<crate::models::Pet, Error<GetPetByIdError>> {
 
     let client = &configuration.client;

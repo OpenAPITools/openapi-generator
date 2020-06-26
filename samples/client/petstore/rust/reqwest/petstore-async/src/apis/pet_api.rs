@@ -280,6 +280,7 @@ pub async fn delete_pet(configuration: &configuration::Configuration, params: De
     }
 }
 
+/// Multiple status values can be provided with comma separated strings
 pub async fn find_pets_by_status(configuration: &configuration::Configuration, params: FindPetsByStatusParams) -> Result<ResponseContent<FindPetsByStatusSuccess>, Error<FindPetsByStatusError>> {
     // unbox the parameters
     let status = params.status;
@@ -315,6 +316,7 @@ pub async fn find_pets_by_status(configuration: &configuration::Configuration, p
     }
 }
 
+/// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
 pub async fn find_pets_by_tags(configuration: &configuration::Configuration, params: FindPetsByTagsParams) -> Result<ResponseContent<FindPetsByTagsSuccess>, Error<FindPetsByTagsError>> {
     // unbox the parameters
     let tags = params.tags;
@@ -350,6 +352,7 @@ pub async fn find_pets_by_tags(configuration: &configuration::Configuration, par
     }
 }
 
+/// Returns a single pet
 pub async fn get_pet_by_id(configuration: &configuration::Configuration, params: GetPetByIdParams) -> Result<ResponseContent<GetPetByIdSuccess>, Error<GetPetByIdError>> {
     // unbox the parameters
     let pet_id = params.pet_id;

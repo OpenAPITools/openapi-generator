@@ -83,6 +83,7 @@ pub enum UpdateUserError {
 }
 
 
+/// This can only be done by the logged in user.
 pub fn create_user(configuration: &configuration::Configuration, body: crate::models::User) -> Result<(), Error<CreateUserError>> {
 
     let client = &configuration.client;
@@ -164,6 +165,7 @@ pub fn create_users_with_list_input(configuration: &configuration::Configuration
     }
 }
 
+/// This can only be done by the logged in user.
 pub fn delete_user(configuration: &configuration::Configuration, username: &str) -> Result<(), Error<DeleteUserError>> {
 
     let client = &configuration.client;
@@ -270,6 +272,7 @@ pub fn logout_user(configuration: &configuration::Configuration, ) -> Result<(),
     }
 }
 
+/// This can only be done by the logged in user.
 pub fn update_user(configuration: &configuration::Configuration, username: &str, body: crate::models::User) -> Result<(), Error<UpdateUserError>> {
 
     let client = &configuration.client;

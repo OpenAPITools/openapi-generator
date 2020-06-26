@@ -194,6 +194,7 @@ pub enum UpdateUserError {
 }
 
 
+/// This can only be done by the logged in user.
 pub async fn create_user(configuration: &configuration::Configuration, params: CreateUserParams) -> Result<ResponseContent<CreateUserSuccess>, Error<CreateUserError>> {
     // unbox the parameters
     let body = params.body;
@@ -290,6 +291,7 @@ pub async fn create_users_with_list_input(configuration: &configuration::Configu
     }
 }
 
+/// This can only be done by the logged in user.
 pub async fn delete_user(configuration: &configuration::Configuration, params: DeleteUserParams) -> Result<ResponseContent<DeleteUserSuccess>, Error<DeleteUserError>> {
     // unbox the parameters
     let username = params.username;
@@ -416,6 +418,7 @@ pub async fn logout_user(configuration: &configuration::Configuration) -> Result
     }
 }
 
+/// This can only be done by the logged in user.
 pub async fn update_user(configuration: &configuration::Configuration, params: UpdateUserParams) -> Result<ResponseContent<UpdateUserSuccess>, Error<UpdateUserError>> {
     // unbox the parameters
     let username = params.username;

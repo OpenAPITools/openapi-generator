@@ -49,6 +49,7 @@ pub enum PlaceOrderError {
 }
 
 
+/// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 pub fn delete_order(configuration: &configuration::Configuration, order_id: &str) -> Result<(), Error<DeleteOrderError>> {
 
     let client = &configuration.client;
@@ -75,6 +76,7 @@ pub fn delete_order(configuration: &configuration::Configuration, order_id: &str
     }
 }
 
+/// Returns a map of status codes to quantities
 pub fn get_inventory(configuration: &configuration::Configuration, ) -> Result<::std::collections::HashMap<String, i32>, Error<GetInventoryError>> {
 
     let client = &configuration.client;
@@ -109,6 +111,7 @@ pub fn get_inventory(configuration: &configuration::Configuration, ) -> Result<:
     }
 }
 
+/// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i64) -> Result<crate::models::Order, Error<GetOrderByIdError>> {
 
     let client = &configuration.client;

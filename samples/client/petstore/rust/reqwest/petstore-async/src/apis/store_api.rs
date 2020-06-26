@@ -101,6 +101,7 @@ pub enum PlaceOrderError {
 }
 
 
+/// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 pub async fn delete_order(configuration: &configuration::Configuration, params: DeleteOrderParams) -> Result<ResponseContent<DeleteOrderSuccess>, Error<DeleteOrderError>> {
     // unbox the parameters
     let order_id = params.order_id;
@@ -132,6 +133,7 @@ pub async fn delete_order(configuration: &configuration::Configuration, params: 
     }
 }
 
+/// Returns a map of status codes to quantities
 pub async fn get_inventory(configuration: &configuration::Configuration) -> Result<ResponseContent<GetInventorySuccess>, Error<GetInventoryError>> {
     // unbox the parameters
 
@@ -170,6 +172,7 @@ pub async fn get_inventory(configuration: &configuration::Configuration) -> Resu
     }
 }
 
+/// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 pub async fn get_order_by_id(configuration: &configuration::Configuration, params: GetOrderByIdParams) -> Result<ResponseContent<GetOrderByIdSuccess>, Error<GetOrderByIdError>> {
     // unbox the parameters
     let order_id = params.order_id;
