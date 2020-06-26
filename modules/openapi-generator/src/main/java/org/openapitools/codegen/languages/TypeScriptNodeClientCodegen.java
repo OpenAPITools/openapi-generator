@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Function;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -158,11 +159,13 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public String toModelImport(String name) {
-        if (importMapping.containsKey(name)) {
-            return importMapping.get(name);
-        }
-
-        return modelPackage() + "/" + camelize(toModelName(name), true);
+        Function<String,String> toModelImportNode = s -> {
+            if (importMapping.containsKey(s)) {
+                return importMapping.get(s);
+            }
+            return modelPackage() + "/" + camelize(toModelName(s), true);
+        };
+        return toModelImportForUnionTypes(name,toModelImportNode);
     }
 
     @Override
@@ -197,6 +200,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
+        operations = super.postProcessOperationsWithModels(operations, allModels);
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
 
         // The api.mustache template requires all of the auth methods for the whole api

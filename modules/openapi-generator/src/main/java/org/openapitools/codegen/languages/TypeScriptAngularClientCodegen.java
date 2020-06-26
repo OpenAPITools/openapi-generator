@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -176,7 +177,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
         }
-        
+
         if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
             this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
         }
@@ -194,7 +195,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             ));
         }
 
-        if (ngVersion.atLeast("9.0.0")) {                
+        if (ngVersion.atLeast("9.0.0")) {
             additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, true);
         } else {
             additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, false);
@@ -333,7 +334,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public boolean isDataTypeFile(final String dataType) {
         return dataType != null && dataType.equals("Blob");
     }
- 
+
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isFileSchema(p)) {
@@ -359,6 +360,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
+        operations =  super.postProcessOperationsWithModels(operations, allModels);
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
 
         // Add filename information for api imports
@@ -546,10 +548,13 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toModelImport(String name) {
-        if (importMapping.containsKey(name)) {
-            return importMapping.get(name);
-        }
-        return modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
+        Function<String,String> toModelImportAngular = (s) -> {
+            if (importMapping.containsKey(s)) {
+                return importMapping.get(s);
+            }
+            return modelPackage() + "/" + toModelFilename(s).substring(DEFAULT_IMPORT_PREFIX.length());
+        };
+        return toModelImportForUnionTypes(name,toModelImportAngular);
     }
 
     public String getNpmRepository() {

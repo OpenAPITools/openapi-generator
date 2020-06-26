@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -26,7 +28,6 @@ import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
-import org.openapitools.codegen.utils.ModelUtils;
 
 import java.util.*;
 
@@ -146,6 +147,11 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
                 .filter(op -> op.consumes.stream().anyMatch(opc -> opc.values().stream().anyMatch("multipart/form-data"::equals)))
                 .forEach(op -> op.vendorExtensions.putIfAbsent("multipartFormData", true));
         return objs;
+    }
+
+    @Override
+    public String toModelImport(final String name) {
+        return toModelImportForUnionTypes(name,super::toModelImport);
     }
 
     @Override
