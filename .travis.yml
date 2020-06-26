@@ -121,7 +121,7 @@ before_install:
     fi;
   - pushd .; cd website; yarn install; popd
   # install Deno
-  - curl -fsSL https://deno.land/x/install/install.sh | sh -s v1.1.1
+  - curl -fsSL https://deno.land/x/install/install.sh | sh -s v1.1.2
   - export PATH="$HOME/.deno/bin:$PATH"
 
 install:
