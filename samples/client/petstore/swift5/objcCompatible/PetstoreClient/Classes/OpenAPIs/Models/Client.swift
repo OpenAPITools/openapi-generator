@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Client: Codable {
+@objc public class Client: NSObject, Codable {
 
     public var client: String?
 

@@ -1,0 +1,161 @@
+// typings for btoa are incorrect
+{{#platforms}}
+{{#node}}
+//@ts-ignore
+import * as btoa from "btoa";
+{{/node}}
+{{/platforms}}
+import { RequestContext } from "../http/http";
+{{#useInversify}}
+import { injectable, inject, named } from "inversify";
+import { AbstractTokenProvider } from "../services/configuration";
+{{/useInversify}}
+
+/**
+ * Interface authentication schemes.
+ */
+export interface SecurityAuthentication {
+    /*
+     * @return returns the name of the security authentication as specified in OAI
+     */
+    getName(): string;
+
+    /**
+     * Applies the authentication scheme to the request context
+     *
+     * @params context the request context which should use this authentication scheme
+     */
+    applySecurityAuthentication(context: RequestContext): void | Promise<void>;
+}
+
+{{#useInversify}}
+export const AuthApiKey = Symbol("auth.api_key");
+export const AuthUsername = Symbol("auth.username");
+export const AuthPassword = Symbol("auth.password");
+
+{{/useInversify}}
+export interface TokenProvider {
+  getToken(): Promise<string> | string;
+}
+
+{{#authMethods}}
+/**
+ * Applies {{type}} authentication to the request context.
+ */
+{{#useInversify}}
+@injectable()
+{{/useInversify}}
+export class {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication implements SecurityAuthentication {
+    {{#isApiKey}}
+    /**
+     * Configures this api key authentication with the necessary properties
+     *
+     * @param apiKey: The api key to be used for every request
+     */
+    public constructor({{#useInversify}}@inject(AuthApiKey) @named("{{name}}") {{/useInversify}}private apiKey: string) {}
+    {{/isApiKey}}
+    {{#isBasicBasic}}
+    /**
+     * Configures the http authentication with the required details.
+     *
+     * @param username username for http basic authentication
+     * @param password password for http basic authentication
+     */
+    public constructor(
+        {{#useInversify}}@inject(AuthUsername) @named("{{name}}") {{/useInversify}}private username: string,
+        {{#useInversify}}@inject(AuthPassword) @named("{{name}}") {{/useInversify}}private password: string
+    ) {}
+    {{/isBasicBasic}}
+    {{#isBasicBearer}}
+    /**
+     * Configures the http authentication with the required details.
+     *
+     * @param tokenProvider service that can provide the up-to-date token when needed
+     */
+    public constructor({{#useInversify}}@inject(AbstractTokenProvider) @named("{{name}}") {{/useInversify}}private tokenProvider: TokenProvider) {}
+    {{/isBasicBearer}}
+    {{#isOAuth}}
+    // TODO: How to handle oauth2 authentication!
+    public constructor() {}
+    {{/isOAuth}}
+
+    public getName(): string {
+        return "{{name}}";
+    }
+
+    public {{#isBasicBearer}}async {{/isBasicBearer}}applySecurityAuthentication(context: RequestContext) {
+        {{#isApiKey}}
+        context.{{#isKeyInHeader}}setHeaderParam{{/isKeyInHeader}}{{#isKeyInQuery}}addCookie{{/isKeyInQuery}}{{#isKeyInCookie}}setQueryParam{{/isKeyInCookie}}("{{keyParamName}}", this.apiKey);
+        {{/isApiKey}}
+        {{#isBasicBasic}}
+        let comb = this.username + ":" + this.password;
+        context.setHeaderParam("Authorization", "Basic " + btoa(comb));
+        {{/isBasicBasic}}
+        {{#isBasicBearer}}
+        context.setHeaderParam("Authorization", "Bearer " + await this.tokenProvider.getToken());
+        {{/isBasicBearer}}
+        {{#isOAuth}}
+        // TODO
+        {{/isOAuth}}
+    }
+}
+
+{{/authMethods}}
+
+export type AuthMethods = {
+    {{#authMethods}}
+    "{{name}}"?: SecurityAuthentication{{#hasMore}},{{/hasMore}}
+    {{/authMethods}}
+}
+{{#useInversify}}
+
+export const authMethodServices = {
+    {{#authMethods}}
+    "{{name}}": {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication{{#hasMore}},{{/hasMore}}
+    {{/authMethods}}
+}
+{{/useInversify}}
+
+export type ApiKeyConfiguration = string;
+export type HttpBasicConfiguration = { "username": string, "password": string };
+export type HttpBearerConfiguration = { tokenProvider: TokenProvider };
+export type OAuth2Configuration = string;
+
+export type AuthMethodsConfiguration = {
+    {{#authMethods}}
+    "{{name}}"?: {{#isApiKey}}ApiKeyConfiguration{{/isApiKey}}{{#isBasicBasic}}HttpBasicConfiguration{{/isBasicBasic}}{{#isBasicBearer}}HttpBearerConfiguration{{/isBasicBearer}}{{#isOAuth}}OAuth2Configuration{{/isOAuth}}{{#hasMore}},{{/hasMore}}
+    {{/authMethods}}
+}
+
+/**
+ * Creates the authentication methods from a swagger description.
+ *
+ */
+export function configureAuthMethods(config: AuthMethodsConfiguration | undefined): AuthMethods {
+    let authMethods: AuthMethods = {}
+
+    if (!config) {
+        return authMethods;
+    }
+
+    {{#authMethods}}
+    if (config["{{name}}"]) {
+        authMethods["{{name}}"] = new {{#lambda.pascalcase}}{{name}}{{/lambda.pascalcase}}Authentication(
+            {{#isApiKey}}
+            config["{{name}}"]
+            {{/isApiKey}}
+            {{#isBasicBasic}}
+            config["{{name}}"]["username"],
+            config["{{name}}"]["password"]
+            {{/isBasicBasic}}
+            {{#isBasicBearer}}
+            config["{{name}}"]["tokenProvider"]
+            {{/isBasicBearer}}
+            {{#isOAuth}}
+            {{/isOAuth}}
+        );
+    }
+
+    {{/authMethods}}
+    return authMethods;
+}

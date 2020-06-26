@@ -29,11 +29,14 @@ import java.util.Map;
 import java.util.UUID;
 import org.openapitools.client.model.Animal;
 import org.threeten.bp.OffsetDateTime;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class MixedPropertiesAndAdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_UUID = "uuid";
   @SerializedName(SERIALIZED_NAME_UUID)
@@ -59,6 +62,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return uuid
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public UUID getUuid() {
@@ -82,6 +86,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return dateTime
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public OffsetDateTime getDateTime() {
@@ -113,6 +118,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
    * @return map
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public Map<String, Animal> getMap() {

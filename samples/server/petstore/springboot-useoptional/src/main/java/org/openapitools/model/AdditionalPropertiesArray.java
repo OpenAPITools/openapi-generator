@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 /**
  * AdditionalPropertiesArray
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesArray extends HashMap<String, List>  {
   @JsonProperty("name")
   private String name;

@@ -7,9 +7,14 @@
 
 import Foundation
 
-public struct User: Codable {
+@objc public class User: NSObject, Codable {
 
     public var _id: Int64?
+    public var _idNum: NSNumber? {
+        get {
+            return _id as NSNumber?
+        }
+    }
     public var username: String?
     public var firstName: String?
     public var lastName: String?
@@ -18,6 +23,11 @@ public struct User: Codable {
     public var phone: String?
     /** User Status */
     public var userStatus: Int?
+    public var userStatusNum: NSNumber? {
+        get {
+            return userStatus as NSNumber?
+        }
+    }
 
     public init(_id: Int64?, username: String?, firstName: String?, lastName: String?, email: String?, password: String?, phone: String?, userStatus: Int?) {
         self._id = _id

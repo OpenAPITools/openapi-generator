@@ -10,7 +10,7 @@ import javax.validation.constraints.*;
 /**
  * Cat
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Cat extends Animal  {
   @JsonProperty("declawed")

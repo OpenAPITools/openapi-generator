@@ -4,13 +4,13 @@ import model.ApiResponse
 import model.Pet
 import play.api.libs.Files.TemporaryFile
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2020-01-04T23:10:22.106-05:00[America/New_York]")
+
 trait PetApi {
   /**
     * Add a new pet to the store
-    * @param body Pet object that needs to be added to the store
+    * @param pet Pet object that needs to be added to the store
     */
-  def addPet(body: Pet): Unit
+  def addPet(pet: Pet): Pet
 
   /**
     * Deletes a pet
@@ -41,9 +41,9 @@ trait PetApi {
 
   /**
     * Update an existing pet
-    * @param body Pet object that needs to be added to the store
+    * @param pet Pet object that needs to be added to the store
     */
-  def updatePet(body: Pet): Unit
+  def updatePet(pet: Pet): Pet
 
   /**
     * Updates a pet in the store with form data

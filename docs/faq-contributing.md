@@ -45,9 +45,9 @@ Please refer to http://rypress.com/tutorials/git/rebasing, or follow the steps b
 
 (To setup `upstream` pointing to the official repo, please run `git remote add upstream  https://github.com/openapitools/openapi-generator.git`)
 
-## How can I update commits that are not linked to my Github account?
+## How can I update commits that are not linked to my GitHub account?
 
-Please refer to https://stackoverflow.com/questions/3042437/how-to-change-the-commit-author-for-one-specific-commit or you can simply add the email address in the commit as your secondary email address in your Github account.
+Please refer to https://stackoverflow.com/questions/3042437/how-to-change-the-commit-author-for-one-specific-commit or you can simply add the email address in the commit as your secondary email address in your GitHub account.
 
 ## Any useful git tips to share?
 

@@ -46,7 +46,7 @@ const docusaurusConfig = {
       },
 
       links: [
-        {to: 'docs/installation', label: 'Install'},
+        {to: 'docs/installation', label: 'Getting Started'},
         {to: 'docs/generators', label: 'Generators'},
         {to: 'docs/roadmap', label: 'Roadmap'},
         {to: "docs/faq", label: "FAQ" },
@@ -60,11 +60,11 @@ const docusaurusConfig = {
       trackingID: 'UA-132927057-1',
     },
 
-    // algolia: {
-    //   apiKey: '47ecd3b21be71c5822571b9f59e52544',
-    //   indexName: 'docusaurus-2',
-    //   algoliaOptions: { ... },
-    // },
+    algolia: {
+      apiKey: '28e55aff9bab37236baa1c5f0f84f4bb',
+      indexName: 'openapi-generator',
+      algoliaOptions: { advancedSyntax: true, hitsPerPage: 5},
+    },
 
 
     footer: {

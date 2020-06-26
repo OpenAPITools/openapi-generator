@@ -1,0 +1,45 @@
+{{>licenseInfo}}
+package {{package}}
+
+{{#imports}}
+import {{import}}
+{{/imports}}
+import {{invokerPackage}}._
+import alias._
+import sttp.client._
+import sttp.model.Method
+
+{{#operations}}
+object {{classname}} {
+
+  def apply(baseUrl: String = "{{{basePath}}}")(implicit serializer: SttpSerializer) = new {{classname}}(baseUrl)
+}
+
+class {{classname}}(baseUrl: String)(implicit serializer: SttpSerializer) {
+
+  import Helpers._
+  import serializer._
+
+{{#operation}}
+{{#javadocRenderer}}
+{{>javadoc}}
+{{/javadocRenderer}}
+  def {{operationId}}({{>methodParameters}}): ApiRequestT[{{>operationReturnType}}] =
+    basicRequest
+      .method(Method.{{httpMethod.toUpperCase}}, uri"$baseUrl{{{path}}}{{#queryParams.0}}?{{#queryParams}}{{baseName}}=${{{paramName}}}{{^-last}}&{{/-last}}{{/queryParams}}{{/queryParams.0}}{{#isApiKey}}{{#isKeyInQuery}}{{^queryParams.0}}?{{/queryParams.0}}{{#queryParams.0}}&{{/queryParams.0}}{{keyParamName}}=${apiKey.value}&{{/isKeyInQuery}}{{/isApiKey}}")
+      .contentType({{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}}){{#headerParams}}
+      .header({{>paramCreation}}){{/headerParams}}{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+      .auth.withCredentials(basicAuth.user, basicAuth.password){{/isBasicBasic}}{{#isBasicBearer}}
+      .auth.bearer(bearerToken.token){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}{{#isKeyInHeader}}
+      .header("{{keyParamName}}", apiKey.value){{/isKeyInHeader}}{{#isKeyInCookie}}
+      .cookie("{{keyParamName}}", apiKey.value){{/isKeyInCookie}}{{/isApiKey}}{{/authMethods}}{{#formParams.0}}
+      .body(Map({{#formParams}}
+        {{>paramFormCreation}},{{/formParams}}
+      )){{/formParams.0}}{{#bodyParam}}
+      .body({{paramName}}){{/bodyParam}}
+      .response(asJson[{{>operationReturnType}}])
+
+{{/operation}}
+}
+
+{{/operations}}

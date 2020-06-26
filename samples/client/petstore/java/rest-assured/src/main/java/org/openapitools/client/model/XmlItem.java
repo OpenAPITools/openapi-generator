@@ -26,11 +26,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * XmlItem
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class XmlItem {
   public static final String SERIALIZED_NAME_ATTRIBUTE_STRING = "attribute_string";
   @SerializedName(SERIALIZED_NAME_ATTRIBUTE_STRING)
@@ -183,6 +186,7 @@ public class XmlItem {
    * @return attributeNumber
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(example = "1.234", value = "")
 
   public BigDecimal getAttributeNumber() {
@@ -306,6 +310,7 @@ public class XmlItem {
    * @return nameNumber
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(example = "1.234", value = "")
 
   public BigDecimal getNameNumber() {
@@ -460,6 +465,7 @@ public class XmlItem {
    * @return prefixNumber
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(example = "1.234", value = "")
 
   public BigDecimal getPrefixNumber() {
@@ -614,6 +620,7 @@ public class XmlItem {
    * @return namespaceNumber
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(example = "1.234", value = "")
 
   public BigDecimal getNamespaceNumber() {
@@ -768,6 +775,7 @@ public class XmlItem {
    * @return prefixNsNumber
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(example = "1.234", value = "")
 
   public BigDecimal getPrefixNsNumber() {

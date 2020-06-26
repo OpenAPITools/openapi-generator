@@ -92,7 +92,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/tags.yaml");
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/tags.yaml");
         ((JavaJerseyServerCodegen) codegen).setUseTags(false);
         codegen.setOutputDir(output.getAbsolutePath());
 
@@ -169,7 +169,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         File output = Files.createTempDirectory("test").toFile();
         output.deleteOnExit();
 
-        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/tags.yaml");
+        OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/tags.yaml");
         ((JavaJerseyServerCodegen) codegen).setUseTags(true);
         codegen.setOutputDir(output.getAbsolutePath());
 

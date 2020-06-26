@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class UserAPI {
+@objc open class UserAPI: NSObject {
     /**
      Create user
      

@@ -7,14 +7,39 @@
 
 import Foundation
 
-public struct FormatTest: Codable {
+@objc public class FormatTest: NSObject, Codable {
 
     public var integer: Int?
+    public var integerNum: NSNumber? {
+        get {
+            return integer as NSNumber?
+        }
+    }
     public var int32: Int?
+    public var int32Num: NSNumber? {
+        get {
+            return int32 as NSNumber?
+        }
+    }
     public var int64: Int64?
+    public var int64Num: NSNumber? {
+        get {
+            return int64 as NSNumber?
+        }
+    }
     public var number: Double
     public var float: Float?
+    public var floatNum: NSNumber? {
+        get {
+            return float as NSNumber?
+        }
+    }
     public var double: Double?
+    public var doubleNum: NSNumber? {
+        get {
+            return double as NSNumber?
+        }
+    }
     public var string: String?
     public var byte: Data
     public var binary: URL?

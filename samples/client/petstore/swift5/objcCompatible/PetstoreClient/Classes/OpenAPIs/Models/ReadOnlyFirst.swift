@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ReadOnlyFirst: Codable {
+@objc public class ReadOnlyFirst: NSObject, Codable {
 
     public var bar: String?
     public var baz: String?

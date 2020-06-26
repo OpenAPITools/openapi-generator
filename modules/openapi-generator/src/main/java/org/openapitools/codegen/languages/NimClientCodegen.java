@@ -56,7 +56,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
     public NimClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -76,7 +76,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
                         ClientModificationFeature.BasePath,
                         ClientModificationFeature.UserAgent
                 )
-                .build();
+        );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
@@ -278,7 +278,7 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
             return "seq[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             if (inner == null) {
                 inner = new StringSchema();
             }

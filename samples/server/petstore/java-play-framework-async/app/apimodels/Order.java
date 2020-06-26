@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 /**
  * An order for a pets from the pet store
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Order   {
   @JsonProperty("id")

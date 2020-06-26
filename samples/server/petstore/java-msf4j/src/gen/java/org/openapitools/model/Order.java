@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Order
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class Order   {
   @JsonProperty("id")
   private Long id;

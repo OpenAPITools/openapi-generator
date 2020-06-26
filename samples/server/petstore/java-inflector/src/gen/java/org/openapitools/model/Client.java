@@ -10,10 +10,10 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class Client   {
   @JsonProperty("client")
-  private String client = null;
+  private String client;
 
   /**
    **/

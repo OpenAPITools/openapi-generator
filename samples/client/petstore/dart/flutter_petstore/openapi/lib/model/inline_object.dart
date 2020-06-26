@@ -2,9 +2,9 @@ part of openapi.api;
 
 class InlineObject {
   /* Updated name of the pet */
-    String name = null;
+  String name = null;
   /* Updated status of the pet */
-    String status = null;
+  String status = null;
   InlineObject();
 
   @override
@@ -14,27 +14,33 @@ class InlineObject {
 
   InlineObject.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    name = json['name'];
-    status = json['status'];
+    if (json['name'] == null) {
+      name = null;
+    } else {
+      name = json['name'];
+    }
+    if (json['status'] == null) {
+      status = null;
+    } else {
+      status = json['status'];
+    }
   }
 
   Map<String, dynamic> toJson() {
-    Map <String, dynamic> json = {};
-    if (name != null)
-      json['name'] = name;
-    if (status != null)
-      json['status'] = status;
-    return json;
+    return {
+      'name': name,
+      'status': status
+    };
   }
 
   static List<InlineObject> listFromJson(List<dynamic> json) {
-    return json == null ? List<InlineObject>() : json.map((value) => InlineObject.fromJson(value)).toList();
+    return json == null ? new List<InlineObject>() : json.map((value) => new InlineObject.fromJson(value)).toList();
   }
 
-  static Map<String, InlineObject> mapFromJson(Map<String, dynamic> json) {
-    var map = Map<String, InlineObject>();
-    if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic value) => map[key] = InlineObject.fromJson(value));
+  static Map<String, InlineObject> mapFromJson(Map<String, Map<String, dynamic>> json) {
+    var map = new Map<String, InlineObject>();
+    if (json != null && json.length > 0) {
+      json.forEach((String key, Map<String, dynamic> value) => map[key] = new InlineObject.fromJson(value));
     }
     return map;
   }

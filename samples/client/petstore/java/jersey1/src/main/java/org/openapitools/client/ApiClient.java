@@ -55,11 +55,10 @@ import java.text.DateFormat;
 
 import org.openapitools.client.auth.Authentication;
 import org.openapitools.client.auth.HttpBasicAuth;
-import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private Map<String, String> defaultCookieMap = new HashMap<String, String>();
@@ -240,6 +239,7 @@ public class ApiClient {
     return authentications.get(authName);
   }
 
+
   /**
    * Helper method to set username for the first HTTP basic authentication.
    * @param username Username
@@ -267,6 +267,7 @@ public class ApiClient {
     }
     throw new RuntimeException("No HTTP basic authentication configured!");
   }
+
 
   /**
    * Helper method to set API key value for the first API key authentication.
@@ -296,6 +297,7 @@ public class ApiClient {
     throw new RuntimeException("No API key authentication configured!");
   }
 
+
   /**
    * Helper method to set access token for the first OAuth2 authentication.
    * @param accessToken Access token
@@ -310,20 +312,6 @@ public class ApiClient {
     throw new RuntimeException("No OAuth2 authentication configured!");
   }
 
-
-  /**
-   * Helper method to set access token for the first Bearer authentication.
-   * @param bearerToken Bearer token
-   */
-  public void setBearerToken(String bearerToken) {
-    for (Authentication auth : authentications.values()) {
-      if (auth instanceof HttpBearerAuth) {
-        ((HttpBearerAuth) auth).setBearerToken(bearerToken);
-        return;
-      }
-    }
-    throw new RuntimeException("No Bearer authentication configured!");
-  }
 
   /**
    * Set the User-Agent header's value (by adding to the default header map).

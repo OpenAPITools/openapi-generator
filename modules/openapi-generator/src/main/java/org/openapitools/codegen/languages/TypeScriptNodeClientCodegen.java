@@ -64,6 +64,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         modelPackage = "model";
         apiPackage = "api";
 
+        supportModelPropertyNaming(CodegenConstants.MODEL_PROPERTY_NAMING_TYPE.camelCase);
         this.cliOptions.add(new CliOption(NPM_REPOSITORY, "Use this property to set an url your private npmRepo in the package.json"));
 
     }
@@ -315,7 +316,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
 @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
-        Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+        Schema additionalProperties = getAdditionalProperties(schema);
         codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
         if ("array".equalsIgnoreCase(codegenModel.additionalPropertiesType)) {
             codegenModel.additionalPropertiesType += '<' + getSchemaType(((ArraySchema) additionalProperties).getItems()) + '>';

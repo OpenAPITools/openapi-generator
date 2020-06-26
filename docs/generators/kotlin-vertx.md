@@ -14,7 +14,7 @@ sidebar_label: kotlin-vertx
 |packageName|Generated artifact package name.| |org.openapitools|
 |parcelizeModels|toggle &quot;@Parcelize&quot; for generated models| |null|
 |serializableModel|boolean - toggle &quot;implements Serializable&quot; for generated models| |null|
-|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson'| |moshi|
+|serializationLibrary|What serialization library to use: 'moshi' (default), or 'gson' or 'jackson'| |moshi|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |null|
 |sourceFolder|source folder for generated code| |src/main/kotlin|
@@ -39,9 +39,9 @@ sidebar_label: kotlin-vertx
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
-|array|kotlin.arrayOf|
-|list|kotlin.arrayOf|
-|map|kotlin.mapOf|
+|array|kotlin.Array|
+|list|kotlin.collections.ArrayList|
+|map|kotlin.collections.HashMap|
 
 
 ## LANGUAGE PRIMITIVES

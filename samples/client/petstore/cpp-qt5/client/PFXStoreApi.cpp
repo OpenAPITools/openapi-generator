@@ -23,6 +23,7 @@ PFXStoreApi::PFXStoreApi(const QString &scheme, const QString &host, int port, c
       _port(port),
       _basePath(basePath),
       _timeOut(timeOut),
+      _manager(nullptr),
       isResponseCompressionEnabled(false),
       isRequestCompressionEnabled(false) {}
 
@@ -53,6 +54,10 @@ void PFXStoreApi::setWorkingDirectory(const QString &path) {
     _workingDirectory = path;
 }
 
+void PFXStoreApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
+    _manager = manager;  
+}
+
 void PFXStoreApi::addHeaders(const QString &key, const QString &value) {
     defaultHeaders.insert(key, value);
 }
@@ -80,7 +85,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     order_idPathParam.append("orderId").append("}");
     fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "DELETE");
@@ -122,7 +127,7 @@ void PFXStoreApi::getInventory() {
                            .arg(_basePath)
                            .arg("/store/inventory");
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "GET");
@@ -177,7 +182,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     order_idPathParam.append("orderId").append("}");
     fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "GET");
@@ -220,7 +225,7 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
                            .arg(_basePath)
                            .arg("/store/order");
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");

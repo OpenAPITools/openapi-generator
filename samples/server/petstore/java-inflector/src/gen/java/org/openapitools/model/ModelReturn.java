@@ -13,10 +13,10 @@ import io.swagger.annotations.ApiModelProperty;
  **/
 
 @ApiModel(description = "Model for testing reserved words")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class ModelReturn   {
   @JsonProperty("return")
-  private Integer _return = null;
+  private Integer _return;
 
   /**
    **/

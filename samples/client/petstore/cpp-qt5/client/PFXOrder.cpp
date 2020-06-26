@@ -118,12 +118,28 @@ void PFXOrder::setId(const qint64 &id) {
     this->m_id_isSet = true;
 }
 
+bool PFXOrder::is_id_Set() const{
+    return m_id_isSet;
+}
+
+bool PFXOrder::is_id_Valid() const{
+    return m_id_isValid;
+}
+
 qint64 PFXOrder::getPetId() const {
     return pet_id;
 }
 void PFXOrder::setPetId(const qint64 &pet_id) {
     this->pet_id = pet_id;
     this->m_pet_id_isSet = true;
+}
+
+bool PFXOrder::is_pet_id_Set() const{
+    return m_pet_id_isSet;
+}
+
+bool PFXOrder::is_pet_id_Valid() const{
+    return m_pet_id_isValid;
 }
 
 qint32 PFXOrder::getQuantity() const {
@@ -134,12 +150,28 @@ void PFXOrder::setQuantity(const qint32 &quantity) {
     this->m_quantity_isSet = true;
 }
 
+bool PFXOrder::is_quantity_Set() const{
+    return m_quantity_isSet;
+}
+
+bool PFXOrder::is_quantity_Valid() const{
+    return m_quantity_isValid;
+}
+
 QDateTime PFXOrder::getShipDate() const {
     return ship_date;
 }
 void PFXOrder::setShipDate(const QDateTime &ship_date) {
     this->ship_date = ship_date;
     this->m_ship_date_isSet = true;
+}
+
+bool PFXOrder::is_ship_date_Set() const{
+    return m_ship_date_isSet;
+}
+
+bool PFXOrder::is_ship_date_Valid() const{
+    return m_ship_date_isValid;
 }
 
 QString PFXOrder::getStatus() const {
@@ -150,12 +182,28 @@ void PFXOrder::setStatus(const QString &status) {
     this->m_status_isSet = true;
 }
 
+bool PFXOrder::is_status_Set() const{
+    return m_status_isSet;
+}
+
+bool PFXOrder::is_status_Valid() const{
+    return m_status_isValid;
+}
+
 bool PFXOrder::isComplete() const {
     return complete;
 }
 void PFXOrder::setComplete(const bool &complete) {
     this->complete = complete;
     this->m_complete_isSet = true;
+}
+
+bool PFXOrder::is_complete_Set() const{
+    return m_complete_isSet;
+}
+
+bool PFXOrder::is_complete_Valid() const{
+    return m_complete_isValid;
 }
 
 bool PFXOrder::isSet() const {
