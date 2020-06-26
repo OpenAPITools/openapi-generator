@@ -43,6 +43,8 @@ components:
     banana:
       title: banana
       type: object
+      required:
+        - color
       properties:
         count:
           type: number
