@@ -78,9 +78,9 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -106,7 +106,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
             return self.call_with_http_info(**kwargs)
@@ -118,7 +118,7 @@ class UserApi(object):
                 'endpoint_path': '/user',
                 'operation_id': 'create_user',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -191,9 +191,9 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -219,7 +219,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
             return self.call_with_http_info(**kwargs)
@@ -231,7 +231,7 @@ class UserApi(object):
                 'endpoint_path': '/user/createWithArray',
                 'operation_id': 'create_users_with_array_input',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -304,9 +304,9 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -332,7 +332,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
             return self.call_with_http_info(**kwargs)
@@ -344,7 +344,7 @@ class UserApi(object):
                 'endpoint_path': '/user/createWithList',
                 'operation_id': 'create_users_with_list_input',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -418,9 +418,9 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -446,7 +446,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['username'] = \
                 username
             return self.call_with_http_info(**kwargs)
@@ -458,7 +458,7 @@ class UserApi(object):
                 'endpoint_path': '/user/{username}',
                 'operation_id': 'delete_user',
                 'http_method': 'DELETE',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -532,9 +532,9 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -560,7 +560,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['username'] = \
                 username
             return self.call_with_http_info(**kwargs)
@@ -572,7 +572,7 @@ class UserApi(object):
                 'endpoint_path': '/user/{username}',
                 'operation_id': 'get_user_by_name',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -651,9 +651,9 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -679,7 +679,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['username'] = \
                 username
             kwargs['password'] = \
@@ -693,7 +693,7 @@ class UserApi(object):
                 'endpoint_path': '/user/login',
                 'operation_id': 'login_user',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -773,9 +773,9 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -801,7 +801,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
         self.logout_user = Endpoint(
@@ -811,7 +811,7 @@ class UserApi(object):
                 'endpoint_path': '/user/logout',
                 'operation_id': 'logout_user',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -881,9 +881,9 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -909,7 +909,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['username'] = \
                 username
             kwargs['body'] = \
@@ -923,7 +923,7 @@ class UserApi(object):
                 'endpoint_path': '/user/{username}',
                 'operation_id': 'update_user',
                 'http_method': 'PUT',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [

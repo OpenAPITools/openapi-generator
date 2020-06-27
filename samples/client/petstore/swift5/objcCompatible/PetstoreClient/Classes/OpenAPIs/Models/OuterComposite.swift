@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-
-@objc public class OuterComposite: NSObject, Codable { 
+@objc public class OuterComposite: NSObject, Codable {
 
     public var myNumber: Double?
     public var myString: String?
@@ -26,7 +24,7 @@ import Foundation
         self.myBoolean = myBoolean
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable { 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case myNumber = "my_number"
         case myString = "my_string"
         case myBoolean = "my_boolean"

@@ -29,6 +29,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.languages.DartClientCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -508,6 +509,34 @@ public class JavaClientCodegenTest {
     }
 
     @Test
+    public void testAuthorizationScopeValues_Issue6733() throws IOException {
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTEASY)
+                .setValidateSpec(false)
+                .setInputSpec("src/test/resources/3_0/regression-6734.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+        // tests if NPE will crash generation when path in yaml arent provided
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 1);
+        files.forEach(File::deleteOnExit);
+    }
+
+    @Test
     public void testAuthorizationsHasMoreWhenFiltered() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue4584.yaml");
 
@@ -574,6 +603,7 @@ public class JavaClientCodegenTest {
         importMappings.put("TypeAlias", "foo.bar.TypeAlias");
 
         File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
                 .setGeneratorName("java")
@@ -594,6 +624,7 @@ public class JavaClientCodegenTest {
         generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
         generator.setGenerateMetadata(false);
         List<File> files = generator.opts(clientOptInput).generate();
+        files.forEach(File::deleteOnExit);
 
         Assert.assertEquals(files.size(), 1);
         TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/ParentType.java");

@@ -74,9 +74,9 @@ class DefaultApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -102,7 +102,7 @@ class DefaultApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
         self.foo_get = Endpoint(
@@ -112,7 +112,7 @@ class DefaultApi(object):
                 'endpoint_path': '/foo',
                 'operation_id': 'foo_get',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
