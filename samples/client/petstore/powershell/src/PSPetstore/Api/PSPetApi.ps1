@@ -73,7 +73,7 @@ function Add-PSPet {
             throw "Error! The required parameter `Pet` missing when calling addPet."
         }
 
-        $LocalVarBodyParameter = $Pet | ConvertTo-Json
+        $LocalVarBodyParameter = $Pet | ConvertTo-Json -Depth 100
 
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
@@ -505,7 +505,7 @@ function Update-PSPet {
             throw "Error! The required parameter `Pet` missing when calling updatePet."
         }
 
-        $LocalVarBodyParameter = $Pet | ConvertTo-Json
+        $LocalVarBodyParameter = $Pet | ConvertTo-Json -Depth 100
 
 
         $LocalVarResult = Invoke-PSApiClient -Method 'PUT' `

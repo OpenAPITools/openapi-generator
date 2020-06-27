@@ -293,7 +293,7 @@ function Invoke-PSPlaceOrder {
             throw "Error! The required parameter `Order` missing when calling placeOrder."
         }
 
-        $LocalVarBodyParameter = $Order | ConvertTo-Json
+        $LocalVarBodyParameter = $Order | ConvertTo-Json -Depth 100
 
         $LocalVarResult = Invoke-PSApiClient -Method 'POST' `
                                 -Uri $LocalVarUri `
