@@ -31,3 +31,6 @@ src/PSPetstore/Private/PSApiClient.ps1
 src/PSPetstore/Private/PSHttpSignatureAuth.ps1
 src/PSPetstore/Private/PSRSAEncryptionProvider.cs
 src/PSPetstore/en-US/about_PSPetstore.help.txt
+tests/Api/PSPetApi.Tests.ps1
+tests/Api/PSStoreApi.Tests.ps1
+tests/Api/PSUserApi.Tests.ps1
