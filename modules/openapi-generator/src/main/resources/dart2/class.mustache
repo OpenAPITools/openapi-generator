@@ -2,7 +2,7 @@ class {{classname}} {
   {{#vars}}
   {{#description}}/// {{{description}}}{{/description}}
   {{^isEnum}}
-  {{{dataType}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}}{{/required}};
+  {{^defaultValue}}{{{dataType}}} {{name}};{{/defaultValue}}{{#defaultValue}}{{{dataType}}} {{name}} = {{defaultValue}};{{/defaultValue}}
   {{/isEnum}}
   {{#isEnum}}
   {{#allowableValues}}

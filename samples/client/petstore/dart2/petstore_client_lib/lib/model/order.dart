@@ -12,7 +12,7 @@ class Order {
   /// Order Status
   OrderStatusEnum status;
   
-  bool complete;
+  bool complete = false;
 
   Order({
     this.id,

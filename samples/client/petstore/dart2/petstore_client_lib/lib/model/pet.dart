@@ -6,11 +6,11 @@ class Pet {
   
   Category category;
   
-  String name = null;
+  String name;
   
-  List<String> photoUrls = [];
+  List<String> photoUrls = const [];
   
-  List<Tag> tags;
+  List<Tag> tags = const [];
   /// pet status in the store
   PetStatusEnum status;
 
