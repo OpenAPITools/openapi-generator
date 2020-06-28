@@ -19,9 +19,9 @@ class ApiResponse {
       
 
 {
-     this.code
-     this.type
-     this.message
+     this.code = null,  
+     this.type = null,  
+     this.message = null 
     
     }
   );

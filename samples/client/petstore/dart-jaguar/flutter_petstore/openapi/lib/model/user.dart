@@ -34,14 +34,14 @@ class User {
       
 
 {
-     this.id
-     this.username
-     this.firstName
-     this.lastName
-     this.email
-     this.password
-     this.phone
-     this.userStatus
+     this.id = null,  
+     this.username = null,  
+     this.firstName = null,  
+     this.lastName = null,  
+     this.email = null,  
+     this.password = null,  
+     this.phone = null,  
+     this.userStatus = null 
     
     }
   );

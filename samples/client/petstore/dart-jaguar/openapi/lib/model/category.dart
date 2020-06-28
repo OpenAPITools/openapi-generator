@@ -16,8 +16,8 @@ class Category {
       
 
 {
-     this.id
-     this.name
+     this.id = null,  
+     this.name = null 
     
     }
   );
