@@ -1790,7 +1790,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Return the default value of the property
      *
-     * Return null is you don't want a default value.
+     * Return null if you do NOT want a default value.
      * Any non-null value will cause {{#defaultValue} check to pass.
      *
      * @param schema Property schema
