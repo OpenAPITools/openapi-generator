@@ -30,11 +30,11 @@ class Order {
       
 
 {
-     this.id = null,  
-     this.petId = null,  
-     this.quantity = null,  
-     this.shipDate = null,  
-     this.status = null,  
+     this.id
+     this.petId
+     this.quantity
+     this.shipDate
+     this.status
      this.complete = false 
     
     }

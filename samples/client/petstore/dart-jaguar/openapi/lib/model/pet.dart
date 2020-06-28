@@ -31,15 +31,15 @@ class Pet {
   //enum statusEnum {  available,  pending,  sold,  };
 
   Pet(
-      
+       this.name, 
 
 {
-     this.id = null,  
-     this.category = null,  
+     this.id
+     this.category
     
-     this.name = null,  
+     
      this.photoUrls = const [],   this.tags = const [],  
-     this.status = null 
+     this.status
     
     }
   );

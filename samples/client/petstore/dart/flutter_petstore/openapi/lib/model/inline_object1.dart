@@ -2,9 +2,9 @@ part of openapi.api;
 
 class InlineObject1 {
   /* Additional data to pass to server */
-  String additionalMetadata = null;
+  String additionalMetadata = ;
   /* file to upload */
-  MultipartFile file = null;
+  MultipartFile file = ;
   InlineObject1();
 
   @override
