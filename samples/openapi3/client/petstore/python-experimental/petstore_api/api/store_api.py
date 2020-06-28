@@ -78,9 +78,9 @@ class StoreApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -106,7 +106,7 @@ class StoreApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['order_id'] = \
                 order_id
             return self.call_with_http_info(**kwargs)
@@ -118,7 +118,7 @@ class StoreApi(object):
                 'endpoint_path': '/store/order/{order_id}',
                 'operation_id': 'delete_order',
                 'http_method': 'DELETE',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -190,9 +190,9 @@ class StoreApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -218,7 +218,7 @@ class StoreApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
         self.get_inventory = Endpoint(
@@ -230,7 +230,7 @@ class StoreApi(object):
                 'endpoint_path': '/store/inventory',
                 'operation_id': 'get_inventory',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -300,9 +300,9 @@ class StoreApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -328,7 +328,7 @@ class StoreApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['order_id'] = \
                 order_id
             return self.call_with_http_info(**kwargs)
@@ -340,7 +340,7 @@ class StoreApi(object):
                 'endpoint_path': '/store/order/{order_id}',
                 'operation_id': 'get_order_by_id',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -423,9 +423,9 @@ class StoreApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -451,7 +451,7 @@ class StoreApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['order_order'] = \
                 order_order
             return self.call_with_http_info(**kwargs)
@@ -463,7 +463,7 @@ class StoreApi(object):
                 'endpoint_path': '/store/order',
                 'operation_id': 'place_order',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [

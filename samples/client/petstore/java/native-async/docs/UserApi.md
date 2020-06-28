@@ -43,6 +43,7 @@ public class Example {
         User body = new User(); // User | Created user object
         try {
             CompletableFuture<Void> result = apiInstance.createUser(body);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUser");
             System.err.println("Status code: " + e.getCode());
@@ -107,6 +108,7 @@ public class Example {
         List<User> body = Arrays.asList(); // List<User> | List of user object
         try {
             CompletableFuture<Void> result = apiInstance.createUsersWithArrayInput(body);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUsersWithArrayInput");
             System.err.println("Status code: " + e.getCode());
@@ -171,6 +173,7 @@ public class Example {
         List<User> body = Arrays.asList(); // List<User> | List of user object
         try {
             CompletableFuture<Void> result = apiInstance.createUsersWithListInput(body);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#createUsersWithListInput");
             System.err.println("Status code: " + e.getCode());
@@ -237,6 +240,7 @@ public class Example {
         String username = "username_example"; // String | The name that needs to be deleted
         try {
             CompletableFuture<Void> result = apiInstance.deleteUser(username);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#deleteUser");
             System.err.println("Status code: " + e.getCode());
@@ -302,6 +306,7 @@ public class Example {
         String username = "username_example"; // String | The name that needs to be fetched. Use user1 for testing.
         try {
             CompletableFuture<User> result = apiInstance.getUserByName(username);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#getUserByName");
@@ -370,6 +375,7 @@ public class Example {
         String password = "password_example"; // String | The password for login in clear text
         try {
             CompletableFuture<String> result = apiInstance.loginUser(username, password);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#loginUser");
@@ -436,6 +442,7 @@ public class Example {
         UserApi apiInstance = new UserApi(defaultClient);
         try {
             CompletableFuture<Void> result = apiInstance.logoutUser();
+
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#logoutUser");
             System.err.println("Status code: " + e.getCode());
@@ -500,6 +507,7 @@ public class Example {
         User body = new User(); // User | Updated user object
         try {
             CompletableFuture<Void> result = apiInstance.updateUser(username, body);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling UserApi#updateUser");
             System.err.println("Status code: " + e.getCode());

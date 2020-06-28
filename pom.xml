@@ -928,6 +928,18 @@
             </modules>
         </profile>
         <profile>
+            <id>typescript-client-tests-deno</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>java</value>
+                </property>
+            </activation>
+            <modules>
+                <module>samples/openapi3/client/petstore/typescript/tests/deno</module>
+            </modules>
+        </profile>
+        <profile>
             <id>typescript-client-tests-jquery</id>
             <activation>
                 <property>
@@ -997,18 +1009,6 @@
             </activation>
             <modules>
                 <module>samples/client/petstore/typescript-fetch/builds/prefix-parameter-interfaces</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>typescript-angularjs-client</id>
-            <activation>
-                <property>
-                    <name>env</name>
-                    <value>java</value>
-                </property>
-            </activation>
-            <modules>
-                <module>samples/client/petstore/typescript-angularjs</module>
             </modules>
         </profile>
         <profile>
@@ -1181,7 +1181,6 @@
                 <module>samples/server/petstore/python-aiohttp-srclayout</module>
                 <module>samples/server/petstore/python-flask</module>
                 <module>samples/server/petstore/python-flask-python2</module>
-                <module>samples/server/petstore/php-slim</module>
                 <module>samples/server/petstore/php-slim4</module>
                 <module>samples/server/petstore/rust-server</module>
                 <!-- clients -->
@@ -1194,7 +1193,6 @@
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
-                <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/javascript-es6</module>
                 <module>samples/client/petstore/javascript-promise-es6</module>
@@ -1213,6 +1211,7 @@
                 <module>samples/openapi3/client/petstore/typescript/tests/object_params</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/inversify</module>
                 <module>samples/openapi3/client/petstore/typescript/tests/inversify</module>
+                <module>samples/openapi3/client/petstore/typescript/tests/deno</module>
                 <module>samples/client/petstore/typescript-fetch/builds/default</module>
                 <module>samples/client/petstore/typescript-fetch/builds/es6-target</module>
                 <module>samples/client/petstore/typescript-fetch/builds/with-npm-version</module>
@@ -1221,8 +1220,6 @@
                 <module>samples/client/petstore/typescript-axios/tests/default</module>-->
                 <module>samples/client/petstore/typescript-node/npm</module>
                 <module>samples/client/petstore/typescript-rxjs/builds/with-npm-version</module>
-                <!-- comment out due to github rate limit error
-                <module>samples/client/petstore/typescript-angularjs</module>-->
                 <!-- comment out due to error `npm run build`
                 <module>samples/client/petstore/typescript-jquery/npm</module>-->
                 <!--<module>samples/client/petstore/typescript-angular-v2/npm</module>-->

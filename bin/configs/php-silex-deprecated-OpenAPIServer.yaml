@@ -1,4 +1,0 @@
-generatorName: php-silex-deprecated
-outputDir: samples/server/petstore/php-silex/OpenAPIServer
-inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
-templateDir: modules/openapi-generator/src/main/resources/php-silex

@@ -39,6 +39,7 @@ public class Example {
         String orderId = "orderId_example"; // String | ID of the order that needs to be deleted
         try {
             CompletableFuture<Void> result = apiInstance.deleteOrder(orderId);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#deleteOrder");
             System.err.println("Status code: " + e.getCode());
@@ -112,6 +113,7 @@ public class Example {
         StoreApi apiInstance = new StoreApi(defaultClient);
         try {
             CompletableFuture<Map<String, Integer>> result = apiInstance.getInventory();
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#getInventory");
@@ -176,6 +178,7 @@ public class Example {
         Long orderId = 56L; // Long | ID of pet that needs to be fetched
         try {
             CompletableFuture<Order> result = apiInstance.getOrderById(orderId);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#getOrderById");
@@ -243,6 +246,7 @@ public class Example {
         Order body = new Order(); // Order | order placed for purchasing the pet
         try {
             CompletableFuture<Order> result = apiInstance.placeOrder(body);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling StoreApi#placeOrder");
