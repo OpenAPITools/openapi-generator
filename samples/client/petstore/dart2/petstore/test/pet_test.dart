@@ -25,11 +25,13 @@ void main() {
         ..id = 124321
         ..name = 'Jose'
     ];
-    return Pet()
-      ..id = id
-      ..category = category
-      ..tags = tags
-      ..name = name
+
+    return Pet(
+      id : id,
+      category: category,
+      tags: tags,
+      name: name,
+    )
       ..status = PetStatusEnum.fromJson(status)
       ..photoUrls = ['https://petstore.com/sample/photo1.jpg'];
   }

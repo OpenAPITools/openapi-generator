@@ -18,7 +18,16 @@ class User {
   /// User Status
   int userStatus;
 
-  User();
+  User({
+    this.id,
+    this.username,
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.password,
+    this.phone,
+    this.userStatus,
+  });
 
   @override
   String toString() {

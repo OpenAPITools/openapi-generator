@@ -6,7 +6,10 @@ class Tag {
   
   String name;
 
-  Tag();
+  Tag({
+    this.id,
+    this.name,
+  });
 
   @override
   String toString() {

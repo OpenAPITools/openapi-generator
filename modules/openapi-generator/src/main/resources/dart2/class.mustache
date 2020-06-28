@@ -11,7 +11,11 @@ class {{classname}} {
   {{/isEnum}}
   {{/vars}}
 
-  {{classname}}();
+  {{classname}}({
+  {{#vars}}
+    this.{{name}},
+  {{/vars}}
+  });
 
   @override
   String toString() {

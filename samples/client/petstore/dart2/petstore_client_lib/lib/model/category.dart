@@ -6,7 +6,10 @@ class Category {
   
   String name;
 
-  Category();
+  Category({
+    this.id,
+    this.name,
+  });
 
   @override
   String toString() {

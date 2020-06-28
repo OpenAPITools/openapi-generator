@@ -14,7 +14,14 @@ class Order {
   
   bool complete;
 
-  Order();
+  Order({
+    this.id,
+    this.petId,
+    this.quantity,
+    this.shipDate,
+    this.status,
+    this.complete,
+  });
 
   @override
   String toString() {
