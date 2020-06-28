@@ -1,13 +1,13 @@
 <?php
 /**
- * BigCat
+ * Dog
  */
 namespace app\Models;
 
 /**
- * BigCat
+ * Dog
  */
-class BigCat {
+class Dog {
 
     /** @var string $className */
     private $className;
@@ -15,10 +15,7 @@ class BigCat {
     /** @var string $color */
     private $color;
 
-    /** @var bool $declawed */
-    private $declawed;
-
-    /** @var string $kind */
-    private $kind;
+    /** @var string $breed */
+    private $breed;
 
 }

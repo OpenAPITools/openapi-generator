@@ -122,10 +122,10 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("package.json", outputFolder, "package.json"));
         supportingFiles.add(new SupportingFile("phpunit.xml", outputFolder, "phpunit.xml"));
         supportingFiles.add(new SupportingFile("webpack.mix.js", outputFolder, "webpack.mix.js"));
-        supportingFiles.add(new SupportingFile(".editorconfig", outputFolder, "editorconfig"));
-        supportingFiles.add(new SupportingFile(".env.example", outputFolder, ".env.example"));
-        supportingFiles.add(new SupportingFile(".gitattributes", outputFolder, ".gitattributes"));
-        supportingFiles.add(new SupportingFile(".styleci.yml", outputFolder, ".styleci.yml"));
+        supportingFiles.add(new SupportingFile("editorconfig", outputFolder, ".editorconfig"));
+        supportingFiles.add(new SupportingFile("env.example", outputFolder, ".env.example"));
+        supportingFiles.add(new SupportingFile("gitattributes", outputFolder, ".gitattributes"));
+        supportingFiles.add(new SupportingFile("styleci.yml", outputFolder, ".styleci.yml"));
         supportingFiles.add(new SupportingFile("server.php", outputFolder, "server.php"));
 
         supportingFiles.add(new SupportingFile("bootstrap/cache/gitignore", outputFolder + File.separator + "bootstrap" + File.separator + "cache", ".gitignore"));
@@ -205,15 +205,15 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("resources/views/welcome.blade.php", outputFolder + File.separator + "resources" + File.separator + "views", "welcome.blade.php"));
 
         // /storage/
-        supportingFiles.add(new SupportingFile("storage/app/.gitignore", outputFolder + File.separator + "storage" + File.separator + "app", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/app/public/.gitignore", outputFolder + File.separator + "storage" + File.separator + "app" + File.separator + "public", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/cache/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "cache", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/cache/data/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "cache", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/sessions/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "sessions", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/testing/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "testing", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/framework/views/.gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "views", ".gitignore"));
-        supportingFiles.add(new SupportingFile("storage/logs/.gitignore", outputFolder + File.separator + "storage" + File.separator + "logs", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/app/gitignore", outputFolder + File.separator + "storage" + File.separator + "app", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/app/public/gitignore", outputFolder + File.separator + "storage" + File.separator + "app" + File.separator + "public", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/cache/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "cache", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/cache/data/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "cache", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/sessions/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "sessions", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/testing/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "testing", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/framework/views/gitignore", outputFolder + File.separator + "storage" + File.separator + "framework" + File.separator + "views", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage/logs/gitignore", outputFolder + File.separator + "storage" + File.separator + "logs", ".gitignore"));
 
         // /tests/
         supportingFiles.add(new SupportingFile("tests/Feature/ExampleTest.php", outputFolder + File.separator + "tests" + File.separator + "Feature", "ExampleTest.php"));

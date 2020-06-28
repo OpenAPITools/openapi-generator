@@ -2,7 +2,8 @@
 
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * PHP version 7.2.5
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -30,6 +31,26 @@ class PetController extends Controller
     {
     }
 
+    /**
+     * Operation uploadFileWithRequiredFile
+     *
+     * uploads an image (required).
+     *
+     * @param int $petId ID of pet to update (required)
+     *
+     * @return Http response
+     */
+    public function uploadFileWithRequiredFile($petId)
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing uploadFileWithRequiredFile as a post method ?');
+    }
     /**
      * Operation addPet
      *

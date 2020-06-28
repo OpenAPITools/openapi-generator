@@ -18,9 +18,36 @@
  */
 
 
-use Illuminate\Foundation\Inspiring;
-use Illuminate\Support\Facades\Artisan;
+namespace App\Http\Controllers;
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->describe('Display an inspiring quote');
+use Illuminate\Support\Facades\Request;
+
+class DefaultController extends Controller
+{
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+    }
+
+    /**
+     * Operation fooGet
+     *
+     * .
+     *
+     *
+     * @return Http response
+     */
+    public function fooGet()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+
+        return response('How about implementing fooGet as a get method ?');
+    }
+}

@@ -2,7 +2,8 @@
 
 /**
  * OpenAPI Petstore
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+ * PHP version 7.2.5
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -120,9 +121,6 @@ class UserController extends Controller
         //not path params validation
         if (!isset($input['username'])) {
             throw new \InvalidArgumentException('Missing the required parameter $username when calling loginUser');
-        }
-        if (!preg_match("/^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/", $input['username'])) {
-            throw new \InvalidArgumentException('invalid value for $username when calling UserController.loginUser, must conform to the pattern /^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/.');
         }
         $username = $input['username'];
 
