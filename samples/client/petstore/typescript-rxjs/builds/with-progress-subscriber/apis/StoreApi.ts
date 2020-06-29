@@ -39,6 +39,7 @@ export class StoreApi extends BaseAPI {
      * Delete purchase order by ID
      */
     deleteOrder({ orderId }: DeleteOrderRequest): Observable<void>
+    deleteOrder({ orderId }: DeleteOrderRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
     deleteOrder({ orderId }: DeleteOrderRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
     deleteOrder({ orderId }: DeleteOrderRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
         throwIfNullOrUndefined(orderId, 'orderId', 'deleteOrder');
@@ -46,6 +47,7 @@ export class StoreApi extends BaseAPI {
         return this.request<void>({
             url: '/store/order/{orderId}'.replace('{orderId}', encodeURI(orderId)),
             method: 'DELETE',
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
@@ -54,6 +56,7 @@ export class StoreApi extends BaseAPI {
      * Returns pet inventories by status
      */
     getInventory(): Observable<{ [key: string]: number; }>
+    getInventory(opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<{ [key: string]: number; }>
     getInventory(opts?: OperationOpts): Observable<RawAjaxResponse<{ [key: string]: number; }>>
     getInventory(opts?: OperationOpts): Observable<{ [key: string]: number; } | RawAjaxResponse<{ [key: string]: number; }>> {
         const headers: HttpHeaders = {
@@ -64,6 +67,7 @@ export class StoreApi extends BaseAPI {
             url: '/store/inventory',
             method: 'GET',
             headers,
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
@@ -72,6 +76,7 @@ export class StoreApi extends BaseAPI {
      * Find purchase order by ID
      */
     getOrderById({ orderId }: GetOrderByIdRequest): Observable<Order>
+    getOrderById({ orderId }: GetOrderByIdRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<Order>
     getOrderById({ orderId }: GetOrderByIdRequest, opts?: OperationOpts): Observable<RawAjaxResponse<Order>>
     getOrderById({ orderId }: GetOrderByIdRequest, opts?: OperationOpts): Observable<Order | RawAjaxResponse<Order>> {
         throwIfNullOrUndefined(orderId, 'orderId', 'getOrderById');
@@ -79,6 +84,7 @@ export class StoreApi extends BaseAPI {
         return this.request<Order>({
             url: '/store/order/{orderId}'.replace('{orderId}', encodeURI(orderId)),
             method: 'GET',
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
@@ -86,6 +92,7 @@ export class StoreApi extends BaseAPI {
      * Place an order for a pet
      */
     placeOrder({ body }: PlaceOrderRequest): Observable<Order>
+    placeOrder({ body }: PlaceOrderRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<Order>
     placeOrder({ body }: PlaceOrderRequest, opts?: OperationOpts): Observable<RawAjaxResponse<Order>>
     placeOrder({ body }: PlaceOrderRequest, opts?: OperationOpts): Observable<Order | RawAjaxResponse<Order>> {
         throwIfNullOrUndefined(body, 'body', 'placeOrder');
@@ -99,6 +106,7 @@ export class StoreApi extends BaseAPI {
             method: 'POST',
             headers,
             body: body,
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
