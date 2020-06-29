@@ -32,7 +32,7 @@ jobs:
     - name: "Tag openapi-generator-online:x"
       id: tag-openapi-generator-online
       run: |
-        echo Tagging as latest-release: ${{steps.tagger.outputs.tag}}'
+        echo 'Tagging as latest-release: ${{steps.tagger.outputs.tag}}'
         docker pull openapitools/openapi-generator-online:${{steps.tagger.outputs.tag}}
         docker tag openapitools/openapi-generator-online:${{steps.tagger.outputs.tag}} openapitools/openapi-generator-online:latest-release
         docker push openapitools/openapi-generator-online:latest-release
