@@ -137,7 +137,7 @@ public class ApiClient {
   public <S> S createService(Class<S> serviceClass) {
     if (okHttpClient != null) {
         return adapterBuilder.client(okHttpClient).build().create(serviceClass);
-    }else {
+    } else {
         return adapterBuilder.client(okBuilder.build()).build().create(serviceClass);
     }
   }
@@ -312,7 +312,7 @@ public class ApiClient {
     }
     apiAuthorizations.put(authName, authorization);
     if(okBuilder == null){
-    	throw new Exception("okBuilder is null");
+    	throw new RuntimeException("The ApiClient was created with a built OkHttpClient so it's not possible to add an authorization interceptor to it");
     }
     okBuilder.addInterceptor(authorization);
     
