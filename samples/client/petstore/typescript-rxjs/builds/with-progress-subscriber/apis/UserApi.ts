@@ -57,6 +57,7 @@ export class UserApi extends BaseAPI {
      * Create user
      */
     createUser({ body }: CreateUserRequest): Observable<void>
+    createUser({ body }: CreateUserRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
     createUser({ body }: CreateUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
     createUser({ body }: CreateUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
         throwIfNullOrUndefined(body, 'body', 'createUser');
@@ -70,6 +71,7 @@ export class UserApi extends BaseAPI {
             method: 'POST',
             headers,
             body: body,
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
@@ -77,6 +79,7 @@ export class UserApi extends BaseAPI {
      * Creates list of users with given input array
      */
     createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest): Observable<void>
+    createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
     createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
     createUsersWithArrayInput({ body }: CreateUsersWithArrayInputRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
         throwIfNullOrUndefined(body, 'body', 'createUsersWithArrayInput');
@@ -90,6 +93,7 @@ export class UserApi extends BaseAPI {
             method: 'POST',
             headers,
             body: body,
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
@@ -97,6 +101,7 @@ export class UserApi extends BaseAPI {
      * Creates list of users with given input array
      */
     createUsersWithListInput({ body }: CreateUsersWithListInputRequest): Observable<void>
+    createUsersWithListInput({ body }: CreateUsersWithListInputRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
     createUsersWithListInput({ body }: CreateUsersWithListInputRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
     createUsersWithListInput({ body }: CreateUsersWithListInputRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
         throwIfNullOrUndefined(body, 'body', 'createUsersWithListInput');
@@ -110,6 +115,7 @@ export class UserApi extends BaseAPI {
             method: 'POST',
             headers,
             body: body,
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
@@ -118,6 +124,7 @@ export class UserApi extends BaseAPI {
      * Delete user
      */
     deleteUser({ username }: DeleteUserRequest): Observable<void>
+    deleteUser({ username }: DeleteUserRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
     deleteUser({ username }: DeleteUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
     deleteUser({ username }: DeleteUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
         throwIfNullOrUndefined(username, 'username', 'deleteUser');
@@ -125,6 +132,7 @@ export class UserApi extends BaseAPI {
         return this.request<void>({
             url: '/user/{username}'.replace('{username}', encodeURI(username)),
             method: 'DELETE',
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
@@ -132,6 +140,7 @@ export class UserApi extends BaseAPI {
      * Get user by user name
      */
     getUserByName({ username }: GetUserByNameRequest): Observable<User>
+    getUserByName({ username }: GetUserByNameRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<User>
     getUserByName({ username }: GetUserByNameRequest, opts?: OperationOpts): Observable<RawAjaxResponse<User>>
     getUserByName({ username }: GetUserByNameRequest, opts?: OperationOpts): Observable<User | RawAjaxResponse<User>> {
         throwIfNullOrUndefined(username, 'username', 'getUserByName');
@@ -139,6 +148,7 @@ export class UserApi extends BaseAPI {
         return this.request<User>({
             url: '/user/{username}'.replace('{username}', encodeURI(username)),
             method: 'GET',
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
@@ -146,6 +156,7 @@ export class UserApi extends BaseAPI {
      * Logs user into the system
      */
     loginUser({ username, password }: LoginUserRequest): Observable<string>
+    loginUser({ username, password }: LoginUserRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<string>
     loginUser({ username, password }: LoginUserRequest, opts?: OperationOpts): Observable<RawAjaxResponse<string>>
     loginUser({ username, password }: LoginUserRequest, opts?: OperationOpts): Observable<string | RawAjaxResponse<string>> {
         throwIfNullOrUndefined(username, 'username', 'loginUser');
@@ -160,6 +171,7 @@ export class UserApi extends BaseAPI {
             url: '/user/login',
             method: 'GET',
             query,
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
@@ -167,11 +179,13 @@ export class UserApi extends BaseAPI {
      * Logs out current logged in user session
      */
     logoutUser(): Observable<void>
+    logoutUser(opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
     logoutUser(opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
     logoutUser(opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
         return this.request<void>({
             url: '/user/logout',
             method: 'GET',
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
@@ -180,6 +194,7 @@ export class UserApi extends BaseAPI {
      * Updated user
      */
     updateUser({ username, body }: UpdateUserRequest): Observable<void>
+    updateUser({ username, body }: UpdateUserRequest, opts?: Pick<OperationOpts, 'progressSubscriber'>): Observable<void>
     updateUser({ username, body }: UpdateUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>>
     updateUser({ username, body }: UpdateUserRequest, opts?: OperationOpts): Observable<void | RawAjaxResponse<void>> {
         throwIfNullOrUndefined(username, 'username', 'updateUser');
@@ -194,6 +209,7 @@ export class UserApi extends BaseAPI {
             method: 'PUT',
             headers,
             body: body,
+            progressSubscriber: opts?.progressSubscriber,
         }, opts?.responseOpts);
     };
 
