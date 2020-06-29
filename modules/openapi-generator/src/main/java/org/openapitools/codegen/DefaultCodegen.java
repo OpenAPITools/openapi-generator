@@ -3910,7 +3910,11 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             } else {
                 if (cp.complexType != null) {
-                    r.baseType = cp.complexType;
+                    if (cp.items != null) {
+                        r.baseType = cp.items.complexType;
+                    } else {
+                        r.baseType = cp.complexType;
+                    }
                     r.isModel = true;
                 } else {
                     r.baseType = cp.baseType;
