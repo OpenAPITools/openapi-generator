@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+
 /**
  * 
  * @param enumFormStringArray Form parameter enum test (string array)
@@ -23,14 +24,14 @@ import java.io.Serializable
 data class InlineObject2 (
     /* Form parameter enum test (string array) */
     @SerializedName("enum_form_string_array")
-    val enumFormStringArray: kotlin.Array<InlineObject2.EnumFormStringArray>? = null,
+    val enumFormStringArray: kotlin.collections.List<InlineObject2.EnumFormStringArray>? = null,
     /* Form parameter enum test (string) */
     @SerializedName("enum_form_string")
     val enumFormString: InlineObject2.EnumFormString? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
     /**
     * Form parameter enum test (string array)

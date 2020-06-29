@@ -13,6 +13,7 @@ package org.openapitools.client.models
 
 
 import com.fasterxml.jackson.annotation.JsonProperty
+
 /**
  * A tag for a pet
  * @param id 
@@ -20,9 +21,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 
 data class Tag (
-    @JsonProperty("id")
+    @field:JsonProperty("id")
     val id: kotlin.Long? = null,
-    @JsonProperty("name")
+    @field:JsonProperty("name")
     val name: kotlin.String? = null
 )
 

@@ -2,14 +2,22 @@ package org.openapitools.client.apis
 
 import org.openapitools.client.infrastructure.CollectionFormats.*
 import retrofit2.http.*
+import retrofit2.Response
 import okhttp3.RequestBody
-import okhttp3.ResponseBody
-import okhttp3.MultipartBody
 
 import org.openapitools.client.models.Client
 
 interface AnotherFakeApi {
-    @PATCH("/another-fake/dummy")
-    suspend fun call123testSpecialTags(@Body client: Client): Client
+    /**
+     * To test special tags
+     * To test special tags and operation ID starting with number
+     * Responses:
+     *  - 200: successful operation
+     * 
+     * @param client client model 
+    * @return [Client]
+     */
+    @PATCH("another-fake/dummy")
+    suspend fun call123testSpecialTags(@Body client: Client): Response<Client>
 
 }

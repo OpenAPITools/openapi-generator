@@ -28,15 +28,18 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
@@ -237,6 +240,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         return sanitizeName(super.toParamName(name));
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public CodegenProperty fromProperty(String name, Schema p) {
         CodegenProperty property = super.fromProperty(name, p);
@@ -352,5 +356,47 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             }
         }
         return postProcessModelsEnum(objs);
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs){
+        Map<String, Object> models = super.postProcessAllModels(objs);
+        for (final Entry<String, Object> model : models.entrySet()) {
+            CodegenModel mo = ModelUtils.getModelByName(model.getKey(), models);
+            addForwardDeclarations(mo, models);
+        }
+        return models;
+    }
+
+    private void addForwardDeclarations(CodegenModel parentModel, Map<String, Object> objs) {
+        List<String> forwardDeclarations = new ArrayList<String>();
+        if(!parentModel.hasVars) {
+            return;
+        }
+        for(CodegenProperty property : parentModel.vars){
+            if(!( (property.isContainer && property.mostInnerItems.isModel) || (property.isModel) ) ){
+                continue;
+            }
+            String childPropertyType = property.isContainer? property.mostInnerItems.baseType : property.baseType;
+            for(final Entry<String, Object> mo : objs.entrySet()) {
+                CodegenModel childModel = ModelUtils.getModelByName(mo.getKey(), objs);
+                if( !childPropertyType.equals(childModel.classname) || childPropertyType.equals(parentModel.classname) || !childModel.hasVars ){
+                    continue;
+                }
+                for(CodegenProperty p : childModel.vars) {
+                    if(((p.isModel && p.dataType.equals(parentModel.classname)) || (p.isContainer && p.mostInnerItems.baseType.equals(parentModel.classname)))) {
+                        String forwardDecl = "class " + childModel.classname + ";";
+                        if(!forwardDeclarations.contains(forwardDecl)) {
+                            forwardDeclarations.add(forwardDecl);
+                        }
+                    }
+                }
+            }
+        }
+        if(!forwardDeclarations.isEmpty()){
+            parentModel.vendorExtensions.put("x-has-forward-declarations", true);
+            parentModel.vendorExtensions.put("x-forward-declarations", forwardDeclarations);
+        }
+        return;
     }
 }

@@ -18,7 +18,7 @@ class StoreApiTest : ShouldSpec() {
         val pet = Pet(
                 id = petId,
                 name = "kotlin client test",
-                photoUrls = arrayOf("http://test_kotlin_unit_test.com")
+                photoUrls = listOf("http://test_kotlin_unit_test.com")
         )
         petApi.addPet(pet)
 

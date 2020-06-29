@@ -16,6 +16,7 @@ import org.openapitools.client.models.CatAllOf
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * 
  * @param className 

@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * DogAllOf
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class DogAllOf   {
   @JsonProperty("breed")
   private String breed;

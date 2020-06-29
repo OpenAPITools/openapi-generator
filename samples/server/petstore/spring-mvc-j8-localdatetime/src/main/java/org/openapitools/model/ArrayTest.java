@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 /**
  * ArrayTest
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ArrayTest   {
   @JsonProperty("array_of_string")
   @Valid

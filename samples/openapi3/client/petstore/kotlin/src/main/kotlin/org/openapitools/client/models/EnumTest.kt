@@ -18,6 +18,7 @@ import org.openapitools.client.models.OuterEnumIntegerDefaultValue
 
 import com.squareup.moshi.Json
 import java.io.Serializable
+
 /**
  * 
  * @param enumStringRequired 
@@ -48,9 +49,9 @@ data class EnumTest (
     @Json(name = "outerEnumIntegerDefaultValue")
     val outerEnumIntegerDefaultValue: OuterEnumIntegerDefaultValue? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
     /**
     * 

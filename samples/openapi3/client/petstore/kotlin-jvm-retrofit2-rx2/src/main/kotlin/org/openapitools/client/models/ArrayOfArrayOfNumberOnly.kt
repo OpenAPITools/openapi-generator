@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+
 /**
  * 
  * @param arrayArrayNumber 
@@ -21,11 +22,11 @@ import java.io.Serializable
 
 data class ArrayOfArrayOfNumberOnly (
     @SerializedName("ArrayArrayNumber")
-    val arrayArrayNumber: kotlin.Array<kotlin.Array<java.math.BigDecimal>>? = null
+    val arrayArrayNumber: kotlin.collections.List<kotlin.collections.List<java.math.BigDecimal>>? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

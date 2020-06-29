@@ -158,7 +158,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         typeMapping.put("set", "kotlin.collections.Set");
         typeMapping.put("map", "kotlin.collections.Map");
         typeMapping.put("object", "kotlin.Any");
-        typeMapping.put("binary", "kotlin.Array<kotlin.Byte>");
+        typeMapping.put("binary", "kotlin.ByteArray");
         typeMapping.put("Date", "java.time.LocalDate");
         typeMapping.put("DateTime", "java.time.LocalDateTime");
 
@@ -310,7 +310,7 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
         if (ModelUtils.isArraySchema(p)) {
             return getArrayTypeDeclaration((ArraySchema) p);
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
 
             // Maps will be keyed only by primitive Kotlin string
             return getSchemaType(p) + "<kotlin.String, " + getTypeDeclaration(inner) + ">";

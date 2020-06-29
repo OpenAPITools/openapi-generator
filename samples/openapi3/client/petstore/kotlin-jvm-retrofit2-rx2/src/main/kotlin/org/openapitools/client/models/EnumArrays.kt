@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+
 /**
  * 
  * @param justSymbol 
@@ -24,11 +25,11 @@ data class EnumArrays (
     @SerializedName("just_symbol")
     val justSymbol: EnumArrays.JustSymbol? = null,
     @SerializedName("array_enum")
-    val arrayEnum: kotlin.Array<EnumArrays.ArrayEnum>? = null
+    val arrayEnum: kotlin.collections.List<EnumArrays.ArrayEnum>? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
     /**
     * 
