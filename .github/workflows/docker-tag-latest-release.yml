@@ -3,7 +3,7 @@ name: Docker Tag latest-release
 # Run every couple of days
 on:
   schedule:
-  - cron: "*/10 * * * *"
+  - cron: "* * */2 * *"
 
 jobs:
   # This pulls all containers for the last known release tag, and tags as latest-release or x-latest-release for shared repo
