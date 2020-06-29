@@ -127,6 +127,7 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("gitattributes", outputFolder, ".gitattributes"));
         supportingFiles.add(new SupportingFile("styleci.yml", outputFolder, ".styleci.yml"));
         supportingFiles.add(new SupportingFile("server.php", outputFolder, "server.php"));
+        supportingFiles.add(new SupportingFile("gitignore", outputFolder, ".gitignore"));
 
         supportingFiles.add(new SupportingFile("bootstrap/cache/gitignore", outputFolder + File.separator + "bootstrap" + File.separator + "cache", ".gitignore"));
         supportingFiles.add(new SupportingFile("bootstrap/app.php", outputFolder + File.separator + "bootstrap", "app.php"));
@@ -220,6 +221,14 @@ public class PhpLaravelServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("tests/Unit/ExampleTest.php", outputFolder + File.separator + "tests" + File.separator + "Unit", "ExampleTest.php"));
         supportingFiles.add(new SupportingFile("tests/CreatesApplication.php", outputFolder + File.separator + "tests", "CreatesApplication.php"));
         supportingFiles.add(new SupportingFile("tests/TestCase.php", outputFolder + File.separator + "tests", "TestCase.php"));
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        // remove gitignore supporting file from AbstractPhpCodegen
+        supportingFiles.remove(supportingFiles.size() - 1);
     }
 
     // override with any special post-processing
