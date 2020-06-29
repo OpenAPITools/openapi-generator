@@ -892,7 +892,7 @@ public class DefaultGenerator implements Generator {
 
             sb.append(System.lineSeparator());
 
-            System.err.println(sb.toString());
+            LOGGER.error(sb.toString());
         } else {
             // This exists here rather than in the method which generates supporting files to avoid accidentally adding files after this metadata.
             if (generateSupportingFiles) {
@@ -924,6 +924,10 @@ public class DefaultGenerator implements Generator {
 
     public Map<String, List<CodegenOperation>> processPaths(Paths paths) {
         Map<String, List<CodegenOperation>> ops = new TreeMap<>();
+        // when input file is not valid and doesn't contain any paths
+        if(paths == null) {
+            return ops;
+        }
         for (String resourcePath : paths.keySet()) {
             PathItem path = paths.get(resourcePath);
             processOperation(resourcePath, "get", path.getGet(), ops, path);

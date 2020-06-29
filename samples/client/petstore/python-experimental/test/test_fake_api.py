@@ -107,7 +107,7 @@ class TestFakeApi(unittest.TestCase):
             call_with_http_info.assert_called_with(
                 _check_input_type=True,
                 _check_return_type=True,
-                _host_index=0,
+                _host_index=None,
                 _preload_content=True,
                 _request_timeout=None,
                 _return_http_data_only=True,
