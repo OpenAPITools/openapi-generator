@@ -13,7 +13,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <!-- RELEASE_VERSION -->
-                <version>4.3.1</version>
+                <version>5.0.0-beta</version>
                 <!-- /RELEASE_VERSION -->
                 <executions>
                     <execution>
@@ -176,6 +176,11 @@
             <artifactId>migbase64</artifactId>
             <version>2.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-apis</artifactId>
+            <version>${scribejava-apis-version}</version>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -186,5 +191,6 @@
         <jodatime-version>2.7</jodatime-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.8.1</junit-version>
+        <scribejava-apis-version>6.9.0</scribejava-apis-version>
     </properties>
 </project>
