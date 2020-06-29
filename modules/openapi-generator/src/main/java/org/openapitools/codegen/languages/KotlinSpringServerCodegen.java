@@ -66,6 +66,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String DELEGATE_PATTERN = "delegatePattern";
     public static final String USE_TAGS = "useTags";
+    public static final String SKIP_DEFAULT_INTERFACE = "skipDefaultInterface";
 
     private String basePackage;
     private String invokerPackage;
@@ -82,6 +83,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private boolean interfaceOnly = false;
     private boolean delegatePattern = false;
     protected boolean useTags = false;
+    protected boolean skipDefaultInterface = false;
 
     public KotlinSpringServerCodegen() {
         super();
@@ -154,6 +156,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
         addSwitch(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern);
         addSwitch(USE_TAGS, "Whether to use tags for creating interface and controller class names", useTags);
+        addSwitch(SKIP_DEFAULT_INTERFACE, "Whether to generate default implementations for generated interfaces", skipDefaultInterface);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
 
@@ -249,6 +252,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public void setUseTags(boolean useTags) {
         this.useTags = useTags;
+    }
+
+    public void setSkipDefaultInterface(boolean skipDefaultInterface) {
+        this.skipDefaultInterface = skipDefaultInterface;
     }
 
     @Override
@@ -377,6 +384,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
         if (additionalProperties.containsKey(USE_TAGS)) {
             this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
+        }
+
+        if(additionalProperties.containsKey(SKIP_DEFAULT_INTERFACE)){
+            this.setSkipDefaultInterface(Boolean.valueOf(additionalProperties.get(SKIP_DEFAULT_INTERFACE).toString()));
         }
 
         modelTemplateFiles.put("model.mustache", ".kt");

@@ -203,4 +203,28 @@ public class KotlinSpringServerCodegenTest {
             new File(output, "src/main/kotlin/org/openapitools/api/TestV2ApiDelegate.kt")
         );
     }
+
+    @Test(description = "Test skip default interface")
+    public void testSkipDefaultInterface() throws Exception{
+        File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        KotlinSpringServerCodegen codegen = new KotlinSpringServerCodegen();
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.INTERFACE_ONLY, true);
+        codegen.additionalProperties().put(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE, true);
+
+        List<File> files = new DefaultGenerator()
+                .opts(
+                        new ClientOptInput()
+                                .openAPI(TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml"))
+                                .config(codegen)
+                )
+                .generate();
+
+        Helpers.assertContainsAllOf(files,
+                new File(output, "src/main/kotlin/org/openapitools/api/PetApi.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/StoreApi.kt"),
+                new File(output, "src/main/kotlin/org/openapitools/api/UserApi.kt")
+        );
+        Assert.assertEquals(codegen.additionalProperties().get(KotlinSpringServerCodegen.SKIP_DEFAULT_INTERFACE), true);
+    }
 }
