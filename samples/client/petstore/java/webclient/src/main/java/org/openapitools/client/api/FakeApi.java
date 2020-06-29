@@ -361,6 +361,7 @@ public class FakeApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
+
         if (integer != null)
             formParams.add("integer", integer);
         if (int32 != null)
@@ -436,6 +437,7 @@ public class FakeApi {
         headerParams.add("enum_header_string_array", apiClient.parameterToString(enumHeaderStringArray));
         if (enumHeaderString != null)
         headerParams.add("enum_header_string", apiClient.parameterToString(enumHeaderString));
+
         if (enumFormStringArray != null)
             formParams.addAll("enum_form_string_array", enumFormStringArray);
         if (enumFormString != null)
@@ -564,6 +566,7 @@ public class FakeApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
 
         if (param != null)
             formParams.add("param", param);

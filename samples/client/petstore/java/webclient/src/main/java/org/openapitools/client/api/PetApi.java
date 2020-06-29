@@ -291,6 +291,7 @@ public class PetApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
 
+
         if (name != null)
             formParams.add("name", name);
         if (status != null)
@@ -333,6 +334,7 @@ public class PetApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
 
         if (additionalMetadata != null)
             formParams.add("additionalMetadata", additionalMetadata);
@@ -382,6 +384,7 @@ public class PetApi {
         final HttpHeaders headerParams = new HttpHeaders();
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap<String, Object> formParams = new LinkedMultiValueMap<String, Object>();
+
 
         if (additionalMetadata != null)
             formParams.add("additionalMetadata", additionalMetadata);

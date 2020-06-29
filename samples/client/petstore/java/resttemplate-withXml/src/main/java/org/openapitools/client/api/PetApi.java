@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -404,6 +405,7 @@ public class PetApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap formParams = new LinkedMultiValueMap();
 
+        
         if (name != null)
             formParams.add("name", name);
         if (status != null)
@@ -463,6 +465,7 @@ public class PetApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap formParams = new LinkedMultiValueMap();
 
+        
         if (additionalMetadata != null)
             formParams.add("additionalMetadata", additionalMetadata);
         if (file != null)
@@ -529,6 +532,7 @@ public class PetApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap formParams = new LinkedMultiValueMap();
 
+        
         if (additionalMetadata != null)
             formParams.add("additionalMetadata", additionalMetadata);
         if (requiredFile != null)

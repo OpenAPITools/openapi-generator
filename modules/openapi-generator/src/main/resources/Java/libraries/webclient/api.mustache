@@ -107,7 +107,6 @@ public class {{classname}} {
         {{/hasCookieParams}}
         {{#hasFormParams}}
 
-
         {{#formParams}}
         if ({{paramName}} != null)
             formParams.add{{#collectionFormat}}All{{/collectionFormat}}("{{baseName}}", {{#isFile}}{{^collectionFormat}}new FileSystemResource({{paramName}}){{/collectionFormat}}{{/isFile}}{{#isFile}}{{#collectionFormat}}{{paramName}}.stream().map(FileSystemResource::new).collect(Collectors.toList()){{/collectionFormat}}{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});

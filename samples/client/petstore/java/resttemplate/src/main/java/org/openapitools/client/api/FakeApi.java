@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -497,6 +498,7 @@ public class FakeApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap formParams = new LinkedMultiValueMap();
 
+        
         if (integer != null)
             formParams.add("integer", integer);
         if (int32 != null)
@@ -593,6 +595,7 @@ public class FakeApi {
         if (enumHeaderString != null)
         headerParams.add("enum_header_string", apiClient.parameterToString(enumHeaderString));
 
+        
         if (enumFormStringArray != null)
             formParams.put("enum_form_string_array", enumFormStringArray);
         if (enumFormString != null)
@@ -771,6 +774,7 @@ public class FakeApi {
         final MultiValueMap<String, String> cookieParams = new LinkedMultiValueMap<String, String>();
         final MultiValueMap formParams = new LinkedMultiValueMap();
 
+        
         if (param != null)
             formParams.add("param", param);
         if (param2 != null)
