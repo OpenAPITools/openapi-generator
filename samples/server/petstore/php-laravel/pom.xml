@@ -77,7 +77,7 @@
                         <configuration>
                             <executable>lib/vendor/bin/phpunit</executable>
                             <arguments>
-                                <argument>-c lib/phpunit.xml</argument>
+                                <argument>--configuration=lib/phpunit.xml</argument>
                             </arguments>
                         </configuration>
                     </execution>
