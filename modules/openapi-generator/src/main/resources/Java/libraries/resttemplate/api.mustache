@@ -130,7 +130,6 @@ public class {{classname}} {
         cookieParams.add("{{baseName}}", apiClient.parameterToString({{paramName}}));{{#hasMore}}
         {{/hasMore}}{{/cookieParams}}{{/hasCookieParams}}{{#hasFormParams}}
 
-        {{#collectionFormat}}{{#isFile}}List<FileSystemResource> fileSystemResourcesList;{{/isFile}}{{/collectionFormat}}
         {{#formParams}}if ({{paramName}} != null)
             formParams.{{^collectionFormat}}add{{/collectionFormat}}{{#collectionFormat}}put{{/collectionFormat}}("{{baseName}}", {{#isFile}}{{^collectionFormat}}new FileSystemResource({{paramName}}){{/collectionFormat}}{{/isFile}}{{#isFile}}{{#collectionFormat}}{{paramName}}.stream().map(FileSystemResource::new).collect(Collectors.toList()){{/collectionFormat}}{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});{{#hasMore}}
         {{/hasMore}}{{/formParams}}{{/hasFormParams}}
