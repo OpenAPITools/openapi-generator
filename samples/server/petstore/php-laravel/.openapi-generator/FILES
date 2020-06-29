@@ -1,4 +1,3 @@
-.openapi-generator-ignore
 lib/.editorconfig
 lib/.env.example
 lib/.gitattributes
