@@ -1,7 +1,8 @@
-.gitignore
+.openapi-generator-ignore
 lib/.editorconfig
 lib/.env.example
 lib/.gitattributes
+lib/.gitignore
 lib/.styleci.yml
 lib/README.md
 lib/app/Console/Kernel.php
