@@ -3,7 +3,7 @@ name := "scala-sttp-petstore"
 organization := "org.openapitools"
 
 scalaVersion := "2.13.2"
-crossScalaVersions := Seq(scalaVersion.value, "2.12.10")
+crossScalaVersions := Seq(scalaVersion.value, "2.12.11")
 
 libraryDependencies ++= Seq(
   "com.softwaremill.sttp.client" %% "core" % "2.2.0",
