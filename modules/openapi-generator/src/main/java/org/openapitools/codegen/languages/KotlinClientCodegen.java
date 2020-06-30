@@ -51,7 +51,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String USE_RX_JAVA = "useRxJava";
     public static final String USE_RX_JAVA2 = "useRxJava2";
-    public static final String USE_RX_JAVA2 = "useRxJava3";
+    public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String USE_COROUTINES = "useCoroutines";
     public static final String DO_NOT_USE_RX_AND_COROUTINES = "doNotUseRxAndCoroutines";
 
