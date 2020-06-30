@@ -3,7 +3,7 @@
 /**
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
- * PHP version 7.1.3
+ * PHP version 7.2.5
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -17,6 +17,9 @@
  * > https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/resources/php-laravel/
  */
 
+
+use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Artisan;
 
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
