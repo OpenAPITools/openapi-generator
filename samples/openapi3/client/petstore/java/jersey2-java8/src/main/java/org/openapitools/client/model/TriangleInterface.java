@@ -62,6 +62,9 @@ public class TriangleInterface {
   }
 
 
+  /**
+   * Return true if this TriangleInterface object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

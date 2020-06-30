@@ -5,7 +5,7 @@
 import * as btoa from "btoa";
 {{/node}}
 {{/platforms}}
-import { RequestContext } from "../http/http";
+import { RequestContext } from "../http/http{{extensionForDeno}}";
 {{#useInversify}}
 import { injectable, inject, named } from "inversify";
 import { AbstractTokenProvider } from "../services/configuration";

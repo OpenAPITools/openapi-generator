@@ -31,80 +31,11 @@ impl PetApiClient {
 }
 
 
-/// struct for typed successes of method `add_pet`
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum AddPetSuccess {
-    UnknownList(Vec<serde_json::Value>),
-    UnknownValue(serde_json::Value),
-}
-
-/// struct for typed successes of method `delete_pet`
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum DeletePetSuccess {
-    UnknownList(Vec<serde_json::Value>),
-    UnknownValue(serde_json::Value),
-}
-
-/// struct for typed successes of method `find_pets_by_status`
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum FindPetsByStatusSuccess {
-    Status200(Vec<crate::models::Pet>),
-    UnknownList(Vec<serde_json::Value>),
-    UnknownValue(serde_json::Value),
-}
-
-/// struct for typed successes of method `find_pets_by_tags`
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum FindPetsByTagsSuccess {
-    Status200(Vec<crate::models::Pet>),
-    UnknownList(Vec<serde_json::Value>),
-    UnknownValue(serde_json::Value),
-}
-
-/// struct for typed successes of method `get_pet_by_id`
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum GetPetByIdSuccess {
-    Status200(crate::models::Pet),
-    UnknownList(Vec<serde_json::Value>),
-    UnknownValue(serde_json::Value),
-}
-
-/// struct for typed successes of method `update_pet`
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum UpdatePetSuccess {
-    UnknownList(Vec<serde_json::Value>),
-    UnknownValue(serde_json::Value),
-}
-
-/// struct for typed successes of method `update_pet_with_form`
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum UpdatePetWithFormSuccess {
-    UnknownList(Vec<serde_json::Value>),
-    UnknownValue(serde_json::Value),
-}
-
-/// struct for typed successes of method `upload_file`
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum UploadFileSuccess {
-    Status200(crate::models::ApiResponse),
-    UnknownList(Vec<serde_json::Value>),
-    UnknownValue(serde_json::Value),
-}
-
 /// struct for typed errors of method `add_pet`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddPetError {
     Status405(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -113,7 +44,6 @@ pub enum AddPetError {
 #[serde(untagged)]
 pub enum DeletePetError {
     Status400(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -122,7 +52,6 @@ pub enum DeletePetError {
 #[serde(untagged)]
 pub enum FindPetsByStatusError {
     Status400(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -131,7 +60,6 @@ pub enum FindPetsByStatusError {
 #[serde(untagged)]
 pub enum FindPetsByTagsError {
     Status400(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -141,7 +69,6 @@ pub enum FindPetsByTagsError {
 pub enum GetPetByIdError {
     Status400(),
     Status404(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -152,7 +79,6 @@ pub enum UpdatePetError {
     Status400(),
     Status404(),
     Status405(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -161,7 +87,6 @@ pub enum UpdatePetError {
 #[serde(untagged)]
 pub enum UpdatePetWithFormError {
     Status405(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
@@ -169,24 +94,23 @@ pub enum UpdatePetWithFormError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UploadFileError {
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
 
 pub trait PetApi {
-    fn add_pet(&self, body: crate::models::Pet) -> Result<ResponseContent<AddPetSuccess>, Error<AddPetError>>;
-    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<ResponseContent<DeletePetSuccess>, Error<DeletePetError>>;
-    fn find_pets_by_status(&self, status: Vec<String>) -> Result<ResponseContent<FindPetsByStatusSuccess>, Error<FindPetsByStatusError>>;
-    fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<ResponseContent<FindPetsByTagsSuccess>, Error<FindPetsByTagsError>>;
-    fn get_pet_by_id(&self, pet_id: i64) -> Result<ResponseContent<GetPetByIdSuccess>, Error<GetPetByIdError>>;
-    fn update_pet(&self, body: crate::models::Pet) -> Result<ResponseContent<UpdatePetSuccess>, Error<UpdatePetError>>;
-    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<ResponseContent<UpdatePetWithFormSuccess>, Error<UpdatePetWithFormError>>;
-    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<ResponseContent<UploadFileSuccess>, Error<UploadFileError>>;
+    fn add_pet(&self, body: crate::models::Pet) -> Result<(), Error<AddPetError>>;
+    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<DeletePetError>>;
+    fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<FindPetsByStatusError>>;
+    fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<FindPetsByTagsError>>;
+    fn get_pet_by_id(&self, pet_id: i64) -> Result<crate::models::Pet, Error<GetPetByIdError>>;
+    fn update_pet(&self, body: crate::models::Pet) -> Result<(), Error<UpdatePetError>>;
+    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<UpdatePetWithFormError>>;
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error<UploadFileError>>;
 }
 
 impl PetApi for PetApiClient {
-    fn add_pet(&self, body: crate::models::Pet) -> Result<ResponseContent<AddPetSuccess>, Error<AddPetError>> {
+    fn add_pet(&self, body: crate::models::Pet) -> Result<(), Error<AddPetError>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -208,9 +132,7 @@ impl PetApi for PetApiClient {
         let content = resp.text()?;
 
         if status.is_success() {
-            let entity: Option<AddPetSuccess> = serde_json::from_str(&content).ok();
-            let result = ResponseContent { status, content, entity };
-            Ok(result)
+            Ok(())
         } else {
             let entity: Option<AddPetError> = serde_json::from_str(&content).ok();
             let error = ResponseContent { status, content, entity };
@@ -218,7 +140,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<ResponseContent<DeletePetSuccess>, Error<DeletePetError>> {
+    fn delete_pet(&self, pet_id: i64, api_key: Option<&str>) -> Result<(), Error<DeletePetError>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -242,9 +164,7 @@ impl PetApi for PetApiClient {
         let content = resp.text()?;
 
         if status.is_success() {
-            let entity: Option<DeletePetSuccess> = serde_json::from_str(&content).ok();
-            let result = ResponseContent { status, content, entity };
-            Ok(result)
+            Ok(())
         } else {
             let entity: Option<DeletePetError> = serde_json::from_str(&content).ok();
             let error = ResponseContent { status, content, entity };
@@ -252,7 +172,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    fn find_pets_by_status(&self, status: Vec<String>) -> Result<ResponseContent<FindPetsByStatusSuccess>, Error<FindPetsByStatusError>> {
+    fn find_pets_by_status(&self, status: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<FindPetsByStatusError>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -274,9 +194,7 @@ impl PetApi for PetApiClient {
         let content = resp.text()?;
 
         if status.is_success() {
-            let entity: Option<FindPetsByStatusSuccess> = serde_json::from_str(&content).ok();
-            let result = ResponseContent { status, content, entity };
-            Ok(result)
+            serde_json::from_str(&content).map_err(Error::from)
         } else {
             let entity: Option<FindPetsByStatusError> = serde_json::from_str(&content).ok();
             let error = ResponseContent { status, content, entity };
@@ -284,7 +202,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<ResponseContent<FindPetsByTagsSuccess>, Error<FindPetsByTagsError>> {
+    fn find_pets_by_tags(&self, tags: Vec<String>) -> Result<Vec<crate::models::Pet>, Error<FindPetsByTagsError>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -306,9 +224,7 @@ impl PetApi for PetApiClient {
         let content = resp.text()?;
 
         if status.is_success() {
-            let entity: Option<FindPetsByTagsSuccess> = serde_json::from_str(&content).ok();
-            let result = ResponseContent { status, content, entity };
-            Ok(result)
+            serde_json::from_str(&content).map_err(Error::from)
         } else {
             let entity: Option<FindPetsByTagsError> = serde_json::from_str(&content).ok();
             let error = ResponseContent { status, content, entity };
@@ -316,7 +232,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    fn get_pet_by_id(&self, pet_id: i64) -> Result<ResponseContent<GetPetByIdSuccess>, Error<GetPetByIdError>> {
+    fn get_pet_by_id(&self, pet_id: i64) -> Result<crate::models::Pet, Error<GetPetByIdError>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -342,9 +258,7 @@ impl PetApi for PetApiClient {
         let content = resp.text()?;
 
         if status.is_success() {
-            let entity: Option<GetPetByIdSuccess> = serde_json::from_str(&content).ok();
-            let result = ResponseContent { status, content, entity };
-            Ok(result)
+            serde_json::from_str(&content).map_err(Error::from)
         } else {
             let entity: Option<GetPetByIdError> = serde_json::from_str(&content).ok();
             let error = ResponseContent { status, content, entity };
@@ -352,7 +266,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    fn update_pet(&self, body: crate::models::Pet) -> Result<ResponseContent<UpdatePetSuccess>, Error<UpdatePetError>> {
+    fn update_pet(&self, body: crate::models::Pet) -> Result<(), Error<UpdatePetError>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -374,9 +288,7 @@ impl PetApi for PetApiClient {
         let content = resp.text()?;
 
         if status.is_success() {
-            let entity: Option<UpdatePetSuccess> = serde_json::from_str(&content).ok();
-            let result = ResponseContent { status, content, entity };
-            Ok(result)
+            Ok(())
         } else {
             let entity: Option<UpdatePetError> = serde_json::from_str(&content).ok();
             let error = ResponseContent { status, content, entity };
@@ -384,7 +296,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<ResponseContent<UpdatePetWithFormSuccess>, Error<UpdatePetWithFormError>> {
+    fn update_pet_with_form(&self, pet_id: i64, name: Option<&str>, status: Option<&str>) -> Result<(), Error<UpdatePetWithFormError>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -413,9 +325,7 @@ impl PetApi for PetApiClient {
         let content = resp.text()?;
 
         if status.is_success() {
-            let entity: Option<UpdatePetWithFormSuccess> = serde_json::from_str(&content).ok();
-            let result = ResponseContent { status, content, entity };
-            Ok(result)
+            Ok(())
         } else {
             let entity: Option<UpdatePetWithFormError> = serde_json::from_str(&content).ok();
             let error = ResponseContent { status, content, entity };
@@ -423,7 +333,7 @@ impl PetApi for PetApiClient {
         }
     }
 
-    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<ResponseContent<UploadFileSuccess>, Error<UploadFileError>> {
+    fn upload_file(&self, pet_id: i64, additional_metadata: Option<&str>, file: Option<std::path::PathBuf>) -> Result<crate::models::ApiResponse, Error<UploadFileError>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -452,9 +362,7 @@ impl PetApi for PetApiClient {
         let content = resp.text()?;
 
         if status.is_success() {
-            let entity: Option<UploadFileSuccess> = serde_json::from_str(&content).ok();
-            let result = ResponseContent { status, content, entity };
-            Ok(result)
+            serde_json::from_str(&content).map_err(Error::from)
         } else {
             let entity: Option<UploadFileError> = serde_json::from_str(&content).ok();
             let error = ResponseContent { status, content, entity };

@@ -1218,7 +1218,7 @@ def is_type_nullable(input_type):
     if issubclass(input_type, OpenApiModel) and input_type._nullable:
         return True
     if issubclass(input_type, ModelComposed):
-        # If oneOf/anyOf, check if the 'null' type is one of the allowed types.          
+        # If oneOf/anyOf, check if the 'null' type is one of the allowed types.
         for t in input_type._composed_schemas.get('oneOf', ()):
             if is_type_nullable(t): return True
         for t in input_type._composed_schemas.get('anyOf', ()):
@@ -1242,7 +1242,7 @@ def is_valid_type(input_class_simple, valid_classes):
             input_class_simple is none_type):
         for valid_class in valid_classes:
             if input_class_simple is none_type and is_type_nullable(valid_class):
-                # Schema is oneOf/anyOf and the 'null' type is one of the allowed types.            
+                # Schema is oneOf/anyOf and the 'null' type is one of the allowed types.
                 return True
             if not (issubclass(valid_class, OpenApiModel) and valid_class.discriminator):
                 continue
@@ -1405,6 +1405,8 @@ def model_to_dict(model_instance, serialize=True):
                     if hasattr(item[1], '_data_store') else item,
                     value.items()
                 ))
+            elif isinstance(value, ModelSimple):
+                result[attr] = value.value
             elif hasattr(value, '_data_store'):
                 result[attr] = model_to_dict(value, serialize=serialize)
             else:

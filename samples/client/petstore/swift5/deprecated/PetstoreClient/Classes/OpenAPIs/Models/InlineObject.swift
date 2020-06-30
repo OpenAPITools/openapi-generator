@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-public struct InlineObject: Codable { 
-
+public struct InlineObject: Codable {
 
     /** Updated name of the pet */
     public var name: String?

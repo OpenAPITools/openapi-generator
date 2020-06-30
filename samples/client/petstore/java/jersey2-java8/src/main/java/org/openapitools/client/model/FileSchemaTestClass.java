@@ -101,6 +101,9 @@ public class FileSchemaTestClass {
   }
 
 
+  /**
+   * Return true if this FileSchemaTestClass object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

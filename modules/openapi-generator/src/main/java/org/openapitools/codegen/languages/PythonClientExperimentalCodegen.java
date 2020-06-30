@@ -72,6 +72,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit
                 ))
+                .includeGlobalFeatures(
+                        GlobalFeature.ParameterizedServer
+                )
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,

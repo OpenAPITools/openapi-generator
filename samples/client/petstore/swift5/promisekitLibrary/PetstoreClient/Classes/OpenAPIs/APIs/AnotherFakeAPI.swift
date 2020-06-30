@@ -8,8 +8,6 @@
 import Foundation
 import PromiseKit
 
-
-
 open class AnotherFakeAPI {
     /**
      To test special tags

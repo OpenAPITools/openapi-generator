@@ -105,6 +105,9 @@ public class AdditionalPropertiesNumber {
     return this.additionalProperties.get(key);
   }
 
+  /**
+   * Return true if this AdditionalPropertiesNumber object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

@@ -45,3 +45,7 @@ java $JAVA_OPTS -jar $executable $common_args $args
 printf "\033[32m## Creating fetch client with InversifyJS support!\033[0m\n"
 args="-o $samples/inversify --additional-properties=platform=node,npmName=ts-petstore-client,useInversify=true $@"
 java $JAVA_OPTS -jar $executable $common_args $args
+
+printf "\033[32m## Creating Deno (fetch) client!\033[0m\n"
+args="-o $samples/deno --additional-properties=platform=deno $@"
+java $JAVA_OPTS -jar $executable $common_args $args

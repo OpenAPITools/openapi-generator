@@ -49,6 +49,7 @@ public class Example {
         XmlItem xmlItem = new XmlItem(); // XmlItem | XmlItem Body
         try {
             CompletableFuture<Void> result = apiInstance.createXmlItem(xmlItem);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#createXmlItem");
             System.err.println("Status code: " + e.getCode());
@@ -115,6 +116,7 @@ public class Example {
         Boolean body = true; // Boolean | Input boolean as post body
         try {
             CompletableFuture<Boolean> result = apiInstance.fakeOuterBooleanSerialize(body);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterBooleanSerialize");
@@ -182,6 +184,7 @@ public class Example {
         OuterComposite body = new OuterComposite(); // OuterComposite | Input composite as post body
         try {
             CompletableFuture<OuterComposite> result = apiInstance.fakeOuterCompositeSerialize(body);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterCompositeSerialize");
@@ -249,6 +252,7 @@ public class Example {
         BigDecimal body = new BigDecimal(); // BigDecimal | Input number as post body
         try {
             CompletableFuture<BigDecimal> result = apiInstance.fakeOuterNumberSerialize(body);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterNumberSerialize");
@@ -316,6 +320,7 @@ public class Example {
         String body = "body_example"; // String | Input string as post body
         try {
             CompletableFuture<String> result = apiInstance.fakeOuterStringSerialize(body);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#fakeOuterStringSerialize");
@@ -383,6 +388,7 @@ public class Example {
         FileSchemaTestClass body = new FileSchemaTestClass(); // FileSchemaTestClass | 
         try {
             CompletableFuture<Void> result = apiInstance.testBodyWithFileSchema(body);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testBodyWithFileSchema");
             System.err.println("Status code: " + e.getCode());
@@ -448,6 +454,7 @@ public class Example {
         User body = new User(); // User | 
         try {
             CompletableFuture<Void> result = apiInstance.testBodyWithQueryParams(query, body);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testBodyWithQueryParams");
             System.err.println("Status code: " + e.getCode());
@@ -515,6 +522,7 @@ public class Example {
         Client body = new Client(); // Client | client model
         try {
             CompletableFuture<Client> result = apiInstance.testClientModel(body);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testClientModel");
@@ -601,6 +609,7 @@ public class Example {
         String paramCallback = "paramCallback_example"; // String | None
         try {
             CompletableFuture<Void> result = apiInstance.testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testEndpointParameters");
             System.err.println("Status code: " + e.getCode());
@@ -688,6 +697,7 @@ public class Example {
         String enumFormString = "-efg"; // String | Form parameter enum test (string)
         try {
             CompletableFuture<Void> result = apiInstance.testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testEnumParameters");
             System.err.println("Status code: " + e.getCode());
@@ -767,7 +777,6 @@ public class Example {
         Boolean booleanGroup = true; // Boolean | Boolean in group parameters
         Long int64Group = 56L; // Long | Integer in group parameters
         try {
-
             APItestGroupParametersRequest request = APItestGroupParametersRequest.newBuilder()
                 .requiredStringGroup(requiredStringGroup)
                 .requiredBooleanGroup(requiredBooleanGroup)
@@ -855,6 +864,7 @@ public class Example {
         Map<String, String> param = new HashMap(); // Map<String, String> | request body
         try {
             CompletableFuture<Void> result = apiInstance.testInlineAdditionalProperties(param);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testInlineAdditionalProperties");
             System.err.println("Status code: " + e.getCode());
@@ -920,6 +930,7 @@ public class Example {
         String param2 = "param2_example"; // String | field2
         try {
             CompletableFuture<Void> result = apiInstance.testJsonFormData(param, param2);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testJsonFormData");
             System.err.println("Status code: " + e.getCode());
@@ -991,6 +1002,7 @@ public class Example {
         List<String> context = Arrays.asList(); // List<String> | 
         try {
             CompletableFuture<Void> result = apiInstance.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeApi#testQueryParameterCollectionFormat");
             System.err.println("Status code: " + e.getCode());

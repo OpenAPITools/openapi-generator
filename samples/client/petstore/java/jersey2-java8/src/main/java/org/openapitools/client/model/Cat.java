@@ -73,6 +73,9 @@ public class Cat extends Animal {
   }
 
 
+  /**
+   * Return true if this Cat object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
