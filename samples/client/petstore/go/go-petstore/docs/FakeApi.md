@@ -415,7 +415,7 @@ No authorization required
 
 ## TestBodyWithQueryParams
 
-> TestBodyWithQueryParams(ctx).Query(query).Body(body).Execute()
+> TestBodyWithQueryParams(ctx).QueryQuery(query).Body(body).Execute()
 
 
 
@@ -437,7 +437,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.FakeApi.TestBodyWithQueryParams(context.Background()).Query(query).Body(body).Execute()
+    resp, r, err := api_client.FakeApi.TestBodyWithQueryParams(context.Background()).QueryQuery(query).Body(body).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestBodyWithQueryParams``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -636,7 +636,7 @@ Name | Type | Description  | Notes
 
 ## TestEnumParameters
 
-> TestEnumParameters(ctx).EnumHeaderStringArray(enumHeaderStringArray).EnumHeaderString(enumHeaderString).EnumQueryStringArray(enumQueryStringArray).EnumQueryString(enumQueryString).EnumQueryInteger(enumQueryInteger).EnumQueryDouble(enumQueryDouble).EnumFormStringArray(enumFormStringArray).EnumFormString(enumFormString).Execute()
+> TestEnumParameters(ctx).HeaderEnumHeaderStringArray(enumHeaderStringArray).HeaderEnumHeaderString(enumHeaderString).QueryEnumQueryStringArray(enumQueryStringArray).QueryEnumQueryString(enumQueryString).QueryEnumQueryInteger(enumQueryInteger).QueryEnumQueryDouble(enumQueryDouble).EnumFormStringArray(enumFormStringArray).EnumFormString(enumFormString).Execute()
 
 To test enum parameters
 
@@ -666,7 +666,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.FakeApi.TestEnumParameters(context.Background()).EnumHeaderStringArray(enumHeaderStringArray).EnumHeaderString(enumHeaderString).EnumQueryStringArray(enumQueryStringArray).EnumQueryString(enumQueryString).EnumQueryInteger(enumQueryInteger).EnumQueryDouble(enumQueryDouble).EnumFormStringArray(enumFormStringArray).EnumFormString(enumFormString).Execute()
+    resp, r, err := api_client.FakeApi.TestEnumParameters(context.Background()).HeaderEnumHeaderStringArray(enumHeaderStringArray).HeaderEnumHeaderString(enumHeaderString).QueryEnumQueryStringArray(enumQueryStringArray).QueryEnumQueryString(enumQueryString).QueryEnumQueryInteger(enumQueryInteger).QueryEnumQueryDouble(enumQueryDouble).EnumFormStringArray(enumFormStringArray).EnumFormString(enumFormString).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestEnumParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -714,7 +714,7 @@ No authorization required
 
 ## TestGroupParameters
 
-> TestGroupParameters(ctx).RequiredStringGroup(requiredStringGroup).RequiredBooleanGroup(requiredBooleanGroup).RequiredInt64Group(requiredInt64Group).StringGroup(stringGroup).BooleanGroup(booleanGroup).Int64Group(int64Group).Execute()
+> TestGroupParameters(ctx).RequiredStringGroup(requiredStringGroup).HeaderRequiredBooleanGroup(requiredBooleanGroup).RequiredInt64Group(requiredInt64Group).StringGroup(stringGroup).HeaderBooleanGroup(booleanGroup).Int64Group(int64Group).Execute()
 
 Fake endpoint to test group parameters (optional)
 
@@ -742,7 +742,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.FakeApi.TestGroupParameters(context.Background()).RequiredStringGroup(requiredStringGroup).RequiredBooleanGroup(requiredBooleanGroup).RequiredInt64Group(requiredInt64Group).StringGroup(stringGroup).BooleanGroup(booleanGroup).Int64Group(int64Group).Execute()
+    resp, r, err := api_client.FakeApi.TestGroupParameters(context.Background()).RequiredStringGroup(requiredStringGroup).HeaderRequiredBooleanGroup(requiredBooleanGroup).RequiredInt64Group(requiredInt64Group).StringGroup(stringGroup).HeaderBooleanGroup(booleanGroup).Int64Group(int64Group).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestGroupParameters``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

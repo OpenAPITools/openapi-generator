@@ -80,7 +80,7 @@ Name | Type | Description  | Notes
 
 ## DeletePet
 
-> DeletePet(ctx, petId).ApiKey(apiKey).Execute()
+> DeletePet(ctx, petId).HeaderApiKey(apiKey).Execute()
 
 Deletes a pet
 
@@ -102,7 +102,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.PetApi.DeletePet(context.Background(), petId).ApiKey(apiKey).Execute()
+    resp, r, err := api_client.PetApi.DeletePet(context.Background(), petId).HeaderApiKey(apiKey).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PetApi.DeletePet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

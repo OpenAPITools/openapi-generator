@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.regex.Pattern;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -368,6 +369,32 @@ public class GoClientCodegen extends AbstractGoCodegen {
         return prop;
     }
 
+    private Pattern pattern = Pattern.compile("^(query|header|cookie|form).*$", Pattern.CASE_INSENSITIVE);
+
+    @Override
+    protected String exportParameterNameFor(CodegenParameter param, boolean hasFormParams) {
+        String prefix = param.isHeaderParam ? "Header"
+            : param.isCookieParam ? "Cookie"
+            : param.isQueryParam && (hasFormParams || pattern.matcher(param.paramName).matches()) ? "Query"
+            : param.isFormParam && pattern.matcher(param.paramName).matches() ? "Form"
+            : "";
+
+        return prefix + super.exportParameterNameFor(param, hasFormParams);
+    }
+
+    private void setNamespacedParameterName(List<CodegenParameter> codegenParameters) {
+        for (CodegenParameter param : codegenParameters) {
+            String namespacePrefix = param.isHeaderParam ? "header"
+                : param.isCookieParam ? "cookie"
+                : param.isQueryParam ? "query"
+                : param.isFormParam ? "form"
+                : param.isBodyParam ? "body"
+                : "path";
+
+            param.vendorExtensions.put("x-namespaced-param-name", namespacePrefix + param.paramName);
+        }
+    }
+
     @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // The superclass determines the list of required golang imports. The actual list of imports
@@ -446,6 +473,16 @@ public class GoClientCodegen extends AbstractGoCodegen {
                 p.vendorExtensions.put("x-go-example", constructExampleCode(p, modelMaps, processedModelMaps));
             }
             processedModelMaps.clear();
+
+            setNamespacedParameterName(op.allParams);
+            setNamespacedParameterName(op.queryParams);
+            setNamespacedParameterName(op.formParams);
+            setNamespacedParameterName(op.headerParams);
+            setNamespacedParameterName(op.bodyParams);
+            setNamespacedParameterName(op.cookieParams);
+            setNamespacedParameterName(op.optionalParams);
+            setNamespacedParameterName(op.requiredParams);
+            setNamespacedParameterName(op.pathParams);
         }
 
         for (CodegenOperation operation : operationList) {

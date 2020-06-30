@@ -89,7 +89,7 @@ type StoreApiService service
 type ApiDeleteOrderRequest struct {
 	ctx _context.Context
 	ApiService StoreApi
-	orderId string
+	pathorderId string
 }
 
 
@@ -108,7 +108,7 @@ func (a *StoreApiService) DeleteOrder(ctx _context.Context, orderId string) ApiD
 	return ApiDeleteOrderRequest{
 		ApiService: a,
 		ctx: ctx,
-		orderId: orderId,
+		pathorderId: orderId,
 	}
 }
 
@@ -130,7 +130,7 @@ func (a *StoreApiService) DeleteOrderExecute(r ApiDeleteOrderRequest) (*_nethttp
 	}
 
 	localVarPath := localBasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.PathEscape(parameterToString(r.orderId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.PathEscape(parameterToString(r.pathorderId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -300,7 +300,7 @@ func (a *StoreApiService) GetInventoryExecute(r ApiGetInventoryRequest) (map[str
 type ApiGetOrderByIdRequest struct {
 	ctx _context.Context
 	ApiService StoreApi
-	orderId int64
+	pathorderId int64
 }
 
 
@@ -319,7 +319,7 @@ func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) ApiG
 	return ApiGetOrderByIdRequest{
 		ApiService: a,
 		ctx: ctx,
-		orderId: orderId,
+		pathorderId: orderId,
 	}
 }
 
@@ -343,15 +343,15 @@ func (a *StoreApiService) GetOrderByIdExecute(r ApiGetOrderByIdRequest) (Order, 
 	}
 
 	localVarPath := localBasePath + "/store/order/{order_id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.PathEscape(parameterToString(r.orderId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"order_id"+"}", _neturl.PathEscape(parameterToString(r.pathorderId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.orderId < 1 {
+	if r.pathorderId < 1 {
 		return localVarReturnValue, nil, reportError("orderId must be greater than 1")
 	}
-	if r.orderId > 5 {
+	if r.pathorderId > 5 {
 		return localVarReturnValue, nil, reportError("orderId must be less than 5")
 	}
 
@@ -412,11 +412,11 @@ func (a *StoreApiService) GetOrderByIdExecute(r ApiGetOrderByIdRequest) (Order, 
 type ApiPlaceOrderRequest struct {
 	ctx _context.Context
 	ApiService StoreApi
-	order *Order
+	bodyorder *Order
 }
 
 func (r ApiPlaceOrderRequest) Order(order Order) ApiPlaceOrderRequest {
-	r.order = &order
+	r.bodyorder = &order
 	return r
 }
 
@@ -460,7 +460,7 @@ func (a *StoreApiService) PlaceOrderExecute(r ApiPlaceOrderRequest) (Order, *_ne
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.order == nil {
+	if r.bodyorder == nil {
 		return localVarReturnValue, nil, reportError("order is required and must be specified")
 	}
 
@@ -482,7 +482,7 @@ func (a *StoreApiService) PlaceOrderExecute(r ApiPlaceOrderRequest) (Order, *_ne
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.order
+	localVarPostBody = r.bodyorder
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err

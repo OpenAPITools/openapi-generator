@@ -324,11 +324,11 @@ func (a *FakeApiService) FakeHealthGetExecute(r ApiFakeHealthGetRequest) (Health
 type ApiFakeOuterBooleanSerializeRequest struct {
 	ctx _context.Context
 	ApiService FakeApi
-	body *bool
+	bodybody *bool
 }
 
 func (r ApiFakeOuterBooleanSerializeRequest) Body(body bool) ApiFakeOuterBooleanSerializeRequest {
-	r.body = &body
+	r.bodybody = &body
 	return r
 }
 
@@ -392,7 +392,7 @@ func (a *FakeApiService) FakeOuterBooleanSerializeExecute(r ApiFakeOuterBooleanS
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.body
+	localVarPostBody = r.bodybody
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -433,11 +433,11 @@ func (a *FakeApiService) FakeOuterBooleanSerializeExecute(r ApiFakeOuterBooleanS
 type ApiFakeOuterCompositeSerializeRequest struct {
 	ctx _context.Context
 	ApiService FakeApi
-	outerComposite *OuterComposite
+	bodyouterComposite *OuterComposite
 }
 
 func (r ApiFakeOuterCompositeSerializeRequest) OuterComposite(outerComposite OuterComposite) ApiFakeOuterCompositeSerializeRequest {
-	r.outerComposite = &outerComposite
+	r.bodyouterComposite = &outerComposite
 	return r
 }
 
@@ -501,7 +501,7 @@ func (a *FakeApiService) FakeOuterCompositeSerializeExecute(r ApiFakeOuterCompos
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.outerComposite
+	localVarPostBody = r.bodyouterComposite
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -542,11 +542,11 @@ func (a *FakeApiService) FakeOuterCompositeSerializeExecute(r ApiFakeOuterCompos
 type ApiFakeOuterNumberSerializeRequest struct {
 	ctx _context.Context
 	ApiService FakeApi
-	body *float32
+	bodybody *float32
 }
 
 func (r ApiFakeOuterNumberSerializeRequest) Body(body float32) ApiFakeOuterNumberSerializeRequest {
-	r.body = &body
+	r.bodybody = &body
 	return r
 }
 
@@ -610,7 +610,7 @@ func (a *FakeApiService) FakeOuterNumberSerializeExecute(r ApiFakeOuterNumberSer
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.body
+	localVarPostBody = r.bodybody
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -651,11 +651,11 @@ func (a *FakeApiService) FakeOuterNumberSerializeExecute(r ApiFakeOuterNumberSer
 type ApiFakeOuterStringSerializeRequest struct {
 	ctx _context.Context
 	ApiService FakeApi
-	body *string
+	bodybody *string
 }
 
 func (r ApiFakeOuterStringSerializeRequest) Body(body string) ApiFakeOuterStringSerializeRequest {
-	r.body = &body
+	r.bodybody = &body
 	return r
 }
 
@@ -719,7 +719,7 @@ func (a *FakeApiService) FakeOuterStringSerializeExecute(r ApiFakeOuterStringSer
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.body
+	localVarPostBody = r.bodybody
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -760,11 +760,11 @@ func (a *FakeApiService) FakeOuterStringSerializeExecute(r ApiFakeOuterStringSer
 type ApiTestBodyWithFileSchemaRequest struct {
 	ctx _context.Context
 	ApiService FakeApi
-	fileSchemaTestClass *FileSchemaTestClass
+	bodyfileSchemaTestClass *FileSchemaTestClass
 }
 
 func (r ApiTestBodyWithFileSchemaRequest) FileSchemaTestClass(fileSchemaTestClass FileSchemaTestClass) ApiTestBodyWithFileSchemaRequest {
-	r.fileSchemaTestClass = &fileSchemaTestClass
+	r.bodyfileSchemaTestClass = &fileSchemaTestClass
 	return r
 }
 
@@ -807,7 +807,7 @@ func (a *FakeApiService) TestBodyWithFileSchemaExecute(r ApiTestBodyWithFileSche
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.fileSchemaTestClass == nil {
+	if r.bodyfileSchemaTestClass == nil {
 		return nil, reportError("fileSchemaTestClass is required and must be specified")
 	}
 
@@ -829,7 +829,7 @@ func (a *FakeApiService) TestBodyWithFileSchemaExecute(r ApiTestBodyWithFileSche
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.fileSchemaTestClass
+	localVarPostBody = r.bodyfileSchemaTestClass
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -861,16 +861,16 @@ func (a *FakeApiService) TestBodyWithFileSchemaExecute(r ApiTestBodyWithFileSche
 type ApiTestBodyWithQueryParamsRequest struct {
 	ctx _context.Context
 	ApiService FakeApi
-	query *string
-	user *User
+	queryquery *string
+	bodyuser *User
 }
 
-func (r ApiTestBodyWithQueryParamsRequest) Query(query string) ApiTestBodyWithQueryParamsRequest {
-	r.query = &query
+func (r ApiTestBodyWithQueryParamsRequest) QueryQuery(query string) ApiTestBodyWithQueryParamsRequest {
+	r.queryquery = &query
 	return r
 }
 func (r ApiTestBodyWithQueryParamsRequest) User(user User) ApiTestBodyWithQueryParamsRequest {
-	r.user = &user
+	r.bodyuser = &user
 	return r
 }
 
@@ -912,14 +912,14 @@ func (a *FakeApiService) TestBodyWithQueryParamsExecute(r ApiTestBodyWithQueryPa
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.query == nil {
+	if r.queryquery == nil {
 		return nil, reportError("query is required and must be specified")
 	}
-	if r.user == nil {
+	if r.bodyuser == nil {
 		return nil, reportError("user is required and must be specified")
 	}
 
-	localVarQueryParams.Add("query", parameterToString(*r.query, ""))
+	localVarQueryParams.Add("query", parameterToString(*r.queryquery, ""))
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
 
@@ -938,7 +938,7 @@ func (a *FakeApiService) TestBodyWithQueryParamsExecute(r ApiTestBodyWithQueryPa
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.user
+	localVarPostBody = r.bodyuser
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -970,11 +970,11 @@ func (a *FakeApiService) TestBodyWithQueryParamsExecute(r ApiTestBodyWithQueryPa
 type ApiTestClientModelRequest struct {
 	ctx _context.Context
 	ApiService FakeApi
-	client *Client
+	bodyclient *Client
 }
 
 func (r ApiTestClientModelRequest) Client(client Client) ApiTestClientModelRequest {
-	r.client = &client
+	r.bodyclient = &client
 	return r
 }
 
@@ -1019,7 +1019,7 @@ func (a *FakeApiService) TestClientModelExecute(r ApiTestClientModelRequest) (Cl
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.client == nil {
+	if r.bodyclient == nil {
 		return localVarReturnValue, nil, reportError("client is required and must be specified")
 	}
 
@@ -1041,7 +1041,7 @@ func (a *FakeApiService) TestClientModelExecute(r ApiTestClientModelRequest) (Cl
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.client
+	localVarPostBody = r.bodyclient
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -1082,76 +1082,76 @@ func (a *FakeApiService) TestClientModelExecute(r ApiTestClientModelRequest) (Cl
 type ApiTestEndpointParametersRequest struct {
 	ctx _context.Context
 	ApiService FakeApi
-	number *float32
-	double *float64
-	patternWithoutDelimiter *string
-	byte_ *string
-	integer *int32
-	int32_ *int32
-	int64_ *int64
-	float *float32
-	string_ *string
-	binary **os.File
-	date *string
-	dateTime *time.Time
-	password *string
-	callback *string
+	formnumber *float32
+	formdouble *float64
+	formpatternWithoutDelimiter *string
+	formbyte_ *string
+	forminteger *int32
+	formint32_ *int32
+	formint64_ *int64
+	formfloat *float32
+	formstring_ *string
+	formbinary **os.File
+	formdate *string
+	formdateTime *time.Time
+	formpassword *string
+	formcallback *string
 }
 
 func (r ApiTestEndpointParametersRequest) Number(number float32) ApiTestEndpointParametersRequest {
-	r.number = &number
+	r.formnumber = &number
 	return r
 }
 func (r ApiTestEndpointParametersRequest) Double(double float64) ApiTestEndpointParametersRequest {
-	r.double = &double
+	r.formdouble = &double
 	return r
 }
 func (r ApiTestEndpointParametersRequest) PatternWithoutDelimiter(patternWithoutDelimiter string) ApiTestEndpointParametersRequest {
-	r.patternWithoutDelimiter = &patternWithoutDelimiter
+	r.formpatternWithoutDelimiter = &patternWithoutDelimiter
 	return r
 }
 func (r ApiTestEndpointParametersRequest) Byte_(byte_ string) ApiTestEndpointParametersRequest {
-	r.byte_ = &byte_
+	r.formbyte_ = &byte_
 	return r
 }
 func (r ApiTestEndpointParametersRequest) Integer(integer int32) ApiTestEndpointParametersRequest {
-	r.integer = &integer
+	r.forminteger = &integer
 	return r
 }
 func (r ApiTestEndpointParametersRequest) Int32_(int32_ int32) ApiTestEndpointParametersRequest {
-	r.int32_ = &int32_
+	r.formint32_ = &int32_
 	return r
 }
 func (r ApiTestEndpointParametersRequest) Int64_(int64_ int64) ApiTestEndpointParametersRequest {
-	r.int64_ = &int64_
+	r.formint64_ = &int64_
 	return r
 }
 func (r ApiTestEndpointParametersRequest) Float(float float32) ApiTestEndpointParametersRequest {
-	r.float = &float
+	r.formfloat = &float
 	return r
 }
 func (r ApiTestEndpointParametersRequest) String_(string_ string) ApiTestEndpointParametersRequest {
-	r.string_ = &string_
+	r.formstring_ = &string_
 	return r
 }
 func (r ApiTestEndpointParametersRequest) Binary(binary *os.File) ApiTestEndpointParametersRequest {
-	r.binary = &binary
+	r.formbinary = &binary
 	return r
 }
 func (r ApiTestEndpointParametersRequest) Date(date string) ApiTestEndpointParametersRequest {
-	r.date = &date
+	r.formdate = &date
 	return r
 }
 func (r ApiTestEndpointParametersRequest) DateTime(dateTime time.Time) ApiTestEndpointParametersRequest {
-	r.dateTime = &dateTime
+	r.formdateTime = &dateTime
 	return r
 }
 func (r ApiTestEndpointParametersRequest) Password(password string) ApiTestEndpointParametersRequest {
-	r.password = &password
+	r.formpassword = &password
 	return r
 }
 func (r ApiTestEndpointParametersRequest) Callback(callback string) ApiTestEndpointParametersRequest {
-	r.callback = &callback
+	r.formcallback = &callback
 	return r
 }
 
@@ -1198,28 +1198,28 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.number == nil {
+	if r.formnumber == nil {
 		return nil, reportError("number is required and must be specified")
 	}
-	if *r.number < 32.1 {
+	if *r.formnumber < 32.1 {
 		return nil, reportError("number must be greater than 32.1")
 	}
-	if *r.number > 543.2 {
+	if *r.formnumber > 543.2 {
 		return nil, reportError("number must be less than 543.2")
 	}
-	if r.double == nil {
+	if r.formdouble == nil {
 		return nil, reportError("double is required and must be specified")
 	}
-	if *r.double < 67.8 {
+	if *r.formdouble < 67.8 {
 		return nil, reportError("double must be greater than 67.8")
 	}
-	if *r.double > 123.4 {
+	if *r.formdouble > 123.4 {
 		return nil, reportError("double must be less than 123.4")
 	}
-	if r.patternWithoutDelimiter == nil {
+	if r.formpatternWithoutDelimiter == nil {
 		return nil, reportError("patternWithoutDelimiter is required and must be specified")
 	}
-	if r.byte_ == nil {
+	if r.formbyte_ == nil {
 		return nil, reportError("byte_ is required and must be specified")
 	}
 
@@ -1240,29 +1240,29 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	if r.integer != nil {
-		localVarFormParams.Add("integer", parameterToString(*r.integer, ""))
+	if r.forminteger != nil {
+		localVarFormParams.Add("integer", parameterToString(*r.forminteger, ""))
 	}
-	if r.int32_ != nil {
-		localVarFormParams.Add("int32", parameterToString(*r.int32_, ""))
+	if r.formint32_ != nil {
+		localVarFormParams.Add("int32", parameterToString(*r.formint32_, ""))
 	}
-	if r.int64_ != nil {
-		localVarFormParams.Add("int64", parameterToString(*r.int64_, ""))
+	if r.formint64_ != nil {
+		localVarFormParams.Add("int64", parameterToString(*r.formint64_, ""))
 	}
-	localVarFormParams.Add("number", parameterToString(*r.number, ""))
-	if r.float != nil {
-		localVarFormParams.Add("float", parameterToString(*r.float, ""))
+	localVarFormParams.Add("number", parameterToString(*r.formnumber, ""))
+	if r.formfloat != nil {
+		localVarFormParams.Add("float", parameterToString(*r.formfloat, ""))
 	}
-	localVarFormParams.Add("double", parameterToString(*r.double, ""))
-	if r.string_ != nil {
-		localVarFormParams.Add("string", parameterToString(*r.string_, ""))
+	localVarFormParams.Add("double", parameterToString(*r.formdouble, ""))
+	if r.formstring_ != nil {
+		localVarFormParams.Add("string", parameterToString(*r.formstring_, ""))
 	}
-	localVarFormParams.Add("pattern_without_delimiter", parameterToString(*r.patternWithoutDelimiter, ""))
-	localVarFormParams.Add("byte", parameterToString(*r.byte_, ""))
+	localVarFormParams.Add("pattern_without_delimiter", parameterToString(*r.formpatternWithoutDelimiter, ""))
+	localVarFormParams.Add("byte", parameterToString(*r.formbyte_, ""))
 	localVarFormFileName = "binary"
 	var localVarFile *os.File
-	if r.binary != nil {
-		localVarFile = *r.binary
+	if r.formbinary != nil {
+		localVarFile = *r.formbinary
 	}
 	if localVarFile != nil {
 		fbs, _ := _ioutil.ReadAll(localVarFile)
@@ -1270,17 +1270,17 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 		localVarFileName = localVarFile.Name()
 		localVarFile.Close()
 	}
-	if r.date != nil {
-		localVarFormParams.Add("date", parameterToString(*r.date, ""))
+	if r.formdate != nil {
+		localVarFormParams.Add("date", parameterToString(*r.formdate, ""))
 	}
-	if r.dateTime != nil {
-		localVarFormParams.Add("dateTime", parameterToString(*r.dateTime, ""))
+	if r.formdateTime != nil {
+		localVarFormParams.Add("dateTime", parameterToString(*r.formdateTime, ""))
 	}
-	if r.password != nil {
-		localVarFormParams.Add("password", parameterToString(*r.password, ""))
+	if r.formpassword != nil {
+		localVarFormParams.Add("password", parameterToString(*r.formpassword, ""))
 	}
-	if r.callback != nil {
-		localVarFormParams.Add("callback", parameterToString(*r.callback, ""))
+	if r.formcallback != nil {
+		localVarFormParams.Add("callback", parameterToString(*r.formcallback, ""))
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
@@ -1313,46 +1313,46 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 type ApiTestEnumParametersRequest struct {
 	ctx _context.Context
 	ApiService FakeApi
-	enumHeaderStringArray *[]string
-	enumHeaderString *string
-	enumQueryStringArray *[]string
-	enumQueryString *string
-	enumQueryInteger *int32
-	enumQueryDouble *float64
-	enumFormStringArray *[]string
-	enumFormString *string
+	headerenumHeaderStringArray *[]string
+	headerenumHeaderString *string
+	queryenumQueryStringArray *[]string
+	queryenumQueryString *string
+	queryenumQueryInteger *int32
+	queryenumQueryDouble *float64
+	formenumFormStringArray *[]string
+	formenumFormString *string
 }
 
-func (r ApiTestEnumParametersRequest) EnumHeaderStringArray(enumHeaderStringArray []string) ApiTestEnumParametersRequest {
-	r.enumHeaderStringArray = &enumHeaderStringArray
+func (r ApiTestEnumParametersRequest) HeaderEnumHeaderStringArray(enumHeaderStringArray []string) ApiTestEnumParametersRequest {
+	r.headerenumHeaderStringArray = &enumHeaderStringArray
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumHeaderString(enumHeaderString string) ApiTestEnumParametersRequest {
-	r.enumHeaderString = &enumHeaderString
+func (r ApiTestEnumParametersRequest) HeaderEnumHeaderString(enumHeaderString string) ApiTestEnumParametersRequest {
+	r.headerenumHeaderString = &enumHeaderString
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumQueryStringArray(enumQueryStringArray []string) ApiTestEnumParametersRequest {
-	r.enumQueryStringArray = &enumQueryStringArray
+func (r ApiTestEnumParametersRequest) QueryEnumQueryStringArray(enumQueryStringArray []string) ApiTestEnumParametersRequest {
+	r.queryenumQueryStringArray = &enumQueryStringArray
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumQueryString(enumQueryString string) ApiTestEnumParametersRequest {
-	r.enumQueryString = &enumQueryString
+func (r ApiTestEnumParametersRequest) QueryEnumQueryString(enumQueryString string) ApiTestEnumParametersRequest {
+	r.queryenumQueryString = &enumQueryString
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumQueryInteger(enumQueryInteger int32) ApiTestEnumParametersRequest {
-	r.enumQueryInteger = &enumQueryInteger
+func (r ApiTestEnumParametersRequest) QueryEnumQueryInteger(enumQueryInteger int32) ApiTestEnumParametersRequest {
+	r.queryenumQueryInteger = &enumQueryInteger
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumQueryDouble(enumQueryDouble float64) ApiTestEnumParametersRequest {
-	r.enumQueryDouble = &enumQueryDouble
+func (r ApiTestEnumParametersRequest) QueryEnumQueryDouble(enumQueryDouble float64) ApiTestEnumParametersRequest {
+	r.queryenumQueryDouble = &enumQueryDouble
 	return r
 }
 func (r ApiTestEnumParametersRequest) EnumFormStringArray(enumFormStringArray []string) ApiTestEnumParametersRequest {
-	r.enumFormStringArray = &enumFormStringArray
+	r.formenumFormStringArray = &enumFormStringArray
 	return r
 }
 func (r ApiTestEnumParametersRequest) EnumFormString(enumFormString string) ApiTestEnumParametersRequest {
-	r.enumFormString = &enumFormString
+	r.formenumFormString = &enumFormString
 	return r
 }
 
@@ -1396,8 +1396,8 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 
-	if r.enumQueryStringArray != nil {
-		t := *r.enumQueryStringArray
+	if r.queryenumQueryStringArray != nil {
+		t := *r.queryenumQueryStringArray
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
@@ -1407,14 +1407,14 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 			localVarQueryParams.Add("enum_query_string_array", parameterToString(t, "multi"))
 		}
 	}
-	if r.enumQueryString != nil {
-		localVarQueryParams.Add("enum_query_string", parameterToString(*r.enumQueryString, ""))
+	if r.queryenumQueryString != nil {
+		localVarQueryParams.Add("enum_query_string", parameterToString(*r.queryenumQueryString, ""))
 	}
-	if r.enumQueryInteger != nil {
-		localVarQueryParams.Add("enum_query_integer", parameterToString(*r.enumQueryInteger, ""))
+	if r.queryenumQueryInteger != nil {
+		localVarQueryParams.Add("enum_query_integer", parameterToString(*r.queryenumQueryInteger, ""))
 	}
-	if r.enumQueryDouble != nil {
-		localVarQueryParams.Add("enum_query_double", parameterToString(*r.enumQueryDouble, ""))
+	if r.queryenumQueryDouble != nil {
+		localVarQueryParams.Add("enum_query_double", parameterToString(*r.queryenumQueryDouble, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
@@ -1433,17 +1433,17 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	if r.enumHeaderStringArray != nil {
-		localVarHeaderParams["enum_header_string_array"] = parameterToString(*r.enumHeaderStringArray, "csv")
+	if r.headerenumHeaderStringArray != nil {
+		localVarHeaderParams["enum_header_string_array"] = parameterToString(*r.headerenumHeaderStringArray, "csv")
 	}
-	if r.enumHeaderString != nil {
-		localVarHeaderParams["enum_header_string"] = parameterToString(*r.enumHeaderString, "")
+	if r.headerenumHeaderString != nil {
+		localVarHeaderParams["enum_header_string"] = parameterToString(*r.headerenumHeaderString, "")
 	}
-	if r.enumFormStringArray != nil {
-		localVarFormParams.Add("enum_form_string_array", parameterToString(*r.enumFormStringArray, "csv"))
+	if r.formenumFormStringArray != nil {
+		localVarFormParams.Add("enum_form_string_array", parameterToString(*r.formenumFormStringArray, "csv"))
 	}
-	if r.enumFormString != nil {
-		localVarFormParams.Add("enum_form_string", parameterToString(*r.enumFormString, ""))
+	if r.formenumFormString != nil {
+		localVarFormParams.Add("enum_form_string", parameterToString(*r.formenumFormString, ""))
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
@@ -1476,36 +1476,36 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 type ApiTestGroupParametersRequest struct {
 	ctx _context.Context
 	ApiService FakeApi
-	requiredStringGroup *int32
-	requiredBooleanGroup *bool
-	requiredInt64Group *int64
-	stringGroup *int32
-	booleanGroup *bool
-	int64Group *int64
+	queryrequiredStringGroup *int32
+	headerrequiredBooleanGroup *bool
+	queryrequiredInt64Group *int64
+	querystringGroup *int32
+	headerbooleanGroup *bool
+	queryint64Group *int64
 }
 
 func (r ApiTestGroupParametersRequest) RequiredStringGroup(requiredStringGroup int32) ApiTestGroupParametersRequest {
-	r.requiredStringGroup = &requiredStringGroup
+	r.queryrequiredStringGroup = &requiredStringGroup
 	return r
 }
-func (r ApiTestGroupParametersRequest) RequiredBooleanGroup(requiredBooleanGroup bool) ApiTestGroupParametersRequest {
-	r.requiredBooleanGroup = &requiredBooleanGroup
+func (r ApiTestGroupParametersRequest) HeaderRequiredBooleanGroup(requiredBooleanGroup bool) ApiTestGroupParametersRequest {
+	r.headerrequiredBooleanGroup = &requiredBooleanGroup
 	return r
 }
 func (r ApiTestGroupParametersRequest) RequiredInt64Group(requiredInt64Group int64) ApiTestGroupParametersRequest {
-	r.requiredInt64Group = &requiredInt64Group
+	r.queryrequiredInt64Group = &requiredInt64Group
 	return r
 }
 func (r ApiTestGroupParametersRequest) StringGroup(stringGroup int32) ApiTestGroupParametersRequest {
-	r.stringGroup = &stringGroup
+	r.querystringGroup = &stringGroup
 	return r
 }
-func (r ApiTestGroupParametersRequest) BooleanGroup(booleanGroup bool) ApiTestGroupParametersRequest {
-	r.booleanGroup = &booleanGroup
+func (r ApiTestGroupParametersRequest) HeaderBooleanGroup(booleanGroup bool) ApiTestGroupParametersRequest {
+	r.headerbooleanGroup = &booleanGroup
 	return r
 }
 func (r ApiTestGroupParametersRequest) Int64Group(int64Group int64) ApiTestGroupParametersRequest {
-	r.int64Group = &int64Group
+	r.queryint64Group = &int64Group
 	return r
 }
 
@@ -1548,23 +1548,23 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.requiredStringGroup == nil {
+	if r.queryrequiredStringGroup == nil {
 		return nil, reportError("requiredStringGroup is required and must be specified")
 	}
-	if r.requiredBooleanGroup == nil {
+	if r.headerrequiredBooleanGroup == nil {
 		return nil, reportError("requiredBooleanGroup is required and must be specified")
 	}
-	if r.requiredInt64Group == nil {
+	if r.queryrequiredInt64Group == nil {
 		return nil, reportError("requiredInt64Group is required and must be specified")
 	}
 
-	localVarQueryParams.Add("required_string_group", parameterToString(*r.requiredStringGroup, ""))
-	localVarQueryParams.Add("required_int64_group", parameterToString(*r.requiredInt64Group, ""))
-	if r.stringGroup != nil {
-		localVarQueryParams.Add("string_group", parameterToString(*r.stringGroup, ""))
+	localVarQueryParams.Add("required_string_group", parameterToString(*r.queryrequiredStringGroup, ""))
+	localVarQueryParams.Add("required_int64_group", parameterToString(*r.queryrequiredInt64Group, ""))
+	if r.querystringGroup != nil {
+		localVarQueryParams.Add("string_group", parameterToString(*r.querystringGroup, ""))
 	}
-	if r.int64Group != nil {
-		localVarQueryParams.Add("int64_group", parameterToString(*r.int64Group, ""))
+	if r.queryint64Group != nil {
+		localVarQueryParams.Add("int64_group", parameterToString(*r.queryint64Group, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1583,9 +1583,9 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	localVarHeaderParams["required_boolean_group"] = parameterToString(*r.requiredBooleanGroup, "")
-	if r.booleanGroup != nil {
-		localVarHeaderParams["boolean_group"] = parameterToString(*r.booleanGroup, "")
+	localVarHeaderParams["required_boolean_group"] = parameterToString(*r.headerrequiredBooleanGroup, "")
+	if r.headerbooleanGroup != nil {
+		localVarHeaderParams["boolean_group"] = parameterToString(*r.headerbooleanGroup, "")
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
@@ -1618,11 +1618,11 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 type ApiTestInlineAdditionalPropertiesRequest struct {
 	ctx _context.Context
 	ApiService FakeApi
-	requestBody *map[string]string
+	bodyrequestBody *map[string]string
 }
 
 func (r ApiTestInlineAdditionalPropertiesRequest) RequestBody(requestBody map[string]string) ApiTestInlineAdditionalPropertiesRequest {
-	r.requestBody = &requestBody
+	r.bodyrequestBody = &requestBody
 	return r
 }
 
@@ -1664,7 +1664,7 @@ func (a *FakeApiService) TestInlineAdditionalPropertiesExecute(r ApiTestInlineAd
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.requestBody == nil {
+	if r.bodyrequestBody == nil {
 		return nil, reportError("requestBody is required and must be specified")
 	}
 
@@ -1686,7 +1686,7 @@ func (a *FakeApiService) TestInlineAdditionalPropertiesExecute(r ApiTestInlineAd
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.requestBody
+	localVarPostBody = r.bodyrequestBody
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -1718,16 +1718,16 @@ func (a *FakeApiService) TestInlineAdditionalPropertiesExecute(r ApiTestInlineAd
 type ApiTestJsonFormDataRequest struct {
 	ctx _context.Context
 	ApiService FakeApi
-	param *string
-	param2 *string
+	formparam *string
+	formparam2 *string
 }
 
 func (r ApiTestJsonFormDataRequest) Param(param string) ApiTestJsonFormDataRequest {
-	r.param = &param
+	r.formparam = &param
 	return r
 }
 func (r ApiTestJsonFormDataRequest) Param2(param2 string) ApiTestJsonFormDataRequest {
-	r.param2 = &param2
+	r.formparam2 = &param2
 	return r
 }
 
@@ -1769,10 +1769,10 @@ func (a *FakeApiService) TestJsonFormDataExecute(r ApiTestJsonFormDataRequest) (
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.param == nil {
+	if r.formparam == nil {
 		return nil, reportError("param is required and must be specified")
 	}
-	if r.param2 == nil {
+	if r.formparam2 == nil {
 		return nil, reportError("param2 is required and must be specified")
 	}
 
@@ -1793,8 +1793,8 @@ func (a *FakeApiService) TestJsonFormDataExecute(r ApiTestJsonFormDataRequest) (
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	localVarFormParams.Add("param", parameterToString(*r.param, ""))
-	localVarFormParams.Add("param2", parameterToString(*r.param2, ""))
+	localVarFormParams.Add("param", parameterToString(*r.formparam, ""))
+	localVarFormParams.Add("param2", parameterToString(*r.formparam2, ""))
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -1826,31 +1826,31 @@ func (a *FakeApiService) TestJsonFormDataExecute(r ApiTestJsonFormDataRequest) (
 type ApiTestQueryParameterCollectionFormatRequest struct {
 	ctx _context.Context
 	ApiService FakeApi
-	pipe *[]string
-	ioutil *[]string
-	http *[]string
-	url *[]string
-	context *[]string
+	querypipe *[]string
+	queryioutil *[]string
+	queryhttp *[]string
+	queryurl *[]string
+	querycontext *[]string
 }
 
 func (r ApiTestQueryParameterCollectionFormatRequest) Pipe(pipe []string) ApiTestQueryParameterCollectionFormatRequest {
-	r.pipe = &pipe
+	r.querypipe = &pipe
 	return r
 }
 func (r ApiTestQueryParameterCollectionFormatRequest) Ioutil(ioutil []string) ApiTestQueryParameterCollectionFormatRequest {
-	r.ioutil = &ioutil
+	r.queryioutil = &ioutil
 	return r
 }
 func (r ApiTestQueryParameterCollectionFormatRequest) Http(http []string) ApiTestQueryParameterCollectionFormatRequest {
-	r.http = &http
+	r.queryhttp = &http
 	return r
 }
 func (r ApiTestQueryParameterCollectionFormatRequest) Url(url []string) ApiTestQueryParameterCollectionFormatRequest {
-	r.url = &url
+	r.queryurl = &url
 	return r
 }
 func (r ApiTestQueryParameterCollectionFormatRequest) Context(context []string) ApiTestQueryParameterCollectionFormatRequest {
-	r.context = &context
+	r.querycontext = &context
 	return r
 }
 
@@ -1893,24 +1893,24 @@ func (a *FakeApiService) TestQueryParameterCollectionFormatExecute(r ApiTestQuer
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.pipe == nil {
+	if r.querypipe == nil {
 		return nil, reportError("pipe is required and must be specified")
 	}
-	if r.ioutil == nil {
+	if r.queryioutil == nil {
 		return nil, reportError("ioutil is required and must be specified")
 	}
-	if r.http == nil {
+	if r.queryhttp == nil {
 		return nil, reportError("http is required and must be specified")
 	}
-	if r.url == nil {
+	if r.queryurl == nil {
 		return nil, reportError("url is required and must be specified")
 	}
-	if r.context == nil {
+	if r.querycontext == nil {
 		return nil, reportError("context is required and must be specified")
 	}
 
 	{
-		t := *r.pipe
+		t := *r.querypipe
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {
@@ -1920,11 +1920,11 @@ func (a *FakeApiService) TestQueryParameterCollectionFormatExecute(r ApiTestQuer
 			localVarQueryParams.Add("pipe", parameterToString(t, "multi"))
 		}
 	}
-	localVarQueryParams.Add("ioutil", parameterToString(*r.ioutil, "csv"))
-	localVarQueryParams.Add("http", parameterToString(*r.http, "ssv"))
-	localVarQueryParams.Add("url", parameterToString(*r.url, "csv"))
+	localVarQueryParams.Add("ioutil", parameterToString(*r.queryioutil, "csv"))
+	localVarQueryParams.Add("http", parameterToString(*r.queryhttp, "ssv"))
+	localVarQueryParams.Add("url", parameterToString(*r.queryurl, "csv"))
 	{
-		t := *r.context
+		t := *r.querycontext
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
 			s := reflect.ValueOf(t)
 			for i := 0; i < s.Len(); i++ {

@@ -46,11 +46,11 @@ type AnotherFakeApiService service
 type ApiCall123TestSpecialTagsRequest struct {
 	ctx _context.Context
 	ApiService AnotherFakeApi
-	body *Client
+	bodybody *Client
 }
 
 func (r ApiCall123TestSpecialTagsRequest) Body(body Client) ApiCall123TestSpecialTagsRequest {
-	r.body = &body
+	r.bodybody = &body
 	return r
 }
 
@@ -95,7 +95,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.body == nil {
+	if r.bodybody == nil {
 		return localVarReturnValue, nil, reportError("body is required and must be specified")
 	}
 
@@ -117,7 +117,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSp
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.body
+	localVarPostBody = r.bodybody
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err

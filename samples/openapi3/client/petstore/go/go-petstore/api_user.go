@@ -137,11 +137,11 @@ type UserApiService service
 type ApiCreateUserRequest struct {
 	ctx _context.Context
 	ApiService UserApi
-	user *User
+	bodyuser *User
 }
 
 func (r ApiCreateUserRequest) User(user User) ApiCreateUserRequest {
-	r.user = &user
+	r.bodyuser = &user
 	return r
 }
 
@@ -184,7 +184,7 @@ func (a *UserApiService) CreateUserExecute(r ApiCreateUserRequest) (*_nethttp.Re
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.user == nil {
+	if r.bodyuser == nil {
 		return nil, reportError("user is required and must be specified")
 	}
 
@@ -206,7 +206,7 @@ func (a *UserApiService) CreateUserExecute(r ApiCreateUserRequest) (*_nethttp.Re
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.user
+	localVarPostBody = r.bodyuser
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -238,11 +238,11 @@ func (a *UserApiService) CreateUserExecute(r ApiCreateUserRequest) (*_nethttp.Re
 type ApiCreateUsersWithArrayInputRequest struct {
 	ctx _context.Context
 	ApiService UserApi
-	user *[]User
+	bodyuser *[]User
 }
 
 func (r ApiCreateUsersWithArrayInputRequest) User(user []User) ApiCreateUsersWithArrayInputRequest {
-	r.user = &user
+	r.bodyuser = &user
 	return r
 }
 
@@ -284,7 +284,7 @@ func (a *UserApiService) CreateUsersWithArrayInputExecute(r ApiCreateUsersWithAr
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.user == nil {
+	if r.bodyuser == nil {
 		return nil, reportError("user is required and must be specified")
 	}
 
@@ -306,7 +306,7 @@ func (a *UserApiService) CreateUsersWithArrayInputExecute(r ApiCreateUsersWithAr
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.user
+	localVarPostBody = r.bodyuser
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -338,11 +338,11 @@ func (a *UserApiService) CreateUsersWithArrayInputExecute(r ApiCreateUsersWithAr
 type ApiCreateUsersWithListInputRequest struct {
 	ctx _context.Context
 	ApiService UserApi
-	user *[]User
+	bodyuser *[]User
 }
 
 func (r ApiCreateUsersWithListInputRequest) User(user []User) ApiCreateUsersWithListInputRequest {
-	r.user = &user
+	r.bodyuser = &user
 	return r
 }
 
@@ -384,7 +384,7 @@ func (a *UserApiService) CreateUsersWithListInputExecute(r ApiCreateUsersWithLis
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.user == nil {
+	if r.bodyuser == nil {
 		return nil, reportError("user is required and must be specified")
 	}
 
@@ -406,7 +406,7 @@ func (a *UserApiService) CreateUsersWithListInputExecute(r ApiCreateUsersWithLis
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.user
+	localVarPostBody = r.bodyuser
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
@@ -438,7 +438,7 @@ func (a *UserApiService) CreateUsersWithListInputExecute(r ApiCreateUsersWithLis
 type ApiDeleteUserRequest struct {
 	ctx _context.Context
 	ApiService UserApi
-	username string
+	pathusername string
 }
 
 
@@ -457,7 +457,7 @@ func (a *UserApiService) DeleteUser(ctx _context.Context, username string) ApiDe
 	return ApiDeleteUserRequest{
 		ApiService: a,
 		ctx: ctx,
-		username: username,
+		pathusername: username,
 	}
 }
 
@@ -479,7 +479,7 @@ func (a *UserApiService) DeleteUserExecute(r ApiDeleteUserRequest) (*_nethttp.Re
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(parameterToString(r.username, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(parameterToString(r.pathusername, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -533,7 +533,7 @@ func (a *UserApiService) DeleteUserExecute(r ApiDeleteUserRequest) (*_nethttp.Re
 type ApiGetUserByNameRequest struct {
 	ctx _context.Context
 	ApiService UserApi
-	username string
+	pathusername string
 }
 
 
@@ -551,7 +551,7 @@ func (a *UserApiService) GetUserByName(ctx _context.Context, username string) Ap
 	return ApiGetUserByNameRequest{
 		ApiService: a,
 		ctx: ctx,
-		username: username,
+		pathusername: username,
 	}
 }
 
@@ -575,7 +575,7 @@ func (a *UserApiService) GetUserByNameExecute(r ApiGetUserByNameRequest) (User, 
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(parameterToString(r.username, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(parameterToString(r.pathusername, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -638,16 +638,16 @@ func (a *UserApiService) GetUserByNameExecute(r ApiGetUserByNameRequest) (User, 
 type ApiLoginUserRequest struct {
 	ctx _context.Context
 	ApiService UserApi
-	username *string
-	password *string
+	queryusername *string
+	querypassword *string
 }
 
 func (r ApiLoginUserRequest) Username(username string) ApiLoginUserRequest {
-	r.username = &username
+	r.queryusername = &username
 	return r
 }
 func (r ApiLoginUserRequest) Password(password string) ApiLoginUserRequest {
-	r.password = &password
+	r.querypassword = &password
 	return r
 }
 
@@ -691,15 +691,15 @@ func (a *UserApiService) LoginUserExecute(r ApiLoginUserRequest) (string, *_neth
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.username == nil {
+	if r.queryusername == nil {
 		return localVarReturnValue, nil, reportError("username is required and must be specified")
 	}
-	if r.password == nil {
+	if r.querypassword == nil {
 		return localVarReturnValue, nil, reportError("password is required and must be specified")
 	}
 
-	localVarQueryParams.Add("username", parameterToString(*r.username, ""))
-	localVarQueryParams.Add("password", parameterToString(*r.password, ""))
+	localVarQueryParams.Add("username", parameterToString(*r.queryusername, ""))
+	localVarQueryParams.Add("password", parameterToString(*r.querypassword, ""))
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -847,12 +847,12 @@ func (a *UserApiService) LogoutUserExecute(r ApiLogoutUserRequest) (*_nethttp.Re
 type ApiUpdateUserRequest struct {
 	ctx _context.Context
 	ApiService UserApi
-	username string
-	user *User
+	pathusername string
+	bodyuser *User
 }
 
 func (r ApiUpdateUserRequest) User(user User) ApiUpdateUserRequest {
-	r.user = &user
+	r.bodyuser = &user
 	return r
 }
 
@@ -871,7 +871,7 @@ func (a *UserApiService) UpdateUser(ctx _context.Context, username string) ApiUp
 	return ApiUpdateUserRequest{
 		ApiService: a,
 		ctx: ctx,
-		username: username,
+		pathusername: username,
 	}
 }
 
@@ -893,12 +893,12 @@ func (a *UserApiService) UpdateUserExecute(r ApiUpdateUserRequest) (*_nethttp.Re
 	}
 
 	localVarPath := localBasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(parameterToString(r.username, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(parameterToString(r.pathusername, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.user == nil {
+	if r.bodyuser == nil {
 		return nil, reportError("user is required and must be specified")
 	}
 
@@ -920,7 +920,7 @@ func (a *UserApiService) UpdateUserExecute(r ApiUpdateUserRequest) (*_nethttp.Re
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.user
+	localVarPostBody = r.bodyuser
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err

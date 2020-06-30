@@ -546,13 +546,16 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 }
             }
 
-            setExportParameterName(operation.queryParams);
-            setExportParameterName(operation.formParams);
-            setExportParameterName(operation.headerParams);
-            setExportParameterName(operation.bodyParams);
-            setExportParameterName(operation.cookieParams);
-            setExportParameterName(operation.optionalParams);
-            setExportParameterName(operation.requiredParams);
+            boolean hasFormParams = !operation.formParams.isEmpty();
+
+            setExportParameterName(operation.allParams, hasFormParams);
+            setExportParameterName(operation.queryParams, hasFormParams);
+            setExportParameterName(operation.formParams, hasFormParams);
+            setExportParameterName(operation.headerParams, hasFormParams);
+            setExportParameterName(operation.bodyParams, hasFormParams);
+            setExportParameterName(operation.cookieParams, hasFormParams);
+            setExportParameterName(operation.optionalParams, hasFormParams);
+            setExportParameterName(operation.requiredParams, hasFormParams);
 
         }
 
@@ -574,18 +577,22 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         return objs;
     }
 
-    private void setExportParameterName(List<CodegenParameter> codegenParameters) {
+    private void setExportParameterName(List<CodegenParameter> codegenParameters, boolean hasFormParams) {
         for (CodegenParameter param : codegenParameters) {
-            char nameFirstChar = param.paramName.charAt(0);
-            if (Character.isUpperCase(nameFirstChar)) {
-                // First char is already uppercase, just use paramName.
-                param.vendorExtensions.put("x-export-param-name", param.paramName);
-            } else {
-                // It's a lowercase first char, let's convert it to uppercase
-                StringBuilder sb = new StringBuilder(param.paramName);
-                sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
-                param.vendorExtensions.put("x-export-param-name", sb.toString());
-            }
+            param.vendorExtensions.put("x-export-param-name", exportParameterNameFor(param, hasFormParams));
+        }
+    }
+
+    protected String exportParameterNameFor(CodegenParameter param, boolean hasFormParams) {
+        char nameFirstChar = param.paramName.charAt(0);
+        if (Character.isUpperCase(nameFirstChar)) {
+            // First char is already uppercase, just use paramName.
+            return param.paramName;
+        } else {
+            // It's a lowercase first char, let's convert it to uppercase
+            StringBuilder sb = new StringBuilder(param.paramName);
+            sb.setCharAt(0, Character.toUpperCase(nameFirstChar));
+            return sb.toString();
         }
     }
 

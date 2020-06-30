@@ -46,11 +46,11 @@ type FakeClassnameTags123ApiService service
 type ApiTestClassnameRequest struct {
 	ctx _context.Context
 	ApiService FakeClassnameTags123Api
-	body *Client
+	bodybody *Client
 }
 
 func (r ApiTestClassnameRequest) Body(body Client) ApiTestClassnameRequest {
-	r.body = &body
+	r.bodybody = &body
 	return r
 }
 
@@ -95,7 +95,7 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.body == nil {
+	if r.bodybody == nil {
 		return localVarReturnValue, nil, reportError("body is required and must be specified")
 	}
 
@@ -117,7 +117,7 @@ func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassname
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.body
+	localVarPostBody = r.bodybody
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
