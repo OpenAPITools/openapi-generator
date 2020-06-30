@@ -1912,6 +1912,14 @@ components:
             type: object
           type: object
       type: object
+    primitiveType:
+      oneOf:
+      - $ref: '#/components/schemas/string'
+      - $ref: '#/components/schemas/integer'
+    string:
+      type: string
+    integer:
+      type: integer
     fruit:
       oneOf:
       - $ref: '#/components/schemas/apple'

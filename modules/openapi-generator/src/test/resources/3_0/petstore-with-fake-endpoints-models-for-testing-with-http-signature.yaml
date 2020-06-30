@@ -1796,6 +1796,14 @@ components:
       additionalProperties:
         type: object
         nullable: true
+    primitiveType:
+      oneOf:
+        - $ref: '#/components/schemas/string'
+        - $ref: '#/components/schemas/integer'
+    string:
+      type: string
+    integer:
+      type: integer
     fruit:
       properties:
         color:
