@@ -656,7 +656,7 @@ class Endpoint(object):
         self.openapi_types = root_map['openapi_types']
         extra_types = {
             'async_req': (bool,),
-            '_host_index': (int,),
+            '_host_index': (none_type, int),
             '_preload_content': (bool,),
             '_request_timeout': (none_type, int, (int,), [int]),
             '_return_http_data_only': (bool,),
@@ -755,7 +755,15 @@ class Endpoint(object):
     def call_with_http_info(self, **kwargs):
 
         try:
-            _host = self.settings['servers'][kwargs['_host_index']]
+            index = self.api_client.configuration.server_operation_index.get(
+                self.settings['operation_id'], self.api_client.configuration.server_index
+            ) if kwargs['_host_index'] is None else kwargs['_host_index']
+            server_variables = self.api_client.configuration.server_operation_variables.get(
+                self.settings['operation_id'], self.api_client.configuration.server_variables
+            )
+            _host = self.api_client.configuration.get_host_from_settings(
+                index, variables=server_variables, servers=self.settings['servers']
+            )
         except IndexError:
             if self.settings['servers']:
                 raise ApiValueError(

@@ -92,6 +92,9 @@ public class Model200Response {
   }
 
 
+  /**
+   * Return true if this 200_response object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

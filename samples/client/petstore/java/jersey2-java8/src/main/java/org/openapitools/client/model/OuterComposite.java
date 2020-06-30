@@ -120,6 +120,9 @@ public class OuterComposite {
   }
 
 
+  /**
+   * Return true if this OuterComposite object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

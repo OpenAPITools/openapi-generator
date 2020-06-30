@@ -49,7 +49,7 @@ class SpecialModelName implements ModelInterface, ArrayAccess
       *
       * @var string
       */
-    protected static $openAPIModelName = '$special[model.name]';
+    protected static $openAPIModelName = '_special_model.name_';
 
     /**
       * Array of property to type mappings. Used for (de)serialization

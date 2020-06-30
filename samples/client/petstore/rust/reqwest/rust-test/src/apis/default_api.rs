@@ -31,31 +31,20 @@ impl DefaultApiClient {
 }
 
 
-/// struct for typed successes of method `dummy_get`
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged)]
-pub enum DummyGetSuccess {
-    Status200(),
-    UnknownList(Vec<serde_json::Value>),
-    UnknownValue(serde_json::Value),
-}
-
 /// struct for typed errors of method `dummy_get`
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DummyGetError {
-    DefaultResponse(),
-    UnknownList(Vec<serde_json::Value>),
     UnknownValue(serde_json::Value),
 }
 
 
 pub trait DefaultApi {
-    fn dummy_get(&self, ) -> Result<ResponseContent<DummyGetSuccess>, Error<DummyGetError>>;
+    fn dummy_get(&self, ) -> Result<(), Error<DummyGetError>>;
 }
 
 impl DefaultApi for DefaultApiClient {
-    fn dummy_get(&self, ) -> Result<ResponseContent<DummyGetSuccess>, Error<DummyGetError>> {
+    fn dummy_get(&self, ) -> Result<(), Error<DummyGetError>> {
         let configuration: &configuration::Configuration = self.configuration.borrow();
         let client = &configuration.client;
 
@@ -73,9 +62,7 @@ impl DefaultApi for DefaultApiClient {
         let content = resp.text()?;
 
         if status.is_success() {
-            let entity: Option<DummyGetSuccess> = serde_json::from_str(&content).ok();
-            let result = ResponseContent { status, content, entity };
-            Ok(result)
+            Ok(())
         } else {
             let entity: Option<DummyGetError> = serde_json::from_str(&content).ok();
             let error = ResponseContent { status, content, entity };

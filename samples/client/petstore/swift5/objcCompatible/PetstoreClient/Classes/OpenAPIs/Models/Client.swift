@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-
-@objc public class Client: NSObject, Codable { 
+@objc public class Client: NSObject, Codable {
 
     public var client: String?
 

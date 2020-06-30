@@ -91,6 +91,9 @@ public class Tag {
   }
 
 
+  /**
+   * Return true if this Tag object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

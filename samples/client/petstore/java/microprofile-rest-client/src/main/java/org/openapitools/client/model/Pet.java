@@ -55,11 +55,11 @@ public class Pet  {
 
   private List<Tag> tags = null;
 
-@JsonbTypeSerializer(StatusEnum.Serializer.class)
-@JsonbTypeDeserializer(StatusEnum.Deserializer.class)
-public enum StatusEnum {
+  @JsonbTypeSerializer(StatusEnum.Serializer.class)
+  @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
+  public enum StatusEnum {
 
-AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));	
+    AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));	
 
 
     String value;
@@ -95,7 +95,7 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
             generator.write(obj.value);
         }
     }
-}
+  }
 
  /**
    * pet status in the store
@@ -222,11 +222,8 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
    * @return status
   **/
   @JsonbProperty("status")
-  public String getStatus() {
-    if (status == null) {
-      return null;
-    }
-    return status.value();
+  public StatusEnum getStatus() {
+    return status;
   }
 
   /**

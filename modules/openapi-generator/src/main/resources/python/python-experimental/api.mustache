@@ -99,9 +99,9 @@ class {{classname}}(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -127,7 +127,7 @@ class {{classname}}(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
 {{#requiredParams}}
             kwargs['{{paramName}}'] = \
                 {{paramName}}
@@ -156,13 +156,37 @@ class {{classname}}(object):
 {{#-first}}
                 'servers': [
 {{/-first}}
-                    '{{{url}}}'{{^-last}},{{/-last}}
+                    {
+                        'url': "{{{url}}}",
+                        'description': "{{{description}}}{{^description}}No description provided{{/description}}",
+                        {{#variables}}
+                        {{#-first}}
+                        'variables': {
+                        {{/-first}}
+                            '{{{name}}}': {
+                                'description': "{{{description}}}{{^description}}No description provided{{/description}}",
+                                'default_value': "{{{defaultValue}}}",
+                                {{#enumValues}}
+                                {{#-first}}
+                                'enum_values': [
+                                {{/-first}}
+                                    "{{{.}}}"{{^-last}},{{/-last}}
+                                {{#-last}}
+                                ]
+                                {{/-last}}
+                                {{/enumValues}}
+                                }{{^-last}},{{/-last}}
+                        {{#-last}}
+                            }
+                        {{/-last}}
+                        {{/variables}}
+                    },
 {{#-last}}
                 ]
 {{/-last}}
 {{/servers}}
 {{^servers}}
-                'servers': [],
+                'servers': None,
 {{/servers}}
             },
             params_map={

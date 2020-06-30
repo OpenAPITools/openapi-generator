@@ -102,6 +102,9 @@ public class BigCatAllOf {
   }
 
 
+  /**
+   * Return true if this BigCat_allOf object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

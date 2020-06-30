@@ -15,12 +15,14 @@
             <directory>./test/Api</directory>
         </testsuite>
         <testsuite name="Models">
+            <file>./test/BaseModelTest.php</file>
             <directory>./test/Model</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./lib/Api</directory>
+            <file>./lib/BaseModel.php</file>
             <directory suffix=".php">./lib/Model</directory>
         </whitelist>
     </filter>

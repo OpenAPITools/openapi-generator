@@ -47,6 +47,7 @@ public class Example {
         Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
             CompletableFuture<Void> result = apiInstance.addPet(body);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#addPet");
             System.err.println("Status code: " + e.getCode());
@@ -118,6 +119,7 @@ public class Example {
         String apiKey = "apiKey_example"; // String | 
         try {
             CompletableFuture<Void> result = apiInstance.deletePet(petId, apiKey);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#deletePet");
             System.err.println("Status code: " + e.getCode());
@@ -191,6 +193,7 @@ public class Example {
         List<String> status = Arrays.asList("available"); // List<String> | Status values that need to be considered for filter
         try {
             CompletableFuture<List<Pet>> result = apiInstance.findPetsByStatus(status);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#findPetsByStatus");
@@ -264,6 +267,7 @@ public class Example {
         Set<String> tags = Arrays.asList(); // Set<String> | Tags to filter by
         try {
             CompletableFuture<Set<Pet>> result = apiInstance.findPetsByTags(tags);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#findPetsByTags");
@@ -339,6 +343,7 @@ public class Example {
         Long petId = 56L; // Long | ID of pet to return
         try {
             CompletableFuture<Pet> result = apiInstance.getPetById(petId);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#getPetById");
@@ -411,6 +416,7 @@ public class Example {
         Pet body = new Pet(); // Pet | Pet object that needs to be added to the store
         try {
             CompletableFuture<Void> result = apiInstance.updatePet(body);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePet");
             System.err.println("Status code: " + e.getCode());
@@ -485,6 +491,7 @@ public class Example {
         String status = "status_example"; // String | Updated status of the pet
         try {
             CompletableFuture<Void> result = apiInstance.updatePetWithForm(petId, name, status);
+
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePetWithForm");
             System.err.println("Status code: " + e.getCode());
@@ -558,6 +565,7 @@ public class Example {
         File file = new File("/path/to/file"); // File | file to upload
         try {
             CompletableFuture<ModelApiResponse> result = apiInstance.uploadFile(petId, additionalMetadata, file);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#uploadFile");
@@ -632,6 +640,7 @@ public class Example {
         String additionalMetadata = "additionalMetadata_example"; // String | Additional data to pass to server
         try {
             CompletableFuture<ModelApiResponse> result = apiInstance.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
+
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#uploadFileWithRequiredFile");

@@ -172,7 +172,7 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
 
         {{/isNullable}}
         {{/required}}
-        $LocalVarBodyParameter = ${{{paramName}}} | ConvertTo-Json
+        $LocalVarBodyParameter = ${{{paramName}}} | ConvertTo-Json -Depth 100
 
         {{/bodyParam}}
         {{#authMethods}}
@@ -225,12 +225,12 @@ function {{{vendorExtensions.x-powershell-method-name}}} {
 
         {{#vendorExtensions.x-ps-return-type-one-of}}
         # process oneOf response
-        $LocalVarResult["Response"] = ConvertFrom-{{apiNamePrefix}}JsonTo{{returnType}} (ConvertTo-Json $LocalVarResult["Response"])
+        $LocalVarResult["Response"] = ConvertFrom-{{apiNamePrefix}}JsonTo{{returnType}} (ConvertTo-Json $LocalVarResult["Response"] -Depth 100)
 
         {{/vendorExtensions.x-ps-return-type-one-of}}
         {{#vendorExtensions.x-ps-return-type-any-of}}
         # process anyOf response
-        $LocalVarResult["Response"] = ConvertFrom-{{apiNamePrefix}}JsonTo{{returnType}} (ConvertTo-Json $LocalVarResult["Response"])
+        $LocalVarResult["Response"] = ConvertFrom-{{apiNamePrefix}}JsonTo{{returnType}} (ConvertTo-Json $LocalVarResult["Response"] -Depth 100)
 
         {{/vendorExtensions.x-ps-return-type-any-of}}
         if ($WithHttpInfo.IsPresent) {
