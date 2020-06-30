@@ -77,6 +77,7 @@ src/Org.OpenAPITools/Client/ISynchronousClient.cs
 src/Org.OpenAPITools/Client/Multimap.cs
 src/Org.OpenAPITools/Client/OpenAPIDateConverter.cs
 src/Org.OpenAPITools/Client/RequestOptions.cs
+src/Org.OpenAPITools/Client/RetryConfiguration.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesAnyType.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesArray.cs
 src/Org.OpenAPITools/Model/AdditionalPropertiesBoolean.cs
