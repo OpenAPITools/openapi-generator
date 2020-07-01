@@ -1334,7 +1334,7 @@
             <modules>
                 <module>samples/client/petstore/perl</module>
                 <module>samples/client/petstore/ruby</module>
-                <module>samples/client/petstore/bash</module>
+                <!--<module>samples/client/petstore/bash</module>-->
                 <module>samples/server/petstore/go-api-server</module>
                 <module>samples/server/petstore/go-gin-api-server</module>
                 <module>samples/client/petstore/dart2/petstore</module>

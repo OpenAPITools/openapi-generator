@@ -76,10 +76,10 @@ else
   cpanm --quiet --no-interactive Test::Exception Test::More Log::Any LWP::UserAgent URI::Query Module::Runtime DateTime Module::Find Moose::Role JSON || echo "Igorned failure from cpanm"
 
   # install bats for bash
-  sudo add-apt-repository ppa:duggan/bats --yes
-  sudo apt-get update -qq
-  sudo apt-get install -qq bats
-  sudo apt-get install -qq curl
+  #sudo add-apt-repository ppa:duggan/bats --yes
+  #sudo apt-get update -qq
+  #sudo apt-get install -qq bats
+  #sudo apt-get install -qq curl
 
   # ruby
   ruby -v
