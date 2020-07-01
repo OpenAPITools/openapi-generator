@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 public class MarkdownDocumentationCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PROJECT_NAME = "projectName";
 
-    static Logger LOGGER = LoggerFactory.getLogger(MarkdownDocumentationCodegen.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MarkdownDocumentationCodegen.class);
 
     public CodegenType getTag() {
         return CodegenType.DOCUMENTATION;
@@ -45,7 +45,7 @@ public class MarkdownDocumentationCodegen extends DefaultCodegen implements Code
         apiTemplateFiles.put("api.mustache", ".md");
         embeddedTemplateDir = templateDir = "markdown-documentation";
         apiPackage = File.separator + "Apis";
-        modelPackage = File.separator + "Models";
+        modelPackage = "Models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         // TODO: Fill this out.
     }
