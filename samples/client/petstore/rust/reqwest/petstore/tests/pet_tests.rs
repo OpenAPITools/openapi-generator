@@ -1,15 +1,12 @@
 extern crate petstore_reqwest;
-use petstore_reqwest::apis::pet_api::PetApi;
-use petstore_reqwest::apis::pet_api::PetApiClient;
+
+use petstore_reqwest::apis::pet_api::{add_pet, get_pet_by_id};
 use petstore_reqwest::apis::configuration;
 use petstore_reqwest::models::{Pet};
-use std::option::Option;
-use std::rc::Rc;
 
 #[test]
 fn test_pet() {
     let config = configuration::Configuration::new();
-    let pet_api_client = PetApiClient::new(Rc::new(config));
 
     // create pet object
     let photo_urls = vec!["https://11".to_string(), "https://22".to_string()];
@@ -17,10 +14,10 @@ fn test_pet() {
     new_pet.id = Option::Some(8787);
 
     // add pet
-    let _add_result = pet_api_client.add_pet(new_pet);
+    let _add_result = add_pet(&config, new_pet);
 
     // get pet
-    let pet_result = pet_api_client.get_pet_by_id(8787);
+    let pet_result = get_pet_by_id(&config, 8787);
 
     match pet_result {
         Ok(resp) => {

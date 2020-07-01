@@ -11,7 +11,7 @@ use Articus\PathHandler\Exception as PHException;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * @PHA\Route(pattern="/store/order/{order_id}")
+ * @PHA\Route(pattern="/store/order/{orderId}")
  */
 class StoreOrderOrderId
 {
