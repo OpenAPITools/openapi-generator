@@ -57,15 +57,17 @@ class Order(Model):
         self._complete = complete
 
     @classmethod
-    def from_dict(cls, dikt) -> 'Order':
+    def from_dict(cls, dikt, json_keys=True) -> 'Order':
         """Returns the dict as a model
 
         :param dikt: A dict.
         :type: dict
+        :param json_keys: Defines if json_keys are expected in dict
+        :type: bool
         :return: The Order of this Order.  # noqa: E501
         :rtype: Order
         """
-        return util.deserialize_model(dikt, cls)
+        return util.deserialize_model(dikt, cls, json_keys=json_keys)
 
     @property
     def id(self):

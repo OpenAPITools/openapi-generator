@@ -62,15 +62,17 @@ class {{classname}}(Model):
 {{/vars}}
 
     @classmethod
-    def from_dict(cls, dikt){{^supportPython2}} -> '{{classname}}'{{/supportPython2}}:
+    def from_dict(cls, dikt, json_keys=True){{^supportPython2}} -> '{{classname}}'{{/supportPython2}}:
         """Returns the dict as a model
 
         :param dikt: A dict.
         :type: dict
+        :param json_keys: Defines if json_keys are expected in dict
+        :type: bool
         :return: The {{name}} of this {{classname}}.  # noqa: E501
         :rtype: {{classname}}
         """
-        return util.deserialize_model(dikt, cls){{#vars}}{{#-first}}
+        return util.deserialize_model(dikt, cls, json_keys=json_keys){{#vars}}{{#-first}}
 
 {{/-first}}
     @property

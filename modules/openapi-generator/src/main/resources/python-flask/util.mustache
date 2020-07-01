@@ -91,12 +91,14 @@ def deserialize_datetime(string):
         return string
 
 
-def deserialize_model(data, klass):
+def deserialize_model(data, klass, json_keys=True):
     """Deserializes list or dict to model.
 
     :param data: dict, list.
     :type data: dict | list
     :param klass: class literal.
+    :param json_keys: Defines if json_keys are used in dict
+    :type: bool
     :return: model object.
     """
     instance = klass()
@@ -105,10 +107,11 @@ def deserialize_model(data, klass):
         return data
 
     for attr, attr_type in six.iteritems(instance.openapi_types):
+        dict_attr = instance.attribute_map[attr] if json_keys else attr
         if data is not None \
-                and instance.attribute_map[attr] in data \
+                and dict_attr in data \
                 and isinstance(data, (list, dict)):
-            value = data[instance.attribute_map[attr]]
+            value = data[dict_attr]
             setattr(instance, attr, _deserialize(value, attr_type))
 
     return instance

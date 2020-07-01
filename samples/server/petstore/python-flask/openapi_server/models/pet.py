@@ -61,15 +61,17 @@ class Pet(Model):
         self._status = status
 
     @classmethod
-    def from_dict(cls, dikt) -> 'Pet':
+    def from_dict(cls, dikt, json_keys=True) -> 'Pet':
         """Returns the dict as a model
 
         :param dikt: A dict.
         :type: dict
+        :param json_keys: Defines if json_keys are expected in dict
+        :type: bool
         :return: The Pet of this Pet.  # noqa: E501
         :rtype: Pet
         """
-        return util.deserialize_model(dikt, cls)
+        return util.deserialize_model(dikt, cls, json_keys=json_keys)
 
     @property
     def id(self):
