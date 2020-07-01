@@ -17,8 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.lang3.StringUtils;

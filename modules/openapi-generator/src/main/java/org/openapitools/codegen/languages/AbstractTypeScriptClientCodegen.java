@@ -237,7 +237,14 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return super.toModelImport(name);
     }
 
-
+    /**
+     * Maps the fully qualified model import to the initial given name. In case of union types the map will have multiple entries.
+     * For example for "classA | classB" the map will two entries have "model.classA"->"classA" and "model.classB"->"classB".
+     *
+     *
+     * @param name the name of the "Model"
+     * @return Map between the fully qualified model import and the initial given name.
+     */
     @Override
     public Map<String,String> toModelImportMap( String name){
         if(name.contains("|")){

@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-import java.util.function.Function;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 

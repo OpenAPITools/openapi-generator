@@ -17,8 +17,6 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -29,7 +27,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -365,10 +362,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         operations =  super.postProcessOperationsWithModels(operations, allModels);
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
 
-        // Add additional filename information for imports
-        Map<String,String> parsedImports = parseImports((List<Map<String,String>>) operations.get("imports"));
-//        mo.put("tsImports", toTsImports(cm, parsedImports));
-
         // Add filename information for api imports
         objs.put("apiFilename", getApiFilenameFromClassname(objs.get("classname").toString()));
 
@@ -481,53 +474,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             }
         }
         return result;
-    }
-
-    /**
-     * Parse imports
-     */
-    private Map<String,String> parseImports(List<Map<String,String>> imports) {
-        Map<String,String> newImports = Maps.newHashMap();
-            imports.forEach(
-                    (importEntry)-> {
-                        String importValue = importEntry.get("import");
-                        String classnameValue = importEntry.get("classname");
-                        if (importValue.contains("|")) {
-                            Set<String> importSplitted = removeSpacesAndSplit(importValue);
-                            Set<String> classSplitted  = removeSpacesAndSplit(classnameValue);
-                            classnameValue = classnameValue.replace(" ", "");
-//                            newImports.addAll(Arrays.asList(importValue.split("\\|")));
-                            importValue.split("|");
-                        } else {
-                            newImports.put(importValue,classnameValue);
-                        }
-                    });
-        return newImports;
-    }
-
-    private Set<String> removeSpacesAndSplit(String input){
-        return Arrays.stream(input.replaceAll(" ", "").split("\\|")).collect(Collectors.toSet());
-    }
-
-//    private Map<String,String> toMap(Set<String> imports,Set<String> classes){
-//        Map<String,String> newImports = Maps.newHashMap();
-//        imports.forEach(i->{
-////            classes.stream().filter(f->i.co)
-//        });
-//    }
-
-    private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {
-        List<Map<String, String>> tsImports = new ArrayList<>();
-        for (String im : imports) {
-            if (!im.equals(cm.classname)) {
-                HashMap<String, String> tsImport = new HashMap<>();
-                // TVG: This is used as class name in the import statements of the model file
-                tsImport.put("classname", im);
-                tsImport.put("filename", toModelFilename(removeModelPrefixSuffix(im)));
-                tsImports.add(tsImport);
-            }
-        }
-        return tsImports;
     }
 
     @Override
