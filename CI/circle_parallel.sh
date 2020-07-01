@@ -61,9 +61,6 @@ elif [ "$NODE_INDEX" = "2" ]; then
   mvn --no-snapshot-updates --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.jdk7' defined in pom.xml ..."
-  sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
-  java -version
-
   # install dart2
   sudo apt-get update
   sudo apt-get install apt-transport-https
@@ -72,6 +69,19 @@ else
   sudo apt-get update
   sudo apt-get install dart
   export PATH="$PATH:/usr/lib/dart/bin"
+
+  # install perl
+  cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+  cpanm --quiet --no-interactive Test::Exception Test::More Log::Any LWP::UserAgent URI::Query Module::Runtime DateTime Module::Find Moose::Role JSON || echo "Igorned failure from cpanm"
+
+  # install bats for bash
+  sudo add-apt-repository ppa:duggan/bats --yes
+  sudo apt-get update -qq
+  sudo apt-get install -qq bats
+  sudo apt-get install -qq curl
+
+  # ruby
+  ruby -v
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci.jdk7 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
