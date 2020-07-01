@@ -359,7 +359,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> operations, List<Object> allModels) {
-        operations =  super.postProcessOperationsWithModels(operations, allModels);
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
 
         // Add filename information for api imports
@@ -515,7 +514,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
     return modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
     }
-
 
     public String getNpmRepository() {
         return npmRepository;
