@@ -135,7 +135,6 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
-        objs = super.postProcessOperationsWithModels(objs, allModels);
         Map<String, Object> vals = (Map<String, Object>) objs.getOrDefault("operations", new HashMap<>());
         List<CodegenOperation> operations = (List<CodegenOperation>) vals.getOrDefault("operation", new ArrayList<>());
         /*
@@ -147,11 +146,6 @@ public class TypeScriptAxiosClientCodegen extends AbstractTypeScriptClientCodege
                 .filter(op -> op.consumes.stream().anyMatch(opc -> opc.values().stream().anyMatch("multipart/form-data"::equals)))
                 .forEach(op -> op.vendorExtensions.putIfAbsent("multipartFormData", true));
         return objs;
-    }
-
-    @Override
-    public String toModelImport(final String name) {
-        return toModelImportForUnionTypes(name,super::toModelImport);
     }
 
     @Override

@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -1077,24 +1079,8 @@ public class DefaultGenerator implements Generator {
             allImports.addAll(op.imports);
         }
 
-        List<Map<String, String>> imports = new ArrayList<>();
-        Set<String> mappingSet = new TreeSet<>();
-        for (String nextImport : allImports) {
-            Map<String, String> im = new LinkedHashMap<>();
-            String mapping = config.importMapping().get(nextImport);
-            if (mapping == null) {
-                mapping = config.toModelImport(nextImport);
-            }
-
-            if (mapping != null && !mappingSet.contains(mapping)) { // ensure import (mapping) is unique
-                mappingSet.add(mapping);
-                im.put("import", mapping);
-                im.put("classname", nextImport);
-                if (!imports.contains(im)) { // avoid duplicates
-                    imports.add(im);
-                }
-            }
-        }
+        Map<String,String> mappings = getAllImportsMapppings(allImports);
+        List<Map<String, String>> imports = toImportsObjects(mappings);
 
         operations.put("imports", imports);
 
@@ -1114,6 +1100,32 @@ public class DefaultGenerator implements Generator {
         }
         return operations;
     }
+
+    private Map<String,String> getAllImportsMapppings(Set<String> allImports){
+        Map<String,String> result = Maps.newHashMap();
+        allImports.forEach(nextImport->{
+            String mapping = config.importMapping().get(nextImport);
+            if(mapping!= null){
+                result.put(mapping,nextImport);
+            }else{
+                result.putAll(config.toModelImportMap(nextImport));
+            }
+        });
+        return result;
+    }
+
+    private List<Map<String,String>> toImportsObjects(Map<String,String> mappedImports){
+        List<Map<String, String>> result = Lists.newArrayList();
+        mappedImports.entrySet().forEach(mapping->{
+            Map<String, String> im = new LinkedHashMap<>();
+            im.put("import", mapping.getKey());
+            im.put("classname", mapping.getValue());
+            if (!result.contains(im)) { // avoid duplicates
+                result.add(im);
+                }
+        });
+        return result;
+     }
 
     private Map<String, Object> processModels(CodegenConfig config, Map<String, Schema> definitions) {
         Map<String, Object> objs = new HashMap<>();

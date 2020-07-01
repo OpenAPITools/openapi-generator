@@ -227,7 +227,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String toModelImport( String name){
         if(name.contains("|")){
-            List<String> names = Arrays.asList(name.split("\\|"));
+           List<String> names = Arrays.asList(name.split("\\|"));
+           LOGGER.warn("The import is a union type. Consider using the toModelImportMap method.");
            return names.stream()
                    .map(withSpace->withSpace.replaceAll(" ",""))
                    .map(noSpace->super.toModelImport(noSpace))
@@ -236,52 +237,18 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return super.toModelImport(name);
     }
 
-    protected String toModelImportForUnionTypes(String name, Function<String,String> toModelImportSingle){
-        if(name.contains("|")){
-            List<String> names = Arrays.asList(name.split("\\|"));
-            return names.stream()
-                    .map(withSpace->withSpace.replaceAll(" ",""))
-                    .map(noSpace->toModelImportSingle.apply(noSpace))
-                    .collect(Collectors.joining("|"));
-        }
-        return toModelImportSingle.apply(name);
-    }
 
     @Override
-    public Map<String, Object> postProcessOperationsWithModels(final Map<String, Object> objs, final List<Object> allModels) {
-        Map<String, Object> objsUnderProcess=  super.postProcessOperationsWithModels(objs, allModels);
-
-        if(Boolean.valueOf(objsUnderProcess.get("hasImport").toString())){
-            objsUnderProcess.put("imports", splitUniontypeImports((List<Map<String,String>>) objsUnderProcess.get("imports")));
+    public Map<String,String> toModelImportMap( String name){
+        if(name.contains("|")){
+            List<String> names = Arrays.asList(name.replace(" ","").split("\\|"));
+            Map<String,String> result = Maps.newHashMap();
+            names.forEach(s->result.put(toModelImport(s),s));
+            return  result;
         }
-        return objsUnderProcess;
+        return Collections.singletonMap(toModelImport(name),name);
     }
 
-    protected List<Object> splitUniontypeImports(List<Map<String,String>> imports){
-        List<Object> splittedImports = Lists.newArrayList();
-        imports.forEach(
-                (importEntry)->{
-                    if(importEntry.get("import").contains("|")){
-                        String[] importsForEntry = importEntry.get("import").split("\\|");
-                        String[] classNamesForEntry = importEntry.get("classname").replaceAll(" ","").split("\\|");
-                        if(importsForEntry.length != classNamesForEntry.length){
-                            throw new RuntimeException(String.format("Size of imports and class names do not match. Imports: %s ClassNames: %s",importsForEntry.toString(),classNamesForEntry.toString()));
-                        }
-                        for(int i=0; i < importsForEntry.length;i++){
-                            Map<String,String> splittedImportEntry=   Maps.newHashMap();
-                            splittedImportEntry.put("import",importsForEntry[i]);
-                            splittedImportEntry.put("classname",classNamesForEntry[i]);
-                            if(!imports.contains(splittedImportEntry)) {
-                                splittedImports.add(splittedImportEntry);
-                            }
-                        }
-                    }else {
-                        splittedImports.add(importEntry);
-                    }
-                }
-        );
-        return splittedImports;
-    }
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {

@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
@@ -363,6 +365,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         operations =  super.postProcessOperationsWithModels(operations, allModels);
         Map<String, Object> objs = (Map<String, Object>) operations.get("operations");
 
+        // Add additional filename information for imports
+        Map<String,String> parsedImports = parseImports((List<Map<String,String>>) operations.get("imports"));
+//        mo.put("tsImports", toTsImports(cm, parsedImports));
+
         // Add filename information for api imports
         objs.put("apiFilename", getApiFilenameFromClassname(objs.get("classname").toString()));
 
@@ -472,9 +478,6 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                         cm.imports.remove(cm.parent);
                     }
                 }
-                // Add additional filename information for imports
-                Set<String> parsedImports = parseImports(cm);
-                mo.put("tsImports", toTsImports(cm, parsedImports));
             }
         }
         return result;
@@ -483,22 +486,35 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     /**
      * Parse imports
      */
-    private Set<String> parseImports(CodegenModel cm) {
-        Set<String> newImports = new HashSet<String>();
-        if (cm.imports.size() > 0) {
-            for (String name : cm.imports) {
-                if (name.indexOf(" | ") >= 0) {
-                    String[] parts = name.split(" \\| ");
-                    for (String s : parts) {
-                        newImports.add(s);
-                    }
-                } else {
-                    newImports.add(name);
-                }
-            }
-        }
+    private Map<String,String> parseImports(List<Map<String,String>> imports) {
+        Map<String,String> newImports = Maps.newHashMap();
+            imports.forEach(
+                    (importEntry)-> {
+                        String importValue = importEntry.get("import");
+                        String classnameValue = importEntry.get("classname");
+                        if (importValue.contains("|")) {
+                            Set<String> importSplitted = removeSpacesAndSplit(importValue);
+                            Set<String> classSplitted  = removeSpacesAndSplit(classnameValue);
+                            classnameValue = classnameValue.replace(" ", "");
+//                            newImports.addAll(Arrays.asList(importValue.split("\\|")));
+                            importValue.split("|");
+                        } else {
+                            newImports.put(importValue,classnameValue);
+                        }
+                    });
         return newImports;
     }
+
+    private Set<String> removeSpacesAndSplit(String input){
+        return Arrays.stream(input.replaceAll(" ", "").split("\\|")).collect(Collectors.toSet());
+    }
+
+//    private Map<String,String> toMap(Set<String> imports,Set<String> classes){
+//        Map<String,String> newImports = Maps.newHashMap();
+//        imports.forEach(i->{
+////            classes.stream().filter(f->i.co)
+//        });
+//    }
 
     private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {
         List<Map<String, String>> tsImports = new ArrayList<>();
@@ -548,14 +564,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toModelImport(String name) {
-        Function<String,String> toModelImportAngular = (s) -> {
-            if (importMapping.containsKey(s)) {
-                return importMapping.get(s);
-            }
-            return modelPackage() + "/" + toModelFilename(s).substring(DEFAULT_IMPORT_PREFIX.length());
-        };
-        return toModelImportForUnionTypes(name,toModelImportAngular);
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+    return modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
     }
+
 
     public String getNpmRepository() {
         return npmRepository;
