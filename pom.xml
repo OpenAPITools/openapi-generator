@@ -731,7 +731,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/feign10x</module>
+                <module>samples/client/petstore/java/feign</module>
             </modules>
         </profile>
         <profile>
@@ -1252,7 +1252,7 @@
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/scalaz</module>
                 <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/java/feign10x</module>
+                <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
                 <module>samples/client/petstore/java/jersey2-java8</module>
                 <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
