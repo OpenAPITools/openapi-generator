@@ -6,6 +6,7 @@ namespace App\DTO;
 use Articus\DataTransfer\Annotation as DTA;
 
 /**
+ * An order for a pets from the pet store
  */
 class Order
 {
