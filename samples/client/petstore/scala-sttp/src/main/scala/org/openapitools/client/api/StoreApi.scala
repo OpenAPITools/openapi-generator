@@ -12,20 +12,16 @@
 package org.openapitools.client.api
 
 import org.openapitools.client.model.Order
-import org.openapitools.client.core._
-import alias._
+import org.openapitools.client.core.JsonSupport._
 import sttp.client._
 import sttp.model.Method
 
 object StoreApi {
 
-  def apply(baseUrl: String = "http://petstore.swagger.io/v2")(implicit serializer: SttpSerializer) = new StoreApi(baseUrl)
+def apply(baseUrl: String = "http://petstore.swagger.io/v2") = new StoreApi(baseUrl)
 }
 
-class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
-
-  import Helpers._
-  import serializer._
+class StoreApi(baseUrl: String) {
 
   /**
    * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
@@ -36,7 +32,8 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param orderId ID of the order that needs to be deleted
    */
-  def deleteOrder(orderId: String): ApiRequestT[Unit] =
+  def deleteOrder(orderId: String
+): Request[Either[ResponseError[Exception], Unit], Nothing] =
     basicRequest
       .method(Method.DELETE, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
@@ -51,11 +48,12 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * Available security schemes:
    *   api_key (apiKey)
    */
-  def getInventory()(implicit apiKey: ApiKeyValue): ApiRequestT[Map[String, Int]] =
+  def getInventory(apiKey: String)(
+): Request[Either[ResponseError[Exception], Map[String, Int]], Nothing] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/store/inventory")
       .contentType("application/json")
-      .header("api_key", apiKey.value)
+      .header("api_key", apiKey)
       .response(asJson[Map[String, Int]])
 
   /**
@@ -68,7 +66,8 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param orderId ID of pet that needs to be fetched
    */
-  def getOrderById(orderId: Long): ApiRequestT[Order] =
+  def getOrderById(orderId: Long
+): Request[Either[ResponseError[Exception], Order], Nothing] =
     basicRequest
       .method(Method.GET, uri"$baseUrl/store/order/${orderId}")
       .contentType("application/json")
@@ -81,7 +80,8 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
    * 
    * @param order order placed for purchasing the pet
    */
-  def placeOrder(order: Order): ApiRequestT[Order] =
+  def placeOrder(order: Order
+): Request[Either[ResponseError[Exception], Order], Nothing] =
     basicRequest
       .method(Method.POST, uri"$baseUrl/store/order")
       .contentType("application/json")
@@ -89,4 +89,3 @@ class StoreApi(baseUrl: String)(implicit serializer: SttpSerializer) {
       .response(asJson[Order])
 
 }
-

@@ -9,15 +9,10 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-package org.openapitools.client.model
+package org.openapitools.client.core
 
-import java.io.File
+final case class BasicCredentials(user: String, password: String)
 
-case class InlineObject1(
-  /* Additional data to pass to server */
-  additionalMetadata: Option[String] = None,
-  /* file to upload */
-  file: Option[File] = None
-)
+final case class BearerToken(token: String)
 
-
+final case class ApiKeyValue(value: String)
