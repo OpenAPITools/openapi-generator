@@ -29,9 +29,11 @@ import org.openapitools.codegen.meta.FeatureSet;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 
 import java.io.File;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public interface CodegenConfig {
     GeneratorMetadata getGeneratorMetadata();
@@ -120,7 +122,7 @@ public interface CodegenConfig {
 
     CodegenOperation fromOperation(String resourcePath, String httpMethod, Operation operation, List<Server> servers);
 
-    List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemas);
+    List<CodegenSecurity> fromSecurity(Map<String, List<SecurityScheme>> schemas);
 
     List<CodegenServer> fromServers(List<Server> servers);
   

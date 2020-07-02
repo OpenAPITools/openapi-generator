@@ -751,7 +751,7 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
     }
 
     @Override
-    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemes) {
+    public List<CodegenSecurity> fromSecurity(Map<String, List<SecurityScheme>> schemes) {
         List<CodegenSecurity> secs = super.fromSecurity(schemes);
         for (CodegenSecurity sec : secs) {
             String prefix = "";

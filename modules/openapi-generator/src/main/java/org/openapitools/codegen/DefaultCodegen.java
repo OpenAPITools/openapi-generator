@@ -4338,79 +4338,79 @@ public class DefaultCodegen implements CodegenConfig {
      * @return a list of Codegen Security objects
      */
     @SuppressWarnings("static-method")
-    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
+    public List<CodegenSecurity> fromSecurity(Map<String, List<SecurityScheme>> securitySchemeMap) {
         if (securitySchemeMap == null) {
             return Collections.emptyList();
         }
 
         List<CodegenSecurity> codegenSecurities = new ArrayList<CodegenSecurity>(securitySchemeMap.size());
-        for (String key : securitySchemeMap.keySet()) {
-            final SecurityScheme securityScheme = securitySchemeMap.get(key);
+        for(Entry<String, List<SecurityScheme>> e : securitySchemeMap.entrySet()){
+            for(final SecurityScheme securityScheme : e.getValue()){
+                final String key = e.getKey();
+                CodegenSecurity cs = CodegenModelFactory.newInstance(CodegenModelType.SECURITY);
+                cs.name = key;
+                cs.type = securityScheme.getType().toString();
+                cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = false;
+                cs.isHttpSignature = false;
+                cs.isBasicBasic = cs.isBasicBearer = false;
+                cs.scheme = securityScheme.getScheme();
+                if (securityScheme.getExtensions() != null) {
+                    cs.vendorExtensions.putAll(securityScheme.getExtensions());
+                }
 
-            CodegenSecurity cs = CodegenModelFactory.newInstance(CodegenModelType.SECURITY);
-            cs.name = key;
-            cs.type = securityScheme.getType().toString();
-            cs.isCode = cs.isPassword = cs.isApplication = cs.isImplicit = false;
-            cs.isHttpSignature = false;
-            cs.isBasicBasic = cs.isBasicBearer = false;
-            cs.scheme = securityScheme.getScheme();
-            if (securityScheme.getExtensions() != null) {
-                cs.vendorExtensions.putAll(securityScheme.getExtensions());
+                if (SecurityScheme.Type.APIKEY.equals(securityScheme.getType())) {
+                    cs.isBasic = cs.isOAuth = false;
+                    cs.isApiKey = true;
+                    cs.keyParamName = securityScheme.getName();
+                    cs.isKeyInHeader = securityScheme.getIn() == SecurityScheme.In.HEADER;
+                    cs.isKeyInQuery = securityScheme.getIn() == SecurityScheme.In.QUERY;
+                    cs.isKeyInCookie = securityScheme.getIn() == SecurityScheme.In.COOKIE;  //it assumes a validation step prior to generation. (cookie-auth supported from OpenAPI 3.0.0)
+                } else if (SecurityScheme.Type.HTTP.equals(securityScheme.getType())) {
+                    cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = false;
+                    cs.isBasic = true;
+                    if ("basic".equals(securityScheme.getScheme())) {
+                        cs.isBasicBasic = true;
+                    } else if ("bearer".equals(securityScheme.getScheme())) {
+                        cs.isBasicBearer = true;
+                        cs.bearerFormat = securityScheme.getBearerFormat();
+                    } else if ("signature".equals(securityScheme.getScheme())) {
+                        // HTTP signature as defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
+                        // The registry of security schemes is maintained by IANA.
+                        // https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml
+                        // As of January 2020, the "signature" scheme has not been registered with IANA yet.
+                        // This scheme may have to be changed when it is officially registered with IANA.
+                        cs.isHttpSignature = true;
+                        once(LOGGER).warn("Security scheme 'HTTP signature' is a draft IETF RFC and subject to change.");
+                    }
+                } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
+                    cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
+                    cs.isOAuth = true;
+                    final OAuthFlows flows = securityScheme.getFlows();
+                    if (securityScheme.getFlows() == null) {
+                        throw new RuntimeException("missing oauth flow in " + cs.name);
+                    }
+                    if (flows.getPassword() != null) {
+                        setOauth2Info(cs, flows.getPassword());
+                        cs.isPassword = true;
+                        cs.flow = "password";
+                    } else if (flows.getImplicit() != null) {
+                        setOauth2Info(cs, flows.getImplicit());
+                        cs.isImplicit = true;
+                        cs.flow = "implicit";
+                    } else if (flows.getClientCredentials() != null) {
+                        setOauth2Info(cs, flows.getClientCredentials());
+                        cs.isApplication = true;
+                        cs.flow = "application";
+                    } else if (flows.getAuthorizationCode() != null) {
+                        setOauth2Info(cs, flows.getAuthorizationCode());
+                        cs.isCode = true;
+                        cs.flow = "accessCode";
+                    } else {
+                        throw new RuntimeException("Could not identify any oauth2 flow in " + cs.name);
+                    }
+                }
+                codegenSecurities.add(cs);
             }
-
-            if (SecurityScheme.Type.APIKEY.equals(securityScheme.getType())) {
-                cs.isBasic = cs.isOAuth = false;
-                cs.isApiKey = true;
-                cs.keyParamName = securityScheme.getName();
-                cs.isKeyInHeader = securityScheme.getIn() == SecurityScheme.In.HEADER;
-                cs.isKeyInQuery = securityScheme.getIn() == SecurityScheme.In.QUERY;
-                cs.isKeyInCookie = securityScheme.getIn() == SecurityScheme.In.COOKIE;  //it assumes a validation step prior to generation. (cookie-auth supported from OpenAPI 3.0.0)
-            } else if (SecurityScheme.Type.HTTP.equals(securityScheme.getType())) {
-                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isOAuth = false;
-                cs.isBasic = true;
-                if ("basic".equals(securityScheme.getScheme())) {
-                    cs.isBasicBasic = true;
-                } else if ("bearer".equals(securityScheme.getScheme())) {
-                    cs.isBasicBearer = true;
-                    cs.bearerFormat = securityScheme.getBearerFormat();
-                } else if ("signature".equals(securityScheme.getScheme())) {
-                    // HTTP signature as defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
-                    // The registry of security schemes is maintained by IANA.
-                    // https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml
-                    // As of January 2020, the "signature" scheme has not been registered with IANA yet.
-                    // This scheme may have to be changed when it is officially registered with IANA.
-                    cs.isHttpSignature = true;
-                    once(LOGGER).warn("Security scheme 'HTTP signature' is a draft IETF RFC and subject to change.");
-                }
-            } else if (SecurityScheme.Type.OAUTH2.equals(securityScheme.getType())) {
-                cs.isKeyInHeader = cs.isKeyInQuery = cs.isKeyInCookie = cs.isApiKey = cs.isBasic = false;
-                cs.isOAuth = true;
-                final OAuthFlows flows = securityScheme.getFlows();
-                if (securityScheme.getFlows() == null) {
-                    throw new RuntimeException("missing oauth flow in " + cs.name);
-                }
-                if (flows.getPassword() != null) {
-                    setOauth2Info(cs, flows.getPassword());
-                    cs.isPassword = true;
-                    cs.flow = "password";
-                } else if (flows.getImplicit() != null) {
-                    setOauth2Info(cs, flows.getImplicit());
-                    cs.isImplicit = true;
-                    cs.flow = "implicit";
-                } else if (flows.getClientCredentials() != null) {
-                    setOauth2Info(cs, flows.getClientCredentials());
-                    cs.isApplication = true;
-                    cs.flow = "application";
-                } else if (flows.getAuthorizationCode() != null) {
-                    setOauth2Info(cs, flows.getAuthorizationCode());
-                    cs.isCode = true;
-                    cs.flow = "accessCode";
-                } else {
-                    throw new RuntimeException("Could not identify any oauth2 flow in " + cs.name);
-                }
-            }
-
-            codegenSecurities.add(cs);
         }
 
         // sort auth methods to maintain the same order

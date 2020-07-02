@@ -34,6 +34,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.api.TemplateProcessor;
+import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
@@ -58,6 +59,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
@@ -757,7 +759,7 @@ public class DefaultGenerator implements Generator {
         bundle.put("apiFolder", config.apiPackage().replace('.', File.separatorChar));
         bundle.put("modelPackage", config.modelPackage());
 
-        Map<String, SecurityScheme> securitySchemeMap = openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null;
+        Map<String, List<SecurityScheme>> securitySchemeMap = openAPI.getComponents() != null ? AuthParser.toSecuritySchemeContainer(openAPI.getComponents().getSecuritySchemes()) : null;
         List<CodegenSecurity> authMethods = config.fromSecurity(securitySchemeMap);
         if (authMethods != null && !authMethods.isEmpty()) {
             bundle.put("authMethods", authMethods);
@@ -1016,7 +1018,7 @@ public class DefaultGenerator implements Generator {
                     continue;
                 }
 
-                Map<String, SecurityScheme> authMethods = getAuthMethods(securities, securitySchemes);
+                Map<String, List<SecurityScheme>> authMethods = getAuthMethods(securities, securitySchemes);
 
                 if (authMethods != null && !authMethods.isEmpty()) {
                     List<CodegenSecurity> fullAuthMethods = config.fromSecurity(authMethods);
@@ -1161,11 +1163,11 @@ public class DefaultGenerator implements Generator {
         return objs;
     }
 
-    private Map<String, SecurityScheme> getAuthMethods(List<SecurityRequirement> securities, Map<String, SecurityScheme> securitySchemes) {
+    private Map<String, List<SecurityScheme>> getAuthMethods(List<SecurityRequirement> securities, Map<String, SecurityScheme> securitySchemes) {
         if (securities == null || (securitySchemes == null || securitySchemes.isEmpty())) {
             return null;
         }
-        final Map<String, SecurityScheme> authMethods = new HashMap<>();
+        final Map<String, List<SecurityScheme>> authMethods = new HashMap<>();
         for (SecurityRequirement requirement : securities) {
             for (Map.Entry<String, List<String>> entry : requirement.entrySet()) {
                 final String key = entry.getKey();
@@ -1214,9 +1216,9 @@ public class DefaultGenerator implements Generator {
                             oautUpdatedFlows.setClientCredentials(updatedFlow);
                         }
 
-                        authMethods.put(key, oauthUpdatedScheme);
+                        authMethods.computeIfAbsent(key, k -> new ArrayList<>()).add(securityScheme);
                     } else {
-                        authMethods.put(key, securityScheme);
+                        authMethods.computeIfAbsent(key, k -> new ArrayList<>()).add(securityScheme);
                     }
                 }
             }

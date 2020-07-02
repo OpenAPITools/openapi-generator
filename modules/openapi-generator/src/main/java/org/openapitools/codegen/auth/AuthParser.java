@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.auth;
 
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,8 +25,8 @@ import org.slf4j.LoggerFactory;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -71,5 +72,16 @@ public class AuthParser {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Aides in converting the existing view of schemes per key to multiple (OR) schemes per key
+     * @param m
+     * @return
+     */
+    public static Map<String, List<SecurityScheme>> toSecuritySchemeContainer(Map<String, SecurityScheme> m){
+        return Optional.ofNullable(m)
+                .orElse(new HashMap<>())
+                .entrySet().stream().collect(Collectors.toMap(e -> e.getKey(), e -> Collections.singletonList(e.getValue())));
     }
 }
