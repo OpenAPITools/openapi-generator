@@ -182,6 +182,17 @@
                 </executions>
                 <configuration>
                     <doclint>none</doclint>
+                    {{#supportJava6}}
+                        <source>1.6</source>
+                    {{/supportJava6}}
+                    {{^supportJava6}}
+                    {{#java8}}
+                        <source>1.8</source>
+                    {{/java8}}
+                    {{^java8}}
+                        <source>1.7</source>
+                    {{/java8}}
+                    {{/supportJava6}}
                     <tags>
                         <tag>
                             <name>http.response.details</name>
@@ -396,7 +407,7 @@
         <javax-annotation-version>1.3.2</javax-annotation-version>
         <junit-version>4.13</junit-version>
         {{#hasHttpSignatureMethods}}
-        <http-signature-version>1.4</http-signature-version>
+        <http-signature-version>1.5</http-signature-version>
         {{/hasHttpSignatureMethods}}
         {{#hasOAuthMethods}}
         <scribejava-apis-version>6.9.0</scribejava-apis-version>

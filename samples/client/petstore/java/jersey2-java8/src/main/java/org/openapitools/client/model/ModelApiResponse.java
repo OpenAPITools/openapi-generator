@@ -119,6 +119,9 @@ public class ModelApiResponse {
   }
 
 
+  /**
+   * Return true if this ApiResponse object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

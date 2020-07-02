@@ -38,7 +38,7 @@ func (v *OuterEnumInteger) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid OuterEnumInteger", *v)
+	return fmt.Errorf("%+v is not a valid OuterEnumInteger", value)
 }
 
 // Ptr returns reference to OuterEnumInteger value

@@ -62,6 +62,9 @@ public class BasquePig {
   }
 
 
+  /**
+   * Return true if this BasquePig object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

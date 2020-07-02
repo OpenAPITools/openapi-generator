@@ -65,10 +65,32 @@ public class UserApi {
    * @param body Created user object (required)
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> createUser (User body) throws ApiException {
+  public CompletableFuture<Void> createUser(User body) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = createUserRequestBuilder(body);
+      return memberVarHttpClient.sendAsync(
+              localVarRequestBuilder.build(),
+              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+          if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                  "createUser call received non-success response",
+                  localVarResponse.headers(),
+                  localVarResponse.body())
+              );
+          } else {
+              return CompletableFuture.completedFuture(null);
+          }
+      });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  private HttpRequest.Builder createUserRequestBuilder(User body) throws ApiException {
     // verify the required parameter 'body' is set
     if (body == null) {
-        return CompletableFuture.failedFuture(new ApiException(400, "Missing the required parameter 'body' when calling createUser"));
+      throw new ApiException(400, "Missing the required parameter 'body' when calling createUser");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -83,29 +105,16 @@ public class UserApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-      if (memberVarReadTimeout != null) {
-        localVarRequestBuilder.timeout(memberVarReadTimeout);
-      }
-      if (memberVarInterceptor != null) {
-        memberVarInterceptor.accept(localVarRequestBuilder);
-      }
-      return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "createUser call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
-          } else {
-
-              return CompletableFuture.completedFuture(null);
-          }
-      });
     } catch (IOException e) {
-      return CompletableFuture.failedFuture(new ApiException(e));
+      throw new ApiException(e);
     }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
   }
   /**
    * Creates list of users with given input array
@@ -113,10 +122,32 @@ public class UserApi {
    * @param body List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> createUsersWithArrayInput (List<User> body) throws ApiException {
+  public CompletableFuture<Void> createUsersWithArrayInput(List<User> body) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = createUsersWithArrayInputRequestBuilder(body);
+      return memberVarHttpClient.sendAsync(
+              localVarRequestBuilder.build(),
+              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+          if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                  "createUsersWithArrayInput call received non-success response",
+                  localVarResponse.headers(),
+                  localVarResponse.body())
+              );
+          } else {
+              return CompletableFuture.completedFuture(null);
+          }
+      });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  private HttpRequest.Builder createUsersWithArrayInputRequestBuilder(List<User> body) throws ApiException {
     // verify the required parameter 'body' is set
     if (body == null) {
-        return CompletableFuture.failedFuture(new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithArrayInput"));
+      throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithArrayInput");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -131,29 +162,16 @@ public class UserApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-      if (memberVarReadTimeout != null) {
-        localVarRequestBuilder.timeout(memberVarReadTimeout);
-      }
-      if (memberVarInterceptor != null) {
-        memberVarInterceptor.accept(localVarRequestBuilder);
-      }
-      return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "createUsersWithArrayInput call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
-          } else {
-
-              return CompletableFuture.completedFuture(null);
-          }
-      });
     } catch (IOException e) {
-      return CompletableFuture.failedFuture(new ApiException(e));
+      throw new ApiException(e);
     }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
   }
   /**
    * Creates list of users with given input array
@@ -161,10 +179,32 @@ public class UserApi {
    * @param body List of user object (required)
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> createUsersWithListInput (List<User> body) throws ApiException {
+  public CompletableFuture<Void> createUsersWithListInput(List<User> body) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = createUsersWithListInputRequestBuilder(body);
+      return memberVarHttpClient.sendAsync(
+              localVarRequestBuilder.build(),
+              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+          if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                  "createUsersWithListInput call received non-success response",
+                  localVarResponse.headers(),
+                  localVarResponse.body())
+              );
+          } else {
+              return CompletableFuture.completedFuture(null);
+          }
+      });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  private HttpRequest.Builder createUsersWithListInputRequestBuilder(List<User> body) throws ApiException {
     // verify the required parameter 'body' is set
     if (body == null) {
-        return CompletableFuture.failedFuture(new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithListInput"));
+      throw new ApiException(400, "Missing the required parameter 'body' when calling createUsersWithListInput");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -179,29 +219,16 @@ public class UserApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-      if (memberVarReadTimeout != null) {
-        localVarRequestBuilder.timeout(memberVarReadTimeout);
-      }
-      if (memberVarInterceptor != null) {
-        memberVarInterceptor.accept(localVarRequestBuilder);
-      }
-      return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "createUsersWithListInput call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
-          } else {
-
-              return CompletableFuture.completedFuture(null);
-          }
-      });
     } catch (IOException e) {
-      return CompletableFuture.failedFuture(new ApiException(e));
+      throw new ApiException(e);
     }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
   }
   /**
    * Delete user
@@ -209,28 +236,9 @@ public class UserApi {
    * @param username The name that needs to be deleted (required)
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> deleteUser (String username) throws ApiException {
-    // verify the required parameter 'username' is set
-    if (username == null) {
-        return CompletableFuture.failedFuture(new ApiException(400, "Missing the required parameter 'username' when calling deleteUser"));
-    }
-
-    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
-
-    String localVarPath = "/user/{username}"
-        .replace("{username}", ApiClient.urlEncode(username.toString()));
-
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-
-    localVarRequestBuilder.header("Accept", "application/json");
-
-      localVarRequestBuilder.method("DELETE", HttpRequest.BodyPublishers.noBody());
-      if (memberVarReadTimeout != null) {
-        localVarRequestBuilder.timeout(memberVarReadTimeout);
-      }
-      if (memberVarInterceptor != null) {
-        memberVarInterceptor.accept(localVarRequestBuilder);
-      }
+  public CompletableFuture<Void> deleteUser(String username) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = deleteUserRequestBuilder(username);
       return memberVarHttpClient.sendAsync(
               localVarRequestBuilder.build(),
               HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -241,22 +249,19 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-
               return CompletableFuture.completedFuture(null);
           }
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
   }
-  /**
-   * Get user by user name
-   * 
-   * @param username The name that needs to be fetched. Use user1 for testing. (required)
-   * @return User
-   * @throws ApiException if fails to make API call
-   */
-  public CompletableFuture<User> getUserByName (String username) throws ApiException {
+
+  private HttpRequest.Builder deleteUserRequestBuilder(String username) throws ApiException {
     // verify the required parameter 'username' is set
     if (username == null) {
-        return CompletableFuture.failedFuture(new ApiException(400, "Missing the required parameter 'username' when calling getUserByName"));
+      throw new ApiException(400, "Missing the required parameter 'username' when calling deleteUser");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -268,13 +273,25 @@ public class UserApi {
 
     localVarRequestBuilder.header("Accept", "application/json");
 
-      localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
-      if (memberVarReadTimeout != null) {
-        localVarRequestBuilder.timeout(memberVarReadTimeout);
-      }
-      if (memberVarInterceptor != null) {
-        memberVarInterceptor.accept(localVarRequestBuilder);
-      }
+    localVarRequestBuilder.method("DELETE", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+  /**
+   * Get user by user name
+   * 
+   * @param username The name that needs to be fetched. Use user1 for testing. (required)
+   * @return User
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<User> getUserByName(String username) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = getUserByNameRequestBuilder(username);
       return memberVarHttpClient.sendAsync(
               localVarRequestBuilder.build(),
               HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -286,14 +303,43 @@ public class UserApi {
               );
           } else {
               try {
-                  return CompletableFuture.completedFuture(
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<User>() {})
-                  );
+                return CompletableFuture.completedFuture(
+                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<User>() {})
+                );
               } catch (IOException e) {
-                  return CompletableFuture.failedFuture(new ApiException(e));
+                return CompletableFuture.failedFuture(new ApiException(e));
               }
-                        }
+          }
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  private HttpRequest.Builder getUserByNameRequestBuilder(String username) throws ApiException {
+    // verify the required parameter 'username' is set
+    if (username == null) {
+      throw new ApiException(400, "Missing the required parameter 'username' when calling getUserByName");
+    }
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/user/{username}"
+        .replace("{username}", ApiClient.urlEncode(username.toString()));
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
   }
   /**
    * Logs user into the system
@@ -303,14 +349,42 @@ public class UserApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<String> loginUser (String username, String password) throws ApiException {
+  public CompletableFuture<String> loginUser(String username, String password) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = loginUserRequestBuilder(username, password);
+      return memberVarHttpClient.sendAsync(
+              localVarRequestBuilder.build(),
+              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+          if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                  "loginUser call received non-success response",
+                  localVarResponse.headers(),
+                  localVarResponse.body())
+              );
+          } else {
+              try {
+                return CompletableFuture.completedFuture(
+                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {})
+                );
+              } catch (IOException e) {
+                return CompletableFuture.failedFuture(new ApiException(e));
+              }
+          }
+      });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  private HttpRequest.Builder loginUserRequestBuilder(String username, String password) throws ApiException {
     // verify the required parameter 'username' is set
     if (username == null) {
-        return CompletableFuture.failedFuture(new ApiException(400, "Missing the required parameter 'username' when calling loginUser"));
+      throw new ApiException(400, "Missing the required parameter 'username' when calling loginUser");
     }
     // verify the required parameter 'password' is set
     if (password == null) {
-        return CompletableFuture.failedFuture(new ApiException(400, "Missing the required parameter 'password' when calling loginUser"));
+      throw new ApiException(400, "Missing the required parameter 'password' when calling loginUser");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -331,55 +405,23 @@ public class UserApi {
 
     localVarRequestBuilder.header("Accept", "application/json");
 
-      localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
-      if (memberVarReadTimeout != null) {
-        localVarRequestBuilder.timeout(memberVarReadTimeout);
-      }
-      if (memberVarInterceptor != null) {
-        memberVarInterceptor.accept(localVarRequestBuilder);
-      }
-      return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "loginUser call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
-          } else {
-              try {
-                  return CompletableFuture.completedFuture(
-                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<String>() {})
-                  );
-              } catch (IOException e) {
-                  return CompletableFuture.failedFuture(new ApiException(e));
-              }
-                        }
-      });
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
   }
   /**
    * Logs out current logged in user session
    * 
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> logoutUser () throws ApiException {
-
-    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
-
-    String localVarPath = "/user/logout";
-
-    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
-
-    localVarRequestBuilder.header("Accept", "application/json");
-
-      localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
-      if (memberVarReadTimeout != null) {
-        localVarRequestBuilder.timeout(memberVarReadTimeout);
-      }
-      if (memberVarInterceptor != null) {
-        memberVarInterceptor.accept(localVarRequestBuilder);
-      }
+  public CompletableFuture<Void> logoutUser() throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = logoutUserRequestBuilder();
       return memberVarHttpClient.sendAsync(
               localVarRequestBuilder.build(),
               HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
@@ -390,10 +432,33 @@ public class UserApi {
                   localVarResponse.body())
               );
           } else {
-
               return CompletableFuture.completedFuture(null);
           }
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  private HttpRequest.Builder logoutUserRequestBuilder() throws ApiException {
+
+    HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
+
+    String localVarPath = "/user/logout";
+
+    localVarRequestBuilder.uri(URI.create(memberVarBaseUri + localVarPath));
+
+    localVarRequestBuilder.header("Accept", "application/json");
+
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
   }
   /**
    * Updated user
@@ -402,14 +467,36 @@ public class UserApi {
    * @param body Updated user object (required)
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Void> updateUser (String username, User body) throws ApiException {
+  public CompletableFuture<Void> updateUser(String username, User body) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = updateUserRequestBuilder(username, body);
+      return memberVarHttpClient.sendAsync(
+              localVarRequestBuilder.build(),
+              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+          if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                  "updateUser call received non-success response",
+                  localVarResponse.headers(),
+                  localVarResponse.body())
+              );
+          } else {
+              return CompletableFuture.completedFuture(null);
+          }
+      });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  private HttpRequest.Builder updateUserRequestBuilder(String username, User body) throws ApiException {
     // verify the required parameter 'username' is set
     if (username == null) {
-        return CompletableFuture.failedFuture(new ApiException(400, "Missing the required parameter 'username' when calling updateUser"));
+      throw new ApiException(400, "Missing the required parameter 'username' when calling updateUser");
     }
     // verify the required parameter 'body' is set
     if (body == null) {
-        return CompletableFuture.failedFuture(new ApiException(400, "Missing the required parameter 'body' when calling updateUser"));
+      throw new ApiException(400, "Missing the required parameter 'body' when calling updateUser");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -425,28 +512,15 @@ public class UserApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
       localVarRequestBuilder.method("PUT", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-      if (memberVarReadTimeout != null) {
-        localVarRequestBuilder.timeout(memberVarReadTimeout);
-      }
-      if (memberVarInterceptor != null) {
-        memberVarInterceptor.accept(localVarRequestBuilder);
-      }
-      return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "updateUser call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
-          } else {
-
-              return CompletableFuture.completedFuture(null);
-          }
-      });
     } catch (IOException e) {
-      return CompletableFuture.failedFuture(new ApiException(e));
+      throw new ApiException(e);
     }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
   }
 }

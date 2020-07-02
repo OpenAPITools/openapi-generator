@@ -121,43 +121,83 @@
   {{/-last}}
 {{/headerParams}}
 {{#queryParams}}
-{{#-first}}
+  {{#-first}}
                 // Query parameters (note that non-required or collection query parameters will ignore garbage values, rather than causing a 400 response)
                 let query_params = form_urlencoded::parse(uri.query().unwrap_or_default().as_bytes()).collect::<Vec<_>>();
-{{/-first}}
+  {{/-first}}
                 let param_{{{paramName}}} = query_params.iter().filter(|e| e.0 == "{{{baseName}}}").map(|e| e.1.to_owned())
-{{#isListContainer}}
+  {{#isListContainer}}
+    {{^vendorExtensions.x-consumes-json}}
                     .filter_map(|param_{{{paramName}}}| param_{{{paramName}}}.parse().ok())
                     .collect::<Vec<_>>();
-{{^required}}
+      {{^required}}
                 let param_{{{paramName}}} = if !param_{{{paramName}}}.is_empty() {
                     Some(param_{{{paramName}}})
                 } else {
                     None
                 };
-{{/required}}
-{{/isListContainer}}
-{{^isListContainer}}
+      {{/required}}
+    {{/vendorExtensions.x-consumes-json}}
+    {{#vendorExtensions.x-consumes-json}}
                     .nth(0);
-{{#required}}
                 let param_{{{paramName}}} = match param_{{{paramName}}} {
-                    Some(param_{{{paramName}}}) => match param_{{{paramName}}}.parse::<{{{dataType}}}>() {
-                        Ok(param_{{{paramName}}}) => param_{{{paramName}}},
-                        Err(e) => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from(format!("Couldn't parse query parameter {{{baseName}}} - doesn't match schema: {}", e)))
-                                        .expect("Unable to create Bad Request response for invalid query parameter {{{baseName}}}")),
+                    Some(param_{{{paramName}}}) => {
+                        let param_{{{paramName}}} =
+                            serde_json::from_str::<{{{dataType}}}>
+                                (&param_{{{paramName}}});
+                        match param_{{{paramName}}} {
+                            Ok(param_{{{paramName}}}) => Some(param_{{{paramName}}}),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter {{{baseName}}} - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter {{{baseName}}}")),
+                        }
                     },
-                    None => return Ok(Response::builder()
-                                        .status(StatusCode::BAD_REQUEST)
-                                        .body(Body::from("Missing required query parameter {{{baseName}}}"))
-                                        .expect("Unable to create Bad Request response for missing qeury parameter {{{baseName}}}")),
+                    None => None,
                 };
-{{/required}}
-{{^required}}
-                let param_{{{paramName}}} = param_{{{paramName}}}.and_then(|param_{{{paramName}}}| param_{{{paramName}}}.parse::<{{{baseType}}}>().ok());
-{{/required}}
-{{/isListContainer}}
+      {{#required}}
+                let param_{{{paramName}}} = match param_{{{paramName}}} {
+                    Some(param_{{{paramName}}}) => param_{{{paramName}}},
+                    None => return Ok(Response::builder()
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(Body::from("Missing required query parameter {{{baseName}}}"))
+                        .expect("Unable to create Bad Request response for missing query parameter {{{baseName}}}")),
+                };
+      {{/required}}
+    {{/vendorExtensions.x-consumes-json}}
+  {{/isListContainer}}
+  {{^isListContainer}}
+                    .nth(0);
+                let param_{{{paramName}}} = match param_{{{paramName}}} {
+                    Some(param_{{{paramName}}}) => {
+                        let param_{{{paramName}}} =
+    {{#vendorExtensions.x-consumes-json}}
+                            serde_json::from_str::<{{{dataType}}}>
+    {{/vendorExtensions.x-consumes-json}}
+    {{^vendorExtensions.x-consumes-json}}
+                            <{{{dataType}}} as std::str::FromStr>::from_str
+    {{/vendorExtensions.x-consumes-json}}
+                                (&param_{{{paramName}}});
+                        match param_{{{paramName}}} {
+                            Ok(param_{{{paramName}}}) => Some(param_{{{paramName}}}),
+                            Err(e) => return Ok(Response::builder()
+                                .status(StatusCode::BAD_REQUEST)
+                                .body(Body::from(format!("Couldn't parse query parameter {{{baseName}}} - doesn't match schema: {}", e)))
+                                .expect("Unable to create Bad Request response for invalid query parameter {{{baseName}}}")),
+                        }
+                    },
+                    None => None,
+                };
+    {{#required}}
+                let param_{{{paramName}}} = match param_{{{paramName}}} {
+                    Some(param_{{{paramName}}}) => param_{{{paramName}}},
+                    None => return Ok(Response::builder()
+                        .status(StatusCode::BAD_REQUEST)
+                        .body(Body::from("Missing required query parameter {{{baseName}}}"))
+                        .expect("Unable to create Bad Request response for missing query parameter {{{baseName}}}")),
+                };
+    {{/required}}
+  {{/isListContainer}}
   {{#-last}}
 
   {{/-last}}
@@ -496,6 +536,9 @@
 {{/dataType}}
                                                 => {
 {{#headers}}
+  {{^required}}
+                                                    if let Some({{{name}}}) = {{{name}}} {
+  {{/required}}
                                                     let {{{name}}} = match header::IntoHeaderValue({{{name}}}).try_into() {
                                                         Ok(val) => val,
                                                         Err(e) => {
@@ -506,14 +549,15 @@
                                                         }
                                                     };
 
-{{/headers}}
-                                                    *response.status_mut() = StatusCode::from_u16({{{code}}}).expect("Unable to turn {{{code}}} into a StatusCode");
-{{#headers}}
                                                     response.headers_mut().insert(
                                                         HeaderName::from_static("{{{nameInLowerCase}}}"),
                                                         {{name}}
                                                     );
+  {{^required}}
+                                                    }
+  {{/required}}
 {{/headers}}
+                                                    *response.status_mut() = StatusCode::from_u16({{{code}}}).expect("Unable to turn {{{code}}} into a StatusCode");
 {{#produces}}
 {{#-first}}
 {{#dataType}}

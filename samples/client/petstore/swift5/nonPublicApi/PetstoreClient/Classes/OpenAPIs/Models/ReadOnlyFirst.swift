@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-internal struct ReadOnlyFirst: Codable { 
-
+internal struct ReadOnlyFirst: Codable {
 
     internal var bar: String?
     internal var baz: String?

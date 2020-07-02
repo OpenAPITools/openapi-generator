@@ -2,7 +2,7 @@
 /**
  * EnumTestTest
  *
- * PHP version 7.1
+ * PHP version 7.2
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -46,28 +46,28 @@ class EnumTestTest extends TestCase
     /**
      * Setup before running any test case
      */
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
     }
 
     /**
      * Setup before running each test case
      */
-    public function setUp()
+    public function setUp(): void
     {
     }
 
     /**
      * Clean up after running each test case
      */
-    public function tearDown()
+    public function tearDown(): void
     {
     }
 
     /**
      * Clean up after running all test cases
      */
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
     }
 
@@ -110,6 +110,27 @@ class EnumTestTest extends TestCase
      * Test attribute "outer_enum"
      */
     public function testPropertyOuterEnum()
+    {
+    }
+
+    /**
+     * Test attribute "outer_enum_integer"
+     */
+    public function testPropertyOuterEnumInteger()
+    {
+    }
+
+    /**
+     * Test attribute "outer_enum_default_value"
+     */
+    public function testPropertyOuterEnumDefaultValue()
+    {
+    }
+
+    /**
+     * Test attribute "outer_enum_integer_default_value"
+     */
+    public function testPropertyOuterEnumIntegerDefaultValue()
     {
     }
 }

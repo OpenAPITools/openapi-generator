@@ -42,10 +42,10 @@ interface PetApi {
      *  - 400: Invalid status value
      * 
      * @param status Status values that need to be considered for filter 
-    * @return [Call]<[kotlin.Array<Pet>]>
+    * @return [Call]<[kotlin.collections.List<Pet>]>
      */
     @GET("pet/findByStatus")
-    fun findPetsByStatus(@Query("status") status: CSVParams): Call<kotlin.Array<Pet>>
+    fun findPetsByStatus(@Query("status") status: CSVParams): Call<kotlin.collections.List<Pet>>
 
     /**
      * Finds Pets by tags
@@ -55,11 +55,11 @@ interface PetApi {
      *  - 400: Invalid tag value
      * 
      * @param tags Tags to filter by 
-    * @return [Call]<[kotlin.Array<Pet>]>
+    * @return [Call]<[kotlin.collections.List<Pet>]>
      */
     @Deprecated("This api was deprecated")
     @GET("pet/findByTags")
-    fun findPetsByTags(@Query("tags") tags: CSVParams): Call<kotlin.Array<Pet>>
+    fun findPetsByTags(@Query("tags") tags: CSVParams): Call<kotlin.collections.List<Pet>>
 
     /**
      * Find pet by ID

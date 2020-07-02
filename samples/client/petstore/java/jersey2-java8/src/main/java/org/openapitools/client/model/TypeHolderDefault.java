@@ -178,6 +178,9 @@ public class TypeHolderDefault {
   }
 
 
+  /**
+   * Return true if this TypeHolderDefault object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
