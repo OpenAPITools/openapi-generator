@@ -13,6 +13,6 @@ The underlying library integrating OpenAPI to SpringBoot is [springfox](https://
 Start your server as a simple java application
 
 You can view the api documentation in swagger-ui by pointing to  
-http://localhost:8002/
+http://localhost:80/
 
 Change default port value in application.properties
