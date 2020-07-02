@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-public struct FormatTest: Codable { 
-
+public struct FormatTest: Codable {
 
     public private(set) var integer: Int?
     public private(set) var int32: Int?

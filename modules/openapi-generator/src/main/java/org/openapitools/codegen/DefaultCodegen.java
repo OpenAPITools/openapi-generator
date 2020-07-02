@@ -1497,20 +1497,20 @@ public class DefaultCodegen implements CodegenConfig {
 
         // option to change how we process + set the data in the 'additionalProperties' keyword.
         CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
-            CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
-            CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
         Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
         disallowAdditionalPropertiesIfNotPresentOpts.put("false",
-            "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
+                "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
         disallowAdditionalPropertiesIfNotPresentOpts.put("true",
-            "when the 'additionalProperties' keyword is not present in a schema, " +
-            "the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. " +
-            "Note: this mode is not compliant with the JSON schema specification. " +
-            "This is the original openapi-generator behavior.");
+                "when the 'additionalProperties' keyword is not present in a schema, " +
+                "the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. " +
+                "Note: this mode is not compliant with the JSON schema specification. " +
+                "This is the original openapi-generator behavior.");
         disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
         cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
         this.setDisallowAdditionalPropertiesIfNotPresent(true);
-        
+
         // initialize special character mapping
         initalizeSpecialCharacterMapping();
 
@@ -2651,7 +2651,7 @@ public class DefaultCodegen implements CodegenConfig {
                 Integer hasDiscriminatorCnt = 0;
                 Integer hasNullTypeCnt = 0;
                 Set<String> discriminatorsPropNames = new HashSet<>();
-                for  (Schema oneOf: composedSchema.getOneOf()) {
+                for (Schema oneOf : composedSchema.getOneOf()) {
                     if (ModelUtils.isNullType(oneOf)) {
                         // The null type does not have a discriminator. Skip.
                         hasNullTypeCnt++;
@@ -2665,7 +2665,7 @@ public class DefaultCodegen implements CodegenConfig {
                 }
                 if (discriminatorsPropNames.size() > 1) {
                     throw new RuntimeException("The oneOf schemas have conflicting discriminator property names. " +
-                        "oneOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
+                            "oneOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
                 }
                 if ((hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getOneOf().size() && discriminatorsPropNames.size() == 1) {
                     disc.setPropertyName(foundDisc.getPropertyName());
@@ -2680,7 +2680,7 @@ public class DefaultCodegen implements CodegenConfig {
                 Integer hasDiscriminatorCnt = 0;
                 Integer hasNullTypeCnt = 0;
                 Set<String> discriminatorsPropNames = new HashSet<>();
-                for  (Schema anyOf: composedSchema.getAnyOf()) {
+                for  (Schema anyOf : composedSchema.getAnyOf()) {
                     if (ModelUtils.isNullType(anyOf)) {
                         // The null type does not have a discriminator. Skip.
                         hasNullTypeCnt++;
@@ -2731,7 +2731,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (schemaList == null) {
                 continue;
             }
-            for  (Schema sc: schemaList) {
+            for (Schema sc : schemaList) {
                 if (ModelUtils.isNullType(sc)) {
                     continue;
                 }
@@ -2886,7 +2886,7 @@ public class DefaultCodegen implements CodegenConfig {
      * Handle the model for the 'additionalProperties' keyword in the OAS schema.
      *
      * @param codegenModel The codegen representation of the schema.
-     * @param schema the input OAS schema.
+     * @param schema       The input OAS schema.
      */
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         addParentContainer(codegenModel, codegenModel.name, schema);
@@ -3514,7 +3514,7 @@ public class DefaultCodegen implements CodegenConfig {
             op.returnType = cm.dataType;
             op.returnFormat = cm.dataFormat;
             op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);
-             
+
             // lookup discriminator
             Schema schema = schemas.get(op.returnBaseType);
             if (schema != null) {
@@ -3921,7 +3921,11 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             } else {
                 if (cp.complexType != null) {
-                    r.baseType = cp.complexType;
+                    if (cp.items != null) {
+                        r.baseType = cp.items.complexType;
+                    } else {
+                        r.baseType = cp.complexType;
+                    }
                     r.isModel = true;
                 } else {
                     r.baseType = cp.baseType;
@@ -3976,8 +3980,8 @@ public class DefaultCodegen implements CodegenConfig {
                 r.containerType = cp.containerType;
                 r.isMapContainer = "map".equals(cp.containerType);
                 r.isListContainer = "list".equalsIgnoreCase(cp.containerType) ||
-                    "array".equalsIgnoreCase(cp.containerType) ||
-                    "set".equalsIgnoreCase(cp.containerType);
+                        "array".equalsIgnoreCase(cp.containerType) ||
+                        "set".equalsIgnoreCase(cp.containerType);
             } else {
                 r.simpleType = true;
             }
@@ -4328,7 +4332,7 @@ public class DefaultCodegen implements CodegenConfig {
             return false;
         }
     }
-    
+
     // TODO revise below as it should be replaced by ModelUtils.isFileSchema(parameterSchema)
     public boolean isDataTypeFile(String dataType) {
         if (dataType != null) {
@@ -5806,6 +5810,7 @@ public class DefaultCodegen implements CodegenConfig {
             codegenParameter.baseType = codegenModel.classname;
             codegenParameter.dataType = getTypeDeclaration(codegenModel.classname);
             codegenParameter.description = codegenModel.description;
+            codegenParameter.isNullable = codegenModel.isNullable;
             imports.add(codegenParameter.baseType);
         } else {
             CodegenProperty codegenProperty = fromProperty("property", schema);
@@ -5819,6 +5824,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.baseType = codegenParameter.baseName;
                 codegenParameter.dataType = getTypeDeclaration(codegenModelName);
                 codegenParameter.description = codegenProperty.getDescription();
+                codegenParameter.isNullable = codegenProperty.isNullable;
             } else {
                 if (ModelUtils.isMapSchema(schema)) {// http body is map
                     LOGGER.error("Map should be supported. Please report to openapi-generator github repo about the issue.");
@@ -5874,6 +5880,9 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.description = escapeText(body.getDescription());
         codegenParameter.required = body.getRequired() != null ? body.getRequired() : Boolean.FALSE;
         codegenParameter.isBodyParam = Boolean.TRUE;
+        if (body.getExtensions() != null) {
+            codegenParameter.vendorExtensions.putAll(body.getExtensions());
+        }
 
         String name = null;
         LOGGER.debug("Request body = " + body);
@@ -5924,6 +5933,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.baseType = getSchemaType(inner);
                 codegenParameter.isContainer = Boolean.TRUE;
                 codegenParameter.isMapContainer = Boolean.TRUE;
+                codegenParameter.isNullable = codegenProperty.isNullable;
 
                 setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
 
@@ -5966,6 +5976,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.baseType = getSchemaType(inner);
                 codegenParameter.isContainer = Boolean.TRUE;
                 codegenParameter.isListContainer = Boolean.TRUE;
+                codegenParameter.isNullable = codegenProperty.isNullable;
 
                 setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
                 // set nullable
@@ -5989,6 +6000,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.baseType = codegenProperty.baseType;
                 codegenParameter.dataType = codegenProperty.dataType;
                 codegenParameter.description = codegenProperty.description;
+                codegenParameter.isNullable = codegenProperty.isNullable;
                 codegenParameter.paramName = toParamName(codegenParameter.baseName);
             }
             setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
@@ -6018,6 +6030,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenParameter.minLength = codegenProperty.minLength;
                 codegenParameter.maxLength = codegenProperty.maxLength;
                 codegenParameter.pattern = codegenProperty.pattern;
+                codegenParameter.isNullable = codegenProperty.isNullable;
 
                 if (codegenProperty.complexType != null) {
                     imports.add(codegenProperty.complexType);

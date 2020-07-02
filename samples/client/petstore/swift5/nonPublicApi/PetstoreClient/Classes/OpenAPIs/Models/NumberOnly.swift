@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-internal struct NumberOnly: Codable { 
-
+internal struct NumberOnly: Codable {
 
     internal var justNumber: Double?
 
@@ -17,7 +15,7 @@ internal struct NumberOnly: Codable {
         self.justNumber = justNumber
     }
 
-    internal enum CodingKeys: String, CodingKey, CaseIterable { 
+    internal enum CodingKeys: String, CodingKey, CaseIterable {
         case justNumber = "JustNumber"
     }
 

@@ -42,5 +42,4 @@ pub mod pet_api;
 pub mod store_api;
 pub mod user_api;
 
-pub mod client;
 pub mod configuration;
