@@ -501,6 +501,14 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption("commonVerbs", "PS common verb mappings. e.g. Delete=Remove:Patch=Update to map Delete with Remove and Patch with Update accordingly."));
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC));
         cliOptions.add(new CliOption("discardReadOnly", "Set discardReadonly to true to generate the Initialize cmdlet without readonly parameters"));
+
+        // default value in the template
+        additionalProperties.put("powershellVersion", "6.2"); // minimal PS version
+        additionalProperties.put("author", "OpenAPI Generator Team");
+        additionalProperties.put("companyName", "openapitools.org");
+        //additionalProperties.put("tags", "\"PowerShell\", \"OpenAPI-Generator\", \"REST\", \"API\"");
+        additionalProperties.put("PSData", null);
+
     }
 
     public CodegenType getTag() {
