@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+
 /**
  * 
  * @param className 
@@ -21,9 +22,9 @@ import java.io.Serializable
  */
 
 interface Animal : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
     @get:SerializedName("className")
     val className: kotlin.String

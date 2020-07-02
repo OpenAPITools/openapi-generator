@@ -35,7 +35,7 @@ import org.hibernate.validator.constraints.*;
   EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
   EnumArrays.JSON_PROPERTY_ARRAY_ENUM
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol

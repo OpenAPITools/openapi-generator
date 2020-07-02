@@ -98,7 +98,7 @@ export class {{classname}} extends runtime.BaseAPI {
 
         {{/required}}
         {{/allParams}}
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         {{#queryParams}}
         {{#isListContainer}}

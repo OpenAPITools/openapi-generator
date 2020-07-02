@@ -162,6 +162,7 @@
                 <version>3.1.1</version>
                 <configuration>
                     <doclint>none</doclint>
+                        <source>1.7</source>
                 </configuration>
                 <executions>
                     <execution>
@@ -271,6 +272,12 @@
                 <artifactId>migbase64</artifactId>
                 <version>2.2</version>
             </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>${javax-annotation-version}</version>
+            <scope>provided</scope>
+        </dependency>
         <!-- test dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -285,6 +292,7 @@
         <jersey-version>1.19.4</jersey-version>
         <jackson-version>2.10.3</jackson-version>
         <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>
+        <javax-annotation-version>1.3.2</javax-annotation-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.13</junit-version>
     </properties>

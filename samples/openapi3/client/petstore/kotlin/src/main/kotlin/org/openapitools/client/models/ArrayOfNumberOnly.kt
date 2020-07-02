@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import com.squareup.moshi.Json
 import java.io.Serializable
+
 /**
  * 
  * @param arrayNumber 
@@ -21,11 +22,11 @@ import java.io.Serializable
 
 data class ArrayOfNumberOnly (
     @Json(name = "ArrayNumber")
-    val arrayNumber: kotlin.Array<java.math.BigDecimal>? = null
+    val arrayNumber: kotlin.collections.List<java.math.BigDecimal>? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

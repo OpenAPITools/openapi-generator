@@ -102,6 +102,23 @@ public class ApiClient {
         authentications = Collections.unmodifiableMap(authentications);
     }
 
+    /*
+     * Basic constructor with custom OkHttpClient
+     */
+    public ApiClient(OkHttpClient client) {
+        init();
+
+        httpClient = client;
+
+        // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
+        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
+        authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
+        // Prevent the authentications from being modified.
+        authentications = Collections.unmodifiableMap(authentications);
+    }
+
     {{#hasOAuthMethods}}
     {{#oauthMethods}}
     {{#-first}}

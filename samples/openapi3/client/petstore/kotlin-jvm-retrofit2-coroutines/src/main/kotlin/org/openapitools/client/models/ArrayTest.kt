@@ -15,6 +15,7 @@ import org.openapitools.client.models.ReadOnlyFirst
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+
 /**
  * 
  * @param arrayOfString 
@@ -24,15 +25,15 @@ import java.io.Serializable
 
 data class ArrayTest (
     @SerializedName("array_of_string")
-    val arrayOfString: kotlin.Array<kotlin.String>? = null,
+    val arrayOfString: kotlin.collections.List<kotlin.String>? = null,
     @SerializedName("array_array_of_integer")
-    val arrayArrayOfInteger: kotlin.Array<kotlin.Array<kotlin.Long>>? = null,
+    val arrayArrayOfInteger: kotlin.collections.List<kotlin.collections.List<kotlin.Long>>? = null,
     @SerializedName("array_array_of_model")
-    val arrayArrayOfModel: kotlin.Array<kotlin.Array<ReadOnlyFirst>>? = null
+    val arrayArrayOfModel: kotlin.collections.List<kotlin.collections.List<ReadOnlyFirst>>? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import com.squareup.moshi.Json
 import java.io.Serializable
+
 /**
  * 
  * @param dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket 
@@ -23,9 +24,9 @@ data class SpecialModelname (
     @Json(name = "\$special[property.name]")
     val dollarSpecialLeftSquareBracketPropertyPeriodNameRightSquareBracket: kotlin.Long? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

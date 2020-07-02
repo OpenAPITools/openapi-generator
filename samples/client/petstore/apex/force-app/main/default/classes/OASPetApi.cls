@@ -28,24 +28,25 @@ public class OASPetApi {
     /**
      * Add a new pet to the store
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param oaSPet Pet object that needs to be added to the store (required)
+     * @return OASPet
      * @throws OAS.ApiException if fails to make API call
      */
-    public void addPet(Map<String, Object> params) {
-        client.assertNotNull(params.get('body'), 'body');
+    public OASPet addPet(Map<String, Object> params) {
+        client.assertNotNull(params.get('oaSPet'), 'oaSPet');
         List<OAS.Param> query = new List<OAS.Param>();
         List<OAS.Param> form = new List<OAS.Param>();
 
-        client.invoke(
+        return (OASPet) client.invoke(
             'POST', '/pet',
-            (OASPet) params.get('body'),
+            (OASPet) params.get('oaSPet'),
             query, form,
             new Map<String, Object>(),
             new Map<String, Object>(),
-            new List<String>(),
+            new List<String>{ 'application/xml', 'application/json' },
             new List<String>{ 'application/json', 'application/xml' },
             new List<String> { 'petstore_auth' },
-            null
+            OASPet.class
         );
     }
     /**
@@ -157,24 +158,25 @@ public class OASPetApi {
     /**
      * Update an existing pet
      * 
-     * @param body Pet object that needs to be added to the store (required)
+     * @param oaSPet Pet object that needs to be added to the store (required)
+     * @return OASPet
      * @throws OAS.ApiException if fails to make API call
      */
-    public void updatePet(Map<String, Object> params) {
-        client.assertNotNull(params.get('body'), 'body');
+    public OASPet updatePet(Map<String, Object> params) {
+        client.assertNotNull(params.get('oaSPet'), 'oaSPet');
         List<OAS.Param> query = new List<OAS.Param>();
         List<OAS.Param> form = new List<OAS.Param>();
 
-        client.invoke(
+        return (OASPet) client.invoke(
             'PUT', '/pet',
-            (OASPet) params.get('body'),
+            (OASPet) params.get('oaSPet'),
             query, form,
             new Map<String, Object>(),
             new Map<String, Object>(),
-            new List<String>(),
+            new List<String>{ 'application/xml', 'application/json' },
             new List<String>{ 'application/json', 'application/xml' },
             new List<String> { 'petstore_auth' },
-            null
+            OASPet.class
         );
     }
     /**

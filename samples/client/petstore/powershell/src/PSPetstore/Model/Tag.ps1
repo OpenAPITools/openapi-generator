@@ -16,10 +16,8 @@ A tag for a pet
 
 .PARAMETER Id
 No description available.
-
 .PARAMETER Name
 No description available.
-
 .OUTPUTS
 
 Tag<PSCustomObject>
@@ -40,10 +38,12 @@ function Initialize-PSTag {
         'Creating PSCustomObject: PSPetstore => PSTag' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
+
         $PSO = [PSCustomObject]@{
             "id" = ${Id}
             "name" = ${Name}
         }
+
 
         return $PSO
     }
@@ -77,12 +77,14 @@ function ConvertFrom-PSJsonToTag {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $JsonParameters = ConvertFrom-Json -InputObject $Json
+        $PSTagAdditionalProperties = @{}
 
         # check if Json contains properties not defined in PSTag
         $AllProperties = ("id", "name")
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
+            # store undefined properties in additionalProperties
             if (!($AllProperties.Contains($name))) {
-                throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
+                $PSTagAdditionalProperties[$name] = $JsonParameters.PSobject.Properties[$name].value
             }
         }
 
@@ -101,6 +103,7 @@ function ConvertFrom-PSJsonToTag {
         $PSO = [PSCustomObject]@{
             "id" = ${Id}
             "name" = ${Name}
+            "AdditionalProperties" = $PSTagAdditionalProperties
         }
 
         return $PSO

@@ -50,7 +50,8 @@ import datetime
 import time
 import petstore_api
 from pprint import pprint
-
+from petstore_api.api import another_fake_api
+from petstore_api.model import client
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -62,8 +63,8 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.AnotherFakeApi(api_client)
-    client_client = petstore_api.Client() # client.Client | client model
+    api_instance = another_fake_api.AnotherFakeApi(api_client)
+    client_client = client.Client() # client.Client | client model
 
     try:
         # To test special tags
@@ -71,7 +72,6 @@ with petstore_api.ApiClient(configuration) as api_client:
         pprint(api_response)
     except petstore_api.ApiException as e:
         print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
-    
 ```
 
 ## Documentation for API Endpoints
@@ -87,6 +87,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
 *FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**get_additional_properties_with_array_of_enums**](docs/FakeApi.md#get_additional_properties_with_array_of_enums) | **GET** /fake/additional-properties-with-array-of-enums | Additional Properties with Array of Enums
+*FakeApi* | [**get_array_of_enums**](docs/FakeApi.md#get_array_of_enums) | **GET** /fake/array-of-enums | Array of Enums
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -123,28 +125,30 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [additional_properties_class.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [additional_properties_with_array_of_enums.AdditionalPropertiesWithArrayOfEnums](docs/AdditionalPropertiesWithArrayOfEnums.md)
  - [address.Address](docs/Address.md)
  - [animal.Animal](docs/Animal.md)
+ - [animal_farm.AnimalFarm](docs/AnimalFarm.md)
  - [api_response.ApiResponse](docs/ApiResponse.md)
  - [apple.Apple](docs/Apple.md)
  - [apple_req.AppleReq](docs/AppleReq.md)
  - [array_of_array_of_number_only.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
+ - [array_of_enums.ArrayOfEnums](docs/ArrayOfEnums.md)
  - [array_of_number_only.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [array_test.ArrayTest](docs/ArrayTest.md)
  - [banana.Banana](docs/Banana.md)
  - [banana_req.BananaReq](docs/BananaReq.md)
- - [biology_chordate.BiologyChordate](docs/BiologyChordate.md)
- - [biology_hominid.BiologyHominid](docs/BiologyHominid.md)
- - [biology_mammal.BiologyMammal](docs/BiologyMammal.md)
- - [biology_primate.BiologyPrimate](docs/BiologyPrimate.md)
- - [biology_reptile.BiologyReptile](docs/BiologyReptile.md)
+ - [basque_pig.BasquePig](docs/BasquePig.md)
  - [capitalization.Capitalization](docs/Capitalization.md)
  - [cat.Cat](docs/Cat.md)
  - [cat_all_of.CatAllOf](docs/CatAllOf.md)
  - [category.Category](docs/Category.md)
+ - [child_cat.ChildCat](docs/ChildCat.md)
+ - [child_cat_all_of.ChildCatAllOf](docs/ChildCatAllOf.md)
  - [class_model.ClassModel](docs/ClassModel.md)
  - [client.Client](docs/Client.md)
  - [complex_quadrilateral.ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
+ - [danish_pig.DanishPig](docs/DanishPig.md)
  - [dog.Dog](docs/Dog.md)
  - [dog_all_of.DogAllOf](docs/DogAllOf.md)
  - [drawing.Drawing](docs/Drawing.md)
@@ -159,6 +163,7 @@ Class | Method | HTTP request | Description
  - [fruit.Fruit](docs/Fruit.md)
  - [fruit_req.FruitReq](docs/FruitReq.md)
  - [gm_fruit.GmFruit](docs/GmFruit.md)
+ - [grandparent_animal.GrandparentAnimal](docs/GrandparentAnimal.md)
  - [has_only_read_only.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [health_check_result.HealthCheckResult](docs/HealthCheckResult.md)
  - [inline_object.InlineObject](docs/InlineObject.md)
@@ -185,7 +190,9 @@ Class | Method | HTTP request | Description
  - [outer_enum_default_value.OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
  - [outer_enum_integer.OuterEnumInteger](docs/OuterEnumInteger.md)
  - [outer_enum_integer_default_value.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
+ - [parent_pet.ParentPet](docs/ParentPet.md)
  - [pet.Pet](docs/Pet.md)
+ - [pig.Pig](docs/Pig.md)
  - [quadrilateral.Quadrilateral](docs/Quadrilateral.md)
  - [quadrilateral_interface.QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [read_only_first.ReadOnlyFirst](docs/ReadOnlyFirst.md)
@@ -250,4 +257,23 @@ Class | Method | HTTP request | Description
 
 
 
+
+## Notes for Large OpenAPI documents
+If the OpenAPI document is large, imports in petstore_api.apis and petstore_api.models may fail with a
+RecursionError indicating the maximum recursion limit has been exceeded. In that case, there are a couple of solutions:
+
+Solution 1:
+Use specific imports for apis and models like:
+- `from petstore_api.api.default_api import DefaultApi`
+- `from petstore_api.model.pet import Pet`
+
+Solution 1:
+Before importing the package, adjust the maximum recursion limit as shown below:
+```
+import sys
+sys.setrecursionlimit(1500)
+import petstore_api
+from petstore_api.apis import *
+from petstore_api.models import *
+```
 

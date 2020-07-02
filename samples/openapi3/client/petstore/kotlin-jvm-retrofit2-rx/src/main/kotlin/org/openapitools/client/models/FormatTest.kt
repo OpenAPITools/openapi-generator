@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+
 /**
  * 
  * @param number 
@@ -67,9 +68,9 @@ data class FormatTest (
     @SerializedName("pattern_with_digits_and_delimiter")
     val patternWithDigitsAndDelimiter: kotlin.String? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

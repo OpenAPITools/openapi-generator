@@ -50,7 +50,8 @@ from __future__ import print_function
 import time
 import petstore_api
 from pprint import pprint
-
+from petstore_api.api import another_fake_api
+from petstore_api.model import client
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -62,8 +63,8 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.AnotherFakeApi(api_client)
-    body = petstore_api.Client() # client.Client | client model
+    api_instance = another_fake_api.AnotherFakeApi(api_client)
+    body = client.Client() # client.Client | client model
 
     try:
         # To test special tags
@@ -71,7 +72,6 @@ with petstore_api.ApiClient(configuration) as api_client:
         pprint(api_response)
     except petstore_api.ApiException as e:
         print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
-    
 ```
 
 ## Documentation for API Endpoints
@@ -131,6 +131,7 @@ Class | Method | HTTP request | Description
  - [additional_properties_object.AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
  - [additional_properties_string.AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [animal.Animal](docs/Animal.md)
+ - [animal_farm.AnimalFarm](docs/AnimalFarm.md)
  - [api_response.ApiResponse](docs/ApiResponse.md)
  - [array_of_array_of_number_only.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [array_of_number_only.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -222,4 +223,23 @@ Class | Method | HTTP request | Description
 
 
 
+
+## Notes for Large OpenAPI documents
+If the OpenAPI document is large, imports in petstore_api.apis and petstore_api.models may fail with a
+RecursionError indicating the maximum recursion limit has been exceeded. In that case, there are a couple of solutions:
+
+Solution 1:
+Use specific imports for apis and models like:
+- `from petstore_api.api.default_api import DefaultApi`
+- `from petstore_api.model.pet import Pet`
+
+Solution 1:
+Before importing the package, adjust the maximum recursion limit as shown below:
+```
+import sys
+sys.setrecursionlimit(1500)
+import petstore_api
+from petstore_api.apis import *
+from petstore_api.models import *
+```
 

@@ -83,7 +83,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createUsersWithArrayInput(user: kotlin.Array<User>) : Unit {
+    fun createUsersWithArrayInput(user: kotlin.collections.List<User>) : Unit {
         val localVariableBody: kotlin.Any? = user
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -123,7 +123,7 @@ class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createUsersWithListInput(user: kotlin.Array<User>) : Unit {
+    fun createUsersWithListInput(user: kotlin.collections.List<User>) : Unit {
         val localVariableBody: kotlin.Any? = user
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

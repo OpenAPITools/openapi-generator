@@ -12,7 +12,7 @@ import org.openapitools.model.OuterEnum;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class EnumTest   {
   /**
    * Gets or Sets enumString

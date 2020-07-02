@@ -14,7 +14,7 @@ import java.util.UUID;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class FormatTest   {
   @JsonProperty("integer")
   private Integer integer;

@@ -1,5 +1,6 @@
 {{#withSeparateModelsAndApi}}
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 {{>licenseInfo}}
 
 import * as globalImportUrl from 'url';
@@ -351,7 +352,7 @@ export class {{classname}} extends BaseAPI {
      * @memberof {{classname}}
      */
     {{#useSingleRequestParameter}}
-    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request, {{/allParams.0}}options?: any) {
+    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options?: any) {
         return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams.0}}{{#allParams}}requestParameters.{{paramName}}, {{/allParams}}{{/allParams.0}}options).then((request) => request(this.axios, this.basePath));
     }
     {{/useSingleRequestParameter}}

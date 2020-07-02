@@ -167,18 +167,18 @@ public class {{classname}} {
     {{/returnType}}
     return apiClient.invokeAPI("{{classname}}.{{operationId}}", localVarPath, "{{httpMethod}}", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}}, {{#vendorExtensions.x-java-return-type-one-of}}new {{{returnType}}}(){{/vendorExtensions.x-java-return-type-one-of}}{{^vendorExtensions.x-java-return-type-one-of}}{{#vendorExtensions.x-java-return-type-any-of}}new {{{returnType}}}(){{/vendorExtensions.x-java-return-type-any-of}}{{^vendorExtensions.x-java-return-type-any-of}}null{{/vendorExtensions.x-java-return-type-any-of}}{{/vendorExtensions.x-java-return-type-one-of}});
+                               localVarAuthNames, {{#returnType}}localVarReturnType{{/returnType}}{{^returnType}}null{{/returnType}}, {{#bodyParam}}{{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}}{{/bodyParam}}{{^bodyParam}}false{{/bodyParam}});
   }
   {{#vendorExtensions.x-group-parameters}}
 
   public class API{{operationId}}Request {
     {{#allParams}}
-    private {{#isRequired}}final {{/isRequired}}{{{dataType}}} {{localVariablePrefix}}{{paramName}};
+    private {{#isRequired}}final {{/isRequired}}{{{dataType}}} {{paramName}};
     {{/allParams}}
 
     private API{{operationId}}Request({{#pathParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}) {
       {{#pathParams}}
-      this.{{localVariablePrefix}}{{paramName}} = {{paramName}};
+      this.{{paramName}} = {{paramName}};
       {{/pathParams}}
     }
     {{#allParams}}
@@ -190,7 +190,7 @@ public class {{classname}} {
      * @return API{{operationId}}Request
      */
     public API{{operationId}}Request {{paramName}}({{{dataType}}} {{paramName}}) {
-      this.{{localVariablePrefix}}{{paramName}} = {{paramName}};
+      this.{{paramName}} = {{paramName}};
       return this;
     }
     {{/isPathParam}}
@@ -236,7 +236,7 @@ public class {{classname}} {
     @Deprecated
     {{/isDeprecated}}
     public ApiResponse<{{#returnType}}{{{.}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> executeWithHttpInfo() throws ApiException {
-      return {{operationId}}WithHttpInfo({{#allParams}}{{localVariablePrefix}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+      return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
     }
   }
 

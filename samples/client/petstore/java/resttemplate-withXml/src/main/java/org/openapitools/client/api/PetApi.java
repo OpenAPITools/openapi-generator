@@ -29,7 +29,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @Component("org.openapitools.client.api.PetApi")
 public class PetApi {
     private ApiClient apiClient;

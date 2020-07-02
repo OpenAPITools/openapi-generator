@@ -33,7 +33,7 @@ public:
 	FString ComputePath() const final;
     
 	/* Pet object that needs to be added to the store */
-	std::shared_ptr<OpenAPIOpenAPIPet> Body;
+	OpenAPIPet Body;
 };
 
 class OPENAPI_API OpenAPIPetApi::AddPetResponse : public Response
@@ -41,7 +41,7 @@ class OPENAPI_API OpenAPIPetApi::AddPetResponse : public Response
 public:
     virtual ~AddPetResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };
@@ -66,7 +66,7 @@ class OPENAPI_API OpenAPIPetApi::DeletePetResponse : public Response
 public:
     virtual ~DeletePetResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };
@@ -89,7 +89,7 @@ public:
 		Sold,
   	};
 	/* Status values that need to be considered for filter */
-	TArray<std::shared_ptr<StatusEnum>> Status;
+	TArray<StatusEnum> Status;
 };
 
 class OPENAPI_API OpenAPIPetApi::FindPetsByStatusResponse : public Response
@@ -97,9 +97,9 @@ class OPENAPI_API OpenAPIPetApi::FindPetsByStatusResponse : public Response
 public:
     virtual ~FindPetsByStatusResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
-    TArray<std::shared_ptr<OpenAPIOpenAPIPet>> Content;
+    TArray<OpenAPIPet> Content;
 };
 
 /* Finds Pets by tags
@@ -114,7 +114,7 @@ public:
 	FString ComputePath() const final;
     
 	/* Tags to filter by */
-	TArray<std::shared_ptr<FString>> Tags;
+	TArray<FString> Tags;
 };
 
 class OPENAPI_API OpenAPIPetApi::FindPetsByTagsResponse : public Response
@@ -122,9 +122,9 @@ class OPENAPI_API OpenAPIPetApi::FindPetsByTagsResponse : public Response
 public:
     virtual ~FindPetsByTagsResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
-    TArray<std::shared_ptr<OpenAPIOpenAPIPet>> Content;
+    TArray<OpenAPIPet> Content;
 };
 
 /* Find pet by ID
@@ -147,7 +147,7 @@ class OPENAPI_API OpenAPIPetApi::GetPetByIdResponse : public Response
 public:
     virtual ~GetPetByIdResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     OpenAPIPet Content;
 };
@@ -163,7 +163,7 @@ public:
 	FString ComputePath() const final;
     
 	/* Pet object that needs to be added to the store */
-	std::shared_ptr<OpenAPIOpenAPIPet> Body;
+	OpenAPIPet Body;
 };
 
 class OPENAPI_API OpenAPIPetApi::UpdatePetResponse : public Response
@@ -171,7 +171,7 @@ class OPENAPI_API OpenAPIPetApi::UpdatePetResponse : public Response
 public:
     virtual ~UpdatePetResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };
@@ -199,7 +199,7 @@ class OPENAPI_API OpenAPIPetApi::UpdatePetWithFormResponse : public Response
 public:
     virtual ~UpdatePetWithFormResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     
 };
@@ -227,7 +227,7 @@ class OPENAPI_API OpenAPIPetApi::UploadFileResponse : public Response
 public:
     virtual ~UploadFileResponse() {}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     OpenAPIApiResponse Content;
 };

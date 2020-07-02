@@ -75,6 +75,7 @@ Please follow the [installation](#installation) instruction and execute the foll
 import org.openapitools.client.*;
 import org.openapitools.client.model.*;
 import org.openapitools.client.api.AnotherFakeApi;
+import java.util.concurrent.CompletableFuture;
 
 public class AnotherFakeApiExample {
 
@@ -85,7 +86,7 @@ public class AnotherFakeApiExample {
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
         Client body = new Client(); // Client | client model
         try {
-            Client result = apiInstance.call123testSpecialTags(body);
+            CompletableFuture<Client> result = apiInstance.call123testSpecialTags(body);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling AnotherFakeApi#call123testSpecialTags");

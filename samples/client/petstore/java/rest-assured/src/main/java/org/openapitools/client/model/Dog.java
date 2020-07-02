@@ -32,7 +32,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * Dog
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 
 public class Dog extends Animal {
   public static final String SERIALIZED_NAME_BREED = "breed";

@@ -20,25 +20,25 @@ module Petstore
       @api_client = api_client
     end
     # Add a new pet to the store
-    # @param body [Pet] Pet object that needs to be added to the store
+    # @param pet [Pet] Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def add_pet(body, opts = {})
-      add_pet_with_http_info(body, opts)
+    def add_pet(pet, opts = {})
+      add_pet_with_http_info(pet, opts)
       nil
     end
 
     # Add a new pet to the store
-    # @param body [Pet] Pet object that needs to be added to the store
+    # @param pet [Pet] Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def add_pet_with_http_info(body, opts = {})
+    def add_pet_with_http_info(pet, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: PetApi.add_pet ...'
       end
-      # verify the required parameter 'body' is set
-      if @api_client.config.client_side_validation && body.nil?
-        fail ArgumentError, "Missing the required parameter 'body' when calling PetApi.add_pet"
+      # verify the required parameter 'pet' is set
+      if @api_client.config.client_side_validation && pet.nil?
+        fail ArgumentError, "Missing the required parameter 'pet' when calling PetApi.add_pet"
       end
       # resource path
       local_var_path = '/pet'
@@ -55,7 +55,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(body) 
+      post_body = opts[:body] || @api_client.object_to_http_body(pet) 
 
       # return_type
       return_type = opts[:return_type] 
@@ -103,7 +103,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.delete_pet"
       end
       # resource path
-      local_var_path = '/pet/{petId}'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s).gsub('%2F', '/'))
+      local_var_path = '/pet/{petId}'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -290,7 +290,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.get_pet_by_id"
       end
       # resource path
-      local_var_path = '/pet/{petId}'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s).gsub('%2F', '/'))
+      local_var_path = '/pet/{petId}'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -329,25 +329,25 @@ module Petstore
     end
 
     # Update an existing pet
-    # @param body [Pet] Pet object that needs to be added to the store
+    # @param pet [Pet] Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
     # @return [nil]
-    def update_pet(body, opts = {})
-      update_pet_with_http_info(body, opts)
+    def update_pet(pet, opts = {})
+      update_pet_with_http_info(pet, opts)
       nil
     end
 
     # Update an existing pet
-    # @param body [Pet] Pet object that needs to be added to the store
+    # @param pet [Pet] Pet object that needs to be added to the store
     # @param [Hash] opts the optional parameters
     # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def update_pet_with_http_info(body, opts = {})
+    def update_pet_with_http_info(pet, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: PetApi.update_pet ...'
       end
-      # verify the required parameter 'body' is set
-      if @api_client.config.client_side_validation && body.nil?
-        fail ArgumentError, "Missing the required parameter 'body' when calling PetApi.update_pet"
+      # verify the required parameter 'pet' is set
+      if @api_client.config.client_side_validation && pet.nil?
+        fail ArgumentError, "Missing the required parameter 'pet' when calling PetApi.update_pet"
       end
       # resource path
       local_var_path = '/pet'
@@ -364,7 +364,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(body) 
+      post_body = opts[:body] || @api_client.object_to_http_body(pet) 
 
       # return_type
       return_type = opts[:return_type] 
@@ -414,7 +414,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.update_pet_with_form"
       end
       # resource path
-      local_var_path = '/pet/{petId}'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s).gsub('%2F', '/'))
+      local_var_path = '/pet/{petId}'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -480,7 +480,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'pet_id' when calling PetApi.upload_file"
       end
       # resource path
-      local_var_path = '/pet/{petId}/uploadImage'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s).gsub('%2F', '/'))
+      local_var_path = '/pet/{petId}/uploadImage'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}
@@ -552,7 +552,7 @@ module Petstore
         fail ArgumentError, "Missing the required parameter 'required_file' when calling PetApi.upload_file_with_required_file"
       end
       # resource path
-      local_var_path = '/fake/{petId}/uploadImageWithRequiredFile'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s).gsub('%2F', '/'))
+      local_var_path = '/fake/{petId}/uploadImageWithRequiredFile'.sub('{' + 'petId' + '}', CGI.escape(pet_id.to_s))
 
       # query parameters
       query_params = opts[:query_params] || {}

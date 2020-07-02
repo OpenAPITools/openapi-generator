@@ -133,6 +133,7 @@ dependencies {
     compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threetenbp_version"
     compile "com.brsanthu:migbase64:2.2"
+    compile 'javax.annotation:javax.annotation-api:1.3.2'
     testCompile "junit:junit:$junit_version"
 }
 
