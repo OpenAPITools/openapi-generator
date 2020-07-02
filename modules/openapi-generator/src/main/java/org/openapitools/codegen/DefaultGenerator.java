@@ -1261,7 +1261,6 @@ public class DefaultGenerator implements Generator {
                         opSecurity.hasMore = security.hasMore;
                         result.add(opSecurity);
                         filtered = true;
-                        break;
                     }
                 }
             }
