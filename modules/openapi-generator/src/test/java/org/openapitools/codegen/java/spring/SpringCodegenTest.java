@@ -712,7 +712,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        assertFileContains(Paths.get(path),
+        assertFileNotContains(Paths.get(path),
                 "hasAuthority('write_pets'", "hasAuthority('read_pets", "@PreAuthorize(\"", "import org.springframework.security.access.prepost.PreAuthorize;\n");
     }
 
