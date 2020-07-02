@@ -74,11 +74,6 @@ public class AuthParser {
         }
     }
 
-    /**
-     * Aides in converting the existing view of schemes per key to multiple (OR) schemes per key
-     * @param m
-     * @return
-     */
     public static Map<String, List<SecurityScheme>> toSecuritySchemeContainer(Map<String, SecurityScheme> m){
         return Optional.ofNullable(m)
                 .orElse(new HashMap<>())
