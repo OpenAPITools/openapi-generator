@@ -642,7 +642,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileContains(generator, path,
+        assertFileContains(Paths.get(path),
                 "@PreAuthorize(\"(hasAuthority('write_pets') and hasAuthority('rw_pets')) or (hasAuthority('read_pets'))\")");
     }
 
@@ -668,7 +668,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileContains(generator, path,
+        assertFileContains(Paths.get(path),
                 "@PreAuthorize(\"(hasAuthority('read_pets'))\")");
     }
 
@@ -694,11 +694,8 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileNotContains(generator, path,
-                "hasAuthority('write_pets'");
-        checkFileNotContains(generator, path, "hasAuthority('read_pets");
-        checkFileNotContains(generator, path, "@PreAuthorize(\"");
-        checkFileNotContains(generator, path, "import org.springframework.security.access.prepost.PreAuthorize;\n");
+        assertFileContains(Paths.get(path),
+                "hasAuthority('write_pets'", "hasAuthority('read_pets", "@PreAuthorize(\"", "import org.springframework.security.access.prepost.PreAuthorize;\n");
     }
 
     @Test
@@ -723,7 +720,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileContains(generator, path,
+        assertFileContains(Paths.get( path),
                 "@PreAuthorize(\"(hasAuthority('scope:another')) or (hasAuthority('scope:specific'))\")");
     }
 
@@ -749,7 +746,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileNotContains(generator, path,
+        assertFileContains(Paths.get( path),
                 "@PreAuthorize(\"hasAuthority('scope:another') or hasAuthority('scope:specific')\")");
     }
 
@@ -775,7 +772,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileContains(generator, path,
+        assertFileContains(Paths.get( path),
                 "@PreAuthorize(\"(hasAuthority('scope:global'))\")");
     }
 
@@ -801,7 +798,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileContains(generator, path,
+        assertFileContains(Paths.get( path),
                 "@PreAuthorize(\"(hasAuthority('user') and hasAuthority('admin'))\")");
     }
 
@@ -827,7 +824,7 @@ public class SpringCodegenTest {
         generator.opts(input).generate();
 
         String path = outputPath + "/src/main/java/org/openapitools/api/PetsApi.java";
-        checkFileContains(generator, path,
+        assertFileContains(Paths.get( path),
                 "@ApiOperation(value = \"Get the pet\", nickname = \"petsGet\", notes = \"\", tags={  })",
                 "@ApiResponses(value = {  })",
                 "@RequestMapping(value = \"/pets\",",
