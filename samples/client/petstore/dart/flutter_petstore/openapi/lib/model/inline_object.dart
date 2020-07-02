@@ -2,9 +2,9 @@ part of openapi.api;
 
 class InlineObject {
   /* Updated name of the pet */
-  String name = ;
+  String name = null;
   /* Updated status of the pet */
-  String status = ;
+  String status = null;
   InlineObject();
 
   @override

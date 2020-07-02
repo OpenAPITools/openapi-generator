@@ -2,11 +2,11 @@ part of openapi.api;
 
 class ApiResponse {
   
-  int code = ;
+  int code = null;
   
-  String type = ;
+  String type = null;
   
-  String message = ;
+  String message = null;
   ApiResponse();
 
   @override

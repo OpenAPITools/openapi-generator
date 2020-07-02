@@ -2,15 +2,15 @@ part of openapi.api;
 
 class Order {
   
-  int id = ;
+  int id = null;
   
-  int petId = ;
+  int petId = null;
   
-  int quantity = ;
+  int quantity = null;
   
-  DateTime shipDate = ;
+  DateTime shipDate = null;
   /* Order Status */
-  String status = ;
+  String status = null;
   //enum statusEnum {  placed,  approved,  delivered,  };{
   
   bool complete = false;

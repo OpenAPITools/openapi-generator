@@ -2,9 +2,9 @@ part of openapi.api;
 
 class Category {
   
-  int id = ;
+  int id = null;
   
-  String name = ;
+  String name = null;
   Category();
 
   @override

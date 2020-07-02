@@ -2,9 +2,9 @@ part of openapi.api;
 
 class Tag {
   
-  int id = ;
+  int id = null;
   
-  String name = ;
+  String name = null;
   Tag();
 
   @override
