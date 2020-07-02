@@ -506,9 +506,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         additionalProperties.put("powershellVersion", "6.2"); // minimal PS version
         additionalProperties.put("author", "OpenAPI Generator Team");
         additionalProperties.put("companyName", "openapitools.org");
-        //additionalProperties.put("tags", "\"PowerShell\", \"OpenAPI-Generator\", \"REST\", \"API\"");
-        additionalProperties.put("PSData", null);
-
+        additionalProperties.put("psData", null);
     }
 
     public CodegenType getTag() {

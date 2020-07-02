@@ -48,14 +48,14 @@ $Manifest = @{
     CompanyName = '{{{companyName}}}'
     Description = '{{{packageName}}} - the PowerShell module for {{{appName}}}'
 
-    {{#PSData}}
+    {{#psData}}
     PrivateData = @{
         PSData = @{
             {{{.}}}
         }
     }
 
-    {{/PSData}}
+    {{/psData}}
     ModuleVersion = '{{{packageVersion}}}'
 
     RootModule = '{{{packageName}}}.psm1'
