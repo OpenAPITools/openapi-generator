@@ -38,12 +38,23 @@ public class StoreApiImpl implements StoreApi {
     }
 
     /**
-     * Delete purchase order by ID
-     * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-     * @param orderId ID of the order that needs to be deleted (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * Delete purchase order by ID
+    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+        * @param orderId ID of the order that needs to be deleted (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void deleteOrder(String orderId, Handler<AsyncResult<Void>> resultHandler) {
+        deleteOrder(orderId, null, resultHandler);
+    }
+
+    /**
+    * Delete purchase order by ID
+    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+    * @param orderId ID of the order that needs to be deleted (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void deleteOrder(String orderId, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'orderId' is set
@@ -72,14 +83,24 @@ public class StoreApiImpl implements StoreApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
-     * Returns pet inventories by status
-     * Returns a map of status codes to quantities
-     * @param resultHandler Asynchronous result handler
-     */
+    * Returns pet inventories by status
+    * Returns a map of status codes to quantities
+    * @param resultHandler Asynchronous result handler
+    */
     public void getInventory(Handler<AsyncResult<Map<String, Integer>>> resultHandler) {
+        getInventory(null, resultHandler);
+    }
+
+    /**
+    * Returns pet inventories by status
+    * Returns a map of status codes to quantities
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void getInventory(ApiClient.AuthInfo authInfo, Handler<AsyncResult<Map<String, Integer>>> resultHandler) {
         Object localVarBody = null;
         
         // create path and map variables
@@ -102,15 +123,26 @@ public class StoreApiImpl implements StoreApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] { "api_key" };
         TypeReference<Map<String, Integer>> localVarReturnType = new TypeReference<Map<String, Integer>>() {};
-        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
     /**
-     * Find purchase order by ID
-     * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-     * @param orderId ID of pet that needs to be fetched (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * Find purchase order by ID
+    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+        * @param orderId ID of pet that needs to be fetched (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void getOrderById(Long orderId, Handler<AsyncResult<Order>> resultHandler) {
+        getOrderById(orderId, null, resultHandler);
+    }
+
+    /**
+    * Find purchase order by ID
+    * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+    * @param orderId ID of pet that needs to be fetched (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void getOrderById(Long orderId, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Order>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'orderId' is set
@@ -139,15 +171,26 @@ public class StoreApiImpl implements StoreApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<Order> localVarReturnType = new TypeReference<Order>() {};
-        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
     /**
-     * Place an order for a pet
-     * 
-     * @param body order placed for purchasing the pet (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * Place an order for a pet
+    * 
+        * @param body order placed for purchasing the pet (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void placeOrder(Order body, Handler<AsyncResult<Order>> resultHandler) {
+        placeOrder(body, null, resultHandler);
+    }
+
+    /**
+    * Place an order for a pet
+    * 
+    * @param body order placed for purchasing the pet (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void placeOrder(Order body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Order>> resultHandler) {
         Object localVarBody = body;
         
         // verify the required parameter 'body' is set
@@ -176,6 +219,6 @@ public class StoreApiImpl implements StoreApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<Order> localVarReturnType = new TypeReference<Order>() {};
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
 }
