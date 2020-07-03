@@ -17,20 +17,23 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Client;
 import org.junit.Test;
 import org.junit.Ignore;
-import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.util.concurrent.CompletableFuture;
+
 /**
  * API tests for FakeClassnameTags123Api
  */
+@Ignore
 public class FakeClassnameTags123ApiTest {
 
     private final FakeClassnameTags123Api api = new FakeClassnameTags123Api();
 
+    
     /**
      * To test class name in snake case
      *
@@ -41,11 +44,11 @@ public class FakeClassnameTags123ApiTest {
      */
     @Test
     public void testClassnameTest() throws ApiException {
-        //
-        //Client body = null;
-        //
-        //Client response = api.testClassname(body);
-
+        Client body = null;
+        CompletableFuture<Client> response = 
+        api.testClassname(body);
+        
         // TODO: test validations
     }
+    
 }
