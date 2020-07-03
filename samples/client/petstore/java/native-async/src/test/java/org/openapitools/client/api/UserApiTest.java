@@ -17,20 +17,23 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.model.User;
 import org.junit.Test;
 import org.junit.Ignore;
-import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.util.concurrent.CompletableFuture;
+
 /**
  * API tests for UserApi
  */
+@Ignore
 public class UserApiTest {
 
     private final UserApi api = new UserApi();
 
+    
     /**
      * Create user
      *
@@ -41,43 +44,47 @@ public class UserApiTest {
      */
     @Test
     public void createUserTest() throws ApiException {
-        //
-        //User body = null;
-        //
-        //api.createUser(body);
-
+        User body = null;
+        
+        CompletableFuture<Void> response = api.createUser(body);
+        
         // TODO: test validations
     }
+    
     /**
      * Creates list of users with given input array
+     *
+     * 
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void createUsersWithArrayInputTest() throws ApiException {
-        //
-        //List<User> body = null;
-        //
-        //api.createUsersWithArrayInput(body);
-
+        List<User> body = null;
+        
+        CompletableFuture<Void> response = api.createUsersWithArrayInput(body);
+        
         // TODO: test validations
     }
+    
     /**
      * Creates list of users with given input array
+     *
+     * 
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void createUsersWithListInputTest() throws ApiException {
-        //
-        //List<User> body = null;
-        //
-        //api.createUsersWithListInput(body);
-
+        List<User> body = null;
+        
+        CompletableFuture<Void> response = api.createUsersWithListInput(body);
+        
         // TODO: test validations
     }
+    
     /**
      * Delete user
      *
@@ -88,58 +95,64 @@ public class UserApiTest {
      */
     @Test
     public void deleteUserTest() throws ApiException {
-        //
-        //String username = null;
-        //
-        //api.deleteUser(username);
-
+        String username = null;
+        
+        CompletableFuture<Void> response = api.deleteUser(username);
+        
         // TODO: test validations
     }
+    
     /**
      * Get user by user name
+     *
+     * 
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void getUserByNameTest() throws ApiException {
-        //
-        //String username = null;
-        //
-        //User response = api.getUserByName(username);
-
+        String username = null;
+        CompletableFuture<User> response = 
+        api.getUserByName(username);
+        
         // TODO: test validations
     }
+    
     /**
      * Logs user into the system
+     *
+     * 
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void loginUserTest() throws ApiException {
-        //
-        //String username = null;
-        //
-        //String password = null;
-        //
-        //String response = api.loginUser(username, password);
-
+        String username = null;
+        String password = null;
+        CompletableFuture<String> response = 
+        api.loginUser(username, password);
+        
         // TODO: test validations
     }
+    
     /**
      * Logs out current logged in user session
+     *
+     * 
      *
      * @throws ApiException
      *          if the Api call fails
      */
     @Test
     public void logoutUserTest() throws ApiException {
-        //
-        //api.logoutUser();
-
+        
+        CompletableFuture<Void> response = api.logoutUser();
+        
         // TODO: test validations
     }
+    
     /**
      * Updated user
      *
@@ -150,13 +163,12 @@ public class UserApiTest {
      */
     @Test
     public void updateUserTest() throws ApiException {
-        //
-        //String username = null;
-        //
-        //User body = null;
-        //
-        //api.updateUser(username, body);
-
+        String username = null;
+        User body = null;
+        
+        CompletableFuture<Void> response = api.updateUser(username, body);
+        
         // TODO: test validations
     }
+    
 }
