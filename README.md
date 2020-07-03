@@ -350,7 +350,7 @@ Once built, `run-in-docker.sh` will act as an executable for openapi-generator-c
 ./run-in-docker.sh list # Executes 'list' command for openapi-generator-cli
 ./run-in-docker.sh /gen/bin/go-petstore.sh  # Builds the Go client
 ./run-in-docker.sh generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
-    -g go -o /gen/out/go-petstore -DpackageName=petstore # generates go client, outputs locally to ./out/go-petstore
+    -g go -o /gen/out/go-petstore --package-name=petstore # generates go client, outputs locally to ./out/go-petstore
 ```
 
 ##### Troubleshooting
