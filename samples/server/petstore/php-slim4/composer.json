@@ -8,14 +8,16 @@
     }
   ],
   "require": {
-    "php": "^7.1",
-    "slim/slim": "^4.0",
+    "php": "^7.2",
+    "slim/slim": "^4.5.0",
     "dyorg/slim-token-authentication": "dev-slim4",
-    "slim/psr7": "^0.4.0"
+    "ybelenko/openapi-data-mocker": "^1.0",
+    "ybelenko/openapi-data-mocker-server-middleware": "^1.0",
+    "slim/psr7": "^1.1.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6.0 || ^7.0",
-    "overtrue/phplint": "^1.0",
+    "phpunit/phpunit": "^8.0 || ^9.0",
+    "overtrue/phplint": "^2.0.2",
     "squizlabs/php_codesniffer": "^3.5"
   },
   "autoload": {
@@ -33,8 +35,6 @@
     ],
     "test-apis": "phpunit --testsuite Apis",
     "test-models": "phpunit --testsuite Models",
-    "test-mock": "phpunit --testsuite Mock",
-    "test-utils": "phpunit --testsuite Utils",
     "phpcs": "phpcs",
     "phplint": "phplint ./ --exclude=vendor"
   }

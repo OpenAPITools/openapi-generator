@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class StoreApi {
   private ApiClient apiClient;
 
@@ -110,7 +110,7 @@ public class StoreApi {
 
     return apiClient.invokeAPI("StoreApi.deleteOrder", localVarPath, "DELETE", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, null, null);
+                               localVarAuthNames, null, false);
   }
   /**
    * Returns pet inventories by status
@@ -170,7 +170,7 @@ public class StoreApi {
 
     return apiClient.invokeAPI("StoreApi.getInventory", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, null);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * Find purchase order by ID
@@ -242,7 +242,7 @@ public class StoreApi {
 
     return apiClient.invokeAPI("StoreApi.getOrderById", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, null);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * Place an order for a pet
@@ -311,6 +311,6 @@ public class StoreApi {
 
     return apiClient.invokeAPI("StoreApi.placeOrder", localVarPath, "POST", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, null);
+                               localVarAuthNames, localVarReturnType, false);
   }
 }

@@ -65,7 +65,7 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
                 Write-Debug "Failed to match '{{{modelName}}}' defined in oneOf ({{{apiNamePrefix}}}{{{classname}}}) using the discriminator lookup ({{{mappingName}}}). Proceeding with the typical oneOf type matching."
             }
         }
-    
+
         {{/mappedModels}}
         {{/discriminator}}
         {{/useOneOfDiscriminatorLookup}}

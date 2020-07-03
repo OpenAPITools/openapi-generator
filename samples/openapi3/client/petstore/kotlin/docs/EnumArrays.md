@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **justSymbol** | [**inline**](#JustSymbolEnum) |  |  [optional]
-**arrayEnum** | [**inline**](#kotlin.Array&lt;ArrayEnumEnum&gt;) |  |  [optional]
+**arrayEnum** | [**inline**](#kotlin.collections.List&lt;ArrayEnumEnum&gt;) |  |  [optional]
 
 
 <a name="JustSymbolEnum"></a>
@@ -15,7 +15,7 @@ Name | Value
 justSymbol | &gt;&#x3D;, $
 
 
-<a name="kotlin.Array<ArrayEnumEnum>"></a>
+<a name="kotlin.collections.List<ArrayEnumEnum>"></a>
 ## Enum: array_enum
 Name | Value
 ---- | -----

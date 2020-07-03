@@ -12,7 +12,7 @@ import org.openapitools.model.ReadOnlyFirst;
 /**
  * ArrayTest
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class ArrayTest   {
   @JsonProperty("array_of_string")
   private List<String> arrayOfString = null;

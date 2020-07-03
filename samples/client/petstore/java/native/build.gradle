@@ -62,5 +62,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_version"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
+    compile "org.openapitools:jackson-databind-nullable:0.2.1"
+    compile 'javax.annotation:javax.annotation-api:1.3.2'
     testCompile "junit:junit:$junit_version"
 }

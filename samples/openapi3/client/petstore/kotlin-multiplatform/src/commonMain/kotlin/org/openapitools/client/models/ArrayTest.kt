@@ -15,6 +15,7 @@ import org.openapitools.client.models.ReadOnlyFirst
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * 
  * @param arrayOfString 
@@ -23,8 +24,8 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  */
 @Serializable
 data class ArrayTest (
-    @SerialName(value = "array_of_string") val arrayOfString: kotlin.Array<kotlin.String>? = null,
-    @SerialName(value = "array_array_of_integer") val arrayArrayOfInteger: kotlin.Array<kotlin.Array<kotlin.Long>>? = null,
-    @SerialName(value = "array_array_of_model") val arrayArrayOfModel: kotlin.Array<kotlin.Array<ReadOnlyFirst>>? = null
+    @SerialName(value = "array_of_string") val arrayOfString: kotlin.collections.List<kotlin.String>? = null,
+    @SerialName(value = "array_array_of_integer") val arrayArrayOfInteger: kotlin.collections.List<kotlin.collections.List<kotlin.Long>>? = null,
+    @SerialName(value = "array_array_of_model") val arrayArrayOfModel: kotlin.collections.List<kotlin.collections.List<ReadOnlyFirst>>? = null
 )
 

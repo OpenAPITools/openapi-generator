@@ -1649,10 +1649,24 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
+        if (!supportsAdditionalPropertiesWithComposedSchema) {
+            // The additional (undeclared) propertiees are modeled in Java as a HashMap.
+            // 
+            // 1. supportsAdditionalPropertiesWithComposedSchema is set to false:
+            //    The generated model class extends from the HashMap. That does not work
+            //    with composed schemas that also use a discriminator because the model class
+            //    is supposed to extend from the generated parent model class.
+            // 2. supportsAdditionalPropertiesWithComposedSchema is set to true:
+            //    The HashMap is a field.
+            super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
+        }
 
         // See https://github.com/OpenAPITools/openapi-generator/pull/1729#issuecomment-449937728
-        codegenModel.additionalPropertiesType = getSchemaType(getAdditionalProperties(schema));
-        addImport(codegenModel, codegenModel.additionalPropertiesType);
+        Schema s = getAdditionalProperties(schema);
+        // 's' may be null if 'additionalProperties: false' in the OpenAPI schema.
+        if (s != null) {
+            codegenModel.additionalPropertiesType = getSchemaType(s);
+            addImport(codegenModel, codegenModel.additionalPropertiesType);
+        }
     }
 }

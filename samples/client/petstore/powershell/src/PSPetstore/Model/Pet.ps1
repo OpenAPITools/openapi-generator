@@ -16,22 +16,16 @@ A pet for sale in the pet store
 
 .PARAMETER Id
 No description available.
-
 .PARAMETER Category
 No description available.
-
 .PARAMETER Name
 No description available.
-
 .PARAMETER PhotoUrls
 No description available.
-
 .PARAMETER Tags
 No description available.
-
 .PARAMETER Status
 pet status in the store
-
 .OUTPUTS
 
 Pet<PSCustomObject>
@@ -73,6 +67,7 @@ function Initialize-PSPet {
             throw "invalid value for 'PhotoUrls', 'PhotoUrls' cannot be null."
         }
 
+
         $PSO = [PSCustomObject]@{
             "id" = ${Id}
             "category" = ${Category}
@@ -81,6 +76,7 @@ function Initialize-PSPet {
             "tags" = ${Tags}
             "status" = ${Status}
         }
+
 
         return $PSO
     }
@@ -128,13 +124,13 @@ function ConvertFrom-PSJsonToPet {
         }
 
         if (!([bool]($JsonParameters.PSobject.Properties.name -match "name"))) {
-            throw "Error! JSON cannot be serialized due to the required property `name` missing." 
+            throw "Error! JSON cannot be serialized due to the required property `name` missing."
         } else {
             $Name = $JsonParameters.PSobject.Properties["name"].value
         }
 
         if (!([bool]($JsonParameters.PSobject.Properties.name -match "photoUrls"))) {
-            throw "Error! JSON cannot be serialized due to the required property `photoUrls` missing." 
+            throw "Error! JSON cannot be serialized due to the required property `photoUrls` missing."
         } else {
             $PhotoUrls = $JsonParameters.PSobject.Properties["photoUrls"].value
         }

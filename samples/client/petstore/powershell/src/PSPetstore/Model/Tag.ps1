@@ -16,10 +16,8 @@ A tag for a pet
 
 .PARAMETER Id
 No description available.
-
 .PARAMETER Name
 No description available.
-
 .OUTPUTS
 
 Tag<PSCustomObject>
@@ -40,10 +38,12 @@ function Initialize-PSTag {
         'Creating PSCustomObject: PSPetstore => PSTag' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
+
         $PSO = [PSCustomObject]@{
             "id" = ${Id}
             "name" = ${Name}
         }
+
 
         return $PSO
     }

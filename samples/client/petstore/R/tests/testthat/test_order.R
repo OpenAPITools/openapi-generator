@@ -12,11 +12,11 @@ test_that("id", {
   #expect_equal(model.instance$`id`, "EXPECTED_RESULT")
 })
 
-test_that("pet_id", {
-  # tests for the property `pet_id` (integer)
+test_that("petId", {
+  # tests for the property `petId` (integer)
 
   # uncomment below to test the property 
-  #expect_equal(model.instance$`pet_id`, "EXPECTED_RESULT")
+  #expect_equal(model.instance$`petId`, "EXPECTED_RESULT")
 })
 
 test_that("quantity", {
@@ -26,11 +26,11 @@ test_that("quantity", {
   #expect_equal(model.instance$`quantity`, "EXPECTED_RESULT")
 })
 
-test_that("ship_date", {
-  # tests for the property `ship_date` (character)
+test_that("shipDate", {
+  # tests for the property `shipDate` (character)
 
   # uncomment below to test the property 
-  #expect_equal(model.instance$`ship_date`, "EXPECTED_RESULT")
+  #expect_equal(model.instance$`shipDate`, "EXPECTED_RESULT")
 })
 
 test_that("status", {

@@ -19,7 +19,7 @@ import java.util.Optional;
  * A delegate to be called by the {@link PetApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public interface PetApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {

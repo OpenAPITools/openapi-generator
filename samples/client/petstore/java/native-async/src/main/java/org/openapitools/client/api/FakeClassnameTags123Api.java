@@ -37,7 +37,7 @@ import java.util.Map;
 
 import java.util.concurrent.CompletableFuture;
 
-
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeClassnameTags123Api {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -45,7 +45,7 @@ public class FakeClassnameTags123Api {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  
+
   public FakeClassnameTags123Api() {
     this(new ApiClient());
   }
@@ -66,10 +66,38 @@ public class FakeClassnameTags123Api {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public CompletableFuture<Client> testClassname (Client body) throws ApiException {
+  public CompletableFuture<Client> testClassname(Client body) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = testClassnameRequestBuilder(body);
+      return memberVarHttpClient.sendAsync(
+              localVarRequestBuilder.build(),
+              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+          if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                  "testClassname call received non-success response",
+                  localVarResponse.headers(),
+                  localVarResponse.body())
+              );
+          } else {
+              try {
+                return CompletableFuture.completedFuture(
+                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
+                );
+              } catch (IOException e) {
+                return CompletableFuture.failedFuture(new ApiException(e));
+              }
+          }
+      });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  private HttpRequest.Builder testClassnameRequestBuilder(Client body) throws ApiException {
     // verify the required parameter 'body' is set
     if (body == null) {
-        return CompletableFuture.failedFuture(new ApiException(400, "Missing the required parameter 'body' when calling testClassname"));
+      throw new ApiException(400, "Missing the required parameter 'body' when calling testClassname");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -84,29 +112,15 @@ public class FakeClassnameTags123Api {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
       localVarRequestBuilder.method("PATCH", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-      if (memberVarReadTimeout != null) {
-        localVarRequestBuilder.timeout(memberVarReadTimeout);
-      }
-      if (memberVarInterceptor != null) {
-        memberVarInterceptor.accept(localVarRequestBuilder);
-      }
-      return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "testClassname call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
-          } else {
-              return CompletableFuture.completedFuture(
-                      null
-              );
-          }
-      });
     } catch (IOException e) {
-      return CompletableFuture.failedFuture(new ApiException(e));
+      throw new ApiException(e);
     }
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
   }
 }

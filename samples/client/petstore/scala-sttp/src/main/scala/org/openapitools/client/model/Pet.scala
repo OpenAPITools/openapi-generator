@@ -11,7 +11,6 @@
  */
 package org.openapitools.client.model
 
-import org.openapitools.client.core.ApiModel
 
   /**
    * a Pet
@@ -25,7 +24,7 @@ case class Pet(
   tags: Option[Seq[Tag]] = None,
   /* pet status in the store */
   status: Option[PetEnums.Status] = None
-) extends ApiModel
+)
 
 object PetEnums {
 

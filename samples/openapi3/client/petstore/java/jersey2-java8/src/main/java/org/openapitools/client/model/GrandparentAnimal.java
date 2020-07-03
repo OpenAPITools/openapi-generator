@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -26,6 +28,8 @@ import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.ChildCat;
 import org.openapitools.client.model.ParentPet;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * GrandparentAnimal
@@ -33,7 +37,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   GrandparentAnimal.JSON_PROPERTY_PET_TYPE
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "pet_type", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = ChildCat.class, name = "ChildCat"),
@@ -46,7 +50,6 @@ public class GrandparentAnimal {
 
 
   public GrandparentAnimal petType(String petType) {
-    
     this.petType = petType;
     return this;
   }
@@ -69,6 +72,9 @@ public class GrandparentAnimal {
   }
 
 
+  /**
+   * Return true if this GrandparentAnimal object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -107,5 +113,13 @@ public class GrandparentAnimal {
     return o.toString().replace("\n", "\n    ");
   }
 
+static {
+  // Initialize and register the discriminator mappings.
+  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+  mappings.put("ChildCat", ChildCat.class);
+  mappings.put("ParentPet", ParentPet.class);
+  mappings.put("GrandparentAnimal", GrandparentAnimal.class);
+  JSON.registerDiscriminator(GrandparentAnimal.class, "pet_type", mappings);
+}
 }
 
