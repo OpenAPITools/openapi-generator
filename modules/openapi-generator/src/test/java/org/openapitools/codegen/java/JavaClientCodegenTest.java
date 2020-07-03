@@ -26,10 +26,8 @@ import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
-import org.openapitools.codegen.languages.DartClientCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -842,4 +840,91 @@ public class JavaClientCodegenTest {
         Assert.assertFalse(cp9.isFreeFormObject);
         Assert.assertFalse(cp9.isAnyType);
     }
+
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/4803
+     */
+    @Test
+    public void testRestTemplateFormMultipart() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+
+        Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
+        TestUtils.assertFileContains(defaultApi,
+                //multiple files
+                "multipartArrayWithHttpInfo(List<File> files)",
+                "formParams.put(\"files\", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
+
+                //mixed
+                "multipartMixedWithHttpInfo(File file, MultipartMixedMarker marker)",
+                "formParams.add(\"file\", new FileSystemResource(file));",
+
+                //single file
+                "multipartSingleWithHttpInfo(File file)",
+                "formParams.add(\"file\", new FileSystemResource(file));"
+                );
+    }
+
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/4803
+     */
+    @Test
+    public void testWebClientFormMultipart() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.WEBCLIENT)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+
+        Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
+        TestUtils.assertFileContains(defaultApi,
+                //multiple files
+                "multipartArray(List<File> files)",
+                "formParams.addAll(\"files\", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
+
+                //mixed
+                "multipartMixed(File file, MultipartMixedMarker marker)",
+                "formParams.add(\"file\", new FileSystemResource(file));",
+
+                //single file
+                "multipartSingle(File file)",
+                "formParams.add(\"file\", new FileSystemResource(file));"
+        );
+    }
+
 }
