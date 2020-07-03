@@ -45,6 +45,17 @@ class ApiClient(
                 level = HttpLoggingInterceptor.Level.BODY
             })
     }
+    
+    private var okHttpClient?: OkHttpClient = null
+    
+    constructor(
+        baseUrl: String = defaultBasePath,
+        okHttpClientBuilder: OkHttpClient.Builder? = null,
+        serializerBuilder: Moshi.Builder = Serializer.moshiBuilder
+        okClient: OkHttpClient? = null
+    ) : this(baseUrl, okHttpClientBuilder, serializerBuilder) {
+        this.okHttpClient = okClient
+    }
 
     init {
         normalizeBaseUrl()
@@ -171,7 +182,9 @@ class ApiClient(
     }
 
     fun <S> createService(serviceClass: Class<S>): S {
-        return retrofitBuilder.client(clientBuilder.build()).build().create(serviceClass)
+    	var usedClient: OkHttpClient? = null
+        this.okHttpClient?.let { usedClient = it } ?: run {usedClient = clientBuilder.build()}
+        return retrofitBuilder.client(usedClient).build().create(serviceClass)
     }
 
     private fun normalizeBaseUrl() {
