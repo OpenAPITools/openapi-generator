@@ -2,8 +2,9 @@ package org.openapitools.client.apis
 
 import org.openapitools.client.infrastructure.CollectionFormats.*
 import retrofit2.http.*
-import retrofit2.Call
 import okhttp3.RequestBody
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.Completable;
 
 import org.openapitools.client.models.Order
 
@@ -19,7 +20,7 @@ interface StoreApi {
     * @return [Call]<[Unit]>
      */
     @DELETE("store/order/{orderId}")
-    fun deleteOrder(@Path("orderId") orderId: kotlin.String): Call<Unit>
+    fun deleteOrder(@Path("orderId") orderId: kotlin.String): Completable
 
     /**
      * Returns pet inventories by status
@@ -30,7 +31,7 @@ interface StoreApi {
     * @return [Call]<[kotlin.collections.Map<kotlin.String, kotlin.Int>]>
      */
     @GET("store/inventory")
-    fun getInventory(): Call<kotlin.collections.Map<kotlin.String, kotlin.Int>>
+    fun getInventory(): Single<kotlin.collections.Map<kotlin.String, kotlin.Int>>
 
     /**
      * Find purchase order by ID
@@ -44,7 +45,7 @@ interface StoreApi {
     * @return [Call]<[Order]>
      */
     @GET("store/order/{orderId}")
-    fun getOrderById(@Path("orderId") orderId: kotlin.Long): Call<Order>
+    fun getOrderById(@Path("orderId") orderId: kotlin.Long): Single<Order>
 
     /**
      * Place an order for a pet
@@ -57,6 +58,6 @@ interface StoreApi {
     * @return [Call]<[Order]>
      */
     @POST("store/order")
-    fun placeOrder(@Body body: Order): Call<Order>
+    fun placeOrder(@Body body: Order): Single<Order>
 
 }

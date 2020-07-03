@@ -2,8 +2,9 @@ package org.openapitools.client.apis
 
 import org.openapitools.client.infrastructure.CollectionFormats.*
 import retrofit2.http.*
-import retrofit2.Call
 import okhttp3.RequestBody
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.Completable;
 
 import org.openapitools.client.models.ApiResponse
 import org.openapitools.client.models.Pet
@@ -19,7 +20,7 @@ interface PetApi {
     * @return [Call]<[Unit]>
      */
     @POST("pet")
-    fun addPet(@Body body: Pet): Call<Unit>
+    fun addPet(@Body body: Pet): Completable
 
     /**
      * Deletes a pet
@@ -32,7 +33,7 @@ interface PetApi {
     * @return [Call]<[Unit]>
      */
     @DELETE("pet/{petId}")
-    fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String): Call<Unit>
+    fun deletePet(@Path("petId") petId: kotlin.Long, @Header("api_key") apiKey: kotlin.String): Completable
 
     /**
      * Finds Pets by status
@@ -45,7 +46,7 @@ interface PetApi {
     * @return [Call]<[kotlin.collections.List<Pet>]>
      */
     @GET("pet/findByStatus")
-    fun findPetsByStatus(@Query("status") status: CSVParams): Call<kotlin.collections.List<Pet>>
+    fun findPetsByStatus(@Query("status") status: CSVParams): Single<kotlin.collections.List<Pet>>
 
     /**
      * Finds Pets by tags
@@ -59,7 +60,7 @@ interface PetApi {
      */
     @Deprecated("This api was deprecated")
     @GET("pet/findByTags")
-    fun findPetsByTags(@Query("tags") tags: CSVParams): Call<kotlin.collections.List<Pet>>
+    fun findPetsByTags(@Query("tags") tags: CSVParams): Single<kotlin.collections.List<Pet>>
 
     /**
      * Find pet by ID
@@ -73,7 +74,7 @@ interface PetApi {
     * @return [Call]<[Pet]>
      */
     @GET("pet/{petId}")
-    fun getPetById(@Path("petId") petId: kotlin.Long): Call<Pet>
+    fun getPetById(@Path("petId") petId: kotlin.Long): Single<Pet>
 
     /**
      * Update an existing pet
@@ -87,7 +88,7 @@ interface PetApi {
     * @return [Call]<[Unit]>
      */
     @PUT("pet")
-    fun updatePet(@Body body: Pet): Call<Unit>
+    fun updatePet(@Body body: Pet): Completable
 
     /**
      * Updates a pet in the store with form data
@@ -102,7 +103,7 @@ interface PetApi {
      */
     @FormUrlEncoded
     @POST("pet/{petId}")
-    fun updatePetWithForm(@Path("petId") petId: kotlin.Long, @Field("name") name: kotlin.String, @Field("status") status: kotlin.String): Call<Unit>
+    fun updatePetWithForm(@Path("petId") petId: kotlin.Long, @Field("name") name: kotlin.String, @Field("status") status: kotlin.String): Completable
 
     /**
      * uploads an image
@@ -117,6 +118,6 @@ interface PetApi {
      */
     @Multipart
     @POST("pet/{petId}/uploadImage")
-    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String, @Part file: MultipartBody.Part): Call<ApiResponse>
+    fun uploadFile(@Path("petId") petId: kotlin.Long, @Part("additionalMetadata") additionalMetadata: kotlin.String, @Part file: MultipartBody.Part): Single<ApiResponse>
 
 }
