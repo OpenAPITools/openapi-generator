@@ -188,7 +188,7 @@ class Configuration(object):
         self.retries = None
         """Adding retries to override urllib3 default value 3
         """
-        # Disable client side validation
+        # Enable client side validation
         self.client_side_validation = True
 
     def __deepcopy__(self, memo):
