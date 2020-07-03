@@ -17,8 +17,6 @@
 
 package org.openapitools.codegen;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
@@ -1102,7 +1100,7 @@ public class DefaultGenerator implements Generator {
     }
 
     private Map<String,String> getAllImportsMapppings(Set<String> allImports){
-        Map<String,String> result = Maps.newHashMap();
+        Map<String,String> result = Collections.emptyMap();
         allImports.forEach(nextImport->{
             String mapping = config.importMapping().get(nextImport);
             if(mapping!= null){
@@ -1115,7 +1113,7 @@ public class DefaultGenerator implements Generator {
     }
 
     private List<Map<String,String>> toImportsObjects(Map<String,String> mappedImports){
-        List<Map<String, String>> result = Lists.newArrayList();
+        List<Map<String, String>> result = Collections.emptyList();
         mappedImports.entrySet().forEach(mapping->{
             Map<String, String> im = new LinkedHashMap<>();
             im.put("import", mapping.getKey());
