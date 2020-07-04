@@ -10,7 +10,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;{{/fullJavaUtil}}
+import java.util.Map;
+import java.util.stream.Collectors;{{/fullJavaUtil}}
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -130,7 +131,7 @@ public class {{classname}} {
         {{/hasMore}}{{/cookieParams}}{{/hasCookieParams}}{{#hasFormParams}}
 
         {{#formParams}}if ({{paramName}} != null)
-            formParams.{{^collectionFormat}}add{{/collectionFormat}}{{#collectionFormat}}put{{/collectionFormat}}("{{baseName}}", {{#isFile}}new FileSystemResource({{paramName}}){{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});{{#hasMore}}
+            formParams.{{^collectionFormat}}add{{/collectionFormat}}{{#collectionFormat}}put{{/collectionFormat}}("{{baseName}}", {{#isFile}}{{^collectionFormat}}new FileSystemResource({{paramName}}){{/collectionFormat}}{{/isFile}}{{#isFile}}{{#collectionFormat}}{{paramName}}.stream().map(FileSystemResource::new).collect(Collectors.toList()){{/collectionFormat}}{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});{{#hasMore}}
         {{/hasMore}}{{/formParams}}{{/hasFormParams}}
 
         final String[] accepts = { {{#hasProduces}}

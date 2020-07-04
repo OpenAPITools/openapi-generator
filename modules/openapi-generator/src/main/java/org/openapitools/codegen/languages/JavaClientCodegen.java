@@ -55,7 +55,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String DO_NOT_USE_RX = "doNotUseRx";
     public static final String USE_PLAY_WS = "usePlayWS";
     public static final String PLAY_VERSION = "playVersion";
-    public static final String FEIGN_VERSION = "feignVersion";
     public static final String ASYNC_NATIVE = "asyncNative";
     public static final String PARCELABLE_MODEL = "parcelableModel";
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
@@ -65,9 +64,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
     public static final String PLAY_26 = "play26";
-
-    public static final String FEIGN_9 = "9.x";
-    public static final String FEIGN_10 = "10.x";
 
     public static final String FEIGN = "feign";
     public static final String GOOGLE_API_CLIENT = "google-api-client";
@@ -95,7 +91,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean doNotUseRx = true;
     protected boolean usePlayWS = false;
     protected String playVersion = PLAY_26;
-    protected String feignVersion = FEIGN_10;
     protected boolean asyncNative = false;
     protected boolean parcelableModel = false;
     protected boolean useBeanValidation = false;
@@ -143,13 +138,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE, "Send gzip-encoded requests"));
         cliOptions.add(CliOption.newBoolean(USE_RUNTIME_EXCEPTION, "Use RuntimeException instead of Exception"));
         cliOptions.add(CliOption.newBoolean(ASYNC_NATIVE, "If true, async handlers will be used, instead of the sync version"));
-        cliOptions.add(CliOption.newBoolean(FEIGN_VERSION, "Version of OpenFeign: '10.x' (default), '9.x' (deprecated)"));
         cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
-        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 9.x (deprecated) or 10.x (default). JSON processing: Jackson 2.9.x.");
+        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 11.x. JSON processing: Jackson 2.9.x.");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)");
         supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x");
@@ -256,12 +250,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setPlayVersion(additionalProperties.get(PLAY_VERSION).toString());
         }
         additionalProperties.put(PLAY_VERSION, playVersion);
-
-        // default to feign 10.x
-        if (additionalProperties.containsKey(FEIGN_VERSION)) {
-            once(LOGGER).warn("feignVersion has been deprecated. 10.x is the default.");
-        }
-        additionalProperties.put(FEIGN_VERSION, feignVersion);
 
         if (additionalProperties.containsKey(ASYNC_NATIVE)) {
             this.setAsyncNative(convertPropertyToBooleanAndWriteBack(ASYNC_NATIVE));
@@ -843,10 +831,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setPlayVersion(String playVersion) {
         this.playVersion = playVersion;
-    }
-
-    public void setFeignVersion(String feignVersion) {
-        this.feignVersion = feignVersion;
     }
 
     public void setAsyncNative(boolean asyncNative) {
