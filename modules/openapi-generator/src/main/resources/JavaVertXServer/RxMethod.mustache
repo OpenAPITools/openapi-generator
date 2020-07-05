@@ -1,1 +1,1 @@
-    public {{#returnType}}Single<{{{returnType}}}>{{/returnType}}{{^returnType}}Completable{{/returnType}} {{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}}, User user);
+    public {{#returnType}}Single<{{{returnType}}}>{{/returnType}}{{^returnType}}Completable{{/returnType}} {{operationId}}(ApiContext apiCtx{{#hasParams}},{{/hasParams}}{{#allParams}} {{{dataType}}} {{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}});
