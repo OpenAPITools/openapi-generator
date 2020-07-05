@@ -1,10 +1,15 @@
-{{>additionalModelTypeAnnotations}}@JsonInclude(JsonInclude.Include.NON_NULL)
+import lombok.experimental.FieldNameConstants;
+
+@FieldNameConstants
+@Builder
+{{>additionalModelTypeAnnotations}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
 
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
+  @JsonProperty("{{baseName}}")
   private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
 
   public {{classname}} () {

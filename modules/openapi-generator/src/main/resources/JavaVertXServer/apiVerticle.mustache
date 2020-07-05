@@ -78,7 +78,7 @@ public class {{classname}}Verticle extends AbstractVerticle {
                     manageError(message, new MainApiException(400, "{{baseName}} is required"), serviceId);
                     return;
                 }
-                {{{dataType}}} {{paramName}} = Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
+                {{{dataType}}} {{paramName}} = null;//Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
                 {{/required}}
                 {{^required}}
                 {{{dataType}}} {{paramName}} = ({{paramName}}Param == null) ? {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}} : Json.mapper.readValue({{paramName}}Param, {{{dataType}}}.class);
@@ -91,7 +91,7 @@ public class {{classname}}Verticle extends AbstractVerticle {
                     manageError(message, new MainApiException(400, "{{baseName}} is required"), serviceId);
                     return;
                 }
-                {{{dataType}}} {{paramName}} = Json.mapper.readValue({{paramName}}Param.encode(), {{{dataType}}}.class);
+                {{{dataType}}} {{paramName}} = null;//Json.mapper.readValue({{paramName}}Param.encode(), {{{dataType}}}.class);
                             {{/isPrimitiveType}}
                         {{/isListContainer}}
                     {{/allParams}}

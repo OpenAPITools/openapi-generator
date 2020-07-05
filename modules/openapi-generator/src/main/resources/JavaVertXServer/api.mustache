@@ -14,6 +14,10 @@ import io.vertx.core.Handler;
 
 import java.util.List;
 import java.util.Map;
+import io.vertx.core.MultiMap;
+import io.vertx.ext.web.RoutingContext;
+
+import vn.davido.youmed.microservice.common.context.User
 
 public interface {{classname}}  {
 {{#operations}}
@@ -28,4 +32,51 @@ public interface {{classname}}  {
     
 {{/operation}}
 {{/operations}}
+{{#operations}}
+{{#operation}}
+    {{#vendorExtensions}}String {{x-serviceid-varname}} = "{{x-serviceid}}";
+    {{/vendorExtensions}}
+{{/operation}}
+{{/operations}}
+{{#operations}}
+{{#operation}}
+                {{#hasParams}}
+                    {{#allParams}}{{#isPrimitiveType}}
+                    {{#required}}
+    {{#vendorExtensions}}String {{operationId}}_{{paramName}}_{{{dataType}}}_required = "{{baseName}}";{{/vendorExtensions}}
+                    {{/required}}
+                    {{^required}}
+    {{#vendorExtensions}}String {{operationId}}_{{paramName}}_{{{dataType}}} = "{{baseName}}";{{/vendorExtensions}}
+                    {{/required}}
+                    {{/isPrimitiveType}}{{/allParams}}
+                {{/hasParams}}
+{{/operation}}
+{{/operations}}
+    {{#operations}}{{#operation}}{{#responses}}{{^isDefault}}{{classname}}Exception {{baseName}}_{{{operationId}}}_{{{code}}}_Exception = new {{classname}}Exception({{{code}}}, "{{{message}}}");
+    {{/isDefault}}{{/responses}}{{/operation}}{{/operations}}
+
+    {{#operations}}{{#operation}}
+            {{#hasParams}}
+            //default for {{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}};
+    static void default{{#vendorExtensions}}{{x-serviceid}}{{/vendorExtensions}}(RoutingContext routingContext) {
+            MultiMap paramsMap = routingContext.queryParams();
+            {{#allParams}}
+                    {{^isListContainer}}
+                        {{#isPrimitiveType}}
+            {{^required}}
+            {{#defaultValue}}
+            String {{paramName}}Param = paramsMap.get("{{baseName}}");
+            if({{paramName}}Param == null) {
+                String {{paramName}} = "{{{defaultValue}}}";
+                paramsMap.set("{{baseName}}",{{paramName}});
+            }
+            {{/defaultValue}}
+            {{/required}}
+                        {{/isPrimitiveType}}
+                    {{/isListContainer}}
+            {{/allParams}}
+            routingContext.next();
+    }
+            {{/hasParams}}
+    {{/operation}}{{/operations}}
 }
