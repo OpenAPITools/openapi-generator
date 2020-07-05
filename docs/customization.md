@@ -93,20 +93,20 @@ If you publish your artifact to a distant maven repository, do not forget to add
 
 You may not want to generate *all* models in your project. Likewise, you may want just one or two apis to be written.  If that's the case, you can use system properties or [global properties](./global-properties.md) to control the output.
 
-The default is generate *everything* supported by the specific library.  Once you enable a feature, it will restrict the contents generated:
+The default is generate *everything* supported by the specific library. Once you enable a feature, it will restrict the contents generated:
 
 ```sh
 # generate only models
-java --global-property models {opts}
+--global-property models
 
 # generate only apis
-java --global-property apis {opts}
+--global-property apis
 
 # generate only supporting files
-java --global-property supportingFiles {opts}
+--global-property supportingFiles
 
 # generate models and supporting files
-java --global-property models,supportingFiles {opts}
+--global-property models,supportingFiles
 ```
 
 To control the specific files being generated, you can pass a CSV list of what you want:
