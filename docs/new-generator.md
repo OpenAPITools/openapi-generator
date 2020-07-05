@@ -23,7 +23,7 @@ The minimum set of files required to create a new generator are:
   - Should include a README explaining usage
   - Must include an `api.mustache`
   - Exists under `modules/openapi-generator/src/main/resources/` (plus `embeddedTemplate` dir value, see below)
-* Sample scripts under `./bin` and `./bin/windows`
+* Sample scripts under `./bin`
   - Gives users a "real life" example of generated output
   - Samples are used by CI to verify generators and test for regressions in some cases
   

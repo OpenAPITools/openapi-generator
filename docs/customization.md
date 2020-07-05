@@ -97,45 +97,45 @@ The default is generate *everything* supported by the specific library.  Once yo
 
 ```sh
 # generate only models
-java -Dmodels {opts}
+java --global-property models {opts}
 
 # generate only apis
-java -Dapis {opts}
+java --global-property apis {opts}
 
 # generate only supporting files
-java -DsupportingFiles
+java --global-property supportingFiles {opts}
 
 # generate models and supporting files
-java -Dmodels -DsupportingFiles
+java --global-property models,supportingFiles {opts}
 ```
 
 To control the specific files being generated, you can pass a CSV list of what you want:
 ```sh
 # generate the User and Pet models only
--Dmodels=User,Pet
+--global-property models="User,Pet"
 
 # generate the User model and the supportingFile `StringUtil.java`:
--Dmodels=User -DsupportingFiles=StringUtil.java
+--global-property models=User,supportingFiles=StringUtil.java
 ```
 
-To control generation of docs and tests for api and models, pass false to the option. For api, these options are  `-DapiTests=false` and `-DapiDocs=false`. For models, `-DmodelTests=false` and `-DmodelDocs=false`.
-These options default to true and don't limit the generation of the feature options listed above (like `-Dapi`):
+To control generation of docs and tests for api and models, pass false to the option. For api, these options are  `--global-property apiTests=false,apiDocs=false`. For models, `--global-property modelTests=false,modelDocs=false`.
+These options default to true and don't limit the generation of the feature options listed above (like `--global-property api`):
 
 ```sh
 # generate only models (with tests and documentation)
-java -Dmodels {opts}
+--global-property models
 
 # generate only models (with tests but no documentation)
-java -Dmodels -DmodelDocs=false {opts}
+--global-property models,modelDocs=false
 
 # generate only User and Pet models (no tests and no documentation)
-java -Dmodels=User,Pet -DmodelTests=false {opts}
+--global-property models="User,Pet",modelTests=false
 
 # generate only apis (without tests)
-java -Dapis -DapiTests=false {opts}
+--global-property apis,apiTests=false
 
 # generate only apis (modelTests option is ignored)
-java -Dapis -DmodelTests=false {opts}
+--global-property apis,modelTests=false
 ```
 
 When using selective generation, _only_ the templates needed for the specific generation will be used.
@@ -143,13 +143,7 @@ When using selective generation, _only_ the templates needed for the specific ge
 To skip models defined as the form parameters in "requestBody", please use `skipFormModel` (default to false) (this option is introduced at v3.2.2)
 
 ```sh
-java -DskipFormModel=true <path to jar> generate …
-```
-
-or
-
-```sh
-java <path to jar> generate --global-property skipFormModel=true …
+--global-property skipFormModel=true
 ```
 
 This option will be helpful to skip model generation due to the form parameter, which is defined differently in OAS3 as there's no form parameter in OAS3
