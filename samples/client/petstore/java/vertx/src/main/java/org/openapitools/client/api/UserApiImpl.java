@@ -10,6 +10,9 @@ import io.vertx.core.json.JsonObject;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -208,7 +211,7 @@ public class UserApiImpl implements UserApi {
         }
         
         // create path and map variables
-        String localVarPath = "/user/{username}".replaceAll("\\{" + "username" + "\\}", username.toString());
+        String localVarPath = "/user/{username}".replaceAll("\\{" + "username" + "\\}", encodeParameter(username.toString()));
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -256,7 +259,7 @@ public class UserApiImpl implements UserApi {
         }
         
         // create path and map variables
-        String localVarPath = "/user/{username}".replaceAll("\\{" + "username" + "\\}", username.toString());
+        String localVarPath = "/user/{username}".replaceAll("\\{" + "username" + "\\}", encodeParameter(username.toString()));
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -410,7 +413,7 @@ public class UserApiImpl implements UserApi {
         }
         
         // create path and map variables
-        String localVarPath = "/user/{username}".replaceAll("\\{" + "username" + "\\}", username.toString());
+        String localVarPath = "/user/{username}".replaceAll("\\{" + "username" + "\\}", encodeParameter(username.toString()));
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -430,5 +433,13 @@ public class UserApiImpl implements UserApi {
         String[] localVarAuthNames = new String[] {  };
 
         apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
+    }
+
+    private String encodeParameter(String parameter) {
+        try {
+            return URLEncoder.encode(parameter, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            return parameter;
+        }
     }
 }

@@ -13,6 +13,9 @@ import io.vertx.core.json.JsonObject;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -117,7 +120,7 @@ public class PetApiImpl implements PetApi {
         }
         
         // create path and map variables
-        String localVarPath = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", petId.toString());
+        String localVarPath = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", encodeParameter(petId.toString()));
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -265,7 +268,7 @@ public class PetApiImpl implements PetApi {
         }
         
         // create path and map variables
-        String localVarPath = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", petId.toString());
+        String localVarPath = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", encodeParameter(petId.toString()));
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -365,7 +368,7 @@ public class PetApiImpl implements PetApi {
         }
         
         // create path and map variables
-        String localVarPath = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", petId.toString());
+        String localVarPath = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", encodeParameter(petId.toString()));
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -419,7 +422,7 @@ if (status != null) localVarFormParams.put("status", status);
         }
         
         // create path and map variables
-        String localVarPath = "/pet/{petId}/uploadImage".replaceAll("\\{" + "petId" + "\\}", petId.toString());
+        String localVarPath = "/pet/{petId}/uploadImage".replaceAll("\\{" + "petId" + "\\}", encodeParameter(petId.toString()));
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -479,7 +482,7 @@ if (file != null) localVarFormParams.put("file", file);
         }
         
         // create path and map variables
-        String localVarPath = "/fake/{petId}/uploadImageWithRequiredFile".replaceAll("\\{" + "petId" + "\\}", petId.toString());
+        String localVarPath = "/fake/{petId}/uploadImageWithRequiredFile".replaceAll("\\{" + "petId" + "\\}", encodeParameter(petId.toString()));
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -501,5 +504,13 @@ if (requiredFile != null) localVarFormParams.put("requiredFile", requiredFile);
         String[] localVarAuthNames = new String[] { "petstore_auth" };
         TypeReference<ModelApiResponse> localVarReturnType = new TypeReference<ModelApiResponse>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
+    }
+
+    private String encodeParameter(String parameter) {
+        try {
+            return URLEncoder.encode(parameter, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            return parameter;
+        }
     }
 }

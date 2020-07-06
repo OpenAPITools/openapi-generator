@@ -18,6 +18,9 @@ import io.vertx.core.json.JsonObject;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -854,5 +857,13 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         String[] localVarAuthNames = new String[] {  };
 
         apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
+    }
+
+    private String encodeParameter(String parameter) {
+        try {
+            return URLEncoder.encode(parameter, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            return parameter;
+        }
     }
 }

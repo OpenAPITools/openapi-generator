@@ -10,6 +10,9 @@ import io.vertx.core.json.JsonObject;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -84,5 +87,13 @@ public class FakeClassnameTags123ApiImpl implements FakeClassnameTags123Api {
         String[] localVarAuthNames = new String[] { "api_key_query" };
         TypeReference<Client> localVarReturnType = new TypeReference<Client>() {};
         apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
+    }
+
+    private String encodeParameter(String parameter) {
+        try {
+            return URLEncoder.encode(parameter, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            return parameter;
+        }
     }
 }

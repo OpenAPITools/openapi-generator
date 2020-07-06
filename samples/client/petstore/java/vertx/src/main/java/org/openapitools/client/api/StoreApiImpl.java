@@ -10,6 +10,9 @@ import io.vertx.core.json.JsonObject;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -64,7 +67,7 @@ public class StoreApiImpl implements StoreApi {
         }
         
         // create path and map variables
-        String localVarPath = "/store/order/{order_id}".replaceAll("\\{" + "order_id" + "\\}", orderId.toString());
+        String localVarPath = "/store/order/{order_id}".replaceAll("\\{" + "order_id" + "\\}", encodeParameter(orderId.toString()));
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -152,7 +155,7 @@ public class StoreApiImpl implements StoreApi {
         }
         
         // create path and map variables
-        String localVarPath = "/store/order/{order_id}".replaceAll("\\{" + "order_id" + "\\}", orderId.toString());
+        String localVarPath = "/store/order/{order_id}".replaceAll("\\{" + "order_id" + "\\}", encodeParameter(orderId.toString()));
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -220,5 +223,13 @@ public class StoreApiImpl implements StoreApi {
         String[] localVarAuthNames = new String[] {  };
         TypeReference<Order> localVarReturnType = new TypeReference<Order>() {};
         apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
+    }
+
+    private String encodeParameter(String parameter) {
+        try {
+            return URLEncoder.encode(parameter, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            return parameter;
+        }
     }
 }
