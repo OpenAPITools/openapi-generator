@@ -29,6 +29,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
 import org.openapitools.codegen.languages.JavaClientCodegen;
+import org.openapitools.codegen.languages.features.OptionalInApiFeatures;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -133,6 +134,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "org.openapitools.client");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "org.openapitools.client");
         Assert.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_GSON);
+        Assert.assertEquals(codegen.additionalProperties().get(OptionalInApiFeatures.USE_OPTIONAL_IN_API), Boolean.FALSE);
     }
 
     @Test
@@ -143,6 +145,7 @@ public class JavaClientCodegenTest {
         codegen.setApiPackage("xyz.yyyyy.zzzzzzz.api");
         codegen.setInvokerPackage("xyz.yyyyy.zzzzzzz.invoker");
         codegen.setSerializationLibrary("JACKSON");
+        codegen.setUseOptionalInApi(true);
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
@@ -154,6 +157,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.invoker");
         Assert.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_GSON); // the library JavaClientCodegen.OKHTTP_GSON only supports GSON
+        Assert.assertEquals(codegen.additionalProperties().get(OptionalInApiFeatures.USE_OPTIONAL_IN_API), Boolean.TRUE);
     }
 
     @Test
@@ -165,6 +169,7 @@ public class JavaClientCodegenTest {
         codegen.additionalProperties().put(CodegenConstants.INVOKER_PACKAGE, "xyz.yyyyy.zzzzzzz.iiii.invoker");
         codegen.additionalProperties().put(CodegenConstants.SERIALIZATION_LIBRARY, "JACKSON");
         codegen.additionalProperties().put(CodegenConstants.LIBRARY, JavaClientCodegen.JERSEY2);
+        codegen.additionalProperties().put(OptionalInApiFeatures.USE_OPTIONAL_IN_API, "true");
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
@@ -176,6 +181,7 @@ public class JavaClientCodegenTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.zzzzzzz.iiii.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.zzzzzzz.iiii.invoker");
         Assert.assertEquals(codegen.getSerializationLibrary(), JavaClientCodegen.SERIALIZATION_LIBRARY_JACKSON);
+        Assert.assertEquals(codegen.additionalProperties().get(OptionalInApiFeatures.USE_OPTIONAL_IN_API), Boolean.TRUE);
     }
 
     @Test
@@ -925,6 +931,187 @@ public class JavaClientCodegenTest {
                 "multipartSingle(File file)",
                 "formParams.add(\"file\", new FileSystemResource(file));"
         );
+    }
+
+
+    @Test
+    public void testUseOptionalInApi_flagSet_withJackson() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.MODEL_PACKAGE, "use.optional.in.api");
+        properties.put(OptionalInApiFeatures.USE_OPTIONAL_IN_API, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setValidateSpec(false)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/component-nopaths.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
+
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/use/optional/in/api/Dog.java"),
+                "import org.openapitools.jackson.nullable.JsonNullable;",
+                "import java.util.Optional;",
+                "public String getBreed()",
+                "return breed;",
+                "public GenderEnum getGender()",
+                "return gender;",
+                "public Optional<Integer> getAge()",
+                "return Optional.ofNullable(age.orElse(null));",
+                "public Optional<String> getName()",
+                "return Optional.ofNullable(name.orElse(null));");
+
+        TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/use/optional/in/api/Dog.java"),
+                "public Optional<String> getBreed()",
+                "return Optional.ofNullable(breed.orElse(null));",
+                "public Optional<GenderEnum> getGender()",
+                "return Optional.ofNullable(gender.orElse(null));");
+    }
+
+    @Test
+    public void testUseOptionalInApi_flagNotSet_withJackson() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.MODEL_PACKAGE, "use.optional.in.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setValidateSpec(false)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/component-nopaths.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
+
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/use/optional/in/api/Dog.java"),
+                "import org.openapitools.jackson.nullable.JsonNullable;",
+                "public String getBreed()",
+                "return breed;",
+                "public GenderEnum getGender()",
+                "return gender;",
+                "public Integer getAge()",
+                "return age.orElse(null);",
+                "public String getName()",
+                "return name.orElse(null);");
+
+        TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/use/optional/in/api/Dog.java"),
+                "import java.util.Optional;",
+                "Optional<",
+                "Optional.");
+    }
+
+    @Test
+    public void testUseOptionalInApi_flagSet_withGson() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.MODEL_PACKAGE, "use.optional.in.api");
+        properties.put(OptionalInApiFeatures.USE_OPTIONAL_IN_API, true);
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setValidateSpec(false)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/component-nopaths.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
+
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/use/optional/in/api/Dog.java"),
+                "import java.util.Optional;",
+                "public String getBreed()",
+                "return breed;",
+                "public GenderEnum getGender()",
+                "return gender;",
+                "public Optional<Integer> getAge()",
+                "return Optional.ofNullable(age);",
+                "public Optional<String> getName()",
+                "return Optional.ofNullable(name);");
+
+        TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/use/optional/in/api/Dog.java"),
+                "JsonNullable;",
+                "orElse(null)");
+    }
+
+    @Test
+    public void testUseOptionalInApi_flagNotSet_withGson() throws IOException {
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.MODEL_PACKAGE, "use.optional.in.api");
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setValidateSpec(false)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/component-nopaths.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        DefaultGenerator generator = new DefaultGenerator();
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "false");
+        generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "false");
+        generator.setGenerateMetadata(false);
+
+        generator.opts(configurator.toClientOptInput()).generate();
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/use/optional/in/api/Dog.java"),
+                "public String getBreed()",
+                "return breed;",
+                "public GenderEnum getGender()",
+                "return gender;",
+                "public Integer getAge()",
+                "return age;",
+                "public String getName()",
+                "return name;");
+
+        TestUtils.assertFileNotContains(Paths.get(output + "/src/main/java/use/optional/in/api/Dog.java"),
+                "import java.util.Optional;",
+                "Optional<",
+                "Optional.",
+                "JsonNullable;",
+                "orElse(null)");
     }
 
 }

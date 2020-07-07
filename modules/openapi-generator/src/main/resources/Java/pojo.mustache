@@ -187,18 +187,15 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   @JsonIgnore
 {{/vendorExtensions.x-is-jackson-optional-nullable}}
 {{^vendorExtensions.x-is-jackson-optional-nullable}}{{#jackson}}{{> jackson_annotations}}{{/jackson}}{{/vendorExtensions.x-is-jackson-optional-nullable}}
-  public {{{datatypeWithEnum}}} {{getter}}() {
+  public {{>optionalInApiReturnType}} {{getter}}() {
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     {{#isReadOnly}}{{! A readonly attribute doesn't have setter => jackson will set null directly if explicitly returned by API, so make sure we have an empty JsonNullable}}
     if ({{name}} == null) {
       {{name}} = JsonNullable.<{{{datatypeWithEnum}}}>{{#defaultValue}}of({{{.}}}){{/defaultValue}}{{^defaultValue}}undefined(){{/defaultValue}};
     }
     {{/isReadOnly}}
-    return {{name}}.orElse(null);
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
-    {{^vendorExtensions.x-is-jackson-optional-nullable}}
-    return {{name}};
-    {{/vendorExtensions.x-is-jackson-optional-nullable}}
+    return {{>optionalInApiReturnStatement}};
   }
 
   {{#vendorExtensions.x-is-jackson-optional-nullable}}

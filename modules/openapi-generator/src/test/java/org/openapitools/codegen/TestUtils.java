@@ -166,7 +166,7 @@ public class TestUtils {
             String file = linearize(generatedFile);
             assertNotNull(file);
             for (String line : lines)
-                assertTrue(file.contains(linearize(line)));
+                assertTrue(file.contains(linearize(line)), "Is '" + line + "' present; ");
         } catch (IOException e) {
             fail("Unable to evaluate file " + path.toString());
         }
@@ -186,6 +186,6 @@ public class TestUtils {
         String file = linearize(generatedFile);
         assertNotNull(file);
         for (String line : lines)
-            assertFalse(file.contains(linearize(line)));
+            assertFalse(file.contains(linearize(line)), "Is '" + line + "' present; ");
     }
 }
