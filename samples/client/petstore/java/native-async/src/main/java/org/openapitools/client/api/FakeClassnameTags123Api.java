@@ -14,6 +14,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.Client;
@@ -63,31 +64,68 @@ public class FakeClassnameTags123Api {
    * To test class name in snake case
    * To test class name in snake case
    * @param body client model (required)
-   * @return Client
+   * @return CompletableFuture&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Client> testClassname(Client body) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = testClassnameRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
                   "testClassname call received non-success response",
                   localVarResponse.headers(),
                   localVarResponse.body())
               );
-          } else {
-              try {
-                return CompletableFuture.completedFuture(
-                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
-                );
-              } catch (IOException e) {
-                return CompletableFuture.failedFuture(new ApiException(e));
-              }
-          }
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * To test class name in snake case
+   * To test class name in snake case
+   * @param body client model (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;Client&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Client>> testClassnameWithHttpInfo(Client body) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = testClassnameRequestBuilder(body);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                    "testClassname call received non-success response",
+                    localVarResponse.headers(),
+                    localVarResponse.body())
+                );
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<Client>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);

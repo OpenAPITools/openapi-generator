@@ -14,6 +14,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.Client;
@@ -63,31 +64,68 @@ public class AnotherFakeApi {
    * To test special tags
    * To test special tags and operation ID starting with number
    * @param body client model (required)
-   * @return Client
+   * @return CompletableFuture&lt;Client&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Client> call123testSpecialTags(Client body) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
                   "call123testSpecialTags call received non-success response",
                   localVarResponse.headers(),
                   localVarResponse.body())
               );
-          } else {
-              try {
-                return CompletableFuture.completedFuture(
-                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
-                );
-              } catch (IOException e) {
-                return CompletableFuture.failedFuture(new ApiException(e));
-              }
-          }
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * To test special tags
+   * To test special tags and operation ID starting with number
+   * @param body client model (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;Client&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Client>> call123testSpecialTagsWithHttpInfo(Client body) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(body);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                    "call123testSpecialTags call received non-success response",
+                    localVarResponse.headers(),
+                    localVarResponse.body())
+                );
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<Client>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);

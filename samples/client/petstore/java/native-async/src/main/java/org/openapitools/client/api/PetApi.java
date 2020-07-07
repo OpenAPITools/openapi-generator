@@ -14,6 +14,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Pair;
 
 import java.io.File;
@@ -72,18 +73,48 @@ public class PetApi {
     try {
       HttpRequest.Builder localVarRequestBuilder = addPetRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
                   "addPet call received non-success response",
                   localVarResponse.headers(),
                   localVarResponse.body())
               );
-          } else {
-              return CompletableFuture.completedFuture(null);
-          }
+            }
+            return CompletableFuture.completedFuture(null);
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Add a new pet to the store
+   * 
+   * @param body Pet object that needs to be added to the store (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Void>> addPetWithHttpInfo(Pet body) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = addPetRequestBuilder(body);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                    "addPet call received non-success response",
+                    localVarResponse.headers(),
+                    localVarResponse.body())
+                );
+            }
+            return CompletableFuture.completedFuture(
+                new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
+            );
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -130,18 +161,49 @@ public class PetApi {
     try {
       HttpRequest.Builder localVarRequestBuilder = deletePetRequestBuilder(petId, apiKey);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
                   "deletePet call received non-success response",
                   localVarResponse.headers(),
                   localVarResponse.body())
               );
-          } else {
-              return CompletableFuture.completedFuture(null);
-          }
+            }
+            return CompletableFuture.completedFuture(null);
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Deletes a pet
+   * 
+   * @param petId Pet id to delete (required)
+   * @param apiKey  (optional)
+   * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Void>> deletePetWithHttpInfo(Long petId, String apiKey) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = deletePetRequestBuilder(petId, apiKey);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                    "deletePet call received non-success response",
+                    localVarResponse.headers(),
+                    localVarResponse.body())
+                );
+            }
+            return CompletableFuture.completedFuture(
+                new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
+            );
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -179,31 +241,68 @@ public class PetApi {
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
    * @param status Status values that need to be considered for filter (required)
-   * @return List&lt;Pet&gt;
+   * @return CompletableFuture&lt;List&lt;Pet&gt;&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<List<Pet>> findPetsByStatus(List<String> status) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = findPetsByStatusRequestBuilder(status);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
                   "findPetsByStatus call received non-success response",
                   localVarResponse.headers(),
                   localVarResponse.body())
               );
-          } else {
-              try {
-                return CompletableFuture.completedFuture(
-                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {})
-                );
-              } catch (IOException e) {
-                return CompletableFuture.failedFuture(new ApiException(e));
-              }
-          }
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {})
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Finds Pets by status
+   * Multiple status values can be provided with comma separated strings
+   * @param status Status values that need to be considered for filter (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;List&lt;Pet&gt;&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<List<Pet>>> findPetsByStatusWithHttpInfo(List<String> status) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = findPetsByStatusRequestBuilder(status);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                    "findPetsByStatus call received non-success response",
+                    localVarResponse.headers(),
+                    localVarResponse.body())
+                );
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<List<Pet>>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<List<Pet>>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -246,7 +345,7 @@ public class PetApi {
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
    * @param tags Tags to filter by (required)
-   * @return Set&lt;Pet&gt;
+   * @return CompletableFuture&lt;Set&lt;Pet&gt;&gt;
    * @throws ApiException if fails to make API call
    * @deprecated
    */
@@ -255,24 +354,63 @@ public class PetApi {
     try {
       HttpRequest.Builder localVarRequestBuilder = findPetsByTagsRequestBuilder(tags);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
                   "findPetsByTags call received non-success response",
                   localVarResponse.headers(),
                   localVarResponse.body())
               );
-          } else {
-              try {
-                return CompletableFuture.completedFuture(
-                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Set<Pet>>() {})
-                );
-              } catch (IOException e) {
-                return CompletableFuture.failedFuture(new ApiException(e));
-              }
-          }
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Set<Pet>>() {})
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Finds Pets by tags
+   * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+   * @param tags Tags to filter by (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;Set&lt;Pet&gt;&gt;&gt;
+   * @throws ApiException if fails to make API call
+   * @deprecated
+   */
+  @Deprecated
+  public CompletableFuture<ApiResponse<Set<Pet>>> findPetsByTagsWithHttpInfo(Set<String> tags) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = findPetsByTagsRequestBuilder(tags);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                    "findPetsByTags call received non-success response",
+                    localVarResponse.headers(),
+                    localVarResponse.body())
+                );
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<Set<Pet>>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Set<Pet>>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -315,31 +453,68 @@ public class PetApi {
    * Find pet by ID
    * Returns a single pet
    * @param petId ID of pet to return (required)
-   * @return Pet
+   * @return CompletableFuture&lt;Pet&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<Pet> getPetById(Long petId) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = getPetByIdRequestBuilder(petId);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
                   "getPetById call received non-success response",
                   localVarResponse.headers(),
                   localVarResponse.body())
               );
-          } else {
-              try {
-                return CompletableFuture.completedFuture(
-                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {})
-                );
-              } catch (IOException e) {
-                return CompletableFuture.failedFuture(new ApiException(e));
-              }
-          }
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {})
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Find pet by ID
+   * Returns a single pet
+   * @param petId ID of pet to return (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;Pet&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Pet>> getPetByIdWithHttpInfo(Long petId) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = getPetByIdRequestBuilder(petId);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                    "getPetById call received non-success response",
+                    localVarResponse.headers(),
+                    localVarResponse.body())
+                );
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<Pet>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Pet>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -380,18 +555,48 @@ public class PetApi {
     try {
       HttpRequest.Builder localVarRequestBuilder = updatePetRequestBuilder(body);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
                   "updatePet call received non-success response",
                   localVarResponse.headers(),
                   localVarResponse.body())
               );
-          } else {
-              return CompletableFuture.completedFuture(null);
-          }
+            }
+            return CompletableFuture.completedFuture(null);
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Update an existing pet
+   * 
+   * @param body Pet object that needs to be added to the store (required)
+   * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Void>> updatePetWithHttpInfo(Pet body) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = updatePetRequestBuilder(body);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                    "updatePet call received non-success response",
+                    localVarResponse.headers(),
+                    localVarResponse.body())
+                );
+            }
+            return CompletableFuture.completedFuture(
+                new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
+            );
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -439,18 +644,50 @@ public class PetApi {
     try {
       HttpRequest.Builder localVarRequestBuilder = updatePetWithFormRequestBuilder(petId, name, status);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
                   "updatePetWithForm call received non-success response",
                   localVarResponse.headers(),
                   localVarResponse.body())
               );
-          } else {
-              return CompletableFuture.completedFuture(null);
-          }
+            }
+            return CompletableFuture.completedFuture(null);
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * Updates a pet in the store with form data
+   * 
+   * @param petId ID of pet that needs to be updated (required)
+   * @param name Updated name of the pet (optional)
+   * @param status Updated status of the pet (optional)
+   * @return CompletableFuture&lt;ApiResponse&lt;Void&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<Void>> updatePetWithFormWithHttpInfo(Long petId, String name, String status) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = updatePetWithFormRequestBuilder(petId, name, status);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                    "updatePetWithForm call received non-success response",
+                    localVarResponse.headers(),
+                    localVarResponse.body())
+                );
+            }
+            return CompletableFuture.completedFuture(
+                new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
+            );
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -487,31 +724,70 @@ public class PetApi {
    * @param petId ID of pet to update (required)
    * @param additionalMetadata Additional data to pass to server (optional)
    * @param file file to upload (optional)
-   * @return ModelApiResponse
+   * @return CompletableFuture&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<ModelApiResponse> uploadFile(Long petId, String additionalMetadata, File file) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = uploadFileRequestBuilder(petId, additionalMetadata, file);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
                   "uploadFile call received non-success response",
                   localVarResponse.headers(),
                   localVarResponse.body())
               );
-          } else {
-              try {
-                return CompletableFuture.completedFuture(
-                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {})
-                );
-              } catch (IOException e) {
-                return CompletableFuture.failedFuture(new ApiException(e));
-              }
-          }
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {})
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * uploads an image
+   * 
+   * @param petId ID of pet to update (required)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @param file file to upload (optional)
+   * @return CompletableFuture&lt;ApiResponse&lt;ModelApiResponse&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<ModelApiResponse>> uploadFileWithHttpInfo(Long petId, String additionalMetadata, File file) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = uploadFileRequestBuilder(petId, additionalMetadata, file);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                    "uploadFile call received non-success response",
+                    localVarResponse.headers(),
+                    localVarResponse.body())
+                );
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<ModelApiResponse>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
@@ -548,31 +824,70 @@ public class PetApi {
    * @param petId ID of pet to update (required)
    * @param requiredFile file to upload (required)
    * @param additionalMetadata Additional data to pass to server (optional)
-   * @return ModelApiResponse
+   * @return CompletableFuture&lt;ModelApiResponse&gt;
    * @throws ApiException if fails to make API call
    */
   public CompletableFuture<ModelApiResponse> uploadFileWithRequiredFile(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
     try {
       HttpRequest.Builder localVarRequestBuilder = uploadFileWithRequiredFileRequestBuilder(petId, requiredFile, additionalMetadata);
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
               return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
                   "uploadFileWithRequiredFile call received non-success response",
                   localVarResponse.headers(),
                   localVarResponse.body())
               );
-          } else {
-              try {
-                return CompletableFuture.completedFuture(
-                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {})
-                );
-              } catch (IOException e) {
-                return CompletableFuture.failedFuture(new ApiException(e));
-              }
-          }
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {})
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
       });
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+  }
+
+  /**
+   * uploads an image (required)
+   * 
+   * @param petId ID of pet to update (required)
+   * @param requiredFile file to upload (required)
+   * @param additionalMetadata Additional data to pass to server (optional)
+   * @return CompletableFuture&lt;ApiResponse&lt;ModelApiResponse&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public CompletableFuture<ApiResponse<ModelApiResponse>> uploadFileWithRequiredFileWithHttpInfo(Long petId, File requiredFile, String additionalMetadata) throws ApiException {
+    try {
+      HttpRequest.Builder localVarRequestBuilder = uploadFileWithRequiredFileRequestBuilder(petId, requiredFile, additionalMetadata);
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
+                    "uploadFileWithRequiredFile call received non-success response",
+                    localVarResponse.headers(),
+                    localVarResponse.body())
+                );
+            }
+            try {
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<ModelApiResponse>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<ModelApiResponse>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+        }
+      );
     }
     catch (ApiException e) {
       return CompletableFuture.failedFuture(e);
