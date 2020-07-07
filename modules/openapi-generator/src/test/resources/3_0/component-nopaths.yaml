@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  title: Component only
+  description: |
+    This is a structure for a simple component to tes the generation of a model.
+    The structure deliberately leaves out the paths section since it is of no relevance for the tests.
+    To use the file in the generator it is necessary to set it to skip the validation.
+  version: 1.0.0
+
+components:
+  schemas:
+    Dog:
+      type: object
+      required:
+        - breed
+        - gender
+      properties:
+        breed:
+          type: string
+          nullable: false
+        gender:
+          type: string
+          nullable: true
+          enum:
+            - DOG
+            - BITCH
+        name:
+          type: string
+          nullable: true
+        age:
+          type: integer
+          nullable: true

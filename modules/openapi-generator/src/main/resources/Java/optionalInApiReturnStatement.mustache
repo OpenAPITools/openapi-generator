@@ -1,0 +1,1 @@
+{{#useOptionalInApi}}{{#required}}{{{name}}}{{/required}}{{^required}}Optional.ofNullable({{>jsonNullableInApiReturnStatement}}){{/required}}{{/useOptionalInApi}}{{^useOptionalInApi}}{{>jsonNullableInApiReturnStatement}}{{/useOptionalInApi}}
