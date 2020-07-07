@@ -6,8 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | Pointer to **int64** |  | [optional] 
 **Category** | Pointer to [**Category**](Category.md) |  | [optional] 
-**Name** | Pointer to **string** |  | 
-**PhotoUrls** | Pointer to **[]string** |  | 
+**Name** | **string** |  | 
+**PhotoUrls** | **[]string** |  | 
 **Tags** | Pointer to [**[]Tag**](Tag.md) |  | [optional] 
 **Status** | Pointer to **string** | pet status in the store | [optional] 
 

@@ -98,6 +98,23 @@ public class ApiClient {
     }
 
     /*
+     * Basic constructor with custom OkHttpClient
+     */
+    public ApiClient(OkHttpClient client) {
+        init();
+
+        httpClient = client;
+
+        // Setup authentications (key: authentication name, value: authentication).
+        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+        authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+        authentications.put("http_basic_test", new HttpBasicAuth());
+        authentications.put("petstore_auth", new OAuth());
+        // Prevent the authentications from being modified.
+        authentications = Collections.unmodifiableMap(authentications);
+    }
+
+    /*
      * Constructor for ApiClient to support access token retry on 401/403 configured with client ID
      */
     public ApiClient(String clientId) {

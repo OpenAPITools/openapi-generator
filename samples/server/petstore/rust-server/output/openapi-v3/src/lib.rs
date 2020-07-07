@@ -30,6 +30,12 @@ pub enum EnumInPathPathParamGetResponse {
 }
 
 #[derive(Debug, PartialEq)]
+pub enum JsonComplexQueryParamGetResponse {
+    /// Success
+    Success
+}
+
+#[derive(Debug, PartialEq)]
 pub enum MandatoryRequestHeaderGetResponse {
     /// Success
     Success
@@ -118,16 +124,32 @@ pub enum ResponsesWithHeadersGetResponse {
     Success
     {
         body: String,
-        success_info: String,
-        bool_header: bool,
-        object_header: models::ObjectHeader
+        success_info:
+        String
+        ,
+        bool_header:
+        Option<
+        bool
+        >
+        ,
+        object_header:
+        Option<
+        models::ObjectHeader
+        >
     }
     ,
     /// Precondition Failed
     PreconditionFailed
     {
-        further_info: String,
-        failure_info: String
+        further_info:
+        Option<
+        String
+        >
+        ,
+        failure_info:
+        Option<
+        String
+        >
     }
 }
 
@@ -245,6 +267,11 @@ pub trait Api<C: Send + Sync> {
         &self,
         path_param: models::StringEnum,
         context: &C) -> Result<EnumInPathPathParamGetResponse, ApiError>;
+
+    async fn json_complex_query_param_get(
+        &self,
+        list_of_strings: Option<&Vec<models::StringObject>>,
+        context: &C) -> Result<JsonComplexQueryParamGetResponse, ApiError>;
 
     async fn mandatory_request_header_get(
         &self,
@@ -367,6 +394,11 @@ pub trait ApiNoContext<C: Send + Sync> {
         &self,
         path_param: models::StringEnum,
         ) -> Result<EnumInPathPathParamGetResponse, ApiError>;
+
+    async fn json_complex_query_param_get(
+        &self,
+        list_of_strings: Option<&Vec<models::StringObject>>,
+        ) -> Result<JsonComplexQueryParamGetResponse, ApiError>;
 
     async fn mandatory_request_header_get(
         &self,
@@ -515,6 +547,15 @@ impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for Contex
     {
         let context = self.context().clone();
         self.api().enum_in_path_path_param_get(path_param, &context).await
+    }
+
+    async fn json_complex_query_param_get(
+        &self,
+        list_of_strings: Option<&Vec<models::StringObject>>,
+        ) -> Result<JsonComplexQueryParamGetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().json_complex_query_param_get(list_of_strings, &context).await
     }
 
     async fn mandatory_request_header_get(

@@ -14,7 +14,15 @@ class Order {
   //enum statusEnum {  placed,  approved,  delivered,  };{
   
   bool complete = false;
-  Order();
+
+  Order({
+    this.id,
+    this.petId,
+    this.quantity,
+    this.shipDate,
+    this.status,
+    this.complete,
+  });
 
   @override
   String toString() {

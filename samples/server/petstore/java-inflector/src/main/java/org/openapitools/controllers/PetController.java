@@ -13,8 +13,9 @@ import org.openapitools.model.*;
 import java.io.File;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import java.util.Set;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class PetController  {
   /** 
    * Uncomment and implement as you see fit.  These operations will map
@@ -41,7 +42,7 @@ public class PetController  {
   */
 
   /*
-    public ResponseContext findPetsByTags(RequestContext request , List<String> tags) {
+    public ResponseContext findPetsByTags(RequestContext request , Set<String> tags) {
         return new ResponseContext().status(Status.INTERNAL_SERVER_ERROR).entity( "Not implemented" );
     }
   */

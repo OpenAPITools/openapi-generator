@@ -8,8 +8,7 @@
 import Foundation
 
 /** A User who is purchasing from the pet store */
-public struct User: Codable { 
-
+public struct User: Codable {
 
     public var id: Int64?
     public var username: String?

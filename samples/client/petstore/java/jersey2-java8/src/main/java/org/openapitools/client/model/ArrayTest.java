@@ -15,6 +15,8 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -25,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * ArrayTest
@@ -34,7 +38,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER,
   ArrayTest.JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ArrayTest {
   public static final String JSON_PROPERTY_ARRAY_OF_STRING = "array_of_string";
   private List<String> arrayOfString = null;
@@ -47,7 +51,6 @@ public class ArrayTest {
 
 
   public ArrayTest arrayOfString(List<String> arrayOfString) {
-    
     this.arrayOfString = arrayOfString;
     return this;
   }
@@ -80,7 +83,6 @@ public class ArrayTest {
 
 
   public ArrayTest arrayArrayOfInteger(List<List<Long>> arrayArrayOfInteger) {
-    
     this.arrayArrayOfInteger = arrayArrayOfInteger;
     return this;
   }
@@ -113,7 +115,6 @@ public class ArrayTest {
 
 
   public ArrayTest arrayArrayOfModel(List<List<ReadOnlyFirst>> arrayArrayOfModel) {
-    
     this.arrayArrayOfModel = arrayArrayOfModel;
     return this;
   }
@@ -145,6 +146,9 @@ public class ArrayTest {
   }
 
 
+  /**
+   * Return true if this ArrayTest object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

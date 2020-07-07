@@ -60,7 +60,7 @@ import javax.validation.Valid;
   XmlItem.JSON_PROPERTY_PREFIX_NS_ARRAY,
   XmlItem.JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class XmlItem  implements Serializable {
   public static final String JSON_PROPERTY_ATTRIBUTE_STRING = "attribute_string";
   @JsonProperty(JSON_PROPERTY_ATTRIBUTE_STRING)

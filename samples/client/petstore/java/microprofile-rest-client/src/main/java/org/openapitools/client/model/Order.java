@@ -26,13 +26,15 @@ package org.openapitools.client.model;
 
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
+import java.lang.reflect.Type;
+import javax.json.bind.annotation.JsonbTypeDeserializer;
+import javax.json.bind.annotation.JsonbTypeSerializer;
+import javax.json.bind.serializer.DeserializationContext;
+import javax.json.bind.serializer.JsonbDeserializer;
+import javax.json.bind.serializer.JsonbSerializer;
+import javax.json.bind.serializer.SerializationContext;
+import javax.json.stream.JsonGenerator;
+import javax.json.stream.JsonParser;
 import javax.json.bind.annotation.JsonbProperty;
 
 /**
@@ -48,14 +50,14 @@ public class Order  {
 
   private Date shipDate;
 
-@XmlType(name="StatusEnum")
-@XmlEnum(String.class)
-public enum StatusEnum {
+  @JsonbTypeSerializer(StatusEnum.Serializer.class)
+  @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
+  public enum StatusEnum {
 
-@XmlEnumValue("placed") PLACED(String.valueOf("placed")), @XmlEnumValue("approved") APPROVED(String.valueOf("approved")), @XmlEnumValue("delivered") DELIVERED(String.valueOf("delivered"));
+    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));	
 
 
-    private String value;
+    String value;
 
     StatusEnum (String v) {
         value = v;
@@ -70,15 +72,25 @@ public enum StatusEnum {
         return String.valueOf(value);
     }
 
-    public static StatusEnum fromValue(String v) {
-        for (StatusEnum b : StatusEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
-                return b;
+    public static final class Deserializer implements JsonbDeserializer<StatusEnum> {
+        @Override
+        public StatusEnum deserialize(JsonParser parser, DeserializationContext ctx, Type rtType) {
+            for (StatusEnum b : StatusEnum.values()) {
+                if (String.valueOf(b.value).equals(parser.getString())) {
+                    return b;
+                }
             }
+            throw new IllegalArgumentException("Unexpected value '" + parser.getString() + "'");
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
     }
-}
+
+    public static final class Serializer implements JsonbSerializer<StatusEnum> {
+        @Override
+        public void serialize(StatusEnum obj, JsonGenerator generator, SerializationContext ctx) {
+            generator.write(obj.value);
+        }
+    }
+  }
 
  /**
    * Order Status
@@ -176,11 +188,8 @@ public enum StatusEnum {
    * @return status
   **/
   @JsonbProperty("status")
-  public String getStatus() {
-    if (status == null) {
-      return null;
-    }
-    return status.value();
+  public StatusEnum getStatus() {
+    return status;
   }
 
   /**

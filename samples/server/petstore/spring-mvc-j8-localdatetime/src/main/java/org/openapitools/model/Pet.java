@@ -19,7 +19,7 @@ import javax.validation.constraints.*;
 /**
  * Pet
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet   {
   @JsonProperty("id")
   private Long id;

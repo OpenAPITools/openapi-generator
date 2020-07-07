@@ -8,7 +8,7 @@ import javax.validation.constraints.*;
 /**
  * ReadOnlyFirst
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ReadOnlyFirst   {
   @JsonProperty("bar")

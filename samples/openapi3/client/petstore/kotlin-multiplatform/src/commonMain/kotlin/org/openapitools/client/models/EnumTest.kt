@@ -18,6 +18,7 @@ import org.openapitools.client.models.OuterEnumIntegerDefaultValue
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * 
  * @param enumStringRequired 

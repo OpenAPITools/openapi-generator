@@ -37,7 +37,7 @@ import org.hibernate.validator.constraints.*;
 @JsonPropertyOrder({
   Cat.JSON_PROPERTY_DECLAWED
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),

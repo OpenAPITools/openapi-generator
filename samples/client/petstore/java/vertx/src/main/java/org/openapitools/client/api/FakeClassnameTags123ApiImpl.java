@@ -16,7 +16,7 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeClassnameTags123ApiImpl implements FakeClassnameTags123Api {
 
     private ApiClient apiClient;

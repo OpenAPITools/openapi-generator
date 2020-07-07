@@ -16,7 +16,7 @@ import javax.validation.Valid;
 
 @Path("/user")
 @Api(description = "the user API")
-public class UserApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class UserApi {
 
     @POST
     @ApiOperation(value = "Create user", notes = "This can only be done by the logged in user.", response = Void.class, tags={ "user",  })

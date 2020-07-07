@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 /**
  * AdditionalPropertiesClass
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_string")

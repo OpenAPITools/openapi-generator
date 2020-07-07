@@ -14,6 +14,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.Order;
@@ -35,8 +36,7 @@ import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 
-
-
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class StoreApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -44,7 +44,7 @@ public class StoreApi {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  
+
   public StoreApi() {
     this(new ApiClient());
   }
@@ -64,10 +64,50 @@ public class StoreApi {
    * @param orderId ID of the order that needs to be deleted (required)
    * @throws ApiException if fails to make API call
    */
-  public void deleteOrder (String orderId) throws ApiException {
+  public void deleteOrder(String orderId) throws ApiException {
+    deleteOrderWithHttpInfo(orderId);
+  }
+
+  /**
+   * Delete purchase order by ID
+   * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+   * @param orderId ID of the order that needs to be deleted (required)
+   * @return ApiResponse&lt;Void&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Void> deleteOrderWithHttpInfo(String orderId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = deleteOrderRequestBuilder(orderId);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      if (localVarResponse.statusCode()/ 100 != 2) {
+        throw new ApiException(localVarResponse.statusCode(),
+            "deleteOrder call received non-success response",
+            localVarResponse.headers(),
+            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+      }
+      return new ApiResponse<Void>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          null
+        );
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder deleteOrderRequestBuilder(String orderId) throws ApiException {
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
-        throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
+      throw new ApiException(400, "Missing the required parameter 'orderId' when calling deleteOrder");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -79,26 +119,52 @@ public class StoreApi {
 
     localVarRequestBuilder.header("Accept", "application/json");
 
+    localVarRequestBuilder.method("DELETE", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
+    }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
+  }
+  /**
+   * Returns pet inventories by status
+   * Returns a map of status codes to quantities
+   * @return Map&lt;String, Integer&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public Map<String, Integer> getInventory() throws ApiException {
+    ApiResponse<Map<String, Integer>> localVarResponse = getInventoryWithHttpInfo();
+    return localVarResponse.getData();
+  }
+
+  /**
+   * Returns pet inventories by status
+   * Returns a map of status codes to quantities
+   * @return ApiResponse&lt;Map&lt;String, Integer&gt;&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Map<String, Integer>> getInventoryWithHttpInfo() throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getInventoryRequestBuilder();
     try {
-      localVarRequestBuilder.method("DELETE", HttpRequest.BodyPublishers.noBody());
-      if (memberVarReadTimeout != null) {
-        localVarRequestBuilder.timeout(memberVarReadTimeout);
-      }
-      if (memberVarInterceptor != null) {
-        memberVarInterceptor.accept(localVarRequestBuilder);
-      }
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-      localVarRequestBuilder.build(),
-      HttpResponse.BodyHandlers.ofInputStream());
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
       if (memberVarResponseInterceptor != null) {
         memberVarResponseInterceptor.accept(localVarResponse);
-      }          
-      if (localVarResponse.statusCode()/ 100 != 2) {
-          throw new ApiException(localVarResponse.statusCode(),
-              "deleteOrder call received non-success response",
-              localVarResponse.headers(),
-              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
       }
+      if (localVarResponse.statusCode()/ 100 != 2) {
+        throw new ApiException(localVarResponse.statusCode(),
+            "getInventory call received non-success response",
+            localVarResponse.headers(),
+            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+      }
+      return new ApiResponse<Map<String, Integer>>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Map<String, Integer>>() {})
+        );
     } catch (IOException e) {
       throw new ApiException(e);
     }
@@ -107,13 +173,8 @@ public class StoreApi {
       throw new ApiException(e);
     }
   }
-  /**
-   * Returns pet inventories by status
-   * Returns a map of status codes to quantities
-   * @return Map&lt;String, Integer&gt;
-   * @throws ApiException if fails to make API call
-   */
-  public Map<String, Integer> getInventory () throws ApiException {
+
+  private HttpRequest.Builder getInventoryRequestBuilder() throws ApiException {
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
 
@@ -123,34 +184,14 @@ public class StoreApi {
 
     localVarRequestBuilder.header("Accept", "application/json");
 
-    try {
-      localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
-      if (memberVarReadTimeout != null) {
-        localVarRequestBuilder.timeout(memberVarReadTimeout);
-      }
-      if (memberVarInterceptor != null) {
-        memberVarInterceptor.accept(localVarRequestBuilder);
-      }
-      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-      localVarRequestBuilder.build(),
-      HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
-      if (localVarResponse.statusCode()/ 100 != 2) {
-          throw new ApiException(localVarResponse.statusCode(),
-              "getInventory call received non-success response",
-              localVarResponse.headers(),
-              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
-      }
-      return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Map<String, Integer>>() {});
-    } catch (IOException e) {
-      throw new ApiException(e);
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ApiException(e);
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
     }
+    return localVarRequestBuilder;
   }
   /**
    * Find purchase order by ID
@@ -159,10 +200,51 @@ public class StoreApi {
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order getOrderById (Long orderId) throws ApiException {
+  public Order getOrderById(Long orderId) throws ApiException {
+    ApiResponse<Order> localVarResponse = getOrderByIdWithHttpInfo(orderId);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * Find purchase order by ID
+   * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+   * @param orderId ID of pet that needs to be fetched (required)
+   * @return ApiResponse&lt;Order&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Order> getOrderByIdWithHttpInfo(Long orderId) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = getOrderByIdRequestBuilder(orderId);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      if (localVarResponse.statusCode()/ 100 != 2) {
+        throw new ApiException(localVarResponse.statusCode(),
+            "getOrderById call received non-success response",
+            localVarResponse.headers(),
+            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+      }
+      return new ApiResponse<Order>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {})
+        );
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder getOrderByIdRequestBuilder(Long orderId) throws ApiException {
     // verify the required parameter 'orderId' is set
     if (orderId == null) {
-        throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
+      throw new ApiException(400, "Missing the required parameter 'orderId' when calling getOrderById");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -174,34 +256,14 @@ public class StoreApi {
 
     localVarRequestBuilder.header("Accept", "application/json");
 
-    try {
-      localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
-      if (memberVarReadTimeout != null) {
-        localVarRequestBuilder.timeout(memberVarReadTimeout);
-      }
-      if (memberVarInterceptor != null) {
-        memberVarInterceptor.accept(localVarRequestBuilder);
-      }
-      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-      localVarRequestBuilder.build(),
-      HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
-      if (localVarResponse.statusCode()/ 100 != 2) {
-          throw new ApiException(localVarResponse.statusCode(),
-              "getOrderById call received non-success response",
-              localVarResponse.headers(),
-              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
-      }
-      return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {});
-    } catch (IOException e) {
-      throw new ApiException(e);
+    localVarRequestBuilder.method("GET", HttpRequest.BodyPublishers.noBody());
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
-    catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ApiException(e);
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
     }
+    return localVarRequestBuilder;
   }
   /**
    * Place an order for a pet
@@ -210,10 +272,51 @@ public class StoreApi {
    * @return Order
    * @throws ApiException if fails to make API call
    */
-  public Order placeOrder (Order body) throws ApiException {
+  public Order placeOrder(Order body) throws ApiException {
+    ApiResponse<Order> localVarResponse = placeOrderWithHttpInfo(body);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * Place an order for a pet
+   * 
+   * @param body order placed for purchasing the pet (required)
+   * @return ApiResponse&lt;Order&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Order> placeOrderWithHttpInfo(Order body) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = placeOrderRequestBuilder(body);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      if (localVarResponse.statusCode()/ 100 != 2) {
+        throw new ApiException(localVarResponse.statusCode(),
+            "placeOrder call received non-success response",
+            localVarResponse.headers(),
+            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+      }
+      return new ApiResponse<Order>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {})
+        );
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder placeOrderRequestBuilder(Order body) throws ApiException {
     // verify the required parameter 'body' is set
     if (body == null) {
-        throw new ApiException(400, "Missing the required parameter 'body' when calling placeOrder");
+      throw new ApiException(400, "Missing the required parameter 'body' when calling placeOrder");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -228,31 +331,15 @@ public class StoreApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
       localVarRequestBuilder.method("POST", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-      if (memberVarReadTimeout != null) {
-        localVarRequestBuilder.timeout(memberVarReadTimeout);
-      }
-      if (memberVarInterceptor != null) {
-        memberVarInterceptor.accept(localVarRequestBuilder);
-      }
-      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-      localVarRequestBuilder.build(),
-      HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
-      if (localVarResponse.statusCode()/ 100 != 2) {
-          throw new ApiException(localVarResponse.statusCode(),
-              "placeOrder call received non-success response",
-              localVarResponse.headers(),
-              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
-      }
-      return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Order>() {});
     } catch (IOException e) {
       throw new ApiException(e);
     }
-    catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ApiException(e);
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
   }
 }

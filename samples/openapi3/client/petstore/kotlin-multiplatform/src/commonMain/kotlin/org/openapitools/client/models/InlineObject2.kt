@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * 
  * @param enumFormStringArray Form parameter enum test (string array)
@@ -22,7 +23,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class InlineObject2 (
     /* Form parameter enum test (string array) */
-    @SerialName(value = "enum_form_string_array") val enumFormStringArray: kotlin.Array<InlineObject2.EnumFormStringArray>? = null,
+    @SerialName(value = "enum_form_string_array") val enumFormStringArray: kotlin.collections.List<InlineObject2.EnumFormStringArray>? = null,
     /* Form parameter enum test (string) */
     @SerialName(value = "enum_form_string") val enumFormString: InlineObject2.EnumFormString? = null
 ) {

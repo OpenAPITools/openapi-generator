@@ -117,5 +117,6 @@ dependencies {
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
     compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threeten_version"
+    compile 'javax.annotation:javax.annotation-api:1.3.2'
     testCompile "junit:junit:$junit_version"
 }

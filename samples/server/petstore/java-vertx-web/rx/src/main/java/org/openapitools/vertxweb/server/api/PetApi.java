@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Map;
 
 public interface PetApi  {
-    Single<ApiResponse<Void>> addPet(Pet pet);
+    Single<ApiResponse<Pet>> addPet(Pet pet);
     Single<ApiResponse<Void>> deletePet(Long petId,String apiKey);
     Single<ApiResponse<List<Pet>>> findPetsByStatus(List<String> status);
     Single<ApiResponse<List<Pet>>> findPetsByTags(List<String> tags);
     Single<ApiResponse<Pet>> getPetById(Long petId);
-    Single<ApiResponse<Void>> updatePet(Pet pet);
+    Single<ApiResponse<Pet>> updatePet(Pet pet);
     Single<ApiResponse<Void>> updatePetWithForm(Long petId,String name,String status);
     Single<ApiResponse<ModelApiResponse>> uploadFile(Long petId,String additionalMetadata,FileUpload file);
 }

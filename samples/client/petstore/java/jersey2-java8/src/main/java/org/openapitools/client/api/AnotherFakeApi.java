@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AnotherFakeApi {
   private ApiClient apiClient;
 
@@ -110,6 +110,6 @@ public class AnotherFakeApi {
 
     return apiClient.invokeAPI("AnotherFakeApi.call123testSpecialTags", localVarPath, "PATCH", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType, null);
+                               localVarAuthNames, localVarReturnType, false);
   }
 }
