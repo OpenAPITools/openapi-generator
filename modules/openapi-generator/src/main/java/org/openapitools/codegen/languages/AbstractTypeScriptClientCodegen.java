@@ -464,10 +464,19 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isDateSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isDateTimeSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isNumberSchema(p) || ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
