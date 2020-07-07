@@ -77,7 +77,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
     - [1.4 - Build Projects](#14---build-projects)
     - [1.5 - Homebrew](#15---homebrew)
     - [1.6 - Docker](#16---docker)
-    - [1.7 - NPM](#17---npm)    
+    - [1.7 - NPM](#17---npm)
   - [2 - Getting Started](#2---getting-started)
   - [3 - Usage](#3---usage)
     - [3.1 - Customization](#31---customization)
@@ -457,29 +457,28 @@ NAME
 SYNOPSIS
         openapi-generator-cli generate
                 [(-a <authorization> | --auth <authorization>)]
-                [--api-name-suffix <api name suffix>]
-                [--api-package <api package>] [--artifact-id <artifact id>]
-                [--artifact-version <artifact version>]
-                [(-c <configuration file> | --config <configuration file>)]
-                [-D <system properties>...]
+                [--api-name-suffix <api name suffix>] [--api-package <api package>]
+                [--artifact-id <artifact id>] [--artifact-version <artifact version>]
+                [(-c <configuration file> | --config <configuration file>)] [--dry-run]
                 [(-e <templating engine> | --engine <templating engine>)]
                 [--enable-post-process-file]
                 [(-g <generator name> | --generator-name <generator name>)]
-                [--generate-alias-as-model] [--git-repo-id <git repo id>]
-                [--git-user-id <git user id>] [--group-id <group id>]
+                [--generate-alias-as-model] [--git-host <git host>]
+                [--git-repo-id <git repo id>] [--git-user-id <git user id>]
+                [--global-property <global properties>...] [--group-id <group id>]
                 [--http-user-agent <http user agent>]
-                (-i <spec file> | --input-spec <spec file>)
+                [(-i <spec file> | --input-spec <spec file>)]
                 [--ignore-file-override <ignore file override location>]
                 [--import-mappings <import mappings>...]
                 [--instantiation-types <instantiation types>...]
                 [--invoker-package <invoker package>]
                 [--language-specific-primitives <language specific primitives>...]
-                [--library <library>] [--log-to-stderr] [--minimal-update]
+                [--legacy-discriminator-behavior] [--library <library>]
+                [--log-to-stderr] [--minimal-update]
                 [--model-name-prefix <model name prefix>]
                 [--model-name-suffix <model name suffix>]
                 [--model-package <model package>]
-                [(-o <output directory> | --output <output directory>)]
-                [(-p <additional properties> | --additional-properties <additional properties>)...]
+                [(-o <output directory> | --output <output directory>)] [(-p <additional properties> | --additional-properties <additional properties>)...]
                 [--package-name <package name>] [--release-note <release note>]
                 [--remove-operation-id-prefix]
                 [--reserved-words-mappings <reserved word mappings>...]
@@ -509,13 +508,12 @@ mvn package
 ```
 
 Other languages have petstore samples, too:
-```sh
-./bin/android-petstore-all.sh
-./bin/java-petstore-all.sh
-./bin/objc-petstore.sh
-```
 
-... and others. [Here is a list of all scripts.](https://github.com/OpenAPITools/openapi-generator/wiki/Samples-folder#scripts)
+- [Swift5](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/swift5)
+- [Ruby](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/ruby)
+- [Kotlin](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/kotlin)
+
+... and more.
 
 ### [3.1 - Customization](#table-of-contents)
 
@@ -950,7 +948,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Bash              | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09)                                                                                                                                                                       |
 | C                 | @zhemant (2018/11) @ityuhui (2019/12) @michelealbano (2020/03)                                                                                                                                                                   |
 | C++               | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08)                                                                                                                     |
-| C#                | @mandrean (2017/08), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert) @frankyjuang (2019/09) @shibayan (2020/02)                                                                                             |
+| C#                | @mandrean (2017/08) @frankyjuang (2019/09) @shibayan (2020/02)                                                                                             |
 | Clojure           |                                                                                                                                                                                                                                   |
 | Dart              | @ircecho (2017/07) @swipesight (2018/09) @jaumard (2018/09) @athornz (2019/12) @amondnet (2019/12)                                                                                                        |
 | Eiffel            | @jvelilla (2017/09)                                                                                                                                                                                                               |
