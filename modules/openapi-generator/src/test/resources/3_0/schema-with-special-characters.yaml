@@ -27,7 +27,7 @@ components:
       discriminator:
         propertyName: prop1
     # Note: the name below with non-ASCII characters is a valid JSON schema name,
-    # however currently OpenAPI generator is allowing special characters.
+    # however currently OpenAPI generator does not allow special characters beyond [.-_]
     #
     # The set of allowed characters for OpenAPI schema names is specified in RFC 8259
     # at https://tools.ietf.org/html/rfc8259.

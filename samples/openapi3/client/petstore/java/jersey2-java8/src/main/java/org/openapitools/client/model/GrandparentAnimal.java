@@ -42,7 +42,6 @@ import org.openapitools.client.JSON;
 @JsonSubTypes({
   @JsonSubTypes.Type(value = ChildCat.class, name = "ChildCat"),
   @JsonSubTypes.Type(value = ParentPet.class, name = "ParentPet"),
-  @JsonSubTypes.Type(value = GrandparentAnimal.class, name = "GrandparentAnimal"),
 })
 
 public class GrandparentAnimal {

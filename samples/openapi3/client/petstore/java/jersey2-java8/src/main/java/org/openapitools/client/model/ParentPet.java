@@ -44,7 +44,6 @@ import org.openapitools.client.JSON;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "pet_type", visible = true)
 @JsonSubTypes({
   @JsonSubTypes.Type(value = ChildCat.class, name = "ChildCat"),
-  @JsonSubTypes.Type(value = ParentPet.class, name = "ParentPet"),
 })
 
 public class ParentPet extends GrandparentAnimal {
