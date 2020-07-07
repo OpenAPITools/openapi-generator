@@ -130,7 +130,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public String additionalPropertiesType;
 
     /**
-     * True if additionalProperties is not defined or it's set to true
+     * True if additionalProperties is set to true (boolean value)
      */
     public boolean isAdditionalPropertiesTrue;
 
