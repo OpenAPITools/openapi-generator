@@ -21,6 +21,7 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,10 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
 
     public PhpSlim4ServerCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeClientModificationFeatures(ClientModificationFeature.MockServer)
+        );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.STABLE)
@@ -70,7 +75,7 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a PHP Slim 4 Framework server library.";
+        return "Generates a PHP Slim 4 Framework server library(with Mock server).";
     }
 
     @Override

@@ -28,9 +28,20 @@ jobs:
     - name: DockerHub Login
       run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
     
-    # Tags openapitools/openapi-generator-online, which is an automated build
+    # Tags openapitools/openapi-generator-cli
+    - name: "Tag openapi-generator-cli:x"
+      id: tag-openapi-generator-cli
+      if: always()
+      run: |
+        echo 'Tagging as latest-release: ${{steps.tagger.outputs.tag}}'
+        docker pull openapitools/openapi-generator-cli:${{steps.tagger.outputs.tag}}
+        docker tag openapitools/openapi-generator-cli:${{steps.tagger.outputs.tag}} openapitools/openapi-generator-cli:latest-release
+        docker push openapitools/openapi-generator-cli:latest-release
+    
+    # Tags openapitools/openapi-generator-online
     - name: "Tag openapi-generator-online:x"
       id: tag-openapi-generator-online
+      if: always()
       run: |
         echo 'Tagging as latest-release: ${{steps.tagger.outputs.tag}}'
         docker pull openapitools/openapi-generator-online:${{steps.tagger.outputs.tag}}
@@ -40,6 +51,7 @@ jobs:
     # Tags openapitools/openapi-generator's CLI image (this repo holds CLI + Online via tag prefix)
     - name: "Tag openapi-generator:cli-x"
       id: tag-cli
+      if: always()
       run: |
         echo 'Tagging as latest-release: ${{steps.tagger.outputs.tag}}'
         docker pull openapitools/openapi-generator:cli-${{steps.tagger.outputs.tag}}
@@ -49,6 +61,7 @@ jobs:
     # Tags openapitools/openapi-generator's ONLINE image (this repo holds CLI + Online via tag prefix)
     - name: "Tag openapi-generator:online-x"
       id: tag-online
+      if: always()
       run: |
         echo 'Tagging as latest-release: ${{steps.tagger.outputs.tag}}'
         docker pull openapitools/openapi-generator:online-${{steps.tagger.outputs.tag}}
