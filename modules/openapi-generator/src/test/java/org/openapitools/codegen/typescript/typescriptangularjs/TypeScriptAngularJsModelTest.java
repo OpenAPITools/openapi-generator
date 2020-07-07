@@ -30,8 +30,13 @@ import org.openapitools.codegen.languages.TypeScriptFetchClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.ZoneOffset;
+import java.util.Date;
+import java.util.Locale;
 
 @SuppressWarnings("static-method")
 public class TypeScriptAngularJsModelTest {
@@ -109,18 +114,20 @@ public class TypeScriptAngularJsModelTest {
     }
 
     @Test(description = "convert and check default values for a simple TypeScript Angular model")
-    public void simpleModelDefaultValuesTest() {
+    public void simpleModelDefaultValuesTest() throws ParseException {
         IntegerSchema integerSchema = new IntegerSchema().format(SchemaTypeUtil.INTEGER64_FORMAT);
         integerSchema.setDefault(1234);
 
         StringSchema stringSchema = new StringSchema();
         stringSchema.setDefault("Jack");
 
+        OffsetDateTime testOffsetDateTime = OffsetDateTime.of(LocalDateTime.of(2020, 1, 1, 12, 0), ZoneOffset.UTC);
         DateTimeSchema dateTimeSchema = new DateTimeSchema();
-        dateTimeSchema.setDefault(OffsetDateTime.parse("2020-01-01T12:00:00+01:00", DateTimeFormatter.ISO_OFFSET_DATE_TIME));
+        dateTimeSchema.setDefault(testOffsetDateTime);
 
+        Date testDate = Date.from(testOffsetDateTime.toInstant());
         DateSchema dateSchema = new DateSchema();
-        dateSchema.setDefault("2020-01-01");
+        dateSchema.setDefault(testDate);
 
         BooleanSchema booleanSchema = new BooleanSchema();
         booleanSchema.setDefault(true);
@@ -155,11 +162,11 @@ public class TypeScriptAngularJsModelTest {
 
         final CodegenProperty property3 = cm.vars.get(2);
         Assert.assertEquals(property3.baseName, "createdAt");
-        Assert.assertEquals(property3.defaultValue, "2020-01-01T12:00+01:00");
+        Assert.assertEquals(OffsetDateTime.parse(property3.defaultValue), testOffsetDateTime);
 
         final CodegenProperty property4 = cm.vars.get(3);
         Assert.assertEquals(property4.baseName, "birthDate");
-        Assert.assertEquals(property4.defaultValue, "Wed Jan 01 01:00:00 CET 2020");
+        Assert.assertEquals(new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH).parse(property4.defaultValue), testDate);
 
         final CodegenProperty property5 = cm.vars.get(4);
         Assert.assertEquals(property5.baseName, "active");
