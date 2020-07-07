@@ -15,7 +15,6 @@ import (
 
 // Dog struct for Dog
 type Dog struct {
-	Animal
 	Breed *string `json:"breed,omitempty"`
 }
 
@@ -70,14 +69,6 @@ func (o *Dog) SetBreed(v string) {
 
 func (o Dog) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	serializedAnimal, errAnimal := json.Marshal(o.Animal)
-	if errAnimal != nil {
-		return []byte{}, errAnimal
-	}
-	errAnimal = json.Unmarshal([]byte(serializedAnimal), &toSerialize)
-	if errAnimal != nil {
-		return []byte{}, errAnimal
-	}
 	if o.Breed != nil {
 		toSerialize["breed"] = o.Breed
 	}

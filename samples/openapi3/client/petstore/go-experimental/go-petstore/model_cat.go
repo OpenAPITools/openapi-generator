@@ -15,7 +15,6 @@ import (
 
 // Cat struct for Cat
 type Cat struct {
-	Animal
 	Declawed *bool `json:"declawed,omitempty"`
 }
 
@@ -70,14 +69,6 @@ func (o *Cat) SetDeclawed(v bool) {
 
 func (o Cat) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	serializedAnimal, errAnimal := json.Marshal(o.Animal)
-	if errAnimal != nil {
-		return []byte{}, errAnimal
-	}
-	errAnimal = json.Unmarshal([]byte(serializedAnimal), &toSerialize)
-	if errAnimal != nil {
-		return []byte{}, errAnimal
-	}
 	if o.Declawed != nil {
 		toSerialize["declawed"] = o.Declawed
 	}

@@ -16,6 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
@@ -39,6 +40,13 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
 
     public GoClientExperimentalCodegen() {
         super();
+
+
+        // Composed schemas can have the 'additionalProperties' keyword, as specified in JSON schema.
+        // In principle, this should be enabled by default for all code generators. However due to limitations
+        // in other code generators, support needs to be enabled on a case-by-case basis.
+        supportsAdditionalPropertiesWithComposedSchema = true;
+
         outputFolder = "generated-code/go-experimental";
         embeddedTemplateDir = templateDir = "go-experimental";
 
@@ -80,6 +88,8 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
     public void processOpts() {
         this.setLegacyDiscriminatorBehavior(false);
         super.processOpts();
+
+
         supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
 
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
@@ -260,6 +270,17 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         }
 
         return objs;
+    }
+
+    @Override
+    protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
+        // for composed schema
+        if (schema instanceof ComposedSchema && schema.getAdditionalProperties() instanceof Boolean
+                && Boolean.TRUE.equals(schema.getAdditionalProperties())) {
+            codegenModel.vendorExtensions.put("x-additional-properties", true);
+        } else {
+            super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
+        }
     }
 
     private String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, HashMap<String, Integer> processedModelMap) {
