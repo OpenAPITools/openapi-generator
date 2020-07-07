@@ -39,6 +39,9 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
 
     public GoClientExperimentalCodegen() {
         super();
+
+        supportsAdditionalPropertiesWithComposedSchema = false;
+
         outputFolder = "generated-code/go-experimental";
         embeddedTemplateDir = templateDir = "go-experimental";
 

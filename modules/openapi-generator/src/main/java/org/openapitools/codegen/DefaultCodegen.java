@@ -2512,6 +2512,19 @@ public class DefaultCodegen implements CodegenConfig {
             Collections.sort(m.allVars, comparator);
         }
 
+        // process 'additionalProperties'
+        if (schema.getAdditionalProperties() == null) {
+            m.isAdditionalPropertiesTrue = false; // TODO fix the old (incorrect) behaviour (likely with an option)
+        } else if (schema.getAdditionalProperties() instanceof Boolean) {
+            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
+                m.isAdditionalPropertiesTrue = true;
+            } else {
+                m.isAdditionalPropertiesTrue = false;
+            }
+        } else {
+            m.isAdditionalPropertiesTrue = false;
+        }
+
         // post process model properties
         if (m.vars != null) {
             for (CodegenProperty prop : m.vars) {
