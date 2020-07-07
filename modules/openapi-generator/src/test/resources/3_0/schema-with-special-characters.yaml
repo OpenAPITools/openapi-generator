@@ -35,7 +35,7 @@ components:
     # A string is a sequence of zero or more Unicode characters [UNICODE].
     # Note that this citation references the latest version of Unicode
     # rather than a specific release. Any character may be escaped.
-    # MySchemaNameWithUnusual#$12.3!@#%🍇🍅😀🏄🏾‍♂️Characters\uD834\uDD1E
+    # MySchemaNameWithUnusual#$12.3!@#%🍇🍅😀🏄🏾‍♂️Characters:
     MySchemaName._-Characters:
       description:
         A schema name that has letters, numbers, punctuation and non-ASCII characters.
