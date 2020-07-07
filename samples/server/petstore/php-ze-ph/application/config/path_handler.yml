@@ -1,20 +1,6 @@
 Articus\PathHandler\RouteInjection\Factory:
   paths:
     '/v2':
-    - App\Handler\AnotherFakeDummy
-    - App\Handler\Fake
-    - App\Handler\FakeBodyWithFileSchema
-    - App\Handler\FakeBodyWithQueryParams
-    - App\Handler\FakeCreateXmlItem
-    - App\Handler\FakeInlineAdditionalProperties
-    - App\Handler\FakeJsonFormData
-    - App\Handler\FakeOuterBoolean
-    - App\Handler\FakeOuterComposite
-    - App\Handler\FakeOuterNumber
-    - App\Handler\FakeOuterString
-    - App\Handler\FakeTestQueryParamters
-    - App\Handler\FakePetIdUploadImageWithRequiredFile
-    - App\Handler\FakeClassnameTest
     - App\Handler\Pet
     - App\Handler\PetFindByStatus
     - App\Handler\PetFindByTags
@@ -43,20 +29,6 @@ Articus\PathHandler\RouteInjection\Factory:
 #    invokables:
 
 Zend\ServiceManager\AbstractFactory\ConfigAbstractFactory:
-  App\Handler\AnotherFakeDummy: []
-  App\Handler\Fake: []
-  App\Handler\FakeBodyWithFileSchema: []
-  App\Handler\FakeBodyWithQueryParams: []
-  App\Handler\FakeCreateXmlItem: []
-  App\Handler\FakeInlineAdditionalProperties: []
-  App\Handler\FakeJsonFormData: []
-  App\Handler\FakeOuterBoolean: []
-  App\Handler\FakeOuterComposite: []
-  App\Handler\FakeOuterNumber: []
-  App\Handler\FakeOuterString: []
-  App\Handler\FakeTestQueryParamters: []
-  App\Handler\FakePetIdUploadImageWithRequiredFile: []
-  App\Handler\FakeClassnameTest: []
   App\Handler\Pet: []
   App\Handler\PetFindByStatus: []
   App\Handler\PetFindByTags: []

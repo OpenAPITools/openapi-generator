@@ -7,7 +7,12 @@ class ApiResponse {
   String type = null;
   
   String message = null;
-  ApiResponse();
+
+  ApiResponse({
+    this.code,
+    this.type,
+    this.message,
+  });
 
   @override
   String toString() {

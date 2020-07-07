@@ -12,7 +12,6 @@
 package org.openapitools.client.model
 
 import java.time.OffsetDateTime
-import org.openapitools.client.core.ApiModel
 
   /**
    * Pet Order
@@ -26,7 +25,7 @@ case class Order(
   /* Order Status */
   status: Option[OrderEnums.Status] = None,
   complete: Option[Boolean] = None
-) extends ApiModel
+)
 
 object OrderEnums {
 

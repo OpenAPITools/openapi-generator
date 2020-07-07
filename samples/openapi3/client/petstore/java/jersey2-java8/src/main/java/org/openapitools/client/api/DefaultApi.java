@@ -103,6 +103,6 @@ public class DefaultApi {
 
     return apiClient.invokeAPI("DefaultApi.fooGet", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
 }

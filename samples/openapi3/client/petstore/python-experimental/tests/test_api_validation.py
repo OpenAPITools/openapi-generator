@@ -13,6 +13,7 @@ import os
 import time
 import atexit
 import datetime
+import functools
 import json
 import sys
 import weakref
@@ -21,6 +22,7 @@ from dateutil.parser import parse
 from collections import namedtuple
 
 import petstore_api
+from petstore_api.api import pet_api
 from petstore_api.model import array_of_enums
 from petstore_api.model import format_test
 from petstore_api.model import outer_enum
@@ -43,6 +45,27 @@ class ApiClientTests(unittest.TestCase):
         with self.checkRaiseRegex(ValueError, "Invalid keyword: 'foo'"):
             config.disabled_client_side_validations = 'foo'
         config.disabled_client_side_validations = ""
+
+    def test_servers(self):
+        config = petstore_api.Configuration(server_index=1, server_variables={'version': 'v1'})
+        api_client = petstore_api.ApiClient(config)
+        api = pet_api.PetApi(api_client)
+
+        def request(expected_url, method, url, **kwargs):
+            assert expected_url == url
+            raise RuntimeError('pass')
+
+        api_client.request = functools.partial(request, 'http://path-server-test.petstore.local/v2/pet')
+        try:
+            api.add_pet({'name': 'pet', 'photo_urls': []})
+        except RuntimeError as e:
+            assert "pass" == str(e)
+
+        api_client.request = functools.partial(request, 'https://localhost:8080/v1/pet/123456789')
+        try:
+            api.delete_pet(123456789)
+        except RuntimeError as e:
+            assert "pass" == str(e)
 
     def test_array_of_enums(self):
         data = [

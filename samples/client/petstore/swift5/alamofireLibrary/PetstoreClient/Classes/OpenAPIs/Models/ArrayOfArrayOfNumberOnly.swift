@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-public struct ArrayOfArrayOfNumberOnly: Codable { 
-
+public struct ArrayOfArrayOfNumberOnly: Codable {
 
     public var arrayArrayNumber: [[Double]]?
 
@@ -17,7 +15,7 @@ public struct ArrayOfArrayOfNumberOnly: Codable {
         self.arrayArrayNumber = arrayArrayNumber
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable { 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case arrayArrayNumber = "ArrayArrayNumber"
     }
 

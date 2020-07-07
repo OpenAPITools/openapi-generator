@@ -77,7 +77,7 @@ OpenAPI Generator allows generation of API client libraries (SDK generation), se
     - [1.4 - Build Projects](#14---build-projects)
     - [1.5 - Homebrew](#15---homebrew)
     - [1.6 - Docker](#16---docker)
-    - [1.7 - NPM](#17---npm)    
+    - [1.7 - NPM](#17---npm)
   - [2 - Getting Started](#2---getting-started)
   - [3 - Usage](#3---usage)
     - [3.1 - Customization](#31---customization)
@@ -101,7 +101,9 @@ The OpenAPI Specification has undergone 3 revisions since initial creation in 20
 
 | OpenAPI Generator Version                                                                                                                                 | Release Date | Notes                                             |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ------------------------------------------------- |
-| 5.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/5.0.0-SNAPSHOT/) | 25.06.2020   | Major release with breaking changes (no fallback) |
+| 5.0.0 (upcoming major release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/5.0.0-SNAPSHOT/) | TBD   | Major release with breaking changes (no fallback) |
+| 5.0.0-beta2 (upcoming beta release) [SNAPSHOT](https://oss.sonatype.org/content/repositories/snapshots/org/openapitools/openapi-generator-cli/5.0.0-SNAPSHOT/) | 30.07.2020 | Major beta release with breaking changes (no fallback) |
+| [5.0.0-beta](https://github.com/OpenAPITools/openapi-generator/releases/tag/v5.0.0-beta) (latest beta release) | 30.06.2020   | Major beta release with breaking changes (no fallback) |
 | [4.3.1](https://github.com/OpenAPITools/openapi-generator/releases/tag/v4.3.1) (latest stable release)                                                    | 06.05.2020   | Patch release (enhancements, bug fixes, etc)                       |
 
 OpenAPI Spec compatibility: 1.0, 1.1, 1.2, 2.0, 3.0
@@ -158,16 +160,16 @@ See the different versions of the [openapi-generator-cli](https://mvnrepository.
 <!-- RELEASE_VERSION -->
 If you're looking for the latest stable version, you can grab it directly from Maven.org (Java 8 runtime at a minimum):
 
-JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar`
+JAR location: `https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.0.0-beta/openapi-generator-cli-5.0.0-beta.jar`
 
 For **Mac/Linux** users:
 ```sh
-wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar -O openapi-generator-cli.jar
+wget https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.0.0-beta/openapi-generator-cli-5.0.0-beta.jar -O openapi-generator-cli.jar
 ```
 
 For **Windows** users, you will need to install [wget](http://gnuwin32.sourceforge.net/packages/wget.htm) or you can use Invoke-WebRequest in PowerShell (3.0+), e.g.
 ```
-Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar
+Invoke-WebRequest -OutFile openapi-generator-cli.jar https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.0.0-beta/openapi-generator-cli-5.0.0-beta.jar
 ```
 
 After downloading the JAR, run `java -jar openapi-generator-cli.jar help` to show the usage.
@@ -348,7 +350,7 @@ Once built, `run-in-docker.sh` will act as an executable for openapi-generator-c
 ./run-in-docker.sh list # Executes 'list' command for openapi-generator-cli
 ./run-in-docker.sh /gen/bin/go-petstore.sh  # Builds the Go client
 ./run-in-docker.sh generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
-    -g go -o /gen/out/go-petstore -DpackageName=petstore # generates go client, outputs locally to ./out/go-petstore
+    -g go -o /gen/out/go-petstore --package-name=petstore # generates go client, outputs locally to ./out/go-petstore
 ```
 
 ##### Troubleshooting
@@ -389,10 +391,10 @@ openapi-generator version
 ```
 
 <!-- RELEASE_VERSION -->
-Or install a particular OpenAPI Generator version (e.g. v4.3.1):
+Or install a particular OpenAPI Generator version (e.g. v5.0.0-beta):
 
 ```sh
-npm install @openapitools/openapi-generator-cli@cli-4.3.1 -g
+npm install @openapitools/openapi-generator-cli@cli-5.0.0-beta -g
 ```
 
 Or install it as dev-dependency:
@@ -416,7 +418,7 @@ java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generat
 (if you're on Windows, replace the last command with `java -jar modules\openapi-generator-cli\target\openapi-generator-cli.jar generate -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g php -o c:\temp\php_api_client`)
 
 <!-- RELEASE_VERSION -->
-You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar)
+You can also download the JAR (latest release) directly from [maven.org](https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/5.0.0-beta/openapi-generator-cli-5.0.0-beta.jar)
 <!-- /RELEASE_VERSION -->
 
 To get a list of **general** options available, please run `java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar help generate`
@@ -455,29 +457,28 @@ NAME
 SYNOPSIS
         openapi-generator-cli generate
                 [(-a <authorization> | --auth <authorization>)]
-                [--api-name-suffix <api name suffix>]
-                [--api-package <api package>] [--artifact-id <artifact id>]
-                [--artifact-version <artifact version>]
-                [(-c <configuration file> | --config <configuration file>)]
-                [-D <system properties>...]
+                [--api-name-suffix <api name suffix>] [--api-package <api package>]
+                [--artifact-id <artifact id>] [--artifact-version <artifact version>]
+                [(-c <configuration file> | --config <configuration file>)] [--dry-run]
                 [(-e <templating engine> | --engine <templating engine>)]
                 [--enable-post-process-file]
                 [(-g <generator name> | --generator-name <generator name>)]
-                [--generate-alias-as-model] [--git-repo-id <git repo id>]
-                [--git-user-id <git user id>] [--group-id <group id>]
+                [--generate-alias-as-model] [--git-host <git host>]
+                [--git-repo-id <git repo id>] [--git-user-id <git user id>]
+                [--global-property <global properties>...] [--group-id <group id>]
                 [--http-user-agent <http user agent>]
-                (-i <spec file> | --input-spec <spec file>)
+                [(-i <spec file> | --input-spec <spec file>)]
                 [--ignore-file-override <ignore file override location>]
                 [--import-mappings <import mappings>...]
                 [--instantiation-types <instantiation types>...]
                 [--invoker-package <invoker package>]
                 [--language-specific-primitives <language specific primitives>...]
-                [--library <library>] [--log-to-stderr] [--minimal-update]
+                [--legacy-discriminator-behavior] [--library <library>]
+                [--log-to-stderr] [--minimal-update]
                 [--model-name-prefix <model name prefix>]
                 [--model-name-suffix <model name suffix>]
                 [--model-package <model package>]
-                [(-o <output directory> | --output <output directory>)]
-                [(-p <additional properties> | --additional-properties <additional properties>)...]
+                [(-o <output directory> | --output <output directory>)] [(-p <additional properties> | --additional-properties <additional properties>)...]
                 [--package-name <package name>] [--release-note <release note>]
                 [--remove-operation-id-prefix]
                 [--reserved-words-mappings <reserved word mappings>...]
@@ -507,13 +508,12 @@ mvn package
 ```
 
 Other languages have petstore samples, too:
-```sh
-./bin/android-petstore-all.sh
-./bin/java-petstore-all.sh
-./bin/objc-petstore.sh
-```
 
-... and others. [Here is a list of all scripts.](https://github.com/OpenAPITools/openapi-generator/wiki/Samples-folder#scripts)
+- [Swift5](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/swift5)
+- [Ruby](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/ruby)
+- [Kotlin](https://github.com/OpenAPITools/openapi-generator/tree/master/samples/client/petstore/kotlin)
+
+... and more.
 
 ### [3.1 - Customization](#table-of-contents)
 
@@ -754,6 +754,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-05-18 - [Spring Boot REST with OpenAPI 3](https://dev.to/alfonzjanfrithz/spring-boot-rest-with-openapi-3-59jm) by [Alfonz Jan Frithz](https://dev.to/alfonzjanfrithz)
 - 2020-05-19 - [Dead Simple APIs with Open API](https://www.youtube.com/watch?v=sIaXmR6xRAw) by [Chris Tankersley](https://github.com/dragonmantank) at [Nexmo](https://developer.nexmo.com/)
 - 2020-05-22 - [TypeScript REST API Client](https://dev.to/unhurried/typescript-rest-api-client-4in3) by ["unhurried"](https://dev.to/unhurried)
+- 2020-05-28 - [【使用 lotify + Swagger 建置可共用的 LINE Notify bot】 - #NiJia @ Chatbot Developer Taiwan 第 #19 小聚](https://www.youtube.com/watch?v=agYVz6dzh1I) by [Chatbot Developer Taiwan](https://www.youtube.com/channel/UCxeYUyZNnHmpX23YNF-ewvw)
+- 2020-06-23 - [新規サーバーアプリケーションにTypeScriptを採用してみた](https://www.cam-inc.co.jp/news/20200623) at [CAM Tech Blog](https://www.cam-inc.co.jp/news/tech-blog/)
 
 ## [6 - About Us](#table-of-contents)
 
@@ -946,7 +948,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Bash              | @frol (2017/07) @bkryza (2017/08) @kenjones-cisco (2017/09)                                                                                                                                                                       |
 | C                 | @zhemant (2018/11) @ityuhui (2019/12) @michelealbano (2020/03)                                                                                                                                                                   |
 | C++               | @ravinikam (2017/07) @stkrwork (2017/07) @etherealjoy (2018/02) @martindelille (2018/03) @muttleyxd (2019/08)                                                                                                                     |
-| C#                | @mandrean (2017/08), @jimschubert (2017/09) [:heart:](https://www.patreon.com/jimschubert) @frankyjuang (2019/09) @shibayan (2020/02)                                                                                             |
+| C#                | @mandrean (2017/08) @frankyjuang (2019/09) @shibayan (2020/02)                                                                                             |
 | Clojure           |                                                                                                                                                                                                                                   |
 | Dart              | @ircecho (2017/07) @swipesight (2018/09) @jaumard (2018/09) @athornz (2019/12) @amondnet (2019/12)                                                                                                        |
 | Eiffel            | @jvelilla (2017/09)                                                                                                                                                                                                               |
@@ -954,7 +956,7 @@ If you want to join the committee, please kindly apply by sending an email to te
 | Elm               | @eriktim (2018/09)                                                                                                                                                                                                                |
 | Erlang            | @tsloughter (2017/11) @jfacorro (2018/10) @robertoaloi (2018/10)                                                                                                                                                                  |
 | F#                | @nmfisher (2019/05)                                                                                                                                                                                                               |
-| Go                | @antihax (2017/11) @bvwells (2017/12) @grokify (2018/07) @kemokemo (2018/09) @bkabrda (2019/07)                                                                                                                                   |
+| Go                | @antihax (2017/11) @grokify (2018/07) @kemokemo (2018/09) @bkabrda (2019/07)                                                                                                                                   |
 | GraphQL           | @renepardon (2018/12)                                                                                                                                                                                                             |
 | Groovy            |                                                                                                                                                                                                                                   |
 | Haskell           |                                                                                                                                                                                                                                   |

@@ -79,10 +79,10 @@ These options allow some customization of the code generation process.
 
 [1]: https://www.stackage.org/haddock/lts-9.0/iso8601-time-0.1.4/Data-Time-ISO8601.html#v:formatISO8601Millis
 
-An example setting _strictFields_ and _dateTimeFormat_:
+An example setting _dateTimeFormat_ and _strictFields_:
 
 ```
-java -jar openapi-generator-cli.jar generate -i petstore.yaml -g haskell-http-client -o output/haskell-http-client -DstrictFields=true -DdateTimeFormat="%Y-%m-%dT%H:%M:%S%Q%z"
+java -jar openapi-generator-cli.jar generate -i petstore.yaml -g haskell-http-client -o output/haskell-http-client --additional-properties=dateTimeFormat="%Y-%m-%dT%H:%M:%S%Q%z" --additional-properties=strictFields=false 
 ```
 
 View the full list of Codegen "config option" parameters with the command:

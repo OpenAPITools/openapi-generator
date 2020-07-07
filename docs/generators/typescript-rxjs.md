@@ -21,7 +21,7 @@ sidebar_label: typescript-rxjs
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |supportsES6|Generate code that conforms to ES6.| |false|
-|withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
+|withProgressSubscriber|Setting this property to true will generate API controller methods with support for subscribing to request progress.| |false|
 
 ## IMPORT MAPPING
 
@@ -157,6 +157,7 @@ sidebar_label: typescript-rxjs
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

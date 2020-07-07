@@ -54,6 +54,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     protected Map<String, String> commonVerbs; // verbs not in the official ps verb list but can be mapped to one of the verbs
     protected HashSet methodNames; // store a list of method names to detect duplicates
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
+    protected boolean discardReadOnly = false; // Discard the readonly property in initialize cmdlet
 
     /**
      * Constructs an instance of `PowerShellClientCodegen`.
@@ -499,6 +500,13 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption(CodegenConstants.API_NAME_PREFIX, "Prefix that will be appended to all PS objects. Default: empty string. e.g. Pet => PSPet."));
         cliOptions.add(new CliOption("commonVerbs", "PS common verb mappings. e.g. Delete=Remove:Patch=Update to map Delete with Remove and Patch with Update accordingly."));
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC));
+        cliOptions.add(new CliOption("discardReadOnly", "Set discardReadonly to true to generate the Initialize cmdlet without readonly parameters"));
+
+        // default value in the template
+        additionalProperties.put("powershellVersion", "6.2"); // minimal PS version
+        additionalProperties.put("author", "OpenAPI Generator Team");
+        additionalProperties.put("companyName", "openapitools.org");
+        additionalProperties.put("psData", null);
     }
 
     public CodegenType getTag() {
@@ -542,6 +550,14 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
     }
+    
+    public void setDiscardReadOnly(boolean discardReadOnly) {
+        this.discardReadOnly = discardReadOnly;
+    }
+
+    public boolean getDiscardReadOnly() {
+        return this.discardReadOnly;
+    }
 
     @Override
     public void processOpts() {
@@ -563,6 +579,12 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
         } else {
             additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
+        }
+
+        if (additionalProperties.containsKey("discardReadOnly")) {
+            setDiscardReadOnly(convertPropertyToBooleanAndWriteBack("discardReadOnly"));
+        } else {
+            additionalProperties.put("discardReadOnly", discardReadOnly);
         }
 
         if (StringUtils.isNotBlank(powershellGalleryUrl)) {
@@ -905,9 +927,19 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         for (Object _mo : models) {
             Map<String, Object> _model = (Map<String, Object>) _mo;
             CodegenModel model = (CodegenModel) _model.get("model");
+            CodegenProperty lastWritableProperty = null;
 
             for (CodegenProperty cp : model.allVars) {
                 cp.vendorExtensions.put("x-powershell-data-type", getPSDataType(cp));
+                if(this.discardReadOnly && !cp.isReadOnly) {
+                    lastWritableProperty = cp;
+                }
+            }
+
+            // Mark the last readonly false property
+            if(this.discardReadOnly && lastWritableProperty != null) {
+                lastWritableProperty.vendorExtensions.put("x-powershell-last-writable", true);
+                model.allVars.set(model.allVars.indexOf(lastWritableProperty), lastWritableProperty);
             }
 
             // if oneOf contains "null" type

@@ -520,7 +520,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return "[" + getTypeDeclaration(inner) + "]";
+            return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return "[String:" + getTypeDeclaration(inner) + "]";
@@ -639,7 +639,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            return "[" + inner + "]";
+            return ModelUtils.isSet(p) ? "Set<" + inner + ">" : "[" + inner + "]";
         }
         return null;
     }
