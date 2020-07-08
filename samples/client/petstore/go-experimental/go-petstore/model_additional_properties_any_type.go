@@ -16,10 +16,7 @@ import (
 // AdditionalPropertiesAnyType struct for AdditionalPropertiesAnyType
 type AdditionalPropertiesAnyType struct {
 	Name *string `json:"name,omitempty"`
-	AdditionalProperties map[string]interface{}
 }
-
-type _AdditionalPropertiesAnyType AdditionalPropertiesAnyType
 
 // NewAdditionalPropertiesAnyType instantiates a new AdditionalPropertiesAnyType object
 // This constructor will assign default values to properties that have it defined,
@@ -75,29 +72,7 @@ func (o AdditionalPropertiesAnyType) MarshalJSON() ([]byte, error) {
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
 	}
-
-	for key, value := range o.AdditionalProperties {
-		toSerialize[key] = value
-	}
-
 	return json.Marshal(toSerialize)
-}
-
-func (o *AdditionalPropertiesAnyType) UnmarshalJSON(bytes []byte) (err error) {
-	varAdditionalPropertiesAnyType := _AdditionalPropertiesAnyType{}
-
-	if err = json.Unmarshal(bytes, &varAdditionalPropertiesAnyType); err == nil {
-		*o = AdditionalPropertiesAnyType(varAdditionalPropertiesAnyType)
-	}
-
-	additionalProperties := make(map[string]interface{})
-
-	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
-		delete(additionalProperties, "name")
-		o.AdditionalProperties = additionalProperties
-	}
-
-	return err
 }
 
 type NullableAdditionalPropertiesAnyType struct {
