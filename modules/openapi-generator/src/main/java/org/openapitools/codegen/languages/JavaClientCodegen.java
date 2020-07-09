@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipFeatures;
+import org.openapitools.codegen.languages.features.OptionalInApiFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.GlobalFeature;
@@ -43,7 +44,7 @@ import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
-        implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures {
+        implements BeanValidationFeatures, PerformBeanValidationFeatures, GzipFeatures, OptionalInApiFeatures {
 
     static final String MEDIA_TYPE = "mediaType";
 
@@ -101,6 +102,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean caseInsensitiveResponseHeaders = false;
     protected String authFolder;
     protected String serializationLibrary = null;
+    protected boolean useOptionalInApi = false;
 
     public JavaClientCodegen() {
         super();
@@ -140,6 +142,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(ASYNC_NATIVE, "If true, async handlers will be used, instead of the sync version"));
         cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
+        cliOptions.add(CliOption.newBoolean(USE_OPTIONAL_IN_API, "Use Optional as data type when returning data from POJOs."));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
@@ -284,6 +287,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         if (additionalProperties.containsKey(CASE_INSENSITIVE_RESPONSE_HEADERS)) {
             this.setUseReflectionEqualsHashCode(convertPropertyToBooleanAndWriteBack(CASE_INSENSITIVE_RESPONSE_HEADERS));
         }
+        if (additionalProperties.containsKey(USE_OPTIONAL_IN_API)) {
+            this.setUseOptionalInApi(Boolean.parseBoolean(additionalProperties.get(USE_OPTIONAL_IN_API).toString()));
+        }
+        additionalProperties.put(USE_OPTIONAL_IN_API, useOptionalInApi);
 
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
@@ -863,6 +870,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
+    }
+
+    public void setUseOptionalInApi(final boolean useOptionalInApi) {
+        this.useOptionalInApi = useOptionalInApi;
     }
 
     /**
