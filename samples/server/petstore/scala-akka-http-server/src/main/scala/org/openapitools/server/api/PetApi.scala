@@ -2,6 +2,7 @@ package org.openapitools.server.api
 
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.marshalling.ToEntityMarshaller
 import akka.http.scaladsl.unmarshalling.FromEntityUnmarshaller
 import akka.http.scaladsl.unmarshalling.FromStringUnmarshaller
@@ -29,8 +30,8 @@ class PetApi(
   lazy val route: Route =
     path("pet") { 
       post {  
-            entity(as[Pet]){ body =>
-              petService.addPet(body = body)
+            entity(as[Pet]){ pet =>
+              petService.addPet(pet = pet)
             }
       }
     } ~
@@ -62,8 +63,8 @@ class PetApi(
     } ~
     path("pet") { 
       put {  
-            entity(as[Pet]){ body =>
-              petService.updatePet(body = body)
+            entity(as[Pet]){ pet =>
+              petService.updatePet(pet = pet)
             }
       }
     } ~
@@ -94,12 +95,16 @@ class PetApi(
 
 trait PetApiService {
 
+  def addPet200(responsePet: Pet)(implicit toEntityMarshallerPet: ToEntityMarshaller[Pet]): Route =
+    complete((200, responsePet))
   def addPet405: Route =
     complete((405, "Invalid input"))
   /**
+   * Code: 200, Message: successful operation, DataType: Pet
    * Code: 405, Message: Invalid input
    */
-  def addPet(body: Pet): Route
+  def addPet(pet: Pet)
+      (implicit toEntityMarshallerPet: ToEntityMarshaller[Pet]): Route
 
   def deletePet400: Route =
     complete((400, "Invalid pet value"))
@@ -144,6 +149,8 @@ trait PetApiService {
   def getPetById(petId: Long)
       (implicit toEntityMarshallerPet: ToEntityMarshaller[Pet]): Route
 
+  def updatePet200(responsePet: Pet)(implicit toEntityMarshallerPet: ToEntityMarshaller[Pet]): Route =
+    complete((200, responsePet))
   def updatePet400: Route =
     complete((400, "Invalid ID supplied"))
   def updatePet404: Route =
@@ -151,11 +158,13 @@ trait PetApiService {
   def updatePet405: Route =
     complete((405, "Validation exception"))
   /**
+   * Code: 200, Message: successful operation, DataType: Pet
    * Code: 400, Message: Invalid ID supplied
    * Code: 404, Message: Pet not found
    * Code: 405, Message: Validation exception
    */
-  def updatePet(body: Pet): Route
+  def updatePet(pet: Pet)
+      (implicit toEntityMarshallerPet: ToEntityMarshaller[Pet]): Route
 
   def updatePetWithForm405: Route =
     complete((405, "Invalid input"))

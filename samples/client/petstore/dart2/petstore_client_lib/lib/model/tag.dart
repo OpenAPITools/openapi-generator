@@ -5,7 +5,11 @@ class Tag {
   int id = null;
   
   String name = null;
-  Tag();
+
+  Tag({
+    this.id,
+    this.name,
+  });
 
   @override
   String toString() {

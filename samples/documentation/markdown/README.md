@@ -34,6 +34,8 @@ Class | Method | HTTP request | Description
 
  - [ApiResponse](.//Models/ApiResponse.md)
  - [Category](.//Models/Category.md)
+ - [InlineObject](.//Models/InlineObject.md)
+ - [InlineObject1](.//Models/InlineObject1.md)
  - [Order](.//Models/Order.md)
  - [Pet](.//Models/Pet.md)
  - [Tag](.//Models/Tag.md)
@@ -49,6 +51,13 @@ Class | Method | HTTP request | Description
 - **Type**: API key
 - **API key parameter name**: api_key
 - **Location**: HTTP header
+
+<a name="auth_cookie"></a>
+### auth_cookie
+
+- **Type**: API key
+- **API key parameter name**: AUTH_KEY
+- **Location**: 
 
 <a name="petstore_auth"></a>
 ### petstore_auth

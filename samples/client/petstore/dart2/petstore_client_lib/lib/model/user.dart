@@ -17,7 +17,17 @@ class User {
   String phone = null;
   /* User Status */
   int userStatus = null;
-  User();
+
+  User({
+    this.id,
+    this.username,
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.password,
+    this.phone,
+    this.userStatus,
+  });
 
   @override
   String toString() {

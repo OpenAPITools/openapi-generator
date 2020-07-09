@@ -1,22 +1,26 @@
 var {{{jsModuleName}}} = require('{{{jsProjectName}}}');
 {{#hasAuthMethods}}
 var defaultClient = {{{jsModuleName}}}.ApiClient.instance;
-{{#authMethods}}{{#isBasic}}
+{{#authMethods}}{{^isBasicBearer}}{{#isBasic}}
 // Configure HTTP basic authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
-{{{name}}}.username = 'YOUR USERNAME'
-{{{name}}}.password = 'YOUR PASSWORD'{{/isBasic}}{{#isApiKey}}
+{{{name}}}.username = 'YOUR USERNAME';
+{{{name}}}.password = 'YOUR PASSWORD';{{/isBasic}}{{/isBasicBearer}}{{#isBasicBearer}}
+// Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
+var {{{name}}} = defaultClient.authentications['{{{name}}}'];
+{{{name}}}.accessToken = "YOUR ACCESS TOKEN";{{/isBasicBearer}}{{#isApiKey}}
 // Configure API key authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
-{{{name}}}.apiKey = "YOUR API KEY"
+{{{name}}}.apiKey = "YOUR API KEY";
 // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
-//{{{name}}}.apiKeyPrefix['{{{keyParamName}}}'] = "Token"{{/isApiKey}}{{#isOAuth}}
+//{{{name}}}.apiKeyPrefix['{{{keyParamName}}}'] = "Token";{{/isApiKey}}{{#isOAuth}}
 // Configure OAuth2 access token for authorization: {{{name}}}
 var {{{name}}} = defaultClient.authentications['{{{name}}}'];
-{{{name}}}.accessToken = "YOUR ACCESS TOKEN"{{/isOAuth}}
+{{{name}}}.accessToken = "YOUR ACCESS TOKEN";{{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}
 
+// Create an instance of the API class
 var api = new {{{jsModuleName}}}.{{{classname}}}(){{#hasParams}}
 {{#hasRequiredParams}}
 {{#requiredParams}}

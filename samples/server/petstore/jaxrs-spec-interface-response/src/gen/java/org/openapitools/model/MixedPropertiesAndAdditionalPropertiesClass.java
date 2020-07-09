@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializable {
   
   private @Valid UUID uuid;
   private @Valid Date dateTime;
@@ -34,16 +34,17 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("uuid")
   public UUID getUuid() {
     return uuid;
   }
+
   public void setUuid(UUID uuid) {
     this.uuid = uuid;
-  }
-
-  /**
+  }/**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass dateTime(Date dateTime) {
     this.dateTime = dateTime;
@@ -51,16 +52,17 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("dateTime")
   public Date getDateTime() {
     return dateTime;
   }
+
   public void setDateTime(Date dateTime) {
     this.dateTime = dateTime;
-  }
-
-  /**
+  }/**
    **/
   public MixedPropertiesAndAdditionalPropertiesClass map(Map<String, Animal> map) {
     this.map = map;
@@ -68,15 +70,17 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("map")
   public Map<String, Animal> getMap() {
     return map;
   }
+
   public void setMap(Map<String, Animal> map) {
     this.map = map;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -87,9 +91,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
       return false;
     }
     MixedPropertiesAndAdditionalPropertiesClass mixedPropertiesAndAdditionalPropertiesClass = (MixedPropertiesAndAdditionalPropertiesClass) o;
-    return Objects.equals(uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
-        Objects.equals(dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
-        Objects.equals(map, mixedPropertiesAndAdditionalPropertiesClass.map);
+    return Objects.equals(this.uuid, mixedPropertiesAndAdditionalPropertiesClass.uuid) &&
+        Objects.equals(this.dateTime, mixedPropertiesAndAdditionalPropertiesClass.dateTime) &&
+        Objects.equals(this.map, mixedPropertiesAndAdditionalPropertiesClass.map);
   }
 
   @Override
@@ -119,5 +123,7 @@ public class MixedPropertiesAndAdditionalPropertiesClass  implements Serializabl
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

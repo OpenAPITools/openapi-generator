@@ -1,6 +1,10 @@
 <?php
 
 {{>licenseInfo}}
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
 {{#apiInfo}}
 {{#apis}}
 {{#operations}}
@@ -17,3 +21,6 @@ Route::{{httpMethod}}('{{{basePathWithoutHost}}}{{{path}}}', '{{classname}}@{{op
 {{/apis}}
 {{/apiInfo}}
 
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});

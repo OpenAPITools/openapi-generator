@@ -2,7 +2,7 @@
 /**
  * Order
  *
- * PHP version 5
+ * PHP version 7.1.3
  *
  * @category Class
  * @package  OpenAPI\Server\Model
@@ -197,7 +197,7 @@ class Order
      *
      * @return $this
      */
-    public function setShipDate(\DateTime $shipDate = null): ?\DateTime
+    public function setShipDate(\DateTime $shipDate = null)
     {
         $this->shipDate = $shipDate;
 

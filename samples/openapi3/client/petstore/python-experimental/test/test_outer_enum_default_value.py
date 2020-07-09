@@ -11,10 +11,11 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.outer_enum_default_value import OuterEnumDefaultValue
 
 
 class TestOuterEnumDefaultValue(unittest.TestCase):
@@ -29,7 +30,7 @@ class TestOuterEnumDefaultValue(unittest.TestCase):
     def testOuterEnumDefaultValue(self):
         """Test OuterEnumDefaultValue"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.OuterEnumDefaultValue()  # noqa: E501
+        # model = OuterEnumDefaultValue()  # noqa: E501
         pass
 
 

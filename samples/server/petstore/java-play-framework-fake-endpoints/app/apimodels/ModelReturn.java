@@ -8,7 +8,7 @@ import javax.validation.constraints.*;
 /**
  * Model for testing reserved words
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ModelReturn   {
   @JsonProperty("return")

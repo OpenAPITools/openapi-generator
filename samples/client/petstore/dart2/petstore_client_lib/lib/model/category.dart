@@ -5,7 +5,11 @@ class Category {
   int id = null;
   
   String name = null;
-  Category();
+
+  Category({
+    this.id,
+    this.name,
+  });
 
   @override
   String toString() {

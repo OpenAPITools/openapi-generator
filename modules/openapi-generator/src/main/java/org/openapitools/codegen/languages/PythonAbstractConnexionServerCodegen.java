@@ -161,7 +161,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
                 defaultValue("controllers"));
         cliOptions.add(new CliOption(DEFAULT_CONTROLLER, "default controller").
                 defaultValue("default_controller"));
-        cliOptions.add(new CliOption(SUPPORT_PYTHON2, "support python2").
+        cliOptions.add(new CliOption(SUPPORT_PYTHON2, "support python2. This option has been deprecated and will be removed in the 5.x release.").
                 defaultValue("false"));
         cliOptions.add(new CliOption("serverPort", "TCP port to listen to in app.run").
                 defaultValue("8080"));
@@ -350,7 +350,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -594,6 +594,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             }
         }
 
+        generateJSONSpecFile(objs);
         generateYAMLSpecFile(objs);
 
         for (Map<String, Object> operations : getOperations(objs)) {

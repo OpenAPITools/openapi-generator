@@ -6,21 +6,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
-{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}
-/**
+{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}/**
  * {{description}}
- **/{{/description}}{{#useSwaggerAnnotations}}
-{{#description}}{{>additionalModelTypeAnnotations}}@ApiModel(description = "{{{description}}}"){{/description}}{{/useSwaggerAnnotations}}
+ **/{{/description}}
+{{#useSwaggerAnnotations}}{{#description}}{{>additionalModelTypeAnnotations}}@ApiModel(description = "{{{description}}}"){{/description}}{{/useSwaggerAnnotations}}
 {{>generatedAnnotation}}public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
  
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
-  private {{#useBeanValidation}}@Valid{{/useBeanValidation}} {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
+  private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
 
-  {{#vars}}
-  /**
+  {{#vars}}/**
    {{#description}}
    * {{description}}
    {{/description}}
@@ -36,17 +34,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
     return this;
   }
 
+  {{#generateBuilders}}public {{classname}}({{#vars}}{{{datatypeWithEnum}}} {{name}}{{#hasMore}}, {{/hasMore}}{{/vars}}) {
+    {{#vars}}
+    this.{{name}} = {{name}};
+    {{/vars}}
+  }{{/generateBuilders}}
+
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}
   @JsonProperty("{{baseName}}")
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
+
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
-  }
-
-  {{/vars}}
+  }{{/vars}}
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -88,4 +91,37 @@ import com.fasterxml.jackson.annotation.JsonValue;
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+  {{#generateBuilders}}
+  public static Builder builder() {
+    return new Builder();
+  }
+
+  public static class Builder {
+    {{#vars}}
+    private {{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};
+    {{/vars}}
+
+    {{#vars}}
+    /**
+      {{#description}}
+      * {{description}}
+      {{/description}}
+      {{#minimum}}
+      * minimum: {{minimum}}
+      {{/minimum}}
+      {{#maximum}}
+      * maximum: {{maximum}}
+      {{/maximum}}
+      **/
+    public Builder {{name}}({{{datatypeWithEnum}}} {{name}}) {
+      this.{{name}} = {{name}};
+      return this;
+    }
+    {{/vars}}
+
+    public {{classname}} build() {
+      return new {{classname}}({{#vars}}{{name}}{{#hasMore}}, {{/hasMore}}{{/vars}});
+    }
+  }{{/generateBuilders}}
 }

@@ -57,6 +57,7 @@ namespace Org.OpenAPITools
                 authConfig.AddPolicy("api_key",
                     policyBuilder => policyBuilder
                         .AddRequirements(new ApiKeyRequirement(new[] { "my-secret-key" },"api_key")));
+            });
 
             // Add framework services.
             services
@@ -78,7 +79,7 @@ namespace Org.OpenAPITools
                     {
                         Version = "1.0.0",
                         Title = "OpenAPI Petstore",
-                        Description = "OpenAPI Petstore (ASP.NET Core 2.0)",
+                        Description = "OpenAPI Petstore (ASP.NET Core 2.2)",
                         Contact = new Contact()
                         {
                            Name = "OpenAPI-Generator Contributors",

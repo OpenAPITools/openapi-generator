@@ -93,7 +93,7 @@ class Capitalization(object):
 
 
         :param small_camel: The small_camel of this Capitalization.  # noqa: E501
-        :type: str
+        :type small_camel: str
         """
 
         self._small_camel = small_camel
@@ -114,7 +114,7 @@ class Capitalization(object):
 
 
         :param capital_camel: The capital_camel of this Capitalization.  # noqa: E501
-        :type: str
+        :type capital_camel: str
         """
 
         self._capital_camel = capital_camel
@@ -135,7 +135,7 @@ class Capitalization(object):
 
 
         :param small_snake: The small_snake of this Capitalization.  # noqa: E501
-        :type: str
+        :type small_snake: str
         """
 
         self._small_snake = small_snake
@@ -156,7 +156,7 @@ class Capitalization(object):
 
 
         :param capital_snake: The capital_snake of this Capitalization.  # noqa: E501
-        :type: str
+        :type capital_snake: str
         """
 
         self._capital_snake = capital_snake
@@ -177,7 +177,7 @@ class Capitalization(object):
 
 
         :param sca_eth_flow_points: The sca_eth_flow_points of this Capitalization.  # noqa: E501
-        :type: str
+        :type sca_eth_flow_points: str
         """
 
         self._sca_eth_flow_points = sca_eth_flow_points
@@ -200,7 +200,7 @@ class Capitalization(object):
         Name of the pet   # noqa: E501
 
         :param att_name: The att_name of this Capitalization.  # noqa: E501
-        :type: str
+        :type att_name: str
         """
 
         self._att_name = att_name

@@ -15,6 +15,7 @@ import org.openapitools.client.models.Foo
 
 import com.squareup.moshi.Json
 import java.io.Serializable
+
 /**
  * 
  * @param string 
@@ -23,12 +24,10 @@ import java.io.Serializable
 data class InlineResponseDefault (
     @Json(name = "string")
     val string: Foo? = null
-) 
-: Serializable 
+) : Serializable {
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
-{
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
 }
 

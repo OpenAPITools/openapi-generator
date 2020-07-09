@@ -62,6 +62,7 @@ export interface UploadFileRequest {
 
 /**
  * PetApi - interface
+ * 
  * @export
  * @interface PetApiInterface
  */
@@ -197,7 +198,7 @@ export interface PetApiInterface {
 }
 
 /**
- * no description
+ * 
  */
 export class PetApi extends runtime.BaseAPI implements PetApiInterface {
 
@@ -209,7 +210,7 @@ export class PetApi extends runtime.BaseAPI implements PetApiInterface {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling addPet.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -250,7 +251,7 @@ export class PetApi extends runtime.BaseAPI implements PetApiInterface {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling deletePet.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -293,7 +294,7 @@ export class PetApi extends runtime.BaseAPI implements PetApiInterface {
             throw new runtime.RequiredError('status','Required parameter requestParameters.status was null or undefined when calling findPetsByStatus.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         if (requestParameters.status) {
             queryParameters['status'] = requestParameters.status.join(runtime.COLLECTION_FORMATS["csv"]);
@@ -338,7 +339,7 @@ export class PetApi extends runtime.BaseAPI implements PetApiInterface {
             throw new runtime.RequiredError('tags','Required parameter requestParameters.tags was null or undefined when calling findPetsByTags.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         if (requestParameters.tags) {
             queryParameters['tags'] = requestParameters.tags.join(runtime.COLLECTION_FORMATS["csv"]);
@@ -383,7 +384,7 @@ export class PetApi extends runtime.BaseAPI implements PetApiInterface {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling getPetById.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -418,7 +419,7 @@ export class PetApi extends runtime.BaseAPI implements PetApiInterface {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling updatePet.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -459,7 +460,7 @@ export class PetApi extends runtime.BaseAPI implements PetApiInterface {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling updatePetWithForm.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -520,7 +521,7 @@ export class PetApi extends runtime.BaseAPI implements PetApiInterface {
             throw new runtime.RequiredError('petId','Required parameter requestParameters.petId was null or undefined when calling uploadFile.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
