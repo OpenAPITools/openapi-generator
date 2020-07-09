@@ -1222,8 +1222,6 @@ public class ModelUtils {
     public static String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
         List<Schema> interfaces = getInterfaces(composedSchema);
         int nullSchemaChildrenCount = 0;
-        boolean hasAmbiguousParents = false;
-        List<String> refedWithoutDiscriminator = new ArrayList<>();
 
         if (interfaces != null && !interfaces.isEmpty()) {
             for (Schema schema : interfaces) {
@@ -1239,8 +1237,6 @@ public class ModelUtils {
                         return parentName;
                     } else {
                         // not a parent since discriminator.propertyName is not set
-                        hasAmbiguousParents = true;
-                        refedWithoutDiscriminator.add(parentName);
 
                         // TOOD to be removed in 6.x release
                         LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' has been deprecated" +
