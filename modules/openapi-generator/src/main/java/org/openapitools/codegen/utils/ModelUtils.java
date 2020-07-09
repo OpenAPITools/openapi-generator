@@ -1222,8 +1222,6 @@ public class ModelUtils {
     public static String getParentName(ComposedSchema composedSchema, Map<String, Schema> allSchemas) {
         List<Schema> interfaces = getInterfaces(composedSchema);
         int nullSchemaChildrenCount = 0;
-        boolean hasAmbiguousParents = false;
-        List<String> refedWithoutDiscriminator = new ArrayList<>();
 
         if (interfaces != null && !interfaces.isEmpty()) {
             for (Schema schema : interfaces) {
@@ -1239,8 +1237,10 @@ public class ModelUtils {
                         return parentName;
                     } else {
                         // not a parent since discriminator.propertyName is not set
-                        hasAmbiguousParents = true;
-                        refedWithoutDiscriminator.add(parentName);
+                        // TOOD to be removed in 6.x release
+                        LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' has been deprecated" +
+                                        " in the 5.x release. Composed schema name: {}. Title: {}",
+                                composedSchema.getName(), composedSchema.getTitle()); 
                     }
                 } else {
                     // not a ref, doing nothing, except counting the number of times the 'null' type
@@ -1253,21 +1253,6 @@ public class ModelUtils {
                     }
                 }
             }
-            if (refedWithoutDiscriminator.size() == 1 && nullSchemaChildrenCount == 1) {
-                // One schema is a $ref and the other is the 'null' type, so the parent is obvious.
-                // In this particular case there is no need to specify a discriminator.
-                hasAmbiguousParents = false;
-            }
-        }
-
-        // parent name only makes sense when there is a single obvious parent
-        if (refedWithoutDiscriminator.size() == 1) {
-            if (hasAmbiguousParents) {
-                LOGGER.warn("[deprecated] inheritance without use of 'discriminator.propertyName' is deprecated " +
-                                "and will be removed in a future release. Generating model for composed schema name: {}. Title: {}",
-                        composedSchema.getName(), composedSchema.getTitle());
-            }
-            return refedWithoutDiscriminator.get(0);
         }
 
         return null;
