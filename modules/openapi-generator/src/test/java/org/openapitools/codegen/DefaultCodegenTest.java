@@ -1372,9 +1372,9 @@ public class DefaultCodegenTest {
         Schema schema = openAPI.getComponents().getSchemas().get("NewMessageEventCoreNoOwnProps");
         codegen.setOpenAPI(openAPI);
         CodegenModel model = codegen.fromModel("NewMessageEventCoreNoOwnProps", schema);
-        Assert.assertEquals(getNames(model.getVars()), Collections.emptyList());
-        Assert.assertEquals(model.parent, "MessageEventCore");
-        Assert.assertEquals(model.allParents, Collections.singletonList("MessageEventCore"));
+        Assert.assertEquals(getNames(model.getVars()), Arrays.asList("id","message"));
+        Assert.assertNull(model.parent);
+        Assert.assertNull(model.allParents);
     }
 
     class CodegenWithMultipleInheritance extends DefaultCodegen {
