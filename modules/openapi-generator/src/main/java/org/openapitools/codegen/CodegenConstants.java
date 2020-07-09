@@ -351,4 +351,7 @@ public class CodegenConstants {
 
     public static final String REMOVE_ENUM_VALUE_PREFIX = "removeEnumValuePrefix";
     public static final String REMOVE_ENUM_VALUE_PREFIX_DESC = "Remove the common prefix of enum values";
+
+    public static final String USE_ONE_OF_INTERFACES = "useOneOfInterfaces";
+    public static final String ADD_ONE_OF_INTERFACE_IMPORTS = "addOneOfInterfaceImports";
 }

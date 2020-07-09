@@ -306,6 +306,16 @@ public class DefaultCodegen implements CodegenConfig {
             this.setRemoveEnumValuePrefix(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.REMOVE_ENUM_VALUE_PREFIX).toString()));
         }
+
+        if (additionalProperties.containsKey(CodegenConstants.USE_ONE_OF_INTERFACES)) {
+            this.setUseOneOfInterfaces(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.USE_ONE_OF_INTERFACES).toString()));
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ADD_ONE_OF_INTERFACE_IMPORTS)) {
+            this.setAddOneOfInterfaceImports(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.ADD_ONE_OF_INTERFACE_IMPORTS).toString()));
+        }
     }
 
     /***
@@ -1123,6 +1133,10 @@ public class DefaultCodegen implements CodegenConfig {
 
     public void setUseOneOfInterfaces(Boolean useOneOfInterfaces) {
         this.useOneOfInterfaces = useOneOfInterfaces;
+    }
+
+    public void setAddOneOfInterfaceImports(Boolean addOneOfInterfaceImports) {
+        this.addOneOfInterfaceImports = addOneOfInterfaceImports;
     }
 
     /**
