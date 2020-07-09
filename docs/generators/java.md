@@ -61,6 +61,7 @@ sidebar_label: java
 |useRxJava2|Whether to use the RxJava2 adapter with the retrofit2 library.| |false|
 |useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library.| |false|
 |withXml|whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)| |false|
+|useAbstractionForFiles|whether to use abstract objects for files. Allows users to use byte arrays or input streams instead of java.io.File (works with the resttemplate library)| |false|
 
 ## IMPORT MAPPING
 
