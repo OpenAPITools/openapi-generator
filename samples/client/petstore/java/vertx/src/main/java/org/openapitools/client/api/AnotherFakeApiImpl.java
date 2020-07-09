@@ -10,6 +10,9 @@ import io.vertx.core.json.JsonObject;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -38,12 +41,23 @@ public class AnotherFakeApiImpl implements AnotherFakeApi {
     }
 
     /**
-     * To test special tags
-     * To test special tags and operation ID starting with number
-     * @param body client model (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * To test special tags
+    * To test special tags and operation ID starting with number
+        * @param body client model (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void call123testSpecialTags(Client body, Handler<AsyncResult<Client>> resultHandler) {
+        call123testSpecialTags(body, null, resultHandler);
+    }
+
+    /**
+    * To test special tags
+    * To test special tags and operation ID starting with number
+    * @param body client model (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void call123testSpecialTags(Client body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> resultHandler) {
         Object localVarBody = body;
         
         // verify the required parameter 'body' is set
@@ -72,6 +86,14 @@ public class AnotherFakeApiImpl implements AnotherFakeApi {
         String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<Client> localVarReturnType = new TypeReference<Client>() {};
-        apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
+    }
+
+    private String encodeParameter(String parameter) {
+        try {
+            return URLEncoder.encode(parameter, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            return parameter;
+        }
     }
 }

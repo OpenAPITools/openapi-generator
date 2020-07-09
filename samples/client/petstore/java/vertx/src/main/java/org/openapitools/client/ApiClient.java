@@ -7,6 +7,7 @@ import org.openapitools.client.auth.ApiKeyAuth;
 import org.openapitools.client.auth.OAuth;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,6 +54,7 @@ public class ApiClient {
     private DateFormat dateFormat;
     private ObjectMapper objectMapper;
     private String downloadsDir = "";
+    private int timeout = -1;
 
     public ApiClient(Vertx vertx, JsonObject config) {
         Objects.requireNonNull(vertx, "Vertx must not be null");
@@ -94,6 +96,7 @@ public class ApiClient {
         this.downloadsDir = config.getString("downloadsDir", this.downloadsDir);
         this.config = config;
         this.identifier = UUID.randomUUID().toString();
+        this.timeout = config.getInteger("timeout", -1);
     }
 
     public Vertx getVertx() {
@@ -424,7 +427,11 @@ public class ApiClient {
             AsyncFile file = (AsyncFile) body;
             request.sendStream(file, responseHandler);
         } else {
-            request.sendJson(body, responseHandler);
+            try {
+                request.sendBuffer(Buffer.buffer(this.objectMapper.writeValueAsBytes(body)), responseHandler);
+            } catch (JsonProcessingException jsonProcessingException) {
+                responseHandler.handle(Future.failedFuture(jsonProcessingException));
+            }
         }
     }
 
@@ -442,14 +449,15 @@ public class ApiClient {
      * @param accepts The request's Accept headers
      * @param contentTypes The request's Content-Type headers
      * @param authNames The authentications to apply
+     * @param authInfo The call specific auth override
      * @param returnType The return type into which to deserialize the response
      * @param resultHandler The asynchronous response handler
      */
     public <T> void invokeAPI(String path, String method, List<Pair> queryParams, Object body, MultiMap headerParams,
-                              MultiMap cookieParams, Map<String, Object> formParams, String[] accepts, String[] contentTypes, String[] authNames,
+                              MultiMap cookieParams, Map<String, Object> formParams, String[] accepts, String[] contentTypes, String[] authNames, AuthInfo authInfo,
                               TypeReference<T> returnType, Handler<AsyncResult<T>> resultHandler) {
 
-        updateParamsForAuth(authNames, queryParams, headerParams, cookieParams);
+        updateParamsForAuth(authNames, authInfo, queryParams, headerParams, cookieParams);
 
         if (accepts != null && accepts.length > 0) {
             headerParams.add(HttpHeaders.ACCEPT, selectHeaderAccept(accepts));
@@ -461,6 +469,7 @@ public class ApiClient {
 
         HttpMethod httpMethod = HttpMethod.valueOf(method);
         HttpRequest<Buffer> request = getWebClient().requestAbs(httpMethod, basePath + path);
+        request.timeout(this.timeout);
 
         if (httpMethod == HttpMethod.PATCH) {
             request.putHeader("X-HTTP-Method-Override", "PATCH");
@@ -641,11 +650,72 @@ public class ApiClient {
      *
      * @param authNames The authentications to apply
      */
-    protected void updateParamsForAuth(String[] authNames, List<Pair> queryParams, MultiMap headerParams, MultiMap cookieParams) {
+    protected void updateParamsForAuth(String[] authNames, AuthInfo authInfo, List<Pair> queryParams, MultiMap headerParams, MultiMap cookieParams) {
         for (String authName : authNames) {
-            Authentication auth = authentications.get(authName);
+            Authentication auth;
+            if (authInfo != null && authInfo.authentications.containsKey(authName)) {
+                auth = authInfo.authentications.get(authName);
+            } else {
+                auth = authentications.get(authName);
+            }
             if (auth == null) throw new RuntimeException("Authentication undefined: " + authName);
             auth.applyToParams(queryParams, headerParams, cookieParams);
+        }
+    }
+
+    public static class AuthInfo {
+
+        private final Map<String, Authentication> authentications = new LinkedHashMap<>();
+
+        public void addApi_keyAuthentication(String apikey, String apiKeyPrefix) {
+           ApiKeyAuth auth = new ApiKeyAuth("header","api_key");
+           auth.setApiKey(apikey);
+           auth.setApiKeyPrefix(apiKeyPrefix);
+           authentications.put("api_key", auth);
+        }
+
+        public void addApi_key_queryAuthentication(String apikey, String apiKeyPrefix) {
+           ApiKeyAuth auth = new ApiKeyAuth("query","api_key_query");
+           auth.setApiKey(apikey);
+           auth.setApiKeyPrefix(apiKeyPrefix);
+           authentications.put("api_key_query", auth);
+        }
+
+        public void addHttp_basic_testAuthentication(String username, String password) {
+            HttpBasicAuth auth = new HttpBasicAuth();
+            auth.setUsername(username);
+            auth.setPassword(password);
+            authentications.put("http_basic_test", auth);
+        }
+
+        public void addPetstore_authAuthentication(String accessToken) {
+           OAuth auth = new OAuth();
+           auth.setAccessToken(accessToken);
+           authentications.put("petstore_auth", auth);
+        }
+
+        public static AuthInfo forApi_keyAuthentication(String apikey, String apiKeyPrefix) {
+            AuthInfo authInfo = new AuthInfo();
+            authInfo.addApi_keyAuthentication(apikey, apiKeyPrefix);
+            return authInfo;
+        }
+
+        public static AuthInfo forApi_key_queryAuthentication(String apikey, String apiKeyPrefix) {
+            AuthInfo authInfo = new AuthInfo();
+            authInfo.addApi_key_queryAuthentication(apikey, apiKeyPrefix);
+            return authInfo;
+        }
+
+        public static AuthInfo forHttp_basic_test(String username, String password) {
+            AuthInfo authInfo = new AuthInfo();
+            authInfo.addHttp_basic_testAuthentication(username, password);
+            return authInfo;
+        }
+
+        public static AuthInfo forPetstore_authAuthentication(String accessToken) {
+            AuthInfo authInfo = new AuthInfo();
+            authInfo.addPetstore_authAuthentication(accessToken);
+            return authInfo;
         }
     }
 }
