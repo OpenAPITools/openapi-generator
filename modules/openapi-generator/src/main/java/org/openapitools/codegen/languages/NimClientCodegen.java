@@ -158,6 +158,8 @@ public class NimClientCodegen extends DefaultCodegen implements CodegenConfig {
         typeMapping.put("DateTime", "string");
         typeMapping.put("password", "string");
         typeMapping.put("file", "string");
+        typeMapping.put("string", "string");
+
     }
 
     public void setPackageName(String packageName) {
