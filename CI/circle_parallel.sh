@@ -60,8 +60,8 @@ elif [ "$NODE_INDEX" = "2" ]; then
   # run integration tests
   mvn --no-snapshot-updates --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 else
-  echo "Running node $NODE_INDEX to test 'samples.circleci.jdk7' defined in pom.xml ..."
-  sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
+  echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
+  #sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
   java -version
 
   # install dart2
@@ -73,7 +73,7 @@ else
   sudo apt-get install dart
   export PATH="$PATH:/usr/lib/dart/bin"
 
-  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.jdk7 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
 
 
