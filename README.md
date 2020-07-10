@@ -629,6 +629,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [REST United](https://restunited.com)
 - [Robotinfra](https://www.robotinfra.com)
 - [Sony Interactive Entertainment](https://www.sie.com/en/index.html)
+- [Splitit](https://www.splitit.com/)
 - [Stingray](http://www.stingray.com)
 - [Suva](https://www.suva.ch/)
 - [Telstra](https://dev.telstra.com)
