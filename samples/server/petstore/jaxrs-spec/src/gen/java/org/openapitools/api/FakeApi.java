@@ -1,16 +1,16 @@
 package org.openapitools.api;
 
-import org.joda.time.LocalDate;
+import java.io.File;
 import java.math.BigDecimal;
-import org.openapitools.model.XmlItem;
 import java.util.Date;
 import java.util.Map;
+import org.joda.time.LocalDate;
 import org.openapitools.model.Client;
 import org.openapitools.model.FileSchemaTestClass;
-import org.openapitools.model.User;
-import org.openapitools.model.OuterComposite;
 import org.openapitools.model.ModelApiResponse;
-import java.io.File;
+import org.openapitools.model.OuterComposite;
+import org.openapitools.model.User;
+import org.openapitools.model.XmlItem;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;

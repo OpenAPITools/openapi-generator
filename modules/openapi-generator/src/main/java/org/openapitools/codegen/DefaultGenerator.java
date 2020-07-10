@@ -1122,6 +1122,14 @@ public class DefaultGenerator implements Generator {
                 result.add(im);
                 }
         });
+        Collections.sort(result, new Comparator<Map<String, String>>() {
+            @Override
+            public int compare(final Map<String, String> o1, final Map<String, String> o2) {
+                String s1 = o1.values().iterator().next();
+                String s2 = o2.values().iterator().next();
+                return s1.compareTo(s2);
+            }
+        });
         return result;
      }
 

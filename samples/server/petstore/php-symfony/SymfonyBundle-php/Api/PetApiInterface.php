@@ -29,8 +29,8 @@
 namespace OpenAPI\Server\Api;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use OpenAPI\Server\Model\Pet;
 use OpenAPI\Server\Model\ApiResponse;
+use OpenAPI\Server\Model\Pet;
 
 /**
  * PetApiInterface Interface Doc Comment

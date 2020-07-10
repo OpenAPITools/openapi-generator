@@ -24,9 +24,9 @@
 
 package org.openapitools.client.api;
 
+import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.io.File;
 
 import java.io.InputStream;
 import java.io.OutputStream;

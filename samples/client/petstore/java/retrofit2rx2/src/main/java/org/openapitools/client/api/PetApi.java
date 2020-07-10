@@ -10,10 +10,10 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okhttp3.MultipartBody;
 
+import java.io.File;
+import java.util.Set;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
-import java.io.File;
 
 import java.util.ArrayList;
 import java.util.HashMap;

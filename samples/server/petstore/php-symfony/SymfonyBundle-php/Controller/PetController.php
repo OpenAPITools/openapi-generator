@@ -36,8 +36,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Validator\Constraints as Assert;
 use OpenAPI\Server\Api\PetApiInterface;
-use OpenAPI\Server\Model\Pet;
 use OpenAPI\Server\Model\ApiResponse;
+use OpenAPI\Server\Model\Pet;
 
 /**
  * PetController Class Doc Comment

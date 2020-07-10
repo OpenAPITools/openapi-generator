@@ -21,9 +21,9 @@
 
 #include "../ApiClient.h"
 
-#include <vector>
-#include <cpprest/details/basic_types.h>
 #include "User.h"
+#include <cpprest/details/basic_types.h>
+#include <vector>
 
 
 #include <boost/optional.hpp>

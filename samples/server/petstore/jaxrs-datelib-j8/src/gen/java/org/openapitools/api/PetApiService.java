@@ -5,10 +5,10 @@ import org.openapitools.model.*;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
-import org.openapitools.model.Pet;
+import java.io.File;
 import java.util.Set;
 import org.openapitools.model.ModelApiResponse;
-import java.io.File;
+import org.openapitools.model.Pet;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;

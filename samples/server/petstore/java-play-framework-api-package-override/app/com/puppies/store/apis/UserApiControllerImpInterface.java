@@ -1,7 +1,7 @@
 package com.puppies.store.apis;
 
-import java.util.List;
 import apimodels.User;
+import java.util.List;
 
 import play.mvc.Http;
 import java.util.List;

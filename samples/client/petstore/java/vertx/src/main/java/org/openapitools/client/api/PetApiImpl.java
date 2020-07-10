@@ -1,9 +1,9 @@
 package org.openapitools.client.api;
 
 import io.vertx.core.file.AsyncFile;
+import java.util.Set;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
-import java.util.Set;
 
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Handler;

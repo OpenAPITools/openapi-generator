@@ -6,15 +6,15 @@
 package org.openapitools.virtualan.api;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
-import org.openapitools.virtualan.model.ModelApiResponse;
-import org.openapitools.virtualan.model.FileSchemaTestClass;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.Map;
-import org.openapitools.virtualan.model.User;
-import org.openapitools.virtualan.model.OuterComposite;
-import org.openapitools.virtualan.model.XmlItem;
 import org.openapitools.virtualan.model.Client;
+import org.openapitools.virtualan.model.FileSchemaTestClass;
+import org.openapitools.virtualan.model.ModelApiResponse;
+import org.openapitools.virtualan.model.OuterComposite;
+import org.openapitools.virtualan.model.User;
+import org.openapitools.virtualan.model.XmlItem;
 import org.springframework.core.io.Resource;
 import io.swagger.annotations.*;
 import io.virtualan.annotation.ApiVirtual;

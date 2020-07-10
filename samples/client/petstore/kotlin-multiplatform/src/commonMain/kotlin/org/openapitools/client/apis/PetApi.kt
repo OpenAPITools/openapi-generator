@@ -11,8 +11,8 @@
 */
 package org.openapitools.client.apis
 
-import org.openapitools.client.models.Pet
 import org.openapitools.client.models.ApiResponse
+import org.openapitools.client.models.Pet
 
 import org.openapitools.client.infrastructure.*
 import io.ktor.client.request.forms.formData
