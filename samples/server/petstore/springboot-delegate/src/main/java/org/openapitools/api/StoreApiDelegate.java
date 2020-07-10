@@ -1,7 +1,7 @@
 package org.openapitools.api;
 
-import java.util.Map;
 import org.openapitools.model.Order;
+import java.util.Map;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;

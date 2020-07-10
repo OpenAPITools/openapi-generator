@@ -11,9 +11,9 @@
  */
 package org.openapitools.client.api
 
-import org.openapitools.client.model.ApiResponse
 import java.io.File
 import org.openapitools.client.model.Pet
+import org.openapitools.client.model.ApiResponse
 import org.openapitools.client.core._
 import org.openapitools.client.core.CollectionFormats._
 import org.openapitools.client.core.ApiKeyLocations._

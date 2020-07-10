@@ -1100,7 +1100,7 @@ public class DefaultGenerator implements Generator {
     }
 
     private Map<String,String> getAllImportsMapppings(Set<String> allImports){
-        Map<String,String> result = Collections.emptyMap();
+        Map<String,String> result = new HashMap<>();
         allImports.forEach(nextImport->{
             String mapping = config.importMapping().get(nextImport);
             if(mapping!= null){
@@ -1113,7 +1113,7 @@ public class DefaultGenerator implements Generator {
     }
 
     private List<Map<String,String>> toImportsObjects(Map<String,String> mappedImports){
-        List<Map<String, String>> result = Collections.emptyList();
+        List<Map<String, String>> result = new ArrayList<>();
         mappedImports.entrySet().forEach(mapping->{
             Map<String, String> im = new LinkedHashMap<>();
             im.put("import", mapping.getKey());

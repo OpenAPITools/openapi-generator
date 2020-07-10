@@ -8,16 +8,16 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
 import java.math.BigDecimal;
-import org.openapitools.model.Client;
 import java.util.Date;
-import java.io.File;
-import org.openapitools.model.FileSchemaTestClass;
 import org.openapitools.model.HealthCheckResult;
-import java.util.Map;
-import org.openapitools.model.ModelApiResponse;
-import org.openapitools.model.OuterComposite;
 import org.openapitools.model.Pet;
+import java.util.Map;
+import org.openapitools.model.Client;
+import org.openapitools.model.FileSchemaTestClass;
 import org.openapitools.model.User;
+import org.openapitools.model.OuterComposite;
+import org.openapitools.model.ModelApiResponse;
+import java.io.File;
 
 import java.util.Map;
 import java.util.List;

@@ -14,10 +14,10 @@
 
 #include <QObject>
 
-#include "OAIApiResponse.h"
-#include "OAIHttpFileElement.h"
 #include "OAIPet.h"
+#include "OAIHttpFileElement.h"
 #include <QString>
+#include "OAIApiResponse.h"
 
 namespace OpenAPI {
 

@@ -1,7 +1,7 @@
 package org.openapitools.api;
 
-import java.util.Map;
 import org.openapitools.model.Order;
+import java.util.Map;
 import org.openapitools.api.StoreApiService;
 
 import javax.ws.rs.*;

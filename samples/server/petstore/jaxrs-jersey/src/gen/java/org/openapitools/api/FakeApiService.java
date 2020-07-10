@@ -6,16 +6,16 @@ import org.openapitools.model.*;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import java.math.BigDecimal;
-import org.openapitools.model.Client;
 import java.util.Date;
-import java.io.File;
-import org.openapitools.model.FileSchemaTestClass;
 import org.openapitools.model.HealthCheckResult;
-import java.util.Map;
-import org.openapitools.model.ModelApiResponse;
-import org.openapitools.model.OuterComposite;
 import org.openapitools.model.Pet;
+import java.util.Map;
+import org.openapitools.model.Client;
+import org.openapitools.model.FileSchemaTestClass;
 import org.openapitools.model.User;
+import org.openapitools.model.OuterComposite;
+import org.openapitools.model.ModelApiResponse;
+import java.io.File;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;

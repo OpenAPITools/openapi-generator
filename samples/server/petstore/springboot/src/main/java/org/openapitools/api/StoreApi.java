@@ -5,8 +5,8 @@
  */
 package org.openapitools.api;
 
-import java.util.Map;
 import org.openapitools.model.Order;
+import java.util.Map;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

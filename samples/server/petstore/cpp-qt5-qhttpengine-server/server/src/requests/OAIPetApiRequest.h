@@ -19,10 +19,10 @@
 #include <QSharedPointer>
 
 #include <qhttpengine/socket.h>
-#include "OAIApiResponse.h"
-#include "OAIHttpFileElement.h"
 #include "OAIPet.h"
+#include "OAIHttpFileElement.h"
 #include <QString>
+#include "OAIApiResponse.h"
 #include "OAIPetApiHandler.h"
 
 namespace OpenAPI {

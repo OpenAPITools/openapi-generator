@@ -21,10 +21,10 @@
 
 #include "../ApiClient.h"
 
-#include "ApiResponse.h"
-#include "HttpContent.h"
 #include "Pet.h"
 #include <cpprest/details/basic_types.h>
+#include "HttpContent.h"
+#include "ApiResponse.h"
 
 
 #include <boost/optional.hpp>

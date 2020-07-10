@@ -6,16 +6,16 @@
 package org.openapitools.api;
 
 import java.math.BigDecimal;
-import org.openapitools.model.Client;
-import org.openapitools.model.FileSchemaTestClass;
+import org.openapitools.model.XmlItem;
+import java.time.OffsetDateTime;
 import java.time.LocalDate;
 import java.util.Map;
-import org.openapitools.model.ModelApiResponse;
-import java.time.OffsetDateTime;
-import org.openapitools.model.OuterComposite;
-import org.springframework.core.io.Resource;
+import org.openapitools.model.Client;
+import org.openapitools.model.FileSchemaTestClass;
 import org.openapitools.model.User;
-import org.openapitools.model.XmlItem;
+import org.openapitools.model.OuterComposite;
+import org.openapitools.model.ModelApiResponse;
+import org.springframework.core.io.Resource;
 import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
