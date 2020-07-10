@@ -21,9 +21,9 @@
 
 #include "../ApiClient.h"
 
+#include <map>
 #include "Order.h"
 #include <cpprest/details/basic_types.h>
-#include <map>
 
 
 #include <boost/optional.hpp>

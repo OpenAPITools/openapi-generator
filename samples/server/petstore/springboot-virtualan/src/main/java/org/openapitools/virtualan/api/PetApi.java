@@ -6,8 +6,8 @@
 package org.openapitools.virtualan.api;
 
 import java.util.Set;
-import org.openapitools.virtualan.model.ModelApiResponse;
 import org.openapitools.virtualan.model.Pet;
+import org.openapitools.virtualan.model.ModelApiResponse;
 import org.springframework.core.io.Resource;
 import io.swagger.annotations.*;
 import io.virtualan.annotation.ApiVirtual;

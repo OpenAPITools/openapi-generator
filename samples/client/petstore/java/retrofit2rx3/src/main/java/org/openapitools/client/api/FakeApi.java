@@ -10,15 +10,15 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import okhttp3.MultipartBody;
 
-import java.io.File;
 import java.math.BigDecimal;
+import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
+import org.threeten.bp.LocalDate;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
+import java.io.File;
 import org.openapitools.client.model.XmlItem;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
 
 import java.util.ArrayList;
 import java.util.HashMap;

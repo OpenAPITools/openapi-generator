@@ -7,17 +7,17 @@ import org.openapitools.api.factories.FakeApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 import io.swagger.jaxrs.*;
 
-import java.io.File;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import org.openapitools.model.XmlItem;
 import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.Map;
 import org.openapitools.model.Client;
 import org.openapitools.model.FileSchemaTestClass;
-import org.openapitools.model.ModelApiResponse;
-import org.openapitools.model.OuterComposite;
 import org.openapitools.model.User;
-import org.openapitools.model.XmlItem;
+import org.openapitools.model.OuterComposite;
+import org.openapitools.model.ModelApiResponse;
+import java.io.File;
 
 import java.util.Map;
 import java.util.List;

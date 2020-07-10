@@ -18,8 +18,8 @@ import tables
 import typetraits
 import uri
 
-import ../models/model_api_response
 import ../models/model_pet
+import ../models/model_api_response
 
 const basepath = "http://petstore.swagger.io/v2"
 

@@ -1,7 +1,7 @@
 package org.openapitools.api;
 
-import java.util.Map;
 import org.openapitools.model.Order;
+import java.util.Map;
 
 import java.io.InputStream;
 import java.io.OutputStream;

@@ -11,8 +11,8 @@
 */
 package org.openapitools.client.apis
 
-import org.openapitools.client.models.ApiResponse
 import org.openapitools.client.models.Pet
+import org.openapitools.client.models.ApiResponse
 
 import org.openapitools.client.infrastructure.ApiClient
 import org.openapitools.client.infrastructure.ClientException

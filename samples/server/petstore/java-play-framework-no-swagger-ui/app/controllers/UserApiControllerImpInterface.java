@@ -1,7 +1,7 @@
 package controllers;
 
-import apimodels.User;
 import java.util.List;
+import apimodels.User;
 
 import play.mvc.Http;
 import java.util.List;
