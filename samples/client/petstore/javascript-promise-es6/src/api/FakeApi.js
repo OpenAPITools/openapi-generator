@@ -13,12 +13,12 @@
 
 
 import ApiClient from "../ApiClient";
-import OuterComposite from '../model/OuterComposite';
-import HealthCheckResult from '../model/HealthCheckResult';
-import User from '../model/User';
 import Client from '../model/Client';
 import FileSchemaTestClass from '../model/FileSchemaTestClass';
+import HealthCheckResult from '../model/HealthCheckResult';
+import OuterComposite from '../model/OuterComposite';
 import Pet from '../model/Pet';
+import User from '../model/User';
 
 /**
 * Fake service.

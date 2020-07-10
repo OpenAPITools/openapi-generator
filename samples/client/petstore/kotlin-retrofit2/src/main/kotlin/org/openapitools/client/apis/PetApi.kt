@@ -5,8 +5,8 @@ import retrofit2.http.*
 import retrofit2.Call
 import okhttp3.RequestBody
 
-import org.openapitools.client.models.Pet
 import org.openapitools.client.models.ApiResponse
+import org.openapitools.client.models.Pet
 
 interface PetApi {
     /**

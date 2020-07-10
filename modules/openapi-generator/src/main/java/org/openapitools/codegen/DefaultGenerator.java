@@ -1126,7 +1126,7 @@ public class DefaultGenerator implements Generator {
             @Override
             public int compare(final Map<String, String> o1, final Map<String, String> o2) {
                 String s1 = o1.get("classname");
-                String s2 = o1.get("classname");
+                String s2 = o2.get("classname");
                 return s1.compareTo(s2);
             }
         });

@@ -4,8 +4,8 @@ import org.openapitools.api.*;
 import org.openapitools.model.*;
 
 
-import org.openapitools.model.Order;
 import java.util.Map;
+import org.openapitools.model.Order;
 
 import java.util.List;
 

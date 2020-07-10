@@ -6,8 +6,8 @@ import org.openapitools.model.*;
 import org.wso2.msf4j.formparam.FormDataParam;
 import org.wso2.msf4j.formparam.FileInfo;
 
-import org.openapitools.model.Order;
 import java.util.Map;
+import org.openapitools.model.Order;
 
 import java.util.List;
 import org.openapitools.api.NotFoundException;
