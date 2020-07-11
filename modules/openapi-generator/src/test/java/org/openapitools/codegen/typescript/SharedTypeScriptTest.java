@@ -15,7 +15,7 @@ import java.util.List;
 
 public class SharedTypeScriptTest {
     @Test
-    public void splitImport() throws IOException {
+    public void typesInImportsAreSplitted() throws IOException {
         CodegenConfigurator config =
                 new CodegenConfigurator()
                         .setInputSpec("split-import.json")
@@ -45,5 +45,23 @@ public class SharedTypeScriptTest {
         Assert.assertTrue(!apiFileContent.contains("import { OrganizationWrapper | PersonWrapper }"));
         Assert.assertEquals(StringUtils.countMatches(apiFileContent,"import { PersonWrapper }"),1);
         Assert.assertEquals(StringUtils.countMatches(apiFileContent,"import { OrganizationWrapper }"),1);
+    }
+
+    @Test
+    public void oldImportsStillThere() throws IOException {
+        CodegenConfigurator config =
+                new CodegenConfigurator()
+                        .setInputSpec("petstore.json")
+                        .setModelPackage("model")
+                        .setApiPackage("api")
+                        .addAdditionalProperty(
+                                TypeScriptAxiosClientCodegen.SEPARATE_MODELS_AND_API, true);
+
+        config.setGeneratorName("typescript-angular");
+        final List<File> files = getGenerator(config).generate();
+        File pets = files.stream().filter(file->file.getName().contains("pet.ts")).findFirst().get();
+        String apiFileContent = FileUtils.readFileToString(pets);
+        Assert.assertTrue(apiFileContent.contains("import { Category }"));
+        Assert.assertTrue(apiFileContent.contains("import { Tag }"));
     }
 }
