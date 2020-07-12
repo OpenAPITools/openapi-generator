@@ -501,6 +501,21 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption("commonVerbs", "PS common verb mappings. e.g. Delete=Remove:Patch=Update to map Delete with Remove and Patch with Update accordingly."));
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC));
         cliOptions.add(new CliOption("discardReadOnly", "Set discardReadonly to true to generate the Initialize cmdlet without readonly parameters"));
+        // option to change how we process + set the data in the 'additionalProperties' keyword.
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+        Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
+        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
+                "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
+        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+                "when the 'additionalProperties' keyword is not present in a schema, " +
+                        "the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. " +
+                        "Note: this mode is not compliant with the JSON schema specification. " +
+                        "This is the original openapi-generator behavior.");
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
+        this.setDisallowAdditionalPropertiesIfNotPresent(true);
 
         // default value in the template
         additionalProperties.put("powershellVersion", "6.2"); // minimal PS version
@@ -630,6 +645,11 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
             LOGGER.warn(CodegenConstants.API_PACKAGE + " with " + this.getName() + " generator is ignored. Setting this value independently of " + CodegenConstants.PACKAGE_NAME + " is not currently supported.");
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
