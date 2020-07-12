@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.servers.Server;
@@ -489,6 +490,11 @@ public abstract class AbstractDartCodegen extends DefaultCodegen {
 
     @Override
     public String getSchemaType(Schema p) {
+		if (p instanceof ComposedSchema) {
+            if (((ComposedSchema) p).getOneOf() != null) {
+                return "dynamic";
+            }
+        }
         String openAPIType = super.getSchemaType(p);
         if (openAPIType == null) {
             LOGGER.error("No Type defined for Schema {}", p);
