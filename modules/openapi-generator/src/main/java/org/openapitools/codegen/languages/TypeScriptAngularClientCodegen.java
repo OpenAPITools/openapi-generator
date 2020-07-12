@@ -470,9 +470,46 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                         cm.imports.remove(cm.parent);
                     }
                 }
+                // Add additional filename information for imports
+                Set<String> parsedImports = parseImports(cm);
+                mo.put("tsImports", toTsImports(cm, parsedImports));
             }
         }
         return result;
+    }
+
+    /**
+     * Parse imports
+     */
+    private Set<String> parseImports(CodegenModel cm) {
+        Set<String> newImports = new HashSet<String>();
+        if (cm.imports.size() > 0) {
+            for (String name : cm.imports) {
+                if (name.indexOf(" | ") >= 0) {
+                    String[] parts = name.split(" \\| ");
+                    for (String s : parts) {
+                        newImports.add(s);
+                    }
+                } else {
+                    newImports.add(name);
+                }
+            }
+        }
+        return newImports;
+    }
+
+    private List<Map<String, String>> toTsImports(CodegenModel cm, Set<String> imports) {
+        List<Map<String, String>> tsImports = new ArrayList<>();
+        for (String im : imports) {
+            if (!im.equals(cm.classname)) {
+                HashMap<String, String> tsImport = new HashMap<>();
+                // TVG: This is used as class name in the import statements of the model file
+                tsImport.put("classname", im);
+                tsImport.put("filename", toModelFilename(removeModelPrefixSuffix(im)));
+                tsImports.add(tsImport);
+            }
+        }
+        return tsImports;
     }
 
     @Override
