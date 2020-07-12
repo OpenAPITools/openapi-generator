@@ -112,6 +112,6 @@ import kotlin.reflect.KClass
     )
 
     @JvmStatic
-    val json: Json by lazy { Json(context = kotlinSerializationAdapters) }
+    val jvmJson: Json by lazy { Json(context = kotlinSerializationAdapters) }
 {{/kotlin_serialization}}
 }

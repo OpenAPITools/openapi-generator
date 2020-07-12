@@ -11,19 +11,25 @@ import com.fasterxml.jackson.annotation.JsonProperty
 {{#kotlin_serialization}}
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import org.openapitools.client.infrastructure.SafeEnum
+import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
+import org.openapitools.client.infrastructure.SafeEnumSerializer
 {{/kotlin_serialization}}
 {{/multiplatform}}
 {{#multiplatform}}
-import kotlinx.serialization.*
-import kotlinx.serialization.internal.CommonEnumSerializer
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
+import org.openapitools.client.infrastructure.SafeEnum
+import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
+import org.openapitools.client.infrastructure.SafeEnumSerializer
 {{/multiplatform}}
 
 /**
 * {{{description}}}
-* Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+* Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{#-last}}{{#kotlin_serialization}},unknown_value{{/kotlin_serialization}}{{/-last}}{{/enumVars}}{{/allowableValues}}
 */
-{{#multiplatform}}@Serializable(with = {{classname}}.Serializer::class){{/multiplatform}}{{^multiplatform}}{{#kotlin_serialization}}@Serializable{{/kotlin_serialization}}{{/multiplatform}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{classname}}(val value: {{{dataType}}}){
+{{#multiplatform}}@Serializable(with = {{classname}}.Serializer::class){{/multiplatform}}{{^multiplatform}}{{#kotlin_serialization}}@Serializable(with = {{classname}}.Serializer::class){{/kotlin_serialization}}{{/multiplatform}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{classname}}({{#multiplatform}}override {{/multiplatform}}{{#kotlin_serialization}}override {{/kotlin_serialization}}val serialName: {{{dataType}}}){{#multiplatform}} : SafeEnum{{/multiplatform}}{{#kotlin_serialization}} : SafeEnum{{/kotlin_serialization}} {
 
 {{#allowableValues}}{{#enumVars}}
     {{^multiplatform}}
@@ -49,7 +55,8 @@ import kotlinx.serialization.internal.CommonEnumSerializer
     {{/isList}}
     {{/isListContainer}}
     {{^isListContainer}}
-    {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}},
+    UNKNOWN(UNKNOWN_VALUE);{{/-last}}
     {{/isListContainer}}
 
 {{/enumVars}}{{/allowableValues}}
@@ -63,6 +70,9 @@ import kotlinx.serialization.internal.CommonEnumSerializer
     }
 
 {{#multiplatform}}
-    {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : CommonEnumSerializer<{{classname}}>("{{classname}}", values(), values().map { it.value.toString() }.toTypedArray())
+    {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : SafeEnumSerializer<{{nameInCamelCase}}>({{nameInCamelCase}}::class)
 {{/multiplatform}}
+{{#kotlin_serialization}}
+    {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : SafeEnumSerializer<{{nameInCamelCase}}>({{nameInCamelCase}}::class)
+{{/kotlin_serialization}}
 }

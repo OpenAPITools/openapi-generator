@@ -15,4 +15,4 @@
     @SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}")
     {{/kotlin_serialization}}
     {{/multiplatform}}
-    {{#multiplatform}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}") {{/multiplatform}}{{>modelMutable}} {{{name}}}: {{#isEnum}}{{#isListContainer}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{classname}}.{{{nameInCamelCase}}}>{{/isListContainer}}{{^isListContainer}}{{classname}}.{{{nameInCamelCase}}}{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}?
+    {{#multiplatform}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}") {{/multiplatform}}{{>modelMutable}} {{{name}}}: {{#isEnum}}{{#isListContainer}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{#kotlin_serialization}}{{^isPrimitiveType}}@ContextualSerialization {{/isPrimitiveType}}{{/kotlin_serialization}}{{classname}}.{{{nameInCamelCase}}}>{{/isListContainer}}{{^isListContainer}}{{classname}}.{{{nameInCamelCase}}}{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}?
