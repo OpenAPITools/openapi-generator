@@ -52,7 +52,6 @@ sidebar_label: java
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
 |supportJava6|Whether to support Java6 with the Jersey1 library. This option has been deprecated and will be removed in the 5.x release| |false|
-|useAbstractionForFiles|whether to use abstract objects for files. Allows users to use byte arrays or input streams instead of java.io.File (works with the resttemplate library)| |false|
 |useBeanValidation|Use BeanValidation API annotations| |false|
 |useGzipFeature|Send gzip-encoded requests| |false|
 |usePlayWS|Use Play! Async HTTP client (Play WS API)| |false|
