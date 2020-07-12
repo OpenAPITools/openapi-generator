@@ -15,8 +15,10 @@ import java.io.IOException
 import kotlinx.serialization.Decoder
 import kotlinx.serialization.Encoder
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.PrimitiveDescriptor
 import kotlinx.serialization.Serializer
 import kotlinx.serialization.PrimitiveKind
+import kotlinx.serialization.SerialDescriptor
 {{/kotlin_serialization}}
 {{^threetenbp}}
 import java.time.OffsetDateTime
@@ -70,7 +72,7 @@ import org.threeten.bp.format.DateTimeFormatter
 {{/gson}}
 {{#kotlin_serialization}}
 @Serializer(forClass = OffsetDateTime::class)
-object OffsetDateTimeSerializer : KSerializer<OffsetDateTime> {
+object OffsetDateTimeAdapter : KSerializer<OffsetDateTime> {
     override val descriptor: SerialDescriptor = PrimitiveDescriptor("OffsetDateTime", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: OffsetDateTime) {

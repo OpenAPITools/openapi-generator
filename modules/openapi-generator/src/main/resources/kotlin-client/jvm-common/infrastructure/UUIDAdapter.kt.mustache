@@ -4,8 +4,10 @@ package {{packageName}}.infrastructure
 import kotlinx.serialization.Decoder
 import kotlinx.serialization.Encoder
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.PrimitiveDescriptor
 import kotlinx.serialization.Serializer
 import kotlinx.serialization.PrimitiveKind
+import kotlinx.serialization.SerialDescriptor
 {{/kotlin_serialization}}
 {{#moshi}}
 import com.squareup.moshi.FromJson
@@ -24,7 +26,7 @@ import java.util.UUID
 {{/moshi}}
 {{#kotlin_serialization}}
 @Serializer(forClass = UUID::class)
-object UUIDSerializer : KSerializer<UUID> {
+object UUIDAdapter : KSerializer<UUID> {
     override val descriptor: SerialDescriptor = PrimitiveDescriptor("UUID", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: UUID) {

@@ -13,7 +13,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.openapitools.client.infrastructure.SafeEnum
 import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
-import org.openapitools.client.infrastructure.SafeEnumSerializer
+import org.openapitools.client.infrastructure.SafeEnumAdapter
 {{/kotlin_serialization}}
 {{/multiplatform}}
 {{#multiplatform}}
@@ -21,7 +21,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 import org.openapitools.client.infrastructure.SafeEnum
 import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
-import org.openapitools.client.infrastructure.SafeEnumSerializer
+import org.openapitools.client.infrastructure.SafeEnumAdapter
 {{/multiplatform}}
 
 /**
@@ -70,9 +70,9 @@ import org.openapitools.client.infrastructure.SafeEnumSerializer
     }
 
 {{#multiplatform}}
-    {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : SafeEnumSerializer<{{nameInCamelCase}}>({{nameInCamelCase}}::class)
+    {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : SafeEnumAdapter<{{nameInCamelCase}}>({{nameInCamelCase}}::class)
 {{/multiplatform}}
 {{#kotlin_serialization}}
-    {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : SafeEnumSerializer<{{nameInCamelCase}}>({{nameInCamelCase}}::class)
+    {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : SafeEnumAdapter<{{nameInCamelCase}}>({{nameInCamelCase}}::class)
 {{/kotlin_serialization}}
 }

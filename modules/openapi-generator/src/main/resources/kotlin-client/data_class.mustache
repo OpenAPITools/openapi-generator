@@ -21,7 +21,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.ContextualSerialization
 import org.openapitools.client.infrastructure.SafeEnum
 import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
-import org.openapitools.client.infrastructure.SafeEnumSerializer
+import org.openapitools.client.infrastructure.SafeEnumAdapter
 {{/kotlin_serialization}}
 {{#parcelizeModels}}
 import android.os.Parcelable
@@ -35,7 +35,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.ContextualSerialization
 import org.openapitools.client.infrastructure.SafeEnum
 import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
-import org.openapitools.client.infrastructure.SafeEnumSerializer
+import org.openapitools.client.infrastructure.SafeEnumAdapter
 {{/multiplatform}}
 {{#serializableModel}}
 import java.io.Serializable
@@ -101,11 +101,11 @@ import java.io.Serializable
     {{/allowableValues}}
     {{#multiplatform}}
 
-        {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : SafeEnumSerializer<{{nameInCamelCase}}>({{nameInCamelCase}}::class)
+        {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : SafeEnumAdapter<{{nameInCamelCase}}>({{nameInCamelCase}}::class)
     {{/multiplatform}}
     {{#kotlin_serialization}}
 
-        {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : SafeEnumSerializer<{{nameInCamelCase}}>({{nameInCamelCase}}::class)
+        {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : SafeEnumAdapter<{{nameInCamelCase}}>({{nameInCamelCase}}::class)
     {{/kotlin_serialization}}
     }
 {{/isEnum}}

@@ -1,6 +1,5 @@
 package {{packageName}}.infrastructure
 
-{{#kotlin_serialization}}
 import kotlinx.serialization.Decoder
 import kotlinx.serialization.Encoder
 import kotlinx.serialization.KSerializer
@@ -9,8 +8,9 @@ import kotlinx.serialization.SerialDescriptor
 import kotlinx.serialization.PrimitiveDescriptor
 import kotlinx.serialization.PrimitiveKind
 import kotlinx.serialization.enumMembers
-{{/kotlin_serialization}}
-{{#kotlin_serialization}}
+import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
+import kotlin.reflect.KClass
+
 interface SafeEnum {
     val serialName: String
 
@@ -20,7 +20,7 @@ interface SafeEnum {
 }
 
 @Serializer(forClass = SafeEnum::class)
-open class SafeEnumSerializer<E>(
+open class SafeEnumAdapter<E>(
     private val enumKClass: KClass<E>
 ) : KSerializer<E> where  E : Enum<E>, E : SafeEnum {
     private val declaredValues = enumKClass.enumMembers().associateBy { it.serialName }
@@ -45,4 +45,3 @@ open class SafeEnumSerializer<E>(
             )
     }
 }
-{{/kotlin_serialization}}

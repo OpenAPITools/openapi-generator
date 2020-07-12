@@ -45,6 +45,12 @@ import com.squareup.moshi.Moshi
 import retrofit2.converter.moshi.MoshiConverterFactory
 {{/moshi}}
 
+{{#kotlin_serialization}}
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import org.openapitools.client.infrastructure.Serializer.jvmJson
+import okhttp3.MediaType.Companion.toMediaType
+{{/kotlin_serialization}}
+
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ApiClient(
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null{{^kotlin_serialization}},
@@ -73,7 +79,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
             .addConverterFactory(MoshiConverterFactory.create(serializerBuilder.build()))
             {{/moshi}}
             {{#kotlin_serialization}}
-            .addConverterFactory(Json.asConverterFactory(MediaType.get("application/json")))
+            .addConverterFactory(jvmJson.asConverterFactory("application/json".toMediaType()))
             {{/kotlin_serialization}}
     }
 
