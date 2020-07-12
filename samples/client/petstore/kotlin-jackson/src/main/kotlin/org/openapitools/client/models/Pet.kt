@@ -47,7 +47,7 @@ data class Pet (
     * Values: AVAILABLE,PENDING,SOLD
     */
     
-    enum class Status(val value: kotlin.String){
+    enum class Status(val serialName: kotlin.String) {
         @JsonProperty(value = "available") AVAILABLE("available"),
         @JsonProperty(value = "pending") PENDING("pending"),
         @JsonProperty(value = "sold") SOLD("sold");

@@ -15,6 +15,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory
 import com.squareup.moshi.Moshi
 import retrofit2.converter.moshi.MoshiConverterFactory
 
+
 class ApiClient(
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
