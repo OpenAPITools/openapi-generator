@@ -37,7 +37,20 @@ class {{classname}} {
       {{#isListContainer}}
     {{name}} = (json['{{baseName}}'] == null) ?
       null :
+    {{#items.isListContainer}}
+      (json['{{baseName}}'] as List).map(
+        (e) => e == null ? null :
+      {{#items.complexType}}
+          {{items.complexType}}.listFromJson(json['{{baseName}}'])
+      {{/items.complexType}}
+      {{^items.complexType}}
+          (e as List).cast<{{items.items.dataType}}>()
+      {{/items.complexType}}
+      ).toList();
+    {{/items.isListContainer}}
+    {{^items.isListContainer}}
       {{complexType}}.listFromJson(json['{{baseName}}']);
+    {{/items.isListContainer}}
       {{/isListContainer}}
       {{^isListContainer}}
       {{#isMapContainer}}
