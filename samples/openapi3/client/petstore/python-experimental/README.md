@@ -86,7 +86,6 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**array_model**](docs/FakeApi.md#array_model) | **POST** /fake/refs/arraymodel | 
 *FakeApi* | [**array_of_enums**](docs/FakeApi.md#array_of_enums) | **POST** /fake/refs/array-of-enums | Array of Enums
 *FakeApi* | [**boolean**](docs/FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
-*FakeApi* | [**composed_one_of_number_with_validations**](docs/FakeApi.md#composed_one_of_number_with_validations) | **POST** /fake/refs/composed_one_of_number_with_validations | 
 *FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 *FakeApi* | [**number_with_validations**](docs/FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
 *FakeApi* | [**object_model_with_ref_props**](docs/FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
@@ -151,7 +150,6 @@ Class | Method | HTTP request | Description
  - [class_model.ClassModel](docs/ClassModel.md)
  - [client.Client](docs/Client.md)
  - [complex_quadrilateral.ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
- - [composed_one_of_number_with_validations.ComposedOneOfNumberWithValidations](docs/ComposedOneOfNumberWithValidations.md)
  - [danish_pig.DanishPig](docs/DanishPig.md)
  - [dog.Dog](docs/Dog.md)
  - [dog_all_of.DogAllOf](docs/DogAllOf.md)

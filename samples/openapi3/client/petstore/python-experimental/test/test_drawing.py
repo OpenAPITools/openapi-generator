@@ -118,7 +118,7 @@ class TestDrawing(unittest.TestCase):
                    "Required value type is {} and passed type was {} at {}")
         with self.assertRaisesRegexp(
                 petstore_api.ApiTypeError,
-                err_msg.format("main_shape", "one of \[ComplexQuadrilateral, EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle, SimpleQuadrilateral\]", "NoneType", "\['main_shape'\]")
+                err_msg.format("main_shape", "Shape", "NoneType", "\['main_shape'\]")
         ):
             inst = Drawing(
                 # 'main_shape' has type 'Shape', which is a oneOf [triangle, quadrilateral]
