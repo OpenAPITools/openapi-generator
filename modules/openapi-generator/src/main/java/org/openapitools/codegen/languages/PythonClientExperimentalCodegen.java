@@ -72,6 +72,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                         SecurityFeature.ApiKey,
                         SecurityFeature.OAuth2_Implicit
                 ))
+                .includeGlobalFeatures(
+                        GlobalFeature.ParameterizedServer
+                )
                 .excludeGlobalFeatures(
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
@@ -416,11 +419,16 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                     }
                 }
 
-                // fix the imports that each model has, change them to absolute
-                fixModelImports(cm.imports);
-
                 Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
                 CodegenProperty modelProperty = fromProperty("value", modelSchema);
+
+                // import complex type from additional properties
+                if (cm.additionalPropertiesType != null && modelProperty.items != null && modelProperty.items.complexType != null) {
+                    cm.imports.add(modelProperty.items.complexType);
+                }
+
+                // fix the imports that each model has, change them to absolute
+                fixModelImports(cm.imports);
 
                 if (cm.isEnum || cm.isAlias) {
                     if (!modelProperty.isEnum && !modelProperty.hasValidation && !cm.isArrayModel) {
