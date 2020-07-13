@@ -748,7 +748,6 @@ components:
             - available
             - pending
             - sold
-          default: pending
       xml:
         name: Pet
     ApiResponse:

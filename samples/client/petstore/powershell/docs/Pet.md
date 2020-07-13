@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **Name** | **String** |  | 
 **PhotoUrls** | **String[]** |  | 
 **Tags** | [**Tag[]**](Tag.md) |  | [optional] 
-**Status** | **String** | pet status in the store | [optional] [default to "pending"]
+**Status** | **String** | pet status in the store | [optional] 
 
 ## Examples
 
