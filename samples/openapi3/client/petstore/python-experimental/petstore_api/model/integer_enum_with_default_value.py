@@ -81,7 +81,7 @@ class IntegerEnumWithDefaultValue(ModelSimple):
                 and the value is attribute type.
         """
         return {
-            'value': (int,),
+            'value': (int,),  # noqa: E501
         }
 
     @cached_property
@@ -102,13 +102,13 @@ class IntegerEnumWithDefaultValue(ModelSimple):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, value, *args, **kwargs):
+    def __init__(self, *args, **kwargs):  # noqa: E501
         """integer_enum_with_default_value.IntegerEnumWithDefaultValue - a model defined in OpenAPI
 
         Args:
-            value (int): if omitted the server will use the default value of 0, must be one of [0, 1, 2, ]  # noqa: E501
 
         Keyword Args:
+            value (int): defaults to 0, must be one of [0, 1, 2, ]  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -141,6 +141,7 @@ class IntegerEnumWithDefaultValue(ModelSimple):
                                 _visited_composed_classes = (Animal,)
         """
 
+        value = kwargs.get('value', 0)
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
         _path_to_item = kwargs.pop('_path_to_item', ())
@@ -163,13 +164,13 @@ class IntegerEnumWithDefaultValue(ModelSimple):
         self._path_to_item = _path_to_item
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
+
         self.value = value
-        if kwargs:
-            raise ApiTypeError(
-                "Invalid named arguments=%s passed to %s. Remove those invalid named arguments." % (
-                    kwargs,
-                    self.__class__.__name__,
-                ),
-                path_to_item=_path_to_item,
-                valid_classes=(self.__class__,),
-            )
+        for var_name, var_value in six.iteritems(kwargs):
+            if var_name not in self.attribute_map and \
+                        self._configuration is not None and \
+                        self._configuration.discard_unknown_keys and \
+                        self.additional_properties_type is None:
+                # discard variable.
+                continue
+            setattr(self, var_name, var_value)

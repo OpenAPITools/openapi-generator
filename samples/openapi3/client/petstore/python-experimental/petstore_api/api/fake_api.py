@@ -34,6 +34,7 @@ from petstore_api.model import additional_properties_with_array_of_enums
 from petstore_api.model import animal_farm
 from petstore_api.model import array_of_enums
 from petstore_api.model import composed_one_of_number_with_validations
+from petstore_api.model import one_ofnumber_animalnulldate
 from petstore_api.model import health_check_result
 from petstore_api.model import number_with_validations
 from petstore_api.model import object_model_with_ref_props

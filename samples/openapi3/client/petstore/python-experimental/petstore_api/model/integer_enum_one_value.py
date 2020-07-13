@@ -79,7 +79,7 @@ class IntegerEnumOneValue(ModelSimple):
                 and the value is attribute type.
         """
         return {
-            'value': (int,),
+            'value': (int,),  # noqa: E501
         }
 
     @cached_property
@@ -100,8 +100,10 @@ class IntegerEnumOneValue(ModelSimple):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):  # noqa: E501
         """integer_enum_one_value.IntegerEnumOneValue - a model defined in OpenAPI
+
+        Args:
 
         Keyword Args:
             value (int): defaults to 0, must be one of [0, ]  # noqa: E501
@@ -137,13 +139,7 @@ class IntegerEnumOneValue(ModelSimple):
                                 _visited_composed_classes = (Animal,)
         """
 
-        if 'value' in kwargs:
-            value = kwargs.pop('value')
-        elif args:
-            args = list(args)
-            value = args.pop(0)
-        else:
-            value = 0
+        value = kwargs.get('value', 0)
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
         _path_to_item = kwargs.pop('_path_to_item', ())
@@ -166,13 +162,13 @@ class IntegerEnumOneValue(ModelSimple):
         self._path_to_item = _path_to_item
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
+
         self.value = value
-        if kwargs:
-            raise ApiTypeError(
-                "Invalid named arguments=%s passed to %s. Remove those invalid named arguments." % (
-                    kwargs,
-                    self.__class__.__name__,
-                ),
-                path_to_item=_path_to_item,
-                valid_classes=(self.__class__,),
-            )
+        for var_name, var_value in six.iteritems(kwargs):
+            if var_name not in self.attribute_map and \
+                        self._configuration is not None and \
+                        self._configuration.discard_unknown_keys and \
+                        self.additional_properties_type is None:
+                # discard variable.
+                continue
+            setattr(self, var_name, var_value)

@@ -293,6 +293,7 @@ import time
 import petstore_api
 from petstore_api.api import fake_api
 from petstore_api.model import composed_one_of_number_with_validations
+from petstore_api.model import one_ofnumber_animalnulldate
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
