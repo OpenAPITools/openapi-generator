@@ -236,7 +236,9 @@ public class HttpSignatureAuth implements Authentication {
       }
 
       if (headers.contains("date")) {
-        headerParams.put("date", new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US).format(new Date()));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        headerParams.put("date", dateFormat.format(Calendar.getInstance().getTime());
       }
 
       if (headers.contains("digest")) {
