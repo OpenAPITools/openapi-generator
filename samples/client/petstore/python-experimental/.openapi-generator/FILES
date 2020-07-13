@@ -51,10 +51,9 @@ docs/Model200Response.md
 docs/ModelReturn.md
 docs/Name.md
 docs/NumberOnly.md
+docs/NumberWithValidations.md
+docs/ObjectModelWithRefProps.md
 docs/Order.md
-docs/OuterComposite.md
-docs/OuterEnum.md
-docs/OuterNumber.md
 docs/Parent.md
 docs/ParentAllOf.md
 docs/ParentPet.md
@@ -65,6 +64,7 @@ docs/ReadOnlyFirst.md
 docs/SpecialModelName.md
 docs/StoreApi.md
 docs/StringBooleanMap.md
+docs/StringEnum.md
 docs/Tag.md
 docs/TypeHolderDefault.md
 docs/TypeHolderExample.md
@@ -131,10 +131,9 @@ petstore_api/model/model200_response.py
 petstore_api/model/model_return.py
 petstore_api/model/name.py
 petstore_api/model/number_only.py
+petstore_api/model/number_with_validations.py
+petstore_api/model/object_model_with_ref_props.py
 petstore_api/model/order.py
-petstore_api/model/outer_composite.py
-petstore_api/model/outer_enum.py
-petstore_api/model/outer_number.py
 petstore_api/model/parent.py
 petstore_api/model/parent_all_of.py
 petstore_api/model/parent_pet.py
@@ -143,6 +142,7 @@ petstore_api/model/player.py
 petstore_api/model/read_only_first.py
 petstore_api/model/special_model_name.py
 petstore_api/model/string_boolean_map.py
+petstore_api/model/string_enum.py
 petstore_api/model/tag.py
 petstore_api/model/type_holder_default.py
 petstore_api/model/type_holder_example.py

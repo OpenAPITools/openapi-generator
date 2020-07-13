@@ -2514,7 +2514,11 @@ public class DefaultCodegen implements CodegenConfig {
 
         // process 'additionalProperties'
         if (schema.getAdditionalProperties() == null) {
-            m.isAdditionalPropertiesTrue = false; // TODO fix the old (incorrect) behaviour (likely with an option)
+            if (disallowAdditionalPropertiesIfNotPresent) {
+                m.isAdditionalPropertiesTrue = false;
+            } else {
+                m.isAdditionalPropertiesTrue = true;
+            }
         } else if (schema.getAdditionalProperties() instanceof Boolean) {
             if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
                 m.isAdditionalPropertiesTrue = true;
