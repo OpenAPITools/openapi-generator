@@ -52,7 +52,7 @@ function Initialize-PSPet {
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]
         [ValidateSet("available", "pending", "sold")]
         [String]
-        ${Status}
+        ${Status} = "pending"
     )
 
     Process {
