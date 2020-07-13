@@ -43,7 +43,7 @@ import org.openapitools.client.infrastructure.SafeEnumAdapter
     @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
     {{/jackson}}
     {{#kotlin_serialization}}
-    @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}")
+    @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
     {{/kotlin_serialization}}
     {{/multiplatform}}
     {{#isListContainer}}
