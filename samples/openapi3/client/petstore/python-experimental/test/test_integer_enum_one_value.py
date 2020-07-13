@@ -15,11 +15,11 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.outer_enum_integer import OuterEnumInteger
+from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
 
 
-class TestOuterEnumInteger(unittest.TestCase):
-    """OuterEnumInteger unit test stubs"""
+class TestIntegerEnumOneValue(unittest.TestCase):
+    """IntegerEnumOneValue unit test stubs"""
 
     def setUp(self):
         pass
@@ -27,11 +27,13 @@ class TestOuterEnumInteger(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testOuterEnumInteger(self):
-        """Test OuterEnumInteger"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = OuterEnumInteger()  # noqa: E501
-        pass
+    def testIntegerEnumOneValue(self):
+        """Test IntegerEnumOneValue"""
+        model = IntegerEnumOneValue()
+        assert model.value == 0, "With only one option, the value is assigned automatically"
+
+        model = IntegerEnumOneValue(value=0)
+        assert model.value == 0, "We can also pass in the value as a named argument"
 
 
 if __name__ == '__main__':
