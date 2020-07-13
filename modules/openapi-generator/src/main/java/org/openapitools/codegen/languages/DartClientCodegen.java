@@ -448,6 +448,13 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     }
 
     @Override
+    public CodegenProperty fromProperty(String name, Schema p) {
+        CodegenProperty property = super.fromProperty(name, p);
+        if (property.isFloat) property.isDouble = true;
+        return property;
+    }
+
+    @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         return postProcessModelsEnum(objs);
     }
