@@ -1,4 +1,4 @@
-# outer_enum_default_value.OuterEnumDefaultValue
+# string_enum_with_default_value.StringEnumWithDefaultValue
 
 ## Properties
 Name | Type | Description | Notes

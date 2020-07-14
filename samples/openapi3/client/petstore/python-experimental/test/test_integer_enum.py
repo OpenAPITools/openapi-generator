@@ -15,11 +15,11 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.outer_composite import OuterComposite
+from petstore_api.model.integer_enum import IntegerEnum
 
 
-class TestOuterComposite(unittest.TestCase):
-    """OuterComposite unit test stubs"""
+class TestIntegerEnum(unittest.TestCase):
+    """IntegerEnum unit test stubs"""
 
     def setUp(self):
         pass
@@ -27,10 +27,10 @@ class TestOuterComposite(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testOuterComposite(self):
-        """Test OuterComposite"""
+    def testIntegerEnum(self):
+        """Test IntegerEnum"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = OuterComposite()  # noqa: E501
+        # model = IntegerEnum()  # noqa: E501
         pass
 
 

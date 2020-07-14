@@ -843,91 +843,108 @@ paths:
       responses:
         '400':
           description: Someting wrong
-  /fake/outer/number:
+  /fake/refs/number:
     post:
       tags:
         - fake
       description: Test serialization of outer number types
-      operationId: fakeOuterNumberSerialize
+      operationId: NumberWithValidations
       parameters:
         - name: body
           in: body
           description: Input number as post body
           schema:
-            $ref: '#/definitions/OuterNumber'
+            $ref: '#/definitions/NumberWithValidations'
       responses:
         '200':
           description: Output number
           schema:
-            $ref: '#/definitions/OuterNumber'
-  /fake/outer/string:
+            $ref: '#/definitions/NumberWithValidations'
+  /fake/refs/string:
     post:
       tags:
         - fake
       description: Test serialization of outer string types
-      operationId: fakeOuterStringSerialize
+      operationId: String
       parameters:
         - name: body
           in: body
           description: Input string as post body
           schema:
-            $ref: '#/definitions/OuterString'
+            $ref: '#/definitions/String'
       responses:
         '200':
           description: Output string
           schema:
-            $ref: '#/definitions/OuterString'
-  /fake/outer/boolean:
+            $ref: '#/definitions/String'
+  /fake/refs/boolean:
     post:
       tags:
         - fake
       description: Test serialization of outer boolean types
-      operationId: fakeOuterBooleanSerialize
+      operationId: Boolean
       parameters:
         - name: body
           in: body
           description: Input boolean as post body
           schema:
-            $ref: '#/definitions/OuterBoolean'
+            $ref: '#/definitions/Boolean'
       responses:
         '200':
           description: Output boolean
           schema:
-            $ref: '#/definitions/OuterBoolean'
-  /fake/outer/composite:
+            $ref: '#/definitions/Boolean'
+  /fake/refs/arraymodel:
     post:
       tags:
         - fake
-      description: Test serialization of object with outer number type
-      operationId: fakeOuterCompositeSerialize
+      description: Test serialization of ArrayModel
+      operationId: ArrayModel
       parameters:
         - name: body
           in: body
-          description: Input composite as post body
+          description: Input model
           schema:
-            $ref: '#/definitions/OuterComposite'
+            $ref: '#/definitions/AnimalFarm'
       responses:
         '200':
-          description: Output composite
+          description: Output model
           schema:
-            $ref: '#/definitions/OuterComposite'
-  /fake/outer/enum:
+            $ref: '#/definitions/AnimalFarm'
+  /fake/refs/object_model_with_ref_props:
+    post:
+      tags:
+        - fake
+      description: Test serialization of object with $refed properties
+      operationId: ObjectModelWithRefProps
+      parameters:
+        - name: body
+          in: body
+          description: Input model
+          schema:
+            $ref: '#/definitions/ObjectModelWithRefProps'
+      responses:
+        '200':
+          description: Output model
+          schema:
+            $ref: '#/definitions/ObjectModelWithRefProps'
+  /fake/refs/enum:
     post:
       tags:
         - fake
       description: Test serialization of outer enum
-      operationId: fakeOuterEnumSerialize
+      operationId: StringEnum
       parameters:
         - name: body
           in: body
-          description: Input enum as post body
+          description: Input enum
           schema:
-            $ref: '#/definitions/OuterEnum'
+            $ref: '#/definitions/StringEnum'
       responses:
         '200':
           description: Output enum
           schema:
-            $ref: '#/definitions/OuterEnum'
+            $ref: '#/definitions/StringEnum'
   /fake/jsonFormData:
     get:
       tags:
@@ -1475,8 +1492,8 @@ definitions:
         enum:
           - 1.1
           - -1.2
-      outerEnum:
-        $ref: '#/definitions/OuterEnum'
+      stringEnum:
+        $ref: '#/definitions/StringEnum'
   AdditionalPropertiesClass:
     type: object
     properties:
@@ -1743,28 +1760,29 @@ definitions:
       #      enum:
       #        - Cat
       #        - Dog
-  OuterEnum:
+  StringEnum:
     type: string
     enum:
     - "placed"
     - "approved"
     - "delivered"
-  OuterComposite:
+  ObjectModelWithRefProps:
+    description: a model that includes properties which should stay primitive (String + Boolean) and one which is defined as a class, NumberWithValidations
     type: object
     properties:
       my_number:
-        $ref: '#/definitions/OuterNumber'
+        $ref: '#/definitions/NumberWithValidations'
       my_string:
-        $ref: '#/definitions/OuterString'
+        $ref: '#/definitions/String'
       my_boolean:
-        $ref: '#/definitions/OuterBoolean'
-  OuterNumber:
+        $ref: '#/definitions/Boolean'
+  NumberWithValidations:
     type: number
     minimum: 10
     maximum: 20
-  OuterString:
+  String:
     type: string
-  OuterBoolean:
+  Boolean:
     type: boolean
     x-codegen-body-parameter-name: boolean_post_body
   StringBooleanMap:
