@@ -22,10 +22,18 @@ components:
   schemas:
     Parent:
       properties:
-        prop1:
+        objectType:
           type: string
       discriminator:
-        propertyName: prop1
+        propertyName: objectType
+    ChildSchema:
+      description: A schema that does not have any special character.
+      allOf:
+        - $ref: '#/components/schemas/Parent'
+        - type: object
+          properties:
+            prop1:
+              type: string
     # Note: the name below with non-ASCII characters is a valid JSON schema name,
     # however currently OpenAPI generator does not allow special characters beyond [.-_]
     #
@@ -48,6 +56,10 @@ components:
             prop2:
               type: string
     # Below is a schema with the same name, except special characters have been removed.
+    # This causes a codegen issue because the generated code will have exactly the same class name
+    # as the above 'MySchemaName._-Characters'.
+    # Hence the schema is commented out for now.
+    #
     #MySchemaNameCharacters:
     #  description:
     #    A schema with same name as above, without the special characters. 
