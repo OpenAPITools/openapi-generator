@@ -17,7 +17,10 @@ import (
 type AppleReq struct {
 	Cultivar string `json:"cultivar"`
 	Mealy *bool `json:"mealy,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _AppleReq AppleReq
 
 // NewAppleReq instantiates a new AppleReq object
 // This constructor will assign default values to properties that have it defined,
@@ -101,7 +104,30 @@ func (o AppleReq) MarshalJSON() ([]byte, error) {
 	if o.Mealy != nil {
 		toSerialize["mealy"] = o.Mealy
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *AppleReq) UnmarshalJSON(bytes []byte) (err error) {
+	varAppleReq := _AppleReq{}
+
+	if err = json.Unmarshal(bytes, &varAppleReq); err == nil {
+		*o = AppleReq(varAppleReq)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "cultivar")
+		delete(additionalProperties, "mealy")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableAppleReq struct {

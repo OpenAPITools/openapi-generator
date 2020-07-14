@@ -16,7 +16,10 @@ import (
 // Client struct for Client
 type Client struct {
 	Client *string `json:"client,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Client Client
 
 // NewClient instantiates a new Client object
 // This constructor will assign default values to properties that have it defined,
@@ -72,7 +75,29 @@ func (o Client) MarshalJSON() ([]byte, error) {
 	if o.Client != nil {
 		toSerialize["client"] = o.Client
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *Client) UnmarshalJSON(bytes []byte) (err error) {
+	varClient := _Client{}
+
+	if err = json.Unmarshal(bytes, &varClient); err == nil {
+		*o = Client(varClient)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "client")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableClient struct {
