@@ -25,6 +25,7 @@ import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
+import org.openapitools.codegen.JavaLangClassList;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -33,6 +34,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Locale;
 
 public class AbstractJavaCodegenTest {
 
@@ -392,7 +394,6 @@ public class AbstractJavaCodegenTest {
     }
 
 
-
     @Test(description = "tests if default version with snapshot is used when setArtifactVersion is used")
     public void snapshotVersionAlreadySnapshotTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
@@ -440,10 +441,10 @@ public class AbstractJavaCodegenTest {
         ModelUtils.setGenerateAliasAsModel(true);
         defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals(defaultValue, "new HashMap<String, NestedArray>()");
-        
+
         // Test default value for date format
         DateSchema dateSchema = new DateSchema();
-        LocalDate defaultLocalDate = LocalDate.of(2019,2,15);
+        LocalDate defaultLocalDate = LocalDate.of(2019, 2, 15);
         Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
         dateSchema.setDefault(date);
         defaultValue = codegen.toDefaultValue(dateSchema);
@@ -634,6 +635,14 @@ public class AbstractJavaCodegenTest {
         // it's not responsibility of the generator to fix OS-specific paths. This is left to template manager.
         // This path must be non-OS-specific for expectations in source outputs (e.g. gradle build files)
         Assert.assertEquals(fakeJavaCodegen.getTestFolder(), "src/test/java");
+    }
+
+    @Test
+    public void reservedWordsIncludeClassesFromJavaLang() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        JavaLangClassList.getJavaLangClasses().stream()
+                .map(className -> className.toLowerCase(Locale.ROOT))
+                .forEach(className -> Assert.assertTrue(codegen.reservedWords().contains(className), "reserved words contains " + className));
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {

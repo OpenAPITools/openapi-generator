@@ -140,7 +140,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         hideGenerationTimestamp = false;
 
-        setReservedWordsLowerCase(
+        List<String> words = new ArrayList<>(
                 Arrays.asList(
                         // special words
                         "object",
@@ -160,6 +160,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                         "void", "class", "finally", "long", "strictfp", "volatile", "const", "float",
                         "native", "super", "while", "null")
         );
+        words.addAll(JavaLangClassList.getJavaLangClasses());
+        setReservedWordsLowerCase(words);
 
         languageSpecificPrimitives = new HashSet<String>(
                 Arrays.asList(
