@@ -55,6 +55,15 @@ public class {{classname}} {
     memberVarReadTimeout = apiClient.getReadTimeout();
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
+  {{#asyncNative}}
+
+  private ApiException getApiException(String operationId, HttpResponse<String>localVarResponse) {
+    return new ApiException(localVarResponse.statusCode(),
+        operationId + " call received non-success response",
+        localVarResponse.headers(),
+        localVarResponse.body());
+  }
+  {{/asyncNative}}
 
   {{#operation}}
   {{#vendorExtensions.x-group-parameters}}
@@ -146,11 +155,7 @@ public class {{classname}} {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "{{operationId}} call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("{{operationId}}", localVarResponse));
             }
             {{#returnType}}
             try {
@@ -227,11 +232,7 @@ public class {{classname}} {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "{{operationId}} call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("{{operationId}}", localVarResponse));
             }
             {{#returnType}}
             try {

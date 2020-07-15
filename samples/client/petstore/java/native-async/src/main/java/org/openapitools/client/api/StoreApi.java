@@ -60,6 +60,13 @@ public class StoreApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
+  private ApiException getApiException(String operationId, HttpResponse<String>localVarResponse) {
+    return new ApiException(localVarResponse.statusCode(),
+        operationId + " call received non-success response",
+        localVarResponse.headers(),
+        localVarResponse.body());
+  }
+
   /**
    * Delete purchase order by ID
    * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -73,11 +80,7 @@ public class StoreApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "deleteOrder call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("deleteOrder", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -101,11 +104,7 @@ public class StoreApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "deleteOrder call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("deleteOrder", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -155,11 +154,7 @@ public class StoreApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "getInventory call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("getInventory", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -188,11 +183,7 @@ public class StoreApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "getInventory call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("getInventory", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -245,11 +236,7 @@ public class StoreApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "getOrderById call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("getOrderById", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -279,11 +266,7 @@ public class StoreApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "getOrderById call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("getOrderById", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -341,11 +324,7 @@ public class StoreApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "placeOrder call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("placeOrder", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -375,11 +354,7 @@ public class StoreApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "placeOrder call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("placeOrder", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(

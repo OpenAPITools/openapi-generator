@@ -68,6 +68,13 @@ public class FakeApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
+  private ApiException getApiException(String operationId, HttpResponse<String>localVarResponse) {
+    return new ApiException(localVarResponse.statusCode(),
+        operationId + " call received non-success response",
+        localVarResponse.headers(),
+        localVarResponse.body());
+  }
+
   /**
    * creates an XmlItem
    * this route creates an XmlItem
@@ -81,11 +88,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "createXmlItem call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("createXmlItem", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -109,11 +112,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "createXmlItem call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("createXmlItem", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -169,11 +168,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "fakeOuterBooleanSerialize call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("fakeOuterBooleanSerialize", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -203,11 +198,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "fakeOuterBooleanSerialize call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("fakeOuterBooleanSerialize", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -266,11 +257,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "fakeOuterCompositeSerialize call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("fakeOuterCompositeSerialize", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -300,11 +287,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "fakeOuterCompositeSerialize call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("fakeOuterCompositeSerialize", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -363,11 +346,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "fakeOuterNumberSerialize call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("fakeOuterNumberSerialize", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -397,11 +376,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "fakeOuterNumberSerialize call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("fakeOuterNumberSerialize", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -460,11 +435,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "fakeOuterStringSerialize call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("fakeOuterStringSerialize", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -494,11 +465,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "fakeOuterStringSerialize call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("fakeOuterStringSerialize", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -556,11 +523,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "testBodyWithFileSchema call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("testBodyWithFileSchema", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -584,11 +547,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "testBodyWithFileSchema call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("testBodyWithFileSchema", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -644,11 +603,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "testBodyWithQueryParams call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("testBodyWithQueryParams", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -673,11 +628,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "testBodyWithQueryParams call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("testBodyWithQueryParams", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -746,11 +697,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "testClientModel call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("testClientModel", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -780,11 +727,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "testClientModel call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("testClientModel", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -859,11 +802,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "testEndpointParameters call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("testEndpointParameters", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -900,11 +839,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "testEndpointParameters call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("testEndpointParameters", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -972,11 +907,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "testEnumParameters call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("testEnumParameters", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -1007,11 +938,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "testEnumParameters call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("testEnumParameters", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -1112,11 +1039,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "testGroupParameters call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("testGroupParameters", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -1145,11 +1068,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "testGroupParameters call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("testGroupParameters", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -1301,11 +1220,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "testInlineAdditionalProperties call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("testInlineAdditionalProperties", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -1329,11 +1244,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "testInlineAdditionalProperties call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("testInlineAdditionalProperties", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -1389,11 +1300,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "testJsonFormData call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("testJsonFormData", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -1418,11 +1325,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "testJsonFormData call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("testJsonFormData", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -1479,11 +1382,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "testQueryParameterCollectionFormat call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("testQueryParameterCollectionFormat", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -1511,11 +1410,7 @@ public class FakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "testQueryParameterCollectionFormat call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("testQueryParameterCollectionFormat", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)

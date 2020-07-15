@@ -60,6 +60,13 @@ public class UserApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
+  private ApiException getApiException(String operationId, HttpResponse<String>localVarResponse) {
+    return new ApiException(localVarResponse.statusCode(),
+        operationId + " call received non-success response",
+        localVarResponse.headers(),
+        localVarResponse.body());
+  }
+
   /**
    * Create user
    * This can only be done by the logged in user.
@@ -73,11 +80,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "createUser call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("createUser", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -101,11 +104,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "createUser call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("createUser", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -160,11 +159,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "createUsersWithArrayInput call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("createUsersWithArrayInput", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -188,11 +183,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "createUsersWithArrayInput call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("createUsersWithArrayInput", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -247,11 +238,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "createUsersWithListInput call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("createUsersWithListInput", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -275,11 +262,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "createUsersWithListInput call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("createUsersWithListInput", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -334,11 +317,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "deleteUser call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("deleteUser", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -362,11 +341,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "deleteUser call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("deleteUser", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -417,11 +392,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "getUserByName call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("getUserByName", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -451,11 +422,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "getUserByName call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("getUserByName", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -514,11 +481,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "loginUser call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("loginUser", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -549,11 +512,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "loginUser call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("loginUser", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -622,11 +581,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "logoutUser call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("logoutUser", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -649,11 +604,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "logoutUser call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("logoutUser", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -699,11 +650,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "updateUser call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("updateUser", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -728,11 +675,7 @@ public class UserApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "updateUser call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("updateUser", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)

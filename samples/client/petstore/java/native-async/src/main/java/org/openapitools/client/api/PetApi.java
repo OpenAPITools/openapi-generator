@@ -63,6 +63,13 @@ public class PetApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
+  private ApiException getApiException(String operationId, HttpResponse<String>localVarResponse) {
+    return new ApiException(localVarResponse.statusCode(),
+        operationId + " call received non-success response",
+        localVarResponse.headers(),
+        localVarResponse.body());
+  }
+
   /**
    * Add a new pet to the store
    * 
@@ -76,11 +83,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "addPet call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("addPet", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -104,11 +107,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "addPet call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("addPet", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -164,11 +163,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "deletePet call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("deletePet", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -193,11 +188,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "deletePet call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("deletePet", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -251,11 +242,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "findPetsByStatus call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("findPetsByStatus", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -285,11 +272,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "findPetsByStatus call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("findPetsByStatus", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -357,11 +340,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "findPetsByTags call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("findPetsByTags", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -393,11 +372,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "findPetsByTags call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("findPetsByTags", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -463,11 +438,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "getPetById call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("getPetById", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -497,11 +468,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "getPetById call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("getPetById", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -558,11 +525,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "updatePet call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("updatePet", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -586,11 +549,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "updatePet call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("updatePet", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -647,11 +606,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "updatePetWithForm call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("updatePetWithForm", localVarResponse));
             }
             return CompletableFuture.completedFuture(null);
       });
@@ -677,11 +632,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "updatePetWithForm call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("updatePetWithForm", localVarResponse));
             }
             return CompletableFuture.completedFuture(
                 new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
@@ -734,11 +685,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "uploadFile call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("uploadFile", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -770,11 +717,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "uploadFile call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("uploadFile", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -834,11 +777,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "uploadFileWithRequiredFile call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("uploadFileWithRequiredFile", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -870,11 +809,7 @@ public class PetApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "uploadFileWithRequiredFile call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("uploadFileWithRequiredFile", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(

@@ -60,6 +60,13 @@ public class AnotherFakeApi {
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
 
+  private ApiException getApiException(String operationId, HttpResponse<String>localVarResponse) {
+    return new ApiException(localVarResponse.statusCode(),
+        operationId + " call received non-success response",
+        localVarResponse.headers(),
+        localVarResponse.body());
+  }
+
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
@@ -74,11 +81,7 @@ public class AnotherFakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "call123testSpecialTags call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
-              );
+              return CompletableFuture.failedFuture(getApiException("call123testSpecialTags", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
@@ -108,11 +111,7 @@ public class AnotherFakeApi {
           localVarRequestBuilder.build(),
           HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
             if (localVarResponse.statusCode()/ 100 != 2) {
-                return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                    "call123testSpecialTags call received non-success response",
-                    localVarResponse.headers(),
-                    localVarResponse.body())
-                );
+              return CompletableFuture.failedFuture(getApiException("call123testSpecialTags", localVarResponse));
             }
             try {
               return CompletableFuture.completedFuture(
