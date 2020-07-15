@@ -52,7 +52,7 @@ function deleteOrderRaw<T>(requestParameters: DeleteOrderRequest, requestConfig:
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
+        url: `${runtime.Configuration.basePath}/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -96,7 +96,7 @@ function getInventoryRaw<T>( requestConfig: runtime.TypedQueryConfig<T, { [key: 
 
     meta.authType = ['api_key', 'header'];
     const config: QueryConfig<T> = {
-        url: `/store/inventory`,
+        url: `${runtime.Configuration.basePath}/store/inventory`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -143,7 +143,7 @@ function getOrderByIdRaw<T>(requestParameters: GetOrderByIdRequest, requestConfi
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
+        url: `${runtime.Configuration.basePath}/store/order/{orderId}`.replace(`{${"orderId"}}`, encodeURIComponent(String(requestParameters.orderId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -192,7 +192,7 @@ function placeOrderRaw<T>(requestParameters: PlaceOrderRequest, requestConfig: r
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `/store/order`,
+        url: `${runtime.Configuration.basePath}/store/order`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
