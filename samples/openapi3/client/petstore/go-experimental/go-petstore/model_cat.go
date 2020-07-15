@@ -136,7 +136,7 @@ func (o *Cat) UnmarshalJSON(bytes []byte) (err error) {
 				} else {
 					fieldName = jsonTag
 				}
-				if fieldName != "AdditoinalProperties" {
+				if fieldName != "AdditionalProperties" {
 					delete(additionalProperties, fieldName)
 				}
 			}
