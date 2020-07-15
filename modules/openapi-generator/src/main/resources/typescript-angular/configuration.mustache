@@ -1,23 +1,37 @@
 import { HttpParameterCodec } from '@angular/common/http';
 
 export interface ConfigurationParameters {
+    /**
+     *  @deprecated Since 5.0. Use credentials instead
+     */
     apiKeys?: {[ key: string ]: string};
     username?: string;
     password?: string;
+    /**
+     *  @deprecated Since 5.0. Use credentials instead
+     */
     accessToken?: string | (() => string);
     basePath?: string;
     withCredentials?: boolean;
     encoder?: HttpParameterCodec;
+    credentials?: {[ key: string ]: string | (() => string | undefined)};
 }
 
 export class Configuration {
+    /**
+     *  @deprecated Since 5.0. Use credentials instead
+     */
     apiKeys?: {[ key: string ]: string};
     username?: string;
     password?: string;
+    /**
+     *  @deprecated Since 5.0. Use credentials instead
+     */
     accessToken?: string | (() => string);
     basePath?: string;
     withCredentials?: boolean;
     encoder?: HttpParameterCodec;
+    credentials: {[ key: string ]: string | (() => string | undefined)};
 
     constructor(configurationParameters: ConfigurationParameters = {}) {
         this.apiKeys = configurationParameters.apiKeys;
@@ -27,6 +41,57 @@ export class Configuration {
         this.basePath = configurationParameters.basePath;
         this.withCredentials = configurationParameters.withCredentials;
         this.encoder = configurationParameters.encoder;
+        if (configurationParameters.credentials) {
+            this.credentials = configurationParameters.credentials;
+        }
+        else {
+            this.credentials = {};
+        }
+{{#authMethods}}
+    {{#-first}}
+
+        function createDefaultApiKey(name: string, keyParamName: string): (() => string | undefined) {
+            return function(): string | undefined {
+                {{! Fallback behaviour may be removed for 5.0 release. See #5062 }}
+                return this.configuration.apiKeys[name] || this.configuration.apiKeys[keyParamName];
+            }.bind(this);
+        }
+        function createDefaultBasic(name: string): (() => string | undefined) {
+            return function(): string | undefined {
+                if (this.configuration.username || this.configuration.password) {
+                    return btoa(this.configuration.username + ':' + this.configuration.password);
+                }
+                return undefined;
+            }.bind(this);
+        }
+        function createDefaultBearer(name: string): (() => string | undefined) {
+            return function(): string | undefined {
+                return typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken()
+                    : this.configuration.accessToken;
+            }.bind(this);
+        }
+        const createDefaultOAuth: ((name: string) => (() => string | undefined)) = createDefaultBearer;
+
+    {{/-first}}
+        // init default {{name}} credential
+        if (!this.credentials['{{name}}']) {
+{{#isApiKey}}
+            this.credentials['{{name}}']) = createDefaultApiKey('{{name}}', '{{keyParamName}}');
+{{/isApiKey}}
+{{#isBasic}}
+    {{#isBasicBasic}}
+            this.credentials['{{name}}'] = createDefaultBasic('{{name}}');
+    {{/isBasicBasic}}
+    {{#isBasicBearer}}
+            this.credentials['{{name}}'] = createDefaultBearer('{{name}}');
+    {{/isBasicBearer}}
+{{/isBasic}}
+{{#isOAuth}}
+            this.credentials['{{name}}'] = createDefaultOAuth('{{name}}');
+{{/isOAuth}}
+        }
+{{/authMethods}}
     }
 
     /**
