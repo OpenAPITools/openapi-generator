@@ -1,5 +1,6 @@
 <?php
 
+{{>licenseInfoLumen}}
 namespace App\Jobs;
 
 use Illuminate\Bus\Queueable;

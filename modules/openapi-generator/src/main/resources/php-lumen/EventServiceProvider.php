@@ -1,5 +1,6 @@
 <?php
 
+{{>licenseInfoLumen}}
 namespace App\Providers;
 
 use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;

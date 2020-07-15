@@ -1,5 +1,6 @@
 <?php
 
+{{>licenseInfoLumen}}
 namespace App;
 
 use Illuminate\Auth\Authenticatable;

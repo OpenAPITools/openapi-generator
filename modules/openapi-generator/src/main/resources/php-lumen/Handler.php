@@ -1,5 +1,6 @@
 <?php
 
+{{>licenseInfoLumen}}
 namespace App\Exceptions;
 
 use Illuminate\Auth\Access\AuthorizationException;

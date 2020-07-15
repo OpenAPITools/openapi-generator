@@ -1,5 +1,6 @@
 <?php
 
+{{>licenseInfoLumen}}
 namespace App\Listeners;
 
 use App\Events\ExampleEvent;

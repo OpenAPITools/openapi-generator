@@ -1,5 +1,6 @@
 <?php
 
+{{>licenseInfoLumen}}
 require_once __DIR__.'/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
