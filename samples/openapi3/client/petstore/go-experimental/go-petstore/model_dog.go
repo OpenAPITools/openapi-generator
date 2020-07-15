@@ -93,12 +93,29 @@ func (o Dog) MarshalJSON() ([]byte, error) {
 }
 
 func (o *Dog) UnmarshalJSON(bytes []byte) (err error) {
-	varDog := _Dog{}
-
-	if err = json.Unmarshal(bytes, &varDog); err == nil {
-		*o = Dog(varDog)
+	type DogWithoutEmbeddedStruct struct {
+		Breed *string `json:"breed,omitempty"`
 	}
 
+	varDogWithoutEmbeddedStruct := DogWithoutEmbeddedStruct{}
+
+	err = json.Unmarshal(bytes, &varDogWithoutEmbeddedStruct)
+	if err == nil {
+		varDog := _Dog{}
+		varDog.Breed = varDogWithoutEmbeddedStruct.Breed
+		*o = Dog(varDog)
+	} else {
+		return err
+	}
+
+	varDog := _Dog{}
+
+	err = json.Unmarshal(bytes, &varDog)
+	if err == nil {
+		o.Animal = varDog.Animal
+	} else {
+		return err
+	}
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {

@@ -93,12 +93,29 @@ func (o Cat) MarshalJSON() ([]byte, error) {
 }
 
 func (o *Cat) UnmarshalJSON(bytes []byte) (err error) {
-	varCat := _Cat{}
-
-	if err = json.Unmarshal(bytes, &varCat); err == nil {
-		*o = Cat(varCat)
+	type CatWithoutEmbeddedStruct struct {
+		Declawed *bool `json:"declawed,omitempty"`
 	}
 
+	varCatWithoutEmbeddedStruct := CatWithoutEmbeddedStruct{}
+
+	err = json.Unmarshal(bytes, &varCatWithoutEmbeddedStruct)
+	if err == nil {
+		varCat := _Cat{}
+		varCat.Declawed = varCatWithoutEmbeddedStruct.Declawed
+		*o = Cat(varCat)
+	} else {
+		return err
+	}
+
+	varCat := _Cat{}
+
+	err = json.Unmarshal(bytes, &varCat)
+	if err == nil {
+		o.Animal = varCat.Animal
+	} else {
+		return err
+	}
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
