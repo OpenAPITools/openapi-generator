@@ -140,12 +140,13 @@ export class StoreService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (api_key) required
-        if (this.configuration.apiKeys) {
-            const key: string | undefined = this.configuration.apiKeys["api_key"] || this.configuration.apiKeys["api_key"];
-            if (key) {
-                headers = headers.set('api_key', key);
-            }
+        credential = typeof this.configuration.credentials['api_key'] === 'function'
+            ? this.configuration.credentials['api_key']()
+            : this.configuration.credentials['api_key'];
+        if (credential) {
+            headers = headers.set('api_key', credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;

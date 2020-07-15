@@ -164,12 +164,13 @@ export class PetService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (petstore_auth) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = typeof this.configuration.credentials['petstore_auth'] === 'function'
+            ? this.configuration.credentials['petstore_auth']()
+            : this.configuration.credentials['petstore_auth'];
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -232,12 +233,13 @@ export class PetService {
             headers = headers.set('api_key', String(apiKey));
         }
 
+        let credential: string | undefined;
         // authentication (petstore_auth) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = typeof this.configuration.credentials['petstore_auth'] === 'function'
+            ? this.configuration.credentials['petstore_auth']()
+            : this.configuration.credentials['petstore_auth'];
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -292,12 +294,13 @@ export class PetService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (petstore_auth) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = typeof this.configuration.credentials['petstore_auth'] === 'function'
+            ? this.configuration.credentials['petstore_auth']()
+            : this.configuration.credentials['petstore_auth'];
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -355,12 +358,13 @@ export class PetService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (petstore_auth) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = typeof this.configuration.credentials['petstore_auth'] === 'function'
+            ? this.configuration.credentials['petstore_auth']()
+            : this.configuration.credentials['petstore_auth'];
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -412,12 +416,13 @@ export class PetService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (api_key) required
-        if (this.configuration.apiKeys) {
-            const key: string | undefined = this.configuration.apiKeys["api_key"] || this.configuration.apiKeys["api_key"];
-            if (key) {
-                headers = headers.set('api_key', key);
-            }
+        credential = typeof this.configuration.credentials['api_key'] === 'function'
+            ? this.configuration.credentials['api_key']()
+            : this.configuration.credentials['api_key'];
+        if (credential) {
+            headers = headers.set('api_key', credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -467,12 +472,13 @@ export class PetService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (petstore_auth) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = typeof this.configuration.credentials['petstore_auth'] === 'function'
+            ? this.configuration.credentials['petstore_auth']()
+            : this.configuration.credentials['petstore_auth'];
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -533,12 +539,13 @@ export class PetService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (petstore_auth) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = typeof this.configuration.credentials['petstore_auth'] === 'function'
+            ? this.configuration.credentials['petstore_auth']()
+            : this.configuration.credentials['petstore_auth'];
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
@@ -611,12 +618,13 @@ export class PetService {
 
         let headers = this.defaultHeaders;
 
+        let credential: string | undefined;
         // authentication (petstore_auth) required
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+        credential = typeof this.configuration.credentials['petstore_auth'] === 'function'
+            ? this.configuration.credentials['petstore_auth']()
+            : this.configuration.credentials['petstore_auth'];
+        if (credential) {
+            headers = headers.set('Authorization', 'Bearer ' + credential);
         }
 
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;

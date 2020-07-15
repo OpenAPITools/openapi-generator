@@ -1,23 +1,37 @@
 import { HttpParameterCodec } from '@angular/common/http';
 
 export interface ConfigurationParameters {
+    /**
+     *  @deprecated Since 5.0. Use credentials instead
+     */
     apiKeys?: {[ key: string ]: string};
     username?: string;
     password?: string;
+    /**
+     *  @deprecated Since 5.0. Use credentials instead
+     */
     accessToken?: string | (() => string);
     basePath?: string;
     withCredentials?: boolean;
     encoder?: HttpParameterCodec;
+    credentials?: {[ key: string ]: string | (() => string | undefined)};
 }
 
 export class Configuration {
+    /**
+     *  @deprecated Since 5.0. Use credentials instead
+     */
     apiKeys?: {[ key: string ]: string};
     username?: string;
     password?: string;
+    /**
+     *  @deprecated Since 5.0. Use credentials instead
+     */
     accessToken?: string | (() => string);
     basePath?: string;
     withCredentials?: boolean;
     encoder?: HttpParameterCodec;
+    credentials: {[ key: string ]: string | (() => string | undefined)};
 
     constructor(configurationParameters: ConfigurationParameters = {}) {
         this.apiKeys = configurationParameters.apiKeys;
@@ -27,6 +41,43 @@ export class Configuration {
         this.basePath = configurationParameters.basePath;
         this.withCredentials = configurationParameters.withCredentials;
         this.encoder = configurationParameters.encoder;
+        if (configurationParameters.credentials) {
+            this.credentials = configurationParameters.credentials;
+        }
+        else {
+            this.credentials = {};
+        }
+
+        function createDefaultApiKey(name: string, keyParamName: string): (() => string | undefined) {
+            return function(): string | undefined {
+                return this.configuration.apiKeys[name] || this.configuration.apiKeys[keyParamName];
+            }.bind(this);
+        }
+        function createDefaultBasic(name: string): (() => string | undefined) {
+            return function(): string | undefined {
+                if (this.configuration.username || this.configuration.password) {
+                    return btoa(this.configuration.username + ':' + this.configuration.password);
+                }
+                return undefined;
+            }.bind(this);
+        }
+        function createDefaultBearer(name: string): (() => string | undefined) {
+            return function(): string | undefined {
+                return typeof this.configuration.accessToken === 'function'
+                    ? this.configuration.accessToken()
+                    : this.configuration.accessToken;
+            }.bind(this);
+        }
+        const createDefaultOAuth: ((name: string) => (() => string | undefined)) = createDefaultBearer;
+
+        // init default api_key credential
+        if (!this.credentials['api_key']) {
+            this.credentials['api_key']) = createDefaultApiKey('api_key', 'api_key');
+        }
+        // init default petstore_auth credential
+        if (!this.credentials['petstore_auth']) {
+            this.credentials['petstore_auth'] = createDefaultOAuth('petstore_auth');
+        }
     }
 
     /**
