@@ -18,6 +18,12 @@ This example uses the [Lumen Framework](http://lumen.laravel.com/).  To see how 
 Switch to the generated Lumen server stub directory.
 Using `composer update` to install the framework and dependencies via [Composer](http://getcomposer.org/).
 
+### Init App Config
+Use `.env.example` as starting point for a new application config:
+```console
+$ composer run post-root-package-install
+```
+
 ## Note
 
 The `composer update` should be the first thing to do right after generating Lumen server stub. The autoload.php will be generated only after executing `composer update`.
