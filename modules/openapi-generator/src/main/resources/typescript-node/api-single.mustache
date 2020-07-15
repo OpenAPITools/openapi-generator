@@ -1,6 +1,13 @@
 {{>licenseInfo}}
+
+{{#supportsES6}}
 import localVarRequest from 'request';
 import http from 'http';
+{{/supportsES6}}
+{{^supportsES6}}
+import localVarRequest = require('request');
+import http = require('http');
+{{/supportsES6}}
 
 /* tslint:disable:no-unused-locals */
 {{#imports}}
