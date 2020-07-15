@@ -11,6 +11,8 @@ package petstore
 
 import (
 	"encoding/json"
+	"reflect"
+	"strings"
 )
 
 // Cat struct for Cat
@@ -116,10 +118,30 @@ func (o *Cat) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
+
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
 		delete(additionalProperties, "declawed")
+
+		// remove fields from embedded structs
+		reflectAnimal := reflect.ValueOf(o.Animal)
+		for i := 0; i < reflectAnimal.Type().NumField(); i++ {
+			t := reflectAnimal.Type().Field(i)
+
+			if jsonTag := t.Tag.Get("json"); jsonTag != "" {
+				fieldName := ""
+				if commaIdx := strings.Index(jsonTag, ","); commaIdx > 0 {
+					fieldName = jsonTag[:commaIdx]
+				} else {
+					fieldName = jsonTag
+				}
+				if fieldName != "AdditoinalProperties" {
+					delete(additionalProperties, fieldName)
+				}
+			}
+		}
+
 		o.AdditionalProperties = additionalProperties
 	}
 

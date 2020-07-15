@@ -299,12 +299,32 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 	} else {
 		return err
 	}
+
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
 		{{#vars}}
 		delete(additionalProperties, "{{{baseName}}}")
 		{{/vars}}
+
+		// remove fields from embedded structs
+		reflect{{{parent}}} := reflect.ValueOf(o.{{{parent}}})
+		for i := 0; i < reflect{{{parent}}}.Type().NumField(); i++ {
+			t := reflect{{{parent}}}.Type().Field(i)
+
+			if jsonTag := t.Tag.Get("json"); jsonTag != "" {
+				fieldName := ""
+				if commaIdx := strings.Index(jsonTag, ","); commaIdx > 0 {
+					fieldName = jsonTag[:commaIdx]
+				} else {
+					fieldName = jsonTag
+				}
+				if fieldName != "AdditoinalProperties" {
+					delete(additionalProperties, fieldName)
+				}
+			}
+		}
+
 		o.AdditionalProperties = additionalProperties
 	}
 
