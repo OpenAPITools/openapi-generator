@@ -10,8 +10,9 @@
  * Do not edit the class manually.
  */
 
-import localVarRequest from 'request';
-import http from 'http';
+
+import localVarRequest = require('request');
+import http = require('http');
 
 /* tslint:disable:no-unused-locals */
 import { User } from '../model/user';

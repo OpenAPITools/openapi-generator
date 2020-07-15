@@ -5,7 +5,7 @@ export * from './pet';
 export * from './tag';
 export * from './user';
 
-import localVarRequest from 'request';
+import localVarRequest = require('request');
 
 import { ApiResponse } from './apiResponse';
 import { Category } from './category';
