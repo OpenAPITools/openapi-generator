@@ -45,19 +45,19 @@ public class ApiClientTest {
         // nulllable and there should be no diffencne as the payload is not null
         assertEquals(result, apiClient.serializeToString(pet, null, "application/json", true));
 
-        // non-nullable null object should give "" (empty body)
+        // non-nullable null object should be converted to "" (empty body)
         assertEquals("", apiClient.serializeToString(null, null, "application/json", false));
-        // nullable null object should give "null"
+        // nullable null object should be converted to "null"
         assertEquals("null", apiClient.serializeToString(null, null, "application/json", true));
 
-        // non-nullable empty string should give "\"\"" (empty json string)
+        // non-nullable empty string should be converted to "\"\"" (empty json string)
         assertEquals("\"\"", apiClient.serializeToString("", null, "application/json", false));
-        // nullable null empty string should give "\"\"" (empty json string)
+        // nullable empty string should be converted to "\"\"" (empty json string)
         assertEquals("\"\"", apiClient.serializeToString("", null, "application/json", true));
 
-        // non-nullable string "null"  should give "\"null\""
+        // non-nullable string "null" should be converted to "\"null\""
         assertEquals("\"null\"", apiClient.serializeToString("null", null, "application/json", false));
-        // nullable string "string" should give "\"null\""
+        // nullable string "null" should be converted to "\"null\""
         assertEquals("\"null\"", apiClient.serializeToString("null", null, "application/json", true));
     }
 
