@@ -3,12 +3,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **Int64** |  | [optional] [default to null]
-**Category** | [**Category**](Category.md) |  | [optional] [default to null]
-**Name** | **String** |  | [default to null]
-**PhotoUrls** | **String[]** |  | [default to null]
-**Tags** | [**Tag[]**](Tag.md) |  | [optional] [default to null]
-**Status** | **String** | pet status in the store | [optional] [default to null]
+**Id** | **Int64** |  | [optional] 
+**Category** | [**Category**](Category.md) |  | [optional] 
+**Name** | **String** |  | 
+**PhotoUrls** | **String[]** |  | 
+**Tags** | [**Tag[]**](Tag.md) |  | [optional] 
+**Status** | **String** | pet status in the store | [optional] 
 
 ## Examples
 

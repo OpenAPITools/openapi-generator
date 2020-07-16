@@ -35,7 +35,7 @@ install.packages("base64enc")
 git clone https://{{gitHost}}/{{{gitUserId}}}/{{{gitRepoId}}}
 cd {{{gitRepoId}}}
 R CMD build .
-R CMD check {{{packageName}}}_{{{packageVersion}}}.tar.gz
+R CMD check {{{packageName}}}_{{{packageVersion}}}.tar.gz --no-manual
 R CMD INSTALL {{{packageName}}}_{{{packageVersion}}}.tar.gz
 ```
 

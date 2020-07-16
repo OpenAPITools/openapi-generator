@@ -34,25 +34,30 @@ from petstore_api.model_utils import (  # noqa: F401
     validate_get_composed_info,
 )
 try:
-    from petstore_api.model import outer_enum
+    from petstore_api.model import integer_enum
 except ImportError:
-    outer_enum = sys.modules[
-        'petstore_api.model.outer_enum']
+    integer_enum = sys.modules[
+        'petstore_api.model.integer_enum']
 try:
-    from petstore_api.model import outer_enum_default_value
+    from petstore_api.model import integer_enum_one_value
 except ImportError:
-    outer_enum_default_value = sys.modules[
-        'petstore_api.model.outer_enum_default_value']
+    integer_enum_one_value = sys.modules[
+        'petstore_api.model.integer_enum_one_value']
 try:
-    from petstore_api.model import outer_enum_integer
+    from petstore_api.model import integer_enum_with_default_value
 except ImportError:
-    outer_enum_integer = sys.modules[
-        'petstore_api.model.outer_enum_integer']
+    integer_enum_with_default_value = sys.modules[
+        'petstore_api.model.integer_enum_with_default_value']
 try:
-    from petstore_api.model import outer_enum_integer_default_value
+    from petstore_api.model import string_enum
 except ImportError:
-    outer_enum_integer_default_value = sys.modules[
-        'petstore_api.model.outer_enum_integer_default_value']
+    string_enum = sys.modules[
+        'petstore_api.model.string_enum']
+try:
+    from petstore_api.model import string_enum_with_default_value
+except ImportError:
+    string_enum_with_default_value = sys.modules[
+        'petstore_api.model.string_enum_with_default_value']
 
 
 class EnumTest(ModelNormal):
@@ -122,10 +127,11 @@ class EnumTest(ModelNormal):
             'enum_string': (str,),  # noqa: E501
             'enum_integer': (int,),  # noqa: E501
             'enum_number': (float,),  # noqa: E501
-            'outer_enum': (outer_enum.OuterEnum,),  # noqa: E501
-            'outer_enum_integer': (outer_enum_integer.OuterEnumInteger,),  # noqa: E501
-            'outer_enum_default_value': (outer_enum_default_value.OuterEnumDefaultValue,),  # noqa: E501
-            'outer_enum_integer_default_value': (outer_enum_integer_default_value.OuterEnumIntegerDefaultValue,),  # noqa: E501
+            'string_enum': (string_enum.StringEnum,),  # noqa: E501
+            'integer_enum': (integer_enum.IntegerEnum,),  # noqa: E501
+            'string_enum_with_default_value': (string_enum_with_default_value.StringEnumWithDefaultValue,),  # noqa: E501
+            'integer_enum_with_default_value': (integer_enum_with_default_value.IntegerEnumWithDefaultValue,),  # noqa: E501
+            'integer_enum_one_value': (integer_enum_one_value.IntegerEnumOneValue,),  # noqa: E501
         }
 
     @cached_property
@@ -137,10 +143,11 @@ class EnumTest(ModelNormal):
         'enum_string': 'enum_string',  # noqa: E501
         'enum_integer': 'enum_integer',  # noqa: E501
         'enum_number': 'enum_number',  # noqa: E501
-        'outer_enum': 'outerEnum',  # noqa: E501
-        'outer_enum_integer': 'outerEnumInteger',  # noqa: E501
-        'outer_enum_default_value': 'outerEnumDefaultValue',  # noqa: E501
-        'outer_enum_integer_default_value': 'outerEnumIntegerDefaultValue',  # noqa: E501
+        'string_enum': 'stringEnum',  # noqa: E501
+        'integer_enum': 'IntegerEnum',  # noqa: E501
+        'string_enum_with_default_value': 'StringEnumWithDefaultValue',  # noqa: E501
+        'integer_enum_with_default_value': 'IntegerEnumWithDefaultValue',  # noqa: E501
+        'integer_enum_one_value': 'IntegerEnumOneValue',  # noqa: E501
     }
 
     _composed_schemas = {}
@@ -195,10 +202,11 @@ class EnumTest(ModelNormal):
             enum_string (str): [optional]  # noqa: E501
             enum_integer (int): [optional]  # noqa: E501
             enum_number (float): [optional]  # noqa: E501
-            outer_enum (outer_enum.OuterEnum): [optional]  # noqa: E501
-            outer_enum_integer (outer_enum_integer.OuterEnumInteger): [optional]  # noqa: E501
-            outer_enum_default_value (outer_enum_default_value.OuterEnumDefaultValue): [optional]  # noqa: E501
-            outer_enum_integer_default_value (outer_enum_integer_default_value.OuterEnumIntegerDefaultValue): [optional]  # noqa: E501
+            string_enum (string_enum.StringEnum): [optional]  # noqa: E501
+            integer_enum (integer_enum.IntegerEnum): [optional]  # noqa: E501
+            string_enum_with_default_value (string_enum_with_default_value.StringEnumWithDefaultValue): [optional]  # noqa: E501
+            integer_enum_with_default_value (integer_enum_with_default_value.IntegerEnumWithDefaultValue): [optional]  # noqa: E501
+            integer_enum_one_value (integer_enum_one_value.IntegerEnumOneValue): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
