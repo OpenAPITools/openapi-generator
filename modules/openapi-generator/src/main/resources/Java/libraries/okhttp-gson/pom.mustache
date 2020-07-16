@@ -305,6 +305,13 @@
             <scope>provided</scope>
         </dependency>
         {{/parcelableModel}}
+        {{#withAWSV4Signature}}
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>aws-sdk-java</artifactId>
+            <version>2.13.55</version>
+        </dependency>
+        {{/withAWSV4Signature}}
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
