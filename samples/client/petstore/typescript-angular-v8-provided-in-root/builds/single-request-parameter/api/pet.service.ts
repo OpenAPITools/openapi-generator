@@ -166,9 +166,7 @@ export class PetService {
 
         let credential: string | undefined;
         // authentication (petstore_auth) required
-        credential = typeof this.configuration.credentials['petstore_auth'] === 'function'
-            ? this.configuration.credentials['petstore_auth']()
-            : this.configuration.credentials['petstore_auth'];
+        credential = this.configuration.lookupCredential('petstore_auth');
         if (credential) {
             headers = headers.set('Authorization', 'Bearer ' + credential);
         }
@@ -235,9 +233,7 @@ export class PetService {
 
         let credential: string | undefined;
         // authentication (petstore_auth) required
-        credential = typeof this.configuration.credentials['petstore_auth'] === 'function'
-            ? this.configuration.credentials['petstore_auth']()
-            : this.configuration.credentials['petstore_auth'];
+        credential = this.configuration.lookupCredential('petstore_auth');
         if (credential) {
             headers = headers.set('Authorization', 'Bearer ' + credential);
         }
@@ -296,9 +292,7 @@ export class PetService {
 
         let credential: string | undefined;
         // authentication (petstore_auth) required
-        credential = typeof this.configuration.credentials['petstore_auth'] === 'function'
-            ? this.configuration.credentials['petstore_auth']()
-            : this.configuration.credentials['petstore_auth'];
+        credential = this.configuration.lookupCredential('petstore_auth');
         if (credential) {
             headers = headers.set('Authorization', 'Bearer ' + credential);
         }
@@ -360,9 +354,7 @@ export class PetService {
 
         let credential: string | undefined;
         // authentication (petstore_auth) required
-        credential = typeof this.configuration.credentials['petstore_auth'] === 'function'
-            ? this.configuration.credentials['petstore_auth']()
-            : this.configuration.credentials['petstore_auth'];
+        credential = this.configuration.lookupCredential('petstore_auth');
         if (credential) {
             headers = headers.set('Authorization', 'Bearer ' + credential);
         }
@@ -418,9 +410,7 @@ export class PetService {
 
         let credential: string | undefined;
         // authentication (api_key) required
-        credential = typeof this.configuration.credentials['api_key'] === 'function'
-            ? this.configuration.credentials['api_key']()
-            : this.configuration.credentials['api_key'];
+        credential = this.configuration.lookupCredential('api_key');
         if (credential) {
             headers = headers.set('api_key', credential);
         }
@@ -474,9 +464,7 @@ export class PetService {
 
         let credential: string | undefined;
         // authentication (petstore_auth) required
-        credential = typeof this.configuration.credentials['petstore_auth'] === 'function'
-            ? this.configuration.credentials['petstore_auth']()
-            : this.configuration.credentials['petstore_auth'];
+        credential = this.configuration.lookupCredential('petstore_auth');
         if (credential) {
             headers = headers.set('Authorization', 'Bearer ' + credential);
         }
@@ -541,9 +529,7 @@ export class PetService {
 
         let credential: string | undefined;
         // authentication (petstore_auth) required
-        credential = typeof this.configuration.credentials['petstore_auth'] === 'function'
-            ? this.configuration.credentials['petstore_auth']()
-            : this.configuration.credentials['petstore_auth'];
+        credential = this.configuration.lookupCredential('petstore_auth');
         if (credential) {
             headers = headers.set('Authorization', 'Bearer ' + credential);
         }
@@ -620,9 +606,7 @@ export class PetService {
 
         let credential: string | undefined;
         // authentication (petstore_auth) required
-        credential = typeof this.configuration.credentials['petstore_auth'] === 'function'
-            ? this.configuration.credentials['petstore_auth']()
-            : this.configuration.credentials['petstore_auth'];
+        credential = this.configuration.lookupCredential('petstore_auth');
         if (credential) {
             headers = headers.set('Authorization', 'Bearer ' + credential);
         }

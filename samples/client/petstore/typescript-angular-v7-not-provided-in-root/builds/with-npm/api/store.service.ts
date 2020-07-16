@@ -142,9 +142,7 @@ export class StoreService {
 
         let credential: string | undefined;
         // authentication (api_key) required
-        credential = typeof this.configuration.credentials['api_key'] === 'function'
-            ? this.configuration.credentials['api_key']()
-            : this.configuration.credentials['api_key'];
+        credential = this.configuration.lookupCredential('api_key');
         if (credential) {
             headers = headers.set('api_key', credential);
         }

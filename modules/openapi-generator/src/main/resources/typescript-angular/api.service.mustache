@@ -214,9 +214,7 @@ export class {{classname}} {
         let credential: string | undefined;
 {{/-first}}
         // authentication ({{name}}) required
-        credential = typeof this.configuration.credentials['{{name}}'] === 'function'
-            ? this.configuration.credentials['{{name}}']()
-            : this.configuration.credentials['{{name}}'];
+        credential = this.configuration.lookupCredential('{{name}}');
         if (credential) {
 {{#isApiKey}}
     {{#isKeyInHeader}}
