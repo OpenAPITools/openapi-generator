@@ -828,7 +828,7 @@ public class ApiClient {
         if (isBodyNullable) {
           return obj == null ? "null" : json.getMapper().writeValueAsString(obj);
         } else {
-          return json.getMapper().writeValueAsString(obj);
+          return obj == null ? "" : json.getMapper().writeValueAsString(obj);
         }
       }
     } catch (Exception ex) {
