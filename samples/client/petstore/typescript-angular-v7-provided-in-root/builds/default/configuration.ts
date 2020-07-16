@@ -72,7 +72,7 @@ export class Configuration {
 
         // init default api_key credential
         if (!this.credentials['api_key']) {
-            this.credentials['api_key']) = createDefaultApiKey('api_key', 'api_key');
+            this.credentials['api_key'] = createDefaultApiKey('api_key', 'api_key');
         }
         // init default petstore_auth credential
         if (!this.credentials['petstore_auth']) {

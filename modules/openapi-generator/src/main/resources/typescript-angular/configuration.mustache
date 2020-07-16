@@ -77,7 +77,7 @@ export class Configuration {
         // init default {{name}} credential
         if (!this.credentials['{{name}}']) {
 {{#isApiKey}}
-            this.credentials['{{name}}']) = createDefaultApiKey('{{name}}', '{{keyParamName}}');
+            this.credentials['{{name}}'] = createDefaultApiKey('{{name}}', '{{keyParamName}}');
 {{/isApiKey}}
 {{#isBasic}}
     {{#isBasicBasic}}
