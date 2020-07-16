@@ -48,35 +48,20 @@ export class Configuration {
             this.credentials = {};
         }
 
-        function createDefaultApiKey(name: string, keyParamName: string): (() => string | undefined) {
-            return function(): string | undefined {
-                return this.configuration.apiKeys[name] || this.configuration.apiKeys[keyParamName];
-            }.bind(this);
-        }
-        function createDefaultBasic(name: string): (() => string | undefined) {
-            return function(): string | undefined {
-                if (this.configuration.username || this.configuration.password) {
-                    return btoa(this.configuration.username + ':' + this.configuration.password);
-                }
-                return undefined;
-            }.bind(this);
-        }
-        function createDefaultBearer(name: string): (() => string | undefined) {
-            return function(): string | undefined {
-                return typeof this.configuration.accessToken === 'function'
-                    ? this.configuration.accessToken()
-                    : this.configuration.accessToken;
-            }.bind(this);
-        }
-        const createDefaultOAuth: ((name: string) => (() => string | undefined)) = createDefaultBearer;
-
         // init default api_key credential
         if (!this.credentials['api_key']) {
-            this.credentials['api_key'] = createDefaultApiKey('api_key', 'api_key');
+            this.credentials['api_key'] = () => {
+                return this.apiKeys['api_key'] || this.apiKeys['api_key'];
+            };
         }
+
         // init default petstore_auth credential
         if (!this.credentials['petstore_auth']) {
-            this.credentials['petstore_auth'] = createDefaultOAuth('petstore_auth');
+            this.credentials['petstore_auth'] = () => {
+                return typeof this.accessToken === 'function'
+                    ? this.accessToken()
+                    : this.accessToken;
+            };
         }
     }
 
