@@ -2,12 +2,15 @@
 # Please update as you see appropriate
 
 context("Test {{{classname}}}")
+{{#models}}
+{{#model}}
+{{^isEnum}}
+{{#vars}}
+{{#-first}}
 
 model.instance <- {{{classname}}}$new()
 
-{{#models}}
-{{#model}}
-{{#vars}}
+{{/-first}}
 test_that("{{{name}}}", {
   # tests for the property `{{{name}}}` ({{dataType}})
   {{#description}}
@@ -19,5 +22,6 @@ test_that("{{{name}}}", {
 })
 
 {{/vars}}
+{{/isEnum}}
 {{/model}}
 {{/models}}

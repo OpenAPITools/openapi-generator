@@ -32,7 +32,9 @@ function Invoke-PSApiClient {
         [string]$Method,
         [Parameter(Mandatory)]
         [AllowEmptyString()]
-        [string]$ReturnType
+        [string]$ReturnType,
+        [Parameter(Mandatory)]
+        [bool]$IsBodyNullable
     )
 
     'Calling method: Invoke-PSApiClient' | Write-Debug
@@ -91,8 +93,11 @@ function Invoke-PSApiClient {
         $RequestBody = $FormParameters
     }
 
-    if ($Body) {
+    if ($Body -or $IsBodyNullable) {
         $RequestBody = $Body
+        if ([string]::IsNullOrEmpty($RequestBody) -and $IsBodyNullable -eq $true) {
+            $RequestBody = "null"
+        }
     }
 
     if ($SkipCertificateCheck -eq $true) {

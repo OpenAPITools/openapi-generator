@@ -19,7 +19,10 @@ type MapTest struct {
 	MapOfEnumString *map[string]string `json:"map_of_enum_string,omitempty"`
 	DirectMap *map[string]bool `json:"direct_map,omitempty"`
 	IndirectMap *map[string]bool `json:"indirect_map,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _MapTest MapTest
 
 // NewMapTest instantiates a new MapTest object
 // This constructor will assign default values to properties that have it defined,
@@ -180,7 +183,32 @@ func (o MapTest) MarshalJSON() ([]byte, error) {
 	if o.IndirectMap != nil {
 		toSerialize["indirect_map"] = o.IndirectMap
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *MapTest) UnmarshalJSON(bytes []byte) (err error) {
+	varMapTest := _MapTest{}
+
+	if err = json.Unmarshal(bytes, &varMapTest); err == nil {
+		*o = MapTest(varMapTest)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "map_map_of_string")
+		delete(additionalProperties, "map_of_enum_string")
+		delete(additionalProperties, "direct_map")
+		delete(additionalProperties, "indirect_map")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableMapTest struct {

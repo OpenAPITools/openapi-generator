@@ -17,7 +17,10 @@ import (
 type EnumArrays struct {
 	JustSymbol *string `json:"just_symbol,omitempty"`
 	ArrayEnum *[]string `json:"array_enum,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _EnumArrays EnumArrays
 
 // NewEnumArrays instantiates a new EnumArrays object
 // This constructor will assign default values to properties that have it defined,
@@ -108,7 +111,30 @@ func (o EnumArrays) MarshalJSON() ([]byte, error) {
 	if o.ArrayEnum != nil {
 		toSerialize["array_enum"] = o.ArrayEnum
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *EnumArrays) UnmarshalJSON(bytes []byte) (err error) {
+	varEnumArrays := _EnumArrays{}
+
+	if err = json.Unmarshal(bytes, &varEnumArrays); err == nil {
+		*o = EnumArrays(varEnumArrays)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "just_symbol")
+		delete(additionalProperties, "array_enum")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableEnumArrays struct {

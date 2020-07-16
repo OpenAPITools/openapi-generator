@@ -791,9 +791,9 @@ public class ApiClient {
     } else {
       // We let jersey handle the serialization
       if (isBodyNullable) { // payload is nullable
-        entity = Entity.entity(obj == null ? Entity.text("null") : obj, contentType);
+        entity = Entity.entity(obj == null ? "null" : obj, contentType);
       } else {
-        entity = Entity.entity(obj == null ? Entity.text("") : obj, contentType);
+        entity = Entity.entity(obj == null ? "" : obj, contentType);
       }
     }
     return entity;
