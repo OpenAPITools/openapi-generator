@@ -16,7 +16,10 @@ import (
 // CatAllOf struct for CatAllOf
 type CatAllOf struct {
 	Declawed *bool `json:"declawed,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _CatAllOf CatAllOf
 
 // NewCatAllOf instantiates a new CatAllOf object
 // This constructor will assign default values to properties that have it defined,
@@ -72,7 +75,29 @@ func (o CatAllOf) MarshalJSON() ([]byte, error) {
 	if o.Declawed != nil {
 		toSerialize["declawed"] = o.Declawed
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *CatAllOf) UnmarshalJSON(bytes []byte) (err error) {
+	varCatAllOf := _CatAllOf{}
+
+	if err = json.Unmarshal(bytes, &varCatAllOf); err == nil {
+		*o = CatAllOf(varCatAllOf)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "declawed")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableCatAllOf struct {

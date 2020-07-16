@@ -11,13 +11,18 @@ package petstore
 
 import (
 	"encoding/json"
+	"reflect"
+	"strings"
 )
 
 // Dog struct for Dog
 type Dog struct {
 	Animal
 	Breed *string `json:"breed,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Dog Dog
 
 // NewDog instantiates a new Dog object
 // This constructor will assign default values to properties that have it defined,
@@ -81,7 +86,66 @@ func (o Dog) MarshalJSON() ([]byte, error) {
 	if o.Breed != nil {
 		toSerialize["breed"] = o.Breed
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *Dog) UnmarshalJSON(bytes []byte) (err error) {
+	type DogWithoutEmbeddedStruct struct {
+		Breed *string `json:"breed,omitempty"`
+	}
+
+	varDogWithoutEmbeddedStruct := DogWithoutEmbeddedStruct{}
+
+	err = json.Unmarshal(bytes, &varDogWithoutEmbeddedStruct)
+	if err == nil {
+		varDog := _Dog{}
+		varDog.Breed = varDogWithoutEmbeddedStruct.Breed
+		*o = Dog(varDog)
+	} else {
+		return err
+	}
+
+	varDog := _Dog{}
+
+	err = json.Unmarshal(bytes, &varDog)
+	if err == nil {
+		o.Animal = varDog.Animal
+	} else {
+		return err
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "breed")
+
+		// remove fields from embedded structs
+		reflectAnimal := reflect.ValueOf(o.Animal)
+		for i := 0; i < reflectAnimal.Type().NumField(); i++ {
+			t := reflectAnimal.Type().Field(i)
+
+			if jsonTag := t.Tag.Get("json"); jsonTag != "" {
+				fieldName := ""
+				if commaIdx := strings.Index(jsonTag, ","); commaIdx > 0 {
+					fieldName = jsonTag[:commaIdx]
+				} else {
+					fieldName = jsonTag
+				}
+				if fieldName != "AdditionalProperties" {
+					delete(additionalProperties, fieldName)
+				}
+			}
+		}
+
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDog struct {

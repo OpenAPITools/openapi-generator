@@ -17,7 +17,10 @@ import (
 type Category struct {
 	Id *int64 `json:"id,omitempty"`
 	Name string `json:"name"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Category Category
 
 // NewCategory instantiates a new Category object
 // This constructor will assign default values to properties that have it defined,
@@ -103,7 +106,30 @@ func (o Category) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["name"] = o.Name
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *Category) UnmarshalJSON(bytes []byte) (err error) {
+	varCategory := _Category{}
+
+	if err = json.Unmarshal(bytes, &varCategory); err == nil {
+		*o = Category(varCategory)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "name")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableCategory struct {

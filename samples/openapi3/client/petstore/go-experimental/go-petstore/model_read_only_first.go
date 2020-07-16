@@ -17,7 +17,10 @@ import (
 type ReadOnlyFirst struct {
 	Bar *string `json:"bar,omitempty"`
 	Baz *string `json:"baz,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ReadOnlyFirst ReadOnlyFirst
 
 // NewReadOnlyFirst instantiates a new ReadOnlyFirst object
 // This constructor will assign default values to properties that have it defined,
@@ -108,7 +111,30 @@ func (o ReadOnlyFirst) MarshalJSON() ([]byte, error) {
 	if o.Baz != nil {
 		toSerialize["baz"] = o.Baz
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *ReadOnlyFirst) UnmarshalJSON(bytes []byte) (err error) {
+	varReadOnlyFirst := _ReadOnlyFirst{}
+
+	if err = json.Unmarshal(bytes, &varReadOnlyFirst); err == nil {
+		*o = ReadOnlyFirst(varReadOnlyFirst)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "bar")
+		delete(additionalProperties, "baz")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableReadOnlyFirst struct {

@@ -19,7 +19,10 @@ type Name struct {
 	SnakeCase *int32 `json:"snake_case,omitempty"`
 	Property *string `json:"property,omitempty"`
 	Var123Number *int32 `json:"123Number,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Name Name
 
 // NewName instantiates a new Name object
 // This constructor will assign default values to properties that have it defined,
@@ -173,7 +176,32 @@ func (o Name) MarshalJSON() ([]byte, error) {
 	if o.Var123Number != nil {
 		toSerialize["123Number"] = o.Var123Number
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *Name) UnmarshalJSON(bytes []byte) (err error) {
+	varName := _Name{}
+
+	if err = json.Unmarshal(bytes, &varName); err == nil {
+		*o = Name(varName)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "snake_case")
+		delete(additionalProperties, "property")
+		delete(additionalProperties, "123Number")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableName struct {
