@@ -1,0 +1,48 @@
+openapi: 3.0.1
+info:
+  title: fruity
+  version: 0.0.1
+paths:
+  /:
+    get:
+      responses:
+        '200':
+          description: desc
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FruitBasket'
+components:
+  schemas:
+    FruitBasket:
+      properties:
+        quantity:
+          type: int
+        fruit:
+          $ref: '#/components/schemas/Fruit'
+    Fruit:
+      oneOf:
+        - $ref: '#/components/schemas/AppleReqDisc'
+        - $ref: '#/components/schemas/BananaReqDisc'
+      discriminator:
+        propertyName: fruitType
+    AppleReqDisc:
+      type: object
+      required:
+        - seeds
+        - fruitType
+      properties:
+        seeds:
+          type: integer
+        fruitType:
+          type: string
+    BananaReqDisc:
+      type: object
+      required:
+        - length
+        - fruitType
+      properties:
+        length:
+          type: integer
+        fruitType:
+          type: string

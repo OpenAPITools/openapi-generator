@@ -7,32 +7,66 @@ import {{import}}
 
 {{#models}}
 {{#model}}
-case class {{classname}} (
-{{#vars}}
     {{#isEnum}}
-                  {{{name}}}:  Option[{{classname}}{{datatypeWithEnum}}.{{classname}}{{datatypeWithEnum}}]{{#hasMore}},{{/hasMore}}
+        {{classname}}{{datatypeWithEnum}} extends Enumeration {
+        val {{#allowableValues}}  {{#values}}{{.}}{{^-last}}, {{/-last}}{{/values}} = Value{{/allowableValues}}
+        type {{classname}}{{datatypeWithEnum}} = Value
+        implicit val format: Format[Value] = Format(Reads.enumNameReads(this), Writes.enumNameWrites[{{classname}}{{datatypeWithEnum}}.type])
+        }
     {{/isEnum}}
     {{^isEnum}}
-        {{#description}}
-            /* {{{description}}} */
-        {{/description}}
-                  {{{name}}}: {{^required}}Option[{{/required}}{{dataType}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}
+        {{#discriminator}}
+            trait {{classname}} (
+        {{/discriminator}}
+        {{^discriminator}}
+            final case class {{classname}} {{#parent}}extends{{/parent}} {{parent}} (
+        {{/discriminator}}
+        {{#vars}}
+            {{#isEnum}}
+                {{{name}}}:  Option[{{classname}}{{datatypeWithEnum}}.{{classname}}{{datatypeWithEnum}}]{{#hasMore}},{{/hasMore}}
+            {{/isEnum}}
+            {{^isEnum}}
+                {{#description}}
+                    /* {{{description}}} */
+                {{/description}}
+                {{{name}}}: {{^required}}Option[{{/required}}{{dataType}}{{^required}}]{{/required}}{{#hasMore}},{{/hasMore}}
+            {{/isEnum}}
+        {{/vars}}
+        )
+
+            object {{classname}} {
+            {{#discriminator}}
+                private val discriminator = "{{discriminator.propertyBaseName}}"
+
+                implicit val format: OFormat[{{classname}}] = new OFormat[Fruit]{
+                    override def reads(json: JsValue): JsResult[{{classname}}] =
+                        json.validate[JsObject].flatMap(
+                            _.value(discriminator).as[String] match {
+                                {{#oneOf}}
+                                case "{{.}}" => json.validate[{{.}}]
+                                {{/oneOf}}
+                            }
+                        )
+
+                    override def writes(o: {{classname}}): JsObject = o match {
+                        {{#oneOf}}
+                            case a: {{.}} => {{.}}.format.writes(a) + (discriminator -> JsString("{{.}}"))
+                        {{/oneOf}}
+                    }
+                }
+            {{/discriminator}}
+            {{^discriminator}}
+                implicit val format: Format[{{classname}}] = Json.format
+            {{/discriminator}}
+            }
+
+        {{#vars}}
+            {{#isEnum}}
+                object {{classname}}{{datatypeWithEnum}} extends Enumeration {
+                }
+            {{/isEnum}}
+        {{/vars}}
+
     {{/isEnum}}
-{{/vars}}
-)
-
-object {{classname}} {
-implicit val format: Format[{{classname}}] = Json.format
-}
-
-{{#vars}}
-  {{#isEnum}}
-object {{classname}}{{datatypeWithEnum}} extends Enumeration {
-  val {{#allowableValues}}  {{#values}}{{.}}{{^-last}}, {{/-last}}{{/values}} = Value{{/allowableValues}}
-  type {{classname}}{{datatypeWithEnum}} = Value
-  implicit val format: Format[Value] = Format(Reads.enumNameReads(this), Writes.enumNameWrites[{{classname}}{{datatypeWithEnum}}.type])
-}
- {{/isEnum}}
-{{/vars}}
 {{/model}}
 {{/models}}
