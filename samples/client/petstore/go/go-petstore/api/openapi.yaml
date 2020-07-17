@@ -2090,10 +2090,12 @@ components:
       properties:
         breed:
           type: string
+      type: object
     Cat_allOf:
       properties:
         declawed:
           type: boolean
+      type: object
     BigCat_allOf:
       properties:
         kind:
@@ -2103,6 +2105,7 @@ components:
           - leopards
           - jaguars
           type: string
+      type: object
   securitySchemes:
     petstore_auth:
       flows:
