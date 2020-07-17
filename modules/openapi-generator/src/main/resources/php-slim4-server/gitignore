@@ -16,3 +16,9 @@ composer.phar
 
 # Do not commit local PHP_CodeSniffer config
 /phpcs.xml
+
+# Application config may contain sensitive data
+/config/**/*.*
+!/config/.htaccess
+!/config/dev/example.inc.php
+!/config/prod/example.inc.php
