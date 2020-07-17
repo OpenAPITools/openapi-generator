@@ -17,7 +17,10 @@ import (
 type AdditionalPropertiesClass struct {
 	MapProperty *map[string]string `json:"map_property,omitempty"`
 	MapOfMapProperty *map[string]map[string]string `json:"map_of_map_property,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _AdditionalPropertiesClass AdditionalPropertiesClass
 
 // NewAdditionalPropertiesClass instantiates a new AdditionalPropertiesClass object
 // This constructor will assign default values to properties that have it defined,
@@ -108,7 +111,30 @@ func (o AdditionalPropertiesClass) MarshalJSON() ([]byte, error) {
 	if o.MapOfMapProperty != nil {
 		toSerialize["map_of_map_property"] = o.MapOfMapProperty
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *AdditionalPropertiesClass) UnmarshalJSON(bytes []byte) (err error) {
+	varAdditionalPropertiesClass := _AdditionalPropertiesClass{}
+
+	if err = json.Unmarshal(bytes, &varAdditionalPropertiesClass); err == nil {
+		*o = AdditionalPropertiesClass(varAdditionalPropertiesClass)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "map_property")
+		delete(additionalProperties, "map_of_map_property")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableAdditionalPropertiesClass struct {
