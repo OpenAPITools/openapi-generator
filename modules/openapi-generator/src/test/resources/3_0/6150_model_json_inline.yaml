@@ -17,6 +17,8 @@ paths:
             application/json:
               schema:
                 type: object
+                # OAS3 spec allows to use any value in format field
+                format: unknown
                 properties:
                   foo:
                     type: string
@@ -33,6 +35,8 @@ paths:
               schema:
                 title: FooBarObject
                 type: object
+                # wrong format just to make sure it won't be stripped
+                format: date-time
                 properties:
                   foo:
                     type: string
