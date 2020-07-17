@@ -270,8 +270,10 @@ public class InlineModelResolverTest {
         
         Schema InlineResponse200 = openAPI.getComponents().getSchemas().get("inline_response_200");
         assertEquals("object", InlineResponse200.getType());
+        assertEquals("unknown", InlineResponse200.getFormat());
         Schema FooBarObject = openAPI.getComponents().getSchemas().get("FooBarObject");
         assertEquals("object", FooBarObject.getType());
+        assertEquals("date-time", FooBarObject.getFormat());
         Schema Animal = openAPI.getComponents().getSchemas().get("Animal");
         assertEquals("object", Animal.getType());
         Schema Dog = openAPI.getComponents().getSchemas().get("Dog");

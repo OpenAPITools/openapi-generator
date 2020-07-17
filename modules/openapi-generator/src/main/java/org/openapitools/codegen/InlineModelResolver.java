@@ -624,6 +624,9 @@ public class InlineModelResolver {
         if (object.getType() != null) {
             model.setType(object.getType());
         }
+        if (object.getFormat() != null) {
+            model.setFormat(object.getFormat());
+        }
         model.setDescription(description);
         model.setExample(example);
         model.setName(object.getName());
