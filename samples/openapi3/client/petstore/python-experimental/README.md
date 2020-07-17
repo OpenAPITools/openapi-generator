@@ -50,7 +50,8 @@ import datetime
 import time
 import petstore_api
 from pprint import pprint
-
+from petstore_api.api import another_fake_api
+from petstore_api.model import client
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -62,8 +63,8 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.AnotherFakeApi(api_client)
-    client_client = petstore_api.Client() # client.Client | client model
+    api_instance = another_fake_api.AnotherFakeApi(api_client)
+    client_client = client.Client() # client.Client | client model
 
     try:
         # To test special tags
@@ -71,7 +72,6 @@ with petstore_api.ApiClient(configuration) as api_client:
         pprint(api_response)
     except petstore_api.ApiException as e:
         print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
-    
 ```
 
 ## Documentation for API Endpoints
@@ -82,11 +82,15 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
 *DefaultApi* | [**foo_get**](docs/DefaultApi.md#foo_get) | **GET** /foo | 
+*FakeApi* | [**additional_properties_with_array_of_enums**](docs/FakeApi.md#additional_properties_with_array_of_enums) | **GET** /fake/additional-properties-with-array-of-enums | Additional Properties with Array of Enums
+*FakeApi* | [**array_model**](docs/FakeApi.md#array_model) | **POST** /fake/refs/arraymodel | 
+*FakeApi* | [**array_of_enums**](docs/FakeApi.md#array_of_enums) | **POST** /fake/refs/array-of-enums | Array of Enums
+*FakeApi* | [**boolean**](docs/FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
 *FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
-*FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
-*FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
-*FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
-*FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**number_with_validations**](docs/FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
+*FakeApi* | [**object_model_with_ref_props**](docs/FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
+*FakeApi* | [**string**](docs/FakeApi.md#string) | **POST** /fake/refs/string | 
+*FakeApi* | [**string_enum**](docs/FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -123,25 +127,33 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [additional_properties_class.AdditionalPropertiesClass](docs/AdditionalPropertiesClass.md)
+ - [additional_properties_with_array_of_enums.AdditionalPropertiesWithArrayOfEnums](docs/AdditionalPropertiesWithArrayOfEnums.md)
  - [address.Address](docs/Address.md)
  - [animal.Animal](docs/Animal.md)
+ - [animal_farm.AnimalFarm](docs/AnimalFarm.md)
  - [api_response.ApiResponse](docs/ApiResponse.md)
  - [apple.Apple](docs/Apple.md)
  - [apple_req.AppleReq](docs/AppleReq.md)
  - [array_of_array_of_number_only.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
+ - [array_of_enums.ArrayOfEnums](docs/ArrayOfEnums.md)
  - [array_of_number_only.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
  - [array_test.ArrayTest](docs/ArrayTest.md)
  - [banana.Banana](docs/Banana.md)
  - [banana_req.BananaReq](docs/BananaReq.md)
+ - [basque_pig.BasquePig](docs/BasquePig.md)
  - [capitalization.Capitalization](docs/Capitalization.md)
  - [cat.Cat](docs/Cat.md)
  - [cat_all_of.CatAllOf](docs/CatAllOf.md)
  - [category.Category](docs/Category.md)
+ - [child_cat.ChildCat](docs/ChildCat.md)
+ - [child_cat_all_of.ChildCatAllOf](docs/ChildCatAllOf.md)
  - [class_model.ClassModel](docs/ClassModel.md)
  - [client.Client](docs/Client.md)
  - [complex_quadrilateral.ComplexQuadrilateral](docs/ComplexQuadrilateral.md)
+ - [danish_pig.DanishPig](docs/DanishPig.md)
  - [dog.Dog](docs/Dog.md)
  - [dog_all_of.DogAllOf](docs/DogAllOf.md)
+ - [drawing.Drawing](docs/Drawing.md)
  - [enum_arrays.EnumArrays](docs/EnumArrays.md)
  - [enum_class.EnumClass](docs/EnumClass.md)
  - [enum_test.EnumTest](docs/EnumTest.md)
@@ -153,6 +165,7 @@ Class | Method | HTTP request | Description
  - [fruit.Fruit](docs/Fruit.md)
  - [fruit_req.FruitReq](docs/FruitReq.md)
  - [gm_fruit.GmFruit](docs/GmFruit.md)
+ - [grandparent_animal.GrandparentAnimal](docs/GrandparentAnimal.md)
  - [has_only_read_only.HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [health_check_result.HealthCheckResult](docs/HealthCheckResult.md)
  - [inline_object.InlineObject](docs/InlineObject.md)
@@ -162,6 +175,9 @@ Class | Method | HTTP request | Description
  - [inline_object4.InlineObject4](docs/InlineObject4.md)
  - [inline_object5.InlineObject5](docs/InlineObject5.md)
  - [inline_response_default.InlineResponseDefault](docs/InlineResponseDefault.md)
+ - [integer_enum.IntegerEnum](docs/IntegerEnum.md)
+ - [integer_enum_one_value.IntegerEnumOneValue](docs/IntegerEnumOneValue.md)
+ - [integer_enum_with_default_value.IntegerEnumWithDefaultValue](docs/IntegerEnumWithDefaultValue.md)
  - [isosceles_triangle.IsoscelesTriangle](docs/IsoscelesTriangle.md)
  - [list.List](docs/List.md)
  - [mammal.Mammal](docs/Mammal.md)
@@ -171,23 +187,26 @@ Class | Method | HTTP request | Description
  - [model_return.ModelReturn](docs/ModelReturn.md)
  - [name.Name](docs/Name.md)
  - [nullable_class.NullableClass](docs/NullableClass.md)
+ - [nullable_shape.NullableShape](docs/NullableShape.md)
  - [number_only.NumberOnly](docs/NumberOnly.md)
+ - [number_with_validations.NumberWithValidations](docs/NumberWithValidations.md)
+ - [object_model_with_ref_props.ObjectModelWithRefProps](docs/ObjectModelWithRefProps.md)
  - [order.Order](docs/Order.md)
- - [outer_composite.OuterComposite](docs/OuterComposite.md)
- - [outer_enum.OuterEnum](docs/OuterEnum.md)
- - [outer_enum_default_value.OuterEnumDefaultValue](docs/OuterEnumDefaultValue.md)
- - [outer_enum_integer.OuterEnumInteger](docs/OuterEnumInteger.md)
- - [outer_enum_integer_default_value.OuterEnumIntegerDefaultValue](docs/OuterEnumIntegerDefaultValue.md)
+ - [parent_pet.ParentPet](docs/ParentPet.md)
  - [pet.Pet](docs/Pet.md)
+ - [pig.Pig](docs/Pig.md)
  - [quadrilateral.Quadrilateral](docs/Quadrilateral.md)
  - [quadrilateral_interface.QuadrilateralInterface](docs/QuadrilateralInterface.md)
  - [read_only_first.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [scalene_triangle.ScaleneTriangle](docs/ScaleneTriangle.md)
  - [shape.Shape](docs/Shape.md)
  - [shape_interface.ShapeInterface](docs/ShapeInterface.md)
+ - [shape_or_null.ShapeOrNull](docs/ShapeOrNull.md)
  - [simple_quadrilateral.SimpleQuadrilateral](docs/SimpleQuadrilateral.md)
  - [special_model_name.SpecialModelName](docs/SpecialModelName.md)
  - [string_boolean_map.StringBooleanMap](docs/StringBooleanMap.md)
+ - [string_enum.StringEnum](docs/StringEnum.md)
+ - [string_enum_with_default_value.StringEnumWithDefaultValue](docs/StringEnumWithDefaultValue.md)
  - [tag.Tag](docs/Tag.md)
  - [triangle.Triangle](docs/Triangle.md)
  - [triangle_interface.TriangleInterface](docs/TriangleInterface.md)
@@ -242,4 +261,23 @@ Class | Method | HTTP request | Description
 
 
 
+
+## Notes for Large OpenAPI documents
+If the OpenAPI document is large, imports in petstore_api.apis and petstore_api.models may fail with a
+RecursionError indicating the maximum recursion limit has been exceeded. In that case, there are a couple of solutions:
+
+Solution 1:
+Use specific imports for apis and models like:
+- `from petstore_api.api.default_api import DefaultApi`
+- `from petstore_api.model.pet import Pet`
+
+Solution 1:
+Before importing the package, adjust the maximum recursion limit as shown below:
+```
+import sys
+sys.setrecursionlimit(1500)
+import petstore_api
+from petstore_api.apis import *
+from petstore_api.models import *
+```
 

@@ -18,7 +18,7 @@ Method | HTTP request | Description
 
 ## AddPet
 
-> void AddPet (Pet pet)
+> void AddPet (Pet body)
 
 Add a new pet to the store
 
@@ -42,12 +42,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(Configuration.Default);
-            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+            var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Add a new pet to the store
-                apiInstance.AddPet(pet);
+                apiInstance.AddPet(body);
             }
             catch (ApiException e)
             {
@@ -65,7 +65,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -83,6 +83,7 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 [[Back to top]](#)
@@ -160,6 +161,7 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 | **400** | Invalid pet value |  -  |
 
 [[Back to top]](#)
@@ -410,7 +412,7 @@ Name | Type | Description  | Notes
 
 ## UpdatePet
 
-> void UpdatePet (Pet pet)
+> void UpdatePet (Pet body)
 
 Update an existing pet
 
@@ -434,12 +436,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi(Configuration.Default);
-            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+            var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Update an existing pet
-                apiInstance.UpdatePet(pet);
+                apiInstance.UpdatePet(body);
             }
             catch (ApiException e)
             {
@@ -457,7 +459,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
@@ -475,6 +477,7 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |

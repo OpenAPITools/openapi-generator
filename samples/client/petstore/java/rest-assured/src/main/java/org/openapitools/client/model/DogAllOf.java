@@ -30,7 +30,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * DogAllOf
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DogAllOf {
   public static final String SERIALIZED_NAME_BREED = "breed";
   @SerializedName(SERIALIZED_NAME_BREED)

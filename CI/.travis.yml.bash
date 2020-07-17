@@ -34,4 +34,4 @@ script:
   - set -e
   # run integration tests defined in maven pom.xml
   - cp pom.xml.bash pom.xml
-  - mvn --batch-mode verify -Psamples
+  - mvn --no-snapshot-updates --batch-mode verify -Psamples

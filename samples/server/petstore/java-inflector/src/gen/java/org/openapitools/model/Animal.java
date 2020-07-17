@@ -12,10 +12,10 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class Animal   {
   @JsonProperty("className")
-  private String className = null;
+  private String className;
 
   @JsonProperty("color")
   private String color = "red";

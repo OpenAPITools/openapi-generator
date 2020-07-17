@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="addpet"></a>
 # **AddPet**
-> Pet AddPet (Pet pet)
+> void AddPet (Pet body)
 
 Add a new pet to the store
 
@@ -38,13 +38,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+            var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Add a new pet to the store
-                Pet result = apiInstance.AddPet(pet);
-                Debug.WriteLine(result);
+                apiInstance.AddPet(body);
             }
             catch (Exception e)
             {
@@ -59,11 +58,11 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-[**Pet**](Pet.md)
+void (empty response body)
 
 ### Authorization
 
@@ -72,7 +71,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -335,7 +334,7 @@ Name | Type | Description  | Notes
 
 <a name="updatepet"></a>
 # **UpdatePet**
-> Pet UpdatePet (Pet pet)
+> void UpdatePet (Pet body)
 
 Update an existing pet
 
@@ -357,13 +356,12 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
+            var body = new Pet(); // Pet | Pet object that needs to be added to the store
 
             try
             {
                 // Update an existing pet
-                Pet result = apiInstance.UpdatePet(pet);
-                Debug.WriteLine(result);
+                apiInstance.UpdatePet(body);
             }
             catch (Exception e)
             {
@@ -378,11 +376,11 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-[**Pet**](Pet.md)
+void (empty response body)
 
 ### Authorization
 
@@ -391,7 +389,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: application/xml, application/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 

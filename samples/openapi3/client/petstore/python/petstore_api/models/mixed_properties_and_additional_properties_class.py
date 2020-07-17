@@ -78,7 +78,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         :param uuid: The uuid of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :type: str
+        :type uuid: str
         """
 
         self._uuid = uuid
@@ -99,7 +99,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         :param date_time: The date_time of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :type: datetime
+        :type date_time: datetime
         """
 
         self._date_time = date_time
@@ -120,7 +120,7 @@ class MixedPropertiesAndAdditionalPropertiesClass(object):
 
 
         :param map: The map of this MixedPropertiesAndAdditionalPropertiesClass.  # noqa: E501
-        :type: dict(str, Animal)
+        :type map: dict(str, Animal)
         """
 
         self._map = map

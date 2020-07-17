@@ -30,7 +30,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the another-fake API")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class AnotherFakeApi  {
    private final AnotherFakeApiService delegate;
 

@@ -32,7 +32,9 @@ function Invoke-PSApiClient {
         [string]$Method,
         [Parameter(Mandatory)]
         [AllowEmptyString()]
-        [string]$ReturnType
+        [string]$ReturnType,
+        [Parameter(Mandatory)]
+        [bool]$IsBodyNullable
     )
 
     'Calling method: Invoke-PSApiClient' | Write-Debug
@@ -91,22 +93,10 @@ function Invoke-PSApiClient {
         $RequestBody = $FormParameters
     }
 
-    if ($Body) {
+    if ($Body -or $IsBodyNullable) {
         $RequestBody = $Body
-    }
-
-# http signature authentication
-    if ($null -ne $Configuration['ApiKey'] -and $Configuration['ApiKey'].Count -gt 0) {
-        $httpSignHeaderArgument = @{
-            Method     = $Method
-            UriBuilder = $UriBuilder
-            Body       = $Body
-        }
-        $signedHeader = Get-PSHttpSignedHeader @httpSignHeaderArgument
-        if($null -ne $signedHeader -and $signedHeader.Count -gt 0){
-            foreach($item in $signedHeader.GetEnumerator()){
-                $HeaderParameters[$item.Name] = $item.Value
-            }
+        if ([string]::IsNullOrEmpty($RequestBody) -and $IsBodyNullable -eq $true) {
+            $RequestBody = "null"
         }
     }
 

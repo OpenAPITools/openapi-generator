@@ -16,8 +16,10 @@ import (
 // Apple struct for Apple
 type Apple struct {
 	Cultivar *string `json:"cultivar,omitempty"`
-	Color *string `json:"color,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Apple Apple
 
 // NewApple instantiates a new Apple object
 // This constructor will assign default values to properties that have it defined,
@@ -68,53 +70,36 @@ func (o *Apple) SetCultivar(v string) {
 	o.Cultivar = &v
 }
 
-// GetColor returns the Color field value if set, zero value otherwise.
-func (o *Apple) GetColor() string {
-	if o == nil || o.Color == nil {
-		var ret string
-		return ret
-	}
-	return *o.Color
-}
-
-// GetColorOk returns a tuple with the Color field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Apple) GetColorOk() (*string, bool) {
-	if o == nil || o.Color == nil {
-		return nil, false
-	}
-	return o.Color, true
-}
-
-// HasColor returns a boolean if a field has been set.
-func (o *Apple) HasColor() bool {
-	if o != nil && o.Color != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetColor gets a reference to the given string and assigns it to the Color field.
-func (o *Apple) SetColor(v string) {
-	o.Color = &v
-}
-
 func (o Apple) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Cultivar != nil {
 		toSerialize["cultivar"] = o.Cultivar
 	}
-	if o.Color != nil {
-		toSerialize["color"] = o.Color
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
 	}
+
 	return json.Marshal(toSerialize)
 }
 
-// AsFruit wraps this instance of Apple in Fruit
-func (s *Apple) AsFruit() Fruit {
-	return Fruit{ FruitInterface: s }
+func (o *Apple) UnmarshalJSON(bytes []byte) (err error) {
+	varApple := _Apple{}
+
+	if err = json.Unmarshal(bytes, &varApple); err == nil {
+		*o = Apple(varApple)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "cultivar")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
+
 type NullableApple struct {
 	value *Apple
 	isSet bool
@@ -150,3 +135,5 @@ func (v *NullableApple) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

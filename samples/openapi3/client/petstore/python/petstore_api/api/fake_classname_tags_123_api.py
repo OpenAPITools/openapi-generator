@@ -42,21 +42,26 @@ class FakeClassnameTags123Api(object):
         To test class name in snake case  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_classname(client, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param Client client: client model (required)
+        :param client: client model (required)
+        :type client: Client
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
+        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :return: Client
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
+        :rtype: Client
         """
         kwargs['_return_http_data_only'] = True
         return self.test_classname_with_http_info(client, **kwargs)  # noqa: E501
@@ -67,23 +72,33 @@ class FakeClassnameTags123Api(object):
         To test class name in snake case  # noqa: E501
         This method makes a synchronous HTTP request by default. To make an
         asynchronous HTTP request, please pass async_req=True
+
         >>> thread = api.test_classname_with_http_info(client, async_req=True)
         >>> result = thread.get()
 
-        :param async_req bool: execute request asynchronously
-        :param Client client: client model (required)
+        :param client: client model (required)
+        :type client: Client
+        :param async_req: Whether to execute the request asynchronously.
+        :type async_req: bool, optional
         :param _return_http_data_only: response data without head status code
                                        and headers
+        :type _return_http_data_only: bool, optional
         :param _preload_content: if False, the urllib3.HTTPResponse object will
                                  be returned without reading/decoding response
                                  data. Default is True.
+        :type _preload_content: bool, optional
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
                                  (connection, read) timeouts.
-        :return: tuple(Client, status_code(int), headers(HTTPHeaderDict))
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the authentication
+                              in the spec for a single request.
+        :type _request_auth: dict, optional
+        :return: Returns the result object.
                  If the method is called asynchronously,
                  returns the request thread.
+        :rtype: tuple(Client, status_code(int), headers(HTTPHeaderDict))
         """
 
         local_var_params = locals()
@@ -96,7 +111,8 @@ class FakeClassnameTags123Api(object):
                 'async_req',
                 '_return_http_data_only',
                 '_preload_content',
-                '_request_timeout'
+                '_request_timeout',
+                '_request_auth'
             ]
         )
 
@@ -152,4 +168,5 @@ class FakeClassnameTags123Api(object):
             _return_http_data_only=local_var_params.get('_return_http_data_only'),  # noqa: E501
             _preload_content=local_var_params.get('_preload_content', True),
             _request_timeout=local_var_params.get('_request_timeout'),
-            collection_formats=collection_formats)
+            collection_formats=collection_formats,
+            _request_auth=local_var_params.get('_request_auth'))

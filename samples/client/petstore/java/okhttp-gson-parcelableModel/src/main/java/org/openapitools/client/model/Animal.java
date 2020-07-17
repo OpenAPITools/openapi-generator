@@ -23,13 +23,16 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import org.openapitools.client.model.BigCat;
+import org.openapitools.client.model.Cat;
+import org.openapitools.client.model.Dog;
 import android.os.Parcelable;
 import android.os.Parcel;
 
 /**
  * Animal
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 
 public class Animal implements Parcelable {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";

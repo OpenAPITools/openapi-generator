@@ -9,6 +9,7 @@ import play.mvc.Http;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
@@ -21,7 +22,7 @@ import play.Configuration;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class StoreApiController extends Controller {
 
     private final ObjectMapper mapper;

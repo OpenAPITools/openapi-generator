@@ -64,7 +64,7 @@ export class UserApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createUser.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -97,7 +97,7 @@ export class UserApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createUsersWithArrayInput.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -129,7 +129,7 @@ export class UserApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling createUsersWithListInput.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -162,7 +162,7 @@ export class UserApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('username','Required parameter requestParameters.username was null or undefined when calling deleteUser.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -192,7 +192,7 @@ export class UserApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('username','Required parameter requestParameters.username was null or undefined when calling getUserByName.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -226,7 +226,7 @@ export class UserApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('password','Required parameter requestParameters.password was null or undefined when calling loginUser.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         if (requestParameters.username !== undefined) {
             queryParameters['username'] = requestParameters.username;
@@ -260,7 +260,7 @@ export class UserApi extends runtime.BaseAPI {
      * Logs out current logged in user session
      */
     async logoutUserRaw(): Promise<runtime.ApiResponse<void>> {
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -294,7 +294,7 @@ export class UserApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling updateUser.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 

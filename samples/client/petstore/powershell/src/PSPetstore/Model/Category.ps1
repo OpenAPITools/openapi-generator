@@ -16,10 +16,8 @@ A category for a pet
 
 .PARAMETER Id
 No description available.
-
 .PARAMETER Name
 No description available.
-
 .OUTPUTS
 
 Category<PSCustomObject>
@@ -41,6 +39,66 @@ function Initialize-PSCategory {
         'Creating PSCustomObject: PSPetstore => PSCategory' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
+
+        $PSO = [PSCustomObject]@{
+            "id" = ${Id}
+            "name" = ${Name}
+        }
+
+
+        return $PSO
+    }
+}
+
+<#
+.SYNOPSIS
+
+Convert from JSON to Category<PSCustomObject>
+
+.DESCRIPTION
+
+Convert from JSON to Category<PSCustomObject>
+
+.PARAMETER Json
+
+Json object
+
+.OUTPUTS
+
+Category<PSCustomObject>
+#>
+function ConvertFrom-PSJsonToCategory {
+    Param(
+        [AllowEmptyString()]
+        [string]$Json
+    )
+
+    Process {
+        'Converting JSON to PSCustomObject: PSPetstore => PSCategory' | Write-Debug
+        $PSBoundParameters | Out-DebugParameter | Write-Debug
+
+        $JsonParameters = ConvertFrom-Json -InputObject $Json
+
+        # check if Json contains properties not defined in PSCategory
+        $AllProperties = ("id", "name")
+        foreach ($name in $JsonParameters.PsObject.Properties.Name) {
+            if (!($AllProperties.Contains($name))) {
+                throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
+            }
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "id"))) { #optional property not found
+            $Id = $null
+        } else {
+            $Id = $JsonParameters.PSobject.Properties["id"].value
+        }
+
+        if (!([bool]($JsonParameters.PSobject.Properties.name -match "name"))) { #optional property not found
+            $Name = $null
+        } else {
+            $Name = $JsonParameters.PSobject.Properties["name"].value
+        }
+
         $PSO = [PSCustomObject]@{
             "id" = ${Id}
             "name" = ${Name}
@@ -48,4 +106,6 @@ function Initialize-PSCategory {
 
         return $PSO
     }
+
 }
+

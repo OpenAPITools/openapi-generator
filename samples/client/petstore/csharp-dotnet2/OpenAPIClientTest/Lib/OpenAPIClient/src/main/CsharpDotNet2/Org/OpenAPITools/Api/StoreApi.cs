@@ -31,9 +31,9 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Place an order for a pet 
         /// </summary>
-        /// <param name="order">order placed for purchasing the pet</param>
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        Order PlaceOrder (Order order);
+        Order PlaceOrder (Order body);
     }
   
     /// <summary>
@@ -198,13 +198,13 @@ namespace Org.OpenAPITools.Api
         /// <summary>
         /// Place an order for a pet 
         /// </summary>
-        /// <param name="order">order placed for purchasing the pet</param> 
+        /// <param name="body">order placed for purchasing the pet</param> 
         /// <returns>Order</returns>            
-        public Order PlaceOrder (Order order)
+        public Order PlaceOrder (Order body)
         {
             
-            // verify the required parameter 'order' is set
-            if (order == null) throw new ApiException(400, "Missing required parameter 'order' when calling PlaceOrder");
+            // verify the required parameter 'body' is set
+            if (body == null) throw new ApiException(400, "Missing required parameter 'body' when calling PlaceOrder");
             
     
             var path = "/store/order";
@@ -216,7 +216,7 @@ namespace Org.OpenAPITools.Api
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-                                                postBody = ApiClient.Serialize(order); // http body (model) parameter
+                                                postBody = ApiClient.Serialize(body); // http body (model) parameter
     
             // authentication setting, if any
             String[] authSettings = new String[] {  };

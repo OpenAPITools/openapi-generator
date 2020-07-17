@@ -104,6 +104,11 @@
   infoLink: "https://www.cupix.com/"
   pinned: false
 -
+  caption: "Datadog"
+  image: "img/companies/datadog.png"
+  infoLink: "https://www.datadoghq.com"
+  pinned: false
+-
   caption: "DB Systel"
   image: "img/companies/db-systel.png"
   infoLink: "https://www.dbsystel.de"
@@ -324,6 +329,11 @@
   infoLink: "https://www.sie.com/en/index.html"
   pinned: false
 -
+  caption: "Splitit"
+  image: "img/companies/splitit.png"
+  infoLink: "https://www.splitit.com/"
+  pinned: false
+-
   caption: Stingray
   image: "img/companies/stingray.png"
   infoLink: "http://www.stingray.com/"
@@ -382,6 +392,11 @@
   caption: Yahoo! Japan
   image: "img/companies/yahoo_japan.png"
   infoLink: "https://www.yahoo.co.jp"
+  pinned: false
+-
+  caption: Vonage
+  image: "img/companies/vonage.jpg"
+  infoLink: "https://vonage.com"
   pinned: false
 -
   caption: YITU Technology

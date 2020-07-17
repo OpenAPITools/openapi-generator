@@ -144,8 +144,8 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     QByteArray output = {{paramName}}.asByteArray();{{/isFile}}
     input.request_body.append(output);
 {{/isContainer}}{{/bodyParams}}{{#headerParams}}
-    if ({{paramName}} != nullptr) {
-        input.headers.insert("{{baseName}}", {{paramName}});
+    if (!::{{cppNamespace}}::toStringValue({{paramName}}).isEmpty()) {
+        input.headers.insert("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));
     }
 {{/headerParams}}
 

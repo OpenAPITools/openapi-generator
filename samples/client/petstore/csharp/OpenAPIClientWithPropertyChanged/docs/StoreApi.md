@@ -241,7 +241,7 @@ No authorization required
 
 ## PlaceOrder
 
-> Order PlaceOrder (Order order)
+> Order PlaceOrder (Order body)
 
 Place an order for a pet
 
@@ -262,12 +262,12 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new StoreApi(Configuration.Default);
-            var order = new Order(); // Order | order placed for purchasing the pet
+            var body = new Order(); // Order | order placed for purchasing the pet
 
             try
             {
                 // Place an order for a pet
-                Order result = apiInstance.PlaceOrder(order);
+                Order result = apiInstance.PlaceOrder(body);
                 Debug.WriteLine(result);
             }
             catch (ApiException e)
@@ -286,7 +286,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
 
 ### Return type
 
@@ -298,7 +298,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/xml, application/json
 
 ### HTTP response details

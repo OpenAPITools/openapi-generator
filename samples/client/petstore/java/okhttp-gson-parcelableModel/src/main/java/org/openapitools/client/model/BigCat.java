@@ -31,6 +31,7 @@ import android.os.Parcel;
 /**
  * BigCat
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 
 public class BigCat extends Cat implements Parcelable {
   /**
@@ -90,6 +91,7 @@ public class BigCat extends Cat implements Parcelable {
 
   public BigCat() {
     super();
+    this.className = this.getClass().getSimpleName();
   }
 
   public BigCat kind(KindEnum kind) {

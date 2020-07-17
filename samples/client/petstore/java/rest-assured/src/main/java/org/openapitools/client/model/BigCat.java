@@ -32,6 +32,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * BigCat
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 
 public class BigCat extends Cat {
   /**
@@ -89,6 +90,9 @@ public class BigCat extends Cat {
   @SerializedName(SERIALIZED_NAME_KIND)
   private KindEnum kind;
 
+  public BigCat() {
+    this.className = this.getClass().getSimpleName();
+  }
 
   public BigCat kind(KindEnum kind) {
     

@@ -10,13 +10,13 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class HasOnlyReadOnly   {
   @JsonProperty("bar")
-  private String bar = null;
+  private String bar;
 
   @JsonProperty("foo")
-  private String foo = null;
+  private String foo;
 
   /**
    **/

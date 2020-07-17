@@ -68,7 +68,7 @@ class AdditionalPropertiesBoolean(object):
 
 
         :param name: The name of this AdditionalPropertiesBoolean.  # noqa: E501
-        :type: str
+        :type name: str
         """
 
         self._name = name

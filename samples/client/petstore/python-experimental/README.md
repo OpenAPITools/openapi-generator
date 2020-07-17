@@ -50,7 +50,8 @@ from __future__ import print_function
 import time
 import petstore_api
 from pprint import pprint
-
+from petstore_api.api import another_fake_api
+from petstore_api.model import client
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = petstore_api.Configuration(
@@ -62,8 +63,8 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.AnotherFakeApi(api_client)
-    body = petstore_api.Client() # client.Client | client model
+    api_instance = another_fake_api.AnotherFakeApi(api_client)
+    body = client.Client() # client.Client | client model
 
     try:
         # To test special tags
@@ -71,7 +72,6 @@ with petstore_api.ApiClient(configuration) as api_client:
         pprint(api_response)
     except petstore_api.ApiException as e:
         print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
-    
 ```
 
 ## Documentation for API Endpoints
@@ -81,12 +81,13 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call_123_test_special_tags**](docs/AnotherFakeApi.md#call_123_test_special_tags) | **PATCH** /another-fake/dummy | To test special tags
+*FakeApi* | [**array_model**](docs/FakeApi.md#array_model) | **POST** /fake/refs/arraymodel | 
+*FakeApi* | [**boolean**](docs/FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
 *FakeApi* | [**create_xml_item**](docs/FakeApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
-*FakeApi* | [**fake_outer_boolean_serialize**](docs/FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
-*FakeApi* | [**fake_outer_composite_serialize**](docs/FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
-*FakeApi* | [**fake_outer_enum_serialize**](docs/FakeApi.md#fake_outer_enum_serialize) | **POST** /fake/outer/enum | 
-*FakeApi* | [**fake_outer_number_serialize**](docs/FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
-*FakeApi* | [**fake_outer_string_serialize**](docs/FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**number_with_validations**](docs/FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
+*FakeApi* | [**object_model_with_ref_props**](docs/FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
+*FakeApi* | [**string**](docs/FakeApi.md#string) | **POST** /fake/refs/string | 
+*FakeApi* | [**string_enum**](docs/FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
 *FakeApi* | [**test_body_with_file_schema**](docs/FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**test_body_with_query_params**](docs/FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**test_client_model**](docs/FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -131,6 +132,7 @@ Class | Method | HTTP request | Description
  - [additional_properties_object.AdditionalPropertiesObject](docs/AdditionalPropertiesObject.md)
  - [additional_properties_string.AdditionalPropertiesString](docs/AdditionalPropertiesString.md)
  - [animal.Animal](docs/Animal.md)
+ - [animal_farm.AnimalFarm](docs/AnimalFarm.md)
  - [api_response.ApiResponse](docs/ApiResponse.md)
  - [array_of_array_of_number_only.ArrayOfArrayOfNumberOnly](docs/ArrayOfArrayOfNumberOnly.md)
  - [array_of_number_only.ArrayOfNumberOnly](docs/ArrayOfNumberOnly.md)
@@ -167,10 +169,9 @@ Class | Method | HTTP request | Description
  - [model_return.ModelReturn](docs/ModelReturn.md)
  - [name.Name](docs/Name.md)
  - [number_only.NumberOnly](docs/NumberOnly.md)
+ - [number_with_validations.NumberWithValidations](docs/NumberWithValidations.md)
+ - [object_model_with_ref_props.ObjectModelWithRefProps](docs/ObjectModelWithRefProps.md)
  - [order.Order](docs/Order.md)
- - [outer_composite.OuterComposite](docs/OuterComposite.md)
- - [outer_enum.OuterEnum](docs/OuterEnum.md)
- - [outer_number.OuterNumber](docs/OuterNumber.md)
  - [parent.Parent](docs/Parent.md)
  - [parent_all_of.ParentAllOf](docs/ParentAllOf.md)
  - [parent_pet.ParentPet](docs/ParentPet.md)
@@ -179,6 +180,7 @@ Class | Method | HTTP request | Description
  - [read_only_first.ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [special_model_name.SpecialModelName](docs/SpecialModelName.md)
  - [string_boolean_map.StringBooleanMap](docs/StringBooleanMap.md)
+ - [string_enum.StringEnum](docs/StringEnum.md)
  - [tag.Tag](docs/Tag.md)
  - [type_holder_default.TypeHolderDefault](docs/TypeHolderDefault.md)
  - [type_holder_example.TypeHolderExample](docs/TypeHolderExample.md)
@@ -222,4 +224,23 @@ Class | Method | HTTP request | Description
 
 
 
+
+## Notes for Large OpenAPI documents
+If the OpenAPI document is large, imports in petstore_api.apis and petstore_api.models may fail with a
+RecursionError indicating the maximum recursion limit has been exceeded. In that case, there are a couple of solutions:
+
+Solution 1:
+Use specific imports for apis and models like:
+- `from petstore_api.api.default_api import DefaultApi`
+- `from petstore_api.model.pet import Pet`
+
+Solution 1:
+Before importing the package, adjust the maximum recursion limit as shown below:
+```
+import sys
+sys.setrecursionlimit(1500)
+import petstore_api
+from petstore_api.apis import *
+from petstore_api.models import *
+```
 

@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## Call123TestSpecialTags
 
-> ModelClient Call123TestSpecialTags (ModelClient modelClient)
+> ModelClient Call123TestSpecialTags (ModelClient body)
 
 To test special tags
 
@@ -33,12 +33,12 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new AnotherFakeApi(Configuration.Default);
-            var modelClient = new ModelClient(); // ModelClient | client model
+            var body = new ModelClient(); // ModelClient | client model
 
             try
             {
                 // To test special tags
-                ModelClient result = apiInstance.Call123TestSpecialTags(modelClient);
+                ModelClient result = apiInstance.Call123TestSpecialTags(body);
                 Debug.WriteLine(result);
             }
             catch (ApiException e)
@@ -57,7 +57,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **modelClient** | [**ModelClient**](ModelClient.md)| client model | 
+ **body** | [**ModelClient**](ModelClient.md)| client model | 
 
 ### Return type
 

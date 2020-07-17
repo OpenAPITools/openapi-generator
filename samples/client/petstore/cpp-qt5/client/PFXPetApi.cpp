@@ -135,8 +135,8 @@ void PFXPetApi::deletePet(const qint64 &pet_id, const QString &api_key) {
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "DELETE");
 
-    if (api_key != nullptr) {
-        input.headers.insert("api_key", api_key);
+    if (!::test_namespace::toStringValue(api_key).isEmpty()) {
+        input.headers.insert("api_key", ::test_namespace::toStringValue(api_key));
     }
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }

@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 ## CreateUser
 
-> void CreateUser (User user)
+> void CreateUser (User body)
 
 Create user
 
@@ -40,12 +40,12 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(Configuration.Default);
-            var user = new User(); // User | Created user object
+            var body = new User(); // User | Created user object
 
             try
             {
                 // Create user
-                apiInstance.CreateUser(user);
+                apiInstance.CreateUser(body);
             }
             catch (ApiException e)
             {
@@ -63,7 +63,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**User**](User.md)| Created user object | 
+ **body** | [**User**](User.md)| Created user object | 
 
 ### Return type
 
@@ -75,7 +75,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: Not defined
 
 ### HTTP response details
@@ -91,7 +91,7 @@ No authorization required
 
 ## CreateUsersWithArrayInput
 
-> void CreateUsersWithArrayInput (List<User> user)
+> void CreateUsersWithArrayInput (List<User> body)
 
 Creates list of users with given input array
 
@@ -112,12 +112,12 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(Configuration.Default);
-            var user = new List<User>(); // List<User> | List of user object
+            var body = new List<User>(); // List<User> | List of user object
 
             try
             {
                 // Creates list of users with given input array
-                apiInstance.CreateUsersWithArrayInput(user);
+                apiInstance.CreateUsersWithArrayInput(body);
             }
             catch (ApiException e)
             {
@@ -135,7 +135,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List&lt;User&gt;**](User.md)| List of user object | 
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -147,7 +147,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: Not defined
 
 ### HTTP response details
@@ -163,7 +163,7 @@ No authorization required
 
 ## CreateUsersWithListInput
 
-> void CreateUsersWithListInput (List<User> user)
+> void CreateUsersWithListInput (List<User> body)
 
 Creates list of users with given input array
 
@@ -184,12 +184,12 @@ namespace Example
         {
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(Configuration.Default);
-            var user = new List<User>(); // List<User> | List of user object
+            var body = new List<User>(); // List<User> | List of user object
 
             try
             {
                 // Creates list of users with given input array
-                apiInstance.CreateUsersWithListInput(user);
+                apiInstance.CreateUsersWithListInput(body);
             }
             catch (ApiException e)
             {
@@ -207,7 +207,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user** | [**List&lt;User&gt;**](User.md)| List of user object | 
+ **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
 
 ### Return type
 
@@ -219,7 +219,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: Not defined
 
 ### HTTP response details
@@ -529,7 +529,7 @@ No authorization required
 
 ## UpdateUser
 
-> void UpdateUser (string username, User user)
+> void UpdateUser (string username, User body)
 
 Updated user
 
@@ -553,12 +553,12 @@ namespace Example
             Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             var apiInstance = new UserApi(Configuration.Default);
             var username = username_example;  // string | name that need to be deleted
-            var user = new User(); // User | Updated user object
+            var body = new User(); // User | Updated user object
 
             try
             {
                 // Updated user
-                apiInstance.UpdateUser(username, user);
+                apiInstance.UpdateUser(username, body);
             }
             catch (ApiException e)
             {
@@ -577,7 +577,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **string**| name that need to be deleted | 
- **user** | [**User**](User.md)| Updated user object | 
+ **body** | [**User**](User.md)| Updated user object | 
 
 ### Return type
 
@@ -589,7 +589,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: Not defined
 
 ### HTTP response details

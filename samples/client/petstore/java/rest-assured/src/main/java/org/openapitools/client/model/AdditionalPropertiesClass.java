@@ -34,7 +34,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * AdditionalPropertiesClass
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesClass {
   public static final String SERIALIZED_NAME_MAP_STRING = "map_string";
   @SerializedName(SERIALIZED_NAME_MAP_STRING)
@@ -345,7 +345,6 @@ public class AdditionalPropertiesClass {
    * @return anytype1
   **/
   @javax.annotation.Nullable
-  @Valid
   @ApiModelProperty(value = "")
 
   public Object getAnytype1() {
@@ -369,7 +368,6 @@ public class AdditionalPropertiesClass {
    * @return anytype2
   **/
   @javax.annotation.Nullable
-  @Valid
   @ApiModelProperty(value = "")
 
   public Object getAnytype2() {
@@ -393,7 +391,6 @@ public class AdditionalPropertiesClass {
    * @return anytype3
   **/
   @javax.annotation.Nullable
-  @Valid
   @ApiModelProperty(value = "")
 
   public Object getAnytype3() {

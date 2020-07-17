@@ -14,6 +14,7 @@ package org.openapitools.client.api;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
 import org.openapitools.client.Pair;
 
 import org.openapitools.client.model.Client;
@@ -35,8 +36,7 @@ import java.util.StringJoiner;
 import java.util.List;
 import java.util.Map;
 
-
-
+@javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AnotherFakeApi {
   private final HttpClient memberVarHttpClient;
   private final ObjectMapper memberVarObjectMapper;
@@ -44,7 +44,7 @@ public class AnotherFakeApi {
   private final Consumer<HttpRequest.Builder> memberVarInterceptor;
   private final Duration memberVarReadTimeout;
   private final Consumer<HttpResponse<InputStream>> memberVarResponseInterceptor;
-  
+
   public AnotherFakeApi() {
     this(new ApiClient());
   }
@@ -65,10 +65,51 @@ public class AnotherFakeApi {
    * @return Client
    * @throws ApiException if fails to make API call
    */
-  public Client call123testSpecialTags (Client body) throws ApiException {
+  public Client call123testSpecialTags(Client body) throws ApiException {
+    ApiResponse<Client> localVarResponse = call123testSpecialTagsWithHttpInfo(body);
+    return localVarResponse.getData();
+  }
+
+  /**
+   * To test special tags
+   * To test special tags and operation ID starting with number
+   * @param body client model (required)
+   * @return ApiResponse&lt;Client&gt;
+   * @throws ApiException if fails to make API call
+   */
+  public ApiResponse<Client> call123testSpecialTagsWithHttpInfo(Client body) throws ApiException {
+    HttpRequest.Builder localVarRequestBuilder = call123testSpecialTagsRequestBuilder(body);
+    try {
+      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofInputStream());
+      if (memberVarResponseInterceptor != null) {
+        memberVarResponseInterceptor.accept(localVarResponse);
+      }
+      if (localVarResponse.statusCode()/ 100 != 2) {
+        throw new ApiException(localVarResponse.statusCode(),
+            "call123testSpecialTags call received non-success response",
+            localVarResponse.headers(),
+            localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
+      }
+      return new ApiResponse<Client>(
+          localVarResponse.statusCode(),
+          localVarResponse.headers().map(),
+          memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {})
+        );
+    } catch (IOException e) {
+      throw new ApiException(e);
+    }
+    catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new ApiException(e);
+    }
+  }
+
+  private HttpRequest.Builder call123testSpecialTagsRequestBuilder(Client body) throws ApiException {
     // verify the required parameter 'body' is set
     if (body == null) {
-        throw new ApiException(400, "Missing the required parameter 'body' when calling call123testSpecialTags");
+      throw new ApiException(400, "Missing the required parameter 'body' when calling call123testSpecialTags");
     }
 
     HttpRequest.Builder localVarRequestBuilder = HttpRequest.newBuilder();
@@ -83,31 +124,15 @@ public class AnotherFakeApi {
     try {
       byte[] localVarPostBody = memberVarObjectMapper.writeValueAsBytes(body);
       localVarRequestBuilder.method("PATCH", HttpRequest.BodyPublishers.ofByteArray(localVarPostBody));
-      if (memberVarReadTimeout != null) {
-        localVarRequestBuilder.timeout(memberVarReadTimeout);
-      }
-      if (memberVarInterceptor != null) {
-        memberVarInterceptor.accept(localVarRequestBuilder);
-      }
-      HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
-      localVarRequestBuilder.build(),
-      HttpResponse.BodyHandlers.ofInputStream());
-      if (memberVarResponseInterceptor != null) {
-        memberVarResponseInterceptor.accept(localVarResponse);
-      }          
-      if (localVarResponse.statusCode()/ 100 != 2) {
-          throw new ApiException(localVarResponse.statusCode(),
-              "call123testSpecialTags call received non-success response",
-              localVarResponse.headers(),
-              localVarResponse.body() == null ? null : new String(localVarResponse.body().readAllBytes()));
-      }
-      return memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<Client>() {});
     } catch (IOException e) {
       throw new ApiException(e);
     }
-    catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      throw new ApiException(e);
+    if (memberVarReadTimeout != null) {
+      localVarRequestBuilder.timeout(memberVarReadTimeout);
     }
+    if (memberVarInterceptor != null) {
+      memberVarInterceptor.accept(localVarRequestBuilder);
+    }
+    return localVarRequestBuilder;
   }
 }

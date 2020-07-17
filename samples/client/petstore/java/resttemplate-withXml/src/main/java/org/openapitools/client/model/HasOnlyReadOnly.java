@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.*;
   HasOnlyReadOnly.JSON_PROPERTY_BAR,
   HasOnlyReadOnly.JSON_PROPERTY_FOO
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "HasOnlyReadOnly")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "HasOnlyReadOnly")

@@ -3,8 +3,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **Int64** |  | [optional] [default to null]
-**Name** | **String** |  | [optional] [default to null]
+**Id** | **Int64** |  | [optional] 
+**Name** | **String** |  | [optional] 
 
 ## Examples
 
