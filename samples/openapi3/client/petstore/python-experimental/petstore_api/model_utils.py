@@ -40,8 +40,6 @@ else:
     unicode_py2 = unicode  # noqa: F821
     long_py2 = long  # noqa: F821
     int_py2 = int
-    # this requires that the future library is installed
-    from builtins import int, str
 
 
 class cached_property(object):

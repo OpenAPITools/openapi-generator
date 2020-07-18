@@ -45,7 +45,6 @@ import petstore_api
 Please follow the [installation procedure](#installation--usage) and then run the following:
 
 ```python
-from __future__ import print_function
 import datetime
 import time
 import petstore_api
