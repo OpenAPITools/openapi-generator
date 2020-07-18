@@ -20,6 +20,9 @@ if [ "$NODE_INDEX" = "1" ]; then
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 
+  echo "show ivy2 cache"
+  ls -l /home/circleci/.ivy2/cache
+
 elif [ "$NODE_INDEX" = "2" ]; then
   # run ensure-up-to-date sample script on SNAPSHOT version only
   project_version=`mvn org.apache.maven.plugins:maven-help-plugin:3.1.0:evaluate -Dexpression=project.version -q -DforceStdout`
