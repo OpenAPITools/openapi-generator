@@ -45,7 +45,6 @@ import dynamic_servers
 Please follow the [installation procedure](#installation--usage) and then run the following:
 
 ```python
-from __future__ import print_function
 
 import time
 import dynamic_servers
