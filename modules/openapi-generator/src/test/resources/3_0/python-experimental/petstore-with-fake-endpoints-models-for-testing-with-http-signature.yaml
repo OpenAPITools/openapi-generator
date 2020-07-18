@@ -905,6 +905,26 @@ paths:
               schema:
                 $ref: '#/components/schemas/AnimalFarm'
       x-codegen-request-body-name: body
+  /fake/refs/composed_one_of_number_with_validations:
+    post:
+      tags:
+        - fake
+      description: Test serialization of object with $refed properties
+      operationId: ComposedOneOfNumberWithValidations
+      requestBody:
+        description: Input model
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComposedOneOfNumberWithValidations'
+        required: false
+      responses:
+        '200':
+          description: Output model
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComposedOneOfNumberWithValidations'
   /fake/refs/object_model_with_ref_props:
     post:
       tags:
@@ -1837,6 +1857,14 @@ components:
       type: number
       minimum: 10
       maximum: 20
+    ComposedOneOfNumberWithValidations:
+      description: this is a model that allows payloads of type object or number
+      oneOf:
+        - $ref: '#/components/schemas/NumberWithValidations'
+        - $ref: '#/components/schemas/Animal'
+        - type: 'null'
+        - type: string
+          format: date
     Number:
       type: number
     String:

@@ -5,6 +5,15 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+{{#isEnum}}
+**value** | {{^arrayModelType}}**{{dataType}}**{{/arrayModelType}} | {{description}} | {{#defaultValue}}{{#hasRequired}} if omitted the server will use the default value of {{/hasRequired}}{{^hasRequired}}defaults to {{/hasRequired}}{{{.}}}{{/defaultValue}}{{#allowableValues}}{{#defaultValue}}, {{/defaultValue}} must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}
+{{/isEnum}}
+{{#isAlias}}
+**value** | {{^arrayModelType}}**{{dataType}}**{{/arrayModelType}} | {{description}} | {{#defaultValue}}{{#hasRequired}} if omitted the server will use the default value of {{/hasRequired}}{{^hasRequired}}defaults to {{/hasRequired}}{{{.}}}{{/defaultValue}}
+{{/isAlias}}
+{{#isArrayModel}}
+**value** | {{^arrayModelType}}**{{dataType}}**{{/arrayModelType}}{{#arrayModelType}}[**{{dataType}}**]({{arrayModelType}}.md){{/arrayModelType}} | {{description}} | {{#defaultValue}}{{#hasRequired}} if omitted the server will use the default value of {{/hasRequired}}{{^hasRequired}}defaults to {{/hasRequired}}{{{.}}}{{/defaultValue}}
+{{/isArrayModel}}
 {{#requiredVars}}
 {{^defaultValue}}
 **{{name}}** | {{^complexType}}**{{dataType}}**{{/complexType}}{{#complexType}}[**{{dataType}}**]({{complexType}}.md){{/complexType}} | {{description}} | {{#isReadOnly}}[readonly] {{/isReadOnly}}
