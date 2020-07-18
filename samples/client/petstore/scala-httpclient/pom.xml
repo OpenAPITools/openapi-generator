@@ -172,7 +172,7 @@
                             <executable>sbt</executable>
                             <arguments>
                                 <argument>-ivy</argument>
-                                <argument>~/.ivy2</argument>
+                                <argument>${user.home}/.ivy2</argument>
                                 <argument>test</argument>
                             </arguments>
                         </configuration>
