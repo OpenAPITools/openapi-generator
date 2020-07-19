@@ -190,6 +190,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         supportingFiles.add(new SupportingFile(readmeTemplate, "", readmePath));
 
         if (!generateSourceCodeOnly) {
+            supportingFiles.remove(new SupportingFile("travis.mustache", "", ".travis.yml"));
+            supportingFiles.add(new SupportingFile("python-experimental/travis.mustache", "", ".travis.yml"));
+            supportingFiles.remove(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
+            supportingFiles.add(new SupportingFile("python-experimental/gitlab-ci.mustache", "", ".gitlab-ci.yml"));
             supportingFiles.remove(new SupportingFile("tox.mustache", "", "tox.ini"));
             supportingFiles.add(new SupportingFile("python-experimental/tox.mustache", "", "tox.ini"));
             supportingFiles.remove(new SupportingFile("setup.mustache", "", "setup.py"));

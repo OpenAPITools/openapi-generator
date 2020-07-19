@@ -13,4 +13,9 @@ install:
   - "pip install -r requirements.txt"
   - "pip install -r test-requirements.txt"
 # command to run tests
-script: pytest --cov=petstore_api
+{{#useNose}}
+script: nosetests
+{{/useNose}}
+{{^useNose}}
+script: pytest --cov={{{packageName}}}
+{{/useNose}}
