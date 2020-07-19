@@ -31,10 +31,8 @@ from dynamic_servers.model_utils import (
     datetime,
     deserialize_file,
     file_type,
-    int,
     model_to_dict,
     none_type,
-    str,
     validate_and_convert_types
 )
 

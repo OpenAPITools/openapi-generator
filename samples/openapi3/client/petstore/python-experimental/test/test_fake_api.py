@@ -207,7 +207,6 @@ class TestFakeApi(unittest.TestCase):
         """Test case for string
 
         """
-        from petstore_api.model_utils import str
         endpoint = self.api.string
         assert endpoint.openapi_types['body'] == (str,)
         assert endpoint.settings['response_type'] == (str,)
