@@ -146,6 +146,14 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         supportingFiles.remove(new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + "api", "__init__.py"));
         supportingFiles.add(new SupportingFile("python-experimental/__init__api.mustache", packagePath() + File.separatorChar + "api", "__init__.py"));
 
+        supportingFiles.remove(new SupportingFile("exceptions.mustache", packagePath(), "exceptions.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/exceptions.mustache", packagePath(), "exceptions.py"));
+
+        if ("urllib3".equals(getLibrary())) {
+            supportingFiles.remove(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
+            supportingFiles.add(new SupportingFile("python-experimental/rest.mustache", packagePath(), "rest.py"));
+        }
+
         supportingFiles.remove(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("python-experimental/__init__package.mustache", packagePath(), "__init__.py"));
 

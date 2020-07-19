@@ -12,13 +12,13 @@
 
 from datetime import date, datetime  # noqa: F401
 import inspect
+import io
 import os
 import pprint
 import re
 import tempfile
 
 from dateutil.parser import parse
-import six
 
 from x_auth_id_alias.exceptions import (
     ApiKeyError,
@@ -28,18 +28,7 @@ from x_auth_id_alias.exceptions import (
 )
 
 none_type = type(None)
-if six.PY3:
-    import io
-    file_type = io.IOBase
-    # these are needed for when other modules import str and int from here
-    str = str
-    int = int
-else:
-    file_type = file  # noqa: F821
-    str_py2 = str
-    unicode_py2 = unicode  # noqa: F821
-    long_py2 = long  # noqa: F821
-    int_py2 = int
+file_type = io.IOBase
 
 
 class cached_property(object):
@@ -342,13 +331,7 @@ class ModelSimple(OpenApiModel):
         types.add(this_val.__class__)
         types.add(that_val.__class__)
         vals_equal = this_val == that_val
-        if not six.PY3 and len(types) == 2 and unicode in types:  # noqa: F821
-            vals_equal = (
-                this_val.encode('utf-8') == that_val.encode('utf-8')
-            )
-        if not vals_equal:
-            return False
-        return True
+        return vals_equal
 
 
 class ModelNormal(OpenApiModel):
@@ -396,17 +379,12 @@ class ModelNormal(OpenApiModel):
 
         if not set(self._data_store.keys()) == set(other._data_store.keys()):
             return False
-        for _var_name, this_val in six.iteritems(self._data_store):
+        for _var_name, this_val in self._data_store.items():
             that_val = other._data_store[_var_name]
             types = set()
             types.add(this_val.__class__)
             types.add(that_val.__class__)
             vals_equal = this_val == that_val
-            if (not six.PY3 and
-                    len(types) == 2 and unicode in types):  # noqa: F821
-                vals_equal = (
-                    this_val.encode('utf-8') == that_val.encode('utf-8')
-                )
             if not vals_equal:
                 return False
         return True
@@ -525,17 +503,12 @@ class ModelComposed(OpenApiModel):
 
         if not set(self._data_store.keys()) == set(other._data_store.keys()):
             return False
-        for _var_name, this_val in six.iteritems(self._data_store):
+        for _var_name, this_val in self._data_store.items():
             that_val = other._data_store[_var_name]
             types = set()
             types.add(this_val.__class__)
             types.add(that_val.__class__)
             vals_equal = this_val == that_val
-            if (not six.PY3 and
-                    len(types) == 2 and unicode in types):  # noqa: F821
-                vals_equal = (
-                    this_val.encode('utf-8') == that_val.encode('utf-8')
-                )
             if not vals_equal:
                 return False
         return True
@@ -645,8 +618,6 @@ def get_simple_class(input_value):
         # isinstance(True, int) == True
         return bool
     elif isinstance(input_value, int):
-        # for python2 input_value==long_instance -> return int
-        # where int is the python3 int backport
         return int
     elif isinstance(input_value, datetime):
         # this must be higher than the date check because
@@ -654,8 +625,7 @@ def get_simple_class(input_value):
         return datetime
     elif isinstance(input_value, date):
         return date
-    elif (six.PY2 and isinstance(input_value, (str_py2, unicode_py2, str)) or
-            isinstance(input_value, str)):
+    elif isinstance(input_value, str):
         return str
     return type(input_value)
 
@@ -1100,12 +1070,12 @@ def deserialize_primitive(data, klass, path_to_item):
             return converted_value
     except (OverflowError, ValueError) as ex:
         # parse can raise OverflowError
-        six.raise_from(ApiValueError(
+        raise ApiValueError(
             "{0}Failed to parse {1} as {2}".format(
-                additional_message, repr(data), get_py3_class_name(klass)
+                additional_message, repr(data), klass.__name__
             ),
             path_to_item=path_to_item
-        ), ex)
+        ) from ex
 
 
 def get_discriminator_class(model_class,
@@ -1229,8 +1199,8 @@ def deserialize_file(response_data, configuration, content_disposition=None):
         path = os.path.join(os.path.dirname(path), filename)
 
     with open(path, "wb") as f:
-        if six.PY3 and isinstance(response_data, str):
-            # in python3 change str to bytes so we can write it
+        if isinstance(response_data, str):
+            # change str to bytes so we can write it
             response_data = response_data.encode('utf-8')
         f.write(response_data)
 
@@ -1449,7 +1419,7 @@ def validate_and_convert_types(input_value, required_types_mixed, path_to_item,
         if input_value == {}:
             # allow an empty dict
             return input_value
-        for inner_key, inner_val in six.iteritems(input_value):
+        for inner_key, inner_val in input_value.items():
             inner_path = list(path_to_item)
             inner_path.append(inner_key)
             if get_simple_class(inner_key) != str:
@@ -1483,7 +1453,7 @@ def model_to_dict(model_instance, serialize=True):
     if model_instance._composed_schemas:
         model_instances.extend(model_instance._composed_instances)
     for model_instance in model_instances:
-        for attr, value in six.iteritems(model_instance._data_store):
+        for attr, value in model_instance._data_store.items():
             if serialize:
                 # we use get here because additional property key names do not
                 # exist in attribute_map
@@ -1540,27 +1510,13 @@ def type_error_message(var_value=None, var_name=None, valid_classes=None,
 
 def get_valid_classes_phrase(input_classes):
     """Returns a string phrase describing what types are allowed
-    Note: Adds the extra valid classes in python2
     """
     all_classes = list(input_classes)
-    if six.PY2 and str in input_classes:
-        all_classes.extend([str_py2, unicode_py2])
-    if six.PY2 and int in input_classes:
-        all_classes.extend([int_py2, long_py2])
     all_classes = sorted(all_classes, key=lambda cls: cls.__name__)
     all_class_names = [cls.__name__ for cls in all_classes]
     if len(all_class_names) == 1:
         return 'is {0}'.format(all_class_names[0])
     return "is one of [{0}]".format(", ".join(all_class_names))
-
-
-def get_py3_class_name(input_class):
-    if six.PY2:
-        if input_class == str:
-            return 'str'
-        elif input_class == int:
-            return 'int'
-    return input_class.__name__
 
 
 def convert_js_args_to_python_args(fn):
@@ -1605,7 +1561,7 @@ def get_allof_instances(self, model_args, constant_args):
             allof_instance = allof_class(**kwargs)
             composed_instances.append(allof_instance)
         except Exception as ex:
-            six.raise_from(ApiValueError(
+            raise ApiValueError(
                 "Invalid inputs given to generate an instance of '%s'. The "
                 "input data was invalid for the allOf schema '%s' in the composed "
                 "schema '%s'. Error=%s" % (
@@ -1614,7 +1570,7 @@ def get_allof_instances(self, model_args, constant_args):
                     self.__class__.__name__,
                     str(ex)
                 )
-            ), ex)
+            ) from ex
     return composed_instances
 
 

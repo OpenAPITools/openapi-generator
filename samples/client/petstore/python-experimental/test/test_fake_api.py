@@ -110,11 +110,7 @@ class TestFakeApi(unittest.TestCase):
         """
         # when we omit the required enums of length one, they are still set
         endpoint = self.api.test_endpoint_enums_length_one
-        import six
-        if six.PY3:
-            from unittest.mock import patch
-        else:
-            from mock import patch
+        from unittest.mock import patch
         with patch.object(endpoint, 'call_with_http_info') as call_with_http_info:
             endpoint()
             call_with_http_info.assert_called_with(

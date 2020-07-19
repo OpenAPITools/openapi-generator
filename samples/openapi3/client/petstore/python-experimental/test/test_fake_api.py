@@ -12,12 +12,7 @@
 from collections import namedtuple
 import unittest
 import json
-
-import six
-if six.PY3:
-    from unittest.mock import patch
-else:
-    from mock import patch
+from unittest.mock import patch
 
 import petstore_api
 from petstore_api.api.fake_api import FakeApi  # noqa: E501

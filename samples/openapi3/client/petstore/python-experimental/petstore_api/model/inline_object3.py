@@ -13,7 +13,6 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -241,7 +240,7 @@ class InlineObject3(ModelNormal):
         self.double = double
         self.pattern_without_delimiter = pattern_without_delimiter
         self.byte = byte
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \

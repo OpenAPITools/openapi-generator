@@ -13,9 +13,6 @@
 import re  # noqa: F401
 import sys  # noqa: F401
 
-# python 2 and python 3 compatibility library
-import six
-
 from petstore_api.api_client import ApiClient, Endpoint
 from petstore_api.model_utils import (  # noqa: F401
     check_allowed_values,
