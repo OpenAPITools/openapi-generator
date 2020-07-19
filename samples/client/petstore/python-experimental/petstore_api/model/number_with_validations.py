@@ -63,6 +63,10 @@ class NumberWithValidations(ModelSimple):
             'inclusive_maximum': 2E+1,
             'inclusive_minimum': 1E+1,
         },
+        ('value',): {
+            'inclusive_maximum': 2E+1,
+            'inclusive_minimum': 1E+1,
+        },
     }
 
     additional_properties_type = None
@@ -81,6 +85,7 @@ class NumberWithValidations(ModelSimple):
         """
         return {
             'value': (float,),
+            'value': (float,),  # noqa: E501
         }
 
     @cached_property
@@ -101,13 +106,11 @@ class NumberWithValidations(ModelSimple):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, value, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """number_with_validations.NumberWithValidations - a model defined in OpenAPI
 
-        Args:
-            value (float):  # noqa: E501
-
         Keyword Args:
+            value (float):  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -140,6 +143,13 @@ class NumberWithValidations(ModelSimple):
                                 _visited_composed_classes = (Animal,)
         """
 
+        if 'value' in kwargs:
+            value = kwargs.pop('value')
+        elif args:
+            args = list(args)
+            value = args.pop(0)
+        else:
+            value = 
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
         _path_to_item = kwargs.pop('_path_to_item', ())

@@ -38,11 +38,6 @@ try:
 except ImportError:
     animal = sys.modules[
         'petstore_api.model.animal']
-try:
-    from petstore_api.model import number_with_validations
-except ImportError:
-    number_with_validations = sys.modules[
-        'petstore_api.model.number_with_validations']
 
 
 class ComposedOneOfNumberWithValidations(ModelComposed):
@@ -233,7 +228,7 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
           'oneOf': [
               animal.Animal,
               date,
+              float,
               none_type,
-              number_with_validations.NumberWithValidations,
           ],
         }
