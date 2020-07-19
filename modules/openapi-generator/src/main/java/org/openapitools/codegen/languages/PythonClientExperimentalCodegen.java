@@ -140,6 +140,20 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         supportingFiles.remove(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
         supportingFiles.add(new SupportingFile("python-experimental/__init__model.mustache", packagePath() + File.separatorChar + "model", "__init__.py"));
 
+        supportingFiles.remove(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/configuration.mustache", packagePath(), "configuration.py"));
+
+        supportingFiles.remove(new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + "api", "__init__.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/__init__api.mustache", packagePath() + File.separatorChar + "api", "__init__.py"));
+
+        supportingFiles.remove(new SupportingFile("exceptions.mustache", packagePath(), "exceptions.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/exceptions.mustache", packagePath(), "exceptions.py"));
+
+        if ("urllib3".equals(getLibrary())) {
+            supportingFiles.remove(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
+            supportingFiles.add(new SupportingFile("python-experimental/rest.mustache", packagePath(), "rest.py"));
+        }
+
         supportingFiles.remove(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("python-experimental/__init__package.mustache", packagePath(), "__init__.py"));
 
@@ -176,12 +190,18 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         supportingFiles.add(new SupportingFile(readmeTemplate, "", readmePath));
 
         if (!generateSourceCodeOnly) {
-          supportingFiles.remove(new SupportingFile("setup.mustache", "", "setup.py"));
-          supportingFiles.add(new SupportingFile("python-experimental/setup.mustache", "", "setup.py"));
-          supportingFiles.remove(new SupportingFile("requirements.mustache", "", "requirements.txt"));
-          supportingFiles.add(new SupportingFile("python-experimental/requirements.mustache", "", "requirements.txt"));
-          supportingFiles.remove(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
-          supportingFiles.add(new SupportingFile("python-experimental/test-requirements.mustache", "", "test-requirements.txt"));
+            supportingFiles.remove(new SupportingFile("travis.mustache", "", ".travis.yml"));
+            supportingFiles.add(new SupportingFile("python-experimental/travis.mustache", "", ".travis.yml"));
+            supportingFiles.remove(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
+            supportingFiles.add(new SupportingFile("python-experimental/gitlab-ci.mustache", "", ".gitlab-ci.yml"));
+            supportingFiles.remove(new SupportingFile("tox.mustache", "", "tox.ini"));
+            supportingFiles.add(new SupportingFile("python-experimental/tox.mustache", "", "tox.ini"));
+            supportingFiles.remove(new SupportingFile("setup.mustache", "", "setup.py"));
+            supportingFiles.add(new SupportingFile("python-experimental/setup.mustache", "", "setup.py"));
+            supportingFiles.remove(new SupportingFile("requirements.mustache", "", "requirements.txt"));
+            supportingFiles.add(new SupportingFile("python-experimental/requirements.mustache", "", "requirements.txt"));
+            supportingFiles.remove(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
+            supportingFiles.add(new SupportingFile("python-experimental/test-requirements.mustache", "", "test-requirements.txt"));
         }
 
         // default this to true so the python ModelSimple models will be generated
