@@ -9,6 +9,9 @@
 
 {{> python-experimental/model_templates/method_init_shared }}
 
+{{#isEnum}}
+        self.value = value
+{{/isEnum}}
 {{#requiredVars}}
         self.{{name}} = {{name}}
 {{/requiredVars}}

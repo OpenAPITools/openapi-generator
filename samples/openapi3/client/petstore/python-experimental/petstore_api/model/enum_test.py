@@ -127,7 +127,7 @@ class EnumTest(ModelNormal):
             'enum_string': (str,),  # noqa: E501
             'enum_integer': (int,),  # noqa: E501
             'enum_number': (float,),  # noqa: E501
-            'string_enum': (string_enum.StringEnum,),  # noqa: E501
+            'string_enum': (string_enum.StringEnum, none_type,),  # noqa: E501
             'integer_enum': (integer_enum.IntegerEnum,),  # noqa: E501
             'string_enum_with_default_value': (string_enum_with_default_value.StringEnumWithDefaultValue,),  # noqa: E501
             'integer_enum_with_default_value': (integer_enum_with_default_value.IntegerEnumWithDefaultValue,),  # noqa: E501
@@ -202,7 +202,7 @@ class EnumTest(ModelNormal):
             enum_string (str): [optional]  # noqa: E501
             enum_integer (int): [optional]  # noqa: E501
             enum_number (float): [optional]  # noqa: E501
-            string_enum (string_enum.StringEnum): [optional]  # noqa: E501
+            string_enum (string_enum.StringEnum, none_type): [optional]  # noqa: E501
             integer_enum (integer_enum.IntegerEnum): [optional]  # noqa: E501
             string_enum_with_default_value (string_enum_with_default_value.StringEnumWithDefaultValue): [optional]  # noqa: E501
             integer_enum_with_default_value (integer_enum_with_default_value.IntegerEnumWithDefaultValue): [optional]  # noqa: E501
