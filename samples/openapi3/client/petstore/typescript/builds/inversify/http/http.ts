@@ -73,7 +73,7 @@ export class RequestContext {
      *
      */
     public setUrl(url: string) {
-    	this.url = new URLParse(url, true);
+        this.url = new URLParse(url, true);
     }
 
     /**

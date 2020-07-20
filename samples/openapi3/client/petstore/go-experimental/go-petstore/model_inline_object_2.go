@@ -19,7 +19,10 @@ type InlineObject2 struct {
 	EnumFormStringArray *[]string `json:"enum_form_string_array,omitempty"`
 	// Form parameter enum test (string)
 	EnumFormString *string `json:"enum_form_string,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _InlineObject2 InlineObject2
 
 // NewInlineObject2 instantiates a new InlineObject2 object
 // This constructor will assign default values to properties that have it defined,
@@ -114,7 +117,30 @@ func (o InlineObject2) MarshalJSON() ([]byte, error) {
 	if o.EnumFormString != nil {
 		toSerialize["enum_form_string"] = o.EnumFormString
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *InlineObject2) UnmarshalJSON(bytes []byte) (err error) {
+	varInlineObject2 := _InlineObject2{}
+
+	if err = json.Unmarshal(bytes, &varInlineObject2); err == nil {
+		*o = InlineObject2(varInlineObject2)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "enum_form_string_array")
+		delete(additionalProperties, "enum_form_string")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableInlineObject2 struct {

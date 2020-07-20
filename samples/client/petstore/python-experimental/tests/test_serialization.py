@@ -15,8 +15,6 @@ import time
 import unittest
 import datetime
 
-import six
-
 import petstore_api
 
 from petstore_api.exceptions import (
@@ -32,15 +30,12 @@ from petstore_api.model import (
     parent_pet,
     child_lizard,
     category,
-    outer_enum,
-    outer_number,
+    string_enum,
     string_boolean_map,
 )
 from petstore_api.model_utils import (
     file_type,
-    int,
     model_to_dict,
-    str,
 )
 
 from petstore_api.rest import RESTResponse
@@ -56,15 +51,15 @@ class SerializationTests(unittest.TestCase):
     def test_enum_test(self):
         """ serialize dict(str, Enum_Test) """
         value = (
-            outer_enum.OuterEnum.allowed_values[('value',)]["PLACED"])
-        outer_enum_val = outer_enum.OuterEnum(value)
+            string_enum.StringEnum.allowed_values[('value',)]["PLACED"])
+        string_enum_val = string_enum.StringEnum(value)
 
         source = enum_test.EnumTest(
             enum_string="UPPER",
             enum_string_required="lower",
             enum_integer=1,
             enum_number=1.1,
-            outer_enum=outer_enum_val
+            string_enum=string_enum_val
         )
 
         result = {
@@ -73,7 +68,7 @@ class SerializationTests(unittest.TestCase):
                 "enum_string_required": "lower",
                 "enum_integer": 1,
                 "enum_number": 1.1,
-                "outerEnum": "placed"
+                "stringEnum": "placed"
             }
         }
         serialized = self.serialize({"enum_test": source})

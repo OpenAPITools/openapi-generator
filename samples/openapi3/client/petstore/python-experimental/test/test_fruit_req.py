@@ -10,7 +10,6 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
@@ -175,6 +174,10 @@ class TestFruitReq(unittest.TestCase):
         self.assertEqual(
             fruit._additional_properties_model_instances, []
         )
+
+        # we can pass in None
+        fruit = FruitReq(None)
+        assert fruit is None
 
 if __name__ == '__main__':
     unittest.main()

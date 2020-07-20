@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { StoreApi } from "@swagger/typescript-axios-petstore";
+import { StoreApi } from "@openapitools/typescript-axios-petstore";
 import axios, {AxiosInstance, AxiosResponse} from "axios";
 
 describe("StoreApi", function() {

@@ -34,7 +34,10 @@ type FormatTest struct {
 	PatternWithDigits *string `json:"pattern_with_digits,omitempty"`
 	// A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
 	PatternWithDigitsAndDelimiter *string `json:"pattern_with_digits_and_delimiter,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _FormatTest FormatTest
 
 // NewFormatTest instantiates a new FormatTest object
 // This constructor will assign default values to properties that have it defined,
@@ -552,7 +555,43 @@ func (o FormatTest) MarshalJSON() ([]byte, error) {
 	if o.PatternWithDigitsAndDelimiter != nil {
 		toSerialize["pattern_with_digits_and_delimiter"] = o.PatternWithDigitsAndDelimiter
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *FormatTest) UnmarshalJSON(bytes []byte) (err error) {
+	varFormatTest := _FormatTest{}
+
+	if err = json.Unmarshal(bytes, &varFormatTest); err == nil {
+		*o = FormatTest(varFormatTest)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "integer")
+		delete(additionalProperties, "int32")
+		delete(additionalProperties, "int64")
+		delete(additionalProperties, "number")
+		delete(additionalProperties, "float")
+		delete(additionalProperties, "double")
+		delete(additionalProperties, "string")
+		delete(additionalProperties, "byte")
+		delete(additionalProperties, "binary")
+		delete(additionalProperties, "date")
+		delete(additionalProperties, "dateTime")
+		delete(additionalProperties, "uuid")
+		delete(additionalProperties, "password")
+		delete(additionalProperties, "pattern_with_digits")
+		delete(additionalProperties, "pattern_with_digits_and_delimiter")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableFormatTest struct {

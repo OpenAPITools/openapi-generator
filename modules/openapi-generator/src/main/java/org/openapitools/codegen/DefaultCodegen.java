@@ -1971,10 +1971,10 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Return a string representation of the schema type, resolving aliasing and references if necessary.
      *
-     * @param schema
+     * @param schema input
      * @return the string representation of the schema type.
      */
-    private String getSingleSchemaType(Schema schema) {
+    protected String getSingleSchemaType(Schema schema) {
         Schema unaliasSchema = ModelUtils.unaliasSchema(this.openAPI, schema, importMapping);
 
         if (StringUtils.isNotBlank(unaliasSchema.get$ref())) { // reference to another definition/schema

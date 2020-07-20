@@ -32,7 +32,10 @@ type User struct {
 	ArbitraryTypeValue interface{} `json:"arbitraryTypeValue,omitempty"`
 	// test code generation for any type Value can be any type - string, number, boolean, array, object or the 'null' value.
 	ArbitraryNullableTypeValue interface{} `json:"arbitraryNullableTypeValue,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _User User
 
 // NewUser instantiates a new User object
 // This constructor will assign default values to properties that have it defined,
@@ -476,7 +479,40 @@ func (o User) MarshalJSON() ([]byte, error) {
 	if o.ArbitraryNullableTypeValue != nil {
 		toSerialize["arbitraryNullableTypeValue"] = o.ArbitraryNullableTypeValue
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *User) UnmarshalJSON(bytes []byte) (err error) {
+	varUser := _User{}
+
+	if err = json.Unmarshal(bytes, &varUser); err == nil {
+		*o = User(varUser)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "username")
+		delete(additionalProperties, "firstName")
+		delete(additionalProperties, "lastName")
+		delete(additionalProperties, "email")
+		delete(additionalProperties, "password")
+		delete(additionalProperties, "phone")
+		delete(additionalProperties, "userStatus")
+		delete(additionalProperties, "arbitraryObject")
+		delete(additionalProperties, "arbitraryNullableObject")
+		delete(additionalProperties, "arbitraryTypeValue")
+		delete(additionalProperties, "arbitraryNullableTypeValue")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableUser struct {

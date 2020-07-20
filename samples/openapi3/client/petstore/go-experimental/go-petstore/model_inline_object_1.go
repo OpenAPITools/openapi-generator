@@ -20,7 +20,10 @@ type InlineObject1 struct {
 	AdditionalMetadata *string `json:"additionalMetadata,omitempty"`
 	// file to upload
 	File **os.File `json:"file,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _InlineObject1 InlineObject1
 
 // NewInlineObject1 instantiates a new InlineObject1 object
 // This constructor will assign default values to properties that have it defined,
@@ -111,7 +114,30 @@ func (o InlineObject1) MarshalJSON() ([]byte, error) {
 	if o.File != nil {
 		toSerialize["file"] = o.File
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *InlineObject1) UnmarshalJSON(bytes []byte) (err error) {
+	varInlineObject1 := _InlineObject1{}
+
+	if err = json.Unmarshal(bytes, &varInlineObject1); err == nil {
+		*o = InlineObject1(varInlineObject1)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "additionalMetadata")
+		delete(additionalProperties, "file")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableInlineObject1 struct {

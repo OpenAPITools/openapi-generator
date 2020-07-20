@@ -3,9 +3,7 @@ package {{package}};
 
 import {{invokerPackage}}.ApiClient;
 import {{invokerPackage}}.ApiException;
-{{^asyncNative}}
 import {{invokerPackage}}.ApiResponse;
-{{/asyncNative}}
 import {{invokerPackage}}.Pair;
 
 {{#imports}}
@@ -57,6 +55,15 @@ public class {{classname}} {
     memberVarReadTimeout = apiClient.getReadTimeout();
     memberVarResponseInterceptor = apiClient.getResponseInterceptor();
   }
+  {{#asyncNative}}
+
+  private ApiException getApiException(String operationId, HttpResponse<String>localVarResponse) {
+    return new ApiException(localVarResponse.statusCode(),
+        operationId + " call received non-success response",
+        localVarResponse.headers(),
+        localVarResponse.body());
+  }
+  {{/asyncNative}}
 
   {{#operation}}
   {{#vendorExtensions.x-group-parameters}}
@@ -66,7 +73,7 @@ public class {{classname}} {
    * {{notes}}
    * @param {{operationId}}Request {@link API{{operationId}}Request}
    {{#returnType}}
-   * @return {{returnType}}
+   * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}{{returnType}}{{#asyncNative}}&gt;{{/asyncNative}}
    {{/returnType}}
    * @throws ApiException if fails to make API call
    {{#isDeprecated}}
@@ -86,13 +93,12 @@ public class {{classname}} {
     {{/allParams}}
     {{#returnType}}return {{/returnType}}{{^returnType}}{{#asyncNative}}return {{/asyncNative}}{{/returnType}}{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
   }
-  {{^asyncNative}}
 
   /**
    * {{summary}}
    * {{notes}}
    * @param {{operationId}}Request {@link API{{operationId}}Request}
-   * @return ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Void{{/returnType}}&gt;
+   * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Void{{/returnType}}&gt;{{#asyncNative}}&gt;{{/asyncNative}}
    * @throws ApiException if fails to make API call
    {{#isDeprecated}}
    * @deprecated
@@ -105,13 +111,12 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo(API{{operationId}}Request {{operationId}}Request) throws ApiException {
+  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo(API{{operationId}}Request {{operationId}}Request) throws ApiException {
     {{#allParams}}
     {{{dataType}}} {{paramName}} = {{operationId}}Request.{{paramName}}();
     {{/allParams}}
     return {{operationId}}WithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
   }
-  {{/asyncNative}}
 
   {{/hasParams}}
   {{/vendorExtensions.x-group-parameters}}
@@ -122,7 +127,7 @@ public class {{classname}} {
    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
    {{/allParams}}
    {{#returnType}}
-   * @return {{returnType}}
+   * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}{{returnType}}{{#asyncNative}}&gt;{{/asyncNative}}
    {{/returnType}}
    * @throws ApiException if fails to make API call
    {{#isDeprecated}}
@@ -147,28 +152,23 @@ public class {{classname}} {
     try {
       HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
       return memberVarHttpClient.sendAsync(
-              localVarRequestBuilder.build(),
-              HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
-          if (localVarResponse.statusCode()/ 100 != 2) {
-              return CompletableFuture.failedFuture(new ApiException(localVarResponse.statusCode(),
-                  "{{operationId}} call received non-success response",
-                  localVarResponse.headers(),
-                  localVarResponse.body())
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("{{operationId}}", localVarResponse));
+            }
+            {{#returnType}}
+            try {
+              return CompletableFuture.completedFuture(
+                  memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {})
               );
-          } else {
-              {{#returnType}}
-              try {
-                return CompletableFuture.completedFuture(
-                    memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {})
-                );
-              } catch (IOException e) {
-                return CompletableFuture.failedFuture(new ApiException(e));
-              }
-              {{/returnType}}
-              {{^returnType}}
-              return CompletableFuture.completedFuture(null);
-              {{/returnType}}
-          }
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+            {{/returnType}}
+            {{^returnType}}
+            return CompletableFuture.completedFuture(null);
+            {{/returnType}}
       });
     }
     catch (ApiException e) {
@@ -176,7 +176,6 @@ public class {{classname}} {
     }
     {{/asyncNative}}
   }
-  {{^asyncNative}}
 
   /**
    * {{summary}}
@@ -184,7 +183,7 @@ public class {{classname}} {
    {{#allParams}}
    * @param {{paramName}} {{description}}{{#required}} (required){{/required}}{{^required}} (optional{{^isContainer}}{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/isContainer}}{{/required}}
    {{/allParams}}
-   * @return ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Void{{/returnType}}&gt;
+   * @return {{#asyncNative}}CompletableFuture&lt;{{/asyncNative}}ApiResponse&lt;{{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}Void{{/returnType}}&gt;{{#asyncNative}}&gt;{{/asyncNative}}
    * @throws ApiException if fails to make API call
    {{#isDeprecated}}
    * @deprecated
@@ -197,7 +196,8 @@ public class {{classname}} {
   {{#isDeprecated}}
   @Deprecated
   {{/isDeprecated}}
-  public ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}> {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+  public {{#asyncNative}}CompletableFuture<{{/asyncNative}}ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Void{{/returnType}}>{{#asyncNative}}>{{/asyncNative}} {{operationId}}WithHttpInfo({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
+    {{^asyncNative}}
     HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
     try {
       HttpResponse<InputStream> localVarResponse = memberVarHttpClient.send(
@@ -224,8 +224,41 @@ public class {{classname}} {
       Thread.currentThread().interrupt();
       throw new ApiException(e);
     }
+    {{/asyncNative}}
+    {{#asyncNative}}
+    try {
+      HttpRequest.Builder localVarRequestBuilder = {{operationId}}RequestBuilder({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+      return memberVarHttpClient.sendAsync(
+          localVarRequestBuilder.build(),
+          HttpResponse.BodyHandlers.ofString()).thenComposeAsync(localVarResponse -> {
+            if (localVarResponse.statusCode()/ 100 != 2) {
+              return CompletableFuture.failedFuture(getApiException("{{operationId}}", localVarResponse));
+            }
+            {{#returnType}}
+            try {
+              return CompletableFuture.completedFuture(
+                  new ApiResponse<{{{returnType}}}>(
+                      localVarResponse.statusCode(),
+                      localVarResponse.headers().map(),
+                      memberVarObjectMapper.readValue(localVarResponse.body(), new TypeReference<{{{returnType}}}>() {}))
+              );
+            } catch (IOException e) {
+              return CompletableFuture.failedFuture(new ApiException(e));
+            }
+            {{/returnType}}
+            {{^returnType}}
+            return CompletableFuture.completedFuture(
+                new ApiResponse<Void>(localVarResponse.statusCode(), localVarResponse.headers().map(), null)
+            );
+            {{/returnType}}
+        }
+      );
+    }
+    catch (ApiException e) {
+      return CompletableFuture.failedFuture(e);
+    }
+    {{/asyncNative}}
   }
-  {{/asyncNative}}
 
   private HttpRequest.Builder {{operationId}}RequestBuilder({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws ApiException {
     {{#allParams}}

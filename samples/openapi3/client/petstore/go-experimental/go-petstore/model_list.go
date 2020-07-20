@@ -16,7 +16,10 @@ import (
 // List struct for List
 type List struct {
 	Var123List *string `json:"123-list,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _List List
 
 // NewList instantiates a new List object
 // This constructor will assign default values to properties that have it defined,
@@ -72,7 +75,29 @@ func (o List) MarshalJSON() ([]byte, error) {
 	if o.Var123List != nil {
 		toSerialize["123-list"] = o.Var123List
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *List) UnmarshalJSON(bytes []byte) (err error) {
+	varList := _List{}
+
+	if err = json.Unmarshal(bytes, &varList); err == nil {
+		*o = List(varList)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "123-list")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableList struct {

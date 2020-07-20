@@ -22,7 +22,10 @@ type Capitalization struct {
 	SCAETHFlowPoints *string `json:"SCA_ETH_Flow_Points,omitempty"`
 	// Name of the pet 
 	ATT_NAME *string `json:"ATT_NAME,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Capitalization Capitalization
 
 // NewCapitalization instantiates a new Capitalization object
 // This constructor will assign default values to properties that have it defined,
@@ -253,7 +256,34 @@ func (o Capitalization) MarshalJSON() ([]byte, error) {
 	if o.ATT_NAME != nil {
 		toSerialize["ATT_NAME"] = o.ATT_NAME
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *Capitalization) UnmarshalJSON(bytes []byte) (err error) {
+	varCapitalization := _Capitalization{}
+
+	if err = json.Unmarshal(bytes, &varCapitalization); err == nil {
+		*o = Capitalization(varCapitalization)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "smallCamel")
+		delete(additionalProperties, "CapitalCamel")
+		delete(additionalProperties, "small_Snake")
+		delete(additionalProperties, "Capital_Snake")
+		delete(additionalProperties, "SCA_ETH_Flow_Points")
+		delete(additionalProperties, "ATT_NAME")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableCapitalization struct {

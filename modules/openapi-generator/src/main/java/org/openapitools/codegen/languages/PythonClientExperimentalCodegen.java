@@ -140,6 +140,20 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         supportingFiles.remove(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
         supportingFiles.add(new SupportingFile("python-experimental/__init__model.mustache", packagePath() + File.separatorChar + "model", "__init__.py"));
 
+        supportingFiles.remove(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/configuration.mustache", packagePath(), "configuration.py"));
+
+        supportingFiles.remove(new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + "api", "__init__.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/__init__api.mustache", packagePath() + File.separatorChar + "api", "__init__.py"));
+
+        supportingFiles.remove(new SupportingFile("exceptions.mustache", packagePath(), "exceptions.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/exceptions.mustache", packagePath(), "exceptions.py"));
+
+        if ("urllib3".equals(getLibrary())) {
+            supportingFiles.remove(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
+            supportingFiles.add(new SupportingFile("python-experimental/rest.mustache", packagePath(), "rest.py"));
+        }
+
         supportingFiles.remove(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("python-experimental/__init__package.mustache", packagePath(), "__init__.py"));
 
@@ -176,12 +190,18 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         supportingFiles.add(new SupportingFile(readmeTemplate, "", readmePath));
 
         if (!generateSourceCodeOnly) {
-          supportingFiles.remove(new SupportingFile("setup.mustache", "", "setup.py"));
-          supportingFiles.add(new SupportingFile("python-experimental/setup.mustache", "", "setup.py"));
-          supportingFiles.remove(new SupportingFile("requirements.mustache", "", "requirements.txt"));
-          supportingFiles.add(new SupportingFile("python-experimental/requirements.mustache", "", "requirements.txt"));
-          supportingFiles.remove(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
-          supportingFiles.add(new SupportingFile("python-experimental/test-requirements.mustache", "", "test-requirements.txt"));
+            supportingFiles.remove(new SupportingFile("travis.mustache", "", ".travis.yml"));
+            supportingFiles.add(new SupportingFile("python-experimental/travis.mustache", "", ".travis.yml"));
+            supportingFiles.remove(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
+            supportingFiles.add(new SupportingFile("python-experimental/gitlab-ci.mustache", "", ".gitlab-ci.yml"));
+            supportingFiles.remove(new SupportingFile("tox.mustache", "", "tox.ini"));
+            supportingFiles.add(new SupportingFile("python-experimental/tox.mustache", "", "tox.ini"));
+            supportingFiles.remove(new SupportingFile("setup.mustache", "", "setup.py"));
+            supportingFiles.add(new SupportingFile("python-experimental/setup.mustache", "", "setup.py"));
+            supportingFiles.remove(new SupportingFile("requirements.mustache", "", "requirements.txt"));
+            supportingFiles.add(new SupportingFile("python-experimental/requirements.mustache", "", "requirements.txt"));
+            supportingFiles.remove(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
+            supportingFiles.add(new SupportingFile("python-experimental/test-requirements.mustache", "", "test-requirements.txt"));
         }
 
         // default this to true so the python ModelSimple models will be generated
@@ -423,6 +443,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 CodegenProperty modelProperty = fromProperty("value", modelSchema);
 
                 // import complex type from additional properties
+                // TODO can I remove this? DOes it exist in defaultcodegen?
                 if (cm.additionalPropertiesType != null && modelProperty.items != null && modelProperty.items.complexType != null) {
                     cm.imports.add(modelProperty.items.complexType);
                 }
@@ -800,9 +821,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public CodegenModel fromModel(String name, Schema schema) {
         // we have a custom version of this function so we can produce
         // models for components whose type != object and which have validations and enums
-        // this ensures that endpoint (operation) responses with validations and enums
-        // will generate models, and when those endpoint responses are received in python
-        // the response is cast as a model, and the model will validate the response using the enums and validations
+        // this ensures that:
+        // - endpoint (operation) responses with validations and type!=(object or array)
+        // - oneOf $ref components with validations and type!=(object or array)
+        // when endpoints receive payloads of these models
+        // that they will be converted into instances of these models
         Map<String, String> propertyToModelName = new HashMap<String, String>();
         Map<String, Schema> propertiesMap = schema.getProperties();
         if (propertiesMap != null) {
@@ -820,7 +843,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                     continue;
                 }
                 CodegenProperty modelProperty = fromProperty("_fake_name", refSchema);
-                if (modelProperty.isEnum == false && modelProperty.hasValidation == false) {
+                if (modelProperty.isEnum == true || modelProperty.hasValidation == false) {
                     continue;
                 }
                 String modelName = ModelUtils.getSimpleRef(ref);
@@ -828,37 +851,111 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             }
         }
         CodegenModel result = super.fromModel(name, schema);
+
+        // have oneOf point to the correct model
+        if (ModelUtils.isComposedSchema(schema)) {
+            ComposedSchema cs = (ComposedSchema) schema;
+            Map<String, Integer> importCounts = new HashMap<String, Integer>();
+            List<Schema> oneOfSchemas = cs.getOneOf();
+            if (oneOfSchemas != null) {
+                for (int i = 0; i < oneOfSchemas.size(); i++) {
+                    Schema oneOfSchema = oneOfSchemas.get(i);
+                    String languageType = getTypeDeclaration(oneOfSchema);
+                    String ref = oneOfSchema.get$ref();
+                    if (ref == null) {
+                        Integer currVal = importCounts.getOrDefault(languageType, 0);
+                        importCounts.put(languageType, currVal+1);
+                        continue;
+                    }
+                    Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, oneOfSchema);
+                    String refType = refSchema.getType();
+                    if (refType == null || refType.equals("object")) {
+                        Integer currVal = importCounts.getOrDefault(languageType, 0);
+                        importCounts.put(languageType, currVal+1);
+                        continue;
+                    }
+
+                    CodegenProperty modelProperty = fromProperty("_oneOfSchema", refSchema);
+                    if (modelProperty.isEnum == true) {
+                        Integer currVal = importCounts.getOrDefault(languageType, 0);
+                        importCounts.put(languageType, currVal+1);
+                        continue;
+                    }
+
+                    languageType = getTypeDeclaration(refSchema);
+                    if (modelProperty.hasValidation == false) {
+                        Integer currVal = importCounts.getOrDefault(languageType, 0);
+                        importCounts.put(languageType, currVal+1);
+                        continue;
+                    }
+                    Integer currVal = importCounts.getOrDefault(languageType, 0);
+                    importCounts.put(languageType, currVal);
+                    String modelName = toModelName(ModelUtils.getSimpleRef(ref));
+                    result.imports.add(modelName);
+                    result.oneOf.add(modelName);
+                    currVal = importCounts.getOrDefault(modelName, 0);
+                    importCounts.put(modelName, currVal+1);
+                }
+            }
+            for (Map.Entry<String, Integer> entry : importCounts.entrySet()) {
+                String importName = entry.getKey();
+                Integer importCount = entry.getValue();
+                if (importCount == 0) {
+                    result.oneOf.remove(importName);
+                }
+            }
+        }
+
         // use this to store the model name like Cat
         // we can't use result.name because that is used to lookup models in the spec
         // we can't use result.classname because that stores cat.Cat
         // we can't use result.classVarName because that stores the variable for making example instances
         result.unescapedDescription = simpleModelName(name);
 
-        // make non-object type models have one property so we can use it to store enums and validations
-        if (result.isAlias || result.isEnum || result.isArrayModel) {
-            Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
-            CodegenProperty modelProperty = fromProperty("value", modelSchema);
-            if (modelProperty.isEnum == true || modelProperty.hasValidation == true || result.isArrayModel) {
-                // these models are non-object models with enums and/or validations
-                // add a single property to the model so we can have a way to access validations
-                result.isAlias = true;
-                modelProperty.required = true;
-                List<CodegenProperty> theProperties = Arrays.asList(modelProperty);
-                result.setAllVars(theProperties);
-                result.setVars(theProperties);
-                result.setRequiredVars(theProperties);
-                // post process model properties
-                if (result.vars != null) {
-                    for (CodegenProperty prop : result.vars) {
-                        postProcessModelProperty(result, prop);
-                    }
+        // this block handles models which have the python base class ModelSimple
+        // which are responsible for storing validations, enums, and an unnamed value
+        Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
+        CodegenProperty modelProperty = fromProperty("_value", modelSchema);
+
+        // import complex type from additional properties
+        if (result.additionalPropertiesType != null && modelProperty.items != null && modelProperty.items.complexType != null) {
+            result.imports.add(modelProperty.items.complexType);
+        }
+
+        Boolean isPythonModelSimpleModel = (result.isEnum || result.isArrayModel || result.isAlias && modelProperty.hasValidation);
+        if (isPythonModelSimpleModel) {
+            // In python, classes which inherit from our ModelSimple class store one value,
+            // like a str, int, list and extra data about that value like validations and enums
+
+            if (result.isEnum) {
+                // if there is only one allowed value then we know that it should be set, so value is optional
+                //  -> hasRequired = false
+                // if there are more than one allowed value then value is positional and required so
+                //  -> hasRequired = true
+                ArrayList values = (ArrayList) result.allowableValues.get("values");
+                if (values != null && values.size() > 1) {
+                    result.hasRequired = true;
+                }
+
+                if (modelProperty.defaultValue != null && result.defaultValue == null) {
+                    result.defaultValue = modelProperty.defaultValue;
+                }
+            } else {
+                if (result.isArrayModel && modelProperty.dataType != null && result.dataType == null) {
+                    // needed for array models with complex types
+                    result.dataType = modelProperty.dataType;
+                    result.arrayModelType = getPythonClassName(result.arrayModelType);
+                }
+
+                if (result.defaultValue == null) {
+                    result.hasRequired = true;
                 }
             }
         }
-
-        // set regex values, before it was only done on model.vars
-        // fix all property references to non-object models, make those properties non-primitive and
+        // fix all property references to ModelSimple models, make those properties non-primitive and
         // set their dataType and complexType to the model name, so documentation will refer to the correct model
+        // set regex values, before it was only done on model.vars
+        // NOTE: this is done for models of type != object which are not enums and have validations
         ArrayList<List<CodegenProperty>> listOfLists = new ArrayList<List<CodegenProperty>>();
         listOfLists.add(result.vars);
         listOfLists.add(result.allVars);
@@ -883,6 +980,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 result.imports.add(modelName);
             }
         }
+
         // if a class has a property of type self, remove the self import from imports
         if (result.imports.contains(result.classname)) {
             result.imports.remove(result.classname);
@@ -893,6 +991,60 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
 
         return result;
+    }
+
+    /**
+     * returns the OpenAPI type for the property. Use getAlias to handle $ref of primitive type
+     * We have a custom version of this function because for composed schemas we also want to return the model name
+     * In DefaultCodegen.java it returns a name built off of individual allOf/anyOf/oneOf which is not what
+     * python-experimental needs. Python-experimental needs the name of the composed schema
+     *
+     * @param schema property schema
+     * @return string presentation of the type
+     **/
+    @SuppressWarnings("static-method")
+    @Override
+    public String getSchemaType(Schema schema) {
+        if (schema instanceof ComposedSchema) { // composed schema
+            Schema unaliasSchema = ModelUtils.unaliasSchema(this.openAPI, schema, importMapping);
+            String ref = unaliasSchema.get$ref();
+            if (ref != null) {
+                String schemaName = ModelUtils.getSimpleRef(unaliasSchema.get$ref());
+                if (StringUtils.isNotEmpty(schemaName) && importMapping.containsKey(schemaName)) {
+                    return schemaName;
+                }
+                return getAlias(schemaName);
+            } else {
+                // we may have be processing the component schema rather than a schema with a $ref
+                // to a component schema
+                // so loop through component schemas and use the found one's name if we match
+                Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
+                for (String thisSchemaName : schemas.keySet()) {
+                    Schema thisSchema = schemas.get(thisSchemaName);
+                    if (!ModelUtils.isComposedSchema(thisSchema)) {
+                        continue;
+                    }
+                    if (thisSchema == unaliasSchema) {
+                        if (importMapping.containsKey(thisSchemaName)) {
+                            return thisSchemaName;
+                        }
+                        return getAlias(thisSchemaName);
+                    }
+                }
+                LOGGER.warn("Error obtaining the datatype from ref:" + unaliasSchema.get$ref() + ". Default to 'object'");
+                return "object";
+            }
+        }
+        String openAPIType = getSingleSchemaType(schema);
+        if (typeMapping.containsKey(openAPIType)) {
+            String type = typeMapping.get(openAPIType);
+            if (languageSpecificPrimitives.contains(type)) {
+                return type;
+            }
+        } else {
+            return toModelName(openAPIType);
+        }
+        return openAPIType;
     }
 
     /**
