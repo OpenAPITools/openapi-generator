@@ -1237,38 +1237,6 @@
                 </property>
             </activation>
             <modules>
-                <!-- clients -->
-                <!-- test non-java projects -->
-                <module>samples/client/petstore/go</module>
-                <module>samples/client/petstore/go-experimental</module>
-                <module>samples/openapi3/client/petstore/go-experimental</module>
-                <module>samples/openapi3/client/petstore/go</module>
-                <!-- test java-related projects -->
-                <module>samples/client/petstore/scala-akka</module>
-                <module>samples/client/petstore/scala-sttp</module>
-                <module>samples/client/petstore/scala-httpclient</module>
-                <module>samples/client/petstore/scalaz</module>
-                <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/java/feign</module>
-                <module>samples/client/petstore/java/jersey1</module>
-                <module>samples/client/petstore/java/jersey2-java8</module>
-                <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
-                <module>samples/client/petstore/java/okhttp-gson</module>
-                <module>samples/client/petstore/java/retrofit2</module>
-                <module>samples/client/petstore/java/retrofit2rx2</module>
-                <module>samples/client/petstore/java/retrofit2rx3</module>
-                <module>samples/client/petstore/java/retrofit2-play26</module>
-                <module>samples/client/petstore/jaxrs-cxf-client</module>
-                <module>samples/client/petstore/java/resttemplate</module>
-                <module>samples/client/petstore/java/resttemplate-withXml</module>
-                <module>samples/client/petstore/java/webclient</module>
-                <module>samples/client/petstore/java/vertx</module>
-                <module>samples/client/petstore/java/resteasy</module>
-                <module>samples/client/petstore/java/google-api-client</module>
-                <module>samples/client/petstore/java/rest-assured</module>
-                <module>samples/client/petstore/java/rest-assured-jackson</module>
-                <module>samples/client/petstore/java/microprofile-rest-client</module>
-                <module>samples/client/petstore/groovy</module>
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
@@ -1333,6 +1301,38 @@
                 </property>
             </activation>
             <modules>
+                <!-- clients -->
+                <!-- test java-related projects -->
+                <module>samples/client/petstore/scala-akka</module>
+                <module>samples/client/petstore/scala-sttp</module>
+                <module>samples/client/petstore/scala-httpclient</module>
+                <module>samples/client/petstore/scalaz</module>
+                <module>samples/client/petstore/clojure</module>
+                <module>samples/client/petstore/java/feign</module>
+                <module>samples/client/petstore/java/jersey1</module>
+                <module>samples/client/petstore/java/jersey2-java8</module>
+                <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
+                <module>samples/client/petstore/java/okhttp-gson</module>
+                <module>samples/client/petstore/java/retrofit2</module>
+                <module>samples/client/petstore/java/retrofit2rx2</module>
+                <module>samples/client/petstore/java/retrofit2rx3</module>
+                <module>samples/client/petstore/java/retrofit2-play26</module>
+                <module>samples/client/petstore/jaxrs-cxf-client</module>
+                <module>samples/client/petstore/java/resttemplate</module>
+                <module>samples/client/petstore/java/resttemplate-withXml</module>
+                <module>samples/client/petstore/java/webclient</module>
+                <module>samples/client/petstore/java/vertx</module>
+                <module>samples/client/petstore/java/resteasy</module>
+                <module>samples/client/petstore/java/google-api-client</module>
+                <module>samples/client/petstore/java/rest-assured</module>
+                <module>samples/client/petstore/java/rest-assured-jackson</module>
+                <module>samples/client/petstore/java/microprofile-rest-client</module>
+                <module>samples/client/petstore/groovy</module>
+                <!-- test non-java projects -->
+                <module>samples/client/petstore/go</module>
+                <module>samples/client/petstore/go-experimental</module>
+                <module>samples/openapi3/client/petstore/go-experimental</module>
+                <module>samples/openapi3/client/petstore/go</module>
                 <module>samples/client/petstore/javascript-es6</module>
                 <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/server/petstore/go-api-server</module>

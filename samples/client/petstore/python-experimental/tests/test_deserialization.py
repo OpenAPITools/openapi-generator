@@ -15,8 +15,6 @@ import time
 import unittest
 import datetime
 
-import six
-
 import petstore_api
 
 from petstore_api.exceptions import (
@@ -38,9 +36,7 @@ from petstore_api.model import (
 )
 from petstore_api.model_utils import (
     file_type,
-    int,
     model_to_dict,
-    str,
 )
 
 from petstore_api.rest import RESTResponse
@@ -381,8 +377,7 @@ class DeserializationTests(unittest.TestCase):
             file_path = file_object.name
             self.assertFalse(file_object.closed)
             file_object.close()
-            if six.PY3:
-                file_data = file_data.encode('utf-8')
+            file_data = file_data.encode('utf-8')
             with open(file_path, 'rb') as other_file_object:
                 self.assertEqual(other_file_object.read(), file_data)
         finally:
@@ -407,7 +402,7 @@ class DeserializationTests(unittest.TestCase):
         http_response = HTTPResponse(
             status=200,
             reason='OK',
-            data=json.dumps(data).encode("utf-8") if six.PY3 else json.dumps(data),
+            data=json.dumps(data).encode("utf-8"),
             getheaders=get_headers,
             getheader=get_header
         )

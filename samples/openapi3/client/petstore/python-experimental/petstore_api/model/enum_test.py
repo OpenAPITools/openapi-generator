@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,9 +26,7 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
 try:
@@ -127,7 +123,7 @@ class EnumTest(ModelNormal):
             'enum_string': (str,),  # noqa: E501
             'enum_integer': (int,),  # noqa: E501
             'enum_number': (float,),  # noqa: E501
-            'string_enum': (string_enum.StringEnum,),  # noqa: E501
+            'string_enum': (string_enum.StringEnum, none_type,),  # noqa: E501
             'integer_enum': (integer_enum.IntegerEnum,),  # noqa: E501
             'string_enum_with_default_value': (string_enum_with_default_value.StringEnumWithDefaultValue,),  # noqa: E501
             'integer_enum_with_default_value': (integer_enum_with_default_value.IntegerEnumWithDefaultValue,),  # noqa: E501
@@ -202,7 +198,7 @@ class EnumTest(ModelNormal):
             enum_string (str): [optional]  # noqa: E501
             enum_integer (int): [optional]  # noqa: E501
             enum_number (float): [optional]  # noqa: E501
-            string_enum (string_enum.StringEnum): [optional]  # noqa: E501
+            string_enum (string_enum.StringEnum, none_type): [optional]  # noqa: E501
             integer_enum (integer_enum.IntegerEnum): [optional]  # noqa: E501
             string_enum_with_default_value (string_enum_with_default_value.StringEnumWithDefaultValue): [optional]  # noqa: E501
             integer_enum_with_default_value (integer_enum_with_default_value.IntegerEnumWithDefaultValue): [optional]  # noqa: E501
@@ -233,7 +229,7 @@ class EnumTest(ModelNormal):
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
         self.enum_string_required = enum_string_required
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \

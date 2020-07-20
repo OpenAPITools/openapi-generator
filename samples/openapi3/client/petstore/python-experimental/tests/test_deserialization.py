@@ -78,7 +78,7 @@ class DeserializationTests(unittest.TestCase):
             "value. The OpenAPI document has no mapping for discriminator "
             "property '{}'='{}' at path: ()"
         )
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
             petstore_api.ApiValueError,
             err_msg.format("quadrilateralType", "Triangle")
         ):
@@ -125,7 +125,7 @@ class DeserializationTests(unittest.TestCase):
 
         # Test with invalid regex pattern.
         err_msg = ("Invalid value for `{}`, must match regular expression `{}`$")
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
             petstore_api.ApiValueError,
             err_msg.format("cultivar", "[^`]*")
         ):
@@ -134,7 +134,7 @@ class DeserializationTests(unittest.TestCase):
             )
 
         err_msg = ("Invalid value for `{}`, must match regular expression `{}` with flags")
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
             petstore_api.ApiValueError,
             err_msg.format("origin", "[^`]*")
         ):
@@ -262,7 +262,7 @@ class DeserializationTests(unittest.TestCase):
         # The 'bananaReq' schema disallows additional properties by explicitly setting
         # additionalProperties: false
         err_msg = ("{} has no attribute '{}' at ")
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
             petstore_api.exceptions.ApiAttributeError,
             err_msg.format("BananaReq", "unknown-group")
         ):

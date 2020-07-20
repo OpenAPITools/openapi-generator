@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,9 +26,7 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
 
@@ -82,7 +78,7 @@ class StringEnum(ModelSimple):
                 and the value is attribute type.
         """
         return {
-            'value': (str, none_type,),  # noqa: E501
+            'value': (str,),
         }
 
     @cached_property
@@ -103,11 +99,11 @@ class StringEnum(ModelSimple):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, value, *args, **kwargs):  # noqa: E501
+    def __init__(self, value, *args, **kwargs):
         """string_enum.StringEnum - a model defined in OpenAPI
 
         Args:
-            value (str, none_type):
+            value (str):, must be one of ["placed", "approved", "delivered", ]  # noqa: E501
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -164,13 +160,13 @@ class StringEnum(ModelSimple):
         self._path_to_item = _path_to_item
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
-
         self.value = value
-        for var_name, var_value in six.iteritems(kwargs):
-            if var_name not in self.attribute_map and \
-                        self._configuration is not None and \
-                        self._configuration.discard_unknown_keys and \
-                        self.additional_properties_type is None:
-                # discard variable.
-                continue
-            setattr(self, var_name, var_value)
+        if kwargs:
+            raise ApiTypeError(
+                "Invalid named arguments=%s passed to %s. Remove those invalid named arguments." % (
+                    kwargs,
+                    self.__class__.__name__,
+                ),
+                path_to_item=_path_to_item,
+                valid_classes=(self.__class__,),
+            )

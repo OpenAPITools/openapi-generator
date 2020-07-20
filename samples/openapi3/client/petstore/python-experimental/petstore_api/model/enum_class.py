@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,9 +26,7 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
 
@@ -81,7 +77,7 @@ class EnumClass(ModelSimple):
                 and the value is attribute type.
         """
         return {
-            'value': (str,),  # noqa: E501
+            'value': (str,),
         }
 
     @cached_property
@@ -102,13 +98,13 @@ class EnumClass(ModelSimple):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, *args, **kwargs):  # noqa: E501
+    def __init__(self, value, *args, **kwargs):
         """enum_class.EnumClass - a model defined in OpenAPI
 
         Args:
+            value (str): if omitted the server will use the default value of '-efg', must be one of ["_abc", "-efg", "(xyz)", ]  # noqa: E501
 
         Keyword Args:
-            value (str): defaults to '-efg', must be one of ["_abc", "-efg", "(xyz)", ]  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -141,7 +137,6 @@ class EnumClass(ModelSimple):
                                 _visited_composed_classes = (Animal,)
         """
 
-        value = kwargs.get('value', '-efg')
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
         _path_to_item = kwargs.pop('_path_to_item', ())
@@ -164,13 +159,13 @@ class EnumClass(ModelSimple):
         self._path_to_item = _path_to_item
         self._configuration = _configuration
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
-
         self.value = value
-        for var_name, var_value in six.iteritems(kwargs):
-            if var_name not in self.attribute_map and \
-                        self._configuration is not None and \
-                        self._configuration.discard_unknown_keys and \
-                        self.additional_properties_type is None:
-                # discard variable.
-                continue
-            setattr(self, var_name, var_value)
+        if kwargs:
+            raise ApiTypeError(
+                "Invalid named arguments=%s passed to %s. Remove those invalid named arguments." % (
+                    kwargs,
+                    self.__class__.__name__,
+                ),
+                path_to_item=_path_to_item,
+                valid_classes=(self.__class__,),
+            )

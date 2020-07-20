@@ -10,7 +10,6 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
@@ -78,7 +77,7 @@ class TestShape(unittest.TestCase):
         err_msg = ("Cannot deserialize input data due to missing discriminator. "
                    "The discriminator property '{}' is missing at path: ()"
                    )
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
                 petstore_api.ApiValueError,
                 err_msg.format("shapeType")
         ):
@@ -89,14 +88,14 @@ class TestShape(unittest.TestCase):
                    "value. The OpenAPI document has no mapping for discriminator "
                    "property '{}'='{}' at path: ()"
                    )
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
                 petstore_api.ApiValueError,
                 err_msg.format("shapeType", "Circle")
         ):
             Shape(shape_type="Circle")
 
         # invalid quadrilateral_type (second discriminator)
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
                 petstore_api.ApiValueError,
                 err_msg.format("quadrilateralType", "Triangle")
         ):

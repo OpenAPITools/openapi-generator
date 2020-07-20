@@ -17,7 +17,6 @@ To test special tags and operation ID starting with number
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import another_fake_api
