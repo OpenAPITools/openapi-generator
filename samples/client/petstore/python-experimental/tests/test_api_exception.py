@@ -10,7 +10,6 @@ $ nosetests -v
 """
 
 import os
-import six
 import sys
 import unittest
 

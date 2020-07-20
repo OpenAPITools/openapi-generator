@@ -20,7 +20,6 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import store_api
@@ -84,7 +83,6 @@ Returns a map of status codes to quantities
 
 * Api Key Authentication (api_key):
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import store_api
@@ -157,7 +155,6 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import store_api
@@ -221,7 +218,6 @@ Place an order for a pet
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import store_api

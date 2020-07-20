@@ -270,7 +270,7 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(cm.classname, "sample.Sample");
         Assert.assertEquals(cm.classVarName, "sample");
         Assert.assertEquals(cm.description, "an array model");
-        Assert.assertEquals(cm.vars.size(), 1);  // there is one value for Childer definition
+        Assert.assertEquals(cm.vars.size(), 0);  // the array model has no vars
         Assert.assertEquals(cm.parent, "list");
         Assert.assertEquals(cm.imports.size(), 1);
         Assert.assertEquals(Sets.intersection(cm.imports, Sets.newHashSet("children.Children")).size(), 1);
@@ -292,7 +292,7 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(cm.description, "a map model");
         Assert.assertEquals(cm.vars.size(), 0);
         Assert.assertEquals(cm.parent, null);
-        Assert.assertEquals(cm.imports.size(), 0);
+        Assert.assertEquals(cm.imports.size(), 1);
     }
 
     @Test(description = "parse date and date-time example value")

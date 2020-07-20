@@ -41,7 +41,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{/isEnum}}
         [{{vendorExtensions.x-powershell-data-type}}]
         {{=<% %>=}}
-        ${<%name%>}<%^vendorExtensions.x-powershell-last-writable%>,<%/vendorExtensions.x-powershell-last-writable%>
+        ${<%name%>}<%#defaultValue%> = <%&.%><%/defaultValue%><%^vendorExtensions.x-powershell-last-writable%>,<%/vendorExtensions.x-powershell-last-writable%>
         <%={{ }}=%>
     {{/isReadOnly}}
 {{/allVars}}
@@ -59,7 +59,7 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{/isEnum}}
         [{{vendorExtensions.x-powershell-data-type}}]
         {{=<% %>=}}
-        ${<%name%>}<%^-last%>,<%/-last%>
+        ${<%name%>}<%#defaultValue%> = <%&.%><%/defaultValue%><%^-last%>,<%/-last%>
         <%={{ }}=%>
 {{/allVars}}
 {{/discardReadOnly}}

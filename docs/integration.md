@@ -27,6 +27,10 @@ Please refer to https://github.com/upstart-commerce/sbt-openapi-generator
 
 Please refer to https://github.com/OpenAPITools/openapi-generator-bazel
 
+### Cake Addin
+
+3rd-party Cake Addin provided by [Lukas Körfer](https://github.com/lukoerfer): https://github.com/lukoerfer/cake-openapi-generator
+
 ### GitHub Integration
 
 To push the auto-generated SDK to GitHub, we provide `git_push.sh` to streamline the process. For example:

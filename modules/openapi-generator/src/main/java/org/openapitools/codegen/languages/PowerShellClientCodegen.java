@@ -565,7 +565,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
     }
-    
+
     public void setDiscardReadOnly(boolean discardReadOnly) {
         this.discardReadOnly = discardReadOnly;
     }
@@ -951,13 +951,13 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
             for (CodegenProperty cp : model.allVars) {
                 cp.vendorExtensions.put("x-powershell-data-type", getPSDataType(cp));
-                if(this.discardReadOnly && !cp.isReadOnly) {
+                if (this.discardReadOnly && !cp.isReadOnly) {
                     lastWritableProperty = cp;
                 }
             }
 
             // Mark the last readonly false property
-            if(this.discardReadOnly && lastWritableProperty != null) {
+            if (this.discardReadOnly && lastWritableProperty != null) {
                 lastWritableProperty.vendorExtensions.put("x-powershell-last-writable", true);
                 model.allVars.set(model.allVars.indexOf(lastWritableProperty), lastWritableProperty);
             }
@@ -1199,6 +1199,31 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        if (p.getDefault() != null) {
+            if (ModelUtils.isBooleanSchema(p)) {
+                if (Boolean.valueOf(p.getDefault().toString())) {
+                    return "$true";
+                } else {
+                    return "$false";
+                }
+            } else if (ModelUtils.isDateSchema(p)) {
+                LOGGER.warn("Default value for `date` not yet supported. Please open an issue with https://github.com/openapitools/openapi-generator");
+            } else if (ModelUtils.isDateTimeSchema(p)) {
+                LOGGER.warn("Default value for `datetime` not yet supported. Please open an issue with https://github.com/openapitools/openapi-generator");
+            } else if (ModelUtils.isNumberSchema(p)) {
+                return p.getDefault().toString();
+            } else if (ModelUtils.isIntegerSchema(p)) {
+                return p.getDefault().toString();
+            } else if (ModelUtils.isStringSchema(p)) {
+                return "\"" + p.getDefault() + "\"";
+            }
+        }
+
+        return null;
     }
 
 }

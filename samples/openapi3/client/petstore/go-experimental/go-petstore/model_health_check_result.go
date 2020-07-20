@@ -16,7 +16,10 @@ import (
 // HealthCheckResult Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
 type HealthCheckResult struct {
 	NullableMessage NullableString `json:"NullableMessage,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _HealthCheckResult HealthCheckResult
 
 // NewHealthCheckResult instantiates a new HealthCheckResult object
 // This constructor will assign default values to properties that have it defined,
@@ -82,7 +85,29 @@ func (o HealthCheckResult) MarshalJSON() ([]byte, error) {
 	if o.NullableMessage.IsSet() {
 		toSerialize["NullableMessage"] = o.NullableMessage.Get()
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *HealthCheckResult) UnmarshalJSON(bytes []byte) (err error) {
+	varHealthCheckResult := _HealthCheckResult{}
+
+	if err = json.Unmarshal(bytes, &varHealthCheckResult); err == nil {
+		*o = HealthCheckResult(varHealthCheckResult)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "NullableMessage")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableHealthCheckResult struct {

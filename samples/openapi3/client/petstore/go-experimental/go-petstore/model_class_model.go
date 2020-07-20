@@ -16,7 +16,10 @@ import (
 // ClassModel Model for testing model with \"_class\" property
 type ClassModel struct {
 	Class *string `json:"_class,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ClassModel ClassModel
 
 // NewClassModel instantiates a new ClassModel object
 // This constructor will assign default values to properties that have it defined,
@@ -72,7 +75,29 @@ func (o ClassModel) MarshalJSON() ([]byte, error) {
 	if o.Class != nil {
 		toSerialize["_class"] = o.Class
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *ClassModel) UnmarshalJSON(bytes []byte) (err error) {
+	varClassModel := _ClassModel{}
+
+	if err = json.Unmarshal(bytes, &varClassModel); err == nil {
+		*o = ClassModel(varClassModel)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "_class")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableClassModel struct {

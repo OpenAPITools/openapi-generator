@@ -17,7 +17,10 @@ import (
 type Zebra struct {
 	Type *string `json:"type,omitempty"`
 	ClassName string `json:"className"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Zebra Zebra
 
 // NewZebra instantiates a new Zebra object
 // This constructor will assign default values to properties that have it defined,
@@ -101,7 +104,30 @@ func (o Zebra) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["className"] = o.ClassName
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *Zebra) UnmarshalJSON(bytes []byte) (err error) {
+	varZebra := _Zebra{}
+
+	if err = json.Unmarshal(bytes, &varZebra); err == nil {
+		*o = Zebra(varZebra)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "className")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableZebra struct {
