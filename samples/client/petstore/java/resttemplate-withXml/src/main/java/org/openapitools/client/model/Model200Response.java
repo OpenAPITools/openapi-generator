@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.*;
   Model200Response.JSON_PROPERTY_NAME,
   Model200Response.JSON_PROPERTY_PROPERTY_CLASS
 })
+@JsonTypeName("200_response")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "Name")
 @XmlAccessorType(XmlAccessType.FIELD)

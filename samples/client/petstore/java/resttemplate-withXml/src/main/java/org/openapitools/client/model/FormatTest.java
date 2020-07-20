@@ -50,6 +50,7 @@ import javax.xml.bind.annotation.*;
   FormatTest.JSON_PROPERTY_PASSWORD,
   FormatTest.JSON_PROPERTY_BIG_DECIMAL
 })
+@JsonTypeName("format_test")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "FormatTest")
 @XmlAccessorType(XmlAccessType.FIELD)

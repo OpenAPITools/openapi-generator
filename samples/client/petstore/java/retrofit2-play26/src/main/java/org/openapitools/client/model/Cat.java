@@ -37,6 +37,7 @@ import javax.validation.Valid;
 @JsonPropertyOrder({
   Cat.JSON_PROPERTY_DECLAWED
 })
+@JsonTypeName("Cat")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 @JsonSubTypes({

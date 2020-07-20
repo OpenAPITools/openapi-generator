@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.*;
 @JsonPropertyOrder({
   ModelReturn.JSON_PROPERTY_RETURN
 })
+@JsonTypeName("Return")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "Return")
 @XmlAccessorType(XmlAccessType.FIELD)
