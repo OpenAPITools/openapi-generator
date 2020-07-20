@@ -28,7 +28,6 @@ import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.meta.features.SecurityFeature;
 import org.openapitools.codegen.meta.features.WireFormatFeature;
-import org.openapitools.codegen.utils.ProcessUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -216,13 +215,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         objs = postProcessModelsEnum(objs);
         List<Object> models = (List<Object>) objs.get("models");
-        // add x-index to properties
-        ProcessUtils.addIndexToProperties(models, 1);
 
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
+            int index = 1;
             for (CodegenProperty var : cm.vars) {
                 // add x-protobuf-type: repeated if it's an array
                 if (Boolean.TRUE.equals(var.isListContainer)) {
@@ -247,6 +245,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                         enumIndex++;
                     }
                 }
+
+                // Add x-protobuf-index, unless already specified
+                var.vendorExtensions.putIfAbsent("x-protobuf-index", index);
+                index++;
             }
         }
         return objs;
@@ -422,7 +424,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
 
-                p.vendorExtensions.put("x-index", index);
+                p.vendorExtensions.putIfAbsent("x-protobuf-index", index);
                 index++;
             }
 
