@@ -18,7 +18,10 @@ type OuterComposite struct {
 	MyNumber *float32 `json:"my_number,omitempty"`
 	MyString *string `json:"my_string,omitempty"`
 	MyBoolean *bool `json:"my_boolean,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _OuterComposite OuterComposite
 
 // NewOuterComposite instantiates a new OuterComposite object
 // This constructor will assign default values to properties that have it defined,
@@ -144,7 +147,31 @@ func (o OuterComposite) MarshalJSON() ([]byte, error) {
 	if o.MyBoolean != nil {
 		toSerialize["my_boolean"] = o.MyBoolean
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *OuterComposite) UnmarshalJSON(bytes []byte) (err error) {
+	varOuterComposite := _OuterComposite{}
+
+	if err = json.Unmarshal(bytes, &varOuterComposite); err == nil {
+		*o = OuterComposite(varOuterComposite)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "my_number")
+		delete(additionalProperties, "my_string")
+		delete(additionalProperties, "my_boolean")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableOuterComposite struct {

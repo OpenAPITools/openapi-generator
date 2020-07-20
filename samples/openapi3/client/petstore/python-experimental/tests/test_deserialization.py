@@ -29,6 +29,7 @@ from petstore_api.model import (
     fruit_req,
     drawing,
     banana_req,
+    number_with_validations,
 )
 
 
@@ -77,7 +78,7 @@ class DeserializationTests(unittest.TestCase):
             "value. The OpenAPI document has no mapping for discriminator "
             "property '{}'='{}' at path: ()"
         )
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
             petstore_api.ApiValueError,
             err_msg.format("quadrilateralType", "Triangle")
         ):
@@ -124,7 +125,7 @@ class DeserializationTests(unittest.TestCase):
 
         # Test with invalid regex pattern.
         err_msg = ("Invalid value for `{}`, must match regular expression `{}`$")
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
             petstore_api.ApiValueError,
             err_msg.format("cultivar", "[^`]*")
         ):
@@ -133,7 +134,7 @@ class DeserializationTests(unittest.TestCase):
             )
 
         err_msg = ("Invalid value for `{}`, must match regular expression `{}` with flags")
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
             petstore_api.ApiValueError,
             err_msg.format("origin", "[^`]*")
         ):
@@ -261,7 +262,7 @@ class DeserializationTests(unittest.TestCase):
         # The 'bananaReq' schema disallows additional properties by explicitly setting
         # additionalProperties: false
         err_msg = ("{} has no attribute '{}' at ")
-        with self.assertRaisesRegexp(
+        with self.assertRaisesRegex(
             petstore_api.exceptions.ApiAttributeError,
             err_msg.format("BananaReq", "unknown-group")
         ):
@@ -301,3 +302,29 @@ class DeserializationTests(unittest.TestCase):
         }
         response = MockResponse(data=json.dumps(data))
         deserialized = self.deserialize(response, (drawing.Drawing,), True)
+
+    def test_deserialize_NumberWithValidations(self):
+        """ deserialize NumberWithValidations """
+        # make sure that an exception is thrown on an invalid type value
+        with self.assertRaises(petstore_api.ApiTypeError):
+            self.deserialize(
+                MockResponse(data=json.dumps("test str")),
+                (number_with_validations.NumberWithValidations,),
+                True
+            )
+
+        # make sure that an exception is thrown on an invalid value
+        with self.assertRaises(petstore_api.ApiValueError):
+            self.deserialize(
+                MockResponse(data=json.dumps(21.0)),
+                (number_with_validations.NumberWithValidations,),
+                True
+            )
+
+        # valid value works
+        number_val = 11.0
+        response = MockResponse(data=json.dumps(number_val))
+        number = self.deserialize(response,
+            (number_with_validations.NumberWithValidations,), True)
+        self.assertTrue(isinstance(number, number_with_validations.NumberWithValidations))
+        self.assertTrue(number.value == number_val)

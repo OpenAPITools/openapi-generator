@@ -16,7 +16,10 @@ import (
 // ArrayOfArrayOfNumberOnly struct for ArrayOfArrayOfNumberOnly
 type ArrayOfArrayOfNumberOnly struct {
 	ArrayArrayNumber *[][]float32 `json:"ArrayArrayNumber,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ArrayOfArrayOfNumberOnly ArrayOfArrayOfNumberOnly
 
 // NewArrayOfArrayOfNumberOnly instantiates a new ArrayOfArrayOfNumberOnly object
 // This constructor will assign default values to properties that have it defined,
@@ -72,7 +75,29 @@ func (o ArrayOfArrayOfNumberOnly) MarshalJSON() ([]byte, error) {
 	if o.ArrayArrayNumber != nil {
 		toSerialize["ArrayArrayNumber"] = o.ArrayArrayNumber
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *ArrayOfArrayOfNumberOnly) UnmarshalJSON(bytes []byte) (err error) {
+	varArrayOfArrayOfNumberOnly := _ArrayOfArrayOfNumberOnly{}
+
+	if err = json.Unmarshal(bytes, &varArrayOfArrayOfNumberOnly); err == nil {
+		*o = ArrayOfArrayOfNumberOnly(varArrayOfArrayOfNumberOnly)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "ArrayArrayNumber")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableArrayOfArrayOfNumberOnly struct {

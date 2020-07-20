@@ -10,8 +10,6 @@
 """
 
 
-from __future__ import absolute_import
-
 import unittest
 
 import x_auth_id_alias

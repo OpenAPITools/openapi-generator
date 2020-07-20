@@ -74,7 +74,8 @@ function New-PSUser {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -153,7 +154,8 @@ function New-PSUsersWithArrayInput {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -232,7 +234,8 @@ function New-PSUsersWithListInput {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -306,7 +309,8 @@ function Remove-PSUser {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -390,7 +394,8 @@ function Get-PSUserByName {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "User"
+                                -ReturnType "User" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -486,7 +491,8 @@ function Invoke-PSLoginUser {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType "String"
+                                -ReturnType "String" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -550,7 +556,8 @@ function Invoke-PSLogoutUser {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult
@@ -639,7 +646,8 @@ function Update-PSUser {
                                 -QueryParameters $LocalVarQueryParameters `
                                 -FormParameters $LocalVarFormParameters `
                                 -CookieParameters $LocalVarCookieParameters `
-                                -ReturnType ""
+                                -ReturnType "" `
+                                -IsBodyNullable $false
 
         if ($WithHttpInfo.IsPresent) {
             return $LocalVarResult

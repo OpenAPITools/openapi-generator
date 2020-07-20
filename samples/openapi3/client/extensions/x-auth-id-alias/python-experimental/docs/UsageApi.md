@@ -22,7 +22,6 @@ Use any API key
 * Api Key Authentication (api_key):
 * Api Key Authentication (api_key_query):
 ```python
-from __future__ import print_function
 import time
 import x_auth_id_alias
 from x_auth_id_alias.api import usage_api
@@ -107,7 +106,6 @@ Use both API keys
 * Api Key Authentication (api_key):
 * Api Key Authentication (api_key_query):
 ```python
-from __future__ import print_function
 import time
 import x_auth_id_alias
 from x_auth_id_alias.api import usage_api
@@ -191,7 +189,6 @@ Use API key in header
 
 * Api Key Authentication (api_key):
 ```python
-from __future__ import print_function
 import time
 import x_auth_id_alias
 from x_auth_id_alias.api import usage_api
@@ -265,7 +262,6 @@ Use API key in query
 
 * Api Key Authentication (api_key_query):
 ```python
-from __future__ import print_function
 import time
 import x_auth_id_alias
 from x_auth_id_alias.api import usage_api

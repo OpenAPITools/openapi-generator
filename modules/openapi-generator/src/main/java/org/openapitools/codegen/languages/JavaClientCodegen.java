@@ -392,9 +392,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (NATIVE.equals(getLibrary())) {
             setJava8Mode(true);
             additionalProperties.put("java8", "true");
-            if (!asyncNative) {
-                supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
-            }
+            supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (RESTEASY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
@@ -682,6 +680,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 model.imports.add("JsonProperty");
                 model.imports.add("JsonValue");
                 model.imports.add("JsonInclude");
+                model.imports.add("JsonTypeName");
             }
             if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_GSON)) {
                 model.imports.add("SerializedName");

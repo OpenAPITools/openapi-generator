@@ -242,6 +242,13 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                 if (model.anyOf != null && !model.anyOf.isEmpty()) {
                     imports.add(createMapping("import", "fmt"));
                 }
+
+                // additionalProperties: true and parent
+                if (model.isAdditionalPropertiesTrue && model.parent != null && Boolean.FALSE.equals(model.isMapModel)) {
+                    imports.add(createMapping("import", "reflect"));
+                    imports.add(createMapping("import", "strings"));
+                }
+
             }
         }
         return objs;
