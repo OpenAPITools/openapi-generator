@@ -269,6 +269,11 @@
   infoLink: "https://www.namsor.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
   pinned: false
 -
+  caption: Nokia 
+  image: "img/companies/nokia.png"
+  infoLink: "https://www.nokia.com/"
+  pinned: false
+-
   caption: Openet
   image: "img/companies/openet.jpg"
   infoLink: "https://www.openet.com/"
