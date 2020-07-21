@@ -14,6 +14,11 @@ export interface ConfigurationParameters {
     basePath?: string;
     withCredentials?: boolean;
     encoder?: HttpParameterCodec;
+    /**
+     * The keys are the names in the securitySchemes section of the OpenAPI
+     * document. They should map to the value used for authentication
+     * minus any standard prefixes such as 'Basic' or 'Bearer'.
+     */
     credentials?: {[ key: string ]: string | (() => string | undefined)};
 }
 
@@ -31,6 +36,11 @@ export class Configuration {
     basePath?: string;
     withCredentials?: boolean;
     encoder?: HttpParameterCodec;
+    /**
+     * The keys are the names in the securitySchemes section of the OpenAPI
+     * document. They should map to the value used for authentication
+     * minus any standard prefixes such as 'Basic' or 'Bearer'.
+     */
     credentials: {[ key: string ]: string | (() => string | undefined)};
 
     constructor(configurationParameters: ConfigurationParameters = {}) {
