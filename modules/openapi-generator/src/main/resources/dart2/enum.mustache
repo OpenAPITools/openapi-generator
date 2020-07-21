@@ -46,7 +46,7 @@ class {{classname}}TypeTransformer {
       case {{{value}}}: return {{classname}}.{{{name}}};
         {{/enumVars}}
       {{/allowableValues}}
-      default: return null;
+      default: throw('Unknown enum value to decode: $data');
     }
   }
 }
