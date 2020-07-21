@@ -69,6 +69,7 @@ public class ApiClient {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
   protected String basePath = "http://petstore.swagger.io:80/v2";
+  protected String userAgent;
   private static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
@@ -517,8 +518,17 @@ public class ApiClient {
    * @return API client
    */
   public ApiClient setUserAgent(String userAgent) {
+    userAgent = userAgent;
     addDefaultHeader("User-Agent", userAgent);
     return this;
+  }
+
+  /**
+   * Get the User-Agent header's value.
+   * @return User-Agent string
+   */
+  public String getUserAgent(){
+    return userAgent;
   }
 
   /**
@@ -860,9 +870,9 @@ public class ApiClient {
     } else {
       // We let jersey handle the serialization
       if (isBodyNullable) { // payload is nullable
-        entity = Entity.entity(obj == null ? Entity.text("null") : obj, contentType);
+        entity = Entity.entity(obj == null ? "null" : obj, contentType);
       } else {
-        entity = Entity.entity(obj == null ? Entity.text("") : obj, contentType);
+        entity = Entity.entity(obj == null ? "" : obj, contentType);
       }
     }
     return entity;
@@ -874,7 +884,7 @@ public class ApiClient {
    * @param obj Object
    * @param formParams Form parameters
    * @param contentType Context type
-   * @param isBodyNulalble True if the body is nullable
+   * @param isBodyNullable True if the body is nullable
    * @return String
    * @throws ApiException API exception
    */

@@ -18,7 +18,7 @@ sidebar_label: python-blueplanet
 |serverPort|TCP port to listen to in app.run| |8080|
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|supportPython2|support python2| |false|
+|supportPython2|support python2. This option has been deprecated and will be removed in the 5.x release.| |false|
 |useNose|use the nose test framework| |false|
 
 ## IMPORT MAPPING
@@ -118,6 +118,7 @@ sidebar_label: python-blueplanet
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

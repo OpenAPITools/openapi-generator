@@ -13,15 +13,15 @@ type {{classname}} struct {
 {{/description}}
 	{{name}} {{^required}}{{^isNullable}}*{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
 {{/vars}}
-{{#vendorExtensions.x-additional-properties}}
+{{#isAdditionalPropertiesTrue}}
 	AdditionalProperties map[string]interface{}
-{{/vendorExtensions.x-additional-properties}}
+{{/isAdditionalPropertiesTrue}}
 }
 
-{{#vendorExtensions.x-additional-properties}}
+{{#isAdditionalPropertiesTrue}}
 type _{{{classname}}} {{{classname}}}
 
-{{/vendorExtensions.x-additional-properties}}
+{{/isAdditionalPropertiesTrue}}
 // New{{classname}} instantiates a new {{classname}} object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
@@ -253,18 +253,84 @@ func (o {{classname}}) MarshalJSON() ([]byte, error) {
 	}
 	{{/isNullable}}
 	{{/vars}}
-	{{#vendorExtensions.x-additional-properties}}
+	{{#isAdditionalPropertiesTrue}}
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	{{/vendorExtensions.x-additional-properties}}
+	{{/isAdditionalPropertiesTrue}}
 	return json.Marshal(toSerialize)
 }
 
-{{#vendorExtensions.x-additional-properties}}
+{{#isAdditionalPropertiesTrue}}
 func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
+{{#parent}}
+{{^isMapModel}}
+	type {{classname}}WithoutEmbeddedStruct struct {
+	{{#vars}}
+	{{^-first}}
+	{{/-first}}
+	{{#description}}
+		// {{{description}}}
+	{{/description}}
+		{{name}} {{^required}}{{^isNullable}}*{{/isNullable}}{{/required}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
+	{{/vars}}
+	}
+
+	var{{{classname}}}WithoutEmbeddedStruct := {{{classname}}}WithoutEmbeddedStruct{}
+
+	err = json.Unmarshal(bytes, &var{{{classname}}}WithoutEmbeddedStruct)
+	if err == nil {
+		var{{{classname}}} := _{{{classname}}}{}
+		{{#vars}}
+		var{{{classname}}}.{{{name}}} = var{{{classname}}}WithoutEmbeddedStruct.{{{name}}}
+		{{/vars}}
+		*o = {{{classname}}}(var{{{classname}}})
+	} else {
+		return err
+	}
+
+	var{{{classname}}} := _{{{classname}}}{}
+
+	err = json.Unmarshal(bytes, &var{{{classname}}})
+	if err == nil {
+		o.{{{parent}}} = var{{{classname}}}.{{{parent}}}
+	} else {
+		return err
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		{{#vars}}
+		delete(additionalProperties, "{{{baseName}}}")
+		{{/vars}}
+
+		// remove fields from embedded structs
+		reflect{{{parent}}} := reflect.ValueOf(o.{{{parent}}})
+		for i := 0; i < reflect{{{parent}}}.Type().NumField(); i++ {
+			t := reflect{{{parent}}}.Type().Field(i)
+
+			if jsonTag := t.Tag.Get("json"); jsonTag != "" {
+				fieldName := ""
+				if commaIdx := strings.Index(jsonTag, ","); commaIdx > 0 {
+					fieldName = jsonTag[:commaIdx]
+				} else {
+					fieldName = jsonTag
+				}
+				if fieldName != "AdditionalProperties" {
+					delete(additionalProperties, fieldName)
+				}
+			}
+		}
+
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
+{{/isMapModel}}
+{{#isMapModel}}
 	var{{{classname}}} := _{{{classname}}}{}
 
 	if err = json.Unmarshal(bytes, &var{{{classname}}}); err == nil {
@@ -281,7 +347,27 @@ func (o *{{{classname}}}) UnmarshalJSON(bytes []byte) (err error) {
 	}
 
 	return err
+{{/isMapModel}}
+{{/parent}}
+{{^parent}}
+	var{{{classname}}} := _{{{classname}}}{}
+
+	if err = json.Unmarshal(bytes, &var{{{classname}}}); err == nil {
+		*o = {{{classname}}}(var{{{classname}}})
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		{{#vars}}
+		delete(additionalProperties, "{{{baseName}}}")
+		{{/vars}}
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
+{{/parent}}
 }
 
-{{/vendorExtensions.x-additional-properties}}
+{{/isAdditionalPropertiesTrue}}
 {{>nullable_model}}

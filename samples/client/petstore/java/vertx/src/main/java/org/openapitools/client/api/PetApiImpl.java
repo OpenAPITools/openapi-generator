@@ -13,6 +13,9 @@ import io.vertx.core.json.JsonObject;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
@@ -41,12 +44,23 @@ public class PetApiImpl implements PetApi {
     }
 
     /**
-     * Add a new pet to the store
-     * 
-     * @param body Pet object that needs to be added to the store (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * Add a new pet to the store
+    * 
+        * @param body Pet object that needs to be added to the store (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void addPet(Pet body, Handler<AsyncResult<Void>> resultHandler) {
+        addPet(body, null, resultHandler);
+    }
+
+    /**
+    * Add a new pet to the store
+    * 
+    * @param body Pet object that needs to be added to the store (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void addPet(Pet body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = body;
         
         // verify the required parameter 'body' is set
@@ -75,16 +89,28 @@ public class PetApiImpl implements PetApi {
         String[] localVarContentTypes = { "application/json", "application/xml" };
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
-     * Deletes a pet
-     * 
-     * @param petId Pet id to delete (required)
-     * @param apiKey  (optional)
-     * @param resultHandler Asynchronous result handler
-     */
+    * Deletes a pet
+    * 
+        * @param petId Pet id to delete (required)
+        * @param apiKey  (optional)
+    * @param resultHandler Asynchronous result handler
+    */
     public void deletePet(Long petId, String apiKey, Handler<AsyncResult<Void>> resultHandler) {
+        deletePet(petId, apiKey, null, resultHandler);
+    }
+
+    /**
+    * Deletes a pet
+    * 
+    * @param petId Pet id to delete (required)
+    * @param apiKey  (optional)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void deletePet(Long petId, String apiKey, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'petId' is set
@@ -94,7 +120,7 @@ public class PetApiImpl implements PetApi {
         }
         
         // create path and map variables
-        String localVarPath = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", petId.toString());
+        String localVarPath = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", encodeParameter(petId.toString()));
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -115,15 +141,26 @@ public class PetApiImpl implements PetApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
-        apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
-     * Finds Pets by status
-     * Multiple status values can be provided with comma separated strings
-     * @param status Status values that need to be considered for filter (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * Finds Pets by status
+    * Multiple status values can be provided with comma separated strings
+        * @param status Status values that need to be considered for filter (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void findPetsByStatus(List<String> status, Handler<AsyncResult<List<Pet>>> resultHandler) {
+        findPetsByStatus(status, null, resultHandler);
+    }
+
+    /**
+    * Finds Pets by status
+    * Multiple status values can be provided with comma separated strings
+    * @param status Status values that need to be considered for filter (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void findPetsByStatus(List<String> status, ApiClient.AuthInfo authInfo, Handler<AsyncResult<List<Pet>>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'status' is set
@@ -153,15 +190,26 @@ public class PetApiImpl implements PetApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] { "petstore_auth" };
         TypeReference<List<Pet>> localVarReturnType = new TypeReference<List<Pet>>() {};
-        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
     /**
-     * Finds Pets by tags
-     * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-     * @param tags Tags to filter by (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * Finds Pets by tags
+    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+        * @param tags Tags to filter by (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void findPetsByTags(Set<String> tags, Handler<AsyncResult<Set<Pet>>> resultHandler) {
+        findPetsByTags(tags, null, resultHandler);
+    }
+
+    /**
+    * Finds Pets by tags
+    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+    * @param tags Tags to filter by (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void findPetsByTags(Set<String> tags, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Set<Pet>>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'tags' is set
@@ -191,15 +239,26 @@ public class PetApiImpl implements PetApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] { "petstore_auth" };
         TypeReference<Set<Pet>> localVarReturnType = new TypeReference<Set<Pet>>() {};
-        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
     /**
-     * Find pet by ID
-     * Returns a single pet
-     * @param petId ID of pet to return (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * Find pet by ID
+    * Returns a single pet
+        * @param petId ID of pet to return (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void getPetById(Long petId, Handler<AsyncResult<Pet>> resultHandler) {
+        getPetById(petId, null, resultHandler);
+    }
+
+    /**
+    * Find pet by ID
+    * Returns a single pet
+    * @param petId ID of pet to return (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void getPetById(Long petId, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Pet>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'petId' is set
@@ -209,7 +268,7 @@ public class PetApiImpl implements PetApi {
         }
         
         // create path and map variables
-        String localVarPath = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", petId.toString());
+        String localVarPath = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", encodeParameter(petId.toString()));
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -228,15 +287,26 @@ public class PetApiImpl implements PetApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] { "api_key" };
         TypeReference<Pet> localVarReturnType = new TypeReference<Pet>() {};
-        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
     /**
-     * Update an existing pet
-     * 
-     * @param body Pet object that needs to be added to the store (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * Update an existing pet
+    * 
+        * @param body Pet object that needs to be added to the store (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void updatePet(Pet body, Handler<AsyncResult<Void>> resultHandler) {
+        updatePet(body, null, resultHandler);
+    }
+
+    /**
+    * Update an existing pet
+    * 
+    * @param body Pet object that needs to be added to the store (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void updatePet(Pet body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = body;
         
         // verify the required parameter 'body' is set
@@ -265,17 +335,30 @@ public class PetApiImpl implements PetApi {
         String[] localVarContentTypes = { "application/json", "application/xml" };
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
-        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
-     * Updates a pet in the store with form data
-     * 
-     * @param petId ID of pet that needs to be updated (required)
-     * @param name Updated name of the pet (optional)
-     * @param status Updated status of the pet (optional)
-     * @param resultHandler Asynchronous result handler
-     */
+    * Updates a pet in the store with form data
+    * 
+        * @param petId ID of pet that needs to be updated (required)
+        * @param name Updated name of the pet (optional)
+        * @param status Updated status of the pet (optional)
+    * @param resultHandler Asynchronous result handler
+    */
     public void updatePetWithForm(Long petId, String name, String status, Handler<AsyncResult<Void>> resultHandler) {
+        updatePetWithForm(petId, name, status, null, resultHandler);
+    }
+
+    /**
+    * Updates a pet in the store with form data
+    * 
+    * @param petId ID of pet that needs to be updated (required)
+    * @param name Updated name of the pet (optional)
+    * @param status Updated status of the pet (optional)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void updatePetWithForm(Long petId, String name, String status, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'petId' is set
@@ -285,7 +368,7 @@ public class PetApiImpl implements PetApi {
         }
         
         // create path and map variables
-        String localVarPath = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", petId.toString());
+        String localVarPath = "/pet/{petId}".replaceAll("\\{" + "petId" + "\\}", encodeParameter(petId.toString()));
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -306,17 +389,30 @@ if (status != null) localVarFormParams.put("status", status);
         String[] localVarContentTypes = { "application/x-www-form-urlencoded" };
         String[] localVarAuthNames = new String[] { "petstore_auth" };
 
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
-     * uploads an image
-     * 
-     * @param petId ID of pet to update (required)
-     * @param additionalMetadata Additional data to pass to server (optional)
-     * @param file file to upload (optional)
-     * @param resultHandler Asynchronous result handler
-     */
+    * uploads an image
+    * 
+        * @param petId ID of pet to update (required)
+        * @param additionalMetadata Additional data to pass to server (optional)
+        * @param file file to upload (optional)
+    * @param resultHandler Asynchronous result handler
+    */
     public void uploadFile(Long petId, String additionalMetadata, AsyncFile file, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+        uploadFile(petId, additionalMetadata, file, null, resultHandler);
+    }
+
+    /**
+    * uploads an image
+    * 
+    * @param petId ID of pet to update (required)
+    * @param additionalMetadata Additional data to pass to server (optional)
+    * @param file file to upload (optional)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void uploadFile(Long petId, String additionalMetadata, AsyncFile file, ApiClient.AuthInfo authInfo, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'petId' is set
@@ -326,7 +422,7 @@ if (status != null) localVarFormParams.put("status", status);
         }
         
         // create path and map variables
-        String localVarPath = "/pet/{petId}/uploadImage".replaceAll("\\{" + "petId" + "\\}", petId.toString());
+        String localVarPath = "/pet/{petId}/uploadImage".replaceAll("\\{" + "petId" + "\\}", encodeParameter(petId.toString()));
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -347,17 +443,30 @@ if (file != null) localVarFormParams.put("file", file);
         String[] localVarContentTypes = { "multipart/form-data" };
         String[] localVarAuthNames = new String[] { "petstore_auth" };
         TypeReference<ModelApiResponse> localVarReturnType = new TypeReference<ModelApiResponse>() {};
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
     /**
-     * uploads an image (required)
-     * 
-     * @param petId ID of pet to update (required)
-     * @param requiredFile file to upload (required)
-     * @param additionalMetadata Additional data to pass to server (optional)
-     * @param resultHandler Asynchronous result handler
-     */
+    * uploads an image (required)
+    * 
+        * @param petId ID of pet to update (required)
+        * @param requiredFile file to upload (required)
+        * @param additionalMetadata Additional data to pass to server (optional)
+    * @param resultHandler Asynchronous result handler
+    */
     public void uploadFileWithRequiredFile(Long petId, AsyncFile requiredFile, String additionalMetadata, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
+        uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, null, resultHandler);
+    }
+
+    /**
+    * uploads an image (required)
+    * 
+    * @param petId ID of pet to update (required)
+    * @param requiredFile file to upload (required)
+    * @param additionalMetadata Additional data to pass to server (optional)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void uploadFileWithRequiredFile(Long petId, AsyncFile requiredFile, String additionalMetadata, ApiClient.AuthInfo authInfo, Handler<AsyncResult<ModelApiResponse>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'petId' is set
@@ -373,7 +482,7 @@ if (file != null) localVarFormParams.put("file", file);
         }
         
         // create path and map variables
-        String localVarPath = "/fake/{petId}/uploadImageWithRequiredFile".replaceAll("\\{" + "petId" + "\\}", petId.toString());
+        String localVarPath = "/fake/{petId}/uploadImageWithRequiredFile".replaceAll("\\{" + "petId" + "\\}", encodeParameter(petId.toString()));
 
         // query params
         List<Pair> localVarQueryParams = new ArrayList<>();
@@ -394,6 +503,14 @@ if (requiredFile != null) localVarFormParams.put("requiredFile", requiredFile);
         String[] localVarContentTypes = { "multipart/form-data" };
         String[] localVarAuthNames = new String[] { "petstore_auth" };
         TypeReference<ModelApiResponse> localVarReturnType = new TypeReference<ModelApiResponse>() {};
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
+    }
+
+    private String encodeParameter(String parameter) {
+        try {
+            return URLEncoder.encode(parameter, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            return parameter;
+        }
     }
 }

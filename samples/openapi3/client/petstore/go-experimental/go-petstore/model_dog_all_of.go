@@ -16,7 +16,10 @@ import (
 // DogAllOf struct for DogAllOf
 type DogAllOf struct {
 	Breed *string `json:"breed,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _DogAllOf DogAllOf
 
 // NewDogAllOf instantiates a new DogAllOf object
 // This constructor will assign default values to properties that have it defined,
@@ -72,7 +75,29 @@ func (o DogAllOf) MarshalJSON() ([]byte, error) {
 	if o.Breed != nil {
 		toSerialize["breed"] = o.Breed
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *DogAllOf) UnmarshalJSON(bytes []byte) (err error) {
+	varDogAllOf := _DogAllOf{}
+
+	if err = json.Unmarshal(bytes, &varDogAllOf); err == nil {
+		*o = DogAllOf(varDogAllOf)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "breed")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableDogAllOf struct {

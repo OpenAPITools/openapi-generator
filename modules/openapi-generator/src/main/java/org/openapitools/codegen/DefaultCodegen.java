@@ -1960,10 +1960,10 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Return a string representation of the schema type, resolving aliasing and references if necessary.
      *
-     * @param schema
+     * @param schema input
      * @return the string representation of the schema type.
      */
-    private String getSingleSchemaType(Schema schema) {
+    protected String getSingleSchemaType(Schema schema) {
         Schema unaliasSchema = ModelUtils.unaliasSchema(this.openAPI, schema, importMapping);
 
         if (StringUtils.isNotBlank(unaliasSchema.get$ref())) { // reference to another definition/schema
@@ -2483,19 +2483,6 @@ public class DefaultCodegen implements CodegenConfig {
         // remove duplicated properties
         m.removeAllDuplicatedProperty();
 
-        // post process model properties
-        if (m.vars != null) {
-            for (CodegenProperty prop : m.vars) {
-                postProcessModelProperty(m, prop);
-            }
-            m.hasVars = m.vars.size() > 0;
-        }
-        if (m.allVars != null) {
-            for (CodegenProperty prop : m.allVars) {
-                postProcessModelProperty(m, prop);
-            }
-        }
-
         // set isDiscriminator on the discriminator property
         if (m.discriminator != null) {
             String discPropName = m.discriminator.getPropertyBaseName();
@@ -2523,6 +2510,36 @@ public class DefaultCodegen implements CodegenConfig {
             };
             Collections.sort(m.vars, comparator);
             Collections.sort(m.allVars, comparator);
+        }
+
+        // process 'additionalProperties'
+        if (schema.getAdditionalProperties() == null) {
+            if (disallowAdditionalPropertiesIfNotPresent) {
+                m.isAdditionalPropertiesTrue = false;
+            } else {
+                m.isAdditionalPropertiesTrue = true;
+            }
+        } else if (schema.getAdditionalProperties() instanceof Boolean) {
+            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
+                m.isAdditionalPropertiesTrue = true;
+            } else {
+                m.isAdditionalPropertiesTrue = false;
+            }
+        } else {
+            m.isAdditionalPropertiesTrue = false;
+        }
+
+        // post process model properties
+        if (m.vars != null) {
+            for (CodegenProperty prop : m.vars) {
+                postProcessModelProperty(m, prop);
+            }
+            m.hasVars = m.vars.size() > 0;
+        }
+        if (m.allVars != null) {
+            for (CodegenProperty prop : m.allVars) {
+                postProcessModelProperty(m, prop);
+            }
         }
 
         return m;

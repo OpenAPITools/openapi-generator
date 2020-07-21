@@ -3,8 +3,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**AdditionalMetadata** | **String** | Additional data to pass to server | [optional] [default to null]
-**File** | **System.IO.FileInfo** | file to upload | [optional] [default to null]
+**AdditionalMetadata** | **String** | Additional data to pass to server | [optional] 
+**File** | **System.IO.FileInfo** | file to upload | [optional] 
 
 ## Examples
 

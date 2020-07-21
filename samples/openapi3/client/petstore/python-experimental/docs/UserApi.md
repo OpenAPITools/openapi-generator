@@ -24,7 +24,6 @@ This can only be done by the logged in user.
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api
@@ -85,7 +84,6 @@ Creates list of users with given input array
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api
@@ -146,7 +144,6 @@ Creates list of users with given input array
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api
@@ -209,7 +206,6 @@ This can only be done by the logged in user.
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api
@@ -270,7 +266,6 @@ Get user by user name
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api
@@ -334,7 +329,6 @@ Logs user into the system
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api
@@ -398,7 +392,6 @@ Logs out current logged in user session
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api
@@ -456,7 +449,6 @@ This can only be done by the logged in user.
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api

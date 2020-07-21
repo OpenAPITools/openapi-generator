@@ -166,7 +166,7 @@ public class TestUtils {
             String file = linearize(generatedFile);
             assertNotNull(file);
             for (String line : lines)
-                assertTrue(file.contains(linearize(line)));
+                assertTrue(file.contains(linearize(line)), "File does not contain line [" + line + "]");
         } catch (IOException e) {
             fail("Unable to evaluate file " + path.toString());
         }
