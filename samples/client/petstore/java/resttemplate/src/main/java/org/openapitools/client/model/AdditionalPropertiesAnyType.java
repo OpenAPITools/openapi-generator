@@ -32,6 +32,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   AdditionalPropertiesAnyType.JSON_PROPERTY_NAME
 })
+@JsonTypeName("AdditionalPropertiesAnyType")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesAnyType extends HashMap<String, Object> {
   public static final String JSON_PROPERTY_NAME = "name";
