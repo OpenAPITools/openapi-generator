@@ -78,6 +78,7 @@ jobs:
         - ~/virtualenvs
         - ~/.m2
         - ~/.ivy2
+        - ~/.sbt
         - ~/.bundle
         - ~/.go_workspace
         - ~/.gradle
