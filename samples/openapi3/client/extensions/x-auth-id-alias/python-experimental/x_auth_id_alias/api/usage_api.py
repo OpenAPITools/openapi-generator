@@ -10,13 +10,8 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
 import sys  # noqa: F401
-
-# python 2 and python 3 compatibility library
-import six
 
 from x_auth_id_alias.api_client import ApiClient, Endpoint
 from x_auth_id_alias.model_utils import (  # noqa: F401
@@ -25,9 +20,7 @@ from x_auth_id_alias.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_and_convert_types
 )
 

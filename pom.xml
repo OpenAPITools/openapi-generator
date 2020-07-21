@@ -1194,8 +1194,6 @@
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
-                <module>samples/client/petstore/javascript-es6</module>
-                <module>samples/client/petstore/javascript-promise-es6</module>
                 <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/python</module>
                 <module>samples/client/petstore/python-experimental</module>
@@ -1239,37 +1237,6 @@
                 </property>
             </activation>
             <modules>
-                <!-- clients -->
-                <!-- test non-java projects -->
-                <module>samples/client/petstore/go</module>
-                <module>samples/client/petstore/go-experimental</module>
-                <module>samples/openapi3/client/petstore/go-experimental</module>
-                <module>samples/openapi3/client/petstore/go</module>
-                <!-- test java-related projects -->
-                <module>samples/client/petstore/scala-akka</module>
-                <module>samples/client/petstore/scala-sttp</module>
-                <module>samples/client/petstore/scala-httpclient</module>
-                <module>samples/client/petstore/scalaz</module>
-                <module>samples/client/petstore/clojure</module>
-                <module>samples/client/petstore/java/feign</module>
-                <module>samples/client/petstore/java/jersey1</module>
-                <module>samples/client/petstore/java/jersey2-java8</module>
-                <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
-                <module>samples/client/petstore/java/okhttp-gson</module>
-                <module>samples/client/petstore/java/retrofit2</module>
-                <module>samples/client/petstore/java/retrofit2rx2</module>
-                <module>samples/client/petstore/java/retrofit2rx3</module>
-                <module>samples/client/petstore/java/retrofit2-play26</module>
-                <module>samples/client/petstore/jaxrs-cxf-client</module>
-                <module>samples/client/petstore/java/resttemplate</module>
-                <module>samples/client/petstore/java/resttemplate-withXml</module>
-                <module>samples/client/petstore/java/webclient</module>
-                <module>samples/client/petstore/java/vertx</module>
-                <module>samples/client/petstore/java/resteasy</module>
-                <module>samples/client/petstore/java/google-api-client</module>
-                <module>samples/client/petstore/java/rest-assured</module>
-                <module>samples/client/petstore/java/rest-assured-jackson</module>
-                <module>samples/client/petstore/groovy</module>
                 <!-- servers -->
                 <module>samples/server/petstore/jaxrs-jersey</module>
                 <module>samples/server/petstore/jaxrs-spec</module>
@@ -1324,62 +1291,55 @@
                 <module>samples/server/petstore/kotlin-springboot</module>
             </modules>
         </profile>
-        <!-- test with JDK7 in CircleCI -->
+        <!-- other tests in CircleCI -->
         <profile>
-            <id>samples.circleci.jdk7</id>
+            <id>samples.circleci.others</id>
             <activation>
                 <property>
                     <name>env</name>
-                    <value>samples.circleci.jdk7</value>
+                    <value>samples.circleci.others</value>
                 </property>
             </activation>
             <modules>
-                <module>samples/server/petstore/go-api-server</module>
-                <module>samples/server/petstore/go-gin-api-server</module>
+                <!-- clients -->
                 <!-- test java-related projects -->
-                <module>samples/client/petstore/dart2/petstore</module>
-                <module>samples/client/petstore/dart-jaguar/openapi</module>
-                <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
                 <module>samples/client/petstore/scala-akka</module>
+                <module>samples/client/petstore/scala-sttp</module>
                 <module>samples/client/petstore/scala-httpclient</module>
+                <module>samples/client/petstore/scalaz</module>
+                <module>samples/client/petstore/clojure</module>
+                <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/jersey1</module>
+                <module>samples/client/petstore/java/jersey2-java8</module>
+                <module>samples/openapi3/client/petstore/java/jersey2-java8</module>
                 <module>samples/client/petstore/java/okhttp-gson</module>
                 <module>samples/client/petstore/java/retrofit2</module>
+                <module>samples/client/petstore/java/retrofit2rx2</module>
+                <module>samples/client/petstore/java/retrofit2rx3</module>
+                <module>samples/client/petstore/java/retrofit2-play26</module>
                 <module>samples/client/petstore/jaxrs-cxf-client</module>
                 <module>samples/client/petstore/java/resttemplate</module>
                 <module>samples/client/petstore/java/resttemplate-withXml</module>
+                <module>samples/client/petstore/java/webclient</module>
                 <module>samples/client/petstore/java/vertx</module>
                 <module>samples/client/petstore/java/resteasy</module>
                 <module>samples/client/petstore/java/google-api-client</module>
+                <module>samples/client/petstore/java/rest-assured</module>
+                <module>samples/client/petstore/java/rest-assured-jackson</module>
                 <module>samples/client/petstore/java/microprofile-rest-client</module>
-                <!-- servers -->
-                <module>samples/server/petstore/jaxrs-jersey</module>
-                <module>samples/server/petstore/jaxrs-spec</module>
-                <module>samples/server/petstore/jaxrs-spec-interface</module>
-                <module>samples/server/petstore/jaxrs-spec-interface-response</module>
-                <module>samples/server/petstore/java-vertx/rx</module>
-                <module>samples/server/petstore/java-vertx/async</module>
-                <module>samples/server/petstore/java-inflector</module>
-                <module>samples/server/petstore/java-undertow</module>
-                <module>samples/server/petstore/jaxrs/jersey1</module>
-                <module>samples/server/petstore/jaxrs/jersey2</module>
-                <module>samples/server/petstore/jaxrs/jersey1-useTags</module>
-                <module>samples/server/petstore/jaxrs/jersey2-useTags</module>
-                <module>samples/server/petstore/jaxrs-resteasy/default</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap-joda</module>
-                <module>samples/server/petstore/jaxrs-resteasy/eap-java8</module>
-                <module>samples/server/petstore/jaxrs-resteasy/joda</module>
-                <module>samples/server/petstore/spring-mvc</module>
-                <module>samples/client/petstore/spring-cloud</module>
-                <module>samples/server/petstore/springboot</module>
-                <module>samples/server/petstore/springboot-beanvalidation</module>
-                <module>samples/server/petstore/springboot-useoptional</module>
-                <module>samples/server/petstore/jaxrs-cxf</module>
-                <module>samples/server/petstore/jaxrs-cxf-annotated-base-path</module>
-                <module>samples/server/petstore/jaxrs-cxf-cdi</module>
-                <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
-                <module>samples/server/petstore/java-msf4j</module>
+                <module>samples/client/petstore/groovy</module>
+                <!-- test non-java projects -->
+                <module>samples/client/petstore/go</module>
+                <module>samples/client/petstore/go-experimental</module>
+                <module>samples/openapi3/client/petstore/go-experimental</module>
+                <module>samples/openapi3/client/petstore/go</module>
+                <module>samples/client/petstore/javascript-es6</module>
+                <module>samples/client/petstore/javascript-promise-es6</module>
+                <module>samples/server/petstore/go-api-server</module>
+                <module>samples/server/petstore/go-gin-api-server</module>
+                <module>samples/client/petstore/dart2/petstore</module>
+                <module>samples/client/petstore/dart-jaguar/openapi</module>
+                <module>samples/client/petstore/dart-jaguar/flutter_petstore/openapi</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->

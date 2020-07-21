@@ -17,7 +17,10 @@ import (
 type Animal struct {
 	ClassName string `json:"className"`
 	Color *string `json:"color,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Animal Animal
 
 // NewAnimal instantiates a new Animal object
 // This constructor will assign default values to properties that have it defined,
@@ -105,7 +108,30 @@ func (o Animal) MarshalJSON() ([]byte, error) {
 	if o.Color != nil {
 		toSerialize["color"] = o.Color
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *Animal) UnmarshalJSON(bytes []byte) (err error) {
+	varAnimal := _Animal{}
+
+	if err = json.Unmarshal(bytes, &varAnimal); err == nil {
+		*o = Animal(varAnimal)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "className")
+		delete(additionalProperties, "color")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableAnimal struct {

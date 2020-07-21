@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,16 +26,14 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
 try:
-    from petstore_api.model import outer_enum
+    from petstore_api.model import string_enum
 except ImportError:
-    outer_enum = sys.modules[
-        'petstore_api.model.outer_enum']
+    string_enum = sys.modules[
+        'petstore_api.model.string_enum']
 
 
 class EnumTest(ModelNormal):
@@ -107,7 +103,7 @@ class EnumTest(ModelNormal):
             'enum_string': (str,),  # noqa: E501
             'enum_integer': (int,),  # noqa: E501
             'enum_number': (float,),  # noqa: E501
-            'outer_enum': (outer_enum.OuterEnum,),  # noqa: E501
+            'string_enum': (string_enum.StringEnum,),  # noqa: E501
         }
 
     @cached_property
@@ -119,7 +115,7 @@ class EnumTest(ModelNormal):
         'enum_string': 'enum_string',  # noqa: E501
         'enum_integer': 'enum_integer',  # noqa: E501
         'enum_number': 'enum_number',  # noqa: E501
-        'outer_enum': 'outerEnum',  # noqa: E501
+        'string_enum': 'stringEnum',  # noqa: E501
     }
 
     _composed_schemas = {}
@@ -174,7 +170,7 @@ class EnumTest(ModelNormal):
             enum_string (str): [optional]  # noqa: E501
             enum_integer (int): [optional]  # noqa: E501
             enum_number (float): [optional]  # noqa: E501
-            outer_enum (outer_enum.OuterEnum): [optional]  # noqa: E501
+            string_enum (string_enum.StringEnum): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -201,7 +197,7 @@ class EnumTest(ModelNormal):
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
         self.enum_string_required = enum_string_required
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \

@@ -52,6 +52,7 @@ sidebar_label: java
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|source folder for generated code| |src/main/java|
 |supportJava6|Whether to support Java6 with the Jersey1 library. This option has been deprecated and will be removed in the 5.x release| |false|
+|useAbstractionForFiles|Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on resttemplate library| |false|
 |useBeanValidation|Use BeanValidation API annotations| |false|
 |useGzipFeature|Send gzip-encoded requests| |false|
 |usePlayWS|Use Play! Async HTTP client (Play WS API)| |false|
@@ -192,6 +193,7 @@ sidebar_label: java
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

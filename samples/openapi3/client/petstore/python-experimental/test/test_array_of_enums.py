@@ -10,16 +10,15 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
 import petstore_api
 try:
-    from petstore_api.model import outer_enum
+    from petstore_api.model import string_enum
 except ImportError:
-    outer_enum = sys.modules[
-        'petstore_api.model.outer_enum']
+    string_enum = sys.modules[
+        'petstore_api.model.string_enum']
 from petstore_api.model.array_of_enums import ArrayOfEnums
 
 

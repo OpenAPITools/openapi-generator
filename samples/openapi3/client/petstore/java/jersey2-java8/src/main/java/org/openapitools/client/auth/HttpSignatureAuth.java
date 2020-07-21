@@ -23,10 +23,12 @@ import java.security.Key;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.List;
+import java.util.TimeZone;
 import java.security.spec.AlgorithmParameterSpec;
 import java.security.InvalidKeyException;
 
@@ -247,7 +249,9 @@ public class HttpSignatureAuth implements Authentication {
       }
 
       if (headers.contains("date")) {
-        headerParams.put("date", new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US).format(new Date()));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        headerParams.put("date", dateFormat.format(Calendar.getInstance().getTime()));
       }
 
       if (headers.contains("digest")) {

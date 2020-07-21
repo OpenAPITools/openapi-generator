@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 {{/fullJavaUtil}}
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -108,7 +109,7 @@ public class {{classname}} {
 
         {{#formParams}}
         if ({{paramName}} != null)
-            formParams.add{{#collectionFormat}}All{{/collectionFormat}}("{{baseName}}", {{#isFile}}new FileSystemResource({{paramName}}){{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});
+            formParams.add{{#collectionFormat}}All{{/collectionFormat}}("{{baseName}}", {{#isFile}}{{^collectionFormat}}new FileSystemResource({{paramName}}){{/collectionFormat}}{{/isFile}}{{#isFile}}{{#collectionFormat}}{{paramName}}.stream().map(FileSystemResource::new).collect(Collectors.toList()){{/collectionFormat}}{{/isFile}}{{^isFile}}{{paramName}}{{/isFile}});
         {{/formParams}}
         {{/hasFormParams}}
 

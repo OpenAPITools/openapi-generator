@@ -18,7 +18,10 @@ type ArrayTest struct {
 	ArrayOfString *[]string `json:"array_of_string,omitempty"`
 	ArrayArrayOfInteger *[][]int64 `json:"array_array_of_integer,omitempty"`
 	ArrayArrayOfModel *[][]ReadOnlyFirst `json:"array_array_of_model,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ArrayTest ArrayTest
 
 // NewArrayTest instantiates a new ArrayTest object
 // This constructor will assign default values to properties that have it defined,
@@ -144,7 +147,31 @@ func (o ArrayTest) MarshalJSON() ([]byte, error) {
 	if o.ArrayArrayOfModel != nil {
 		toSerialize["array_array_of_model"] = o.ArrayArrayOfModel
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *ArrayTest) UnmarshalJSON(bytes []byte) (err error) {
+	varArrayTest := _ArrayTest{}
+
+	if err = json.Unmarshal(bytes, &varArrayTest); err == nil {
+		*o = ArrayTest(varArrayTest)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "array_of_string")
+		delete(additionalProperties, "array_array_of_integer")
+		delete(additionalProperties, "array_array_of_model")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableArrayTest struct {

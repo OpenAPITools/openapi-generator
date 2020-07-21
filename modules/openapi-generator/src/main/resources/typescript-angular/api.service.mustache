@@ -153,6 +153,9 @@ export class {{classname}} {
      {{/useSingleRequestParameter}}
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     {{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}
      */
     public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{#hasMore}} | {{/hasMore}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>;
     public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{#hasMore}} | {{/hasMore}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
