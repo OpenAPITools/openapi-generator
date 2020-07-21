@@ -12,7 +12,7 @@ public struct Animal: Codable {
     public private(set) var className: String
     public private(set) var color: String? = "red"
 
-    public init(className: String, color: String?) {
+    public init(className: String, color: String? = nil) {
         self.className = className
         self.color = color
     }

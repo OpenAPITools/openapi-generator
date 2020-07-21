@@ -13,7 +13,7 @@ import Foundation
     public var color: String? = "red"
     public var breed: String?
 
-    public init(_className: String, color: String?, breed: String?) {
+    public init(_className: String, color: String? = nil, breed: String? = nil) {
         self._className = _className
         self.color = color
         self.breed = breed
