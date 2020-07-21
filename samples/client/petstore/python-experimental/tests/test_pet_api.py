@@ -23,8 +23,6 @@ from petstore_api.rest import (
     RESTResponse
 )
 
-import six
-
 from petstore_api.exceptions import (
     ApiException,
     ApiValueError,
@@ -36,10 +34,7 @@ from .util import id_gen
 
 import urllib3
 
-if six.PY3:
-    from unittest.mock import patch
-else:
-    from mock import patch
+from unittest.mock import patch
 
 HOST = 'http://localhost/v2'
 

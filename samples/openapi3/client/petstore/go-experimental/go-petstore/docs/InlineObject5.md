@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AdditionalMetadata** | Pointer to **string** | Additional data to pass to server | [optional] 
-**RequiredFile** | Pointer to [***os.File**](*os.File.md) | file to upload | 
+**RequiredFile** | [***os.File**](*os.File.md) | file to upload | 
 
 ## Methods
 

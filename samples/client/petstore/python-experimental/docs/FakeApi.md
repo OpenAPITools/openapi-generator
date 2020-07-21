@@ -4,12 +4,13 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**array_model**](FakeApi.md#array_model) | **POST** /fake/refs/arraymodel | 
+[**boolean**](FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
 [**create_xml_item**](FakeApi.md#create_xml_item) | **POST** /fake/create_xml_item | creates an XmlItem
-[**fake_outer_boolean_serialize**](FakeApi.md#fake_outer_boolean_serialize) | **POST** /fake/outer/boolean | 
-[**fake_outer_composite_serialize**](FakeApi.md#fake_outer_composite_serialize) | **POST** /fake/outer/composite | 
-[**fake_outer_enum_serialize**](FakeApi.md#fake_outer_enum_serialize) | **POST** /fake/outer/enum | 
-[**fake_outer_number_serialize**](FakeApi.md#fake_outer_number_serialize) | **POST** /fake/outer/number | 
-[**fake_outer_string_serialize**](FakeApi.md#fake_outer_string_serialize) | **POST** /fake/outer/string | 
+[**number_with_validations**](FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
+[**object_model_with_ref_props**](FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
+[**string**](FakeApi.md#string) | **POST** /fake/refs/string | 
+[**string_enum**](FakeApi.md#string_enum) | **POST** /fake/refs/enum | 
 [**test_body_with_file_schema**](FakeApi.md#test_body_with_file_schema) | **PUT** /fake/body-with-file-schema | 
 [**test_body_with_query_params**](FakeApi.md#test_body_with_query_params) | **PUT** /fake/body-with-query-params | 
 [**test_client_model**](FakeApi.md#test_client_model) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -21,6 +22,131 @@ Method | HTTP request | Description
 [**test_json_form_data**](FakeApi.md#test_json_form_data) | **GET** /fake/jsonFormData | test json serialization of form data
 
 
+# **array_model**
+> animal_farm.AnimalFarm array_model()
+
+
+
+Test serialization of ArrayModel
+
+### Example
+
+```python
+import time
+import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model import animal_farm
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+    body = animal_farm.AnimalFarm() # animal_farm.AnimalFarm | Input model (optional)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        api_response = api_instance.array_model(body=body)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->array_model: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**animal_farm.AnimalFarm**](AnimalFarm.md)| Input model | [optional]
+
+### Return type
+
+[**animal_farm.AnimalFarm**](AnimalFarm.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Output model |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **boolean**
+> bool boolean()
+
+
+
+Test serialization of outer boolean types
+
+### Example
+
+```python
+import time
+import petstore_api
+from petstore_api.api import fake_api
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+    body = True # bool | Input boolean as post body (optional)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        api_response = api_instance.boolean(body=body)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->boolean: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **bool**| Input boolean as post body | [optional]
+
+### Return type
+
+**bool**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Output boolean |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **create_xml_item**
 > create_xml_item(xml_item)
 
@@ -31,7 +157,6 @@ this route creates an XmlItem
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -84,199 +209,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **fake_outer_boolean_serialize**
-> bool fake_outer_boolean_serialize()
-
-
-
-Test serialization of outer boolean types
-
-### Example
-
-```python
-from __future__ import print_function
-import time
-import petstore_api
-from petstore_api.api import fake_api
-from pprint import pprint
-# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
-# See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-
-
-# Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
-    # Create an instance of the API class
-    api_instance = fake_api.FakeApi(api_client)
-    body = True # bool | Input boolean as post body (optional)
-
-    # example passing only required values which don't have defaults set
-    # and optional values
-    try:
-        api_response = api_instance.fake_outer_boolean_serialize(body=body)
-        pprint(api_response)
-    except petstore_api.ApiException as e:
-        print("Exception when calling FakeApi->fake_outer_boolean_serialize: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **bool**| Input boolean as post body | [optional]
-
-### Return type
-
-**bool**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: */*
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Output boolean |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **fake_outer_composite_serialize**
-> outer_composite.OuterComposite fake_outer_composite_serialize()
-
-
-
-Test serialization of object with outer number type
-
-### Example
-
-```python
-from __future__ import print_function
-import time
-import petstore_api
-from petstore_api.api import fake_api
-from petstore_api.model import outer_composite
-from pprint import pprint
-# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
-# See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-
-
-# Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
-    # Create an instance of the API class
-    api_instance = fake_api.FakeApi(api_client)
-    body = outer_composite.OuterComposite() # outer_composite.OuterComposite | Input composite as post body (optional)
-
-    # example passing only required values which don't have defaults set
-    # and optional values
-    try:
-        api_response = api_instance.fake_outer_composite_serialize(body=body)
-        pprint(api_response)
-    except petstore_api.ApiException as e:
-        print("Exception when calling FakeApi->fake_outer_composite_serialize: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**outer_composite.OuterComposite**](OuterComposite.md)| Input composite as post body | [optional]
-
-### Return type
-
-[**outer_composite.OuterComposite**](OuterComposite.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: */*
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Output composite |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **fake_outer_enum_serialize**
-> outer_enum.OuterEnum fake_outer_enum_serialize()
-
-
-
-Test serialization of outer enum
-
-### Example
-
-```python
-from __future__ import print_function
-import time
-import petstore_api
-from petstore_api.api import fake_api
-from petstore_api.model import outer_enum
-from pprint import pprint
-# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
-# See configuration.py for a list of all supported configuration parameters.
-configuration = petstore_api.Configuration(
-    host = "http://petstore.swagger.io:80/v2"
-)
-
-
-# Enter a context with an instance of the API client
-with petstore_api.ApiClient() as api_client:
-    # Create an instance of the API class
-    api_instance = fake_api.FakeApi(api_client)
-    body = outer_enum.OuterEnum("placed") # outer_enum.OuterEnum | Input enum as post body (optional)
-
-    # example passing only required values which don't have defaults set
-    # and optional values
-    try:
-        api_response = api_instance.fake_outer_enum_serialize(body=body)
-        pprint(api_response)
-    except petstore_api.ApiException as e:
-        print("Exception when calling FakeApi->fake_outer_enum_serialize: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**outer_enum.OuterEnum**](OuterEnum.md)| Input enum as post body | [optional]
-
-### Return type
-
-[**outer_enum.OuterEnum**](OuterEnum.md)
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: */*
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-**200** | Output enum |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **fake_outer_number_serialize**
-> outer_number.OuterNumber fake_outer_number_serialize()
+# **number_with_validations**
+> number_with_validations.NumberWithValidations number_with_validations()
 
 
 
@@ -285,11 +219,10 @@ Test serialization of outer number types
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
-from petstore_api.model import outer_number
+from petstore_api.model import number_with_validations
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -302,26 +235,26 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = outer_number.OuterNumber(3.4) # outer_number.OuterNumber | Input number as post body (optional)
+    body = number_with_validations.NumberWithValidations(3.4) # number_with_validations.NumberWithValidations | Input number as post body (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
     try:
-        api_response = api_instance.fake_outer_number_serialize(body=body)
+        api_response = api_instance.number_with_validations(body=body)
         pprint(api_response)
     except petstore_api.ApiException as e:
-        print("Exception when calling FakeApi->fake_outer_number_serialize: %s\n" % e)
+        print("Exception when calling FakeApi->number_with_validations: %s\n" % e)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**outer_number.OuterNumber**](OuterNumber.md)| Input number as post body | [optional]
+ **body** | [**number_with_validations.NumberWithValidations**](NumberWithValidations.md)| Input number as post body | [optional]
 
 ### Return type
 
-[**outer_number.OuterNumber**](OuterNumber.md)
+[**number_with_validations.NumberWithValidations**](NumberWithValidations.md)
 
 ### Authorization
 
@@ -339,8 +272,71 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **fake_outer_string_serialize**
-> str fake_outer_string_serialize()
+# **object_model_with_ref_props**
+> object_model_with_ref_props.ObjectModelWithRefProps object_model_with_ref_props()
+
+
+
+Test serialization of object with $refed properties
+
+### Example
+
+```python
+import time
+import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model import object_model_with_ref_props
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+    body = object_model_with_ref_props.ObjectModelWithRefProps() # object_model_with_ref_props.ObjectModelWithRefProps | Input model (optional)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        api_response = api_instance.object_model_with_ref_props(body=body)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->object_model_with_ref_props: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**object_model_with_ref_props.ObjectModelWithRefProps**](ObjectModelWithRefProps.md)| Input model | [optional]
+
+### Return type
+
+[**object_model_with_ref_props.ObjectModelWithRefProps**](ObjectModelWithRefProps.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Output model |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **string**
+> str string()
 
 
 
@@ -349,7 +345,6 @@ Test serialization of outer string types
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -370,10 +365,10 @@ with petstore_api.ApiClient() as api_client:
     # example passing only required values which don't have defaults set
     # and optional values
     try:
-        api_response = api_instance.fake_outer_string_serialize(body=body)
+        api_response = api_instance.string(body=body)
         pprint(api_response)
     except petstore_api.ApiException as e:
-        print("Exception when calling FakeApi->fake_outer_string_serialize: %s\n" % e)
+        print("Exception when calling FakeApi->string: %s\n" % e)
 ```
 
 ### Parameters
@@ -402,6 +397,69 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **string_enum**
+> string_enum.StringEnum string_enum()
+
+
+
+Test serialization of outer enum
+
+### Example
+
+```python
+import time
+import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model import string_enum
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+    body = string_enum.StringEnum("placed") # string_enum.StringEnum | Input enum (optional)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        api_response = api_instance.string_enum(body=body)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->string_enum: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | [**string_enum.StringEnum**](StringEnum.md)| Input enum | [optional]
+
+### Return type
+
+[**string_enum.StringEnum**](StringEnum.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Output enum |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **test_body_with_file_schema**
 > test_body_with_file_schema(body)
 
@@ -412,7 +470,6 @@ For this test, the body for this request much reference a schema named `File`.
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -472,7 +529,6 @@ No authorization required
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -536,7 +592,6 @@ To test \"client\" model
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -600,7 +655,6 @@ This route has required values with enums of 1
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -665,7 +719,6 @@ Fake endpoint for testing various parameters  假端點  偽のエンドポイ�
 
 * Basic Authentication (http_basic_test):
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -772,7 +825,6 @@ To test enum parameters
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -850,7 +902,6 @@ Fake endpoint to test group parameters (optional)
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -928,7 +979,6 @@ test inline additionalProperties
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -988,7 +1038,6 @@ test json serialization of form data
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api

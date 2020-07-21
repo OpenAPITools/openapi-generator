@@ -10,7 +10,6 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
@@ -114,11 +113,11 @@ class TestDrawing(unittest.TestCase):
 
         # Validate we cannot assign the None value to main_shape because the 'null' type
         # is not one of the allowed types in the 'Shape' schema.
-        err_msg = ("Invalid type for variable '{}'. "
-                   "Required value type is {} and passed type was {} at {}")
-        with self.assertRaisesRegexp(
+        err_msg = (r"Invalid type for variable '{}'. "
+                   r"Required value type is {} and passed type was {} at {}")
+        with self.assertRaisesRegex(
                 petstore_api.ApiTypeError,
-                err_msg.format("main_shape", "Shape", "NoneType", "\['main_shape'\]")
+                err_msg.format(r"main_shape", r"one of \[ComplexQuadrilateral, EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle, SimpleQuadrilateral\]", r"NoneType", r"\['main_shape'\]")
         ):
             inst = Drawing(
                 # 'main_shape' has type 'Shape', which is a oneOf [triangle, quadrilateral]

@@ -1,7 +1,7 @@
 <?php
 /**
  * StoreApi
- * PHP version 7.1
+ * PHP version 7.2
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -884,15 +884,15 @@ class StoreApi
      *
      * Place an order for a pet
      *
-     * @param  \OpenAPI\Client\Model\Order $body order placed for purchasing the pet (required)
+     * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Order
      */
-    public function placeOrder($body)
+    public function placeOrder($order)
     {
-        list($response) = $this->placeOrderWithHttpInfo($body);
+        list($response) = $this->placeOrderWithHttpInfo($order);
         return $response;
     }
 
@@ -901,15 +901,15 @@ class StoreApi
      *
      * Place an order for a pet
      *
-     * @param  \OpenAPI\Client\Model\Order $body order placed for purchasing the pet (required)
+     * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Order, HTTP status code, HTTP response headers (array of strings)
      */
-    public function placeOrderWithHttpInfo($body)
+    public function placeOrderWithHttpInfo($order)
     {
-        $request = $this->placeOrderRequest($body);
+        $request = $this->placeOrderRequest($order);
 
         try {
             $options = $this->createHttpClientOption();
@@ -989,14 +989,14 @@ class StoreApi
      *
      * Place an order for a pet
      *
-     * @param  \OpenAPI\Client\Model\Order $body order placed for purchasing the pet (required)
+     * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function placeOrderAsync($body)
+    public function placeOrderAsync($order)
     {
-        return $this->placeOrderAsyncWithHttpInfo($body)
+        return $this->placeOrderAsyncWithHttpInfo($order)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1009,15 +1009,15 @@ class StoreApi
      *
      * Place an order for a pet
      *
-     * @param  \OpenAPI\Client\Model\Order $body order placed for purchasing the pet (required)
+     * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function placeOrderAsyncWithHttpInfo($body)
+    public function placeOrderAsyncWithHttpInfo($order)
     {
         $returnType = '\OpenAPI\Client\Model\Order';
-        $request = $this->placeOrderRequest($body);
+        $request = $this->placeOrderRequest($order);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1056,17 +1056,17 @@ class StoreApi
     /**
      * Create request for operation 'placeOrder'
      *
-     * @param  \OpenAPI\Client\Model\Order $body order placed for purchasing the pet (required)
+     * @param  \OpenAPI\Client\Model\Order $order order placed for purchasing the pet (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function placeOrderRequest($body)
+    protected function placeOrderRequest($order)
     {
-        // verify the required parameter 'body' is set
-        if ($body === null || (is_array($body) && count($body) === 0)) {
+        // verify the required parameter 'order' is set
+        if ($order === null || (is_array($order) && count($order) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $body when calling placeOrder'
+                'Missing the required parameter $order when calling placeOrder'
             );
         }
 
@@ -1082,8 +1082,8 @@ class StoreApi
 
         // body params
         $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
+        if (isset($order)) {
+            $_tempBody = $order;
         }
 
         if ($multipart) {
@@ -1093,7 +1093,7 @@ class StoreApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['application/xml', 'application/json'],
-                []
+                ['application/json']
             );
         }
 

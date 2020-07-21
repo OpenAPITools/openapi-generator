@@ -44,16 +44,24 @@ $FunctionPath = 'Api', 'Model', 'Client' | ForEach-Object {Join-Path "$ScriptDir
 $Manifest = @{
     Path = "$ScriptDir\src\{{{packageName}}}\{{{packageName}}}.psd1"
 
-    Author = 'OpenAPI Generator Team'
-    CompanyName = 'openapitools.org'
+    Author = '{{{author}}}'
+    CompanyName = '{{{companyName}}}'
     Description = '{{{packageName}}} - the PowerShell module for {{{appName}}}'
 
+    {{#psData}}
+    PrivateData = @{
+        PSData = @{
+            {{{.}}}
+        }
+    }
+
+    {{/psData}}
     ModuleVersion = '{{{packageVersion}}}'
 
     RootModule = '{{{packageName}}}.psm1'
     Guid = '{{packageGuid}}' # Has to be static, otherwise each new build will be considered different module
 
-    PowerShellVersion = '3.0'
+    PowerShellVersion = '{{{powershellVersion}}}'
 
     FunctionsToExport = $FunctionPath | Get-ChildItem -Filter *.ps1 | Get-FunctionsToExport
 

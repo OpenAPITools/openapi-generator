@@ -20,6 +20,7 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -34,7 +35,7 @@ import org.openapitools.client.JSON;
 @JsonPropertyOrder({
   InlineResponseDefault.JSON_PROPERTY_STRING
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class InlineResponseDefault {
   public static final String JSON_PROPERTY_STRING = "string";
   private Foo string;
@@ -64,6 +65,9 @@ public class InlineResponseDefault {
   }
 
 
+  /**
+   * Return true if this inline_response_default object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

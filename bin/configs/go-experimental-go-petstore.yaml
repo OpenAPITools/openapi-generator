@@ -5,3 +5,4 @@ templateDir: modules/openapi-generator/src/main/resources/go-experimental
 additionalProperties:
   enumClassPrefix: "true"
   packageName: petstore
+  disallowAdditionalPropertiesIfNotPresent: false

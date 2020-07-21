@@ -18,3 +18,8 @@
   image: "img/companies/datadog.png"
   infoLink: "https://datadoghq.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
   bronze: true
+-
+  caption: "Thales"
+  image: "img/companies/thales.jpg"
+  infoLink: "https://cpl.thalesgroup.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  bronze: true

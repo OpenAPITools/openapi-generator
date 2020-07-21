@@ -18,6 +18,7 @@ import org.openapitools.client.models.OuterEnumIntegerDefaultValue
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+
 /**
  * 
  * @param enumStringRequired 

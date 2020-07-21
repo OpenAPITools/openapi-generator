@@ -10,16 +10,13 @@
 """
 
 
-from __future__ import absolute_import
-
 import copy
 import logging
 import multiprocessing
 import sys
 import urllib3
 
-import six
-from six.moves import http_client as httplib
+from http import client as http_client
 from petstore_api.exceptions import ApiValueError
 
 
@@ -71,6 +68,15 @@ class Configuration(object):
       received by the server.
     :param signing_info: Configuration parameters for the HTTP signature security scheme.
         Must be an instance of petstore_api.signing.HttpSigningConfiguration
+    :param server_index: Index to servers configuration.
+    :param server_variables: Mapping with string values to replace variables in
+      templated server configuration. The validation of enums is performed for
+      variables with defined enum values before.
+    :param server_operation_index: Mapping from operation ID to an index to server
+      configuration.
+    :param server_operation_variables: Mapping from operation ID to a mapping with
+      string values to replace variables in templated server configuration.
+      The validation of enums is performed for variables with defined enum values before.
 
     :Example:
 
@@ -151,17 +157,27 @@ conf = petstore_api.Configuration(
 
     _default = None
 
-    def __init__(self, host="http://petstore.swagger.io:80/v2",
+    def __init__(self, host=None,
                  api_key=None, api_key_prefix=None,
                  username=None, password=None,
                  discard_unknown_keys=False,
                  disabled_client_side_validations="",
                  signing_info=None,
+                 server_index=None, server_variables=None,
+                 server_operation_index=None, server_operation_variables=None,
                  ):
         """Constructor
         """
-        self.host = host
+        self._base_path = "http://petstore.swagger.io:80/v2" if host is None else host
         """Default Base url
+        """
+        self.server_index = 0 if server_index is None and host is None else server_index
+        self.server_operation_index = server_operation_index or {}
+        """Default server index
+        """
+        self.server_variables = server_variables or {}
+        self.server_operation_variables = server_operation_variables or {}
+        """Default server variables
         """
         self.temp_folder_path = None
         """Temp file folder for downloading files
@@ -255,7 +271,7 @@ conf = petstore_api.Configuration(
         self.retries = None
         """Adding retries to override urllib3 default value 3
         """
-        # Disable client side validation
+        # Enable client side validation
         self.client_side_validation = True
 
     def __deepcopy__(self, memo):
@@ -339,7 +355,7 @@ conf = petstore_api.Configuration(
             # then add file handler and remove stream handler.
             self.logger_file_handler = logging.FileHandler(self.__logger_file)
             self.logger_file_handler.setFormatter(self.logger_formatter)
-            for _, logger in six.iteritems(self.logger):
+            for _, logger in self.logger.items():
                 logger.addHandler(self.logger_file_handler)
 
     @property
@@ -361,17 +377,17 @@ conf = petstore_api.Configuration(
         self.__debug = value
         if self.__debug:
             # if debug status is True, turn on debug logging
-            for _, logger in six.iteritems(self.logger):
+            for _, logger in self.logger.items():
                 logger.setLevel(logging.DEBUG)
-            # turn on httplib debug
-            httplib.HTTPConnection.debuglevel = 1
+            # turn on http_client debug
+            http_client.HTTPConnection.debuglevel = 1
         else:
             # if debug status is False, turn off debug logging,
             # setting log level to default `logging.WARNING`
-            for _, logger in six.iteritems(self.logger):
+            for _, logger in self.logger.items():
                 logger.setLevel(logging.WARNING)
-            # turn off httplib debug
-            httplib.HTTPConnection.debuglevel = 0
+            # turn off http_client debug
+            http_client.HTTPConnection.debuglevel = 0
 
     @property
     def logger_format(self):
@@ -396,15 +412,16 @@ conf = petstore_api.Configuration(
         self.__logger_format = value
         self.logger_formatter = logging.Formatter(self.__logger_format)
 
-    def get_api_key_with_prefix(self, identifier):
+    def get_api_key_with_prefix(self, identifier, alias=None):
         """Gets API key (with prefix if set).
 
         :param identifier: The identifier of apiKey.
+        :param alias: The alternative identifier of apiKey.
         :return: The token for api key authentication.
         """
         if self.refresh_api_key_hook is not None:
             self.refresh_api_key_hook(self)
-        key = self.api_key.get(identifier)
+        key = self.api_key.get(identifier, self.api_key.get(alias) if alias is not None else None)
         if key:
             prefix = self.api_key_prefix.get(identifier)
             if prefix:
@@ -438,14 +455,18 @@ conf = petstore_api.Configuration(
                 'type': 'api_key',
                 'in': 'header',
                 'key': 'api_key',
-                'value': self.get_api_key_with_prefix('api_key')
+                'value': self.get_api_key_with_prefix(
+                    'api_key',
+                ),
             }
         if 'api_key_query' in self.api_key:
             auth['api_key_query'] = {
                 'type': 'api_key',
                 'in': 'query',
                 'key': 'api_key_query',
-                'value': self.get_api_key_with_prefix('api_key_query')
+                'value': self.get_api_key_with_prefix(
+                    'api_key_query',
+                ),
             }
         if self.access_token is not None:
             auth['bearer_test'] = {
@@ -535,14 +556,18 @@ conf = petstore_api.Configuration(
             }
         ]
 
-    def get_host_from_settings(self, index, variables=None):
+    def get_host_from_settings(self, index, variables=None, servers=None):
         """Gets host URL based on the index and variables
         :param index: array index of the host settings
         :param variables: hash of variable and the corresponding value
+        :param servers: an array of host settings or None
         :return: URL based on host settings
         """
+        if index is None:
+            return self._base_path
+
         variables = {} if variables is None else variables
-        servers = self.get_host_settings()
+        servers = self.get_host_settings() if servers is None else servers
 
         try:
             server = servers[index]
@@ -554,7 +579,7 @@ conf = petstore_api.Configuration(
         url = server['url']
 
         # go through variables and replace placeholders
-        for variable_name, variable in server['variables'].items():
+        for variable_name, variable in server.get('variables', {}).items():
             used_value = variables.get(
                 variable_name, variable['default_value'])
 
@@ -569,3 +594,14 @@ conf = petstore_api.Configuration(
             url = url.replace("{" + variable_name + "}", used_value)
 
         return url
+
+    @property
+    def host(self):
+        """Return generated host."""
+        return self.get_host_from_settings(self.server_index, variables=self.server_variables)
+
+    @host.setter
+    def host(self, value):
+        """Fix base path."""
+        self._base_path = value
+        self.server_index = None

@@ -16,7 +16,10 @@ import (
 // InlineResponseDefault struct for InlineResponseDefault
 type InlineResponseDefault struct {
 	String *Foo `json:"string,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _InlineResponseDefault InlineResponseDefault
 
 // NewInlineResponseDefault instantiates a new InlineResponseDefault object
 // This constructor will assign default values to properties that have it defined,
@@ -72,7 +75,29 @@ func (o InlineResponseDefault) MarshalJSON() ([]byte, error) {
 	if o.String != nil {
 		toSerialize["string"] = o.String
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *InlineResponseDefault) UnmarshalJSON(bytes []byte) (err error) {
+	varInlineResponseDefault := _InlineResponseDefault{}
+
+	if err = json.Unmarshal(bytes, &varInlineResponseDefault); err == nil {
+		*o = InlineResponseDefault(varInlineResponseDefault)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "string")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableInlineResponseDefault struct {

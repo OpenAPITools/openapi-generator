@@ -3,9 +3,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Code** | **Int32** |  | [optional] [default to null]
-**Type** | **String** |  | [optional] [default to null]
-**Message** | **String** |  | [optional] [default to null]
+**Code** | **Int32** |  | [optional] 
+**Type** | **String** |  | [optional] 
+**Message** | **String** |  | [optional] 
 
 ## Examples
 

@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 /**
  * Abstract class for oneOf,anyOf schemas defined in OpenAPI spec
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public abstract class AbstractOpenApiSchema {
 
     // store the actual instance of the schema/object
@@ -62,6 +62,25 @@ public abstract class AbstractOpenApiSchema {
      * @param instance the actual instance of the schema/object
      */
     public void setActualInstance(Object instance) {this.instance = instance;}
+
+    /**
+     * Get the instant recursively when the schemas defined in oneOf/anyof happen to be oneOf/anyOf schema as well
+     *
+     * @return an instance of the actual schema/object
+     */
+    public Object getActualInstanceRecursively() {
+        return getActualInstanceRecursively(this);
+    }
+
+    private Object getActualInstanceRecursively(AbstractOpenApiSchema object) {
+        if (object.getActualInstance() == null) {
+            return null;
+        } else if (object.getActualInstance() instanceof AbstractOpenApiSchema) {
+            return getActualInstanceRecursively((AbstractOpenApiSchema)object.getActualInstance());
+        } else {
+            return object.getActualInstance();
+        }
+    }
 
     /**
      * Get the schema type (e.g. anyOf, oneOf)

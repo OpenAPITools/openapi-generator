@@ -13,10 +13,4 @@
         types.add(this_val.__class__)
         types.add(that_val.__class__)
         vals_equal = this_val == that_val
-        if not six.PY3 and len(types) == 2 and unicode in types:  # noqa: F821
-            vals_equal = (
-                this_val.encode('utf-8') == that_val.encode('utf-8')
-            )
-        if not vals_equal:
-            return False
-        return True
+        return vals_equal

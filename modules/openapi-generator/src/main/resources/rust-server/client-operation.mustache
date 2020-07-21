@@ -36,7 +36,23 @@
   {{^required}}
             if let Some(param_{{{paramName}}}) = param_{{{paramName}}} {
   {{/required}}
-                query_string.append_pair("{{{baseName}}}", &param_{{{paramName}}}{{#isListContainer}}.iter().map(ToString::to_string).collect::<Vec<String>>().join(","){{/isListContainer}}{{^isListContainer}}.to_string(){{/isListContainer}});
+                query_string.append_pair("{{{baseName}}}",
+  {{#vendorExtensions}}
+    {{#x-consumes-json}}
+                    &match serde_json::to_string(&param_{{{paramName}}}) {
+                        Ok(str) => str,
+                        Err(e) => return Err(ApiError(format!("Unable to serialize {{{paramName}}} to string: {}", e))),
+                    });
+    {{/x-consumes-json}}
+    {{^x-consumes-json}}
+      {{#isListContainer}}
+                    &param_{{{paramName}}}.iter().map(ToString::to_string).collect::<Vec<String>>().join(","));
+      {{/isListContainer}}
+      {{^isListContainer}}
+                    &param_{{{paramName}}}.to_string());
+      {{/isListContainer}}
+    {{/x-consumes-json}}
+  {{/vendorExtensions}}
   {{^required}}
             }
   {{/required}}
@@ -87,7 +103,7 @@
           {{#jsonSchema}}
             let {{{paramName}}}_str = match serde_json::to_string(&param_{{{paramName}}}) {
                 Ok(str) => str,
-                Err(e) => return Err(ApiError(format!("Unable to parse {{{paramName}}} to string: {}", e))),
+                Err(e) => return Err(ApiError(format!("Unable to serialize {{{paramName}}} to string: {}", e))),
             };
 
             let {{{paramName}}}_vec = {{{paramName}}}_str.as_bytes().to_vec();
@@ -134,6 +150,7 @@
         };
 
         *request.body_mut() = Body::from(body_string);
+
         request.headers_mut().insert(CONTENT_TYPE, match HeaderValue::from_str(&multipart_header) {
             Ok(h) => h,
             Err(e) => return Err(ApiError(format!("Unable to create header: {} - {}", multipart_header, e)))
@@ -365,7 +382,7 @@
 {{/isMapContainer}}
 
 {{/headerParams}}
-        let mut response = client_service.call(request)
+        let mut response = client_service.call((request, context.clone()))
             .map_err(|e| ApiError(format!("No response received: {}", e))).await?;
 
         match response.status().as_u16() {
@@ -373,18 +390,29 @@
             {{{code}}} => {
 {{#headers}}
                 let response_{{{name}}} = match response.headers().get(HeaderName::from_static("{{{nameInLowerCase}}}")) {
-                    Some(response_{{{name}}}) => response_{{{name}}}.clone(),
-                    None => {
-                        return Err(ApiError(String::from("Required response header {{{baseName}}} for response {{{code}}} was not found.")));
-                    }
+                    Some(response_{{{name}}}) => {
+                        let response_{{{name}}} = response_{{{name}}}.clone();
+                        let response_{{{name}}} = match TryInto::<header::IntoHeaderValue<{{{dataType}}}>>::try_into(response_{{{name}}}) {
+                            Ok(value) => value,
+                            Err(e) => {
+                                return Err(ApiError(format!("Invalid response header {{baseName}} for response {{code}} - {}", e)));
+                            },
+                        };
+                        let response_{{{name}}} = response_{{{name}}}.0;
+  {{#required}}
+                        response_{{{name}}}
+  {{/required}}
+  {{^required}}
+                        Some(response_{{{name}}})
+  {{/required}}
+                        },
+  {{#required}}
+                    None => return Err(ApiError(String::from("Required response header {{{baseName}}} for response {{{code}}} was not found."))),
+  {{/required}}
+  {{^required}}
+                    None => None,
+  {{/required}}
                 };
-                let response_{{{name}}} = match TryInto::<header::IntoHeaderValue<{{{dataType}}}>>::try_into(response_{{{name}}}) {
-                    Ok(value) => value,
-                    Err(e) => {
-                        return Err(ApiError(format!("Invalid response header {{baseName}} for response {{code}} - {}", e)));
-                    },
-                };
-                let response_{{{name}}} = response_{{{name}}}.0;
 
 {{/headers}}
                 let body = response.into_body();

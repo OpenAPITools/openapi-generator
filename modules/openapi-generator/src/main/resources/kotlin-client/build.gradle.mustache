@@ -86,6 +86,10 @@ dependencies {
     compile "org.threeten:threetenbp:1.4.0"
     {{/threetenbp}}
     {{#jvm-retrofit2}}
+    {{#hasOAuthMethods}}
+    compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.0"
+    {{/hasOAuthMethods}}
+    compile "com.squareup.okhttp3:logging-interceptor:4.4.0"
     {{#useRxJava}}
     compile "io.reactivex:rxjava:$rxJavaVersion"
     compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"

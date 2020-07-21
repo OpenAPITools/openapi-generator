@@ -3,7 +3,7 @@
 /**
  * OpenAPI Petstore
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
- * PHP version 7.1.3
+ * PHP version 7.2.5
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -47,10 +47,10 @@ class FakeController extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling testClientModel');
+        if (!isset($input['client'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $client when calling testClientModel');
         }
-        $body = $input['body'];
+        $client = $input['client'];
 
 
         return response('How about implementing testClientModel as a patch method ?');
@@ -58,7 +58,7 @@ class FakeController extends Controller
     /**
      * Operation testEndpointParameters
      *
-     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트.
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트.
      *
      *
      * @return Http response
@@ -244,10 +244,10 @@ class FakeController extends Controller
 
 
         //not path params validation
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling testBodyWithFileSchema');
+        if (!isset($input['fileSchemaTestClass'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $fileSchemaTestClass when calling testBodyWithFileSchema');
         }
-        $body = $input['body'];
+        $fileSchemaTestClass = $input['fileSchemaTestClass'];
 
 
         return response('How about implementing testBodyWithFileSchema as a put method ?');
@@ -273,23 +273,23 @@ class FakeController extends Controller
         }
         $query = $input['query'];
 
-        if (!isset($input['body'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $body when calling testBodyWithQueryParams');
+        if (!isset($input['user'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $user when calling testBodyWithQueryParams');
         }
-        $body = $input['body'];
+        $user = $input['user'];
 
 
         return response('How about implementing testBodyWithQueryParams as a put method ?');
     }
     /**
-     * Operation createXmlItem
+     * Operation fakeHealthGet
      *
-     * creates an XmlItem.
+     * Health check endpoint.
      *
      *
      * @return Http response
      */
-    public function createXmlItem()
+    public function fakeHealthGet()
     {
         $input = Request::all();
 
@@ -297,13 +297,36 @@ class FakeController extends Controller
 
 
         //not path params validation
-        if (!isset($input['xmlItem'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $xmlItem when calling createXmlItem');
+
+        return response('How about implementing fakeHealthGet as a get method ?');
+    }
+    /**
+     * Operation fakeHttpSignatureTest
+     *
+     * test http signature authentication.
+     *
+     *
+     * @return Http response
+     */
+    public function fakeHttpSignatureTest()
+    {
+        $input = Request::all();
+
+        //path params validation
+
+
+        //not path params validation
+        if (!isset($input['pet'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $pet when calling fakeHttpSignatureTest');
         }
-        $xmlItem = $input['xmlItem'];
+        $pet = $input['pet'];
+
+        $query1 = $input['query1'];
+
+        $header1 = $input['header1'];
 
 
-        return response('How about implementing createXmlItem as a post method ?');
+        return response('How about implementing fakeHttpSignatureTest as a get method ?');
     }
     /**
      * Operation testInlineAdditionalProperties
@@ -321,10 +344,10 @@ class FakeController extends Controller
 
 
         //not path params validation
-        if (!isset($input['param'])) {
-            throw new \InvalidArgumentException('Missing the required parameter $param when calling testInlineAdditionalProperties');
+        if (!isset($input['requestBody'])) {
+            throw new \InvalidArgumentException('Missing the required parameter $requestBody when calling testInlineAdditionalProperties');
         }
-        $param = $input['param'];
+        $requestBody = $input['requestBody'];
 
 
         return response('How about implementing testInlineAdditionalProperties as a post method ?');
@@ -395,7 +418,7 @@ class FakeController extends Controller
 
 
         //not path params validation
-        $body = $input['body'];
+        $outerComposite = $input['outerComposite'];
 
 
         return response('How about implementing fakeOuterCompositeSerialize as a post method ?');

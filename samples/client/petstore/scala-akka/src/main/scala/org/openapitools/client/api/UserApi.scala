@@ -38,7 +38,7 @@ class UserApi(baseUrl: String) {
     ApiRequest[Unit](ApiMethods.POST, baseUrl, "/user", "application/json")
       .withApiKey(apiKey, "AUTH_KEY", COOKIE)
       .withBody(user)
-      .withDefaultSuccessResponse[Unit]
+      .withDefaultErrorResponse[Unit]
       
 
   /**
@@ -54,7 +54,7 @@ class UserApi(baseUrl: String) {
     ApiRequest[Unit](ApiMethods.POST, baseUrl, "/user/createWithArray", "application/json")
       .withApiKey(apiKey, "AUTH_KEY", COOKIE)
       .withBody(user)
-      .withDefaultSuccessResponse[Unit]
+      .withDefaultErrorResponse[Unit]
       
 
   /**
@@ -70,7 +70,7 @@ class UserApi(baseUrl: String) {
     ApiRequest[Unit](ApiMethods.POST, baseUrl, "/user/createWithList", "application/json")
       .withApiKey(apiKey, "AUTH_KEY", COOKIE)
       .withBody(user)
-      .withDefaultSuccessResponse[Unit]
+      .withDefaultErrorResponse[Unit]
       
 
   /**
@@ -144,7 +144,7 @@ class UserApi(baseUrl: String) {
   def logoutUser()(implicit apiKey: ApiKeyValue): ApiRequest[Unit] =
     ApiRequest[Unit](ApiMethods.GET, baseUrl, "/user/logout", "application/json")
       .withApiKey(apiKey, "AUTH_KEY", COOKIE)
-      .withDefaultSuccessResponse[Unit]
+      .withDefaultErrorResponse[Unit]
       
 
   /**

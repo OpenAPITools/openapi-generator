@@ -129,7 +129,6 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         // in golang as interface{}.
         // See issue #5387 for more details.
         typeMapping.put("object", "map[string]interface{}");
-        typeMapping.put("interface{}", "interface{}");
         typeMapping.put("AnyType", "interface{}");
 
         numberTypes = new HashSet<String>(
