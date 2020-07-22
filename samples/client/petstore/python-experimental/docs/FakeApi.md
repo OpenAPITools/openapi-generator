@@ -32,7 +32,6 @@ Test serialization of ArrayModel
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -96,7 +95,6 @@ Test serialization of outer boolean types
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -159,7 +157,6 @@ this route creates an XmlItem
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -222,7 +219,6 @@ Test serialization of outer number types
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -286,7 +282,6 @@ Test serialization of object with $refed properties
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -350,7 +345,6 @@ Test serialization of outer string types
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -413,7 +407,6 @@ Test serialization of outer enum
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -477,7 +470,6 @@ For this test, the body for this request much reference a schema named `File`.
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -537,7 +529,6 @@ No authorization required
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -601,7 +592,6 @@ To test \"client\" model
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -665,7 +655,6 @@ This route has required values with enums of 1
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -730,7 +719,6 @@ Fake endpoint for testing various parameters  假端點  偽のエンドポイ�
 
 * Basic Authentication (http_basic_test):
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -837,7 +825,6 @@ To test enum parameters
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -915,7 +902,6 @@ Fake endpoint to test group parameters (optional)
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -993,7 +979,6 @@ test inline additionalProperties
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -1053,7 +1038,6 @@ test json serialization of form data
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api

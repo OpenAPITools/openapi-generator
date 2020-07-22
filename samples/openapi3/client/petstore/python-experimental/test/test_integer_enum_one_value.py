@@ -10,7 +10,6 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
@@ -31,6 +30,9 @@ class TestIntegerEnumOneValue(unittest.TestCase):
         """Test IntegerEnumOneValue"""
         model = IntegerEnumOneValue()
         assert model.value == 0, "With only one option, the value is assigned automatically"
+
+        model = IntegerEnumOneValue(0)
+        assert model.value == 0, "We can also pass in the value as a positional arg"
 
         model = IntegerEnumOneValue(value=0)
         assert model.value == 0, "We can also pass in the value as a named argument"

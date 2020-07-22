@@ -18,7 +18,6 @@ To test class name in snake case
 
 * Api Key Authentication (api_key_query):
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_classname_tags_123_api

@@ -10,13 +10,8 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
 import sys  # noqa: F401
-
-# python 2 and python 3 compatibility library
-import six
 
 from petstore_api.api_client import ApiClient, Endpoint
 from petstore_api.model_utils import (  # noqa: F401
@@ -25,14 +20,13 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_and_convert_types
 )
 from petstore_api.model import additional_properties_with_array_of_enums
 from petstore_api.model import animal_farm
 from petstore_api.model import array_of_enums
+from petstore_api.model import composed_one_of_number_with_validations
 from petstore_api.model import health_check_result
 from petstore_api.model import number_with_validations
 from petstore_api.model import object_model_with_ref_props
@@ -498,6 +492,118 @@ class FakeApi(object):
             },
             api_client=api_client,
             callable=__boolean
+        )
+
+        def __composed_one_of_number_with_validations(
+            self,
+            **kwargs
+        ):
+            """composed_one_of_number_with_validations  # noqa: E501
+
+            Test serialization of object with $refed properties  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.composed_one_of_number_with_validations(async_req=True)
+            >>> result = thread.get()
+
+
+            Keyword Args:
+                composed_one_of_number_with_validations_composed_one_of_number_with_validations (composed_one_of_number_with_validations.ComposedOneOfNumberWithValidations): Input model. [optional]
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                composed_one_of_number_with_validations.ComposedOneOfNumberWithValidations
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            return self.call_with_http_info(**kwargs)
+
+        self.composed_one_of_number_with_validations = Endpoint(
+            settings={
+                'response_type': (composed_one_of_number_with_validations.ComposedOneOfNumberWithValidations,),
+                'auth': [],
+                'endpoint_path': '/fake/refs/composed_one_of_number_with_validations',
+                'operation_id': 'composed_one_of_number_with_validations',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'composed_one_of_number_with_validations_composed_one_of_number_with_validations',
+                ],
+                'required': [],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'composed_one_of_number_with_validations_composed_one_of_number_with_validations':
+                        (composed_one_of_number_with_validations.ComposedOneOfNumberWithValidations,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'composed_one_of_number_with_validations_composed_one_of_number_with_validations': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__composed_one_of_number_with_validations
         )
 
         def __fake_health_get(

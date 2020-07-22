@@ -21,9 +21,7 @@ from petstore_api import Configuration, signing
 
 from petstore_api.model_utils import (
     file_type,
-    int,
     model_to_dict,
-    str,
 )
 
 MockResponse = namedtuple('MockResponse', 'data')

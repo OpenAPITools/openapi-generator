@@ -1,6 +1,5 @@
 # coding: utf-8
 {{>partial_header}}
-from __future__ import absolute_import
 
 from base64 import b64encode
 from Crypto.IO import PEM, PKCS8
@@ -11,8 +10,8 @@ from email.utils import formatdate
 import json
 import os
 import re
-from six.moves.urllib.parse import urlencode, urlparse
 from time import time
+from urllib.parse import urlencode, urlparse
 
 # The constants below define a subset of HTTP headers that can be included in the
 # HTTP signature scheme. Additional headers may be included in the signature.

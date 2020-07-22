@@ -10,7 +10,6 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
@@ -34,7 +33,7 @@ class TestObjectModelWithRefProps(unittest.TestCase):
 
     def testObjectModelWithRefProps(self):
         """Test ObjectModelWithRefProps"""
-        from petstore_api.model.object_model_with_ref_props import str, number_with_validations
+        from petstore_api.model.object_model_with_ref_props import number_with_validations
         self.assertEqual(
             ObjectModelWithRefProps.openapi_types,
             {
