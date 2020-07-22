@@ -616,6 +616,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Myworkout](https://myworkout.com)
 - [NamSor](https://www.namsor.com/)
 - [Nokia](https://www.nokia.com/)
+- [Options Clearing Corporation (OCC)](https://www.theocc.com/)
 - [Openet](https://www.openet.com/)
 - [openVALIDATION](https://openvalidation.io/)
 - [Oracle](https://www.oracle.com/)

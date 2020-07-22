@@ -27,10 +27,11 @@ void main() {
     ];
 
     return Pet(
-      id : id,
-      category: category,
-      tags: tags,
-      name: name,
+        id : id,
+        category: category,
+        name: name, //required field
+        tags: tags,
+        photoUrls: ['https://petstore.com/sample/photo1.jpg'] //required field
     )
       ..status = PetStatusEnum.fromJson(status)
       ..photoUrls = ['https://petstore.com/sample/photo1.jpg'];

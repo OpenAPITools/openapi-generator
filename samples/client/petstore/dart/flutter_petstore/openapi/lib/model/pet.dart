@@ -57,12 +57,12 @@ class Pet {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'category': category,
-      'name': name,
-      'photoUrls': photoUrls,
-      'tags': tags,
-      'status': status
+          'id': id,
+            'category': category == null ? null : category.toJson(),
+          'name': name,
+          'photoUrls': photoUrls,
+            'tags': tags == null ? null : tags.map((item) => item.toJson()).toList(),
+          'status': status
     };
   }
 
