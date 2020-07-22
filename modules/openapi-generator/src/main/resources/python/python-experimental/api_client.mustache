@@ -1,6 +1,5 @@
 # coding: utf-8
 {{>partial_header}}
-from __future__ import absolute_import
 
 import json
 import atexit
@@ -8,10 +7,8 @@ import mimetypes
 from multiprocessing.pool import ThreadPool
 import os
 import re
+from urllib.parse import quote
 
-# python 2 and python 3 compatibility library
-import six
-from six.moves.urllib.parse import quote
 {{#tornado}}
 import tornado.gen
 {{/tornado}}
@@ -29,10 +26,8 @@ from {{packageName}}.model_utils import (
     datetime,
     deserialize_file,
     file_type,
-    int,
     model_to_dict,
     none_type,
-    str,
     validate_and_convert_types
 )
 
@@ -59,10 +54,8 @@ class ApiClient(object):
         to the API. More threads means more concurrent API requests.
     """
 
-    # six.binary_type python2=str, python3=bytes
-    # six.text_type python2=unicode, python3=str
     PRIMITIVE_TYPES = (
-        (float, bool, six.binary_type, six.text_type) + six.integer_types
+        float, bool, bytes, str, int
     )
     _pool = None
 
@@ -189,7 +182,7 @@ class ApiClient(object):
                 _preload_content=_preload_content,
                 _request_timeout=_request_timeout)
         except ApiException as e:
-            e.body = e.body.decode('utf-8') if six.PY3 else e.body
+            e.body = e.body.decode('utf-8')
             raise e
 
         content_type = response_data.getheader('content-type')
@@ -207,7 +200,7 @@ class ApiClient(object):
             {{/tornado}}
             return return_data
 
-        if six.PY3 and response_type not in ["file", "bytes"]:
+        if response_type not in ["file", "bytes"]:
             match = None
             if content_type is not None:
                 match = re.search(r"charset=([a-zA-Z\-\d]+)[\s\;]?", content_type)
@@ -277,7 +270,7 @@ class ApiClient(object):
             return self.sanitize_for_serialization(obj.value)
 
         return {key: self.sanitize_for_serialization(val)
-                for key, val in six.iteritems(obj_dict)}
+                for key, val in obj_dict.items()}
 
     def deserialize(self, response, response_type, _check_type):
         """Deserializes response into an object.
@@ -477,7 +470,7 @@ class ApiClient(object):
         new_params = []
         if collection_formats is None:
             collection_formats = {}
-        for k, v in six.iteritems(params) if isinstance(params, dict) else params:  # noqa: E501
+        for k, v in params.items() if isinstance(params, dict) else params:  # noqa: E501
             if k in collection_formats:
                 collection_format = collection_formats[k]
                 if collection_format == 'multi':
@@ -508,7 +501,7 @@ class ApiClient(object):
             return []
 
         params = []
-        for param_name, file_instances in six.iteritems(files):
+        for param_name, file_instances in files.items():
             if file_instances is None:
                 # if the file field is nullable, skip None values
                 continue
@@ -692,7 +685,7 @@ class Endpoint(object):
         if kwargs['_check_input_type'] is False:
             return
 
-        for key, value in six.iteritems(kwargs):
+        for key, value in kwargs.items():
             fixed_val = validate_and_convert_types(
                 value,
                 self.openapi_types[key],
@@ -714,7 +707,7 @@ class Endpoint(object):
             'query': []
         }
 
-        for param_name, param_value in six.iteritems(kwargs):
+        for param_name, param_value in kwargs.items():
             param_location = self.location_map.get(param_name)
             if param_location is None:
                 continue
@@ -772,7 +765,7 @@ class Endpoint(object):
                 )
             _host = None
 
-        for key, value in six.iteritems(kwargs):
+        for key, value in kwargs.items():
             if key not in self.params_map['all']:
                 raise ApiTypeError(
                     "Got an unexpected parameter '%s'"

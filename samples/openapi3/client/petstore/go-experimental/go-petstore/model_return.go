@@ -16,7 +16,10 @@ import (
 // Return Model for testing reserved words
 type Return struct {
 	Return *int32 `json:"return,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Return Return
 
 // NewReturn instantiates a new Return object
 // This constructor will assign default values to properties that have it defined,
@@ -72,7 +75,29 @@ func (o Return) MarshalJSON() ([]byte, error) {
 	if o.Return != nil {
 		toSerialize["return"] = o.Return
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *Return) UnmarshalJSON(bytes []byte) (err error) {
+	varReturn := _Return{}
+
+	if err = json.Unmarshal(bytes, &varReturn); err == nil {
+		*o = Return(varReturn)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "return")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableReturn struct {

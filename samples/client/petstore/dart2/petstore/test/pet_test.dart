@@ -26,13 +26,13 @@ void main() {
         ..name = 'Jose'
     ];
     return Pet(
-      id : id,
-      category: category,
-      tags: tags,
-      name: name,
+        id : id,
+        category: category,
+        name: name, //required field
+        photoUrls: ['https://petstore.com/sample/photo1.jpg'] //required field
     )
-      ..status = status
-      ..photoUrls = ['https://petstore.com/sample/photo1.jpg'];
+      ..tags = tags
+      ..status = '';
   }
 
   group('Pet API with live client', () {

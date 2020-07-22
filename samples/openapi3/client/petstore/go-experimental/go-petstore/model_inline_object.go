@@ -19,7 +19,10 @@ type InlineObject struct {
 	Name *string `json:"name,omitempty"`
 	// Updated status of the pet
 	Status *string `json:"status,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _InlineObject InlineObject
 
 // NewInlineObject instantiates a new InlineObject object
 // This constructor will assign default values to properties that have it defined,
@@ -110,7 +113,30 @@ func (o InlineObject) MarshalJSON() ([]byte, error) {
 	if o.Status != nil {
 		toSerialize["status"] = o.Status
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *InlineObject) UnmarshalJSON(bytes []byte) (err error) {
+	varInlineObject := _InlineObject{}
+
+	if err = json.Unmarshal(bytes, &varInlineObject); err == nil {
+		*o = InlineObject(varInlineObject)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "status")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableInlineObject struct {

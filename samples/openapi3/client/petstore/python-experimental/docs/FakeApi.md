@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**array_model**](FakeApi.md#array_model) | **POST** /fake/refs/arraymodel | 
 [**array_of_enums**](FakeApi.md#array_of_enums) | **POST** /fake/refs/array-of-enums | Array of Enums
 [**boolean**](FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
+[**composed_one_of_number_with_validations**](FakeApi.md#composed_one_of_number_with_validations) | **POST** /fake/refs/composed_one_of_number_with_validations | 
 [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
 [**number_with_validations**](FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
 [**object_model_with_ref_props**](FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
@@ -32,7 +33,6 @@ Additional Properties with Array of Enums
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -97,7 +97,6 @@ Test serialization of ArrayModel
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -159,7 +158,6 @@ Array of Enums
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -224,7 +222,6 @@ Test serialization of outer boolean types
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -277,6 +274,69 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **composed_one_of_number_with_validations**
+> composed_one_of_number_with_validations.ComposedOneOfNumberWithValidations composed_one_of_number_with_validations()
+
+
+
+Test serialization of object with $refed properties
+
+### Example
+
+```python
+import time
+import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model import composed_one_of_number_with_validations
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+    composed_one_of_number_with_validations_composed_one_of_number_with_validations = composed_one_of_number_with_validations.ComposedOneOfNumberWithValidations() # composed_one_of_number_with_validations.ComposedOneOfNumberWithValidations | Input model (optional)
+
+    # example passing only required values which don't have defaults set
+    # and optional values
+    try:
+        api_response = api_instance.composed_one_of_number_with_validations(composed_one_of_number_with_validations_composed_one_of_number_with_validations=composed_one_of_number_with_validations_composed_one_of_number_with_validations)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->composed_one_of_number_with_validations: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **composed_one_of_number_with_validations_composed_one_of_number_with_validations** | [**composed_one_of_number_with_validations.ComposedOneOfNumberWithValidations**](ComposedOneOfNumberWithValidations.md)| Input model | [optional]
+
+### Return type
+
+[**composed_one_of_number_with_validations.ComposedOneOfNumberWithValidations**](ComposedOneOfNumberWithValidations.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Output model |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **fake_health_get**
 > health_check_result.HealthCheckResult fake_health_get()
 
@@ -285,7 +345,6 @@ Health check endpoint
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -345,7 +404,6 @@ Test serialization of outer number types
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -409,7 +467,6 @@ Test serialization of object with $refed properties
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -473,7 +530,6 @@ Test serialization of outer string types
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -536,7 +592,6 @@ Test serialization of outer enum
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -600,7 +655,6 @@ For this test, the body for this request much reference a schema named `File`.
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -660,7 +714,6 @@ No authorization required
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -724,7 +777,6 @@ To test \"client\" model
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -789,7 +841,6 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
 
 * Basic Authentication (http_basic_test):
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -896,7 +947,6 @@ To test enum parameters
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -975,7 +1025,6 @@ Fake endpoint to test group parameters (optional)
 
 * Bearer (JWT) Authentication (bearer_test):
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -1062,7 +1111,6 @@ test inline additionalProperties
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -1122,7 +1170,6 @@ test json serialization of form data
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api
@@ -1186,7 +1233,6 @@ To test the collection format in query parameters
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_api

@@ -177,6 +177,7 @@ samples/client/petstore/python-tornado/.venv/
 samples/client/petstore/typescript-angular2/npm/npm-debug.log
 samples/client/petstore/typescript-node/npm/npm-debug.log
 samples/client/petstore/typescript-angular/tsd-debug.log
+samples/client/petstore/typescript-axios/tests/**/dist/
 samples/client/petstore/typescript-fetch/tests/**/dist/
 
 # aspnetcore
