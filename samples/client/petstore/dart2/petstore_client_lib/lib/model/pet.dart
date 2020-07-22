@@ -19,7 +19,7 @@ class Pet {
     this.category,
     @required this.name,
     @required this.photoUrls,
-    this.tags,
+    this.tags = const [],
     this.status,
   });
 
@@ -112,8 +112,8 @@ class PetStatusEnum {
 
   static List<PetStatusEnum> listFromJson(List<dynamic> json) {
     return json == null
-        ? List<PetStatusEnum>()
-        : json.map((value) => PetStatusEnum.fromJson(value)).toList();
+      ? List<PetStatusEnum>()
+      : json.map((value) => PetStatusEnum.fromJson(value)).toList();
   }
 }
 

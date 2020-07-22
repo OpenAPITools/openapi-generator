@@ -20,7 +20,7 @@ class Order {
     this.quantity,
     this.shipDate,
     this.status,
-    this.complete,
+    this.complete = false,
   });
 
   @override
@@ -108,8 +108,8 @@ class OrderStatusEnum {
 
   static List<OrderStatusEnum> listFromJson(List<dynamic> json) {
     return json == null
-        ? List<OrderStatusEnum>()
-        : json.map((value) => OrderStatusEnum.fromJson(value)).toList();
+      ? List<OrderStatusEnum>()
+      : json.map((value) => OrderStatusEnum.fromJson(value)).toList();
   }
 }
 

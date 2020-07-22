@@ -1,19 +1,19 @@
-class {{classname}}{{datatypeWithEnum}} {
+class {{classname}}{{enumName}} {
   /// The underlying value of this enum member.
-  final {{dataType}} value;
+  final {{{dataType}}} value;
 
-  const {{classname}}{{datatypeWithEnum}}._internal(this.value);
+  const {{classname}}{{enumName}}._internal(this.value);
 
   {{#allowableValues}}
   {{#enumVars}}
   {{#description}}
   /// {{description}}
   {{/description}}
-  static const {{classname}}{{datatypeWithEnum}} {{name}} = {{classname}}{{datatypeWithEnum}}._internal({{{value}}});
+  static const {{classname}}{{enumName}} {{name}} = {{classname}}{{enumName}}._internal({{{value}}});
   {{/enumVars}}
   {{/allowableValues}}
 
-  {{dataType}} toJson () {
+  {{{dataType}}} toJson () {
     return value;
   }
 
@@ -22,28 +22,28 @@ class {{classname}}{{datatypeWithEnum}} {
     return value;
   }
 
-  static {{classname}}{{datatypeWithEnum}} fromJson({{dataType}} value) {
-    return {{classname}}{{datatypeWithEnum}}TypeTransformer().decode(value);
+  static {{classname}}{{enumName}} fromJson({{{dataType}}} value) {
+    return {{classname}}{{enumName}}TypeTransformer().decode(value);
   }
 
-  static List<{{classname}}{{datatypeWithEnum}}> listFromJson(List<dynamic> json) {
+  static List<{{classname}}{{enumName}}> listFromJson(List<dynamic> json) {
     return json == null
-        ? List<{{classname}}{{datatypeWithEnum}}>()
-        : json.map((value) => {{classname}}{{datatypeWithEnum}}.fromJson(value)).toList();
+      ? List<{{classname}}{{enumName}}>()
+      : json.map((value) => {{classname}}{{enumName}}.fromJson(value)).toList();
   }
 }
 
-class {{classname}}{{datatypeWithEnum}}TypeTransformer {
+class {{classname}}{{enumName}}TypeTransformer {
 
-  dynamic encode({{classname}}{{datatypeWithEnum}} data) {
+  dynamic encode({{classname}}{{enumName}} data) {
     return data.value;
   }
 
-  {{classname}}{{datatypeWithEnum}} decode(dynamic data) {
+  {{classname}}{{enumName}} decode(dynamic data) {
     switch (data) {
     {{#allowableValues}}
       {{#enumVars}}
-      case {{{value}}}: return {{classname}}{{datatypeWithEnum}}.{{{name}}};
+      case {{{value}}}: return {{classname}}{{enumName}}.{{{name}}};
       {{/enumVars}}
     {{/allowableValues}}
       default: return null;
