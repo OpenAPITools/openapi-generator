@@ -18,8 +18,8 @@ class Pet {
   Pet({
     this.id,
     this.category,
-    this.name,
-    this.photoUrls,
+    @required this.name,
+    @required this.photoUrls,
     this.tags,
     this.status,
   });
