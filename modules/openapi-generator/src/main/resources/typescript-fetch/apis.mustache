@@ -231,7 +231,12 @@ export class {{classname}} extends runtime.BaseAPI {
             })
             {{/isCollectionFormatMulti}}
             {{^isCollectionFormatMulti}}
-            formParams.append('{{baseName}}', requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
+                // Serialize array of objects as needed
+                if (typeof requestParameters.{{paramName}}[0] === 'object' && requestParameters.{{paramName}}[0] !== null) {
+                    runtime.serializeArrayObjectsToFormData(formParams, "{{paramName}}", requestParameters.{{paramName}})
+                } else {
+                    formParams.append('{{baseName}}', requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
+                }
             {{/isCollectionFormatMulti}}
         }
 

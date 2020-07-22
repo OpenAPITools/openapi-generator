@@ -314,3 +314,42 @@ export class TextApiResponse {
         return await this.raw.text();
     };
 }
+
+/**
+ * Serializes an array's contents into the properties within the supplied formData instance.
+ * @param {FormData} formData - formData instance
+ * @param {string} paramName - name of the parameter (form value) being serialized
+ * @param {Array} arr - array of objects to be serialized
+ */
+export function serializeArrayObjectsToFormData(formData: FormData, paramName: string, arr: any[]) {
+    arr.forEach(elem => {
+        appendFormData(formData, elem, `${paramName}[]`)
+    });
+}
+
+/**
+ * Appends the data from an object to the supplied formData instance
+ * See: https://stackoverflow.com/a/43101878
+ * @param {FormData} formData - instance of FormData object
+ * @param {any} data - data (object?) to post to form data
+ */
+export function appendFormData(formData: FormData, data: any, previousKey?: string) {
+  if (data instanceof Object) {
+    Object.keys(data).forEach(key => {
+      const value = data[key];
+      if (value instanceof Object && !Array.isArray(value)) {
+        return appendFormData(formData, value, key);
+      }
+      if (previousKey) {
+        key = `${previousKey}[${key}]`;
+      }
+      if (Array.isArray(value)) {
+        value.forEach(val => {
+          formData.append(`${key}[]`, val);
+        });
+      } else {
+        formData.append(key, value);
+      }
+    });
+  }
+}
