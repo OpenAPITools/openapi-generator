@@ -29,16 +29,12 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import category
-except ImportError:
-    category = sys.modules[
-        'petstore_api.model.category']
-try:
-    from petstore_api.model import tag
-except ImportError:
-    tag = sys.modules[
-        'petstore_api.model.tag']
+
+def lazy_import():
+    from petstore_api.model.category import Category
+    from petstore_api.model.tag import Tag
+    globals()['Category'] = Category
+    globals()['Tag'] = Tag
 
 
 class Pet(ModelNormal):
@@ -83,25 +79,27 @@ class Pet(ModelNormal):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'name': (str,),  # noqa: E501
             'photo_urls': ([str],),  # noqa: E501
             'id': (int,),  # noqa: E501
-            'category': (category.Category,),  # noqa: E501
-            'tags': ([tag.Tag],),  # noqa: E501
+            'category': (Category,),  # noqa: E501
+            'tags': ([Tag],),  # noqa: E501
             'status': (str,),  # noqa: E501
         }
 
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {
         'name': 'name',  # noqa: E501
@@ -125,7 +123,7 @@ class Pet(ModelNormal):
 
     @convert_js_args_to_python_args
     def __init__(self, name, photo_urls, *args, **kwargs):  # noqa: E501
-        """pet.Pet - a model defined in OpenAPI
+        """Pet - a model defined in OpenAPI
 
         Args:
             name (str):
@@ -163,8 +161,8 @@ class Pet(ModelNormal):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             id (int): [optional]  # noqa: E501
-            category (category.Category): [optional]  # noqa: E501
-            tags ([tag.Tag]): [optional]  # noqa: E501
+            category (Category): [optional]  # noqa: E501
+            tags ([Tag]): [optional]  # noqa: E501
             status (str): pet status in the store. [optional]  # noqa: E501
         """
 

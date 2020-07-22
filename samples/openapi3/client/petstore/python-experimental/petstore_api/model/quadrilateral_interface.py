@@ -68,8 +68,8 @@ class QuadrilateralInterface(ModelNormal):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
@@ -82,6 +82,7 @@ class QuadrilateralInterface(ModelNormal):
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {
         'quadrilateral_type': 'quadrilateralType',  # noqa: E501
@@ -100,7 +101,7 @@ class QuadrilateralInterface(ModelNormal):
 
     @convert_js_args_to_python_args
     def __init__(self, quadrilateral_type, *args, **kwargs):  # noqa: E501
-        """quadrilateral_interface.QuadrilateralInterface - a model defined in OpenAPI
+        """QuadrilateralInterface - a model defined in OpenAPI
 
         Args:
             quadrilateral_type (str):

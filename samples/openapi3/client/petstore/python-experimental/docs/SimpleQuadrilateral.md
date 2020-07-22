@@ -1,4 +1,4 @@
-# simple_quadrilateral.SimpleQuadrilateral
+# SimpleQuadrilateral
 
 ## Properties
 Name | Type | Description | Notes

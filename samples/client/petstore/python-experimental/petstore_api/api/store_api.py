@@ -23,7 +23,7 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_and_convert_types
 )
-from petstore_api.model import order
+from petstore_api.model.order import Order
 
 
 class StoreApi(object):
@@ -299,7 +299,7 @@ class StoreApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                order.Order
+                Order
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -328,7 +328,7 @@ class StoreApi(object):
 
         self.get_order_by_id = Endpoint(
             settings={
-                'response_type': (order.Order,),
+                'response_type': (Order,),
                 'auth': [],
                 'endpoint_path': '/store/order/{order_id}',
                 'operation_id': 'get_order_by_id',
@@ -398,7 +398,7 @@ class StoreApi(object):
             >>> result = thread.get()
 
             Args:
-                body (order.Order): order placed for purchasing the pet
+                body (Order): order placed for purchasing the pet
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -422,7 +422,7 @@ class StoreApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                order.Order
+                Order
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -451,7 +451,7 @@ class StoreApi(object):
 
         self.place_order = Endpoint(
             settings={
-                'response_type': (order.Order,),
+                'response_type': (Order,),
                 'auth': [],
                 'endpoint_path': '/store/order',
                 'operation_id': 'place_order',
@@ -479,7 +479,7 @@ class StoreApi(object):
                 },
                 'openapi_types': {
                     'body':
-                        (order.Order,),
+                        (Order,),
                 },
                 'attribute_map': {
                 },

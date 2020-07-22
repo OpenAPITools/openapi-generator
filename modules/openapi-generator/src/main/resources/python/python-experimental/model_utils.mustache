@@ -33,9 +33,9 @@ class cached_property(object):
         self._fn = fn
 
     def __get__(self, instance, cls=None):
-        try:
+        if self.result_key in vars(self):
             return vars(self)[self.result_key]
-        except KeyError:
+        else:
             result = self._fn()
             setattr(self, self.result_key, result)
             return result

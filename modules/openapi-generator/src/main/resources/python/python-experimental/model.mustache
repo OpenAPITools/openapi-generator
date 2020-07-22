@@ -24,7 +24,11 @@ from {{packageName}}.model_utils import (  # noqa: F401
 {{#models}}
 {{#model}}
 {{#imports}}
-{{{.}}}
+{{#-first}}
+
+def lazy_import():
+{{/-first}}
+    {{{.}}}
 {{/imports}}
 
 
