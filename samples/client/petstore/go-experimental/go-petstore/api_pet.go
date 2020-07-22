@@ -109,7 +109,6 @@ func (r apiAddPetRequest) Execute() (*_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -209,7 +208,6 @@ func (r apiDeletePetRequest) Execute() (*_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -307,7 +305,6 @@ func (r apiFindPetsByStatusRequest) Execute() ([]Pet, *_nethttp.Response, error)
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -414,7 +411,6 @@ func (r apiFindPetsByTagsRequest) Execute() ([]Pet, *_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -529,7 +525,6 @@ func (r apiGetPetByIdRequest) Execute() (Pet, *_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -636,7 +631,6 @@ func (r apiUpdatePetRequest) Execute() (*_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -745,7 +739,6 @@ func (r apiUpdatePetWithFormRequest) Execute() (*_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -862,7 +855,6 @@ func (r apiUploadFileRequest) Execute() (ApiResponse, *_nethttp.Response, error)
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -989,7 +981,6 @@ func (r apiUploadFileWithRequiredFileRequest) Execute() (ApiResponse, *_nethttp.
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
