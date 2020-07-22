@@ -31,6 +31,7 @@ import java.util.Optional;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "store", description = "the store API")
+@RequestMapping("${openapi.openAPIPetstore.base-path:/}")
 public interface StoreApi {
 
     default Optional<NativeWebRequest> getRequest() {
