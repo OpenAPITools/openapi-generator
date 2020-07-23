@@ -248,7 +248,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             pySrcRoot = val.replaceAll("[/\\\\]+$", "");
         }
 
-        if (pySrcRoot.isEmpty() || pySrcRoot == ".") {
+        if (pySrcRoot.isEmpty() || ".".equals(pySrcRoot)) {
             this.pythonSrcRoot = "";
         } else {
             this.pythonSrcRoot = pySrcRoot + File.separator;
