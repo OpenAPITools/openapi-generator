@@ -26,7 +26,6 @@ import java.util.Map;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "fake_classname_test", description = "the fake_classname_test API")
-@RequestMapping("${openapi.openAPIPetstore.base-path:/}")
 public interface FakeClassnameTestApi {
 
     /**

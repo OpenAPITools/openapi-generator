@@ -32,7 +32,6 @@ import java.util.concurrent.CompletableFuture;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "user", description = "the user API")
-@RequestMapping("${openapi.openAPIPetstore.base-path:/}")
 public interface UserApi {
 
     default Optional<NativeWebRequest> getRequest() {

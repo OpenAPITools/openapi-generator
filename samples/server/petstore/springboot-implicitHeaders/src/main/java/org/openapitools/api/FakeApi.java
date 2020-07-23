@@ -40,7 +40,6 @@ import java.util.Optional;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "fake", description = "the fake API")
-@RequestMapping("${openapi.openAPIPetstore.base-path:/v2}")
 public interface FakeApi {
 
     default Optional<NativeWebRequest> getRequest() {
