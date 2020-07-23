@@ -5909,7 +5909,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (ModelUtils.isMapSchema(schema)) {
             // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
-            if (ModelUtils.isGenerateAliasAsModel() && StringUtils.isNotBlank(name)) {
+            if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
                 this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
             } else {
                 Schema inner = getAdditionalProperties(schema);
@@ -5950,7 +5950,7 @@ public class DefaultCodegen implements CodegenConfig {
                 setParameterNullable(codegenParameter, codegenProperty);
             }
         } else if (ModelUtils.isArraySchema(schema)) {
-            if (ModelUtils.isGenerateAliasAsModel() && StringUtils.isNotBlank(name)) {
+            if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
                 this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
             } else {
                 final ArraySchema arraySchema = (ArraySchema) schema;
