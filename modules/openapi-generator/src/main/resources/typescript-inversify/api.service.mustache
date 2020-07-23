@@ -2,26 +2,26 @@
 /* tslint:disable:no-unused-variable member-ordering */
 
 {{^useRxJS6}}
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 {{/useRxJS6}}
 {{#useRxJS6}}
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
 {{/useRxJS6}}
 
-import { map } from "rxjs/operators";
-import IHttpClient from "../IHttpClient";
-import { inject, injectable } from "inversify";
-import { IAPIConfiguration } from "../IAPIConfiguration";
-import { Headers } from "../Headers";
-import HttpResponse from "../HttpResponse";
+import { map } from 'rxjs/operators';
+import IHttpClient from '../IHttpClient';
+import { inject, injectable } from 'inversify';
+import { IAPIConfiguration } from '../IAPIConfiguration';
+import { Headers } from '../Headers';
+import HttpResponse from '../HttpResponse';
 
 {{#imports}}
-import { {{classname}} } from "../{{filename}}";
+import { {{classname}} } from '../{{filename}}';
 {{/imports}}
 
-import { COLLECTION_FORMATS }  from "../variables";
+import { COLLECTION_FORMATS }  from '../variables';
 {{#withInterfaces}}
-import { {{classname}}Interface }  from "./{{classFilename}}Interface";
+import { {{classname}}Interface }  from './{{classFilename}}Interface';
 {{/withInterfaces}}
 
 {{#operations}}
@@ -41,8 +41,8 @@ export class {{classname}} {
 {{/withInterfaces}}
     private basePath: string = '{{{basePath}}}';
 
-    constructor(@inject("IApiHttpClient") private httpClient: IHttpClient,
-        @inject("IAPIConfiguration") private APIConfiguration: IAPIConfiguration ) {
+    constructor(@inject('IApiHttpClient') private httpClient: IHttpClient,
+        @inject('IAPIConfiguration') private APIConfiguration: IAPIConfiguration ) {
         if(this.APIConfiguration.basePath)
             this.basePath = this.APIConfiguration.basePath;
     }
@@ -73,21 +73,21 @@ export class {{classname}} {
         if ({{paramName}}) {
         {{#isCollectionFormatMulti}}
             {{paramName}}.forEach((element) => {
-                queryParameters.push("{{paramName}}="+encodeURIComponent(String({{paramName}})));
+                queryParameters.push('{{paramName}}='+encodeURIComponent(String({{paramName}})));
             })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-            queryParameters.push("{{paramName}}="+encodeURIComponent({{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])));
+            queryParameters.push('{{paramName}}='+encodeURIComponent({{paramName}}.join(COLLECTION_FORMATS['{{collectionFormat}}'])));
         {{/isCollectionFormatMulti}}
         }
         {{/isListContainer}}
         {{^isListContainer}}
         if ({{paramName}} !== undefined) {
         {{#isDateTime}}
-           queryParameters.push("{{paramName}}="+encodeURIComponent(<any>{{paramName}}.toISOString()));
+           queryParameters.push('{{paramName}}='+encodeURIComponent(({{paramName}} as Date).toISOString()));
         {{/isDateTime}}
         {{^isDateTime}}
-            queryParameters.push("{{paramName}}="+encodeURIComponent(String({{paramName}})));
+            queryParameters.push('{{paramName}}='+encodeURIComponent(String({{paramName}})));
         {{/isDateTime}}
         }
         {{/isListContainer}}
@@ -111,13 +111,13 @@ export class {{classname}} {
         // authentication ({{name}}) required
 {{#isApiKey}}
 {{#isKeyInHeader}}
-        if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys["{{keyParamName}}"]) {
-            headers['{{keyParamName}}'] = this.APIConfiguration.apiKeys["{{keyParamName}}"];
+        if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys['{{keyParamName}}']) {
+            headers['{{keyParamName}}'] = this.APIConfiguration.apiKeys['{{keyParamName}}'];
         }
 {{/isKeyInHeader}}
 {{#isKeyInQuery}}
-        if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys["{{keyParamName}}"]) {
-            queryParameters.push("{{paramName}}="+encodeURIComponent(String(this.APIConfiguration.apiKeys["{{keyParamName}}"])));
+        if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys['{{keyParamName}}']) {
+            queryParameters.push('{{paramName}}='+encodeURIComponent(String(this.APIConfiguration.apiKeys['{{keyParamName}}'])));
         }
 {{/isKeyInQuery}}
 {{/isApiKey}}
@@ -180,9 +180,9 @@ export class {{classname}} {
 
 {{/hasFormParams}}
         const response: Observable<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>> = this.httpClient.{{httpMethod}}(`${this.basePath}{{{path}}}{{#hasQueryParams}}?${queryParameters.join('&')}{{/hasQueryParams}}`{{#bodyParam}}, {{paramName}} {{/bodyParam}}{{#hasFormParams}}, formData{{/hasFormParams}}, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>(httpResponse.response))
                ){{#usePromise}}.toPromise(){{/usePromise}};
         }
         return response{{#usePromise}}.toPromise(){{/usePromise}};
