@@ -1,15 +1,19 @@
 class {{classname}} {
   {{#vars}}
-  {{#description}}/* {{{description}}} */{{/description}}
-  {{{dataType}}} {{name}} = {{{defaultValue}}};
+  {{#description}}/// {{{description}}}{{/description}}
+  {{^isEnum}}
+  {{^defaultValue}}{{{dataType}}} {{name}};{{/defaultValue}}{{#defaultValue}}{{{dataType}}} {{name}} = {{defaultValue}};{{/defaultValue}}
+  {{/isEnum}}
+  {{#isEnum}}
   {{#allowableValues}}
-  {{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}{
+  {{#min}} // range from {{min}} to {{max}}{{/min}}{{classname}}{{{enumName}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}}{{/required}};
   {{/allowableValues}}
+  {{/isEnum}}
   {{/vars}}
 
   {{classname}}({
   {{#vars}}
-    this.{{name}},
+    {{#required}}@required this.{{name}}{{/required}}{{^required}}this.{{name}}{{#defaultValue}} = {{defaultValue}}{{/defaultValue}}{{/required}},
   {{/vars}}
   });
 
@@ -78,7 +82,12 @@ class {{classname}} {
       json['{{baseName}}'].toDouble();
           {{/isDouble}}
           {{^isDouble}}
+    {{^isEnum}}
     {{name}} = json['{{baseName}}'];
+    {{/isEnum}}
+    {{#isEnum}}
+    {{name}} = {{classname}}{{{enumName}}}.fromJson(json['{{baseName}}']);
+    {{/isEnum}}
           {{/isDouble}}
         {{/isMapContainer}}
       {{/isListContainer}}
@@ -89,7 +98,7 @@ class {{classname}} {
   }
 
   Map<String, dynamic> toJson() {
-    Map <String, dynamic> json = {};
+    Map<String, dynamic> json = {};
     {{#vars}}
         {{^isNullable}}
     if ({{name}} != null)
@@ -102,7 +111,12 @@ class {{classname}} {
       {{/isDate}}
       {{^isDateTime}}
       {{^isDate}}
+      {{^isEnum}}
       json['{{baseName}}'] = {{name}};
+      {{/isEnum}}
+      {{#isEnum}}
+      json['{{baseName}}'] = {{name}}.value;
+      {{/isEnum}}
       {{/isDate}}
       {{/isDateTime}}
     {{/vars}}
@@ -114,7 +128,7 @@ class {{classname}} {
   }
 
   static Map<String, {{classname}}> mapFromJson(Map<String, dynamic> json) {
-    var map = Map<String, {{classname}}>();
+    final map = Map<String, {{classname}}>();
     if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic value) => map[key] = {{classname}}.fromJson(value));
     }
@@ -123,12 +137,17 @@ class {{classname}} {
 
   // maps a json object with a list of {{classname}}-objects as value to a dart map
   static Map<String, List<{{classname}}>> mapListFromJson(Map<String, dynamic> json) {
-    var map = Map<String, List<{{classname}}>>();
-     if (json != null && json.isNotEmpty) {
-       json.forEach((String key, dynamic value) {
-         map[key] = {{classname}}.listFromJson(value);
-       });
-     }
-     return map;
+    final map = Map<String, List<{{classname}}>>();
+    if (json != null && json.isNotEmpty) {
+      json.forEach((String key, dynamic value) {
+        map[key] = {{classname}}.listFromJson(value);
+      });
+    }
+    return map;
   }
 }
+{{#vars}}
+{{#isEnum}}
+{{>enum_inline}}
+{{/isEnum}}
+{{/vars}}

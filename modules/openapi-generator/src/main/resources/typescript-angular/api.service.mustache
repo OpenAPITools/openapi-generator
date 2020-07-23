@@ -213,46 +213,33 @@ export class {{classname}} {
 {{/headerParams}}
 
 {{#authMethods}}
+{{#-first}}
+        let credential: string | undefined;
+{{/-first}}
         // authentication ({{name}}) required
+        credential = this.configuration.lookupCredential('{{name}}');
+        if (credential) {
 {{#isApiKey}}
-        if (this.configuration.apiKeys) {
-            {{! Fallback behaviour may be removed for 5.0 release. See #5062 }}
-            const key: string | undefined = this.configuration.apiKeys["{{name}}"] || this.configuration.apiKeys["{{keyParamName}}"];
-            if (key) {
-{{#isKeyInHeader}}
-                headers = headers.set('{{keyParamName}}', key);
-{{/isKeyInHeader}}
-{{#isKeyInQuery}}
-                queryParameters = queryParameters.set('{{keyParamName}}', key);
-{{/isKeyInQuery}}
-            }
-        }
-
+    {{#isKeyInHeader}}
+            headers = headers.set('{{keyParamName}}', credential);
+    {{/isKeyInHeader}}
+    {{#isKeyInQuery}}
+            queryParameters = queryParameters.set('{{keyParamName}}', credential);
+    {{/isKeyInQuery}}
 {{/isApiKey}}
 {{#isBasic}}
     {{#isBasicBasic}}
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
+            headers = headers.set('Authorization', 'Basic ' + credential);
     {{/isBasicBasic}}
     {{#isBasicBearer}}
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
-        }
+            headers = headers.set('Authorization', 'Bearer ' + credential);
     {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+{{/isOAuth}}
         }
 
-{{/isOAuth}}
 {{/authMethods}}
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {
