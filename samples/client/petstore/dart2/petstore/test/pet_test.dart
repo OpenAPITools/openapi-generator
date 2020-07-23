@@ -25,14 +25,16 @@ void main() {
         ..id = 124321
         ..name = 'Jose'
     ];
+
     return Pet(
         id : id,
         category: category,
         name: name, //required field
+        tags: tags,
         photoUrls: ['https://petstore.com/sample/photo1.jpg'] //required field
     )
-      ..tags = tags
-      ..status = '';
+      ..status = PetStatusEnum.fromJson(status)
+      ..photoUrls = ['https://petstore.com/sample/photo1.jpg'];
   }
 
   group('Pet API with live client', () {
@@ -79,12 +81,12 @@ void main() {
       var id1 = newId();
       var id2 = newId();
       var id3 = newId();
-      var status = 'available';
+      var status = PetStatusEnum.available_.value;
 
       return Future.wait([
         petApi.addPet(makePet(id: id1, status: status)),
         petApi.addPet(makePet(id: id2, status: status)),
-        petApi.addPet(makePet(id: id3, status: 'sold'))
+        petApi.addPet(makePet(id: id3, status: PetStatusEnum.sold_.value))
       ]).then((_) async {
         var pets = await petApi.findPetsByStatus([status]);
         var petIds = pets.map((pet) => pet.id).toList();
