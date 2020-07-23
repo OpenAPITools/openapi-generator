@@ -846,7 +846,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      */
     protected List<String> getTypesFromSchemas(List<Schema> schemas) {
         List<Schema> filteredSchemas = schemas.size() > 1
-            ? schemas.stream().filter(schema -> super.getSchemaType(schema) != "AnyType").collect(Collectors.toList())
+            ? schemas.stream().filter(schema -> !"AnyType".equals(super.getSchemaType(schema))).collect(Collectors.toList())
             : schemas;
 
         return filteredSchemas.stream().map(schema -> {
