@@ -1300,6 +1300,7 @@ public class ApiClient {
     for (String authName : authNames) {
       Authentication auth = authentications.get(authName);
       if (auth == null) {
+        //throw new RuntimeException("unknown auth name:" + authName);
         continue;
       }
       auth.applyToParams(queryParams, headerParams, cookieParams, payload, method, uri);
