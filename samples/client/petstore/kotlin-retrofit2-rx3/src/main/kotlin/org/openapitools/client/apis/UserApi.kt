@@ -2,8 +2,9 @@ package org.openapitools.client.apis
 
 import org.openapitools.client.infrastructure.CollectionFormats.*
 import retrofit2.http.*
-import retrofit2.Call
 import okhttp3.RequestBody
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.Completable;
 
 import org.openapitools.client.models.User
 
@@ -18,7 +19,7 @@ interface UserApi {
     * @return [Call]<[Unit]>
      */
     @POST("user")
-    fun createUser(@Body body: User): Call<Unit>
+    fun createUser(@Body body: User): Completable
 
     /**
      * Creates list of users with given input array
@@ -30,7 +31,7 @@ interface UserApi {
     * @return [Call]<[Unit]>
      */
     @POST("user/createWithArray")
-    fun createUsersWithArrayInput(@Body body: kotlin.collections.List<User>): Call<Unit>
+    fun createUsersWithArrayInput(@Body body: kotlin.collections.List<User>): Completable
 
     /**
      * Creates list of users with given input array
@@ -42,7 +43,7 @@ interface UserApi {
     * @return [Call]<[Unit]>
      */
     @POST("user/createWithList")
-    fun createUsersWithListInput(@Body body: kotlin.collections.List<User>): Call<Unit>
+    fun createUsersWithListInput(@Body body: kotlin.collections.List<User>): Completable
 
     /**
      * Delete user
@@ -55,7 +56,7 @@ interface UserApi {
     * @return [Call]<[Unit]>
      */
     @DELETE("user/{username}")
-    fun deleteUser(@Path("username") username: kotlin.String): Call<Unit>
+    fun deleteUser(@Path("username") username: kotlin.String): Completable
 
     /**
      * Get user by user name
@@ -69,7 +70,7 @@ interface UserApi {
     * @return [Call]<[User]>
      */
     @GET("user/{username}")
-    fun getUserByName(@Path("username") username: kotlin.String): Call<User>
+    fun getUserByName(@Path("username") username: kotlin.String): Single<User>
 
     /**
      * Logs user into the system
@@ -83,7 +84,7 @@ interface UserApi {
     * @return [Call]<[kotlin.String]>
      */
     @GET("user/login")
-    fun loginUser(@Query("username") username: kotlin.String, @Query("password") password: kotlin.String): Call<kotlin.String>
+    fun loginUser(@Query("username") username: kotlin.String, @Query("password") password: kotlin.String): Single<kotlin.String>
 
     /**
      * Logs out current logged in user session
@@ -94,7 +95,7 @@ interface UserApi {
     * @return [Call]<[Unit]>
      */
     @GET("user/logout")
-    fun logoutUser(): Call<Unit>
+    fun logoutUser(): Completable
 
     /**
      * Updated user
@@ -108,6 +109,6 @@ interface UserApi {
     * @return [Call]<[Unit]>
      */
     @PUT("user/{username}")
-    fun updateUser(@Path("username") username: kotlin.String, @Body body: User): Call<Unit>
+    fun updateUser(@Path("username") username: kotlin.String, @Body body: User): Completable
 
 }
