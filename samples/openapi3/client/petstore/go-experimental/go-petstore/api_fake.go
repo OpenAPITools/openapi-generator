@@ -98,7 +98,6 @@ func (r apiFakeHealthGetRequest) Execute() (HealthCheckResult, *_nethttp.Respons
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -202,7 +201,6 @@ func (r apiFakeOuterBooleanSerializeRequest) Execute() (bool, *_nethttp.Response
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -306,7 +304,6 @@ func (r apiFakeOuterCompositeSerializeRequest) Execute() (OuterComposite, *_neth
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -410,7 +407,6 @@ func (r apiFakeOuterNumberSerializeRequest) Execute() (float32, *_nethttp.Respon
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -514,7 +510,6 @@ func (r apiFakeOuterStringSerializeRequest) Execute() (string, *_nethttp.Respons
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -622,7 +617,6 @@ func (r apiTestBodyWithFileSchemaRequest) Execute() (*_nethttp.Response, error) 
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -731,7 +725,6 @@ func (r apiTestBodyWithQueryParamsRequest) Execute() (*_nethttp.Response, error)
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -830,7 +823,6 @@ func (r apiTestClientModelRequest) Execute() (Client, *_nethttp.Response, error)
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -1084,7 +1076,6 @@ func (r apiTestEndpointParametersRequest) Execute() (*_nethttp.Response, error) 
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1251,7 +1242,6 @@ func (r apiTestEnumParametersRequest) Execute() (*_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1398,7 +1388,6 @@ func (r apiTestGroupParametersRequest) Execute() (*_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1496,7 +1485,6 @@ func (r apiTestInlineAdditionalPropertiesRequest) Execute() (*_nethttp.Response,
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1604,7 +1592,6 @@ func (r apiTestJsonFormDataRequest) Execute() (*_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1766,7 +1753,6 @@ func (r apiTestQueryParameterCollectionFormatRequest) Execute() (*_nethttp.Respo
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}

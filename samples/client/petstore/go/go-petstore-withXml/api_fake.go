@@ -79,7 +79,6 @@ func (a *FakeApiService) CreateXmlItem(ctx _context.Context, xmlItem XmlItem) (*
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -157,7 +156,6 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx _context.Context, localVa
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -248,7 +246,6 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx _context.Context, local
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -335,7 +332,6 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx _context.Context, localVar
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -422,7 +418,6 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context, localVar
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -498,7 +493,6 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx _context.Context, body FileS
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -566,7 +560,6 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx _context.Context, query str
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -635,7 +628,6 @@ func (a *FakeApiService) TestClientModel(ctx _context.Context, body Client) (Cli
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -795,7 +787,6 @@ func (a *FakeApiService) TestEndpointParameters(ctx _context.Context, number flo
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -904,7 +895,6 @@ func (a *FakeApiService) TestEnumParameters(ctx _context.Context, localVarOption
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -994,7 +984,6 @@ func (a *FakeApiService) TestGroupParameters(ctx _context.Context, requiredStrin
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1060,7 +1049,6 @@ func (a *FakeApiService) TestInlineAdditionalProperties(ctx _context.Context, pa
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1127,7 +1115,6 @@ func (a *FakeApiService) TestJsonFormData(ctx _context.Context, param string, pa
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1211,7 +1198,6 @@ func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx _context.Context
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}

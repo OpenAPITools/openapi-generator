@@ -108,7 +108,6 @@ func (r apiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response,
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

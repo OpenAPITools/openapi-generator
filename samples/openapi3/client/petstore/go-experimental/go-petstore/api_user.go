@@ -109,7 +109,6 @@ func (r apiCreateUserRequest) Execute() (*_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -207,7 +206,6 @@ func (r apiCreateUsersWithArrayInputRequest) Execute() (*_nethttp.Response, erro
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -305,7 +303,6 @@ func (r apiCreateUsersWithListInputRequest) Execute() (*_nethttp.Response, error
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -397,7 +394,6 @@ func (r apiDeleteUserRequest) Execute() (*_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -488,7 +484,6 @@ func (r apiGetUserByNameRequest) Execute() (User, *_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -605,7 +600,6 @@ func (r apiLoginUserRequest) Execute() (string, *_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -700,7 +694,6 @@ func (r apiLogoutUserRequest) Execute() (*_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -804,7 +797,6 @@ func (r apiUpdateUserRequest) Execute() (*_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}

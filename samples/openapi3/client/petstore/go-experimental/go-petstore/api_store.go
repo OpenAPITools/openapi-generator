@@ -102,7 +102,6 @@ func (r apiDeleteOrderRequest) Execute() (*_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -203,7 +202,6 @@ func (r apiGetInventoryRequest) Execute() (map[string]int32, *_nethttp.Response,
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -310,7 +308,6 @@ func (r apiGetOrderByIdRequest) Execute() (Order, *_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -417,7 +414,6 @@ func (r apiPlaceOrderRequest) Execute() (Order, *_nethttp.Response, error) {
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

@@ -77,7 +77,6 @@ func (a *StoreApiService) DeleteOrder(ctx _context.Context, orderId string) (*_n
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -155,7 +154,6 @@ func (a *StoreApiService) GetInventory(ctx _context.Context) (map[string]int32, 
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -239,7 +237,6 @@ func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) (Ord
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -316,7 +313,6 @@ func (a *StoreApiService) PlaceOrder(ctx _context.Context, body Order) (Order, *
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
