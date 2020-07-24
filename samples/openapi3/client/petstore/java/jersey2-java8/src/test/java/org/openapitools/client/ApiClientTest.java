@@ -35,11 +35,11 @@ public class ApiClientTest {
     public void setup() {
         apiClient = new ApiClient();
         pet = new Pet();
-        try{
+        try {
             KeyPair keypair = KeyPairGenerator.getInstance("RSA").generateKeyPair();
             privateKey = keypair.getPrivate();
             publicKey = keypair.getPublic();
-        }catch(NoSuchAlgorithmException e){
+        } catch(NoSuchAlgorithmException e) {
             fail("No such algorithm: " + e.toString());
         }
     }
