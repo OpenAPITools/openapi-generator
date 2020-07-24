@@ -18,7 +18,7 @@ import Foundation
         }
     }
 
-    public init(_return: Int?) {
+    public init(_return: Int? = nil) {
         self._return = _return
     }
 
