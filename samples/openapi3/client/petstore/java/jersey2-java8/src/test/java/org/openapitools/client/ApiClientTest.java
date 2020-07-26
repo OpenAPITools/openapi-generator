@@ -17,6 +17,9 @@ import java.security.spec.PSSParameterSpec;
 import java.security.spec.MGF1ParameterSpec;
 import org.tomitribe.auth.signatures.*;
 import java.io.ByteArrayInputStream;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.PrivateKey;
 
@@ -25,27 +28,20 @@ import static org.junit.Assert.*;
 public class ApiClientTest {
     ApiClient apiClient = null;
     Pet pet = null;
-
-    private final String privateKeyPem = "-----BEGIN RSA PRIVATE KEY-----\n" +
-            "MIICXgIBAAKBgQDCFENGw33yGihy92pDjZQhl0C36rPJj+CvfSC8+q28hxA161QF\n" +
-            "NUd13wuCTUcq0Qd2qsBe/2hFyc2DCJJg0h1L78+6Z4UMR7EOcpfdUE9Hf3m/hs+F\n" +
-            "UR45uBJeDK1HSFHD8bHKD6kv8FPGfJTotc+2xjJwoYi+1hqp1fIekaxsyQIDAQAB\n" +
-            "AoGBAJR8ZkCUvx5kzv+utdl7T5MnordT1TvoXXJGXK7ZZ+UuvMNUCdN2QPc4sBiA\n" +
-            "QWvLw1cSKt5DsKZ8UETpYPy8pPYnnDEz2dDYiaew9+xEpubyeW2oH4Zx71wqBtOK\n" +
-            "kqwrXa/pzdpiucRRjk6vE6YY7EBBs/g7uanVpGibOVAEsqH1AkEA7DkjVH28WDUg\n" +
-            "f1nqvfn2Kj6CT7nIcE3jGJsZZ7zlZmBmHFDONMLUrXR/Zm3pR5m0tCmBqa5RK95u\n" +
-            "412jt1dPIwJBANJT3v8pnkth48bQo/fKel6uEYyboRtA5/uHuHkZ6FQF7OUkGogc\n" +
-            "mSJluOdc5t6hI1VsLn0QZEjQZMEOWr+wKSMCQQCC4kXJEsHAve77oP6HtG/IiEn7\n" +
-            "kpyUXRNvFsDE0czpJJBvL/aRFUJxuRK91jhjC68sA7NsKMGg5OXb5I5Jj36xAkEA\n" +
-            "gIT7aFOYBFwGgQAQkWNKLvySgKbAZRTeLBacpHMuQdl1DfdntvAyqpAZ0lY0RKmW\n" +
-            "G6aFKaqQfOXKCyWoUiVknQJAXrlgySFci/2ueKlIE1QqIiLSZ8V8OlpFLRnb1pzI\n" +
-            "7U1yQXnTAEFYM560yJlzUpOb1V4cScGd365tiSMvxLOvTA==\n" +
-            "-----END RSA PRIVATE KEY-----\n";
+    PrivateKey privateKey = null;
+    PublicKey publicKey = null;
 
     @Before
     public void setup() {
         apiClient = new ApiClient();
         pet = new Pet();
+        try {
+            KeyPair keypair = KeyPairGenerator.getInstance("RSA").generateKeyPair();
+            privateKey = keypair.getPrivate();
+            publicKey = keypair.getPublic();
+        } catch(NoSuchAlgorithmException e) {
+            fail("No such algorithm: " + e.toString());
+        }
     }
 
     @Test
@@ -63,17 +59,16 @@ public class ApiClientTest {
         HttpSignatureAuth signatureAuth = new HttpSignatureAuth("some-key-1", SigningAlgorithm.HS2019, Algorithm.RSA_SHA512, null,
                 null, Arrays.asList(new String[] { "(request-target)" }), 128L);
 
-        signatureAuth.setPrivateKey(PEM.readPrivateKey(new ByteArrayInputStream(privateKeyPem.getBytes())));
+        signatureAuth.setPrivateKey(privateKey);
 
         authMap.put("http_signature_test", signatureAuth);
 
         ApiClient client = new ApiClient(authMap);
 
         client.updateParamsForAuth(authNames, queryParams, headerParams, null, null, "post", uri);
-
-        // hard to test as expire will always be different
-        // ApiClientTest.testUpdateParamsForAuth:77 expected:<...-1",created=15954814[97,expires=1595481497.760],algorithm="hs2019",...> but was:<...-1",created=15954814[60,expires=1595481460.841],algorithm="hs2019",...>
-        //assertEquals(headerParams.get("Authorization"), "Signature keyId=\"some-key-1\",created=1595481460,expires=1595481460.841,algorithm=\"hs2019\",headers=\"(request-target)\",signature=\"eahPOLOTIH5AJyXbvpDyUIYBdYLAv6RbcAtGCEG9J1y6JyFWS+1IT/n/u4ZGMteiUvtoPm52dUXrhN3OMump+ivi+2JgMjHhd2G89zj7wcOVkZwaFfHjymHb8SwkVrda35GYsmXlnx01JRHCShk9yVHS7VYkY0CpQw171VaFWUc=\"");
+        Signature requestSignature = Signature.fromString(headerParams.get("Authorization"), Algorithm.RSA_SHA512);
+        Verifier verify = new Verifier(publicKey, requestSignature);
+        assert verify.verify("post", uri.toString(), headerParams);
     }
 
     @Test
