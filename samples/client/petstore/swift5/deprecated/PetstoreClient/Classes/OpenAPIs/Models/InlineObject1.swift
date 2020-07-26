@@ -14,7 +14,7 @@ public struct InlineObject1: Codable {
     /** file to upload */
     public var file: URL?
 
-    public init(additionalMetadata: String?, file: URL?) {
+    public init(additionalMetadata: String? = nil, file: URL? = nil) {
         self.additionalMetadata = additionalMetadata
         self.file = file
     }

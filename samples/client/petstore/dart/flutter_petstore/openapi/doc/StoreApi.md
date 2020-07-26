@@ -40,7 +40,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **String**| ID of the order that needs to be deleted | [default to null]
+ **orderId** | **String**| ID of the order that needs to be deleted | 
 
 ### Return type
 
@@ -126,7 +126,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **orderId** | **int**| ID of pet that needs to be fetched | [default to null]
+ **orderId** | **int**| ID of pet that needs to be fetched | 
 
 ### Return type
 

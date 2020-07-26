@@ -38,6 +38,7 @@ import javax.xml.bind.annotation.*;
   MapTest.JSON_PROPERTY_DIRECT_MAP,
   MapTest.JSON_PROPERTY_INDIRECT_MAP
 })
+@JsonTypeName("MapTest")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "MapTest")
 @XmlAccessorType(XmlAccessType.FIELD)

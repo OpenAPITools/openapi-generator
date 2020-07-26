@@ -11,7 +11,7 @@ public struct Client: Codable {
 
     public private(set) var client: String?
 
-    public init(client: String?) {
+    public init(client: String? = nil) {
         self.client = client
     }
 

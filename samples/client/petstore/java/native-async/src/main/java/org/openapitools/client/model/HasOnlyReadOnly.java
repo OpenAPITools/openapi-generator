@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   HasOnlyReadOnly.JSON_PROPERTY_BAR,
   HasOnlyReadOnly.JSON_PROPERTY_FOO
 })
+@JsonTypeName("hasOnlyReadOnly")
 @javax.annotation.processing.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class HasOnlyReadOnly {
   public static final String JSON_PROPERTY_BAR = "bar";

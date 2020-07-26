@@ -20,7 +20,7 @@ public struct User: Codable {
     /** User Status */
     public var userStatus: Int?
 
-    public init(id: Int64?, username: String?, firstName: String?, lastName: String?, email: String?, password: String?, phone: String?, userStatus: Int?) {
+    public init(id: Int64? = nil, username: String? = nil, firstName: String? = nil, lastName: String? = nil, email: String? = nil, password: String? = nil, phone: String? = nil, userStatus: Int? = nil) {
         self.id = id
         self.username = username
         self.firstName = firstName

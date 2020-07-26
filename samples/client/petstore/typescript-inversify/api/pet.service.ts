@@ -11,19 +11,19 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 
-import { map } from "rxjs/operators";
-import IHttpClient from "../IHttpClient";
-import { inject, injectable } from "inversify";
-import { IAPIConfiguration } from "../IAPIConfiguration";
-import { Headers } from "../Headers";
-import HttpResponse from "../HttpResponse";
+import { map } from 'rxjs/operators';
+import IHttpClient from '../IHttpClient';
+import { inject, injectable } from 'inversify';
+import { IAPIConfiguration } from '../IAPIConfiguration';
+import { Headers } from '../Headers';
+import HttpResponse from '../HttpResponse';
 
-import { ApiResponse } from "../model/apiResponse";
-import { Pet } from "../model/pet";
+import { ApiResponse } from '../model/apiResponse';
+import { Pet } from '../model/pet';
 
-import { COLLECTION_FORMATS }  from "../variables";
+import { COLLECTION_FORMATS }  from '../variables';
 
 
 
@@ -31,8 +31,8 @@ import { COLLECTION_FORMATS }  from "../variables";
 export class PetService {
     private basePath: string = 'http://petstore.swagger.io/v2';
 
-    constructor(@inject("IApiHttpClient") private httpClient: IHttpClient,
-        @inject("IAPIConfiguration") private APIConfiguration: IAPIConfiguration ) {
+    constructor(@inject('IApiHttpClient') private httpClient: IHttpClient,
+        @inject('IAPIConfiguration') private APIConfiguration: IAPIConfiguration ) {
         if(this.APIConfiguration.basePath)
             this.basePath = this.APIConfiguration.basePath;
     }
@@ -61,9 +61,9 @@ export class PetService {
         headers['Content-Type'] = 'application/json';
 
         const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/pet`, body , headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <any>(httpResponse.response))
                );
         }
         return response;
@@ -98,9 +98,9 @@ export class PetService {
         headers['Accept'] = 'application/json';
 
         const response: Observable<HttpResponse<any>> = this.httpClient.delete(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <any>(httpResponse.response))
                );
         }
         return response;
@@ -122,7 +122,7 @@ export class PetService {
 
         let queryParameters: string[] = [];
         if (status) {
-            queryParameters.push("status="+encodeURIComponent(status.join(COLLECTION_FORMATS['csv'])));
+            queryParameters.push('status='+encodeURIComponent(status.join(COLLECTION_FORMATS['csv'])));
         }
 
         // authentication (petstore_auth) required
@@ -135,9 +135,9 @@ export class PetService {
         headers['Accept'] = 'application/xml, application/json';
 
         const response: Observable<HttpResponse<Array<Pet>>> = this.httpClient.get(`${this.basePath}/pet/findByStatus?${queryParameters.join('&')}`, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <Array<Pet>>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <Array<Pet>>(httpResponse.response))
                );
         }
         return response;
@@ -159,7 +159,7 @@ export class PetService {
 
         let queryParameters: string[] = [];
         if (tags) {
-            queryParameters.push("tags="+encodeURIComponent(tags.join(COLLECTION_FORMATS['csv'])));
+            queryParameters.push('tags='+encodeURIComponent(tags.join(COLLECTION_FORMATS['csv'])));
         }
 
         // authentication (petstore_auth) required
@@ -172,9 +172,9 @@ export class PetService {
         headers['Accept'] = 'application/xml, application/json';
 
         const response: Observable<HttpResponse<Array<Pet>>> = this.httpClient.get(`${this.basePath}/pet/findByTags?${queryParameters.join('&')}`, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <Array<Pet>>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <Array<Pet>>(httpResponse.response))
                );
         }
         return response;
@@ -195,15 +195,15 @@ export class PetService {
         }
 
         // authentication (api_key) required
-        if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys["api_key"]) {
-            headers['api_key'] = this.APIConfiguration.apiKeys["api_key"];
+        if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys['api_key']) {
+            headers['api_key'] = this.APIConfiguration.apiKeys['api_key'];
         }
         headers['Accept'] = 'application/xml, application/json';
 
         const response: Observable<HttpResponse<Pet>> = this.httpClient.get(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <Pet>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <Pet>(httpResponse.response))
                );
         }
         return response;
@@ -234,9 +234,9 @@ export class PetService {
         headers['Content-Type'] = 'application/json';
 
         const response: Observable<HttpResponse<any>> = this.httpClient.put(`${this.basePath}/pet`, body , headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <any>(httpResponse.response))
                );
         }
         return response;
@@ -277,9 +277,9 @@ export class PetService {
         }
 
         const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, formData, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <any>(httpResponse.response))
                );
         }
         return response;
@@ -320,9 +320,9 @@ export class PetService {
         }
 
         const response: Observable<HttpResponse<ApiResponse>> = this.httpClient.post(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`, formData, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <ApiResponse>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <ApiResponse>(httpResponse.response))
                );
         }
         return response;
