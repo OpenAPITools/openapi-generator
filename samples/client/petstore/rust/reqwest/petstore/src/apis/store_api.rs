@@ -19,8 +19,6 @@ use super::{Error, configuration};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteOrderError {
-    Status400(),
-    Status404(),
     UnknownValue(serde_json::Value),
 }
 
@@ -28,6 +26,7 @@ pub enum DeleteOrderError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetInventoryError {
+    DefaultResponse(::std::collections::HashMap<String, i32>),
     UnknownValue(serde_json::Value),
 }
 
@@ -35,8 +34,7 @@ pub enum GetInventoryError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetOrderByIdError {
-    Status400(),
-    Status404(),
+    DefaultResponse(crate::models::Order),
     UnknownValue(serde_json::Value),
 }
 
@@ -44,7 +42,7 @@ pub enum GetOrderByIdError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum PlaceOrderError {
-    Status400(),
+    DefaultResponse(crate::models::Order),
     UnknownValue(serde_json::Value),
 }
 

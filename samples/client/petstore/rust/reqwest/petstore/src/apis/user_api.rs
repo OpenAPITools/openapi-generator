@@ -43,8 +43,6 @@ pub enum CreateUsersWithListInputError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteUserError {
-    Status400(),
-    Status404(),
     UnknownValue(serde_json::Value),
 }
 
@@ -52,8 +50,7 @@ pub enum DeleteUserError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUserByNameError {
-    Status400(),
-    Status404(),
+    DefaultResponse(crate::models::User),
     UnknownValue(serde_json::Value),
 }
 
@@ -61,7 +58,7 @@ pub enum GetUserByNameError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LoginUserError {
-    Status400(),
+    DefaultResponse(String),
     UnknownValue(serde_json::Value),
 }
 
@@ -77,8 +74,6 @@ pub enum LogoutUserError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateUserError {
-    Status400(),
-    Status404(),
     UnknownValue(serde_json::Value),
 }
 

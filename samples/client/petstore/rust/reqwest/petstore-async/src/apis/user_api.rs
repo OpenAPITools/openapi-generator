@@ -14,59 +14,6 @@ use reqwest;
 use crate::apis::ResponseContent;
 use super::{Error, configuration};
 
-/// struct for passing parameters to the method `create_user`
-#[derive(Clone, Debug)]
-pub struct CreateUserParams {
-    /// Created user object
-    pub body: crate::models::User
-}
-
-/// struct for passing parameters to the method `create_users_with_array_input`
-#[derive(Clone, Debug)]
-pub struct CreateUsersWithArrayInputParams {
-    /// List of user object
-    pub body: Vec<crate::models::User>
-}
-
-/// struct for passing parameters to the method `create_users_with_list_input`
-#[derive(Clone, Debug)]
-pub struct CreateUsersWithListInputParams {
-    /// List of user object
-    pub body: Vec<crate::models::User>
-}
-
-/// struct for passing parameters to the method `delete_user`
-#[derive(Clone, Debug)]
-pub struct DeleteUserParams {
-    /// The name that needs to be deleted
-    pub username: String
-}
-
-/// struct for passing parameters to the method `get_user_by_name`
-#[derive(Clone, Debug)]
-pub struct GetUserByNameParams {
-    /// The name that needs to be fetched. Use user1 for testing.
-    pub username: String
-}
-
-/// struct for passing parameters to the method `login_user`
-#[derive(Clone, Debug)]
-pub struct LoginUserParams {
-    /// The user name for login
-    pub username: String,
-    /// The password for login in clear text
-    pub password: String
-}
-
-/// struct for passing parameters to the method `update_user`
-#[derive(Clone, Debug)]
-pub struct UpdateUserParams {
-    /// name that need to be deleted
-    pub username: String,
-    /// Updated user object
-    pub body: crate::models::User
-}
-
 
 /// struct for typed successes of method `create_user`
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -100,7 +47,6 @@ pub enum DeleteUserSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUserByNameSuccess {
-    Status200(crate::models::User),
     UnknownValue(serde_json::Value),
 }
 
@@ -108,7 +54,6 @@ pub enum GetUserByNameSuccess {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LoginUserSuccess {
-    Status200(String),
     UnknownValue(serde_json::Value),
 }
 
@@ -154,8 +99,6 @@ pub enum CreateUsersWithListInputError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeleteUserError {
-    Status400(),
-    Status404(),
     UnknownValue(serde_json::Value),
 }
 
@@ -163,8 +106,7 @@ pub enum DeleteUserError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetUserByNameError {
-    Status400(),
-    Status404(),
+    DefaultResponse(crate::models::User),
     UnknownValue(serde_json::Value),
 }
 
@@ -172,7 +114,7 @@ pub enum GetUserByNameError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum LoginUserError {
-    Status400(),
+    DefaultResponse(String),
     UnknownValue(serde_json::Value),
 }
 
@@ -188,17 +130,12 @@ pub enum LogoutUserError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdateUserError {
-    Status400(),
-    Status404(),
     UnknownValue(serde_json::Value),
 }
 
 
 /// This can only be done by the logged in user.
-pub async fn create_user(configuration: &configuration::Configuration, params: CreateUserParams) -> Result<ResponseContent<CreateUserSuccess>, Error<CreateUserError>> {
-    // unbox the parameters
-    let body = params.body;
-
+pub async fn create_user(configuration: &configuration::Configuration, body: crate::models::User) -> Result<ResponseContent<CreateUserSuccess>, Error<CreateUserError>> {
 
     let client = &configuration.client;
 
@@ -227,10 +164,7 @@ pub async fn create_user(configuration: &configuration::Configuration, params: C
     }
 }
 
-pub async fn create_users_with_array_input(configuration: &configuration::Configuration, params: CreateUsersWithArrayInputParams) -> Result<ResponseContent<CreateUsersWithArrayInputSuccess>, Error<CreateUsersWithArrayInputError>> {
-    // unbox the parameters
-    let body = params.body;
-
+pub async fn create_users_with_array_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<ResponseContent<CreateUsersWithArrayInputSuccess>, Error<CreateUsersWithArrayInputError>> {
 
     let client = &configuration.client;
 
@@ -259,10 +193,7 @@ pub async fn create_users_with_array_input(configuration: &configuration::Config
     }
 }
 
-pub async fn create_users_with_list_input(configuration: &configuration::Configuration, params: CreateUsersWithListInputParams) -> Result<ResponseContent<CreateUsersWithListInputSuccess>, Error<CreateUsersWithListInputError>> {
-    // unbox the parameters
-    let body = params.body;
-
+pub async fn create_users_with_list_input(configuration: &configuration::Configuration, body: Vec<crate::models::User>) -> Result<ResponseContent<CreateUsersWithListInputSuccess>, Error<CreateUsersWithListInputError>> {
 
     let client = &configuration.client;
 
@@ -292,10 +223,7 @@ pub async fn create_users_with_list_input(configuration: &configuration::Configu
 }
 
 /// This can only be done by the logged in user.
-pub async fn delete_user(configuration: &configuration::Configuration, params: DeleteUserParams) -> Result<ResponseContent<DeleteUserSuccess>, Error<DeleteUserError>> {
-    // unbox the parameters
-    let username = params.username;
-
+pub async fn delete_user(configuration: &configuration::Configuration, username: &str) -> Result<ResponseContent<DeleteUserSuccess>, Error<DeleteUserError>> {
 
     let client = &configuration.client;
 
@@ -323,10 +251,7 @@ pub async fn delete_user(configuration: &configuration::Configuration, params: D
     }
 }
 
-pub async fn get_user_by_name(configuration: &configuration::Configuration, params: GetUserByNameParams) -> Result<ResponseContent<GetUserByNameSuccess>, Error<GetUserByNameError>> {
-    // unbox the parameters
-    let username = params.username;
-
+pub async fn get_user_by_name(configuration: &configuration::Configuration, username: &str) -> Result<ResponseContent<GetUserByNameSuccess>, Error<GetUserByNameError>> {
 
     let client = &configuration.client;
 
@@ -354,11 +279,7 @@ pub async fn get_user_by_name(configuration: &configuration::Configuration, para
     }
 }
 
-pub async fn login_user(configuration: &configuration::Configuration, params: LoginUserParams) -> Result<ResponseContent<LoginUserSuccess>, Error<LoginUserError>> {
-    // unbox the parameters
-    let username = params.username;
-    let password = params.password;
-
+pub async fn login_user(configuration: &configuration::Configuration, username: &str, password: &str) -> Result<ResponseContent<LoginUserSuccess>, Error<LoginUserError>> {
 
     let client = &configuration.client;
 
@@ -388,9 +309,7 @@ pub async fn login_user(configuration: &configuration::Configuration, params: Lo
     }
 }
 
-pub async fn logout_user(configuration: &configuration::Configuration) -> Result<ResponseContent<LogoutUserSuccess>, Error<LogoutUserError>> {
-    // unbox the parameters
-
+pub async fn logout_user(configuration: &configuration::Configuration, ) -> Result<ResponseContent<LogoutUserSuccess>, Error<LogoutUserError>> {
 
     let client = &configuration.client;
 
@@ -419,11 +338,7 @@ pub async fn logout_user(configuration: &configuration::Configuration) -> Result
 }
 
 /// This can only be done by the logged in user.
-pub async fn update_user(configuration: &configuration::Configuration, params: UpdateUserParams) -> Result<ResponseContent<UpdateUserSuccess>, Error<UpdateUserError>> {
-    // unbox the parameters
-    let username = params.username;
-    let body = params.body;
-
+pub async fn update_user(configuration: &configuration::Configuration, username: &str, body: crate::models::User) -> Result<ResponseContent<UpdateUserSuccess>, Error<UpdateUserError>> {
 
     let client = &configuration.client;
 
