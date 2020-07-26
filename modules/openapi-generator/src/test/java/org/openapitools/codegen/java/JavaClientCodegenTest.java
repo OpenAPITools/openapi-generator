@@ -958,18 +958,18 @@ public class JavaClientCodegenTest {
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
         TestUtils.assertFileContains(defaultApi,
                 //multiple files
-                "multipartArray(java.util.Collection<org.springframework.core.io.AbstractResource> files)",
-                "multipartArrayWithHttpInfo(java.util.Collection<org.springframework.core.io.AbstractResource> files)",
+                "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
+                "multipartArrayWithHttpInfo(java.util.Collection<org.springframework.core.io.Resource> files)",
                 "formParams.put(\"files\", files.stream().collect(Collectors.toList()));",
 
                 //mixed
-                "multipartMixed(org.springframework.core.io.AbstractResource file, MultipartMixedMarker marker)",
-                "multipartMixedWithHttpInfo(org.springframework.core.io.AbstractResource file, MultipartMixedMarker marker)",
+                "multipartMixed(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",
+                "multipartMixedWithHttpInfo(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",
                 "formParams.add(\"file\", file);",
 
                 //single file
-                "multipartSingle(org.springframework.core.io.AbstractResource file)",
-                "multipartSingleWithHttpInfo(org.springframework.core.io.AbstractResource file)",
+                "multipartSingle(org.springframework.core.io.Resource file)",
+                "multipartSingleWithHttpInfo(org.springframework.core.io.Resource file)",
                 "formParams.add(\"file\", file);"
         );
     }
