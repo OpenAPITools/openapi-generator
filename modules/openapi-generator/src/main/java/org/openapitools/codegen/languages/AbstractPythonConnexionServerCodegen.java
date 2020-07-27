@@ -43,8 +43,8 @@ import java.util.*;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class PythonAbstractConnexionServerCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PythonAbstractConnexionServerCodegen.class);
+public abstract class AbstractPythonConnexionServerCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractPythonConnexionServerCodegen.class);
 
     public static final String CONTROLLER_PACKAGE = "controllerPackage";
     public static final String DEFAULT_CONTROLLER = "defaultController";
@@ -64,7 +64,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
     protected boolean useNose = Boolean.FALSE;
     protected String pythonSrcRoot;
 
-    public PythonAbstractConnexionServerCodegen(String templateDirectory, boolean fixBodyNameValue) {
+    public AbstractPythonConnexionServerCodegen(String templateDirectory, boolean fixBodyNameValue) {
         super();
 
         modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
@@ -248,7 +248,7 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             pySrcRoot = val.replaceAll("[/\\\\]+$", "");
         }
 
-        if (pySrcRoot.isEmpty() || pySrcRoot == ".") {
+        if (pySrcRoot.isEmpty() || ".".equals(pySrcRoot)) {
             this.pythonSrcRoot = "";
         } else {
             this.pythonSrcRoot = pySrcRoot + File.separator;

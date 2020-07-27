@@ -1779,7 +1779,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (encoding != null) {
                 codegenParameter.contentType = encoding.getContentType();
             } else {
-                LOGGER.debug("encoding not specified for " + codegenParameter.baseName);
+                LOGGER.debug("encoding not specified for {}", codegenParameter.baseName);
             }
         }
     }
@@ -1801,6 +1801,9 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Return the default value of the property
      *
+     * Return null if you do NOT want a default value.
+     * Any non-null value will cause {{#defaultValue} check to pass.
+     *
      * @param schema Property schema
      * @return string presentation of the default value of the property
      */
@@ -1821,7 +1824,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @SuppressWarnings("squid:S3923")
     private String getPropertyDefaultValue(Schema schema) {
-        /**
+        /*
          * Although all branches return null, this is left intentionally as examples for new contributors
          */
         if (ModelUtils.isBooleanSchema(schema)) {
@@ -5917,7 +5920,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (ModelUtils.isMapSchema(schema)) {
             // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
-            if (ModelUtils.isGenerateAliasAsModel() && StringUtils.isNotBlank(name)) {
+            if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
                 this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
             } else {
                 Schema inner = getAdditionalProperties(schema);
@@ -5958,7 +5961,7 @@ public class DefaultCodegen implements CodegenConfig {
                 setParameterNullable(codegenParameter, codegenProperty);
             }
         } else if (ModelUtils.isArraySchema(schema)) {
-            if (ModelUtils.isGenerateAliasAsModel() && StringUtils.isNotBlank(name)) {
+            if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
                 this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
             } else {
                 final ArraySchema arraySchema = (ArraySchema) schema;

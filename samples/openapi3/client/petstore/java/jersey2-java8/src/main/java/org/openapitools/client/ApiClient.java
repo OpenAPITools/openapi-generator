@@ -870,9 +870,17 @@ public class ApiClient {
     } else {
       // We let jersey handle the serialization
       if (isBodyNullable) { // payload is nullable
-        entity = Entity.entity(obj == null ? "null" : obj, contentType);
+        if (obj instanceof String) {
+          entity = Entity.entity(obj == null ? "null" : "\"" + ((String)obj).replaceAll("\"", Matcher.quoteReplacement("\\\"")) + "\"", contentType);
+        } else {
+          entity = Entity.entity(obj == null ? "null" : obj, contentType);
+        }
       } else {
-        entity = Entity.entity(obj == null ? "" : obj, contentType);
+        if (obj instanceof String) {
+          entity = Entity.entity(obj == null ? "" : "\"" + ((String)obj).replaceAll("\"", Matcher.quoteReplacement("\\\"")) + "\"", contentType);
+        } else {
+          entity = Entity.entity(obj == null ? "" : obj, contentType);
+        }
       }
     }
     return entity;
@@ -907,7 +915,7 @@ public class ApiClient {
         if (isBodyNullable) {
           return obj == null ? "null" : json.getMapper().writeValueAsString(obj);
         } else {
-          return json.getMapper().writeValueAsString(obj);
+          return obj == null ? "" : json.getMapper().writeValueAsString(obj);
         }
       }
     } catch (Exception ex) {

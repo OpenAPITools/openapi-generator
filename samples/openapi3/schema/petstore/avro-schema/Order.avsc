@@ -7,22 +7,26 @@
     {
       "name": "id",
       "type": ["null", "long"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "petId",
       "type": ["null", "long"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "quantity",
       "type": ["null", "int"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "shipDate",
       "type": ["null", "string"],
-      "doc": ""
+      "doc": "",
+      "default": null
     },
     {
       "name": "status",
@@ -35,12 +39,15 @@
           "delivered"
         ]
       }],
-      "doc": "Order Status"
+      "doc": "Order Status",
+      "default": null
     },
     {
       "name": "complete",
       "type": ["null", "boolean"],
-      "doc": ""
+      "doc": "",
+      "default": null
     }
   ]
+
 }
