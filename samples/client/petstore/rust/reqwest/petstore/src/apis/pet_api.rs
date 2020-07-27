@@ -19,6 +19,7 @@ use super::{Error, configuration};
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum AddPetError {
+    Status405(),
     UnknownValue(serde_json::Value),
 }
 
@@ -26,6 +27,7 @@ pub enum AddPetError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum DeletePetError {
+    Status400(),
     UnknownValue(serde_json::Value),
 }
 
@@ -33,7 +35,7 @@ pub enum DeletePetError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByStatusError {
-    DefaultResponse(Vec<crate::models::Pet>),
+    Status400(),
     UnknownValue(serde_json::Value),
 }
 
@@ -41,7 +43,7 @@ pub enum FindPetsByStatusError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FindPetsByTagsError {
-    DefaultResponse(Vec<crate::models::Pet>),
+    Status400(),
     UnknownValue(serde_json::Value),
 }
 
@@ -49,7 +51,8 @@ pub enum FindPetsByTagsError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum GetPetByIdError {
-    DefaultResponse(crate::models::Pet),
+    Status400(),
+    Status404(),
     UnknownValue(serde_json::Value),
 }
 
@@ -57,6 +60,9 @@ pub enum GetPetByIdError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetError {
+    Status400(),
+    Status404(),
+    Status405(),
     UnknownValue(serde_json::Value),
 }
 
@@ -64,6 +70,7 @@ pub enum UpdatePetError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UpdatePetWithFormError {
+    Status405(),
     UnknownValue(serde_json::Value),
 }
 
@@ -71,7 +78,6 @@ pub enum UpdatePetWithFormError {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UploadFileError {
-    DefaultResponse(crate::models::ApiResponse),
     UnknownValue(serde_json::Value),
 }
 
