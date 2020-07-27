@@ -176,7 +176,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
         }
-
+        
         if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
             this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
         }
@@ -190,11 +190,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put(PROVIDED_IN_ROOT, true);
         } else {
             additionalProperties.put(PROVIDED_IN_ROOT, Boolean.parseBoolean(
-                    additionalProperties.get(PROVIDED_IN_ROOT).toString()
+                additionalProperties.get(PROVIDED_IN_ROOT).toString()
             ));
         }
 
-        if (ngVersion.atLeast("9.0.0")) {
+        if (ngVersion.atLeast("9.0.0")) {                
             additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, true);
         } else {
             additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, false);
@@ -340,7 +340,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public boolean isDataTypeFile(final String dataType) {
         return dataType != null && dataType.equals("Blob");
     }
-
+ 
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isFileSchema(p)) {
