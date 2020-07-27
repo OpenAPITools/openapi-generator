@@ -37,7 +37,7 @@ dependencies {
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.0"
     compile "com.squareup.okhttp3:logging-interceptor:4.4.0"
     compile "io.reactivex.rxjava3:rxjava:$rxJava3Version"
-    compile "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
+    compile "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
     compile "com.squareup.retrofit2:converter-scalars:$retrofitVersion"

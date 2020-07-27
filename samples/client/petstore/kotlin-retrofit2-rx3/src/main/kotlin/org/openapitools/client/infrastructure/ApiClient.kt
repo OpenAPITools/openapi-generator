@@ -12,7 +12,7 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory;
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import com.squareup.moshi.Moshi
 import retrofit2.converter.moshi.MoshiConverterFactory
 
