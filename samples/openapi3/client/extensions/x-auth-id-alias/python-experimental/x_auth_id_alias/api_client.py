@@ -39,6 +39,23 @@ from x_auth_id_alias.model_utils import (
 )
 
 
+class JSONEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, (ModelNormal, ModelComposed)):
+            return {key: self.default(val) for key, val in model_to_dict(obj, serialize=True)}
+        elif isinstance(obj, (str, int, float, none_type, bool)):
+            return obj
+        elif isinstance(obj, (datetime, date)):
+            return obj.isoformat()
+        elif isinstance(obj, ModelSimple):
+            return self.default(obj.value)
+        elif isinstance(obj, (list, tuple)):
+            return [self.default(item) for item in obj]
+        if isinstance(obj, dict):
+            return {key: self.default(val) for key, val in obj.items()}
+        return super().default(self, obj)
+
+
 class ApiClient(object):
     """Generic API client for OpenAPI client library builds.
 
@@ -65,6 +82,7 @@ class ApiClient(object):
         float, bool, bytes, str, int
     )
     _pool = None
+    _encoder = JSONEncoder()
 
     def __init__(self, configuration=None, header_name=None, header_value=None,
                  cookie=None, pool_threads=1):
@@ -145,13 +163,13 @@ class ApiClient(object):
         if self.cookie:
             header_params['Cookie'] = self.cookie
         if header_params:
-            header_params = self.sanitize_for_serialization(header_params)
+            header_params = self._encoder.default(header_params)
             header_params = dict(self.parameters_to_tuples(header_params,
                                                            collection_formats))
 
         # path parameters
         if path_params:
-            path_params = self.sanitize_for_serialization(path_params)
+            path_params = self._encoder.default(path_params)
             path_params = self.parameters_to_tuples(path_params,
                                                     collection_formats)
             for k, v in path_params:
@@ -163,21 +181,21 @@ class ApiClient(object):
 
         # query parameters
         if query_params:
-            query_params = self.sanitize_for_serialization(query_params)
+            query_params = self._encoder.default(query_params)
             query_params = self.parameters_to_tuples(query_params,
                                                      collection_formats)
 
         # post parameters
         if post_params or files:
             post_params = post_params if post_params else []
-            post_params = self.sanitize_for_serialization(post_params)
+            post_params = self._encoder.default(post_params)
             post_params = self.parameters_to_tuples(post_params,
                                                     collection_formats)
             post_params.extend(self.files_parameters(files))
 
         # body
         if body:
-            body = self.sanitize_for_serialization(body)
+            body = self._encoder.default(body)
 
         # auth setting
         self.update_params_for_auth(header_params, query_params,
@@ -233,46 +251,6 @@ class ApiClient(object):
         else:
             return (return_data, response_data.status,
                     response_data.getheaders())
-
-    def sanitize_for_serialization(self, obj):
-        """Builds a JSON POST object.
-
-        If obj is None, return None.
-        If obj is str, int, long, float, bool, return directly.
-        If obj is datetime.datetime, datetime.date
-            convert to string in iso8601 format.
-        If obj is list, sanitize each element in the list.
-        If obj is dict, return the dict.
-        If obj is OpenAPI model, return the properties dict.
-
-        :param obj: The data to serialize.
-        :return: The serialized form of data.
-        """
-        if obj is None:
-            return None
-        elif isinstance(obj, self.PRIMITIVE_TYPES):
-            return obj
-        elif isinstance(obj, list):
-            return [self.sanitize_for_serialization(sub_obj)
-                    for sub_obj in obj]
-        elif isinstance(obj, tuple):
-            return tuple(self.sanitize_for_serialization(sub_obj)
-                         for sub_obj in obj)
-        elif isinstance(obj, (datetime, date)):
-            return obj.isoformat()
-
-        if isinstance(obj, dict):
-            obj_dict = obj
-        elif isinstance(obj, ModelNormal) or isinstance(obj, ModelComposed):
-            # Convert model obj to dict
-            # Convert attribute name to json key in
-            # model definition for request
-            obj_dict = model_to_dict(obj, serialize=True)
-        elif isinstance(obj, ModelSimple):
-            return self.sanitize_for_serialization(obj.value)
-
-        return {key: self.sanitize_for_serialization(val)
-                for key, val in obj_dict.items()}
 
     def deserialize(self, response, response_type, _check_type):
         """Deserializes response into an object.
@@ -581,7 +559,7 @@ class ApiClient(object):
         :param resource_path: A string representation of the HTTP request resource path.
         :param method: A string representation of the HTTP request method.
         :param body: A object representing the body of the HTTP request.
-            The object type is the return value of sanitize_for_serialization().
+            The object type is the return value of _encoder.default().
         """
         if not auth_settings:
             return
