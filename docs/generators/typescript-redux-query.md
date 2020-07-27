@@ -53,6 +53,7 @@ sidebar_label: typescript-redux-query
 <li>Object</li>
 <li>ReadonlyArray</li>
 <li>String</li>
+<li>Set</li>
 <li>any</li>
 <li>boolean</li>
 <li>number</li>
