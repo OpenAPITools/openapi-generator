@@ -103,7 +103,7 @@ dependencies {
     {{/useRxJava2}}
     {{#useRxJava3}}
     compile "io.reactivex.rxjava3:rxjava:$rxJava3Version"
-    compile "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
+    compile "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
     {{/useRxJava3}}
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     {{#gson}}
