@@ -190,7 +190,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             additionalProperties.put(PROVIDED_IN_ROOT, true);
         } else {
             additionalProperties.put(PROVIDED_IN_ROOT, Boolean.parseBoolean(
-                additionalProperties.get(PROVIDED_IN_ROOT).toString()
+                    additionalProperties.get(PROVIDED_IN_ROOT).toString()
             ));
         }
 
@@ -339,7 +339,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     @Override
     public boolean isDataTypeFile(final String dataType) {
         return dataType != null && dataType.equals("Blob");
-    }//test
+    }
 
     @Override
     public String getTypeDeclaration(Schema p) {
