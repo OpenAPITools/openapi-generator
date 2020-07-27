@@ -5,6 +5,7 @@ import json
 import atexit
 import mimetypes
 from multiprocessing.pool import ThreadPool
+import io
 import os
 import re
 import typing
@@ -115,12 +116,24 @@ class ApiClient(object):
     @tornado.gen.coroutine
     {{/tornado}}
     {{#asyncio}}async {{/asyncio}}def __call_api(
-            self, resource_path, method, path_params=None,
-            query_params=None, header_params=None, body=None, post_params=None,
-            files=None, response_type=None, auth_settings=None,
-            _return_http_data_only=None, collection_formats=None,
-            _preload_content=True, _request_timeout=None, _host=None,
-            _check_type=None):
+        self,
+        resource_path: str,
+        method: str,
+        path_params: typing.Optional[typing.Dict[str, typing.Any]] = None,
+        query_params: typing.Optional[typing.List[typing.Tuple[str, typing.Any]]] = None,
+        header_params: typing.Optional[typing.Dict[str, typing.Any]] = None,
+        body: typing.Optional[typing.Any] = None,
+        post_params: typing.Optional[typing.List[typing.Tuple[str, typing.Any]]] = None,
+        files: typing.Optional[typing.Dict[str, typing.List[io.IOBase]]] = None,
+        response_type: typing.Optional[typing.Tuple[typing.Any]] = None,
+        auth_settings: typing.Optional[typing.List[str]] = None,
+        _return_http_data_only: typing.Optional[bool] = None,
+        collection_formats: typing.Optional[typing.Dict[str, str]] = None,
+        _preload_content: bool = True,
+        _request_timeout: typing.Optional[typing.Union[int, typing.Tuple]] = None,
+        _host: typing.Optional[str] = None,
+        _check_type: typing.Optional[bool] = None
+    ):
 
         config = self.configuration
 
@@ -327,7 +340,7 @@ class ApiClient(object):
         header_params: typing.Optional[typing.Dict[str, typing.Any]] = None,
         body: typing.Optional[typing.Any] = None,
         post_params: typing.Optional[typing.List[typing.Tuple[str, typing.Any]]] = None,
-        files: typing.Optional[typing.Dict[str, typing.Any]] = None,
+        files: typing.Optional[typing.Dict[str, typing.List[io.IOBase]]] = None,
         response_type: typing.Optional[typing.Tuple[typing.Any]] = None,
         auth_settings: typing.Optional[typing.List[str]] = None,
         async_req: typing.Optional[bool] = None,
@@ -504,7 +517,7 @@ class ApiClient(object):
                 new_params.append((k, v))
         return new_params
 
-    def files_parameters(self, files=None):
+    def files_parameters(self, files: typing.Optional[typing.Dict[str, typing.List[io.IOBase]]] = None):
         """Builds form parameters.
 
         :param files: None or a dict with key=param_name and
