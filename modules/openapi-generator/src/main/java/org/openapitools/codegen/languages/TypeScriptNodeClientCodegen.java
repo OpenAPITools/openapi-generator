@@ -161,6 +161,7 @@ public class TypeScriptNodeClientCodegen extends AbstractTypeScriptClientCodegen
         if (importMapping.containsKey(name)) {
             return importMapping.get(name);
         }
+
         return modelPackage() + "/" + camelize(toModelName(name), true);
     }
 
