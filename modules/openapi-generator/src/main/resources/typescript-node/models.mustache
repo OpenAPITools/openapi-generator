@@ -4,12 +4,7 @@ export * from '{{{ classFilename }}}';
 {{/model}}
 {{/models}}
 
-{{#supportsES6}}
 import localVarRequest from 'request';
-{{/supportsES6}}
-{{^supportsES6}}
-import localVarRequest = require('request');
-{{/supportsES6}}
 
 {{#models}}
 {{#model}}
