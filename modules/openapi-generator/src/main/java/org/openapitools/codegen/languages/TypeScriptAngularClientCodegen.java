@@ -339,7 +339,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     @Override
     public boolean isDataTypeFile(final String dataType) {
         return dataType != null && dataType.equals("Blob");
-    }
+    }//test
 
     @Override
     public String getTypeDeclaration(Schema p) {
