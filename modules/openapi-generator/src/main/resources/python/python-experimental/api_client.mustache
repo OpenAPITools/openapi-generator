@@ -34,23 +34,6 @@ from {{packageName}}.model_utils import (
 )
 
 
-class JSONEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, (ModelNormal, ModelComposed)):
-            return {key: self.default(val) for key, val in model_to_dict(obj, serialize=True)}
-        elif isinstance(obj, (str, int, float, none_type, bool)):
-            return obj
-        elif isinstance(obj, (datetime, date)):
-            return obj.isoformat()
-        elif isinstance(obj, ModelSimple):
-            return self.default(obj.value)
-        elif isinstance(obj, (list, tuple)):
-            return [self.default(item) for item in obj]
-        if isinstance(obj, dict):
-            return {key: self.default(val) for key, val in obj.items()}
-        return super().default(self, obj)
-
-
 class ApiClient(object):
     """Generic API client for OpenAPI client library builds.
 
@@ -73,11 +56,7 @@ class ApiClient(object):
         to the API. More threads means more concurrent API requests.
     """
 
-    PRIMITIVE_TYPES = (
-        float, bool, bytes, str, int
-    )
     _pool = None
-    _encoder = JSONEncoder()
 
     def __init__(self, configuration=None, header_name=None, header_value=None,
                  cookie=None, pool_threads=1):
@@ -161,13 +140,13 @@ class ApiClient(object):
         if self.cookie:
             header_params['Cookie'] = self.cookie
         if header_params:
-            header_params = self._encoder.default(header_params)
+            header_params = self.sanitize_for_serialization(header_params)
             header_params = dict(self.parameters_to_tuples(header_params,
                                                            collection_formats))
 
         # path parameters
         if path_params:
-            path_params = self._encoder.default(path_params)
+            path_params = self.sanitize_for_serialization(path_params)
             path_params = self.parameters_to_tuples(path_params,
                                                     collection_formats)
             for k, v in path_params:
@@ -179,21 +158,21 @@ class ApiClient(object):
 
         # query parameters
         if query_params:
-            query_params = self._encoder.default(query_params)
+            query_params = self.sanitize_for_serialization(query_params)
             query_params = self.parameters_to_tuples(query_params,
                                                      collection_formats)
 
         # post parameters
         if post_params or files:
             post_params = post_params if post_params else []
-            post_params = self._encoder.default(post_params)
+            post_params = self.sanitize_for_serialization(post_params)
             post_params = self.parameters_to_tuples(post_params,
                                                     collection_formats)
             post_params.extend(self.files_parameters(files))
 
         # body
         if body:
-            body = self._encoder.default(body)
+            body = self.sanitize_for_serialization(body)
 
         # auth setting
         self.update_params_for_auth(header_params, query_params,
@@ -263,6 +242,35 @@ class ApiClient(object):
             raise tornado.gen.Return((return_data, response_data.status,
                                       response_data.getheaders()))
 {{/tornado}}
+
+    @classmethod
+    def sanitize_for_serialization(cls, obj):
+        """Builds a JSON POST object.
+        If obj is None, return None.
+        If obj is str, int, long, float, bool, return directly.
+        If obj is datetime.datetime, datetime.date
+            convert to string in iso8601 format.
+        If obj is list, sanitize each element in the list.
+        If obj is dict, return the dict.
+        If obj is OpenAPI model, return the properties dict.
+        :param obj: The data to serialize.
+        :return: The serialized form of data.
+        """
+        if isinstance(obj, (ModelNormal, ModelComposed)):
+            return {
+                key: cls.sanitize_for_serialization(val) for key, val in model_to_dict(obj, serialize=True).items()
+            }
+        elif isinstance(obj, (str, int, float, none_type, bool)):
+            return obj
+        elif isinstance(obj, (datetime, date)):
+            return obj.isoformat()
+        elif isinstance(obj, ModelSimple):
+            return cls.sanitize_for_serialization(obj.value)
+        elif isinstance(obj, (list, tuple)):
+            return [cls.sanitize_for_serialization(item) for item in obj]
+        if isinstance(obj, dict):
+            return {key: cls.sanitize_for_serialization(val) for key, val in obj.items()}
+        raise ApiValueError('Unable to prepare type {} for serialization'.format(obj.__class__.__name__))
 
     def deserialize(self, response, response_type, _check_type):
         """Deserializes response into an object.
