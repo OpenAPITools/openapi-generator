@@ -1,7 +1,7 @@
 /* 
  * OpenAPI Petstore
  *
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -22,11 +22,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
-    /// An order for a pets from the pet store
+    /// Order
     /// </summary>
     [DataContract]
     public partial class Order :  IEquatable<Order>, IValidatableObject
@@ -147,7 +148,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Order);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Order).AreEqual;
         }
 
         /// <summary>
@@ -157,35 +158,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(Order input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.Id == input.Id ||
-                    this.Id.Equals(input.Id)
-                ) && 
-                (
-                    this.PetId == input.PetId ||
-                    this.PetId.Equals(input.PetId)
-                ) && 
-                (
-                    this.Quantity == input.Quantity ||
-                    this.Quantity.Equals(input.Quantity)
-                ) && 
-                (
-                    this.ShipDate == input.ShipDate ||
-                    (this.ShipDate != null &&
-                    this.ShipDate.Equals(input.ShipDate))
-                ) && 
-                (
-                    this.Status == input.Status ||
-                    this.Status.Equals(input.Status)
-                ) && 
-                (
-                    this.Complete == input.Complete ||
-                    this.Complete.Equals(input.Complete)
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>

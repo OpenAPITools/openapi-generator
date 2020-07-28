@@ -1,7 +1,7 @@
 /* 
  * OpenAPI Petstore
  *
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -22,11 +22,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
+using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
 
 namespace Org.OpenAPITools.Model
 {
     /// <summary>
-    /// A category for a pet
+    /// Category
     /// </summary>
     [DataContract]
     public partial class Category :  IEquatable<Category>, IValidatableObject
@@ -34,12 +35,18 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Category" /> class.
         /// </summary>
+        [JsonConstructorAttribute]
+        protected Category() { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Category" /> class.
+        /// </summary>
         /// <param name="id">id.</param>
-        /// <param name="name">name.</param>
-        public Category(long id = default(long), string name = default(string))
+        /// <param name="name">name (required) (default to &quot;default-name&quot;).</param>
+        public Category(long id = default(long), string name = "default-name")
         {
+            // to ensure "name" is required (not null)
+            this.Name = name ?? throw new ArgumentNullException("name is a required property for Category and cannot be null");
             this.Id = id;
-            this.Name = name;
         }
         
         /// <summary>
@@ -84,7 +91,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public override bool Equals(object input)
         {
-            return this.Equals(input as Category);
+            return OpenAPIClientUtils.compareLogic.Compare(this, input as Category).AreEqual;
         }
 
         /// <summary>
@@ -94,19 +101,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>Boolean</returns>
         public bool Equals(Category input)
         {
-            if (input == null)
-                return false;
-
-            return 
-                (
-                    this.Id == input.Id ||
-                    this.Id.Equals(input.Id)
-                ) && 
-                (
-                    this.Name == input.Name ||
-                    (this.Name != null &&
-                    this.Name.Equals(input.Name))
-                );
+            return OpenAPIClientUtils.compareLogic.Compare(this, input).AreEqual;
         }
 
         /// <summary>
