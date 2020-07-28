@@ -1,4 +1,4 @@
-# isosceles_triangle.IsoscelesTriangle
+# IsoscelesTriangle
 
 ## Properties
 Name | Type | Description | Notes

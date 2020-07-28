@@ -1,4 +1,4 @@
-# string_enum.StringEnum
+# StringEnum
 
 ## Properties
 Name | Type | Description | Notes

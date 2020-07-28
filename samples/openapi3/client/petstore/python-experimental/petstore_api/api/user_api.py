@@ -23,7 +23,7 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_and_convert_types
 )
-from petstore_api.model import user
+from petstore_api.model.user import User
 
 
 class UserApi(object):
@@ -40,7 +40,7 @@ class UserApi(object):
 
         def __create_user(
             self,
-            user_user,
+            user,
             **kwargs
         ):
             """Create user  # noqa: E501
@@ -49,11 +49,11 @@ class UserApi(object):
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.create_user(user_user, async_req=True)
+            >>> thread = api.create_user(user, async_req=True)
             >>> result = thread.get()
 
             Args:
-                user_user (user.User): Created user object
+                user (User): Created user object
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -100,8 +100,8 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
-            kwargs['user_user'] = \
-                user_user
+            kwargs['user'] = \
+                user
             return self.call_with_http_info(**kwargs)
 
         self.create_user = Endpoint(
@@ -115,10 +115,10 @@ class UserApi(object):
             },
             params_map={
                 'all': [
-                    'user_user',
+                    'user',
                 ],
                 'required': [
-                    'user_user',
+                    'user',
                 ],
                 'nullable': [
                 ],
@@ -133,13 +133,13 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'user_user':
-                        (user.User,),
+                    'user':
+                        (User,),
                 },
                 'attribute_map': {
                 },
                 'location_map': {
-                    'user_user': 'body',
+                    'user': 'body',
                 },
                 'collection_format_map': {
                 }
@@ -156,7 +156,7 @@ class UserApi(object):
 
         def __create_users_with_array_input(
             self,
-            user_user,
+            user,
             **kwargs
         ):
             """Creates list of users with given input array  # noqa: E501
@@ -164,11 +164,11 @@ class UserApi(object):
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.create_users_with_array_input(user_user, async_req=True)
+            >>> thread = api.create_users_with_array_input(user, async_req=True)
             >>> result = thread.get()
 
             Args:
-                user_user ([user.User]): List of user object
+                user ([User]): List of user object
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -215,8 +215,8 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
-            kwargs['user_user'] = \
-                user_user
+            kwargs['user'] = \
+                user
             return self.call_with_http_info(**kwargs)
 
         self.create_users_with_array_input = Endpoint(
@@ -230,10 +230,10 @@ class UserApi(object):
             },
             params_map={
                 'all': [
-                    'user_user',
+                    'user',
                 ],
                 'required': [
-                    'user_user',
+                    'user',
                 ],
                 'nullable': [
                 ],
@@ -248,13 +248,13 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'user_user':
-                        ([user.User],),
+                    'user':
+                        ([User],),
                 },
                 'attribute_map': {
                 },
                 'location_map': {
-                    'user_user': 'body',
+                    'user': 'body',
                 },
                 'collection_format_map': {
                 }
@@ -271,7 +271,7 @@ class UserApi(object):
 
         def __create_users_with_list_input(
             self,
-            user_user,
+            user,
             **kwargs
         ):
             """Creates list of users with given input array  # noqa: E501
@@ -279,11 +279,11 @@ class UserApi(object):
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.create_users_with_list_input(user_user, async_req=True)
+            >>> thread = api.create_users_with_list_input(user, async_req=True)
             >>> result = thread.get()
 
             Args:
-                user_user ([user.User]): List of user object
+                user ([User]): List of user object
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -330,8 +330,8 @@ class UserApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
-            kwargs['user_user'] = \
-                user_user
+            kwargs['user'] = \
+                user
             return self.call_with_http_info(**kwargs)
 
         self.create_users_with_list_input = Endpoint(
@@ -345,10 +345,10 @@ class UserApi(object):
             },
             params_map={
                 'all': [
-                    'user_user',
+                    'user',
                 ],
                 'required': [
-                    'user_user',
+                    'user',
                 ],
                 'nullable': [
                 ],
@@ -363,13 +363,13 @@ class UserApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'user_user':
-                        ([user.User],),
+                    'user':
+                        ([User],),
                 },
                 'attribute_map': {
                 },
                 'location_map': {
-                    'user_user': 'body',
+                    'user': 'body',
                 },
                 'collection_format_map': {
                 }
@@ -537,7 +537,7 @@ class UserApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                user.User
+                User
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -566,7 +566,7 @@ class UserApi(object):
 
         self.get_user_by_name = Endpoint(
             settings={
-                'response_type': (user.User,),
+                'response_type': (User,),
                 'auth': [],
                 'endpoint_path': '/user/{username}',
                 'operation_id': 'get_user_by_name',
@@ -848,7 +848,7 @@ class UserApi(object):
         def __update_user(
             self,
             username,
-            user_user,
+            user,
             **kwargs
         ):
             """Updated user  # noqa: E501
@@ -857,12 +857,12 @@ class UserApi(object):
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.update_user(username, user_user, async_req=True)
+            >>> thread = api.update_user(username, user, async_req=True)
             >>> result = thread.get()
 
             Args:
                 username (str): name that need to be deleted
-                user_user (user.User): Updated user object
+                user (User): Updated user object
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -911,8 +911,8 @@ class UserApi(object):
             kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['username'] = \
                 username
-            kwargs['user_user'] = \
-                user_user
+            kwargs['user'] = \
+                user
             return self.call_with_http_info(**kwargs)
 
         self.update_user = Endpoint(
@@ -927,11 +927,11 @@ class UserApi(object):
             params_map={
                 'all': [
                     'username',
-                    'user_user',
+                    'user',
                 ],
                 'required': [
                     'username',
-                    'user_user',
+                    'user',
                 ],
                 'nullable': [
                 ],
@@ -948,15 +948,15 @@ class UserApi(object):
                 'openapi_types': {
                     'username':
                         (str,),
-                    'user_user':
-                        (user.User,),
+                    'user':
+                        (User,),
                 },
                 'attribute_map': {
                     'username': 'username',
                 },
                 'location_map': {
                     'username': 'path',
-                    'user_user': 'body',
+                    'user': 'body',
                 },
                 'collection_format_map': {
                 }

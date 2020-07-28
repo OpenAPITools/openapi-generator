@@ -1,4 +1,4 @@
-# mammal.Mammal
+# Mammal
 
 ## Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# shape_interface.ShapeInterface
+# ShapeInterface
 
 ## Properties
 Name | Type | Description | Notes

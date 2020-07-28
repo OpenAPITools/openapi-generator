@@ -29,16 +29,12 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import child_all_of
-except ImportError:
-    child_all_of = sys.modules[
-        'petstore_api.model.child_all_of']
-try:
-    from petstore_api.model import parent
-except ImportError:
-    parent = sys.modules[
-        'petstore_api.model.parent']
+
+def lazy_import():
+    from petstore_api.model.child_all_of import ChildAllOf
+    from petstore_api.model.parent import Parent
+    globals()['ChildAllOf'] = ChildAllOf
+    globals()['Parent'] = Parent
 
 
 class Child(ModelComposed):
@@ -78,13 +74,14 @@ class Child(ModelComposed):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'radio_waves': (bool,),  # noqa: E501
             'tele_vision': (bool,),  # noqa: E501
@@ -94,6 +91,7 @@ class Child(ModelComposed):
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {
         'radio_waves': 'radioWaves',  # noqa: E501
@@ -115,7 +113,7 @@ class Child(ModelComposed):
 
     @convert_js_args_to_python_args
     def __init__(self, *args, **kwargs):  # noqa: E501
-        """child.Child - a model defined in OpenAPI
+        """Child - a model defined in OpenAPI
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -220,12 +218,13 @@ class Child(ModelComposed):
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        lazy_import()
         return {
           'anyOf': [
           ],
           'allOf': [
-              child_all_of.ChildAllOf,
-              parent.Parent,
+              ChildAllOf,
+              Parent,
           ],
           'oneOf': [
           ],

@@ -69,8 +69,8 @@ class IntegerEnumWithDefaultValue(ModelSimple):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
@@ -83,6 +83,7 @@ class IntegerEnumWithDefaultValue(ModelSimple):
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {}
 
@@ -99,7 +100,7 @@ class IntegerEnumWithDefaultValue(ModelSimple):
 
     @convert_js_args_to_python_args
     def __init__(self, value, *args, **kwargs):
-        """integer_enum_with_default_value.IntegerEnumWithDefaultValue - a model defined in OpenAPI
+        """IntegerEnumWithDefaultValue - a model defined in OpenAPI
 
         Args:
             value (int): if omitted the server will use the default value of 0, must be one of [0, 1, 2, ]  # noqa: E501

@@ -1,4 +1,4 @@
-# composed_one_of_number_with_validations.ComposedOneOfNumberWithValidations
+# ComposedOneOfNumberWithValidations
 
 this is a model that allows payloads of type object or number
 ## Properties
