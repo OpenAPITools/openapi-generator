@@ -224,36 +224,36 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
     }
 
-    @Override
-    public String toModelImport( String name){
-        if(name.contains("|")){
-           List<String> names = Arrays.asList(name.split("\\|"));
-           LOGGER.warn("The import is a union type. Consider using the toModelImportMap method.");
-           return names.stream()
-                   .map(withSpace->withSpace.replaceAll(" ",""))
-                   .map(noSpace->super.toModelImport(noSpace))
-                   .collect(Collectors.joining("|"));
-        }
-        return super.toModelImport(name);
-    }
+//    @Override
+//    public String toModelImport( String name){
+//        if(name.contains("|")){
+//           List<String> names = Arrays.asList(name.split("\\|"));
+//           LOGGER.warn("The import is a union type. Consider using the toModelImportMap method.");
+//           return names.stream()
+//                   .map(withSpace->withSpace.replaceAll(" ",""))
+//                   .map(noSpace->super.toModelImport(noSpace))
+//                   .collect(Collectors.joining("|"));
+//        }
+//        return super.toModelImport(name);
+//    }
 
-    /**
-     * Maps the fully qualified model import to the initial given name. In case of union types the map will have multiple entries.
-     * For example for "classA | classB" the map will two entries have ["model.classA","classA"] and ["model.classB","classB"].
-     *
-     * @param name the name of the "Model"
-     * @return Map between the fully qualified model import and the initial given name.
-     */
-    @Override
-    public Map<String,String> toModelImportMap( String name){
-        if(name.contains("|")){
-            List<String> names = Arrays.asList(name.replace(" ","").split("\\|"));
-            Map<String,String> result = Maps.newHashMap();
-            names.forEach(s->result.put(toModelImport(s),s));
-            return  result;
-        }
-        return Collections.singletonMap(toModelImport(name),name);
-    }
+//    /**
+//     * Maps the fully qualified model import to the initial given name. In case of union types the map will have multiple entries.
+//     * For example for "classA | classB" the map will two entries have ["model.classA","classA"] and ["model.classB","classB"].
+//     *
+//     * @param name the name of the "Model"
+//     * @return Map between the fully qualified model import and the initial given name.
+//     */
+//    @Override
+//    public Map<String,String> toModelImportMap( String name){
+//        if(name.contains("|")){
+//            List<String> names = Arrays.asList(name.replace(" ","").split("\\|"));
+//            Map<String,String> result = Maps.newHashMap();
+//            names.forEach(s->result.put(toModelImport(s),s));
+//            return  result;
+//        }
+//        return Collections.singletonMap(toModelImport(name),name);
+//    }
 
 
     @Override

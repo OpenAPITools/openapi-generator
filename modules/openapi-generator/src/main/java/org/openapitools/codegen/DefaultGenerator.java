@@ -1077,8 +1077,27 @@ public class DefaultGenerator implements Generator {
             allImports.addAll(op.imports);
         }
 
-        Map<String,String> mappings = getAllImportsMapppings(allImports);
-        List<Map<String, String>> imports = toImportsObjects(mappings);
+//        Map<String,String> mappings = getAllImportsMapppings(allImports);
+//        List<Map<String, String>> imports = toImportsObjects(mappings);
+
+        List<Map<String, String>> imports = new ArrayList<>();
+        Set<String> mappingSet = new TreeSet<>();
+        for (String nextImport : allImports) {
+            Map<String, String> im = new LinkedHashMap<>();
+            String mapping = config.importMapping().get(nextImport);
+            if (mapping == null) {
+                mapping = config.toModelImport(nextImport);
+            }
+
+            if (mapping != null && !mappingSet.contains(mapping)) { // ensure import (mapping) is unique
+                mappingSet.add(mapping);
+                im.put("import", mapping);
+                im.put("classname", nextImport);
+                if (!imports.contains(im)) { // avoid duplicates
+                    imports.add(im);
+                }
+            }
+        }
 
         operations.put("imports", imports);
 
