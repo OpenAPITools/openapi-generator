@@ -1368,15 +1368,15 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    /**
-     * Returns the same content as [[toModelImport]] with key the fully-qualified Model name and value the initial input.
-     * In case of union types this method has a key for each separate model and import.
-     * @param name the name of the "Model"
-     * @return Map of fully-qualified models.
-     */
-    public Map<String,String> toModelImportMap(String name){
-        return Collections.singletonMap(this.toModelImport(name),name);
-    }
+//    /**
+//     * Returns the same content as [[toModelImport]] with key the fully-qualified Model name and value the initial input.
+//     * In case of union types this method has a key for each separate model and import.
+//     * @param name the name of the "Model"
+//     * @return Map of fully-qualified models.
+//     */
+//    public Map<String,String> toModelImportMap(String name){
+//        return Collections.singletonMap(this.toModelImport(name),name);
+//    }
 
     /**
      * Return the fully-qualified "Api" name for import
