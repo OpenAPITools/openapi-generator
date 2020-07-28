@@ -1,6 +1,6 @@
 # Org.OpenAPITools.Api.PetApi
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *http://petstore.swagger.io/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
@@ -12,7 +12,6 @@ Method | HTTP request | Description
 [**UpdatePet**](PetApi.md#updatepet) | **PUT** /pet | Update an existing pet
 [**UpdatePetWithForm**](PetApi.md#updatepetwithform) | **POST** /pet/{petId} | Updates a pet in the store with form data
 [**UploadFile**](PetApi.md#uploadfile) | **POST** /pet/{petId}/uploadImage | uploads an image
-[**UploadFileWithRequiredFile**](PetApi.md#uploadfilewithrequiredfile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 
 
 <a name="addpet"></a>
@@ -36,7 +35,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -81,7 +80,6 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
 | **405** | Invalid input |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -107,7 +105,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -154,7 +152,6 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
 | **400** | Invalid pet value |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -182,7 +179,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -256,7 +253,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -330,7 +327,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure API key authorization: api_key
             config.AddApiKey("api_key", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
@@ -405,7 +402,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -450,7 +447,6 @@ void (empty response body)
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | successful operation |  -  |
 | **400** | Invalid ID supplied |  -  |
 | **404** | Pet not found |  -  |
 | **405** | Validation exception |  -  |
@@ -478,7 +474,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -552,7 +548,7 @@ namespace Example
         public static void Main()
         {
             Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
+            config.BasePath = "http://petstore.swagger.io/v2";
             // Configure OAuth2 access token for authorization: petstore_auth
             config.AccessToken = "YOUR_ACCESS_TOKEN";
 
@@ -585,81 +581,6 @@ Name | Type | Description  | Notes
  **petId** | **long**| ID of pet to update | 
  **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
  **file** | **System.IO.Stream****System.IO.Stream**| file to upload | [optional] 
-
-### Return type
-
-[**ApiResponse**](ApiResponse.md)
-
-### Authorization
-
-[petstore_auth](../README.md#petstore_auth)
-
-### HTTP request headers
-
- - **Content-Type**: multipart/form-data
- - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | successful operation |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-<a name="uploadfilewithrequiredfile"></a>
-# **UploadFileWithRequiredFile**
-> ApiResponse UploadFileWithRequiredFile (long petId, System.IO.Stream requiredFile, string additionalMetadata = null)
-
-uploads an image (required)
-
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class UploadFileWithRequiredFileExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-            // Configure OAuth2 access token for authorization: petstore_auth
-            config.AccessToken = "YOUR_ACCESS_TOKEN";
-
-            var apiInstance = new PetApi(config);
-            var petId = 789;  // long | ID of pet to update
-            var requiredFile = BINARY_DATA_HERE;  // System.IO.Stream | file to upload
-            var additionalMetadata = additionalMetadata_example;  // string | Additional data to pass to server (optional) 
-
-            try
-            {
-                // uploads an image (required)
-                ApiResponse result = apiInstance.UploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
-                Debug.WriteLine(result);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling PetApi.UploadFileWithRequiredFile: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **petId** | **long**| ID of pet to update | 
- **requiredFile** | **System.IO.Stream****System.IO.Stream**| file to upload | 
- **additionalMetadata** | **string**| Additional data to pass to server | [optional] 
 
 ### Return type
 
