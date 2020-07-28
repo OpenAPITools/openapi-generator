@@ -1,10 +1,10 @@
-# object_model_with_ref_props.ObjectModelWithRefProps
+# ObjectModelWithRefProps
 
 a model that includes properties which should stay primitive (String + Boolean) and one which is defined as a class, NumberWithValidations
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**my_number** | [**number_with_validations.NumberWithValidations**](NumberWithValidations.md) |  | [optional] 
+**my_number** | [**NumberWithValidations**](NumberWithValidations.md) |  | [optional] 
 **my_string** | **str** |  | [optional] 
 **my_boolean** | **bool** |  | [optional] 
 

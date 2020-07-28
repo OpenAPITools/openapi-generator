@@ -1,4 +1,4 @@
-# child_cat_all_of.ChildCatAllOf
+# ChildCatAllOf
 
 ## Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# shape.Shape
+# Shape
 
 ## Properties
 Name | Type | Description | Notes

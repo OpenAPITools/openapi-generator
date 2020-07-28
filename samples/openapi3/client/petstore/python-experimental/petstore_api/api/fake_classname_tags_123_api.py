@@ -23,7 +23,7 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_and_convert_types
 )
-from petstore_api.model import client
+from petstore_api.model.client import Client
 
 
 class FakeClassnameTags123Api(object):
@@ -40,7 +40,7 @@ class FakeClassnameTags123Api(object):
 
         def __test_classname(
             self,
-            client_client,
+            client,
             **kwargs
         ):
             """To test class name in snake case  # noqa: E501
@@ -49,11 +49,11 @@ class FakeClassnameTags123Api(object):
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.test_classname(client_client, async_req=True)
+            >>> thread = api.test_classname(client, async_req=True)
             >>> result = thread.get()
 
             Args:
-                client_client (client.Client): client model
+                client (Client): client model
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -77,7 +77,7 @@ class FakeClassnameTags123Api(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                client.Client
+                Client
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -100,13 +100,13 @@ class FakeClassnameTags123Api(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
-            kwargs['client_client'] = \
-                client_client
+            kwargs['client'] = \
+                client
             return self.call_with_http_info(**kwargs)
 
         self.test_classname = Endpoint(
             settings={
-                'response_type': (client.Client,),
+                'response_type': (Client,),
                 'auth': [
                     'api_key_query'
                 ],
@@ -117,10 +117,10 @@ class FakeClassnameTags123Api(object):
             },
             params_map={
                 'all': [
-                    'client_client',
+                    'client',
                 ],
                 'required': [
-                    'client_client',
+                    'client',
                 ],
                 'nullable': [
                 ],
@@ -135,13 +135,13 @@ class FakeClassnameTags123Api(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'client_client':
-                        (client.Client,),
+                    'client':
+                        (Client,),
                 },
                 'attribute_map': {
                 },
                 'location_map': {
-                    'client_client': 'body',
+                    'client': 'body',
                 },
                 'collection_format_map': {
                 }

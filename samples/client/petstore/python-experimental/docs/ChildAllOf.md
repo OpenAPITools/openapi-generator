@@ -1,4 +1,4 @@
-# child_all_of.ChildAllOf
+# ChildAllOf
 
 ## Properties
 Name | Type | Description | Notes

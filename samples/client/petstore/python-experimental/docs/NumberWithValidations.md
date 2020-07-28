@@ -1,4 +1,4 @@
-# number_with_validations.NumberWithValidations
+# NumberWithValidations
 
 ## Properties
 Name | Type | Description | Notes

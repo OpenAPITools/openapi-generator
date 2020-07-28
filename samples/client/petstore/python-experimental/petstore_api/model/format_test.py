@@ -103,8 +103,8 @@ class FormatTest(ModelNormal):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
@@ -129,6 +129,7 @@ class FormatTest(ModelNormal):
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {
         'number': 'number',  # noqa: E501
@@ -159,7 +160,7 @@ class FormatTest(ModelNormal):
 
     @convert_js_args_to_python_args
     def __init__(self, number, byte, date, password, *args, **kwargs):  # noqa: E501
-        """format_test.FormatTest - a model defined in OpenAPI
+        """FormatTest - a model defined in OpenAPI
 
         Args:
             number (float):
