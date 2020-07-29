@@ -53,7 +53,6 @@ sidebar_label: typescript
 <li>Map</li>
 <li>Object</li>
 <li>String</li>
-<li>Set</li>
 <li>any</li>
 <li>boolean</li>
 <li>number</li>

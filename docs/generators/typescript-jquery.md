@@ -51,8 +51,8 @@ sidebar_label: typescript-jquery
 <li>Map</li>
 <li>Object</li>
 <li>ReadonlyArray</li>
-<li>String</li>
 <li>Set</li>
+<li>String</li>
 <li>any</li>
 <li>boolean</li>
 <li>number</li>
