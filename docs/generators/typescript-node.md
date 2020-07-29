@@ -55,6 +55,7 @@ sidebar_label: typescript-node
 <li>RequestDetailedFile</li>
 <li>RequestFile</li>
 <li>String</li>
+<li>Set</li>
 <li>any</li>
 <li>boolean</li>
 <li>number</li>

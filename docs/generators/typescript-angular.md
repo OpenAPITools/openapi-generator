@@ -65,6 +65,7 @@ sidebar_label: typescript-angular
 <li>Object</li>
 <li>ReadonlyArray</li>
 <li>String</li>
+<li>Set</li>
 <li>any</li>
 <li>boolean</li>
 <li>number</li>
