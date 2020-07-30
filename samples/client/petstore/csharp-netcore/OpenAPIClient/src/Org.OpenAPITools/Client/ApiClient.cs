@@ -450,7 +450,7 @@ namespace Org.OpenAPITools.Client
             return result;
         }
 
-        private async Task<ApiResponse<T>> ExecAsync<T>(RestRequest req, IReadableConfiguration configuration, System.Threading.CancellationToken cancellation = default(System.Threading.CancellationToken))
+        private async Task<ApiResponse<T>> ExecAsync<T>(RestRequest req, IReadableConfiguration configuration, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             RestClient client = new RestClient(_baseUrl);
 
@@ -481,7 +481,7 @@ namespace Org.OpenAPITools.Client
 
             InterceptRequest(req);
 
-            var response = await client.ExecuteAsync<T>(req, cancellation);
+            var response = await client.ExecuteAsync<T>(req, cancellationToken);
 
             InterceptResponse(req, response);
 
@@ -528,12 +528,12 @@ namespace Org.OpenAPITools.Client
         /// <param name="options">The additional request options.</param>
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
-        /// <param name="cancellation">Token that enables callers to cancel the request.</param>
+        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> GetAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellation = default(System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> GetAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Get, path, options, config), config, cancellation);
+            return ExecAsync<T>(NewRequest(HttpMethod.Get, path, options, config), config, cancellationToken);
         }
 
         /// <summary>
@@ -543,12 +543,12 @@ namespace Org.OpenAPITools.Client
         /// <param name="options">The additional request options.</param>
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
-        /// <param name="cancellation">Token that enables callers to cancel the request.</param>
+        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> PostAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellation = default(System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> PostAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Post, path, options, config), config, cancellation);
+            return ExecAsync<T>(NewRequest(HttpMethod.Post, path, options, config), config, cancellationToken);
         }
 
         /// <summary>
@@ -558,12 +558,12 @@ namespace Org.OpenAPITools.Client
         /// <param name="options">The additional request options.</param>
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
-        /// <param name="cancellation">Token that enables callers to cancel the request.</param>
+        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> PutAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellation = default(System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> PutAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Put, path, options, config), config, cancellation);
+            return ExecAsync<T>(NewRequest(HttpMethod.Put, path, options, config), config, cancellationToken);
         }
 
         /// <summary>
@@ -573,12 +573,12 @@ namespace Org.OpenAPITools.Client
         /// <param name="options">The additional request options.</param>
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
-        /// <param name="cancellation">Token that enables callers to cancel the request.</param>
+        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> DeleteAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellation = default(System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> DeleteAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Delete, path, options, config), config, cancellation);
+            return ExecAsync<T>(NewRequest(HttpMethod.Delete, path, options, config), config, cancellationToken);
         }
 
         /// <summary>
@@ -588,12 +588,12 @@ namespace Org.OpenAPITools.Client
         /// <param name="options">The additional request options.</param>
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
-        /// <param name="cancellation">Token that enables callers to cancel the request.</param>
+        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> HeadAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellation = default(System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> HeadAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Head, path, options, config), config, cancellation);
+            return ExecAsync<T>(NewRequest(HttpMethod.Head, path, options, config), config, cancellationToken);
         }
 
         /// <summary>
@@ -603,12 +603,12 @@ namespace Org.OpenAPITools.Client
         /// <param name="options">The additional request options.</param>
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
-        /// <param name="cancellation">Token that enables callers to cancel the request.</param>
+        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> OptionsAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellation = default(System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> OptionsAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Options, path, options, config), config, cancellation);
+            return ExecAsync<T>(NewRequest(HttpMethod.Options, path, options, config), config, cancellationToken);
         }
 
         /// <summary>
@@ -618,12 +618,12 @@ namespace Org.OpenAPITools.Client
         /// <param name="options">The additional request options.</param>
         /// <param name="configuration">A per-request configuration object. It is assumed that any merge with
         /// GlobalConfiguration has been done before calling this method.</param>
-        /// <param name="cancellation">Token that enables callers to cancel the request.</param>
+        /// <param name="cancellationToken">Token that enables callers to cancel the request.</param>
         /// <returns>A Task containing ApiResponse</returns>
-        public Task<ApiResponse<T>> PatchAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellation = default(System.Threading.CancellationToken))
+        public Task<ApiResponse<T>> PatchAsync<T>(string path, RequestOptions options, IReadableConfiguration configuration = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             var config = configuration ?? GlobalConfiguration.Instance;
-            return ExecAsync<T>(NewRequest(HttpMethod.Patch, path, options, config), config, cancellation);
+            return ExecAsync<T>(NewRequest(HttpMethod.Patch, path, options, config), config, cancellationToken);
         }
         #endregion IAsynchronousClient
 
