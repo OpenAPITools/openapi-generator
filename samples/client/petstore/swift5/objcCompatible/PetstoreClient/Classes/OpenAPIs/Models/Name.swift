@@ -26,7 +26,7 @@ import Foundation
         }
     }
 
-    public init(name: Int, snakeCase: Int?, property: String?, _123number: Int?) {
+    public init(name: Int, snakeCase: Int? = nil, property: String? = nil, _123number: Int? = nil) {
         self.name = name
         self.snakeCase = snakeCase
         self.property = property

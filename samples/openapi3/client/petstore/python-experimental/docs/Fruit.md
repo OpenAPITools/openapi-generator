@@ -1,4 +1,4 @@
-# fruit.Fruit
+# Fruit
 
 ## Properties
 Name | Type | Description | Notes

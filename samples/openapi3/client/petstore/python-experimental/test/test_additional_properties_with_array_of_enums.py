@@ -10,11 +10,15 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
 import petstore_api
+try:
+    from petstore_api.model import enum_class
+except ImportError:
+    enum_class = sys.modules[
+        'petstore_api.model.enum_class']
 from petstore_api.model.additional_properties_with_array_of_enums import AdditionalPropertiesWithArrayOfEnums
 
 

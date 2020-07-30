@@ -132,13 +132,21 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
+    public String toDefaultValue(Schema schema) {
+        if (ModelUtils.isMapSchema(schema)) {
             return "const {}";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (ModelUtils.isArraySchema(schema)) {
             return "const []";
         }
-        return super.toDefaultValue(p);
+
+        if (schema.getDefault() != null) {
+            if (ModelUtils.isStringSchema(schema)) {
+                return "\"" + schema.getDefault().toString().replaceAll("\"", "\\\"") + "\"";
+            }
+            return schema.getDefault().toString();
+        } else {
+            return "null";
+        }
     }
 
     @Override

@@ -1,4 +1,4 @@
-# banana.Banana
+# Banana
 
 ## Properties
 Name | Type | Description | Notes

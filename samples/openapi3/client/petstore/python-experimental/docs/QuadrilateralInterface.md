@@ -1,4 +1,4 @@
-# quadrilateral_interface.QuadrilateralInterface
+# QuadrilateralInterface
 
 ## Properties
 Name | Type | Description | Notes

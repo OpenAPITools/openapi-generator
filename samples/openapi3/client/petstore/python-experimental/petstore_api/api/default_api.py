@@ -10,13 +10,8 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
 import sys  # noqa: F401
-
-# python 2 and python 3 compatibility library
-import six
 
 from petstore_api.api_client import ApiClient, Endpoint
 from petstore_api.model_utils import (  # noqa: F401
@@ -25,12 +20,10 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_and_convert_types
 )
-from petstore_api.model import inline_response_default
+from petstore_api.model.inline_response_default import InlineResponseDefault
 
 
 class DefaultApi(object):
@@ -80,7 +73,7 @@ class DefaultApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                inline_response_default.InlineResponseDefault
+                InlineResponseDefault
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -107,7 +100,7 @@ class DefaultApi(object):
 
         self.foo_get = Endpoint(
             settings={
-                'response_type': (inline_response_default.InlineResponseDefault,),
+                'response_type': (InlineResponseDefault,),
                 'auth': [],
                 'endpoint_path': '/foo',
                 'operation_id': 'foo_get',

@@ -578,6 +578,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Camptocamp](https://www.camptocamp.com/en)
 - [Cisco](https://www.cisco.com/)
 - [codecentric AG](https://www.codecentric.de/)
+- [CoinAPI](https://www.coinapi.io/)
 - [Commencis](https://www.commencis.com/)
 - [Crossover Health](https://crossoverhealth.com/)
 - [Cupix](https://www.cupix.com/)
@@ -614,6 +615,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [MoonVision](https://www.moonvision.io/)
 - [Myworkout](https://myworkout.com)
 - [NamSor](https://www.namsor.com/)
+- [Nokia](https://www.nokia.com/)
+- [Options Clearing Corporation (OCC)](https://www.theocc.com/)
 - [Openet](https://www.openet.com/)
 - [openVALIDATION](https://openvalidation.io/)
 - [Oracle](https://www.oracle.com/)
@@ -756,9 +759,12 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-05-19 - [Dead Simple APIs with Open API](https://www.youtube.com/watch?v=sIaXmR6xRAw) by [Chris Tankersley](https://github.com/dragonmantank) at [Nexmo](https://developer.nexmo.com/)
 - 2020-05-22 - [TypeScript REST API Client](https://dev.to/unhurried/typescript-rest-api-client-4in3) by ["unhurried"](https://dev.to/unhurried)
 - 2020-05-28 - [【使用 lotify + Swagger 建置可共用的 LINE Notify bot】 - #NiJia @ Chatbot Developer Taiwan 第 #19 小聚](https://www.youtube.com/watch?v=agYVz6dzh1I) by [Chatbot Developer Taiwan](https://www.youtube.com/channel/UCxeYUyZNnHmpX23YNF-ewvw)
+- 2020-05-28 - [Building APIs with Laravel using OpenAPI](https://www.youtube.com/watch?v=xexLvQqAhiA) by [Chris Tankersley](https://github.com/dragonmantank) at [Laracon EU](https://laracon.eu/)
 - 2020-06-23 - [新規サーバーアプリケーションにTypeScriptを採用してみた](https://www.cam-inc.co.jp/news/20200623) at [CAM Tech Blog](https://www.cam-inc.co.jp/news/tech-blog/)
 - 2020-07-07 - [5 Best API Documentation Tools](https://blog.dreamfactory.com/5-best-api-documentation-tools/) by Susanna Bouse at [DreamFactory Blog](https://blog.dreamfactory.com/)
-
+- 2020-07-12 - [Open API 3.0の定義からgolangのサーバコードのスケルトンを作成する](https://qiita.com/professor/items/4cbd04ec084d13057bc2) by [@professor (Qiita Blog)](https://qiita.com/professor)
+- 2020-07-20 - [Datadog API client libraries now available for Java and Go](https://www.datadoghq.com/blog/java-go-libraries/) by Jordan Obey at [Datadog Blog](https://www.datadoghq.com/blog)
+- 2020-07-23 - [Generate Client SDK for .NET Core using Open Api](https://dev.to/no0law1/generate-client-sdk-for-net-core-using-open-api-2dgh) by [Nuno Reis](https://dev.to/no0law1)
 
 ## [6 - About Us](#table-of-contents)
 

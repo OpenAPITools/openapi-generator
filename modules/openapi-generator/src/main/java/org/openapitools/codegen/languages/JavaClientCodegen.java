@@ -60,6 +60,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
     public static final String USE_REFLECTION_EQUALS_HASHCODE = "useReflectionEqualsHashCode";
     public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
+    public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
@@ -99,6 +100,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean useRuntimeException = false;
     protected boolean useReflectionEqualsHashCode = false;
     protected boolean caseInsensitiveResponseHeaders = false;
+    protected boolean useAbstractionForFiles = false;
     protected String authFolder;
     protected String serializationLibrary = null;
 
@@ -140,10 +142,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(ASYNC_NATIVE, "If true, async handlers will be used, instead of the sync version"));
         cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
+        cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on " + RESTTEMPLATE + " library"));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
         supportedLibraries.put(JERSEY2, "HTTP client: Jersey client 2.25.1. JSON processing: Jackson 2.9.x");
-        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 11.x. JSON processing: Jackson 2.9.x.");
+        supportedLibraries.put(FEIGN, "HTTP client: OpenFeign 10.x. JSON processing: Jackson 2.9.x.");
         supportedLibraries.put(OKHTTP_GSON, "[DEFAULT] HTTP client: OkHttp 3.x. JSON processing: Gson 2.8.x. Enable Parcelable models on Android using '-DparcelableModel=true'. Enable gzip request encoding using '-DuseGzipFeature=true'.");
         supportedLibraries.put(RETROFIT_2, "HTTP client: OkHttp 3.x. JSON processing: Gson 2.x (Retrofit 2.3.0). Enable the RxJava adapter using '-DuseRxJava[2/3]=true'. (RxJava 1.x or 2.x or 3.x)");
         supportedLibraries.put(RESTTEMPLATE, "HTTP client: Spring RestTemplate 4.x. JSON processing: Jackson 2.9.x");
@@ -285,6 +288,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setUseReflectionEqualsHashCode(convertPropertyToBooleanAndWriteBack(CASE_INSENSITIVE_RESPONSE_HEADERS));
         }
 
+        if (additionalProperties.containsKey(USE_ABSTRACTION_FOR_FILES)) {
+            this.setUseAbstractionForFiles(convertPropertyToBooleanAndWriteBack(USE_ABSTRACTION_FOR_FILES));
+        }
+
         final String invokerFolder = (sourceFolder + '/' + invokerPackage).replace(".", "/");
         final String apiFolder = (sourceFolder + '/' + apiPackage).replace(".", "/");
         authFolder = (sourceFolder + '/' + invokerPackage + ".auth").replace(".", "/");
@@ -392,9 +399,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (NATIVE.equals(getLibrary())) {
             setJava8Mode(true);
             additionalProperties.put("java8", "true");
-            if (!asyncNative) {
-                supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
-            }
+            supportingFiles.add(new SupportingFile("ApiResponse.mustache", invokerFolder, "ApiResponse.java"));
             forceSerializationLibrary(SERIALIZATION_LIBRARY_JACKSON);
         } else if (RESTEASY.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("JSON.mustache", invokerFolder, "JSON.java"));
@@ -682,6 +687,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 model.imports.add("JsonProperty");
                 model.imports.add("JsonValue");
                 model.imports.add("JsonInclude");
+                model.imports.add("JsonTypeName");
             }
             if (additionalProperties.containsKey(SERIALIZATION_LIBRARY_GSON)) {
                 model.imports.add("SerializedName");
@@ -863,6 +869,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
         this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
+    }
+
+    public void setUseAbstractionForFiles(boolean useAbstractionForFiles) {
+        this.useAbstractionForFiles = useAbstractionForFiles;
     }
 
     /**

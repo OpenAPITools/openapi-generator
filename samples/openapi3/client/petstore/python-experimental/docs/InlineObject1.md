@@ -1,4 +1,4 @@
-# inline_object1.InlineObject1
+# InlineObject1
 
 ## Properties
 Name | Type | Description | Notes

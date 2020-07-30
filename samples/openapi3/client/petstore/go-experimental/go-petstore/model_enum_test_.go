@@ -23,7 +23,10 @@ type EnumTest struct {
 	OuterEnumInteger *OuterEnumInteger `json:"outerEnumInteger,omitempty"`
 	OuterEnumDefaultValue *OuterEnumDefaultValue `json:"outerEnumDefaultValue,omitempty"`
 	OuterEnumIntegerDefaultValue *OuterEnumIntegerDefaultValue `json:"outerEnumIntegerDefaultValue,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _EnumTest EnumTest
 
 // NewEnumTest instantiates a new EnumTest object
 // This constructor will assign default values to properties that have it defined,
@@ -335,7 +338,36 @@ func (o EnumTest) MarshalJSON() ([]byte, error) {
 	if o.OuterEnumIntegerDefaultValue != nil {
 		toSerialize["outerEnumIntegerDefaultValue"] = o.OuterEnumIntegerDefaultValue
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *EnumTest) UnmarshalJSON(bytes []byte) (err error) {
+	varEnumTest := _EnumTest{}
+
+	if err = json.Unmarshal(bytes, &varEnumTest); err == nil {
+		*o = EnumTest(varEnumTest)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "enum_string")
+		delete(additionalProperties, "enum_string_required")
+		delete(additionalProperties, "enum_integer")
+		delete(additionalProperties, "enum_number")
+		delete(additionalProperties, "outerEnum")
+		delete(additionalProperties, "outerEnumInteger")
+		delete(additionalProperties, "outerEnumDefaultValue")
+		delete(additionalProperties, "outerEnumIntegerDefaultValue")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableEnumTest struct {

@@ -1,4 +1,4 @@
-# danish_pig.DanishPig
+# DanishPig
 
 ## Properties
 Name | Type | Description | Notes

@@ -17,7 +17,10 @@ import (
 type Model200Response struct {
 	Name *int32 `json:"name,omitempty"`
 	Class *string `json:"class,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Model200Response Model200Response
 
 // NewModel200Response instantiates a new Model200Response object
 // This constructor will assign default values to properties that have it defined,
@@ -108,7 +111,30 @@ func (o Model200Response) MarshalJSON() ([]byte, error) {
 	if o.Class != nil {
 		toSerialize["class"] = o.Class
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *Model200Response) UnmarshalJSON(bytes []byte) (err error) {
+	varModel200Response := _Model200Response{}
+
+	if err = json.Unmarshal(bytes, &varModel200Response); err == nil {
+		*o = Model200Response(varModel200Response)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "class")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableModel200Response struct {

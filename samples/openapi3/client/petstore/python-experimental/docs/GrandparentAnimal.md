@@ -1,4 +1,4 @@
-# grandparent_animal.GrandparentAnimal
+# GrandparentAnimal
 
 ## Properties
 Name | Type | Description | Notes

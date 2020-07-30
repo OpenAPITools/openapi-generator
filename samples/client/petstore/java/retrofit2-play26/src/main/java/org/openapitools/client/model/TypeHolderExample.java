@@ -18,6 +18,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -39,6 +40,7 @@ import javax.validation.Valid;
   TypeHolderExample.JSON_PROPERTY_BOOL_ITEM,
   TypeHolderExample.JSON_PROPERTY_ARRAY_ITEM
 })
+@JsonTypeName("TypeHolderExample")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderExample {
   public static final String JSON_PROPERTY_STRING_ITEM = "string_item";

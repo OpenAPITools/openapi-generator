@@ -52,6 +52,7 @@ sidebar_label: typescript-redux-query
 <li>Map</li>
 <li>Object</li>
 <li>ReadonlyArray</li>
+<li>Set</li>
 <li>String</li>
 <li>any</li>
 <li>boolean</li>
