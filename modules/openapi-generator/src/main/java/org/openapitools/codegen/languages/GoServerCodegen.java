@@ -188,7 +188,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
         if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
             setEnumClassPrefix(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_CLASS_PREFIX).toString()));
             if (enumClassPrefix) {
-                additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, "true");
+                additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, true);
             }
         }
 
