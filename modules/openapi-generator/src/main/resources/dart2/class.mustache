@@ -72,14 +72,14 @@ class {{classname}} {
       (json['{{baseName}}'] as Map).cast<String, {{items.datatype}}>();
         {{/isMapContainer}}
         {{^isMapContainer}}
-          {{#isDouble}}
+          {{#isNumber}}
     {{name}} = (json['{{baseName}}'] == null) ?
       null :
       json['{{baseName}}'].toDouble();
-          {{/isDouble}}
-          {{^isDouble}}
+          {{/isNumber}}
+          {{^isNumber}}
     {{name}} = json['{{baseName}}'];
-          {{/isDouble}}
+          {{/isNumber}}
         {{/isMapContainer}}
       {{/isListContainer}}
     {{/complexType}}
