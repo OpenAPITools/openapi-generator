@@ -142,7 +142,7 @@ func (r apiGetInventoryRequest) Execute() (map[string]int32, *_nethttp.Response,
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  map[string]int32
+		localVarReturnValue  map[string]int32
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.GetInventory")
@@ -254,7 +254,7 @@ func (r apiGetOrderByIdRequest) Execute() (Order, *_nethttp.Response, error) {
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  Order
+		localVarReturnValue  Order
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.GetOrderById")
@@ -360,7 +360,7 @@ func (r apiPlaceOrderRequest) Execute() (Order, *_nethttp.Response, error) {
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  Order
+		localVarReturnValue  Order
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.PlaceOrder")

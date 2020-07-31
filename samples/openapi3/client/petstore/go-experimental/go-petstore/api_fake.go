@@ -55,7 +55,7 @@ func (r apiFakeHealthGetRequest) Execute() (HealthCheckResult, *_nethttp.Respons
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  HealthCheckResult
+		localVarReturnValue  HealthCheckResult
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.FakeHealthGet")
@@ -155,7 +155,7 @@ func (r apiFakeOuterBooleanSerializeRequest) Execute() (bool, *_nethttp.Response
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  bool
+		localVarReturnValue  bool
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.FakeOuterBooleanSerialize")
@@ -257,7 +257,7 @@ func (r apiFakeOuterCompositeSerializeRequest) Execute() (OuterComposite, *_neth
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  OuterComposite
+		localVarReturnValue  OuterComposite
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.FakeOuterCompositeSerialize")
@@ -359,7 +359,7 @@ func (r apiFakeOuterNumberSerializeRequest) Execute() (float32, *_nethttp.Respon
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  float32
+		localVarReturnValue  float32
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.FakeOuterNumberSerialize")
@@ -461,7 +461,7 @@ func (r apiFakeOuterStringSerializeRequest) Execute() (string, *_nethttp.Respons
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  string
+		localVarReturnValue  string
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.FakeOuterStringSerialize")
@@ -759,7 +759,7 @@ func (r apiTestClientModelRequest) Execute() (Client, *_nethttp.Response, error)
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  Client
+		localVarReturnValue  Client
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestClientModel")

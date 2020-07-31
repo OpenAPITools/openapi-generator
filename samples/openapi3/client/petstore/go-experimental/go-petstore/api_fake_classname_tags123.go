@@ -58,7 +58,7 @@ func (r apiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  Client
+		localVarReturnValue  Client
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeClassnameTags123ApiService.TestClassname")

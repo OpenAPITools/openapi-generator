@@ -52,7 +52,7 @@ func (r apiFooGetRequest) Execute() (InlineResponseDefault, *_nethttp.Response, 
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  InlineResponseDefault
+		localVarReturnValue  InlineResponseDefault
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.FooGet")

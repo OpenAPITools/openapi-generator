@@ -58,7 +58,7 @@ func (r apiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response,
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  Client
+		localVarReturnValue  Client
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "AnotherFakeApiService.Call123TestSpecialTags")

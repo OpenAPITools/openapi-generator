@@ -65,8 +65,8 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 		localVarFileName     string
 		localVarFileBytes    []byte
 		{{#returnType}}
-        localVarReturnValue  {{{.}}}
-        {{/returnType}}
+		localVarReturnValue  {{{.}}}
+		{{/returnType}}
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "{{{classname}}}Service.{{{nickname}}}")
@@ -82,11 +82,11 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 	localVarFormParams := _neturl.Values{}
 	{{#allParams}}
 	{{#required}}
-    {{^isPathParam}}
+	{{^isPathParam}}
 	if r.{{paramName}} == nil {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} is required and must be specified")
 	}
-    {{/isPathParam}}
+	{{/isPathParam}}
 	{{#minItems}}
 	if len({{^isPathParam}}*{{/isPathParam}}r.{{paramName}}) < {{minItems}} {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must have at least {{minItems}} elements")

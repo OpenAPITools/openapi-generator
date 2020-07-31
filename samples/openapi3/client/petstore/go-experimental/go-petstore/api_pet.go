@@ -248,7 +248,7 @@ func (r apiFindPetsByStatusRequest) Execute() ([]Pet, *_nethttp.Response, error)
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  []Pet
+		localVarReturnValue  []Pet
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.FindPetsByStatus")
@@ -352,7 +352,7 @@ func (r apiFindPetsByTagsRequest) Execute() ([]Pet, *_nethttp.Response, error) {
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  []Pet
+		localVarReturnValue  []Pet
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.FindPetsByTags")
@@ -454,7 +454,7 @@ func (r apiGetPetByIdRequest) Execute() (Pet, *_nethttp.Response, error) {
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  Pet
+		localVarReturnValue  Pet
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.GetPetById")
@@ -772,7 +772,7 @@ func (r apiUploadFileRequest) Execute() (ApiResponse, *_nethttp.Response, error)
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  ApiResponse
+		localVarReturnValue  ApiResponse
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.UploadFile")
@@ -894,7 +894,7 @@ func (r apiUploadFileWithRequiredFileRequest) Execute() (ApiResponse, *_nethttp.
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  ApiResponse
+		localVarReturnValue  ApiResponse
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.UploadFileWithRequiredFile")

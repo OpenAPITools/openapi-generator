@@ -424,7 +424,7 @@ func (r apiGetUserByNameRequest) Execute() (User, *_nethttp.Response, error) {
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  User
+		localVarReturnValue  User
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.GetUserByName")
@@ -529,7 +529,7 @@ func (r apiLoginUserRequest) Execute() (string, *_nethttp.Response, error) {
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-        localVarReturnValue  string
+		localVarReturnValue  string
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "UserApiService.LoginUser")
