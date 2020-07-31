@@ -765,6 +765,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-07-12 - [Open API 3.0の定義からgolangのサーバコードのスケルトンを作成する](https://qiita.com/professor/items/4cbd04ec084d13057bc2) by [@professor (Qiita Blog)](https://qiita.com/professor)
 - 2020-07-20 - [Datadog API client libraries now available for Java and Go](https://www.datadoghq.com/blog/java-go-libraries/) by Jordan Obey at [Datadog Blog](https://www.datadoghq.com/blog)
 - 2020-07-23 - [Generate Client SDK for .NET Core using Open Api](https://dev.to/no0law1/generate-client-sdk-for-net-core-using-open-api-2dgh) by [Nuno Reis](https://dev.to/no0law1)
+- 2020-07-26 - [Dartのhttp_interceptorライブラリを使うと配列のクエリパラメータが消えてしまう件の応急処置](https://qiita.com/gyamoto/items/eeeff81b6770487319ed) by [@gyamoto](https://qiita.com/gyamoto)
 
 ## [6 - About Us](#table-of-contents)
 
