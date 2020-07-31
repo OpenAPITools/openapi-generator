@@ -29,7 +29,6 @@ type apiFooGetRequest struct {
 	apiService *DefaultApiService
 }
 
-
 /*
 FooGet Method for FooGet
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -44,7 +43,7 @@ func (a *DefaultApiService) FooGet(ctx _context.Context) apiFooGetRequest {
 
 /*
 Execute executes the request
- @return InlineResponseDefault
+@return InlineResponseDefault
 */
 func (r apiFooGetRequest) Execute() (InlineResponseDefault, *_nethttp.Response, error) {
 	var (
@@ -53,7 +52,7 @@ func (r apiFooGetRequest) Execute() (InlineResponseDefault, *_nethttp.Response, 
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  InlineResponseDefault
+        localVarReturnValue  InlineResponseDefault
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "DefaultApiService.FooGet")
