@@ -1403,9 +1403,9 @@
             <modules>
                 <!-- clients -->
                 <module>samples/client/petstore/R</module>
-                <!--<module>samples/client/petstore/haskell-http-client</module>-->
+                <module>samples/client/petstore/haskell-http-client</module>
                 <!-- servers -->
-                <!--<module>samples/server/petstore/haskell-servant</module>-->
+                <module>samples/server/petstore/haskell-servant</module>
             </modules>
         </profile>
         <profile>
