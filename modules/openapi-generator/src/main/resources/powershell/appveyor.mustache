@@ -15,3 +15,10 @@ test_script:
           $host.SetShouldExit($Result.FailedCount)
           exit $Result.FailedCount
       }
+  - ps: |
+      if ($env:APPVEYOR_REPO_TAG -eq $true -and $env:NuGetApiKey -ne $null)
+      {
+          choco install NuGet.CommandLine
+          Install-PackageProvider -Name NuGet -Force
+          Publish-Module -NuGetApiKey $env:NuGetApiKey -Path .\ -Confirm:$False -Verbose
+      }
