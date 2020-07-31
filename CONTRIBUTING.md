@@ -87,8 +87,7 @@ To add test cases (optional) covering the change in the code generator, please r
 To test the templates, please perform the following:
 
 - Update the Petstore sample by running the shell scripts under the `bin` folder. For example, run `./bin/generate-samples.sh .
-/bin/configs/python*` to update the Python-related samples under [`samples`](https://github.com/openapitools/openapi-generator/t
-ree/master/samples). For Windows, please install [GIT bash](https://gitforwindows.org/). (If you find that there are new files g
+/bin/configs/python*` to update the Python-related samples under [`samples`](https://github.com/openapitools/openapi-generator/tree/master/samples). For Windows, please install [GIT bash](https://gitforwindows.org/). (If you find that there are new files g
 enerated or unexpected changes as a result of the update, that's not unusual as the test cases are added to the OpenAPI spec fro
 m time to time. If you've questions or concerns, please open a ticket to start a discussion)
 - During development it can be helpful to quickly regenerate the samples without recompiling all of openapi-generator, e.g. when you have only updated the mustache templates. This can be done by passing the `-t` parameter: `-t modules/openapi-generator/src/main/resources/python`.
