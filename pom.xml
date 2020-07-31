@@ -1184,9 +1184,9 @@
                 <module>samples/server/petstore/php-laravel</module>
                 <module>samples/server/petstore/rust-server</module>
                 <!-- clients -->
-                <module>samples/client/petstore/perl</module>
+                <!--<module>samples/client/petstore/perl</module>
+                <module>samples/client/petstore/bash</module>-->
                 <module>samples/client/petstore/ruby</module>
-                <module>samples/client/petstore/bash</module>
                 <module>samples/client/petstore/c</module>
                 <module>samples/client/petstore/cpp-qt5</module>
                 <module>samples/client/petstore/rust</module>
