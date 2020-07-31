@@ -1354,7 +1354,7 @@
             <modules>
                 <!-- clients -->
                 <module>samples/openapi3/client/elm</module>
-                <module>samples/client/petstore/elixir</module>
+                <!--<module>samples/client/petstore/elixir</module>-->
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
                 <module>samples/client/petstore/kotlin-multiplatform</module>
