@@ -61,6 +61,7 @@
       <version>2.1.1</version>
       <scope>provided</scope>
     </dependency>
+    {{#jackson}}
   {{#java8}}
     <dependency>
         <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -80,6 +81,7 @@
       <artifactId>jackson-jaxrs-json-provider</artifactId>
       <version>${jackson-version}</version>
     </dependency>
+    {{/jackson}}
     {{#useSwaggerAnnotations}}
     <dependency>
       <groupId>io.swagger</groupId>
@@ -131,7 +133,9 @@
 {{/useBeanValidation}}
   </dependencies>
   <properties>
+    {{#jackson}}
     <jackson-version>2.9.9</jackson-version>
+    {{/jackson}}
     <junit-version>4.13.1</junit-version>
   </properties>
 </project>

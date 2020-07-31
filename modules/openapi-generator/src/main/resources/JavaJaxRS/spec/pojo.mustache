@@ -2,9 +2,11 @@
 import io.swagger.annotations.*;
 {{/useSwaggerAnnotations}}
 import java.util.Objects;
+{{#jackson}}
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+{{/jackson}}
 
 {{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}/**
  * {{description}}
@@ -42,7 +44,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
   @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}
-  @JsonProperty("{{baseName}}")
+  {{#jackson}}@JsonProperty("{{baseName}}"){{/jackson}}
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
