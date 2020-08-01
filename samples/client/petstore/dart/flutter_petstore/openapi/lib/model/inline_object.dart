@@ -28,8 +28,8 @@ class InlineObject {
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
-      'status': status
+          'name': name,
+          'status': status
     };
   }
 

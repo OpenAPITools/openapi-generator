@@ -89,29 +89,6 @@ public class TypeScriptAngularClientCodegenTest {
         Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestName");
     }
 
-    @Test
-    public void testToEnumNameCompatMode() {
-        TypeScriptAngularClientCodegen codegen = new TypeScriptAngularClientCodegen();
-        // default - stringEnums=false
-        codegen.processOpts();
-
-        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameEnum");
-
-        // model suffix is prepended to "Enum" suffix
-        codegen = new TypeScriptAngularClientCodegen();
-        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Model1");
-        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.MODEL_SUFFIX, "Model2");
-        codegen.processOpts();
-        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameModel2Model1Enum");
-
-        codegen = new TypeScriptAngularClientCodegen();
-        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.STRING_ENUMS, true);
-        codegen.additionalProperties().put(CodegenConstants.MODEL_NAME_SUFFIX, "Model1");
-        codegen.additionalProperties().put(TypeScriptAngularClientCodegen.MODEL_SUFFIX, "Model2");
-        codegen.processOpts();
-        Assert.assertEquals(codegen.toEnumName(makeEnumProperty("TestName")), "TestNameModel2Model1");
-    }
-
     private CodegenProperty makeEnumProperty(String name) {
         CodegenProperty enumProperty = new CodegenProperty();
         enumProperty.name = name;

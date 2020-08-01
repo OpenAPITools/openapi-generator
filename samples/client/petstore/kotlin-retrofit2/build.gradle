@@ -33,6 +33,8 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     compile "com.squareup.moshi:moshi-kotlin:1.9.2"
     compile "com.squareup.moshi:moshi-adapters:1.9.2"
+    compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.0"
+    compile "com.squareup.okhttp3:logging-interceptor:4.4.0"
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
     compile "com.squareup.retrofit2:converter-scalars:$retrofitVersion"

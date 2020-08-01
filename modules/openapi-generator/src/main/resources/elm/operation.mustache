@@ -1,0 +1,47 @@
+{{>licenseInfo}}
+
+module Api.Request.{{classname}} exposing
+{{#operations}}{{#operation}}    {{#-first}}( {{/-first}}{{^-first}}, {{/-first}}{{operationId}}{{#allParams}}{{#isEnum}}, {{enumName}}(..), {{#lambda.camelcase}}{{enumName}}{{/lambda.camelcase}}Variants{{/isEnum}}{{/allParams}}
+{{/operation}}{{/operations}}    )
+
+import Api
+import Api.Data{{#includeTime}}
+import Api.Time exposing (Posix){{/includeTime}}
+import Dict
+import Http
+import Json.Decode
+import Json.Encode{{#includeUuid}}
+import Uuid exposing (Uuid){{/includeUuid}}
+{{#operations}}
+{{#operation}}
+{{#allParams}}
+{{#isEnum}}
+
+
+{{>customType}}
+
+
+{{>customTypeToString}}
+{{/isEnum}}
+{{/allParams}}
+{{/operation}}
+{{/operations}}
+{{#operations}}{{#operation}}
+
+
+{{#notes}}
+{-| {{{notes}}}
+-}
+{{/notes}}
+{{operationId}} : {{#allParams}}{{^required}}Maybe {{/required}}{{#isListContainer}}List {{/isListContainer}}{{#datatypeWithEnum}}{{.}}{{/datatypeWithEnum}}{{^datatypeWithEnum}}{{#isModel}}Api.Data.{{/isModel}}{{dataType}}{{/datatypeWithEnum}} -> {{/allParams}}{{#authMethods}}{{#isBasicBearer}}String -> {{/isBasicBearer}}{{/authMethods}}Api.Request {{^responses}}(){{/responses}}{{#responses}}{{#is2xx}}{{^dataType}}(){{/dataType}}{{#isMapContainer}}(Dict.Dict String {{/isMapContainer}}{{#isListContainer}}(List {{/isListContainer}}{{^primitiveType}}{{^isUuid}}Api.Data.{{/isUuid}}{{/primitiveType}}{{#items}}{{#isModel}}Api.Data.{{/isModel}}{{/items}}{{dataType}}{{#isListContainer}}){{/isListContainer}}{{#isMapContainer}}){{/isMapContainer}}{{/is2xx}}{{/responses}}
+{{operationId}}{{#allParams}} {{>paramName}}{{/allParams}}{{#authMethods}}{{#isBasicBearer}} auth_token{{/isBasicBearer}}{{/authMethods}} =
+    Api.request
+        "{{httpMethod}}"
+        "{{path}}"
+        [{{#pathParams}} ( "{{paramName}}", {{>paramToString}} {{>paramName}} ){{#-last}} {{/-last}}{{^-last}},{{/-last}}{{/pathParams}}]
+        [{{#queryParams}} ( "{{baseName}}", {{#required}}Just <| {{/required}}{{^required}}Maybe.map {{/required}}{{>paramToString}} {{>paramName}} ){{#-last}} {{/-last}}{{^-last}},{{/-last}}{{/queryParams}}]
+        [{{#headerParams}} ( "{{baseName}}", {{#required}}Just <| {{/required}}{{^required}}Maybe.map {{/required}}{{>paramToString}} {{>paramName}} ){{#-last}} {{/-last}}{{^-last}},{{/-last}}{{/headerParams}}]
+        {{#bodyParam}}({{#required}}Just ({{/required}}{{^required}}Maybe.map {{/required}}{{#isModel}}Api.Data.{{/isModel}}{{>recordFieldValueEncoder}} {{>paramName}}{{#required}}){{/required}}){{/bodyParam}}{{^bodyParam}}Nothing{{/bodyParam}}
+        {{^responses}}(Json.Decode.succeed ()){{/responses}}{{#responses}}{{#is2xx}}{{^dataType}}(Json.Decode.succeed ()){{/dataType}}{{#dataType}}{{>recordFieldValueDecoder}}{{/dataType}}{{/is2xx}}{{/responses}}{{#authMethods}}{{#isBasicBearer}}
+        |> Api.withBearerToken auth_token{{/isBasicBearer}}{{/authMethods}}
+{{/operation}}{{/operations}}

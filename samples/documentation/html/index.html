@@ -190,6 +190,7 @@ font-style: italic;
   <h2>Access</h2>
     <ol>
       <li>APIKey KeyParamName:api_key KeyInQuery:false KeyInHeader:true</li>
+      <li>APIKey KeyParamName:AUTH_KEY KeyInQuery:false KeyInHeader:false</li>
       <li>OAuth AuthorizationUrl:http://petstore.swagger.io/api/oauth/dialogTokenUrl:</li>
     </ol>
 
@@ -255,12 +256,58 @@ font-style: italic;
 
 
 
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Pet">Pet</a>
+      
+    </div>
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}</code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code><Pet>
+  <id>123456789</id>
+  <name>doggie</name>
+  <photoUrls>
+    <photoUrls>aeiou</photoUrls>
+  </photoUrls>
+  <tags>
+  </tags>
+  <status>aeiou</status>
+</Pet></code></pre>
 
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    successful operation
+        <a href="#Pet">Pet</a>
     <h4 class="field-label">405</h4>
     Invalid input
         <a href="#"></a>
@@ -560,12 +607,58 @@ font-style: italic;
 
 
 
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Pet">Pet</a>
+      
+    </div>
 
     <!--Todo: process Response Object and its headers, schema, examples -->
 
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "photoUrls" : [ "photoUrls", "photoUrls" ],
+  "name" : "doggie",
+  "id" : 0,
+  "category" : {
+    "name" : "name",
+    "id" : 6
+  },
+  "tags" : [ {
+    "name" : "name",
+    "id" : 1
+  }, {
+    "name" : "name",
+    "id" : 1
+  } ],
+  "status" : "available"
+}</code></pre>
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/xml</div>
+    <pre class="example"><code><Pet>
+  <id>123456789</id>
+  <name>doggie</name>
+  <photoUrls>
+    <photoUrls>aeiou</photoUrls>
+  </photoUrls>
+  <tags>
+  </tags>
+  <status>aeiou</status>
+</Pet></code></pre>
 
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/xml</code></li>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    successful operation
+        <a href="#Pet">Pet</a>
     <h4 class="field-label">400</h4>
     Invalid ID supplied
         <a href="#"></a>
@@ -826,6 +919,11 @@ font-style: italic;
     <div class="method-notes"></div>
 
 
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
@@ -893,6 +991,11 @@ font-style: italic;
     <div class="method-notes">This can only be done by the logged in user.</div>
 
 
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
@@ -924,10 +1027,15 @@ font-style: italic;
     <div class="method-notes"></div>
 
 
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">User <a href="#array">array</a> (required)</div>
+      <div class="param">User <a href="#User">User</a> (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
 
@@ -955,10 +1063,15 @@ font-style: italic;
     <div class="method-notes"></div>
 
 
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
-      <div class="param">User <a href="#array">array</a> (required)</div>
+      <div class="param">User <a href="#User">User</a> (required)</div>
 
       <div class="param-desc"><span class="param-type">Body Parameter</span> &mdash;  </div>
 
@@ -1168,6 +1281,11 @@ font-style: italic;
       <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; name that need to be deleted default: null </div>
     </div>  <!-- field-items -->
 
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
 
     <h3 class="field-label">Request body</h3>
     <div class="field-items">
@@ -1206,6 +1324,8 @@ font-style: italic;
     <li><a href="#Pet"><code>Pet</code> - a Pet</a></li>
     <li><a href="#Tag"><code>Tag</code> - Pet Tag</a></li>
     <li><a href="#User"><code>User</code> - a User</a></li>
+    <li><a href="#inline_object"><code>inline_object</code> - </a></li>
+    <li><a href="#inline_object_1"><code>inline_object_1</code> - </a></li>
   </ol>
 
   <div class="model">
@@ -1273,6 +1393,22 @@ font-style: italic;
 <div class="param">password (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
 <div class="param">phone (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
 <div class="param">userStatus (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> User Status format: int32</div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_object"><code>inline_object</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">name (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Updated name of the pet </div>
+<div class="param">status (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Updated status of the pet </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_object_1"><code>inline_object_1</code> - </a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'></div>
+    <div class="field-items">
+      <div class="param">additionalMetadata (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Additional data to pass to server </div>
+<div class="param">file (optional)</div><div class="param-desc"><span class="param-type"><a href="#file">File</a></span> file to upload format: binary</div>
     </div>  <!-- field-items -->
   </div>
   </body>

@@ -34,6 +34,10 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.time.OffsetDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoField;
+import java.util.concurrent.TimeUnit;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -53,6 +57,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String POD_DESCRIPTION = "podDescription";
     public static final String POD_SCREENSHOTS = "podScreenshots";
     public static final String POD_DOCUMENTATION_URL = "podDocumentationURL";
+    public static final String READONLY_PROPERTIES = "readonlyProperties";
     public static final String SWIFT_USE_API_NAMESPACE = "swiftUseApiNamespace";
     public static final String DEFAULT_POD_AUTHORS = "OpenAPI Generator";
     public static final String LENIENT_TYPE_CAST = "lenientTypeCast";
@@ -67,6 +72,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected boolean nonPublicApi = false;
     protected boolean objcCompatible = false;
     protected boolean lenientTypeCast = false;
+    protected boolean readonlyProperties = false;
     protected boolean swiftUseApiNamespace;
     protected String[] responseAs = new String[0];
     protected String sourceFolder = "Classes" + File.separator + "OpenAPIs";
@@ -237,6 +243,8 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.add(new CliOption(POD_SCREENSHOTS, "Screenshots used for Podspec"));
         cliOptions.add(new CliOption(POD_DOCUMENTATION_URL,
                 "Documentation URL used for Podspec"));
+        cliOptions.add(new CliOption(READONLY_PROPERTIES, "Make properties "
+                        + "readonly (default: false)"));
         cliOptions.add(new CliOption(SWIFT_USE_API_NAMESPACE,
                 "Flag to make all the API classes inner-class "
                         + "of {{projectName}}API"));
@@ -326,7 +334,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel,
                                                        Schema schema) {
 
-        final Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+        final Schema additionalProperties = getAdditionalProperties(schema);
 
         if (additionalProperties != null) {
             codegenModel.additionalPropertiesType = getSchemaType(additionalProperties);
@@ -391,6 +399,13 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (ArrayUtils.contains(responseAs, RESPONSE_LIBRARY_COMBINE)) {
             additionalProperties.put("useCombine", true);
         }
+
+        // Setup readonlyProperties option, which declares properties so they can only
+        // be set at initialization
+        if (additionalProperties.containsKey(READONLY_PROPERTIES)) {
+            setReadonlyProperties(convertPropertyToBooleanAndWriteBack(READONLY_PROPERTIES));
+        }
+        additionalProperties.put(READONLY_PROPERTIES, readonlyProperties);
 
         // Setup swiftUseApiNamespace option, which makes all the API
         // classes inner-class of {{projectName}}API
@@ -509,9 +524,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return "[" + getTypeDeclaration(inner) + "]";
+            return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return "[String:" + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);
@@ -609,14 +624,19 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 }
             }
         }
-        if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
-            if (p.getDefault() != null) {
+        if (p.getDefault() != null) {
+            if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
                 return p.getDefault().toString();
-            }
-        } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
+            } else if (ModelUtils.isDateTimeSchema(p)) {
+                // Datetime time stamps in Swift are expressed as Seconds with Microsecond precision.
+                // In Java, we need to be creative to get the Timestamp in Microseconds as a long.
+                Instant instant = ((OffsetDateTime) p.getDefault()).toInstant();
+                long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + ((long) instant.get(ChronoField.MICRO_OF_SECOND));
+                return "Date(timeIntervalSince1970: " + String.valueOf(epochMicro) + ".0 / 1_000_000)";
+            } else if (ModelUtils.isStringSchema(p)) {
                 return "\"" + escapeText((String) p.getDefault()) + "\"";
             }
+            // TODO: Handle more cases from `ModelUtils`, such as Date
         }
         return null;
     }
@@ -624,11 +644,11 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            return getSchemaType(ModelUtils.getAdditionalProperties(p));
+            return getSchemaType(getAdditionalProperties(p));
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            return "[" + inner + "]";
+            return ModelUtils.isSet(p) ? "Set<" + inner + ">" : "[" + inner + "]";
         }
         return null;
     }
@@ -775,6 +795,10 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public void setLenientTypeCast(boolean lenientTypeCast) {
         this.lenientTypeCast = lenientTypeCast;
+    }
+
+    public void setReadonlyProperties(boolean readonlyProperties) {
+        this.readonlyProperties = readonlyProperties;
     }
 
     public void setResponseAs(String[] responseAs) {

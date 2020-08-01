@@ -96,8 +96,8 @@ if(hasProperty('target') && target == 'android') {
 
 ext {
     swagger_annotations_version = "1.5.22"
-    jackson_version = "2.10.3"
-    jackson_databind_version = "2.10.3"
+    jackson_version = "2.10.4"
+    jackson_databind_version = "2.10.4"
     jackson_databind_nullable_version = "0.2.1"
     spring_web_version = "4.3.9.RELEASE"
     jodatime_version = "2.9.9"
@@ -116,5 +116,6 @@ dependencies {
     compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
     compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_threeten_version"
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
+    compile 'javax.annotation:javax.annotation-api:1.3.2'
     testCompile "junit:junit:$junit_version"
 }

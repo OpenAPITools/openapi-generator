@@ -17,7 +17,10 @@ import (
 type File struct {
 	// Test capitalization
 	SourceURI *string `json:"sourceURI,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _File File
 
 // NewFile instantiates a new File object
 // This constructor will assign default values to properties that have it defined,
@@ -73,7 +76,29 @@ func (o File) MarshalJSON() ([]byte, error) {
 	if o.SourceURI != nil {
 		toSerialize["sourceURI"] = o.SourceURI
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *File) UnmarshalJSON(bytes []byte) (err error) {
+	varFile := _File{}
+
+	if err = json.Unmarshal(bytes, &varFile); err == nil {
+		*o = File(varFile)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "sourceURI")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableFile struct {
@@ -111,3 +136,5 @@ func (v *NullableFile) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 /**
  * OuterComposite
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class OuterComposite   {
   @JsonProperty("my_number")

@@ -29,7 +29,7 @@ import android.os.Parcel;
 /**
  * BigCatAllOf
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class BigCatAllOf implements Parcelable {
   /**
    * Gets or Sets kind

@@ -27,7 +27,7 @@ import javax.validation.constraints.*;
 @Api(description = "the store API")
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSCXFCDIServerCodegen")
 
 public class StoreApi  {
 

@@ -1,0 +1,6 @@
+            _ => Ok(Response::builder().status(StatusCode::NOT_FOUND)
+                    .body(Body::empty())
+                    .expect("Unable to create Not Found response"))
+        }
+    } Box::pin(run(self.api_impl.clone(), req)) }
+}

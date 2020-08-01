@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 @RequestScoped
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen")
 public class StoreApiServiceImpl implements StoreApiService {
       public Response deleteOrder(String orderId,SecurityContext securityContext)
       throws NotFoundException {

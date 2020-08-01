@@ -1,1 +1,1 @@
-{{#isMapContainer}}Map<String, {{{returnType}}}>{{/isMapContainer}}{{#isListContainer}}{{#reactive}}Flow{{/reactive}}{{^reactive}}List{{/reactive}}<{{{returnType}}}>{{/isListContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}
+{{#isMapContainer}}Map<String, {{{returnType}}}>{{/isMapContainer}}{{#isListContainer}}{{#reactive}}Flow{{/reactive}}{{^reactive}}{{{returnContainer}}}{{/reactive}}<{{{returnType}}}>{{/isListContainer}}{{^returnContainer}}{{{returnType}}}{{/returnContainer}}

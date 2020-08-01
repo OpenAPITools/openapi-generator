@@ -13,6 +13,7 @@ package org.openapitools.client.models
 
 
 import com.fasterxml.jackson.annotation.JsonProperty
+
 /**
  * An order for a pets from the pet store
  * @param id 
@@ -24,18 +25,18 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 
 data class Order (
-    @JsonProperty("id")
+    @field:JsonProperty("id")
     val id: kotlin.Long? = null,
-    @JsonProperty("petId")
+    @field:JsonProperty("petId")
     val petId: kotlin.Long? = null,
-    @JsonProperty("quantity")
+    @field:JsonProperty("quantity")
     val quantity: kotlin.Int? = null,
-    @JsonProperty("shipDate")
+    @field:JsonProperty("shipDate")
     val shipDate: java.time.OffsetDateTime? = null,
     /* Order Status */
-    @JsonProperty("status")
+    @field:JsonProperty("status")
     val status: Order.Status? = null,
-    @JsonProperty("complete")
+    @field:JsonProperty("complete")
     val complete: kotlin.Boolean? = null
 ) {
 
@@ -45,9 +46,9 @@ data class Order (
     */
     
     enum class Status(val value: kotlin.String){
-        @JsonProperty(value="placed") PLACED("placed"),
-        @JsonProperty(value="approved") APPROVED("approved"),
-        @JsonProperty(value="delivered") DELIVERED("delivered");
+        @JsonProperty(value = "placed") PLACED("placed"),
+        @JsonProperty(value = "approved") APPROVED("approved"),
+        @JsonProperty(value = "delivered") DELIVERED("delivered");
     }
 }
 

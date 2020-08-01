@@ -127,11 +127,11 @@ const callouts = [
     {
         id: 'try',
         imageUrl: 'img/tools/npm.svg',
-        title: <>Try via NPM</>,
+        title: <>Try via npm</>,
         content: (
             <>
                 <p>
-                    The <a href="https://github.com/openapitools/openapi-generator-cli" className="href">NPM package
+                    The <a href="https://github.com/openapitools/openapi-generator-cli" className="href">npm package
                     wrapper</a> is cross-platform wrapper around the .jar artifact.
                 </p>
                 <p>
@@ -145,7 +145,7 @@ const callouts = [
                    |npm install @openapitools/openapi-generator-cli -g
                    |
                    |# install a specific version of "openapi-generator-cli"
-                   |npm install @openapitools/openapi-generator-cli@cli-4.3.0 -g
+                   |npm install @openapitools/openapi-generator-cli@cli-4.3.1 -g
                    |
                    |# Or install it as dev-dependency in your node.js projects
                    |npm install @openapitools/openapi-generator-cli -D

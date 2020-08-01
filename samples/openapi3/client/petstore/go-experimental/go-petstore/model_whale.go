@@ -18,7 +18,10 @@ type Whale struct {
 	HasBaleen *bool `json:"hasBaleen,omitempty"`
 	HasTeeth *bool `json:"hasTeeth,omitempty"`
 	ClassName string `json:"className"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Whale Whale
 
 // NewWhale instantiates a new Whale object
 // This constructor will assign default values to properties that have it defined,
@@ -137,13 +140,33 @@ func (o Whale) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["className"] = o.ClassName
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
 }
 
-// AsMammal wraps this instance of Whale in Mammal
-func (s *Whale) AsMammal() Mammal {
-	return Mammal{ MammalInterface: s }
+func (o *Whale) UnmarshalJSON(bytes []byte) (err error) {
+	varWhale := _Whale{}
+
+	if err = json.Unmarshal(bytes, &varWhale); err == nil {
+		*o = Whale(varWhale)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "hasBaleen")
+		delete(additionalProperties, "hasTeeth")
+		delete(additionalProperties, "className")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
+
 type NullableWhale struct {
 	value *Whale
 	isSet bool
@@ -179,3 +202,5 @@ func (v *NullableWhale) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

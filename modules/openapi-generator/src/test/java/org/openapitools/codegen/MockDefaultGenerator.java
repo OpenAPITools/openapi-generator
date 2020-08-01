@@ -15,49 +15,50 @@
  */
 
 package org.openapitools.codegen;
+import org.openapitools.codegen.templating.TemplateManagerOptions;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Decorates {@link DefaultCodegen and tracks some internal calls}.
+ *
+ * @deprecated Please avoid using this type, as it is not a mock and invokes real generation. Prefer {@link DefaultGenerator#DefaultGenerator(Boolean)} with dryRun=true and/or true mocked spies.
+ */
+@Deprecated
 public class MockDefaultGenerator extends DefaultGenerator {
-    public static final String INPUT_STREAM_CONTENT = "INPUT STREAM CONTENT";
-    private List<WrittenTemplateBasedFile> templateBasedFiles = new ArrayList<>();
-    private Map<String, String> files = new HashMap<>();
-
-    @Override
-    protected File processTemplateToFile(Map<String, Object> templateData, String templateName, String outputFilename) throws IOException {
-        templateBasedFiles.add(new WrittenTemplateBasedFile(templateData, templateName, normalizePath(outputFilename)));
-        return super.processTemplateToFile(templateData, templateName, outputFilename);
-    }
-
-    @Override
-    protected File writeInputStreamToFile(String filename, InputStream in, String templateFile) throws FileNotFoundException, IOException {
-        files.put(normalizePath(filename), INPUT_STREAM_CONTENT + ": from template '" + templateFile + "'");
-        return new File(filename);
-    }
-
-    @Override
-    public File writeToFile(String filename, String contents) throws IOException {
-        files.put(normalizePath(filename), contents);
-        return new File(filename);
-    }
-
-    private String normalizePath(String filename) {
-        return filename.replace("\\", "/").replace("//", "/");
-    }
-
     public List<WrittenTemplateBasedFile> getTemplateBasedFiles() {
         return templateBasedFiles;
     }
 
     public Map<String, String> getFiles() {
         return files;
+    }
+
+    //        public static final String INPUT_STREAM_CONTENT = "INPUT STREAM CONTENT";
+    private List<WrittenTemplateBasedFile> templateBasedFiles = new ArrayList<>();
+    private Map<String, String> files = new HashMap<>();
+
+    public MockDefaultGenerator() {
+        super(true);
+    }
+
+    public MockDefaultGenerator(boolean dryRun) {
+        super(dryRun);
+    }
+
+    @Override
+    public Generator opts(ClientOptInput opts) {
+        Generator o = super.opts(opts);
+        TemplateManagerOptions templateManagerOptions = new TemplateManagerOptions(this.config.isEnableMinimalUpdate(),this.config.isSkipOverwrite());
+        this.templateProcessor = new ObservableDryRunTemplateManager(templateManagerOptions);
+        return o;
     }
 
     public static class WrittenTemplateBasedFile {
@@ -89,6 +90,36 @@ public class MockDefaultGenerator extends DefaultGenerator {
                     "outputFilename=" + outputFilename + ", " +
                     "templateName=" + templateName +  ", " +
                     "templateData=" + templateData + "]";
+        }
+    }
+
+    class ObservableDryRunTemplateManager extends DryRunTemplateManager {
+        public ObservableDryRunTemplateManager(TemplateManagerOptions options) {
+            super(options);
+        }
+
+        private String normalizePath(String filename) {
+            return filename.replace("\\", "/").replace("//", "/");
+        }
+
+        @Override
+        public File write(Map<String, Object> data, String template, File target) throws IOException {
+            String filename = normalizePath(target.toPath().normalize().toString());
+            templateBasedFiles.add(new WrittenTemplateBasedFile(data, template, filename));
+
+            File file = super.write(data, template, target);
+            if (file != null && file.exists()) {
+                byte[] contents = Files.readAllBytes(file.toPath());
+                files.put(normalizePath(filename), new String(contents, StandardCharsets.UTF_8));
+            }
+
+            return file;
+        }
+
+        @Override
+        public File writeToFile(String filename, byte[] contents) throws IOException {
+            files.put(normalizePath(filename), new String(contents, StandardCharsets.UTF_8));
+            return super.writeToFile(filename, contents);
         }
     }
 }

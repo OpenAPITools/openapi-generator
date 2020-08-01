@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * Model for testing model name starting with number
  * @param name 
@@ -23,7 +24,5 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 data class Model200Response (
     @SerialName(value = "name") val name: kotlin.Int? = null,
     @SerialName(value = "class") val propertyClass: kotlin.String? = null
-) 
-
-
+)
 

@@ -58,7 +58,7 @@ class PFXHttpRequestWorker : public QObject {
     Q_OBJECT
 
 public:
-    explicit PFXHttpRequestWorker(QObject *parent = nullptr);
+    explicit PFXHttpRequestWorker(QObject *parent = nullptr, QNetworkAccessManager *manager = nullptr);
     virtual ~PFXHttpRequestWorker();
 
     QByteArray response;
@@ -95,13 +95,11 @@ private:
     bool isRequestCompressionEnabled;
     int  httpResponseCode;
 
-    void on_manager_timeout(QNetworkReply *reply);
+    void on_reply_timeout(QNetworkReply *reply);
+    void on_reply_finished(QNetworkReply *reply);
     void process_response(QNetworkReply *reply);
     QByteArray decompress(const QByteArray& data);
     QByteArray compress(const QByteArray& input, int level, PFXCompressionType compressType);
- 
-private slots:
-    void on_manager_finished(QNetworkReply *reply);
 };
 
 } // namespace test_namespace
