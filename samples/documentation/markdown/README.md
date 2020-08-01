@@ -52,13 +52,6 @@ Class | Method | HTTP request | Description
 - **API key parameter name**: api_key
 - **Location**: HTTP header
 
-<a name="auth_cookie"></a>
-### auth_cookie
-
-- **Type**: API key
-- **API key parameter name**: AUTH_KEY
-- **Location**: 
-
 <a name="petstore_auth"></a>
 ### petstore_auth
 

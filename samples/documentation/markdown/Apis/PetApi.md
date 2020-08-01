@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="addPet"></a>
 # **addPet**
-> Pet addPet(pet)
+> Pet addPet(Pet)
 
 Add a new pet to the store
 
@@ -24,7 +24,7 @@ Add a new pet to the store
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
+ **Pet** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -148,7 +148,7 @@ Name | Type | Description  | Notes
 
 <a name="updatePet"></a>
 # **updatePet**
-> Pet updatePet(pet)
+> Pet updatePet(Pet)
 
 Update an existing pet
 
@@ -156,7 +156,7 @@ Update an existing pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
+ **Pet** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
