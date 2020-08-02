@@ -89,19 +89,19 @@ class {{classname}} {
       (json['{{baseName}}'] as Map).cast<String, {{items.datatype}}>();
         {{/isMapContainer}}
         {{^isMapContainer}}
-          {{#isDouble}}
+          {{#isNumber}}
     {{name}} = (json['{{baseName}}'] == null) ?
       null :
       json['{{baseName}}'].toDouble();
-          {{/isDouble}}
-          {{^isDouble}}
+          {{/isNumber}}
+          {{^isNumber}}
     {{^isEnum}}
     {{name}} = json['{{baseName}}'];
     {{/isEnum}}
     {{#isEnum}}
     {{name}} = {{classname}}{{{enumName}}}.fromJson(json['{{baseName}}']);
     {{/isEnum}}
-          {{/isDouble}}
+          {{/isNumber}}
         {{/isMapContainer}}
       {{/isListContainer}}
     {{/complexType}}
