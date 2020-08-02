@@ -65,8 +65,9 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="body">client model</param>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ModelClient</returns>
-        System.Threading.Tasks.Task<ModelClient> TestClassnameAsync (ModelClient body);
+        System.Threading.Tasks.Task<ModelClient> TestClassnameAsync (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// To test class name in snake case
@@ -75,9 +76,10 @@ namespace Org.OpenAPITools.Api
         /// To test class name in snake case
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="body">client model</param>        
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClassnameAsyncWithHttpInfo (ModelClient body);
+        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClassnameAsyncWithHttpInfo (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -263,11 +265,12 @@ namespace Org.OpenAPITools.Api
         /// To test class name in snake case To test class name in snake case
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="body">client model</param>        
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ModelClient</returns>
-        public async System.Threading.Tasks.Task<ModelClient> TestClassnameAsync (ModelClient body)
+        public async System.Threading.Tasks.Task<ModelClient> TestClassnameAsync (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-             Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClassnameAsyncWithHttpInfo(body);
+             Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClassnameAsyncWithHttpInfo(body, cancellationToken);
              return localVarResponse.Data;
 
         }
@@ -276,9 +279,10 @@ namespace Org.OpenAPITools.Api
         /// To test class name in snake case To test class name in snake case
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="body">client model</param>        
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> TestClassnameAsyncWithHttpInfo (ModelClient body)
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> TestClassnameAsyncWithHttpInfo (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'body' is set
             if (body == null)
@@ -313,7 +317,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<ModelClient>("/fake_classname_test", localVarRequestOptions, this.Configuration);
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<ModelClient>("/fake_classname_test", localVarRequestOptions, this.Configuration, cancellationToken);
 
             if (this.ExceptionFactory != null)
             {
