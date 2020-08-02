@@ -426,11 +426,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-<<<<<<< HEAD
             var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/store/order/{order_id}", localVarRequestOptions, this.Configuration, cancellationToken);
-=======
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/store/order/{order_id}", localVarRequestOptions, this.Configuration);
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
 
             if (this.ExceptionFactory != null)
             {
@@ -648,11 +644,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-<<<<<<< HEAD
             var localVarResponse = await this.AsynchronousClient.GetAsync<Order>("/store/order/{order_id}", localVarRequestOptions, this.Configuration, cancellationToken);
-=======
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Order>("/store/order/{order_id}", localVarRequestOptions, this.Configuration);
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
 
             if (this.ExceptionFactory != null)
             {

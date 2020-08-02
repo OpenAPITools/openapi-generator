@@ -414,11 +414,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="xmlItem">XmlItem Body</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<Object>> CreateXmlItemWithHttpInfoAsync (XmlItem xmlItem, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-=======
-        System.Threading.Tasks.Task<ApiResponse<Object>> CreateXmlItemWithHttpInfoAsync (XmlItem xmlItem);
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         /// <summary>
         /// 
         /// </summary>
@@ -441,11 +437,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input boolean as post body (optional)</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (bool)</returns>
-<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<bool>> FakeOuterBooleanSerializeWithHttpInfoAsync (bool? body = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-=======
-        System.Threading.Tasks.Task<ApiResponse<bool>> FakeOuterBooleanSerializeWithHttpInfoAsync (bool? body = default(bool?));
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         /// <summary>
         /// 
         /// </summary>
@@ -468,11 +460,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input composite as post body (optional)</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (OuterComposite)</returns>
-<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync (OuterComposite body = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-=======
-        System.Threading.Tasks.Task<ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync (OuterComposite body = default(OuterComposite));
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         /// <summary>
         /// 
         /// </summary>
@@ -495,11 +483,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input number as post body (optional)</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (decimal)</returns>
-<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<decimal>> FakeOuterNumberSerializeWithHttpInfoAsync (decimal? body = default(decimal?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-=======
-        System.Threading.Tasks.Task<ApiResponse<decimal>> FakeOuterNumberSerializeWithHttpInfoAsync (decimal? body = default(decimal?));
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         /// <summary>
         /// 
         /// </summary>
@@ -522,11 +506,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input string as post body (optional)</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync (string body = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-=======
-        System.Threading.Tasks.Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync (string body = default(string));
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         /// <summary>
         /// 
         /// </summary>
@@ -549,11 +529,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body"></param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithFileSchemaWithHttpInfoAsync (FileSchemaTestClass body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-=======
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithFileSchemaWithHttpInfoAsync (FileSchemaTestClass body);
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         /// <summary>
         /// 
         /// </summary>
@@ -580,11 +556,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body"></param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithQueryParamsWithHttpInfoAsync (string query, User body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-=======
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestBodyWithQueryParamsWithHttpInfoAsync (string query, User body);
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         /// <summary>
         /// To test \&quot;client\&quot; model
         /// </summary>
@@ -607,11 +579,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">client model</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClientModelWithHttpInfoAsync (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-=======
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClientModelWithHttpInfoAsync (ModelClient body);
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         /// <summary>
         /// Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
         /// </summary>
@@ -686,11 +654,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-=======
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string));
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         /// <summary>
         /// To test enum parameters
         /// </summary>
@@ -741,11 +705,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-=======
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string));
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         /// <summary>
         /// Fake endpoint to test group parameters (optional)
         /// </summary>
@@ -788,11 +748,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-=======
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?));
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         /// <summary>
         /// test inline additionalProperties
         /// </summary>
@@ -815,11 +771,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="param">request body</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<Object>> TestInlineAdditionalPropertiesWithHttpInfoAsync (Dictionary<string, string> param, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-=======
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestInlineAdditionalPropertiesWithHttpInfoAsync (Dictionary<string, string> param);
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         /// <summary>
         /// test json serialization of form data
         /// </summary>
@@ -846,11 +798,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="param2">field2</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<Object>> TestJsonFormDataWithHttpInfoAsync (string param, string param2, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-=======
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestJsonFormDataWithHttpInfoAsync (string param, string param2);
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         /// <summary>
         /// 
         /// </summary>
@@ -889,11 +837,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="context"></param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-=======
-        System.Threading.Tasks.Task<ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context);
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         #endregion Asynchronous Operations
     }
 
@@ -1082,12 +1026,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task CreateXmlItemAsync (XmlItem xmlItem, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-<<<<<<< HEAD
              await CreateXmlItemWithHttpInfoAsync(xmlItem, cancellationToken);
-=======
-             await CreateXmlItemWithHttpInfoAsync(xmlItem);
-
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         }
 
         /// <summary>
@@ -1097,11 +1036,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="xmlItem">XmlItem Body</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateXmlItemWithHttpInfoAsync (XmlItem xmlItem, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-=======
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> CreateXmlItemWithHttpInfoAsync (XmlItem xmlItem)
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
             // verify the required parameter 'xmlItem' is set
             if (xmlItem == null)
@@ -1206,11 +1141,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of bool</returns>
         public async System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync (bool? body = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-<<<<<<< HEAD
              Org.OpenAPITools.Client.ApiResponse<bool> localVarResponse = await FakeOuterBooleanSerializeWithHttpInfoAsync(body, cancellationToken);
-=======
-             Org.OpenAPITools.Client.ApiResponse<bool> localVarResponse = await FakeOuterBooleanSerializeWithHttpInfoAsync(body);
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
              return localVarResponse.Data;
         }
 
@@ -1221,11 +1152,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input boolean as post body (optional)</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (bool)</returns>
-<<<<<<< HEAD
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<bool>> FakeOuterBooleanSerializeWithHttpInfoAsync (bool? body = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-=======
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<bool>> FakeOuterBooleanSerializeWithHttpInfoAsync (bool? body = default(bool?))
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1321,11 +1248,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of OuterComposite</returns>
         public async System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync (OuterComposite body = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-<<<<<<< HEAD
              Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = await FakeOuterCompositeSerializeWithHttpInfoAsync(body, cancellationToken);
-=======
-             Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = await FakeOuterCompositeSerializeWithHttpInfoAsync(body);
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
              return localVarResponse.Data;
         }
 
@@ -1336,11 +1259,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input composite as post body (optional)</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (OuterComposite)</returns>
-<<<<<<< HEAD
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync (OuterComposite body = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-=======
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<OuterComposite>> FakeOuterCompositeSerializeWithHttpInfoAsync (OuterComposite body = default(OuterComposite))
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1436,11 +1355,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of decimal</returns>
         public async System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync (decimal? body = default(decimal?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-<<<<<<< HEAD
              Org.OpenAPITools.Client.ApiResponse<decimal> localVarResponse = await FakeOuterNumberSerializeWithHttpInfoAsync(body, cancellationToken);
-=======
-             Org.OpenAPITools.Client.ApiResponse<decimal> localVarResponse = await FakeOuterNumberSerializeWithHttpInfoAsync(body);
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
              return localVarResponse.Data;
         }
 
@@ -1451,11 +1366,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input number as post body (optional)</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (decimal)</returns>
-<<<<<<< HEAD
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<decimal>> FakeOuterNumberSerializeWithHttpInfoAsync (decimal? body = default(decimal?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-=======
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<decimal>> FakeOuterNumberSerializeWithHttpInfoAsync (decimal? body = default(decimal?))
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1551,11 +1462,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of string</returns>
         public async System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync (string body = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-<<<<<<< HEAD
              Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await FakeOuterStringSerializeWithHttpInfoAsync(body, cancellationToken);
-=======
-             Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await FakeOuterStringSerializeWithHttpInfoAsync(body);
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
              return localVarResponse.Data;
         }
 
@@ -1566,11 +1473,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">Input string as post body (optional)</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (string)</returns>
-<<<<<<< HEAD
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync (string body = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-=======
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync (string body = default(string))
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1669,12 +1572,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestBodyWithFileSchemaAsync (FileSchemaTestClass body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-<<<<<<< HEAD
              await TestBodyWithFileSchemaWithHttpInfoAsync(body, cancellationToken);
-=======
-             await TestBodyWithFileSchemaWithHttpInfoAsync(body);
-
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         }
 
         /// <summary>
@@ -1684,11 +1582,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body"></param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestBodyWithFileSchemaWithHttpInfoAsync (FileSchemaTestClass body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-=======
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestBodyWithFileSchemaWithHttpInfoAsync (FileSchemaTestClass body)
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
             // verify the required parameter 'body' is set
             if (body == null)
@@ -1800,12 +1694,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestBodyWithQueryParamsAsync (string query, User body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-<<<<<<< HEAD
              await TestBodyWithQueryParamsWithHttpInfoAsync(query, body, cancellationToken);
-=======
-             await TestBodyWithQueryParamsWithHttpInfoAsync(query, body);
-
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         }
 
         /// <summary>
@@ -1817,11 +1706,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body"></param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestBodyWithQueryParamsWithHttpInfoAsync (string query, User body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-=======
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestBodyWithQueryParamsWithHttpInfoAsync (string query, User body)
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
             // verify the required parameter 'query' is set
             if (query == null)
@@ -1931,11 +1816,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ModelClient</returns>
         public async System.Threading.Tasks.Task<ModelClient> TestClientModelAsync (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-<<<<<<< HEAD
              Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClientModelWithHttpInfoAsync(body, cancellationToken);
-=======
-             Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClientModelWithHttpInfoAsync(body);
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
              return localVarResponse.Data;
         }
 
@@ -1946,11 +1827,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">client model</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-<<<<<<< HEAD
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> TestClientModelWithHttpInfoAsync (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-=======
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> TestClientModelWithHttpInfoAsync (ModelClient body)
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
             // verify the required parameter 'body' is set
             if (body == null)
@@ -2159,12 +2036,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestEndpointParametersAsync (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-<<<<<<< HEAD
              await TestEndpointParametersWithHttpInfoAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback, cancellationToken);
-=======
-             await TestEndpointParametersWithHttpInfoAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback);
-
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         }
 
         /// <summary>
@@ -2200,11 +2072,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="callback">None (optional)</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-=======
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEndpointParametersWithHttpInfoAsync (decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string))
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
             // verify the required parameter 'patternWithoutDelimiter' is set
             if (patternWithoutDelimiter == null)
@@ -2415,12 +2283,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestEnumParametersAsync (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-<<<<<<< HEAD
              await TestEnumParametersWithHttpInfoAsync(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, cancellationToken);
-=======
-             await TestEnumParametersWithHttpInfoAsync(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString);
-
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         }
 
         /// <summary>
@@ -2444,11 +2307,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="enumFormString">Form parameter enum test (string) (optional, default to -efg)</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-=======
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestEnumParametersWithHttpInfoAsync (List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string))
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -2607,12 +2466,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestGroupParametersAsync (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-<<<<<<< HEAD
              await TestGroupParametersWithHttpInfoAsync(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, cancellationToken);
-=======
-             await TestGroupParametersWithHttpInfoAsync(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group);
-
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         }
 
         /// <summary>
@@ -2632,11 +2486,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="int64Group">Integer in group parameters (optional)</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-=======
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestGroupParametersWithHttpInfoAsync (int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?))
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -2748,12 +2598,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestInlineAdditionalPropertiesAsync (Dictionary<string, string> param, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-<<<<<<< HEAD
              await TestInlineAdditionalPropertiesWithHttpInfoAsync(param, cancellationToken);
-=======
-             await TestInlineAdditionalPropertiesWithHttpInfoAsync(param);
-
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         }
 
         /// <summary>
@@ -2763,11 +2608,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="param">request body</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestInlineAdditionalPropertiesWithHttpInfoAsync (Dictionary<string, string> param, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-=======
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestInlineAdditionalPropertiesWithHttpInfoAsync (Dictionary<string, string> param)
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
             // verify the required parameter 'param' is set
             if (param == null)
@@ -2879,12 +2720,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestJsonFormDataAsync (string param, string param2, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-<<<<<<< HEAD
              await TestJsonFormDataWithHttpInfoAsync(param, param2, cancellationToken);
-=======
-             await TestJsonFormDataWithHttpInfoAsync(param, param2);
-
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         }
 
         /// <summary>
@@ -2896,11 +2732,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="param2">field2</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestJsonFormDataWithHttpInfoAsync (string param, string param2, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-=======
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestJsonFormDataWithHttpInfoAsync (string param, string param2)
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
             // verify the required parameter 'param' is set
             if (param == null)
@@ -3043,12 +2875,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-<<<<<<< HEAD
              await TestQueryParameterCollectionFormatWithHttpInfoAsync(pipe, ioutil, http, url, context, cancellationToken);
-=======
-             await TestQueryParameterCollectionFormatWithHttpInfoAsync(pipe, ioutil, http, url, context);
-
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         }
 
         /// <summary>
@@ -3066,11 +2893,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="context"></param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-<<<<<<< HEAD
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-=======
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> TestQueryParameterCollectionFormatWithHttpInfoAsync (List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context)
->>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
             // verify the required parameter 'pipe' is set
             if (pipe == null)
