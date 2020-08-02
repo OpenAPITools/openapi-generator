@@ -473,7 +473,36 @@ namespace Org.OpenAPITools.Api
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
+<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+=======
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync (long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream));
+        /// <summary>
+        /// uploads an image (required)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="requiredFile">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <returns>Task of ApiResponse</returns>
+        System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string));
+
+        /// <summary>
+        /// uploads an image (required)
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="requiredFile">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <returns>Task of ApiResponse (ApiResponse)</returns>
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string));
+>>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         #endregion Asynchronous Operations
     }
 
@@ -1723,6 +1752,7 @@ namespace Org.OpenAPITools.Api
         /// uploads an image (required) 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+<<<<<<< HEAD
         /// <param name="petId">ID of pet to update</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <param name="requiredFile">file to upload</param>        
@@ -1734,12 +1764,24 @@ namespace Org.OpenAPITools.Api
         {
              Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = await UploadFileWithRequiredFileWithHttpInfoAsync(petId, requiredFile, additionalMetadata, cancellationToken);
              return localVarResponse.Data;
+=======
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="requiredFile">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <returns>Task of ApiResponse</returns>
+        public async System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string))
+        {
+             Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = await UploadFileWithRequiredFileWithHttpInfoAsync(petId, requiredFile, additionalMetadata);
+             return localVarResponse.Data;
+
+>>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         }
 
         /// <summary>
         /// uploads an image (required) 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+<<<<<<< HEAD
         /// <param name="petId">ID of pet to update</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <param name="requiredFile">file to upload</param>        
@@ -1748,6 +1790,13 @@ namespace Org.OpenAPITools.Api
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+=======
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="requiredFile">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <returns>Task of ApiResponse (ApiResponse)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string))
+>>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
             // verify the required parameter 'requiredFile' is set
             if (requiredFile == null)
@@ -1788,7 +1837,11 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
+<<<<<<< HEAD
             var localVarResponse = await this.AsynchronousClient.PostAsync<ApiResponse>("/fake/{petId}/uploadImageWithRequiredFile", localVarRequestOptions, this.Configuration, cancellationToken);
+=======
+            var localVarResponse = await this.AsynchronousClient.PostAsync<ApiResponse>("/fake/{petId}/uploadImageWithRequiredFile", localVarRequestOptions, this.Configuration);
+>>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
 
             if (this.ExceptionFactory != null)
             {

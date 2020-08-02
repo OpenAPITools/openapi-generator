@@ -79,7 +79,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">client model</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
+<<<<<<< HEAD
         System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClassnameWithHttpInfoAsync (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+=======
+        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClassnameWithHttpInfoAsync (ModelClient body);
+>>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         #endregion Asynchronous Operations
     }
 
@@ -270,7 +274,11 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ModelClient</returns>
         public async System.Threading.Tasks.Task<ModelClient> TestClassnameAsync (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
+<<<<<<< HEAD
              Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClassnameWithHttpInfoAsync(body, cancellationToken);
+=======
+             Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClassnameWithHttpInfoAsync(body);
+>>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
              return localVarResponse.Data;
         }
 
@@ -281,7 +289,11 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">client model</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
+<<<<<<< HEAD
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> TestClassnameWithHttpInfoAsync (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+=======
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> TestClassnameWithHttpInfoAsync (ModelClient body)
+>>>>>>> c11b53de0d882c709d76cdb9f4c96ae3ccf616a8
         {
             // verify the required parameter 'body' is set
             if (body == null)
