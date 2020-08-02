@@ -29,16 +29,12 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import animal
-except ImportError:
-    animal = sys.modules[
-        'petstore_api.model.animal']
-try:
-    from petstore_api.model import number_with_validations
-except ImportError:
-    number_with_validations = sys.modules[
-        'petstore_api.model.number_with_validations']
+
+def lazy_import():
+    from petstore_api.model.animal import Animal
+    from petstore_api.model.number_with_validations import NumberWithValidations
+    globals()['Animal'] = Animal
+    globals()['NumberWithValidations'] = NumberWithValidations
 
 
 class ComposedOneOfNumberWithValidations(ModelComposed):
@@ -71,20 +67,28 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
     validations = {
     }
 
-    additional_properties_type = (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
+    @cached_property
+    def additional_properties_type():
+        """
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
+        """
+        lazy_import()
+        return (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
 
     _nullable = False
 
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'class_name': (str,),  # noqa: E501
             'color': (str,),  # noqa: E501
@@ -93,6 +97,7 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {
         'class_name': 'className',  # noqa: E501
@@ -113,7 +118,7 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
 
     @convert_js_args_to_python_args
     def __init__(self, *args, **kwargs):  # noqa: E501
-        """composed_one_of_number_with_validations.ComposedOneOfNumberWithValidations - a model defined in OpenAPI
+        """ComposedOneOfNumberWithValidations - a model defined in OpenAPI
 
         Args:
 
@@ -221,15 +226,16 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        lazy_import()
         return {
           'anyOf': [
           ],
           'allOf': [
           ],
           'oneOf': [
-              animal.Animal,
+              Animal,
+              NumberWithValidations,
               date,
               none_type,
-              number_with_validations.NumberWithValidations,
           ],
         }

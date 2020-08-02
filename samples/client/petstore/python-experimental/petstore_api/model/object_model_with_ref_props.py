@@ -29,11 +29,10 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import number_with_validations
-except ImportError:
-    number_with_validations = sys.modules[
-        'petstore_api.model.number_with_validations']
+
+def lazy_import():
+    from petstore_api.model.number_with_validations import NumberWithValidations
+    globals()['NumberWithValidations'] = NumberWithValidations
 
 
 class ObjectModelWithRefProps(ModelNormal):
@@ -73,15 +72,16 @@ class ObjectModelWithRefProps(ModelNormal):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
-            'my_number': (number_with_validations.NumberWithValidations,),  # noqa: E501
+            'my_number': (NumberWithValidations,),  # noqa: E501
             'my_string': (str,),  # noqa: E501
             'my_boolean': (bool,),  # noqa: E501
         }
@@ -89,6 +89,7 @@ class ObjectModelWithRefProps(ModelNormal):
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {
         'my_number': 'my_number',  # noqa: E501
@@ -109,7 +110,7 @@ class ObjectModelWithRefProps(ModelNormal):
 
     @convert_js_args_to_python_args
     def __init__(self, *args, **kwargs):  # noqa: E501
-        """object_model_with_ref_props.ObjectModelWithRefProps - a model defined in OpenAPI
+        """ObjectModelWithRefProps - a model defined in OpenAPI
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -142,7 +143,7 @@ class ObjectModelWithRefProps(ModelNormal):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            my_number (number_with_validations.NumberWithValidations): [optional]  # noqa: E501
+            my_number (NumberWithValidations): [optional]  # noqa: E501
             my_string (str): [optional]  # noqa: E501
             my_boolean (bool): [optional]  # noqa: E501
         """

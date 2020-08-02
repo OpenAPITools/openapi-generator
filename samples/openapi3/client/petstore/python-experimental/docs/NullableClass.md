@@ -1,4 +1,4 @@
-# nullable_class.NullableClass
+# NullableClass
 
 ## Properties
 Name | Type | Description | Notes

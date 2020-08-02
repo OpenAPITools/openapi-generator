@@ -1,4 +1,4 @@
-# integer_enum.IntegerEnum
+# IntegerEnum
 
 ## Properties
 Name | Type | Description | Notes

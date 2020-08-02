@@ -10,6 +10,8 @@
 """
 
 
+from __future__ import absolute_import
+
 import unittest
 
 import petstore_api
@@ -109,7 +111,11 @@ class TestFakeApi(unittest.TestCase):
         """
         # when we omit the required enums of length one, they are still set
         endpoint = self.api.test_endpoint_enums_length_one
-        from unittest.mock import patch
+        import six
+        if six.PY3:
+            from unittest.mock import patch
+        else:
+            from mock import patch
         with patch.object(endpoint, 'call_with_http_info') as call_with_http_info:
             endpoint()
             call_with_http_info.assert_called_with(

@@ -26,12 +26,14 @@ type api{{operationId}}Request struct {
 	{{paramName}} {{^isPathParam}}*{{/isPathParam}}{{{dataType}}}{{/allParams}}
 }
 
-{{#allParams}}{{^isPathParam}}
+{{#allParams}}
+{{^isPathParam}}
 func (r api{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) api{{operationId}}Request {
 	r.{{paramName}} = &{{paramName}}
 	return r
 }
-{{/isPathParam}}{{/allParams}}
+{{/isPathParam}}
+{{/allParams}}
 /*
 {{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
 {{#notes}}
@@ -51,7 +53,9 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParam
 
 /*
 Execute executes the request
-{{#returnType}} @return {{{.}}}{{/returnType}}
+{{#returnType}}
+@return {{{.}}}
+{{/returnType}}
 */
 func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
 	var (
@@ -60,7 +64,9 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		{{#returnType}}localVarReturnValue  {{{.}}}{{/returnType}}
+		{{#returnType}}
+		localVarReturnValue  {{{.}}}
+		{{/returnType}}
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "{{{classname}}}Service.{{{nickname}}}")
@@ -75,10 +81,12 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
 	{{#allParams}}
-	{{#required}}{{^isPathParam}}
+	{{#required}}
+	{{^isPathParam}}
 	if r.{{paramName}} == nil {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} is required and must be specified")
-	}{{/isPathParam}}
+	}
+	{{/isPathParam}}
 	{{#minItems}}
 	if len({{^isPathParam}}*{{/isPathParam}}r.{{paramName}}) < {{minItems}} {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, reportError("{{paramName}} must have at least {{minItems}} elements")

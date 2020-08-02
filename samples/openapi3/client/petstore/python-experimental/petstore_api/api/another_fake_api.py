@@ -23,7 +23,7 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_and_convert_types
 )
-from petstore_api.model import client
+from petstore_api.model.client import Client
 
 
 class AnotherFakeApi(object):
@@ -40,7 +40,7 @@ class AnotherFakeApi(object):
 
         def __call_123_test_special_tags(
             self,
-            client_client,
+            client,
             **kwargs
         ):
             """To test special tags  # noqa: E501
@@ -49,11 +49,11 @@ class AnotherFakeApi(object):
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.call_123_test_special_tags(client_client, async_req=True)
+            >>> thread = api.call_123_test_special_tags(client, async_req=True)
             >>> result = thread.get()
 
             Args:
-                client_client (client.Client): client model
+                client (Client): client model
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -77,7 +77,7 @@ class AnotherFakeApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                client.Client
+                Client
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -100,13 +100,13 @@ class AnotherFakeApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
-            kwargs['client_client'] = \
-                client_client
+            kwargs['client'] = \
+                client
             return self.call_with_http_info(**kwargs)
 
         self.call_123_test_special_tags = Endpoint(
             settings={
-                'response_type': (client.Client,),
+                'response_type': (Client,),
                 'auth': [],
                 'endpoint_path': '/another-fake/dummy',
                 'operation_id': 'call_123_test_special_tags',
@@ -115,10 +115,10 @@ class AnotherFakeApi(object):
             },
             params_map={
                 'all': [
-                    'client_client',
+                    'client',
                 ],
                 'required': [
-                    'client_client',
+                    'client',
                 ],
                 'nullable': [
                 ],
@@ -133,13 +133,13 @@ class AnotherFakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'client_client':
-                        (client.Client,),
+                    'client':
+                        (Client,),
                 },
                 'attribute_map': {
                 },
                 'location_map': {
-                    'client_client': 'body',
+                    'client': 'body',
                 },
                 'collection_format_map': {
                 }

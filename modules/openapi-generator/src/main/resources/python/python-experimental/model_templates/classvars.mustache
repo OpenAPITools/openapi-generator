@@ -64,20 +64,41 @@
 {{/optionalVars}}
     }
 
-    additional_properties_type = {{#additionalPropertiesType}}({{{additionalPropertiesType}}},)  # noqa: E501{{/additionalPropertiesType}}{{^additionalPropertiesType}}None{{/additionalPropertiesType}}
+{{#additionalPropertiesType}}
+    @cached_property
+    def additional_properties_type():
+        """
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
+        """
+{{#imports}}
+{{#-first}}
+        lazy_import()
+{{/-first}}
+{{/imports}}
+        return ({{{additionalPropertiesType}}},)  # noqa: E501
+{{/additionalPropertiesType}}
+{{^additionalPropertiesType}}
+    additional_properties_type = None
+{{/additionalPropertiesType}}
 
     _nullable = {{#isNullable}}True{{/isNullable}}{{^isNullable}}False{{/isNullable}}
 
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+{{#imports}}
+{{#-first}}
+        lazy_import()
+{{/-first}}
+{{/imports}}
         return {
 {{#isAlias}}
             'value': ({{{dataType}}},),
@@ -98,7 +119,20 @@
 
     @cached_property
     def discriminator():
-        {{^discriminator}}return None{{/discriminator}}{{#discriminator}}val = {
+{{^discriminator}}
+        return None
+{{/discriminator}}
+{{#discriminator}}
+{{#mappedModels}}
+{{#-first}}
+{{#imports}}
+{{#-first}}
+        lazy_import()
+{{/-first}}
+{{/imports}}
+{{/-first}}
+{{/mappedModels}}
+        val = {
 {{#mappedModels}}
             '{{mappingName}}': {{{modelName}}},
 {{/mappedModels}}

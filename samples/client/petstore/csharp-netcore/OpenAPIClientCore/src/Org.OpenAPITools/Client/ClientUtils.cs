@@ -1,7 +1,7 @@
 /* 
  * OpenAPI Petstore
  *
- * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+ * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
  *
  * The version of the OpenAPI document: 1.0.0
  * 
@@ -16,6 +16,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using KellermanSoftware.CompareNetObjects;
 
 namespace Org.OpenAPITools.Client
 {
@@ -24,6 +25,19 @@ namespace Org.OpenAPITools.Client
     /// </summary>
     public static class ClientUtils
     {
+        /// <summary>
+        /// An instance of CompareLogic.
+        /// </summary>
+        public static CompareLogic compareLogic;
+
+        /// <summary>
+        /// Static contstructor to initialise compareLogic.
+        /// </summary>
+        static ClientUtils()
+        {
+            compareLogic = new CompareLogic();
+        }
+
         /// <summary>
         /// Sanitize filename by removing the path
         /// </summary>

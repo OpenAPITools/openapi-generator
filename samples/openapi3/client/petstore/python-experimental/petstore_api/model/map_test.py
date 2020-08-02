@@ -29,11 +29,10 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import string_boolean_map
-except ImportError:
-    string_boolean_map = sys.modules[
-        'petstore_api.model.string_boolean_map']
+
+def lazy_import():
+    from petstore_api.model.string_boolean_map import StringBooleanMap
+    globals()['StringBooleanMap'] = StringBooleanMap
 
 
 class MapTest(ModelNormal):
@@ -77,23 +76,25 @@ class MapTest(ModelNormal):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'map_map_of_string': ({str: ({str: (str,)},)},),  # noqa: E501
             'map_of_enum_string': ({str: (str,)},),  # noqa: E501
             'direct_map': ({str: (bool,)},),  # noqa: E501
-            'indirect_map': (string_boolean_map.StringBooleanMap,),  # noqa: E501
+            'indirect_map': (StringBooleanMap,),  # noqa: E501
         }
 
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {
         'map_map_of_string': 'map_map_of_string',  # noqa: E501
@@ -115,7 +116,7 @@ class MapTest(ModelNormal):
 
     @convert_js_args_to_python_args
     def __init__(self, *args, **kwargs):  # noqa: E501
-        """map_test.MapTest - a model defined in OpenAPI
+        """MapTest - a model defined in OpenAPI
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -151,7 +152,7 @@ class MapTest(ModelNormal):
             map_map_of_string ({str: ({str: (str,)},)}): [optional]  # noqa: E501
             map_of_enum_string ({str: (str,)}): [optional]  # noqa: E501
             direct_map ({str: (bool,)}): [optional]  # noqa: E501
-            indirect_map (string_boolean_map.StringBooleanMap): [optional]  # noqa: E501
+            indirect_map (StringBooleanMap): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

@@ -32,7 +32,6 @@ type apiFakeHealthGetRequest struct {
 	apiService *FakeApiService
 }
 
-
 /*
 FakeHealthGet Health check endpoint
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -47,7 +46,7 @@ func (a *FakeApiService) FakeHealthGet(ctx _context.Context) apiFakeHealthGetReq
 
 /*
 Execute executes the request
- @return HealthCheckResult
+@return HealthCheckResult
 */
 func (r apiFakeHealthGetRequest) Execute() (HealthCheckResult, *_nethttp.Response, error) {
 	var (
@@ -128,12 +127,10 @@ type apiFakeOuterBooleanSerializeRequest struct {
 	body *bool
 }
 
-
 func (r apiFakeOuterBooleanSerializeRequest) Body(body bool) apiFakeOuterBooleanSerializeRequest {
 	r.body = &body
 	return r
 }
-
 /*
 FakeOuterBooleanSerialize Method for FakeOuterBooleanSerialize
 Test serialization of outer boolean types
@@ -149,7 +146,7 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx _context.Context) apiFake
 
 /*
 Execute executes the request
- @return bool
+@return bool
 */
 func (r apiFakeOuterBooleanSerializeRequest) Execute() (bool, *_nethttp.Response, error) {
 	var (
@@ -171,7 +168,7 @@ func (r apiFakeOuterBooleanSerializeRequest) Execute() (bool, *_nethttp.Response
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
+
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
 
@@ -232,12 +229,10 @@ type apiFakeOuterCompositeSerializeRequest struct {
 	outerComposite *OuterComposite
 }
 
-
 func (r apiFakeOuterCompositeSerializeRequest) OuterComposite(outerComposite OuterComposite) apiFakeOuterCompositeSerializeRequest {
 	r.outerComposite = &outerComposite
 	return r
 }
-
 /*
 FakeOuterCompositeSerialize Method for FakeOuterCompositeSerialize
 Test serialization of object with outer number type
@@ -253,7 +248,7 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx _context.Context) apiFa
 
 /*
 Execute executes the request
- @return OuterComposite
+@return OuterComposite
 */
 func (r apiFakeOuterCompositeSerializeRequest) Execute() (OuterComposite, *_nethttp.Response, error) {
 	var (
@@ -275,7 +270,7 @@ func (r apiFakeOuterCompositeSerializeRequest) Execute() (OuterComposite, *_neth
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
+
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
 
@@ -336,12 +331,10 @@ type apiFakeOuterNumberSerializeRequest struct {
 	body *float32
 }
 
-
 func (r apiFakeOuterNumberSerializeRequest) Body(body float32) apiFakeOuterNumberSerializeRequest {
 	r.body = &body
 	return r
 }
-
 /*
 FakeOuterNumberSerialize Method for FakeOuterNumberSerialize
 Test serialization of outer number types
@@ -357,7 +350,7 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx _context.Context) apiFakeO
 
 /*
 Execute executes the request
- @return float32
+@return float32
 */
 func (r apiFakeOuterNumberSerializeRequest) Execute() (float32, *_nethttp.Response, error) {
 	var (
@@ -379,7 +372,7 @@ func (r apiFakeOuterNumberSerializeRequest) Execute() (float32, *_nethttp.Respon
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
+
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
 
@@ -440,12 +433,10 @@ type apiFakeOuterStringSerializeRequest struct {
 	body *string
 }
 
-
 func (r apiFakeOuterStringSerializeRequest) Body(body string) apiFakeOuterStringSerializeRequest {
 	r.body = &body
 	return r
 }
-
 /*
 FakeOuterStringSerialize Method for FakeOuterStringSerialize
 Test serialization of outer string types
@@ -461,7 +452,7 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context) apiFakeO
 
 /*
 Execute executes the request
- @return string
+@return string
 */
 func (r apiFakeOuterStringSerializeRequest) Execute() (string, *_nethttp.Response, error) {
 	var (
@@ -483,7 +474,7 @@ func (r apiFakeOuterStringSerializeRequest) Execute() (string, *_nethttp.Respons
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
+
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
 
@@ -544,12 +535,10 @@ type apiTestBodyWithFileSchemaRequest struct {
 	fileSchemaTestClass *FileSchemaTestClass
 }
 
-
 func (r apiTestBodyWithFileSchemaRequest) FileSchemaTestClass(fileSchemaTestClass FileSchemaTestClass) apiTestBodyWithFileSchemaRequest {
 	r.fileSchemaTestClass = &fileSchemaTestClass
 	return r
 }
-
 /*
 TestBodyWithFileSchema Method for TestBodyWithFileSchema
 For this test, the body for this request much reference a schema named `File`.
@@ -565,7 +554,6 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx _context.Context) apiTestBod
 
 /*
 Execute executes the request
-
 */
 func (r apiTestBodyWithFileSchemaRequest) Execute() (*_nethttp.Response, error) {
 	var (
@@ -574,7 +562,6 @@ func (r apiTestBodyWithFileSchemaRequest) Execute() (*_nethttp.Response, error) 
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestBodyWithFileSchema")
@@ -587,7 +574,6 @@ func (r apiTestBodyWithFileSchemaRequest) Execute() (*_nethttp.Response, error) 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.fileSchemaTestClass == nil {
 		return nil, reportError("fileSchemaTestClass is required and must be specified")
 	}
@@ -644,17 +630,14 @@ type apiTestBodyWithQueryParamsRequest struct {
 	user *User
 }
 
-
 func (r apiTestBodyWithQueryParamsRequest) Query(query string) apiTestBodyWithQueryParamsRequest {
 	r.query = &query
 	return r
 }
-
 func (r apiTestBodyWithQueryParamsRequest) User(user User) apiTestBodyWithQueryParamsRequest {
 	r.user = &user
 	return r
 }
-
 /*
 TestBodyWithQueryParams Method for TestBodyWithQueryParams
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -669,7 +652,6 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx _context.Context) apiTestBo
 
 /*
 Execute executes the request
-
 */
 func (r apiTestBodyWithQueryParamsRequest) Execute() (*_nethttp.Response, error) {
 	var (
@@ -678,7 +660,6 @@ func (r apiTestBodyWithQueryParamsRequest) Execute() (*_nethttp.Response, error)
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestBodyWithQueryParams")
@@ -691,11 +672,9 @@ func (r apiTestBodyWithQueryParamsRequest) Execute() (*_nethttp.Response, error)
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.query == nil {
 		return nil, reportError("query is required and must be specified")
 	}
-	
 	if r.user == nil {
 		return nil, reportError("user is required and must be specified")
 	}
@@ -752,12 +731,10 @@ type apiTestClientModelRequest struct {
 	client *Client
 }
 
-
 func (r apiTestClientModelRequest) Client(client Client) apiTestClientModelRequest {
 	r.client = &client
 	return r
 }
-
 /*
 TestClientModel To test \"client\" model
 To test "client" model
@@ -773,7 +750,7 @@ func (a *FakeApiService) TestClientModel(ctx _context.Context) apiTestClientMode
 
 /*
 Execute executes the request
- @return Client
+@return Client
 */
 func (r apiTestClientModelRequest) Execute() (Client, *_nethttp.Response, error) {
 	var (
@@ -795,7 +772,6 @@ func (r apiTestClientModelRequest) Execute() (Client, *_nethttp.Response, error)
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.client == nil {
 		return localVarReturnValue, nil, reportError("client is required and must be specified")
 	}
@@ -873,77 +849,62 @@ type apiTestEndpointParametersRequest struct {
 	callback *string
 }
 
-
 func (r apiTestEndpointParametersRequest) Number(number float32) apiTestEndpointParametersRequest {
 	r.number = &number
 	return r
 }
-
 func (r apiTestEndpointParametersRequest) Double(double float64) apiTestEndpointParametersRequest {
 	r.double = &double
 	return r
 }
-
 func (r apiTestEndpointParametersRequest) PatternWithoutDelimiter(patternWithoutDelimiter string) apiTestEndpointParametersRequest {
 	r.patternWithoutDelimiter = &patternWithoutDelimiter
 	return r
 }
-
 func (r apiTestEndpointParametersRequest) Byte_(byte_ string) apiTestEndpointParametersRequest {
 	r.byte_ = &byte_
 	return r
 }
-
 func (r apiTestEndpointParametersRequest) Integer(integer int32) apiTestEndpointParametersRequest {
 	r.integer = &integer
 	return r
 }
-
 func (r apiTestEndpointParametersRequest) Int32_(int32_ int32) apiTestEndpointParametersRequest {
 	r.int32_ = &int32_
 	return r
 }
-
 func (r apiTestEndpointParametersRequest) Int64_(int64_ int64) apiTestEndpointParametersRequest {
 	r.int64_ = &int64_
 	return r
 }
-
 func (r apiTestEndpointParametersRequest) Float(float float32) apiTestEndpointParametersRequest {
 	r.float = &float
 	return r
 }
-
 func (r apiTestEndpointParametersRequest) String_(string_ string) apiTestEndpointParametersRequest {
 	r.string_ = &string_
 	return r
 }
-
 func (r apiTestEndpointParametersRequest) Binary(binary *os.File) apiTestEndpointParametersRequest {
 	r.binary = &binary
 	return r
 }
-
 func (r apiTestEndpointParametersRequest) Date(date string) apiTestEndpointParametersRequest {
 	r.date = &date
 	return r
 }
-
 func (r apiTestEndpointParametersRequest) DateTime(dateTime time.Time) apiTestEndpointParametersRequest {
 	r.dateTime = &dateTime
 	return r
 }
-
 func (r apiTestEndpointParametersRequest) Password(password string) apiTestEndpointParametersRequest {
 	r.password = &password
 	return r
 }
-
 func (r apiTestEndpointParametersRequest) Callback(callback string) apiTestEndpointParametersRequest {
 	r.callback = &callback
 	return r
 }
-
 /*
 TestEndpointParameters Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
 Fake endpoint for testing various parameters
@@ -963,7 +924,6 @@ func (a *FakeApiService) TestEndpointParameters(ctx _context.Context) apiTestEnd
 
 /*
 Execute executes the request
-
 */
 func (r apiTestEndpointParametersRequest) Execute() (*_nethttp.Response, error) {
 	var (
@@ -972,7 +932,6 @@ func (r apiTestEndpointParametersRequest) Execute() (*_nethttp.Response, error) 
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestEndpointParameters")
@@ -985,7 +944,6 @@ func (r apiTestEndpointParametersRequest) Execute() (*_nethttp.Response, error) 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.number == nil {
 		return nil, reportError("number is required and must be specified")
 	}
@@ -995,7 +953,6 @@ func (r apiTestEndpointParametersRequest) Execute() (*_nethttp.Response, error) 
 	if *r.number > 543.2 {
 		return nil, reportError("number must be less than 543.2")
 	}
-	
 	if r.double == nil {
 		return nil, reportError("double is required and must be specified")
 	}
@@ -1005,15 +962,13 @@ func (r apiTestEndpointParametersRequest) Execute() (*_nethttp.Response, error) 
 	if *r.double > 123.4 {
 		return nil, reportError("double must be less than 123.4")
 	}
-	
 	if r.patternWithoutDelimiter == nil {
 		return nil, reportError("patternWithoutDelimiter is required and must be specified")
 	}
-	
 	if r.byte_ == nil {
 		return nil, reportError("byte_ is required and must be specified")
 	}
-										
+
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
 
@@ -1112,47 +1067,38 @@ type apiTestEnumParametersRequest struct {
 	enumFormString *string
 }
 
-
 func (r apiTestEnumParametersRequest) EnumHeaderStringArray(enumHeaderStringArray []string) apiTestEnumParametersRequest {
 	r.enumHeaderStringArray = &enumHeaderStringArray
 	return r
 }
-
 func (r apiTestEnumParametersRequest) EnumHeaderString(enumHeaderString string) apiTestEnumParametersRequest {
 	r.enumHeaderString = &enumHeaderString
 	return r
 }
-
 func (r apiTestEnumParametersRequest) EnumQueryStringArray(enumQueryStringArray []string) apiTestEnumParametersRequest {
 	r.enumQueryStringArray = &enumQueryStringArray
 	return r
 }
-
 func (r apiTestEnumParametersRequest) EnumQueryString(enumQueryString string) apiTestEnumParametersRequest {
 	r.enumQueryString = &enumQueryString
 	return r
 }
-
 func (r apiTestEnumParametersRequest) EnumQueryInteger(enumQueryInteger int32) apiTestEnumParametersRequest {
 	r.enumQueryInteger = &enumQueryInteger
 	return r
 }
-
 func (r apiTestEnumParametersRequest) EnumQueryDouble(enumQueryDouble float64) apiTestEnumParametersRequest {
 	r.enumQueryDouble = &enumQueryDouble
 	return r
 }
-
 func (r apiTestEnumParametersRequest) EnumFormStringArray(enumFormStringArray []string) apiTestEnumParametersRequest {
 	r.enumFormStringArray = &enumFormStringArray
 	return r
 }
-
 func (r apiTestEnumParametersRequest) EnumFormString(enumFormString string) apiTestEnumParametersRequest {
 	r.enumFormString = &enumFormString
 	return r
 }
-
 /*
 TestEnumParameters To test enum parameters
 To test enum parameters
@@ -1168,7 +1114,6 @@ func (a *FakeApiService) TestEnumParameters(ctx _context.Context) apiTestEnumPar
 
 /*
 Execute executes the request
-
 */
 func (r apiTestEnumParametersRequest) Execute() (*_nethttp.Response, error) {
 	var (
@@ -1177,7 +1122,6 @@ func (r apiTestEnumParametersRequest) Execute() (*_nethttp.Response, error) {
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestEnumParameters")
@@ -1190,7 +1134,7 @@ func (r apiTestEnumParametersRequest) Execute() (*_nethttp.Response, error) {
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-								
+
 	if r.enumQueryStringArray != nil {
 		t := *r.enumQueryStringArray
 		if reflect.TypeOf(t).Kind() == reflect.Slice {
@@ -1277,37 +1221,30 @@ type apiTestGroupParametersRequest struct {
 	int64Group *int64
 }
 
-
 func (r apiTestGroupParametersRequest) RequiredStringGroup(requiredStringGroup int32) apiTestGroupParametersRequest {
 	r.requiredStringGroup = &requiredStringGroup
 	return r
 }
-
 func (r apiTestGroupParametersRequest) RequiredBooleanGroup(requiredBooleanGroup bool) apiTestGroupParametersRequest {
 	r.requiredBooleanGroup = &requiredBooleanGroup
 	return r
 }
-
 func (r apiTestGroupParametersRequest) RequiredInt64Group(requiredInt64Group int64) apiTestGroupParametersRequest {
 	r.requiredInt64Group = &requiredInt64Group
 	return r
 }
-
 func (r apiTestGroupParametersRequest) StringGroup(stringGroup int32) apiTestGroupParametersRequest {
 	r.stringGroup = &stringGroup
 	return r
 }
-
 func (r apiTestGroupParametersRequest) BooleanGroup(booleanGroup bool) apiTestGroupParametersRequest {
 	r.booleanGroup = &booleanGroup
 	return r
 }
-
 func (r apiTestGroupParametersRequest) Int64Group(int64Group int64) apiTestGroupParametersRequest {
 	r.int64Group = &int64Group
 	return r
 }
-
 /*
 TestGroupParameters Fake endpoint to test group parameters (optional)
 Fake endpoint to test group parameters (optional)
@@ -1323,7 +1260,6 @@ func (a *FakeApiService) TestGroupParameters(ctx _context.Context) apiTestGroupP
 
 /*
 Execute executes the request
-
 */
 func (r apiTestGroupParametersRequest) Execute() (*_nethttp.Response, error) {
 	var (
@@ -1332,7 +1268,6 @@ func (r apiTestGroupParametersRequest) Execute() (*_nethttp.Response, error) {
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestGroupParameters")
@@ -1345,19 +1280,16 @@ func (r apiTestGroupParametersRequest) Execute() (*_nethttp.Response, error) {
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.requiredStringGroup == nil {
 		return nil, reportError("requiredStringGroup is required and must be specified")
 	}
-	
 	if r.requiredBooleanGroup == nil {
 		return nil, reportError("requiredBooleanGroup is required and must be specified")
 	}
-	
 	if r.requiredInt64Group == nil {
 		return nil, reportError("requiredInt64Group is required and must be specified")
 	}
-			
+
 	localVarQueryParams.Add("required_string_group", parameterToString(*r.requiredStringGroup, ""))
 	localVarQueryParams.Add("required_int64_group", parameterToString(*r.requiredInt64Group, ""))
 	if r.stringGroup != nil {
@@ -1419,12 +1351,10 @@ type apiTestInlineAdditionalPropertiesRequest struct {
 	requestBody *map[string]string
 }
 
-
 func (r apiTestInlineAdditionalPropertiesRequest) RequestBody(requestBody map[string]string) apiTestInlineAdditionalPropertiesRequest {
 	r.requestBody = &requestBody
 	return r
 }
-
 /*
 TestInlineAdditionalProperties test inline additionalProperties
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -1439,7 +1369,6 @@ func (a *FakeApiService) TestInlineAdditionalProperties(ctx _context.Context) ap
 
 /*
 Execute executes the request
-
 */
 func (r apiTestInlineAdditionalPropertiesRequest) Execute() (*_nethttp.Response, error) {
 	var (
@@ -1448,7 +1377,6 @@ func (r apiTestInlineAdditionalPropertiesRequest) Execute() (*_nethttp.Response,
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestInlineAdditionalProperties")
@@ -1461,7 +1389,6 @@ func (r apiTestInlineAdditionalPropertiesRequest) Execute() (*_nethttp.Response,
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.requestBody == nil {
 		return nil, reportError("requestBody is required and must be specified")
 	}
@@ -1518,17 +1445,14 @@ type apiTestJsonFormDataRequest struct {
 	param2 *string
 }
 
-
 func (r apiTestJsonFormDataRequest) Param(param string) apiTestJsonFormDataRequest {
 	r.param = &param
 	return r
 }
-
 func (r apiTestJsonFormDataRequest) Param2(param2 string) apiTestJsonFormDataRequest {
 	r.param2 = &param2
 	return r
 }
-
 /*
 TestJsonFormData test json serialization of form data
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -1543,7 +1467,6 @@ func (a *FakeApiService) TestJsonFormData(ctx _context.Context) apiTestJsonFormD
 
 /*
 Execute executes the request
-
 */
 func (r apiTestJsonFormDataRequest) Execute() (*_nethttp.Response, error) {
 	var (
@@ -1552,7 +1475,6 @@ func (r apiTestJsonFormDataRequest) Execute() (*_nethttp.Response, error) {
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestJsonFormData")
@@ -1565,11 +1487,9 @@ func (r apiTestJsonFormDataRequest) Execute() (*_nethttp.Response, error) {
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.param == nil {
 		return nil, reportError("param is required and must be specified")
 	}
-	
 	if r.param2 == nil {
 		return nil, reportError("param2 is required and must be specified")
 	}
@@ -1629,32 +1549,26 @@ type apiTestQueryParameterCollectionFormatRequest struct {
 	context *[]string
 }
 
-
 func (r apiTestQueryParameterCollectionFormatRequest) Pipe(pipe []string) apiTestQueryParameterCollectionFormatRequest {
 	r.pipe = &pipe
 	return r
 }
-
 func (r apiTestQueryParameterCollectionFormatRequest) Ioutil(ioutil []string) apiTestQueryParameterCollectionFormatRequest {
 	r.ioutil = &ioutil
 	return r
 }
-
 func (r apiTestQueryParameterCollectionFormatRequest) Http(http []string) apiTestQueryParameterCollectionFormatRequest {
 	r.http = &http
 	return r
 }
-
 func (r apiTestQueryParameterCollectionFormatRequest) Url(url []string) apiTestQueryParameterCollectionFormatRequest {
 	r.url = &url
 	return r
 }
-
 func (r apiTestQueryParameterCollectionFormatRequest) Context(context []string) apiTestQueryParameterCollectionFormatRequest {
 	r.context = &context
 	return r
 }
-
 /*
 TestQueryParameterCollectionFormat Method for TestQueryParameterCollectionFormat
 To test the collection format in query parameters
@@ -1670,7 +1584,6 @@ func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx _context.Context
 
 /*
 Execute executes the request
-
 */
 func (r apiTestQueryParameterCollectionFormatRequest) Execute() (*_nethttp.Response, error) {
 	var (
@@ -1679,7 +1592,6 @@ func (r apiTestQueryParameterCollectionFormatRequest) Execute() (*_nethttp.Respo
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeApiService.TestQueryParameterCollectionFormat")
@@ -1692,23 +1604,18 @@ func (r apiTestQueryParameterCollectionFormatRequest) Execute() (*_nethttp.Respo
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.pipe == nil {
 		return nil, reportError("pipe is required and must be specified")
 	}
-	
 	if r.ioutil == nil {
 		return nil, reportError("ioutil is required and must be specified")
 	}
-	
 	if r.http == nil {
 		return nil, reportError("http is required and must be specified")
 	}
-	
 	if r.url == nil {
 		return nil, reportError("url is required and must be specified")
 	}
-	
 	if r.context == nil {
 		return nil, reportError("context is required and must be specified")
 	}

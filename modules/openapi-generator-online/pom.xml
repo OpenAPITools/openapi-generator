@@ -15,8 +15,8 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <spring-boot-version>2.0.7.RELEASE</spring-boot-version>
-        <springfox-version>2.8.0</springfox-version>
+        <spring-boot-version>2.2.9.RELEASE</spring-boot-version>
+        <springfox-version>3.0.0</springfox-version>
         <junit-version>4.13</junit-version>
         <jackson-version>2.10.2</jackson-version>
     </properties>
@@ -105,12 +105,16 @@
             <version>${springfox-version}</version>
             <exclusions>
                 <exclusion>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-            </exclusion>
+                    <groupId>io.swagger</groupId>
+                    <artifactId>swagger-annotations</artifactId>
+                </exclusion>
                 <exclusion>
                     <groupId>io.swagger</groupId>
                     <artifactId>swagger-models</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
