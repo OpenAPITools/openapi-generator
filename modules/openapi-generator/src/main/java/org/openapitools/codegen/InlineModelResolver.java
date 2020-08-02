@@ -625,6 +625,9 @@ public class InlineModelResolver {
             model.setType(object.getType());
         }
         if (object.getFormat() != null) {
+            // Even though the `format` keyword typically applies to primitive types only,
+            // the JSON schema specification states `format` can be used for any model type instance
+            // including object types.
             model.setFormat(object.getFormat());
         }
         model.setDescription(description);

@@ -17,7 +17,8 @@ paths:
             application/json:
               schema:
                 type: object
-                # OAS3 spec allows to use any value in format field
+                # It is legal to use the `format` keyword for object types. The JSON schema specification explicitly allows this.
+                # Even if in practice most OAS authors use `format` for primitive types, it should still be allowed to use format for object types.
                 format: unknown
                 properties:
                   foo:
@@ -35,7 +36,8 @@ paths:
               schema:
                 title: FooBarObject
                 type: object
-                # wrong format just to make sure it won't be stripped
+                # It is legal to use the `format` keyword for object types. The JSON schema specification explicitly allows this.
+                # Even if in practice most OAS authors use `format` for primitive types, it should still be allowed to use format for object types.
                 format: date-time
                 properties:
                   foo:
