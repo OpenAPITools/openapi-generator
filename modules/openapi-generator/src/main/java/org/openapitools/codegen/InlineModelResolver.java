@@ -17,6 +17,10 @@
 
 package org.openapitools.codegen;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.*;
 import io.swagger.v3.oas.models.callbacks.Callback;
@@ -25,6 +29,7 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +41,17 @@ public class InlineModelResolver {
     private OpenAPI openapi;
     private Map<String, Schema> addedModels = new HashMap<String, Schema>();
     private Map<String, String> generatedSignature = new HashMap<String, String>();
+
+    // structure mapper sorts properties alphabetically on write to ensure models are
+    // serialized consistently for lookup of existing models
+    private static ObjectMapper structureMapper;
+
+    static {
+        structureMapper = Json.mapper().copy();
+        structureMapper.configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true);
+        structureMapper.writer(new DefaultPrettyPrinter());
+    }
+
     static Logger LOGGER = LoggerFactory.getLogger(InlineModelResolver.class);
 
     void flatten(OpenAPI openapi) {
@@ -488,15 +504,25 @@ public class InlineModelResolver {
     }
 
     private String matchGenerated(Schema model) {
-        String json = Json.pretty(model);
-        if (generatedSignature.containsKey(json)) {
-            return generatedSignature.get(json);
+        try {
+            String json = structureMapper.writeValueAsString(model);
+            if (generatedSignature.containsKey(json)) {
+                return generatedSignature.get(json);
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
         }
+
         return null;
     }
 
     private void addGenerated(String name, Schema model) {
-        generatedSignature.put(Json.pretty(model), name);
+        try {
+            String json = structureMapper.writeValueAsString(model);
+            generatedSignature.put(json, name);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
