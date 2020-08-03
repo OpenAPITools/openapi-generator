@@ -18,6 +18,9 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.base.Strings;
+import com.samskivert.mustache.Escapers;
+import com.samskivert.mustache.Mustache;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -1062,6 +1065,21 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             model.imports.add("ApiModelProperty");
             model.imports.add("ApiModel");
         }
+    }
+
+    @Override
+    public Mustache.Compiler processCompiler(final Mustache.Compiler compiler) {
+        return compiler
+            .withEscaper(Escapers.simple(new String[][] {
+                { "&", "&amp;" },
+                { "'", "&#39;" },
+                { "<", "&lt;" },
+                { ">", "&gt;" },
+                { "`", "&#x60;" }
+                // part of default Escaper - Escapers#HTML
+                //{ "\"", "&quot;" },
+                //{ "=",  "&#x3D;" }
+            }));
     }
 
     @Override

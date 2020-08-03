@@ -121,8 +121,8 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**testBodyWithFileSchemaWithHttpInfo**](docs/FakeApi.md#testBodyWithFileSchemaWithHttpInfo) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testBodyWithQueryParamsWithHttpInfo**](docs/FakeApi.md#testBodyWithQueryParamsWithHttpInfo) | **PUT** /fake/body-with-query-params | 
-*FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
-*FakeApi* | [**testClientModelWithHttpInfo**](docs/FakeApi.md#testClientModelWithHttpInfo) | **PATCH** /fake | To test \&quot;client\&quot; model
+*FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \"client\" model
+*FakeApi* | [**testClientModelWithHttpInfo**](docs/FakeApi.md#testClientModelWithHttpInfo) | **PATCH** /fake | To test \"client\" model
 *FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 *FakeApi* | [**testEndpointParametersWithHttpInfo**](docs/FakeApi.md#testEndpointParametersWithHttpInfo) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 *FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters

@@ -12,7 +12,9 @@ import javax.validation.constraints.*;
 /**
  * ModelApiResponse
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class ModelApiResponse   {
   @JsonProperty("code")
   private Integer code;

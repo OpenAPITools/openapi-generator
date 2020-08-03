@@ -373,8 +373,8 @@ public class FakeApi {
         return apiClient.invokeAPI(path, HttpMethod.PUT, queryParams, postBody, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
     }
     /**
-     * To test \&quot;client\&quot; model
-     * To test \&quot;client\&quot; model
+     * To test \"client\" model
+     * To test \"client\" model
      * <p><b>200</b> - successful operation
      * @param body client model (required)
      * @return Client
@@ -385,8 +385,8 @@ public class FakeApi {
     }
 
     /**
-     * To test \&quot;client\&quot; model
-     * To test \&quot;client\&quot; model
+     * To test \"client\" model
+     * To test \"client\" model
      * <p><b>200</b> - successful operation
      * @param body client model (required)
      * @return ResponseEntity&lt;Client&gt;

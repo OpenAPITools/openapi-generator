@@ -13,7 +13,9 @@ import javax.validation.constraints.*;
  * Model for testing model name same as property name
  */
 @ApiModel(description = "Model for testing model name same as property name")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class Name   {
   @JsonProperty("name")
   private Integer name;

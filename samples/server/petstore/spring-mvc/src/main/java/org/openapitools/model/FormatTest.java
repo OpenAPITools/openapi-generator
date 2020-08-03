@@ -17,7 +17,9 @@ import javax.validation.constraints.*;
 /**
  * FormatTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class FormatTest   {
   @JsonProperty("integer")
   private Integer integer;

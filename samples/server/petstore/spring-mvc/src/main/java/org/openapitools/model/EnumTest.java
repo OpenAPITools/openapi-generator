@@ -14,7 +14,9 @@ import javax.validation.constraints.*;
 /**
  * EnumTest
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class EnumTest   {
   /**
    * Gets or Sets enumString

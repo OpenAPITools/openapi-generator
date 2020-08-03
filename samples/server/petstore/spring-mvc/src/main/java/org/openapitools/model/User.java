@@ -12,7 +12,9 @@ import javax.validation.constraints.*;
 /**
  * User
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class User   {
   @JsonProperty("id")
   private Long id;

@@ -12,7 +12,9 @@ import javax.validation.constraints.*;
 /**
  * Client
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class Client   {
   @JsonProperty("client")
   private String client;

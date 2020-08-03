@@ -12,7 +12,9 @@ import javax.validation.constraints.*;
 /**
  * CatAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class CatAllOf   {
   @JsonProperty("declawed")
   private Boolean declawed;

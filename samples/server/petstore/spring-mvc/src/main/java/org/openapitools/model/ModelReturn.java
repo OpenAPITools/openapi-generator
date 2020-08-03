@@ -13,7 +13,9 @@ import javax.validation.constraints.*;
  * Model for testing reserved words
  */
 @ApiModel(description = "Model for testing reserved words")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class ModelReturn   {
   @JsonProperty("return")
   private Integer _return;

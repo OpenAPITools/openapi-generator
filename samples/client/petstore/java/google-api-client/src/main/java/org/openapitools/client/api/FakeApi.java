@@ -657,8 +657,8 @@ public class FakeApi {
 
 
   /**
-    * To test \&quot;client\&quot; model
-    * To test \&quot;client\&quot; model
+    * To test \"client\" model
+    * To test \"client\" model
     * <p><b>200</b> - successful operation
     * @param body client model
     * @return Client
@@ -671,8 +671,8 @@ public class FakeApi {
     }
 
   /**
-    * To test \&quot;client\&quot; model
-    * To test \&quot;client\&quot; model
+    * To test \"client\" model
+    * To test \"client\" model
     * <p><b>200</b> - successful operation
     * @param body client model
     * @param params Map of query params. A collection will be interpreted as passing in multiple instances of the same query param.

@@ -16,7 +16,9 @@ import javax.validation.constraints.*;
 /**
  * AdditionalPropertiesClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_string")
   @Valid

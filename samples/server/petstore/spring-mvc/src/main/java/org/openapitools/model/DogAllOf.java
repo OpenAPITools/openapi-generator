@@ -12,7 +12,9 @@ import javax.validation.constraints.*;
 /**
  * DogAllOf
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class DogAllOf   {
   @JsonProperty("breed")
   private String breed;

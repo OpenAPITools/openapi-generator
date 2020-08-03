@@ -21,6 +21,8 @@ import javax.validation.constraints.*;
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
 })
+@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
 
 public class Animal   {
   @JsonProperty("className")

@@ -559,8 +559,8 @@ public class FakeApi {
                                localVarAuthNames, null, false);
   }
   /**
-   * To test \&quot;client\&quot; model
-   * To test \&quot;client\&quot; model
+   * To test \"client\" model
+   * To test \"client\" model
    * @param client client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
@@ -575,8 +575,8 @@ public class FakeApi {
   }
 
   /**
-   * To test \&quot;client\&quot; model
-   * To test \&quot;client\&quot; model
+   * To test \"client\" model
+   * To test \"client\" model
    * @param client client model (required)
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call
@@ -639,7 +639,7 @@ public class FakeApi {
    * @param string None (optional)
    * @param binary None (optional)
    * @param date None (optional)
-   * @param dateTime None (optional, default to OffsetDateTime.parse(&quot;2010-02-01T09:20:10.111110Z[UTC]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
+   * @param dateTime None (optional, default to OffsetDateTime.parse("2010-02-01T09:20:10.111110Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @throws ApiException if fails to make API call
@@ -668,7 +668,7 @@ public class FakeApi {
    * @param string None (optional)
    * @param binary None (optional)
    * @param date None (optional)
-   * @param dateTime None (optional, default to OffsetDateTime.parse(&quot;2010-02-01T09:20:10.111110Z[UTC]&quot;, java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
+   * @param dateTime None (optional, default to OffsetDateTime.parse("2010-02-01T09:20:10.111110Z[UTC]", java.time.format.DateTimeFormatter.ISO_ZONED_DATE_TIME.withZone(java.time.ZoneId.systemDefault())))
    * @param password None (optional)
    * @param paramCallback None (optional)
    * @return ApiResponse&lt;Void&gt;

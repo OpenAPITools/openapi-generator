@@ -12,7 +12,9 @@ import javax.validation.constraints.*;
 /**
  * SpecialModelName
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class SpecialModelName   {
   @JsonProperty("$special[property.name]")
   private Long $specialPropertyName;

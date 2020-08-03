@@ -13,7 +13,9 @@ import javax.validation.constraints.*;
 /**
  * OuterComposite
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class OuterComposite   {
   @JsonProperty("my_number")
   private BigDecimal myNumber;

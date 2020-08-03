@@ -151,8 +151,8 @@ public interface FakeApi {
 
 
     /**
-     * PATCH /fake : To test \&quot;client\&quot; model
-     * To test \&quot;client\&quot; model
+     * PATCH /fake : To test \"client\" model
+     * To test \"client\" model
      *
      * @param body client model (required)
      * @return successful operation (status code 200)

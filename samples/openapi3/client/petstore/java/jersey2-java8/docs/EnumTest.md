@@ -21,9 +21,9 @@ Name | Type | Description | Notes
 
 Name | Value
 ---- | -----
-UPPER | &quot;UPPER&quot;
-LOWER | &quot;lower&quot;
-EMPTY | &quot;&quot;
+UPPER | "UPPER"
+LOWER | "lower"
+EMPTY | ""
 
 
 
@@ -31,9 +31,9 @@ EMPTY | &quot;&quot;
 
 Name | Value
 ---- | -----
-UPPER | &quot;UPPER&quot;
-LOWER | &quot;lower&quot;
-EMPTY | &quot;&quot;
+UPPER | "UPPER"
+LOWER | "lower"
+EMPTY | ""
 
 
 

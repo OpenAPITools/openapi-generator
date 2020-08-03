@@ -328,8 +328,8 @@ public class FakeApi {
     apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, null);
   }
   /**
-   * To test \&quot;client\&quot; model
-   * To test \&quot;client\&quot; model
+   * To test \"client\" model
+   * To test \"client\" model
    * @param body client model (required)
    * @return a {@code Client}
    * @throws ApiException if fails to make API call

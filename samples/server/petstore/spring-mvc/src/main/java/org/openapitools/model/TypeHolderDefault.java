@@ -15,7 +15,9 @@ import javax.validation.constraints.*;
 /**
  * TypeHolderDefault
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class TypeHolderDefault   {
   @JsonProperty("string_item")
   private String stringItem = "what";

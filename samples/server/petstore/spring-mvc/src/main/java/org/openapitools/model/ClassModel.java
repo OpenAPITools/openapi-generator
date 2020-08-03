@@ -10,10 +10,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Model for testing model with \&quot;_class\&quot; property
+ * Model for testing model with \"_class\" property
  */
 @ApiModel(description = "Model for testing model with \"_class\" property")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class ClassModel   {
   @JsonProperty("_class")
   private String propertyClass;

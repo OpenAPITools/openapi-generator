@@ -280,8 +280,8 @@ public class FakeApi {
         return apiClient.invokeAPI("/fake/body-with-query-params", HttpMethod.PUT, pathParams, queryParams, postBody, headerParams, cookieParams, formParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     }
     /**
-     * To test \&quot;client\&quot; model
-     * To test \&quot;client\&quot; model
+     * To test \"client\" model
+     * To test \"client\" model
      * <p><b>200</b> - successful operation
      * @param body client model
      * @return Client

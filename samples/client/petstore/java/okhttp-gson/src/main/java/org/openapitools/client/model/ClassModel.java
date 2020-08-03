@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 
 /**
- * Model for testing model with \&quot;_class\&quot; property
+ * Model for testing model with \"_class\" property
  */
 @ApiModel(description = "Model for testing model with \"_class\" property")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")

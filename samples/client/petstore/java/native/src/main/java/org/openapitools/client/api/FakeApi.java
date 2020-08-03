@@ -599,8 +599,8 @@ public class FakeApi {
     return localVarRequestBuilder;
   }
   /**
-   * To test \&quot;client\&quot; model
-   * To test \&quot;client\&quot; model
+   * To test \"client\" model
+   * To test \"client\" model
    * @param body client model (required)
    * @return Client
    * @throws ApiException if fails to make API call
@@ -611,8 +611,8 @@ public class FakeApi {
   }
 
   /**
-   * To test \&quot;client\&quot; model
-   * To test \&quot;client\&quot; model
+   * To test \"client\" model
+   * To test \"client\" model
    * @param body client model (required)
    * @return ApiResponse&lt;Client&gt;
    * @throws ApiException if fails to make API call

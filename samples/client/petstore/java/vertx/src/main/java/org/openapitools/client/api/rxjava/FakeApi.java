@@ -350,8 +350,8 @@ public class FakeApi {
         ));
     }
     /**
-    * To test \&quot;client\&quot; model
-    * To test \&quot;client\&quot; model
+    * To test \"client\" model
+    * To test \"client\" model
     * @param body client model (required)
     * @param resultHandler Asynchronous result handler
     */
@@ -360,8 +360,8 @@ public class FakeApi {
     }
 
     /**
-    * To test \&quot;client\&quot; model
-    * To test \&quot;client\&quot; model
+    * To test \"client\" model
+    * To test \"client\" model
     * @param body client model (required)
     * @param authInfo call specific auth overrides
     * @param resultHandler Asynchronous result handler
@@ -371,8 +371,8 @@ public class FakeApi {
     }
 
     /**
-    * To test \&quot;client\&quot; model
-    * To test \&quot;client\&quot; model
+    * To test \"client\" model
+    * To test \"client\" model
     * @param body client model (required)
     * @return Asynchronous result handler (RxJava Single)
     */
@@ -383,8 +383,8 @@ public class FakeApi {
     }
 
     /**
-    * To test \&quot;client\&quot; model
-    * To test \&quot;client\&quot; model
+    * To test \"client\" model
+    * To test \"client\" model
     * @param body client model (required)
     * @param authInfo call specific auth overrides
     * @return Asynchronous result handler (RxJava Single)

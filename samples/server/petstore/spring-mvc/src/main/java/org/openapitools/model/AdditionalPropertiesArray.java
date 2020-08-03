@@ -15,7 +15,9 @@ import javax.validation.constraints.*;
 /**
  * AdditionalPropertiesArray
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class AdditionalPropertiesArray extends HashMap<String, List>  {
   @JsonProperty("name")
   private String name;

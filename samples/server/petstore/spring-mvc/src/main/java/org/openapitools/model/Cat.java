@@ -14,7 +14,9 @@ import javax.validation.constraints.*;
 /**
  * Cat
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
+@lombok.experimental.FieldNameConstants
+
 public class Cat extends Animal  {
   @JsonProperty("declawed")
   private Boolean declawed;

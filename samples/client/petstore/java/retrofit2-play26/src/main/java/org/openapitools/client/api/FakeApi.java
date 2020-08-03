@@ -118,8 +118,8 @@ public interface FakeApi {
   );
 
   /**
-   * To test \&quot;client\&quot; model
-   * To test \&quot;client\&quot; model
+   * To test \"client\" model
+   * To test \"client\" model
    * @param body client model (required)
    * @return Call&lt;Client&gt;
    */
