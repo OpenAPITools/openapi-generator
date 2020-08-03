@@ -55,7 +55,6 @@ public class PhpSymfony5ServerOptionsProvider implements OptionsProvider {
                 .put(PhpSymfonyServerCodegen.BUNDLE_ALIAS, BUNDLE_ALIAS_VALUE)
                 .put(PhpSymfonyServerCodegen.COMPOSER_VENDOR_NAME, COMPOSER_VENDOR_NAME_VALUE)
                 .put(PhpSymfonyServerCodegen.COMPOSER_PROJECT_NAME, COMPOSER_PROJECT_NAME_VALUE)
-                .put(PhpSymfonyServerCodegen.PHP_LEGACY_SUPPORT, PHP_LEGACY_SUPPORT_VALUE)
                 .build();
     }
 

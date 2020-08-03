@@ -27,6 +27,9 @@ public class PhpSymfony5ServerCodegen extends PhpSymfonyServerCodegen {
         super();
 
         embeddedTemplateDir = templateDir = "php-symfony5-server";
+
+        // remove phpLegacySupport option because Symfony5 requires PHP >= 7.2.5
+        removeOption(PHP_LEGACY_SUPPORT);
     }
 
     @Override

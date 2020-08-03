@@ -53,7 +53,6 @@ public class PhpSymfony5ServerOptionsTest extends AbstractOptionsTest {
         verify(codegen).setBundleAlias(PhpSymfony5ServerOptionsProvider.BUNDLE_ALIAS_VALUE);
         verify(codegen).setComposerVendorName(PhpSymfony5ServerOptionsProvider.COMPOSER_VENDOR_NAME_VALUE);
         verify(codegen).setComposerProjectName(PhpSymfony5ServerOptionsProvider.COMPOSER_PROJECT_NAME_VALUE);
-        verify(codegen).setPhpLegacySupport(Boolean.valueOf(PhpSymfony5ServerOptionsProvider.PHP_LEGACY_SUPPORT_VALUE));
     }
 }
 
