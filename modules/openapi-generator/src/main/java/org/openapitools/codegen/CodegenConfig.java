@@ -174,7 +174,7 @@ public interface CodegenConfig {
 
     String toModelImport(String name);
 
-//    Map<String,String> toModelImportMap(String name);
+    Map<String,String> toModelImportMap(String name);
 
     String toApiImport(String name);
 

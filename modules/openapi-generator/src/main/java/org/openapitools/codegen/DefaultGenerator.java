@@ -1077,27 +1077,8 @@ public class DefaultGenerator implements Generator {
             allImports.addAll(op.imports);
         }
 
-//        Map<String,String> mappings = getAllImportsMapppings(allImports);
-//        List<Map<String, String>> imports = toImportsObjects(mappings);
-
-        List<Map<String, String>> imports = new ArrayList<>();
-        Set<String> mappingSet = new TreeSet<>();
-        for (String nextImport : allImports) {
-            Map<String, String> im = new LinkedHashMap<>();
-            String mapping = config.importMapping().get(nextImport);
-            if (mapping == null) {
-                mapping = config.toModelImport(nextImport);
-            }
-
-            if (mapping != null && !mappingSet.contains(mapping)) { // ensure import (mapping) is unique
-                mappingSet.add(mapping);
-                im.put("import", mapping);
-                im.put("classname", nextImport);
-                if (!imports.contains(im)) { // avoid duplicates
-                    imports.add(im);
-                }
-            }
-        }
+        Map<String,String> mappings = getAllImportsMapppings(allImports);
+        List<Map<String, String>> imports = toImportsObjects(mappings);
 
         operations.put("imports", imports);
 
@@ -1118,39 +1099,39 @@ public class DefaultGenerator implements Generator {
         return operations;
     }
 
-//    private Map<String,String> getAllImportsMapppings(Set<String> allImports){
-//        Map<String,String> result = new HashMap<>();
-//        allImports.forEach(nextImport->{
-//            String mapping = config.importMapping().get(nextImport);
-//            if(mapping!= null){
-//                result.put(mapping,nextImport);
-//            }else{
-//                result.putAll(config.toModelImportMap(nextImport));
-//            }
-//        });
-//        return result;
-//    }
-//
-//    private List<Map<String,String>> toImportsObjects(Map<String,String> mappedImports){
-//        List<Map<String, String>> result = new ArrayList<>();
-//        mappedImports.entrySet().forEach(mapping->{
-//            Map<String, String> im = new LinkedHashMap<>();
-//            im.put("import", mapping.getKey());
-//            im.put("classname", mapping.getValue());
-//            if (!result.contains(im)) { // avoid duplicates
-//                result.add(im);
-//                }
-//        });
-//        Collections.sort(result, new Comparator<Map<String, String>>() {
-//            @Override
-//            public int compare(final Map<String, String> o1, final Map<String, String> o2) {
-//                String s1 = o1.get("classname");
-//                String s2 = o2.get("classname");
-//                return s1.compareTo(s2);
-//            }
-//        });
-//        return result;
-//     }
+    private Map<String,String> getAllImportsMapppings(Set<String> allImports){
+        Map<String,String> result = new HashMap<>();
+        allImports.forEach(nextImport->{
+            String mapping = config.importMapping().get(nextImport);
+            if(mapping!= null){
+                result.put(mapping,nextImport);
+            }else{
+                result.putAll(config.toModelImportMap(nextImport));
+            }
+        });
+        return result;
+    }
+
+    private List<Map<String,String>> toImportsObjects(Map<String,String> mappedImports){
+        List<Map<String, String>> result = new ArrayList<>();
+        mappedImports.entrySet().forEach(mapping->{
+            Map<String, String> im = new LinkedHashMap<>();
+            im.put("import", mapping.getKey());
+            im.put("classname", mapping.getValue());
+            if (!result.contains(im)) { // avoid duplicates
+                result.add(im);
+                }
+        });
+        Collections.sort(result, new Comparator<Map<String, String>>() {
+            @Override
+            public int compare(final Map<String, String> o1, final Map<String, String> o2) {
+                String s1 = o1.get("classname");
+                String s2 = o2.get("classname");
+                return s1.compareTo(s2);
+            }
+        });
+        return result;
+     }
 
     private Map<String, Object> processModels(CodegenConfig config, Map<String, Schema> definitions) {
         Map<String, Object> objs = new HashMap<>();
