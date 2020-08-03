@@ -1,0 +1,98 @@
+    /**
+    {{#description}}
+     * {{description}}
+     *
+    {{/description}}
+     * @var {{{vendorExtensions.x-comment-type}}}{{^required}}|null{{/required}}
+     * @SerializedName("{{baseName}}")
+{{#required}}
+     * @Assert\NotNull()
+{{/required}}
+{{#isEnum}}
+    {{#isContainer}}
+     * @Assert\All({
+    {{#items}}
+     *   @Assert\Choice({ {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}} })
+    {{/items}}
+     * })
+    {{/isContainer}}
+    {{^isContainer}}
+     * @Assert\Choice({ {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}} })
+    {{/isContainer}}
+{{/isEnum}}
+{{#isContainer}}
+     * @Assert\All({
+    {{#items}}
+     *   @Assert\Type("{{dataType}}")
+    {{/items}}
+     * })
+     {{#isMapContainer}}
+     {{#items}}
+     * @Type("array<string, {{dataType}}>")
+     {{/items}}
+     {{/isMapContainer}}
+     {{^isMapContainer}}
+     {{#items}}
+     * @Type("array<{{dataType}}>")
+     {{/items}}
+     {{/isMapContainer}}
+{{/isContainer}}
+{{^isContainer}}
+    {{#isDate}}
+     * @Assert\Date()
+     * @Type("DateTime")
+    {{/isDate}}
+    {{#isDateTime}}
+     * @Assert\DateTime()
+     * @Type("DateTime")
+    {{/isDateTime}}
+    {{^isDate}}
+    {{^isDateTime}}
+     * @Assert\Type("{{dataType}}")
+     * @Type("{{dataType}}")
+    {{/isDateTime}}
+    {{/isDate}}
+{{/isContainer}}
+{{#hasValidation}}
+    {{#maxLength}}
+     * @Assert\Length(
+     *   max = {{maxLength}}
+     * )
+    {{/maxLength}}
+    {{#minLength}}
+     * @Assert\Length(
+     *   min = {{minLength}}
+     * )
+    {{/minLength}}
+    {{#minimum}}
+    {{#exclusiveMinimum}}
+     * @Assert\GreaterThan({{minimum}})
+    {{/exclusiveMinimum}}
+    {{^exclusiveMinimum}}
+     * @Assert\GreaterThanOrEqual({{minimum}})
+    {{/exclusiveMinimum}}
+    {{/minimum}}
+    {{#maximum}}
+    {{#exclusiveMaximum}}
+     * @Assert\LessThan({{minimum}})
+    {{/exclusiveMaximum}}
+    {{^exclusiveMaximum}}
+     * @Assert\LessThanOrEqual({{minimum}})
+    {{/exclusiveMaximum}}
+    {{/maximum}}
+    {{#pattern}}
+     * @Assert\Regex("/{{pattern}}/")
+    {{/pattern}}
+    {{#maxItems}}
+     * @Assert\Count(
+     *   max = {{maxItems}}
+     * )
+    {{/maxItems}}
+    {{#minItems}}
+     * @Assert\Count(
+     *   min = {{minItems}}
+     * )
+    {{/minItems}}
+{{/hasValidation}}
+     */
+    protected ${{name}};

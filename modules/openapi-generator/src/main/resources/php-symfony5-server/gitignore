@@ -1,0 +1,68 @@
+# ref: https://github.com/github/gitignore/blob/master/Symfony.gitignore
+
+# Cache and logs (Symfony2)
+/app/cache/*
+/app/logs/*
+!app/cache/.gitkeep
+!app/logs/.gitkeep
+
+# Email spool folder
+/app/spool/*
+
+# Cache, session files and logs (Symfony3)
+/var/cache/*
+/var/logs/*
+/var/sessions/*
+!var/cache/.gitkeep
+!var/logs/.gitkeep
+!var/sessions/.gitkeep
+
+# Parameters
+/app/config/parameters.yml
+/app/config/parameters.ini
+
+# Managed by Composer
+/app/bootstrap.php.cache
+/var/bootstrap.php.cache
+/bin/*
+!bin/console
+!bin/symfony_requirements
+/vendor/
+
+# Commit your application's lock file https://getcomposer.org/doc/01-basic-usage.md#commit-your-composer-lock-file-to-version-control
+# You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
+composer.lock
+
+# Assets and user uploads
+/web/bundles/
+/web/uploads/
+
+# PHPUnit
+/app/phpunit.xml
+/phpunit.xml
+
+# Build data
+/build/
+
+# Composer PHAR
+/composer.phar
+
+# Backup entities generated with doctrine:generate:entities command
+**/Entity/*~
+
+# Embedded web-server pid file
+/.web-server-pid
+
+# From root gitignore
+/Tests/cache/
+/Tests/logs/
+
+# PHP Coding Standards Fixer
+# https://github.com/FriendsOfPHP/PHP-CS-Fixer/blob/master/UPGRADE.md#config-file
+# From now you can create new configuration file: .php_cs.dist.
+# This file is used if no .php_cs file was found.
+# It is recommended to create .php_cs.dist file attached in your repository and add .php_cs file to .gitignore for allowing your contributors to have theirs own configuration file.
+/.php_cs
+
+# No reason to commit PHP CS Fixer cache files
+/.php_cs.cache

@@ -1,0 +1,40 @@
+{
+    "name": "{{gitUserId}}/{{gitRepoId}}",
+    {{#artifactVersion}}
+    "version": "{{artifactVersion}}",
+    {{/artifactVersion}}
+    "description": "{{description}}",
+    "keywords": [
+        "openapi",
+        "php",
+        "sdk",
+        "api"
+    ],
+    "homepage": "https://github.com/openapitools/openapi-generator",
+    "license": "unlicense",
+    "authors": [
+        {
+            "name": "openapi-generator contributors",
+            "homepage": "https://github.com/openapitools/openapi-generator"
+        }
+    ],
+    "require": {
+        "php": "^7.1.3",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "symfony/validator": "*",
+        "jms/serializer-bundle": "^2.0",
+        "symfony/framework-bundle": "^4.4.8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0",
+        "friendsofphp/php-cs-fixer": "^2.16.3",
+        "symfony/browser-kit": "*",
+        "symfony/yaml": "^4.4.8",
+        "hoa/regex": "~1.0"
+    },
+    "autoload": {
+        "psr-4": { "{{escapedInvokerPackage}}\\" : "{{srcBasePath}}/" }
+    }
+}

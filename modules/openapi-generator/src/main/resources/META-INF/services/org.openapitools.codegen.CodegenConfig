@@ -86,6 +86,7 @@ org.openapitools.codegen.languages.PhpSlimServerCodegen
 org.openapitools.codegen.languages.PhpSlim4ServerCodegen
 org.openapitools.codegen.languages.PhpSilexServerCodegen
 org.openapitools.codegen.languages.PhpSymfonyServerCodegen
+org.openapitools.codegen.languages.PhpSymfony5ServerCodegen
 org.openapitools.codegen.languages.PhpZendExpressivePathHandlerServerCodegen
 org.openapitools.codegen.languages.PowerShellClientCodegen
 org.openapitools.codegen.languages.ProtobufSchemaCodegen
