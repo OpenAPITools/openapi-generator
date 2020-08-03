@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,9 +26,7 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
 
@@ -70,15 +66,21 @@ class Zebra(ModelNormal):
     validations = {
     }
 
-    additional_properties_type = (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
+    @cached_property
+    def additional_properties_type():
+        """
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
+        """
+        return (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
 
     _nullable = False
 
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
@@ -92,6 +94,7 @@ class Zebra(ModelNormal):
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {
         'class_name': 'className',  # noqa: E501
@@ -111,7 +114,7 @@ class Zebra(ModelNormal):
 
     @convert_js_args_to_python_args
     def __init__(self, class_name, *args, **kwargs):  # noqa: E501
-        """zebra.Zebra - a model defined in OpenAPI
+        """Zebra - a model defined in OpenAPI
 
         Args:
             class_name (str):
@@ -174,7 +177,7 @@ class Zebra(ModelNormal):
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
         self.class_name = class_name
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \

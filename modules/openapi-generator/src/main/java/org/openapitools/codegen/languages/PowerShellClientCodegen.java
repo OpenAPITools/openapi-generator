@@ -501,6 +501,21 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
         cliOptions.add(new CliOption("commonVerbs", "PS common verb mappings. e.g. Delete=Remove:Patch=Update to map Delete with Remove and Patch with Update accordingly."));
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC));
         cliOptions.add(new CliOption("discardReadOnly", "Set discardReadonly to true to generate the Initialize cmdlet without readonly parameters"));
+        // option to change how we process + set the data in the 'additionalProperties' keyword.
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+        Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
+        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
+                "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
+        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+                "when the 'additionalProperties' keyword is not present in a schema, " +
+                        "the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. " +
+                        "Note: this mode is not compliant with the JSON schema specification. " +
+                        "This is the original openapi-generator behavior.");
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
+        this.setDisallowAdditionalPropertiesIfNotPresent(true);
 
         // default value in the template
         additionalProperties.put("powershellVersion", "6.2"); // minimal PS version
@@ -550,7 +565,7 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     public boolean getUseOneOfDiscriminatorLookup() {
         return this.useOneOfDiscriminatorLookup;
     }
-    
+
     public void setDiscardReadOnly(boolean discardReadOnly) {
         this.discardReadOnly = discardReadOnly;
     }
@@ -630,6 +645,11 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
         if (additionalProperties.containsKey(CodegenConstants.API_PACKAGE)) {
             LOGGER.warn(CodegenConstants.API_PACKAGE + " with " + this.getName() + " generator is ignored. Setting this value independently of " + CodegenConstants.PACKAGE_NAME + " is not currently supported.");
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
 
         additionalProperties.put(CodegenConstants.API_PACKAGE, apiPackage());
@@ -931,13 +951,13 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
 
             for (CodegenProperty cp : model.allVars) {
                 cp.vendorExtensions.put("x-powershell-data-type", getPSDataType(cp));
-                if(this.discardReadOnly && !cp.isReadOnly) {
+                if (this.discardReadOnly && !cp.isReadOnly) {
                     lastWritableProperty = cp;
                 }
             }
 
             // Mark the last readonly false property
-            if(this.discardReadOnly && lastWritableProperty != null) {
+            if (this.discardReadOnly && lastWritableProperty != null) {
                 lastWritableProperty.vendorExtensions.put("x-powershell-last-writable", true);
                 model.allVars.set(model.allVars.indexOf(lastWritableProperty), lastWritableProperty);
             }
@@ -952,11 +972,6 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
             if (model.anyOf != null && !model.anyOf.isEmpty() && model.anyOf.contains("ModelNull")) {
                 model.isNullable = true;
                 model.anyOf.remove("ModelNull");
-            }
-
-            // add vendor extension for additonalProperties: true
-            if ("null<String, SystemCollectionsHashtable>".equals(model.parent)) {
-                model.vendorExtensions.put("x-additional-properties", true);
             }
         }
 
@@ -1184,6 +1199,31 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
     @Override
     public String toRegularExpression(String pattern) {
         return escapeText(pattern);
+    }
+
+    @Override
+    public String toDefaultValue(Schema p) {
+        if (p.getDefault() != null) {
+            if (ModelUtils.isBooleanSchema(p)) {
+                if (Boolean.valueOf(p.getDefault().toString())) {
+                    return "$true";
+                } else {
+                    return "$false";
+                }
+            } else if (ModelUtils.isDateSchema(p)) {
+                LOGGER.warn("Default value for `date` not yet supported. Please open an issue with https://github.com/openapitools/openapi-generator");
+            } else if (ModelUtils.isDateTimeSchema(p)) {
+                LOGGER.warn("Default value for `datetime` not yet supported. Please open an issue with https://github.com/openapitools/openapi-generator");
+            } else if (ModelUtils.isNumberSchema(p)) {
+                return p.getDefault().toString();
+            } else if (ModelUtils.isIntegerSchema(p)) {
+                return p.getDefault().toString();
+            } else if (ModelUtils.isStringSchema(p)) {
+                return "\"" + p.getDefault() + "\"";
+            }
+        }
+
+        return null;
     }
 
 }

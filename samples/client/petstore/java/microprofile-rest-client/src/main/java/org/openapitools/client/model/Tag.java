@@ -39,6 +39,7 @@ import javax.json.bind.annotation.JsonbProperty;
 /**
   * A tag for a pet
  **/
+
 public class Tag  {
   
   private Long id;

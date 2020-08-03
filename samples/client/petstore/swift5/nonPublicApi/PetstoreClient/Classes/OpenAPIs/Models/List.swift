@@ -11,7 +11,7 @@ internal struct List: Codable {
 
     internal var _123list: String?
 
-    internal init(_123list: String?) {
+    internal init(_123list: String? = nil) {
         self._123list = _123list
     }
 

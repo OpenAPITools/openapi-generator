@@ -5,7 +5,7 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**testClassname**](FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
-[**testClassnameWithHttpInfo**](FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
+[**testClassnameWithHttpInfo**](FakeClassnameTags123Api.md#testClassnameWithHttpInfo) | **PATCH** /fake_classname_test | To test class name in snake case
 
 
 
@@ -43,7 +43,6 @@ public class Example {
         Client body = new Client(); // Client | client model
         try {
             Client result = apiInstance.testClassname(body);
-
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeClassnameTags123Api#testClassname");
@@ -118,13 +117,13 @@ public class Example {
         try {
             ApiResponse<Client> response = apiInstance.testClassnameWithHttpInfo(body);
             System.out.println("Status code: " + response.getStatusCode());
-            System.out.println("Response headers: " + response.getHeaders().toString());
-            System.out.println("Response body: " + response.getData().toString());
+            System.out.println("Response headers: " + response.getHeaders());
+            System.out.println("Response body: " + response.getData());
         } catch (ApiException e) {
             System.err.println("Exception when calling FakeClassnameTags123Api#testClassname");
             System.err.println("Status code: " + e.getCode());
-            System.err.println("Reason: " + e.getResponseBody());
             System.err.println("Response headers: " + e.getResponseHeaders());
+            System.err.println("Reason: " + e.getResponseBody());
             e.printStackTrace();
         }
     }

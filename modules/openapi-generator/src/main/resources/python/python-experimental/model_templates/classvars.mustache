@@ -1,4 +1,16 @@
     allowed_values = {
+{{#isEnum}}
+        ('value',): {
+{{#isNullable}}
+            'None': None,
+{{/isNullable}}
+{{#allowableValues}}
+{{#enumVars}}
+            '{{name}}': {{{value}}},
+{{/enumVars}}
+{{/allowableValues}}
+        },
+{{/isEnum}}
 {{#requiredVars}}
 {{#isEnum}}
         ('{{name}}',): {
@@ -30,89 +42,73 @@
     }
 
     validations = {
+{{#isAlias}}
+{{^isEnum}}
+{{^isArrayModel}}
+        ('value',): {
+{{> python-experimental/model_templates/validations }}
+{{/isArrayModel}}
+{{/isEnum}}
+{{/isAlias}}
 {{#requiredVars}}
 {{#hasValidation}}
         ('{{name}}',): {
-{{#maxLength}}
-            'max_length': {{maxLength}},
-{{/maxLength}}
-{{#minLength}}
-            'min_length': {{minLength}},
-{{/minLength}}
-{{#maxItems}}
-            'max_items': {{maxItems}},
-{{/maxItems}}
-{{#minItems}}
-            'min_items': {{minItems}},
-{{/minItems}}
-{{#maximum}}
-            {{#exclusiveMaximum}}'exclusive_maximum'{{/exclusiveMaximum}}'inclusive_maximum'{{^exclusiveMaximum}}{{/exclusiveMaximum}}: {{maximum}},
-{{/maximum}}
-{{#minimum}}
-            {{#exclusiveMinimum}}'exclusive_minimum'{{/exclusiveMinimum}}'inclusive_minimum'{{^exclusiveMinimum}}{{/exclusiveMinimum}}: {{minimum}},
-{{/minimum}}
-{{#pattern}}
-            'regex': {
-                'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501{{#vendorExtensions.x-modifiers}}
-                {{#-first}}'flags': (re.{{.}}{{/-first}}{{^-first}}          re.{{.}}{{/-first}}{{^-last}} | {{/-last}}{{#-last}}){{/-last}}{{/vendorExtensions.x-modifiers}}
-            },
-{{/pattern}}
-{{#multipleOf}}
-            'multiple_of': {{multipleOf}},
-{{/multipleOf}}
-        },
+{{> python-experimental/model_templates/validations }}
 {{/hasValidation}}
 {{/requiredVars}}
 {{#optionalVars}}
 {{#hasValidation}}
         ('{{name}}',): {
-{{#maxLength}}
-            'max_length': {{maxLength}},
-{{/maxLength}}
-{{#minLength}}
-            'min_length': {{minLength}},
-{{/minLength}}
-{{#maxItems}}
-            'max_items': {{maxItems}},
-{{/maxItems}}
-{{#minItems}}
-            'min_items': {{minItems}},
-{{/minItems}}
-{{#maximum}}
-            {{#exclusiveMaximum}}'exclusive_maximum'{{/exclusiveMaximum}}'inclusive_maximum'{{^exclusiveMaximum}}{{/exclusiveMaximum}}: {{maximum}},
-{{/maximum}}
-{{#minimum}}
-            {{#exclusiveMinimum}}'exclusive_minimum'{{/exclusiveMinimum}}'inclusive_minimum'{{^exclusiveMinimum}}{{/exclusiveMinimum}}: {{minimum}},
-{{/minimum}}
-{{#pattern}}
-            'regex': {
-                'pattern': r'{{{vendorExtensions.x-regex}}}',  # noqa: E501{{#vendorExtensions.x-modifiers}}
-                {{#-first}}'flags': (re.{{.}}{{/-first}}{{^-first}}          re.{{.}}{{/-first}}{{^-last}} | {{/-last}}{{#-last}}){{/-last}}{{/vendorExtensions.x-modifiers}}
-            },
-{{/pattern}}
-{{#multipleOf}}
-            'multiple_of': {{multipleOf}},
-{{/multipleOf}}
-        },
+{{> python-experimental/model_templates/validations }}
 {{/hasValidation}}
 {{/optionalVars}}
     }
 
-    additional_properties_type = {{#additionalPropertiesType}}({{{additionalPropertiesType}}},)  # noqa: E501{{/additionalPropertiesType}}{{^additionalPropertiesType}}None{{/additionalPropertiesType}}
+{{#additionalPropertiesType}}
+    @cached_property
+    def additional_properties_type():
+        """
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
+        """
+{{#imports}}
+{{#-first}}
+        lazy_import()
+{{/-first}}
+{{/imports}}
+        return ({{{additionalPropertiesType}}},)  # noqa: E501
+{{/additionalPropertiesType}}
+{{^additionalPropertiesType}}
+    additional_properties_type = None
+{{/additionalPropertiesType}}
 
     _nullable = {{#isNullable}}True{{/isNullable}}{{^isNullable}}False{{/isNullable}}
 
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+{{#imports}}
+{{#-first}}
+        lazy_import()
+{{/-first}}
+{{/imports}}
         return {
+{{#isAlias}}
+            'value': ({{{dataType}}},),
+{{/isAlias}}
+{{#isEnum}}
+            'value': ({{{dataType}}},),
+{{/isEnum}}
+{{#isArrayModel}}
+            'value': ({{{dataType}}},),
+{{/isArrayModel}}
 {{#requiredVars}}
             '{{name}}': ({{{dataType}}},),  # noqa: E501
 {{/requiredVars}}
@@ -123,7 +119,20 @@
 
     @cached_property
     def discriminator():
-        {{^discriminator}}return None{{/discriminator}}{{#discriminator}}val = {
+{{^discriminator}}
+        return None
+{{/discriminator}}
+{{#discriminator}}
+{{#mappedModels}}
+{{#-first}}
+{{#imports}}
+{{#-first}}
+        lazy_import()
+{{/-first}}
+{{/imports}}
+{{/-first}}
+{{/mappedModels}}
+        val = {
 {{#mappedModels}}
             '{{mappingName}}': {{{modelName}}},
 {{/mappedModels}}

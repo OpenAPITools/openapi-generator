@@ -3,8 +3,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **String** | Updated name of the pet | [optional] [default to null]
-**Status** | **String** | Updated status of the pet | [optional] [default to null]
+**Name** | **String** | Updated name of the pet | [optional] 
+**Status** | **String** | Updated status of the pet | [optional] 
 
 ## Examples
 

@@ -23,14 +23,12 @@ VERSION = "1.0.0"
 
 REQUIRES = [
   "urllib3 >= 1.15",
-  "six >= 1.10",
   "certifi",
   "python-dateutil",
   "nulltype",
   "pem>=19.3.0",
   "pycryptodome>=3.9.0",
 ]
-EXTRAS = {':python_version <= "2.7"': ['future']}
 
 setup(
     name=NAME,
@@ -40,8 +38,8 @@ setup(
     author_email="team@openapitools.org",
     url="",
     keywords=["OpenAPI", "OpenAPI-Generator", "OpenAPI Petstore"],
+    python_requires=">=3.5",
     install_requires=REQUIRES,
-    extras_require=EXTRAS,
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,
     license="Apache-2.0",

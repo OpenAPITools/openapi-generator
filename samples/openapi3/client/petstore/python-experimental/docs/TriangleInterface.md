@@ -1,4 +1,4 @@
-# triangle_interface.TriangleInterface
+# TriangleInterface
 
 ## Properties
 Name | Type | Description | Notes

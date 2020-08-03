@@ -16,7 +16,10 @@ import (
 // Foo struct for Foo
 type Foo struct {
 	Bar *string `json:"bar,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Foo Foo
 
 // NewFoo instantiates a new Foo object
 // This constructor will assign default values to properties that have it defined,
@@ -76,7 +79,29 @@ func (o Foo) MarshalJSON() ([]byte, error) {
 	if o.Bar != nil {
 		toSerialize["bar"] = o.Bar
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *Foo) UnmarshalJSON(bytes []byte) (err error) {
+	varFoo := _Foo{}
+
+	if err = json.Unmarshal(bytes, &varFoo); err == nil {
+		*o = Foo(varFoo)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "bar")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableFoo struct {

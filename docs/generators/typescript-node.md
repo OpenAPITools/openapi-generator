@@ -54,6 +54,7 @@ sidebar_label: typescript-node
 <li>ReadonlyArray</li>
 <li>RequestDetailedFile</li>
 <li>RequestFile</li>
+<li>Set</li>
 <li>String</li>
 <li>any</li>
 <li>boolean</li>
@@ -144,6 +145,7 @@ sidebar_label: typescript-node
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

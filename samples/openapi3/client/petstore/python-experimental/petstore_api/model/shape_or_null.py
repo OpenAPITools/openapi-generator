@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,21 +26,15 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import quadrilateral
-except ImportError:
-    quadrilateral = sys.modules[
-        'petstore_api.model.quadrilateral']
-try:
-    from petstore_api.model import triangle
-except ImportError:
-    triangle = sys.modules[
-        'petstore_api.model.triangle']
+
+def lazy_import():
+    from petstore_api.model.quadrilateral import Quadrilateral
+    from petstore_api.model.triangle import Triangle
+    globals()['Quadrilateral'] = Quadrilateral
+    globals()['Triangle'] = Triangle
 
 
 class ShapeOrNull(ModelComposed):
@@ -75,20 +67,28 @@ class ShapeOrNull(ModelComposed):
     validations = {
     }
 
-    additional_properties_type = (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
+    @cached_property
+    def additional_properties_type():
+        """
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
+        """
+        lazy_import()
+        return (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
 
     _nullable = False
 
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'shape_type': (str,),  # noqa: E501
             'quadrilateral_type': (str,),  # noqa: E501
@@ -97,9 +97,10 @@ class ShapeOrNull(ModelComposed):
 
     @cached_property
     def discriminator():
+        lazy_import()
         val = {
-            'Quadrilateral': quadrilateral.Quadrilateral,
-            'Triangle': triangle.Triangle,
+            'Quadrilateral': Quadrilateral,
+            'Triangle': Triangle,
         }
         if not val:
             return None
@@ -125,7 +126,7 @@ class ShapeOrNull(ModelComposed):
 
     @convert_js_args_to_python_args
     def __init__(self, shape_type, *args, **kwargs):  # noqa: E501
-        """shape_or_null.ShapeOrNull - a model defined in OpenAPI
+        """ShapeOrNull - a model defined in OpenAPI
 
         Args:
             shape_type (str):
@@ -219,7 +220,7 @@ class ShapeOrNull(ModelComposed):
 
         for var_name, var_value in required_args.items():
             setattr(self, var_name, var_value)
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name in unused_args and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \
@@ -237,14 +238,15 @@ class ShapeOrNull(ModelComposed):
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        lazy_import()
         return {
           'anyOf': [
           ],
           'allOf': [
           ],
           'oneOf': [
+              Quadrilateral,
+              Triangle,
               none_type,
-              quadrilateral.Quadrilateral,
-              triangle.Triangle,
           ],
         }

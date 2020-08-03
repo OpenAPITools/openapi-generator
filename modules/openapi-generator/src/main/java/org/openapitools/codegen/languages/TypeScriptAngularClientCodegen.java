@@ -61,7 +61,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
     public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
 
-    protected String ngVersion = "9.0.0";
+    protected String ngVersion = "10.0.0";
     protected String npmRepository = null;
     private boolean useSingleRequestParameter = false;
     protected String serviceSuffix = "Service";
@@ -129,7 +129,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Angular (6.x - 9.x) client library.";
+        return "Generates a TypeScript Angular (6.x - 10.x) client library.";
     }
 
     @Override
@@ -246,7 +246,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the typescript version compatible to the Angular version
-        if (ngVersion.atLeast("9.0.0")) {
+        if (ngVersion.atLeast("10.0.0")) {
+            additionalProperties.put("tsVersion", ">=3.9.2 <4.0.0");
+        } else if (ngVersion.atLeast("9.0.0")) {
             additionalProperties.put("tsVersion", ">=3.6.0 <3.8.0");
         } else if (ngVersion.atLeast("8.0.0")) {
             additionalProperties.put("tsVersion", ">=3.4.0 <3.6.0");
@@ -258,7 +260,9 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the rxJS version compatible to the Angular version
-        if (ngVersion.atLeast("9.0.0")) {
+        if (ngVersion.atLeast("10.0.0")) {
+            additionalProperties.put("rxjsVersion", "6.6.0");
+        } else if (ngVersion.atLeast("9.0.0")) {
             additionalProperties.put("rxjsVersion", "6.5.3");
         } else if (ngVersion.atLeast("8.0.0")) {
             additionalProperties.put("rxjsVersion", "6.5.0");
@@ -272,7 +276,10 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         supportingFiles.add(new SupportingFile("ng-package.mustache", getIndexDirectory(), "ng-package.json"));
 
         // Specific ng-packagr configuration
-        if (ngVersion.atLeast("9.0.0")) {
+        if (ngVersion.atLeast("10.0.0")) {
+            additionalProperties.put("ngPackagrVersion", "10.0.3");
+            additionalProperties.put("tsickleVersion", "0.39.1");
+        } else if (ngVersion.atLeast("9.0.0")) {
             additionalProperties.put("ngPackagrVersion", "9.0.1");
             additionalProperties.put("tsickleVersion", "0.38.0");
         } else if (ngVersion.atLeast("8.0.0")) {

@@ -10,31 +10,35 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
 import petstore_api
 try:
-    from petstore_api.model import outer_enum
+    from petstore_api.model import integer_enum
 except ImportError:
-    outer_enum = sys.modules[
-        'petstore_api.model.outer_enum']
+    integer_enum = sys.modules[
+        'petstore_api.model.integer_enum']
 try:
-    from petstore_api.model import outer_enum_default_value
+    from petstore_api.model import integer_enum_one_value
 except ImportError:
-    outer_enum_default_value = sys.modules[
-        'petstore_api.model.outer_enum_default_value']
+    integer_enum_one_value = sys.modules[
+        'petstore_api.model.integer_enum_one_value']
 try:
-    from petstore_api.model import outer_enum_integer
+    from petstore_api.model import integer_enum_with_default_value
 except ImportError:
-    outer_enum_integer = sys.modules[
-        'petstore_api.model.outer_enum_integer']
+    integer_enum_with_default_value = sys.modules[
+        'petstore_api.model.integer_enum_with_default_value']
 try:
-    from petstore_api.model import outer_enum_integer_default_value
+    from petstore_api.model import string_enum
 except ImportError:
-    outer_enum_integer_default_value = sys.modules[
-        'petstore_api.model.outer_enum_integer_default_value']
+    string_enum = sys.modules[
+        'petstore_api.model.string_enum']
+try:
+    from petstore_api.model import string_enum_with_default_value
+except ImportError:
+    string_enum_with_default_value = sys.modules[
+        'petstore_api.model.string_enum_with_default_value']
 from petstore_api.model.enum_test import EnumTest
 
 

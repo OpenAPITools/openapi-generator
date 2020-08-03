@@ -1,4 +1,4 @@
-# basque_pig.BasquePig
+# BasquePig
 
 ## Properties
 Name | Type | Description | Notes

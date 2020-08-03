@@ -1,4 +1,4 @@
-# list.List
+# List
 
 ## Properties
 Name | Type | Description | Notes

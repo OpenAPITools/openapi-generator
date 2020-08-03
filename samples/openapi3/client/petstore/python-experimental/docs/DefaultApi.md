@@ -8,18 +8,17 @@ Method | HTTP request | Description
 
 
 # **foo_get**
-> inline_response_default.InlineResponseDefault foo_get()
+> InlineResponseDefault foo_get()
 
 
 
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import default_api
-from petstore_api.model import inline_response_default
+from petstore_api.model.inline_response_default import InlineResponseDefault
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -46,7 +45,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**inline_response_default.InlineResponseDefault**](InlineResponseDefault.md)
+[**InlineResponseDefault**](InlineResponseDefault.md)
 
 ### Authorization
 

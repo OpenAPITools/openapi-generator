@@ -445,7 +445,7 @@ public class JavaClientCodegenTest {
         DefaultGenerator generator = new DefaultGenerator();
         List<File> files = generator.opts(clientOptInput).generate();
 
-        Assert.assertEquals(files.size(), 30);
+        Assert.assertEquals(files.size(), 31);
         validateJavaSourceFiles(files);
 
         Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/PingApi.java");
@@ -552,7 +552,7 @@ public class JavaClientCodegenTest {
         assertEquals(getCodegenOperation.authMethods.size(), 2);
         assertTrue(getCodegenOperation.authMethods.get(0).hasMore);
         Assert.assertFalse(getCodegenOperation.authMethods.get(1).hasMore);
-   }
+    }
 
     @Test
     public void testFreeFormObjects() {
@@ -881,7 +881,7 @@ public class JavaClientCodegenTest {
                 //single file
                 "multipartSingleWithHttpInfo(File file)",
                 "formParams.add(\"file\", new FileSystemResource(file));"
-                );
+        );
     }
 
     /**
@@ -954,5 +954,52 @@ public class JavaClientCodegenTest {
                 "class Command");
 
         output.deleteOnExit();
+    }
+
+    /**
+     * See https://github.com/OpenAPITools/openapi-generator/issues/6715
+     */
+    @Test
+    public void testRestTemplateWithUseAbstractionForFiles() throws IOException {
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(JavaClientCodegen.JAVA8_MODE, true);
+        properties.put(CodegenConstants.API_PACKAGE, "xyz.abcdef.api");
+        properties.put(JavaClientCodegen.USE_ABSTRACTION_FOR_FILES, true);
+
+
+        File output = Files.createTempDirectory("test").toFile();
+        output.deleteOnExit();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.RESTTEMPLATE)
+                .setAdditionalProperties(properties)
+                .setInputSpec("src/test/resources/3_0/form-multipart-binary-array.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(configurator.toClientOptInput()).generate();
+        files.forEach(File::deleteOnExit);
+
+
+        Path defaultApi = Paths.get(output + "/src/main/java/xyz/abcdef/api/MultipartApi.java");
+        TestUtils.assertFileContains(defaultApi,
+                //multiple files
+                "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
+                "multipartArrayWithHttpInfo(java.util.Collection<org.springframework.core.io.Resource> files)",
+                "formParams.put(\"files\", files.stream().collect(Collectors.toList()));",
+
+                //mixed
+                "multipartMixed(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",
+                "multipartMixedWithHttpInfo(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",
+                "formParams.add(\"file\", file);",
+
+                //single file
+                "multipartSingle(org.springframework.core.io.Resource file)",
+                "multipartSingleWithHttpInfo(org.springframework.core.io.Resource file)",
+                "formParams.add(\"file\", file);"
+        );
     }
 }

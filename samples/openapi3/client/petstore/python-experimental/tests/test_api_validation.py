@@ -25,7 +25,7 @@ import petstore_api
 from petstore_api.api import pet_api
 from petstore_api.model import array_of_enums
 from petstore_api.model import format_test
-from petstore_api.model import outer_enum
+from petstore_api.model import string_enum
 import petstore_api.configuration
 
 HOST = 'http://petstore.swagger.io/v2'
@@ -74,7 +74,7 @@ class ApiClientTests(unittest.TestCase):
         response = MockResponse(data=json.dumps(data))
         deserialized = self.api_client.deserialize(response, (array_of_enums.ArrayOfEnums, ), True)
         assert isinstance(deserialized, array_of_enums.ArrayOfEnums)
-        assert array_of_enums.ArrayOfEnums([outer_enum.OuterEnum(v) for v in data]) == deserialized
+        assert array_of_enums.ArrayOfEnums([string_enum.StringEnum(v) for v in data]) == deserialized
 
     def checkRaiseRegex(self, expected_exception, expected_regex):
         if sys.version_info < (3, 0):

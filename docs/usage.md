@@ -399,7 +399,7 @@ OPTIONS
 
         --log-to-stderr
             write all log messages (not just errors) to STDOUT. Useful for
-            piping the JSON output of debug options (e.g. `-DdebugOperations`)
+            piping the JSON output of debug options (e.g. `--global-property debugOperations=true`)
             to an external parser directly while testing a generator.
 
         --minimal-update

@@ -12,7 +12,7 @@ public struct AdditionalPropertiesClass: Codable {
     public private(set) var mapString: [String: String]?
     public private(set) var mapMapString: [String: [String: String]]?
 
-    public init(mapString: [String: String]?, mapMapString: [String: [String: String]]?) {
+    public init(mapString: [String: String]? = nil, mapMapString: [String: [String: String]]? = nil) {
         self.mapString = mapString
         self.mapMapString = mapMapString
     }
