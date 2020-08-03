@@ -18,9 +18,10 @@ public class SharedTypeScriptTest {
     public void typesInImportsAreSplittedTest() throws IOException {
         CodegenConfigurator config =
                 new CodegenConfigurator()
-                        .setInputSpec("src/test/resources//split-import.json")
+                        .setInputSpec("src/test/resources/split-import.json")
                         .setModelPackage("model")
                         .setApiPackage("api")
+                        .setOutputDir("src/test/resources/typesInImportsAreSplittedTest")
                         .addAdditionalProperty(
                                 TypeScriptAxiosClientCodegen.SEPARATE_MODELS_AND_API, true);
 
@@ -33,6 +34,7 @@ public class SharedTypeScriptTest {
         config.setGeneratorName("typescript-angular");
         checkAPIFile(getGenerator(config).generate(), "default.service.ts");
 
+        FileUtils.deleteDirectory(new File("src/test/resources/typesInImportsAreSplittedTest"));
     }
 
     private Generator getGenerator(CodegenConfigurator config) {
@@ -54,6 +56,7 @@ public class SharedTypeScriptTest {
                         .setInputSpec("petstore.json")
                         .setModelPackage("model")
                         .setApiPackage("api")
+                        .setOutputDir("src/test/resources/oldImportsStillPresentTest/")
                         .addAdditionalProperty(
                                 TypeScriptAxiosClientCodegen.SEPARATE_MODELS_AND_API, true);
 
@@ -63,5 +66,7 @@ public class SharedTypeScriptTest {
         String apiFileContent = FileUtils.readFileToString(pets);
         Assert.assertTrue(apiFileContent.contains("import { Category }"));
         Assert.assertTrue(apiFileContent.contains("import { Tag }"));
+
+        FileUtils.deleteDirectory(new File("src/test/resources/oldImportsStillPresentTest/"));
     }
 }
