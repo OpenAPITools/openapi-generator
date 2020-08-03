@@ -67,8 +67,7 @@ public class JSONComposedSchemaTest {
     }
 
     /**
-     * Validate a oneOf schema can be deserialized into the expected class.
-     * The oneOf schema does not have a discriminator. 
+     * Test to ensure the getter will throw ClassCastException
      */
     @Test(expected = ClassCastException.class)
     public void testCastException() throws Exception {
