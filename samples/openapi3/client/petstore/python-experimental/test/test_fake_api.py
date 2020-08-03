@@ -119,7 +119,7 @@ class TestFakeApi(unittest.TestCase):
         """
         from petstore_api.model import array_of_enums, string_enum
         endpoint = self.api.array_of_enums
-        assert endpoint.openapi_types['array_of_enums_array_of_enums'] == (array_of_enums.ArrayOfEnums,)
+        assert endpoint.openapi_types['array_of_enums'] == (array_of_enums.ArrayOfEnums,)
         assert endpoint.settings['response_type'] == (array_of_enums.ArrayOfEnums,)
 
         # serialization + deserialization works
@@ -129,7 +129,7 @@ class TestFakeApi(unittest.TestCase):
             value_simple = ["placed"]
             mock_method.return_value = self.mock_response(value_simple)
 
-            response = endpoint(array_of_enums_array_of_enums=body)
+            response = endpoint(array_of_enums=body)
             self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/array-of-enums', value_simple)
 
             assert isinstance(response, array_of_enums.ArrayOfEnums)
@@ -171,7 +171,7 @@ class TestFakeApi(unittest.TestCase):
         """
         from petstore_api.model import animal, composed_one_of_number_with_validations, number_with_validations
         endpoint = self.api.composed_one_of_number_with_validations
-        assert endpoint.openapi_types['composed_one_of_number_with_validations_composed_one_of_number_with_validations'] == (
+        assert endpoint.openapi_types['composed_one_of_number_with_validations'] == (
             composed_one_of_number_with_validations.ComposedOneOfNumberWithValidations,)
         assert endpoint.settings['response_type'] == (
             composed_one_of_number_with_validations.ComposedOneOfNumberWithValidations,)
@@ -193,7 +193,7 @@ class TestFakeApi(unittest.TestCase):
             with patch.object(RESTClientObject, 'request') as mock_method:
                 mock_method.return_value = self.mock_response(value_simple)
 
-                response = endpoint(composed_one_of_number_with_validations_composed_one_of_number_with_validations=body)
+                response = endpoint(composed_one_of_number_with_validations=body)
                 self.assert_request_called_with(
                     mock_method,
                     'http://petstore.swagger.io:80/v2/fake/refs/composed_one_of_number_with_validations',

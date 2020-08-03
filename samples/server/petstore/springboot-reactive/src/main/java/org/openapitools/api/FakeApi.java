@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import org.springframework.http.codec.multipart.Part;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -220,7 +221,7 @@ public interface FakeApi {
     @RequestMapping(value = "/fake",
         consumes = { "application/x-www-form-urlencoded" },
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<Void>> testEndpointParameters(@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "number", required = true)  BigDecimal number,@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "double", required = true)  Double _double,@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "pattern_without_delimiter", required = true)  String patternWithoutDelimiter,@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "byte", required = true)  byte[] _byte,@ApiParam(value = "None") @Valid @RequestPart(value = "integer", required = false)  Integer integer,@ApiParam(value = "None") @Valid @RequestPart(value = "int32", required = false)  Integer int32,@ApiParam(value = "None") @Valid @RequestPart(value = "int64", required = false)  Long int64,@ApiParam(value = "None") @Valid @RequestPart(value = "float", required = false)  Float _float,@ApiParam(value = "None") @Valid @RequestPart(value = "string", required = false)  String string,@ApiParam(value = "None") @Valid @RequestPart(value = "binary", required = false) MultipartFile binary,@ApiParam(value = "None") @Valid @RequestPart(value = "date", required = false)  LocalDate date,@ApiParam(value = "None") @Valid @RequestPart(value = "dateTime", required = false)  OffsetDateTime dateTime,@ApiParam(value = "None") @Valid @RequestPart(value = "password", required = false)  String password,@ApiParam(value = "None") @Valid @RequestPart(value = "callback", required = false)  String paramCallback, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<Void>> testEndpointParameters(@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "number", required = true)  BigDecimal number,@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "double", required = true)  Double _double,@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "pattern_without_delimiter", required = true)  String patternWithoutDelimiter,@ApiParam(value = "None", required=true) @Valid @RequestPart(value = "byte", required = true)  byte[] _byte,@ApiParam(value = "None") @Valid @RequestPart(value = "integer", required = false)  Integer integer,@ApiParam(value = "None") @Valid @RequestPart(value = "int32", required = false)  Integer int32,@ApiParam(value = "None") @Valid @RequestPart(value = "int64", required = false)  Long int64,@ApiParam(value = "None") @Valid @RequestPart(value = "float", required = false)  Float _float,@ApiParam(value = "None") @Valid @RequestPart(value = "string", required = false)  String string,@ApiParam(value = "None") @Valid @RequestPart(value = "binary", required = false) Flux<Part> binary,@ApiParam(value = "None") @Valid @RequestPart(value = "date", required = false)  LocalDate date,@ApiParam(value = "None") @Valid @RequestPart(value = "dateTime", required = false)  OffsetDateTime dateTime,@ApiParam(value = "None") @Valid @RequestPart(value = "password", required = false)  String password,@ApiParam(value = "None") @Valid @RequestPart(value = "callback", required = false)  String paramCallback, ServerWebExchange exchange) {
         return getDelegate().testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, exchange);
     }
 
@@ -350,7 +351,7 @@ public interface FakeApi {
         produces = { "application/json" }, 
         consumes = { "multipart/form-data" },
         method = RequestMethod.POST)
-    default Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "file to upload") @Valid @RequestPart(value = "requiredFile", required = true) MultipartFile requiredFile,@ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false)  String additionalMetadata, ServerWebExchange exchange) {
+    default Mono<ResponseEntity<ModelApiResponse>> uploadFileWithRequiredFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "file to upload") @Valid @RequestPart(value = "requiredFile", required = true) Flux<Part> requiredFile,@ApiParam(value = "Additional data to pass to server") @Valid @RequestPart(value = "additionalMetadata", required = false)  String additionalMetadata, ServerWebExchange exchange) {
         return getDelegate().uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata, exchange);
     }
 

@@ -29,16 +29,12 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import apple
-except ImportError:
-    apple = sys.modules[
-        'petstore_api.model.apple']
-try:
-    from petstore_api.model import banana
-except ImportError:
-    banana = sys.modules[
-        'petstore_api.model.banana']
+
+def lazy_import():
+    from petstore_api.model.apple import Apple
+    from petstore_api.model.banana import Banana
+    globals()['Apple'] = Apple
+    globals()['Banana'] = Banana
 
 
 class Fruit(ModelComposed):
@@ -89,13 +85,14 @@ class Fruit(ModelComposed):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'color': (str,),  # noqa: E501
             'cultivar': (str,),  # noqa: E501
@@ -106,6 +103,7 @@ class Fruit(ModelComposed):
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {
         'color': 'color',  # noqa: E501
@@ -128,7 +126,7 @@ class Fruit(ModelComposed):
 
     @convert_js_args_to_python_args
     def __init__(self, *args, **kwargs):  # noqa: E501
-        """fruit.Fruit - a model defined in OpenAPI
+        """Fruit - a model defined in OpenAPI
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -234,13 +232,14 @@ class Fruit(ModelComposed):
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        lazy_import()
         return {
           'anyOf': [
           ],
           'allOf': [
           ],
           'oneOf': [
-              apple.Apple,
-              banana.Banana,
+              Apple,
+              Banana,
           ],
         }

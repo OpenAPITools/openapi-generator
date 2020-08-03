@@ -29,16 +29,12 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import child_dog_all_of
-except ImportError:
-    child_dog_all_of = sys.modules[
-        'petstore_api.model.child_dog_all_of']
-try:
-    from petstore_api.model import parent_pet
-except ImportError:
-    parent_pet = sys.modules[
-        'petstore_api.model.parent_pet']
+
+def lazy_import():
+    from petstore_api.model.child_dog_all_of import ChildDogAllOf
+    from petstore_api.model.parent_pet import ParentPet
+    globals()['ChildDogAllOf'] = ChildDogAllOf
+    globals()['ParentPet'] = ParentPet
 
 
 class ChildDog(ModelComposed):
@@ -78,13 +74,14 @@ class ChildDog(ModelComposed):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'pet_type': (str,),  # noqa: E501
             'bark': (str,),  # noqa: E501
@@ -117,7 +114,7 @@ class ChildDog(ModelComposed):
 
     @convert_js_args_to_python_args
     def __init__(self, pet_type, *args, **kwargs):  # noqa: E501
-        """child_dog.ChildDog - a model defined in OpenAPI
+        """ChildDog - a model defined in OpenAPI
 
         Args:
             pet_type (str):
@@ -224,12 +221,13 @@ class ChildDog(ModelComposed):
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        lazy_import()
         return {
           'anyOf': [
           ],
           'allOf': [
-              child_dog_all_of.ChildDogAllOf,
-              parent_pet.ParentPet,
+              ChildDogAllOf,
+              ParentPet,
           ],
           'oneOf': [
           ],

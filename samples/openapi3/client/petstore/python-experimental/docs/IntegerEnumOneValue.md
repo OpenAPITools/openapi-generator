@@ -1,4 +1,4 @@
-# integer_enum_one_value.IntegerEnumOneValue
+# IntegerEnumOneValue
 
 ## Properties
 Name | Type | Description | Notes

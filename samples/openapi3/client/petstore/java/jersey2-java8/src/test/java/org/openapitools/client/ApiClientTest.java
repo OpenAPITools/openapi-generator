@@ -1,27 +1,74 @@
 package org.openapitools.client;
 
+import org.openapitools.client.auth.Authentication;
+import org.openapitools.client.auth.HttpSignatureAuth;
 import org.openapitools.client.model.*;
 import org.openapitools.client.ApiClient;
 
 import java.lang.Exception;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.TimeZone;
-import java.text.SimpleDateFormat;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import java.security.spec.AlgorithmParameterSpec;
+import java.util.*;
+import java.net.URI;
 import org.junit.*;
+import org.tomitribe.auth.signatures.Algorithm;
+import org.tomitribe.auth.signatures.Signer;
+import org.tomitribe.auth.signatures.SigningAlgorithm;
+import java.security.spec.PSSParameterSpec;
+import java.security.spec.MGF1ParameterSpec;
+import org.tomitribe.auth.signatures.*;
+import java.io.ByteArrayInputStream;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.PrivateKey;
+
 import static org.junit.Assert.*;
 
 public class ApiClientTest {
     ApiClient apiClient = null;
     Pet pet = null;
+    PrivateKey privateKey = null;
+    PublicKey publicKey = null;
 
     @Before
     public void setup() {
         apiClient = new ApiClient();
         pet = new Pet();
+        try {
+            KeyPair keypair = KeyPairGenerator.getInstance("RSA").generateKeyPair();
+            privateKey = keypair.getPrivate();
+            publicKey = keypair.getPublic();
+        } catch(NoSuchAlgorithmException e) {
+            fail("No such algorithm: " + e.toString());
+        }
+    }
+
+    @Test
+    public void testUpdateParamsForAuth() throws Exception {
+        Map<String, String> headerParams = new HashMap<String, String>();
+        List<Pair> queryParams = new ArrayList<>();
+
+        URI uri = new URI("/api/v1/telemetry/TimeSeries");
+
+        // auth name
+        String[] authNames = {"http_signature_test"};
+
+        HashMap<String, Authentication> authMap = new HashMap<String, Authentication>();
+
+        HttpSignatureAuth signatureAuth = new HttpSignatureAuth("some-key-1", SigningAlgorithm.HS2019, Algorithm.RSA_SHA512, null,
+                null, Arrays.asList(new String[] { "(request-target)" }), 128L);
+
+        signatureAuth.setPrivateKey(privateKey);
+
+        authMap.put("http_signature_test", signatureAuth);
+
+        ApiClient client = new ApiClient(authMap);
+
+        client.updateParamsForAuth(authNames, queryParams, headerParams, null, null, "post", uri);
+        Signature requestSignature = Signature.fromString(headerParams.get("Authorization"), Algorithm.RSA_SHA512);
+        Verifier verify = new Verifier(publicKey, requestSignature);
+        assert verify.verify("post", uri.toString(), headerParams);
     }
 
     @Test

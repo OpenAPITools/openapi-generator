@@ -25,7 +25,7 @@ public struct Pet: Codable {
     /** pet status in the store */
     public var status: Status?
 
-    public init(id: Int64?, category: Category?, name: String?, photoUrls: [String], tags: [Tag]?, status: Status?) {
+    public init(id: Int64? = nil, category: Category? = nil, name: String?, photoUrls: [String], tags: [Tag]? = nil, status: Status? = nil) {
         self.id = id
         self.category = category
         self.name = name

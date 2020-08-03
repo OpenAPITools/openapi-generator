@@ -12,7 +12,7 @@ internal struct HasOnlyReadOnly: Codable {
     internal var bar: String?
     internal var foo: String?
 
-    internal init(bar: String?, foo: String?) {
+    internal init(bar: String? = nil, foo: String? = nil) {
         self.bar = bar
         self.foo = foo
     }

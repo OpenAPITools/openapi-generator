@@ -1,4 +1,4 @@
-# apple_req.AppleReq
+# AppleReq
 
 ## Properties
 Name | Type | Description | Notes

@@ -29,26 +29,16 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import child_cat
-except ImportError:
-    child_cat = sys.modules[
-        'petstore_api.model.child_cat']
-try:
-    from petstore_api.model import child_dog
-except ImportError:
-    child_dog = sys.modules[
-        'petstore_api.model.child_dog']
-try:
-    from petstore_api.model import child_lizard
-except ImportError:
-    child_lizard = sys.modules[
-        'petstore_api.model.child_lizard']
-try:
-    from petstore_api.model import grandparent_animal
-except ImportError:
-    grandparent_animal = sys.modules[
-        'petstore_api.model.grandparent_animal']
+
+def lazy_import():
+    from petstore_api.model.child_cat import ChildCat
+    from petstore_api.model.child_dog import ChildDog
+    from petstore_api.model.child_lizard import ChildLizard
+    from petstore_api.model.grandparent_animal import GrandparentAnimal
+    globals()['ChildCat'] = ChildCat
+    globals()['ChildDog'] = ChildDog
+    globals()['ChildLizard'] = ChildLizard
+    globals()['GrandparentAnimal'] = GrandparentAnimal
 
 
 class ParentPet(ModelComposed):
@@ -88,23 +78,25 @@ class ParentPet(ModelComposed):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'pet_type': (str,),  # noqa: E501
         }
 
     @cached_property
     def discriminator():
+        lazy_import()
         val = {
-            'ChildCat': child_cat.ChildCat,
-            'ChildDog': child_dog.ChildDog,
-            'ChildLizard': child_lizard.ChildLizard,
+            'ChildCat': ChildCat,
+            'ChildDog': ChildDog,
+            'ChildLizard': ChildLizard,
         }
         if not val:
             return None
@@ -128,7 +120,7 @@ class ParentPet(ModelComposed):
 
     @convert_js_args_to_python_args
     def __init__(self, pet_type, *args, **kwargs):  # noqa: E501
-        """parent_pet.ParentPet - a model defined in OpenAPI
+        """ParentPet - a model defined in OpenAPI
 
         Args:
             pet_type (str):
@@ -234,11 +226,12 @@ class ParentPet(ModelComposed):
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        lazy_import()
         return {
           'anyOf': [
           ],
           'allOf': [
-              grandparent_animal.GrandparentAnimal,
+              GrandparentAnimal,
           ],
           'oneOf': [
           ],

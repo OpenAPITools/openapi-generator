@@ -13,7 +13,7 @@ public struct File: Codable {
     /** Test capitalization */
     public var sourceURI: String?
 
-    public init(sourceURI: String?) {
+    public init(sourceURI: String? = nil) {
         self.sourceURI = sourceURI
     }
 

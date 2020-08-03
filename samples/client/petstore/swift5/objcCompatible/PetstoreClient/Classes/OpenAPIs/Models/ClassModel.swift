@@ -13,7 +13,7 @@ import Foundation
 
     public var _class: String?
 
-    public init(_class: String?) {
+    public init(_class: String? = nil) {
         self._class = _class
     }
 

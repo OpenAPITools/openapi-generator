@@ -23,7 +23,7 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_and_convert_types
 )
-from petstore_api.model import order
+from petstore_api.model.order import Order
 
 
 class StoreApi(object):
@@ -299,7 +299,7 @@ class StoreApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                order.Order
+                Order
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -328,7 +328,7 @@ class StoreApi(object):
 
         self.get_order_by_id = Endpoint(
             settings={
-                'response_type': (order.Order,),
+                'response_type': (Order,),
                 'auth': [],
                 'endpoint_path': '/store/order/{order_id}',
                 'operation_id': 'get_order_by_id',
@@ -386,7 +386,7 @@ class StoreApi(object):
 
         def __place_order(
             self,
-            order_order,
+            order,
             **kwargs
         ):
             """Place an order for a pet  # noqa: E501
@@ -394,11 +394,11 @@ class StoreApi(object):
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.place_order(order_order, async_req=True)
+            >>> thread = api.place_order(order, async_req=True)
             >>> result = thread.get()
 
             Args:
-                order_order (order.Order): order placed for purchasing the pet
+                order (Order): order placed for purchasing the pet
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -422,7 +422,7 @@ class StoreApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                order.Order
+                Order
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -445,13 +445,13 @@ class StoreApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
-            kwargs['order_order'] = \
-                order_order
+            kwargs['order'] = \
+                order
             return self.call_with_http_info(**kwargs)
 
         self.place_order = Endpoint(
             settings={
-                'response_type': (order.Order,),
+                'response_type': (Order,),
                 'auth': [],
                 'endpoint_path': '/store/order',
                 'operation_id': 'place_order',
@@ -460,10 +460,10 @@ class StoreApi(object):
             },
             params_map={
                 'all': [
-                    'order_order',
+                    'order',
                 ],
                 'required': [
-                    'order_order',
+                    'order',
                 ],
                 'nullable': [
                 ],
@@ -478,13 +478,13 @@ class StoreApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'order_order':
-                        (order.Order,),
+                    'order':
+                        (Order,),
                 },
                 'attribute_map': {
                 },
                 'location_map': {
-                    'order_order': 'body',
+                    'order': 'body',
                 },
                 'collection_format_map': {
                 }

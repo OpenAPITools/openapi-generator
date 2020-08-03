@@ -29,11 +29,10 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import animal
-except ImportError:
-    animal = sys.modules[
-        'petstore_api.model.animal']
+
+def lazy_import():
+    from petstore_api.model.animal import Animal
+    globals()['Animal'] = Animal
 
 
 class AnimalFarm(ModelSimple):
@@ -69,20 +68,22 @@ class AnimalFarm(ModelSimple):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
-            'value': ([animal.Animal],),
+            'value': ([Animal],),
         }
 
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {}
 
@@ -99,10 +100,10 @@ class AnimalFarm(ModelSimple):
 
     @convert_js_args_to_python_args
     def __init__(self, value, *args, **kwargs):
-        """animal_farm.AnimalFarm - a model defined in OpenAPI
+        """AnimalFarm - a model defined in OpenAPI
 
         Args:
-            value ([animal.Animal]):  # noqa: E501
+            value ([Animal]):  # noqa: E501
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
