@@ -15,7 +15,7 @@ import java.util.List;
 
 public class SharedTypeScriptTest {
     @Test
-    public void typesInImportsAreSplitted() throws IOException {
+    public void typesInImportsAreSplittedTest() throws IOException {
 //        CodegenConfigurator config =
 //                new CodegenConfigurator()
 //                        .setInputSpec("split-import.json")
@@ -48,7 +48,7 @@ public class SharedTypeScriptTest {
     }
 
     @Test
-    public void oldImportsStillThere() throws IOException {
+    public void oldImportsStillPresentTest() throws IOException {
 //        CodegenConfigurator config =
 //                new CodegenConfigurator()
 //                        .setInputSpec("petstore.json")
