@@ -15,8 +15,8 @@ import javax.validation.constraints.*;
 /**
  * AdditionalPropertiesNumber
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@lombok.Builder(builderClassName = "MyBuilder")
-@lombok.experimental.FieldNameConstants
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal>  {
   @JsonProperty("name")

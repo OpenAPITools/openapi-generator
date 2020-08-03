@@ -9,4 +9,4 @@ additionalProperties:
   artifactId: spring-mvc-server
   hideGenerationTimestamp: "true"
   serverPort: "8002"
-  additionalModelTypeAnnotations: '@lombok.Builder(builderClassName = "MyBuilder");@lombok.experimental.FieldNameConstants'
+  additionalModelTypeAnnotations: '@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name");@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")'
