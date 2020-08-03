@@ -10,6 +10,7 @@ Method | HTTP request | Description
 [**boolean**](FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
 [**composed_one_of_number_with_validations**](FakeApi.md#composed_one_of_number_with_validations) | **POST** /fake/refs/composed_one_of_number_with_validations | 
 [**fake_health_get**](FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
+[**mammal**](FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 [**number_with_validations**](FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
 [**object_model_with_ref_props**](FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
 [**string**](FakeApi.md#string) | **POST** /fake/refs/string | 
@@ -49,7 +50,11 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    additional_properties_with_array_of_enums = AdditionalPropertiesWithArrayOfEnums() # AdditionalPropertiesWithArrayOfEnums | Input enum (optional)
+    additional_properties_with_array_of_enums = AdditionalPropertiesWithArrayOfEnums(
+        "key": [
+            EnumClass("-efg"),
+        ],
+    ) # AdditionalPropertiesWithArrayOfEnums | Input enum (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -113,7 +118,9 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = AnimalFarm() # AnimalFarm | Input model (optional)
+    body = AnimalFarm([
+        Animal(),
+    ]) # AnimalFarm | Input model (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -174,7 +181,9 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    array_of_enums = ArrayOfEnums() # ArrayOfEnums | Input enum (optional)
+    array_of_enums = ArrayOfEnums([
+        StringEnum("placed"),
+    ]) # ArrayOfEnums | Input enum (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -361,7 +370,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    
+
     # example, this endpoint has no required or optional parameters
     try:
         # Health check endpoint
@@ -394,6 +403,72 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **mammal**
+> Mammal mammal(mammal)
+
+
+
+Test serialization of mammals
+
+### Example
+
+```python
+import time
+import petstore_api
+from petstore_api.api import fake_api
+from petstore_api.model.mammal import Mammal
+from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = fake_api.FakeApi(api_client)
+    mammal = Mammal(
+        has_baleen=True,
+        has_teeth=True,
+        class_name="whale",
+    ) # Mammal | Input mammal
+
+    # example passing only required values which don't have defaults set
+    try:
+        api_response = api_instance.mammal(mammal)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling FakeApi->mammal: %s\n" % e)
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **mammal** | [**Mammal**](Mammal.md)| Input mammal |
+
+### Return type
+
+[**Mammal**](Mammal.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Output mammal |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **number_with_validations**
 > NumberWithValidations number_with_validations()
 
@@ -420,7 +495,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = NumberWithValidations(3.4) # NumberWithValidations | Input number as post body (optional)
+    body = NumberWithValidations(10) # NumberWithValidations | Input number as post body (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -483,7 +558,11 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = ObjectModelWithRefProps() # ObjectModelWithRefProps | Input model (optional)
+    body = ObjectModelWithRefProps(
+        my_number=NumberWithValidations(10),
+        my_string="my_string_example",
+        my_boolean=True,
+    ) # ObjectModelWithRefProps | Input model (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -545,7 +624,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    body = 'body_example' # str | Input string as post body (optional)
+    body = "body_example" # str | Input string as post body (optional)
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -671,8 +750,17 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    file_schema_test_class = FileSchemaTestClass() # FileSchemaTestClass | 
-    
+    file_schema_test_class = FileSchemaTestClass(
+        file=File(
+            source_uri="source_uri_example",
+        ),
+        files=[
+            File(
+                source_uri="source_uri_example",
+            ),
+        ],
+    ) # FileSchemaTestClass | 
+
     # example passing only required values which don't have defaults set
     try:
         api_instance.test_body_with_file_schema(file_schema_test_class)
@@ -730,9 +818,22 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    query = 'query_example' # str | 
-    user = User() # User | 
-    
+    query = "query_example" # str | 
+    user = User(
+        id=1,
+        username="username_example",
+        first_name="first_name_example",
+        last_name="last_name_example",
+        email="email_example",
+        password="password_example",
+        phone="phone_example",
+        user_status=1,
+        object_with_no_declared_props={},
+        object_with_no_declared_props_nullable={},
+        any_type_prop=None,
+        any_type_prop_nullable=None,
+    ) # User | 
+
     # example passing only required values which don't have defaults set
     try:
         api_instance.test_body_with_query_params(query, user)
@@ -793,8 +894,10 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    client = Client() # Client | client model
-    
+    client = Client(
+        client="client_example",
+    ) # Client | client model
+
     # example passing only required values which don't have defaults set
     try:
         # To test \"client\" model
@@ -866,20 +969,20 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    number = 3.4 # float | None
-    double = 3.4 # float | None
-    pattern_without_delimiter = 'pattern_without_delimiter_example' # str | None
-    byte = 'byte_example' # str | None
-    integer = 56 # int | None (optional)
-int32 = 56 # int | None (optional)
-int64 = 56 # int | None (optional)
-float = 3.4 # float | None (optional)
-string = 'string_example' # str | None (optional)
-binary = open('/path/to/file', 'rb') # file_type | None (optional)
-date = '2013-10-20' # date | None (optional)
-date_time = '2013-10-20T19:20:30+01:00' # datetime | None (optional)
-password = 'password_example' # str | None (optional)
-param_callback = 'param_callback_example' # str | None (optional)
+    number = 32.1 # float | None
+    double = 67.8 # float | None
+    pattern_without_delimiter = "AUR,rZ#UM/?R,Fp^l6$ARjbhJk C" # str | None
+    byte = 'YQ==' # str | None
+    integer = 10 # int | None (optional)
+    int32 = 20 # int | None (optional)
+    int64 = 1 # int | None (optional)
+    float = 3.14 # float | None (optional)
+    string = "a" # str | None (optional)
+    binary = open('/path/to/file.txt', 'rb') # file_type | None (optional)
+    date = datetime.datetime.strptime('1970-01-01', '%Y-%m-%d').date() # date | None (optional)
+    date_time = datetime.datetime.strptime('1970-01-01T00:00:00.00Z', '%Y-%m-%dT%H:%M:%S.%f') # datetime | None (optional)
+    password = "password_example" # str | None (optional)
+    param_callback = "param_callback_example" # str | None (optional)
 
     # example passing only required values which don't have defaults set
     try:
@@ -962,14 +1065,18 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    enum_header_string_array = ['enum_header_string_array_example'] # [str] | Header parameter enum test (string array) (optional)
-enum_header_string = '-efg' # str | Header parameter enum test (string) (optional) if omitted the server will use the default value of '-efg'
-enum_query_string_array = ['enum_query_string_array_example'] # [str] | Query parameter enum test (string array) (optional)
-enum_query_string = '-efg' # str | Query parameter enum test (string) (optional) if omitted the server will use the default value of '-efg'
-enum_query_integer = 56 # int | Query parameter enum test (double) (optional)
-enum_query_double = 3.4 # float | Query parameter enum test (double) (optional)
-enum_form_string_array = '$' # [str] | Form parameter enum test (string array) (optional) if omitted the server will use the default value of '$'
-enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) if omitted the server will use the default value of '-efg'
+    enum_header_string_array = [
+        "$",
+    ] # [str] | Header parameter enum test (string array) (optional)
+    enum_header_string = "-efg" # str | Header parameter enum test (string) (optional) if omitted the server will use the default value of "-efg"
+    enum_query_string_array = [
+        "$",
+    ] # [str] | Query parameter enum test (string array) (optional)
+    enum_query_string = "-efg" # str | Query parameter enum test (string) (optional) if omitted the server will use the default value of "-efg"
+    enum_query_integer = 1 # int | Query parameter enum test (double) (optional)
+    enum_query_double = 1.1 # float | Query parameter enum test (double) (optional)
+    enum_form_string_array = "$" # [str] | Form parameter enum test (string array) (optional) if omitted the server will use the default value of "$"
+    enum_form_string = "-efg" # str | Form parameter enum test (string) (optional) if omitted the server will use the default value of "-efg"
 
     # example passing only required values which don't have defaults set
     # and optional values
@@ -985,13 +1092,13 @@ enum_form_string = '-efg' # str | Form parameter enum test (string) (optional) i
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enum_header_string_array** | **[str]**| Header parameter enum test (string array) | [optional]
- **enum_header_string** | **str**| Header parameter enum test (string) | [optional] if omitted the server will use the default value of '-efg'
+ **enum_header_string** | **str**| Header parameter enum test (string) | [optional] if omitted the server will use the default value of "-efg"
  **enum_query_string_array** | **[str]**| Query parameter enum test (string array) | [optional]
- **enum_query_string** | **str**| Query parameter enum test (string) | [optional] if omitted the server will use the default value of '-efg'
+ **enum_query_string** | **str**| Query parameter enum test (string) | [optional] if omitted the server will use the default value of "-efg"
  **enum_query_integer** | **int**| Query parameter enum test (double) | [optional]
  **enum_query_double** | **float**| Query parameter enum test (double) | [optional]
- **enum_form_string_array** | **[str]**| Form parameter enum test (string array) | [optional] if omitted the server will use the default value of '$'
- **enum_form_string** | **str**| Form parameter enum test (string) | [optional] if omitted the server will use the default value of '-efg'
+ **enum_form_string_array** | **[str]**| Form parameter enum test (string array) | [optional] if omitted the server will use the default value of "$"
+ **enum_form_string** | **str**| Form parameter enum test (string) | [optional] if omitted the server will use the default value of "-efg"
 
 ### Return type
 
@@ -1049,12 +1156,12 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    required_string_group = 56 # int | Required String in group parameters
+    required_string_group = 1 # int | Required String in group parameters
     required_boolean_group = True # bool | Required Boolean in group parameters
-    required_int64_group = 56 # int | Required Integer in group parameters
-    string_group = 56 # int | String in group parameters (optional)
-boolean_group = True # bool | Boolean in group parameters (optional)
-int64_group = 56 # int | Integer in group parameters (optional)
+    required_int64_group = 1 # int | Required Integer in group parameters
+    string_group = 1 # int | String in group parameters (optional)
+    boolean_group = True # bool | Boolean in group parameters (optional)
+    int64_group = 1 # int | Integer in group parameters (optional)
 
     # example passing only required values which don't have defaults set
     try:
@@ -1126,8 +1233,10 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    request_body = {'key': 'request_body_example'} # {str: (str,)} | request body
-    
+    request_body = {
+        "key": "key_example",
+    } # {str: (str,)} | request body
+
     # example passing only required values which don't have defaults set
     try:
         # test inline additionalProperties
@@ -1185,9 +1294,9 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    param = 'param_example' # str | field1
-    param2 = 'param2_example' # str | field2
-    
+    param = "param_example" # str | field1
+    param2 = "param2_example" # str | field2
+
     # example passing only required values which don't have defaults set
     try:
         # test json serialization of form data
@@ -1248,12 +1357,22 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = fake_api.FakeApi(api_client)
-    pipe = ['pipe_example'] # [str] | 
-    ioutil = ['ioutil_example'] # [str] | 
-    http = ['http_example'] # [str] | 
-    url = ['url_example'] # [str] | 
-    context = ['context_example'] # [str] | 
-    
+    pipe = [
+        "pipe_example",
+    ] # [str] | 
+    ioutil = [
+        "ioutil_example",
+    ] # [str] | 
+    http = [
+        "http_example",
+    ] # [str] | 
+    url = [
+        "url_example",
+    ] # [str] | 
+    context = [
+        "context_example",
+    ] # [str] | 
+
     # example passing only required values which don't have defaults set
     try:
         api_instance.test_query_parameter_collection_format(pipe, ioutil, http, url, context)

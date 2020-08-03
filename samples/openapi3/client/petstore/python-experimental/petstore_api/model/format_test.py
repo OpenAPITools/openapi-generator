@@ -132,6 +132,7 @@ class FormatTest(ModelNormal):
             'binary': (file_type,),  # noqa: E501
             'date_time': (datetime,),  # noqa: E501
             'uuid': (str,),  # noqa: E501
+            'uuid_no_example': (str,),  # noqa: E501
             'pattern_with_digits': (str,),  # noqa: E501
             'pattern_with_digits_and_delimiter': (str,),  # noqa: E501
         }
@@ -155,6 +156,7 @@ class FormatTest(ModelNormal):
         'binary': 'binary',  # noqa: E501
         'date_time': 'dateTime',  # noqa: E501
         'uuid': 'uuid',  # noqa: E501
+        'uuid_no_example': 'uuidNoExample',  # noqa: E501
         'pattern_with_digits': 'pattern_with_digits',  # noqa: E501
         'pattern_with_digits_and_delimiter': 'pattern_with_digits_and_delimiter',  # noqa: E501
     }
@@ -220,6 +222,7 @@ class FormatTest(ModelNormal):
             binary (file_type): [optional]  # noqa: E501
             date_time (datetime): [optional]  # noqa: E501
             uuid (str): [optional]  # noqa: E501
+            uuid_no_example (str): [optional]  # noqa: E501
             pattern_with_digits (str): A string that is a 10 digit number. Can have leading zeros.. [optional]  # noqa: E501
             pattern_with_digits_and_delimiter (str): A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.. [optional]  # noqa: E501
         """
