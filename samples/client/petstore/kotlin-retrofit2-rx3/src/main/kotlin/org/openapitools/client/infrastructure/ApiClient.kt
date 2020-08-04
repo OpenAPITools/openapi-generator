@@ -1,54 +1,25 @@
-package {{packageName}}.infrastructure
+package org.openapitools.client.infrastructure
 
-{{#hasOAuthMethods}}
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder
-import {{packageName}}.auth.ApiKeyAuth
-import {{packageName}}.auth.OAuth
-import {{packageName}}.auth.OAuth.AccessTokenListener
-import {{packageName}}.auth.OAuthFlow
-{{/hasOAuthMethods}}
-{{#hasAuthMethods}}
-{{#authMethods}}
-{{#isBasic}}
-{{#isBasicBasic}}
-import {{packageName}}.auth.HttpBasicAuth
-{{/isBasicBasic}}
-{{#isBasicBearer}}
-import {{packageName}}.auth.HttpBearerAuth
-{{/isBasicBearer}}
-{{/isBasic}}
-{{/authMethods}}
-{{/hasAuthMethods}}
+import org.openapitools.client.auth.ApiKeyAuth
+import org.openapitools.client.auth.OAuth
+import org.openapitools.client.auth.OAuth.AccessTokenListener
+import org.openapitools.client.auth.OAuthFlow
 
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.converter.scalars.ScalarsConverterFactory
-{{#useRxJava}}
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
-{{/useRxJava}}
-{{#useRxJava2}}
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-{{/useRxJava2}}
-{{#useRxJava3}}
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-{{/useRxJava3}}
-{{#gson}}
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import retrofit2.converter.gson.GsonConverterFactory
-{{/gson}}
-{{#moshi}}
 import com.squareup.moshi.Moshi
 import retrofit2.converter.moshi.MoshiConverterFactory
-{{/moshi}}
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}class ApiClient(
+class ApiClient(
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
-    private val serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder
+    private val serializerBuilder: Moshi.Builder = Serializer.moshiBuilder
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
     var logger: ((String) -> Unit)? = null
@@ -57,20 +28,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(ScalarsConverterFactory.create())
-            {{#gson}}
-            .addConverterFactory(GsonConverterFactory.create(serializerBuilder.create()))
-            {{/gson}}
-            {{#useRxJava}}
-            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-            {{/useRxJava}}
-            {{#useRxJava2}}
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            {{/useRxJava2}}{{#useRxJava3}}
+
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            {{/useRxJava3}}
-            {{#moshi}}
             .addConverterFactory(MoshiConverterFactory.create(serializerBuilder.build()))
-            {{/moshi}}
     }
 
     private val clientBuilder: OkHttpClient.Builder by lazy {
@@ -93,56 +53,25 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         normalizeBaseUrl()
     }
 
-    {{#hasAuthMethods}}
     constructor(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
-        serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
+        serializerBuilder: Moshi.Builder = Serializer.moshiBuilder,
         authNames: Array<String>
     ) : this(baseUrl, okHttpClientBuilder, serializerBuilder) {
         authNames.forEach { authName ->
             val auth = when (authName) {
-                {{#authMethods}}"{{name}}" -> {{#isBasic}}{{#isBasicBasic}}HttpBasicAuth(){{/isBasicBasic}}{{#isBasicBearer}}HttpBearerAuth("{{scheme}}"){{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}"){{/isOAuth}}{{/authMethods}}
+                "api_key" -> ApiKeyAuth("header", "api_key")"petstore_auth" -> OAuth(OAuthFlow.implicit, "http://petstore.swagger.io/api/oauth/dialog", "", "write:pets, read:pets")
                 else -> throw RuntimeException("auth name $authName not found in available auth names")
             }
             addAuthorization(authName, auth);
         }
     }
 
-    {{#authMethods}}
-    {{#isBasic}}
-    {{#isBasicBasic}}
     constructor(
         baseUrl: String = defaultBasePath,
         okHttpClientBuilder: OkHttpClient.Builder? = null,
-        serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
-        authName: String, 
-        username: String, 
-        password: String
-    ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
-        setCredentials(username, password)
-    }
-
-    {{/isBasicBasic}}
-    {{#isBasicBearer}}
-    constructor(
-        baseUrl: String = defaultBasePath,
-        okHttpClientBuilder: OkHttpClient.Builder? = null,
-        serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
-        authName: String, 
-        bearerToken: String
-    ) : this(baseUrl, okHttpClientBuilder, serializerBuilder, arrayOf(authName)) {
-        setBearerToken(bearerToken)
-    }
-
-    {{/isBasicBearer}}
-    {{/isBasic}}
-    {{/authMethods}}
-    {{#hasOAuthMethods}}
-    constructor(
-        baseUrl: String = defaultBasePath,
-        okHttpClientBuilder: OkHttpClient.Builder? = null,
-        serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
+        serializerBuilder: Moshi.Builder = Serializer.moshiBuilder,
         authName: String, 
         clientId: String, 
         secret: String, 
@@ -156,46 +85,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
             ?.setPassword(password)
     }
 
-    {{/hasOAuthMethods}}
-    {{#authMethods}}
-    {{#isBasic}}
-    {{#isBasicBasic}}
-    fun setCredentials(username: String, password: String): ApiClient {
-        apiAuthorizations.values.runOnFirst<Interceptor, HttpBasicAuth> {
-            setCredentials(username, password);
-        }
-        {{#hasOAuthMethods}}
-        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
-            tokenRequestBuilder.setUsername(username).setPassword(password)
-        }
-        {{/hasOAuthMethods}}    
-        return this
-    }
-
-    {{/isBasicBasic}}
-    {{^isBasicBasic}}
-    {{#hasOAuthMethods}}
-    fun setCredentials(username: String, password: String): ApiClient {
-        apiAuthorizations.values.runOnFirst<Interceptor, OAuth> {
-            tokenRequestBuilder.setUsername(username).setPassword(password)
-        }
-        return this
-    }
-    {{/hasOAuthMethods}}    
-    {{/isBasicBasic}}
-    {{#isBasicBearer}}
-    fun setBearerToken(bearerToken: String): ApiClient {
-        apiAuthorizations.values.runOnFirst<Interceptor, HttpBearerAuth> {
-            this.bearerToken = bearerToken
-        }
-        return this
-    }
-
-    {{/isBasicBearer}}
-    {{/isBasic}}
-    {{/authMethods}}
-    {{/hasAuthMethods}}
-    {{#hasOAuthMethods}}
     /**
     * Helper method to configure the token endpoint of the first oauth found in the apiAuthorizations (there should be only one)
     * @return Token request builder
@@ -264,7 +153,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
         return this;
     }
 
-    {{/hasOAuthMethods}}
     /**
      * Adds an authorization to be used by the client
      * @param authName Authentication name
@@ -307,7 +195,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     companion object {        
         @JvmStatic
         val defaultBasePath: String by lazy {
-            System.getProperties().getProperty("{{packageName}}.baseUrl", "{{{basePath}}}")
+            System.getProperties().getProperty("org.openapitools.client.baseUrl", "http://petstore.swagger.io/v2")
         }
     }
 }
