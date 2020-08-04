@@ -263,7 +263,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     private Map<String,String> toImportMap(String... names){
         Map<String,String> result = Maps.newHashMap();
         for(String name: names){
-            result.put(super.toModelImport(name),name);
+            result.put(toModelImport(name),name);
         }
         return result;
     }
