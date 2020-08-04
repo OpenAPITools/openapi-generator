@@ -1361,6 +1361,7 @@
                 <module>samples/client/petstore/kotlin-multiplatform</module>
                 <!--<module>samples/client/petstore/kotlin/</module>-->
                 <module>samples/client/petstore/kotlin-retrofit2</module>
+                <module>samples/client/petstore/kotlin-retrofit2-rx3</module>
                 <module>samples/client/petstore/kotlin-jackson/</module>
                 <module>samples/client/petstore/kotlin-gson/</module>
                 <module>samples/client/petstore/kotlin-nonpublic/</module>
