@@ -105,6 +105,18 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
          * are available in models, apis, and supporting files
          */
         additionalProperties.put("apiVersion", apiVersion);
+    }
+
+    @Override
+    public void processOpts() {
+        super.processOpts();
+
+        // reset supporting files defined in AbstractPhpCodegen
+        supportingFiles.clear();
+
+        // AbstractPhpCodegen generates .gitignore in output folder
+        // current build needs .gitignore in a "lib" folder which is srcBasePath
+        supportingFiles.add(new SupportingFile("gitignore", srcBasePath, ".gitignore"));
 
         /*
          * Supporting Files.  You can write single files for the generator with the
@@ -112,7 +124,11 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
          * it will be processed by the template engine.  Otherwise, it will be copied
          */
         supportingFiles.add(new SupportingFile(".env.example", srcBasePath, ".env.example"));
-        supportingFiles.add(new SupportingFile("storage_logs_.gitignore", srcBasePath + File.separator + "storage" + File.separator + "logs", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage_logs_gitignore", srcBasePath + File.separator + "storage" + File.separator + "logs", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage_logs_gitignore", srcBasePath + File.separator + "storage" + File.separator + "app", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage_logs_gitignore", srcBasePath + File.separator + "storage" + File.separator + "framework" + File.separator + "views", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage_framework_cache_gitignore", srcBasePath + File.separator + "storage" + File.separator + "framework" + File.separator + "cache", ".gitignore"));
+        supportingFiles.add(new SupportingFile("storage_logs_gitignore", srcBasePath + File.separator + "storage" + File.separator + "framework" + File.separator + "cache" + File.separator + "data", ".gitignore"));
         supportingFiles.add(new SupportingFile("artisan", srcBasePath, "artisan"));
         supportingFiles.add(new SupportingFile("composer.mustache", srcBasePath, "composer.json"));
         supportingFiles.add(new SupportingFile("readme.md", srcBasePath, "readme.md"));
@@ -142,6 +158,9 @@ public class PhpLumenServerCodegen extends AbstractPhpCodegen {
         supportingFiles.add(new SupportingFile("routes.mustache", srcBasePath + File.separator + "routes", "web.php"));
         supportingFiles.add(new SupportingFile("ExampleTest.php", srcBasePath + File.separator + "tests", "ExampleTest.php"));
         supportingFiles.add(new SupportingFile("TestCase.php", srcBasePath + File.separator + "tests", "TestCase.php"));
+        supportingFiles.add(new SupportingFile("editorconfig", srcBasePath, ".editorconfig"));
+        supportingFiles.add(new SupportingFile("styleci", srcBasePath, ".styleci.yml"));
+        supportingFiles.add(new SupportingFile("phpunit.xml", srcBasePath, "phpunit.xml"));
     }
 
     // override with any special post-processing
