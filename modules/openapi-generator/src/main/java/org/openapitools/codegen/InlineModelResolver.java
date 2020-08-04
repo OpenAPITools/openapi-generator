@@ -646,16 +646,17 @@ public class InlineModelResolver {
         }
         XML xml = object.getXml();
         Map<String, Schema> properties = object.getProperties();
+
+        // NOTE:
+        // No need to null check setters below. All defaults in the new'd Schema are null, so setting to null would just be a noop.
         Schema model = new Schema();
-        if (object.getType() != null) {
-            model.setType(object.getType());
-        }
-        if (object.getFormat() != null) {
-            // Even though the `format` keyword typically applies to primitive types only,
-            // the JSON schema specification states `format` can be used for any model type instance
-            // including object types.
-            model.setFormat(object.getFormat());
-        }
+        model.setType(object.getType());
+
+        // Even though the `format` keyword typically applies to primitive types only,
+        // the JSON schema specification states `format` can be used for any model type instance
+        // including object types.
+        model.setFormat(object.getFormat());
+
         model.setDescription(description);
         model.setExample(example);
         model.setName(object.getName());
@@ -665,7 +666,6 @@ public class InlineModelResolver {
         model.setDiscriminator(object.getDiscriminator());
         model.setWriteOnly(object.getWriteOnly());
         model.setUniqueItems(object.getUniqueItems());
-        model.setType(object.getType());
         model.setTitle(object.getTitle());
         model.setReadOnly(object.getReadOnly());
         model.setPattern(object.getPattern());
@@ -678,7 +678,6 @@ public class InlineModelResolver {
         model.setMaxLength(object.getMaxLength());
         model.setMaxItems(object.getMaxItems());
         model.setMaximum(object.getMaximum());
-        model.setFormat(object.getFormat());
         model.setExternalDocs(object.getExternalDocs());
         model.setExtensions(object.getExtensions());
         model.setExclusiveMinimum(object.getExclusiveMinimum());
