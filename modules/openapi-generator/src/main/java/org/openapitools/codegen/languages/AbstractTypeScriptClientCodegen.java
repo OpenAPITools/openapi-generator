@@ -226,13 +226,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
 
     @Override
     public String toModelImport( String name){
-        if(name.contains("|")){
-           List<String> names = Arrays.asList(name.split("\\|"));
+        if(isUnionType(name)){
            LOGGER.warn("The import is a union type. Consider using the toModelImportMap method.");
-           return names.stream()
-                   .map(withSpace->withSpace.replaceAll(" ",""))
-                   .map(noSpace->super.toModelImport(noSpace))
-                   .collect(Collectors.joining("|"));
+           return toModelImportMap(name).values().stream().collect(Collectors.joining("|"));
         }
         return super.toModelImport(name);
     }
@@ -246,15 +242,28 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      */
     @Override
     public Map<String,String> toModelImportMap( String name){
-        if(name.contains("|")){
-            List<String> names = Arrays.asList(name.replace(" ","").split("\\|"));
-            Map<String,String> result = Maps.newHashMap();
-            names.forEach(s->result.put(toModelImport(s),s));
-            return  result;
+        if(isUnionType(name)){
+           String[] names = splitUnionType(name);
+           return toImportMap(names);
         }
-        return Collections.singletonMap(toModelImport(name),name);
+        return toImportMap(name);
     }
 
+    private boolean isUnionType(String name){
+        return name.contains("|");
+    }
+
+    private String[] splitUnionType(String name){
+        return  name.replace(" ","").split("\\|");
+    }
+
+    private Map<String,String> toImportMap(String... names){
+        Map<String,String> result = Maps.newHashMap();
+        for(String name: names){
+            result.put(super.toModelImport(name),name);
+        }
+        return result;
+    }
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
