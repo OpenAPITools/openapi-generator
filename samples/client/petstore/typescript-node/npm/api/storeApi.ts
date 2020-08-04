@@ -20,7 +20,8 @@ import { Order } from '../model/order';
 import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../model/models';
 import { HttpBasicAuth, HttpBearerAuth, ApiKeyAuth, OAuth } from '../model/models';
 
-import { HttpError, RequestFile } from './apis';
+import { HttpError } from './apis';
+import { RequestFile } from '../model';
 
 let defaultBasePath = 'http://petstore.swagger.io/v2';
 

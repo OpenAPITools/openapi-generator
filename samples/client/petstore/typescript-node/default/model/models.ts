@@ -1,10 +1,3 @@
-export * from './apiResponse';
-export * from './category';
-export * from './order';
-export * from './pet';
-export * from './tag';
-export * from './user';
-
 import localVarRequest from 'request';
 
 import { ApiResponse } from './apiResponse';
