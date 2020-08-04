@@ -133,7 +133,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "File",
                 "Error",
                 "Map",
-                "object"
+                "object",
+                "Set"
         ));
 
         languageGenericTypes = new HashSet<>(Collections.singletonList(
@@ -143,6 +144,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         instantiationTypes.put("array", "Array");
 
         typeMapping = new HashMap<String, String>();
+        typeMapping.put("Set", "Set");
+        typeMapping.put("set", "Set");
         typeMapping.put("Array", "Array");
         typeMapping.put("array", "Array");
         typeMapping.put("boolean", "boolean");

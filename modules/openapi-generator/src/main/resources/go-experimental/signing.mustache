@@ -40,7 +40,7 @@ const (
 	// The 'Host' header, as defined in RFC 2616, section 14.23.
 	HttpHeaderHost string = "Host"
 	// The 'Date' header.
-	HttpHeaderDate string = "Date" 
+	HttpHeaderDate string = "Date"
 	// The digest header, as defined in RFC 3230, section 4.3.2.
 	HttpHeaderDigest string = "Digest"
 	// The HTTP Authorization header, as defined in RFC 7235, section 4.2.
@@ -106,7 +106,7 @@ type HttpSignatureAuth struct {
 	SigningScheme     string            // The signature scheme, when signing HTTP requests. Supported value is 'hs2019'.
 	// The signature algorithm, when signing HTTP requests.
 	// Supported values are RSASSA-PKCS1-v1_5, RSASSA-PSS.
-	SigningAlgorithm  string            
+	SigningAlgorithm  string
 	SignedHeaders     []string          // A list of HTTP headers included when generating the signature for the message.
 	// SignatureMaxValidity specifies the maximum duration of the signature validity.
 	// The value is used to set the '(expires)' signature parameter in the HTTP request.

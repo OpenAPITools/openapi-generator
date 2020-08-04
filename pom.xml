@@ -1182,11 +1182,12 @@
                 <module>samples/server/petstore/python-flask</module>
                 <module>samples/server/petstore/php-slim4</module>
                 <module>samples/server/petstore/php-laravel</module>
+                <module>samples/server/petstore/php-lumen</module>
                 <module>samples/server/petstore/rust-server</module>
                 <!-- clients -->
-                <module>samples/client/petstore/perl</module>
+                <!--<module>samples/client/petstore/perl</module>
+                <module>samples/client/petstore/bash</module>-->
                 <module>samples/client/petstore/ruby</module>
-                <module>samples/client/petstore/bash</module>
                 <module>samples/client/petstore/c</module>
                 <module>samples/client/petstore/cpp-qt5</module>
                 <module>samples/client/petstore/rust</module>
@@ -1354,11 +1355,11 @@
             <modules>
                 <!-- clients -->
                 <module>samples/openapi3/client/elm</module>
-                <module>samples/client/petstore/elixir</module>
+                <!--<module>samples/client/petstore/elixir</module>-->
                 <module>samples/client/petstore/erlang-client</module>
                 <module>samples/client/petstore/erlang-proper</module>
                 <module>samples/client/petstore/kotlin-multiplatform</module>
-                <module>samples/client/petstore/kotlin/</module>
+                <!--<module>samples/client/petstore/kotlin/</module>-->
                 <module>samples/client/petstore/kotlin-jackson/</module>
                 <module>samples/client/petstore/kotlin-gson/</module>
                 <module>samples/client/petstore/kotlin-nonpublic/</module>

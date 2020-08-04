@@ -16,7 +16,7 @@ Method | HTTP request | Description
 
 <a name="addPet"></a>
 # **addPet**
-> Pet addPet(pet)
+> Pet addPet(Pet)
 
 Add a new pet to the store
 
@@ -24,7 +24,7 @@ Add a new pet to the store
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
+ **Pet** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -41,7 +41,7 @@ Name | Type | Description  | Notes
 
 <a name="deletePet"></a>
 # **deletePet**
-> deletePet(petId, apiKey)
+> deletePet(petId, api\_key)
 
 Deletes a pet
 
@@ -50,7 +50,7 @@ Deletes a pet
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **petId** | **Long**| Pet id to delete | [default to null]
- **apiKey** | **String**|  | [optional] [default to null]
+ **api\_key** | **String**|  | [optional] [default to null]
 
 ### Return type
 
@@ -148,7 +148,7 @@ Name | Type | Description  | Notes
 
 <a name="updatePet"></a>
 # **updatePet**
-> Pet updatePet(pet)
+> Pet updatePet(Pet)
 
 Update an existing pet
 
@@ -156,7 +156,7 @@ Update an existing pet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
+ **Pet** | [**Pet**](..//Models/Pet.md)| Pet object that needs to be added to the store |
 
 ### Return type
 
