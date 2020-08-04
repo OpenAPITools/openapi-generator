@@ -13,7 +13,8 @@ import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../mode
 import { HttpBasicAuth, HttpBearerAuth, ApiKeyAuth, OAuth } from '../model/models';
 {{/hasAuthMethods}}
 
-import { HttpError, RequestFile } from './apis';
+import { HttpError } from './apis';
+import { RequestFile } from '../model';
 
 let defaultBasePath = '{{{basePath}}}';
 
