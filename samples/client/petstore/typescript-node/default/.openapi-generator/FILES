@@ -11,5 +11,4 @@ model/order.ts
 model/pet.ts
 model/tag.ts
 model/user.ts
-model/index.ts
 model/models.ts
