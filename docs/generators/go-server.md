@@ -11,7 +11,6 @@ sidebar_label: go-server
 |packageVersion|Go package version.| |1.0.0|
 |serverPort|The network port the generated server binds to| |8080|
 |sourceFolder|source folder for generated code| |go|
-|enumClassPrefix|Prefix enum with class name| |false|
 
 ## IMPORT MAPPING
 
