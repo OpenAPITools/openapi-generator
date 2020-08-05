@@ -183,7 +183,8 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
 
     /**
      * Set the instance that matches the oneOf child schema, check
-     * the instance parameter is valid against the oneOf child schemas.
+     * the instance parameter is valid against the oneOf child schemas:
+     * {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
@@ -207,6 +208,28 @@ public class {{classname}} extends AbstractOpenApiSchema{{#vendorExtensions.x-im
         throw new RuntimeException("Invalid instance type. Must be {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}");
     }
 
+    /**
+     * Get the actual instance, which can be the following:
+     * {{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}}
+     *
+     * @return The actual instance ({{#oneOf}}{{{.}}}{{^-last}}, {{/-last}}{{/oneOf}})
+     */
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
 
+    {{#oneOf}}
+    /**
+     * Get the actual instance of `{{{.}}}`. If the actual instanct is not `{{{.}}}`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `{{{.}}}`
+     * @throws ClassCastException if the instance is not `{{{.}}}`
+     */
+    public {{{.}}} get{{{.}}}() throws ClassCastException {
+        return ({{{.}}})super.getActualInstance();
+    }
 
+    {{/oneOf}}
 }

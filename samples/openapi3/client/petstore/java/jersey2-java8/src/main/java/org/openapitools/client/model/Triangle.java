@@ -310,7 +310,8 @@ public class Triangle extends AbstractOpenApiSchema {
 
     /**
      * Set the instance that matches the oneOf child schema, check
-     * the instance parameter is valid against the oneOf child schemas.
+     * the instance parameter is valid against the oneOf child schemas:
+     * EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
@@ -335,7 +336,49 @@ public class Triangle extends AbstractOpenApiSchema {
         throw new RuntimeException("Invalid instance type. Must be EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle");
     }
 
+    /**
+     * Get the actual instance, which can be the following:
+     * EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle
+     *
+     * @return The actual instance (EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle)
+     */
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
 
+    /**
+     * Get the actual instance of `EquilateralTriangle`. If the actual instanct is not `EquilateralTriangle`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `EquilateralTriangle`
+     * @throws ClassCastException if the instance is not `EquilateralTriangle`
+     */
+    public EquilateralTriangle getEquilateralTriangle() throws ClassCastException {
+        return (EquilateralTriangle)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `IsoscelesTriangle`. If the actual instanct is not `IsoscelesTriangle`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `IsoscelesTriangle`
+     * @throws ClassCastException if the instance is not `IsoscelesTriangle`
+     */
+    public IsoscelesTriangle getIsoscelesTriangle() throws ClassCastException {
+        return (IsoscelesTriangle)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `ScaleneTriangle`. If the actual instanct is not `ScaleneTriangle`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `ScaleneTriangle`
+     * @throws ClassCastException if the instance is not `ScaleneTriangle`
+     */
+    public ScaleneTriangle getScaleneTriangle() throws ClassCastException {
+        return (ScaleneTriangle)super.getActualInstance();
+    }
 
 }
 
