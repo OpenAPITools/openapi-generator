@@ -14,16 +14,10 @@ import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import cat
-except ImportError:
-    cat = sys.modules[
-        'petstore_api.model.cat']
-try:
-    from petstore_api.model import dog
-except ImportError:
-    dog = sys.modules[
-        'petstore_api.model.dog']
+from petstore_api.model.cat import Cat
+from petstore_api.model.dog import Dog
+globals()['Cat'] = Cat
+globals()['Dog'] = Dog
 from petstore_api.model.animal import Animal
 
 

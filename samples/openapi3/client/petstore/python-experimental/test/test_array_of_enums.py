@@ -14,11 +14,8 @@ import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import string_enum
-except ImportError:
-    string_enum = sys.modules[
-        'petstore_api.model.string_enum']
+from petstore_api.model.string_enum import StringEnum
+globals()['StringEnum'] = StringEnum
 from petstore_api.model.array_of_enums import ArrayOfEnums
 
 
