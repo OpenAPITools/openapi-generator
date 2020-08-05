@@ -24,12 +24,10 @@ deploy_script:
   - ps: |
       if ($env:APPVEYOR_REPO_TAG -eq $true -and $env:NuGetApiKey -ne $null -and $env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2017") {
           .\Build.ps1
-          choco install NuGet.CommandLine
-          Install-PackageProvider -Name NuGet -Force
           Publish-Module -NuGetApiKey $env:NuGetApiKey -Path .\src\PSPetstore\ -Confirm:$False -Verbose
           if ($LastExitCode -ne 0) {
               $host.SetShouldExit($LastExitCode)
-              exit $LastExitCode
+              exit
           } else {
               Write-Host "Published the PowerShell module."
           }
