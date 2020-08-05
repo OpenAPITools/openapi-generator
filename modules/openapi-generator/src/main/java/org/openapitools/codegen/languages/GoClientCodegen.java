@@ -138,42 +138,54 @@ public class GoClientCodegen extends AbstractGoCodegen {
         if (additionalProperties.containsKey(WITH_GO_CODEGEN_COMMENT)) {
             setWithGoCodegenComment(Boolean.parseBoolean(additionalProperties.get(WITH_GO_CODEGEN_COMMENT).toString()));
             if (withGoCodegenComment) {
-                additionalProperties.put(WITH_GO_CODEGEN_COMMENT, "true");
+                additionalProperties.put(WITH_GO_CODEGEN_COMMENT, true);
+            } else {
+                additionalProperties.put(WITH_GO_CODEGEN_COMMENT, false);
             }
         }
 
         if (additionalProperties.containsKey(WITH_AWSV4_SIGNATURE)) {
             setWithAWSV4Signature(Boolean.parseBoolean(additionalProperties.get(WITH_AWSV4_SIGNATURE).toString()));
             if (withAWSV4Signature) {
-                additionalProperties.put(WITH_AWSV4_SIGNATURE, "true");
+                additionalProperties.put(WITH_AWSV4_SIGNATURE, true);
+            } else {
+                additionalProperties.put(WITH_AWSV4_SIGNATURE, false);
             }
         }
 
         if (additionalProperties.containsKey(WITH_XML)) {
             setWithXml(Boolean.parseBoolean(additionalProperties.get(WITH_XML).toString()));
             if (withXml) {
-                additionalProperties.put(WITH_XML, "true");
+                additionalProperties.put(WITH_XML, true);
+            } else {
+                additionalProperties.put(WITH_XML, false);
             }
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
             setEnumClassPrefix(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_CLASS_PREFIX).toString()));
             if (enumClassPrefix) {
-                additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, "true");
+                additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, true);
+            } else {
+                additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, false);
             }
         }
 
         if (additionalProperties.containsKey(CodegenConstants.IS_GO_SUBMODULE)) {
             setIsGoSubmodule(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.IS_GO_SUBMODULE).toString()));
             if (isGoSubmodule) {
-                additionalProperties.put(CodegenConstants.IS_GO_SUBMODULE, "true");
+                additionalProperties.put(CodegenConstants.IS_GO_SUBMODULE, true);
+            } else {
+                additionalProperties.put(CodegenConstants.IS_GO_SUBMODULE, false);
             }
         }
 
         if (additionalProperties.containsKey(STRUCT_PREFIX)) {
             setStructPrefix(Boolean.parseBoolean(additionalProperties.get(STRUCT_PREFIX).toString()));
             if (structPrefix) {
-                additionalProperties.put(STRUCT_PREFIX, "true");
+                additionalProperties.put(STRUCT_PREFIX, true);
+            } else {
+                additionalProperties.put(STRUCT_PREFIX, false);
             }
         }
     }

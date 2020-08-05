@@ -83,6 +83,8 @@ public class GoServerCodegen extends AbstractGoCodegen {
         optFeatureCORS.defaultValue(corsFeatureEnabled.toString());
         cliOptions.add(optFeatureCORS);
 
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_CLASS_PREFIX, CodegenConstants.ENUM_CLASS_PREFIX_DESC));
+
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
          * if you want to create one template for file, you can do so here.
