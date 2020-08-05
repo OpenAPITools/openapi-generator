@@ -3,10 +3,7 @@
 ##
 ## You can build _just_ this part with:
 ##     docker --target builder -t container-name:builder -f .hub.cli.dockerfile .
-FROM jimschubert/8-jdk-alpine-mvn:1.0 as builder
-
-RUN set -x && \
-    apk add --no-cache bash
+FROM jimschubert/8-jdk-alpine-mvn:bash-2.0 as builder
 
 ENV GEN_DIR /opt/openapi-generator
 WORKDIR ${GEN_DIR}
