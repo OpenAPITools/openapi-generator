@@ -197,7 +197,8 @@ public class FruitReq extends AbstractOpenApiSchema {
 
     /**
      * Set the instance that matches the oneOf child schema, check
-     * the instance parameter is valid against the oneOf child schemas.
+     * the instance parameter is valid against the oneOf child schemas:
+     * AppleReq, BananaReq
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
@@ -222,7 +223,38 @@ public class FruitReq extends AbstractOpenApiSchema {
         throw new RuntimeException("Invalid instance type. Must be AppleReq, BananaReq");
     }
 
+    /**
+     * Get the actual instance, which can be the following:
+     * AppleReq, BananaReq
+     *
+     * @return The actual instance (AppleReq, BananaReq)
+     */
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
 
+    /**
+     * Get the actual instance of `AppleReq`. If the actual instanct is not `AppleReq`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `AppleReq`
+     * @throws ClassCastException if the instance is not `AppleReq`
+     */
+    public AppleReq getAppleReq() throws ClassCastException {
+        return (AppleReq)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `BananaReq`. If the actual instanct is not `BananaReq`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `BananaReq`
+     * @throws ClassCastException if the instance is not `BananaReq`
+     */
+    public BananaReq getBananaReq() throws ClassCastException {
+        return (BananaReq)super.getActualInstance();
+    }
 
 }
 

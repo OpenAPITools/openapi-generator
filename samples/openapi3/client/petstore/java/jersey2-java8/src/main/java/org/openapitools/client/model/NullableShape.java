@@ -273,7 +273,8 @@ public class NullableShape extends AbstractOpenApiSchema {
 
     /**
      * Set the instance that matches the oneOf child schema, check
-     * the instance parameter is valid against the oneOf child schemas.
+     * the instance parameter is valid against the oneOf child schemas:
+     * Quadrilateral, Triangle
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
@@ -298,7 +299,38 @@ public class NullableShape extends AbstractOpenApiSchema {
         throw new RuntimeException("Invalid instance type. Must be Quadrilateral, Triangle");
     }
 
+    /**
+     * Get the actual instance, which can be the following:
+     * Quadrilateral, Triangle
+     *
+     * @return The actual instance (Quadrilateral, Triangle)
+     */
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
 
+    /**
+     * Get the actual instance of `Quadrilateral`. If the actual instanct is not `Quadrilateral`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Quadrilateral`
+     * @throws ClassCastException if the instance is not `Quadrilateral`
+     */
+    public Quadrilateral getQuadrilateral() throws ClassCastException {
+        return (Quadrilateral)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Triangle`. If the actual instanct is not `Triangle`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Triangle`
+     * @throws ClassCastException if the instance is not `Triangle`
+     */
+    public Triangle getTriangle() throws ClassCastException {
+        return (Triangle)super.getActualInstance();
+    }
 
 }
 
