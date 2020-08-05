@@ -32,6 +32,9 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 {{#useRxJava2}}
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 {{/useRxJava2}}
+{{#useRxJava3}}
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
+{{/useRxJava3}}
 {{#gson}}
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -62,7 +65,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
             {{/useRxJava}}
             {{#useRxJava2}}
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            {{/useRxJava2}}
+            {{/useRxJava2}}{{#useRxJava3}}
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            {{/useRxJava3}}
             {{#moshi}}
             .addConverterFactory(MoshiConverterFactory.create(serializerBuilder.build()))
             {{/moshi}}

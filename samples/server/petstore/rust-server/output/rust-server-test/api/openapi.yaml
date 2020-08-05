@@ -211,4 +211,5 @@ components:
           type: integer
       required:
       - required_thing
+      type: object
 

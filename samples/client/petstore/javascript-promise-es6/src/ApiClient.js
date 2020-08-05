@@ -476,12 +476,15 @@ class ApiClient {
     }
 
     /**
-    * Parses an ISO-8601 string representation of a date value.
+    * Parses an ISO-8601 string representation or epoch representation of a date value.
     * @param {String} str The date value as a string.
     * @returns {Date} The parsed date object.
     */
     static parseDate(str) {
-        return new Date(str);
+        if (isNaN(str)) {
+            return new Date(str);
+        }
+        return new Date(+str);
     }
 
     /**
