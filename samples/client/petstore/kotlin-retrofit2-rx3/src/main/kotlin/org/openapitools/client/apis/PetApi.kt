@@ -9,6 +9,8 @@ import io.reactivex.rxjava3.core.Completable;
 import org.openapitools.client.models.ApiResponse
 import org.openapitools.client.models.Pet
 
+import okhttp3.MultipartBody
+
 interface PetApi {
     /**
      * Add a new pet to the store

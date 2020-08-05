@@ -41,6 +41,12 @@ import io.reactivex.rxjava3.core.Completable;
 {{/imports}}
 
 {{#operations}}
+{{#x-kotlin-multipart-import}}
+{{^isMultipart}}
+import okhttp3.MultipartBody
+
+{{/isMultipart}}
+{{/x-kotlin-multipart-import}}
 interface {{classname}} {
     {{#operation}}
     /**
