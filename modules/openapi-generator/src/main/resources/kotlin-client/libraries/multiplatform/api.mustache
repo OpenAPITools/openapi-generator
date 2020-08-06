@@ -6,27 +6,27 @@ package {{apiPackage}}
 
 import {{packageName}}.infrastructure.*
 import io.ktor.client.request.forms.formData
-import kotlinx.serialization.UnstableDefault
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.features.json.serializer.KotlinxSerializer
+import io.ktor.client.request.forms.FormPart
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import io.ktor.http.ParametersBuilder
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.StringDescriptor
+import kotlinx.serialization.builtins.list
+import kotlinx.serialization.builtins.serializer
 
 {{#operations}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}} @UseExperimental(UnstableDefault::class) constructor(
+{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}} constructor(
     baseUrl: kotlin.String = "{{{basePath}}}",
     httpClientEngine: HttpClientEngine? = null,
     serializer: KotlinxSerializer
 ) : ApiClient(baseUrl, httpClientEngine, serializer) {
 
-    @UseExperimental(UnstableDefault::class)
     constructor(
-        baseUrl: kotlin.String = "{{{basePath}}}",
+        baseUrl: String = "{{{basePath}}}",
         httpClientEngine: HttpClientEngine? = null,
-        jsonConfiguration: JsonConfiguration = JsonConfiguration.Default
+        jsonConfiguration: JsonConfiguration = JsonConfiguration.Stable
     ) : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
 
     {{#operation}}
@@ -39,17 +39,21 @@ import kotlinx.serialization.internal.StringDescriptor
     {{#returnType}}
     @Suppress("UNCHECKED_CAST")
     {{/returnType}}
-    suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
-
+    suspend fun {{operationId}}(
+        {{#allParams}}
+        {{{paramName}}}: {{{dataType}}}{{^required}}? = null{{/required}}{{#hasMore}},{{/hasMore}}
+        {{/allParams}}
+    ): HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
+        {{! TODO: Optimize all the ?.let to only the places where it's needed }}
         val localVariableAuthNames = listOf<String>({{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}})
 
-        val localVariableBody = {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}{{operationIdCamelCase}}Request({{{paramName}}}{{^isList}}.asList(){{/isList}}){{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{operationIdCamelCase}}Request({{{paramName}}}){{/isMapContainer}}{{^isMapContainer}}{{{paramName}}}{{/isMapContainer}}{{/isListContainer}}{{/bodyParam}}{{/hasBodyParam}}
+        val localVariableBody = {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}{{{paramName}}}?.let { {{operationIdCamelCase}}Request(it{{^isList}}.asList(){{/isList}}) }{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{{paramName}}}?.let { {{operationIdCamelCase}}Request(it) }{{/isMapContainer}}{{^isMapContainer}}{{{paramName}}}{{/isMapContainer}}{{/isListContainer}}{{/bodyParam}}{{/hasBodyParam}}
             {{^hasBodyParam}}
             {{#hasFormParams}}
             {{#isMultipart}}
             formData {
                 {{#formParams}}
-                {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                {{{paramName}}}?.let { append(FormPart("{{{baseName}}}", it)) }
                 {{/formParams}}
             }
             {{/isMultipart}}
@@ -66,19 +70,22 @@ import kotlinx.serialization.internal.StringDescriptor
             {{/hasFormParams}}
             {{/hasBodyParam}}
 
-        val localVariableQuery = mutableMapOf<String, List<String>>()
-        {{#queryParams}}
-        {{{paramName}}}?.apply { localVariableQuery["{{baseName}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf("${{{paramName}}}"){{/isContainer}} }
-        {{/queryParams}}
+        {{! TODO: Don't use all the listOf() }}
+        val localVariableQuery = mutableMapOf<String, List<String>?>(
+            {{#queryParams}}
+            "{{baseName}}" to {{#isContainer}}{{{paramName}}}?.let { toMultiValue(it, "{{collectionFormat}}") }{{/isContainer}}{{^isContainer}}listOf("${{{paramName}}}"){{/isContainer}}{{#hasMore}},{{/hasMore}}
+            {{/queryParams}}
+        )
 
-        val localVariableHeaders = mutableMapOf<String, String>()
-        {{#headerParams}}
-        {{{paramName}}}?.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
-        {{/headerParams}}
+        val localVariableHeaders = mutableMapOf<String, String?>(
+            {{#headerParams}}
+            "{{baseName}}" to {{#isContainer}}{{{paramName}}}?.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this?.toString(){{/isContainer}}{{#hasMore}},{{/hasMore}}
+            {{/headerParams}}
+        )
 
         val localVariableConfig = RequestConfig(
             RequestMethod.{{httpMethod}},
-            "{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", "${{{paramName}}}"){{/pathParams}},
+            "{{path}}"{{#pathParams}}.replace("{{curly true}}{{baseName}}{{curly}}", "${{{paramName}}}"){{/pathParams}},
             query = localVariableQuery,
             headers = localVariableHeaders
         )
@@ -89,8 +96,8 @@ import kotlinx.serialization.internal.StringDescriptor
             localVariableAuthNames
         ).{{#isListContainer}}wrap<{{operationIdCamelCase}}Response>().map { value{{^isList}}.toTypedArray(){{/isList}} }{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}wrap<{{operationIdCamelCase}}Response>().map { value }{{/isMapContainer}}{{^isMapContainer}}wrap(){{/isMapContainer}}{{/isListContainer}}
     }
-
 {{#hasBodyParam}}
+
 {{#bodyParam}}
 {{#isListContainer}}{{>serial_wrapper_request_list}}{{/isListContainer}}{{#isMapContainer}}{{>serial_wrapper_request_map}}{{/isMapContainer}}
 {{/bodyParam}}
@@ -101,25 +108,6 @@ import kotlinx.serialization.internal.StringDescriptor
 {{#isMapContainer}}
 {{>serial_wrapper_response_map}}
 {{/isMapContainer}}
-
-    {{/operation}}
-
-    {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
-        internal fun setMappers(serializer: KotlinxSerializer) {
-            {{#operation}}
-            {{#hasBodyParam}}
-            {{#bodyParam}}
-            {{#isListContainer}}serializer.setMapper({{operationIdCamelCase}}Request::class, {{operationIdCamelCase}}Request.serializer()){{/isListContainer}}{{#isMapContainer}}serializer.setMapper({{operationIdCamelCase}}Request::class, {{operationIdCamelCase}}Request.serializer()){{/isMapContainer}}
-            {{/bodyParam}}
-            {{/hasBodyParam}}
-            {{#isListContainer}}
-            serializer.setMapper({{operationIdCamelCase}}Response::class, {{operationIdCamelCase}}Response.serializer())
-            {{/isListContainer}}
-            {{#isMapContainer}}
-            serializer.setMapper({{operationIdCamelCase}}Response::class, {{operationIdCamelCase}}Response.serializer())
-            {{/isMapContainer}}
-            {{/operation}}
-        }
-    }
+{{/operation}}
 }
 {{/operations}}

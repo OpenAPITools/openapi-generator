@@ -7,7 +7,6 @@ group = "{{groupId}}"
 version = "{{artifactVersion}}"
 
 val kotlin_version = "1.3.72"
-val kotlinx_io_version = "0.1.16"
 val ktor_version = "1.3.2"
 
 repositories {
@@ -30,7 +29,7 @@ kotlin {
     ios {
         binaries {
             framework {
-                freeCompilerArgs.add("-Xobjc-generics")
+                freeCompilerArgs = listOf("-Xobjc-generics")
             }
         }
     }
@@ -38,19 +37,18 @@ kotlin {
 
     sourceSets {
         val commonMain by getting {
-            kotlin.srcDir("common/src/main")
+            kotlin.srcDir("src/common/main")
 
             dependencies {
                 implementation(kotlin("stdlib-common"))
                 api("io.ktor:ktor-client-core:$ktor_version")
                 api("io.ktor:ktor-client-json:$ktor_version")
                 api("io.ktor:ktor-client-serialization:$ktor_version")
-                implementation("org.jetbrains.kotlinx:kotlinx-io:$kotlinx_io_version")
             }
         }
 
         val commonTest by getting {
-            kotlin.srcDir("common/src/test")
+            kotlin.srcDir("src/common/test")
 
             dependencies {
                 implementation(kotlin("test-common"))
@@ -60,7 +58,7 @@ kotlin {
         }
 
         val jvmMain by getting {
-            kotlin.srcDir("jvm/src/main")
+            kotlin.srcDir("src/jvm/main")
 
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
@@ -71,7 +69,7 @@ kotlin {
         }
 
         val jvmTest by getting {
-            kotlin.srcDir("jvm/src/test")
+            kotlin.srcDir("src/jvm/test")
 
             dependencies {
                 implementation(kotlin("test"))
@@ -82,7 +80,7 @@ kotlin {
         }
 
         val iosMain by getting {
-            kotlin.srcDir("ios/src/main")
+            kotlin.srcDir("src/ios/main")
 
             dependencies {
                 api("io.ktor:ktor-client-ios:$ktor_version")
@@ -92,7 +90,7 @@ kotlin {
         }
 
         val iosTest by getting {
-            kotlin.srcDir("ios/src/test")
+            kotlin.srcDir("src/ios/test")
 
             dependencies {
                 implementation("io.ktor:ktor-client-mock-native:$ktor_version")
@@ -100,7 +98,7 @@ kotlin {
         }
 
         val jsMain by getting {
-            kotlin.srcDir("js/src/main")
+            kotlin.srcDir("src/js/main")
 
             dependencies {
                 implementation(kotlin("stdlib-js"))
@@ -111,22 +109,11 @@ kotlin {
         }
 
         val jsTest by getting {
-            kotlin.srcDir("js/src/test")
+            kotlin.srcDir("src/js/test")
 
             dependencies {
                 implementation("io.ktor:ktor-client-mock-js:$ktor_version")
             }
         }
-    }
-}
-
-task iosTest {
-    def device = project.findProperty("device")?.toString() ?: "iPhone 8"
-    dependsOn("linkDebugTestIosX64")
-    group = JavaBasePlugin.VERIFICATION_GROUP
-    description = "Execute unit tests on $device simulator"
-    doLast {
-        val binary = kotlin.targets.iosX64.binaries.getTest("DEBUG")
-        exec { commandLine "xcrun", "simctl", "spawn", device, binary.outputFile }
     }
 }

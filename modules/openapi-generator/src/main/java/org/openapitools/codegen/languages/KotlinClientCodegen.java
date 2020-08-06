@@ -150,6 +150,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, this.artifactId);
         updateOption(CodegenConstants.PACKAGE_NAME, this.packageName);
+        // Kotlin convention
+        updateOption(CodegenConstants.ENUM_PROPERTY_NAMING, "PascalCase");
 
         outputFolder = "generated-code" + File.separator + "kotlin-client";
         modelTemplateFiles.put("model.mustache", ".kt");
@@ -284,7 +286,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         super.processOpts();
 
         if (MULTIPLATFORM.equals(getLibrary())) {
-            sourceFolder = "common/src/main";
+            sourceFolder = "src/common/main";
         }
 
 
@@ -522,14 +524,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         // multiplatform import mapping
         importMapping.put("BigDecimal", "Double");
-        importMapping.put("UUID", "String");
-        importMapping.put("URI", "String");
+        importMapping.put("UUID", "kotlin.String");
+        importMapping.put("URI", "kotlin.String");
         importMapping.put("InputProvider", "io.ktor.client.request.forms.InputProvider");
         importMapping.put("File", packageName + ".infrastructure.OctetByteArray");
-        importMapping.put("Timestamp", "String");
+        importMapping.put("Timestamp", "kotlin.String");
         importMapping.put("LocalDateTime", "kotlin.String");
-        importMapping.put("LocalDate", "String");
-        importMapping.put("LocalTime", "String");
+        importMapping.put("LocalDate", "kotlin.String");
+        importMapping.put("LocalTime", "kotlin.String");
         importMapping.put("Base64ByteArray", packageName + ".infrastructure.Base64ByteArray");
         importMapping.put("OctetByteArray", packageName + ".infrastructure.OctetByteArray");
 
@@ -547,15 +549,15 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
 
         // multiplatform specific testing files
-        supportingFiles.add(new SupportingFile("commonTest/Coroutine.kt.mustache", "common/src/test/util", "Coroutine.kt"));
-        supportingFiles.add(new SupportingFile("iosTest/Coroutine.kt.mustache", "ios/src/test/util", "Coroutine.kt"));
-        supportingFiles.add(new SupportingFile("jsTest/Coroutine.kt.mustache", "js/src/test/util", "Coroutine.kt"));
-        supportingFiles.add(new SupportingFile("jvmTest/Coroutine.kt.mustache", "jvm/src/test/util", "Coroutine.kt"));
+        supportingFiles.add(new SupportingFile("commonTest/Coroutine.kt.mustache", "src/common/test/util", "Coroutine.kt"));
+        supportingFiles.add(new SupportingFile("iosTest/Coroutine.kt.mustache", "src/ios/test/util", "Coroutine.kt"));
+        supportingFiles.add(new SupportingFile("jsTest/Coroutine.kt.mustache", "src/js/test/util", "Coroutine.kt"));
+        supportingFiles.add(new SupportingFile("jvmTest/Coroutine.kt.mustache", "src/jvm/test/util", "Coroutine.kt"));
 
         // gradle wrapper supporting files
         supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
         supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
-        supportingFiles.add(new SupportingFile("gradle.properties", "", "gradle.peoperties"));
+        supportingFiles.add(new SupportingFile("gradle.properties", "", "gradle.properties"));
         supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.properties"));
         supportingFiles.add(new SupportingFile("gradle-wrapper.jar", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.jar"));
     }
@@ -569,7 +571,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void commonSupportingFiles() {
-        if (getLibrary().equals(MULTIPLATFORM)) {
+        if (MULTIPLATFORM.equals(getLibrary())) {
             supportingFiles.add(new SupportingFile("build.gradle.kts.mustache", "", "build.gradle.kts"));
             supportingFiles.add(new SupportingFile("settings.gradle.kts.mustache", "", "settings.gradle.kts"));
         } else {

@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **status** | [**inline**](#StatusEnum) | pet status in the store |  [optional]
 
 
-<a name="StatusEnum"></a>
+<a id="StatusEnum"></a>
 ## Enum: status
 Name | Value
 ---- | -----
