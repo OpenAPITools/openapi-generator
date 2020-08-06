@@ -63,10 +63,11 @@ func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 	orderId := params["orderId"]
 	result, err := c.service.DeleteOrder(orderId)
 	if err != nil {
-		w.WriteHeader(500)
+		statusCode := 500
+		EncodeJSONResponse(result, &statusCode, w)
 		return
 	}
-	
+		
 	EncodeJSONResponse(result, nil, w)
 }
 
@@ -74,10 +75,11 @@ func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request) { 
 	result, err := c.service.GetInventory()
 	if err != nil {
-		w.WriteHeader(500)
+		statusCode := 500
+		EncodeJSONResponse(result, &statusCode, w)
 		return
 	}
-	
+		
 	EncodeJSONResponse(result, nil, w)
 }
 
@@ -91,10 +93,11 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 	}
 	result, err := c.service.GetOrderById(orderId)
 	if err != nil {
-		w.WriteHeader(500)
+		statusCode := 500
+		EncodeJSONResponse(result, &statusCode, w)
 		return
 	}
-	
+		
 	EncodeJSONResponse(result, nil, w)
 }
 
@@ -108,9 +111,10 @@ func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 	
 	result, err := c.service.PlaceOrder(*order)
 	if err != nil {
-		w.WriteHeader(500)
+		statusCode := 500
+		EncodeJSONResponse(result, &statusCode, w)
 		return
 	}
-	
+		
 	EncodeJSONResponse(result, nil, w)
 }
