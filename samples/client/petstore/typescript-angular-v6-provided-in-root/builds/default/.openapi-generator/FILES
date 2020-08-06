@@ -9,11 +9,11 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
-model/./apiResponse.ts
-model/./category.ts
-model/./order.ts
-model/./pet.ts
-model/./tag.ts
-model/./user.ts
+model/apiResponse.ts
+model/category.ts
+model/order.ts
+model/pet.ts
+model/tag.ts
+model/user.ts
 model/models.ts
 variables.ts
