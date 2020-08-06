@@ -284,7 +284,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         super.processOpts();
 
         if (MULTIPLATFORM.equals(getLibrary())) {
-            sourceFolder = "src/commonMain/kotlin";
+            sourceFolder = "common/src/main";
         }
 
 
@@ -311,13 +311,13 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         if (hasConflict) {
             LOGGER.warn("You specified RxJava versions 1 and 2 and 3 or Coroutines together, please choose one of them.");
         } else if (hasRx) {
-            this.setUseRxJava(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA).toString()));
+            this.setUseRxJava(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA).toString()));
         } else if (hasRx2) {
-            this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
+            this.setUseRxJava2(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA2).toString()));
         } else if (hasRx3) {
-            this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
+            this.setUseRxJava3(Boolean.parseBoolean(additionalProperties.get(USE_RX_JAVA3).toString()));
         } else if (hasCoroutines) {
-            this.setUseCoroutines(Boolean.valueOf(additionalProperties.get(USE_COROUTINES).toString()));
+            this.setUseCoroutines(Boolean.parseBoolean(additionalProperties.get(USE_COROUTINES).toString()));
         }
 
         if (!hasRx && !hasRx2 && !hasRx3 && !hasCoroutines) {
@@ -521,15 +521,15 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         typeMapping.put("object", "kotlin.String");  // kotlin.Any not serializable
 
         // multiplatform import mapping
-        importMapping.put("BigDecimal", "kotlin.Double");
-        importMapping.put("UUID", "kotlin.String");
-        importMapping.put("URI", "kotlin.String");
+        importMapping.put("BigDecimal", "Double");
+        importMapping.put("UUID", "String");
+        importMapping.put("URI", "String");
         importMapping.put("InputProvider", "io.ktor.client.request.forms.InputProvider");
         importMapping.put("File", packageName + ".infrastructure.OctetByteArray");
-        importMapping.put("Timestamp", "kotlin.String");
+        importMapping.put("Timestamp", "String");
         importMapping.put("LocalDateTime", "kotlin.String");
-        importMapping.put("LocalDate", "kotlin.String");
-        importMapping.put("LocalTime", "kotlin.String");
+        importMapping.put("LocalDate", "String");
+        importMapping.put("LocalTime", "String");
         importMapping.put("Base64ByteArray", packageName + ".infrastructure.Base64ByteArray");
         importMapping.put("OctetByteArray", packageName + ".infrastructure.OctetByteArray");
 
@@ -547,14 +547,15 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile("auth/OAuth.kt.mustache", authFolder, "OAuth.kt"));
 
         // multiplatform specific testing files
-        supportingFiles.add(new SupportingFile("commonTest/Coroutine.kt.mustache", "src/commonTest/kotlin/util", "Coroutine.kt"));
-        supportingFiles.add(new SupportingFile("iosTest/Coroutine.kt.mustache", "src/iosTest/kotlin/util", "Coroutine.kt"));
-        supportingFiles.add(new SupportingFile("jsTest/Coroutine.kt.mustache", "src/jsTest/kotlin/util", "Coroutine.kt"));
-        supportingFiles.add(new SupportingFile("jvmTest/Coroutine.kt.mustache", "src/jvmTest/kotlin/util", "Coroutine.kt"));
+        supportingFiles.add(new SupportingFile("commonTest/Coroutine.kt.mustache", "common/src/test/util", "Coroutine.kt"));
+        supportingFiles.add(new SupportingFile("iosTest/Coroutine.kt.mustache", "ios/src/test/util", "Coroutine.kt"));
+        supportingFiles.add(new SupportingFile("jsTest/Coroutine.kt.mustache", "js/src/test/util", "Coroutine.kt"));
+        supportingFiles.add(new SupportingFile("jvmTest/Coroutine.kt.mustache", "jvm/src/test/util", "Coroutine.kt"));
 
         // gradle wrapper supporting files
         supportingFiles.add(new SupportingFile("gradlew.mustache", "", "gradlew"));
         supportingFiles.add(new SupportingFile("gradlew.bat.mustache", "", "gradlew.bat"));
+        supportingFiles.add(new SupportingFile("gradle.properties", "", "gradle.peoperties"));
         supportingFiles.add(new SupportingFile("gradle-wrapper.properties.mustache", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.properties"));
         supportingFiles.add(new SupportingFile("gradle-wrapper.jar", "gradle.wrapper".replace(".", File.separator), "gradle-wrapper.jar"));
     }
@@ -568,9 +569,14 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void commonSupportingFiles() {
+        if (getLibrary().equals(MULTIPLATFORM)) {
+            supportingFiles.add(new SupportingFile("build.gradle.kts.mustache", "", "build.gradle.kts"));
+            supportingFiles.add(new SupportingFile("settings.gradle.kts.mustache", "", "settings.gradle.kts"));
+        } else {
+            supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
+            supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
+        }
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
-        supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
-        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
     }
 
     @Override

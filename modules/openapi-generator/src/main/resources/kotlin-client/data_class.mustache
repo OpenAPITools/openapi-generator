@@ -23,14 +23,15 @@ import kotlinx.android.parcel.Parcelize
 {{/multiplatform}}
 {{#multiplatform}}
 import kotlinx.serialization.*
-import kotlinx.serialization.internal.CommonEnumSerializer
 {{/multiplatform}}
 {{#serializableModel}}
 import java.io.Serializable
 {{/serializableModel}}
+import kotlin.collections.*
 
 /**
  * {{{description}}}
+ *
 {{#allVars}}
  * @param {{{name}}} {{{description}}}
 {{/allVars}}
@@ -60,14 +61,13 @@ import java.io.Serializable
 {{#vars}}
 {{#isEnum}}
     /**
-    * {{{description}}}
-    * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
-    */
-    {{#multiplatform}}@Serializable(with = {{nameInCamelCase}}.Serializer::class){{/multiplatform}}
-    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}kotlin.String{{/isContainer}}){
+     * {{{description}}}
+     *
+     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+     */
+    {{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{{nameInCamelCase}}}(val value: {{^isContainer}}{{dataType}}{{/isContainer}}{{#isContainer}}String{{/isContainer}}){
     {{#allowableValues}}
     {{#enumVars}}
-        {{^multiplatform}}
         {{#moshi}}
         @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/moshi}}
@@ -77,16 +77,11 @@ import java.io.Serializable
         {{#jackson}}
         @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/jackson}}
-        {{/multiplatform}}
         {{#multiplatform}}
-        {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+        @SerialName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}}) {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
         {{/multiplatform}}
     {{/enumVars}}
     {{/allowableValues}}
-    {{#multiplatform}}
-
-        {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : CommonEnumSerializer<{{nameInCamelCase}}>("{{nameInCamelCase}}", values(), values().map { it.value.toString() }.toTypedArray())
-    {{/multiplatform}}
     }
 {{/isEnum}}
 {{/vars}}
