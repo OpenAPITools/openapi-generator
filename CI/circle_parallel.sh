@@ -17,15 +17,11 @@ trap cleanup EXIT
 if [ "$NODE_INDEX" = "1" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
   java -version
-  # Install golang version 1.14
-  go version
-  sudo mkdir /usr/local/go1.14
-  wget -c https://dl.google.com/go/go1.14.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local/go1.14
-  export PATH="/usr/local/go1.14/go/bin:$PATH"
-  go version
 
   mvn --no-snapshot-updates --quiet verify -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  mvn --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+
+  echo "show ivy2 cache"
+  ls -l /home/circleci/.ivy2/cache
 
 elif [ "$NODE_INDEX" = "2" ]; then
   # run ensure-up-to-date sample script on SNAPSHOT version only
@@ -40,7 +36,6 @@ elif [ "$NODE_INDEX" = "2" ]; then
     # look for outdated samples
     ./bin/utils/ensure-up-to-date
   fi
-#elif [ "$NODE_INDEX" = "3" ]; then
   echo "Running node $NODE_INDEX to test haskell"
   # install haskell
   curl -sSL https://get.haskellstack.org/ | sh
@@ -60,9 +55,16 @@ elif [ "$NODE_INDEX" = "2" ]; then
   # run integration tests
   mvn --no-snapshot-updates --quiet verify -Psamples.misc -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 else
-  echo "Running node $NODE_INDEX to test 'samples.circleci.jdk7' defined in pom.xml ..."
-  sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
+  echo "Running node $NODE_INDEX to test 'samples.circleci.others' defined in pom.xml ..."
+  #sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
   java -version
+
+  # Install golang version 1.14
+  go version
+  sudo mkdir /usr/local/go1.14
+  wget -c https://dl.google.com/go/go1.14.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local/go1.14
+  export PATH="/usr/local/go1.14/go/bin:$PATH"
+  go version
 
   # install dart2
   sudo apt-get update
@@ -73,7 +75,8 @@ else
   sudo apt-get install dart
   export PATH="$PATH:/usr/lib/dart/bin"
 
-  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.jdk7 -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  mvn --no-snapshot-updates --quiet verify -Psamples.circleci.others -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  mvn --no-snapshot-updates --quiet javadoc:javadoc -Psamples.circleci -Dorg.slf4j.simpleLogger.defaultLogLevel=error
 fi
 
 

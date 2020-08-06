@@ -57,10 +57,9 @@ from petstore_api.model.model200_response import Model200Response
 from petstore_api.model.model_return import ModelReturn
 from petstore_api.model.name import Name
 from petstore_api.model.number_only import NumberOnly
+from petstore_api.model.number_with_validations import NumberWithValidations
+from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
 from petstore_api.model.order import Order
-from petstore_api.model.outer_composite import OuterComposite
-from petstore_api.model.outer_enum import OuterEnum
-from petstore_api.model.outer_number import OuterNumber
 from petstore_api.model.parent import Parent
 from petstore_api.model.parent_all_of import ParentAllOf
 from petstore_api.model.parent_pet import ParentPet
@@ -69,6 +68,7 @@ from petstore_api.model.player import Player
 from petstore_api.model.read_only_first import ReadOnlyFirst
 from petstore_api.model.special_model_name import SpecialModelName
 from petstore_api.model.string_boolean_map import StringBooleanMap
+from petstore_api.model.string_enum import StringEnum
 from petstore_api.model.tag import Tag
 from petstore_api.model.type_holder_default import TypeHolderDefault
 from petstore_api.model.type_holder_example import TypeHolderExample

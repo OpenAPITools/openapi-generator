@@ -1,4 +1,4 @@
-# child_lizard_all_of.ChildLizardAllOf
+# ChildLizardAllOf
 
 ## Properties
 Name | Type | Description | Notes

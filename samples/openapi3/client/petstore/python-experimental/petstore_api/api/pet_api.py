@@ -10,13 +10,8 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
 import sys  # noqa: F401
-
-# python 2 and python 3 compatibility library
-import six
 
 from petstore_api.api_client import ApiClient, Endpoint
 from petstore_api.model_utils import (  # noqa: F401
@@ -25,13 +20,11 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_and_convert_types
 )
-from petstore_api.model import pet
-from petstore_api.model import api_response
+from petstore_api.model.api_response import ApiResponse
+from petstore_api.model.pet import Pet
 
 
 class PetApi(object):
@@ -48,7 +41,7 @@ class PetApi(object):
 
         def __add_pet(
             self,
-            pet_pet,
+            pet,
             **kwargs
         ):
             """Add a new pet to the store  # noqa: E501
@@ -56,11 +49,11 @@ class PetApi(object):
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.add_pet(pet_pet, async_req=True)
+            >>> thread = api.add_pet(pet, async_req=True)
             >>> result = thread.get()
 
             Args:
-                pet_pet (pet.Pet): Pet object that needs to be added to the store
+                pet (Pet): Pet object that needs to be added to the store
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -107,8 +100,8 @@ class PetApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
-            kwargs['pet_pet'] = \
-                pet_pet
+            kwargs['pet'] = \
+                pet
             return self.call_with_http_info(**kwargs)
 
         self.add_pet = Endpoint(
@@ -134,10 +127,10 @@ class PetApi(object):
             },
             params_map={
                 'all': [
-                    'pet_pet',
+                    'pet',
                 ],
                 'required': [
-                    'pet_pet',
+                    'pet',
                 ],
                 'nullable': [
                 ],
@@ -152,13 +145,13 @@ class PetApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'pet_pet':
-                        (pet.Pet,),
+                    'pet':
+                        (Pet,),
                 },
                 'attribute_map': {
                 },
                 'location_map': {
-                    'pet_pet': 'body',
+                    'pet': 'body',
                 },
                 'collection_format_map': {
                 }
@@ -335,7 +328,7 @@ class PetApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                [pet.Pet]
+                [Pet]
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -364,7 +357,7 @@ class PetApi(object):
 
         self.find_pets_by_status = Endpoint(
             settings={
-                'response_type': ([pet.Pet],),
+                'response_type': ([Pet],),
                 'auth': [
                     'http_signature_test',
                     'petstore_auth'
@@ -464,7 +457,7 @@ class PetApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                [pet.Pet]
+                [Pet]
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -493,7 +486,7 @@ class PetApi(object):
 
         self.find_pets_by_tags = Endpoint(
             settings={
-                'response_type': ([pet.Pet],),
+                'response_type': ([Pet],),
                 'auth': [
                     'http_signature_test',
                     'petstore_auth'
@@ -586,7 +579,7 @@ class PetApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                pet.Pet
+                Pet
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -615,7 +608,7 @@ class PetApi(object):
 
         self.get_pet_by_id = Endpoint(
             settings={
-                'response_type': (pet.Pet,),
+                'response_type': (Pet,),
                 'auth': [
                     'api_key'
                 ],
@@ -669,7 +662,7 @@ class PetApi(object):
 
         def __update_pet(
             self,
-            pet_pet,
+            pet,
             **kwargs
         ):
             """Update an existing pet  # noqa: E501
@@ -677,11 +670,11 @@ class PetApi(object):
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.update_pet(pet_pet, async_req=True)
+            >>> thread = api.update_pet(pet, async_req=True)
             >>> result = thread.get()
 
             Args:
-                pet_pet (pet.Pet): Pet object that needs to be added to the store
+                pet (Pet): Pet object that needs to be added to the store
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -728,8 +721,8 @@ class PetApi(object):
                 '_check_return_type', True
             )
             kwargs['_host_index'] = kwargs.get('_host_index')
-            kwargs['pet_pet'] = \
-                pet_pet
+            kwargs['pet'] = \
+                pet
             return self.call_with_http_info(**kwargs)
 
         self.update_pet = Endpoint(
@@ -755,10 +748,10 @@ class PetApi(object):
             },
             params_map={
                 'all': [
-                    'pet_pet',
+                    'pet',
                 ],
                 'required': [
-                    'pet_pet',
+                    'pet',
                 ],
                 'nullable': [
                 ],
@@ -773,13 +766,13 @@ class PetApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'pet_pet':
-                        (pet.Pet,),
+                    'pet':
+                        (Pet,),
                 },
                 'attribute_map': {
                 },
                 'location_map': {
-                    'pet_pet': 'body',
+                    'pet': 'body',
                 },
                 'collection_format_map': {
                 }
@@ -965,7 +958,7 @@ class PetApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                api_response.ApiResponse
+                ApiResponse
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -994,7 +987,7 @@ class PetApi(object):
 
         self.upload_file = Endpoint(
             settings={
-                'response_type': (api_response.ApiResponse,),
+                'response_type': (ApiResponse,),
                 'auth': [
                     'petstore_auth'
                 ],
@@ -1098,7 +1091,7 @@ class PetApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                api_response.ApiResponse
+                ApiResponse
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -1129,7 +1122,7 @@ class PetApi(object):
 
         self.upload_file_with_required_file = Endpoint(
             settings={
-                'response_type': (api_response.ApiResponse,),
+                'response_type': (ApiResponse,),
                 'auth': [
                     'petstore_auth'
                 ],

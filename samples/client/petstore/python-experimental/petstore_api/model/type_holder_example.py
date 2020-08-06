@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,9 +26,7 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
 
@@ -81,8 +77,8 @@ class TypeHolderExample(ModelNormal):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
@@ -99,6 +95,7 @@ class TypeHolderExample(ModelNormal):
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {
         'string_item': 'string_item',  # noqa: E501
@@ -121,7 +118,7 @@ class TypeHolderExample(ModelNormal):
 
     @convert_js_args_to_python_args
     def __init__(self, bool_item, array_item, *args, **kwargs):  # noqa: E501
-        """type_holder_example.TypeHolderExample - a model defined in OpenAPI
+        """TypeHolderExample - a model defined in OpenAPI
 
         Args:
             bool_item (bool):
@@ -194,7 +191,7 @@ class TypeHolderExample(ModelNormal):
         self.integer_item = integer_item
         self.bool_item = bool_item
         self.array_item = array_item
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \

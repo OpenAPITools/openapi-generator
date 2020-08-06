@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,21 +26,15 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import grandparent
-except ImportError:
-    grandparent = sys.modules[
-        'petstore_api.model.grandparent']
-try:
-    from petstore_api.model import parent_all_of
-except ImportError:
-    parent_all_of = sys.modules[
-        'petstore_api.model.parent_all_of']
+
+def lazy_import():
+    from petstore_api.model.grandparent import Grandparent
+    from petstore_api.model.parent_all_of import ParentAllOf
+    globals()['Grandparent'] = Grandparent
+    globals()['ParentAllOf'] = ParentAllOf
 
 
 class Parent(ModelComposed):
@@ -82,13 +74,14 @@ class Parent(ModelComposed):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'radio_waves': (bool,),  # noqa: E501
             'tele_vision': (bool,),  # noqa: E501
@@ -97,6 +90,7 @@ class Parent(ModelComposed):
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {
         'radio_waves': 'radioWaves',  # noqa: E501
@@ -117,7 +111,7 @@ class Parent(ModelComposed):
 
     @convert_js_args_to_python_args
     def __init__(self, *args, **kwargs):  # noqa: E501
-        """parent.Parent - a model defined in OpenAPI
+        """Parent - a model defined in OpenAPI
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types
@@ -203,7 +197,7 @@ class Parent(ModelComposed):
 
         for var_name, var_value in required_args.items():
             setattr(self, var_name, var_value)
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name in unused_args and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \
@@ -221,12 +215,13 @@ class Parent(ModelComposed):
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        lazy_import()
         return {
           'anyOf': [
           ],
           'allOf': [
-              grandparent.Grandparent,
-              parent_all_of.ParentAllOf,
+              Grandparent,
+              ParentAllOf,
           ],
           'oneOf': [
           ],

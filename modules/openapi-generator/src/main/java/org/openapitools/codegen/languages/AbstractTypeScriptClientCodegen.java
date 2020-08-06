@@ -130,7 +130,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "File",
                 "Error",
                 "Map",
-                "object"
+                "object",
+                "Set"
         ));
 
         languageGenericTypes = new HashSet<>(Collections.singletonList(
@@ -140,6 +141,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         instantiationTypes.put("array", "Array");
 
         typeMapping = new HashMap<String, String>();
+        typeMapping.put("Set", "Set");
+        typeMapping.put("set", "Set");
         typeMapping.put("Array", "Array");
         typeMapping.put("array", "Array");
         typeMapping.put("boolean", "boolean");
@@ -464,10 +467,19 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isDateSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isDateTimeSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isNumberSchema(p) || ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
@@ -837,7 +849,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      */
     protected List<String> getTypesFromSchemas(List<Schema> schemas) {
         List<Schema> filteredSchemas = schemas.size() > 1
-            ? schemas.stream().filter(schema -> super.getSchemaType(schema) != "AnyType").collect(Collectors.toList())
+            ? schemas.stream().filter(schema -> !"AnyType".equals(super.getSchemaType(schema))).collect(Collectors.toList())
             : schemas;
 
         return filteredSchemas.stream().map(schema -> {

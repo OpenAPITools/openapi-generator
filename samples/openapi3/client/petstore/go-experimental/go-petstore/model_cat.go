@@ -11,13 +11,18 @@ package petstore
 
 import (
 	"encoding/json"
+	"reflect"
+	"strings"
 )
 
 // Cat struct for Cat
 type Cat struct {
 	Animal
 	Declawed *bool `json:"declawed,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Cat Cat
 
 // NewCat instantiates a new Cat object
 // This constructor will assign default values to properties that have it defined,
@@ -81,7 +86,66 @@ func (o Cat) MarshalJSON() ([]byte, error) {
 	if o.Declawed != nil {
 		toSerialize["declawed"] = o.Declawed
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *Cat) UnmarshalJSON(bytes []byte) (err error) {
+	type CatWithoutEmbeddedStruct struct {
+		Declawed *bool `json:"declawed,omitempty"`
+	}
+
+	varCatWithoutEmbeddedStruct := CatWithoutEmbeddedStruct{}
+
+	err = json.Unmarshal(bytes, &varCatWithoutEmbeddedStruct)
+	if err == nil {
+		varCat := _Cat{}
+		varCat.Declawed = varCatWithoutEmbeddedStruct.Declawed
+		*o = Cat(varCat)
+	} else {
+		return err
+	}
+
+	varCat := _Cat{}
+
+	err = json.Unmarshal(bytes, &varCat)
+	if err == nil {
+		o.Animal = varCat.Animal
+	} else {
+		return err
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "declawed")
+
+		// remove fields from embedded structs
+		reflectAnimal := reflect.ValueOf(o.Animal)
+		for i := 0; i < reflectAnimal.Type().NumField(); i++ {
+			t := reflectAnimal.Type().Field(i)
+
+			if jsonTag := t.Tag.Get("json"); jsonTag != "" {
+				fieldName := ""
+				if commaIdx := strings.Index(jsonTag, ","); commaIdx > 0 {
+					fieldName = jsonTag[:commaIdx]
+				} else {
+					fieldName = jsonTag
+				}
+				if fieldName != "AdditionalProperties" {
+					delete(additionalProperties, fieldName)
+				}
+			}
+		}
+
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableCat struct {

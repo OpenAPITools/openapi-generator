@@ -49,9 +49,11 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> oneOf = new TreeSet<String>();
     public Set<String> allOf = new TreeSet<String>();
 
+    // The schema name as written in the OpenAPI document.
     public String name;
     // The language-specific name of the class that implements this schema.
     // The name of the class is derived from the OpenAPI schema name with formatting rules applied.
+    // The classname is derived from the OpenAPI schema name, with sanitization and escaping rules applied. 
     public String classname;
     // The value of the 'title' attribute in the OpenAPI document.
     public String title;
@@ -128,6 +130,11 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
      *
      */
     public String additionalPropertiesType;
+
+    /**
+     * True if additionalProperties is set to true (boolean value)
+     */
+    public boolean isAdditionalPropertiesTrue;
 
     private Integer maxProperties;
     private Integer minProperties;
@@ -213,6 +220,17 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setClassVarName(String classVarName) {
         this.classVarName = classVarName;
+    }
+
+    /**
+     * Return true if the classname property is sanitized, false if it is the same as the OpenAPI schema name.
+     * The OpenAPI schema name may be any valid JSON schema name, including non-ASCII characters.
+     * The name of the class may have to be sanitized with character escaping.
+     * 
+     * @return true if the classname property is sanitized
+     */
+    public boolean getIsClassnameSanitized() {
+        return !classname.equals(name);
     }
 
     public String getClassname() {

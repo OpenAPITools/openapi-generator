@@ -19,10 +19,11 @@ import os
 import re
 import shutil
 import unittest
+from urllib.parse import urlencode, urlparse
+
 from Crypto.Hash import SHA256, SHA512
 from Crypto.PublicKey import ECC, RSA
 from Crypto.Signature import pkcs1_15, pss, DSS
-from six.moves.urllib.parse import urlencode, urlparse
 
 import petstore_api
 from petstore_api.model import category, tag, pet
@@ -32,8 +33,6 @@ from petstore_api.rest import (
     RESTClientObject,
     RESTResponse
 )
-
-import six
 
 from petstore_api.exceptions import (
     ApiException,
@@ -45,10 +44,7 @@ from .util import id_gen
 
 import urllib3
 
-if six.PY3:
-    from unittest.mock import patch
-else:
-    from mock import patch
+from unittest.mock import patch
 
 HOST = 'http://localhost/v2'
 

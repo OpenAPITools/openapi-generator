@@ -18,7 +18,6 @@ Use custom server
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import dynamic_servers
 from dynamic_servers.api import usage_api
@@ -77,7 +76,6 @@ Use default server
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import dynamic_servers
 from dynamic_servers.api import usage_api

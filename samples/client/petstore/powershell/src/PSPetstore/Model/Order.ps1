@@ -52,7 +52,7 @@ function Initialize-PSOrder {
         ${Status},
         [Parameter(Position = 5, ValueFromPipelineByPropertyName = $true)]
         [System.Nullable[Boolean]]
-        ${Complete}
+        ${Complete} = $false
     )
 
     Process {

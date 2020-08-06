@@ -16,7 +16,10 @@ import (
 // SpecialModelName struct for SpecialModelName
 type SpecialModelName struct {
 	SpecialPropertyName *int64 `json:"$special[property.name],omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _SpecialModelName SpecialModelName
 
 // NewSpecialModelName instantiates a new SpecialModelName object
 // This constructor will assign default values to properties that have it defined,
@@ -72,7 +75,29 @@ func (o SpecialModelName) MarshalJSON() ([]byte, error) {
 	if o.SpecialPropertyName != nil {
 		toSerialize["$special[property.name]"] = o.SpecialPropertyName
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *SpecialModelName) UnmarshalJSON(bytes []byte) (err error) {
+	varSpecialModelName := _SpecialModelName{}
+
+	if err = json.Unmarshal(bytes, &varSpecialModelName); err == nil {
+		*o = SpecialModelName(varSpecialModelName)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "$special[property.name]")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableSpecialModelName struct {

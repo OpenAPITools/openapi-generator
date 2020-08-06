@@ -26,7 +26,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.StoreApi;
 
 public class Example {
@@ -92,7 +92,7 @@ import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.auth.*;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.StoreApi;
 
 public class Example {
@@ -159,7 +159,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.StoreApi;
 
 public class Example {
@@ -224,7 +224,7 @@ Place an order for a pet
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.StoreApi;
 
 public class Example {

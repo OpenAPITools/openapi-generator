@@ -1999,6 +1999,7 @@ components:
       properties:
         string:
           $ref: '#/components/schemas/Foo'
+      type: object
     inline_object:
       properties:
         name:
@@ -2138,10 +2139,12 @@ components:
       properties:
         breed:
           type: string
+      type: object
     Cat_allOf:
       properties:
         declawed:
           type: boolean
+      type: object
   securitySchemes:
     petstore_auth:
       flows:

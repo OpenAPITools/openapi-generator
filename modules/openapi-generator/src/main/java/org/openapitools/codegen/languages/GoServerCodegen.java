@@ -104,7 +104,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         /*
          * Service templates.  You can write services for each Api file with the apiTemplateFiles map.
-            These services are skeletons built to implement the logic of your api using the 
+            These services are skeletons built to implement the logic of your api using the
             expected parameters and response.
          */
         apiTemplateFiles.put(
@@ -183,6 +183,13 @@ public class GoServerCodegen extends AbstractGoCodegen {
             this.setFeatureCORS(convertPropertyToBooleanAndWriteBack("featureCORS"));
         } else {
             additionalProperties.put("featureCORS", corsFeatureEnabled);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
+            setEnumClassPrefix(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_CLASS_PREFIX).toString()));
+            if (enumClassPrefix) {
+                additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, true);
+            }
         }
 
         modelPackage = packageName;

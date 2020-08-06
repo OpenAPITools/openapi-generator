@@ -16,7 +16,7 @@ import Foundation
         }
     }
 
-    public init(declawed: Bool?) {
+    public init(declawed: Bool? = nil) {
         self.declawed = declawed
     }
 

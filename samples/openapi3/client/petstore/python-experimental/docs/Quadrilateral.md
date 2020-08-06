@@ -1,4 +1,4 @@
-# quadrilateral.Quadrilateral
+# Quadrilateral
 
 ## Properties
 Name | Type | Description | Notes

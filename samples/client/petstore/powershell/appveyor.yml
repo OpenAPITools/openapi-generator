@@ -9,7 +9,6 @@ version: 1.0.{build}
 image:
   - Visual Studio 2017 # PS 5.x
   - Ubuntu # PS 6.x
-  - macOS # PS 6.x
 install:
   - ps: $PSVersionTable.PSVersion
   - ps: Install-Module Pester -Force -Scope CurrentUser
@@ -20,4 +19,18 @@ test_script:
       if ($Result.FailedCount -gt 0) {
           $host.SetShouldExit($Result.FailedCount)
           exit $Result.FailedCount
+      }
+deploy_script:
+  - ps: |
+      if ($env:APPVEYOR_REPO_TAG -eq $true -and $env:NuGetApiKey -ne $null -and $env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2017") {
+          .\Build.ps1
+          choco install NuGet.CommandLine
+          Install-PackageProvider -Name NuGet -Force
+          Publish-Module -NuGetApiKey $env:NuGetApiKey -Path .\src\PSPetstore\ -Confirm:$False -Verbose
+          if ($LastExitCode -ne 0) {
+              $host.SetShouldExit($LastExitCode)
+              exit $LastExitCode
+          } else {
+              Write-Host "Published the PowerShell module."
+          }
       }

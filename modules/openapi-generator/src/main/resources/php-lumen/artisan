@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+{{>licenseInfoLumen}}
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 

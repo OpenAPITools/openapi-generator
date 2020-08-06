@@ -70,7 +70,7 @@ public class HttpLoggingFilter implements Filter {
         chain.doFilter(bufferedRequest, bufferedResponse);
         long elapsedTime = System.currentTimeMillis() - start;
         String respContent = null;
-        if (bufferedResponse.getContent() == null || bufferedResponse.getContent() == "") {
+        if (bufferedResponse.getContent() == null || "".equals(bufferedResponse.getContent())) {
           respContent = "No data";
         } else {
           respContent = bufferedResponse.getContent();
