@@ -79,7 +79,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">client model</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> Call123TestSpecialTagsAsyncWithHttpInfo (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<ModelClient>> Call123TestSpecialTagsWithHttpInfoAsync (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -265,9 +265,8 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ModelClient</returns>
         public async System.Threading.Tasks.Task<ModelClient> Call123TestSpecialTagsAsync (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-             Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await Call123TestSpecialTagsAsyncWithHttpInfo(body, cancellationToken);
+             Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await Call123TestSpecialTagsWithHttpInfoAsync(body, cancellationToken);
              return localVarResponse.Data;
-
         }
 
         /// <summary>
@@ -277,7 +276,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="body">client model</param>        
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> Call123TestSpecialTagsAsyncWithHttpInfo (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> Call123TestSpecialTagsWithHttpInfoAsync (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'body' is set
             if (body == null)
