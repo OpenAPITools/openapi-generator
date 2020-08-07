@@ -13,6 +13,10 @@
 
 package org.openapitools.client.model;
 
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -27,7 +31,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Animal;
-import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.CatAllOf;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
@@ -41,9 +44,6 @@ import org.openapitools.client.JSON;
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
-@JsonSubTypes({
-  @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
-})
 
 public class Cat extends Animal {
   public static final String JSON_PROPERTY_DECLAWED = "declawed";
@@ -73,6 +73,43 @@ public class Cat extends Animal {
     this.declawed = declawed;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Object> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   */
+  @JsonAnySetter
+  public Cat putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
 
   /**
    * Return true if this Cat object is equal to o.
@@ -86,13 +123,14 @@ public class Cat extends Animal {
       return false;
     }
     Cat cat = (Cat) o;
-    return Objects.equals(this.declawed, cat.declawed) &&
+    return Objects.equals(this.declawed, cat.declawed)&&
+        Objects.equals(this.additionalProperties, cat.additionalProperties) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(declawed, super.hashCode());
+    return Objects.hash(declawed, super.hashCode(), additionalProperties);
   }
 
 
@@ -102,6 +140,7 @@ public class Cat extends Animal {
     sb.append("class Cat {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    declawed: ").append(toIndentedString(declawed)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -120,7 +159,6 @@ public class Cat extends Animal {
 static {
   // Initialize and register the discriminator mappings.
   Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
-  mappings.put("BigCat", BigCat.class);
   mappings.put("Cat", Cat.class);
   JSON.registerDiscriminator(Cat.class, "className", mappings);
 }

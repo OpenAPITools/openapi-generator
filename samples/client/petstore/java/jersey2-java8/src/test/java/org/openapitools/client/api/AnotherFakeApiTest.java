@@ -13,10 +13,12 @@
 
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiException;
+import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.model.Client;
 import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,12 +28,10 @@ import java.util.Map;
 /**
  * API tests for AnotherFakeApi
  */
-@Ignore
 public class AnotherFakeApiTest {
 
     private final AnotherFakeApi api = new AnotherFakeApi();
 
-    
     /**
      * To test special tags
      *
@@ -42,9 +42,9 @@ public class AnotherFakeApiTest {
      */
     @Test
     public void call123testSpecialTagsTest() throws ApiException {
-        Client body = null;
-        Client response = api.call123testSpecialTags(body);
+        //Client client = null;
+        //Client response = api.call123testSpecialTags(client);
         // TODO: test validations
     }
-    
+
 }

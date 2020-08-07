@@ -148,11 +148,19 @@ public class FormatTestTest {
     }
 
     /**
-     * Test the property 'bigDecimal'
+     * Test the property 'patternWithDigits'
      */
     @Test
-    public void bigDecimalTest() {
-        // TODO: test bigDecimal
+    public void patternWithDigitsTest() {
+        // TODO: test patternWithDigits
+    }
+
+    /**
+     * Test the property 'patternWithDigitsAndDelimiter'
+     */
+    @Test
+    public void patternWithDigitsAndDelimiterTest() {
+        // TODO: test patternWithDigitsAndDelimiter
     }
 
 }

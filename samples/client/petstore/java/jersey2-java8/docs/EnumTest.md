@@ -11,6 +11,9 @@ Name | Type | Description | Notes
 **enumInteger** | [**EnumIntegerEnum**](#EnumIntegerEnum) |  |  [optional]
 **enumNumber** | [**EnumNumberEnum**](#EnumNumberEnum) |  |  [optional]
 **outerEnum** | [**OuterEnum**](OuterEnum.md) |  |  [optional]
+**outerEnumInteger** | [**OuterEnumInteger**](OuterEnumInteger.md) |  |  [optional]
+**outerEnumDefaultValue** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  |  [optional]
+**outerEnumIntegerDefaultValue** | [**OuterEnumIntegerDefaultValue**](OuterEnumIntegerDefaultValue.md) |  |  [optional]
 
 
 

@@ -24,6 +24,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.openapitools.jackson.nullable.JsonNullable;
+import java.util.NoSuchElementException;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
@@ -39,7 +42,11 @@ import org.openapitools.client.JSON;
   User.JSON_PROPERTY_EMAIL,
   User.JSON_PROPERTY_PASSWORD,
   User.JSON_PROPERTY_PHONE,
-  User.JSON_PROPERTY_USER_STATUS
+  User.JSON_PROPERTY_USER_STATUS,
+  User.JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS,
+  User.JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE,
+  User.JSON_PROPERTY_ANY_TYPE_PROP,
+  User.JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class User {
@@ -66,6 +73,18 @@ public class User {
 
   public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
   private Integer userStatus;
+
+  public static final String JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS = "objectWithNoDeclaredProps";
+  private Object objectWithNoDeclaredProps;
+
+  public static final String JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE = "objectWithNoDeclaredPropsNullable";
+  private JsonNullable<Object> objectWithNoDeclaredPropsNullable = JsonNullable.<Object>undefined();
+
+  public static final String JSON_PROPERTY_ANY_TYPE_PROP = "anyTypeProp";
+  private JsonNullable<Object> anyTypeProp = JsonNullable.<Object>of(null);
+
+  public static final String JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE = "anyTypePropNullable";
+  private JsonNullable<Object> anyTypePropNullable = JsonNullable.<Object>of(null);
 
 
   public User id(Long id) {
@@ -260,6 +279,132 @@ public class User {
   }
 
 
+  public User objectWithNoDeclaredProps(Object objectWithNoDeclaredProps) {
+    this.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
+    return this;
+  }
+
+   /**
+   * test code generation for objects Value must be a map of strings to values. It cannot be the &#39;null&#39; value.
+   * @return objectWithNoDeclaredProps
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "test code generation for objects Value must be a map of strings to values. It cannot be the 'null' value.")
+  @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public Object getObjectWithNoDeclaredProps() {
+    return objectWithNoDeclaredProps;
+  }
+
+
+  public void setObjectWithNoDeclaredProps(Object objectWithNoDeclaredProps) {
+    this.objectWithNoDeclaredProps = objectWithNoDeclaredProps;
+  }
+
+
+  public User objectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
+    this.objectWithNoDeclaredPropsNullable = JsonNullable.<Object>of(objectWithNoDeclaredPropsNullable);
+    return this;
+  }
+
+   /**
+   * test code generation for nullable objects. Value must be a map of strings to values or the &#39;null&#39; value.
+   * @return objectWithNoDeclaredPropsNullable
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "test code generation for nullable objects. Value must be a map of strings to values or the 'null' value.")
+  @JsonIgnore
+
+  public Object getObjectWithNoDeclaredPropsNullable() {
+        return objectWithNoDeclaredPropsNullable.orElse(null);
+  }
+
+  @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public JsonNullable<Object> getObjectWithNoDeclaredPropsNullable_JsonNullable() {
+    return objectWithNoDeclaredPropsNullable;
+  }
+  
+  @JsonProperty(JSON_PROPERTY_OBJECT_WITH_NO_DECLARED_PROPS_NULLABLE)
+  public void setObjectWithNoDeclaredPropsNullable_JsonNullable(JsonNullable<Object> objectWithNoDeclaredPropsNullable) {
+    this.objectWithNoDeclaredPropsNullable = objectWithNoDeclaredPropsNullable;
+  }
+
+  public void setObjectWithNoDeclaredPropsNullable(Object objectWithNoDeclaredPropsNullable) {
+    this.objectWithNoDeclaredPropsNullable = JsonNullable.<Object>of(objectWithNoDeclaredPropsNullable);
+  }
+
+
+  public User anyTypeProp(Object anyTypeProp) {
+    this.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
+    return this;
+  }
+
+   /**
+   * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389
+   * @return anyTypeProp
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. See https://github.com/OAI/OpenAPI-Specification/issues/1389")
+  @JsonIgnore
+
+  public Object getAnyTypeProp() {
+        return anyTypeProp.orElse(null);
+  }
+
+  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public JsonNullable<Object> getAnyTypeProp_JsonNullable() {
+    return anyTypeProp;
+  }
+  
+  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP)
+  public void setAnyTypeProp_JsonNullable(JsonNullable<Object> anyTypeProp) {
+    this.anyTypeProp = anyTypeProp;
+  }
+
+  public void setAnyTypeProp(Object anyTypeProp) {
+    this.anyTypeProp = JsonNullable.<Object>of(anyTypeProp);
+  }
+
+
+  public User anyTypePropNullable(Object anyTypePropNullable) {
+    this.anyTypePropNullable = JsonNullable.<Object>of(anyTypePropNullable);
+    return this;
+  }
+
+   /**
+   * test code generation for any type Here the &#39;type&#39; attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The &#39;nullable&#39; attribute does not change the allowed values.
+   * @return anyTypePropNullable
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "test code generation for any type Here the 'type' attribute is not specified, which means the value can be anything, including the null value, string, number, boolean, array or object. The 'nullable' attribute does not change the allowed values.")
+  @JsonIgnore
+
+  public Object getAnyTypePropNullable() {
+        return anyTypePropNullable.orElse(null);
+  }
+
+  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public JsonNullable<Object> getAnyTypePropNullable_JsonNullable() {
+    return anyTypePropNullable;
+  }
+  
+  @JsonProperty(JSON_PROPERTY_ANY_TYPE_PROP_NULLABLE)
+  public void setAnyTypePropNullable_JsonNullable(JsonNullable<Object> anyTypePropNullable) {
+    this.anyTypePropNullable = anyTypePropNullable;
+  }
+
+  public void setAnyTypePropNullable(Object anyTypePropNullable) {
+    this.anyTypePropNullable = JsonNullable.<Object>of(anyTypePropNullable);
+  }
+
+
   /**
    * Return true if this User object is equal to o.
    */
@@ -279,12 +424,16 @@ public class User {
         Objects.equals(this.email, user.email) &&
         Objects.equals(this.password, user.password) &&
         Objects.equals(this.phone, user.phone) &&
-        Objects.equals(this.userStatus, user.userStatus);
+        Objects.equals(this.userStatus, user.userStatus) &&
+        Objects.equals(this.objectWithNoDeclaredProps, user.objectWithNoDeclaredProps) &&
+        Objects.equals(this.objectWithNoDeclaredPropsNullable, user.objectWithNoDeclaredPropsNullable) &&
+        Objects.equals(this.anyTypeProp, user.anyTypeProp) &&
+        Objects.equals(this.anyTypePropNullable, user.anyTypePropNullable);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus);
+    return Objects.hash(id, username, firstName, lastName, email, password, phone, userStatus, objectWithNoDeclaredProps, objectWithNoDeclaredPropsNullable, anyTypeProp, anyTypePropNullable);
   }
 
 
@@ -300,6 +449,10 @@ public class User {
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
     sb.append("    phone: ").append(toIndentedString(phone)).append("\n");
     sb.append("    userStatus: ").append(toIndentedString(userStatus)).append("\n");
+    sb.append("    objectWithNoDeclaredProps: ").append(toIndentedString(objectWithNoDeclaredProps)).append("\n");
+    sb.append("    objectWithNoDeclaredPropsNullable: ").append(toIndentedString(objectWithNoDeclaredPropsNullable)).append("\n");
+    sb.append("    anyTypeProp: ").append(toIndentedString(anyTypeProp)).append("\n");
+    sb.append("    anyTypePropNullable: ").append(toIndentedString(anyTypePropNullable)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -50,7 +50,8 @@ import org.openapitools.client.JSON;
   FormatTest.JSON_PROPERTY_DATE_TIME,
   FormatTest.JSON_PROPERTY_UUID,
   FormatTest.JSON_PROPERTY_PASSWORD,
-  FormatTest.JSON_PROPERTY_BIG_DECIMAL
+  FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS,
+  FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FormatTest {
@@ -93,8 +94,11 @@ public class FormatTest {
   public static final String JSON_PROPERTY_PASSWORD = "password";
   private String password;
 
-  public static final String JSON_PROPERTY_BIG_DECIMAL = "BigDecimal";
-  private BigDecimal bigDecimal;
+  public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS = "pattern_with_digits";
+  private String patternWithDigits;
+
+  public static final String JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER = "pattern_with_digits_and_delimiter";
+  private String patternWithDigitsAndDelimiter;
 
 
   public FormatTest integer(Integer integer) {
@@ -330,7 +334,7 @@ public class FormatTest {
    * Get date
    * @return date
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(example = "Sun Feb 02 00:00:00 UTC 2020", required = true, value = "")
   @JsonProperty(JSON_PROPERTY_DATE)
   @JsonInclude(value = JsonInclude.Include.ALWAYS)
 
@@ -354,7 +358,7 @@ public class FormatTest {
    * @return dateTime
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "2007-12-03T10:15:30+01:00", value = "")
   @JsonProperty(JSON_PROPERTY_DATE_TIME)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
@@ -415,27 +419,51 @@ public class FormatTest {
   }
 
 
-  public FormatTest bigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  public FormatTest patternWithDigits(String patternWithDigits) {
+    this.patternWithDigits = patternWithDigits;
     return this;
   }
 
    /**
-   * Get bigDecimal
-   * @return bigDecimal
+   * A string that is a 10 digit number. Can have leading zeros.
+   * @return patternWithDigits
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "")
-  @JsonProperty(JSON_PROPERTY_BIG_DECIMAL)
+  @ApiModelProperty(value = "A string that is a 10 digit number. Can have leading zeros.")
+  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
-  public BigDecimal getBigDecimal() {
-    return bigDecimal;
+  public String getPatternWithDigits() {
+    return patternWithDigits;
   }
 
 
-  public void setBigDecimal(BigDecimal bigDecimal) {
-    this.bigDecimal = bigDecimal;
+  public void setPatternWithDigits(String patternWithDigits) {
+    this.patternWithDigits = patternWithDigits;
+  }
+
+
+  public FormatTest patternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
+    return this;
+  }
+
+   /**
+   * A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.
+   * @return patternWithDigitsAndDelimiter
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.")
+  @JsonProperty(JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getPatternWithDigitsAndDelimiter() {
+    return patternWithDigitsAndDelimiter;
+  }
+
+
+  public void setPatternWithDigitsAndDelimiter(String patternWithDigitsAndDelimiter) {
+    this.patternWithDigitsAndDelimiter = patternWithDigitsAndDelimiter;
   }
 
 
@@ -464,12 +492,13 @@ public class FormatTest {
         Objects.equals(this.dateTime, formatTest.dateTime) &&
         Objects.equals(this.uuid, formatTest.uuid) &&
         Objects.equals(this.password, formatTest.password) &&
-        Objects.equals(this.bigDecimal, formatTest.bigDecimal);
+        Objects.equals(this.patternWithDigits, formatTest.patternWithDigits) &&
+        Objects.equals(this.patternWithDigitsAndDelimiter, formatTest.patternWithDigitsAndDelimiter);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, bigDecimal);
+    return Objects.hash(integer, int32, int64, number, _float, _double, string, Arrays.hashCode(_byte), binary, date, dateTime, uuid, password, patternWithDigits, patternWithDigitsAndDelimiter);
   }
 
 
@@ -490,7 +519,8 @@ public class FormatTest {
     sb.append("    dateTime: ").append(toIndentedString(dateTime)).append("\n");
     sb.append("    uuid: ").append(toIndentedString(uuid)).append("\n");
     sb.append("    password: ").append(toIndentedString(password)).append("\n");
-    sb.append("    bigDecimal: ").append(toIndentedString(bigDecimal)).append("\n");
+    sb.append("    patternWithDigits: ").append(toIndentedString(patternWithDigits)).append("\n");
+    sb.append("    patternWithDigitsAndDelimiter: ").append(toIndentedString(patternWithDigitsAndDelimiter)).append("\n");
     sb.append("}");
     return sb.toString();
   }

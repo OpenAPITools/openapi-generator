@@ -1,5 +1,5 @@
 generatorName: java
-outputDir: samples/openapi3/client/petstore/java/jersey2-java8
+outputDir: samples/client/petstore/java/jersey2-java8
 library: jersey2
 inputSpec: modules/openapi-generator/src/test/resources/3_0/java/petstore-with-fake-endpoints-models-for-testing-with-http-signature.yaml
 templateDir: modules/openapi-generator/src/main/resources/Java

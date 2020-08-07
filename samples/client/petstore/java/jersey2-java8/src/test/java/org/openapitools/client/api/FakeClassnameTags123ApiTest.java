@@ -13,10 +13,12 @@
 
 package org.openapitools.client.api;
 
-import org.openapitools.client.ApiException;
+import org.openapitools.client.*;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.model.Client;
 import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,12 +28,10 @@ import java.util.Map;
 /**
  * API tests for FakeClassnameTags123Api
  */
-@Ignore
 public class FakeClassnameTags123ApiTest {
 
     private final FakeClassnameTags123Api api = new FakeClassnameTags123Api();
 
-    
     /**
      * To test class name in snake case
      *
@@ -42,9 +42,9 @@ public class FakeClassnameTags123ApiTest {
      */
     @Test
     public void testClassnameTest() throws ApiException {
-        Client body = null;
-        Client response = api.testClassname(body);
+        //Client client = null;
+        //Client response = api.testClassname(client);
         // TODO: test validations
     }
-    
+
 }
