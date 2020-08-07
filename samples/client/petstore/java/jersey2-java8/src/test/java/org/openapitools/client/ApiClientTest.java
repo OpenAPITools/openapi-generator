@@ -1,7 +1,6 @@
 package org.openapitools.client;
 
-import org.openapitools.client.auth.Authentication;
-import org.openapitools.client.auth.HttpSignatureAuth;
+import org.openapitools.client.auth.*;
 import org.openapitools.client.model.*;
 import org.openapitools.client.ApiClient;
 
