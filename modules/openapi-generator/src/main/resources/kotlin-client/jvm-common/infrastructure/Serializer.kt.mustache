@@ -10,6 +10,9 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 {{#gson}}
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonElement
+import io.gsonfire.GsonFireBuilder
+import io.gsonfire.TypeSelector
 {{^threetenbp}}
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -21,6 +24,14 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.OffsetDateTime
 {{/threetenbp}}
 import java.util.UUID
+{{#models.0}}
+import {{modelPackage}}.*
+{{/models.0}}
+import kotlin.collections.HashMap
+import kotlin.collections.MutableMap
+import kotlin.collections.get
+import kotlin.collections.set
+import kotlin.collections.toTypedArray
 {{/gson}}
 {{#jackson}}
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -53,16 +64,45 @@ import java.util.Date
 {{/moshi}}
 {{#gson}}
     @JvmStatic
-    val gsonBuilder: GsonBuilder = GsonBuilder()
+    var gsonBuilder = GsonFireBuilder()
+    {{#models}}{{#model}}{{#discriminator}}
+        .registerTypeSelector<{{classname}}>({{classname}}::class.java, TypeSelector<{{classname}}?> { readElement ->
+            val classByDiscriminatorValue: MutableMap<String, Any?> = HashMap()
+            {{#mappedModels}}
+                classByDiscriminatorValue["{{mappingName}}".toUpperCase()] = {{modelName}}::class.java
+            {{/mappedModels}}
+
+            try {
+            return@TypeSelector getClassByDiscriminator(
+                classByDiscriminatorValue,
+                getDiscriminatorValue(readElement, "{{propertyName}}")) as Class<out {{classname}}?>?
+                } catch (ex: IllegalArgumentException) { return@TypeSelector {{classname}}::class.java}
+        })
+    {{/discriminator}}{{/model}}{{/models}}
+        .createGsonBuilder()
         .registerTypeAdapter(Date::class.java, DateAdapter())
         .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
         .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
         .registerTypeAdapter(LocalDate::class.java, LocalDateAdapter())
         .registerTypeAdapter(ByteArray::class.java, ByteArrayAdapter())
-    
+
     @JvmStatic
     val gson: Gson by lazy {
         gsonBuilder.create()
+    }
+
+    fun getDiscriminatorValue(readElement: JsonElement, discriminatorField: String?): String? {
+        val element: JsonElement = readElement.getAsJsonObject().get(discriminatorField)
+            ?: throw IllegalArgumentException("missing discriminator field: <$discriminatorField>")
+        return element.getAsString()
+    }
+
+    fun getClassByDiscriminator(
+        classByDiscriminatorValue: Map<*, *>,
+        discriminatorValue: String?
+    ): Class<*>? {
+        return classByDiscriminatorValue[discriminatorValue?.toUpperCase()] as Class<*>?
+            ?: throw IllegalArgumentException("cannot determine model class of name: <$discriminatorValue>")
     }
 {{/gson}}
 {{#jackson}}
