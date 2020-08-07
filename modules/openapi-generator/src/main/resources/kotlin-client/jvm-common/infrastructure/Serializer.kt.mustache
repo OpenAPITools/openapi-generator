@@ -64,8 +64,7 @@ import java.util.Date
 {{/moshi}}
 {{#gson}}
     @JvmStatic
-    var gsonBuilder = GsonFireBuilder()
-    {{#models}}{{#model}}{{#discriminator}}
+    var gsonBuilder = GsonFireBuilder(){{#models}}{{#model}}{{#discriminator}}
         .registerTypeSelector<{{classname}}>({{classname}}::class.java, TypeSelector<{{classname}}?> { readElement ->
             val classByDiscriminatorValue: MutableMap<String, Any?> = HashMap()
             {{#mappedModels}}
@@ -77,8 +76,7 @@ import java.util.Date
                 classByDiscriminatorValue,
                 getDiscriminatorValue(readElement, "{{propertyName}}")) as Class<out {{classname}}?>?
                 } catch (ex: IllegalArgumentException) { return@TypeSelector {{classname}}::class.java}
-        })
-    {{/discriminator}}{{/model}}{{/models}}
+        }){{/discriminator}}{{/model}}{{/models}}
         .createGsonBuilder()
         .registerTypeAdapter(Date::class.java, DateAdapter())
         .registerTypeAdapter(OffsetDateTime::class.java, OffsetDateTimeAdapter())
