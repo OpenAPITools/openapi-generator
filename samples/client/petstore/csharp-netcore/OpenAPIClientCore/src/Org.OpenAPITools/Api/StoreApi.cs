@@ -137,7 +137,7 @@ namespace Org.OpenAPITools.Api
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of the order that needs to be deleted</param>        
+        /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> DeleteOrderWithHttpInfoAsync (string orderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -148,6 +148,7 @@ namespace Org.OpenAPITools.Api
         /// Returns a map of status codes to quantities
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Dictionary&lt;string, int&gt;</returns>
         System.Threading.Tasks.Task<Dictionary<string, int>> GetInventoryAsync (System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
@@ -158,6 +159,7 @@ namespace Org.OpenAPITools.Api
         /// Returns a map of status codes to quantities
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Dictionary&lt;string, int&gt;)</returns>
         System.Threading.Tasks.Task<ApiResponse<Dictionary<string, int>>> GetInventoryWithHttpInfoAsync (System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
@@ -179,7 +181,7 @@ namespace Org.OpenAPITools.Api
         /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>        
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Order)</returns>
         System.Threading.Tasks.Task<ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync (long orderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -202,7 +204,7 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>        
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Order)</returns>
         System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderWithHttpInfoAsync (Order body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
@@ -383,7 +385,7 @@ namespace Org.OpenAPITools.Api
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of the order that needs to be deleted</param>        
+        /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task DeleteOrderAsync (string orderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -395,7 +397,7 @@ namespace Org.OpenAPITools.Api
         /// Delete purchase order by ID For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of the order that needs to be deleted</param>        
+        /// <param name="orderId">ID of the order that needs to be deleted</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> DeleteOrderWithHttpInfoAsync (string orderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -494,6 +496,7 @@ namespace Org.OpenAPITools.Api
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Dictionary&lt;string, int&gt;</returns>
         public async System.Threading.Tasks.Task<Dictionary<string, int>> GetInventoryAsync (System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
@@ -505,6 +508,7 @@ namespace Org.OpenAPITools.Api
         /// Returns pet inventories by status Returns a map of status codes to quantities
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Dictionary&lt;string, int&gt;)</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Dictionary<string, int>>> GetInventoryWithHttpInfoAsync (System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
@@ -602,7 +606,7 @@ namespace Org.OpenAPITools.Api
         /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>        
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Order</returns>
         public async System.Threading.Tasks.Task<Order> GetOrderByIdAsync (long orderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -615,7 +619,7 @@ namespace Org.OpenAPITools.Api
         /// Find purchase order by ID For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="orderId">ID of pet that needs to be fetched</param>        
+        /// <param name="orderId">ID of pet that needs to be fetched</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Order)</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> GetOrderByIdWithHttpInfoAsync (long orderId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -715,7 +719,7 @@ namespace Org.OpenAPITools.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>        
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Order</returns>
         public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
@@ -728,7 +732,7 @@ namespace Org.OpenAPITools.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>        
+        /// <param name="body">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Order)</returns>
         public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> PlaceOrderWithHttpInfoAsync (Order body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
