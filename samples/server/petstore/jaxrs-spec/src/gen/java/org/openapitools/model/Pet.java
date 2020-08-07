@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Pet  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Pet implements Serializable  {
   
   private @Valid Long id;
   private @Valid Category category;
@@ -225,4 +225,6 @@ public enum StatusEnum {
 
 
 }
+
+
 

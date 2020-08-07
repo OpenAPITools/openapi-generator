@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class AdditionalPropertiesAnyType extends HashMap<String, Object> implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class AdditionalPropertiesAnyType extends HashMap<String, Object> implements Serializable  {
   
   private @Valid String name;
 
@@ -81,4 +81,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 }
+
+
 
