@@ -1,8 +1,8 @@
 {{>licenseInfo}}
 
-import ApiClient from './ApiClient';
-{{#models}}import {{#model}}{{classFilename}}{{/model}} from './{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{importPath}}';
-{{/models}}{{#apiInfo}}{{#apis}}import {{importPath}} from './{{#apiPackage}}{{apiPackage}}/{{/apiPackage}}{{importPath}}';
+const ApiClient = require('./ApiClient');
+{{#models}}const {{#model}}{{classFilename}}{{/model}} = require('./{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{importPath}}');
+{{/models}}{{#apiInfo}}{{#apis}}const {{importPath}} = require('./{{#apiPackage}}{{apiPackage}}/{{/apiPackage}}{{importPath}}');
 {{/apis}}{{/apiInfo}}
 
 {{#emitJSDoc}}/**{{#projectDescription}}
@@ -36,23 +36,23 @@ import ApiClient from './ApiClient';
 * @module {{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}index
 * @version {{projectVersion}}
 */{{/emitJSDoc}}
-export {
+module.exports = {
     {{=< >=}}
     <#emitJSDoc>/**
      * The ApiClient constructor.
-     * @property {module:<#invokerPackage><invokerPackage>/</invokerPackage>ApiClient}
+     * @property {module:ApiClient}
      */</emitJSDoc>
     ApiClient<#models>,
 
     <#emitJSDoc>/**
      * The <importPath> model constructor.
-     * @property {module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><importPath>}
+     * @property {<importPath>}
      */</emitJSDoc>
     <importPath></models><#apiInfo><#apis>,
 
     <#emitJSDoc>/**
     * The <importPath> service constructor.
-    * @property {module:<#invokerPackage><invokerPackage>/</invokerPackage><#apiPackage><apiPackage>/</apiPackage><importPath>}
+    * @property {<importPath>}
     */</emitJSDoc>
     <importPath></apis></apiInfo>
 };<={{ }}=>
