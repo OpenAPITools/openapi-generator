@@ -72,6 +72,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     // (mustache does not allow for boolean operators so we need this extra field)
     protected boolean doNotUseRxAndCoroutines = true;
 
+    protected String baseFolder;
     protected String authFolder;
 
     public enum DateLibrary {
@@ -329,7 +330,8 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         // infrastructure destination folder
         final String infrastructureFolder = (sourceFolder + File.separator + packageName + File.separator + "infrastructure").replace(".", "/");
-        authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", "/");
+        authFolder = (sourceFolder + File.separator + packageName + File.separator + "auth").replace(".", File.separator);
+        baseFolder = (sourceFolder + File.separator + packageName).replace(".", File.separator);
 
         // additional properties
         if (additionalProperties.containsKey(DATE_LIBRARY)) {
@@ -498,6 +500,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         setLibrary(JVM_OKHTTP);
 
         // jvm specific supporting files
+        supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ApplicationDelegates.kt.mustache", infrastructureFolder, "ApplicationDelegates.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/Errors.kt.mustache", infrastructureFolder, "Errors.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ResponseExtensions.kt.mustache", infrastructureFolder, "ResponseExtensions.kt"));
@@ -535,11 +538,16 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         importMapping.put("Base64ByteArray", packageName + ".infrastructure.Base64ByteArray");
         importMapping.put("OctetByteArray", packageName + ".infrastructure.OctetByteArray");
 
+        // bundled client file
+        supportingFiles.add(new SupportingFile("ApiClient.kt.mustache", baseFolder, "ApiClient.kt"));
+
         // multiplatform specific supporting files
+        supportingFiles.add(new SupportingFile("infrastructure/ApiClientBase.kt.mustache", infrastructureFolder, "ApiClientBase.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/Base64ByteArray.kt.mustache", infrastructureFolder, "Base64ByteArray.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/Bytes.kt.mustache", infrastructureFolder, "Bytes.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/HttpResponse.kt.mustache", infrastructureFolder, "HttpResponse.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/OctetByteArray.kt.mustache", infrastructureFolder, "OctetByteArray.kt"));
+        supportingFiles.add(new SupportingFile("infrastructure/encoding.kt.mustache", infrastructureFolder, "encoding.kt"));
 
         // multiplatform specific auth
         supportingFiles.add(new SupportingFile("auth/ApiKeyAuth.kt.mustache", authFolder, "ApiKeyAuth.kt"));
@@ -564,7 +572,6 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
 
     private void commonJvmMultiplatformSupportingFiles(String infrastructureFolder) {
-        supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/ApiAbstractions.kt.mustache", infrastructureFolder, "ApiAbstractions.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/RequestConfig.kt.mustache", infrastructureFolder, "RequestConfig.kt"));
         supportingFiles.add(new SupportingFile("infrastructure/RequestMethod.kt.mustache", infrastructureFolder, "RequestMethod.kt"));

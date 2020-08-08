@@ -1,0 +1,17 @@
+package {{packageName}}
+
+import io.ktor.client.engine.HttpClientEngine
+import kotlinx.serialization.json.JsonConfiguration
+import {{packageName}}.apis.*
+
+class ApiClient(
+    baseUrl: String = "{{{basePath}}}",
+    httpClientEngine: HttpClientEngine? = null,
+    jsonConfiguration: JsonConfiguration = JsonConfiguration.Stable
+) {
+    {{#apiInfo}}
+    {{#apis}}
+    val {{{classVarName}}} = {{{classFilename}}}(baseUrl, httpClientEngine, jsonConfiguration)
+    {{/apis}}
+    {{/apiInfo}}
+}

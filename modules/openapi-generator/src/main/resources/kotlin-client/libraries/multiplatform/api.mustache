@@ -21,8 +21,7 @@ import kotlinx.serialization.builtins.serializer
     baseUrl: kotlin.String = "{{{basePath}}}",
     httpClientEngine: HttpClientEngine? = null,
     serializer: KotlinxSerializer
-) : ApiClient(baseUrl, httpClientEngine, serializer) {
-
+) : ApiClientBase(baseUrl, httpClientEngine, serializer) {
     constructor(
         baseUrl: String = "{{{basePath}}}",
         httpClientEngine: HttpClientEngine? = null,
@@ -45,22 +44,22 @@ import kotlinx.serialization.builtins.serializer
         {{/allParams}}
     ): HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
         {{! TODO: Optimize all the ?.let to only the places where it's needed }}
-        val localVariableAuthNames = listOf<String>({{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}})
+        val authNames_ = listOf<String>({{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}})
 
-        val localVariableBody = {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}{{{paramName}}}?.let { {{operationIdCamelCase}}Request(it{{^isList}}.asList(){{/isList}}) }{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{{paramName}}}?.let { {{operationIdCamelCase}}Request(it) }{{/isMapContainer}}{{^isMapContainer}}{{{paramName}}}{{/isMapContainer}}{{/isListContainer}}{{/bodyParam}}{{/hasBodyParam}}
+        val body_ = {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}{{^required}}{{{paramName}}}?.let { {{/required}}{{operationIdCamelCase}}Request({{{paramName}}}{{^isList}}.asList(){{/isList}}){{^required}} }{{/required}}{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{^required}}{{{paramName}}}?.let { {{/required}}{{operationIdCamelCase}}Request({{{paramName}}}){{^required}} }{{/required}}{{/isMapContainer}}{{^isMapContainer}}{{{paramName}}}{{/isMapContainer}}{{/isListContainer}}{{/bodyParam}}{{/hasBodyParam}}
             {{^hasBodyParam}}
             {{#hasFormParams}}
             {{#isMultipart}}
             formData {
                 {{#formParams}}
-                {{{paramName}}}?.let { append(FormPart("{{{baseName}}}", it)) }
+                {{^required}}{{{paramName}}}?.let { {{/required}}append(FormPart("{{{baseName}}}", {{{paramName}}})){{^required}} }{{/required}}
                 {{/formParams}}
             }
             {{/isMultipart}}
             {{^isMultipart}}
             ParametersBuilder().also {
                 {{#formParams}}
-                {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                {{^required}}{{{paramName}}}?.apply { {{/required}}it.append("{{{baseName}}}", {{{paramName}}}.toString()){{^required}} }{{/required}}
                 {{/formParams}}
             }.build()
             {{/isMultipart}}
@@ -71,29 +70,38 @@ import kotlinx.serialization.builtins.serializer
             {{/hasBodyParam}}
 
         {{! TODO: Don't use all the listOf() }}
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
-            {{#queryParams}}
-            "{{baseName}}" to {{#isContainer}}{{{paramName}}}?.let { toMultiValue(it, "{{collectionFormat}}") }{{/isContainer}}{{^isContainer}}listOf("${{{paramName}}}"){{/isContainer}}{{#hasMore}},{{/hasMore}}
-            {{/queryParams}}
-        )
+        val queries_ = Queries()
+        {{#queryParams}}
+        {{#isContainer}}
+        {{#isMapContainer}}
+        {{^required}}if ({{{paramName}}} != null) {{/required}}queries_.addMap({{{paramName}}})
+        {{/isMapContainer}}
+        {{^isMapContainer}}
+        {{^required}}if ({{{paramName}}} != null) {{/required}}queries_.addMulti("{{baseName}}", {{{paramName}}}, "{{collectionFormat}}")
+        {{/isMapContainer}}
+        {{/isContainer}}
+        {{^isContainer}}
+        queries_.add("{{baseName}}", {{{paramName}}})
+        {{/isContainer}}
+        {{/queryParams}}
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
+        val headers_ = mutableMapOf<String, String?>(
             {{#headerParams}}
             "{{baseName}}" to {{#isContainer}}{{{paramName}}}?.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this?.toString(){{/isContainer}}{{#hasMore}},{{/hasMore}}
             {{/headerParams}}
         )
 
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.{{httpMethod}},
             "{{path}}"{{#pathParams}}.replace("{{curly true}}{{baseName}}{{curly}}", "${{{paramName}}}"){{/pathParams}},
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return {{#hasBodyParam}}jsonRequest{{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}{{#isMultipart}}multipartFormRequest{{/isMultipart}}{{^isMultipart}}urlEncodedFormRequest{{/isMultipart}}{{/hasFormParams}}{{^hasFormParams}}request{{/hasFormParams}}{{/hasBodyParam}}(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).{{#isListContainer}}wrap<{{operationIdCamelCase}}Response>().map { value{{^isList}}.toTypedArray(){{/isList}} }{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}wrap<{{operationIdCamelCase}}Response>().map { value }{{/isMapContainer}}{{^isMapContainer}}wrap(){{/isMapContainer}}{{/isListContainer}}
     }
 {{#hasBodyParam}}
