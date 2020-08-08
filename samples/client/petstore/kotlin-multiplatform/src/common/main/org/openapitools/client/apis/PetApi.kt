@@ -30,8 +30,7 @@ class PetApi constructor(
     baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
     httpClientEngine: HttpClientEngine? = null,
     serializer: KotlinxSerializer
-) : ApiClient(baseUrl, httpClientEngine, serializer) {
-
+) : ApiClientBase(baseUrl, httpClientEngine, serializer) {
     constructor(
         baseUrl: String = "http://petstore.swagger.io/v2",
         httpClientEngine: HttpClientEngine? = null,
@@ -47,27 +46,26 @@ class PetApi constructor(
     suspend fun addPet(
         body: Pet
     ): HttpResponse<Unit> {
-        val localVariableAuthNames = listOf<String>("petstore_auth")
+        val authNames_ = listOf<String>("petstore_auth")
 
-        val localVariableBody = body
+        val body_ = body
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.POST,
             "/pet",
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return jsonRequest(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
 
@@ -83,29 +81,28 @@ class PetApi constructor(
         petId: kotlin.Long,
         apiKey: kotlin.String? = null
     ): HttpResponse<Unit> {
-        val localVariableAuthNames = listOf<String>("petstore_auth")
+        val authNames_ = listOf<String>("petstore_auth")
 
-        val localVariableBody = 
+        val body_ = 
             io.ktor.client.utils.EmptyContent
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
-        )
+        val queries_ = Queries()
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
+        val headers_ = mutableMapOf<String, String?>(
             "api_key" to this?.toString()
         )
 
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.DELETE,
             "/pet/{petId}".replace("petId", "$petId"),
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return request(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
     /**
@@ -118,29 +115,28 @@ class PetApi constructor(
     suspend fun findPetsByStatus(
         status: kotlin.collections.List<kotlin.String>
     ): HttpResponse<kotlin.collections.List<Pet>> {
-        val localVariableAuthNames = listOf<String>("petstore_auth")
+        val authNames_ = listOf<String>("petstore_auth")
 
-        val localVariableBody = 
+        val body_ = 
             io.ktor.client.utils.EmptyContent
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
-            "status" to status?.let { toMultiValue(it, "csv") }
+        val queries_ = Queries()
+        queries_.addMulti("status", status, "csv")
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.GET,
             "/pet/findByStatus",
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return request(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap<FindPetsByStatusResponse>().map { value }
     }
     @Serializable
@@ -166,29 +162,28 @@ class PetApi constructor(
     suspend fun findPetsByTags(
         tags: kotlin.collections.List<kotlin.String>
     ): HttpResponse<kotlin.collections.List<Pet>> {
-        val localVariableAuthNames = listOf<String>("petstore_auth")
+        val authNames_ = listOf<String>("petstore_auth")
 
-        val localVariableBody = 
+        val body_ = 
             io.ktor.client.utils.EmptyContent
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
-            "tags" to tags?.let { toMultiValue(it, "csv") }
+        val queries_ = Queries()
+        queries_.addMulti("tags", tags, "csv")
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.GET,
             "/pet/findByTags",
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return request(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap<FindPetsByTagsResponse>().map { value }
     }
     @Serializable
@@ -214,28 +209,27 @@ class PetApi constructor(
     suspend fun getPetById(
         petId: kotlin.Long
     ): HttpResponse<Pet> {
-        val localVariableAuthNames = listOf<String>("api_key")
+        val authNames_ = listOf<String>("api_key")
 
-        val localVariableBody = 
+        val body_ = 
             io.ktor.client.utils.EmptyContent
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.GET,
             "/pet/{petId}".replace("petId", "$petId"),
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return request(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
     /**
@@ -247,27 +241,26 @@ class PetApi constructor(
     suspend fun updatePet(
         body: Pet
     ): HttpResponse<Unit> {
-        val localVariableAuthNames = listOf<String>("petstore_auth")
+        val authNames_ = listOf<String>("petstore_auth")
 
-        val localVariableBody = body
+        val body_ = body
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.PUT,
             "/pet",
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return jsonRequest(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
 
@@ -285,31 +278,30 @@ class PetApi constructor(
         name: kotlin.String? = null,
         status: kotlin.String? = null
     ): HttpResponse<Unit> {
-        val localVariableAuthNames = listOf<String>("petstore_auth")
+        val authNames_ = listOf<String>("petstore_auth")
 
-        val localVariableBody = 
+        val body_ = 
             ParametersBuilder().also {
                 name?.apply { it.append("name", name.toString()) }
                 status?.apply { it.append("status", status.toString()) }
             }.build()
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.POST,
             "/pet/{petId}".replace("petId", "$petId"),
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return urlEncodedFormRequest(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
     /**
@@ -326,31 +318,30 @@ class PetApi constructor(
         additionalMetadata: kotlin.String? = null,
         file: io.ktor.client.request.forms.InputProvider? = null
     ): HttpResponse<ApiResponse> {
-        val localVariableAuthNames = listOf<String>("petstore_auth")
+        val authNames_ = listOf<String>("petstore_auth")
 
-        val localVariableBody = 
+        val body_ = 
             formData {
-                additionalMetadata?.let { append(FormPart("additionalMetadata", it)) }
-                file?.let { append(FormPart("file", it)) }
+                additionalMetadata?.let { append(FormPart("additionalMetadata", additionalMetadata)) }
+                file?.let { append(FormPart("file", file)) }
             }
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.POST,
             "/pet/{petId}/uploadImage".replace("petId", "$petId"),
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return multipartFormRequest(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
 }

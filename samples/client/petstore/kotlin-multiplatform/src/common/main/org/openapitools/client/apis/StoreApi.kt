@@ -29,8 +29,7 @@ class StoreApi constructor(
     baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
     httpClientEngine: HttpClientEngine? = null,
     serializer: KotlinxSerializer
-) : ApiClient(baseUrl, httpClientEngine, serializer) {
-
+) : ApiClientBase(baseUrl, httpClientEngine, serializer) {
     constructor(
         baseUrl: String = "http://petstore.swagger.io/v2",
         httpClientEngine: HttpClientEngine? = null,
@@ -46,28 +45,27 @@ class StoreApi constructor(
     suspend fun deleteOrder(
         orderId: kotlin.String
     ): HttpResponse<Unit> {
-        val localVariableAuthNames = listOf<String>()
+        val authNames_ = listOf<String>()
 
-        val localVariableBody = 
+        val body_ = 
             io.ktor.client.utils.EmptyContent
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.DELETE,
             "/store/order/{orderId}".replace("orderId", "$orderId"),
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return request(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
     /**
@@ -78,28 +76,27 @@ class StoreApi constructor(
     @Suppress("UNCHECKED_CAST")
     suspend fun getInventory(
     ): HttpResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
-        val localVariableAuthNames = listOf<String>("api_key")
+        val authNames_ = listOf<String>("api_key")
 
-        val localVariableBody = 
+        val body_ = 
             io.ktor.client.utils.EmptyContent
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.GET,
             "/store/inventory",
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return request(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap<GetInventoryResponse>().map { value }
     }
     @Serializable
@@ -122,28 +119,27 @@ class StoreApi constructor(
     suspend fun getOrderById(
         orderId: kotlin.Long
     ): HttpResponse<Order> {
-        val localVariableAuthNames = listOf<String>()
+        val authNames_ = listOf<String>()
 
-        val localVariableBody = 
+        val body_ = 
             io.ktor.client.utils.EmptyContent
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.GET,
             "/store/order/{orderId}".replace("orderId", "$orderId"),
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return request(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
     /**
@@ -156,27 +152,26 @@ class StoreApi constructor(
     suspend fun placeOrder(
         body: Order
     ): HttpResponse<Order> {
-        val localVariableAuthNames = listOf<String>()
+        val authNames_ = listOf<String>()
 
-        val localVariableBody = body
+        val body_ = body
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.POST,
             "/store/order",
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return jsonRequest(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
 

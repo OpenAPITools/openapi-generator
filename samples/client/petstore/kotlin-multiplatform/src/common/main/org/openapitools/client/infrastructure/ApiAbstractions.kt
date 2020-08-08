@@ -1,7 +1,5 @@
 package org.openapitools.client.infrastructure
 
-typealias MultiValueMap = MutableMap<String,List<String>>
-
 fun collectionDelimiter(collectionFormat: String) = when(collectionFormat) {
     "csv" -> ","
     "tsv" -> "\t"
@@ -10,14 +8,40 @@ fun collectionDelimiter(collectionFormat: String) = when(collectionFormat) {
     else -> ""
 }
 
-val defaultMultiValueConverter: (item: Any?) -> String = { item -> "$item" }
+sealed class QueryParam {
+    data class Single(val value: String) : QueryParam()
+    data class Multi(val values: Iterable<String>) : QueryParam()
+}
 
-fun <T : Any?> toMultiValue(items: Array<T>, collectionFormat: String, map: (item: T) -> String = defaultMultiValueConverter)
-        = toMultiValue(items.asIterable(), collectionFormat, map)
+class Queries(val queries: MutableMap<String, QueryParam> = mutableMapOf()) {
+    // Single
+    fun add(name: String, value: String?) {
+        if (value != null) {
+            queries[name] = QueryParam.Single(value)
+        }
+    }
 
-fun <T : Any?> toMultiValue(items: Iterable<T>, collectionFormat: String, map: (item: T) -> String = defaultMultiValueConverter): List<String> {
-    return when(collectionFormat) {
-        "multi" -> items.map(map)
-        else -> listOf(items.joinToString(separator = collectionDelimiter(collectionFormat), transform = map))
+    fun add(name: String, value: Any?) {
+        if (value != null) {
+            queries[name] = QueryParam.Single(value.toString())
+        }
+    }
+
+    // For Iterables
+    fun addMulti(name: String, values: Iterable<Any?>, collectionFormat: String) {
+        val transformed = values.filterNotNull().map { it.toString() }
+        queries[name] = when (collectionFormat) {
+            "multi" -> QueryParam.Multi(transformed)
+            else -> QueryParam.Single(transformed.joinToString(separator = collectionDelimiter(collectionFormat)))
+        }
+    }
+
+    // For Arrays
+    fun addMulti(name: String, values: Array<Any?>, collectionFormat: String) =
+        addMulti(name, values.asIterable(), collectionFormat)
+
+    // For Maps
+    fun addMap(values: Map<String, Any?>) {
+        queries.putAll(values.filterValues { it != null }.mapValues { QueryParam.Single(it.value.toString()) })
     }
 }

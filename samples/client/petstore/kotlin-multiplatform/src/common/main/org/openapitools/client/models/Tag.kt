@@ -23,9 +23,9 @@ import kotlin.collections.*
  */
 @Serializable
 data class Tag(
-    @SerialName(value = "id") 
+    @SerialName(value = "id")
     val id: kotlin.Long? = null,
-    @SerialName(value = "name") 
+    @SerialName(value = "name")
     val name: kotlin.String? = null
 )
 

@@ -27,20 +27,20 @@ import kotlin.collections.*
  */
 @Serializable
 data class Order(
-    @SerialName(value = "id") 
+    @SerialName(value = "id")
     val id: kotlin.Long? = null,
-    @SerialName(value = "petId") 
+    @SerialName(value = "petId")
     val petId: kotlin.Long? = null,
-    @SerialName(value = "quantity") 
+    @SerialName(value = "quantity")
     val quantity: kotlin.Int? = null,
-    @SerialName(value = "shipDate") 
+    @SerialName(value = "shipDate")
     val shipDate: kotlin.String? = null,
     /**
      * Order Status
      */
-    @SerialName(value = "status") 
+    @SerialName(value = "status")
     val status: Order.Status? = null,
-    @SerialName(value = "complete") 
+    @SerialName(value = "complete")
     val complete: kotlin.Boolean? = null
 ) {
 

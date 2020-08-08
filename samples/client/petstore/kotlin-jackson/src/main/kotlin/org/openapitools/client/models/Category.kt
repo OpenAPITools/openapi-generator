@@ -24,10 +24,8 @@ import kotlin.collections.*
 
 data class Category(
     @field:JsonProperty("id")
-    
     val id: kotlin.Long? = null,
     @field:JsonProperty("name")
-    
     val name: kotlin.String? = null
 )
 

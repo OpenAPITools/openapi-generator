@@ -29,8 +29,7 @@ class UserApi constructor(
     baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
     httpClientEngine: HttpClientEngine? = null,
     serializer: KotlinxSerializer
-) : ApiClient(baseUrl, httpClientEngine, serializer) {
-
+) : ApiClientBase(baseUrl, httpClientEngine, serializer) {
     constructor(
         baseUrl: String = "http://petstore.swagger.io/v2",
         httpClientEngine: HttpClientEngine? = null,
@@ -46,27 +45,26 @@ class UserApi constructor(
     suspend fun createUser(
         body: User
     ): HttpResponse<Unit> {
-        val localVariableAuthNames = listOf<String>()
+        val authNames_ = listOf<String>()
 
-        val localVariableBody = body
+        val body_ = body
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.POST,
             "/user",
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return jsonRequest(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
 
@@ -80,27 +78,26 @@ class UserApi constructor(
     suspend fun createUsersWithArrayInput(
         body: kotlin.collections.List<User>
     ): HttpResponse<Unit> {
-        val localVariableAuthNames = listOf<String>()
+        val authNames_ = listOf<String>()
 
-        val localVariableBody = body?.let { CreateUsersWithArrayInputRequest(it) }
+        val body_ = CreateUsersWithArrayInputRequest(body)
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.POST,
             "/user/createWithArray",
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return jsonRequest(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
 
@@ -126,27 +123,26 @@ class UserApi constructor(
     suspend fun createUsersWithListInput(
         body: kotlin.collections.List<User>
     ): HttpResponse<Unit> {
-        val localVariableAuthNames = listOf<String>()
+        val authNames_ = listOf<String>()
 
-        val localVariableBody = body?.let { CreateUsersWithListInputRequest(it) }
+        val body_ = CreateUsersWithListInputRequest(body)
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.POST,
             "/user/createWithList",
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return jsonRequest(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
 
@@ -172,28 +168,27 @@ class UserApi constructor(
     suspend fun deleteUser(
         username: kotlin.String
     ): HttpResponse<Unit> {
-        val localVariableAuthNames = listOf<String>()
+        val authNames_ = listOf<String>()
 
-        val localVariableBody = 
+        val body_ = 
             io.ktor.client.utils.EmptyContent
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.DELETE,
             "/user/{username}".replace("username", "$username"),
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return request(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
     /**
@@ -206,28 +201,27 @@ class UserApi constructor(
     suspend fun getUserByName(
         username: kotlin.String
     ): HttpResponse<User> {
-        val localVariableAuthNames = listOf<String>()
+        val authNames_ = listOf<String>()
 
-        val localVariableBody = 
+        val body_ = 
             io.ktor.client.utils.EmptyContent
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.GET,
             "/user/{username}".replace("username", "$username"),
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return request(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
     /**
@@ -242,30 +236,29 @@ class UserApi constructor(
         username: kotlin.String,
         password: kotlin.String
     ): HttpResponse<kotlin.String> {
-        val localVariableAuthNames = listOf<String>()
+        val authNames_ = listOf<String>()
 
-        val localVariableBody = 
+        val body_ = 
             io.ktor.client.utils.EmptyContent
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
-            "username" to listOf("$username"),
-            "password" to listOf("$password")
+        val queries_ = Queries()
+        queries_.add("username", username)
+        queries_.add("password", password)
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.GET,
             "/user/login",
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return request(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
     /**
@@ -275,28 +268,27 @@ class UserApi constructor(
      */
     suspend fun logoutUser(
     ): HttpResponse<Unit> {
-        val localVariableAuthNames = listOf<String>()
+        val authNames_ = listOf<String>()
 
-        val localVariableBody = 
+        val body_ = 
             io.ktor.client.utils.EmptyContent
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.GET,
             "/user/logout",
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return request(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
     /**
@@ -310,27 +302,26 @@ class UserApi constructor(
         username: kotlin.String,
         body: User
     ): HttpResponse<Unit> {
-        val localVariableAuthNames = listOf<String>()
+        val authNames_ = listOf<String>()
 
-        val localVariableBody = body
+        val body_ = body
 
-        val localVariableQuery = mutableMapOf<String, List<String>?>(
+        val queries_ = Queries()
+
+        val headers_ = mutableMapOf<String, String?>(
         )
 
-        val localVariableHeaders = mutableMapOf<String, String?>(
-        )
-
-        val localVariableConfig = RequestConfig(
+        val config_ = RequestConfig(
             RequestMethod.PUT,
             "/user/{username}".replace("username", "$username"),
-            query = localVariableQuery,
-            headers = localVariableHeaders
+            queries = queries_,
+            headers = headers_
         )
 
         return jsonRequest(
-            localVariableConfig,
-            localVariableBody,
-            localVariableAuthNames
+            config_,
+            body_,
+            authNames_
         ).wrap()
     }
 

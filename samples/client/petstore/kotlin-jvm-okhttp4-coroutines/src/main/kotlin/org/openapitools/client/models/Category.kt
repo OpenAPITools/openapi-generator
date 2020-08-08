@@ -25,10 +25,8 @@ import kotlin.collections.*
 
 data class Category(
     @SerializedName("id")
-    
     val id: kotlin.Long? = null,
     @SerializedName("name")
-    
     val name: kotlin.String? = null
 ) : Serializable {
     companion object {

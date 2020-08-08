@@ -25,10 +25,8 @@ import kotlin.collections.*
 
 data class Tag(
     @SerializedName("id")
-    
     val id: kotlin.Long? = null,
     @SerializedName("name")
-    
     val name: kotlin.String? = null
 ) : Serializable {
     companion object {

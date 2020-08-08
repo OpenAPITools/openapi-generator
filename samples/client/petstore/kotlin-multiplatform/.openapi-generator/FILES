@@ -15,6 +15,7 @@ gradle/wrapper/gradle-wrapper.properties
 gradlew
 gradlew.bat
 settings.gradle.kts
+src/common/main/org/openapitools/client/ApiClient.kt
 src/common/main/org/openapitools/client/apis/PetApi.kt
 src/common/main/org/openapitools/client/apis/StoreApi.kt
 src/common/main/org/openapitools/client/apis/UserApi.kt
@@ -24,13 +25,14 @@ src/common/main/org/openapitools/client/auth/HttpBasicAuth.kt
 src/common/main/org/openapitools/client/auth/HttpBearerAuth.kt
 src/common/main/org/openapitools/client/auth/OAuth.kt
 src/common/main/org/openapitools/client/infrastructure/ApiAbstractions.kt
-src/common/main/org/openapitools/client/infrastructure/ApiClient.kt
+src/common/main/org/openapitools/client/infrastructure/ApiClientBase.kt
 src/common/main/org/openapitools/client/infrastructure/Base64ByteArray.kt
 src/common/main/org/openapitools/client/infrastructure/Bytes.kt
 src/common/main/org/openapitools/client/infrastructure/HttpResponse.kt
 src/common/main/org/openapitools/client/infrastructure/OctetByteArray.kt
 src/common/main/org/openapitools/client/infrastructure/RequestConfig.kt
 src/common/main/org/openapitools/client/infrastructure/RequestMethod.kt
+src/common/main/org/openapitools/client/infrastructure/encoding.kt
 src/common/main/org/openapitools/client/models/ApiResponse.kt
 src/common/main/org/openapitools/client/models/Category.kt
 src/common/main/org/openapitools/client/models/Order.kt

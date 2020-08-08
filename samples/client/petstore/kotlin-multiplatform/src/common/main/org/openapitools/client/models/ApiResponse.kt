@@ -24,11 +24,11 @@ import kotlin.collections.*
  */
 @Serializable
 data class ApiResponse(
-    @SerialName(value = "code") 
+    @SerialName(value = "code")
     val code: kotlin.Int? = null,
-    @SerialName(value = "type") 
+    @SerialName(value = "type")
     val type: kotlin.String? = null,
-    @SerialName(value = "message") 
+    @SerialName(value = "message")
     val message: kotlin.String? = null
 )
 

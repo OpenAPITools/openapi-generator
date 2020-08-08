@@ -20,12 +20,11 @@ import kotlinx.serialization.json.JsonConfiguration
 
 import org.openapitools.client.auth.*
 
-open class ApiClient(
+open class ApiClientBase(
         private val baseUrl: String,
         httpClientEngine: HttpClientEngine?,
         private val serializer: KotlinxSerializer
 ) {
-
     constructor(
             baseUrl: String,
             httpClientEngine: HttpClientEngine?,
@@ -33,7 +32,7 @@ open class ApiClient(
     ) : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
 
     private val client: HttpClient by lazy {
-        val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = this@ApiClient.serializer }
+        val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = this@ApiClientBase.serializer }
         val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
         httpClientEngine?.let { HttpClient(it, clientConfig) } ?: HttpClient(clientConfig)
     }
@@ -138,9 +137,12 @@ open class ApiClient(
             this.url {
                 this.takeFrom(URLBuilder(baseUrl))
                 appendPath(requestConfig.path.trimStart('/').split('/'))
-                requestConfig.query.forEach { query ->
-                    query.value?.forEach { value ->
-                        parameter(query.key, value)
+                for ((name, value) in requestConfig.queries.queries) {
+                    when (value) {
+                        is QueryParam.Single -> parameter(name, value.value)
+                        is QueryParam.Multi -> value.values.forEach {
+                            parameter(name, it)
+                        }
                     }
                 }
             }
@@ -155,7 +157,7 @@ open class ApiClient(
     private fun RequestConfig.updateForAuth(authNames: List<String>) {
         for (authName in authNames) {
             val auth = authentications[authName] ?: throw Exception("Authentication undefined: $authName")
-            auth.apply(query, headers)
+            auth.apply(queries, headers)
         }
     }
 

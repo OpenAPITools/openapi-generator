@@ -1,17 +1,16 @@
 package org.openapitools.client.auth
 
-import io.ktor.util.InternalAPI
-import io.ktor.util.encodeBase64
+import org.openapitools.client.infrastructure.Queries
+import org.openapitools.client.infrastructure.toBase64
 
 class HttpBasicAuth : Authentication {
     var username: String? = null
     var password: String? = null
 
-    @InternalAPI
-    override fun apply(query: MutableMap<String, List<String>?>, headers: MutableMap<String, String?>) {
+    override fun apply(queries: Queries, headers: MutableMap<String, String?>) {
         if (username == null && password == null) return
         val str = (username ?: "") + ":" + (password ?: "")
-        val auth = str.encodeBase64()
+        val auth = str.toBase64()
         headers["Authorization"] = "Basic $auth"
     }
 }

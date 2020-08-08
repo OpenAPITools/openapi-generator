@@ -25,13 +25,10 @@ import kotlin.collections.*
 
 data class ApiResponse(
     @SerializedName("code")
-    
     val code: kotlin.Int? = null,
     @SerializedName("type")
-    
     val type: kotlin.String? = null,
     @SerializedName("message")
-    
     val message: kotlin.String? = null
 )
 

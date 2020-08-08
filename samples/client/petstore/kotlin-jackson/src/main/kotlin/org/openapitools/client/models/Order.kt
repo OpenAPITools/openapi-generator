@@ -28,25 +28,19 @@ import kotlin.collections.*
 
 data class Order(
     @field:JsonProperty("id")
-    
     val id: kotlin.Long? = null,
     @field:JsonProperty("petId")
-    
     val petId: kotlin.Long? = null,
     @field:JsonProperty("quantity")
-    
     val quantity: kotlin.Int? = null,
     @field:JsonProperty("shipDate")
-    
     val shipDate: java.time.OffsetDateTime? = null,
     /**
      * Order Status
      */
     @field:JsonProperty("status")
-    
     val status: Order.Status? = null,
     @field:JsonProperty("complete")
-    
     val complete: kotlin.Boolean? = null
 ) {
 

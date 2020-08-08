@@ -26,13 +26,10 @@ import kotlin.collections.*
 
 data class ApiResponse(
     @Json(name = "code")
-    
     val code: kotlin.Int? = null,
     @Json(name = "type")
-    
     val type: kotlin.String? = null,
     @Json(name = "message")
-    
     val message: kotlin.String? = null
 ) : Serializable {
     companion object {

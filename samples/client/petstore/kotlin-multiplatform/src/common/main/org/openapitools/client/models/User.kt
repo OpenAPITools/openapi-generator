@@ -29,24 +29,24 @@ import kotlin.collections.*
  */
 @Serializable
 data class User(
-    @SerialName(value = "id") 
+    @SerialName(value = "id")
     val id: kotlin.Long? = null,
-    @SerialName(value = "username") 
+    @SerialName(value = "username")
     val username: kotlin.String? = null,
-    @SerialName(value = "firstName") 
+    @SerialName(value = "firstName")
     val firstName: kotlin.String? = null,
-    @SerialName(value = "lastName") 
+    @SerialName(value = "lastName")
     val lastName: kotlin.String? = null,
-    @SerialName(value = "email") 
+    @SerialName(value = "email")
     val email: kotlin.String? = null,
-    @SerialName(value = "password") 
+    @SerialName(value = "password")
     val password: kotlin.String? = null,
-    @SerialName(value = "phone") 
+    @SerialName(value = "phone")
     val phone: kotlin.String? = null,
     /**
      * User Status
      */
-    @SerialName(value = "userStatus") 
+    @SerialName(value = "userStatus")
     val userStatus: kotlin.Int? = null
 )
 
