@@ -91,7 +91,8 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	
 	result, err := c.service.CreateUser(*user)
 	if err != nil {
-		w.WriteHeader(500)
+		statusCode := 500
+		EncodeJSONResponse(result, &statusCode, w)
 		return
 	}
 	
@@ -108,7 +109,8 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 	
 	result, err := c.service.CreateUsersWithArrayInput(*user)
 	if err != nil {
-		w.WriteHeader(500)
+		statusCode := 500
+		EncodeJSONResponse(result, &statusCode, w)
 		return
 	}
 	
@@ -125,7 +127,8 @@ func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 	
 	result, err := c.service.CreateUsersWithListInput(*user)
 	if err != nil {
-		w.WriteHeader(500)
+		statusCode := 500
+		EncodeJSONResponse(result, &statusCode, w)
 		return
 	}
 	
@@ -138,7 +141,8 @@ func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	username := params["username"]
 	result, err := c.service.DeleteUser(username)
 	if err != nil {
-		w.WriteHeader(500)
+		statusCode := 500
+		EncodeJSONResponse(result, &statusCode, w)
 		return
 	}
 	
@@ -151,7 +155,8 @@ func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request
 	username := params["username"]
 	result, err := c.service.GetUserByName(username)
 	if err != nil {
-		w.WriteHeader(500)
+		statusCode := 500
+		EncodeJSONResponse(result, &statusCode, w)
 		return
 	}
 	
@@ -165,7 +170,8 @@ func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	password := query.Get("password")
 	result, err := c.service.LoginUser(username, password)
 	if err != nil {
-		w.WriteHeader(500)
+		statusCode := 500
+		EncodeJSONResponse(result, &statusCode, w)
 		return
 	}
 	
@@ -176,7 +182,8 @@ func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) { 
 	result, err := c.service.LogoutUser()
 	if err != nil {
-		w.WriteHeader(500)
+		statusCode := 500
+		EncodeJSONResponse(result, &statusCode, w)
 		return
 	}
 	
@@ -195,7 +202,8 @@ func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	
 	result, err := c.service.UpdateUser(username, *user)
 	if err != nil {
-		w.WriteHeader(500)
+		statusCode := 500
+		EncodeJSONResponse(result, &statusCode, w)
 		return
 	}
 	
