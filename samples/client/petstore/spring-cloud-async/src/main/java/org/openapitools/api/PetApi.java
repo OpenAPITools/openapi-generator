@@ -51,10 +51,10 @@ public interface PetApi {
      tags={ "pet", },
       security = @SecurityRequirement(name = "petstore_auth", scopes = {
        "write:pets" ,
-        "read:pets"  
+        "read:pets"
         }),
     responses  = { 
-            @ApiResponse(responseCode = "405", description = "Invalid input"  )  })
+        @ApiResponse(responseCode = "405", description = "Invalid input") })
     @RequestMapping(value = "/pet",
         consumes = "application/json",
         method = RequestMethod.POST)
@@ -72,10 +72,10 @@ public interface PetApi {
      tags={ "pet", },
       security = @SecurityRequirement(name = "petstore_auth", scopes = {
        "write:pets" ,
-        "read:pets"  
+        "read:pets"
         }),
     responses  = { 
-            @ApiResponse(responseCode = "400", description = "Invalid pet value"  )  })
+        @ApiResponse(responseCode = "400", description = "Invalid pet value"  )  })
     @RequestMapping(value = "/pet/{petId}",
         method = RequestMethod.DELETE)
     CompletableFuture<ResponseEntity<Void>> deletePet(@Parameter(in = ParameterIn.PATH,description = "Pet id to delete", required=true) @PathVariable("petId") Long petId,@Parameter(in = ParameterIn.HEADER, description = ""  ) @RequestHeader(value="api_key", required=false) String apiKey);
@@ -93,11 +93,11 @@ public interface PetApi {
      tags={ "pet", },
       security = @SecurityRequirement(name = "petstore_auth", scopes = {
        "write:pets" ,
-        "read:pets"  
+        "read:pets"
         }),
     responses  = { 
-            @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Pet.class) )}  ) , 
-            @ApiResponse(responseCode = "400", description = "Invalid status value"  )  })
+        @ApiResponse(responseCode = "200", description = "successful operation", content = { @Content( schema = @Schema(implementation = Pet.class) )}  ) ,
+        @ApiResponse(responseCode = "400", description = "Invalid status value")  })
     @RequestMapping(value = "/pet/findByStatus",
         produces = "application/json", 
         method = RequestMethod.GET)
@@ -120,8 +120,8 @@ public interface PetApi {
         "read:pets"  
         }),
     responses  = { 
-            @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Pet.class) )}  ) , 
-            @ApiResponse(responseCode = "400", description = "Invalid tag value"  )  })
+        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content( schema = @Schema(implementation = Pet.class) )}  ) ,
+        @ApiResponse(responseCode = "400", description = "Invalid tag value"  )  })
     @RequestMapping(value = "/pet/findByTags",
         produces = "application/json", 
         method = RequestMethod.GET)
@@ -141,9 +141,9 @@ public interface PetApi {
      tags={ "pet", },
       security = @SecurityRequirement(name = "api_key"),
     responses  = { 
-            @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = Pet.class))  )}  ) , 
-            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"  ) , 
-            @ApiResponse(responseCode = "404", description = "Pet not found"  )  })
+        @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = Pet.class))  )}  ) ,
+        @ApiResponse(responseCode = "400", description = "Invalid ID supplied"  ) ,
+        @ApiResponse(responseCode = "404", description = "Pet not found"  )  })
     @RequestMapping(value = "/pet/{petId}",
         produces = "application/json", 
         method = RequestMethod.GET)
@@ -161,13 +161,13 @@ public interface PetApi {
     @Operation(summary = "Update an existing pet", operationId = "updatePet", description = "",
      tags={ "pet", },
       security = @SecurityRequirement(name = "petstore_auth", scopes = {
-       "write:pets" ,
-        "read:pets"  
+       "write:pets",
+        "read:pets"
         }),
     responses  = { 
-            @ApiResponse(responseCode = "400", description = "Invalid ID supplied"  ) , 
-            @ApiResponse(responseCode = "404", description = "Pet not found"  ) , 
-            @ApiResponse(responseCode = "405", description = "Validation exception"  )  })
+        @ApiResponse(responseCode = "400", description = "Invalid ID supplied"  ) ,
+        @ApiResponse(responseCode = "404", description = "Pet not found"  ) ,
+        @ApiResponse(responseCode = "405", description = "Validation exception"  )  })
     @RequestMapping(value = "/pet",
         consumes = "application/json",
         method = RequestMethod.PUT)
@@ -185,8 +185,8 @@ public interface PetApi {
     @Operation(summary = "Updates a pet in the store with form data", operationId = "updatePetWithForm", description = "",
      tags={ "pet", },
       security = @SecurityRequirement(name = "petstore_auth", scopes = {
-       "write:pets" ,
-        "read:pets"  
+       "write:pets",
+        "read:pets"
         }),
     responses  = { 
             @ApiResponse(responseCode = "405", description = "Invalid input"  )  })
@@ -207,11 +207,11 @@ public interface PetApi {
     @Operation(summary = "uploads an image", operationId = "uploadFile", description = "",
      tags={ "pet", },
       security = @SecurityRequirement(name = "petstore_auth", scopes = {
-       "write:pets" ,
-        "read:pets"  
+       "write:pets",
+        "read:pets"
         }),
     responses  = { 
-            @ApiResponse(responseCode = "200", description = "successful operation" , content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = ModelApiResponse.class))  )}  )  })
+        @ApiResponse(responseCode = "200", description = "successful operation", content = { @Content(  array = @ArraySchema(schema = @Schema(implementation = ModelApiResponse.class))  )}  )  })
     @RequestMapping(value = "/pet/{petId}/uploadImage",
         produces = "application/json", 
         consumes = "multipart/form-data",
