@@ -19,7 +19,8 @@ import okhttp3.MediaType.Companion.toMediaType
 
 class ApiClient(
     private var baseUrl: String = defaultBasePath,
-    private val okHttpClientBuilder: OkHttpClient.Builder? = null
+    private val okHttpClientBuilder: OkHttpClient.Builder? = null,
+    private val okHttpClient : OkHttpClient? = null
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
     var logger: ((String) -> Unit)? = null
@@ -172,7 +173,9 @@ class ApiClient(
     }
 
     fun <S> createService(serviceClass: Class<S>): S {
-        return retrofitBuilder.client(clientBuilder.build()).build().create(serviceClass)
+        var usedClient: OkHttpClient? = null
+        this.okHttpClient?.let { usedClient = it } ?: run {usedClient = clientBuilder.build()}
+        return retrofitBuilder.client(usedClient).build().create(serviceClass)
     }
 
     private fun normalizeBaseUrl() {

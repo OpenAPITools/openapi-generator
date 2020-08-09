@@ -8,6 +8,8 @@ import okhttp3.RequestBody
 import org.openapitools.client.models.ApiResponse
 import org.openapitools.client.models.Pet
 
+import okhttp3.MultipartBody
+
 interface PetApi {
     /**
      * Add a new pet to the store
