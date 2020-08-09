@@ -8,6 +8,7 @@
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
 [![JDK11 Build](https://cloud.drone.io/api/badges/OpenAPITools/openapi-generator/status.svg?ref=refs/heads/master)](https://cloud.drone.io/OpenAPITools/openapi-generator)
 [![iOS Build Status](https://app.bitrise.io/app/4a2b10a819d12b67/status.svg?token=859FMDR8QHwabCzwvZK6vQ&branch=master)](https://app.bitrise.io/app/4a2b10a819d12b67)
+![Check Supported Java Versions](https://github.com/openapi-generator/openapi-generator/workflows/Check%20Supported%20Java%20Versions/badge.svg)
 
 </div>
 
