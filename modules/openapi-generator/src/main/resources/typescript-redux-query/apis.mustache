@@ -82,7 +82,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
 
     {{/isListContainer}}
     {{/queryParams}}
-    const headerParameters = {};
+    const headerParameters : HttpHeaders = {};
 
     {{#bodyParam}}
     {{^consumes}}
