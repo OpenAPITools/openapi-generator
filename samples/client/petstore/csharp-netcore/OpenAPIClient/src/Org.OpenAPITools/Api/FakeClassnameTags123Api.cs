@@ -34,9 +34,9 @@ namespace Org.OpenAPITools.Api
         /// To test class name in snake case
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <returns>ModelClient</returns>
-        ModelClient TestClassname (ModelClient body);
+        ModelClient TestClassname (ModelClient modelClient);
 
         /// <summary>
         /// To test class name in snake case
@@ -45,9 +45,9 @@ namespace Org.OpenAPITools.Api
         /// To test class name in snake case
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        ApiResponse<ModelClient> TestClassnameWithHttpInfo (ModelClient body);
+        ApiResponse<ModelClient> TestClassnameWithHttpInfo (ModelClient modelClient);
         #endregion Synchronous Operations
     }
 
@@ -64,10 +64,10 @@ namespace Org.OpenAPITools.Api
         /// To test class name in snake case
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ModelClient</returns>
-        System.Threading.Tasks.Task<ModelClient> TestClassnameAsync (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ModelClient> TestClassnameAsync (ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// To test class name in snake case
@@ -76,10 +76,10 @@ namespace Org.OpenAPITools.Api
         /// To test class name in snake case
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClassnameWithHttpInfoAsync (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<ModelClient>> TestClassnameWithHttpInfoAsync (ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -204,11 +204,11 @@ namespace Org.OpenAPITools.Api
         /// To test class name in snake case To test class name in snake case
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <returns>ModelClient</returns>
-        public ModelClient TestClassname (ModelClient body)
+        public ModelClient TestClassname (ModelClient modelClient)
         {
-             Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = TestClassnameWithHttpInfo(body);
+             Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = TestClassnameWithHttpInfo(modelClient);
              return localVarResponse.Data;
         }
 
@@ -216,13 +216,13 @@ namespace Org.OpenAPITools.Api
         /// To test class name in snake case To test class name in snake case
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <returns>ApiResponse of ModelClient</returns>
-        public Org.OpenAPITools.Client.ApiResponse< ModelClient > TestClassnameWithHttpInfo (ModelClient body)
+        public Org.OpenAPITools.Client.ApiResponse< ModelClient > TestClassnameWithHttpInfo (ModelClient modelClient)
         {
-            // verify the required parameter 'body' is set
-            if (body == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling FakeClassnameTags123Api->TestClassname");
+            // verify the required parameter 'modelClient' is set
+            if (modelClient == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'modelClient' when calling FakeClassnameTags123Api->TestClassname");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -241,7 +241,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = modelClient;
 
             // authentication (api_key_query) required
             if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key_query")))
@@ -265,12 +265,12 @@ namespace Org.OpenAPITools.Api
         /// To test class name in snake case To test class name in snake case
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ModelClient</returns>
-        public async System.Threading.Tasks.Task<ModelClient> TestClassnameAsync (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<ModelClient> TestClassnameAsync (ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-             Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClassnameWithHttpInfoAsync(body, cancellationToken);
+             Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClassnameWithHttpInfoAsync(modelClient, cancellationToken);
              return localVarResponse.Data;
         }
 
@@ -278,14 +278,14 @@ namespace Org.OpenAPITools.Api
         /// To test class name in snake case To test class name in snake case
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">client model</param>
+        /// <param name="modelClient">client model</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ModelClient)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> TestClassnameWithHttpInfoAsync (ModelClient body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ModelClient>> TestClassnameWithHttpInfoAsync (ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'body' is set
-            if (body == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling FakeClassnameTags123Api->TestClassname");
+            // verify the required parameter 'modelClient' is set
+            if (modelClient == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'modelClient' when calling FakeClassnameTags123Api->TestClassname");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -306,7 +306,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = modelClient;
 
             // authentication (api_key_query) required
             if (!String.IsNullOrEmpty(this.Configuration.GetApiKeyWithPrefix("api_key_query")))
