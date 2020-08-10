@@ -18,8 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import com.google.common.base.Strings;
-import com.samskivert.mustache.Escapers;
-import com.samskivert.mustache.Mustache;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
