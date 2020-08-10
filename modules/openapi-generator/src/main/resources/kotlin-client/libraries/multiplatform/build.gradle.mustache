@@ -28,8 +28,8 @@ repositories {
 
 kotlin {
     jvm()
-    iosArm64() { binaries { framework { freeCompilerArgs.add("-Xobjc-generics") } } }
-    iosX64() { binaries { framework { freeCompilerArgs.add("-Xobjc-generics") } } }
+    iosArm64() { binaries { framework { freeCompilerArgs += "-Xobjc-generics" } } }
+    iosX64() { binaries { framework { freeCompilerArgs +="-Xobjc-generics" } } }
     js()
 
     sourceSets {
