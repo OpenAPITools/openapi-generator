@@ -15,9 +15,9 @@ Name | Type | Description | Notes
 
 Name | Value
 ---- | -----
-PLAINS | "plains"
-MOUNTAIN | "mountain"
-GREVYS | "grevys"
+PLAINS | &quot;plains&quot;
+MOUNTAIN | &quot;mountain&quot;
+GREVYS | &quot;grevys&quot;
 
 
 

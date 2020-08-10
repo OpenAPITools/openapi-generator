@@ -125,8 +125,8 @@ public class FakeApiController implements FakeApi {
     }
 
     /**
-     * PATCH /fake : To test \"client\" model
-     * To test \"client\" model
+     * PATCH /fake : To test \&quot;client\&quot; model
+     * To test \&quot;client\&quot; model
      *
      * @param body client model (required)
      * @return successful operation (status code 200)

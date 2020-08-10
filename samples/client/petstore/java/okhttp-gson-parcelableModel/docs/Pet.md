@@ -19,9 +19,9 @@ Name | Type | Description | Notes
 
 Name | Value
 ---- | -----
-AVAILABLE | "available"
-PENDING | "pending"
-SOLD | "sold"
+AVAILABLE | &quot;available&quot;
+PENDING | &quot;pending&quot;
+SOLD | &quot;sold&quot;
 
 
 ## Implemented Interfaces

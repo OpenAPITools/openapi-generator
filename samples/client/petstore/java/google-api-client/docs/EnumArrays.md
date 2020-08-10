@@ -15,8 +15,8 @@ Name | Type | Description | Notes
 
 Name | Value
 ---- | -----
-GREATER_THAN_OR_EQUAL_TO | "&gt;="
-DOLLAR | "$"
+GREATER_THAN_OR_EQUAL_TO | &quot;&gt;&#x3D;&quot;
+DOLLAR | &quot;$&quot;
 
 
 
@@ -24,8 +24,8 @@ DOLLAR | "$"
 
 Name | Value
 ---- | -----
-FISH | "fish"
-CRAB | "crab"
+FISH | &quot;fish&quot;
+CRAB | &quot;crab&quot;
 
 
 

@@ -869,8 +869,8 @@ public class FakeApi {
     }
 
     /**
-     * To test \"client\" model
-     * To test \"client\" model
+     * To test \&quot;client\&quot; model
+     * To test \&quot;client\&quot; model
      * @param body client model (required)
      * @return Client
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -886,8 +886,8 @@ public class FakeApi {
     }
 
     /**
-     * To test \"client\" model
-     * To test \"client\" model
+     * To test \&quot;client\&quot; model
+     * To test \&quot;client\&quot; model
      * @param body client model (required)
      * @return ApiResponse&lt;Client&gt;
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
@@ -904,8 +904,8 @@ public class FakeApi {
     }
 
     /**
-     * To test \"client\" model (asynchronously)
-     * To test \"client\" model
+     * To test \&quot;client\&quot; model (asynchronously)
+     * To test \&quot;client\&quot; model
      * @param body client model (required)
      * @param _callback The callback to be executed when the API call finishes
      * @return The request call

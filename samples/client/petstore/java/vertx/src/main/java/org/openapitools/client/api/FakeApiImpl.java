@@ -370,8 +370,8 @@ public class FakeApiImpl implements FakeApi {
         apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
-    * To test \"client\" model
-    * To test \"client\" model
+    * To test \&quot;client\&quot; model
+    * To test \&quot;client\&quot; model
         * @param body client model (required)
     * @param resultHandler Asynchronous result handler
     */
@@ -380,8 +380,8 @@ public class FakeApiImpl implements FakeApi {
     }
 
     /**
-    * To test \"client\" model
-    * To test \"client\" model
+    * To test \&quot;client\&quot; model
+    * To test \&quot;client\&quot; model
     * @param body client model (required)
     * @param authInfo per call authentication override.
     * @param resultHandler Asynchronous result handler

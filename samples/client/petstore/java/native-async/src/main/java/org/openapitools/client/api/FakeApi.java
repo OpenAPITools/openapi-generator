@@ -684,8 +684,8 @@ public class FakeApi {
     return localVarRequestBuilder;
   }
   /**
-   * To test \"client\" model
-   * To test \"client\" model
+   * To test \&quot;client\&quot; model
+   * To test \&quot;client\&quot; model
    * @param body client model (required)
    * @return CompletableFuture&lt;Client&gt;
    * @throws ApiException if fails to make API call
@@ -714,8 +714,8 @@ public class FakeApi {
   }
 
   /**
-   * To test \"client\" model
-   * To test \"client\" model
+   * To test \&quot;client\&quot; model
+   * To test \&quot;client\&quot; model
    * @param body client model (required)
    * @return CompletableFuture&lt;ApiResponse&lt;Client&gt;&gt;
    * @throws ApiException if fails to make API call

@@ -17,8 +17,8 @@ Name | Type | Description | Notes
 
 Name | Value
 ---- | -----
-UPPER | "UPPER"
-LOWER | "lower"
+UPPER | &quot;UPPER&quot;
+LOWER | &quot;lower&quot;
 
 
 ## Implemented Interfaces

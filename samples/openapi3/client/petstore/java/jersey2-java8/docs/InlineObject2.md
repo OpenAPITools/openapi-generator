@@ -15,8 +15,8 @@ Name | Type | Description | Notes
 
 Name | Value
 ---- | -----
-GREATER_THAN | "&gt;"
-DOLLAR | "$"
+GREATER_THAN | &quot;&gt;&quot;
+DOLLAR | &quot;$&quot;
 
 
 
@@ -24,9 +24,9 @@ DOLLAR | "$"
 
 Name | Value
 ---- | -----
-_ABC | "_abc"
-_EFG | "-efg"
-_XYZ_ | "(xyz)"
+_ABC | &quot;_abc&quot;
+_EFG | &quot;-efg&quot;
+_XYZ_ | &quot;(xyz)&quot;
 
 
 

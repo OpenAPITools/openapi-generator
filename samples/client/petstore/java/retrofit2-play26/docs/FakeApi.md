@@ -11,7 +11,7 @@ Method | HTTP request | Description
 [**fakeOuterStringSerialize**](FakeApi.md#fakeOuterStringSerialize) | **POST** fake/outer/string | 
 [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** fake/body-with-query-params | 
-[**testClientModel**](FakeApi.md#testClientModel) | **PATCH** fake | To test \"client\" model
+[**testClientModel**](FakeApi.md#testClientModel) | **PATCH** fake | To test \&quot;client\&quot; model
 [**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** fake | To test enum parameters
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** fake | Fake endpoint to test group parameters (optional)
@@ -477,9 +477,9 @@ No authorization required
 
 > Client testClientModel(body)
 
-To test \"client\" model
+To test \&quot;client\&quot; model
 
-To test \"client\" model
+To test \&quot;client\&quot; model
 
 ### Example
 

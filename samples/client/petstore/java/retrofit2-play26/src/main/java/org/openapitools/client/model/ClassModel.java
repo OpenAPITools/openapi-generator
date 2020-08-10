@@ -27,7 +27,7 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
- * Model for testing model with \"_class\" property
+ * Model for testing model with \&quot;_class\&quot; property
  */
 @ApiModel(description = "Model for testing model with \"_class\" property")
 @JsonPropertyOrder({

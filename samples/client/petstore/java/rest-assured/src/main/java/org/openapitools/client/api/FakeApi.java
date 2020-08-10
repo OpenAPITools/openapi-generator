@@ -720,8 +720,8 @@ public class FakeApi {
         }
     }
     /**
-     * To test \"client\" model
-     * To test \"client\" model
+     * To test \&quot;client\&quot; model
+     * To test \&quot;client\&quot; model
      *
      * @see #body client model (required)
      * return Client

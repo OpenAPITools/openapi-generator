@@ -1068,21 +1068,6 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     }
 
     @Override
-    public Mustache.Compiler processCompiler(final Mustache.Compiler compiler) {
-        return compiler
-            .withEscaper(Escapers.simple(new String[][] {
-                { "&", "&amp;" },
-                { "'", "&#39;" },
-                { "<", "&lt;" },
-                { ">", "&gt;" },
-                { "`", "&#x60;" }
-                // part of default Escaper - Escapers#HTML
-                //{ "\"", "&quot;" },
-                //{ "=",  "&#x3D;" }
-            }));
-    }
-
-    @Override
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         // recursively add import for mapping one type to multiple imports
         List<Map<String, String>> recursiveImports = (List<Map<String, String>>) objs.get("imports");

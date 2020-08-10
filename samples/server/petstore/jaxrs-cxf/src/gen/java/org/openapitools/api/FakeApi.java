@@ -101,9 +101,9 @@ public interface FakeApi  {
     public void testBodyWithQueryParams(@QueryParam("query") @NotNull  String query, @Valid User body);
 
     /**
-     * To test \"client\" model
+     * To test \&quot;client\&quot; model
      *
-     * To test \"client\" model
+     * To test \&quot;client\&quot; model
      *
      */
     @PATCH

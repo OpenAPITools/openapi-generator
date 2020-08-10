@@ -14,10 +14,10 @@ Name | Type | Description | Notes
 
 Name | Value
 ---- | -----
-LIONS | "lions"
-TIGERS | "tigers"
-LEOPARDS | "leopards"
-JAGUARS | "jaguars"
+LIONS | &quot;lions&quot;
+TIGERS | &quot;tigers&quot;
+LEOPARDS | &quot;leopards&quot;
+JAGUARS | &quot;jaguars&quot;
 
 
 
