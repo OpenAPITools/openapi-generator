@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **create_user**
-> create_user(user_user)
+> create_user(user)
 
 Create user
 
@@ -24,11 +24,10 @@ This can only be done by the logged in user.
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api
-from petstore_api.model import user
+from petstore_api.model.user import User
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -41,12 +40,12 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
-    user_user = user.User() # user.User | Created user object
+    user = User() # User | Created user object
     
     # example passing only required values which don't have defaults set
     try:
         # Create user
-        api_instance.create_user(user_user)
+        api_instance.create_user(user)
     except petstore_api.ApiException as e:
         print("Exception when calling UserApi->create_user: %s\n" % e)
 ```
@@ -55,7 +54,7 @@ with petstore_api.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user_user** | [**user.User**](User.md)| Created user object |
+ **user** | [**User**](User.md)| Created user object |
 
 ### Return type
 
@@ -78,18 +77,17 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_array_input**
-> create_users_with_array_input(user_user)
+> create_users_with_array_input(user)
 
 Creates list of users with given input array
 
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api
-from petstore_api.model import user
+from petstore_api.model.user import User
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -102,12 +100,12 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
-    user_user = [user.User()] # [user.User] | List of user object
+    user = [User()] # [User] | List of user object
     
     # example passing only required values which don't have defaults set
     try:
         # Creates list of users with given input array
-        api_instance.create_users_with_array_input(user_user)
+        api_instance.create_users_with_array_input(user)
     except petstore_api.ApiException as e:
         print("Exception when calling UserApi->create_users_with_array_input: %s\n" % e)
 ```
@@ -116,7 +114,7 @@ with petstore_api.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user_user** | [**[user.User]**](User.md)| List of user object |
+ **user** | [**[User]**](User.md)| List of user object |
 
 ### Return type
 
@@ -139,18 +137,17 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **create_users_with_list_input**
-> create_users_with_list_input(user_user)
+> create_users_with_list_input(user)
 
 Creates list of users with given input array
 
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api
-from petstore_api.model import user
+from petstore_api.model.user import User
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -163,12 +160,12 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
-    user_user = [user.User()] # [user.User] | List of user object
+    user = [User()] # [User] | List of user object
     
     # example passing only required values which don't have defaults set
     try:
         # Creates list of users with given input array
-        api_instance.create_users_with_list_input(user_user)
+        api_instance.create_users_with_list_input(user)
     except petstore_api.ApiException as e:
         print("Exception when calling UserApi->create_users_with_list_input: %s\n" % e)
 ```
@@ -177,7 +174,7 @@ with petstore_api.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **user_user** | [**[user.User]**](User.md)| List of user object |
+ **user** | [**[User]**](User.md)| List of user object |
 
 ### Return type
 
@@ -209,7 +206,6 @@ This can only be done by the logged in user.
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api
@@ -263,18 +259,17 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_user_by_name**
-> user.User get_user_by_name(username)
+> User get_user_by_name(username)
 
 Get user by user name
 
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api
-from petstore_api.model import user
+from petstore_api.model.user import User
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -306,7 +301,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**user.User**](User.md)
+[**User**](User.md)
 
 ### Authorization
 
@@ -334,7 +329,6 @@ Logs user into the system
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api
@@ -398,7 +392,6 @@ Logs out current logged in user session
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api
@@ -447,7 +440,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **update_user**
-> update_user(username, user_user)
+> update_user(username, user)
 
 Updated user
 
@@ -456,11 +449,10 @@ This can only be done by the logged in user.
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import user_api
-from petstore_api.model import user
+from petstore_api.model.user import User
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -474,12 +466,12 @@ with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = user_api.UserApi(api_client)
     username = 'username_example' # str | name that need to be deleted
-    user_user = user.User() # user.User | Updated user object
+    user = User() # User | Updated user object
     
     # example passing only required values which don't have defaults set
     try:
         # Updated user
-        api_instance.update_user(username, user_user)
+        api_instance.update_user(username, user)
     except petstore_api.ApiException as e:
         print("Exception when calling UserApi->update_user: %s\n" % e)
 ```
@@ -489,7 +481,7 @@ with petstore_api.ApiClient() as api_client:
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **username** | **str**| name that need to be deleted |
- **user_user** | [**user.User**](User.md)| Updated user object |
+ **user** | [**User**](User.md)| Updated user object |
 
 ### Return type
 

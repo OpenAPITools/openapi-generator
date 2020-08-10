@@ -16,6 +16,7 @@ import org.openapitools.client.models.CatAllOf
 
 import com.squareup.moshi.Json
 import java.io.Serializable
+
 /**
  * 
  * @param className 

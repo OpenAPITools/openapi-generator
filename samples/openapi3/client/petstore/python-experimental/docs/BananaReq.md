@@ -1,4 +1,4 @@
-# banana_req.BananaReq
+# BananaReq
 
 ## Properties
 Name | Type | Description | Notes

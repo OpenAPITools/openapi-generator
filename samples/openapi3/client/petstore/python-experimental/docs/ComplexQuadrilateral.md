@@ -1,4 +1,4 @@
-# complex_quadrilateral.ComplexQuadrilateral
+# ComplexQuadrilateral
 
 ## Properties
 Name | Type | Description | Notes

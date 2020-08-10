@@ -7,13 +7,11 @@
 
 import Foundation
 
-
-internal struct DogAllOf: Codable { 
-
+internal struct DogAllOf: Codable {
 
     internal var breed: String?
 
-    internal init(breed: String?) {
+    internal init(breed: String? = nil) {
         self.breed = breed
     }
 

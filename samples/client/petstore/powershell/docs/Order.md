@@ -3,12 +3,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **Int64** |  | [optional] [default to null]
-**PetId** | **Int64** |  | [optional] [default to null]
-**Quantity** | **Int32** |  | [optional] [default to null]
-**ShipDate** | **System.DateTime** |  | [optional] [default to null]
-**Status** | **String** | Order Status | [optional] [default to null]
-**Complete** | **Boolean** |  | [optional] [default to false]
+**Id** | **Int64** |  | [optional] 
+**PetId** | **Int64** |  | [optional] 
+**Quantity** | **Int32** |  | [optional] 
+**ShipDate** | **System.DateTime** |  | [optional] 
+**Status** | **String** | Order Status | [optional] 
+**Complete** | **Boolean** |  | [optional] [default to $false]
 
 ## Examples
 

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * EnumArrays
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class EnumArrays   {
   /**
    * Gets or Sets justSymbol

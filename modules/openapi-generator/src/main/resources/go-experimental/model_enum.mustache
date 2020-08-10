@@ -26,7 +26,7 @@ func (v *{{{classname}}}) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid {{classname}}", *v)
+	return fmt.Errorf("%+v is not a valid {{classname}}", value)
 }
 
 // Ptr returns reference to {{{name}}} value

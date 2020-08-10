@@ -10,6 +10,7 @@ sidebar_label: rust
 |packageName|Rust package name (convention: lowercase).| |openapi|
 |packageVersion|Rust package version.| |1.0.0|
 |supportAsync|If set, generate async function call instead. This option is for 'reqwest' library only| |true|
+|supportMultipleResponses|If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
 
 ## IMPORT MAPPING
@@ -130,6 +131,7 @@ sidebar_label: rust
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✓|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

@@ -84,12 +84,11 @@ func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request
 // GetOrderById - Find purchase order by ID
 func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
-	orderId, err := parseIntParameter(params["orderId"])
+	orderId, err := parseInt64Parameter(params["orderId"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
 	result, err := c.service.GetOrderById(orderId)
 	if err != nil {
 		w.WriteHeader(500)

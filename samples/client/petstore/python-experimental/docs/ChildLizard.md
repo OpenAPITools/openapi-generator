@@ -1,4 +1,4 @@
-# child_lizard.ChildLizard
+# ChildLizard
 
 ## Properties
 Name | Type | Description | Notes

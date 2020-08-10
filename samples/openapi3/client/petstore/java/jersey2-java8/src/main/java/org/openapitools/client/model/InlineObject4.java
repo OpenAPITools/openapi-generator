@@ -20,6 +20,7 @@ import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -34,7 +35,7 @@ import org.openapitools.client.JSON;
   InlineObject4.JSON_PROPERTY_PARAM,
   InlineObject4.JSON_PROPERTY_PARAM2
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class InlineObject4 {
   public static final String JSON_PROPERTY_PARAM = "param";
   private String param;
@@ -89,6 +90,9 @@ public class InlineObject4 {
   }
 
 
+  /**
+   * Return true if this inline_object_4 object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

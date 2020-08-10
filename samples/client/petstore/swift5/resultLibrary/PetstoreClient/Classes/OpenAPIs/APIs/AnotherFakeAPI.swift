@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-
 open class AnotherFakeAPI {
     /**
      To test special tags

@@ -86,7 +86,7 @@ class TestDog(unittest.TestCase):
         with self.assertRaises(AttributeError):
             invalid_variable = dog['invalid_variable']
         # with getattr
-        self.assertEquals(getattr(dog, 'invalid_variable', 'some value'), 'some value')
+        self.assertEqual(getattr(dog, 'invalid_variable', 'some value'), 'some value')
 
         with self.assertRaises(AttributeError):
             invalid_variable = getattr(dog, 'invalid_variable')

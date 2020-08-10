@@ -32,15 +32,13 @@ from petstore_api.model import (
     parent_pet,
     child_lizard,
     category,
-    outer_enum,
-    outer_number,
+    string_enum,
+    number_with_validations,
     string_boolean_map,
 )
 from petstore_api.model_utils import (
     file_type,
-    int,
     model_to_dict,
-    str,
 )
 
 from petstore_api.rest import RESTResponse
@@ -61,7 +59,7 @@ class DeserializationTests(unittest.TestCase):
                 "enum_string_required": "lower",
                 "enum_integer": 1,
                 "enum_number": 1.1,
-                "outerEnum": "placed"
+                "stringEnum": "placed"
             }
         }
         response = MockResponse(data=json.dumps(data))
@@ -72,14 +70,14 @@ class DeserializationTests(unittest.TestCase):
         self.assertTrue(
             isinstance(deserialized['enum_test'], enum_test.EnumTest))
         value = (
-            outer_enum.OuterEnum.allowed_values[('value',)]["PLACED"])
-        outer_enum_val = outer_enum.OuterEnum(value)
+            string_enum.StringEnum.allowed_values[('value',)]["PLACED"])
+        string_enum_val = string_enum.StringEnum(value)
         sample_instance = enum_test.EnumTest(
             enum_string="UPPER",
             enum_string_required="lower",
             enum_integer=1,
             enum_number=1.1,
-            outer_enum=outer_enum_val
+            string_enum=string_enum_val
         )
         self.assertEqual(deserialized['enum_test'], sample_instance)
 
@@ -305,27 +303,27 @@ class DeserializationTests(unittest.TestCase):
         with self.assertRaises(ApiValueError):
             self.deserialize(
                 MockResponse(data=json.dumps("test str")),
-                (outer_enum.OuterEnum,),
+                (string_enum.StringEnum,),
                 True
             )
 
         # valid value works
         placed_str = (
-            outer_enum.OuterEnum.allowed_values[('value',)]["PLACED"]
+            string_enum.StringEnum.allowed_values[('value',)]["PLACED"]
         )
         response = MockResponse(data=json.dumps(placed_str))
         deserialized = self.deserialize(response,
-            (outer_enum.OuterEnum,), True)
-        self.assertTrue(isinstance(deserialized, outer_enum.OuterEnum))
+            (string_enum.StringEnum,), True)
+        self.assertTrue(isinstance(deserialized, string_enum.StringEnum))
         self.assertTrue(deserialized.value == placed_str)
 
-    def test_deserialize_OuterNumber(self):
-        """ deserialize OuterNumber """
+    def test_deserialize_NumberWithValidations(self):
+        """ deserialize NumberWithValidations """
         # make sure that an exception is thrown on an invalid type value
         with self.assertRaises(ApiTypeError):
             deserialized = self.deserialize(
                 MockResponse(data=json.dumps("test str")),
-                (outer_number.OuterNumber,),
+                (number_with_validations.NumberWithValidations,),
                 True
             )
 
@@ -333,7 +331,7 @@ class DeserializationTests(unittest.TestCase):
         with self.assertRaises(ApiValueError):
             deserialized = self.deserialize(
                 MockResponse(data=json.dumps(21.0)),
-                (outer_number.OuterNumber,),
+                (number_with_validations.NumberWithValidations,),
                 True
             )
 
@@ -341,8 +339,8 @@ class DeserializationTests(unittest.TestCase):
         number_val = 11.0
         response = MockResponse(data=json.dumps(number_val))
         number = self.deserialize(response,
-            (outer_number.OuterNumber,), True)
-        self.assertTrue(isinstance(number, outer_number.OuterNumber))
+            (number_with_validations.NumberWithValidations,), True)
+        self.assertTrue(isinstance(number, number_with_validations.NumberWithValidations))
         self.assertTrue(number.value == number_val)
 
     def test_deserialize_file(self):

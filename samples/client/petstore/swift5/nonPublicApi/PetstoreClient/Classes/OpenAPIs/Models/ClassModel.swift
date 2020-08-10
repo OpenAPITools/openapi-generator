@@ -8,12 +8,11 @@
 import Foundation
 
 /** Model for testing model with \&quot;_class\&quot; property */
-internal struct ClassModel: Codable { 
-
+internal struct ClassModel: Codable {
 
     internal var _class: String?
 
-    internal init(_class: String?) {
+    internal init(_class: String? = nil) {
         self._class = _class
     }
 

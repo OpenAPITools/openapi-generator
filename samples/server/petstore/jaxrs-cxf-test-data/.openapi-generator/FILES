@@ -16,6 +16,7 @@ src/gen/java/org/openapitools/model/AdditionalPropertiesNumber.java
 src/gen/java/org/openapitools/model/AdditionalPropertiesObject.java
 src/gen/java/org/openapitools/model/AdditionalPropertiesString.java
 src/gen/java/org/openapitools/model/Animal.java
+src/gen/java/org/openapitools/model/AnimalFarm.java
 src/gen/java/org/openapitools/model/ArrayOfArrayOfNumberOnly.java
 src/gen/java/org/openapitools/model/ArrayOfNumberOnly.java
 src/gen/java/org/openapitools/model/ArrayTest.java
@@ -48,6 +49,7 @@ src/gen/java/org/openapitools/model/OuterEnum.java
 src/gen/java/org/openapitools/model/Pet.java
 src/gen/java/org/openapitools/model/ReadOnlyFirst.java
 src/gen/java/org/openapitools/model/SpecialModelName.java
+src/gen/java/org/openapitools/model/StringBooleanMap.java
 src/gen/java/org/openapitools/model/Tag.java
 src/gen/java/org/openapitools/model/TypeHolderDefault.java
 src/gen/java/org/openapitools/model/TypeHolderExample.java
@@ -60,9 +62,7 @@ src/main/java/org/openapitools/api/impl/PetApiServiceImpl.java
 src/main/java/org/openapitools/api/impl/StoreApiServiceImpl.java
 src/main/java/org/openapitools/api/impl/UserApiServiceImpl.java
 src/main/resources/ApplicationContext.xml
-src/main/resources/test-data.json
 src/main/webapp/WEB-INF/context.xml
 src/main/webapp/WEB-INF/web.xml
 src/test/java/org/openapitools/api/SpringBootApplication.java
 src/test/resources/application.properties
-test-data-control.json

@@ -1,7 +1,7 @@
 <?php
 /**
  * PetApi
- * PHP version 7.1
+ * PHP version 7.2
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -120,15 +120,19 @@ class PetApi
      *
      * Add a new pet to the store
      *
-     * @param  \OpenAPI\Client\Model\Pet $body Pet object that needs to be added to the store (required)
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * URL: http://petstore.swagger.io/v2
+     * URL: http://path-server-test.petstore.local/v2
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function addPet($body)
+    public function addPet($pet)
     {
-        $this->addPetWithHttpInfo($body);
+        $this->addPetWithHttpInfo($pet);
     }
 
     /**
@@ -136,15 +140,19 @@ class PetApi
      *
      * Add a new pet to the store
      *
-     * @param  \OpenAPI\Client\Model\Pet $body Pet object that needs to be added to the store (required)
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * URL: http://petstore.swagger.io/v2
+     * URL: http://path-server-test.petstore.local/v2
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function addPetWithHttpInfo($body)
+    public function addPetWithHttpInfo($pet)
     {
-        $request = $this->addPetRequest($body);
+        $request = $this->addPetRequest($pet);
 
         try {
             $options = $this->createHttpClientOption();
@@ -188,14 +196,18 @@ class PetApi
      *
      * Add a new pet to the store
      *
-     * @param  \OpenAPI\Client\Model\Pet $body Pet object that needs to be added to the store (required)
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * URL: http://petstore.swagger.io/v2
+     * URL: http://path-server-test.petstore.local/v2
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function addPetAsync($body)
+    public function addPetAsync($pet)
     {
-        return $this->addPetAsyncWithHttpInfo($body)
+        return $this->addPetAsyncWithHttpInfo($pet)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -208,15 +220,19 @@ class PetApi
      *
      * Add a new pet to the store
      *
-     * @param  \OpenAPI\Client\Model\Pet $body Pet object that needs to be added to the store (required)
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * URL: http://petstore.swagger.io/v2
+     * URL: http://path-server-test.petstore.local/v2
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function addPetAsyncWithHttpInfo($body)
+    public function addPetAsyncWithHttpInfo($pet)
     {
         $returnType = '';
-        $request = $this->addPetRequest($body);
+        $request = $this->addPetRequest($pet);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -244,17 +260,21 @@ class PetApi
     /**
      * Create request for operation 'addPet'
      *
-     * @param  \OpenAPI\Client\Model\Pet $body Pet object that needs to be added to the store (required)
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * URL: http://petstore.swagger.io/v2
+     * URL: http://path-server-test.petstore.local/v2
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function addPetRequest($body)
+    protected function addPetRequest($pet)
     {
-        // verify the required parameter 'body' is set
-        if ($body === null || (is_array($body) && count($body) === 0)) {
+        // verify the required parameter 'pet' is set
+        if ($pet === null || (is_array($pet) && count($pet) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $body when calling addPet'
+                'Missing the required parameter $pet when calling addPet'
             );
         }
 
@@ -270,8 +290,8 @@ class PetApi
 
         // body params
         $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
+        if (isset($pet)) {
+            $_tempBody = $pet;
         }
 
         if ($multipart) {
@@ -297,10 +317,13 @@ class PetApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -330,10 +353,16 @@ class PetApi
             $headers
         );
 
+        $operationHosts = ["http://petstore.swagger.io/v2", "http://path-server-test.petstore.local/v2"];
+        if ($this->hostIndex < 0 || $this->hostIndex >= sizeof($operationHosts)) {
+            throw new \InvalidArgumentException("Invalid index {$this->hostIndex} when selecting the host. Must be less than ".sizeof($operationHosts));
+        }
+        $operationHost = $operationHosts[$this->hostIndex];
+
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'POST',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -535,10 +564,13 @@ class PetApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -811,10 +843,13 @@ class PetApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -1087,10 +1122,13 @@ class PetApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -1364,10 +1402,13 @@ class PetApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -1412,15 +1453,19 @@ class PetApi
      *
      * Update an existing pet
      *
-     * @param  \OpenAPI\Client\Model\Pet $body Pet object that needs to be added to the store (required)
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * URL: http://petstore.swagger.io/v2
+     * URL: http://path-server-test.petstore.local/v2
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function updatePet($body)
+    public function updatePet($pet)
     {
-        $this->updatePetWithHttpInfo($body);
+        $this->updatePetWithHttpInfo($pet);
     }
 
     /**
@@ -1428,15 +1473,19 @@ class PetApi
      *
      * Update an existing pet
      *
-     * @param  \OpenAPI\Client\Model\Pet $body Pet object that needs to be added to the store (required)
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * URL: http://petstore.swagger.io/v2
+     * URL: http://path-server-test.petstore.local/v2
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updatePetWithHttpInfo($body)
+    public function updatePetWithHttpInfo($pet)
     {
-        $request = $this->updatePetRequest($body);
+        $request = $this->updatePetRequest($pet);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1480,14 +1529,18 @@ class PetApi
      *
      * Update an existing pet
      *
-     * @param  \OpenAPI\Client\Model\Pet $body Pet object that needs to be added to the store (required)
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * URL: http://petstore.swagger.io/v2
+     * URL: http://path-server-test.petstore.local/v2
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updatePetAsync($body)
+    public function updatePetAsync($pet)
     {
-        return $this->updatePetAsyncWithHttpInfo($body)
+        return $this->updatePetAsyncWithHttpInfo($pet)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1500,15 +1553,19 @@ class PetApi
      *
      * Update an existing pet
      *
-     * @param  \OpenAPI\Client\Model\Pet $body Pet object that needs to be added to the store (required)
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * URL: http://petstore.swagger.io/v2
+     * URL: http://path-server-test.petstore.local/v2
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updatePetAsyncWithHttpInfo($body)
+    public function updatePetAsyncWithHttpInfo($pet)
     {
         $returnType = '';
-        $request = $this->updatePetRequest($body);
+        $request = $this->updatePetRequest($pet);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1536,17 +1593,21 @@ class PetApi
     /**
      * Create request for operation 'updatePet'
      *
-     * @param  \OpenAPI\Client\Model\Pet $body Pet object that needs to be added to the store (required)
+     * This oepration contains host(s) defined in the OpenAP spec. Use 'hostIndex' to select the host.
+     * URL: http://petstore.swagger.io/v2
+     * URL: http://path-server-test.petstore.local/v2
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function updatePetRequest($body)
+    protected function updatePetRequest($pet)
     {
-        // verify the required parameter 'body' is set
-        if ($body === null || (is_array($body) && count($body) === 0)) {
+        // verify the required parameter 'pet' is set
+        if ($pet === null || (is_array($pet) && count($pet) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $body when calling updatePet'
+                'Missing the required parameter $pet when calling updatePet'
             );
         }
 
@@ -1562,8 +1623,8 @@ class PetApi
 
         // body params
         $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
+        if (isset($pet)) {
+            $_tempBody = $pet;
         }
 
         if ($multipart) {
@@ -1589,10 +1650,13 @@ class PetApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -1622,10 +1686,16 @@ class PetApi
             $headers
         );
 
+        $operationHosts = ["http://petstore.swagger.io/v2", "http://path-server-test.petstore.local/v2"];
+        if ($this->hostIndex < 0 || $this->hostIndex >= sizeof($operationHosts)) {
+            throw new \InvalidArgumentException("Invalid index {$this->hostIndex} when selecting the host. Must be less than ".sizeof($operationHosts));
+        }
+        $operationHost = $operationHosts[$this->hostIndex];
+
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
             'PUT',
-            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $operationHost . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
         );
@@ -1836,10 +1906,13 @@ class PetApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -2104,7 +2177,14 @@ class PetApi
         // form params
         if ($file !== null) {
             $multipart = true;
-            $formParams['file'] = \GuzzleHttp\Psr7\try_fopen(ObjectSerializer::toFormValue($file), 'rb');
+            $formParams['file'] = [];
+            $paramFiles = is_array($file) ? $file : [$file];
+            foreach ($paramFiles as $paramFile) {
+                $formParams['file'][] = \GuzzleHttp\Psr7\try_fopen(
+                    ObjectSerializer::toFormValue($paramFile),
+                    'rb'
+                );
+            }
         }
         // body params
         $_tempBody = null;
@@ -2132,10 +2212,13 @@ class PetApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -2406,7 +2489,14 @@ class PetApi
         // form params
         if ($required_file !== null) {
             $multipart = true;
-            $formParams['requiredFile'] = \GuzzleHttp\Psr7\try_fopen(ObjectSerializer::toFormValue($required_file), 'rb');
+            $formParams['requiredFile'] = [];
+            $paramFiles = is_array($required_file) ? $required_file : [$required_file];
+            foreach ($paramFiles as $paramFile) {
+                $formParams['requiredFile'][] = \GuzzleHttp\Psr7\try_fopen(
+                    ObjectSerializer::toFormValue($paramFile),
+                    'rb'
+                );
+            }
         }
         // body params
         $_tempBody = null;
@@ -2434,10 +2524,13 @@ class PetApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);

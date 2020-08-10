@@ -11,10 +11,8 @@ class Pet {
   List<String> photoUrls = [];
   
   List<Tag> tags = [];
-  /* pet status in the store */
-  String status = null;
-  //enum statusEnum {  available,  pending,  sold,  };{
-  Pet();
+  /// pet status in the store
+  StatusEnum status = null;
 
   @override
   String toString() {
@@ -69,12 +67,14 @@ class Pet {
   // maps a json object with a list of Pet-objects as value to a dart map
   static Map<String, List<Pet>> mapListFromJson(Map<String, dynamic> json) {
     var map = Map<String, List<Pet>>();
-     if (json != null && json.isNotEmpty) {
-       json.forEach((String key, dynamic value) {
-         map[key] = Pet.listFromJson(value);
-       });
-     }
-     return map;
+    if (json != null && json.isNotEmpty) {
+      json.forEach((String key, dynamic value) {
+        map[key] = Pet.listFromJson(value);
+      });
+    }
+    return map;
   }
 }
 
+
+enum StatusEnum {  available,  pending,  sold,  }

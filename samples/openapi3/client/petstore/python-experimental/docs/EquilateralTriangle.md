@@ -1,4 +1,4 @@
-# equilateral_triangle.EquilateralTriangle
+# EquilateralTriangle
 
 ## Properties
 Name | Type | Description | Notes

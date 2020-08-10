@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-
-@objc public class Order: NSObject, Codable { 
+@objc public class Order: NSObject, Codable {
 
     public enum Status: String, Codable, CaseIterable {
         case placed = "placed"
@@ -44,7 +42,7 @@ import Foundation
         }
     }
 
-    public init(_id: Int64?, petId: Int64?, quantity: Int?, shipDate: Date?, status: Status?, complete: Bool?) {
+    public init(_id: Int64? = nil, petId: Int64? = nil, quantity: Int? = nil, shipDate: Date? = nil, status: Status? = nil, complete: Bool? = nil) {
         self._id = _id
         self.petId = petId
         self.quantity = quantity
@@ -53,7 +51,7 @@ import Foundation
         self.complete = complete
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable { 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case _id = "id"
         case petId
         case quantity

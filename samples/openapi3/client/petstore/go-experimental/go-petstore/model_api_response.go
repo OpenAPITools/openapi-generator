@@ -18,7 +18,10 @@ type ApiResponse struct {
 	Code *int32 `json:"code,omitempty"`
 	Type *string `json:"type,omitempty"`
 	Message *string `json:"message,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _ApiResponse ApiResponse
 
 // NewApiResponse instantiates a new ApiResponse object
 // This constructor will assign default values to properties that have it defined,
@@ -144,7 +147,31 @@ func (o ApiResponse) MarshalJSON() ([]byte, error) {
 	if o.Message != nil {
 		toSerialize["message"] = o.Message
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *ApiResponse) UnmarshalJSON(bytes []byte) (err error) {
+	varApiResponse := _ApiResponse{}
+
+	if err = json.Unmarshal(bytes, &varApiResponse); err == nil {
+		*o = ApiResponse(varApiResponse)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "code")
+		delete(additionalProperties, "type")
+		delete(additionalProperties, "message")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableApiResponse struct {

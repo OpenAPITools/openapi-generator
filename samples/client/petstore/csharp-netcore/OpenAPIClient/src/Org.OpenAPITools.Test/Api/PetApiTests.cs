@@ -200,13 +200,13 @@ namespace Org.OpenAPITools.Test
         }
 
         /// <summary>
-        /// Test GetPetByIdAsyncWithHttpInfo
+        /// Test GetPetByIdWithHttpInfoAsync
         /// </summary>
         [Fact]
-        public void TestGetPetByIdAsyncWithHttpInfo()
+        public void TestGetPetByIdWithHttpInfoAsync()
         {
             PetApi petApi = new PetApi();
-            var task = petApi.GetPetByIdAsyncWithHttpInfo(petId);
+            var task = petApi.GetPetByIdWithHttpInfoAsync(petId);
 
             Assert.Equal(200, (int)task.Result.StatusCode);
             Assert.True(task.Result.Headers.ContainsKey("Content-Type"));

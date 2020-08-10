@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Cultivar** | Pointer to **string** |  | 
+**Cultivar** | **string** |  | 
 **Mealy** | Pointer to **bool** |  | [optional] 
-**LengthCm** | Pointer to **float32** |  | 
+**LengthCm** | **float32** |  | 
 **Sweet** | Pointer to **bool** |  | [optional] 
 
 ## Methods

@@ -19,10 +19,11 @@ import os
 import re
 import shutil
 import unittest
+from urllib.parse import urlencode, urlparse
+
 from Crypto.Hash import SHA256, SHA512
 from Crypto.PublicKey import ECC, RSA
 from Crypto.Signature import pkcs1_15, pss, DSS
-from six.moves.urllib.parse import urlencode, urlparse
 
 import petstore_api
 from petstore_api.model import category, tag, pet
@@ -32,8 +33,6 @@ from petstore_api.rest import (
     RESTClientObject,
     RESTResponse
 )
-
-import six
 
 from petstore_api.exceptions import (
     ApiException,
@@ -45,10 +44,7 @@ from .util import id_gen
 
 import urllib3
 
-if six.PY3:
-    from unittest.mock import patch
-else:
-    from mock import patch
+from unittest.mock import patch
 
 HOST = 'http://localhost/v2'
 
@@ -294,7 +290,7 @@ class PetApiTests(unittest.TestCase):
         api_client.rest_client.pool_manager = mock_pool
 
         mock_pool.set_signing_config(signing_cfg)
-        mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
+        mock_pool.expect_request('POST', HOST + '/pet',
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
@@ -325,7 +321,7 @@ class PetApiTests(unittest.TestCase):
         api_client.rest_client.pool_manager = mock_pool
 
         mock_pool.set_signing_config(signing_cfg)
-        mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
+        mock_pool.expect_request('POST', HOST + '/pet',
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
@@ -361,7 +357,7 @@ class PetApiTests(unittest.TestCase):
         api_client.rest_client.pool_manager = mock_pool
 
         mock_pool.set_signing_config(signing_cfg)
-        mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
+        mock_pool.expect_request('POST', HOST + '/pet',
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
@@ -397,7 +393,7 @@ class PetApiTests(unittest.TestCase):
         api_client.rest_client.pool_manager = mock_pool
 
         mock_pool.set_signing_config(signing_cfg)
-        mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
+        mock_pool.expect_request('POST', HOST + '/pet',
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'
@@ -433,7 +429,7 @@ class PetApiTests(unittest.TestCase):
         api_client.rest_client.pool_manager = mock_pool
 
         mock_pool.set_signing_config(signing_cfg)
-        mock_pool.expect_request('POST', 'http://petstore.swagger.io/v2/pet',
+        mock_pool.expect_request('POST', HOST + '/pet',
                                  body=json.dumps(api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': r'application/json',
                                           'Authorization': r'Signature keyId="my-key-id",algorithm="hs2019",created=[0-9]+,'

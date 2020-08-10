@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-internal struct Order: Codable { 
-
+internal struct Order: Codable {
 
     internal enum Status: String, Codable, CaseIterable {
         case placed = "placed"
@@ -24,7 +22,7 @@ internal struct Order: Codable {
     internal var status: Status?
     internal var complete: Bool? = false
 
-    internal init(id: Int64?, petId: Int64?, quantity: Int?, shipDate: Date?, status: Status?, complete: Bool?) {
+    internal init(id: Int64? = nil, petId: Int64? = nil, quantity: Int? = nil, shipDate: Date? = nil, status: Status? = nil, complete: Bool? = nil) {
         self.id = id
         self.petId = petId
         self.quantity = quantity
