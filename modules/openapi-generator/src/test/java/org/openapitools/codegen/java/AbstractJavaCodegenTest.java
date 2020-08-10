@@ -424,6 +424,16 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
+    public void getTypeDeclarationGivenStringImportMappingTest() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        codegen.importMapping().put("MyStringType", "com.example.foo");
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("MyStringType", new StringSchema())));
+        Schema<?> schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/MyStringType"));
+        String defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "List<com.example.foo>");
+    }
+
+    @Test
     public void getTypeDeclarationTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 

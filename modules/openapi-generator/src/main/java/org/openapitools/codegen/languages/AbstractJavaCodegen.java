@@ -759,7 +759,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isArraySchema(p)) {
             Schema<?> items = getSchemaItems((ArraySchema) p);
-            return getSchemaType(p) + "<" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items)) + ">";
+            return getSchemaType(p) + "<" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items, importMapping)) + ">";
         } else if (ModelUtils.isMapSchema(p) && !ModelUtils.isComposedSchema(p)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
