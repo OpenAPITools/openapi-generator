@@ -61,6 +61,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
     public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
+    public static final String USE_ONEOF_INTERFACES = "useOneOfInterfaces";
 
     protected String dateLibrary = "threetenbp";
     protected boolean supportAsync = false;
@@ -197,6 +198,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(DISCRIMINATOR_CASE_SENSITIVE, "Whether the discriminator value lookup should be case-sensitive or not. This option only works for Java API client", discriminatorCaseSensitive));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC, this.isHideGenerationTimestamp()));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
+        cliOptions.add(CliOption.newBoolean(USE_ONEOF_INTERFACES, "Generate interfaces for OneOf types", useOneOfInterfaces));
 
         CliOption dateLibrary = new CliOption(DATE_LIBRARY, "Option. Date library to use").defaultValue(this.getDateLibrary());
         Map<String, String> dateOptions = new HashMap<>();
@@ -540,6 +542,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             }
         } else if (dateLibrary.equals("legacy")) {
             additionalProperties.put("legacyDates", "true");
+        }
+
+        if(additionalProperties.containsKey(USE_ONEOF_INTERFACES)) {
+            useOneOfInterfaces = Boolean.valueOf(additionalProperties.get(USE_ONEOF_INTERFACES).toString());
+            addOneOfInterfaceImports = useOneOfInterfaces;
         }
     }
 

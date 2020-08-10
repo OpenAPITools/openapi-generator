@@ -10,7 +10,7 @@
 })
 {{/jackson}}
 {{>additionalModelTypeAnnotations}}{{>generatedAnnotation}}{{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}
-public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
+public class {{classname}}{{#parent}} extends {{{parent}}}{{/parent}}{{#vendorExtensions.implements}}{{#-first}} implements {{{.}}}{{/-first}}{{^-first}}, {{{.}}}{{/-first}}{{#-last}} {{/-last}}{{/vendorExtensions.implements}}{{^vendorExtensions.implements}}{{#serializableModel}} implements Serializable{{/serializableModel}}{{/vendorExtensions.implements}} {
   {{#vars}}
     {{#isEnum}}
     {{^isContainer}}
