@@ -19,7 +19,14 @@ package org.openapitools.generator.gradle.plugin.tasks
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.CacheableTask
+import org.gradle.api.tasks.Input
+import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.Internal
+import org.gradle.api.tasks.Optional
+import org.gradle.api.tasks.OutputDirectory
+import org.gradle.api.tasks.PathSensitive
+import org.gradle.api.tasks.PathSensitivity
 import org.gradle.api.tasks.TaskAction
 import org.gradle.api.tasks.options.Option
 import org.gradle.internal.logging.text.StyledTextOutput
@@ -32,7 +39,6 @@ import org.openapitools.codegen.DefaultGenerator
 import org.openapitools.codegen.config.CodegenConfigurator
 import org.openapitools.codegen.config.GlobalSettings
 
-
 /**
  * A task which generates the desired code.
  *
@@ -43,63 +49,73 @@ import org.openapitools.codegen.config.GlobalSettings
  * @author Jim Schubert
  */
 @Suppress("UnstableApiUsage")
+@CacheableTask
 open class GenerateTask : DefaultTask() {
 
     /**
      * The verbosity of generation
      */
-    @get:Internal
+    @Optional
+    @Input
     val verbose = project.objects.property<Boolean>()
 
     /**
      * Whether or not an input specification should be validated upon generation.
      */
-    @get:Internal
+    @Optional
+    @Input
     val validateSpec = project.objects.property<Boolean>()
 
     /**
      * The name of the generator which will handle codegen. (see "openApiGenerators" task)
      */
-    @get:Internal
+    @Optional
+    @Input
     val generatorName = project.objects.property<String>()
 
     /**
      * The output target directory into which code will be generated.
      */
-    @get:Internal
+    @Optional
+    @get:OutputDirectory
     val outputDir = project.objects.property<String>()
 
     @Suppress("unused")
     @get:Internal
     @set:Option(option = "input", description = "The input specification.")
+    @Input
     var input: String? = null
         set(value) {
             inputSpec.set(value)
         }
-    
+
     /**
      * The Open API 2.0/3.x specification location.
      */
-    @get:Internal
+    @get:InputFile
+    @PathSensitive(PathSensitivity.RELATIVE)
     val inputSpec = project.objects.property<String>()
 
     /**
      * The template directory holding a custom template.
      */
-    @get:Internal
+    @Optional
+    @Input
     val templateDir = project.objects.property<String?>()
 
     /**
      * Adds authorization headers when fetching the OpenAPI definitions remotely.
      * Pass in a URL-encoded string of name:header with a comma separating multiple values
      */
-    @get:Internal
+    @Optional
+    @Input
     val auth = project.objects.property<String>()
 
     /**
      * Sets specified global properties.
      */
-    @get:Internal
+    @Optional
+    @Input
     val globalProperties = project.objects.mapProperty<String, String>()
 
     /**
@@ -107,159 +123,185 @@ open class GenerateTask : DefaultTask() {
      * File content should be in a json format { "optionKey":"optionValue", "optionKey1":"optionValue1"...}
      * Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.
      */
-    @get:Internal
+    @Optional
+    @Input
     val configFile = project.objects.property<String>()
 
     /**
      * Specifies if the existing files should be overwritten during the generation.
      */
-    @get:Internal
+    @Optional
+    @Input
     val skipOverwrite = project.objects.property<Boolean?>()
 
     /**
      * Package for generated classes (where supported)
      */
-    @get:Internal
+    @Optional
+    @Input
     val packageName = project.objects.property<String>()
 
     /**
      * Package for generated api classes
      */
-    @get:Internal
+    @Optional
+    @Input
     val apiPackage = project.objects.property<String>()
 
     /**
      * Package for generated models
      */
-    @get:Internal
+    @Optional
+    @Input
     val modelPackage = project.objects.property<String>()
 
     /**
      * Prefix that will be prepended to all model names. Default is the empty string.
      */
-    @get:Internal
+    @Optional
+    @Input
     val modelNamePrefix = project.objects.property<String>()
 
     /**
      * Suffix that will be appended to all model names. Default is the empty string.
      */
-    @get:Internal
+    @Optional
+    @Input
     val modelNameSuffix = project.objects.property<String>()
 
     /**
      * Sets instantiation type mappings.
      */
-    @get:Internal
+    @Optional
+    @Input
     val instantiationTypes = project.objects.mapProperty<String, String>()
 
     /**
      * Sets mappings between OpenAPI spec types and generated code types.
      */
-    @get:Internal
+    @Optional
+    @Input
     val typeMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Sets additional properties that can be referenced by the mustache templates in the format of name=value,name=value.
      * You can also have multiple occurrences of this option.
      */
-    @get:Internal
+    @Optional
+    @Input
     val additionalProperties = project.objects.mapProperty<String, String>()
 
     /**
      * Sets server variable for server URL template substitution, in the format of name=value,name=value.
      * You can also have multiple occurrences of this option.
      */
-    @get:Internal
+    @Optional
+    @Input
     val serverVariables = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies additional language specific primitive types in the format of type1,type2,type3,type3. For example: String,boolean,Boolean,Double.
      */
-    @get:Internal
+    @Optional
+    @Input
     val languageSpecificPrimitives = project.objects.listProperty<String>()
 
     /**
      * Specifies mappings between a given class and the import that should be used for that class.
      */
-    @get:Internal
+    @Optional
+    @Input
     val importMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Root package for generated code.
      */
-    @get:Internal
+    @Optional
+    @Input
     val invokerPackage = project.objects.property<String>()
 
     /**
      * GroupId in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
      */
-    @get:Internal
+    @Optional
+    @Input
     val groupId = project.objects.property<String>()
 
     /**
      * ArtifactId in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
      */
-    @get:Internal
+    @Optional
+    @Input
     val id = project.objects.property<String>()
 
     /**
      * Artifact version in generated pom.xml/build.gradle or other build script. Language-specific conversions occur in non-jvm generators.
      */
-    @get:Internal
+    @Optional
+    @Input
     val version = project.objects.property<String>()
 
     /**
      * Reference the library template (sub-template) of a generator.
      */
-    @get:Internal
+    @Optional
+    @Input
     val library = project.objects.property<String?>()
 
     /**
      * Git host, e.g. gitlab.com.
      */
-    @get:Internal
+    @Optional
+    @Input
     val gitHost = project.objects.property<String?>()
 
     /**
      * Git user ID, e.g. openapitools.
      */
-    @get:Internal
+    @Optional
+    @Input
     val gitUserId = project.objects.property<String?>()
 
     /**
      * Git repo ID, e.g. openapi-generator.
      */
-    @get:Internal
+    @Optional
+    @Input
     val gitRepoId = project.objects.property<String?>()
 
     /**
      * Release note, default to 'Minor update'.
      */
-    @get:Internal
+    @Optional
+    @Input
     val releaseNote = project.objects.property<String?>()
 
     /**
      * HTTP user agent, e.g. codegen_csharp_api_client, default to 'OpenAPI-Generator/{packageVersion}/{language}'
      */
-    @get:Internal
+    @Optional
+    @Input
     val httpUserAgent = project.objects.property<String?>()
 
     /**
      * Specifies how a reserved name should be escaped to.
      */
-    @get:Internal
+    @Optional
+    @Input
     val reservedWordsMappings = project.objects.mapProperty<String, String>()
 
     /**
      * Specifies an override location for the .openapi-generator-ignore file. Most useful on initial generation.
      */
-    @get:Internal
+    @Optional
+    @Input
     val ignoreFileOverride = project.objects.property<String?>()
 
     /**
      * Remove prefix of operationId, e.g. config_getId => getId
      */
-    @get:Internal
+    @Optional
+    @Input
     val removeOperationIdPrefix = project.objects.property<Boolean?>()
 
     /**
@@ -271,7 +313,8 @@ open class GenerateTask : DefaultTask() {
      *   in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
      *   For more control over generation of individual files, configure an ignore file and refer to it via [ignoreFileOverride].
      */
-    @get:Internal
+    @Optional
+    @Input
     val apiFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
@@ -281,7 +324,8 @@ open class GenerateTask : DefaultTask() {
      *   in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
      *   For more control over generation of individual files, configure an ignore file and refer to it via [ignoreFileOverride].
      */
-    @get:Internal
+    @Optional
+    @Input
     val modelFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
@@ -294,7 +338,8 @@ open class GenerateTask : DefaultTask() {
      *   in others being disabled. That is, OpenAPI Generator considers any one of these to define a subset of generation.
      *   For more control over generation of individual files, configure an ignore file and refer to it via [ignoreFileOverride].
      */
-    @get:Internal
+    @Optional
+    @Input
     val supportingFilesConstrainedTo = project.objects.listProperty<String>()
 
     /**
@@ -305,7 +350,8 @@ open class GenerateTask : DefaultTask() {
      * For more control over generation of individual files, configure an ignore file and
      * refer to it via [ignoreFileOverride].
      */
-    @get:Internal
+    @Optional
+    @Input
     val generateModelTests = project.objects.property<Boolean>()
 
     /**
@@ -316,7 +362,8 @@ open class GenerateTask : DefaultTask() {
      * For more control over generation of individual files, configure an ignore file and
      * refer to it via [ignoreFileOverride].
      */
-    @get:Internal
+    @Optional
+    @Input
     val generateModelDocumentation = project.objects.property<Boolean>()
 
     /**
@@ -327,7 +374,8 @@ open class GenerateTask : DefaultTask() {
      * For more control over generation of individual files, configure an ignore file and
      * refer to it via [ignoreFileOverride].
      */
-    @get:Internal
+    @Optional
+    @Input
     val generateApiTests = project.objects.property<Boolean>()
 
     /**
@@ -338,21 +386,23 @@ open class GenerateTask : DefaultTask() {
      * For more control over generation of individual files, configure an ignore file and
      * refer to it via [ignoreFileOverride].
      */
-    @get:Internal
+    @Optional
+    @Input
     val generateApiDocumentation = project.objects.property<Boolean>()
 
     /**
      * A special-case setting which configures some generators with XML support. In some cases,
      * this forces json OR xml, so the default here is false.
      */
-    @get:Internal
+    @Optional
+    @Input
     val withXml = project.objects.property<Boolean>()
-
 
     /**
      * To write all log messages (not just errors) to STDOUT
      */
-    @get:Internal
+    @Optional
+    @Input
     val logToStderr = project.objects.property<Boolean>()
 
     /**
@@ -361,13 +411,15 @@ open class GenerateTask : DefaultTask() {
      * LANG_POST_PROCESS_FILE (e.g. GO_POST_PROCESS_FILE, SCALA_POST_PROCESS_FILE). Please open an issue if your target
      * generator does not support this functionality.
      */
-    @get:Internal
+    @Optional
+    @Input
     val enablePostProcessFile = project.objects.property<Boolean>()
 
     /**
      * To skip spec validation. When true, we will skip the default behavior of validating a spec before generation.
      */
-    @get:Internal
+    @Optional
+    @Input
     val skipValidateSpec = project.objects.property<Boolean>()
 
     /**
@@ -375,19 +427,22 @@ open class GenerateTask : DefaultTask() {
      * definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions.
      * When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
      */
-    @get:Internal
+    @Optional
+    @Input
     val generateAliasAsModel = project.objects.property<Boolean>()
 
     /**
      * A dynamic map of options specific to a generator.
      */
-    @get:Internal
+    @Optional
+    @Input
     val configOptions = project.objects.mapProperty<String, String>()
 
     /**
      * Templating engine: "mustache" (default) or "handlebars" (beta)
      */
-    @get:Internal
+    @Optional
+    @Input
     val engine = project.objects.property<String?>()
 
     private fun <T : Any?> Property<T>.ifNotEmpty(block: Property<T>.(T) -> Unit) {

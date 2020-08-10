@@ -101,12 +101,11 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 // DeletePet - Deletes a pet
 func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
-	petId, err := parseIntParameter(params["petId"])
+	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
 	apiKey := r.Header.Get("apiKey")
 	result, err := c.service.DeletePet(petId, apiKey)
 	if err != nil {
@@ -146,12 +145,11 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 // GetPetById - Find pet by ID
 func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
-	petId, err := parseIntParameter(params["petId"])
+	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
 	result, err := c.service.GetPetById(petId)
 	if err != nil {
 		w.WriteHeader(500)
@@ -187,12 +185,11 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 	}
 	
 	params := mux.Vars(r)
-	petId, err := parseIntParameter(params["petId"])
+	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
 	name := r.FormValue("name")
 	status := r.FormValue("status")
 	result, err := c.service.UpdatePetWithForm(petId, name, status)
@@ -213,12 +210,11 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	params := mux.Vars(r)
-	petId, err := parseIntParameter(params["petId"])
+	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
 	additionalMetadata := r.FormValue("additionalMetadata")
 	file, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
