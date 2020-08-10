@@ -424,7 +424,7 @@ public class AbstractJavaCodegenTest {
     }
 
     @Test
-    public void getTypeDeclarationGivenStringImportMappingTest() {
+    public void getTypeDeclarationGivenImportMappingTest() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
         codegen.importMapping().put("MyStringType", "com.example.foo");
         codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("MyStringType", new StringSchema())));
