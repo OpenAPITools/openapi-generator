@@ -23,9 +23,9 @@
         {{#termsOfService}}
         <copyright>{{termsOfService}}</copyright>
         {{/termsOfService}}
-        {{#licenseUrl}}
-        <licenseUrl>{{licenseUrl}}</licenseUrl>
-        {{/licenseUrl}}
+        {{#license}}
+        <license type="expression">{{{license}}}</license>
+        {{/license}}
 
         <!-- Dependencies are automatically installed when the package is installed -->
         <dependencies>

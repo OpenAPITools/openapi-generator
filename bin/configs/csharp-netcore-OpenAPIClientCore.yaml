@@ -5,4 +5,5 @@ templateDir: modules/openapi-generator/src/main/resources/csharp-netcore
 additionalProperties:
   packageGuid: '{321C8C3F-0156-40C1-AE42-D59761FB9B6C}'
   targetFramework: netcoreapp2.0
-  useCompareNetObjects: "true"
+  useCompareNetObjects: true
+  license: BSD-2-Clause OR MIT
