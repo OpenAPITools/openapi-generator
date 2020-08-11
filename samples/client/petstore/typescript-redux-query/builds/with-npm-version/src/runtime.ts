@@ -16,6 +16,12 @@ import { Meta, OptimisticUpdate, QueryKey, QueryOptions, Rollback, TransformStra
 
 export const BASE_PATH = "http://petstore.swagger.io/v2".replace(/\/+$/, "");
 
+export const Configuration = {
+    basePath: '', // This is the value that will be prepended to all endpoints.  For compatibility with
+                  // previous versions, the default is an empty string.  Other generators typically use
+                  // BASE_PATH as the default.
+};
+
 export interface TypedQueryConfig<TState, TBody> {
     force?: boolean;
     meta?: Meta;
