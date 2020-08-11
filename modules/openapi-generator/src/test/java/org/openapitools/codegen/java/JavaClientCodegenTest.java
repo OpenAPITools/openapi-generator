@@ -872,7 +872,7 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(defaultApi,
                 //multiple files
                 "multipartArrayWithHttpInfo(List<File> files)",
-                "formParams.put(\"files\", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
+                "formParams.addAll(\"files\", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
 
                 //mixed
                 "multipartMixedWithHttpInfo(File file, MultipartMixedMarker marker)",
