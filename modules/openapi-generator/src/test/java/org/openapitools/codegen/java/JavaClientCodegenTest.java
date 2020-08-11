@@ -960,7 +960,7 @@ public class JavaClientCodegenTest {
                 //multiple files
                 "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
                 "multipartArrayWithHttpInfo(java.util.Collection<org.springframework.core.io.Resource> files)",
-                "formParams.put(\"files\", files.stream().collect(Collectors.toList()));",
+                "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
                 //mixed
                 "multipartMixed(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",
