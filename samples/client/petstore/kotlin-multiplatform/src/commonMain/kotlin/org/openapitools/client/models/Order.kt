@@ -15,9 +15,6 @@ package org.openapitools.client.models
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.ContextualSerialization
-import org.openapitools.client.infrastructure.SafeEnum
-import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
-import org.openapitools.client.infrastructure.SafeEnumAdapter
 
 /**
  * An order for a pets from the pet store
@@ -40,16 +37,15 @@ data class Order (
 ) {
 
     /**
-    * Order Status
-    * Values: placed,approved,delivered
-    */
-    @Serializable(with = Status.Serializer::class)
-    enum class Status(override val serialName: kotlin.String) : SafeEnum {
+     * Order Status
+     * Values: placed,approved,delivered
+     */
+    
+    enum class Status(val serialName: kotlin.String) {
         placed("placed"),
         approved("approved"),
         delivered("delivered");
-
-        object Serializer : SafeEnumAdapter<Status>(Status::class)
+        
     }
 }
 

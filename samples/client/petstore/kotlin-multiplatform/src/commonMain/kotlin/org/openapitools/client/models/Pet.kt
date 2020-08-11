@@ -17,9 +17,6 @@ import org.openapitools.client.models.Tag
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.ContextualSerialization
-import org.openapitools.client.infrastructure.SafeEnum
-import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
-import org.openapitools.client.infrastructure.SafeEnumAdapter
 
 /**
  * A pet for sale in the pet store
@@ -42,16 +39,15 @@ data class Pet (
 ) {
 
     /**
-    * pet status in the store
-    * Values: available,pending,sold
-    */
-    @Serializable(with = Status.Serializer::class)
-    enum class Status(override val serialName: kotlin.String) : SafeEnum {
+     * pet status in the store
+     * Values: available,pending,sold
+     */
+    
+    enum class Status(val serialName: kotlin.String) {
         available("available"),
         pending("pending"),
         sold("sold");
-
-        object Serializer : SafeEnumAdapter<Status>(Status::class)
+        
     }
 }
 

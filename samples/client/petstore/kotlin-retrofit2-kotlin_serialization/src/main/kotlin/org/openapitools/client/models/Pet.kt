@@ -48,16 +48,15 @@ data class Pet (
 ) {
 
     /**
-    * pet status in the store
-    * Values: available,pending,sold,unknown_value
-    */
+     * pet status in the store
+     * Values: available,pending,sold,unknown_value
+     */
     @Serializable(with = Status.Serializer::class)
     enum class Status(override val serialName: kotlin.String) : SafeEnum {
         @SerialName(value = "available") available("available"),
         @SerialName(value = "pending") pending("pending"),
         @SerialName(value = "sold") sold("sold"),
         UNKNOWN(UNKNOWN_VALUE);
-
         object Serializer : SafeEnumAdapter<Status>(Status::class)
     }
 }

@@ -46,16 +46,15 @@ data class Order (
 ) {
 
     /**
-    * Order Status
-    * Values: placed,approved,delivered,unknown_value
-    */
+     * Order Status
+     * Values: placed,approved,delivered,unknown_value
+     */
     @Serializable(with = Status.Serializer::class)
     enum class Status(override val serialName: kotlin.String) : SafeEnum {
         @SerialName(value = "placed") placed("placed"),
         @SerialName(value = "approved") approved("approved"),
         @SerialName(value = "delivered") delivered("delivered"),
         UNKNOWN(UNKNOWN_VALUE);
-
         object Serializer : SafeEnumAdapter<Status>(Status::class)
     }
 }
