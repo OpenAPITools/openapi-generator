@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   
   private @Valid UUID uuid;
   private @Valid Date dateTime;
-  private @Valid Map<String, Animal> map = new HashMap<String, Animal>();
+  private @Valid Map<String, Animal> map = null;
 
   /**
    **/

@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class FileSchemaTestClass  implements Serializable {
   
   private @Valid java.io.File file;
-  private @Valid List<java.io.File> files = new ArrayList<java.io.File>();
+  private @Valid List<java.io.File> files = null;
 
   /**
    **/

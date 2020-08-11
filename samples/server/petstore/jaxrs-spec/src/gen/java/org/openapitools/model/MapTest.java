@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class MapTest  implements Serializable {
   
-  private @Valid Map<String, Map<String, String>> mapMapOfString = new HashMap<String, Map<String, String>>();
+  private @Valid Map<String, Map<String, String>> mapMapOfString = null;
  
 public enum InnerEnum {
 
@@ -53,9 +53,9 @@ public enum InnerEnum {
     }
 }
 
-  private @Valid Map<String, InnerEnum> mapOfEnumString = new HashMap<String, InnerEnum>();
-  private @Valid Map<String, Boolean> directMap = new HashMap<String, Boolean>();
-  private @Valid Map<String, Boolean> indirectMap = new HashMap<String, Boolean>();
+  private @Valid Map<String, InnerEnum> mapOfEnumString = null;
+  private @Valid Map<String, Boolean> directMap = null;
+  private @Valid Map<String, Boolean> indirectMap = null;
 
   /**
    **/

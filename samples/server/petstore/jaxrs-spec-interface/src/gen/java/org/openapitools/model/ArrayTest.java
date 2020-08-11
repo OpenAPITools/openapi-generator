@@ -19,9 +19,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ArrayTest  implements Serializable {
   
-  private @Valid List<String> arrayOfString = new ArrayList<String>();
-  private @Valid List<List<Long>> arrayArrayOfInteger = new ArrayList<List<Long>>();
-  private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel = new ArrayList<List<ReadOnlyFirst>>();
+  private @Valid List<String> arrayOfString = null;
+  private @Valid List<List<Long>> arrayArrayOfInteger = null;
+  private @Valid List<List<ReadOnlyFirst>> arrayArrayOfModel = null;
 
   /**
    **/
