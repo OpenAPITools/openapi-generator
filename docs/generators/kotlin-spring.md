@@ -33,6 +33,7 @@ sidebar_label: kotlin-spring
 |swaggerAnnotations|generate swagger annotations to go alongside controllers and models| |false|
 |title|server title name or client service name| |OpenAPI Kotlin Spring|
 |useBeanValidation|Use BeanValidation API annotations to validate data types| |true|
+|useTags|Whether to use tags for creating interface and controller class names| |false|
 
 ## IMPORT MAPPING
 
@@ -123,6 +124,7 @@ sidebar_label: kotlin-spring
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

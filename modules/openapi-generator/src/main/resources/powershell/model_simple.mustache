@@ -8,9 +8,16 @@
 {{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
 
 {{#allVars}}
+{{^discardReadOnly}}
 .PARAMETER {{{name}}}
 {{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
-
+{{/discardReadOnly}}
+{{#discardReadOnly}}
+{{^isReadOnly}}
+.PARAMETER {{{name}}}
+{{#description}}{{{description}}}{{/description}}{{^description}}No description available.{{/description}}
+{{/isReadOnly}}
+{{/discardReadOnly}}
 {{/allVars}}
 .OUTPUTS
 
@@ -20,6 +27,26 @@
 function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
     [CmdletBinding()]
     Param (
+{{#discardReadOnly}}
+    {{#allVars}}
+    {{^isReadOnly}}
+        [Parameter(ValueFromPipelineByPropertyName = $true)]
+        {{#pattern}}
+        [ValidatePattern("{{{.}}}")]
+        {{/pattern}}
+        {{#isEnum}}
+        {{#allowableValues}}
+        [ValidateSet({{#values}}"{{{.}}}"{{^-last}}, {{/-last}}{{/values}})]
+        {{/allowableValues}}
+        {{/isEnum}}
+        [{{vendorExtensions.x-powershell-data-type}}]
+        {{=<% %>=}}
+        ${<%name%>}<%#defaultValue%> = <%&.%><%/defaultValue%><%^vendorExtensions.x-powershell-last-writable%>,<%/vendorExtensions.x-powershell-last-writable%>
+        <%={{ }}=%>
+    {{/isReadOnly}}
+{{/allVars}}
+{{/discardReadOnly}}
+{{^discardReadOnly}}        
 {{#allVars}}
         [Parameter(Position = {{vendorExtensions.x-index}}, ValueFromPipelineByPropertyName = $true)]
         {{#pattern}}
@@ -32,15 +59,17 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
         {{/isEnum}}
         [{{vendorExtensions.x-powershell-data-type}}]
         {{=<% %>=}}
-        ${<%name%>}<%^-last%>,<%/-last%>
+        ${<%name%>}<%#defaultValue%> = <%&.%><%/defaultValue%><%^-last%>,<%/-last%>
         <%={{ }}=%>
 {{/allVars}}
+{{/discardReadOnly}}
     )
 
     Process {
         'Creating PSCustomObject: {{{packageName}}} => {{{apiNamePrefix}}}{{{classname}}}' | Write-Debug
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
+        {{^discardReadOnly}}
         {{#vars}}
         {{^isNullable}}
         {{#required}}
@@ -88,7 +117,8 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
 
         {{/minItems}}
         {{/hasValidation}}
-        {{/vars}}
+        {{/vars}} 
+
         $PSO = [PSCustomObject]@{
             {{=<< >>=}}
             <<#allVars>>
@@ -96,6 +126,70 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
             <</allVars>>
             <<={{ }}=>>
         }
+
+        {{/discardReadOnly}}
+        {{#discardReadOnly}}
+        {{#vars}}
+        {{^isReadOnly}}
+        {{^isNullable}}
+        {{#required}}
+        if (!${{{name}}}) {
+            throw "invalid value for '{{{name}}}', '{{{name}}}' cannot be null."
+        }
+
+        {{/required}}
+        {{/isNullable}}
+        {{#hasValidation}}
+        {{#maxLength}}
+        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}}.length -gt {{{maxLength}}}) {
+            throw "invalid value for '{{{name}}}', the character length must be smaller than or equal to {{{maxLength}}}."
+        }
+
+        {{/maxLength}}
+        {{#minLength}}
+        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}}.length -lt {{{minLength}}}) {
+            throw "invalid value for '{{{name}}}', the character length must be great than or equal to {{{minLength}}}."
+        }
+
+        {{/minLength}}
+        {{#maximum}}
+        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMaximum}}-ge{{/exclusiveMaximum}}{{^exclusiveMaximum}}-gt{{/exclusiveMaximum}} {{{maximum}}}) {
+          throw "invalid value for '{{{name}}}', must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}."
+        }
+
+        {{/maximum}}
+        {{#minimum}}
+        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMinimum}}-le{{/exclusiveMinimum}}{{^exclusiveMinimum}}-lt{{/exclusiveMinimum}} {{{minimum}}}) {
+          throw "invalid value for '{{{name}}}', must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}."
+        }
+
+        {{/minimum}}
+        {{#maxItems}}
+        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}}.length -gt {{{maxItems}}}) {
+            throw "invalid value for '{{{name}}}', number of items must be less than or equal to {{{maxItems}}}."
+        }
+
+        {{/maxItems}}
+        {{#minItems}}
+        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}}.length -lt {{{minItems}}}) {
+            throw "invalid value for '{{{name}}}', number of items must be greater than or equal to {{{minItems}}}."
+        }
+
+        {{/minItems}}
+        {{/hasValidation}}
+        {{/isReadOnly}}
+        {{/vars}}
+        
+        $PSO = [PSCustomObject]@{
+            {{=<< >>=}}
+            <<#allVars>>
+            <<^isReadOnly>>
+            "<<baseName>>" = ${<<name>>}
+            <</isReadOnly>>
+            <</allVars>>
+            <<={{ }}=>>
+        }
+        {{/discardReadOnly}}
 
         return $PSO
     }
@@ -129,13 +223,24 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
         $PSBoundParameters | Out-DebugParameter | Write-Debug
 
         $JsonParameters = ConvertFrom-Json -InputObject $Json
+        {{#isAdditionalPropertiesTrue}}
+        ${{{apiNamePrefix}}}{{{classname}}}AdditionalProperties = @{}
+        {{/isAdditionalPropertiesTrue}}
 
         # check if Json contains properties not defined in {{{apiNamePrefix}}}{{{classname}}}
         $AllProperties = ({{#allVars}}"{{{baseName}}}"{{^-last}}, {{/-last}}{{/allVars}})
         foreach ($name in $JsonParameters.PsObject.Properties.Name) {
+            {{^isAdditionalPropertiesTrue}}
             if (!($AllProperties.Contains($name))) {
                 throw "Error! JSON key '$name' not found in the properties: $($AllProperties)"
             }
+            {{/isAdditionalPropertiesTrue}}
+            {{#isAdditionalPropertiesTrue}}
+            # store undefined properties in additionalProperties
+            if (!($AllProperties.Contains($name))) {
+                ${{{apiNamePrefix}}}{{{classname}}}AdditionalProperties[$name] = $JsonParameters.PSobject.Properties[$name].value
+            }
+            {{/isAdditionalPropertiesTrue}}
         }
 
         {{#requiredVars}}
@@ -146,7 +251,7 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
 
         {{/-first}}
         if (!([bool]($JsonParameters.PSobject.Properties.name -match "{{{baseName}}}"))) {
-            throw "Error! JSON cannot be serialized due to the required property `{{{baseName}}}` missing." 
+            throw "Error! JSON cannot be serialized due to the required property `{{{baseName}}}` missing."
         } else {
             ${{name}} = $JsonParameters.PSobject.Properties["{{{baseName}}}"].value
         }
@@ -166,6 +271,9 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
             "<<baseName>>" = ${<<name>>}
             <</allVars>>
             <<={{ }}=>>
+            {{#isAdditionalPropertiesTrue}}
+            "AdditionalProperties" = ${{{apiNamePrefix}}}{{{classname}}}AdditionalProperties
+            {{/isAdditionalPropertiesTrue}}
         }
 
         return $PSO

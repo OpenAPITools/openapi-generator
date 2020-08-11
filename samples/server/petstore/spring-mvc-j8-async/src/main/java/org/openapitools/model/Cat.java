@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
 /**
  * Cat
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Cat extends Animal  {
   @JsonProperty("declawed")
   private Boolean declawed;

@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | Pointer to **int32** |  | 
+**Name** | **int32** |  | 
 **SnakeCase** | Pointer to **int32** |  | [optional] [readonly] 
 **Property** | Pointer to **string** |  | [optional] 
 **Var123Number** | Pointer to **int32** |  | [optional] [readonly] 

@@ -14,14 +14,14 @@ workflows:
     - brew-install@0.10.2:
         inputs:
         - packages: maven
-    - script@1.1.5:
+    - script@1.1.6:
         title: Install Cocoapods
         inputs:
         - content: |
             #!/usr/bin/env bash
 
             sudo gem install cocoapods
-    - script@1.1.5:
+    - script@1.1.6:
         inputs:
         - content: |
             #!/usr/bin/env bash
@@ -30,7 +30,7 @@ workflows:
 
             mvn --no-snapshot-updates package -Dorg.slf4j.simpleLogger.defaultLogLevel=error
         title: Build openapi-generator
-    - script@1.1.5:
+    - script@1.1.6:
         title: Update Swift samples
         inputs:
         - content: |
@@ -38,8 +38,8 @@ workflows:
 
             set -e
 
-            sh bin/swift5-all.sh
-    - script@1.1.5:
+            bin/generate-samples.sh ./bin/configs/other/swift5-*
+    - script@1.1.6:
         title: Run Swift5 tests
         inputs:
         - content: |
@@ -48,14 +48,4 @@ workflows:
             set -e
 
             ./samples/client/test/swift5/swift5_test_all.sh
-# comment out the following as it's causing timeout
-#    - script@1.1.5:
-#        title: Run all bin scripts
-#        inputs:
-#        - content: |-
-#            #!/usr/bin/env bash
-#
-#            set -e
-#
-#            ./bin/run-all-petstore
 

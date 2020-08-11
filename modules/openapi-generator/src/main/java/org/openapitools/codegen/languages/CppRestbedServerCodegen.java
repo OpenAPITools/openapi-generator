@@ -287,9 +287,6 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
         List<CodegenOperation> newOpList = new ArrayList<CodegenOperation>();
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (CodegenOperation op : operationList) {
             String path = op.path;
 
@@ -311,7 +308,6 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 }
                 op.path += item + "/";
             }
-            op.vendorExtensions.put("x-codegen-resourceName", resourceNameCamelCase); // TODO: 5.0 Remove
             op.vendorExtensions.put("x-codegen-resource-name", resourceNameCamelCase);
 
             boolean foundInNewList = false;
@@ -325,7 +321,6 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                         }
                         op.operationIdCamelCase = op1.operationIdCamelCase;
                         currentOtherMethodList.add(op);
-                        op1.vendorExtensions.put("x-codegen-otherMethods", currentOtherMethodList); // TODO: 5.0 Remove
                         op1.vendorExtensions.put("x-codegen-other-methods", currentOtherMethodList);
                     }
                 }
@@ -355,7 +350,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "<std::string, " + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isByteArraySchema(p)) {
             return "std::string";
@@ -430,7 +425,7 @@ public class CppRestbedServerCodegen extends AbstractCppCodegen {
                 return "\"\"";
             }
         } else if (ModelUtils.isMapSchema(p)) {
-            String inner = getSchemaType(ModelUtils.getAdditionalProperties(p));
+            String inner = getSchemaType(getAdditionalProperties(p));
             return "std::map<std::string, " + inner + ">()";
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;

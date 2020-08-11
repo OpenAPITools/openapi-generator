@@ -8,8 +8,11 @@
 
 #' @docType class
 #' @title User
+#'
 #' @description User Class
+#'
 #' @format An \code{R6Class} generator object
+#'
 #' @field id  integer [optional]
 #'
 #' @field username  character [optional]
@@ -26,7 +29,6 @@
 #'
 #' @field userStatus  integer [optional]
 #'
-#'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
 #' @export
@@ -41,7 +43,9 @@ User <- R6::R6Class(
     `password` = NULL,
     `phone` = NULL,
     `userStatus` = NULL,
-    initialize = function(`id`=NULL, `username`=NULL, `firstName`=NULL, `lastName`=NULL, `email`=NULL, `password`=NULL, `phone`=NULL, `userStatus`=NULL, ...){
+    initialize = function(
+        `id`=NULL, `username`=NULL, `firstName`=NULL, `lastName`=NULL, `email`=NULL, `password`=NULL, `phone`=NULL, `userStatus`=NULL, ...
+    ) {
       local.optional.var <- list(...)
       if (!is.null(`id`)) {
         stopifnot(is.numeric(`id`), length(`id`) == 1)
@@ -139,6 +143,7 @@ User <- R6::R6Class(
       if (!is.null(UserObject$`userStatus`)) {
         self$`userStatus` <- UserObject$`userStatus`
       }
+      self
     },
     toJSONString = function() {
       jsoncontent <- c(
@@ -216,3 +221,4 @@ User <- R6::R6Class(
     }
   )
 )
+

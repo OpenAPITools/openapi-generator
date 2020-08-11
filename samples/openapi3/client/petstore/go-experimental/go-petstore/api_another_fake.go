@@ -30,12 +30,10 @@ type apiCall123TestSpecialTagsRequest struct {
 	client *Client
 }
 
-
 func (r apiCall123TestSpecialTagsRequest) Client(client Client) apiCall123TestSpecialTagsRequest {
 	r.client = &client
 	return r
 }
-
 /*
 Call123TestSpecialTags To test special tags
 To test special tags and operation ID starting with number
@@ -51,7 +49,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context) api
 
 /*
 Execute executes the request
- @return Client
+@return Client
 */
 func (r apiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response, error) {
 	var (
@@ -73,7 +71,6 @@ func (r apiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response,
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.client == nil {
 		return localVarReturnValue, nil, reportError("client is required and must be specified")
 	}

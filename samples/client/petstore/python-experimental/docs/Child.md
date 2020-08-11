@@ -1,4 +1,4 @@
-# child.Child
+# Child
 
 ## Properties
 Name | Type | Description | Notes

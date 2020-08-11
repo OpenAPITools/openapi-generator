@@ -38,5 +38,11 @@ public enum ClientModificationFeature {
      * Supports customizing the user agent in generated client output.
      */
     @ToolingExtension
-    UserAgent
+    UserAgent,
+
+    /**
+     * Supports mock server. This feature disabled by default.
+     */
+    @ToolingExtension
+    MockServer
 }

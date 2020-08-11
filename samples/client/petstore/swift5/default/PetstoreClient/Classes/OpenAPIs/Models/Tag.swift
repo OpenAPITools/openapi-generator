@@ -12,7 +12,7 @@ public struct Tag: Codable {
     public var id: Int64?
     public var name: String?
 
-    public init(id: Int64?, name: String?) {
+    public init(id: Int64? = nil, name: String? = nil) {
         self.id = id
         self.name = name
     }

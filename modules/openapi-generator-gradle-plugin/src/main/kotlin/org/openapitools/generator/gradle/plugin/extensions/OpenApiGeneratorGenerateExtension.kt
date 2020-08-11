@@ -65,9 +65,9 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     val auth = project.objects.property<String>()
 
     /**
-     * Sets specified system properties.
+     * Sets specified global properties.
      */
-    val systemProperties = project.objects.mapProperty<String, String>()
+    val globalProperties = project.objects.mapProperty<String, String>()
 
     /**
      * Path to json configuration file.
@@ -317,7 +317,7 @@ open class OpenApiGeneratorGenerateExtension(project: Project) {
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun applyDefaults(){
+    fun applyDefaults() {
         releaseNote.set("Minor update")
         modelNamePrefix.set("")
         modelNameSuffix.set("")

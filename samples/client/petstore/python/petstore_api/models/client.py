@@ -68,7 +68,7 @@ class Client(object):
 
 
         :param client: The client of this Client.  # noqa: E501
-        :type: str
+        :type client: str
         """
 
         self._client = client

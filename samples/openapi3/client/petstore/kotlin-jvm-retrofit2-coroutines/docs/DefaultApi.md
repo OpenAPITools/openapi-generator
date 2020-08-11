@@ -4,31 +4,24 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**fooGet**](DefaultApi.md#fooGet) | **GET** /foo | 
+[**fooGet**](DefaultApi.md#fooGet) | **GET** foo | 
 
 
-<a name="fooGet"></a>
-# **fooGet**
-> InlineResponseDefault fooGet()
 
 
 
 ### Example
 ```kotlin
 // Import classes:
+//import org.openapitools.client.*
 //import org.openapitools.client.infrastructure.*
 //import org.openapitools.client.models.*
 
-val apiInstance = DefaultApi()
-try {
-    val result : InlineResponseDefault = apiInstance.fooGet()
-    println(result)
-} catch (e: ClientException) {
-    println("4xx response calling DefaultApi#fooGet")
-    e.printStackTrace()
-} catch (e: ServerException) {
-    println("5xx response calling DefaultApi#fooGet")
-    e.printStackTrace()
+val apiClient = ApiClient()
+val webService = apiClient.createWebservice(DefaultApi::class.java)
+
+launch(Dispatchers.IO) {
+    val result : InlineResponseDefault = webService.fooGet()
 }
 ```
 

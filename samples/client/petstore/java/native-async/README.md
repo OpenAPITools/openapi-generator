@@ -75,6 +75,7 @@ Please follow the [installation](#installation) instruction and execute the foll
 import org.openapitools.client.*;
 import org.openapitools.client.model.*;
 import org.openapitools.client.api.AnotherFakeApi;
+import java.util.concurrent.CompletableFuture;
 
 public class AnotherFakeApiExample {
 
@@ -85,8 +86,8 @@ public class AnotherFakeApiExample {
         AnotherFakeApi apiInstance = new AnotherFakeApi(defaultClient);
         Client body = new Client(); // Client | client model
         try {
-            Client result = apiInstance.call123testSpecialTags(body);
-            System.out.println(result);
+            CompletableFuture<Client> result = apiInstance.call123testSpecialTags(body);
+            System.out.println(result.get());
         } catch (ApiException e) {
             System.err.println("Exception when calling AnotherFakeApi#call123testSpecialTags");
             System.err.println("Status code: " + e.getCode());
@@ -106,42 +107,79 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AnotherFakeApi* | [**call123testSpecialTags**](docs/AnotherFakeApi.md#call123testSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+*AnotherFakeApi* | [**call123testSpecialTagsWithHttpInfo**](docs/AnotherFakeApi.md#call123testSpecialTagsWithHttpInfo) | **PATCH** /another-fake/dummy | To test special tags
 *FakeApi* | [**createXmlItem**](docs/FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
+*FakeApi* | [**createXmlItemWithHttpInfo**](docs/FakeApi.md#createXmlItemWithHttpInfo) | **POST** /fake/create_xml_item | creates an XmlItem
 *FakeApi* | [**fakeOuterBooleanSerialize**](docs/FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
+*FakeApi* | [**fakeOuterBooleanSerializeWithHttpInfo**](docs/FakeApi.md#fakeOuterBooleanSerializeWithHttpInfo) | **POST** /fake/outer/boolean | 
 *FakeApi* | [**fakeOuterCompositeSerialize**](docs/FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
+*FakeApi* | [**fakeOuterCompositeSerializeWithHttpInfo**](docs/FakeApi.md#fakeOuterCompositeSerializeWithHttpInfo) | **POST** /fake/outer/composite | 
 *FakeApi* | [**fakeOuterNumberSerialize**](docs/FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
+*FakeApi* | [**fakeOuterNumberSerializeWithHttpInfo**](docs/FakeApi.md#fakeOuterNumberSerializeWithHttpInfo) | **POST** /fake/outer/number | 
 *FakeApi* | [**fakeOuterStringSerialize**](docs/FakeApi.md#fakeOuterStringSerialize) | **POST** /fake/outer/string | 
+*FakeApi* | [**fakeOuterStringSerializeWithHttpInfo**](docs/FakeApi.md#fakeOuterStringSerializeWithHttpInfo) | **POST** /fake/outer/string | 
 *FakeApi* | [**testBodyWithFileSchema**](docs/FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
+*FakeApi* | [**testBodyWithFileSchemaWithHttpInfo**](docs/FakeApi.md#testBodyWithFileSchemaWithHttpInfo) | **PUT** /fake/body-with-file-schema | 
 *FakeApi* | [**testBodyWithQueryParams**](docs/FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
+*FakeApi* | [**testBodyWithQueryParamsWithHttpInfo**](docs/FakeApi.md#testBodyWithQueryParamsWithHttpInfo) | **PUT** /fake/body-with-query-params | 
 *FakeApi* | [**testClientModel**](docs/FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
+*FakeApi* | [**testClientModelWithHttpInfo**](docs/FakeApi.md#testClientModelWithHttpInfo) | **PATCH** /fake | To test \&quot;client\&quot; model
 *FakeApi* | [**testEndpointParameters**](docs/FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+*FakeApi* | [**testEndpointParametersWithHttpInfo**](docs/FakeApi.md#testEndpointParametersWithHttpInfo) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 *FakeApi* | [**testEnumParameters**](docs/FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
+*FakeApi* | [**testEnumParametersWithHttpInfo**](docs/FakeApi.md#testEnumParametersWithHttpInfo) | **GET** /fake | To test enum parameters
 *FakeApi* | [**testGroupParameters**](docs/FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
+*FakeApi* | [**testGroupParametersWithHttpInfo**](docs/FakeApi.md#testGroupParametersWithHttpInfo) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 *FakeApi* | [**testInlineAdditionalProperties**](docs/FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
+*FakeApi* | [**testInlineAdditionalPropertiesWithHttpInfo**](docs/FakeApi.md#testInlineAdditionalPropertiesWithHttpInfo) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 *FakeApi* | [**testJsonFormData**](docs/FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+*FakeApi* | [**testJsonFormDataWithHttpInfo**](docs/FakeApi.md#testJsonFormDataWithHttpInfo) | **GET** /fake/jsonFormData | test json serialization of form data
 *FakeApi* | [**testQueryParameterCollectionFormat**](docs/FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
+*FakeApi* | [**testQueryParameterCollectionFormatWithHttpInfo**](docs/FakeApi.md#testQueryParameterCollectionFormatWithHttpInfo) | **PUT** /fake/test-query-paramters | 
 *FakeClassnameTags123Api* | [**testClassname**](docs/FakeClassnameTags123Api.md#testClassname) | **PATCH** /fake_classname_test | To test class name in snake case
+*FakeClassnameTags123Api* | [**testClassnameWithHttpInfo**](docs/FakeClassnameTags123Api.md#testClassnameWithHttpInfo) | **PATCH** /fake_classname_test | To test class name in snake case
 *PetApi* | [**addPet**](docs/PetApi.md#addPet) | **POST** /pet | Add a new pet to the store
+*PetApi* | [**addPetWithHttpInfo**](docs/PetApi.md#addPetWithHttpInfo) | **POST** /pet | Add a new pet to the store
 *PetApi* | [**deletePet**](docs/PetApi.md#deletePet) | **DELETE** /pet/{petId} | Deletes a pet
+*PetApi* | [**deletePetWithHttpInfo**](docs/PetApi.md#deletePetWithHttpInfo) | **DELETE** /pet/{petId} | Deletes a pet
 *PetApi* | [**findPetsByStatus**](docs/PetApi.md#findPetsByStatus) | **GET** /pet/findByStatus | Finds Pets by status
+*PetApi* | [**findPetsByStatusWithHttpInfo**](docs/PetApi.md#findPetsByStatusWithHttpInfo) | **GET** /pet/findByStatus | Finds Pets by status
 *PetApi* | [**findPetsByTags**](docs/PetApi.md#findPetsByTags) | **GET** /pet/findByTags | Finds Pets by tags
+*PetApi* | [**findPetsByTagsWithHttpInfo**](docs/PetApi.md#findPetsByTagsWithHttpInfo) | **GET** /pet/findByTags | Finds Pets by tags
 *PetApi* | [**getPetById**](docs/PetApi.md#getPetById) | **GET** /pet/{petId} | Find pet by ID
+*PetApi* | [**getPetByIdWithHttpInfo**](docs/PetApi.md#getPetByIdWithHttpInfo) | **GET** /pet/{petId} | Find pet by ID
 *PetApi* | [**updatePet**](docs/PetApi.md#updatePet) | **PUT** /pet | Update an existing pet
+*PetApi* | [**updatePetWithHttpInfo**](docs/PetApi.md#updatePetWithHttpInfo) | **PUT** /pet | Update an existing pet
 *PetApi* | [**updatePetWithForm**](docs/PetApi.md#updatePetWithForm) | **POST** /pet/{petId} | Updates a pet in the store with form data
+*PetApi* | [**updatePetWithFormWithHttpInfo**](docs/PetApi.md#updatePetWithFormWithHttpInfo) | **POST** /pet/{petId} | Updates a pet in the store with form data
 *PetApi* | [**uploadFile**](docs/PetApi.md#uploadFile) | **POST** /pet/{petId}/uploadImage | uploads an image
+*PetApi* | [**uploadFileWithHttpInfo**](docs/PetApi.md#uploadFileWithHttpInfo) | **POST** /pet/{petId}/uploadImage | uploads an image
 *PetApi* | [**uploadFileWithRequiredFile**](docs/PetApi.md#uploadFileWithRequiredFile) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
+*PetApi* | [**uploadFileWithRequiredFileWithHttpInfo**](docs/PetApi.md#uploadFileWithRequiredFileWithHttpInfo) | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 *StoreApi* | [**deleteOrder**](docs/StoreApi.md#deleteOrder) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
+*StoreApi* | [**deleteOrderWithHttpInfo**](docs/StoreApi.md#deleteOrderWithHttpInfo) | **DELETE** /store/order/{order_id} | Delete purchase order by ID
 *StoreApi* | [**getInventory**](docs/StoreApi.md#getInventory) | **GET** /store/inventory | Returns pet inventories by status
+*StoreApi* | [**getInventoryWithHttpInfo**](docs/StoreApi.md#getInventoryWithHttpInfo) | **GET** /store/inventory | Returns pet inventories by status
 *StoreApi* | [**getOrderById**](docs/StoreApi.md#getOrderById) | **GET** /store/order/{order_id} | Find purchase order by ID
+*StoreApi* | [**getOrderByIdWithHttpInfo**](docs/StoreApi.md#getOrderByIdWithHttpInfo) | **GET** /store/order/{order_id} | Find purchase order by ID
 *StoreApi* | [**placeOrder**](docs/StoreApi.md#placeOrder) | **POST** /store/order | Place an order for a pet
+*StoreApi* | [**placeOrderWithHttpInfo**](docs/StoreApi.md#placeOrderWithHttpInfo) | **POST** /store/order | Place an order for a pet
 *UserApi* | [**createUser**](docs/UserApi.md#createUser) | **POST** /user | Create user
+*UserApi* | [**createUserWithHttpInfo**](docs/UserApi.md#createUserWithHttpInfo) | **POST** /user | Create user
 *UserApi* | [**createUsersWithArrayInput**](docs/UserApi.md#createUsersWithArrayInput) | **POST** /user/createWithArray | Creates list of users with given input array
+*UserApi* | [**createUsersWithArrayInputWithHttpInfo**](docs/UserApi.md#createUsersWithArrayInputWithHttpInfo) | **POST** /user/createWithArray | Creates list of users with given input array
 *UserApi* | [**createUsersWithListInput**](docs/UserApi.md#createUsersWithListInput) | **POST** /user/createWithList | Creates list of users with given input array
+*UserApi* | [**createUsersWithListInputWithHttpInfo**](docs/UserApi.md#createUsersWithListInputWithHttpInfo) | **POST** /user/createWithList | Creates list of users with given input array
 *UserApi* | [**deleteUser**](docs/UserApi.md#deleteUser) | **DELETE** /user/{username} | Delete user
+*UserApi* | [**deleteUserWithHttpInfo**](docs/UserApi.md#deleteUserWithHttpInfo) | **DELETE** /user/{username} | Delete user
 *UserApi* | [**getUserByName**](docs/UserApi.md#getUserByName) | **GET** /user/{username} | Get user by user name
+*UserApi* | [**getUserByNameWithHttpInfo**](docs/UserApi.md#getUserByNameWithHttpInfo) | **GET** /user/{username} | Get user by user name
 *UserApi* | [**loginUser**](docs/UserApi.md#loginUser) | **GET** /user/login | Logs user into the system
+*UserApi* | [**loginUserWithHttpInfo**](docs/UserApi.md#loginUserWithHttpInfo) | **GET** /user/login | Logs user into the system
 *UserApi* | [**logoutUser**](docs/UserApi.md#logoutUser) | **GET** /user/logout | Logs out current logged in user session
+*UserApi* | [**logoutUserWithHttpInfo**](docs/UserApi.md#logoutUserWithHttpInfo) | **GET** /user/logout | Logs out current logged in user session
 *UserApi* | [**updateUser**](docs/UserApi.md#updateUser) | **PUT** /user/{username} | Updated user
+*UserApi* | [**updateUserWithHttpInfo**](docs/UserApi.md#updateUserWithHttpInfo) | **PUT** /user/{username} | Updated user
 
 
 ## Documentation for Models

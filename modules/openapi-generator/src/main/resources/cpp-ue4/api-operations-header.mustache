@@ -52,7 +52,7 @@ public:
 	{{#responses.0}}
 	void SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode) final;
 	{{/responses.0}}
-	bool FromJson(const TSharedPtr<FJsonValue>& JsonObject) final;
+	bool FromJson(const TSharedPtr<FJsonValue>& JsonValue) final;
     
     {{#returnType}}{{{returnType}}} Content;{{/returnType}}
 };

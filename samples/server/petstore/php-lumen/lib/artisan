@@ -1,6 +1,10 @@
 #!/usr/bin/env php
 <?php
 
+/**
+ * The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+ */
+
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 

@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class FormatTest  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class FormatTest  implements Serializable {
   
   private @Valid Integer integer;
   private @Valid Integer int32;

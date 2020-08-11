@@ -5,9 +5,18 @@ import retrofit2.http.*
 {{#doNotUseRxAndCoroutines}}
 import retrofit2.Call
 {{/doNotUseRxAndCoroutines}}
+{{^doNotUseRxAndCoroutines}}
+{{#useCoroutines}}
+import retrofit2.Response
+{{/useCoroutines}}
+{{/doNotUseRxAndCoroutines}}
 import okhttp3.RequestBody
+{{#isResponseFile}}
 import okhttp3.ResponseBody
+{{/isResponseFile}}
+{{#isMultipart}}
 import okhttp3.MultipartBody
+{{/isMultipart}}
 {{^doNotUseRxAndCoroutines}}
 {{#useRxJava}}
 import rx.Observable
@@ -15,10 +24,16 @@ import rx.Observable
 {{#useRxJava2}}
 import io.reactivex.Single
 {{/useRxJava2}}
+{{#useRxJava3}}
+import io.reactivex.rxjava3.core.Single;
+{{/useRxJava3}}
 {{^returnType}}
 {{#useRxJava2}}
 import io.reactivex.Completable
 {{/useRxJava2}}
+{{#useRxJava3}}
+import io.reactivex.rxjava3.core.Completable;
+{{/useRxJava3}}
 {{/returnType}}
 {{/doNotUseRxAndCoroutines}}
 
@@ -26,8 +41,25 @@ import io.reactivex.Completable
 {{/imports}}
 
 {{#operations}}
+{{#x-kotlin-multipart-import}}
+{{^isMultipart}}
+import okhttp3.MultipartBody
+
+{{/isMultipart}}
+{{/x-kotlin-multipart-import}}
 interface {{classname}} {
     {{#operation}}
+    /**
+     * {{summary}}
+     * {{notes}}
+     * Responses:{{#responses}}
+     *  - {{code}}: {{{message}}}{{/responses}}
+     * 
+    {{#allParams}} 
+     * @param {{paramName}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+    {{/allParams}} 
+    * @return {{^useCoroutines}}[Call]<{{/useCoroutines}}{{#isResponseFile}}[ResponseBody]{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}[{{{returnType}}}]{{/returnType}}{{^returnType}}[Unit]{{/returnType}}{{/isResponseFile}}{{^useCoroutines}}>{{/useCoroutines}}
+     */
     {{#isDeprecated}}
     @Deprecated("This api was deprecated")
     {{/isDeprecated}}
@@ -46,7 +78,7 @@ interface {{classname}} {
     {{/prioritizedContentTypes}}
     {{/formParams}}
     @{{httpMethod}}("{{{path}}}")
-    {{^doNotUseRxAndCoroutines}}{{#useCoroutines}}suspend {{/useCoroutines}}{{/doNotUseRxAndCoroutines}}fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/allParams}}: {{^doNotUseRxAndCoroutines}}{{#useRxJava}}Observable<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>{{/useRxJava}}{{#useRxJava2}}{{#returnType}}Single<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava2}}{{#useCoroutines}}{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}{{/useCoroutines}}{{/doNotUseRxAndCoroutines}}{{#doNotUseRxAndCoroutines}}Call<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>{{/doNotUseRxAndCoroutines}}
+    {{^doNotUseRxAndCoroutines}}{{#useCoroutines}}suspend {{/useCoroutines}}{{/doNotUseRxAndCoroutines}}fun {{operationId}}({{^allParams}}){{/allParams}}{{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}}, {{/hasMore}}{{^hasMore}}){{/hasMore}}{{/allParams}}: {{^doNotUseRxAndCoroutines}}{{#useRxJava}}Observable<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>{{/useRxJava}}{{#useRxJava2}}{{#returnType}}Single<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava2}}{{#useRxJava3}}{{#returnType}}Single<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{{returnType}}}{{/isResponseFile}}>{{/returnType}}{{^returnType}}Completable{{/returnType}}{{/useRxJava3}}{{#useCoroutines}}Response<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>{{/useCoroutines}}{{/doNotUseRxAndCoroutines}}{{#doNotUseRxAndCoroutines}}Call<{{#isResponseFile}}ResponseBody{{/isResponseFile}}{{^isResponseFile}}{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}{{/isResponseFile}}>{{/doNotUseRxAndCoroutines}}
 
     {{/operation}}
 }

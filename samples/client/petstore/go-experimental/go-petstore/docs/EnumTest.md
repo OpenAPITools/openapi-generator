@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **EnumString** | Pointer to **string** |  | [optional] 
-**EnumStringRequired** | Pointer to **string** |  | 
+**EnumStringRequired** | **string** |  | 
 **EnumInteger** | Pointer to **int32** |  | [optional] 
 **EnumNumber** | Pointer to **float64** |  | [optional] 
 **OuterEnum** | Pointer to [**OuterEnum**](OuterEnum.md) |  | [optional] 

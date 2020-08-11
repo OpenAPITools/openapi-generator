@@ -16,6 +16,7 @@ import org.openapitools.client.models.DogAllOf
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+
 /**
  * 
  * @param className 
@@ -31,9 +32,9 @@ data class Dog (
     @SerializedName("breed")
     val breed: kotlin.String? = null
 ) : Animal, Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

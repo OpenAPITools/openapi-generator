@@ -38,6 +38,37 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
         }
 
         {{/isNullable}}
+        {{#useOneOfDiscriminatorLookup}}
+        {{#discriminator}}
+        {{#mappedModels}}
+        {{#-first}}
+        $JsonData = ConvertFrom-Json -InputObject $Json
+        {{/-first}}
+        # check if the discriminator value is '{{{mappingName}}}'
+        if ($JsonData.PSobject.Properties["{{{propertyBaseName}}}"].value -eq "{{{mappingName}}}") {
+            # try to match {{{modelName}}} defined in the oneOf schemas
+            try {
+                $matchInstance = ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{modelName}}} $Json
+
+                foreach($property in $matchInstance.PsObject.Properties) {
+                    if ($null -ne $property.Value) {
+                        $matchType = "{{{modelName}}}"
+                        return [PSCustomObject]@{
+                            "ActualType" = ${matchType}
+                            "ActualInstance" = ${matchInstance}
+                            "oneOfSchemas" = @({{#oneOf}}"{{{.}}}"{{^-last}}, {{/-last}}{{/oneOf}})
+                        }
+                    }
+                }
+            } catch {
+                # fail to match the schema defined in oneOf with the discriminator lookup, proceed to the next one
+                Write-Debug "Failed to match '{{{modelName}}}' defined in oneOf ({{{apiNamePrefix}}}{{{classname}}}) using the discriminator lookup ({{{mappingName}}}). Proceeding with the typical oneOf type matching."
+            }
+        }
+
+        {{/mappedModels}}
+        {{/discriminator}}
+        {{/useOneOfDiscriminatorLookup}}
         {{#oneOf}}
         # try to match {{{.}}} defined in the oneOf schemas
         try {
@@ -45,7 +76,7 @@ function ConvertFrom-{{{apiNamePrefix}}}JsonTo{{{classname}}} {
 
             foreach($property in $matchInstance.PsObject.Properties) {
                 if ($null -ne $property.Value) {
-                    $matchType = "Dog"
+                    $matchType = "{{{.}}}"
                     $match++
                     break
                 }

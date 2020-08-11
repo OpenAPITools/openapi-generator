@@ -1,7 +1,7 @@
 <?php
 /**
  * UserApi
- * PHP version 7.1
+ * PHP version 7.2
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -120,15 +120,15 @@ class UserApi
      *
      * Create user
      *
-     * @param  \OpenAPI\Client\Model\User $body Created user object (required)
+     * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function createUser($body)
+    public function createUser($user)
     {
-        $this->createUserWithHttpInfo($body);
+        $this->createUserWithHttpInfo($user);
     }
 
     /**
@@ -136,15 +136,15 @@ class UserApi
      *
      * Create user
      *
-     * @param  \OpenAPI\Client\Model\User $body Created user object (required)
+     * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createUserWithHttpInfo($body)
+    public function createUserWithHttpInfo($user)
     {
-        $request = $this->createUserRequest($body);
+        $request = $this->createUserRequest($user);
 
         try {
             $options = $this->createHttpClientOption();
@@ -188,14 +188,14 @@ class UserApi
      *
      * Create user
      *
-     * @param  \OpenAPI\Client\Model\User $body Created user object (required)
+     * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createUserAsync($body)
+    public function createUserAsync($user)
     {
-        return $this->createUserAsyncWithHttpInfo($body)
+        return $this->createUserAsyncWithHttpInfo($user)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -208,15 +208,15 @@ class UserApi
      *
      * Create user
      *
-     * @param  \OpenAPI\Client\Model\User $body Created user object (required)
+     * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createUserAsyncWithHttpInfo($body)
+    public function createUserAsyncWithHttpInfo($user)
     {
         $returnType = '';
-        $request = $this->createUserRequest($body);
+        $request = $this->createUserRequest($user);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -244,17 +244,17 @@ class UserApi
     /**
      * Create request for operation 'createUser'
      *
-     * @param  \OpenAPI\Client\Model\User $body Created user object (required)
+     * @param  \OpenAPI\Client\Model\User $user Created user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function createUserRequest($body)
+    protected function createUserRequest($user)
     {
-        // verify the required parameter 'body' is set
-        if ($body === null || (is_array($body) && count($body) === 0)) {
+        // verify the required parameter 'user' is set
+        if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $body when calling createUser'
+                'Missing the required parameter $user when calling createUser'
             );
         }
 
@@ -270,8 +270,8 @@ class UserApi
 
         // body params
         $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
+        if (isset($user)) {
+            $_tempBody = $user;
         }
 
         if ($multipart) {
@@ -281,7 +281,7 @@ class UserApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 [],
-                []
+                ['application/json']
             );
         }
 
@@ -297,10 +297,13 @@ class UserApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -340,15 +343,15 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function createUsersWithArrayInput($body)
+    public function createUsersWithArrayInput($user)
     {
-        $this->createUsersWithArrayInputWithHttpInfo($body);
+        $this->createUsersWithArrayInputWithHttpInfo($user);
     }
 
     /**
@@ -356,15 +359,15 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createUsersWithArrayInputWithHttpInfo($body)
+    public function createUsersWithArrayInputWithHttpInfo($user)
     {
-        $request = $this->createUsersWithArrayInputRequest($body);
+        $request = $this->createUsersWithArrayInputRequest($user);
 
         try {
             $options = $this->createHttpClientOption();
@@ -408,14 +411,14 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createUsersWithArrayInputAsync($body)
+    public function createUsersWithArrayInputAsync($user)
     {
-        return $this->createUsersWithArrayInputAsyncWithHttpInfo($body)
+        return $this->createUsersWithArrayInputAsyncWithHttpInfo($user)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -428,15 +431,15 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createUsersWithArrayInputAsyncWithHttpInfo($body)
+    public function createUsersWithArrayInputAsyncWithHttpInfo($user)
     {
         $returnType = '';
-        $request = $this->createUsersWithArrayInputRequest($body);
+        $request = $this->createUsersWithArrayInputRequest($user);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -464,17 +467,17 @@ class UserApi
     /**
      * Create request for operation 'createUsersWithArrayInput'
      *
-     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function createUsersWithArrayInputRequest($body)
+    protected function createUsersWithArrayInputRequest($user)
     {
-        // verify the required parameter 'body' is set
-        if ($body === null || (is_array($body) && count($body) === 0)) {
+        // verify the required parameter 'user' is set
+        if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $body when calling createUsersWithArrayInput'
+                'Missing the required parameter $user when calling createUsersWithArrayInput'
             );
         }
 
@@ -490,8 +493,8 @@ class UserApi
 
         // body params
         $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
+        if (isset($user)) {
+            $_tempBody = $user;
         }
 
         if ($multipart) {
@@ -501,7 +504,7 @@ class UserApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 [],
-                []
+                ['application/json']
             );
         }
 
@@ -517,10 +520,13 @@ class UserApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -560,15 +566,15 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function createUsersWithListInput($body)
+    public function createUsersWithListInput($user)
     {
-        $this->createUsersWithListInputWithHttpInfo($body);
+        $this->createUsersWithListInputWithHttpInfo($user);
     }
 
     /**
@@ -576,15 +582,15 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createUsersWithListInputWithHttpInfo($body)
+    public function createUsersWithListInputWithHttpInfo($user)
     {
-        $request = $this->createUsersWithListInputRequest($body);
+        $request = $this->createUsersWithListInputRequest($user);
 
         try {
             $options = $this->createHttpClientOption();
@@ -628,14 +634,14 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createUsersWithListInputAsync($body)
+    public function createUsersWithListInputAsync($user)
     {
-        return $this->createUsersWithListInputAsyncWithHttpInfo($body)
+        return $this->createUsersWithListInputAsyncWithHttpInfo($user)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -648,15 +654,15 @@ class UserApi
      *
      * Creates list of users with given input array
      *
-     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createUsersWithListInputAsyncWithHttpInfo($body)
+    public function createUsersWithListInputAsyncWithHttpInfo($user)
     {
         $returnType = '';
-        $request = $this->createUsersWithListInputRequest($body);
+        $request = $this->createUsersWithListInputRequest($user);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -684,17 +690,17 @@ class UserApi
     /**
      * Create request for operation 'createUsersWithListInput'
      *
-     * @param  \OpenAPI\Client\Model\User[] $body List of user object (required)
+     * @param  \OpenAPI\Client\Model\User[] $user List of user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function createUsersWithListInputRequest($body)
+    protected function createUsersWithListInputRequest($user)
     {
-        // verify the required parameter 'body' is set
-        if ($body === null || (is_array($body) && count($body) === 0)) {
+        // verify the required parameter 'user' is set
+        if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $body when calling createUsersWithListInput'
+                'Missing the required parameter $user when calling createUsersWithListInput'
             );
         }
 
@@ -710,8 +716,8 @@ class UserApi
 
         // body params
         $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
+        if (isset($user)) {
+            $_tempBody = $user;
         }
 
         if ($multipart) {
@@ -721,7 +727,7 @@ class UserApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 [],
-                []
+                ['application/json']
             );
         }
 
@@ -737,10 +743,13 @@ class UserApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -962,10 +971,13 @@ class UserApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -1235,10 +1247,13 @@ class UserApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -1483,18 +1498,26 @@ class UserApi
         $multipart = false;
 
         // query params
-        if (is_array($username)) {
-            $username = ObjectSerializer::serializeCollection($username, '', true);
-        }
         if ($username !== null) {
-            $queryParams['username'] = $username;
+            if('form' === 'form' && is_array($username)) {
+                foreach($username as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['username'] = $username;
+            }
         }
         // query params
-        if (is_array($password)) {
-            $password = ObjectSerializer::serializeCollection($password, '', true);
-        }
         if ($password !== null) {
-            $queryParams['password'] = $password;
+            if('form' === 'form' && is_array($password)) {
+                foreach($password as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['password'] = $password;
+            }
         }
 
 
@@ -1525,10 +1548,13 @@ class UserApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -1731,10 +1757,13 @@ class UserApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -1775,15 +1804,15 @@ class UserApi
      * Updated user
      *
      * @param  string $username name that need to be deleted (required)
-     * @param  \OpenAPI\Client\Model\User $body Updated user object (required)
+     * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function updateUser($username, $body)
+    public function updateUser($username, $user)
     {
-        $this->updateUserWithHttpInfo($username, $body);
+        $this->updateUserWithHttpInfo($username, $user);
     }
 
     /**
@@ -1792,15 +1821,15 @@ class UserApi
      * Updated user
      *
      * @param  string $username name that need to be deleted (required)
-     * @param  \OpenAPI\Client\Model\User $body Updated user object (required)
+     * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function updateUserWithHttpInfo($username, $body)
+    public function updateUserWithHttpInfo($username, $user)
     {
-        $request = $this->updateUserRequest($username, $body);
+        $request = $this->updateUserRequest($username, $user);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1845,14 +1874,14 @@ class UserApi
      * Updated user
      *
      * @param  string $username name that need to be deleted (required)
-     * @param  \OpenAPI\Client\Model\User $body Updated user object (required)
+     * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateUserAsync($username, $body)
+    public function updateUserAsync($username, $user)
     {
-        return $this->updateUserAsyncWithHttpInfo($username, $body)
+        return $this->updateUserAsyncWithHttpInfo($username, $user)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1866,15 +1895,15 @@ class UserApi
      * Updated user
      *
      * @param  string $username name that need to be deleted (required)
-     * @param  \OpenAPI\Client\Model\User $body Updated user object (required)
+     * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function updateUserAsyncWithHttpInfo($username, $body)
+    public function updateUserAsyncWithHttpInfo($username, $user)
     {
         $returnType = '';
-        $request = $this->updateUserRequest($username, $body);
+        $request = $this->updateUserRequest($username, $user);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1903,12 +1932,12 @@ class UserApi
      * Create request for operation 'updateUser'
      *
      * @param  string $username name that need to be deleted (required)
-     * @param  \OpenAPI\Client\Model\User $body Updated user object (required)
+     * @param  \OpenAPI\Client\Model\User $user Updated user object (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function updateUserRequest($username, $body)
+    protected function updateUserRequest($username, $user)
     {
         // verify the required parameter 'username' is set
         if ($username === null || (is_array($username) && count($username) === 0)) {
@@ -1916,10 +1945,10 @@ class UserApi
                 'Missing the required parameter $username when calling updateUser'
             );
         }
-        // verify the required parameter 'body' is set
-        if ($body === null || (is_array($body) && count($body) === 0)) {
+        // verify the required parameter 'user' is set
+        if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $body when calling updateUser'
+                'Missing the required parameter $user when calling updateUser'
             );
         }
 
@@ -1943,8 +1972,8 @@ class UserApi
 
         // body params
         $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
+        if (isset($user)) {
+            $_tempBody = $user;
         }
 
         if ($multipart) {
@@ -1954,7 +1983,7 @@ class UserApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 [],
-                []
+                ['application/json']
             );
         }
 
@@ -1970,10 +1999,13 @@ class UserApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);

@@ -1,4 +1,4 @@
-# player.Player
+# Player
 
 ## Properties
 Name | Type | Description | Notes

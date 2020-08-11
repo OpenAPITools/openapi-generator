@@ -1,0 +1,4 @@
+generatorName: cpp-tizen
+outputDir: samples/client/petstore/cpp-tizen
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/cpp-tizen-client

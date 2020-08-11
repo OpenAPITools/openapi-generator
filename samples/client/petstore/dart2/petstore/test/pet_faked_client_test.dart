@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:http/http.dart';
 import 'package:openapi/api.dart';
@@ -31,7 +32,7 @@ void main() {
       ..category = category
       ..tags = tags
       ..name = name
-      ..status = status
+      ..status = PetStatusEnum.fromJson(status)
       ..photoUrls = ['https://petstore.com/sample/photo1.jpg'];
   }
 
@@ -188,10 +189,10 @@ void main() {
       final id1 = newId();
       final id2 = newId();
       final id3 = newId();
-      final status = 'available';
+      final status = PetStatusEnum.available_.value;
       final pet1 = makePet(id: id1, status: status);
       final pet2 = makePet(id: id2, status: status);
-      final pet3 = makePet(id: id3, status: 'sold');
+      final pet3 = makePet(id: id3, status: PetStatusEnum.sold_.value);
 
       return Future.wait([addPet(pet1), addPet(pet2), addPet(pet3)])
           .then((_) async {
@@ -202,6 +203,10 @@ void main() {
           getResponseBody: petApi.apiClient.serialize([pet1, pet2]),
         );
         final pets = await petApi.findPetsByStatus([status]);
+
+        // tests serialisation and deserialisation of enum
+        final petsByStatus = pets.where((p) => p.status == PetStatusEnum.available_);
+        expect(petsByStatus.length, equals(2));
         final petIds = pets.map((pet) => pet.id).toList();
         expect(petIds, contains(id1));
         expect(petIds, contains(id2));

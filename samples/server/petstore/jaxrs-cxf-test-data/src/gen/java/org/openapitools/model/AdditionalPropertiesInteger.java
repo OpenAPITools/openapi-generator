@@ -16,6 +16,7 @@ import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
 public class AdditionalPropertiesInteger extends HashMap<String, Integer> {
   
   @ApiModelProperty(value = "")

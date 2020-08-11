@@ -12,7 +12,7 @@ import org.openapitools.model.CatAllOf;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class Cat extends Animal  {
   @JsonProperty("declawed")
   private Boolean declawed;

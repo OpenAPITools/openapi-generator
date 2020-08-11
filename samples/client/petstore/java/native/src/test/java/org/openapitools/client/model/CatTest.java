@@ -13,12 +13,16 @@
 
 package org.openapitools.client.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Animal;
+import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.CatAllOf;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -53,6 +57,14 @@ public class CatTest {
     @Test
     public void colorTest() {
         // TODO: test color
+    }
+
+    /**
+     * Test the property 'declawed'
+     */
+    @Test
+    public void declawedTest() {
+        // TODO: test declawed
     }
 
 }

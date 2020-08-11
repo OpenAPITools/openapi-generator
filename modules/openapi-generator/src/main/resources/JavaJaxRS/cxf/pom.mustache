@@ -183,7 +183,13 @@
         <artifactId>hibernate-validator</artifactId>
         <version>5.2.2.Final</version>
     </dependency>
-{{/useBeanValidationFeature}}    
+{{/useBeanValidationFeature}}
+    <dependency>
+        <groupId>javax.annotation</groupId>
+        <artifactId>javax.annotation-api</artifactId>
+        <version>${javax-annotation-version}</version>
+        <scope>provided</scope>
+    </dependency>
   </dependencies>
   <repositories>
     <repository>
@@ -208,6 +214,7 @@
 {{/useBeanValidation}}
     <cxf-version>3.3.0</cxf-version>
     <jackson-jaxrs-version>2.9.9</jackson-jaxrs-version>
+    <javax-annotation-version>1.3.2</javax-annotation-version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>

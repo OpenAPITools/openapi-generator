@@ -45,9 +45,13 @@ please create a Gist (https://gist.github.com) or upload it somewhere else and
 link it here.
   -->
 
-##### Command line used for generation
+##### Generation Details
 
-<!-- including the language, libraries and various options -->
+<!-- 
+    Prefer CLI steps, including the language, libraries and various options. 
+    Providing config-based settings allows for simpler testing across CLI and plugins. 
+    For examples, see https://github.com/OpenAPITools/openapi-generator/tree/master/bin/configs
+-->
 
 ##### Steps to reproduce
 
