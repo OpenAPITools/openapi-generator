@@ -34,9 +34,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        void AddPet (Pet body);
+        void AddPet (Pet pet);
 
         /// <summary>
         /// Add a new pet to the store
@@ -45,9 +45,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> AddPetWithHttpInfo (Pet body);
+        ApiResponse<Object> AddPetWithHttpInfo (Pet pet);
         /// <summary>
         /// Deletes a pet
         /// </summary>
@@ -141,9 +141,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        void UpdatePet (Pet body);
+        void UpdatePet (Pet pet);
 
         /// <summary>
         /// Update an existing pet
@@ -152,9 +152,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> UpdatePetWithHttpInfo (Pet body);
+        ApiResponse<Object> UpdatePetWithHttpInfo (Pet pet);
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
@@ -246,10 +246,10 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task AddPetAsync (Pet body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task AddPetAsync (Pet pet, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Add a new pet to the store
@@ -258,10 +258,10 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>        
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> AddPetAsyncWithHttpInfo (Pet body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> AddPetWithHttpInfoAsync (Pet pet, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Deletes a pet
         /// </summary>
@@ -270,7 +270,6 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">Pet id to delete</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <param name="apiKey"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
@@ -283,12 +282,11 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">Pet id to delete</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="apiKey"> (optional)</param>        
+        /// <param name="petId">Pet id to delete</param>
+        /// <param name="apiKey"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetAsyncWithHttpInfo (long petId, string apiKey = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> DeletePetWithHttpInfoAsync (long petId, string apiKey = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Finds Pets by status
         /// </summary>
@@ -308,10 +306,10 @@ namespace Org.OpenAPITools.Api
         /// Multiple status values can be provided with comma separated strings
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>        
+        /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByStatusAsyncWithHttpInfo (List<string> status, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByStatusWithHttpInfoAsync (List<string> status, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Finds Pets by tags
         /// </summary>
@@ -331,10 +329,10 @@ namespace Org.OpenAPITools.Api
         /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tags">Tags to filter by</param>        
+        /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
-        System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByTagsAsyncWithHttpInfo (List<string> tags, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<List<Pet>>> FindPetsByTagsWithHttpInfoAsync (List<string> tags, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Find pet by ID
         /// </summary>
@@ -354,10 +352,10 @@ namespace Org.OpenAPITools.Api
         /// Returns a single pet
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to return</param>        
+        /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Pet)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Pet>> GetPetByIdAsyncWithHttpInfo (long petId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Pet>> GetPetByIdWithHttpInfoAsync (long petId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Update an existing pet
         /// </summary>
@@ -365,10 +363,10 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task UpdatePetAsync (Pet body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task UpdatePetAsync (Pet pet, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Update an existing pet
@@ -377,10 +375,10 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>        
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetAsyncWithHttpInfo (Pet body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithHttpInfoAsync (Pet pet, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// Updates a pet in the store with form data
         /// </summary>
@@ -389,9 +387,7 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet that needs to be updated</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <param name="name">Updated name of the pet (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
@@ -404,14 +400,12 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet that needs to be updated</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="name">Updated name of the pet (optional)</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="status">Updated status of the pet (optional)</param>        
+        /// <param name="petId">ID of pet that needs to be updated</param>
+        /// <param name="name">Updated name of the pet (optional)</param>
+        /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithFormAsyncWithHttpInfo (long petId, string name = default(string), string status = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Object>> UpdatePetWithFormWithHttpInfoAsync (long petId, string name = default(string), string status = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// uploads an image
         /// </summary>
@@ -420,9 +414,7 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <param name="file">file to upload (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
@@ -435,14 +427,12 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="file">file to upload (optional)</param>        
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <param name="file">file to upload (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync (long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
         /// uploads an image (required)
         /// </summary>
@@ -451,9 +441,7 @@ namespace Org.OpenAPITools.Api
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
         /// <param name="petId">ID of pet to update</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <param name="requiredFile">file to upload</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
@@ -466,14 +454,12 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="requiredFile">file to upload</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>        
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="requiredFile">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsyncWithHttpInfo (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -598,24 +584,24 @@ namespace Org.OpenAPITools.Api
         /// Add a new pet to the store 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        public void AddPet (Pet body)
+        public void AddPet (Pet pet)
         {
-             AddPetWithHttpInfo(body);
+             AddPetWithHttpInfo(pet);
         }
 
         /// <summary>
         /// Add a new pet to the store 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> AddPetWithHttpInfo (Pet body)
+        public Org.OpenAPITools.Client.ApiResponse<Object> AddPetWithHttpInfo (Pet pet)
         {
-            // verify the required parameter 'body' is set
-            if (body == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling PetApi->AddPet");
+            // verify the required parameter 'pet' is set
+            if (pet == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pet' when calling PetApi->AddPet");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -634,7 +620,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = pet;
 
             // authentication (petstore_auth) required
             // oauth required
@@ -659,27 +645,26 @@ namespace Org.OpenAPITools.Api
         /// Add a new pet to the store 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>        
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task AddPetAsync (Pet body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task AddPetAsync (Pet pet, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-             await AddPetAsyncWithHttpInfo(body, cancellationToken);
-
+             await AddPetWithHttpInfoAsync(pet, cancellationToken);
         }
 
         /// <summary>
         /// Add a new pet to the store 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>        
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> AddPetAsyncWithHttpInfo (Pet body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> AddPetWithHttpInfoAsync (Pet pet, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'body' is set
-            if (body == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling PetApi->AddPet");
+            // verify the required parameter 'pet' is set
+            if (pet == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pet' when calling PetApi->AddPet");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -700,7 +685,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = pet;
 
             // authentication (petstore_auth) required
             // oauth required
@@ -787,27 +772,24 @@ namespace Org.OpenAPITools.Api
         /// Deletes a pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">Pet id to delete</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="apiKey"> (optional)</param>        
+        /// <param name="petId">Pet id to delete</param>
+        /// <param name="apiKey"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task DeletePetAsync (long petId, string apiKey = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-             await DeletePetAsyncWithHttpInfo(petId, apiKey, cancellationToken);
-
+             await DeletePetWithHttpInfoAsync(petId, apiKey, cancellationToken);
         }
 
         /// <summary>
         /// Deletes a pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">Pet id to delete</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="apiKey"> (optional)</param>        
+        /// <param name="petId">Pet id to delete</param>
+        /// <param name="apiKey"> (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> DeletePetAsyncWithHttpInfo (long petId, string apiKey = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> DeletePetWithHttpInfoAsync (long petId, string apiKey = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -918,24 +900,23 @@ namespace Org.OpenAPITools.Api
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>        
+        /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;Pet&gt;</returns>
         public async System.Threading.Tasks.Task<List<Pet>> FindPetsByStatusAsync (List<string> status, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-             Org.OpenAPITools.Client.ApiResponse<List<Pet>> localVarResponse = await FindPetsByStatusAsyncWithHttpInfo(status, cancellationToken);
+             Org.OpenAPITools.Client.ApiResponse<List<Pet>> localVarResponse = await FindPetsByStatusWithHttpInfoAsync(status, cancellationToken);
              return localVarResponse.Data;
-
         }
 
         /// <summary>
         /// Finds Pets by status Multiple status values can be provided with comma separated strings
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="status">Status values that need to be considered for filter</param>        
+        /// <param name="status">Status values that need to be considered for filter</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<Pet>>> FindPetsByStatusAsyncWithHttpInfo (List<string> status, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<Pet>>> FindPetsByStatusWithHttpInfoAsync (List<string> status, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'status' is set
             if (status == null)
@@ -1048,24 +1029,23 @@ namespace Org.OpenAPITools.Api
         /// Finds Pets by tags Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tags">Tags to filter by</param>        
+        /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of List&lt;Pet&gt;</returns>
         public async System.Threading.Tasks.Task<List<Pet>> FindPetsByTagsAsync (List<string> tags, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-             Org.OpenAPITools.Client.ApiResponse<List<Pet>> localVarResponse = await FindPetsByTagsAsyncWithHttpInfo(tags, cancellationToken);
+             Org.OpenAPITools.Client.ApiResponse<List<Pet>> localVarResponse = await FindPetsByTagsWithHttpInfoAsync(tags, cancellationToken);
              return localVarResponse.Data;
-
         }
 
         /// <summary>
         /// Finds Pets by tags Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="tags">Tags to filter by</param>        
+        /// <param name="tags">Tags to filter by</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (List&lt;Pet&gt;)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<Pet>>> FindPetsByTagsAsyncWithHttpInfo (List<string> tags, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<Pet>>> FindPetsByTagsWithHttpInfoAsync (List<string> tags, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'tags' is set
             if (tags == null)
@@ -1173,24 +1153,23 @@ namespace Org.OpenAPITools.Api
         /// Find pet by ID Returns a single pet
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to return</param>        
+        /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Pet</returns>
         public async System.Threading.Tasks.Task<Pet> GetPetByIdAsync (long petId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-             Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = await GetPetByIdAsyncWithHttpInfo(petId, cancellationToken);
+             Org.OpenAPITools.Client.ApiResponse<Pet> localVarResponse = await GetPetByIdWithHttpInfoAsync(petId, cancellationToken);
              return localVarResponse.Data;
-
         }
 
         /// <summary>
         /// Find pet by ID Returns a single pet
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to return</param>        
+        /// <param name="petId">ID of pet to return</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Pet)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Pet>> GetPetByIdAsyncWithHttpInfo (long petId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Pet>> GetPetByIdWithHttpInfoAsync (long petId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1236,24 +1215,24 @@ namespace Org.OpenAPITools.Api
         /// Update an existing pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <returns></returns>
-        public void UpdatePet (Pet body)
+        public void UpdatePet (Pet pet)
         {
-             UpdatePetWithHttpInfo(body);
+             UpdatePetWithHttpInfo(pet);
         }
 
         /// <summary>
         /// Update an existing pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> UpdatePetWithHttpInfo (Pet body)
+        public Org.OpenAPITools.Client.ApiResponse<Object> UpdatePetWithHttpInfo (Pet pet)
         {
-            // verify the required parameter 'body' is set
-            if (body == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling PetApi->UpdatePet");
+            // verify the required parameter 'pet' is set
+            if (pet == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pet' when calling PetApi->UpdatePet");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
@@ -1272,7 +1251,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = pet;
 
             // authentication (petstore_auth) required
             // oauth required
@@ -1297,27 +1276,26 @@ namespace Org.OpenAPITools.Api
         /// Update an existing pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>        
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task UpdatePetAsync (Pet body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task UpdatePetAsync (Pet pet, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-             await UpdatePetAsyncWithHttpInfo(body, cancellationToken);
-
+             await UpdatePetWithHttpInfoAsync(pet, cancellationToken);
         }
 
         /// <summary>
         /// Update an existing pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">Pet object that needs to be added to the store</param>        
+        /// <param name="pet">Pet object that needs to be added to the store</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdatePetAsyncWithHttpInfo (Pet body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdatePetWithHttpInfoAsync (Pet pet, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'body' is set
-            if (body == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling PetApi->UpdatePet");
+            // verify the required parameter 'pet' is set
+            if (pet == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pet' when calling PetApi->UpdatePet");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1338,7 +1316,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = pet;
 
             // authentication (petstore_auth) required
             // oauth required
@@ -1432,31 +1410,26 @@ namespace Org.OpenAPITools.Api
         /// Updates a pet in the store with form data 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet that needs to be updated</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="name">Updated name of the pet (optional)</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="status">Updated status of the pet (optional)</param>        
+        /// <param name="petId">ID of pet that needs to be updated</param>
+        /// <param name="name">Updated name of the pet (optional)</param>
+        /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task UpdatePetWithFormAsync (long petId, string name = default(string), string status = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-             await UpdatePetWithFormAsyncWithHttpInfo(petId, name, status, cancellationToken);
-
+             await UpdatePetWithFormWithHttpInfoAsync(petId, name, status, cancellationToken);
         }
 
         /// <summary>
         /// Updates a pet in the store with form data 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet that needs to be updated</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="name">Updated name of the pet (optional)</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="status">Updated status of the pet (optional)</param>        
+        /// <param name="petId">ID of pet that needs to be updated</param>
+        /// <param name="name">Updated name of the pet (optional)</param>
+        /// <param name="status">Updated status of the pet (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdatePetWithFormAsyncWithHttpInfo (long petId, string name = default(string), string status = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> UpdatePetWithFormWithHttpInfoAsync (long petId, string name = default(string), string status = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1580,32 +1553,27 @@ namespace Org.OpenAPITools.Api
         /// uploads an image 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="file">file to upload (optional)</param>        
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <param name="file">file to upload (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse> UploadFileAsync (long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-             Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = await UploadFileAsyncWithHttpInfo(petId, additionalMetadata, file, cancellationToken);
+             Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = await UploadFileWithHttpInfoAsync(petId, additionalMetadata, file, cancellationToken);
              return localVarResponse.Data;
-
         }
 
         /// <summary>
         /// uploads an image 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="file">file to upload (optional)</param>        
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
+        /// <param name="file">file to upload (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileAsyncWithHttpInfo (long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithHttpInfoAsync (long petId, string additionalMetadata = default(string), System.IO.Stream file = default(System.IO.Stream), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
@@ -1731,32 +1699,27 @@ namespace Org.OpenAPITools.Api
         /// uploads an image (required) 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="requiredFile">file to upload</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>        
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="requiredFile">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse</returns>
         public async System.Threading.Tasks.Task<ApiResponse> UploadFileWithRequiredFileAsync (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-             Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = await UploadFileWithRequiredFileAsyncWithHttpInfo(petId, requiredFile, additionalMetadata, cancellationToken);
+             Org.OpenAPITools.Client.ApiResponse<ApiResponse> localVarResponse = await UploadFileWithRequiredFileWithHttpInfoAsync(petId, requiredFile, additionalMetadata, cancellationToken);
              return localVarResponse.Data;
-
         }
 
         /// <summary>
         /// uploads an image (required) 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="petId">ID of pet to update</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="requiredFile">file to upload</param>        
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>        
+        /// <param name="petId">ID of pet to update</param>
+        /// <param name="requiredFile">file to upload</param>
+        /// <param name="additionalMetadata">Additional data to pass to server (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (ApiResponse)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithRequiredFileAsyncWithHttpInfo (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<ApiResponse>> UploadFileWithRequiredFileWithHttpInfoAsync (long petId, System.IO.Stream requiredFile, string additionalMetadata = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
             // verify the required parameter 'requiredFile' is set
             if (requiredFile == null)

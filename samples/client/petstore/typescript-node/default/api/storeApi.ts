@@ -94,7 +94,7 @@ export class StoreApi {
      * @summary Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
-    public async deleteOrder (orderId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async deleteOrder (orderId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
         let localVarQueryParameters: any = {};
@@ -135,7 +135,7 @@ export class StoreApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body?: any;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
@@ -154,7 +154,7 @@ export class StoreApi {
      * Returns a map of status codes to quantities
      * @summary Returns pet inventories by status
      */
-    public async getInventory (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: { [key: string]: number; };  }> {
+    public async getInventory (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: { [key: string]: number; };  }> {
         const localVarPath = this.basePath + '/store/inventory';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -199,7 +199,7 @@ export class StoreApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body: { [key: string]: number; };  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: { [key: string]: number; };  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
@@ -220,7 +220,7 @@ export class StoreApi {
      * @summary Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
-    public async getOrderById (orderId: number, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Order;  }> {
+    public async getOrderById (orderId: number, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Order;  }> {
         const localVarPath = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
         let localVarQueryParameters: any = {};
@@ -268,7 +268,7 @@ export class StoreApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body: Order;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: Order;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
@@ -289,7 +289,7 @@ export class StoreApi {
      * @summary Place an order for a pet
      * @param body order placed for purchasing the pet
      */
-    public async placeOrder (body: Order, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Order;  }> {
+    public async placeOrder (body: Order, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Order;  }> {
         const localVarPath = this.basePath + '/store/order';
         let localVarQueryParameters: any = {};
         let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
@@ -337,7 +337,7 @@ export class StoreApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body: Order;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: Order;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);

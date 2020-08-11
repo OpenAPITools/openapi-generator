@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Client
             {
                 return new ApiException(status,
                     string.Format("Error calling {0}: {1}", methodName, response.RawContent),
-                    response.RawContent);
+                    response.RawContent, response.Headers);
             }
             if (status == 0)
             {

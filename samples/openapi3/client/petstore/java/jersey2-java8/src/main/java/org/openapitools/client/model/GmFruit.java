@@ -153,6 +153,14 @@ public class GmFruit extends AbstractOpenApiSchema {
         return GmFruit.schemas;
     }
 
+    /**
+     * Set the instance that matches the anyOf child schema, check
+     * the instance parameter is valid against the anyOf child schemas:
+     * Apple, Banana
+     *
+     * It could be an instance of the 'anyOf' schemas.
+     * The anyOf child schemas may themselves be a composed schema (allOf, anyOf, anyOf).
+     */
     @Override
     public void setActualInstance(Object instance) {
         if (JSON.isInstanceOf(Apple.class, instance, new HashSet<Class<?>>())) {
@@ -167,5 +175,39 @@ public class GmFruit extends AbstractOpenApiSchema {
 
         throw new RuntimeException("Invalid instance type. Must be Apple, Banana");
     }
+
+    /**
+     * Get the actual instance, which can be the following:
+     * Apple, Banana
+     *
+     * @return The actual instance (Apple, Banana)
+     */
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Apple`. If the actual instanct is not `Apple`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Apple`
+     * @throws ClassCastException if the instance is not `Apple`
+     */
+    public Apple getApple() throws ClassCastException {
+        return (Apple)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Banana`. If the actual instanct is not `Banana`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Banana`
+     * @throws ClassCastException if the instance is not `Banana`
+     */
+    public Banana getBanana() throws ClassCastException {
+        return (Banana)super.getActualInstance();
+    }
+
 }
 

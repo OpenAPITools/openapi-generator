@@ -310,7 +310,8 @@ public class Mammal extends AbstractOpenApiSchema {
 
     /**
      * Set the instance that matches the oneOf child schema, check
-     * the instance parameter is valid against the oneOf child schemas.
+     * the instance parameter is valid against the oneOf child schemas:
+     * Pig, Whale, Zebra
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
@@ -335,7 +336,49 @@ public class Mammal extends AbstractOpenApiSchema {
         throw new RuntimeException("Invalid instance type. Must be Pig, Whale, Zebra");
     }
 
+    /**
+     * Get the actual instance, which can be the following:
+     * Pig, Whale, Zebra
+     *
+     * @return The actual instance (Pig, Whale, Zebra)
+     */
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
 
+    /**
+     * Get the actual instance of `Pig`. If the actual instanct is not `Pig`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Pig`
+     * @throws ClassCastException if the instance is not `Pig`
+     */
+    public Pig getPig() throws ClassCastException {
+        return (Pig)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Whale`. If the actual instanct is not `Whale`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Whale`
+     * @throws ClassCastException if the instance is not `Whale`
+     */
+    public Whale getWhale() throws ClassCastException {
+        return (Whale)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `Zebra`. If the actual instanct is not `Zebra`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `Zebra`
+     * @throws ClassCastException if the instance is not `Zebra`
+     */
+    public Zebra getZebra() throws ClassCastException {
+        return (Zebra)super.getActualInstance();
+    }
 
 }
 
