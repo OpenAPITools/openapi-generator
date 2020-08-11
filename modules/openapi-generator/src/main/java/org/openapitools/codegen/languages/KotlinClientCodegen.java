@@ -58,6 +58,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public static final String DATE_LIBRARY = "dateLibrary";
     public static final String REQUEST_DATE_CONVERTER = "requestDateConverter";
     public static final String COLLECTION_TYPE = "collectionType";
+    public static final String USE_SAFE_ENUM = "useSafeEnum";
 
     protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
@@ -71,6 +72,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     // backwards compatibility for openapi configs that specify neither rx1 nor rx2
     // (mustache does not allow for boolean operators so we need this extra field)
     protected boolean doNotUseRxAndCoroutines = true;
+    protected boolean useSafeEnum = false;
 
     protected String authFolder;
 
@@ -202,6 +204,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
+        cliOptions.add(CliOption.newBoolean(USE_SAFE_ENUM, "Adds fallback logic for unknown enum value on runtime(supported: kotlinx.serialization)"));
     }
 
     public CodegenType getTag() {
@@ -277,6 +280,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public void setCollectionType(String collectionType) {
         this.collectionType = collectionType;
+    }
+
+    public void setUseSafeEnum(boolean useSafeEnum) {
+        this.useSafeEnum = useSafeEnum;
     }
 
     @Override
@@ -445,6 +452,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     }
 
     private void processJVMRetrofit2Library(String infrastructureFolder) {
+        if (additionalProperties.containsKey(USE_SAFE_ENUM)) {
+            setUseSafeEnum(Boolean.valueOf(additionalProperties.get(USE_SAFE_ENUM).toString()));
+        }
+
         additionalProperties.put(JVM, true);
         additionalProperties.put(JVM_RETROFIT2, true);
         supportingFiles.add(new SupportingFile("infrastructure/ApiClient.kt.mustache", infrastructureFolder, "ApiClient.kt"));
@@ -489,8 +500,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/LocalDateTimeAdapter.kt.mustache", infrastructureFolder, "LocalDateTimeAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/OffsetDateTimeAdapter.kt.mustache", infrastructureFolder, "OffsetDateTimeAdapter.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/UUIDAdapter.kt.mustache", infrastructureFolder, "UUIDAdapter.kt"));
-                supportingFiles.add(new SupportingFile("jvm-common/infrastructure/SafeEnumSerializer.kt.mustache", infrastructureFolder, "SafeEnumSerializer.kt"));
                 supportingFiles.add(new SupportingFile("jvm-common/infrastructure/StringBuilderAdapter.kt.mustache", infrastructureFolder, "StringBuilderAdapter.kt"));
+                if (useSafeEnum) {
+                    supportingFiles.add(new SupportingFile("jvm-common/infrastructure/SafeEnumSerializer.kt.mustache", infrastructureFolder, "SafeEnumSerializer.kt"));
+                }
                 break;
         }
     }
