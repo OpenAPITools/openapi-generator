@@ -17,6 +17,7 @@ import org.openapitools.client.models.Tag
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.ContextualSerialization
+import kotlinx.serialization.Required
 
 /**
  * A pet for sale in the pet store

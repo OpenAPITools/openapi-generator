@@ -15,6 +15,7 @@ package org.openapitools.client.models
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.ContextualSerialization
+import kotlinx.serialization.Required
 
 /**
  * An order for a pets from the pet store
