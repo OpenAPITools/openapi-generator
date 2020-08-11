@@ -8,6 +8,8 @@ sidebar_label: go-gin-server
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |packageName|Go package name (convention: lowercase).| |openapi|
 |packageVersion|Go package version.| |1.0.0|
+|apiPath|Directory for generated code.| |go|
+|serverPort|The network port the generated server binds to.| |8080|
 
 ## IMPORT MAPPING
 
