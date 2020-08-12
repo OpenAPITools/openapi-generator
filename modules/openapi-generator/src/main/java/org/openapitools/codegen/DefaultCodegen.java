@@ -4960,6 +4960,15 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * check if current active library equals to passed
+     * @param library - library to be compared with
+     * @return
+     */
+    public final boolean isLibrary(String library) {
+        return library.equals(this.library);
+    }
+
+    /**
      * Set Git host.
      *
      * @param gitHost Git host
