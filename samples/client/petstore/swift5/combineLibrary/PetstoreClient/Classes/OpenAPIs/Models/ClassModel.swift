@@ -12,7 +12,7 @@ public struct ClassModel: Codable {
 
     public var _class: String?
 
-    public init(_class: String?) {
+    public init(_class: String? = nil) {
         self._class = _class
     }
 

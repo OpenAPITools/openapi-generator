@@ -67,7 +67,7 @@ class PetApi(baseUrl: String) {
   def findPetsByStatus(status: Seq[String]
 ): Request[Either[ResponseError[Exception], Seq[Pet]], Nothing] =
     basicRequest
-      .method(Method.GET, uri"$baseUrl/pet/findByStatus?status=$status")
+      .method(Method.GET, uri"$baseUrl/pet/findByStatus?status=${ status }")
       .contentType("application/json")
       .response(asJson[Seq[Pet]])
 
@@ -83,7 +83,7 @@ class PetApi(baseUrl: String) {
   def findPetsByTags(tags: Seq[String]
 ): Request[Either[ResponseError[Exception], Seq[Pet]], Nothing] =
     basicRequest
-      .method(Method.GET, uri"$baseUrl/pet/findByTags?tags=$tags")
+      .method(Method.GET, uri"$baseUrl/pet/findByTags?tags=${ tags }")
       .contentType("application/json")
       .response(asJson[Seq[Pet]])
 

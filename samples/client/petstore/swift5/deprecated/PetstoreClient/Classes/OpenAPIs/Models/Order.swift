@@ -24,7 +24,7 @@ public struct Order: Codable {
     public var status: Status?
     public var complete: Bool? = false
 
-    public init(id: Int64?, petId: Int64?, quantity: Int?, shipDate: Date?, status: Status?, complete: Bool?) {
+    public init(id: Int64? = nil, petId: Int64? = nil, quantity: Int? = nil, shipDate: Date? = nil, status: Status? = nil, complete: Bool? = nil) {
         self.id = id
         self.petId = petId
         self.quantity = quantity

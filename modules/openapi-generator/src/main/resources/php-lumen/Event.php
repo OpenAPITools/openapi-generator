@@ -1,5 +1,6 @@
 <?php
 
+{{>licenseInfoLumen}}
 namespace App\Events;
 
 use Illuminate\Queue\SerializesModels;

@@ -15,6 +15,8 @@ import time
 import unittest
 import datetime
 
+import six
+
 import petstore_api
 
 from petstore_api.exceptions import (

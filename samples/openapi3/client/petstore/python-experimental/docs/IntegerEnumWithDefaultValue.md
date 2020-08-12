@@ -1,4 +1,4 @@
-# integer_enum_with_default_value.IntegerEnumWithDefaultValue
+# IntegerEnumWithDefaultValue
 
 ## Properties
 Name | Type | Description | Notes

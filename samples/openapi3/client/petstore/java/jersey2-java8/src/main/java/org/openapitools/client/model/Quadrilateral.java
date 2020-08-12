@@ -271,7 +271,8 @@ public class Quadrilateral extends AbstractOpenApiSchema {
 
     /**
      * Set the instance that matches the oneOf child schema, check
-     * the instance parameter is valid against the oneOf child schemas.
+     * the instance parameter is valid against the oneOf child schemas:
+     * ComplexQuadrilateral, SimpleQuadrilateral
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
@@ -291,7 +292,38 @@ public class Quadrilateral extends AbstractOpenApiSchema {
         throw new RuntimeException("Invalid instance type. Must be ComplexQuadrilateral, SimpleQuadrilateral");
     }
 
+    /**
+     * Get the actual instance, which can be the following:
+     * ComplexQuadrilateral, SimpleQuadrilateral
+     *
+     * @return The actual instance (ComplexQuadrilateral, SimpleQuadrilateral)
+     */
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
 
+    /**
+     * Get the actual instance of `ComplexQuadrilateral`. If the actual instanct is not `ComplexQuadrilateral`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `ComplexQuadrilateral`
+     * @throws ClassCastException if the instance is not `ComplexQuadrilateral`
+     */
+    public ComplexQuadrilateral getComplexQuadrilateral() throws ClassCastException {
+        return (ComplexQuadrilateral)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `SimpleQuadrilateral`. If the actual instanct is not `SimpleQuadrilateral`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `SimpleQuadrilateral`
+     * @throws ClassCastException if the instance is not `SimpleQuadrilateral`
+     */
+    public SimpleQuadrilateral getSimpleQuadrilateral() throws ClassCastException {
+        return (SimpleQuadrilateral)super.getActualInstance();
+    }
 
 }
 

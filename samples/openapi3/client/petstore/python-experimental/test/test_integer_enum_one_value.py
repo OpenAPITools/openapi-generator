@@ -28,14 +28,9 @@ class TestIntegerEnumOneValue(unittest.TestCase):
 
     def testIntegerEnumOneValue(self):
         """Test IntegerEnumOneValue"""
-        model = IntegerEnumOneValue()
-        assert model.value == 0, "With only one option, the value is assigned automatically"
-
-        model = IntegerEnumOneValue(0)
-        assert model.value == 0, "We can also pass in the value as a positional arg"
-
-        model = IntegerEnumOneValue(value=0)
-        assert model.value == 0, "We can also pass in the value as a named argument"
+        # FIXME: construct object with mandatory attributes with example values
+        # model = IntegerEnumOneValue()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':

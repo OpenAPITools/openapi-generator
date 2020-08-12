@@ -1,4 +1,4 @@
-# zebra.Zebra
+# Zebra
 
 ## Properties
 Name | Type | Description | Notes

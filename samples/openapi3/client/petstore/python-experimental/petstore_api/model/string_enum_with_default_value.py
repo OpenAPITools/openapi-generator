@@ -69,8 +69,8 @@ class StringEnumWithDefaultValue(ModelSimple):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
@@ -83,6 +83,7 @@ class StringEnumWithDefaultValue(ModelSimple):
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {}
 
@@ -99,7 +100,7 @@ class StringEnumWithDefaultValue(ModelSimple):
 
     @convert_js_args_to_python_args
     def __init__(self, value, *args, **kwargs):
-        """string_enum_with_default_value.StringEnumWithDefaultValue - a model defined in OpenAPI
+        """StringEnumWithDefaultValue - a model defined in OpenAPI
 
         Args:
             value (str): if omitted the server will use the default value of 'placed', must be one of ["placed", "approved", "delivered", ]  # noqa: E501

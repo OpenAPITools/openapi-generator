@@ -271,7 +271,8 @@ public class Pig extends AbstractOpenApiSchema {
 
     /**
      * Set the instance that matches the oneOf child schema, check
-     * the instance parameter is valid against the oneOf child schemas.
+     * the instance parameter is valid against the oneOf child schemas:
+     * BasquePig, DanishPig
      *
      * It could be an instance of the 'oneOf' schemas.
      * The oneOf child schemas may themselves be a composed schema (allOf, anyOf, oneOf).
@@ -291,7 +292,38 @@ public class Pig extends AbstractOpenApiSchema {
         throw new RuntimeException("Invalid instance type. Must be BasquePig, DanishPig");
     }
 
+    /**
+     * Get the actual instance, which can be the following:
+     * BasquePig, DanishPig
+     *
+     * @return The actual instance (BasquePig, DanishPig)
+     */
+    @Override
+    public Object getActualInstance() {
+        return super.getActualInstance();
+    }
 
+    /**
+     * Get the actual instance of `BasquePig`. If the actual instanct is not `BasquePig`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `BasquePig`
+     * @throws ClassCastException if the instance is not `BasquePig`
+     */
+    public BasquePig getBasquePig() throws ClassCastException {
+        return (BasquePig)super.getActualInstance();
+    }
+
+    /**
+     * Get the actual instance of `DanishPig`. If the actual instanct is not `DanishPig`,
+     * the ClassCastException will be thrown.
+     *
+     * @return The actual instance of `DanishPig`
+     * @throws ClassCastException if the instance is not `DanishPig`
+     */
+    public DanishPig getDanishPig() throws ClassCastException {
+        return (DanishPig)super.getActualInstance();
+    }
 
 }
 

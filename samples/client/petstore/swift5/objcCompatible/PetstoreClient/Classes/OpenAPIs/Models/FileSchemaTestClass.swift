@@ -12,7 +12,7 @@ import Foundation
     public var file: File?
     public var files: [File]?
 
-    public init(file: File?, files: [File]?) {
+    public init(file: File? = nil, files: [File]? = nil) {
         self.file = file
         self.files = files
     }

@@ -23,14 +23,14 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_and_convert_types
 )
-from petstore_api.model import animal_farm
-from petstore_api.model import xml_item
-from petstore_api.model import number_with_validations
-from petstore_api.model import object_model_with_ref_props
-from petstore_api.model import string_enum
-from petstore_api.model import file_schema_test_class
-from petstore_api.model import user
-from petstore_api.model import client
+from petstore_api.model.animal_farm import AnimalFarm
+from petstore_api.model.client import Client
+from petstore_api.model.file_schema_test_class import FileSchemaTestClass
+from petstore_api.model.number_with_validations import NumberWithValidations
+from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
+from petstore_api.model.string_enum import StringEnum
+from petstore_api.model.user import User
+from petstore_api.model.xml_item import XmlItem
 
 
 class FakeApi(object):
@@ -60,7 +60,7 @@ class FakeApi(object):
 
 
             Keyword Args:
-                body (animal_farm.AnimalFarm): Input model. [optional]
+                body (AnimalFarm): Input model. [optional]
                 _return_http_data_only (bool): response data without head status
                     code and headers. Default is True.
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
@@ -82,7 +82,7 @@ class FakeApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                animal_farm.AnimalFarm
+                AnimalFarm
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -109,7 +109,7 @@ class FakeApi(object):
 
         self.array_model = Endpoint(
             settings={
-                'response_type': (animal_farm.AnimalFarm,),
+                'response_type': (AnimalFarm,),
                 'auth': [],
                 'endpoint_path': '/fake/refs/arraymodel',
                 'operation_id': 'array_model',
@@ -135,7 +135,7 @@ class FakeApi(object):
                 },
                 'openapi_types': {
                     'body':
-                        (animal_farm.AnimalFarm,),
+                        (AnimalFarm,),
                 },
                 'attribute_map': {
                 },
@@ -280,7 +280,7 @@ class FakeApi(object):
             >>> result = thread.get()
 
             Args:
-                xml_item (xml_item.XmlItem): XmlItem Body
+                xml_item (XmlItem): XmlItem Body
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -361,7 +361,7 @@ class FakeApi(object):
                 },
                 'openapi_types': {
                     'xml_item':
-                        (xml_item.XmlItem,),
+                        (XmlItem,),
                 },
                 'attribute_map': {
                 },
@@ -401,7 +401,7 @@ class FakeApi(object):
 
 
             Keyword Args:
-                body (number_with_validations.NumberWithValidations): Input number as post body. [optional]
+                body (NumberWithValidations): Input number as post body. [optional]
                 _return_http_data_only (bool): response data without head status
                     code and headers. Default is True.
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
@@ -423,7 +423,7 @@ class FakeApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                number_with_validations.NumberWithValidations
+                NumberWithValidations
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -450,7 +450,7 @@ class FakeApi(object):
 
         self.number_with_validations = Endpoint(
             settings={
-                'response_type': (number_with_validations.NumberWithValidations,),
+                'response_type': (NumberWithValidations,),
                 'auth': [],
                 'endpoint_path': '/fake/refs/number',
                 'operation_id': 'number_with_validations',
@@ -476,7 +476,7 @@ class FakeApi(object):
                 },
                 'openapi_types': {
                     'body':
-                        (number_with_validations.NumberWithValidations,),
+                        (NumberWithValidations,),
                 },
                 'attribute_map': {
                 },
@@ -511,7 +511,7 @@ class FakeApi(object):
 
 
             Keyword Args:
-                body (object_model_with_ref_props.ObjectModelWithRefProps): Input model. [optional]
+                body (ObjectModelWithRefProps): Input model. [optional]
                 _return_http_data_only (bool): response data without head status
                     code and headers. Default is True.
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
@@ -533,7 +533,7 @@ class FakeApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                object_model_with_ref_props.ObjectModelWithRefProps
+                ObjectModelWithRefProps
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -560,7 +560,7 @@ class FakeApi(object):
 
         self.object_model_with_ref_props = Endpoint(
             settings={
-                'response_type': (object_model_with_ref_props.ObjectModelWithRefProps,),
+                'response_type': (ObjectModelWithRefProps,),
                 'auth': [],
                 'endpoint_path': '/fake/refs/object_model_with_ref_props',
                 'operation_id': 'object_model_with_ref_props',
@@ -586,7 +586,7 @@ class FakeApi(object):
                 },
                 'openapi_types': {
                     'body':
-                        (object_model_with_ref_props.ObjectModelWithRefProps,),
+                        (ObjectModelWithRefProps,),
                 },
                 'attribute_map': {
                 },
@@ -731,7 +731,7 @@ class FakeApi(object):
 
 
             Keyword Args:
-                body (string_enum.StringEnum): Input enum. [optional]
+                body (StringEnum): Input enum. [optional]
                 _return_http_data_only (bool): response data without head status
                     code and headers. Default is True.
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
@@ -753,7 +753,7 @@ class FakeApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                string_enum.StringEnum
+                StringEnum
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -780,7 +780,7 @@ class FakeApi(object):
 
         self.string_enum = Endpoint(
             settings={
-                'response_type': (string_enum.StringEnum,),
+                'response_type': (StringEnum,),
                 'auth': [],
                 'endpoint_path': '/fake/refs/enum',
                 'operation_id': 'string_enum',
@@ -806,7 +806,7 @@ class FakeApi(object):
                 },
                 'openapi_types': {
                     'body':
-                        (string_enum.StringEnum,),
+                        (StringEnum,),
                 },
                 'attribute_map': {
                 },
@@ -841,7 +841,7 @@ class FakeApi(object):
             >>> result = thread.get()
 
             Args:
-                body (file_schema_test_class.FileSchemaTestClass):
+                body (FileSchemaTestClass):
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -922,7 +922,7 @@ class FakeApi(object):
                 },
                 'openapi_types': {
                     'body':
-                        (file_schema_test_class.FileSchemaTestClass,),
+                        (FileSchemaTestClass,),
                 },
                 'attribute_map': {
                 },
@@ -958,7 +958,7 @@ class FakeApi(object):
 
             Args:
                 query (str):
-                body (user.User):
+                body (User):
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -1045,7 +1045,7 @@ class FakeApi(object):
                     'query':
                         (str,),
                     'body':
-                        (user.User,),
+                        (User,),
                 },
                 'attribute_map': {
                     'query': 'query',
@@ -1082,7 +1082,7 @@ class FakeApi(object):
             >>> result = thread.get()
 
             Args:
-                body (client.Client): client model
+                body (Client): client model
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -1106,7 +1106,7 @@ class FakeApi(object):
                 async_req (bool): execute request asynchronously
 
             Returns:
-                client.Client
+                Client
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -1135,7 +1135,7 @@ class FakeApi(object):
 
         self.test_client_model = Endpoint(
             settings={
-                'response_type': (client.Client,),
+                'response_type': (Client,),
                 'auth': [],
                 'endpoint_path': '/fake',
                 'operation_id': 'test_client_model',
@@ -1163,7 +1163,7 @@ class FakeApi(object):
                 },
                 'openapi_types': {
                     'body':
-                        (client.Client,),
+                        (Client,),
                 },
                 'attribute_map': {
                 },
