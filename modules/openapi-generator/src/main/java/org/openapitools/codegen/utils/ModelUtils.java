@@ -389,10 +389,11 @@ public class ModelUtils {
         }
 
         try {
-            return URLDecoder.decode(ref, "UTF8");
-        } catch (UnsupportedEncodingException e) {
-            return ref;
+            ref = URLDecoder.decode(ref, "UTF8");
+        } catch (UnsupportedEncodingException ignored) {
         }
+
+        return ref;
     }
 
     /**
