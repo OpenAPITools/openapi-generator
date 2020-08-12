@@ -14,7 +14,9 @@ import javax.validation.constraints.*;
 /**
  * FileSchemaTestClass
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
 public class FileSchemaTestClass   {
   @JsonProperty("file")
   private java.io.File file;

@@ -333,4 +333,12 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(defaultValue, "dateutil_parser('2010-01-01T10:10:10.000111+01:00')");
     }
 
+    @Test(description = "format imports of models containing special characters")
+    public void importSpecialModelNameTest() {
+        final PythonClientExperimentalCodegen codegen = new PythonClientExperimentalCodegen();
+
+        String importValue = codegen.toModelImport("special.ModelName");
+        Assert.assertEquals(importValue, "from models.special_model_name import SpecialModelName");
+    }
+
 }

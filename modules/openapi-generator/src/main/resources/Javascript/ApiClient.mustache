@@ -119,7 +119,26 @@
     if (param instanceof Date) {
       return param.toJSON();
     }
+    if (this.canBeJsonified(param)) {
+      return JSON.stringify(param);
+    }
     return param.toString();
+  };
+
+{{#emitJSDoc}}  /**
+    * Returns a boolean indicating if the parameter could be JSON.stringified
+    * @param param The actual parameter
+    * @returns {Boolean} Flag indicating if <code>param</code> can be JSON.stringified
+    */
+{{/emitJSDoc}}  exports.prototype.canBeJsonified = function(str) {
+    if (typeof str !== 'string' && typeof str !== 'object') return false;
+    try {
+      const type = str.toString();
+      return type === '[object Object]'
+          || type === '[object Array]';
+    } catch (err) {
+      return false;
+    }
   };
 
 {{#emitJSDoc}}

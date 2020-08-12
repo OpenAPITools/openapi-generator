@@ -95,9 +95,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        Order PlaceOrder (Order body);
+        Order PlaceOrder (Order order);
 
         /// <summary>
         /// Place an order for a pet
@@ -106,9 +106,9 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <returns>ApiResponse of Order</returns>
-        ApiResponse<Order> PlaceOrderWithHttpInfo (Order body);
+        ApiResponse<Order> PlaceOrderWithHttpInfo (Order order);
         #endregion Synchronous Operations
     }
 
@@ -192,10 +192,10 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Order</returns>
-        System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order order, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
 
         /// <summary>
         /// Place an order for a pet
@@ -204,10 +204,10 @@ namespace Org.OpenAPITools.Api
         /// 
         /// </remarks>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Order)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderWithHttpInfoAsync (Order body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<Order>> PlaceOrderWithHttpInfoAsync (Order order, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         #endregion Asynchronous Operations
     }
 
@@ -663,11 +663,11 @@ namespace Org.OpenAPITools.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <returns>Order</returns>
-        public Order PlaceOrder (Order body)
+        public Order PlaceOrder (Order order)
         {
-             Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = PlaceOrderWithHttpInfo(body);
+             Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = PlaceOrderWithHttpInfo(order);
              return localVarResponse.Data;
         }
 
@@ -675,17 +675,18 @@ namespace Org.OpenAPITools.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <returns>ApiResponse of Order</returns>
-        public Org.OpenAPITools.Client.ApiResponse< Order > PlaceOrderWithHttpInfo (Order body)
+        public Org.OpenAPITools.Client.ApiResponse< Order > PlaceOrderWithHttpInfo (Order order)
         {
-            // verify the required parameter 'body' is set
-            if (body == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling StoreApi->PlaceOrder");
+            // verify the required parameter 'order' is set
+            if (order == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'order' when calling StoreApi->PlaceOrder");
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] _contentTypes = new String[] {
+                "application/json"
             };
 
             // to determine the Accept header
@@ -700,7 +701,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
 
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = order;
 
 
             // make the HTTP request
@@ -719,12 +720,12 @@ namespace Org.OpenAPITools.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of Order</returns>
-        public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Order> PlaceOrderAsync (Order order, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-             Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = await PlaceOrderWithHttpInfoAsync(body, cancellationToken);
+             Org.OpenAPITools.Client.ApiResponse<Order> localVarResponse = await PlaceOrderWithHttpInfoAsync(order, cancellationToken);
              return localVarResponse.Data;
         }
 
@@ -732,19 +733,20 @@ namespace Org.OpenAPITools.Api
         /// Place an order for a pet 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="body">order placed for purchasing the pet</param>
+        /// <param name="order">order placed for purchasing the pet</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
         /// <returns>Task of ApiResponse (Order)</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> PlaceOrderWithHttpInfoAsync (Order body, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Order>> PlaceOrderWithHttpInfoAsync (Order order, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            // verify the required parameter 'body' is set
-            if (body == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'body' when calling StoreApi->PlaceOrder");
+            // verify the required parameter 'order' is set
+            if (order == null)
+                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'order' when calling StoreApi->PlaceOrder");
 
 
             Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
 
             String[] _contentTypes = new String[] {
+                "application/json"
             };
 
             // to determine the Accept header
@@ -760,7 +762,7 @@ namespace Org.OpenAPITools.Api
             var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
             
-            localVarRequestOptions.Data = body;
+            localVarRequestOptions.Data = order;
 
 
             // make the HTTP request

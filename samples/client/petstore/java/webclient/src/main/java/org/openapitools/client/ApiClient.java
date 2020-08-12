@@ -488,7 +488,7 @@ public class ApiClient {
      */
     protected BodyInserter<?, ? super ClientHttpRequest> selectBody(Object obj, MultiValueMap<String, Object> formParams, MediaType contentType) {
         if(MediaType.APPLICATION_FORM_URLENCODED.equals(contentType)) {
-            MultiValueMap<String, String> map = new LinkedMultiValueMap();
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
 
             formParams
                     .toSingleValueMap()

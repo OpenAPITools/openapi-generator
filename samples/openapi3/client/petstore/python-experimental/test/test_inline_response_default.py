@@ -14,11 +14,8 @@ import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import foo
-except ImportError:
-    foo = sys.modules[
-        'petstore_api.model.foo']
+from petstore_api.model.foo import Foo
+globals()['Foo'] = Foo
 from petstore_api.model.inline_response_default import InlineResponseDefault
 
 

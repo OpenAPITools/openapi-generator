@@ -21,6 +21,8 @@ import javax.validation.constraints.*;
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
   @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
 })
+@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class Animal   {
   @JsonProperty("className")

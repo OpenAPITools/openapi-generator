@@ -157,7 +157,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
     {{/isListContainer}}
     {{/formParams}}
     const config: QueryConfig<T> = {
-        url: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
+        url: `${runtime.Configuration.basePath}{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
