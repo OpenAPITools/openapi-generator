@@ -14,10 +14,11 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.animal import Animal
-from petstore_api.model.number_with_validations import NumberWithValidations
-globals()['Animal'] = Animal
-globals()['NumberWithValidations'] = NumberWithValidations
+try:
+    from petstore_api.model import animal
+except ImportError:
+    animal = sys.modules[
+        'petstore_api.model.animal']
 from petstore_api.model.composed_one_of_number_with_validations import ComposedOneOfNumberWithValidations
 
 
@@ -32,9 +33,13 @@ class TestComposedOneOfNumberWithValidations(unittest.TestCase):
 
     def testComposedOneOfNumberWithValidations(self):
         """Test ComposedOneOfNumberWithValidations"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = ComposedOneOfNumberWithValidations()  # noqa: E501
-        pass
+        # we can make an instance that stores float data
+        inst = ComposedOneOfNumberWithValidations(10.0)
+        from petstore_api.model import number_with_validations
+        assert isinstance(inst, number_with_validations.NumberWithValidations)
+        # we can make an instance that stores object (dict) data
+        inst = ComposedOneOfNumberWithValidations(class_name="Cat", color="black")
+        assert isinstance(inst, ComposedOneOfNumberWithValidations)
 
 
 if __name__ == '__main__':

@@ -14,11 +14,8 @@ import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import read_only_first
-except ImportError:
-    read_only_first = sys.modules[
-        'petstore_api.model.read_only_first']
+from petstore_api.model.read_only_first import ReadOnlyFirst
+globals()['ReadOnlyFirst'] = ReadOnlyFirst
 from petstore_api.model.array_test import ArrayTest
 
 

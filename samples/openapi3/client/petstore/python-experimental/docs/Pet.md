@@ -1,5 +1,6 @@
 # Pet
 
+Pet object that needs to be added to the store
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------

@@ -28,9 +28,22 @@ class TestStringEnum(unittest.TestCase):
 
     def testStringEnum(self):
         """Test StringEnum"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = StringEnum()  # noqa: E501
-        pass
+        inst = StringEnum(None)
+        self.assertIsNone(inst)
+
+        inst = StringEnum('approved')
+        assert isinstance(inst, StringEnum)
+
+        with self.assertRaises(petstore_api.ApiValueError):
+            StringEnum('garbage')
+
+        # make sure that we can access its allowed_values
+        assert StringEnum.allowed_values[('value',)] == {
+            'None': None,
+            'PLACED': "placed",
+            'APPROVED': "approved",
+            'DELIVERED': "delivered"
+        }
 
 
 if __name__ == '__main__':

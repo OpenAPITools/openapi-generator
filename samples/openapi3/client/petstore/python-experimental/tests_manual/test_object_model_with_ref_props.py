@@ -14,8 +14,11 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.number_with_validations import NumberWithValidations
-globals()['NumberWithValidations'] = NumberWithValidations
+try:
+    from petstore_api.model import number_with_validations
+except ImportError:
+    number_with_validations = sys.modules[
+        'petstore_api.model.number_with_validations']
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
 
 
@@ -30,9 +33,15 @@ class TestObjectModelWithRefProps(unittest.TestCase):
 
     def testObjectModelWithRefProps(self):
         """Test ObjectModelWithRefProps"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = ObjectModelWithRefProps()  # noqa: E501
-        pass
+        from petstore_api.model.number_with_validations import NumberWithValidations
+        self.assertEqual(
+            ObjectModelWithRefProps.openapi_types,
+            {
+                'my_number': (NumberWithValidations,),
+                'my_string': (str,),
+                'my_boolean': (bool,),
+            }
+        )
 
 
 if __name__ == '__main__':

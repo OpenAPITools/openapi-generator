@@ -14,12 +14,16 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.pig import Pig
-from petstore_api.model.whale import Whale
-from petstore_api.model.zebra import Zebra
-globals()['Pig'] = Pig
-globals()['Whale'] = Whale
-globals()['Zebra'] = Zebra
+try:
+    from petstore_api.model import whale
+except ImportError:
+    whale = sys.modules[
+        'petstore_api.model.whale']
+try:
+    from petstore_api.model import zebra
+except ImportError:
+    zebra = sys.modules[
+        'petstore_api.model.zebra']
 from petstore_api.model.mammal import Mammal
 
 
@@ -34,9 +38,11 @@ class TestMammal(unittest.TestCase):
 
     def testMammal(self):
         """Test Mammal"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = Mammal()  # noqa: E501
-        pass
+
+        # tests that we can make a BasquePig by traveling through descendant discriminator in Pig
+        model = Mammal(class_name="BasquePig")
+        from petstore_api.model import basque_pig
+        assert isinstance(model, basque_pig.BasquePig)
 
 
 if __name__ == '__main__':
