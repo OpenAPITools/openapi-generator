@@ -17,12 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,6 +77,8 @@ public class GoServerCodegen extends AbstractGoCodegen {
         optFeatureCORS.setType("bool");
         optFeatureCORS.defaultValue(corsFeatureEnabled.toString());
         cliOptions.add(optFeatureCORS);
+
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_CLASS_PREFIX, CodegenConstants.ENUM_CLASS_PREFIX_DESC));
 
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
@@ -166,13 +163,11 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof Integer) {
             this.setServerPort((int) additionalProperties.get("serverPort"));
-        } else if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof String){
+        } else if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof String) {
             try {
                 this.setServerPort(Integer.parseInt(additionalProperties.get("serverPort").toString()));
                 additionalProperties.put("serverPort", serverPort);
-            }
-            catch (NumberFormatException e)
-            {
+            } catch (NumberFormatException e) {
                 LOGGER.warn("serverPort is not a valid integer... defaulting to {}", serverPort);
                 additionalProperties.put("serverPort", serverPort);
             }
