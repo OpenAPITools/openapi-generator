@@ -97,9 +97,9 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
 
         outputFolder = "generated-code/js";
         modelTemplateFiles.put("model.mustache", ".js");
-        modelTestTemplateFiles.put("model_test.mustache", ".js");
+        // modelTestTemplateFiles.put("model_test.mustache", ".js");
         apiTemplateFiles.put("api.mustache", ".js");
-        apiTestTemplateFiles.put("api_test.mustache", ".js");
+        // apiTestTemplateFiles.put("api_test.mustache", ".js");
         // subfolder Javascript/es6
         embeddedTemplateDir = templateDir = "Javascript-Apollo";
         apiPackage = "api";
@@ -109,6 +109,8 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
+
+        useOneOfInterfaces = true;
 
         // reference: http://www.w3schools.com/js/js_reserved.asp
         setReservedWordsLowerCase(
@@ -865,9 +867,9 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
     private String getJSDocType(CodegenModel cm, CodegenProperty cp) {
         if (Boolean.TRUE.equals(cp.isContainer)) {
             if (cp.containerType.equals("array"))
-                return "Array.<" + cp.items + ">";
+                return "Array.<" + getJSDocType(cm, cp.items) + ">";
             else if (cp.containerType.equals("map"))
-                return "Object.<String, " + cp.items + ">";
+                return "Object.<String, " + getJSDocType(cm, cp.items) + ">";
         }
         String dataType = trimBrackets(cp.datatypeWithEnum);
         if (cp.isEnum) {
@@ -931,6 +933,8 @@ public class JavascriptApolloClientCodegen extends DefaultCodegen implements Cod
                 if (hasOptionalParams) {
                     argList.add("opts");
                 }
+
+                argList.add("fetchOptions");
 
                 String joinedArgList = StringUtils.join(argList, ", ");
                 operation.vendorExtensions.put("x-codegen-arg-list", joinedArgList);
