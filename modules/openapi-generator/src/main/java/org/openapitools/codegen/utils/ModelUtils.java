@@ -41,6 +41,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.io.FileUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URLDecoder;
@@ -387,7 +388,11 @@ public class ModelUtils {
 
         }
 
-        return URLDecoder.decode(ref);
+        try {
+            return URLDecoder.decode(ref, "UTF8");
+        } catch (UnsupportedEncodingException e) {
+            return ref;
+        }
     }
 
     /**
