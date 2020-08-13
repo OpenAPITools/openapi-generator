@@ -9,7 +9,7 @@ export interface {{classname}} {{#parent}}extends models.{{{parent}}} {{/parent}
      * {{{description}}}
      */
     {{/description}}
-    {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{classname}}{{enumName}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+    {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{classname}}{{enumName}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}}{{#isNullable}} | null{{/isNullable}};
 
 {{/vars}}
 }
