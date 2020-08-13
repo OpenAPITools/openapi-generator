@@ -24,9 +24,11 @@ namespace {{packageName}}.{{apiPackage}}
         /// <summary>
         /// {{summary}}
         /// </summary>
+        {{#notes}}
         /// <remarks>
         /// {{notes}}
         /// </remarks>
+        {{/notes}}
         /// <exception cref="{{packageName}}.Client.ApiException">Thrown when fails to make API call</exception>
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}/// <returns>{{#returnType}}{{returnType}}{{/returnType}}</returns>
@@ -244,7 +246,7 @@ namespace {{packageName}}.{{apiPackage}}
 
             String[] _contentTypes = new String[] {
                 {{#consumes}}
-                "{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}
+                "{{{mediaType}}}"{{#hasMore}},{{/hasMore}}
                 {{/consumes}}
             };
 
@@ -436,7 +438,7 @@ namespace {{packageName}}.{{apiPackage}}
 
             var localVarAccept = {{packageName}}.Client.ClientUtils.SelectHeaderAccept(_accepts);
             if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-            
+
             {{#pathParams}}
             {{#required}}
             localVarRequestOptions.PathParameters.Add("{{baseName}}", {{packageName}}.Client.ClientUtils.ParameterToString({{paramName}})); // path parameter
