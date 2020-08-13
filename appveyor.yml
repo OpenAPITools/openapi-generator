@@ -53,8 +53,8 @@ build_script:
   - gradle -b modules\openapi-generator-gradle-plugin\samples\local-spec\build.gradle buildGoSdk --stacktrace
 test_script:
   # test c# API client (netcore)
-  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClientCore\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+  - dotnet test samples\client\petstore\csharp-netcore\OpenAPIClient\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
   # test c# API client
   - nunit3-console samples\client\petstore\csharp\OpenAPIClient\src\Org.OpenAPITools.Test\bin\Debug\Org.OpenAPITools.Test.dll --result=myresults.xml;format=AppVeyor
   # test c# API client (with PropertyChanged)
