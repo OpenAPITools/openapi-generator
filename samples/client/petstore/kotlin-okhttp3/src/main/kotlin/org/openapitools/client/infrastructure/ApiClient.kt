@@ -112,6 +112,15 @@ open class ApiClient(val baseUrl: String) {
         if (bodyContent.isEmpty()) {
             return null
         }
+        if (T::class.java is File) {
+            // return tempfile
+            val f = createTempFile()
+            f.deleteOnExit()
+            val out = BufferedWriter(FileWriter(f))
+            out.write(bodyContent)
+            out.close()
+            return f as T
+        }
         return when(mediaType) {
             JsonMediaType -> Serializer.moshi.adapter(T::class.java).fromJson(bodyContent)
             else ->  throw UnsupportedOperationException("responseBody currently only supports JSON body.")
