@@ -389,14 +389,27 @@ namespace Org.OpenAPITools.Client
             var existingDeserializer = req.JsonSerializer as IDeserializer;
             if (existingDeserializer != null)
             {
-                client.AddHandler(() => existingDeserializer, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+                client.AddHandler("application/json", () => existingDeserializer);
+                client.AddHandler("text/json", () => existingDeserializer);
+                client.AddHandler("text/x-json", () => existingDeserializer);
+                client.AddHandler("text/javascript", () => existingDeserializer);
+                client.AddHandler("*+json", () => existingDeserializer);
             }
             else
             {
-                client.AddHandler(() => new CustomJsonCodec(configuration), "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+                var customDeserializer = new CustomJsonCodec(configuration);
+                client.AddHandler("application/json", () => customDeserializer);
+                client.AddHandler("text/json", () => customDeserializer);
+                client.AddHandler("text/x-json", () => customDeserializer);
+                client.AddHandler("text/javascript", () => customDeserializer);
+                client.AddHandler("*+json", () => customDeserializer);
             }
 
-            client.AddHandler(() => new XmlDeserializer(), "application/xml", "text/xml", "*+xml", "*");
+            var xmlDeserializer = new XmlDeserializer();
+            client.AddHandler("application/xml", () => xmlDeserializer);
+            client.AddHandler("text/xml", () => xmlDeserializer);
+            client.AddHandler("*+xml", () => xmlDeserializer);
+            client.AddHandler("*", () => xmlDeserializer);
 
             client.Timeout = configuration.Timeout;
 
@@ -459,14 +472,27 @@ namespace Org.OpenAPITools.Client
             var existingDeserializer = req.JsonSerializer as IDeserializer;
             if (existingDeserializer != null)
             {
-                client.AddHandler(() => existingDeserializer, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+                client.AddHandler("application/json", () => existingDeserializer);
+                client.AddHandler("text/json", () => existingDeserializer);
+                client.AddHandler("text/x-json", () => existingDeserializer);
+                client.AddHandler("text/javascript", () => existingDeserializer);
+                client.AddHandler("*+json", () => existingDeserializer);
             }
             else
             {
-                client.AddHandler(() => new CustomJsonCodec(configuration), "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+                var customDeserializer = new CustomJsonCodec(configuration);
+                client.AddHandler("application/json", () => customDeserializer);
+                client.AddHandler("text/json", () => customDeserializer);
+                client.AddHandler("text/x-json", () => customDeserializer);
+                client.AddHandler("text/javascript", () => customDeserializer);
+                client.AddHandler("*+json", () => customDeserializer);
             }
 
-            client.AddHandler(() => new XmlDeserializer(), "application/xml", "text/xml", "*+xml", "*");
+            var xmlDeserializer = new XmlDeserializer();
+            client.AddHandler("application/xml", () => xmlDeserializer);
+            client.AddHandler("text/xml", () => xmlDeserializer);
+            client.AddHandler("*+xml", () => xmlDeserializer);
+            client.AddHandler("*", () => xmlDeserializer);
 
             client.Timeout = configuration.Timeout;
 
