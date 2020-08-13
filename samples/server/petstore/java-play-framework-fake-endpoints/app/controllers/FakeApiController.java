@@ -11,6 +11,7 @@ import apimodels.OuterComposite;
 import apimodels.User;
 import apimodels.XmlItem;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
@@ -35,10 +36,10 @@ public class FakeApiController extends Controller {
 
     private final FakeApiControllerImpInterface imp;
     private final ObjectMapper mapper;
-    private final Configuration configuration;
+    private final Config configuration;
 
     @Inject
-    private FakeApiController(Configuration configuration, FakeApiControllerImpInterface imp) {
+    private FakeApiController(Config configuration, FakeApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
         this.configuration = configuration;

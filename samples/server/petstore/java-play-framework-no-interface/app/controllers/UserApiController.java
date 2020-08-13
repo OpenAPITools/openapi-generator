@@ -3,6 +3,7 @@ package controllers;
 import java.util.List;
 import apimodels.User;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
@@ -27,10 +28,10 @@ public class UserApiController extends Controller {
 
     private final UserApiControllerImp imp;
     private final ObjectMapper mapper;
-    private final Configuration configuration;
+    private final Config configuration;
 
     @Inject
-    private UserApiController(Configuration configuration, UserApiControllerImp imp) {
+    private UserApiController(Config configuration, UserApiControllerImp imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
         this.configuration = configuration;
