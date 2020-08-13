@@ -9,11 +9,11 @@
 
 
 using System;
-using System.Reflection;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
@@ -151,9 +151,7 @@ namespace Org.OpenAPITools.Client
         /// </summary>
         public virtual string BasePath {
             get { return _basePath; }
-            set {
-                _basePath = value;
-            }
+            set { _basePath = value; }
         }
 
         /// <summary>
@@ -208,7 +206,7 @@ namespace Org.OpenAPITools.Client
         public string GetApiKeyWithPrefix(string apiKeyIdentifier)
         {
             string apiKeyValue;
-            ApiKey.TryGetValue (apiKeyIdentifier, out apiKeyValue);
+            ApiKey.TryGetValue(apiKeyIdentifier, out apiKeyValue);
             string apiKeyPrefix;
             if (ApiKeyPrefix.TryGetValue(apiKeyIdentifier, out apiKeyPrefix))
             {

@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// InlineObject
     /// </summary>
     [DataContract]
-    public partial class InlineObject :  IEquatable<InlineObject>, IValidatableObject
+    public partial class InlineObject : IEquatable<InlineObject>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineObject" /> class.
@@ -46,14 +46,14 @@ namespace Org.OpenAPITools.Model
         /// Updated name of the pet
         /// </summary>
         /// <value>Updated name of the pet</value>
-        [DataMember(Name="name", EmitDefaultValue=false)]
+        [DataMember(Name = "name", EmitDefaultValue = false)]
         public string Name { get; set; }
 
         /// <summary>
         /// Updated status of the pet
         /// </summary>
         /// <value>Updated status of the pet</value>
-        [DataMember(Name="status", EmitDefaultValue=false)]
+        [DataMember(Name = "status", EmitDefaultValue = false)]
         public string Status { get; set; }
 
         /// <summary>

@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// ArrayTest
     /// </summary>
     [DataContract]
-    public partial class ArrayTest :  IEquatable<ArrayTest>, IValidatableObject
+    public partial class ArrayTest : IEquatable<ArrayTest>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayTest" /> class.
@@ -47,19 +47,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ArrayOfString
         /// </summary>
-        [DataMember(Name="array_of_string", EmitDefaultValue=false)]
+        [DataMember(Name = "array_of_string", EmitDefaultValue = false)]
         public List<string> ArrayOfString { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayArrayOfInteger
         /// </summary>
-        [DataMember(Name="array_array_of_integer", EmitDefaultValue=false)]
+        [DataMember(Name = "array_array_of_integer", EmitDefaultValue = false)]
         public List<List<long>> ArrayArrayOfInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayArrayOfModel
         /// </summary>
-        [DataMember(Name="array_array_of_model", EmitDefaultValue=false)]
+        [DataMember(Name = "array_array_of_model", EmitDefaultValue = false)]
         public List<List<ReadOnlyFirst>> ArrayArrayOfModel { get; set; }
 
         /// <summary>

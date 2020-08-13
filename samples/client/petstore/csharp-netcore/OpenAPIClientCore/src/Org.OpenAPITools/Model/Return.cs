@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// Model for testing reserved words
     /// </summary>
     [DataContract]
-    public partial class Return :  IEquatable<Return>, IValidatableObject
+    public partial class Return : IEquatable<Return>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Return" /> class.
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets _Return
         /// </summary>
-        [DataMember(Name="return", EmitDefaultValue=false)]
+        [DataMember(Name = "return", EmitDefaultValue = false)]
         public int _Return { get; set; }
 
         /// <summary>

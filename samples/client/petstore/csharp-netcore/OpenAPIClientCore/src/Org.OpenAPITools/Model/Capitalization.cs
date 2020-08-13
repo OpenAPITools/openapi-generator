@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// Capitalization
     /// </summary>
     [DataContract]
-    public partial class Capitalization :  IEquatable<Capitalization>, IValidatableObject
+    public partial class Capitalization : IEquatable<Capitalization>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Capitalization" /> class.
@@ -53,38 +53,38 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets SmallCamel
         /// </summary>
-        [DataMember(Name="smallCamel", EmitDefaultValue=false)]
+        [DataMember(Name = "smallCamel", EmitDefaultValue = false)]
         public string SmallCamel { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalCamel
         /// </summary>
-        [DataMember(Name="CapitalCamel", EmitDefaultValue=false)]
+        [DataMember(Name = "CapitalCamel", EmitDefaultValue = false)]
         public string CapitalCamel { get; set; }
 
         /// <summary>
         /// Gets or Sets SmallSnake
         /// </summary>
-        [DataMember(Name="small_Snake", EmitDefaultValue=false)]
+        [DataMember(Name = "small_Snake", EmitDefaultValue = false)]
         public string SmallSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalSnake
         /// </summary>
-        [DataMember(Name="Capital_Snake", EmitDefaultValue=false)]
+        [DataMember(Name = "Capital_Snake", EmitDefaultValue = false)]
         public string CapitalSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets SCAETHFlowPoints
         /// </summary>
-        [DataMember(Name="SCA_ETH_Flow_Points", EmitDefaultValue=false)]
+        [DataMember(Name = "SCA_ETH_Flow_Points", EmitDefaultValue = false)]
         public string SCAETHFlowPoints { get; set; }
 
         /// <summary>
         /// Name of the pet 
         /// </summary>
         /// <value>Name of the pet </value>
-        [DataMember(Name="ATT_NAME", EmitDefaultValue=false)]
+        [DataMember(Name = "ATT_NAME", EmitDefaultValue = false)]
         public string ATT_NAME { get; set; }
 
         /// <summary>

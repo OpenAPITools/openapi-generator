@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// MixedPropertiesAndAdditionalPropertiesClass
     /// </summary>
     [DataContract]
-    public partial class MixedPropertiesAndAdditionalPropertiesClass :  IEquatable<MixedPropertiesAndAdditionalPropertiesClass>, IValidatableObject
+    public partial class MixedPropertiesAndAdditionalPropertiesClass : IEquatable<MixedPropertiesAndAdditionalPropertiesClass>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MixedPropertiesAndAdditionalPropertiesClass" /> class.
@@ -47,19 +47,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Uuid
         /// </summary>
-        [DataMember(Name="uuid", EmitDefaultValue=false)]
+        [DataMember(Name = "uuid", EmitDefaultValue = false)]
         public Guid Uuid { get; set; }
 
         /// <summary>
         /// Gets or Sets DateTime
         /// </summary>
-        [DataMember(Name="dateTime", EmitDefaultValue=false)]
+        [DataMember(Name = "dateTime", EmitDefaultValue = false)]
         public DateTime DateTime { get; set; }
 
         /// <summary>
         /// Gets or Sets Map
         /// </summary>
-        [DataMember(Name="map", EmitDefaultValue=false)]
+        [DataMember(Name = "map", EmitDefaultValue = false)]
         public Dictionary<string, Animal> Map { get; set; }
 
         /// <summary>

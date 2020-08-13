@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// InlineObject5
     /// </summary>
     [DataContract]
-    public partial class InlineObject5 :  IEquatable<InlineObject5>, IValidatableObject
+    public partial class InlineObject5 : IEquatable<InlineObject5>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineObject5" /> class.
@@ -52,14 +52,14 @@ namespace Org.OpenAPITools.Model
         /// Additional data to pass to server
         /// </summary>
         /// <value>Additional data to pass to server</value>
-        [DataMember(Name="additionalMetadata", EmitDefaultValue=false)]
+        [DataMember(Name = "additionalMetadata", EmitDefaultValue = false)]
         public string AdditionalMetadata { get; set; }
 
         /// <summary>
         /// file to upload
         /// </summary>
         /// <value>file to upload</value>
-        [DataMember(Name="requiredFile", EmitDefaultValue=false)]
+        [DataMember(Name = "requiredFile", EmitDefaultValue = false)]
         public System.IO.Stream RequiredFile { get; set; }
 
         /// <summary>
