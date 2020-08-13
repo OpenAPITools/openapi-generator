@@ -93,7 +93,7 @@ import kotlinx.serialization.builtins.serializer
 
         val config_ = RequestConfig(
             RequestMethod.{{httpMethod}},
-            "{{path}}"{{#pathParams}}.replace("{{curly true}}{{baseName}}{{curly}}", "${{{paramName}}}"){{/pathParams}},
+            "{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", "${{{paramName}}}"){{/pathParams}},
             queries = queries_,
             headers = headers_
         )
