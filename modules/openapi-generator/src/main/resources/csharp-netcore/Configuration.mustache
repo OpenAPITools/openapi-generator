@@ -47,7 +47,7 @@ namespace {{packageName}}.Client
             {
                 return new ApiException(status,
                     string.Format("Error calling {0}: {1}", methodName, response.RawContent),
-                    response.RawContent);
+                    response.RawContent, response.Headers);
             }
             {{^netStandard}}if (status == 0)
             {
@@ -212,7 +212,7 @@ namespace {{packageName}}.Client
             {
                 return apiKeyPrefix + " " + apiKeyValue;
             }
-            
+
             return apiKeyValue;
         }
 
@@ -224,7 +224,7 @@ namespace {{packageName}}.Client
 
         /// <summary>
         /// Gets or sets the access token for OAuth2 authentication.
-        /// 
+        ///
         /// This helper property simplifies code generation.
         /// </summary>
         /// <value>The access token.</value>
@@ -294,13 +294,13 @@ namespace {{packageName}}.Client
         /// Gets or sets the prefix (e.g. Token) of the API key based on the authentication name.
         ///
         /// Whatever you set here will be prepended to the value defined in AddApiKey.
-        /// 
+        ///
         /// An example invocation here might be:
         /// <example>
         /// ApiKeyPrefix["Authorization"] = "Bearer";
         /// </example>
         /// … where ApiKey["Authorization"] would then be used to set the value of your bearer token.
-        /// 
+        ///
         /// <remarks>
         /// OAuth2 workflows should set tokens via AccessToken.
         /// </remarks>
@@ -394,11 +394,11 @@ namespace {{packageName}}.Client
         public static IReadableConfiguration MergeConfigurations(IReadableConfiguration first, IReadableConfiguration second)
         {
             if (second == null) return first ?? GlobalConfiguration.Instance;
-            
+
             Dictionary<string, string> apiKey = first.ApiKey.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             Dictionary<string, string> apiKeyPrefix = first.ApiKeyPrefix.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             Dictionary<string, string> defaultHeaders = first.DefaultHeaders.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            
+
             foreach (var kvp in second.ApiKey) apiKey[kvp.Key] = kvp.Value;
             foreach (var kvp in second.ApiKeyPrefix) apiKeyPrefix[kvp.Key] = kvp.Value;
             foreach (var kvp in second.DefaultHeaders) defaultHeaders[kvp.Key] = kvp.Value;

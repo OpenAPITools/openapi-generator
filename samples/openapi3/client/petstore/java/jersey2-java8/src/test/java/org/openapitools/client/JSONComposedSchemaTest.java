@@ -67,6 +67,17 @@ public class JSONComposedSchemaTest {
     }
 
     /**
+     * Test to ensure the getter will throw ClassCastException
+     */
+    @Test(expected = ClassCastException.class)
+    public void testCastException() throws Exception {
+        String str = "{ \"cultivar\": \"golden delicious\", \"mealy\": false }";
+        FruitReq o = json.getContext(null).readValue(str, FruitReq.class);
+        assertTrue(o.getActualInstance() instanceof AppleReq);
+        BananaReq inst2 = o.getBananaReq(); // should throw ClassCastException
+    }
+
+    /**
      * Validate a oneOf schema can be deserialized into the expected class.
      * The oneOf schema does not have a discriminator. 
      */
@@ -81,6 +92,10 @@ public class JSONComposedSchemaTest {
             AppleReq inst = (AppleReq) o.getActualInstance();
             assertEquals(inst.getCultivar(), "golden delicious");
             assertEquals(inst.getMealy(), false);
+
+            AppleReq inst2 = o.getAppleReq();
+            assertEquals(inst2.getCultivar(), "golden delicious");
+            assertEquals(inst2.getMealy(), false);
         }
         {
             // Same test, but this time with additional (undeclared) properties.
@@ -116,7 +131,7 @@ public class JSONComposedSchemaTest {
             String str = "null";
             FruitReq o = json.getContext(null).readValue(str, FruitReq.class);
             assertNull(o);
-        }        
+        }
     }
 
     /**

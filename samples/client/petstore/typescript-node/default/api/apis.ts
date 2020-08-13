@@ -8,7 +8,7 @@ import * as fs from 'fs';
 import * as http from 'http';
 
 export class HttpError extends Error {
-    constructor (public response: http.ClientResponse, public body: any, public statusCode?: number) {
+    constructor (public response: http.IncomingMessage, public body: any, public statusCode?: number) {
         super('HTTP request failed');
         this.name = 'HttpError';
     }
