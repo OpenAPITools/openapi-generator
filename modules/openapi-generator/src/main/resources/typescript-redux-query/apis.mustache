@@ -19,7 +19,7 @@ import {
 {{#allParams.0}}
 export interface {{operationIdCamelCase}}Request {
     {{#allParams}}
-    {{paramName}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
+    {{paramName}}{{^required}}{{^isListContainer}}?{{/isListContainer}}{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}};
     {{/allParams}}
 }
 
