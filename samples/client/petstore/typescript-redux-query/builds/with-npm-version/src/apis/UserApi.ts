@@ -14,7 +14,6 @@
 
 import { HttpMethods, QueryConfig, ResponseBody, ResponseText } from 'redux-query';
 import * as runtime from '../runtime';
-
 import {
     User,
     UserFromJSON,
@@ -64,7 +63,7 @@ function createUserRaw<T>(requestParameters: CreateUserRequest, requestConfig: r
     let queryParameters = null;
 
 
-        const headerParameters : runtime.HttpHeaders = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
     headerParameters['Content-Type'] = 'application/json';
 
@@ -112,7 +111,7 @@ function createUsersWithArrayInputRaw<T>(requestParameters: CreateUsersWithArray
     let queryParameters = null;
 
 
-        const headerParameters : runtime.HttpHeaders = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
     headerParameters['Content-Type'] = 'application/json';
 
@@ -159,7 +158,7 @@ function createUsersWithListInputRaw<T>(requestParameters: CreateUsersWithListIn
     let queryParameters = null;
 
 
-        const headerParameters : runtime.HttpHeaders = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
     headerParameters['Content-Type'] = 'application/json';
 
@@ -207,7 +206,7 @@ function deleteUserRaw<T>(requestParameters: DeleteUserRequest, requestConfig: r
     let queryParameters = null;
 
 
-        const headerParameters : runtime.HttpHeaders = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
@@ -253,7 +252,7 @@ function getUserByNameRaw<T>(requestParameters: GetUserByNameRequest, requestCon
     let queryParameters = null;
 
 
-        const headerParameters : runtime.HttpHeaders = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
@@ -314,7 +313,7 @@ function loginUserRaw<T>(requestParameters: LoginUserRequest, requestConfig: run
         queryParameters['password'] = requestParameters.password;
     }
 
-        const headerParameters : runtime.HttpHeaders = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
@@ -356,7 +355,7 @@ function logoutUserRaw<T>( requestConfig: runtime.TypedQueryConfig<T, void> = {}
     let queryParameters = null;
 
 
-        const headerParameters : runtime.HttpHeaders = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
@@ -406,7 +405,7 @@ function updateUserRaw<T>(requestParameters: UpdateUserRequest, requestConfig: r
     let queryParameters = null;
 
 
-        const headerParameters : runtime.HttpHeaders = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
     headerParameters['Content-Type'] = 'application/json';
 
