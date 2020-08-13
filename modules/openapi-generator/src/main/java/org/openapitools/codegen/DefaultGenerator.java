@@ -58,6 +58,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
@@ -1077,10 +1078,11 @@ public class DefaultGenerator implements Generator {
             allImports.addAll(op.imports);
         }
 
-        Map<String,String> mappings = getAllImportsMapppings(allImports);
-        List<Map<String, String>> imports = toImportsObjects(mappings);
+        Map<String,String> mappings = getAllImportsMappings(allImports);
+        Set<Map<String, String>> imports = toImportsObjects(mappings);
 
-        operations.put("imports", imports);
+        //Some codegen implementations rely on a list interface for the imports
+        operations.put("imports", imports.stream().collect(Collectors.toList()));
 
         // add a flag to indicate whether there's any {{import}}
         if (imports.size() > 0) {
@@ -1099,7 +1101,12 @@ public class DefaultGenerator implements Generator {
         return operations;
     }
 
-    private Map<String,String> getAllImportsMapppings(Set<String> allImports){
+    /**
+     * Transforms a set of imports to a map with key config.toModelImport(import) and value the import string.
+     * @param allImports - Set of imports
+     * @return Map of fully qualified import path and initial import.
+     */
+    private Map<String,String> getAllImportsMappings(Set<String> allImports){
         Map<String,String> result = new HashMap<>();
         allImports.forEach(nextImport->{
             String mapping = config.importMapping().get(nextImport);
@@ -1112,23 +1119,27 @@ public class DefaultGenerator implements Generator {
         return result;
     }
 
-    private List<Map<String,String>> toImportsObjects(Map<String,String> mappedImports){
-        List<Map<String, String>> result = new ArrayList<>();
-        mappedImports.entrySet().forEach(mapping->{
-            Map<String, String> im = new LinkedHashMap<>();
-            im.put("import", mapping.getKey());
-            im.put("classname", mapping.getValue());
-            if (!result.contains(im)) { // avoid duplicates
-                result.add(im);
-                }
-        });
-        Collections.sort(result, new Comparator<Map<String, String>>() {
-            @Override
-            public int compare(final Map<String, String> o1, final Map<String, String> o2) {
+    /**
+     * Using an import map created via {@link #getAllImportsMappings(Set)} to build a list import objects.
+     * The import objects have two keys: import and classname which hold the key and value of the initial map entry.
+     *
+     * @param mappedImports Map of fully qualified import and import
+     * @return The set of unique imports
+     */
+    private Set<Map<String,String>> toImportsObjects(Map<String,String> mappedImports){
+        Set<Map<String, String>> result = new TreeSet<Map<String,String>>(
+            (Comparator<Map<String, String>>) (o1, o2) -> {
                 String s1 = o1.get("classname");
                 String s2 = o2.get("classname");
                 return s1.compareTo(s2);
             }
+        );
+
+        mappedImports.entrySet().forEach(mapping->{
+            Map<String, String> im = new LinkedHashMap<>();
+            im.put("import", mapping.getKey());
+            im.put("classname", mapping.getValue());
+            result.add(im);
         });
         return result;
      }
