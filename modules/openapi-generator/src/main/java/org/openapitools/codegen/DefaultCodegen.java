@@ -4962,7 +4962,7 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * check if current active library equals to passed
      * @param library - library to be compared with
-     * @return
+     * @return {@code true} if passed library is active, {@code false} otherwise
      */
     public final boolean isLibrary(String library) {
         return library.equals(this.library);
