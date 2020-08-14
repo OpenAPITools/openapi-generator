@@ -2,9 +2,8 @@
 #
 image: Visual Studio 2019
 clone_depth: 1
-build:
-  project: {{{packageName}}}.sln
-  verbosity: minimal
+build_script:
+- dotnet build -c Release
 test_script:
 - dotnet test -c Release .\src\{{{packageName}}}.Test\{{{packageName}}}.Test.csproj
 after_build:
