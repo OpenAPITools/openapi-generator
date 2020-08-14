@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// EnumTest
     /// </summary>
     [DataContract]
-    public partial class EnumTest :  IEquatable<EnumTest>, IValidatableObject
+    public partial class EnumTest : IEquatable<EnumTest>, IValidatableObject
     {
         /// <summary>
         /// Defines EnumString
@@ -60,7 +60,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumString
         /// </summary>
-        [DataMember(Name="enum_string", EmitDefaultValue=false)]
+        [DataMember(Name = "enum_string", EmitDefaultValue = false)]
         public EnumStringEnum? EnumString { get; set; }
         /// <summary>
         /// Defines EnumStringRequired
@@ -91,7 +91,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumStringRequired
         /// </summary>
-        [DataMember(Name="enum_string_required", EmitDefaultValue=false)]
+        [DataMember(Name = "enum_string_required", EmitDefaultValue = false)]
         public EnumStringRequiredEnum EnumStringRequired { get; set; }
         /// <summary>
         /// Defines EnumInteger
@@ -113,7 +113,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumInteger
         /// </summary>
-        [DataMember(Name="enum_integer", EmitDefaultValue=false)]
+        [DataMember(Name = "enum_integer", EmitDefaultValue = false)]
         public EnumIntegerEnum? EnumInteger { get; set; }
         /// <summary>
         /// Defines EnumNumber
@@ -138,27 +138,27 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets EnumNumber
         /// </summary>
-        [DataMember(Name="enum_number", EmitDefaultValue=false)]
+        [DataMember(Name = "enum_number", EmitDefaultValue = false)]
         public EnumNumberEnum? EnumNumber { get; set; }
         /// <summary>
         /// Gets or Sets OuterEnum
         /// </summary>
-        [DataMember(Name="outerEnum", EmitDefaultValue=true)]
+        [DataMember(Name = "outerEnum", EmitDefaultValue = true)]
         public OuterEnum? OuterEnum { get; set; }
         /// <summary>
         /// Gets or Sets OuterEnumInteger
         /// </summary>
-        [DataMember(Name="outerEnumInteger", EmitDefaultValue=false)]
+        [DataMember(Name = "outerEnumInteger", EmitDefaultValue = false)]
         public OuterEnumInteger? OuterEnumInteger { get; set; }
         /// <summary>
         /// Gets or Sets OuterEnumDefaultValue
         /// </summary>
-        [DataMember(Name="outerEnumDefaultValue", EmitDefaultValue=false)]
+        [DataMember(Name = "outerEnumDefaultValue", EmitDefaultValue = false)]
         public OuterEnumDefaultValue? OuterEnumDefaultValue { get; set; }
         /// <summary>
         /// Gets or Sets OuterEnumIntegerDefaultValue
         /// </summary>
-        [DataMember(Name="outerEnumIntegerDefaultValue", EmitDefaultValue=false)]
+        [DataMember(Name = "outerEnumIntegerDefaultValue", EmitDefaultValue = false)]
         public OuterEnumIntegerDefaultValue? OuterEnumIntegerDefaultValue { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.

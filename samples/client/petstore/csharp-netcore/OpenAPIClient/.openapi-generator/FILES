@@ -1,6 +1,7 @@
 .gitignore
 Org.OpenAPITools.sln
 README.md
+appveyor.yml
 docs/AdditionalPropertiesClass.md
 docs/Animal.md
 docs/AnotherFakeApi.md

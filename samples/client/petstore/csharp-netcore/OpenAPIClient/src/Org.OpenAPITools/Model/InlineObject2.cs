@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// InlineObject2
     /// </summary>
     [DataContract]
-    public partial class InlineObject2 :  IEquatable<InlineObject2>, IValidatableObject
+    public partial class InlineObject2 : IEquatable<InlineObject2>, IValidatableObject
     {
         /// <summary>
         /// Defines EnumFormStringArray
@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Form parameter enum test (string array)
         /// </summary>
         /// <value>Form parameter enum test (string array)</value>
-        [DataMember(Name="enum_form_string_array", EmitDefaultValue=false)]
+        [DataMember(Name = "enum_form_string_array", EmitDefaultValue = false)]
         public List<EnumFormStringArrayEnum> EnumFormStringArray { get; set; }
         /// <summary>
         /// Form parameter enum test (string)
@@ -89,7 +89,7 @@ namespace Org.OpenAPITools.Model
         /// Form parameter enum test (string)
         /// </summary>
         /// <value>Form parameter enum test (string)</value>
-        [DataMember(Name="enum_form_string", EmitDefaultValue=false)]
+        [DataMember(Name = "enum_form_string", EmitDefaultValue = false)]
         public EnumFormStringEnum? EnumFormString { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineObject2" /> class.

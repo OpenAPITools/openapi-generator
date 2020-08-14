@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// InlineResponseDefault
     /// </summary>
     [DataContract]
-    public partial class InlineResponseDefault :  IEquatable<InlineResponseDefault>, IValidatableObject
+    public partial class InlineResponseDefault : IEquatable<InlineResponseDefault>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineResponseDefault" /> class.
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets String
         /// </summary>
-        [DataMember(Name="string", EmitDefaultValue=false)]
+        [DataMember(Name = "string", EmitDefaultValue = false)]
         public Foo String { get; set; }
 
         /// <summary>
