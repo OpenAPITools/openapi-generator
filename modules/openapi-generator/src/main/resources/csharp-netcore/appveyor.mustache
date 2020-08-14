@@ -2,8 +2,6 @@
 #
 image: Visual Studio 2019
 clone_depth: 1
-before_build:
-- dotnet restore
 build:
   project: {{{packageName}}}.sln
   verbosity: minimal
