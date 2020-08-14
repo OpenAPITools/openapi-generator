@@ -343,8 +343,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         return "Generates a C# client library (.NET Standard, .NET Core).";
     }
 
-//    private void syncStringProperty(Map<String, Object> properties, String key)
-
     public String getModelPropertyNaming() {
         return this.modelPropertyNaming;
     }
@@ -640,6 +638,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         if (Boolean.FALSE.equals(excludeTests.get())) {
             supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
         }
+
+        supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
