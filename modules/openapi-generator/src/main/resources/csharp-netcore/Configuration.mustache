@@ -345,10 +345,8 @@ namespace {{packageName}}.Client
         {
             String report = "C# SDK ({{{packageName}}}) Debug Report:\n";
             {{^netStandard}}
-            {{^supportsUWP}}
             report += "    OS: " + System.Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + System.Environment.Version  + "\n";
-            {{/supportsUWP}}
             {{/netStandard}}
             {{#netStandard}}
             report += "    OS: " + System.Runtime.InteropServices.RuntimeInformation.OSDescription + "\n";
