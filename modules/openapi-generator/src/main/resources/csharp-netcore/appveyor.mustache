@@ -4,7 +4,6 @@ image: Visual Studio 2019
 clone_depth: 1
 build_script:
 - dotnet build -c Release
-test_script:
-- dotnet test -c Release .\src\{{{packageName}}}.Test\{{{packageName}}}.Test.csproj
+- dotnet test -c Release
 after_build:
 - dotnet pack .\src\{{{packageName}}}\{{{packageName}}}.csproj -o ../../output --no-build
