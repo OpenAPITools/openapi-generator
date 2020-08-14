@@ -10,6 +10,7 @@
 package petstoreserver
 
 import (
+	"context"
 	"net/http"
 	"os"
 )
@@ -57,14 +58,14 @@ type UserApiRouter interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file 
 // and updated with the logic required for the API.
 type PetApiServicer interface { 
-	AddPet(Pet) (interface{}, error)
-	DeletePet(int64, string) (interface{}, error)
-	FindPetsByStatus([]string) (interface{}, error)
-	FindPetsByTags([]string) (interface{}, error)
-	GetPetById(int64) (interface{}, error)
-	UpdatePet(Pet) (interface{}, error)
-	UpdatePetWithForm(int64, string, string) (interface{}, error)
-	UploadFile(int64, string, *os.File) (interface{}, error)
+	AddPet(context.Context, Pet) (interface{}, error)
+	DeletePet(context.Context, int64, string) (interface{}, error)
+	FindPetsByStatus(context.Context, []string) (interface{}, error)
+	FindPetsByTags(context.Context, []string) (interface{}, error)
+	GetPetById(context.Context, int64) (interface{}, error)
+	UpdatePet(context.Context, Pet) (interface{}, error)
+	UpdatePetWithForm(context.Context, int64, string, string) (interface{}, error)
+	UploadFile(context.Context, int64, string, *os.File) (interface{}, error)
 }
 
 
@@ -73,10 +74,10 @@ type PetApiServicer interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file 
 // and updated with the logic required for the API.
 type StoreApiServicer interface { 
-	DeleteOrder(string) (interface{}, error)
-	GetInventory() (interface{}, error)
-	GetOrderById(int64) (interface{}, error)
-	PlaceOrder(Order) (interface{}, error)
+	DeleteOrder(context.Context, string) (interface{}, error)
+	GetInventory(context.Context) (interface{}, error)
+	GetOrderById(context.Context, int64) (interface{}, error)
+	PlaceOrder(context.Context, Order) (interface{}, error)
 }
 
 
@@ -85,12 +86,12 @@ type StoreApiServicer interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file 
 // and updated with the logic required for the API.
 type UserApiServicer interface { 
-	CreateUser(User) (interface{}, error)
-	CreateUsersWithArrayInput([]User) (interface{}, error)
-	CreateUsersWithListInput([]User) (interface{}, error)
-	DeleteUser(string) (interface{}, error)
-	GetUserByName(string) (interface{}, error)
-	LoginUser(string, string) (interface{}, error)
-	LogoutUser() (interface{}, error)
-	UpdateUser(string, User) (interface{}, error)
+	CreateUser(context.Context, User) (interface{}, error)
+	CreateUsersWithArrayInput(context.Context, []User) (interface{}, error)
+	CreateUsersWithListInput(context.Context, []User) (interface{}, error)
+	DeleteUser(context.Context, string) (interface{}, error)
+	GetUserByName(context.Context, string) (interface{}, error)
+	LoginUser(context.Context, string, string) (interface{}, error)
+	LogoutUser(context.Context) (interface{}, error)
+	UpdateUser(context.Context, string, User) (interface{}, error)
 }
