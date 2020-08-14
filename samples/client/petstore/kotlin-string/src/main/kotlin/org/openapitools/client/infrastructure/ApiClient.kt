@@ -114,7 +114,7 @@ open class ApiClient(val baseUrl: String) {
         if (bodyContent.isEmpty()) {
             return null
         }
-        if (T::class.java is File) {
+        if (T::class == File::class) {
             // return tempfile
             val f = createTempFile()
             f.deleteOnExit()
