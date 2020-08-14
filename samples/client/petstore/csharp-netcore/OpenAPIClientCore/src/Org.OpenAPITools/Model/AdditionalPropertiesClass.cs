@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// AdditionalPropertiesClass
     /// </summary>
     [DataContract]
-    public partial class AdditionalPropertiesClass :  IEquatable<AdditionalPropertiesClass>, IValidatableObject
+    public partial class AdditionalPropertiesClass : IEquatable<AdditionalPropertiesClass>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AdditionalPropertiesClass" /> class.
@@ -45,13 +45,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MapProperty
         /// </summary>
-        [DataMember(Name="map_property", EmitDefaultValue=false)]
+        [DataMember(Name = "map_property", EmitDefaultValue = false)]
         public Dictionary<string, string> MapProperty { get; set; }
 
         /// <summary>
         /// Gets or Sets MapOfMapProperty
         /// </summary>
-        [DataMember(Name="map_of_map_property", EmitDefaultValue=false)]
+        [DataMember(Name = "map_of_map_property", EmitDefaultValue = false)]
         public Dictionary<string, Dictionary<string, string>> MapOfMapProperty { get; set; }
 
         /// <summary>

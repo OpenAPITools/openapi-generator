@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// Model for testing model name same as property name
     /// </summary>
     [DataContract]
-    public partial class Name :  IEquatable<Name>, IValidatableObject
+    public partial class Name : IEquatable<Name>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
@@ -50,25 +50,25 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets _Name
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
+        [DataMember(Name = "name", EmitDefaultValue = false)]
         public int _Name { get; set; }
 
         /// <summary>
         /// Gets or Sets SnakeCase
         /// </summary>
-        [DataMember(Name="snake_case", EmitDefaultValue=false)]
+        [DataMember(Name = "snake_case", EmitDefaultValue = false)]
         public int SnakeCase { get; private set; }
 
         /// <summary>
         /// Gets or Sets Property
         /// </summary>
-        [DataMember(Name="property", EmitDefaultValue=false)]
+        [DataMember(Name = "property", EmitDefaultValue = false)]
         public string Property { get; set; }
 
         /// <summary>
         /// Gets or Sets _123Number
         /// </summary>
-        [DataMember(Name="123Number", EmitDefaultValue=false)]
+        [DataMember(Name = "123Number", EmitDefaultValue = false)]
         public int _123Number { get; private set; }
 
         /// <summary>

@@ -111,7 +111,7 @@ namespace Org.OpenAPITools.Client
         /// <summary>
         /// The raw content
         /// </summary>
-        public string RawContent { get;}
+        public string RawContent { get; }
 
         #endregion Properties
 

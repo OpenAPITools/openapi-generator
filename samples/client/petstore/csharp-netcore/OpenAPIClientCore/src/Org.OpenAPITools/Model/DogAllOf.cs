@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// DogAllOf
     /// </summary>
     [DataContract]
-    public partial class DogAllOf :  IEquatable<DogAllOf>, IValidatableObject
+    public partial class DogAllOf : IEquatable<DogAllOf>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DogAllOf" /> class.
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Breed
         /// </summary>
-        [DataMember(Name="breed", EmitDefaultValue=false)]
+        [DataMember(Name = "breed", EmitDefaultValue = false)]
         public string Breed { get; set; }
 
         /// <summary>

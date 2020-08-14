@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// ReadOnlyFirst
     /// </summary>
     [DataContract]
-    public partial class ReadOnlyFirst :  IEquatable<ReadOnlyFirst>, IValidatableObject
+    public partial class ReadOnlyFirst : IEquatable<ReadOnlyFirst>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadOnlyFirst" /> class.
@@ -43,13 +43,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Bar
         /// </summary>
-        [DataMember(Name="bar", EmitDefaultValue=false)]
+        [DataMember(Name = "bar", EmitDefaultValue = false)]
         public string Bar { get; private set; }
 
         /// <summary>
         /// Gets or Sets Baz
         /// </summary>
-        [DataMember(Name="baz", EmitDefaultValue=false)]
+        [DataMember(Name = "baz", EmitDefaultValue = false)]
         public string Baz { get; set; }
 
         /// <summary>

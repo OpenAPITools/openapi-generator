@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// FileSchemaTestClass
     /// </summary>
     [DataContract]
-    public partial class FileSchemaTestClass :  IEquatable<FileSchemaTestClass>, IValidatableObject
+    public partial class FileSchemaTestClass : IEquatable<FileSchemaTestClass>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FileSchemaTestClass" /> class.
@@ -45,13 +45,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets File
         /// </summary>
-        [DataMember(Name="file", EmitDefaultValue=false)]
+        [DataMember(Name = "file", EmitDefaultValue = false)]
         public File File { get; set; }
 
         /// <summary>
         /// Gets or Sets Files
         /// </summary>
-        [DataMember(Name="files", EmitDefaultValue=false)]
+        [DataMember(Name = "files", EmitDefaultValue = false)]
         public List<File> Files { get; set; }
 
         /// <summary>

@@ -343,8 +343,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         return "Generates a C# client library (.NET Standard, .NET Core).";
     }
 
-//    private void syncStringProperty(Map<String, Object> properties, String key)
-
     public String getModelPropertyNaming() {
         return this.modelPropertyNaming;
     }
@@ -612,7 +610,9 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
         supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
-        supportingFiles.add(new SupportingFile("IAsynchronousClient.mustache", clientPackageDir, "IAsynchronousClient.cs"));
+        if (supportsAsync) {
+            supportingFiles.add(new SupportingFile("IAsynchronousClient.mustache", clientPackageDir, "IAsynchronousClient.cs"));
+        }
         supportingFiles.add(new SupportingFile("ISynchronousClient.mustache", clientPackageDir, "ISynchronousClient.cs"));
         supportingFiles.add(new SupportingFile("RequestOptions.mustache", clientPackageDir, "RequestOptions.cs"));
         supportingFiles.add(new SupportingFile("Multimap.mustache", clientPackageDir, "Multimap.cs"));
@@ -638,6 +638,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         if (Boolean.FALSE.equals(excludeTests.get())) {
             supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
         }
+
+        supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);

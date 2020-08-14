@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
     /// </summary>
     [DataContract]
-    public partial class HealthCheckResult :  IEquatable<HealthCheckResult>, IValidatableObject
+    public partial class HealthCheckResult : IEquatable<HealthCheckResult>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="HealthCheckResult" /> class.
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets NullableMessage
         /// </summary>
-        [DataMember(Name="NullableMessage", EmitDefaultValue=true)]
+        [DataMember(Name = "NullableMessage", EmitDefaultValue = true)]
         public string NullableMessage { get; set; }
 
         /// <summary>

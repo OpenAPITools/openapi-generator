@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// NullableClass
     /// </summary>
     [DataContract]
-    public partial class NullableClass : Dictionary<String, Object>,  IEquatable<NullableClass>, IValidatableObject
+    public partial class NullableClass : Dictionary<String, Object>, IEquatable<NullableClass>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="NullableClass" /> class.
@@ -65,74 +65,74 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets IntegerProp
         /// </summary>
-        [DataMember(Name="integer_prop", EmitDefaultValue=true)]
+        [DataMember(Name = "integer_prop", EmitDefaultValue = true)]
         public int? IntegerProp { get; set; }
 
         /// <summary>
         /// Gets or Sets NumberProp
         /// </summary>
-        [DataMember(Name="number_prop", EmitDefaultValue=true)]
+        [DataMember(Name = "number_prop", EmitDefaultValue = true)]
         public decimal? NumberProp { get; set; }
 
         /// <summary>
         /// Gets or Sets BooleanProp
         /// </summary>
-        [DataMember(Name="boolean_prop", EmitDefaultValue=true)]
+        [DataMember(Name = "boolean_prop", EmitDefaultValue = true)]
         public bool? BooleanProp { get; set; }
 
         /// <summary>
         /// Gets or Sets StringProp
         /// </summary>
-        [DataMember(Name="string_prop", EmitDefaultValue=true)]
+        [DataMember(Name = "string_prop", EmitDefaultValue = true)]
         public string StringProp { get; set; }
 
         /// <summary>
         /// Gets or Sets DateProp
         /// </summary>
-        [DataMember(Name="date_prop", EmitDefaultValue=true)]
+        [DataMember(Name = "date_prop", EmitDefaultValue = true)]
         [JsonConverter(typeof(OpenAPIDateConverter))]
         public DateTime? DateProp { get; set; }
 
         /// <summary>
         /// Gets or Sets DatetimeProp
         /// </summary>
-        [DataMember(Name="datetime_prop", EmitDefaultValue=true)]
+        [DataMember(Name = "datetime_prop", EmitDefaultValue = true)]
         public DateTime? DatetimeProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayNullableProp
         /// </summary>
-        [DataMember(Name="array_nullable_prop", EmitDefaultValue=true)]
+        [DataMember(Name = "array_nullable_prop", EmitDefaultValue = true)]
         public List<Object> ArrayNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayAndItemsNullableProp
         /// </summary>
-        [DataMember(Name="array_and_items_nullable_prop", EmitDefaultValue=true)]
+        [DataMember(Name = "array_and_items_nullable_prop", EmitDefaultValue = true)]
         public List<Object> ArrayAndItemsNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayItemsNullable
         /// </summary>
-        [DataMember(Name="array_items_nullable", EmitDefaultValue=false)]
+        [DataMember(Name = "array_items_nullable", EmitDefaultValue = false)]
         public List<Object> ArrayItemsNullable { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectNullableProp
         /// </summary>
-        [DataMember(Name="object_nullable_prop", EmitDefaultValue=true)]
+        [DataMember(Name = "object_nullable_prop", EmitDefaultValue = true)]
         public Dictionary<string, Object> ObjectNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectAndItemsNullableProp
         /// </summary>
-        [DataMember(Name="object_and_items_nullable_prop", EmitDefaultValue=true)]
+        [DataMember(Name = "object_and_items_nullable_prop", EmitDefaultValue = true)]
         public Dictionary<string, Object> ObjectAndItemsNullableProp { get; set; }
 
         /// <summary>
         /// Gets or Sets ObjectItemsNullable
         /// </summary>
-        [DataMember(Name="object_items_nullable", EmitDefaultValue=false)]
+        [DataMember(Name = "object_items_nullable", EmitDefaultValue = false)]
         public Dictionary<string, Object> ObjectItemsNullable { get; set; }
 
         /// <summary>
