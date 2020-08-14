@@ -2,12 +2,8 @@
 #
 image: Visual Studio 2019
 clone_depth: 1
-before_build:
-- dotnet restore
-build:
-  project: Org.OpenAPITools.sln
-  verbosity: minimal
-test_script:
-- dotnet test -c Release .\src\Org.OpenAPITools.Test\Org.OpenAPITools.Test.csproj
+build_script:
+- dotnet build -c Release
+- dotnet test -c Release
 after_build:
-- dotnet pack .\src\Org.OpenAPITools\Org.OpenAPITools.csproj -o ../../output --no-build
+- dotnet pack .\src\Org.OpenAPITools\Org.OpenAPITools.csproj -o ../../output -c Release --no-build
