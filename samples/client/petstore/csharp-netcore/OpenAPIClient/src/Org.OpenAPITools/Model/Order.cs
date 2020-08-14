@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// Order
     /// </summary>
     [DataContract]
-    public partial class Order :  IEquatable<Order>, IValidatableObject
+    public partial class Order : IEquatable<Order>, IValidatableObject
     {
         /// <summary>
         /// Order Status
@@ -62,7 +62,7 @@ namespace Org.OpenAPITools.Model
         /// Order Status
         /// </summary>
         /// <value>Order Status</value>
-        [DataMember(Name="status", EmitDefaultValue=false)]
+        [DataMember(Name = "status", EmitDefaultValue = false)]
         public StatusEnum? Status { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="Order" /> class.
@@ -86,31 +86,31 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Id
         /// </summary>
-        [DataMember(Name="id", EmitDefaultValue=false)]
+        [DataMember(Name = "id", EmitDefaultValue = false)]
         public long Id { get; set; }
 
         /// <summary>
         /// Gets or Sets PetId
         /// </summary>
-        [DataMember(Name="petId", EmitDefaultValue=false)]
+        [DataMember(Name = "petId", EmitDefaultValue = false)]
         public long PetId { get; set; }
 
         /// <summary>
         /// Gets or Sets Quantity
         /// </summary>
-        [DataMember(Name="quantity", EmitDefaultValue=false)]
+        [DataMember(Name = "quantity", EmitDefaultValue = false)]
         public int Quantity { get; set; }
 
         /// <summary>
         /// Gets or Sets ShipDate
         /// </summary>
-        [DataMember(Name="shipDate", EmitDefaultValue=false)]
+        [DataMember(Name = "shipDate", EmitDefaultValue = false)]
         public DateTime ShipDate { get; set; }
 
         /// <summary>
         /// Gets or Sets Complete
         /// </summary>
-        [DataMember(Name="complete", EmitDefaultValue=false)]
+        [DataMember(Name = "complete", EmitDefaultValue = false)]
         public bool Complete { get; set; }
 
         /// <summary>

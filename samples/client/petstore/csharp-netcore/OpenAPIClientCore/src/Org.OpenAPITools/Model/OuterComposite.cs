@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// OuterComposite
     /// </summary>
     [DataContract]
-    public partial class OuterComposite :  IEquatable<OuterComposite>, IValidatableObject
+    public partial class OuterComposite : IEquatable<OuterComposite>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="OuterComposite" /> class.
@@ -47,19 +47,19 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets MyNumber
         /// </summary>
-        [DataMember(Name="my_number", EmitDefaultValue=false)]
+        [DataMember(Name = "my_number", EmitDefaultValue = false)]
         public decimal MyNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets MyString
         /// </summary>
-        [DataMember(Name="my_string", EmitDefaultValue=false)]
+        [DataMember(Name = "my_string", EmitDefaultValue = false)]
         public string MyString { get; set; }
 
         /// <summary>
         /// Gets or Sets MyBoolean
         /// </summary>
-        [DataMember(Name="my_boolean", EmitDefaultValue=false)]
+        [DataMember(Name = "my_boolean", EmitDefaultValue = false)]
         public bool MyBoolean { get; set; }
 
         /// <summary>

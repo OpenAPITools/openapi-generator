@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// EnumArrays
     /// </summary>
     [DataContract]
-    public partial class EnumArrays :  IEquatable<EnumArrays>, IValidatableObject
+    public partial class EnumArrays : IEquatable<EnumArrays>, IValidatableObject
     {
         /// <summary>
         /// Defines JustSymbol
@@ -54,7 +54,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets JustSymbol
         /// </summary>
-        [DataMember(Name="just_symbol", EmitDefaultValue=false)]
+        [DataMember(Name = "just_symbol", EmitDefaultValue = false)]
         public JustSymbolEnum? JustSymbol { get; set; }
         /// <summary>
         /// Defines ArrayEnum
@@ -80,7 +80,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ArrayEnum
         /// </summary>
-        [DataMember(Name="array_enum", EmitDefaultValue=false)]
+        [DataMember(Name = "array_enum", EmitDefaultValue = false)]
         public List<ArrayEnumEnum> ArrayEnum { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumArrays" /> class.

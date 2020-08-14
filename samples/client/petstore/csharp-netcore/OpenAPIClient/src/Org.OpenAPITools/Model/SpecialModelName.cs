@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// SpecialModelName
     /// </summary>
     [DataContract]
-    public partial class SpecialModelName :  IEquatable<SpecialModelName>, IValidatableObject
+    public partial class SpecialModelName : IEquatable<SpecialModelName>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets SpecialPropertyName
         /// </summary>
-        [DataMember(Name="$special[property.name]", EmitDefaultValue=false)]
+        [DataMember(Name = "$special[property.name]", EmitDefaultValue = false)]
         public long SpecialPropertyName { get; set; }
 
         /// <summary>

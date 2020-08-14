@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using JsonSubTypes;
@@ -35,7 +35,7 @@ namespace Org.OpenAPITools.Model
     [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
     [JsonSubtypes.KnownSubType(typeof(Dog), "Dog")]
     [JsonSubtypes.KnownSubType(typeof(Cat), "Cat")]
-    public partial class Animal :  IEquatable<Animal>, IValidatableObject
+    public partial class Animal : IEquatable<Animal>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Animal" /> class.
@@ -58,13 +58,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ClassName
         /// </summary>
-        [DataMember(Name="className", EmitDefaultValue=false)]
+        [DataMember(Name = "className", EmitDefaultValue = false)]
         public string ClassName { get; set; }
 
         /// <summary>
         /// Gets or Sets Color
         /// </summary>
-        [DataMember(Name="color", EmitDefaultValue=false)]
+        [DataMember(Name = "color", EmitDefaultValue = false)]
         public string Color { get; set; }
 
         /// <summary>

@@ -12,8 +12,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.IO;
 using System.Web;
 using System.Linq;
@@ -21,6 +19,8 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using RestSharp;
@@ -69,7 +69,7 @@ namespace Org.OpenAPITools.Client
 
         public T Deserialize<T>(IRestResponse response)
         {
-            var result = (T) Deserialize(response, typeof(T));
+            var result = (T)Deserialize(response, typeof(T));
             return result;
         }
 
@@ -113,7 +113,7 @@ namespace Org.OpenAPITools.Client
 
             if (type.Name.StartsWith("System.Nullable`1[[System.DateTime")) // return a datetime object
             {
-                return DateTime.Parse(response.Content,  null, System.Globalization.DateTimeStyles.RoundtripKind);
+                return DateTime.Parse(response.Content, null, System.Globalization.DateTimeStyles.RoundtripKind);
             }
 
             if (type == typeof(String) || type.Name.StartsWith("System.Nullable")) // return primitive type
@@ -423,7 +423,7 @@ namespace Org.OpenAPITools.Client
 
             if (response.Cookies != null && response.Cookies.Count > 0)
             {
-                if(result.Cookies == null) result.Cookies = new List<Cookie>();
+                if (result.Cookies == null) result.Cookies = new List<Cookie>();
                 foreach (var restResponseCookie in response.Cookies)
                 {
                     var cookie = new Cookie(
@@ -493,7 +493,7 @@ namespace Org.OpenAPITools.Client
 
             if (response.Cookies != null && response.Cookies.Count > 0)
             {
-                if(result.Cookies == null) result.Cookies = new List<Cookie>();
+                if (result.Cookies == null) result.Cookies = new List<Cookie>();
                 foreach (var restResponseCookie in response.Cookies)
                 {
                     var cookie = new Cookie(

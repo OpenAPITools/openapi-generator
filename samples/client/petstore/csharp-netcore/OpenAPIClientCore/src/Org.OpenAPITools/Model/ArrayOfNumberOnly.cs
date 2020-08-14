@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// ArrayOfNumberOnly
     /// </summary>
     [DataContract]
-    public partial class ArrayOfNumberOnly :  IEquatable<ArrayOfNumberOnly>, IValidatableObject
+    public partial class ArrayOfNumberOnly : IEquatable<ArrayOfNumberOnly>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ArrayOfNumberOnly" /> class.
@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ArrayNumber
         /// </summary>
-        [DataMember(Name="ArrayNumber", EmitDefaultValue=false)]
+        [DataMember(Name = "ArrayNumber", EmitDefaultValue = false)]
         public List<decimal> ArrayNumber { get; set; }
 
         /// <summary>

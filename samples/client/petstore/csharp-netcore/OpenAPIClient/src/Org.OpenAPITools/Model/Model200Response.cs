@@ -9,14 +9,14 @@
 
 
 using System;
-using System.Linq;
-using System.IO;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Text;
+using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// Model for testing model name starting with number
     /// </summary>
     [DataContract]
-    public partial class Model200Response :  IEquatable<Model200Response>, IValidatableObject
+    public partial class Model200Response : IEquatable<Model200Response>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Model200Response" /> class.
@@ -45,13 +45,13 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
+        [DataMember(Name = "name", EmitDefaultValue = false)]
         public int Name { get; set; }
 
         /// <summary>
         /// Gets or Sets Class
         /// </summary>
-        [DataMember(Name="class", EmitDefaultValue=false)]
+        [DataMember(Name = "class", EmitDefaultValue = false)]
         public string Class { get; set; }
 
         /// <summary>
