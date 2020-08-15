@@ -101,7 +101,7 @@ class PetController extends Controller
 
             // Set authentication method 'petstore_auth'
             $handler->setpetstore_auth($securitypetstore_auth);
-            
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
@@ -181,7 +181,7 @@ class PetController extends Controller
 
             // Set authentication method 'petstore_auth'
             $handler->setpetstore_auth($securitypetstore_auth);
-            
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
@@ -268,7 +268,7 @@ class PetController extends Controller
 
             // Set authentication method 'petstore_auth'
             $handler->setpetstore_auth($securitypetstore_auth);
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
@@ -356,7 +356,7 @@ class PetController extends Controller
 
             // Set authentication method 'petstore_auth'
             $handler->setpetstore_auth($securitypetstore_auth);
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
@@ -441,7 +441,7 @@ class PetController extends Controller
 
             // Set authentication method 'api_key'
             $handler->setapi_key($securityapi_key);
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
@@ -530,7 +530,7 @@ class PetController extends Controller
 
             // Set authentication method 'petstore_auth'
             $handler->setpetstore_auth($securitypetstore_auth);
-            
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
@@ -624,7 +624,7 @@ class PetController extends Controller
 
             // Set authentication method 'petstore_auth'
             $handler->setpetstore_auth($securitypetstore_auth);
-            
+
             // Make the call to the business logic
             $responseCode = 204;
             $responseHeaders = [];
@@ -720,7 +720,7 @@ class PetController extends Controller
 
             // Set authentication method 'petstore_auth'
             $handler->setpetstore_auth($securitypetstore_auth);
-            
+
             // Make the call to the business logic
             $responseCode = 200;
             $responseHeaders = [];
