@@ -27,10 +27,10 @@
 {{/isContainer}}
 {{^isContainer}}
     {{#isDate}}
-        $asserts[] = new Assert\Date();
+        $asserts[] = new Assert\Type("\DateTimeInterface");
     {{/isDate}}
     {{#isDateTime}}
-        $asserts[] = new Assert\DateTime();
+        $asserts[] = new Assert\Type("\DateTimeInterface");
     {{/isDateTime}}
     {{^isDate}}
     {{^isDateTime}}
