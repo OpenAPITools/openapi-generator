@@ -203,4 +203,16 @@ public class PlantumlDocumentationCodegen extends DefaultCodegen implements Code
 
         return value;
     }
+
+    @Override
+    public String escapeQuotationMark(String input) {
+        // to surpress the warning message
+        return input;
+    }
+
+    @Override
+    public String escapeUnsafeCharacters(String input) {
+        // to surpress the warning message
+        return input;
+    }
 }

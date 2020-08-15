@@ -49,9 +49,11 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public Set<String> oneOf = new TreeSet<String>();
     public Set<String> allOf = new TreeSet<String>();
 
+    // The schema name as written in the OpenAPI document.
     public String name;
     // The language-specific name of the class that implements this schema.
     // The name of the class is derived from the OpenAPI schema name with formatting rules applied.
+    // The classname is derived from the OpenAPI schema name, with sanitization and escaping rules applied. 
     public String classname;
     // The value of the 'title' attribute in the OpenAPI document.
     public String title;
@@ -102,8 +104,37 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
 
-    //The type of the value from additional properties. Used in map like objects.
+    /**
+     * The type of the value for the additionalProperties keyword in the OAS document.
+     * Used in map like objects, including composed schemas.
+     * 
+     * In most programming languages, the additional (undeclared) properties are stored
+     * in a map data structure, such as HashMap in Java, map in golang, or a dict in Python.
+     * There are multiple ways to implement the additionalProperties keyword, depending
+     * on the programming language and mustache template.
+     * One way is to use class inheritance. For example in the generated Java code, the
+     * generated model class may extend from HashMap to store the additional properties.
+     * In that case 'CodegenModel.parent' is set to represent the class hierarchy.
+     * Another way is to use CodegenModel.additionalPropertiesType. A code generator
+     * such as Python does not use class inheritance to model additional properties.
+     *
+     * For example, in the OAS schema below, the schema has a declared 'id' property
+     * and additional, undeclared properties of type 'integer' are allowed.
+     * 
+     * type: object
+     * properties:
+     *   id:
+     *     type: integer
+     * additionalProperties:
+     *   type: integer
+     *
+     */
     public String additionalPropertiesType;
+
+    /**
+     * True if additionalProperties is set to true (boolean value)
+     */
+    public boolean isAdditionalPropertiesTrue;
 
     private Integer maxProperties;
     private Integer minProperties;
@@ -189,6 +220,17 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setClassVarName(String classVarName) {
         this.classVarName = classVarName;
+    }
+
+    /**
+     * Return true if the classname property is sanitized, false if it is the same as the OpenAPI schema name.
+     * The OpenAPI schema name may be any valid JSON schema name, including non-ASCII characters.
+     * The name of the class may have to be sanitized with character escaping.
+     * 
+     * @return true if the classname property is sanitized
+     */
+    public boolean getIsClassnameSanitized() {
+        return !classname.equals(name);
     }
 
     public String getClassname() {

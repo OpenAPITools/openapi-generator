@@ -1,0 +1,11 @@
+generatorName: spring
+outputDir: samples/server/petstore/spring-mvc-j8-async
+library: spring-mvc
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  async: "true"
+  java8: true
+  artifactId: spring-mvc-server-j8-async
+  hideGenerationTimestamp: "true"
+  serverPort: "8002"

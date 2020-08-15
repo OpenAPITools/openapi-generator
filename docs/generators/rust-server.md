@@ -19,7 +19,7 @@ sidebar_label: rust-server
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
 |array|Vec|
-|map|Map|
+|map|std::collections::HashMap|
 
 
 ## LANGUAGE PRIMITIVES
@@ -108,6 +108,7 @@ sidebar_label: rust-server
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

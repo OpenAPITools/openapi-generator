@@ -4,6 +4,7 @@ import java.io.InputStream;
 import apimodels.ModelApiResponse;
 import apimodels.Pet;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
@@ -21,7 +22,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiController extends Controller {
 
     private final PetApiControllerImpInterface imp;

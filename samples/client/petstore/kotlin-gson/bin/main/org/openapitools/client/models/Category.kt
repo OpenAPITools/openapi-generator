@@ -13,6 +13,7 @@ package org.openapitools.client.models
 
 
 import com.google.gson.annotations.SerializedName
+
 /**
  * A category for a pet
  * @param id 
@@ -24,7 +25,5 @@ data class Category (
     val id: kotlin.Long? = null,
     @SerializedName("name")
     val name: kotlin.String? = null
-) 
-
-
+)
 

@@ -15,6 +15,7 @@ import org.openapitools.client.models.Animal
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+
 /**
  * 
  * @param uuid 
@@ -30,9 +31,9 @@ data class MixedPropertiesAndAdditionalPropertiesClass (
     @SerializedName("map")
     val map: kotlin.collections.Map<kotlin.String, Animal>? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

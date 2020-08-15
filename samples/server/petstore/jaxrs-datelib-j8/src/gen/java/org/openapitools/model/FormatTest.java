@@ -47,7 +47,7 @@ import javax.validation.Valid;
   FormatTest.JSON_PROPERTY_PASSWORD,
   FormatTest.JSON_PROPERTY_BIG_DECIMAL
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class FormatTest  implements Serializable {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   @JsonProperty(JSON_PROPERTY_INTEGER)
@@ -266,7 +266,7 @@ public class FormatTest  implements Serializable {
    **/
   @JsonProperty("byte")
   @ApiModelProperty(required = true, value = "")
-  @NotNull  @Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
+  @NotNull 
   public byte[] getByte() {
     return _byte;
   }

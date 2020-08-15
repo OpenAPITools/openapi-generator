@@ -2,12 +2,14 @@
 
 package {{package}};
 
-import {{invokerPackage}}.ApiException;
+import {{invokerPackage}}.*;
+import {{invokerPackage}}.auth.*;
 {{#imports}}import {{import}};
 {{/imports}}
-import org.junit.Test;
-import org.junit.Ignore;
 import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
+
 
 {{^fullJavaUtil}}
 import java.util.ArrayList;
@@ -23,7 +25,8 @@ public class {{classname}}Test {
 
     private final {{classname}} api = new {{classname}}();
 
-    {{#operations}}{{#operation}}
+    {{#operations}}
+    {{#operation}}
     /**
      * {{summary}}
      *
@@ -47,5 +50,7 @@ public class {{classname}}Test {
         {{/vendorExtensions.x-group-parameters}}
         // TODO: test validations
     }
-    {{/operation}}{{/operations}}
+
+    {{/operation}}
+    {{/operations}}
 }

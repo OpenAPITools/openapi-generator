@@ -13,7 +13,7 @@
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
                 <!-- RELEASE_VERSION -->
-                <version>4.3.1</version>
+                <version>5.0.0-SNAPSHOT</version>
                 <!-- /RELEASE_VERSION -->
                 <executions>
                     <execution>
@@ -169,7 +169,11 @@
           <artifactId>joda-time</artifactId>
           <version>${jodatime-version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.scribejava</groupId>
+            <artifactId>scribejava-apis</artifactId>
+            <version>${scribejava-apis-version}</version>
+        </dependency>
         <!-- Base64 encoding that works in both JVM and Android -->
         <dependency>
             <groupId>com.brsanthu</groupId>
@@ -181,10 +185,11 @@
     <properties>
         <swagger-annotations-version>1.5.8</swagger-annotations-version>
         <jersey-version>2.27</jersey-version>
-        <jackson-version>2.8.9</jackson-version>
+        <jackson-version>2.9.10</jackson-version>
         <jackson-databind-nullable-version>0.2.0</jackson-databind-nullable-version>
         <jodatime-version>2.7</jodatime-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.8.1</junit-version>
+        <scribejava-apis-version>6.9.0</scribejava-apis-version>
     </properties>
 </project>

@@ -15,33 +15,38 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 import org.openapitools.client.model.Animal;
 import org.openapitools.client.model.DogAllOf;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * Dog
  */
-
+@JsonPropertyOrder({
+  Dog.JSON_PROPERTY_BREED
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
 
 public class Dog extends Animal {
-  public static final String SERIALIZED_NAME_BREED = "breed";
-  @SerializedName(SERIALIZED_NAME_BREED)
+  public static final String JSON_PROPERTY_BREED = "breed";
   private String breed;
 
-  public Dog() {
-    this.className = this.getClass().getSimpleName();
-  }
 
   public Dog breed(String breed) {
-    
     this.breed = breed;
     return this;
   }
@@ -52,6 +57,8 @@ public class Dog extends Animal {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_BREED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getBreed() {
     return breed;
@@ -63,6 +70,9 @@ public class Dog extends Animal {
   }
 
 
+  /**
+   * Return true if this Dog object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -103,5 +113,11 @@ public class Dog extends Animal {
     return o.toString().replace("\n", "\n    ");
   }
 
+static {
+  // Initialize and register the discriminator mappings.
+  Map<String, Class<?>> mappings = new HashMap<String, Class<?>>();
+  mappings.put("Dog", Dog.class);
+  JSON.registerDiscriminator(Dog.class, "className", mappings);
+}
 }
 

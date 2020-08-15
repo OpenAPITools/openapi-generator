@@ -3,6 +3,7 @@ package org.openapitools.codegen.utils;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.CodegenSecurity;
 
@@ -81,7 +82,7 @@ public class ProcessUtils {
     }
 
     /**
-     * Returns true if the specified OAS model has at least one operation with the HTTP signature
+     * Returns true if the specified OAS model has at least one operation with the HTTP basic
      * security scheme.
      * The HTTP signature scheme is defined in https://datatracker.ietf.org/doc/draft-cavage-http-signatures/
      *

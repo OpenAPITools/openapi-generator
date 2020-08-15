@@ -13,32 +13,39 @@
 
 package org.openapitools.client.model;
 
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * AdditionalPropertiesNumber
  */
-
-public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
-  public static final String SERIALIZED_NAME_NAME = "name";
-  @SerializedName(SERIALIZED_NAME_NAME)
+@JsonPropertyOrder({
+  AdditionalPropertiesNumber.JSON_PROPERTY_NAME
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class AdditionalPropertiesNumber {
+  public static final String JSON_PROPERTY_NAME = "name";
   private String name;
 
 
   public AdditionalPropertiesNumber name(String name) {
-    
     this.name = name;
     return this;
   }
@@ -49,6 +56,8 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getName() {
     return name;
@@ -59,7 +68,47 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
     this.name = name;
   }
 
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, BigDecimal> additionalProperties;
 
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   */
+  @JsonAnySetter
+  public AdditionalPropertiesNumber putAdditionalProperty(String key, BigDecimal value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, BigDecimal>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  @JsonAnyGetter
+  public Map<String, BigDecimal> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   */
+  public BigDecimal getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
+
+  /**
+   * Return true if this AdditionalPropertiesNumber object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {
@@ -69,13 +118,13 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
       return false;
     }
     AdditionalPropertiesNumber additionalPropertiesNumber = (AdditionalPropertiesNumber) o;
-    return Objects.equals(this.name, additionalPropertiesNumber.name) &&
-        super.equals(o);
+    return Objects.equals(this.name, additionalPropertiesNumber.name)&&
+        Objects.equals(this.additionalProperties, additionalPropertiesNumber.additionalProperties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(name, additionalProperties);
   }
 
 
@@ -83,8 +132,8 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class AdditionalPropertiesNumber {\n");
-    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }

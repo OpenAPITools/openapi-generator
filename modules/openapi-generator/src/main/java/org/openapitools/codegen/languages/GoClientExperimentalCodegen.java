@@ -35,6 +35,7 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GoClientExperimentalCodegen.class);
     protected String goImportAlias = "openapiclient";
+    protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     public GoClientExperimentalCodegen() {
         super();
@@ -44,6 +45,23 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         usesOptionals = false;
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
+
+        cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
+        // option to change how we process + set the data in the 'additionalProperties' keyword.
+        CliOption disallowAdditionalPropertiesIfNotPresentOpt = CliOption.newBoolean(
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT,
+                CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC).defaultValue(Boolean.TRUE.toString());
+        Map<String, String> disallowAdditionalPropertiesIfNotPresentOpts = new HashMap<>();
+        disallowAdditionalPropertiesIfNotPresentOpts.put("false",
+                "The 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications.");
+        disallowAdditionalPropertiesIfNotPresentOpts.put("true",
+                "when the 'additionalProperties' keyword is not present in a schema, " +
+                        "the value of 'additionalProperties' is automatically set to false, i.e. no additional properties are allowed. " +
+                        "Note: this mode is not compliant with the JSON schema specification. " +
+                        "This is the original openapi-generator behavior.");
+        disallowAdditionalPropertiesIfNotPresentOpt.setEnum(disallowAdditionalPropertiesIfNotPresentOpts);
+        cliOptions.add(disallowAdditionalPropertiesIfNotPresentOpt);
+        this.setDisallowAdditionalPropertiesIfNotPresent(true);
     }
 
     /**
@@ -93,6 +111,25 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
             additionalProperties.put("goImportAlias", goImportAlias);
         }
 
+        if (additionalProperties.containsKey(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP)) {
+            setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
+        } else {
+            additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
+            this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
+        }
+
+    }
+
+    public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
+        this.useOneOfDiscriminatorLookup = useOneOfDiscriminatorLookup;
+    }
+
+    public boolean getUseOneOfDiscriminatorLookup() {
+        return this.useOneOfDiscriminatorLookup;
     }
 
     public void setGoImportAlias(String goImportAlias) {
@@ -205,9 +242,14 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
                 if (model.anyOf != null && !model.anyOf.isEmpty()) {
                     imports.add(createMapping("import", "fmt"));
                 }
+
+                // additionalProperties: true and parent
+                if (model.isAdditionalPropertiesTrue && model.parent != null && Boolean.FALSE.equals(model.isMapModel)) {
+                    imports.add(createMapping("import", "reflect"));
+                    imports.add(createMapping("import", "strings"));
+                }
+
             }
-
-
         }
         return objs;
     }

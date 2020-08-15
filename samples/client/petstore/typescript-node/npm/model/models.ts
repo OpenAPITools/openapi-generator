@@ -7,7 +7,7 @@ export * from './updatePetWithFormBody';
 export * from './uploadFileBody';
 export * from './user';
 
-import localVarRequest = require('request');
+import localVarRequest from 'request';
 
 import { ApiResponse } from './apiResponse';
 import { Category } from './category';

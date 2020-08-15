@@ -72,7 +72,7 @@ function createUserRaw<T>(requestParameters: CreateUserRequest, requestConfig: r
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `/user`,
+        url: `${runtime.Configuration.basePath}/user`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -120,7 +120,7 @@ function createUsersWithArrayInputRaw<T>(requestParameters: CreateUsersWithArray
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `/user/createWithArray`,
+        url: `${runtime.Configuration.basePath}/user/createWithArray`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -167,7 +167,7 @@ function createUsersWithListInputRaw<T>(requestParameters: CreateUsersWithListIn
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `/user/createWithList`,
+        url: `${runtime.Configuration.basePath}/user/createWithList`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -213,7 +213,7 @@ function deleteUserRaw<T>(requestParameters: DeleteUserRequest, requestConfig: r
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
+        url: `${runtime.Configuration.basePath}/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -259,7 +259,7 @@ function getUserByNameRaw<T>(requestParameters: GetUserByNameRequest, requestCon
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
+        url: `${runtime.Configuration.basePath}/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -320,7 +320,7 @@ function loginUserRaw<T>(requestParameters: LoginUserRequest, requestConfig: run
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `/user/login`,
+        url: `${runtime.Configuration.basePath}/user/login`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -362,7 +362,7 @@ function logoutUserRaw<T>( requestConfig: runtime.TypedQueryConfig<T, void> = {}
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `/user/logout`,
+        url: `${runtime.Configuration.basePath}/user/logout`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -414,7 +414,7 @@ function updateUserRaw<T>(requestParameters: UpdateUserRequest, requestConfig: r
     const { meta = {} } = requestConfig;
 
     const config: QueryConfig<T> = {
-        url: `/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
+        url: `${runtime.Configuration.basePath}/user/{username}`.replace(`{${"username"}}`, encodeURIComponent(String(requestParameters.username))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,

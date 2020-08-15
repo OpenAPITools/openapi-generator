@@ -1,4 +1,4 @@
-# additional_properties_any_type.AdditionalPropertiesAnyType
+# AdditionalPropertiesAnyType
 
 ## Properties
 Name | Type | Description | Notes

@@ -1,7 +1,7 @@
 <?php
 /**
  * {{classname}}
- * PHP version 7.1
+ * PHP version 7.2
  *
  * @category Class
  * @package  {{invokerPackage}}
@@ -533,7 +533,14 @@ use {{invokerPackage}}\ObjectSerializer;
         if (${{paramName}} !== null) {
             {{#isFile}}
             $multipart = true;
-            $formParams['{{baseName}}'] = \GuzzleHttp\Psr7\try_fopen(ObjectSerializer::toFormValue(${{paramName}}), 'rb');
+            $formParams['{{baseName}}'] = [];
+            $paramFiles = is_array(${{paramName}}) ? ${{paramName}} : [${{paramName}}];
+            foreach ($paramFiles as $paramFile) {
+                $formParams['{{baseName}}'][] = \GuzzleHttp\Psr7\try_fopen(
+                    ObjectSerializer::toFormValue($paramFile),
+                    'rb'
+                );
+            }
             {{/isFile}}
             {{^isFile}}
             $formParams['{{baseName}}'] = ObjectSerializer::toFormValue(${{paramName}});
@@ -571,10 +578,13 @@ use {{invokerPackage}}\ObjectSerializer;
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);

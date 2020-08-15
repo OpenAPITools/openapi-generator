@@ -16,7 +16,7 @@ import org.openapitools.model.Tag;
 /**
  * Pet
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class Pet   {
   @JsonProperty("id")
   private Long id;

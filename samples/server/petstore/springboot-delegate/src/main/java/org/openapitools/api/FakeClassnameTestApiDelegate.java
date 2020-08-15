@@ -12,7 +12,7 @@ import java.util.Map;
  * A delegate to be called by the {@link FakeClassnameTestApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public interface FakeClassnameTestApiDelegate {
 
     /**

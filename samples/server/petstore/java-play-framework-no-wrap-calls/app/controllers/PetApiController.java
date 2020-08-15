@@ -4,6 +4,7 @@ import java.io.InputStream;
 import apimodels.ModelApiResponse;
 import apimodels.Pet;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
@@ -22,15 +23,15 @@ import javax.validation.constraints.*;
 import play.Configuration;
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiController extends Controller {
 
     private final PetApiControllerImpInterface imp;
     private final ObjectMapper mapper;
-    private final Configuration configuration;
+    private final Config configuration;
 
     @Inject
-    private PetApiController(Configuration configuration, PetApiControllerImpInterface imp) {
+    private PetApiController(Config configuration, PetApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
         this.configuration = configuration;

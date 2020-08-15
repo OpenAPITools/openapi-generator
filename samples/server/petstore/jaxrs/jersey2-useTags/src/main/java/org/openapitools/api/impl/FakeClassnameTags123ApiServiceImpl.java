@@ -15,7 +15,7 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class FakeClassnameTags123ApiServiceImpl extends FakeClassnameTags123ApiService {
     @Override
     public Response testClassname(Client body, SecurityContext securityContext) throws NotFoundException {

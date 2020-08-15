@@ -3,6 +3,7 @@ package controllers;
 import java.util.List;
 import apimodels.User;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
@@ -21,15 +22,15 @@ import javax.validation.constraints.*;
 import play.Configuration;
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class UserApiController extends Controller {
 
     private final UserApiControllerImpInterface imp;
     private final ObjectMapper mapper;
-    private final Configuration configuration;
+    private final Config configuration;
 
     @Inject
-    private UserApiController(Configuration configuration, UserApiControllerImpInterface imp) {
+    private UserApiController(Config configuration, UserApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
         this.configuration = configuration;

@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 
 # **test_classname**
-> Client test_classname(body => $body)
+> Client test_classname(client => $client)
 
 To test class name in snake case
 
@@ -31,10 +31,10 @@ my $api_instance = WWW::OpenAPIClient::FakeClassnameTags123Api->new(
     #api_key_prefix => {'api_key_query' => 'Bearer'},
 );
 
-my $body = WWW::OpenAPIClient::Object::Client->new(); # Client | client model
+my $client = WWW::OpenAPIClient::Object::Client->new(); # Client | client model
 
 eval { 
-    my $result = $api_instance->test_classname(body => $body);
+    my $result = $api_instance->test_classname(client => $client);
     print Dumper($result);
 };
 if ($@) {
@@ -46,7 +46,7 @@ if ($@) {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md)| client model | 
 
 ### Return type
 

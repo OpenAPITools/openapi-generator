@@ -1,7 +1,7 @@
 <?php
 /**
  * FakeApi
- * PHP version 7.1
+ * PHP version 7.2
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -116,35 +116,296 @@ class FakeApi
     }
 
     /**
-     * Operation createXmlItem
+     * Operation fakeHealthGet
      *
-     * creates an XmlItem
+     * Health check endpoint
      *
-     * @param  \OpenAPI\Client\Model\XmlItem $xml_item XmlItem Body (required)
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \OpenAPI\Client\Model\HealthCheckResult
+     */
+    public function fakeHealthGet()
+    {
+        list($response) = $this->fakeHealthGetWithHttpInfo();
+        return $response;
+    }
+
+    /**
+     * Operation fakeHealthGetWithHttpInfo
+     *
+     * Health check endpoint
+     *
+     *
+     * @throws \OpenAPI\Client\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \OpenAPI\Client\Model\HealthCheckResult, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function fakeHealthGetWithHttpInfo()
+    {
+        $request = $this->fakeHealthGetRequest();
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? (string) $e->getResponse()->getBody() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('\OpenAPI\Client\Model\HealthCheckResult' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = (string) $responseBody;
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\OpenAPI\Client\Model\HealthCheckResult', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\OpenAPI\Client\Model\HealthCheckResult';
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = (string) $responseBody;
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\OpenAPI\Client\Model\HealthCheckResult',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation fakeHealthGetAsync
+     *
+     * Health check endpoint
+     *
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function fakeHealthGetAsync()
+    {
+        return $this->fakeHealthGetAsyncWithHttpInfo()
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation fakeHealthGetAsyncWithHttpInfo
+     *
+     * Health check endpoint
+     *
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function fakeHealthGetAsyncWithHttpInfo()
+    {
+        $returnType = '\OpenAPI\Client\Model\HealthCheckResult';
+        $request = $this->fakeHealthGetRequest();
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = (string) $responseBody;
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'fakeHealthGet'
+     *
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function fakeHealthGetRequest()
+    {
+
+        $resourcePath = '/fake/health';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+
+
+
+        // body params
+        $_tempBody = null;
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                []
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            // $_tempBody is the method argument, if present
+            if ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+            } else {
+                $httpBody = $_tempBody;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = \GuzzleHttp\Psr7\build_query($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $query = \GuzzleHttp\Psr7\build_query($queryParams);
+        return new Request(
+            'GET',
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation fakeHttpSignatureTest
+     *
+     * test http signature authentication
+     *
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     * @param  string $query_1 query parameter (optional)
+     * @param  string $header_1 header parameter (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function createXmlItem($xml_item)
+    public function fakeHttpSignatureTest($pet, $query_1 = null, $header_1 = null)
     {
-        $this->createXmlItemWithHttpInfo($xml_item);
+        $this->fakeHttpSignatureTestWithHttpInfo($pet, $query_1, $header_1);
     }
 
     /**
-     * Operation createXmlItemWithHttpInfo
+     * Operation fakeHttpSignatureTestWithHttpInfo
      *
-     * creates an XmlItem
+     * test http signature authentication
      *
-     * @param  \OpenAPI\Client\Model\XmlItem $xml_item XmlItem Body (required)
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     * @param  string $query_1 query parameter (optional)
+     * @param  string $header_1 header parameter (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function createXmlItemWithHttpInfo($xml_item)
+    public function fakeHttpSignatureTestWithHttpInfo($pet, $query_1 = null, $header_1 = null)
     {
-        $request = $this->createXmlItemRequest($xml_item);
+        $request = $this->fakeHttpSignatureTestRequest($pet, $query_1, $header_1);
 
         try {
             $options = $this->createHttpClientOption();
@@ -184,18 +445,20 @@ class FakeApi
     }
 
     /**
-     * Operation createXmlItemAsync
+     * Operation fakeHttpSignatureTestAsync
      *
-     * creates an XmlItem
+     * test http signature authentication
      *
-     * @param  \OpenAPI\Client\Model\XmlItem $xml_item XmlItem Body (required)
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     * @param  string $query_1 query parameter (optional)
+     * @param  string $header_1 header parameter (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createXmlItemAsync($xml_item)
+    public function fakeHttpSignatureTestAsync($pet, $query_1 = null, $header_1 = null)
     {
-        return $this->createXmlItemAsyncWithHttpInfo($xml_item)
+        return $this->fakeHttpSignatureTestAsyncWithHttpInfo($pet, $query_1, $header_1)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -204,19 +467,21 @@ class FakeApi
     }
 
     /**
-     * Operation createXmlItemAsyncWithHttpInfo
+     * Operation fakeHttpSignatureTestAsyncWithHttpInfo
      *
-     * creates an XmlItem
+     * test http signature authentication
      *
-     * @param  \OpenAPI\Client\Model\XmlItem $xml_item XmlItem Body (required)
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     * @param  string $query_1 query parameter (optional)
+     * @param  string $header_1 header parameter (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function createXmlItemAsyncWithHttpInfo($xml_item)
+    public function fakeHttpSignatureTestAsyncWithHttpInfo($pet, $query_1 = null, $header_1 = null)
     {
         $returnType = '';
-        $request = $this->createXmlItemRequest($xml_item);
+        $request = $this->fakeHttpSignatureTestRequest($pet, $query_1, $header_1);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -242,36 +507,53 @@ class FakeApi
     }
 
     /**
-     * Create request for operation 'createXmlItem'
+     * Create request for operation 'fakeHttpSignatureTest'
      *
-     * @param  \OpenAPI\Client\Model\XmlItem $xml_item XmlItem Body (required)
+     * @param  \OpenAPI\Client\Model\Pet $pet Pet object that needs to be added to the store (required)
+     * @param  string $query_1 query parameter (optional)
+     * @param  string $header_1 header parameter (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function createXmlItemRequest($xml_item)
+    protected function fakeHttpSignatureTestRequest($pet, $query_1 = null, $header_1 = null)
     {
-        // verify the required parameter 'xml_item' is set
-        if ($xml_item === null || (is_array($xml_item) && count($xml_item) === 0)) {
+        // verify the required parameter 'pet' is set
+        if ($pet === null || (is_array($pet) && count($pet) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $xml_item when calling createXmlItem'
+                'Missing the required parameter $pet when calling fakeHttpSignatureTest'
             );
         }
 
-        $resourcePath = '/fake/create_xml_item';
+        $resourcePath = '/fake/http-signature-test';
         $formParams = [];
         $queryParams = [];
         $headerParams = [];
         $httpBody = '';
         $multipart = false;
 
+        // query params
+        if ($query_1 !== null) {
+            if('form' === 'form' && is_array($query_1)) {
+                foreach($query_1 as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['query_1'] = $query_1;
+            }
+        }
 
+        // header params
+        if ($header_1 !== null) {
+            $headerParams['header_1'] = ObjectSerializer::toHeaderValue($header_1);
+        }
 
 
         // body params
         $_tempBody = null;
-        if (isset($xml_item)) {
-            $_tempBody = $xml_item;
+        if (isset($pet)) {
+            $_tempBody = $pet;
         }
 
         if ($multipart) {
@@ -281,7 +563,7 @@ class FakeApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 [],
-                ['application/xml', 'application/xml; charset=utf-8', 'application/xml; charset=utf-16', 'text/xml', 'text/xml; charset=utf-8', 'text/xml; charset=utf-16']
+                ['application/json', 'application/xml']
             );
         }
 
@@ -297,10 +579,13 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -328,7 +613,7 @@ class FakeApi
 
         $query = \GuzzleHttp\Psr7\build_query($queryParams);
         return new Request(
-            'POST',
+            'GET',
             $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
             $headers,
             $httpBody
@@ -539,7 +824,7 @@ class FakeApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['*/*'],
-                []
+                ['application/json']
             );
         }
 
@@ -555,10 +840,13 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -596,30 +884,30 @@ class FakeApi
     /**
      * Operation fakeOuterCompositeSerialize
      *
-     * @param  \OpenAPI\Client\Model\OuterComposite $body Input composite as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\OuterComposite
      */
-    public function fakeOuterCompositeSerialize($body = null)
+    public function fakeOuterCompositeSerialize($outer_composite = null)
     {
-        list($response) = $this->fakeOuterCompositeSerializeWithHttpInfo($body);
+        list($response) = $this->fakeOuterCompositeSerializeWithHttpInfo($outer_composite);
         return $response;
     }
 
     /**
      * Operation fakeOuterCompositeSerializeWithHttpInfo
      *
-     * @param  \OpenAPI\Client\Model\OuterComposite $body Input composite as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\OuterComposite, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fakeOuterCompositeSerializeWithHttpInfo($body = null)
+    public function fakeOuterCompositeSerializeWithHttpInfo($outer_composite = null)
     {
-        $request = $this->fakeOuterCompositeSerializeRequest($body);
+        $request = $this->fakeOuterCompositeSerializeRequest($outer_composite);
 
         try {
             $options = $this->createHttpClientOption();
@@ -699,14 +987,14 @@ class FakeApi
      *
      * 
      *
-     * @param  \OpenAPI\Client\Model\OuterComposite $body Input composite as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fakeOuterCompositeSerializeAsync($body = null)
+    public function fakeOuterCompositeSerializeAsync($outer_composite = null)
     {
-        return $this->fakeOuterCompositeSerializeAsyncWithHttpInfo($body)
+        return $this->fakeOuterCompositeSerializeAsyncWithHttpInfo($outer_composite)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -719,15 +1007,15 @@ class FakeApi
      *
      * 
      *
-     * @param  \OpenAPI\Client\Model\OuterComposite $body Input composite as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fakeOuterCompositeSerializeAsyncWithHttpInfo($body = null)
+    public function fakeOuterCompositeSerializeAsyncWithHttpInfo($outer_composite = null)
     {
         $returnType = '\OpenAPI\Client\Model\OuterComposite';
-        $request = $this->fakeOuterCompositeSerializeRequest($body);
+        $request = $this->fakeOuterCompositeSerializeRequest($outer_composite);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -766,12 +1054,12 @@ class FakeApi
     /**
      * Create request for operation 'fakeOuterCompositeSerialize'
      *
-     * @param  \OpenAPI\Client\Model\OuterComposite $body Input composite as post body (optional)
+     * @param  \OpenAPI\Client\Model\OuterComposite $outer_composite Input composite as post body (optional)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function fakeOuterCompositeSerializeRequest($body = null)
+    protected function fakeOuterCompositeSerializeRequest($outer_composite = null)
     {
 
         $resourcePath = '/fake/outer/composite';
@@ -786,8 +1074,8 @@ class FakeApi
 
         // body params
         $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
+        if (isset($outer_composite)) {
+            $_tempBody = $outer_composite;
         }
 
         if ($multipart) {
@@ -797,7 +1085,7 @@ class FakeApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['*/*'],
-                []
+                ['application/json']
             );
         }
 
@@ -813,10 +1101,13 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -1055,7 +1346,7 @@ class FakeApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['*/*'],
-                []
+                ['application/json']
             );
         }
 
@@ -1071,10 +1362,13 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -1313,7 +1607,7 @@ class FakeApi
         } else {
             $headers = $this->headerSelector->selectHeaders(
                 ['*/*'],
-                []
+                ['application/json']
             );
         }
 
@@ -1329,10 +1623,13 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -1370,29 +1667,29 @@ class FakeApi
     /**
      * Operation testBodyWithFileSchema
      *
-     * @param  \OpenAPI\Client\Model\FileSchemaTestClass $body body (required)
+     * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class file_schema_test_class (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testBodyWithFileSchema($body)
+    public function testBodyWithFileSchema($file_schema_test_class)
     {
-        $this->testBodyWithFileSchemaWithHttpInfo($body);
+        $this->testBodyWithFileSchemaWithHttpInfo($file_schema_test_class);
     }
 
     /**
      * Operation testBodyWithFileSchemaWithHttpInfo
      *
-     * @param  \OpenAPI\Client\Model\FileSchemaTestClass $body (required)
+     * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testBodyWithFileSchemaWithHttpInfo($body)
+    public function testBodyWithFileSchemaWithHttpInfo($file_schema_test_class)
     {
-        $request = $this->testBodyWithFileSchemaRequest($body);
+        $request = $this->testBodyWithFileSchemaRequest($file_schema_test_class);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1436,14 +1733,14 @@ class FakeApi
      *
      * 
      *
-     * @param  \OpenAPI\Client\Model\FileSchemaTestClass $body (required)
+     * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testBodyWithFileSchemaAsync($body)
+    public function testBodyWithFileSchemaAsync($file_schema_test_class)
     {
-        return $this->testBodyWithFileSchemaAsyncWithHttpInfo($body)
+        return $this->testBodyWithFileSchemaAsyncWithHttpInfo($file_schema_test_class)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1456,15 +1753,15 @@ class FakeApi
      *
      * 
      *
-     * @param  \OpenAPI\Client\Model\FileSchemaTestClass $body (required)
+     * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testBodyWithFileSchemaAsyncWithHttpInfo($body)
+    public function testBodyWithFileSchemaAsyncWithHttpInfo($file_schema_test_class)
     {
         $returnType = '';
-        $request = $this->testBodyWithFileSchemaRequest($body);
+        $request = $this->testBodyWithFileSchemaRequest($file_schema_test_class);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1492,17 +1789,17 @@ class FakeApi
     /**
      * Create request for operation 'testBodyWithFileSchema'
      *
-     * @param  \OpenAPI\Client\Model\FileSchemaTestClass $body (required)
+     * @param  \OpenAPI\Client\Model\FileSchemaTestClass $file_schema_test_class (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testBodyWithFileSchemaRequest($body)
+    protected function testBodyWithFileSchemaRequest($file_schema_test_class)
     {
-        // verify the required parameter 'body' is set
-        if ($body === null || (is_array($body) && count($body) === 0)) {
+        // verify the required parameter 'file_schema_test_class' is set
+        if ($file_schema_test_class === null || (is_array($file_schema_test_class) && count($file_schema_test_class) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $body when calling testBodyWithFileSchema'
+                'Missing the required parameter $file_schema_test_class when calling testBodyWithFileSchema'
             );
         }
 
@@ -1518,8 +1815,8 @@ class FakeApi
 
         // body params
         $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
+        if (isset($file_schema_test_class)) {
+            $_tempBody = $file_schema_test_class;
         }
 
         if ($multipart) {
@@ -1545,10 +1842,13 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -1587,30 +1887,30 @@ class FakeApi
      * Operation testBodyWithQueryParams
      *
      * @param  string $query query (required)
-     * @param  \OpenAPI\Client\Model\User $body body (required)
+     * @param  \OpenAPI\Client\Model\User $user user (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testBodyWithQueryParams($query, $body)
+    public function testBodyWithQueryParams($query, $user)
     {
-        $this->testBodyWithQueryParamsWithHttpInfo($query, $body);
+        $this->testBodyWithQueryParamsWithHttpInfo($query, $user);
     }
 
     /**
      * Operation testBodyWithQueryParamsWithHttpInfo
      *
      * @param  string $query (required)
-     * @param  \OpenAPI\Client\Model\User $body (required)
+     * @param  \OpenAPI\Client\Model\User $user (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testBodyWithQueryParamsWithHttpInfo($query, $body)
+    public function testBodyWithQueryParamsWithHttpInfo($query, $user)
     {
-        $request = $this->testBodyWithQueryParamsRequest($query, $body);
+        $request = $this->testBodyWithQueryParamsRequest($query, $user);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1655,14 +1955,14 @@ class FakeApi
      * 
      *
      * @param  string $query (required)
-     * @param  \OpenAPI\Client\Model\User $body (required)
+     * @param  \OpenAPI\Client\Model\User $user (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testBodyWithQueryParamsAsync($query, $body)
+    public function testBodyWithQueryParamsAsync($query, $user)
     {
-        return $this->testBodyWithQueryParamsAsyncWithHttpInfo($query, $body)
+        return $this->testBodyWithQueryParamsAsyncWithHttpInfo($query, $user)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1676,15 +1976,15 @@ class FakeApi
      * 
      *
      * @param  string $query (required)
-     * @param  \OpenAPI\Client\Model\User $body (required)
+     * @param  \OpenAPI\Client\Model\User $user (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testBodyWithQueryParamsAsyncWithHttpInfo($query, $body)
+    public function testBodyWithQueryParamsAsyncWithHttpInfo($query, $user)
     {
         $returnType = '';
-        $request = $this->testBodyWithQueryParamsRequest($query, $body);
+        $request = $this->testBodyWithQueryParamsRequest($query, $user);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1713,12 +2013,12 @@ class FakeApi
      * Create request for operation 'testBodyWithQueryParams'
      *
      * @param  string $query (required)
-     * @param  \OpenAPI\Client\Model\User $body (required)
+     * @param  \OpenAPI\Client\Model\User $user (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testBodyWithQueryParamsRequest($query, $body)
+    protected function testBodyWithQueryParamsRequest($query, $user)
     {
         // verify the required parameter 'query' is set
         if ($query === null || (is_array($query) && count($query) === 0)) {
@@ -1726,10 +2026,10 @@ class FakeApi
                 'Missing the required parameter $query when calling testBodyWithQueryParams'
             );
         }
-        // verify the required parameter 'body' is set
-        if ($body === null || (is_array($body) && count($body) === 0)) {
+        // verify the required parameter 'user' is set
+        if ($user === null || (is_array($user) && count($user) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $body when calling testBodyWithQueryParams'
+                'Missing the required parameter $user when calling testBodyWithQueryParams'
             );
         }
 
@@ -1741,19 +2041,23 @@ class FakeApi
         $multipart = false;
 
         // query params
-        if (is_array($query)) {
-            $query = ObjectSerializer::serializeCollection($query, '', true);
-        }
         if ($query !== null) {
-            $queryParams['query'] = $query;
+            if('form' === 'form' && is_array($query)) {
+                foreach($query as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['query'] = $query;
+            }
         }
 
 
 
         // body params
         $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
+        if (isset($user)) {
+            $_tempBody = $user;
         }
 
         if ($multipart) {
@@ -1779,10 +2083,13 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -1822,15 +2129,15 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  \OpenAPI\Client\Model\Client $body client model (required)
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Client
      */
-    public function testClientModel($body)
+    public function testClientModel($client)
     {
-        list($response) = $this->testClientModelWithHttpInfo($body);
+        list($response) = $this->testClientModelWithHttpInfo($client);
         return $response;
     }
 
@@ -1839,15 +2146,15 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  \OpenAPI\Client\Model\Client $body client model (required)
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testClientModelWithHttpInfo($body)
+    public function testClientModelWithHttpInfo($client)
     {
-        $request = $this->testClientModelRequest($body);
+        $request = $this->testClientModelRequest($client);
 
         try {
             $options = $this->createHttpClientOption();
@@ -1927,14 +2234,14 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  \OpenAPI\Client\Model\Client $body client model (required)
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testClientModelAsync($body)
+    public function testClientModelAsync($client)
     {
-        return $this->testClientModelAsyncWithHttpInfo($body)
+        return $this->testClientModelAsyncWithHttpInfo($client)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1947,15 +2254,15 @@ class FakeApi
      *
      * To test \"client\" model
      *
-     * @param  \OpenAPI\Client\Model\Client $body client model (required)
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testClientModelAsyncWithHttpInfo($body)
+    public function testClientModelAsyncWithHttpInfo($client)
     {
         $returnType = '\OpenAPI\Client\Model\Client';
-        $request = $this->testClientModelRequest($body);
+        $request = $this->testClientModelRequest($client);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -1994,17 +2301,17 @@ class FakeApi
     /**
      * Create request for operation 'testClientModel'
      *
-     * @param  \OpenAPI\Client\Model\Client $body client model (required)
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testClientModelRequest($body)
+    protected function testClientModelRequest($client)
     {
-        // verify the required parameter 'body' is set
-        if ($body === null || (is_array($body) && count($body) === 0)) {
+        // verify the required parameter 'client' is set
+        if ($client === null || (is_array($client) && count($client) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $body when calling testClientModel'
+                'Missing the required parameter $client when calling testClientModel'
             );
         }
 
@@ -2020,8 +2327,8 @@ class FakeApi
 
         // body params
         $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
+        if (isset($client)) {
+            $_tempBody = $client;
         }
 
         if ($multipart) {
@@ -2047,10 +2354,13 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -2088,7 +2398,7 @@ class FakeApi
     /**
      * Operation testEndpointParameters
      *
-     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
      * @param  float $number None (required)
      * @param  double $double None (required)
@@ -2117,7 +2427,7 @@ class FakeApi
     /**
      * Operation testEndpointParametersWithHttpInfo
      *
-     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
      * @param  float $number None (required)
      * @param  double $double None (required)
@@ -2182,7 +2492,7 @@ class FakeApi
     /**
      * Operation testEndpointParametersAsync
      *
-     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
      * @param  float $number None (required)
      * @param  double $double None (required)
@@ -2215,7 +2525,7 @@ class FakeApi
     /**
      * Operation testEndpointParametersAsyncWithHttpInfo
      *
-     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+     * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
      *
      * @param  float $number None (required)
      * @param  double $double None (required)
@@ -2407,7 +2717,14 @@ class FakeApi
         // form params
         if ($binary !== null) {
             $multipart = true;
-            $formParams['binary'] = \GuzzleHttp\Psr7\try_fopen(ObjectSerializer::toFormValue($binary), 'rb');
+            $formParams['binary'] = [];
+            $paramFiles = is_array($binary) ? $binary : [$binary];
+            foreach ($paramFiles as $paramFile) {
+                $formParams['binary'][] = \GuzzleHttp\Psr7\try_fopen(
+                    ObjectSerializer::toFormValue($paramFile),
+                    'rb'
+                );
+            }
         }
         // form params
         if ($date !== null) {
@@ -2451,10 +2768,13 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -2673,32 +2993,48 @@ class FakeApi
         $multipart = false;
 
         // query params
-        if (is_array($enum_query_string_array)) {
-            $enum_query_string_array = ObjectSerializer::serializeCollection($enum_query_string_array, 'form', true);
-        }
         if ($enum_query_string_array !== null) {
-            $queryParams['enum_query_string_array'] = $enum_query_string_array;
+            if('form' === 'form' && is_array($enum_query_string_array)) {
+                foreach($enum_query_string_array as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['enum_query_string_array'] = $enum_query_string_array;
+            }
         }
         // query params
-        if (is_array($enum_query_string)) {
-            $enum_query_string = ObjectSerializer::serializeCollection($enum_query_string, '', true);
-        }
         if ($enum_query_string !== null) {
-            $queryParams['enum_query_string'] = $enum_query_string;
+            if('form' === 'form' && is_array($enum_query_string)) {
+                foreach($enum_query_string as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['enum_query_string'] = $enum_query_string;
+            }
         }
         // query params
-        if (is_array($enum_query_integer)) {
-            $enum_query_integer = ObjectSerializer::serializeCollection($enum_query_integer, '', true);
-        }
         if ($enum_query_integer !== null) {
-            $queryParams['enum_query_integer'] = $enum_query_integer;
+            if('form' === 'form' && is_array($enum_query_integer)) {
+                foreach($enum_query_integer as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['enum_query_integer'] = $enum_query_integer;
+            }
         }
         // query params
-        if (is_array($enum_query_double)) {
-            $enum_query_double = ObjectSerializer::serializeCollection($enum_query_double, '', true);
-        }
         if ($enum_query_double !== null) {
-            $queryParams['enum_query_double'] = $enum_query_double;
+            if('form' === 'form' && is_array($enum_query_double)) {
+                foreach($enum_query_double as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['enum_query_double'] = $enum_query_double;
+            }
         }
 
         // header params
@@ -2748,10 +3084,13 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -2992,32 +3331,48 @@ class FakeApi
         $multipart = false;
 
         // query params
-        if (is_array($required_string_group)) {
-            $required_string_group = ObjectSerializer::serializeCollection($required_string_group, '', true);
-        }
         if ($required_string_group !== null) {
-            $queryParams['required_string_group'] = $required_string_group;
+            if('form' === 'form' && is_array($required_string_group)) {
+                foreach($required_string_group as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['required_string_group'] = $required_string_group;
+            }
         }
         // query params
-        if (is_array($required_int64_group)) {
-            $required_int64_group = ObjectSerializer::serializeCollection($required_int64_group, '', true);
-        }
         if ($required_int64_group !== null) {
-            $queryParams['required_int64_group'] = $required_int64_group;
+            if('form' === 'form' && is_array($required_int64_group)) {
+                foreach($required_int64_group as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['required_int64_group'] = $required_int64_group;
+            }
         }
         // query params
-        if (is_array($string_group)) {
-            $string_group = ObjectSerializer::serializeCollection($string_group, '', true);
-        }
         if ($string_group !== null) {
-            $queryParams['string_group'] = $string_group;
+            if('form' === 'form' && is_array($string_group)) {
+                foreach($string_group as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['string_group'] = $string_group;
+            }
         }
         // query params
-        if (is_array($int64_group)) {
-            $int64_group = ObjectSerializer::serializeCollection($int64_group, '', true);
-        }
         if ($int64_group !== null) {
-            $queryParams['int64_group'] = $int64_group;
+            if('form' === 'form' && is_array($int64_group)) {
+                foreach($int64_group as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['int64_group'] = $int64_group;
+            }
         }
 
         // header params
@@ -3056,10 +3411,13 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -3073,6 +3431,10 @@ class FakeApi
             }
         }
 
+        // this endpoint requires Bearer (JWT) authentication (access token)
+        if ($this->config->getAccessToken() !== null) {
+            $headers['Authorization'] = 'Bearer ' . $this->config->getAccessToken();
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -3099,15 +3461,15 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $param request body (required)
+     * @param  map[string,string] $request_body request body (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return void
      */
-    public function testInlineAdditionalProperties($param)
+    public function testInlineAdditionalProperties($request_body)
     {
-        $this->testInlineAdditionalPropertiesWithHttpInfo($param);
+        $this->testInlineAdditionalPropertiesWithHttpInfo($request_body);
     }
 
     /**
@@ -3115,15 +3477,15 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $param request body (required)
+     * @param  map[string,string] $request_body request body (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of null, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testInlineAdditionalPropertiesWithHttpInfo($param)
+    public function testInlineAdditionalPropertiesWithHttpInfo($request_body)
     {
-        $request = $this->testInlineAdditionalPropertiesRequest($param);
+        $request = $this->testInlineAdditionalPropertiesRequest($request_body);
 
         try {
             $options = $this->createHttpClientOption();
@@ -3167,14 +3529,14 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $param request body (required)
+     * @param  map[string,string] $request_body request body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testInlineAdditionalPropertiesAsync($param)
+    public function testInlineAdditionalPropertiesAsync($request_body)
     {
-        return $this->testInlineAdditionalPropertiesAsyncWithHttpInfo($param)
+        return $this->testInlineAdditionalPropertiesAsyncWithHttpInfo($request_body)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -3187,15 +3549,15 @@ class FakeApi
      *
      * test inline additionalProperties
      *
-     * @param  map[string,string] $param request body (required)
+     * @param  map[string,string] $request_body request body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testInlineAdditionalPropertiesAsyncWithHttpInfo($param)
+    public function testInlineAdditionalPropertiesAsyncWithHttpInfo($request_body)
     {
         $returnType = '';
-        $request = $this->testInlineAdditionalPropertiesRequest($param);
+        $request = $this->testInlineAdditionalPropertiesRequest($request_body);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -3223,17 +3585,17 @@ class FakeApi
     /**
      * Create request for operation 'testInlineAdditionalProperties'
      *
-     * @param  map[string,string] $param request body (required)
+     * @param  map[string,string] $request_body request body (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testInlineAdditionalPropertiesRequest($param)
+    protected function testInlineAdditionalPropertiesRequest($request_body)
     {
-        // verify the required parameter 'param' is set
-        if ($param === null || (is_array($param) && count($param) === 0)) {
+        // verify the required parameter 'request_body' is set
+        if ($request_body === null || (is_array($request_body) && count($request_body) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $param when calling testInlineAdditionalProperties'
+                'Missing the required parameter $request_body when calling testInlineAdditionalProperties'
             );
         }
 
@@ -3249,8 +3611,8 @@ class FakeApi
 
         // body params
         $_tempBody = null;
-        if (isset($param)) {
-            $_tempBody = $param;
+        if (isset($request_body)) {
+            $_tempBody = $request_body;
         }
 
         if ($multipart) {
@@ -3276,10 +3638,13 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -3512,10 +3877,13 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -3741,15 +4109,19 @@ class FakeApi
         $multipart = false;
 
         // query params
-        if (is_array($pipe)) {
-            $pipe = ObjectSerializer::serializeCollection($pipe, 'form', true);
-        }
         if ($pipe !== null) {
-            $queryParams['pipe'] = $pipe;
+            if('form' === 'form' && is_array($pipe)) {
+                foreach($pipe as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['pipe'] = $pipe;
+            }
         }
         // query params
         if (is_array($ioutil)) {
-            $ioutil = ObjectSerializer::serializeCollection($ioutil, 'csv', true);
+            $ioutil = ObjectSerializer::serializeCollection($ioutil, 'form', true);
         }
         if ($ioutil !== null) {
             $queryParams['ioutil'] = $ioutil;
@@ -3808,10 +4180,13 @@ class FakeApi
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);

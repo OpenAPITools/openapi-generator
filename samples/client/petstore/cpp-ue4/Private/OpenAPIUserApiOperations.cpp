@@ -43,9 +43,7 @@ void OpenAPIUserApi::CreateUserRequest::SetupHttpRequest(const TSharedRef<IHttpR
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		Writer->WriteObjectStart();
-		Writer->WriteIdentifierPrefix(TEXT("body")); WriteJsonValue(Writer, Body);
-		Writer->WriteObjectEnd();
+		WriteJsonValue(Writer, Body);
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
@@ -102,9 +100,7 @@ void OpenAPIUserApi::CreateUsersWithArrayInputRequest::SetupHttpRequest(const TS
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		Writer->WriteObjectStart();
-		Writer->WriteIdentifierPrefix(TEXT("body")); WriteJsonValue(Writer, Body);
-		Writer->WriteObjectEnd();
+		WriteJsonValue(Writer, Body);
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
@@ -161,9 +157,7 @@ void OpenAPIUserApi::CreateUsersWithListInputRequest::SetupHttpRequest(const TSh
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		Writer->WriteObjectStart();
-		Writer->WriteIdentifierPrefix(TEXT("body")); WriteJsonValue(Writer, Body);
-		Writer->WriteObjectEnd();
+		WriteJsonValue(Writer, Body);
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));
@@ -291,7 +285,6 @@ void OpenAPIUserApi::GetUserByNameResponse::SetHttpResponseCode(EHttpResponseCod
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	case 400:
@@ -349,7 +342,6 @@ void OpenAPIUserApi::LoginUserResponse::SetHttpResponseCode(EHttpResponseCodes::
 	switch ((int)InHttpResponseCode)
 	{
 	case 200:
-	default:
 		SetResponseString(TEXT("successful operation"));
 		break;
 	case 400:
@@ -433,9 +425,7 @@ void OpenAPIUserApi::UpdateUserRequest::SetupHttpRequest(const TSharedRef<IHttpR
 		FString JsonBody;
 		JsonWriter Writer = TJsonWriterFactory<>::Create(&JsonBody);
 
-		Writer->WriteObjectStart();
-		Writer->WriteIdentifierPrefix(TEXT("body")); WriteJsonValue(Writer, Body);
-		Writer->WriteObjectEnd();
+		WriteJsonValue(Writer, Body);
 		Writer->Close();
 
 		HttpRequest->SetHeader(TEXT("Content-Type"), TEXT("application/json; charset=utf-8"));

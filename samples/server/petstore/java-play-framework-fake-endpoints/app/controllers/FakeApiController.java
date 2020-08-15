@@ -11,6 +11,7 @@ import apimodels.OuterComposite;
 import apimodels.User;
 import apimodels.XmlItem;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
@@ -30,15 +31,15 @@ import play.Configuration;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class FakeApiController extends Controller {
 
     private final FakeApiControllerImpInterface imp;
     private final ObjectMapper mapper;
-    private final Configuration configuration;
+    private final Config configuration;
 
     @Inject
-    private FakeApiController(Configuration configuration, FakeApiControllerImpInterface imp) {
+    private FakeApiController(Config configuration, FakeApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
         this.configuration = configuration;
@@ -476,7 +477,7 @@ public class FakeApiController extends Controller {
         if (httpArray == null) {
             throw new IllegalArgumentException("'http' parameter is required");
         }
-        List<String> httpList = OpenAPIUtils.parametersToList("space", httpArray);
+        List<String> httpList = OpenAPIUtils.parametersToList("ssv", httpArray);
         List<String> http = new ArrayList<>();
         for (String curParam : httpList) {
             if (!curParam.isEmpty()) {

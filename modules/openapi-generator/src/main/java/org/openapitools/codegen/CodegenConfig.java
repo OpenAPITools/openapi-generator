@@ -192,6 +192,8 @@ public interface CodegenConfig {
 
     void postProcessParameter(CodegenParameter parameter);
 
+    String modelFilename(String templateName, String modelName);
+
     String apiFilename(String templateName, String tag);
 
     String apiTestFilename(String templateName, String tag);
@@ -246,8 +248,6 @@ public interface CodegenConfig {
     void setDocExtension(String docExtension);
 
     String getDocExtension();
-
-    String getCommonTemplateDir();
 
     void setIgnoreFilePathOverride(String ignoreFileOverride);
 

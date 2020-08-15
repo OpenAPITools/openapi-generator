@@ -11,8 +11,6 @@
 ./Model/Order.php
 ./Model/Pet.php
 ./Model/Tag.php
-./Model/UpdatePetWithFormBody.php
-./Model/UploadFileBody.php
 ./Model/User.php
 ./Service/JmsSerializer.php
 ./Service/SerializerInterface.php
@@ -23,8 +21,9 @@
 ./Tests/AppKernel.php
 ./Tests/Controller/ControllerTest.php
 ./Tests/test_config.yml
+.coveralls.yml
 .gitignore
-.php_cs
+.php_cs.dist
 .travis.yml
 DependencyInjection/Compiler/OpenAPIServerApiPass.php
 DependencyInjection/OpenAPIServerExtension.php
@@ -40,8 +39,6 @@ Resources/docs/Model/Category.md
 Resources/docs/Model/Order.md
 Resources/docs/Model/Pet.md
 Resources/docs/Model/Tag.md
-Resources/docs/Model/UpdatePetWithFormBody.md
-Resources/docs/Model/UploadFileBody.md
 Resources/docs/Model/User.md
 autoload.php
 composer.json

@@ -1,7 +1,7 @@
 <?php
 /**
  * FakeClassnameTags123Api
- * PHP version 7.1
+ * PHP version 7.2
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -120,15 +120,15 @@ class FakeClassnameTags123Api
      *
      * To test class name in snake case
      *
-     * @param  \OpenAPI\Client\Model\Client $body client model (required)
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return \OpenAPI\Client\Model\Client
      */
-    public function testClassname($body)
+    public function testClassname($client)
     {
-        list($response) = $this->testClassnameWithHttpInfo($body);
+        list($response) = $this->testClassnameWithHttpInfo($client);
         return $response;
     }
 
@@ -137,15 +137,15 @@ class FakeClassnameTags123Api
      *
      * To test class name in snake case
      *
-     * @param  \OpenAPI\Client\Model\Client $body client model (required)
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
      * @throws \OpenAPI\Client\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \OpenAPI\Client\Model\Client, HTTP status code, HTTP response headers (array of strings)
      */
-    public function testClassnameWithHttpInfo($body)
+    public function testClassnameWithHttpInfo($client)
     {
-        $request = $this->testClassnameRequest($body);
+        $request = $this->testClassnameRequest($client);
 
         try {
             $options = $this->createHttpClientOption();
@@ -225,14 +225,14 @@ class FakeClassnameTags123Api
      *
      * To test class name in snake case
      *
-     * @param  \OpenAPI\Client\Model\Client $body client model (required)
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testClassnameAsync($body)
+    public function testClassnameAsync($client)
     {
-        return $this->testClassnameAsyncWithHttpInfo($body)
+        return $this->testClassnameAsyncWithHttpInfo($client)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -245,15 +245,15 @@ class FakeClassnameTags123Api
      *
      * To test class name in snake case
      *
-     * @param  \OpenAPI\Client\Model\Client $body client model (required)
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function testClassnameAsyncWithHttpInfo($body)
+    public function testClassnameAsyncWithHttpInfo($client)
     {
         $returnType = '\OpenAPI\Client\Model\Client';
-        $request = $this->testClassnameRequest($body);
+        $request = $this->testClassnameRequest($client);
 
         return $this->client
             ->sendAsync($request, $this->createHttpClientOption())
@@ -292,17 +292,17 @@ class FakeClassnameTags123Api
     /**
      * Create request for operation 'testClassname'
      *
-     * @param  \OpenAPI\Client\Model\Client $body client model (required)
+     * @param  \OpenAPI\Client\Model\Client $client client model (required)
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testClassnameRequest($body)
+    protected function testClassnameRequest($client)
     {
-        // verify the required parameter 'body' is set
-        if ($body === null || (is_array($body) && count($body) === 0)) {
+        // verify the required parameter 'client' is set
+        if ($client === null || (is_array($client) && count($client) === 0)) {
             throw new \InvalidArgumentException(
-                'Missing the required parameter $body when calling testClassname'
+                'Missing the required parameter $client when calling testClassname'
             );
         }
 
@@ -318,8 +318,8 @@ class FakeClassnameTags123Api
 
         // body params
         $_tempBody = null;
-        if (isset($body)) {
-            $_tempBody = $body;
+        if (isset($client)) {
+            $_tempBody = $client;
         }
 
         if ($multipart) {
@@ -345,10 +345,13 @@ class FakeClassnameTags123Api
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);

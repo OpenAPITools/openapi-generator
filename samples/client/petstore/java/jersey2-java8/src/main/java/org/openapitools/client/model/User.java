@@ -15,55 +15,60 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
-import com.google.gson.TypeAdapter;
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.io.IOException;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * User
  */
-
+@JsonPropertyOrder({
+  User.JSON_PROPERTY_ID,
+  User.JSON_PROPERTY_USERNAME,
+  User.JSON_PROPERTY_FIRST_NAME,
+  User.JSON_PROPERTY_LAST_NAME,
+  User.JSON_PROPERTY_EMAIL,
+  User.JSON_PROPERTY_PASSWORD,
+  User.JSON_PROPERTY_PHONE,
+  User.JSON_PROPERTY_USER_STATUS
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class User {
-  public static final String SERIALIZED_NAME_ID = "id";
-  @SerializedName(SERIALIZED_NAME_ID)
+  public static final String JSON_PROPERTY_ID = "id";
   private Long id;
 
-  public static final String SERIALIZED_NAME_USERNAME = "username";
-  @SerializedName(SERIALIZED_NAME_USERNAME)
+  public static final String JSON_PROPERTY_USERNAME = "username";
   private String username;
 
-  public static final String SERIALIZED_NAME_FIRST_NAME = "firstName";
-  @SerializedName(SERIALIZED_NAME_FIRST_NAME)
+  public static final String JSON_PROPERTY_FIRST_NAME = "firstName";
   private String firstName;
 
-  public static final String SERIALIZED_NAME_LAST_NAME = "lastName";
-  @SerializedName(SERIALIZED_NAME_LAST_NAME)
+  public static final String JSON_PROPERTY_LAST_NAME = "lastName";
   private String lastName;
 
-  public static final String SERIALIZED_NAME_EMAIL = "email";
-  @SerializedName(SERIALIZED_NAME_EMAIL)
+  public static final String JSON_PROPERTY_EMAIL = "email";
   private String email;
 
-  public static final String SERIALIZED_NAME_PASSWORD = "password";
-  @SerializedName(SERIALIZED_NAME_PASSWORD)
+  public static final String JSON_PROPERTY_PASSWORD = "password";
   private String password;
 
-  public static final String SERIALIZED_NAME_PHONE = "phone";
-  @SerializedName(SERIALIZED_NAME_PHONE)
+  public static final String JSON_PROPERTY_PHONE = "phone";
   private String phone;
 
-  public static final String SERIALIZED_NAME_USER_STATUS = "userStatus";
-  @SerializedName(SERIALIZED_NAME_USER_STATUS)
+  public static final String JSON_PROPERTY_USER_STATUS = "userStatus";
   private Integer userStatus;
 
 
   public User id(Long id) {
-    
     this.id = id;
     return this;
   }
@@ -74,6 +79,8 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Long getId() {
     return id;
@@ -86,7 +93,6 @@ public class User {
 
 
   public User username(String username) {
-    
     this.username = username;
     return this;
   }
@@ -97,6 +103,8 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_USERNAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getUsername() {
     return username;
@@ -109,7 +117,6 @@ public class User {
 
 
   public User firstName(String firstName) {
-    
     this.firstName = firstName;
     return this;
   }
@@ -120,6 +127,8 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_FIRST_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getFirstName() {
     return firstName;
@@ -132,7 +141,6 @@ public class User {
 
 
   public User lastName(String lastName) {
-    
     this.lastName = lastName;
     return this;
   }
@@ -143,6 +151,8 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_LAST_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getLastName() {
     return lastName;
@@ -155,7 +165,6 @@ public class User {
 
 
   public User email(String email) {
-    
     this.email = email;
     return this;
   }
@@ -166,6 +175,8 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_EMAIL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getEmail() {
     return email;
@@ -178,7 +189,6 @@ public class User {
 
 
   public User password(String password) {
-    
     this.password = password;
     return this;
   }
@@ -189,6 +199,8 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PASSWORD)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPassword() {
     return password;
@@ -201,7 +213,6 @@ public class User {
 
 
   public User phone(String phone) {
-    
     this.phone = phone;
     return this;
   }
@@ -212,6 +223,8 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PHONE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public String getPhone() {
     return phone;
@@ -224,7 +237,6 @@ public class User {
 
 
   public User userStatus(Integer userStatus) {
-    
     this.userStatus = userStatus;
     return this;
   }
@@ -235,6 +247,8 @@ public class User {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "User Status")
+  @JsonProperty(JSON_PROPERTY_USER_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
 
   public Integer getUserStatus() {
     return userStatus;
@@ -246,6 +260,9 @@ public class User {
   }
 
 
+  /**
+   * Return true if this User object is equal to o.
+   */
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

@@ -14,6 +14,7 @@ import (
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
 	_neturl "net/url"
+	_bytes "bytes"
 	"strings"
 )
 
@@ -77,6 +78,7 @@ func (a *UserApiService) CreateUser(ctx _context.Context, body User) (*_nethttp.
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -143,6 +145,7 @@ func (a *UserApiService) CreateUsersWithArrayInput(ctx _context.Context, body []
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -209,6 +212,7 @@ func (a *UserApiService) CreateUsersWithListInput(ctx _context.Context, body []U
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -241,7 +245,7 @@ func (a *UserApiService) DeleteUser(ctx _context.Context, username string) (*_ne
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(username, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(parameterToString(username, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -276,6 +280,7 @@ func (a *UserApiService) DeleteUser(ctx _context.Context, username string) (*_ne
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -309,7 +314,7 @@ func (a *UserApiService) GetUserByName(ctx _context.Context, username string) (U
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(username, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(parameterToString(username, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -344,6 +349,7 @@ func (a *UserApiService) GetUserByName(ctx _context.Context, username string) (U
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -422,6 +428,7 @@ func (a *UserApiService) LoginUser(ctx _context.Context, username string, passwo
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -494,6 +501,7 @@ func (a *UserApiService) LogoutUser(ctx _context.Context) (*_nethttp.Response, e
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -527,7 +535,7 @@ func (a *UserApiService) UpdateUser(ctx _context.Context, username string, body 
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/user/{username}"
-	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.QueryEscape(parameterToString(username, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"username"+"}", _neturl.PathEscape(parameterToString(username, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -564,6 +572,7 @@ func (a *UserApiService) UpdateUser(ctx _context.Context, username string, body 
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}

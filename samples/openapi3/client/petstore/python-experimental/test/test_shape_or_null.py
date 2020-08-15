@@ -10,11 +10,15 @@
 """
 
 
-from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.quadrilateral import Quadrilateral
+from petstore_api.model.triangle import Triangle
+globals()['Quadrilateral'] = Quadrilateral
+globals()['Triangle'] = Triangle
+from petstore_api.model.shape_or_null import ShapeOrNull
 
 
 class TestShapeOrNull(unittest.TestCase):
@@ -29,7 +33,7 @@ class TestShapeOrNull(unittest.TestCase):
     def testShapeOrNull(self):
         """Test ShapeOrNull"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.ShapeOrNull()  # noqa: E501
+        # model = ShapeOrNull()  # noqa: E501
         pass
 
 

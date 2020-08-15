@@ -12,6 +12,8 @@ import javax.validation.constraints.*;
 /**
  * SpecialModelName
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class SpecialModelName   {
   @JsonProperty("$special[property.name]")

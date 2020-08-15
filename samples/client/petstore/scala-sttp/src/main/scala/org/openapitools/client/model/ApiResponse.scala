@@ -11,7 +11,6 @@
  */
 package org.openapitools.client.model
 
-import org.openapitools.client.core.ApiModel
 
   /**
    * An uploaded response
@@ -21,6 +20,6 @@ case class ApiResponse(
   code: Option[Int] = None,
   `type`: Option[String] = None,
   message: Option[String] = None
-) extends ApiModel
+)
 
 

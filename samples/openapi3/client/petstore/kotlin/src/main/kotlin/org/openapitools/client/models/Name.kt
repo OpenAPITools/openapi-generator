@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import com.squareup.moshi.Json
 import java.io.Serializable
+
 /**
  * Model for testing model name same as property name
  * @param name 
@@ -32,9 +33,9 @@ data class Name (
     @Json(name = "123Number")
     val `123number`: kotlin.Int? = null
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

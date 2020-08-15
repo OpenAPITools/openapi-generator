@@ -36,6 +36,7 @@ public class DartModelTest {
                 .addProperties("id", new IntegerSchema())
                 .addProperties("name", new StringSchema())
                 .addProperties("createdAt", new DateTimeSchema())
+                .addProperties("defaultItem", new IntegerSchema()._default(1))
                 .addRequiredItem("id")
                 .addRequiredItem("name");
         final DefaultCodegen codegen = new DartClientCodegen();
@@ -46,7 +47,7 @@ public class DartModelTest {
         Assert.assertEquals(cm.name, "sample");
         Assert.assertEquals(cm.classname, "Sample");
         Assert.assertEquals(cm.description, "a sample model");
-        Assert.assertEquals(cm.vars.size(), 3);
+        Assert.assertEquals(cm.vars.size(), 4);
         // {{imports}} is not used in template
         //Assert.assertEquals(cm.imports.size(), 1);
 
@@ -54,7 +55,7 @@ public class DartModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "null");
+        Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);
@@ -65,7 +66,7 @@ public class DartModelTest {
         Assert.assertEquals(property2.baseName, "name");
         Assert.assertEquals(property2.dataType, "String");
         Assert.assertEquals(property2.name, "name");
-        Assert.assertEquals(property2.defaultValue, "null");
+        Assert.assertNull(property2.defaultValue);
         Assert.assertEquals(property2.baseType, "String");
         Assert.assertTrue(property2.hasMore);
         Assert.assertTrue(property2.required);
@@ -77,11 +78,20 @@ public class DartModelTest {
         Assert.assertEquals(property3.complexType, "DateTime");
         Assert.assertEquals(property3.dataType, "DateTime");
         Assert.assertEquals(property3.name, "createdAt");
-        Assert.assertEquals(property3.defaultValue, "null");
+        Assert.assertNull(property3.defaultValue);
         Assert.assertEquals(property3.baseType, "DateTime");
-        Assert.assertFalse(property3.hasMore);
+        Assert.assertTrue(property3.hasMore);
         Assert.assertFalse(property3.required);
         Assert.assertFalse(property3.isContainer);
+
+        final CodegenProperty property4 = cm.vars.get(3);
+        Assert.assertEquals(property4.baseName, "defaultItem");
+        Assert.assertEquals(property4.dataType, "int");
+        Assert.assertEquals(property4.defaultValue, "1");
+        Assert.assertEquals(property4.baseType, "int");
+        Assert.assertFalse(property4.hasMore);
+        Assert.assertFalse(property4.required);
+        Assert.assertFalse(property4.isContainer);
     }
 
     @Test(description = "convert a model with list property")
@@ -89,9 +99,9 @@ public class DartModelTest {
         final Schema model = new Schema()
                 .description("a sample model")
                 .addProperties("id", new IntegerSchema())
-                .addProperties("urls", new ArraySchema()
-                        .items(new StringSchema()))
+                .addProperties("urls", new ArraySchema().items(new StringSchema()))
                 .addRequiredItem("id");
+
         final DefaultCodegen codegen = new DartClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
@@ -106,7 +116,7 @@ public class DartModelTest {
         Assert.assertEquals(property1.baseName, "id");
         Assert.assertEquals(property1.dataType, "int");
         Assert.assertEquals(property1.name, "id");
-        Assert.assertEquals(property1.defaultValue, "null");
+        Assert.assertNull(property1.defaultValue);
         Assert.assertEquals(property1.baseType, "int");
         Assert.assertTrue(property1.hasMore);
         Assert.assertTrue(property1.required);

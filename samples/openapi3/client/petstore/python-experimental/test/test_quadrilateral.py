@@ -10,11 +10,15 @@
 """
 
 
-from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.complex_quadrilateral import ComplexQuadrilateral
+from petstore_api.model.simple_quadrilateral import SimpleQuadrilateral
+globals()['ComplexQuadrilateral'] = ComplexQuadrilateral
+globals()['SimpleQuadrilateral'] = SimpleQuadrilateral
+from petstore_api.model.quadrilateral import Quadrilateral
 
 
 class TestQuadrilateral(unittest.TestCase):
@@ -28,10 +32,9 @@ class TestQuadrilateral(unittest.TestCase):
 
     def testQuadrilateral(self):
         """Test Quadrilateral"""
-        complex_quadrilateral = petstore_api.Quadrilateral(shape_type="Quadrilateral", quadrilateral_type="ComplexQuadrilateral")
-        assert isinstance(complex_quadrilateral, petstore_api.ComplexQuadrilateral)
-        simple_quadrilateral = petstore_api.Quadrilateral(shape_type="Quadrilateral", quadrilateral_type="SimpleQuadrilateral")
-        assert isinstance(simple_quadrilateral, petstore_api.SimpleQuadrilateral)
+        # FIXME: construct object with mandatory attributes with example values
+        # model = Quadrilateral()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':

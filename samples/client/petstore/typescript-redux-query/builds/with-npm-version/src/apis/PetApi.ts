@@ -82,7 +82,7 @@ function addPetRaw<T>(requestParameters: AddPetRequest, requestConfig: runtime.T
 
     meta.authType = ['oauth', ["write:pets", "read:pets"]];
     const config: QueryConfig<T> = {
-        url: `/pet`,
+        url: `${runtime.Configuration.basePath}/pet`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -132,7 +132,7 @@ function deletePetRaw<T>(requestParameters: DeletePetRequest, requestConfig: run
 
     meta.authType = ['oauth', ["write:pets", "read:pets"]];
     const config: QueryConfig<T> = {
-        url: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+        url: `${runtime.Configuration.basePath}/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -185,7 +185,7 @@ function findPetsByStatusRaw<T>(requestParameters: FindPetsByStatusRequest, requ
 
     meta.authType = ['oauth', ["write:pets", "read:pets"]];
     const config: QueryConfig<T> = {
-        url: `/pet/findByStatus`,
+        url: `${runtime.Configuration.basePath}/pet/findByStatus`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -240,7 +240,7 @@ function findPetsByTagsRaw<T>(requestParameters: FindPetsByTagsRequest, requestC
 
     meta.authType = ['oauth', ["write:pets", "read:pets"]];
     const config: QueryConfig<T> = {
-        url: `/pet/findByTags`,
+        url: `${runtime.Configuration.basePath}/pet/findByTags`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -289,7 +289,7 @@ function getPetByIdRaw<T>(requestParameters: GetPetByIdRequest, requestConfig: r
 
     meta.authType = ['api_key', 'header'];
     const config: QueryConfig<T> = {
-        url: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+        url: `${runtime.Configuration.basePath}/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -339,7 +339,7 @@ function updatePetRaw<T>(requestParameters: UpdatePetRequest, requestConfig: run
 
     meta.authType = ['oauth', ["write:pets", "read:pets"]];
     const config: QueryConfig<T> = {
-        url: `/pet`,
+        url: `${runtime.Configuration.basePath}/pet`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -394,7 +394,7 @@ function updatePetWithFormRaw<T>(requestParameters: UpdatePetWithFormRequest, re
     }
 
     const config: QueryConfig<T> = {
-        url: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+        url: `${runtime.Configuration.basePath}/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -449,7 +449,7 @@ function uploadFileRaw<T>(requestParameters: UploadFileRequest, requestConfig: r
     }
 
     const config: QueryConfig<T> = {
-        url: `/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+        url: `${runtime.Configuration.basePath}/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,

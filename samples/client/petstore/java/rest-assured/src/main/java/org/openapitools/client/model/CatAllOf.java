@@ -27,7 +27,7 @@ import java.io.IOException;
 /**
  * CatAllOf
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class CatAllOf {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)

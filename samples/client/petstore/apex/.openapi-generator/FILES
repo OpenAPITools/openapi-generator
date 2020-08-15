@@ -8,6 +8,10 @@ force-app/main/default/classes/OASCategory.cls
 force-app/main/default/classes/OASCategory.cls-meta.xml
 force-app/main/default/classes/OASClient.cls
 force-app/main/default/classes/OASClient.cls-meta.xml
+force-app/main/default/classes/OASInlineObject.cls
+force-app/main/default/classes/OASInlineObject.cls-meta.xml
+force-app/main/default/classes/OASInlineObject1.cls
+force-app/main/default/classes/OASInlineObject1.cls-meta.xml
 force-app/main/default/classes/OASOrder.cls
 force-app/main/default/classes/OASOrder.cls-meta.xml
 force-app/main/default/classes/OASPet.cls

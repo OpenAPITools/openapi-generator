@@ -7,7 +7,7 @@ import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class GenerateTaskDslTest : TestBase()  {
+class GenerateTaskDslTest : TestBase() {
     override var temp: File = createTempDir(javaClass.simpleName)
 
     private val defaultBuildGradle = """
@@ -46,18 +46,18 @@ class GenerateTaskDslTest : TestBase()  {
         assertTrue(result.output.contains("Successfully generated code to"), "User friendly generate notice is missing.")
 
         listOf(
-            "build/kotlin/.openapi-generator-ignore",
-            "build/kotlin/docs/PetsApi.md",
-            "build/kotlin/docs/Error.md",
-            "build/kotlin/docs/Pet.md",
-            "build/kotlin/README.md",
-            "build/kotlin/build.gradle",
-            "build/kotlin/.openapi-generator/VERSION",
-            "build/kotlin/settings.gradle",
-            "build/kotlin/src/main/kotlin/org/openapitools/example/model/Pet.kt",
-            "build/kotlin/src/main/kotlin/org/openapitools/example/model/Error.kt",
-            "build/kotlin/src/main/kotlin/org/openapitools/example/api/PetsApi.kt",
-            "build/kotlin/src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt"
+                "build/kotlin/.openapi-generator-ignore",
+                "build/kotlin/docs/PetsApi.md",
+                "build/kotlin/docs/Error.md",
+                "build/kotlin/docs/Pet.md",
+                "build/kotlin/README.md",
+                "build/kotlin/build.gradle",
+                "build/kotlin/.openapi-generator/VERSION",
+                "build/kotlin/settings.gradle",
+                "build/kotlin/src/main/kotlin/org/openapitools/example/model/Pet.kt",
+                "build/kotlin/src/main/kotlin/org/openapitools/example/model/Error.kt",
+                "build/kotlin/src/main/kotlin/org/openapitools/example/api/PetsApi.kt",
+                "build/kotlin/src/main/kotlin/org/openapitools/client/infrastructure/ApiClient.kt"
         ).map {
             val f = File(temp, it)
             assertTrue(f.exists() && f.isFile, "An expected file was not generated when invoking the generation.")
@@ -65,6 +65,61 @@ class GenerateTaskDslTest : TestBase()  {
 
         assertEquals(TaskOutcome.SUCCESS, result.task(":openApiGenerate")?.outcome,
                 "Expected a successful run, but found ${result.task(":openApiGenerate")?.outcome}")
+    }
+
+    @Test
+    fun `openApiGenerate should used up-to-date instead of regenerate`() {
+        // Arrange
+        val projectFiles = mapOf(
+                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+        withProject(defaultBuildGradle, projectFiles)
+
+        // Act
+        val resultFirstRun = GradleRunner.create()
+                .withProjectDir(temp)
+                .withArguments("openApiGenerate")
+                .withPluginClasspath()
+                .build()
+        val resultSecondRun = GradleRunner.create()
+                .withProjectDir(temp)
+                .withArguments("openApiGenerate")
+                .withPluginClasspath()
+                .build()
+
+        // Assert
+        assertTrue(resultFirstRun.output.contains("Task ':openApiGenerate' is not up-to-date"), "First run should not be up-to-date")
+        assertTrue(resultSecondRun.output.contains("Task :openApiGenerate UP-TO-DATE"), "Task of second run should be up-to-date")
+    }
+
+    @Test
+    fun `openApiGenerate should use cache instead of regenerate`() {
+        // Arrange
+        val projectFiles = mapOf(
+                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+        )
+        withProject(defaultBuildGradle, projectFiles)
+
+        // Act
+        val resultFirstRun = GradleRunner.create()
+                .withProjectDir(temp)
+                .withArguments("openApiGenerate", "--build-cache")
+                .withPluginClasspath()
+                .build()
+
+        // delete the build directory from the last run
+        File(temp, "build/kotlin").deleteRecursively()
+
+        // re-run
+        val resultSecondRun = GradleRunner.create()
+                .withProjectDir(temp)
+                .withArguments("openApiGenerate", "--build-cache")
+                .withPluginClasspath()
+                .build()
+
+        // Assert
+        assertTrue(resultFirstRun.output.contains("Task ':openApiGenerate' is not up-to-date"), "First run should not be up-to-date")
+        assertTrue(resultSecondRun.output.contains("Task :openApiGenerate FROM-CACHE"), "Task of second run should be from cache")
     }
 
     @Test
@@ -128,10 +183,10 @@ class GenerateTaskDslTest : TestBase()  {
     }
 
     @Test
-    fun `openapiGenerate should attempt to set handlebars when specified as engine`(){
+    fun `openapiGenerate should attempt to set handlebars when specified as engine`() {
         // Arrange
         val projectFiles = mapOf(
-            "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
+                "spec.yaml" to javaClass.classLoader.getResourceAsStream("specs/petstore-v3.0.yaml")
         )
 
         withProject("""
@@ -151,15 +206,16 @@ class GenerateTaskDslTest : TestBase()  {
 
         // Act
         val result = GradleRunner.create()
-            .withProjectDir(temp)
-            .withArguments("openApiGenerate")
-            .withPluginClasspath()
-            .buildAndFail()
+                .withProjectDir(temp)
+                .withArguments("openApiGenerate", "--stacktrace")
+                .withPluginClasspath()
+                .buildAndFail()
 
         // Assert
         // rather than write out full handlebars generator templates, we'll just test that the configurator has set handlebars as the engine.
-        assertTrue(result.output.contains("kotlin-client/model.handlebars (No such file or directory)"), "Build should have attempted to use handlebars.")
+        assertTrue(result.output.contains("HandlebarsException"), "Stack should expose an exception for missing templates.")
+        assertTrue(result.output.contains("handlebars"), "Build should have attempted to use handlebars.")
         assertEquals(TaskOutcome.FAILED, result.task(":openApiGenerate")?.outcome,
-            "Expected a failed run, but found ${result.task(":openApiGenerate")?.outcome}")
+                "Expected a failed run, but found ${result.task(":openApiGenerate")?.outcome}")
     }
 }

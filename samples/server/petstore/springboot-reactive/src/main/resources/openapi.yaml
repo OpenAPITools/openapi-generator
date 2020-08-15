@@ -262,7 +262,13 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/updatePetWithFormBody'
+              properties:
+                name:
+                  description: Updated name of the pet
+                  type: string
+                status:
+                  description: Updated status of the pet
+                  type: string
       responses:
         "405":
           content: {}
@@ -293,7 +299,14 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/uploadFileBody'
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server
+                  type: string
+                file:
+                  description: file to upload
+                  format: binary
+                  type: string
       responses:
         "200":
           content:
@@ -794,7 +807,24 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/testEnumParametersBody'
+              properties:
+                enum_form_string_array:
+                  description: Form parameter enum test (string array)
+                  items:
+                    default: $
+                    enum:
+                    - '>'
+                    - $
+                    type: string
+                  type: array
+                enum_form_string:
+                  default: -efg
+                  description: Form parameter enum test (string)
+                  enum:
+                  - _abc
+                  - -efg
+                  - (xyz)
+                  type: string
       responses:
         "400":
           content: {}
@@ -845,7 +875,77 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/testEndpointParametersBody'
+              properties:
+                integer:
+                  description: None
+                  format: int32
+                  maximum: 100
+                  minimum: 10
+                  type: integer
+                int32:
+                  description: None
+                  format: int32
+                  maximum: 200
+                  minimum: 20
+                  type: integer
+                int64:
+                  description: None
+                  format: int64
+                  type: integer
+                number:
+                  description: None
+                  maximum: 543.2
+                  minimum: 32.1
+                  type: number
+                float:
+                  description: None
+                  format: float
+                  maximum: 987.6
+                  type: number
+                double:
+                  description: None
+                  format: double
+                  maximum: 123.4
+                  minimum: 67.8
+                  type: number
+                string:
+                  description: None
+                  pattern: /[a-z]/i
+                  type: string
+                pattern_without_delimiter:
+                  description: None
+                  pattern: ^[A-Z].*
+                  type: string
+                byte:
+                  description: None
+                  format: byte
+                  type: string
+                binary:
+                  description: None
+                  format: binary
+                  type: string
+                date:
+                  description: None
+                  format: date
+                  type: string
+                dateTime:
+                  description: None
+                  format: date-time
+                  type: string
+                password:
+                  description: None
+                  format: password
+                  maxLength: 64
+                  minLength: 10
+                  type: string
+                callback:
+                  description: None
+                  type: string
+              required:
+              - byte
+              - double
+              - number
+              - pattern_without_delimiter
         required: true
       responses:
         "400":
@@ -974,7 +1074,16 @@ paths:
         content:
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/testJsonFormDataBody'
+              properties:
+                param:
+                  description: field1
+                  type: string
+                param2:
+                  description: field2
+                  type: string
+              required:
+              - param
+              - param2
         required: true
       responses:
         "200":
@@ -1194,7 +1303,16 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/uploadFileWithRequiredFileBody'
+              properties:
+                additionalMetadata:
+                  description: Additional data to pass to server
+                  type: string
+                requiredFile:
+                  description: file to upload
+                  format: binary
+                  type: string
+              required:
+              - requiredFile
         required: true
       responses:
         "200":
@@ -1438,15 +1556,15 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/DogAllOf'
+      - $ref: '#/components/schemas/Dog_allOf'
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/CatAllOf'
+      - $ref: '#/components/schemas/Cat_allOf'
     BigCat:
       allOf:
       - $ref: '#/components/schemas/Cat'
-      - $ref: '#/components/schemas/BigCatAllOf'
+      - $ref: '#/components/schemas/BigCat_allOf'
     Animal:
       discriminator:
         propertyName: className
@@ -2103,147 +2221,17 @@ components:
       xml:
         namespace: http://a.com/schema
         prefix: pre
-    updatePetWithFormBody:
-      properties:
-        name:
-          description: Updated name of the pet
-          type: string
-        status:
-          description: Updated status of the pet
-          type: string
-    uploadFileBody:
-      properties:
-        additionalMetadata:
-          description: Additional data to pass to server
-          type: string
-        file:
-          description: file to upload
-          format: binary
-          type: string
-    testEnumParametersBody:
-      properties:
-        enum_form_string_array:
-          description: Form parameter enum test (string array)
-          items:
-            default: $
-            enum:
-            - '>'
-            - $
-            type: string
-          type: array
-        enum_form_string:
-          default: -efg
-          description: Form parameter enum test (string)
-          enum:
-          - _abc
-          - -efg
-          - (xyz)
-          type: string
-    testEndpointParametersBody:
-      properties:
-        integer:
-          description: None
-          format: int32
-          maximum: 100
-          minimum: 10
-          type: integer
-        int32:
-          description: None
-          format: int32
-          maximum: 200
-          minimum: 20
-          type: integer
-        int64:
-          description: None
-          format: int64
-          type: integer
-        number:
-          description: None
-          maximum: 543.2
-          minimum: 32.1
-          type: number
-        float:
-          description: None
-          format: float
-          maximum: 987.6
-          type: number
-        double:
-          description: None
-          format: double
-          maximum: 123.4
-          minimum: 67.8
-          type: number
-        string:
-          description: None
-          pattern: /[a-z]/i
-          type: string
-        pattern_without_delimiter:
-          description: None
-          pattern: ^[A-Z].*
-          type: string
-        byte:
-          description: None
-          format: byte
-          type: string
-        binary:
-          description: None
-          format: binary
-          type: string
-        date:
-          description: None
-          format: date
-          type: string
-        dateTime:
-          description: None
-          format: date-time
-          type: string
-        password:
-          description: None
-          format: password
-          maxLength: 64
-          minLength: 10
-          type: string
-        callback:
-          description: None
-          type: string
-      required:
-      - byte
-      - double
-      - number
-      - pattern_without_delimiter
-    testJsonFormDataBody:
-      properties:
-        param:
-          description: field1
-          type: string
-        param2:
-          description: field2
-          type: string
-      required:
-      - param
-      - param2
-    uploadFileWithRequiredFileBody:
-      properties:
-        additionalMetadata:
-          description: Additional data to pass to server
-          type: string
-        requiredFile:
-          description: file to upload
-          format: binary
-          type: string
-      required:
-      - requiredFile
-    DogAllOf:
+    Dog_allOf:
       properties:
         breed:
           type: string
       type: object
-    CatAllOf:
+    Cat_allOf:
       properties:
         declawed:
           type: boolean
       type: object
-    BigCatAllOf:
+    BigCat_allOf:
       properties:
         kind:
           enum:

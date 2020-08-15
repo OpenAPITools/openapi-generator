@@ -11,7 +11,7 @@ internal struct Client: Codable {
 
     internal var client: String?
 
-    internal init(client: String?) {
+    internal init(client: String? = nil) {
         self.client = client
     }
 

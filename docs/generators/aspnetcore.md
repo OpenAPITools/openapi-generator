@@ -18,7 +18,7 @@ sidebar_label: aspnetcore
 |modelClassModifier|Model Class Modifier can be nothing or partial| |partial|
 |newtonsoftVersion|Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+| |3.0.0|
 |operationIsAsync|Set methods to async or sync (default).| |false|
-|operationModifier|Operation Modifier can be virtual, abstract or partial| |virtual|
+|operationModifier|Operation Modifier can be virtual or abstract| |virtual|
 |operationResultTask|Set methods result to Task&lt;&gt;.| |false|
 |packageAuthors|Specifies Authors property in the .NET Core project file.| |OpenAPI|
 |packageCopyright|Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |No Copyright|
@@ -201,6 +201,7 @@ sidebar_label: aspnetcore
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

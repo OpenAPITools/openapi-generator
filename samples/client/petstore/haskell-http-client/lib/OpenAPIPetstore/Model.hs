@@ -2286,7 +2286,7 @@ toE'ArrayEnum = \case
 
 -- ** E'EnumFormString
 
--- | Enum of 'Text' . 
+-- | Enum of 'Text' .
 -- Form parameter enum test (string)
 data E'EnumFormString
   = E'EnumFormString'_abc -- ^ @"_abc"@
@@ -2551,7 +2551,7 @@ toE'Kind = \case
 
 -- ** E'Status
 
--- | Enum of 'Text' . 
+-- | Enum of 'Text' .
 -- Order Status
 data E'Status
   = E'Status'Placed -- ^ @"placed"@
@@ -2583,7 +2583,7 @@ toE'Status = \case
 
 -- ** E'Status2
 
--- | Enum of 'Text' . 
+-- | Enum of 'Text' .
 -- pet status in the store
 data E'Status2
   = E'Status2'Available -- ^ @"available"@

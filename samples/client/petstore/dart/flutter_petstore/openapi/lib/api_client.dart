@@ -43,6 +43,10 @@ class ApiClient {
           return new ApiResponse.fromJson(value);
         case 'Category':
           return new Category.fromJson(value);
+        case 'InlineObject':
+          return new InlineObject.fromJson(value);
+        case 'InlineObject1':
+          return new InlineObject1.fromJson(value);
         case 'Order':
           return new Order.fromJson(value);
         case 'Pet':

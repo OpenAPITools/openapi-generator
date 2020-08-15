@@ -18,6 +18,8 @@ part 'api/user_api.dart';
 
 part 'model/api_response.dart';
 part 'model/category.dart';
+part 'model/inline_object.dart';
+part 'model/inline_object1.dart';
 part 'model/order.dart';
 part 'model/pet.dart';
 part 'model/tag.dart';

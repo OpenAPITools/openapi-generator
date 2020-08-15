@@ -10,8 +10,8 @@ Describe -tag 'PSPetstore' -name 'PSOrder' {
         It 'Initialize-PSOrder' {
             # a simple test to create an object
             #$NewObject = Initialize-PSOrder -Id "TEST_VALUE" -PetId "TEST_VALUE" -Quantity "TEST_VALUE" -ShipDate "TEST_VALUE" -Status "TEST_VALUE" -Complete "TEST_VALUE"
-            #$NewObject | Should BeOfType Order
-            #$NewObject.property | Should Be 0
+            #$NewObject | Should -BeOfType Order
+            #$NewObject.property | Should -Be 0
         }
     }
 }
