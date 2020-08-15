@@ -453,7 +453,9 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Return a map from model name to Schema.
+     * Return a map from model name to Schema for efficient lookup.
+     * 
+     * @return map from model name to Schema.
      */
     protected Map<String, Schema> getModelNameToSchemaCache() {
         if (modelNameToSchemaCache == null) {
@@ -2196,7 +2198,8 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Output the proper model name (capitalized).
+     * Converts the OpenAPI schema name to a model name suitable for the current code generator.
+     * May be overriden for each programming language.
      * In case the name belongs to the TypeSystem it won't be renamed.
      *
      * @param name the name of the model
