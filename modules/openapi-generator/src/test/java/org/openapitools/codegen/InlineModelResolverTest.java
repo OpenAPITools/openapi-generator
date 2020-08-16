@@ -268,7 +268,7 @@ public class InlineModelResolverTest {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/6150_model_json_inline.yaml");
         new InlineModelResolver().flatten(openAPI);
         
-        Schema InlineResponse200 = openAPI.getComponents().getSchemas().get("inline_response_200");
+        Schema InlineResponse200 = openAPI.getComponents().getSchemas().get("testOperationResponse");
         assertEquals("object", InlineResponse200.getType());
         assertEquals("unknown", InlineResponse200.getFormat());
         Schema FooBarObject = openAPI.getComponents().getSchemas().get("FooBarObject");
@@ -817,11 +817,11 @@ public class InlineModelResolverTest {
 
         assertTrue(openAPI.getComponents().getSchemas().get("ApiError") instanceof ObjectSchema);
 
-        assertFalse(openAPI.getComponents().getSchemas().get("Party_allOf") instanceof ComposedSchema);
-        assertFalse(openAPI.getComponents().getSchemas().get("Contact_allOf") instanceof ComposedSchema);
-        assertFalse(openAPI.getComponents().getSchemas().get("Customer_allOf") instanceof ComposedSchema);
-        assertFalse(openAPI.getComponents().getSchemas().get("Person_allOf") instanceof ComposedSchema);
-        assertFalse(openAPI.getComponents().getSchemas().get("Organization_allOf") instanceof ComposedSchema);
+        assertFalse(openAPI.getComponents().getSchemas().get("PartyAllOf") instanceof ComposedSchema);
+        assertFalse(openAPI.getComponents().getSchemas().get("ContactAllOf") instanceof ComposedSchema);
+        assertFalse(openAPI.getComponents().getSchemas().get("CustomerAllOf") instanceof ComposedSchema);
+        assertFalse(openAPI.getComponents().getSchemas().get("PersonAllOf") instanceof ComposedSchema);
+        assertFalse(openAPI.getComponents().getSchemas().get("OrganizationAllOf") instanceof ComposedSchema);
 
         // Party
         ComposedSchema party = (ComposedSchema) openAPI.getComponents().getSchemas().get("Party");
@@ -830,7 +830,7 @@ public class InlineModelResolverTest {
         Schema partyAllOf = ModelUtils.getReferencedSchema(openAPI, partySchemas.get(1));
 
         assertEquals(partySchemas.get(0).get$ref(), "#/components/schemas/Entity");
-        assertEquals(partySchemas.get(1).get$ref(), "#/components/schemas/Party_allOf");
+        assertEquals(partySchemas.get(1).get$ref(), "#/components/schemas/PartyAllOf");
 
         assertNull(party.getDiscriminator());
         assertNull(entity.getDiscriminator());
@@ -845,7 +845,7 @@ public class InlineModelResolverTest {
 
         assertEquals(contact.getExtensions().get("x-discriminator-value"), "contact");
         assertEquals(contact.getAllOf().get(0).get$ref(), "#/components/schemas/Party");
-        assertEquals(contact.getAllOf().get(1).get$ref(), "#/components/schemas/Contact_allOf");
+        assertEquals(contact.getAllOf().get(1).get$ref(), "#/components/schemas/ContactAllOf");
         assertNull(contactAllOf.getDiscriminator());
 
 
@@ -860,7 +860,7 @@ public class InlineModelResolverTest {
 
         // Discriminators are not defined at this level in the schema doc
         assertNull(customerSchemas.get(0).getDiscriminator());
-        assertEquals(customerSchemas.get(1).get$ref(), "#/components/schemas/Customer_allOf");
+        assertEquals(customerSchemas.get(1).get$ref(), "#/components/schemas/CustomerAllOf");
         assertNull(customerSchemas.get(1).getDiscriminator());
 
         // Customer -> Party where Customer defines it's own discriminator
@@ -877,7 +877,7 @@ public class InlineModelResolverTest {
         // Discriminators are not defined at this level in the schema doc
         assertEquals(personSchemas.get(0).get$ref(), "#/components/schemas/Customer");
         assertNull(personSchemas.get(0).getDiscriminator());
-        assertEquals(personSchemas.get(1).get$ref(), "#/components/schemas/Person_allOf");
+        assertEquals(personSchemas.get(1).get$ref(), "#/components/schemas/PersonAllOf");
         assertNull(personSchemas.get(1).getDiscriminator());
 
         // Person -> Customer -> Party, so discriminator is not at this level
@@ -894,7 +894,7 @@ public class InlineModelResolverTest {
         // Discriminators are not defined at this level in the schema doc
         assertEquals(organizationSchemas.get(0).get$ref(), "#/components/schemas/Customer");
         assertNull(organizationSchemas.get(0).getDiscriminator());
-        assertEquals(organizationSchemas.get(1).get$ref(), "#/components/schemas/Organization_allOf");
+        assertEquals(organizationSchemas.get(1).get$ref(), "#/components/schemas/OrganizationAllOf");
         assertNull(organizationSchemas.get(1).getDiscriminator());
 
         // Organization -> Customer -> Party, so discriminator is not at this level

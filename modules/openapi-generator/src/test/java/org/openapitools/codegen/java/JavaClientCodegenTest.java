@@ -875,7 +875,7 @@ public class JavaClientCodegenTest {
                 "formParams.addAll(\"files\", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
 
                 //mixed
-                "multipartMixedWithHttpInfo(File file, MultipartMixedMarker marker)",
+                "multipartMixedWithHttpInfo(File file, MultipartMixedBodyMarker marker)",
                 "formParams.add(\"file\", new FileSystemResource(file));",
 
                 //single file
@@ -918,7 +918,7 @@ public class JavaClientCodegenTest {
                 "formParams.addAll(\"files\", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
 
                 //mixed
-                "multipartMixed(File file, MultipartMixedMarker marker)",
+                "multipartMixed(File file, MultipartMixedBodyMarker marker)",
                 "formParams.add(\"file\", new FileSystemResource(file));",
 
                 //single file
@@ -963,8 +963,8 @@ public class JavaClientCodegenTest {
                 "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
                 //mixed
-                "multipartMixed(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",
-                "multipartMixedWithHttpInfo(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",
+                "multipartMixed(org.springframework.core.io.Resource file, MultipartMixedBodyMarker marker)",
+                "multipartMixedWithHttpInfo(org.springframework.core.io.Resource file, MultipartMixedBodyMarker marker)",
                 "formParams.add(\"file\", file);",
 
                 //single file
