@@ -256,12 +256,6 @@ use WWW::OpenAPIClient::Object::Foo;
 use WWW::OpenAPIClient::Object::FormatTest;
 use WWW::OpenAPIClient::Object::HasOnlyReadOnly;
 use WWW::OpenAPIClient::Object::HealthCheckResult;
-use WWW::OpenAPIClient::Object::InlineObject;
-use WWW::OpenAPIClient::Object::InlineObject1;
-use WWW::OpenAPIClient::Object::InlineObject2;
-use WWW::OpenAPIClient::Object::InlineObject3;
-use WWW::OpenAPIClient::Object::InlineObject4;
-use WWW::OpenAPIClient::Object::InlineObject5;
 use WWW::OpenAPIClient::Object::InlineResponseDefault;
 use WWW::OpenAPIClient::Object::List;
 use WWW::OpenAPIClient::Object::MapTest;
@@ -281,6 +275,12 @@ use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
+use WWW::OpenAPIClient::Object::TestEndpointParametersBody;
+use WWW::OpenAPIClient::Object::TestEnumParametersBody;
+use WWW::OpenAPIClient::Object::TestJsonFormDataBody;
+use WWW::OpenAPIClient::Object::UpdatePetWithFormBody;
+use WWW::OpenAPIClient::Object::UploadFileBody;
+use WWW::OpenAPIClient::Object::UploadFileWithRequiredFileBody;
 use WWW::OpenAPIClient::Object::User;
 
 ````
@@ -325,12 +325,6 @@ use WWW::OpenAPIClient::Object::Foo;
 use WWW::OpenAPIClient::Object::FormatTest;
 use WWW::OpenAPIClient::Object::HasOnlyReadOnly;
 use WWW::OpenAPIClient::Object::HealthCheckResult;
-use WWW::OpenAPIClient::Object::InlineObject;
-use WWW::OpenAPIClient::Object::InlineObject1;
-use WWW::OpenAPIClient::Object::InlineObject2;
-use WWW::OpenAPIClient::Object::InlineObject3;
-use WWW::OpenAPIClient::Object::InlineObject4;
-use WWW::OpenAPIClient::Object::InlineObject5;
 use WWW::OpenAPIClient::Object::InlineResponseDefault;
 use WWW::OpenAPIClient::Object::List;
 use WWW::OpenAPIClient::Object::MapTest;
@@ -350,6 +344,12 @@ use WWW::OpenAPIClient::Object::Pet;
 use WWW::OpenAPIClient::Object::ReadOnlyFirst;
 use WWW::OpenAPIClient::Object::SpecialModelName;
 use WWW::OpenAPIClient::Object::Tag;
+use WWW::OpenAPIClient::Object::TestEndpointParametersBody;
+use WWW::OpenAPIClient::Object::TestEnumParametersBody;
+use WWW::OpenAPIClient::Object::TestJsonFormDataBody;
+use WWW::OpenAPIClient::Object::UpdatePetWithFormBody;
+use WWW::OpenAPIClient::Object::UploadFileBody;
+use WWW::OpenAPIClient::Object::UploadFileWithRequiredFileBody;
 use WWW::OpenAPIClient::Object::User;
 
 # for displaying the API response data
@@ -442,12 +442,6 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::FormatTest](docs/FormatTest.md)
  - [WWW::OpenAPIClient::Object::HasOnlyReadOnly](docs/HasOnlyReadOnly.md)
  - [WWW::OpenAPIClient::Object::HealthCheckResult](docs/HealthCheckResult.md)
- - [WWW::OpenAPIClient::Object::InlineObject](docs/InlineObject.md)
- - [WWW::OpenAPIClient::Object::InlineObject1](docs/InlineObject1.md)
- - [WWW::OpenAPIClient::Object::InlineObject2](docs/InlineObject2.md)
- - [WWW::OpenAPIClient::Object::InlineObject3](docs/InlineObject3.md)
- - [WWW::OpenAPIClient::Object::InlineObject4](docs/InlineObject4.md)
- - [WWW::OpenAPIClient::Object::InlineObject5](docs/InlineObject5.md)
  - [WWW::OpenAPIClient::Object::InlineResponseDefault](docs/InlineResponseDefault.md)
  - [WWW::OpenAPIClient::Object::List](docs/List.md)
  - [WWW::OpenAPIClient::Object::MapTest](docs/MapTest.md)
@@ -467,6 +461,12 @@ Class | Method | HTTP request | Description
  - [WWW::OpenAPIClient::Object::ReadOnlyFirst](docs/ReadOnlyFirst.md)
  - [WWW::OpenAPIClient::Object::SpecialModelName](docs/SpecialModelName.md)
  - [WWW::OpenAPIClient::Object::Tag](docs/Tag.md)
+ - [WWW::OpenAPIClient::Object::TestEndpointParametersBody](docs/TestEndpointParametersBody.md)
+ - [WWW::OpenAPIClient::Object::TestEnumParametersBody](docs/TestEnumParametersBody.md)
+ - [WWW::OpenAPIClient::Object::TestJsonFormDataBody](docs/TestJsonFormDataBody.md)
+ - [WWW::OpenAPIClient::Object::UpdatePetWithFormBody](docs/UpdatePetWithFormBody.md)
+ - [WWW::OpenAPIClient::Object::UploadFileBody](docs/UploadFileBody.md)
+ - [WWW::OpenAPIClient::Object::UploadFileWithRequiredFileBody](docs/UploadFileWithRequiredFileBody.md)
  - [WWW::OpenAPIClient::Object::User](docs/User.md)
 
 

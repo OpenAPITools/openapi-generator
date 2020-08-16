@@ -30,6 +30,8 @@ app/openapi_server/models/category.py
 app/openapi_server/models/order.py
 app/openapi_server/models/pet.py
 app/openapi_server/models/tag.py
+app/openapi_server/models/update_pet_with_form_body.py
+app/openapi_server/models/upload_file_body.py
 app/openapi_server/models/user.py
 app/openapi_server/swagger/swagger.yaml
 app/openapi_server/swagger/swagger.yaml
@@ -52,6 +54,8 @@ model-definitions/types/tosca/openapi_server/Category_ResourceType.tosca
 model-definitions/types/tosca/openapi_server/Order_ResourceType.tosca
 model-definitions/types/tosca/openapi_server/Pet_ResourceType.tosca
 model-definitions/types/tosca/openapi_server/Tag_ResourceType.tosca
+model-definitions/types/tosca/openapi_server/UpdatePetWithFormBody_ResourceType.tosca
+model-definitions/types/tosca/openapi_server/UploadFileBody_ResourceType.tosca
 model-definitions/types/tosca/openapi_server/User_ResourceType.tosca
 requirements.txt
 requirements.txt

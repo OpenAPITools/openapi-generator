@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.client.model.ReadOnlyFirst;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * ArrayTest
@@ -95,6 +98,7 @@ public class ArrayTest {
    * @return arrayArrayOfInteger
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public List<List<Long>> getArrayArrayOfInteger() {
@@ -126,6 +130,7 @@ public class ArrayTest {
    * @return arrayArrayOfModel
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {

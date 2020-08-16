@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 /**
  * TestEndpointParametersBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class TestEndpointParametersBody   {
   @JsonProperty("integer")

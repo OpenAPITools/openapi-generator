@@ -2,7 +2,7 @@
 /**
  * TestEndpointParametersBody
  *
- * PHP version 7.1
+ * PHP version 7.2
  *
  * @category Class
  * @package  OpenAPI\Client
@@ -79,7 +79,7 @@ class TestEndpointParametersBody implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPIFormats = [
-        'integer' => 'int32',
+        'integer' => null,
         'int32' => 'int32',
         'int64' => 'int64',
         'number' => null,

@@ -20,7 +20,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**InlineResponseDefault**](inline_response_default.md)
+[**InlineResponseDefault**](InlineResponseDefault.md)
 
 ### Authorization
 

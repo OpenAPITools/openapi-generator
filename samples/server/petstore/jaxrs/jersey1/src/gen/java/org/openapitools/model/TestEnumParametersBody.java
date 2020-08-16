@@ -32,7 +32,7 @@ import javax.validation.Valid;
   TestEnumParametersBody.JSON_PROPERTY_ENUM_FORM_STRING_ARRAY,
   TestEnumParametersBody.JSON_PROPERTY_ENUM_FORM_STRING
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class TestEnumParametersBody   {
   /**
    * Gets or Sets enumFormStringArray

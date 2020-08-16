@@ -1,4 +1,4 @@
-# test_endpoint_parameters_body.TestEndpointParametersBody
+# TestEndpointParametersBody
 
 ## Properties
 Name | Type | Description | Notes

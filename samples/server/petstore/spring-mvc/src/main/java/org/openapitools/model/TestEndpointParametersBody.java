@@ -16,6 +16,8 @@ import javax.validation.constraints.*;
 /**
  * TestEndpointParametersBody
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class TestEndpointParametersBody   {
   @JsonProperty("integer")

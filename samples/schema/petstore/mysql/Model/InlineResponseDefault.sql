@@ -1,26 +1,26 @@
 --
 -- OpenAPI Petstore.
--- Prepared SQL queries for 'inline_response_default' definition.
+-- Prepared SQL queries for 'InlineResponseDefault' definition.
 --
 
 
 --
--- SELECT template for table `inline_response_default`
+-- SELECT template for table `InlineResponseDefault`
 --
-SELECT `string` FROM `inline_response_default` WHERE 1;
+SELECT `string` FROM `InlineResponseDefault` WHERE 1;
 
 --
--- INSERT template for table `inline_response_default`
+-- INSERT template for table `InlineResponseDefault`
 --
-INSERT INTO `inline_response_default`(`string`) VALUES (?);
+INSERT INTO `InlineResponseDefault`(`string`) VALUES (?);
 
 --
--- UPDATE template for table `inline_response_default`
+-- UPDATE template for table `InlineResponseDefault`
 --
-UPDATE `inline_response_default` SET `string` = ? WHERE 1;
+UPDATE `InlineResponseDefault` SET `string` = ? WHERE 1;
 
 --
--- DELETE template for table `inline_response_default`
+-- DELETE template for table `InlineResponseDefault`
 --
-DELETE FROM `inline_response_default` WHERE 0;
+DELETE FROM `InlineResponseDefault` WHERE 0;
 

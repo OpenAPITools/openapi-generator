@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class TestJsonFormDataBody  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class TestJsonFormDataBody  implements Serializable {
   
   private @Valid String param;
   private @Valid String param2;

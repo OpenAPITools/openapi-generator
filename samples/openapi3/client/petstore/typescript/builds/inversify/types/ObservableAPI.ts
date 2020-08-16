@@ -8,11 +8,11 @@ import { AbstractConfiguration } from "../services/configuration";
 
 import { ApiResponse } from '../models/ApiResponse';
 import { Category } from '../models/Category';
-import { InlineObject } from '../models/InlineObject';
-import { InlineObject1 } from '../models/InlineObject1';
 import { Order } from '../models/Order';
 import { Pet } from '../models/Pet';
 import { Tag } from '../models/Tag';
+import { UpdatePetWithFormBody } from '../models/UpdatePetWithFormBody';
+import { UploadFileBody } from '../models/UploadFileBody';
 import { User } from '../models/User';
 
 import { PetApiRequestFactory, PetApiResponseProcessor} from "../apis/PetApi";

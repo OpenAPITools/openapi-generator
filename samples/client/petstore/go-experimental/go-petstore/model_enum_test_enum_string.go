@@ -38,7 +38,7 @@ func (v *EnumTestEnumString) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid EnumTestEnumString", *v)
+	return fmt.Errorf("%+v is not a valid EnumTestEnumString", value)
 }
 
 // Ptr returns reference to Enum_TestEnumString value

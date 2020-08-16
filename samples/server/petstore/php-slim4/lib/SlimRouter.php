@@ -165,7 +165,6 @@ class SlimRouter
   "content" : {
     "application/xml" : {
       "schema" : {
-        "uniqueItems" : true,
         "type" : "array",
         "items" : {
           "$ref" : "#/components/schemas/Pet"
@@ -174,7 +173,6 @@ class SlimRouter
     },
     "application/json" : {
       "schema" : {
-        "uniqueItems" : true,
         "type" : "array",
         "items" : {
           "$ref" : "#/components/schemas/Pet"

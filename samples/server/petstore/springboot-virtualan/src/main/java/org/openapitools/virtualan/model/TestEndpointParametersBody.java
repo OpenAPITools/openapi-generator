@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
 /**
  * TestEndpointParametersBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TestEndpointParametersBody   {
   @JsonProperty("integer")
   private Integer integer;

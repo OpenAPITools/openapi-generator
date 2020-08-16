@@ -8,12 +8,14 @@
 
 #' @docType class
 #' @title UploadFileBody
+#'
 #' @description UploadFileBody Class
+#'
 #' @format An \code{R6Class} generator object
+#'
 #' @field additionalMetadata  character [optional]
 #'
 #' @field file  data.frame [optional]
-#'
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -23,7 +25,9 @@ UploadFileBody <- R6::R6Class(
   public = list(
     `additionalMetadata` = NULL,
     `file` = NULL,
-    initialize = function(`additionalMetadata`=NULL, `file`=NULL, ...){
+    initialize = function(
+        `additionalMetadata`=NULL, `file`=NULL, ...
+    ) {
       local.optional.var <- list(...)
       if (!is.null(`additionalMetadata`)) {
         stopifnot(is.character(`additionalMetadata`), length(`additionalMetadata`) == 1)
@@ -54,6 +58,7 @@ UploadFileBody <- R6::R6Class(
       if (!is.null(UploadFileBodyObject$`file`)) {
         self$`file` <- UploadFileBodyObject$`file`
       }
+      self
     },
     toJSONString = function() {
       jsoncontent <- c(
@@ -83,3 +88,4 @@ UploadFileBody <- R6::R6Class(
     }
   )
 )
+

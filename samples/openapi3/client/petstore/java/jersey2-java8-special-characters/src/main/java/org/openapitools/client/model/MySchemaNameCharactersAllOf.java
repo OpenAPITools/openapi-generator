@@ -65,7 +65,7 @@ public class MySchemaNameCharactersAllOf {
 
 
   /**
-   * Return true if this MySchemaName___Characters_allOf object is equal to o.
+   * Return true if this MySchemaName___CharactersAllOf object is equal to o.
    */
   @Override
   public boolean equals(java.lang.Object o) {

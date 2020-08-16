@@ -18,6 +18,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -46,7 +47,8 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   TestEndpointParametersBody.JSON_PROPERTY_PASSWORD,
   TestEndpointParametersBody.JSON_PROPERTY_CALLBACK
 })
-
+@JsonTypeName("testEndpointParametersBody")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TestEndpointParametersBody {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   private Integer integer;

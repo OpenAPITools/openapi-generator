@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class TestEnumParametersBody  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class TestEnumParametersBody  implements Serializable {
   
  
 public enum EnumFormStringArrayEnum {

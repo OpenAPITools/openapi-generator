@@ -12,6 +12,8 @@ src/models/ModelApiResponse.ts
 src/models/Order.ts
 src/models/Pet.ts
 src/models/Tag.ts
+src/models/UpdatePetWithFormBody.ts
+src/models/UploadFileBody.ts
 src/models/User.ts
 src/models/index.ts
 src/runtime.ts

@@ -7,6 +7,8 @@ docs/Pet.md
 docs/PetApi.md
 docs/StoreApi.md
 docs/Tag.md
+docs/UpdatePetWithFormBody.md
+docs/UploadFileBody.md
 docs/User.md
 docs/UserApi.md
 settings.gradle
@@ -28,4 +30,6 @@ src/main/kotlin/org/openapitools/client/models/Category.kt
 src/main/kotlin/org/openapitools/client/models/Order.kt
 src/main/kotlin/org/openapitools/client/models/Pet.kt
 src/main/kotlin/org/openapitools/client/models/Tag.kt
+src/main/kotlin/org/openapitools/client/models/UpdatePetWithFormBody.kt
+src/main/kotlin/org/openapitools/client/models/UploadFileBody.kt
 src/main/kotlin/org/openapitools/client/models/User.kt

@@ -38,7 +38,7 @@ func (v *EnumHeaderString) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid EnumHeaderString", *v)
+	return fmt.Errorf("%+v is not a valid EnumHeaderString", value)
 }
 
 // Ptr returns reference to enum_header_string value

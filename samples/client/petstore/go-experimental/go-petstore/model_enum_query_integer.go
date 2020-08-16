@@ -37,7 +37,7 @@ func (v *EnumQueryInteger) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid EnumQueryInteger", *v)
+	return fmt.Errorf("%+v is not a valid EnumQueryInteger", value)
 }
 
 // Ptr returns reference to enum_query_integer value

@@ -29,6 +29,10 @@ server/src/models/OAIPet.cpp
 server/src/models/OAIPet.h
 server/src/models/OAITag.cpp
 server/src/models/OAITag.h
+server/src/models/OAIUpdatePetWithFormBody.cpp
+server/src/models/OAIUpdatePetWithFormBody.h
+server/src/models/OAIUploadFileBody.cpp
+server/src/models/OAIUploadFileBody.h
 server/src/models/OAIUser.cpp
 server/src/models/OAIUser.h
 server/src/requests/OAIPetApiRequest.cpp

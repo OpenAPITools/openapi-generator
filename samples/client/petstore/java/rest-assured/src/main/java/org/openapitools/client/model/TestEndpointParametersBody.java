@@ -27,11 +27,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import org.threeten.bp.LocalDate;
 import org.threeten.bp.OffsetDateTime;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * TestEndpointParametersBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TestEndpointParametersBody {
   public static final String SERIALIZED_NAME_INTEGER = "integer";
   @SerializedName(SERIALIZED_NAME_INTEGER)
@@ -103,7 +106,7 @@ public class TestEndpointParametersBody {
    * @return integer
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "None")
+ @Min(10) @Max(100)  @ApiModelProperty(value = "None")
 
   public Integer getInteger() {
     return integer;
@@ -128,7 +131,7 @@ public class TestEndpointParametersBody {
    * @return int32
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "None")
+ @Min(20) @Max(200)  @ApiModelProperty(value = "None")
 
   public Integer getInt32() {
     return int32;
@@ -175,7 +178,9 @@ public class TestEndpointParametersBody {
    * maximum: 543.2
    * @return number
   **/
-  @ApiModelProperty(required = true, value = "None")
+  @NotNull
+  @Valid
+ @DecimalMin("32.1") @DecimalMax("543.2")  @ApiModelProperty(required = true, value = "None")
 
   public BigDecimal getNumber() {
     return number;
@@ -199,7 +204,7 @@ public class TestEndpointParametersBody {
    * @return _float
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "None")
+ @DecimalMax("987.6")  @ApiModelProperty(value = "None")
 
   public Float getFloat() {
     return _float;
@@ -223,7 +228,8 @@ public class TestEndpointParametersBody {
    * maximum: 123.4
    * @return _double
   **/
-  @ApiModelProperty(required = true, value = "None")
+  @NotNull
+ @DecimalMin("67.8") @DecimalMax("123.4")  @ApiModelProperty(required = true, value = "None")
 
   public Double getDouble() {
     return _double;
@@ -246,7 +252,7 @@ public class TestEndpointParametersBody {
    * @return string
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "None")
+ @Pattern(regexp="/[a-z]/i")  @ApiModelProperty(value = "None")
 
   public String getString() {
     return string;
@@ -268,7 +274,8 @@ public class TestEndpointParametersBody {
    * None
    * @return patternWithoutDelimiter
   **/
-  @ApiModelProperty(required = true, value = "None")
+  @NotNull
+ @Pattern(regexp="^[A-Z].*")  @ApiModelProperty(required = true, value = "None")
 
   public String getPatternWithoutDelimiter() {
     return patternWithoutDelimiter;
@@ -290,6 +297,7 @@ public class TestEndpointParametersBody {
    * None
    * @return _byte
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "None")
 
   public byte[] getByte() {
@@ -313,6 +321,7 @@ public class TestEndpointParametersBody {
    * @return binary
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "None")
 
   public File getBinary() {
@@ -336,6 +345,7 @@ public class TestEndpointParametersBody {
    * @return date
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "None")
 
   public LocalDate getDate() {
@@ -359,6 +369,7 @@ public class TestEndpointParametersBody {
    * @return dateTime
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "None")
 
   public OffsetDateTime getDateTime() {
@@ -382,7 +393,7 @@ public class TestEndpointParametersBody {
    * @return password
   **/
   @javax.annotation.Nullable
-  @ApiModelProperty(value = "None")
+ @Size(min=10,max=64)  @ApiModelProperty(value = "None")
 
   public String getPassword() {
     return password;

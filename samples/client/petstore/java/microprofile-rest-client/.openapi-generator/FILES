@@ -6,6 +6,8 @@ docs/Pet.md
 docs/PetApi.md
 docs/StoreApi.md
 docs/Tag.md
+docs/UpdatePetWithFormBody.md
+docs/UploadFileBody.md
 docs/User.md
 docs/UserApi.md
 pom.xml
@@ -19,4 +21,6 @@ src/main/java/org/openapitools/client/model/ModelApiResponse.java
 src/main/java/org/openapitools/client/model/Order.java
 src/main/java/org/openapitools/client/model/Pet.java
 src/main/java/org/openapitools/client/model/Tag.java
+src/main/java/org/openapitools/client/model/UpdatePetWithFormBody.java
+src/main/java/org/openapitools/client/model/UploadFileBody.java
 src/main/java/org/openapitools/client/model/User.java

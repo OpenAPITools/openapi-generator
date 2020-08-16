@@ -9,6 +9,8 @@ docs/Pet.md
 docs/PetApi.md
 docs/StoreApi.md
 docs/Tag.md
+docs/UpdatePetWithFormBody.md
+docs/UploadFileBody.md
 docs/User.md
 docs/UserApi.md
 git_push.sh
@@ -26,4 +28,6 @@ src/models/mod.rs
 src/models/order.rs
 src/models/pet.rs
 src/models/tag.rs
+src/models/update_pet_with_form_body.rs
+src/models/upload_file_body.rs
 src/models/user.rs

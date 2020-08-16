@@ -38,7 +38,7 @@ func (v *StatusItems) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid StatusItems", *v)
+	return fmt.Errorf("%+v is not a valid StatusItems", value)
 }
 
 // Ptr returns reference to statusItems value

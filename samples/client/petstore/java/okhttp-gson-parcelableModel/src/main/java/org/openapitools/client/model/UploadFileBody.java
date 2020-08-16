@@ -30,7 +30,7 @@ import android.os.Parcel;
 /**
  * UploadFileBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class UploadFileBody implements Parcelable {
   public static final String SERIALIZED_NAME_ADDITIONAL_METADATA = "additionalMetadata";
   @SerializedName(SERIALIZED_NAME_ADDITIONAL_METADATA)

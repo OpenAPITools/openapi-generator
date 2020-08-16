@@ -12,7 +12,7 @@ import java.util.Date;
 /**
  * TestEndpointParametersBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class TestEndpointParametersBody   {
   @JsonProperty("integer")
   private Integer integer;

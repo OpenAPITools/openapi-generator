@@ -14,59 +14,23 @@ require 'date'
 
 module Petstore
   class AdditionalPropertiesClass
-    attr_accessor :map_string
+    attr_accessor :map_property
 
-    attr_accessor :map_number
-
-    attr_accessor :map_integer
-
-    attr_accessor :map_boolean
-
-    attr_accessor :map_array_integer
-
-    attr_accessor :map_array_anytype
-
-    attr_accessor :map_map_string
-
-    attr_accessor :map_map_anytype
-
-    attr_accessor :anytype_1
-
-    attr_accessor :anytype_2
-
-    attr_accessor :anytype_3
+    attr_accessor :map_of_map_property
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'map_string' => :'map_string',
-        :'map_number' => :'map_number',
-        :'map_integer' => :'map_integer',
-        :'map_boolean' => :'map_boolean',
-        :'map_array_integer' => :'map_array_integer',
-        :'map_array_anytype' => :'map_array_anytype',
-        :'map_map_string' => :'map_map_string',
-        :'map_map_anytype' => :'map_map_anytype',
-        :'anytype_1' => :'anytype_1',
-        :'anytype_2' => :'anytype_2',
-        :'anytype_3' => :'anytype_3'
+        :'map_property' => :'map_property',
+        :'map_of_map_property' => :'map_of_map_property'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'map_string' => :'Hash<String, String>',
-        :'map_number' => :'Hash<String, Float>',
-        :'map_integer' => :'Hash<String, Integer>',
-        :'map_boolean' => :'Hash<String, Boolean>',
-        :'map_array_integer' => :'Hash<String, Array<Integer>>',
-        :'map_array_anytype' => :'Hash<String, Array<Object>>',
-        :'map_map_string' => :'Hash<String, Hash<String, String>>',
-        :'map_map_anytype' => :'Hash<String, Hash<String, Object>>',
-        :'anytype_1' => :'Object',
-        :'anytype_2' => :'Object',
-        :'anytype_3' => :'Object'
+        :'map_property' => :'Hash<String, String>',
+        :'map_of_map_property' => :'Hash<String, Hash<String, String>>'
       }
     end
 
@@ -91,64 +55,16 @@ module Petstore
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'map_string')
-        if (value = attributes[:'map_string']).is_a?(Hash)
-          self.map_string = value
+      if attributes.key?(:'map_property')
+        if (value = attributes[:'map_property']).is_a?(Hash)
+          self.map_property = value
         end
       end
 
-      if attributes.key?(:'map_number')
-        if (value = attributes[:'map_number']).is_a?(Hash)
-          self.map_number = value
+      if attributes.key?(:'map_of_map_property')
+        if (value = attributes[:'map_of_map_property']).is_a?(Hash)
+          self.map_of_map_property = value
         end
-      end
-
-      if attributes.key?(:'map_integer')
-        if (value = attributes[:'map_integer']).is_a?(Hash)
-          self.map_integer = value
-        end
-      end
-
-      if attributes.key?(:'map_boolean')
-        if (value = attributes[:'map_boolean']).is_a?(Hash)
-          self.map_boolean = value
-        end
-      end
-
-      if attributes.key?(:'map_array_integer')
-        if (value = attributes[:'map_array_integer']).is_a?(Hash)
-          self.map_array_integer = value
-        end
-      end
-
-      if attributes.key?(:'map_array_anytype')
-        if (value = attributes[:'map_array_anytype']).is_a?(Hash)
-          self.map_array_anytype = value
-        end
-      end
-
-      if attributes.key?(:'map_map_string')
-        if (value = attributes[:'map_map_string']).is_a?(Hash)
-          self.map_map_string = value
-        end
-      end
-
-      if attributes.key?(:'map_map_anytype')
-        if (value = attributes[:'map_map_anytype']).is_a?(Hash)
-          self.map_map_anytype = value
-        end
-      end
-
-      if attributes.key?(:'anytype_1')
-        self.anytype_1 = attributes[:'anytype_1']
-      end
-
-      if attributes.key?(:'anytype_2')
-        self.anytype_2 = attributes[:'anytype_2']
-      end
-
-      if attributes.key?(:'anytype_3')
-        self.anytype_3 = attributes[:'anytype_3']
       end
     end
 
@@ -170,17 +86,8 @@ module Petstore
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          map_string == o.map_string &&
-          map_number == o.map_number &&
-          map_integer == o.map_integer &&
-          map_boolean == o.map_boolean &&
-          map_array_integer == o.map_array_integer &&
-          map_array_anytype == o.map_array_anytype &&
-          map_map_string == o.map_map_string &&
-          map_map_anytype == o.map_map_anytype &&
-          anytype_1 == o.anytype_1 &&
-          anytype_2 == o.anytype_2 &&
-          anytype_3 == o.anytype_3
+          map_property == o.map_property &&
+          map_of_map_property == o.map_of_map_property
     end
 
     # @see the `==` method
@@ -192,7 +99,7 @@ module Petstore
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [map_string, map_number, map_integer, map_boolean, map_array_integer, map_array_anytype, map_map_string, map_map_anytype, anytype_1, anytype_2, anytype_3].hash
+      [map_property, map_of_map_property].hash
     end
 
     # Builds the object from hash

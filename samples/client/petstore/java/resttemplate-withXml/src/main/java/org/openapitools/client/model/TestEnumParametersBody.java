@@ -18,6 +18,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -34,7 +35,8 @@ import javax.xml.bind.annotation.*;
   TestEnumParametersBody.JSON_PROPERTY_ENUM_FORM_STRING_ARRAY,
   TestEnumParametersBody.JSON_PROPERTY_ENUM_FORM_STRING
 })
-
+@JsonTypeName("testEnumParametersBody")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "TestEnumParametersBody")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "TestEnumParametersBody")

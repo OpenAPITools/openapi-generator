@@ -37,7 +37,7 @@ func (v *EnumQueryDouble) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid EnumQueryDouble", *v)
+	return fmt.Errorf("%+v is not a valid EnumQueryDouble", value)
 }
 
 // Ptr returns reference to enum_query_double value

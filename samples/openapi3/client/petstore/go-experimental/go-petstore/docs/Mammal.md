@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **HasBaleen** | Pointer to **bool** |  | [optional] 
 **HasTeeth** | Pointer to **bool** |  | [optional] 
 **ClassName** | **string** |  | 
-**Type** | Pointer to **string** |  | [optional] 
+**Type** | Pointer to [**ZebraType**](zebraType.md) |  | [optional] 
 
 ## Methods
 
@@ -100,20 +100,20 @@ SetClassName sets ClassName field to given value.
 
 ### GetType
 
-`func (o *Mammal) GetType() string`
+`func (o *Mammal) GetType() ZebraType`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *Mammal) GetTypeOk() (*string, bool)`
+`func (o *Mammal) GetTypeOk() (*ZebraType, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *Mammal) SetType(v string)`
+`func (o *Mammal) SetType(v ZebraType)`
 
 SetType sets Type field to given value.
 

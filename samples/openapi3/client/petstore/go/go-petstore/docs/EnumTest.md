@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**EnumString** | **string** |  | [optional] 
-**EnumStringRequired** | **string** |  | 
-**EnumInteger** | **int32** |  | [optional] 
-**EnumNumber** | **float64** |  | [optional] 
+**EnumString** | [**EnumTestEnumString**](Enum_TestEnumString.md) |  | [optional] 
+**EnumStringRequired** | [**EnumTestEnumString**](Enum_TestEnumString.md) |  | 
+**EnumInteger** | [**EnumTestEnumInteger**](Enum_TestEnumInteger.md) |  | [optional] 
+**EnumNumber** | [**EnumQueryDouble**](enum_query_double.md) |  | [optional] 
 **OuterEnum** | Pointer to [**OuterEnum**](OuterEnum.md) |  | [optional] 
 **OuterEnumInteger** | [**OuterEnumInteger**](OuterEnumInteger.md) |  | [optional] 
 **OuterEnumDefaultValue** | [**OuterEnumDefaultValue**](OuterEnumDefaultValue.md) |  | [optional] 

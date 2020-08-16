@@ -13,6 +13,7 @@ package org.openapitools.client.models
 
 
 import com.squareup.moshi.Json
+
 /**
  * 
  * @param name Updated name of the pet

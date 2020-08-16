@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * UpdatePetWithFormBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class UpdatePetWithFormBody   {
   @JsonProperty("name")
   private String name;

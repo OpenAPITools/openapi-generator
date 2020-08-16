@@ -46,7 +46,7 @@ import javax.validation.Valid;
   TestEndpointParametersBody.JSON_PROPERTY_PASSWORD,
   TestEndpointParametersBody.JSON_PROPERTY_CALLBACK
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class TestEndpointParametersBody  implements Serializable {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   @JsonProperty(JSON_PROPERTY_INTEGER)

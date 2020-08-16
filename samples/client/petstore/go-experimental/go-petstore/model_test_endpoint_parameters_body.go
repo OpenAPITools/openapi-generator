@@ -567,3 +567,4 @@ func (v *NullableTestEndpointParametersBody) UnmarshalJSON(src []byte) error {
 	return json.Unmarshal(src, &v.value)
 }
 
+

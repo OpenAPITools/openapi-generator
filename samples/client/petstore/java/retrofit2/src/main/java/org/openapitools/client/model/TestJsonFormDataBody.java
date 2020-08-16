@@ -27,7 +27,7 @@ import java.io.IOException;
 /**
  * TestJsonFormDataBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TestJsonFormDataBody {
   public static final String SERIALIZED_NAME_PARAM = "param";
   @SerializedName(SERIALIZED_NAME_PARAM)

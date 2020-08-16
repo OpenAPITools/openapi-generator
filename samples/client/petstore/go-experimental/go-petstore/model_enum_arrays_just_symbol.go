@@ -37,7 +37,7 @@ func (v *EnumArraysJustSymbol) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid EnumArraysJustSymbol", *v)
+	return fmt.Errorf("%+v is not a valid EnumArraysJustSymbol", value)
 }
 
 // Ptr returns reference to EnumArraysJustSymbol value

@@ -11,6 +11,8 @@
 ./Model/Order.php
 ./Model/Pet.php
 ./Model/Tag.php
+./Model/UpdatePetWithFormBody.php
+./Model/UploadFileBody.php
 ./Model/User.php
 ./Service/JmsSerializer.php
 ./Service/SerializerInterface.php
@@ -39,6 +41,8 @@ Resources/docs/Model/Category.md
 Resources/docs/Model/Order.md
 Resources/docs/Model/Pet.md
 Resources/docs/Model/Tag.md
+Resources/docs/Model/UpdatePetWithFormBody.md
+Resources/docs/Model/UploadFileBody.md
 Resources/docs/Model/User.md
 autoload.php
 composer.json

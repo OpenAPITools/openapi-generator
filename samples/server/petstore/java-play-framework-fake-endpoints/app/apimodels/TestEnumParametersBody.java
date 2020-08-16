@@ -10,7 +10,7 @@ import javax.validation.constraints.*;
 /**
  * TestEnumParametersBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class TestEnumParametersBody   {
   /**

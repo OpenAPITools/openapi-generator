@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 /**
  * UploadFileBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class UploadFileBody   {
   @JsonProperty("additionalMetadata")

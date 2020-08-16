@@ -31,7 +31,7 @@ import android.os.Parcel;
 /**
  * TestEnumParametersBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TestEnumParametersBody implements Parcelable {
   /**
    * Gets or Sets enumFormStringArray

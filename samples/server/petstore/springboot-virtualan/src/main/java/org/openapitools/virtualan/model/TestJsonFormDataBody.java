@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 /**
  * TestJsonFormDataBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TestJsonFormDataBody   {
   @JsonProperty("param")
   private String param;

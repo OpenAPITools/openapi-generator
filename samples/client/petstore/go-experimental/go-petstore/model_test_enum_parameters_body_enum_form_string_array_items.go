@@ -37,7 +37,7 @@ func (v *TestEnumParametersBodyEnumFormStringArrayItems) UnmarshalJSON(src []byt
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid TestEnumParametersBodyEnumFormStringArrayItems", *v)
+	return fmt.Errorf("%+v is not a valid TestEnumParametersBodyEnumFormStringArrayItems", value)
 }
 
 // Ptr returns reference to testEnumParametersBodyEnumFormStringArrayItems value

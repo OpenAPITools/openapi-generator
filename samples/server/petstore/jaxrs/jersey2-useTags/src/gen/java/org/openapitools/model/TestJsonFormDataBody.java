@@ -29,7 +29,7 @@ import javax.validation.Valid;
   TestJsonFormDataBody.JSON_PROPERTY_PARAM,
   TestJsonFormDataBody.JSON_PROPERTY_PARAM2
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class TestJsonFormDataBody   {
   public static final String JSON_PROPERTY_PARAM = "param";
   @JsonProperty(JSON_PROPERTY_PARAM)

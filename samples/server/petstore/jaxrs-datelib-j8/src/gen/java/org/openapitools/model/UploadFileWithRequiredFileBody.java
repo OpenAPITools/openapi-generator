@@ -31,7 +31,7 @@ import javax.validation.Valid;
   UploadFileWithRequiredFileBody.JSON_PROPERTY_ADDITIONAL_METADATA,
   UploadFileWithRequiredFileBody.JSON_PROPERTY_REQUIRED_FILE
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class UploadFileWithRequiredFileBody  implements Serializable {
   public static final String JSON_PROPERTY_ADDITIONAL_METADATA = "additionalMetadata";
   @JsonProperty(JSON_PROPERTY_ADDITIONAL_METADATA)

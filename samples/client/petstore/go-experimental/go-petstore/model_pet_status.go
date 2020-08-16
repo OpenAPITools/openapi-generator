@@ -38,7 +38,7 @@ func (v *PetStatus) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid PetStatus", *v)
+	return fmt.Errorf("%+v is not a valid PetStatus", value)
 }
 
 // Ptr returns reference to PetStatus value

@@ -87,7 +87,7 @@ if(hasProperty('target') && target == 'android') {
 
     install {
         repositories.mavenInstaller {
-            pom.artifactId = 'petstore-okhttp-gson'
+            pom.artifactId = 'petstore-okhttp-gson-parcelableModel'
         }
     }
 

@@ -9,5 +9,7 @@ petstore/models/model_category.nim
 petstore/models/model_order.nim
 petstore/models/model_pet.nim
 petstore/models/model_tag.nim
+petstore/models/model_update_pet_with_form_body.nim
+petstore/models/model_upload_file_body.nim
 petstore/models/model_user.nim
 sample_client.nim

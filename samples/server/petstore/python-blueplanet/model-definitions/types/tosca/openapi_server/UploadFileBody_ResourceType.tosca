@@ -1,0 +1,40 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server UploadFileBody"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a UploadFileBody"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  UploadFileBody {
+    title = UploadFileBody
+    description = UploadFileBody
+    derivedFrom = Root
+    properties {
+        additional_metadata {
+          type =  string
+          description = "Additional data to pass to server"
+          optional = false
+        }
+        file {
+          type =  string
+          description = "file to upload"
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  UploadFileBody {
+    title = UploadFileBody
+    description = UploadFileBody
+    implements = openapi_server.resourceTypes.UploadFileBody
+
+  }
+}

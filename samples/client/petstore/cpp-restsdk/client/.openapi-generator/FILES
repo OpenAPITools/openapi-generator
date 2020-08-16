@@ -35,5 +35,9 @@ model/Pet.cpp
 model/Pet.h
 model/Tag.cpp
 model/Tag.h
+model/UpdatePetWithFormBody.cpp
+model/UpdatePetWithFormBody.h
+model/UploadFileBody.cpp
+model/UploadFileBody.h
 model/User.cpp
 model/User.h

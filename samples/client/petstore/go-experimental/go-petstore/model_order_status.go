@@ -38,7 +38,7 @@ func (v *OrderStatus) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid OrderStatus", *v)
+	return fmt.Errorf("%+v is not a valid OrderStatus", value)
 }
 
 // Ptr returns reference to OrderStatus value

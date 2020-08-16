@@ -8,12 +8,14 @@
 
 #' @docType class
 #' @title UpdatePetWithFormBody
+#'
 #' @description UpdatePetWithFormBody Class
+#'
 #' @format An \code{R6Class} generator object
+#'
 #' @field name  character [optional]
 #'
 #' @field status  character [optional]
-#'
 #'
 #' @importFrom R6 R6Class
 #' @importFrom jsonlite fromJSON toJSON
@@ -23,7 +25,9 @@ UpdatePetWithFormBody <- R6::R6Class(
   public = list(
     `name` = NULL,
     `status` = NULL,
-    initialize = function(`name`=NULL, `status`=NULL, ...){
+    initialize = function(
+        `name`=NULL, `status`=NULL, ...
+    ) {
       local.optional.var <- list(...)
       if (!is.null(`name`)) {
         stopifnot(is.character(`name`), length(`name`) == 1)
@@ -55,6 +59,7 @@ UpdatePetWithFormBody <- R6::R6Class(
       if (!is.null(UpdatePetWithFormBodyObject$`status`)) {
         self$`status` <- UpdatePetWithFormBodyObject$`status`
       }
+      self
     },
     toJSONString = function() {
       jsoncontent <- c(
@@ -84,3 +89,4 @@ UpdatePetWithFormBody <- R6::R6Class(
     }
   )
 )
+

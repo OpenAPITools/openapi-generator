@@ -23,11 +23,14 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * TestJsonFormDataBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TestJsonFormDataBody {
   public static final String SERIALIZED_NAME_PARAM = "param";
   @SerializedName(SERIALIZED_NAME_PARAM)
@@ -48,6 +51,7 @@ public class TestJsonFormDataBody {
    * field1
    * @return param
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "field1")
 
   public String getParam() {
@@ -70,6 +74,7 @@ public class TestJsonFormDataBody {
    * field2
    * @return param2
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "field2")
 
   public String getParam2() {

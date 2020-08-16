@@ -1,0 +1,76 @@
+{
+    "version": "2.0",
+    "type": "form",
+    "cells": [{
+        "children": [{
+                "classNames": {
+                    "cell": "large",
+                    "value": "ob-input",
+                    "label": "ob-label hide-label"
+                },
+                "model": "id",
+                "renderer": {
+                    "defaultLabel": "- View detail -",
+                    "label": "${./label}",
+                    "name": "link",
+                    "url": "/orchestrate/#/details/resource/${./id}/details"
+                }
+            },
+            {
+                "classNames": {
+                    "cell": "small",
+                    "value": "ob-input",
+                    "label": "ob-label"
+                },
+                "model": "createdAt"
+            },
+            {
+                "children": [{
+                        "classNames": {
+                            "cell": "small",
+                            "value": "ob-input",
+                            "label": "ob-label"
+                        },
+                        "renderer": {
+                            "name": "full-tenant-name-renderer"
+                        },
+                        "label": "tenant",
+                        "model": "tenantId"
+                    },
+                    {
+                        "classNames": {
+                            "cell": "small",
+                            "value": "ob-input",
+                            "label": "ob-label"
+                        },
+                        "renderer": {
+                            "name": "domain-by-product-renderer"
+                        },
+                        "model": "productId"
+                    }
+                ]
+            },
+            {
+                "classNames": {
+                    "cell": "small",
+                    "value": "ob-input",
+                    "label": "ob-label"
+                },
+                "label": "State",
+                "model": "orchState"
+            },
+            {
+                "classNames": {
+                    "cell": "small",
+                    "value": "ob-input",
+                    "label": "ob-label"
+                },
+                "label": "Resource Type",
+                "model": "resourceTypeId"
+            }
+        ],
+        "classNames": {
+            "cell": "flex-row small"
+        }
+    }]
+}

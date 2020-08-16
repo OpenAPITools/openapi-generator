@@ -19,9 +19,9 @@ type OuterEnum string
 
 // List of OuterEnum
 const (
-	OUTERENUM_PLACED OuterEnum = "placed"
-	OUTERENUM_APPROVED OuterEnum = "approved"
-	OUTERENUM_DELIVERED OuterEnum = "delivered"
+	OUTERENUM_OUTER_ENUM_PLACED OuterEnum = "placed"
+	OUTERENUM_OUTER_ENUM_APPROVED OuterEnum = "approved"
+	OUTERENUM_OUTER_ENUM_DELIVERED OuterEnum = "delivered"
 )
 
 func (v *OuterEnum) UnmarshalJSON(src []byte) error {

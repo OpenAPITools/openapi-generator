@@ -1,0 +1,40 @@
+"$schema"   = "http://cyaninc.com/json-schemas/tosca-lite-v1/definition-module#"
+title       = "openapi_server UpdatePetWithFormBody"
+package     = openapi_server
+version     = "1.0"
+description = "Defines a UpdatePetWithFormBody"
+authors     = ["F. Bar (foo@bar.baz)"]
+
+imports {
+  Root = tosca.resourceTypes.Root
+}
+resourceTypes {
+
+  UpdatePetWithFormBody {
+    title = UpdatePetWithFormBody
+    description = UpdatePetWithFormBody
+    derivedFrom = Root
+    properties {
+        name {
+          type =  string
+          description = "Updated name of the pet"
+          optional = false
+        }
+        status {
+          type =  string
+          description = "Updated status of the pet"
+          optional = false
+        }
+    }
+  }
+}
+
+serviceTemplates {
+
+  UpdatePetWithFormBody {
+    title = UpdatePetWithFormBody
+    description = UpdatePetWithFormBody
+    implements = openapi_server.resourceTypes.UpdatePetWithFormBody
+
+  }
+}

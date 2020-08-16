@@ -37,7 +37,7 @@ func (v *MapTestMapOfEnumStringAddlProps) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid MapTestMapOfEnumStringAddlProps", *v)
+	return fmt.Errorf("%+v is not a valid MapTestMapOfEnumStringAddlProps", value)
 }
 
 // Ptr returns reference to MapTestMapOfEnumStringAddlProps value

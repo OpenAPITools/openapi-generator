@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class UploadFileBody  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class UploadFileBody  implements Serializable {
   
   private @Valid String additionalMetadata;
   private @Valid File file;

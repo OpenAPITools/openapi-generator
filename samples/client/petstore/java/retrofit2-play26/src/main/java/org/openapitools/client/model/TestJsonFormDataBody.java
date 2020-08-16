@@ -18,6 +18,7 @@ import java.util.Arrays;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -32,7 +33,8 @@ import javax.validation.Valid;
   TestJsonFormDataBody.JSON_PROPERTY_PARAM,
   TestJsonFormDataBody.JSON_PROPERTY_PARAM2
 })
-
+@JsonTypeName("testJsonFormDataBody")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TestJsonFormDataBody {
   public static final String JSON_PROPERTY_PARAM = "param";
   private String param;

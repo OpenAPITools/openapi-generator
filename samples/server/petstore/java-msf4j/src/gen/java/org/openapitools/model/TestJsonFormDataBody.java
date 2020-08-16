@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * TestJsonFormDataBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class TestJsonFormDataBody   {
   @JsonProperty("param")
   private String param;

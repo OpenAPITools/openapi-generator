@@ -19,6 +19,8 @@ openapi_server/models/category.py
 openapi_server/models/order.py
 openapi_server/models/pet.py
 openapi_server/models/tag.py
+openapi_server/models/update_pet_with_form_body.py
+openapi_server/models/upload_file_body.py
 openapi_server/models/user.py
 openapi_server/openapi/openapi.yaml
 openapi_server/test/__init__.py

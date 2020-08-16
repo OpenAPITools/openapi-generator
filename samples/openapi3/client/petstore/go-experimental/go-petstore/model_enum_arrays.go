@@ -15,8 +15,8 @@ import (
 
 // EnumArrays struct for EnumArrays
 type EnumArrays struct {
-	JustSymbol *string `json:"just_symbol,omitempty"`
-	ArrayEnum *[]string `json:"array_enum,omitempty"`
+	JustSymbol *EnumArraysJustSymbol `json:"just_symbol,omitempty"`
+	ArrayEnum *[]EnumArraysArrayEnumItems `json:"array_enum,omitempty"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -40,9 +40,9 @@ func NewEnumArraysWithDefaults() *EnumArrays {
 }
 
 // GetJustSymbol returns the JustSymbol field value if set, zero value otherwise.
-func (o *EnumArrays) GetJustSymbol() string {
+func (o *EnumArrays) GetJustSymbol() EnumArraysJustSymbol {
 	if o == nil || o.JustSymbol == nil {
-		var ret string
+		var ret EnumArraysJustSymbol
 		return ret
 	}
 	return *o.JustSymbol
@@ -50,7 +50,7 @@ func (o *EnumArrays) GetJustSymbol() string {
 
 // GetJustSymbolOk returns a tuple with the JustSymbol field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumArrays) GetJustSymbolOk() (*string, bool) {
+func (o *EnumArrays) GetJustSymbolOk() (*EnumArraysJustSymbol, bool) {
 	if o == nil || o.JustSymbol == nil {
 		return nil, false
 	}
@@ -66,15 +66,15 @@ func (o *EnumArrays) HasJustSymbol() bool {
 	return false
 }
 
-// SetJustSymbol gets a reference to the given string and assigns it to the JustSymbol field.
-func (o *EnumArrays) SetJustSymbol(v string) {
+// SetJustSymbol gets a reference to the given EnumArraysJustSymbol and assigns it to the JustSymbol field.
+func (o *EnumArrays) SetJustSymbol(v EnumArraysJustSymbol) {
 	o.JustSymbol = &v
 }
 
 // GetArrayEnum returns the ArrayEnum field value if set, zero value otherwise.
-func (o *EnumArrays) GetArrayEnum() []string {
+func (o *EnumArrays) GetArrayEnum() []EnumArraysArrayEnumItems {
 	if o == nil || o.ArrayEnum == nil {
-		var ret []string
+		var ret []EnumArraysArrayEnumItems
 		return ret
 	}
 	return *o.ArrayEnum
@@ -82,7 +82,7 @@ func (o *EnumArrays) GetArrayEnum() []string {
 
 // GetArrayEnumOk returns a tuple with the ArrayEnum field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EnumArrays) GetArrayEnumOk() (*[]string, bool) {
+func (o *EnumArrays) GetArrayEnumOk() (*[]EnumArraysArrayEnumItems, bool) {
 	if o == nil || o.ArrayEnum == nil {
 		return nil, false
 	}
@@ -98,8 +98,8 @@ func (o *EnumArrays) HasArrayEnum() bool {
 	return false
 }
 
-// SetArrayEnum gets a reference to the given []string and assigns it to the ArrayEnum field.
-func (o *EnumArrays) SetArrayEnum(v []string) {
+// SetArrayEnum gets a reference to the given []EnumArraysArrayEnumItems and assigns it to the ArrayEnum field.
+func (o *EnumArrays) SetArrayEnum(v []EnumArraysArrayEnumItems) {
 	o.ArrayEnum = &v
 }
 

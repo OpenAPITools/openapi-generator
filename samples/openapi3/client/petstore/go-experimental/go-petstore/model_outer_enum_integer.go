@@ -19,9 +19,9 @@ type OuterEnumInteger int32
 
 // List of OuterEnumInteger
 const (
-	OUTERENUMINTEGER__0 OuterEnumInteger = 0
-	OUTERENUMINTEGER__1 OuterEnumInteger = 1
-	OUTERENUMINTEGER__2 OuterEnumInteger = 2
+	OUTERENUMINTEGER_OUTER_ENUM_INTEGER__0 OuterEnumInteger = 0
+	OUTERENUMINTEGER_OUTER_ENUM_INTEGER__1 OuterEnumInteger = 1
+	OUTERENUMINTEGER_OUTER_ENUM_INTEGER__2 OuterEnumInteger = 2
 )
 
 func (v *OuterEnumInteger) UnmarshalJSON(src []byte) error {

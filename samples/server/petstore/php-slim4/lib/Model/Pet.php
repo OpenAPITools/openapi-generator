@@ -60,7 +60,6 @@ class Pet extends BaseModel
       "example" : "doggie"
     },
     "photoUrls" : {
-      "uniqueItems" : true,
       "type" : "array",
       "xml" : {
         "name" : "photoUrl",

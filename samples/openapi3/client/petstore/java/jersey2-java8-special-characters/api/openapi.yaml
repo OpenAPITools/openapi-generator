@@ -33,21 +33,21 @@ components:
     ChildSchema:
       allOf:
       - $ref: '#/components/schemas/Parent'
-      - $ref: '#/components/schemas/ChildSchema_allOf'
+      - $ref: '#/components/schemas/ChildSchemaAllOf'
       description: A schema that does not have any special character.
     MySchemaName._-Characters:
       allOf:
       - $ref: '#/components/schemas/Parent'
-      - $ref: '#/components/schemas/MySchemaName___Characters_allOf'
+      - $ref: '#/components/schemas/MySchemaName___CharactersAllOf'
       description: A schema name that has letters, numbers, punctuation and non-ASCII
         characters. The sanitization rules should make it possible to generate a language-specific
         classname with allowed characters in that programming language.
-    ChildSchema_allOf:
+    ChildSchemaAllOf:
       properties:
         prop1:
           type: string
       type: object
-    MySchemaName___Characters_allOf:
+    MySchemaName___CharactersAllOf:
       properties:
         prop2:
           type: string

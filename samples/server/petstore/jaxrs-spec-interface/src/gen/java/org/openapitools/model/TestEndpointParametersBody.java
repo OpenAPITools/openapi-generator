@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class TestEndpointParametersBody  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class TestEndpointParametersBody  implements Serializable {
   
   private @Valid Integer integer;
   private @Valid Integer int32;

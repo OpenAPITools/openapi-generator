@@ -10,7 +10,7 @@ import java.io.File;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyServerCodegen")
 public class UploadFileBody   {
   
   private String additionalMetadata;

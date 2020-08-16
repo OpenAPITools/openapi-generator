@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class UpdatePetWithFormBody  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class UpdatePetWithFormBody  implements Serializable {
   
   private @Valid String name;
   private @Valid String status;

@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * TestEnumParametersBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TestEnumParametersBody {
   /**
    * Gets or Sets enumFormStringArray

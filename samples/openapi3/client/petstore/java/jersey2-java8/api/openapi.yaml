@@ -46,7 +46,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_default'
+                $ref: '#/components/schemas/InlineResponseDefault'
           description: response
       x-accepts: application/json
   /pet:
@@ -255,18 +255,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
-              type: object
+              $ref: '#/components/schemas/updatePetWithFormBody'
       responses:
         "405":
           description: Invalid input
@@ -293,19 +285,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_1'
         content:
           multipart/form-data:
             schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  format: binary
-                  type: string
-              type: object
+              $ref: '#/components/schemas/uploadFileBody'
       responses:
         "200":
           content:
@@ -780,29 +763,10 @@ paths:
           type: number
         style: form
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_2'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                enum_form_string_array:
-                  description: Form parameter enum test (string array)
-                  items:
-                    default: $
-                    enum:
-                    - '>'
-                    - $
-                    type: string
-                  type: array
-                enum_form_string:
-                  default: -efg
-                  description: Form parameter enum test (string)
-                  enum:
-                  - _abc
-                  - -efg
-                  - (xyz)
-                  type: string
-              type: object
+              $ref: '#/components/schemas/testEnumParametersBody'
       responses:
         "400":
           description: Invalid request
@@ -838,83 +802,10 @@ paths:
         가짜 엔드 포인트
       operationId: testEndpointParameters
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_3'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                integer:
-                  description: None
-                  maximum: 100
-                  minimum: 10
-                  type: integer
-                int32:
-                  description: None
-                  format: int32
-                  maximum: 200
-                  minimum: 20
-                  type: integer
-                int64:
-                  description: None
-                  format: int64
-                  type: integer
-                number:
-                  description: None
-                  maximum: 543.2
-                  minimum: 32.1
-                  type: number
-                float:
-                  description: None
-                  format: float
-                  maximum: 987.6
-                  type: number
-                double:
-                  description: None
-                  format: double
-                  maximum: 123.4
-                  minimum: 67.8
-                  type: number
-                string:
-                  description: None
-                  pattern: /[a-z]/i
-                  type: string
-                pattern_without_delimiter:
-                  description: None
-                  pattern: ^[A-Z].*
-                  type: string
-                byte:
-                  description: None
-                  format: byte
-                  type: string
-                binary:
-                  description: None
-                  format: binary
-                  type: string
-                date:
-                  description: None
-                  format: date
-                  type: string
-                dateTime:
-                  default: 2010-02-01T10:20:10.11111+01:00
-                  description: None
-                  example: 2020-02-02T20:20:20.22222Z
-                  format: date-time
-                  type: string
-                password:
-                  description: None
-                  format: password
-                  maxLength: 64
-                  minLength: 10
-                  type: string
-                callback:
-                  description: None
-                  type: string
-              required:
-              - byte
-              - double
-              - number
-              - pattern_without_delimiter
-              type: object
+              $ref: '#/components/schemas/testEndpointParametersBody'
       responses:
         "400":
           description: Invalid username supplied
@@ -1019,21 +910,10 @@ paths:
     get:
       operationId: testJsonFormData
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_4'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                param:
-                  description: field1
-                  type: string
-                param2:
-                  description: field2
-                  type: string
-              required:
-              - param
-              - param2
-              type: object
+              $ref: '#/components/schemas/testJsonFormDataBody'
       responses:
         "200":
           description: successful operation
@@ -1192,21 +1072,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_5'
         content:
           multipart/form-data:
             schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                requiredFile:
-                  description: file to upload
-                  format: binary
-                  type: string
-              required:
-              - requiredFile
-              type: object
+              $ref: '#/components/schemas/uploadFileWithRequiredFileBody'
       responses:
         "200":
           content:
@@ -1278,36 +1147,6 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
-    inline_object:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object'
-    inline_object_1:
-      content:
-        multipart/form-data:
-          schema:
-            $ref: '#/components/schemas/inline_object_1'
-    inline_object_2:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object_2'
-    inline_object_3:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object_3'
-    inline_object_4:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object_4'
-    inline_object_5:
-      content:
-        multipart/form-data:
-          schema:
-            $ref: '#/components/schemas/inline_object_5'
   schemas:
     Foo:
       example:
@@ -1553,12 +1392,12 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - $ref: '#/components/schemas/DogAllOf'
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Address'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - $ref: '#/components/schemas/CatAllOf'
     Address:
       additionalProperties:
         type: integer
@@ -2232,7 +2071,7 @@ components:
     ChildCat:
       allOf:
       - $ref: '#/components/schemas/ParentPet'
-      - $ref: '#/components/schemas/ChildCat_allOf'
+      - $ref: '#/components/schemas/ChildCatAllOf'
     ArrayOfEnums:
       items:
         $ref: '#/components/schemas/OuterEnum'
@@ -2242,7 +2081,7 @@ components:
       example: 2010-01-01T10:10:10.000111+01:00
       format: date-time
       type: string
-    inline_response_default:
+    InlineResponseDefault:
       example:
         string:
           bar: bar
@@ -2250,7 +2089,7 @@ components:
         string:
           $ref: '#/components/schemas/Foo'
       type: object
-    inline_object:
+    updatePetWithFormBody:
       properties:
         name:
           description: Updated name of the pet
@@ -2259,7 +2098,7 @@ components:
           description: Updated status of the pet
           type: string
       type: object
-    inline_object_1:
+    uploadFileBody:
       properties:
         additionalMetadata:
           description: Additional data to pass to server
@@ -2269,7 +2108,7 @@ components:
           format: binary
           type: string
       type: object
-    inline_object_2:
+    testEnumParametersBody:
       properties:
         enum_form_string_array:
           description: Form parameter enum test (string array)
@@ -2289,7 +2128,7 @@ components:
           - (xyz)
           type: string
       type: object
-    inline_object_3:
+    testEndpointParametersBody:
       properties:
         integer:
           description: None
@@ -2363,7 +2202,7 @@ components:
       - number
       - pattern_without_delimiter
       type: object
-    inline_object_4:
+    testJsonFormDataBody:
       properties:
         param:
           description: field1
@@ -2375,7 +2214,7 @@ components:
       - param
       - param2
       type: object
-    inline_object_5:
+    uploadFileWithRequiredFileBody:
       properties:
         additionalMetadata:
           description: Additional data to pass to server
@@ -2387,17 +2226,17 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
+    DogAllOf:
       properties:
         breed:
           type: string
       type: object
-    Cat_allOf:
+    CatAllOf:
       properties:
         declawed:
           type: boolean
       type: object
-    ChildCat_allOf:
+    ChildCatAllOf:
       properties:
         name:
           type: string

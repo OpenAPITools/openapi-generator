@@ -25,6 +25,9 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * FileSchemaTestClass
@@ -51,6 +54,7 @@ public class FileSchemaTestClass {
    * @return file
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public java.io.File getFile() {
@@ -82,6 +86,7 @@ public class FileSchemaTestClass {
    * @return files
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "")
 
   public List<java.io.File> getFiles() {

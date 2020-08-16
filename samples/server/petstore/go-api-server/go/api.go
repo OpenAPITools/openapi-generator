@@ -60,7 +60,7 @@ type UserApiRouter interface {
 type PetApiServicer interface { 
 	AddPet(context.Context, Pet) (interface{}, error)
 	DeletePet(context.Context, int64, string) (interface{}, error)
-	FindPetsByStatus(context.Context, []string) (interface{}, error)
+	FindPetsByStatus(context.Context, []StatusItems) (interface{}, error)
 	FindPetsByTags(context.Context, []string) (interface{}, error)
 	GetPetById(context.Context, int64) (interface{}, error)
 	UpdatePet(context.Context, Pet) (interface{}, error)

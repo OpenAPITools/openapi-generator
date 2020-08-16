@@ -26,11 +26,11 @@ lib/BaseModel.php
 lib/Middleware/JsonBodyParserMiddleware.php
 lib/Model/ApiResponse.php
 lib/Model/Category.php
-lib/Model/InlineObject.php
-lib/Model/InlineObject1.php
 lib/Model/Order.php
 lib/Model/Pet.php
 lib/Model/Tag.php
+lib/Model/UpdatePetWithFormBody.php
+lib/Model/UploadFileBody.php
 lib/Model/User.php
 lib/SlimRouter.php
 phpcs.xml.dist

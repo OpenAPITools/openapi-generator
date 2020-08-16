@@ -1,4 +1,4 @@
-# upload_file_body.UploadFileBody
+# UploadFileBody
 
 ## Properties
 Name | Type | Description | Notes

@@ -13,6 +13,8 @@ import petstore/models/model_category
 import petstore/models/model_order
 import petstore/models/model_pet
 import petstore/models/model_tag
+import petstore/models/model_update_pet_with_form_body
+import petstore/models/model_upload_file_body
 import petstore/models/model_user
 
 export model_api_response
@@ -20,6 +22,8 @@ export model_category
 export model_order
 export model_pet
 export model_tag
+export model_update_pet_with_form_body
+export model_upload_file_body
 export model_user
 
 # APIs

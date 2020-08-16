@@ -75,7 +75,7 @@ class UpdatePetWithFormBody(object):
         Updated name of the pet  # noqa: E501
 
         :param name: The name of this UpdatePetWithFormBody.  # noqa: E501
-        :type: str
+        :type name: str
         """
 
         self._name = name
@@ -98,7 +98,7 @@ class UpdatePetWithFormBody(object):
         Updated status of the pet  # noqa: E501
 
         :param status: The status of this UpdatePetWithFormBody.  # noqa: E501
-        :type: str
+        :type status: str
         """
 
         self._status = status

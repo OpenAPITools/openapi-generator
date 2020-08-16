@@ -28,8 +28,8 @@ class UploadFileBody {
 
   Map<String, dynamic> toJson() {
     return {
-      'additionalMetadata': additionalMetadata,
-      'file': file
+          'additionalMetadata': additionalMetadata,
+            'file': file == null ? null : file.toJson()
     };
   }
 

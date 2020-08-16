@@ -29,7 +29,7 @@ import javax.validation.Valid;
   UpdatePetWithFormBody.JSON_PROPERTY_NAME,
   UpdatePetWithFormBody.JSON_PROPERTY_STATUS
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class UpdatePetWithFormBody   {
   public static final String JSON_PROPERTY_NAME = "name";
   @JsonProperty(JSON_PROPERTY_NAME)

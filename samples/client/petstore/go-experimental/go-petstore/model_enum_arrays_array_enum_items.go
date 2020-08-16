@@ -37,7 +37,7 @@ func (v *EnumArraysArrayEnumItems) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid EnumArraysArrayEnumItems", *v)
+	return fmt.Errorf("%+v is not a valid EnumArraysArrayEnumItems", value)
 }
 
 // Ptr returns reference to EnumArraysArrayEnumItems value

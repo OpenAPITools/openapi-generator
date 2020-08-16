@@ -4,11 +4,11 @@ import { Configuration} from '../configuration.ts'
 
 import { ApiResponse } from '../models/ApiResponse.ts';
 import { Category } from '../models/Category.ts';
-import { InlineObject } from '../models/InlineObject.ts';
-import { InlineObject1 } from '../models/InlineObject1.ts';
 import { Order } from '../models/Order.ts';
 import { Pet } from '../models/Pet.ts';
 import { Tag } from '../models/Tag.ts';
+import { UpdatePetWithFormBody } from '../models/UpdatePetWithFormBody.ts';
+import { UploadFileBody } from '../models/UploadFileBody.ts';
 import { User } from '../models/User.ts';
 
 import { ObservablePetApi } from "./ObservableAPI.ts";

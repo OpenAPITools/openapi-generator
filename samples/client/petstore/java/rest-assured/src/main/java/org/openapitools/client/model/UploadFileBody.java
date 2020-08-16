@@ -24,11 +24,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
 import java.io.IOException;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * UploadFileBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class UploadFileBody {
   public static final String SERIALIZED_NAME_ADDITIONAL_METADATA = "additionalMetadata";
   @SerializedName(SERIALIZED_NAME_ADDITIONAL_METADATA)
@@ -73,6 +76,7 @@ public class UploadFileBody {
    * @return file
   **/
   @javax.annotation.Nullable
+  @Valid
   @ApiModelProperty(value = "file to upload")
 
   public File getFile() {

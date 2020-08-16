@@ -28,11 +28,11 @@ build = {
 		["petstore.api.user_api"] = "petstore/api/user_api.lua";
 		["petstore.model.api_response"] = "petstore/model/api_response.lua";
 		["petstore.model.category"] = "petstore/model/category.lua";
-		["petstore.model.inline_object"] = "petstore/model/inline_object.lua";
-		["petstore.model.inline_object_1"] = "petstore/model/inline_object_1.lua";
 		["petstore.model.order"] = "petstore/model/order.lua";
 		["petstore.model.pet"] = "petstore/model/pet.lua";
 		["petstore.model.tag"] = "petstore/model/tag.lua";
+		["petstore.model.update_pet_with_form_body"] = "petstore/model/update_pet_with_form_body.lua";
+		["petstore.model.upload_file_body"] = "petstore/model/upload_file_body.lua";
 		["petstore.model.user"] = "petstore/model/user.lua";
 	}
 }

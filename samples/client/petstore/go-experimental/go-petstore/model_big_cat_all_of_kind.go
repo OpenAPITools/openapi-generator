@@ -39,7 +39,7 @@ func (v *BigCatAllOfKind) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid BigCatAllOfKind", *v)
+	return fmt.Errorf("%+v is not a valid BigCatAllOfKind", value)
 }
 
 // Ptr returns reference to BigCatAllOfKind value

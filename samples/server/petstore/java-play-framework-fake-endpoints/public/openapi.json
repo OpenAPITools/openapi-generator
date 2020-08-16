@@ -2699,8 +2699,7 @@
             "description" : "Updated status of the pet",
             "type" : "string"
           }
-        },
-        "type" : "object"
+        }
       },
       "uploadFileBody" : {
         "properties" : {

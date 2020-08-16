@@ -1,19 +1,19 @@
 export * from './ApiResponse.ts';
 export * from './Category.ts';
-export * from './InlineObject.ts';
-export * from './InlineObject1.ts';
 export * from './Order.ts';
 export * from './Pet.ts';
 export * from './Tag.ts';
+export * from './UpdatePetWithFormBody.ts';
+export * from './UploadFileBody.ts';
 export * from './User.ts';
 
 import { ApiResponse } from './ApiResponse.ts';
 import { Category } from './Category.ts';
-import { InlineObject } from './InlineObject.ts';
-import { InlineObject1 } from './InlineObject1.ts';
 import { Order    , OrderStatusEnum    } from './Order.ts';
 import { Pet     , PetStatusEnum   } from './Pet.ts';
 import { Tag } from './Tag.ts';
+import { UpdatePetWithFormBody } from './UpdatePetWithFormBody.ts';
+import { UploadFileBody } from './UploadFileBody.ts';
 import { User } from './User.ts';
 
 /* tslint:disable:no-unused-variable */
@@ -42,11 +42,11 @@ let enumsMap: Set<string> = new Set<string>([
 let typeMap: {[index: string]: any} = {
     "ApiResponse": ApiResponse,
     "Category": Category,
-    "InlineObject": InlineObject,
-    "InlineObject1": InlineObject1,
     "Order": Order,
     "Pet": Pet,
     "Tag": Tag,
+    "UpdatePetWithFormBody": UpdatePetWithFormBody,
+    "UploadFileBody": UploadFileBody,
     "User": User,
 }
 

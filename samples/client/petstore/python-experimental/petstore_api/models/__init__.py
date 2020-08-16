@@ -70,7 +70,13 @@ from petstore_api.model.special_model_name import SpecialModelName
 from petstore_api.model.string_boolean_map import StringBooleanMap
 from petstore_api.model.string_enum import StringEnum
 from petstore_api.model.tag import Tag
+from petstore_api.model.test_endpoint_parameters_body import TestEndpointParametersBody
+from petstore_api.model.test_enum_parameters_body import TestEnumParametersBody
+from petstore_api.model.test_json_form_data_body import TestJsonFormDataBody
 from petstore_api.model.type_holder_default import TypeHolderDefault
 from petstore_api.model.type_holder_example import TypeHolderExample
+from petstore_api.model.update_pet_with_form_body import UpdatePetWithFormBody
+from petstore_api.model.upload_file_body import UploadFileBody
+from petstore_api.model.upload_file_with_required_file_body import UploadFileWithRequiredFileBody
 from petstore_api.model.user import User
 from petstore_api.model.xml_item import XmlItem

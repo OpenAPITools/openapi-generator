@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 /**
  * TestEnumParametersBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class TestEnumParametersBody   {
   /**
    * Gets or Sets enumFormStringArray

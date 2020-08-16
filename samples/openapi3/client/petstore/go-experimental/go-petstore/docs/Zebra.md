@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Type** | Pointer to **string** |  | [optional] 
+**Type** | Pointer to [**ZebraType**](zebraType.md) |  | [optional] 
 **ClassName** | **string** |  | 
 
 ## Methods
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetType
 
-`func (o *Zebra) GetType() string`
+`func (o *Zebra) GetType() ZebraType`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *Zebra) GetTypeOk() (*string, bool)`
+`func (o *Zebra) GetTypeOk() (*ZebraType, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *Zebra) SetType(v string)`
+`func (o *Zebra) SetType(v ZebraType)`
 
 SetType sets Type field to given value.
 

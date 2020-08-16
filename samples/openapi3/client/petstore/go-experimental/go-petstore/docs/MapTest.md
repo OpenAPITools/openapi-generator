@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **MapMapOfString** | Pointer to [**map[string]map[string]string**](map.md) |  | [optional] 
-**MapOfEnumString** | Pointer to **map[string]string** |  | [optional] 
+**MapOfEnumString** | Pointer to [**map[string]MapTestMapOfEnumStringAddlProps**](MapTestMapOfEnumStringAddlProps.md) |  | [optional] 
 **DirectMap** | Pointer to **map[string]bool** |  | [optional] 
 **IndirectMap** | Pointer to **map[string]bool** |  | [optional] 
 
@@ -55,20 +55,20 @@ HasMapMapOfString returns a boolean if a field has been set.
 
 ### GetMapOfEnumString
 
-`func (o *MapTest) GetMapOfEnumString() map[string]string`
+`func (o *MapTest) GetMapOfEnumString() map[string]MapTestMapOfEnumStringAddlProps`
 
 GetMapOfEnumString returns the MapOfEnumString field if non-nil, zero value otherwise.
 
 ### GetMapOfEnumStringOk
 
-`func (o *MapTest) GetMapOfEnumStringOk() (*map[string]string, bool)`
+`func (o *MapTest) GetMapOfEnumStringOk() (*map[string]MapTestMapOfEnumStringAddlProps, bool)`
 
 GetMapOfEnumStringOk returns a tuple with the MapOfEnumString field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMapOfEnumString
 
-`func (o *MapTest) SetMapOfEnumString(v map[string]string)`
+`func (o *MapTest) SetMapOfEnumString(v map[string]MapTestMapOfEnumStringAddlProps)`
 
 SetMapOfEnumString sets MapOfEnumString field to given value.
 

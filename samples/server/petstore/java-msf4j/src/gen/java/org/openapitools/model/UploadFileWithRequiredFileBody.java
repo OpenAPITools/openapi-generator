@@ -10,7 +10,7 @@ import java.io.File;
 /**
  * UploadFileWithRequiredFileBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class UploadFileWithRequiredFileBody   {
   @JsonProperty("additionalMetadata")
   private String additionalMetadata;

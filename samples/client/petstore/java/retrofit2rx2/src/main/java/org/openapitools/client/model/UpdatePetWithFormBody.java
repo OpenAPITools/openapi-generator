@@ -27,7 +27,7 @@ import java.io.IOException;
 /**
  * UpdatePetWithFormBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class UpdatePetWithFormBody {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)

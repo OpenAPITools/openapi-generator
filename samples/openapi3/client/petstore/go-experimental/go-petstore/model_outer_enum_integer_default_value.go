@@ -19,9 +19,9 @@ type OuterEnumIntegerDefaultValue int32
 
 // List of OuterEnumIntegerDefaultValue
 const (
-	OUTERENUMINTEGERDEFAULTVALUE__0 OuterEnumIntegerDefaultValue = 0
-	OUTERENUMINTEGERDEFAULTVALUE__1 OuterEnumIntegerDefaultValue = 1
-	OUTERENUMINTEGERDEFAULTVALUE__2 OuterEnumIntegerDefaultValue = 2
+	OUTERENUMINTEGERDEFAULTVALUE_OUTER_ENUM_INTEGER_DEFAULT_VALUE__0 OuterEnumIntegerDefaultValue = 0
+	OUTERENUMINTEGERDEFAULTVALUE_OUTER_ENUM_INTEGER_DEFAULT_VALUE__1 OuterEnumIntegerDefaultValue = 1
+	OUTERENUMINTEGERDEFAULTVALUE_OUTER_ENUM_INTEGER_DEFAULT_VALUE__2 OuterEnumIntegerDefaultValue = 2
 )
 
 func (v *OuterEnumIntegerDefaultValue) UnmarshalJSON(src []byte) error {

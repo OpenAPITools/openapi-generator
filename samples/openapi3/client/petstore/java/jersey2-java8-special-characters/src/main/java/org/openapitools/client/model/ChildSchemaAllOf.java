@@ -65,7 +65,7 @@ public class ChildSchemaAllOf {
 
 
   /**
-   * Return true if this ChildSchema_allOf object is equal to o.
+   * Return true if this ChildSchemaAllOf object is equal to o.
    */
   @Override
   public boolean equals(java.lang.Object o) {

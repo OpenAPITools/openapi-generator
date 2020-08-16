@@ -4,17 +4,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**EnumString** | Pointer to **string** |  | [optional] 
-**EnumStringRequired** | **string** |  | 
-**EnumInteger** | Pointer to **int32** |  | [optional] 
-**EnumNumber** | Pointer to **float64** |  | [optional] 
+**EnumString** | Pointer to [**EnumTestEnumString**](Enum_TestEnumString.md) |  | [optional] 
+**EnumStringRequired** | [**EnumTestEnumString**](Enum_TestEnumString.md) |  | 
+**EnumInteger** | Pointer to [**EnumTestEnumInteger**](Enum_TestEnumInteger.md) |  | [optional] 
+**EnumNumber** | Pointer to [**EnumQueryDouble**](enum_query_double.md) |  | [optional] 
 **OuterEnum** | Pointer to [**OuterEnum**](OuterEnum.md) |  | [optional] 
 
 ## Methods
 
 ### NewEnumTest
 
-`func NewEnumTest(enumStringRequired string, ) *EnumTest`
+`func NewEnumTest(enumStringRequired EnumTestEnumString, ) *EnumTest`
 
 NewEnumTest instantiates a new EnumTest object
 This constructor will assign default values to properties that have it defined,
@@ -31,20 +31,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetEnumString
 
-`func (o *EnumTest) GetEnumString() string`
+`func (o *EnumTest) GetEnumString() EnumTestEnumString`
 
 GetEnumString returns the EnumString field if non-nil, zero value otherwise.
 
 ### GetEnumStringOk
 
-`func (o *EnumTest) GetEnumStringOk() (*string, bool)`
+`func (o *EnumTest) GetEnumStringOk() (*EnumTestEnumString, bool)`
 
 GetEnumStringOk returns a tuple with the EnumString field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEnumString
 
-`func (o *EnumTest) SetEnumString(v string)`
+`func (o *EnumTest) SetEnumString(v EnumTestEnumString)`
 
 SetEnumString sets EnumString field to given value.
 
@@ -56,40 +56,40 @@ HasEnumString returns a boolean if a field has been set.
 
 ### GetEnumStringRequired
 
-`func (o *EnumTest) GetEnumStringRequired() string`
+`func (o *EnumTest) GetEnumStringRequired() EnumTestEnumString`
 
 GetEnumStringRequired returns the EnumStringRequired field if non-nil, zero value otherwise.
 
 ### GetEnumStringRequiredOk
 
-`func (o *EnumTest) GetEnumStringRequiredOk() (*string, bool)`
+`func (o *EnumTest) GetEnumStringRequiredOk() (*EnumTestEnumString, bool)`
 
 GetEnumStringRequiredOk returns a tuple with the EnumStringRequired field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEnumStringRequired
 
-`func (o *EnumTest) SetEnumStringRequired(v string)`
+`func (o *EnumTest) SetEnumStringRequired(v EnumTestEnumString)`
 
 SetEnumStringRequired sets EnumStringRequired field to given value.
 
 
 ### GetEnumInteger
 
-`func (o *EnumTest) GetEnumInteger() int32`
+`func (o *EnumTest) GetEnumInteger() EnumTestEnumInteger`
 
 GetEnumInteger returns the EnumInteger field if non-nil, zero value otherwise.
 
 ### GetEnumIntegerOk
 
-`func (o *EnumTest) GetEnumIntegerOk() (*int32, bool)`
+`func (o *EnumTest) GetEnumIntegerOk() (*EnumTestEnumInteger, bool)`
 
 GetEnumIntegerOk returns a tuple with the EnumInteger field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEnumInteger
 
-`func (o *EnumTest) SetEnumInteger(v int32)`
+`func (o *EnumTest) SetEnumInteger(v EnumTestEnumInteger)`
 
 SetEnumInteger sets EnumInteger field to given value.
 
@@ -101,20 +101,20 @@ HasEnumInteger returns a boolean if a field has been set.
 
 ### GetEnumNumber
 
-`func (o *EnumTest) GetEnumNumber() float64`
+`func (o *EnumTest) GetEnumNumber() EnumQueryDouble`
 
 GetEnumNumber returns the EnumNumber field if non-nil, zero value otherwise.
 
 ### GetEnumNumberOk
 
-`func (o *EnumTest) GetEnumNumberOk() (*float64, bool)`
+`func (o *EnumTest) GetEnumNumberOk() (*EnumQueryDouble, bool)`
 
 GetEnumNumberOk returns a tuple with the EnumNumber field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEnumNumber
 
-`func (o *EnumTest) SetEnumNumber(v float64)`
+`func (o *EnumTest) SetEnumNumber(v EnumQueryDouble)`
 
 SetEnumNumber sets EnumNumber field to given value.
 

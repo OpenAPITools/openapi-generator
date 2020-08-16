@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 /**
  * UploadFileBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class UploadFileBody   {
   @JsonProperty("additionalMetadata")
   private String additionalMetadata;

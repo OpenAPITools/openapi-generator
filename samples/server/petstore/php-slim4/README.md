@@ -161,11 +161,11 @@ Class | Method | HTTP request | Description
 
 * OpenAPIServer\Model\ApiResponse
 * OpenAPIServer\Model\Category
-* OpenAPIServer\Model\InlineObject
-* OpenAPIServer\Model\InlineObject1
 * OpenAPIServer\Model\Order
 * OpenAPIServer\Model\Pet
 * OpenAPIServer\Model\Tag
+* OpenAPIServer\Model\UpdatePetWithFormBody
+* OpenAPIServer\Model\UploadFileBody
 * OpenAPIServer\Model\User
 
 

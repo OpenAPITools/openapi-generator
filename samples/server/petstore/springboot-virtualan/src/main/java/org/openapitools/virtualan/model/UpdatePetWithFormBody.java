@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 /**
  * UpdatePetWithFormBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class UpdatePetWithFormBody   {
   @JsonProperty("name")
   private String name;

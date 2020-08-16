@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * TestEnumParametersBody
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class TestEnumParametersBody   {
   /**
    * Gets or Sets enumFormStringArray
