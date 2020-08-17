@@ -14,7 +14,6 @@
 
 import { HttpMethods, QueryConfig, ResponseBody, ResponseText } from 'redux-query';
 import * as runtime from '../runtime';
-
 import {
     ModelApiResponse,
     ModelApiResponseFromJSON,
@@ -73,7 +72,7 @@ function addPetRaw<T>(requestParameters: AddPetRequest, requestConfig: runtime.T
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
     headerParameters['Content-Type'] = 'application/json';
 
@@ -121,7 +120,7 @@ function deletePetRaw<T>(requestParameters: DeletePetRequest, requestConfig: run
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
     if (requestParameters.apiKey !== undefined && requestParameters.apiKey !== null) {
         headerParameters['api_key'] = String(requestParameters.apiKey);
@@ -178,7 +177,7 @@ function findPetsByStatusRaw<T>(requestParameters: FindPetsByStatusRequest, requ
         queryParameters['status'] = requestParameters.status?.join(runtime.COLLECTION_FORMATS["csv"]);
     }
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
@@ -233,7 +232,7 @@ function findPetsByTagsRaw<T>(requestParameters: FindPetsByTagsRequest, requestC
         queryParameters['tags'] = requestParameters.tags?.join(runtime.COLLECTION_FORMATS["csv"]);
     }
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
@@ -282,7 +281,7 @@ function getPetByIdRaw<T>(requestParameters: GetPetByIdRequest, requestConfig: r
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
@@ -330,7 +329,7 @@ function updatePetRaw<T>(requestParameters: UpdatePetRequest, requestConfig: run
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
     headerParameters['Content-Type'] = 'application/json';
 
@@ -378,7 +377,7 @@ function updatePetWithFormRaw<T>(requestParameters: UpdatePetWithFormRequest, re
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
@@ -433,7 +432,7 @@ function uploadFileRaw<T>(requestParameters: UploadFileRequest, requestConfig: r
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;

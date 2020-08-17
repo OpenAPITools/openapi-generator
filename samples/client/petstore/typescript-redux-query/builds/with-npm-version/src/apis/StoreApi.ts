@@ -14,7 +14,6 @@
 
 import { HttpMethods, QueryConfig, ResponseBody, ResponseText } from 'redux-query';
 import * as runtime from '../runtime';
-
 import {
     Order,
     OrderFromJSON,
@@ -46,7 +45,7 @@ function deleteOrderRaw<T>(requestParameters: DeleteOrderRequest, requestConfig:
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
@@ -89,7 +88,7 @@ function getInventoryRaw<T>( requestConfig: runtime.TypedQueryConfig<T, { [key: 
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
@@ -137,7 +136,7 @@ function getOrderByIdRaw<T>(requestParameters: GetOrderByIdRequest, requestConfi
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
@@ -184,7 +183,7 @@ function placeOrderRaw<T>(requestParameters: PlaceOrderRequest, requestConfig: r
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
     headerParameters['Content-Type'] = 'application/json';
 

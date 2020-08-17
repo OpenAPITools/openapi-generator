@@ -3,7 +3,6 @@
 
 import { HttpMethods, QueryConfig, ResponseBody, ResponseText } from 'redux-query';
 import * as runtime from '../runtime';
-
 {{#imports.0}}
 import {
     {{#imports}}
@@ -82,7 +81,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
 
     {{/isListContainer}}
     {{/queryParams}}
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
     {{#bodyParam}}
     {{^consumes}}
