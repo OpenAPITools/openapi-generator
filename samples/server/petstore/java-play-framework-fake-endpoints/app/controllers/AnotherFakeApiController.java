@@ -2,6 +2,7 @@ package controllers;
 
 import apimodels.Client;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
@@ -26,10 +27,10 @@ public class AnotherFakeApiController extends Controller {
 
     private final AnotherFakeApiControllerImpInterface imp;
     private final ObjectMapper mapper;
-    private final Configuration configuration;
+    private final Config configuration;
 
     @Inject
-    private AnotherFakeApiController(Configuration configuration, AnotherFakeApiControllerImpInterface imp) {
+    private AnotherFakeApiController(Config configuration, AnotherFakeApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
         this.configuration = configuration;

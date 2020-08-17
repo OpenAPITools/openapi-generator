@@ -50,6 +50,8 @@ export const COLLECTION_FORMATS = {
 
 export type ModelPropertyNaming = 'camelCase' | 'snake_case' | 'PascalCase' | 'original';
 
+export type HttpHeaders = { [key: string]: string };
+
 export function exists(json: any, key: string) {
     const value = json[key];
     return value !== null && value !== undefined;
