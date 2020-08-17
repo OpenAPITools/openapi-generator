@@ -92,7 +92,7 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.AddPet(*pet)
 	if err != nil {
 		statusCode := 500
-		EncodeJSONResponse(result, &statusCode, w)
+		EncodeJSONResponse(err.Error(), &statusCode, w)
 		return
 	}
 	
@@ -111,7 +111,7 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.DeletePet(petId, apiKey)
 	if err != nil {
 		statusCode := 500
-		EncodeJSONResponse(result, &statusCode, w)
+		EncodeJSONResponse(err.Error(), &statusCode, w)
 		return
 	}
 	
@@ -125,7 +125,7 @@ func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 	result, err := c.service.FindPetsByStatus(status)
 	if err != nil {
 		statusCode := 500
-		EncodeJSONResponse(result, &statusCode, w)
+		EncodeJSONResponse(err.Error(), &statusCode, w)
 		return
 	}
 	
@@ -139,7 +139,7 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 	result, err := c.service.FindPetsByTags(tags)
 	if err != nil {
 		statusCode := 500
-		EncodeJSONResponse(result, &statusCode, w)
+		EncodeJSONResponse(err.Error(), &statusCode, w)
 		return
 	}
 	
@@ -157,7 +157,7 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.GetPetById(petId)
 	if err != nil {
 		statusCode := 500
-		EncodeJSONResponse(result, &statusCode, w)
+		EncodeJSONResponse(err.Error(), &statusCode, w)
 		return
 	}
 	
@@ -175,7 +175,7 @@ func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.UpdatePet(*pet)
 	if err != nil {
 		statusCode := 500
-		EncodeJSONResponse(result, &statusCode, w)
+		EncodeJSONResponse(err.Error(), &statusCode, w)
 		return
 	}
 	
@@ -201,7 +201,7 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 	result, err := c.service.UpdatePetWithForm(petId, name, status)
 	if err != nil {
 		statusCode := 500
-		EncodeJSONResponse(result, &statusCode, w)
+		EncodeJSONResponse(err.Error(), &statusCode, w)
 		return
 	}
 	
@@ -232,7 +232,7 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	result, err := c.service.UploadFile(petId, additionalMetadata, file)
 	if err != nil {
 		statusCode := 500
-		EncodeJSONResponse(result, &statusCode, w)
+		EncodeJSONResponse(err.Error(), &statusCode, w)
 		return
 	}
 	

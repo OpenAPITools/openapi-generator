@@ -95,7 +95,7 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	result, err := c.service.{{nickname}}({{#allParams}}{{#isBodyParam}}*{{/isBodyParam}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
 	if err != nil {
 		statusCode := 500
-		EncodeJSONResponse(result, &statusCode, w)
+		EncodeJSONResponse(err.Error(), &statusCode, w)
 		return
 	}
 	
