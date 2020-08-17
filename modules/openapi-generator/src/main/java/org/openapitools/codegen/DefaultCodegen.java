@@ -84,7 +84,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
-    private static Cache<SanitizeNameOptions, String> sanitizedNameCache;
+    private static Cache<CacheableStringTransform, String> sanitizedNameCache;
 
     static {
         DefaultFeatureSet = FeatureSet.newBuilder()
@@ -1312,14 +1312,16 @@ public class DefaultCodegen implements CodegenConfig {
      * @param name the variable name
      * @return the sanitized variable name
      */
-    public String toVarName(String name) {
-        if (reservedWords.contains(name)) {
-            return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
-            return escape(name, specialCharReplacements, null, null);
-        } else {
+    public String toVarName(final String name) {
+        EscapedNameOptions opts = new EscapedNameOptions(name, reservedWords, specialCharReplacements.keySet());
+        return sanitizedNameCache.get(opts, o -> {
+            if (reservedWords.contains(name)) {
+                return escapeReservedWord(name);
+            } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+                return escape(name, specialCharReplacements, null, null);
+            }
             return name;
-        }
+        });
     }
 
     /**
@@ -1329,14 +1331,17 @@ public class DefaultCodegen implements CodegenConfig {
      * @param name Codegen property object
      * @return the sanitized parameter name
      */
-    public String toParamName(String name) {
-        name = removeNonNameElementToCamelCase(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        if (reservedWords.contains(name)) {
-            return escapeReservedWord(name);
-        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
-            return escape(name, specialCharReplacements, null, null);
-        }
-        return name;
+    public String toParamName(final String name) {
+        EscapedNameOptions opts = new EscapedNameOptions(name, reservedWords, specialCharReplacements.keySet());
+        return sanitizedNameCache.get(opts, o -> {
+            String modifiable = removeNonNameElementToCamelCase(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+            if (reservedWords.contains(modifiable)) {
+                return escapeReservedWord(modifiable);
+            } else if (((CharSequence) modifiable).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+                return escape(modifiable, specialCharReplacements, null, null);
+            }
+            return modifiable;
+        });
     }
 
     /**
@@ -2209,6 +2214,32 @@ public class DefaultCodegen implements CodegenConfig {
         return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
     }
 
+    private static class NamedSchema {
+        private NamedSchema(String name, Schema s) {
+            this.name = name;
+            this.schema = s;
+        }
+        private String name;
+        private Schema schema;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            NamedSchema that = (NamedSchema) o;
+            return Objects.equals(name, that.name) &&
+                    Objects.equals(schema, that.schema);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, schema);
+        }
+    }
+
+    Map<NamedSchema, CodegenModel> schemaCodegenModelCache = new HashMap<NamedSchema, CodegenModel>();
+    Map<NamedSchema, CodegenProperty> schemaCodegenPropertyCache = new HashMap<NamedSchema, CodegenProperty>();
+
     /**
      * Convert OAS Model object to Codegen Model object
      *
@@ -2217,6 +2248,13 @@ public class DefaultCodegen implements CodegenConfig {
      * @return Codegen Model object
      */
     public CodegenModel fromModel(String name, Schema schema) {
+        NamedSchema ns = new NamedSchema(name, schema);
+        CodegenModel cm = schemaCodegenModelCache.get(ns);
+        if (cm != null) {
+            LOGGER.debug("Cached fromModel for " + name + " : " + schema.getName());
+            return cm;
+        }
+
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         if (typeAliases == null) {
             // Only do this once during first call
@@ -2565,7 +2603,7 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
-
+        schemaCodegenModelCache.put(ns, m);
         return m;
     }
 
@@ -2997,7 +3035,12 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
         LOGGER.debug("debugging fromProperty for " + name + " : " + p);
-
+        NamedSchema ns = new NamedSchema(name, p);
+        CodegenProperty c = schemaCodegenPropertyCache.get(ns);
+        if (c != null) {
+            LOGGER.debug("Cached fromProperty for " + name + " : " + p.getName());
+            return c;
+        }
         // unalias schema
         p = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
 
@@ -3299,6 +3342,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         LOGGER.debug("debugging from property return: " + property);
+        schemaCodegenPropertyCache.put(ns, property);
         return property;
     }
 
@@ -5157,7 +5201,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         SanitizeNameOptions opts = new SanitizeNameOptions(name, removeCharRegEx, exceptionList);
 
-        return sanitizedNameCache.get(opts, sanitizeNameOptions -> {
+        return sanitizedNameCache.get(opts, o -> {
+            SanitizeNameOptions sanitizeNameOptions = (SanitizeNameOptions)o;
             String modifiable = sanitizeNameOptions.getName();
             List<String> exceptions = sanitizeNameOptions.getExceptions();
             // input[] => input
@@ -6377,14 +6422,21 @@ public class DefaultCodegen implements CodegenConfig {
                 .featureSet(builder.build()).build();
     }
 
-    private static class SanitizeNameOptions {
+    /**
+     * A marker interface for classes that represent a string transformation (such as sanitized strings)
+     * for which the result of the transformation can be cached.
+     */
+    private static interface CacheableStringTransform {
+    }
+
+    private static class SanitizeNameOptions implements CacheableStringTransform {
         public SanitizeNameOptions(String name, String removeCharRegEx, List<String> exceptions) {
             this.name = name;
             this.removeCharRegEx = removeCharRegEx;
             if (exceptions != null) {
                 this.exceptions = Collections.unmodifiableList(exceptions);
             } else {
-                this.exceptions = Collections.unmodifiableList(new ArrayList<>());
+                this.exceptions = Collections.emptyList();
             }
         }
 
@@ -6417,6 +6469,53 @@ public class DefaultCodegen implements CodegenConfig {
         @Override
         public int hashCode() {
             return Objects.hash(getName(), getRemoveCharRegEx(), getExceptions());
+        }
+    }
+
+    private static class EscapedNameOptions implements CacheableStringTransform {
+        public EscapedNameOptions(String name, Set<String> reservedWords, Set<String> specialChars) {
+            this.name = name;
+            if (reservedWords != null) {
+                this.reservedWords = Collections.unmodifiableSet(reservedWords);
+            } else {
+                this.reservedWords = Collections.emptySet();
+            }
+            if (specialChars != null) {
+                this.specialChars = Collections.unmodifiableSet(specialChars);
+            } else {
+                this.specialChars = Collections.emptySet();
+            }
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public Set<String> getReservedWords() {
+            return reservedWords;
+        }
+
+        public Set<String> getSpecialChars() {
+            return specialChars;
+        }
+
+        private String name;
+        private Set<String> reservedWords;
+        private Set<String> specialChars;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            EscapedNameOptions that = (EscapedNameOptions) o;
+            return Objects.equals(getName(), that.getName()) &&
+                    Objects.equals(getReservedWords(), that.getReservedWords()) &&
+                    Objects.equals(getSpecialChars(), that.getSpecialChars());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getName(), getReservedWords(), getSpecialChars());
         }
     }
 
