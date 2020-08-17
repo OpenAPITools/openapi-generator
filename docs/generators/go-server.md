@@ -5,6 +5,7 @@ sidebar_label: go-server
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|enumClassPrefix|Prefix enum with class name| |false|
 |featureCORS|Enable Cross-Origin Resource Sharing middleware| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |packageName|Go package name (convention: lowercase).| |openapi|

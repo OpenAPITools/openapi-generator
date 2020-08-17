@@ -13,7 +13,9 @@ import javax.validation.constraints.*;
  * Model for testing model name starting with number
  */
 @ApiModel(description = "Model for testing model name starting with number")
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
 public class Model200Response   {
   @JsonProperty("name")
   private Integer name;

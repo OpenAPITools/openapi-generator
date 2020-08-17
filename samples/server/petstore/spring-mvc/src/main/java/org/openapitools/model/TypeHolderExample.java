@@ -15,7 +15,9 @@ import javax.validation.constraints.*;
 /**
  * TypeHolderExample
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
 public class TypeHolderExample   {
   @JsonProperty("string_item")
   private String stringItem;

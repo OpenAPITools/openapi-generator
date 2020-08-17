@@ -1,6 +1,7 @@
 package openapitools;
 
 
+import com.typesafe.config.Config;
 import play.*;
 import play.api.OptionalSourceMapper;
 import play.api.UsefulException;
@@ -18,7 +19,7 @@ import static play.mvc.Results.*;
 public class ErrorHandler extends DefaultHttpErrorHandler {
 
     @Inject
-    public ErrorHandler(Configuration configuration, Environment environment, OptionalSourceMapper sourceMapper, Provider<Router> routes) {
+    public ErrorHandler(Config configuration, Environment environment, OptionalSourceMapper sourceMapper, Provider<Router> routes) {
         super(configuration, environment, sourceMapper, routes);
     }
 

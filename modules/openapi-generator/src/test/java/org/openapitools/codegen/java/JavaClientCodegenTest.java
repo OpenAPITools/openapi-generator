@@ -872,7 +872,7 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(defaultApi,
                 //multiple files
                 "multipartArrayWithHttpInfo(List<File> files)",
-                "formParams.put(\"files\", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
+                "formParams.addAll(\"files\", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
 
                 //mixed
                 "multipartMixedWithHttpInfo(File file, MultipartMixedMarker marker)",
@@ -960,7 +960,7 @@ public class JavaClientCodegenTest {
                 //multiple files
                 "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
                 "multipartArrayWithHttpInfo(java.util.Collection<org.springframework.core.io.Resource> files)",
-                "formParams.put(\"files\", files.stream().collect(Collectors.toList()));",
+                "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
                 //mixed
                 "multipartMixed(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",

@@ -1,8 +1,10 @@
 {{> partial_header}}
 version: 1.0.{build}
 image:
-  - Visual Studio 2017 # PS 5.x
-  - Ubuntu # PS 6.x
+  - Visual Studio 2019 # PS 6.x
+  #- Visual Studio 2017 # PS 5.x
+  #- Ubuntu # PS 6.x
+  # ref: https://www.appveyor.com/docs/build-environment/#build-worker-images
 install:
   - ps: $PSVersionTable.PSVersion
   - ps: Install-Module Pester -Force -Scope CurrentUser
@@ -16,15 +18,15 @@ test_script:
       }
 deploy_script:
   - ps: |
-      if ($env:APPVEYOR_REPO_TAG -eq $true -and $env:NuGetApiKey -ne $null -and $env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2017") {
+      if ($env:APPVEYOR_REPO_TAG -eq $true -and $env:NuGetApiKey -ne $null -and $env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2019") {
           .\Build.ps1
-          choco install NuGet.CommandLine
-          Install-PackageProvider -Name NuGet -Force
-          Publish-Module -NuGetApiKey $env:NuGetApiKey -Path .\src\{{{packageName}}}\ -Confirm:$False -Verbose
-          if ($LastExitCode -ne 0) {
+          try {
+              Publish-Module -NuGetApiKey $env:NuGetApiKey -Path .\src\{{{packageName}}}\ -Confirm:$False -Verbose
+              Write-Host "Successfully published the PowerShell module."
+          } catch {
               $host.SetShouldExit($LastExitCode)
-              exit $LastExitCode
-          } else {
-              Write-Host "Published the PowerShell module."
+              Write-Host "Error when running Publish-Module:"
+              Write-Host $_
+              exit
           }
       }

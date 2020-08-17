@@ -8,6 +8,7 @@
 [![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
 [![JDK11 Build](https://cloud.drone.io/api/badges/OpenAPITools/openapi-generator/status.svg?ref=refs/heads/master)](https://cloud.drone.io/OpenAPITools/openapi-generator)
 [![iOS Build Status](https://app.bitrise.io/app/4a2b10a819d12b67/status.svg?token=859FMDR8QHwabCzwvZK6vQ&branch=master)](https://app.bitrise.io/app/4a2b10a819d12b67)
+![Check Supported Java Versions](https://github.com/openapitools/openapi-generator/workflows/Check%20Supported%20Java%20Versions/badge.svg)
 
 </div>
 
@@ -767,6 +768,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-07-20 - [Datadog API client libraries now available for Java and Go](https://www.datadoghq.com/blog/java-go-libraries/) by Jordan Obey at [Datadog Blog](https://www.datadoghq.com/blog)
 - 2020-07-23 - [Generate Client SDK for .NET Core using Open Api](https://dev.to/no0law1/generate-client-sdk-for-net-core-using-open-api-2dgh) by [Nuno Reis](https://dev.to/no0law1)
 - 2020-07-26 - [Dartのhttp_interceptorライブラリを使うと配列のクエリパラメータが消えてしまう件の応急処置](https://qiita.com/gyamoto/items/eeeff81b6770487319ed) by [@gyamoto](https://qiita.com/gyamoto)
+- 2020-08-03 - [Criando Bibliotecas para APIs RESTful com OpenAPI, Swagger Editor e OpenAPI Generator](https://medium.com/@everisBrasil/criando-bibliotecas-para-apis-restful-com-openapi-swagger-editor-e-openapi-generator-75349a6420fd) by [everis Brasil (an NTT DATA Company)](https://medium.com/@everisBrasil)
 
 ## [6 - About Us](#table-of-contents)
 
