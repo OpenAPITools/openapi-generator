@@ -175,7 +175,7 @@ function findPetsByStatusRaw<T>(requestParameters: FindPetsByStatusRequest, requ
 
 
     if (requestParameters.status) {
-        queryParameters['status'] = requestParameters.status.join(runtime.COLLECTION_FORMATS["csv"]);
+        queryParameters['status'] = requestParameters.status?.join(runtime.COLLECTION_FORMATS["csv"]);
     }
 
     const headerParameters = {};
@@ -230,7 +230,7 @@ function findPetsByTagsRaw<T>(requestParameters: FindPetsByTagsRequest, requestC
 
 
     if (requestParameters.tags) {
-        queryParameters['tags'] = requestParameters.tags.join(runtime.COLLECTION_FORMATS["csv"]);
+        queryParameters['tags'] = requestParameters.tags?.join(runtime.COLLECTION_FORMATS["csv"]);
     }
 
     const headerParameters = {};

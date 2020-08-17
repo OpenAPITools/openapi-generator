@@ -131,7 +131,7 @@ function createUsersWithArrayInputRaw<T>(requestParameters: CreateUsersWithArray
             method: 'POST',
             headers: headerParameters,
         },
-        body: queryParameters || requestParameters.body.map(UserToJSON),
+        body: queryParameters || requestParameters.body?.map(UserToJSON),
     };
 
     const { transform: requestTransform } = requestConfig;
@@ -178,7 +178,7 @@ function createUsersWithListInputRaw<T>(requestParameters: CreateUsersWithListIn
             method: 'POST',
             headers: headerParameters,
         },
-        body: queryParameters || requestParameters.body.map(UserToJSON),
+        body: queryParameters || requestParameters.body?.map(UserToJSON),
     };
 
     const { transform: requestTransform } = requestConfig;
