@@ -94,6 +94,7 @@ sslConfig_t *sslConfig_create(const char *clientCertFile, const char *clientKeyF
         sslConfig->CACertFile = strdup(CACertFile);
     }
     sslConfig->insecureSkipTlsVerify = insecureSkipTlsVerify;
+    return sslConfig;
 }
 
 void sslConfig_free(sslConfig_t *sslConfig) {
