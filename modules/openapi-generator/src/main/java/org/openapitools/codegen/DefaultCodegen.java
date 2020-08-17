@@ -84,7 +84,7 @@ public class DefaultCodegen implements CodegenConfig {
 
     // A cache of sanitized words. The sanitizeName() method is invoked many times with the same
     // arguments, this cache is used to optimized performance.
-    private static Cache<CacheableStringTransform, String> sanitizedNameCache;
+    private static Cache<SanitizeNameOptions, String> sanitizedNameCache;
 
     static {
         DefaultFeatureSet = FeatureSet.newBuilder()
@@ -246,7 +246,7 @@ public class DefaultCodegen implements CodegenConfig {
     // make openapi available to all methods
     protected OpenAPI openAPI;
 
-    // A cache to efficiently lookup toModelName() to schema.
+    // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
     private Map<String, Schema> modelNameToSchemaCache;
 
     public List<CliOption> cliOptions() {
@@ -1313,15 +1313,12 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the sanitized variable name
      */
     public String toVarName(final String name) {
-        EscapedNameOptions opts = new EscapedNameOptions(name, reservedWords, specialCharReplacements.keySet());
-        return sanitizedNameCache.get(opts, o -> {
-            if (reservedWords.contains(name)) {
-                return escapeReservedWord(name);
-            } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
-                return escape(name, specialCharReplacements, null, null);
-            }
-            return name;
-        });
+        if (reservedWords.contains(name)) {
+            return escapeReservedWord(name);
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+            return escape(name, specialCharReplacements, null, null);
+        }
+        return name;
     }
 
     /**
@@ -1332,16 +1329,14 @@ public class DefaultCodegen implements CodegenConfig {
      * @return the sanitized parameter name
      */
     public String toParamName(final String name) {
-        EscapedNameOptions opts = new EscapedNameOptions(name, reservedWords, specialCharReplacements.keySet());
-        return sanitizedNameCache.get(opts, o -> {
-            String modifiable = removeNonNameElementToCamelCase(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-            if (reservedWords.contains(modifiable)) {
-                return escapeReservedWord(modifiable);
-            } else if (((CharSequence) modifiable).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
-                return escape(modifiable, specialCharReplacements, null, null);
-            }
-            return modifiable;
-        });
+        String modifiable = removeNonNameElementToCamelCase(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        if (reservedWords.contains(modifiable)) {
+            return escapeReservedWord(modifiable);
+        } else if (((CharSequence) modifiable).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+            return escape(modifiable, specialCharReplacements, null, null);
+        }
+        return modifiable;
+
     }
 
     /**
@@ -5201,8 +5196,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         SanitizeNameOptions opts = new SanitizeNameOptions(name, removeCharRegEx, exceptionList);
 
-        return sanitizedNameCache.get(opts, o -> {
-            SanitizeNameOptions sanitizeNameOptions = (SanitizeNameOptions)o;
+        return sanitizedNameCache.get(opts, sanitizeNameOptions -> {
             String modifiable = sanitizeNameOptions.getName();
             List<String> exceptions = sanitizeNameOptions.getExceptions();
             // input[] => input
@@ -6423,13 +6417,9 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * A marker interface for classes that represent a string transformation (such as sanitized strings)
-     * for which the result of the transformation can be cached.
+     * An map entry for cached sanitized names.
      */
-    private static interface CacheableStringTransform {
-    }
-
-    private static class SanitizeNameOptions implements CacheableStringTransform {
+    private static class SanitizeNameOptions {
         public SanitizeNameOptions(String name, String removeCharRegEx, List<String> exceptions) {
             this.name = name;
             this.removeCharRegEx = removeCharRegEx;
@@ -6469,53 +6459,6 @@ public class DefaultCodegen implements CodegenConfig {
         @Override
         public int hashCode() {
             return Objects.hash(getName(), getRemoveCharRegEx(), getExceptions());
-        }
-    }
-
-    private static class EscapedNameOptions implements CacheableStringTransform {
-        public EscapedNameOptions(String name, Set<String> reservedWords, Set<String> specialChars) {
-            this.name = name;
-            if (reservedWords != null) {
-                this.reservedWords = Collections.unmodifiableSet(reservedWords);
-            } else {
-                this.reservedWords = Collections.emptySet();
-            }
-            if (specialChars != null) {
-                this.specialChars = Collections.unmodifiableSet(specialChars);
-            } else {
-                this.specialChars = Collections.emptySet();
-            }
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public Set<String> getReservedWords() {
-            return reservedWords;
-        }
-
-        public Set<String> getSpecialChars() {
-            return specialChars;
-        }
-
-        private String name;
-        private Set<String> reservedWords;
-        private Set<String> specialChars;
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            EscapedNameOptions that = (EscapedNameOptions) o;
-            return Objects.equals(getName(), that.getName()) &&
-                    Objects.equals(getReservedWords(), that.getReservedWords()) &&
-                    Objects.equals(getSpecialChars(), that.getSpecialChars());
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(getName(), getReservedWords(), getSpecialChars());
         }
     }
 
