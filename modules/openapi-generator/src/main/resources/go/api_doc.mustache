@@ -14,29 +14,59 @@ Method | HTTP request | Description
 
 ## {{{operationId}}}
 
-> {{#returnType}}{{{returnType}}} {{/returnType}}{{{operationId}}}(ctx, {{#allParams}}{{#required}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}optional{{/hasOptionalParams}})
+> {{#returnType}}{{{.}}} {{/returnType}}{{{operationId}}}(ctx{{#pathParams}}, {{paramName}}{{/pathParams}}){{#allParams}}{{^isPathParam}}.{{vendorExtensions.x-export-param-name}}({{paramName}}){{/isPathParam}}{{/allParams}}.Execute()
 
 {{{summary}}}{{#notes}}
 
-{{{notes}}}{{/notes}}
+{{{unespacedNotes}}}{{/notes}}
 
-### Required Parameters
+### Example
 
-{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    {{goImportAlias}} "./openapi"
+)
+
+func main() {
+    {{#allParams}}
+    {{paramName}} := {{{vendorExtensions.x-go-example}}} // {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+    {{/allParams}}
+
+    configuration := {{goImportAlias}}.NewConfiguration()
+    api_client := {{goImportAlias}}.NewAPIClient(configuration)
+    resp, r, err := api_client.{{classname}}.{{operationId}}(context.Background(), {{#requiredParams}}{{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}){{#optionalParams}}.{{{vendorExtensions.x-export-param-name}}}({{{paramName}}}){{/optionalParams}}.Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `{{classname}}.{{operationId}}``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    {{#returnType}}
+    // response from `{{operationId}}`: {{{.}}}
+    fmt.Fprintf(os.Stdout, "Response from `{{classname}}.{{operationId}}`: %v\n", resp)
+    {{/returnType}}
+}
+```
+
+### Path Parameters
+
+{{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#pathParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.{{/-last}}{{/allParams}}{{#allParams}}{{#required}}
-**{{paramName}}** | {{#isFile}}**{{dataType}}**{{/isFile}}{{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**{{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}{{/required}}{{/allParams}}{{#hasOptionalParams}}
- **optional** | ***{{{nickname}}}Opts** | optional parameters | nil if no parameters
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.{{/-last}}{{/pathParams}}{{#pathParams}}
+**{{paramName}}** | {{^isPrimitiveType}}{{^isFile}}[{{/isFile}}{{/isPrimitiveType}}**{{dataType}}**{{^isPrimitiveType}}{{^isFile}}]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}} | {{description}} | {{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}{{/pathParams}}
 
-### Optional Parameters
+### Other Parameters
 
-Optional parameters are passed through a pointer to a {{{nickname}}}Opts struct
+Other parameters are passed through a pointer to a api{{{nickname}}}Request struct via the builder pattern
 {{#allParams}}{{#-last}}
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}{{#allParams}}
-{{^required}} **{{paramName}}** | {{#isFile}}**optional.Interface of {{dataType}}**{{/isFile}}{{#isPrimitiveType}}**optional.{{vendorExtensions.x-optional-data-type}}**{{/isPrimitiveType}}{{^isPrimitiveType}}{{^isFile}}[**optional.Interface of {{dataType}}**]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}}| {{description}} | {{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}{{/required}}{{/allParams}}{{/hasOptionalParams}}
+{{^isPathParam}} **{{paramName}}** | {{^isPrimitiveType}}{{^isFile}}[{{/isFile}}{{/isPrimitiveType}}**{{dataType}}**{{^isPrimitiveType}}{{^isFile}}]({{baseType}}.md){{/isFile}}{{/isPrimitiveType}} | {{description}} | {{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}{{/isPathParam}}{{/allParams}}
 
 ### Return type
 

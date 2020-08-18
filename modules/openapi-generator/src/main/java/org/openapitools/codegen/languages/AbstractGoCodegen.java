@@ -630,7 +630,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     }
                 }
 
-                if (this instanceof GoClientExperimentalCodegen && model.isEnum) {
+                if (this instanceof GoClientCodegen && model.isEnum) {
                     imports.add(createMapping("import", "fmt"));
                 }
 
