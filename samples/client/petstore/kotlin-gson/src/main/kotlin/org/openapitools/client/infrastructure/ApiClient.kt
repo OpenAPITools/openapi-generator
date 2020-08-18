@@ -13,6 +13,8 @@ import okhttp3.Request
 import okhttp3.Headers
 import okhttp3.MultipartBody
 import java.io.File
+import java.io.BufferedWriter
+import java.io.FileWriter
 import java.net.URLConnection
 import java.util.Date
 import java.time.LocalDate
@@ -114,7 +116,7 @@ open class ApiClient(val baseUrl: String) {
         if (bodyContent.isEmpty()) {
             return null
         }
-        if (T::class.java is File) {
+        if (T::class.java == File::class.java) {
             // return tempfile
             val f = createTempFile()
             f.deleteOnExit()
