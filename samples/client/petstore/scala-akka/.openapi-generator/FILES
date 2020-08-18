@@ -1,6 +1,5 @@
 README.md
 build.sbt
-pom.xml
 src/main/resources/reference.conf
 src/main/scala/org/openapitools/client/api/EnumsSerializers.scala
 src/main/scala/org/openapitools/client/api/PetApi.scala

@@ -17,7 +17,10 @@ import (
 type FileSchemaTestClass struct {
 	File *File `json:"file,omitempty"`
 	Files *[]File `json:"files,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _FileSchemaTestClass FileSchemaTestClass
 
 // NewFileSchemaTestClass instantiates a new FileSchemaTestClass object
 // This constructor will assign default values to properties that have it defined,
@@ -108,7 +111,30 @@ func (o FileSchemaTestClass) MarshalJSON() ([]byte, error) {
 	if o.Files != nil {
 		toSerialize["files"] = o.Files
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *FileSchemaTestClass) UnmarshalJSON(bytes []byte) (err error) {
+	varFileSchemaTestClass := _FileSchemaTestClass{}
+
+	if err = json.Unmarshal(bytes, &varFileSchemaTestClass); err == nil {
+		*o = FileSchemaTestClass(varFileSchemaTestClass)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "file")
+		delete(additionalProperties, "files")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableFileSchemaTestClass struct {

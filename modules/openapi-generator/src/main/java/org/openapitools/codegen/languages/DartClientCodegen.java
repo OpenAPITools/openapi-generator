@@ -17,6 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 
@@ -30,9 +31,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -50,6 +50,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PUB_HOMEPAGE = "pubHomepage";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
     public static final String SUPPORT_DART2 = "supportDart2";
+
     protected boolean browserClient = true;
     protected String pubName = "openapi";
     protected String pubVersion = "1.0.0";
@@ -106,9 +107,11 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         modelTestTemplateFiles.put("model_test.mustache", ".dart");
         apiTestTemplateFiles.put("api_test.mustache", ".dart");
 
-        List<String> reservedWordsList = new ArrayList<String>();
+        List<String> reservedWordsList = new ArrayList<>();
         try {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(DartClientCodegen.class.getResourceAsStream("/dart/dart-keywords.txt"), Charset.forName("UTF-8")));
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(DartClientCodegen.class.getResourceAsStream("/dart/dart-keywords.txt"),
+                            StandardCharsets.UTF_8));
             while (reader.ready()) {
                 reservedWordsList.add(reader.readLine());
             }
@@ -118,18 +121,17 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         setReservedWordsLowerCase(reservedWordsList);
 
-        languageSpecificPrimitives = new HashSet<String>(
-                Arrays.asList(
-                        "String",
-                        "bool",
-                        "int",
-                        "num",
-                        "double")
+        languageSpecificPrimitives = Sets.newHashSet(
+            "String",
+            "bool",
+            "int",
+            "num",
+            "double"
         );
         instantiationTypes.put("array", "List");
         instantiationTypes.put("map", "Map");
 
-        typeMapping = new HashMap<String, String>();
+        typeMapping = new HashMap<>();
         typeMapping.put("Array", "List");
         typeMapping.put("array", "List");
         typeMapping.put("List", "List");
@@ -329,7 +331,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         // replace - with _ e.g. created-at => created_at
         name = name.replaceAll("-", "_");
 
-        // if it's all uppper case, do nothing
+        // if it's all upper case, do nothing
         if (name.matches("^[A-Z_]*$")) {
             return name;
         }
@@ -403,9 +405,9 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String toDefaultValue(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
-            return "{}";
+            return "const {}";
         } else if (ModelUtils.isArraySchema(schema)) {
-            return "[]";
+            return "const []";
         }
 
         if (schema.getDefault() != null) {
@@ -414,7 +416,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             }
             return schema.getDefault().toString();
         } else {
-            return "null";
+            return null;
         }
     }
 
@@ -435,7 +437,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
-        String type = null;
+        String type;
         if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type)) {
@@ -495,19 +497,16 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
             return false;
         }
         Object extension = cm.vendorExtensions.get("x-enum-values");
-        List<Map<String, Object>> values =
-                (List<Map<String, Object>>) extension;
-        List<Map<String, String>> enumVars =
-                new ArrayList<Map<String, String>>();
+        List<Map<String, Object>> values = (List<Map<String, Object>>) extension;
+        List<Map<String, String>> enumVars = new ArrayList<>();
         for (Map<String, Object> value : values) {
-            Map<String, String> enumVar = new HashMap<String, String>();
+            Map<String, String> enumVar = new HashMap<>();
             String name = camelize((String) value.get("identifier"), true);
             if (isReservedWord(name)) {
                 name = escapeReservedWord(name);
             }
             enumVar.put("name", name);
-            enumVar.put("value", toEnumValue(
-                    value.get("numericValue").toString(), cm.dataType));
+            enumVar.put("value", toEnumValue(value.get("numericValue").toString(), cm.dataType));
             if (value.containsKey("description")) {
                 enumVar.put("description", value.get("description").toString());
             }
@@ -611,13 +610,12 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         // only procees the following type (or we can simply rely on the file extension to check if it's a Dart file)
-        Set<String> supportedFileType = new HashSet<String>(
-                Arrays.asList(
-                        "supporting-mustache",
-                        "model-test",
-                        "model",
-                        "api-test",
-                        "api"));
+        Set<String> supportedFileType = Sets.newHashSet(
+            "supporting-mustache",
+            "model-test",
+            "model",
+            "api-test",
+            "api");
         if (!supportedFileType.contains(fileType)) {
             return;
         }
@@ -632,7 +630,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
                 if (exitValue != 0) {
                     LOGGER.error("Error running the command ({}). Exit code: {}", command, exitValue);
                 } else {
-                    LOGGER.info("Successfully executed: " + command);
+                    LOGGER.info("Successfully executed: {}", command);
                 }
             } catch (Exception e) {
                 LOGGER.error("Error running the command ({}). Exception: {}", command, e.getMessage());

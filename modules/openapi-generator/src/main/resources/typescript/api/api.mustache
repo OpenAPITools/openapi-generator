@@ -1,21 +1,21 @@
 // TODO: better import syntax?
-import { BaseAPIRequestFactory, RequiredError } from './baseapi';
-import {Configuration} from '../configuration';
-import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http';
+import { BaseAPIRequestFactory, RequiredError } from './baseapi{{extensionForDeno}}';
+import {Configuration} from '../configuration{{extensionForDeno}}';
+import { RequestContext, HttpMethod, ResponseContext, HttpFile} from '../http/http{{extensionForDeno}}';
 {{#platforms}}
 {{#node}}
 import * as FormData from "form-data";
 {{/node}}
 {{/platforms}}
-import {ObjectSerializer} from '../models/ObjectSerializer';
-import {ApiException} from './exception';
-import {isCodeInRange} from '../util';
+import {ObjectSerializer} from '../models/ObjectSerializer{{extensionForDeno}}';
+import {ApiException} from './exception{{extensionForDeno}}';
+import {isCodeInRange} from '../util{{extensionForDeno}}';
 {{#useInversify}}
 import { injectable } from "inversify";
 {{/useInversify}}
 
 {{#imports}}
-import { {{classname}} } from '..{{filename}}';
+import { {{classname}} } from '..{{filename}}{{extensionForDeno}}';
 {{/imports}}
 {{#operations}}
 
@@ -102,9 +102,9 @@ export class {{classname}}RequestFactory extends BaseAPIRequestFactory {
              {{#node}}
              localVarFormParams.append('{{baseName}}', {{paramName}}.data, {{paramName}}.name);
              {{/node}}
-             {{#browser}}
+             {{^node}}
              localVarFormParams.append('{{baseName}}', {{paramName}}, {{paramName}}.name);
-             {{/browser}}
+             {{/node}}
              {{/platforms}}
              {{/isFile}}
         }

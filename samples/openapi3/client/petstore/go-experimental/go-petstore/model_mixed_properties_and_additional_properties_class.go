@@ -19,7 +19,10 @@ type MixedPropertiesAndAdditionalPropertiesClass struct {
 	Uuid *string `json:"uuid,omitempty"`
 	DateTime *time.Time `json:"dateTime,omitempty"`
 	Map *map[string]Animal `json:"map,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _MixedPropertiesAndAdditionalPropertiesClass MixedPropertiesAndAdditionalPropertiesClass
 
 // NewMixedPropertiesAndAdditionalPropertiesClass instantiates a new MixedPropertiesAndAdditionalPropertiesClass object
 // This constructor will assign default values to properties that have it defined,
@@ -145,7 +148,31 @@ func (o MixedPropertiesAndAdditionalPropertiesClass) MarshalJSON() ([]byte, erro
 	if o.Map != nil {
 		toSerialize["map"] = o.Map
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *MixedPropertiesAndAdditionalPropertiesClass) UnmarshalJSON(bytes []byte) (err error) {
+	varMixedPropertiesAndAdditionalPropertiesClass := _MixedPropertiesAndAdditionalPropertiesClass{}
+
+	if err = json.Unmarshal(bytes, &varMixedPropertiesAndAdditionalPropertiesClass); err == nil {
+		*o = MixedPropertiesAndAdditionalPropertiesClass(varMixedPropertiesAndAdditionalPropertiesClass)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "uuid")
+		delete(additionalProperties, "dateTime")
+		delete(additionalProperties, "map")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableMixedPropertiesAndAdditionalPropertiesClass struct {

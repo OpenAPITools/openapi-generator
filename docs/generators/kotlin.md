@@ -25,6 +25,7 @@ sidebar_label: kotlin
 |useCoroutines|Whether to use the Coroutines adapter with the retrofit2 library.| |false|
 |useRxJava|Whether to use the RxJava adapter with the retrofit2 library.| |false|
 |useRxJava2|Whether to use the RxJava2 adapter with the retrofit2 library.| |false|
+|useRxJava3|Whether to use the RxJava3 adapter with the retrofit2 library.| |false|
 
 ## IMPORT MAPPING
 
@@ -112,6 +113,7 @@ sidebar_label: kotlin
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

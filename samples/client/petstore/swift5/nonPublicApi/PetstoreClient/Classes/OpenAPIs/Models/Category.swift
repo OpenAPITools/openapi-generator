@@ -7,14 +7,12 @@
 
 import Foundation
 
-
-internal struct Category: Codable { 
-
+internal struct Category: Codable {
 
     internal var id: Int64?
     internal var name: String = "default-name"
 
-    internal init(id: Int64?, name: String) {
+    internal init(id: Int64? = nil, name: String) {
         self.id = id
         self.name = name
     }

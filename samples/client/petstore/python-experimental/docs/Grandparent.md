@@ -1,4 +1,4 @@
-# grandparent.Grandparent
+# Grandparent
 
 ## Properties
 Name | Type | Description | Notes

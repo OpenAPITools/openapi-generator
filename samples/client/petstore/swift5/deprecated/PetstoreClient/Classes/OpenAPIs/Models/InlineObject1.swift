@@ -7,16 +7,14 @@
 
 import Foundation
 
-
-public struct InlineObject1: Codable { 
-
+public struct InlineObject1: Codable {
 
     /** Additional data to pass to server */
     public var additionalMetadata: String?
     /** file to upload */
     public var file: URL?
 
-    public init(additionalMetadata: String?, file: URL?) {
+    public init(additionalMetadata: String? = nil, file: URL? = nil) {
         self.additionalMetadata = additionalMetadata
         self.file = file
     }

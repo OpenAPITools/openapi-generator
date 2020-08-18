@@ -10,13 +10,8 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
 import sys  # noqa: F401
-
-# python 2 and python 3 compatibility library
-import six
 
 from petstore_api.api_client import ApiClient, Endpoint
 from petstore_api.model_utils import (  # noqa: F401
@@ -25,13 +20,11 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_and_convert_types
 )
-from petstore_api.model import pet
-from petstore_api.model import api_response
+from petstore_api.model.api_response import ApiResponse
+from petstore_api.model.pet import Pet
 
 
 class PetApi(object):
@@ -48,7 +41,7 @@ class PetApi(object):
 
         def __add_pet(
             self,
-            pet_pet,
+            pet,
             **kwargs
         ):
             """Add a new pet to the store  # noqa: E501
@@ -56,11 +49,11 @@ class PetApi(object):
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.add_pet(pet_pet, async_req=True)
+            >>> thread = api.add_pet(pet, async_req=True)
             >>> result = thread.get()
 
             Args:
-                pet_pet (pet.Pet): Pet object that needs to be added to the store
+                pet (Pet): Pet object that needs to be added to the store
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -78,9 +71,9 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -106,9 +99,9 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['pet_pet'] = \
-                pet_pet
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['pet'] = \
+                pet
             return self.call_with_http_info(**kwargs)
 
         self.add_pet = Endpoint(
@@ -122,16 +115,22 @@ class PetApi(object):
                 'operation_id': 'add_pet',
                 'http_method': 'POST',
                 'servers': [
-                    'http://petstore.swagger.io/v2',
-                    'http://path-server-test.petstore.local/v2'
+                    {
+                        'url': "http://petstore.swagger.io/v2",
+                        'description': "No description provided",
+                    },
+                    {
+                        'url': "http://path-server-test.petstore.local/v2",
+                        'description': "No description provided",
+                    },
                 ]
             },
             params_map={
                 'all': [
-                    'pet_pet',
+                    'pet',
                 ],
                 'required': [
-                    'pet_pet',
+                    'pet',
                 ],
                 'nullable': [
                 ],
@@ -146,13 +145,13 @@ class PetApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'pet_pet':
-                        (pet.Pet,),
+                    'pet':
+                        (Pet,),
                 },
                 'attribute_map': {
                 },
                 'location_map': {
-                    'pet_pet': 'body',
+                    'pet': 'body',
                 },
                 'collection_format_map': {
                 }
@@ -201,9 +200,9 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -229,7 +228,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
             return self.call_with_http_info(**kwargs)
@@ -243,7 +242,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/{petId}',
                 'operation_id': 'delete_pet',
                 'http_method': 'DELETE',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -323,13 +322,13 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
-                [pet.Pet]
+                [Pet]
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -351,14 +350,14 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['status'] = \
                 status
             return self.call_with_http_info(**kwargs)
 
         self.find_pets_by_status = Endpoint(
             settings={
-                'response_type': ([pet.Pet],),
+                'response_type': ([Pet],),
                 'auth': [
                     'http_signature_test',
                     'petstore_auth'
@@ -366,7 +365,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/findByStatus',
                 'operation_id': 'find_pets_by_status',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -452,13 +451,13 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
-                [pet.Pet]
+                [Pet]
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -480,14 +479,14 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['tags'] = \
                 tags
             return self.call_with_http_info(**kwargs)
 
         self.find_pets_by_tags = Endpoint(
             settings={
-                'response_type': ([pet.Pet],),
+                'response_type': ([Pet],),
                 'auth': [
                     'http_signature_test',
                     'petstore_auth'
@@ -495,7 +494,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/findByTags',
                 'operation_id': 'find_pets_by_tags',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -574,13 +573,13 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
-                pet.Pet
+                Pet
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -602,21 +601,21 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
             return self.call_with_http_info(**kwargs)
 
         self.get_pet_by_id = Endpoint(
             settings={
-                'response_type': (pet.Pet,),
+                'response_type': (Pet,),
                 'auth': [
                     'api_key'
                 ],
                 'endpoint_path': '/pet/{petId}',
                 'operation_id': 'get_pet_by_id',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -663,7 +662,7 @@ class PetApi(object):
 
         def __update_pet(
             self,
-            pet_pet,
+            pet,
             **kwargs
         ):
             """Update an existing pet  # noqa: E501
@@ -671,11 +670,11 @@ class PetApi(object):
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.update_pet(pet_pet, async_req=True)
+            >>> thread = api.update_pet(pet, async_req=True)
             >>> result = thread.get()
 
             Args:
-                pet_pet (pet.Pet): Pet object that needs to be added to the store
+                pet (Pet): Pet object that needs to be added to the store
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -693,9 +692,9 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -721,9 +720,9 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['pet_pet'] = \
-                pet_pet
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['pet'] = \
+                pet
             return self.call_with_http_info(**kwargs)
 
         self.update_pet = Endpoint(
@@ -737,16 +736,22 @@ class PetApi(object):
                 'operation_id': 'update_pet',
                 'http_method': 'PUT',
                 'servers': [
-                    'http://petstore.swagger.io/v2',
-                    'http://path-server-test.petstore.local/v2'
+                    {
+                        'url': "http://petstore.swagger.io/v2",
+                        'description': "No description provided",
+                    },
+                    {
+                        'url': "http://path-server-test.petstore.local/v2",
+                        'description': "No description provided",
+                    },
                 ]
             },
             params_map={
                 'all': [
-                    'pet_pet',
+                    'pet',
                 ],
                 'required': [
-                    'pet_pet',
+                    'pet',
                 ],
                 'nullable': [
                 ],
@@ -761,13 +766,13 @@ class PetApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'pet_pet':
-                        (pet.Pet,),
+                    'pet':
+                        (Pet,),
                 },
                 'attribute_map': {
                 },
                 'location_map': {
-                    'pet_pet': 'body',
+                    'pet': 'body',
                 },
                 'collection_format_map': {
                 }
@@ -817,9 +822,9 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -845,7 +850,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
             return self.call_with_http_info(**kwargs)
@@ -859,7 +864,7 @@ class PetApi(object):
                 'endpoint_path': '/pet/{petId}',
                 'operation_id': 'update_pet_with_form',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -947,13 +952,13 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
-                api_response.ApiResponse
+                ApiResponse
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -975,21 +980,21 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
             return self.call_with_http_info(**kwargs)
 
         self.upload_file = Endpoint(
             settings={
-                'response_type': (api_response.ApiResponse,),
+                'response_type': (ApiResponse,),
                 'auth': [
                     'petstore_auth'
                 ],
                 'endpoint_path': '/pet/{petId}/uploadImage',
                 'operation_id': 'upload_file',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -1080,13 +1085,13 @@ class PetApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
-                api_response.ApiResponse
+                ApiResponse
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -1108,7 +1113,7 @@ class PetApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['pet_id'] = \
                 pet_id
             kwargs['required_file'] = \
@@ -1117,14 +1122,14 @@ class PetApi(object):
 
         self.upload_file_with_required_file = Endpoint(
             settings={
-                'response_type': (api_response.ApiResponse,),
+                'response_type': (ApiResponse,),
                 'auth': [
                     'petstore_auth'
                 ],
                 'endpoint_path': '/fake/{petId}/uploadImageWithRequiredFile',
                 'operation_id': 'upload_file_with_required_file',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [

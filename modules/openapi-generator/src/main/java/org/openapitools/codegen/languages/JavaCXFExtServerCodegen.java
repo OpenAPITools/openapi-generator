@@ -1400,7 +1400,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
 
     @Override
     public String toDefaultValue(Schema p) {
-        if (ModelUtils.isGenerateAliasAsModel() && StringUtils.isNotEmpty(p.get$ref())) {
+        if (ModelUtils.isGenerateAliasAsModel(p) && StringUtils.isNotEmpty(p.get$ref())) {
             Schema<?> ref = ModelUtils.getReferencedSchema(this.openAPI, p);
             if (ModelUtils.isArraySchema(ref) || ModelUtils.isMapSchema(ref)) {
                 String typeDeclaration = getTypeDeclaration(p);

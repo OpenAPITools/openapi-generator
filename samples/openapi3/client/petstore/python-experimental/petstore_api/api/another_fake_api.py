@@ -10,13 +10,8 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
 import sys  # noqa: F401
-
-# python 2 and python 3 compatibility library
-import six
 
 from petstore_api.api_client import ApiClient, Endpoint
 from petstore_api.model_utils import (  # noqa: F401
@@ -25,12 +20,10 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_and_convert_types
 )
-from petstore_api.model import client
+from petstore_api.model.client import Client
 
 
 class AnotherFakeApi(object):
@@ -47,7 +40,7 @@ class AnotherFakeApi(object):
 
         def __call_123_test_special_tags(
             self,
-            client_client,
+            client,
             **kwargs
         ):
             """To test special tags  # noqa: E501
@@ -56,11 +49,11 @@ class AnotherFakeApi(object):
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.call_123_test_special_tags(client_client, async_req=True)
+            >>> thread = api.call_123_test_special_tags(client, async_req=True)
             >>> result = thread.get()
 
             Args:
-                client_client (client.Client): client model
+                client (Client): client model
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -78,13 +71,13 @@ class AnotherFakeApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
-                client.Client
+                Client
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -106,26 +99,26 @@ class AnotherFakeApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
-            kwargs['client_client'] = \
-                client_client
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['client'] = \
+                client
             return self.call_with_http_info(**kwargs)
 
         self.call_123_test_special_tags = Endpoint(
             settings={
-                'response_type': (client.Client,),
+                'response_type': (Client,),
                 'auth': [],
                 'endpoint_path': '/another-fake/dummy',
                 'operation_id': 'call_123_test_special_tags',
                 'http_method': 'PATCH',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
-                    'client_client',
+                    'client',
                 ],
                 'required': [
-                    'client_client',
+                    'client',
                 ],
                 'nullable': [
                 ],
@@ -140,13 +133,13 @@ class AnotherFakeApi(object):
                 'allowed_values': {
                 },
                 'openapi_types': {
-                    'client_client':
-                        (client.Client,),
+                    'client':
+                        (Client,),
                 },
                 'attribute_map': {
                 },
                 'location_map': {
-                    'client_client': 'body',
+                    'client': 'body',
                 },
                 'collection_format_map': {
                 }

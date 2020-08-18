@@ -17,20 +17,23 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.model.Client;
 import org.junit.Test;
 import org.junit.Ignore;
-import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.util.concurrent.CompletableFuture;
+
 /**
  * API tests for AnotherFakeApi
  */
+@Ignore
 public class AnotherFakeApiTest {
 
     private final AnotherFakeApi api = new AnotherFakeApi();
 
+    
     /**
      * To test special tags
      *
@@ -41,11 +44,11 @@ public class AnotherFakeApiTest {
      */
     @Test
     public void call123testSpecialTagsTest() throws ApiException {
-        //
-        //Client body = null;
-        //
-        //Client response = api.call123testSpecialTags(body);
-
+        Client body = null;
+        CompletableFuture<Client> response = 
+        api.call123testSpecialTags(body);
+        
         // TODO: test validations
     }
+    
 }

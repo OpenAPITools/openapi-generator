@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,16 +26,13 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import outer_enum
-except ImportError:
-    outer_enum = sys.modules[
-        'petstore_api.model.outer_enum']
+
+def lazy_import():
+    from petstore_api.model.string_enum import StringEnum
+    globals()['StringEnum'] = StringEnum
 
 
 class EnumTest(ModelNormal):
@@ -95,31 +90,33 @@ class EnumTest(ModelNormal):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'enum_string_required': (str,),  # noqa: E501
             'enum_string': (str,),  # noqa: E501
             'enum_integer': (int,),  # noqa: E501
             'enum_number': (float,),  # noqa: E501
-            'outer_enum': (outer_enum.OuterEnum,),  # noqa: E501
+            'string_enum': (StringEnum,),  # noqa: E501
         }
 
     @cached_property
     def discriminator():
         return None
 
+
     attribute_map = {
         'enum_string_required': 'enum_string_required',  # noqa: E501
         'enum_string': 'enum_string',  # noqa: E501
         'enum_integer': 'enum_integer',  # noqa: E501
         'enum_number': 'enum_number',  # noqa: E501
-        'outer_enum': 'outerEnum',  # noqa: E501
+        'string_enum': 'stringEnum',  # noqa: E501
     }
 
     _composed_schemas = {}
@@ -135,7 +132,7 @@ class EnumTest(ModelNormal):
 
     @convert_js_args_to_python_args
     def __init__(self, enum_string_required, *args, **kwargs):  # noqa: E501
-        """enum_test.EnumTest - a model defined in OpenAPI
+        """EnumTest - a model defined in OpenAPI
 
         Args:
             enum_string_required (str):
@@ -174,7 +171,7 @@ class EnumTest(ModelNormal):
             enum_string (str): [optional]  # noqa: E501
             enum_integer (int): [optional]  # noqa: E501
             enum_number (float): [optional]  # noqa: E501
-            outer_enum (outer_enum.OuterEnum): [optional]  # noqa: E501
+            string_enum (StringEnum): [optional]  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -201,7 +198,7 @@ class EnumTest(ModelNormal):
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
         self.enum_string_required = enum_string_required
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \

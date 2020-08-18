@@ -10,21 +10,14 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import category
-except ImportError:
-    category = sys.modules[
-        'petstore_api.model.category']
-try:
-    from petstore_api.model import tag
-except ImportError:
-    tag = sys.modules[
-        'petstore_api.model.tag']
+from petstore_api.model.category import Category
+from petstore_api.model.tag import Tag
+globals()['Category'] = Category
+globals()['Tag'] = Tag
 from petstore_api.model.pet import Pet
 
 

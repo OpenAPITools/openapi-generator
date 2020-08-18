@@ -45,7 +45,10 @@ type InlineObject3 struct {
 	Password *string `json:"password,omitempty"`
 	// None
 	Callback *string `json:"callback,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _InlineObject3 InlineObject3
 
 // NewInlineObject3 instantiates a new InlineObject3 object
 // This constructor will assign default values to properties that have it defined,
@@ -528,7 +531,42 @@ func (o InlineObject3) MarshalJSON() ([]byte, error) {
 	if o.Callback != nil {
 		toSerialize["callback"] = o.Callback
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *InlineObject3) UnmarshalJSON(bytes []byte) (err error) {
+	varInlineObject3 := _InlineObject3{}
+
+	if err = json.Unmarshal(bytes, &varInlineObject3); err == nil {
+		*o = InlineObject3(varInlineObject3)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "integer")
+		delete(additionalProperties, "int32")
+		delete(additionalProperties, "int64")
+		delete(additionalProperties, "number")
+		delete(additionalProperties, "float")
+		delete(additionalProperties, "double")
+		delete(additionalProperties, "string")
+		delete(additionalProperties, "pattern_without_delimiter")
+		delete(additionalProperties, "byte")
+		delete(additionalProperties, "binary")
+		delete(additionalProperties, "date")
+		delete(additionalProperties, "dateTime")
+		delete(additionalProperties, "password")
+		delete(additionalProperties, "callback")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableInlineObject3 struct {
