@@ -106,6 +106,7 @@ dependencies {
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "com.google.code.findbugs:jsr305:3.0.2"
     compile "org.glassfish.jersey.core:jersey-client:$jersey_version"
+    compile "org.glassfish.jersey.inject:jersey-hk2:$jersey_version"
     compile "org.glassfish.jersey.media:jersey-media-multipart:$jersey_version"
     compile "org.glassfish.jersey.media:jersey-media-json-jackson:$jersey_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
