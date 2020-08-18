@@ -507,7 +507,7 @@ namespace Org.OpenAPITools.Client
 
             InterceptRequest(req);
 
-            var response = await client.ExecuteAsync<T>(req, cancellationToken);
+            var response = await client.ExecuteAsync<T>(req, cancellationToken).ConfigureAwait(false);
 
             InterceptResponse(req, response);
 
