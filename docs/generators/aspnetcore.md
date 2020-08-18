@@ -7,7 +7,7 @@ sidebar_label: aspnetcore
 | ------ | ----------- | ------ | ------- |
 |aspnetCoreVersion|ASP.NET Core version: 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)| |2.2|
 |buildTarget|Target to build an application or library| |program|
-|classModifier|Class Modifier for controller classes: Empty string or abstract.| ||
+|classModifier|Class Modifier can be empty, abstract| ||
 |compatibilityVersion|ASP.Net Core CompatibilityVersion| |Version_2_2|
 |enumNameSuffix|Suffix that will be appended to all enum names.| |Enum|
 |enumValueSuffix|Suffix that will be appended to all enum values.| |Enum|
