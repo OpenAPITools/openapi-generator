@@ -1,0 +1,92 @@
+openapi: 3.0.0
+info:
+  description: This specification shows how to use dynamic servers.
+  version: 1.0.0
+  title: OpenAPI Extension with dynamic servers
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: usage
+    description: Show usage of dynamic servers
+servers:
+  - url: 'http://{server}.swagger.io:{port}/v2'
+    description: petstore server
+    variables:
+      server:
+        enum:
+          - 'petstore'
+          - 'qa-petstore'
+          - 'dev-petstore'
+        default: 'petstore'
+      port:
+        enum:
+          - '80'
+          - '8080'
+        default: '80'
+  - url: https://localhost:8080/{version}
+    description: The local server
+    variables:
+      version:
+        enum:
+          - 'v1'
+          - 'v2'
+          - 'v3'
+        default: 'v1'
+paths:
+  /default:
+    get:
+      tags:
+        - usage
+      summary: Use default server
+      description: Use default server
+      operationId: defaultServer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+  /custom:
+    get:
+      tags:
+        - usage
+      servers:
+        - url: https://{server}.swagger.io:{port}/v2
+          variables:
+            server:
+              enum:
+                - 'custom-petstore'
+                - 'custom-qa-petstore'
+                - 'custom-dev-petstore'
+              default: 'custom-petstore'
+            port:
+              enum:
+                - '80'
+                - '8080'
+              default: '8080'
+        - url: https://localhost:8081/{version}
+          description: The local custom server
+          variables:
+            version:
+              enum:
+                - 'v1'
+                - 'v2'
+                - 'v3'
+              default: 'v2'
+        - url: https://third.example.com/{prefix}
+          description: The local custom server
+          variables:
+            prefix:
+              default: 'custom'
+      summary: Use custom server
+      description: Use custom server
+      operationId: customServer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object

@@ -12,7 +12,7 @@ internal struct Animal: Codable {
     internal var className: String
     internal var color: String? = "red"
 
-    internal init(className: String, color: String?) {
+    internal init(className: String, color: String? = nil) {
         self.className = className
         self.color = color
     }

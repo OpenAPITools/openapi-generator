@@ -14,7 +14,6 @@
 
 import { HttpMethods, QueryConfig, ResponseBody, ResponseText } from 'redux-query';
 import * as runtime from '../runtime';
-
 import {
     ModelApiResponse,
     ModelApiResponseFromJSON,
@@ -73,7 +72,7 @@ function addPetRaw<T>(requestParameters: AddPetRequest, requestConfig: runtime.T
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
     headerParameters['Content-Type'] = 'application/json';
 
@@ -82,7 +81,7 @@ function addPetRaw<T>(requestParameters: AddPetRequest, requestConfig: runtime.T
 
     meta.authType = ['oauth', ["write:pets", "read:pets"]];
     const config: QueryConfig<T> = {
-        url: `/pet`,
+        url: `${runtime.Configuration.basePath}/pet`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -121,7 +120,7 @@ function deletePetRaw<T>(requestParameters: DeletePetRequest, requestConfig: run
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
     if (requestParameters.apiKey !== undefined && requestParameters.apiKey !== null) {
         headerParameters['api_key'] = String(requestParameters.apiKey);
@@ -132,7 +131,7 @@ function deletePetRaw<T>(requestParameters: DeletePetRequest, requestConfig: run
 
     meta.authType = ['oauth', ["write:pets", "read:pets"]];
     const config: QueryConfig<T> = {
-        url: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+        url: `${runtime.Configuration.basePath}/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -175,17 +174,17 @@ function findPetsByStatusRaw<T>(requestParameters: FindPetsByStatusRequest, requ
 
 
     if (requestParameters.status) {
-        queryParameters['status'] = requestParameters.status.join(runtime.COLLECTION_FORMATS["csv"]);
+        queryParameters['status'] = requestParameters.status?.join(runtime.COLLECTION_FORMATS["csv"]);
     }
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
 
     meta.authType = ['oauth', ["write:pets", "read:pets"]];
     const config: QueryConfig<T> = {
-        url: `/pet/findByStatus`,
+        url: `${runtime.Configuration.basePath}/pet/findByStatus`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -230,17 +229,17 @@ function findPetsByTagsRaw<T>(requestParameters: FindPetsByTagsRequest, requestC
 
 
     if (requestParameters.tags) {
-        queryParameters['tags'] = requestParameters.tags.join(runtime.COLLECTION_FORMATS["csv"]);
+        queryParameters['tags'] = requestParameters.tags?.join(runtime.COLLECTION_FORMATS["csv"]);
     }
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
 
     meta.authType = ['oauth', ["write:pets", "read:pets"]];
     const config: QueryConfig<T> = {
-        url: `/pet/findByTags`,
+        url: `${runtime.Configuration.basePath}/pet/findByTags`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -282,14 +281,14 @@ function getPetByIdRaw<T>(requestParameters: GetPetByIdRequest, requestConfig: r
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
 
     meta.authType = ['api_key', 'header'];
     const config: QueryConfig<T> = {
-        url: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+        url: `${runtime.Configuration.basePath}/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -330,7 +329,7 @@ function updatePetRaw<T>(requestParameters: UpdatePetRequest, requestConfig: run
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
     headerParameters['Content-Type'] = 'application/json';
 
@@ -339,7 +338,7 @@ function updatePetRaw<T>(requestParameters: UpdatePetRequest, requestConfig: run
 
     meta.authType = ['oauth', ["write:pets", "read:pets"]];
     const config: QueryConfig<T> = {
-        url: `/pet`,
+        url: `${runtime.Configuration.basePath}/pet`,
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -378,7 +377,7 @@ function updatePetWithFormRaw<T>(requestParameters: UpdatePetWithFormRequest, re
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
@@ -394,7 +393,7 @@ function updatePetWithFormRaw<T>(requestParameters: UpdatePetWithFormRequest, re
     }
 
     const config: QueryConfig<T> = {
-        url: `/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+        url: `${runtime.Configuration.basePath}/pet/{petId}`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -433,7 +432,7 @@ function uploadFileRaw<T>(requestParameters: UploadFileRequest, requestConfig: r
     let queryParameters = null;
 
 
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
 
     const { meta = {} } = requestConfig;
@@ -449,7 +448,7 @@ function uploadFileRaw<T>(requestParameters: UploadFileRequest, requestConfig: r
     }
 
     const config: QueryConfig<T> = {
-        url: `/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
+        url: `${runtime.Configuration.basePath}/pet/{petId}/uploadImage`.replace(`{${"petId"}}`, encodeURIComponent(String(requestParameters.petId))),
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,

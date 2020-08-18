@@ -3,12 +3,14 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
@@ -42,11 +44,11 @@ public class {{classname}}Controller extends Controller {
     {{/controllerOnly}}
     private final ObjectMapper mapper;
     {{#useBeanValidation}}
-    private final Configuration configuration;
+    private final Config configuration;
     {{/useBeanValidation}}
 
     @Inject
-    private {{classname}}Controller({{#useBeanValidation}}Configuration configuration{{^controllerOnly}}, {{/controllerOnly}}{{/useBeanValidation}}{{^controllerOnly}}{{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp{{/controllerOnly}}) {
+    private {{classname}}Controller({{#useBeanValidation}}Config configuration{{^controllerOnly}}, {{/controllerOnly}}{{/useBeanValidation}}{{^controllerOnly}}{{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp{{/controllerOnly}}) {
         {{^controllerOnly}}
         this.imp = imp;
         {{/controllerOnly}}
@@ -102,7 +104,7 @@ public class {{classname}}Controller extends Controller {
         }
         {{/required}}
         List<String> {{paramName}}List = OpenAPIUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
-        {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
+        {{{dataType}}} {{paramName}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
         for (String curParam : {{paramName}}List) {
             if (!curParam.isEmpty()) {
                 //noinspection UseBulkOperation
@@ -143,7 +145,7 @@ public class {{classname}}Controller extends Controller {
         }
         {{/required}}
         List<String> {{paramName}}List = OpenAPIUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
-        {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
+        {{{dataType}}} {{paramName}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
         for (String curParam : {{paramName}}List) {
             if (!curParam.isEmpty()) {
                 //noinspection UseBulkOperation
@@ -176,7 +178,7 @@ public class {{classname}}Controller extends Controller {
         }
         {{/required}}
         List<String> {{paramName}}List = OpenAPIUtils.parametersToList("{{collectionFormat}}", {{paramName}}Array);
-        {{{dataType}}} {{paramName}} = new Array{{{dataType}}}();
+        {{{dataType}}} {{paramName}} = new {{#uniqueItems}}LinkedHashSet{{/uniqueItems}}{{^uniqueItems}}ArrayList{{/uniqueItems}}<>();
         for (String curParam : {{paramName}}List) {
             if (!curParam.isEmpty()) {
                 //noinspection UseBulkOperation

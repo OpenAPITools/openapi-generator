@@ -10,11 +10,15 @@
 """
 
 
-from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.shape_interface import ShapeInterface
+from petstore_api.model.triangle_interface import TriangleInterface
+globals()['ShapeInterface'] = ShapeInterface
+globals()['TriangleInterface'] = TriangleInterface
+from petstore_api.model.scalene_triangle import ScaleneTriangle
 
 
 class TestScaleneTriangle(unittest.TestCase):
@@ -29,7 +33,7 @@ class TestScaleneTriangle(unittest.TestCase):
     def testScaleneTriangle(self):
         """Test ScaleneTriangle"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.ScaleneTriangle()  # noqa: E501
+        # model = ScaleneTriangle()  # noqa: E501
         pass
 
 

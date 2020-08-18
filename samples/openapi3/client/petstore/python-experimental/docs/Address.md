@@ -1,4 +1,4 @@
-# address.Address
+# Address
 
 ## Properties
 Name | Type | Description | Notes

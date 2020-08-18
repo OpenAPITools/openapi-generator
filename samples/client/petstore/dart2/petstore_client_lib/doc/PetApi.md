@@ -87,8 +87,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| Pet id to delete | [default to null]
- **apiKey** | **String**|  | [optional] [default to null]
+ **petId** | **int**| Pet id to delete | 
+ **apiKey** | **String**|  | [optional] 
 
 ### Return type
 
@@ -133,7 +133,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [default to []]
+ **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [default to const []]
 
 ### Return type
 
@@ -178,7 +178,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [default to []]
+ **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [default to const []]
 
 ### Return type
 
@@ -225,7 +225,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet to return | [default to null]
+ **petId** | **int**| ID of pet to return | 
 
 ### Return type
 
@@ -311,9 +311,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet that needs to be updated | [default to null]
- **name** | **String**| Updated name of the pet | [optional] [default to null]
- **status** | **String**| Updated status of the pet | [optional] [default to null]
+ **petId** | **int**| ID of pet that needs to be updated | 
+ **name** | **String**| Updated name of the pet | [optional] 
+ **status** | **String**| Updated status of the pet | [optional] 
 
 ### Return type
 
@@ -358,9 +358,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet to update | [default to null]
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
- **file** | **MultipartFile**| file to upload | [optional] [default to null]
+ **petId** | **int**| ID of pet to update | 
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
+ **file** | **MultipartFile**| file to upload | [optional] 
 
 ### Return type
 

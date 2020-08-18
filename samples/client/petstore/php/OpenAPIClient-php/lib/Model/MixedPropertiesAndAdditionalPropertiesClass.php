@@ -2,7 +2,7 @@
 /**
  * MixedPropertiesAndAdditionalPropertiesClass
  *
- * PHP version 5
+ * PHP version 7.2
  *
  * @category Class
  * @package  OpenAPI\Client

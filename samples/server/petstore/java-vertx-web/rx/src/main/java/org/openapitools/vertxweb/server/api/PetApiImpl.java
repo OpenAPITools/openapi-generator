@@ -15,7 +15,7 @@ import java.util.Map;
 // Implement this class
 
 public class PetApiImpl implements PetApi {
-    public Single<ApiResponse<Void>> addPet(Pet pet) {
+    public Single<ApiResponse<Pet>> addPet(Pet pet) {
         return Single.error(new ApiException("Not Implemented").setStatusCode(501));
     }
 
@@ -35,7 +35,7 @@ public class PetApiImpl implements PetApi {
         return Single.error(new ApiException("Not Implemented").setStatusCode(501));
     }
 
-    public Single<ApiResponse<Void>> updatePet(Pet pet) {
+    public Single<ApiResponse<Pet>> updatePet(Pet pet) {
         return Single.error(new ApiException("Not Implemented").setStatusCode(501));
     }
 

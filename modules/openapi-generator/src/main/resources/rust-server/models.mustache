@@ -124,38 +124,60 @@ impl ::std::str::FromStr for {{{classname}}} {
 // Methods for converting between header::IntoHeaderValue<{{{classname}}}> and hyper::header::HeaderValue
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<header::IntoHeaderValue<{{{classname}}}>> for hyper::header::HeaderValue {
-    fn from(hdr_value: header::IntoHeaderValue<{{{classname}}}>) -> Self {
-        hyper::header::HeaderValue::from_str(&hdr_value.to_string()).unwrap()
+impl std::convert::TryFrom<header::IntoHeaderValue<{{{classname}}}>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<{{{classname}}}>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for {{classname}} - value: {} is invalid {}",
+                     hdr_value, e))
+        }
     }
 }
 
 #[cfg(any(feature = "client", feature = "server"))]
-impl From<hyper::header::HeaderValue> for header::IntoHeaderValue<{{{classname}}}> {
-    fn from(hdr_value: hyper::header::HeaderValue) -> Self {
-        header::IntoHeaderValue(<{{{classname}}} as std::str::FromStr>::from_str(hdr_value.to_str().unwrap()).unwrap())
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<{{{classname}}}> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <{{{classname}}} as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into {{classname}} - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
     }
 }
 
-{{#arrayModelType}}{{#vendorExtensions}}{{#itemXmlName}}// Utility function for wrapping list elements when serializing xml
+{{#arrayModelType}}{{#vendorExtensions}}{{#x-item-xml-name}}// Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
-fn wrap_in_{{{itemXmlName}}}<S>(item: &Vec<{{{arrayModelType}}}>, serializer: S) -> std::result::Result<S::Ok, S::Error>
+fn wrap_in_{{{x-item-xml-name}}}<S>(item: &Vec<{{{arrayModelType}}}>, serializer: S) -> std::result::Result<S::Ok, S::Error>
 where
     S: serde::ser::Serializer,
 {
-    serde_xml_rs::wrap_primitives(item, serializer, "{{{itemXmlName}}}")
+    serde_xml_rs::wrap_primitives(item, serializer, "{{{x-item-xml-name}}}")
 }
 
-{{/itemXmlName}}
+{{/x-item-xml-name}}
 {{/vendorExtensions}}
 {{! vec}}
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct {{{classname}}}(
 {{#vendorExtensions}}
-{{#itemXmlName}}
-    #[serde(serialize_with = "wrap_in_{{{itemXmlName}}}")]
-{{/itemXmlName}}
+{{#x-item-xml-name}}
+    #[serde(serialize_with = "wrap_in_{{{x-item-xml-name}}}")]
+{{/x-item-xml-name}}
 {{/vendorExtensions}}
     Vec<{{{arrayModelType}}}>
 );
@@ -255,9 +277,9 @@ pub struct {{{classname}}} {
 {{/isEnum}}
     #[serde(rename = "{{{baseName}}}")]
 {{#vendorExtensions}}
-{{#itemXmlName}}
-    #[serde(serialize_with = "wrap_in_{{{itemXmlName}}}")]
-{{/itemXmlName}}
+{{#x-item-xml-name}}
+    #[serde(serialize_with = "wrap_in_{{{x-item-xml-name}}}")]
+{{/x-item-xml-name}}
 {{/vendorExtensions}}
 {{#required}}
     pub {{{name}}}: {{#isNullable}}swagger::Nullable<{{/isNullable}}{{{dataType}}}{{#isNullable}}>{{/isNullable}},

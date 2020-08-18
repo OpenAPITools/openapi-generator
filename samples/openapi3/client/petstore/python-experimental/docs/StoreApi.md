@@ -20,9 +20,9 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import store_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -34,7 +34,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.StoreApi(api_client)
+    api_instance = store_api.StoreApi(api_client)
     order_id = 'order_id_example' # str | ID of the order that needs to be deleted
     
     # example passing only required values which don't have defaults set
@@ -83,9 +83,9 @@ Returns a map of status codes to quantities
 
 * Api Key Authentication (api_key):
 ```python
-from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import store_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -111,7 +111,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.StoreApi(api_client)
+    api_instance = store_api.StoreApi(api_client)
     
     # example, this endpoint has no required or optional parameters
     try:
@@ -146,7 +146,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_order_by_id**
-> order.Order get_order_by_id(order_id)
+> Order get_order_by_id(order_id)
 
 Find purchase order by ID
 
@@ -155,9 +155,10 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import store_api
+from petstore_api.model.order import Order
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -169,7 +170,7 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.StoreApi(api_client)
+    api_instance = store_api.StoreApi(api_client)
     order_id = 56 # int | ID of pet that needs to be fetched
     
     # example passing only required values which don't have defaults set
@@ -189,7 +190,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**order.Order**](Order.md)
+[**Order**](Order.md)
 
 ### Authorization
 
@@ -210,16 +211,17 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **place_order**
-> order.Order place_order(order_order)
+> Order place_order(order)
 
 Place an order for a pet
 
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
+from petstore_api.api import store_api
+from petstore_api.model.order import Order
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -231,13 +233,13 @@ configuration = petstore_api.Configuration(
 # Enter a context with an instance of the API client
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
-    api_instance = petstore_api.StoreApi(api_client)
-    order_order = petstore_api.Order() # order.Order | order placed for purchasing the pet
+    api_instance = store_api.StoreApi(api_client)
+    order = Order() # Order | order placed for purchasing the pet
     
     # example passing only required values which don't have defaults set
     try:
         # Place an order for a pet
-        api_response = api_instance.place_order(order_order)
+        api_response = api_instance.place_order(order)
         pprint(api_response)
     except petstore_api.ApiException as e:
         print("Exception when calling StoreApi->place_order: %s\n" % e)
@@ -247,11 +249,11 @@ with petstore_api.ApiClient() as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_order** | [**order.Order**](Order.md)| order placed for purchasing the pet |
+ **order** | [**Order**](Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
-[**order.Order**](Order.md)
+[**Order**](Order.md)
 
 ### Authorization
 

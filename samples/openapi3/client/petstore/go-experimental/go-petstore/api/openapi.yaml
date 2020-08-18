@@ -1919,13 +1919,13 @@ components:
       properties:
         color:
           type: string
-      x-one-of-name: Fruit
     apple:
       properties:
         cultivar:
           type: string
       type: object
     banana:
+      additionalProperties: true
       properties:
         lengthCm:
           type: number
@@ -1939,7 +1939,6 @@ components:
       oneOf:
       - $ref: '#/components/schemas/whale'
       - $ref: '#/components/schemas/zebra'
-      x-one-of-name: Mammal
     whale:
       properties:
         hasBaleen:
@@ -1975,7 +1974,6 @@ components:
       oneOf:
       - $ref: '#/components/schemas/appleReq'
       - $ref: '#/components/schemas/bananaReq'
-      x-one-of-name: FruitReq
     appleReq:
       properties:
         cultivar:
@@ -2001,6 +1999,7 @@ components:
       properties:
         string:
           $ref: '#/components/schemas/Foo'
+      type: object
     inline_object:
       properties:
         name:
@@ -2140,10 +2139,12 @@ components:
       properties:
         breed:
           type: string
+      type: object
     Cat_allOf:
       properties:
         declawed:
           type: boolean
+      type: object
   securitySchemes:
     petstore_auth:
       flows:

@@ -18,16 +18,18 @@ message {{classname}} {
   // {{{.}}}
   {{/description}}
   {{^isEnum}}
-  {{#vendorExtensions.x-protobuf-type}}{{.}} {{/vendorExtensions.x-protobuf-type}}{{vendorExtensions.x-protobuf-data-type}} {{name}} = {{vendorExtensions.x-index}}{{#vendorExtensions.x-protobuf-packed}} [packed=true]{{/vendorExtensions.x-protobuf-packed}};
+  {{#vendorExtensions.x-protobuf-type}}{{.}} {{/vendorExtensions.x-protobuf-type}}{{vendorExtensions.x-protobuf-data-type}} {{name}} = {{vendorExtensions.x-protobuf-index}}{{#vendorExtensions.x-protobuf-packed}} [packed=true]{{/vendorExtensions.x-protobuf-packed}};
   {{/isEnum}}
   {{#isEnum}}
-  enum {{name}} {
+  enum {{enumName}} {
     {{#allowableValues}}
     {{#enumVars}}
     {{{name}}} = {{{protobuf-enum-index}}};
     {{/enumVars}}
     {{/allowableValues}}
   }
+
+  {{enumName}} {{name}} = {{vendorExtensions.x-protobuf-index}};
   {{/isEnum}}
 
   {{/vars}}

@@ -32,7 +32,7 @@ import org.hibernate.validator.constraints.*;
 /**
  * AdditionalPropertiesObject
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AdditionalPropertiesObject extends HashMap<String, Map> {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)

@@ -30,7 +30,7 @@ import javax.validation.Valid;
   InlineObject1.JSON_PROPERTY_ADDITIONAL_METADATA,
   InlineObject1.JSON_PROPERTY_FILE
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class InlineObject1   {
   public static final String JSON_PROPERTY_ADDITIONAL_METADATA = "additionalMetadata";
   @JsonProperty(JSON_PROPERTY_ADDITIONAL_METADATA)

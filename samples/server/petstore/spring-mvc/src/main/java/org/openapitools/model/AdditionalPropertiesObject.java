@@ -14,6 +14,8 @@ import javax.validation.constraints.*;
 /**
  * AdditionalPropertiesObject
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class AdditionalPropertiesObject extends HashMap<String, Map>  {
   @JsonProperty("name")

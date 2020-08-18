@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **HasBaleen** | Pointer to **bool** |  | [optional] 
 **HasTeeth** | Pointer to **bool** |  | [optional] 
-**ClassName** | Pointer to **string** |  | 
+**ClassName** | **string** |  | 
 
 ## Methods
 
@@ -97,12 +97,6 @@ and a boolean to check if the value has been set.
 SetClassName sets ClassName field to given value.
 
 
-
-### AsMammal
-
-`func (s *Whale) AsMammal() Mammal`
-
-Convenience method to wrap this instance of Whale in Mammal
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

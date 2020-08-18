@@ -85,14 +85,6 @@ public class CodeGenMojo extends AbstractMojo {
     @Parameter(name = "verbose", defaultValue = "false")
     private boolean verbose;
 
-    // TODO: 5.0 Remove `language` option.
-    /**
-     * Client language to generate.
-     */
-    @Parameter(name = "language")
-    private String language;
-
-
     /**
      * The name of the generator to use.
      */
@@ -403,10 +395,17 @@ public class CodeGenMojo extends AbstractMojo {
 
     /**
      * Add the output directory to the project as a source root, so that the generated java types
-     * are compiled and included in the project artifact.
+     * are compiled and included in the project artifact. Mutually exclusive with {@link #addTestCompileSourceRoot}.
      */
     @Parameter(defaultValue = "true", property = "openapi.generator.maven.plugin.addCompileSourceRoot")
     private boolean addCompileSourceRoot = true;
+
+    /**
+     * Add the output directory to the project as a test source root, so that the generated java types
+     * are compiled only for the test classpath of the project. Mutually exclusive with {@link #addCompileSourceRoot}.
+     */
+    @Parameter(defaultValue = "false", property = "openapi.generator.maven.plugin.addTestCompileSourceRoot")
+    private boolean addTestCompileSourceRoot = false;
 
     // TODO: Rename to global properties in version 5.0
     @Parameter
@@ -431,6 +430,7 @@ public class CodeGenMojo extends AbstractMojo {
     @Override
     public void execute() throws MojoExecutionException {
         File inputSpecFile = new File(inputSpec);
+        resetEnvironmentVariables();
         addCompileSourceRootIfConfigured();
 
         try {
@@ -530,20 +530,8 @@ public class CodeGenMojo extends AbstractMojo {
                 configurator.setGenerateAliasAsModel(generateAliasAsModel);
             }
 
-            // TODO: After 3.0.0 release (maybe for 3.1.0): Fully deprecate lang.
             if (isNotEmpty(generatorName)) {
                 configurator.setGeneratorName(generatorName);
-
-                // check if generatorName & language are set together, inform user this needs to be updated to prevent future issues.
-                if (isNotEmpty(language)) {
-                    LOGGER.warn("The 'language' option is deprecated and was replaced by 'generatorName'. Both can not be set together");
-                    throw new MojoExecutionException(
-                            "Illegal configuration: 'language' and  'generatorName' can not be set both, remove 'language' from your configuration");
-                }
-            } else if (isNotEmpty(language)) {
-                LOGGER.warn(
-                        "The 'language' option is deprecated and may reference language names only in the next major release (4.0). Please use 'generatorName' instead.");
-                configurator.setGeneratorName(language);
             } else {
                 LOGGER.error("A generator name (generatorName) is required.");
                 throw new MojoExecutionException("The generator requires 'generatorName'. Refer to documentation for a list of options.");
@@ -716,7 +704,7 @@ public class CodeGenMojo extends AbstractMojo {
                     originalEnvironmentVariables.put(key, GlobalSettings.getProperty(key));
                     String value = environmentVariables.get(key);
                     if (value != null) {
-                        configurator.addSystemProperty(key, value);
+                        configurator.addGlobalProperty(key, value);
                     }
                 }
             }
@@ -848,17 +836,28 @@ public class CodeGenMojo extends AbstractMojo {
         final Object sourceFolderObject =
                 configOptions == null ? null : configOptions
                         .get(CodegenConstants.SOURCE_FOLDER);
-        final String sourceFolder =
-                sourceFolderObject == null ? "src/main/java" : sourceFolderObject.toString();
+        final String sourceFolder;
+        if (sourceFolderObject != null) {
+            sourceFolder = sourceFolderObject.toString();
+        } else {
+            sourceFolder = addTestCompileSourceRoot ? "src/test/java" : "src/main/java";
+        }
 
         return output.toString() + "/" + sourceFolder;
     }
 
-    private void addCompileSourceRootIfConfigured() {
+    private void addCompileSourceRootIfConfigured() throws MojoExecutionException {
         if (addCompileSourceRoot) {
+            if (addTestCompileSourceRoot) {
+                throw new MojoExecutionException("Either 'addCompileSourceRoot' or 'addTestCompileSourceRoot' may be active, not both.");
+            }
             project.addCompileSourceRoot(getCompileSourceRoot());
+        } else if (addTestCompileSourceRoot) {
+            project.addTestCompileSourceRoot(getCompileSourceRoot());
         }
+    }
 
+    private void resetEnvironmentVariables() {
         // Reset all environment variables to their original value. This prevents unexpected
         // behaviour
         // when running the plugin multiple consecutive times with different configurations.

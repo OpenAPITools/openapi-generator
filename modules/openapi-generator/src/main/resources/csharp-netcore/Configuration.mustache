@@ -1,13 +1,13 @@
 {{>partial_header}}
 
 using System;
-using System.Reflection;
 {{^net35}}
 using System.Collections.Concurrent;
 {{/net35}}
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
@@ -47,7 +47,7 @@ namespace {{packageName}}.Client
             {
                 return new ApiException(status,
                     string.Format("Error calling {0}: {1}", methodName, response.RawContent),
-                    response.RawContent);
+                    response.RawContent, response.Headers);
             }
             {{^netStandard}}if (status == 0)
             {
@@ -149,9 +149,7 @@ namespace {{packageName}}.Client
         /// </summary>
         public virtual string BasePath {
             get { return _basePath; }
-            set {
-                _basePath = value;
-            }
+            set { _basePath = value; }
         }
 
         /// <summary>
@@ -206,13 +204,13 @@ namespace {{packageName}}.Client
         public string GetApiKeyWithPrefix(string apiKeyIdentifier)
         {
             string apiKeyValue;
-            ApiKey.TryGetValue (apiKeyIdentifier, out apiKeyValue);
+            ApiKey.TryGetValue(apiKeyIdentifier, out apiKeyValue);
             string apiKeyPrefix;
             if (ApiKeyPrefix.TryGetValue(apiKeyIdentifier, out apiKeyPrefix))
             {
                 return apiKeyPrefix + " " + apiKeyValue;
             }
-            
+
             return apiKeyValue;
         }
 
@@ -224,7 +222,7 @@ namespace {{packageName}}.Client
 
         /// <summary>
         /// Gets or sets the access token for OAuth2 authentication.
-        /// 
+        ///
         /// This helper property simplifies code generation.
         /// </summary>
         /// <value>The access token.</value>
@@ -294,13 +292,13 @@ namespace {{packageName}}.Client
         /// Gets or sets the prefix (e.g. Token) of the API key based on the authentication name.
         ///
         /// Whatever you set here will be prepended to the value defined in AddApiKey.
-        /// 
+        ///
         /// An example invocation here might be:
         /// <example>
         /// ApiKeyPrefix["Authorization"] = "Bearer";
         /// </example>
         /// … where ApiKey["Authorization"] would then be used to set the value of your bearer token.
-        /// 
+        ///
         /// <remarks>
         /// OAuth2 workflows should set tokens via AccessToken.
         /// </remarks>
@@ -347,10 +345,8 @@ namespace {{packageName}}.Client
         {
             String report = "C# SDK ({{{packageName}}}) Debug Report:\n";
             {{^netStandard}}
-            {{^supportsUWP}}
             report += "    OS: " + System.Environment.OSVersion + "\n";
             report += "    .NET Framework Version: " + System.Environment.Version  + "\n";
-            {{/supportsUWP}}
             {{/netStandard}}
             {{#netStandard}}
             report += "    OS: " + System.Runtime.InteropServices.RuntimeInformation.OSDescription + "\n";
@@ -394,11 +390,11 @@ namespace {{packageName}}.Client
         public static IReadableConfiguration MergeConfigurations(IReadableConfiguration first, IReadableConfiguration second)
         {
             if (second == null) return first ?? GlobalConfiguration.Instance;
-            
+
             Dictionary<string, string> apiKey = first.ApiKey.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             Dictionary<string, string> apiKeyPrefix = first.ApiKeyPrefix.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
             Dictionary<string, string> defaultHeaders = first.DefaultHeaders.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-            
+
             foreach (var kvp in second.ApiKey) apiKey[kvp.Key] = kvp.Value;
             foreach (var kvp in second.ApiKeyPrefix) apiKeyPrefix[kvp.Key] = kvp.Value;
             foreach (var kvp in second.DefaultHeaders) defaultHeaders[kvp.Key] = kvp.Value;

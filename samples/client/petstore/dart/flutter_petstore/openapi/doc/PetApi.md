@@ -20,7 +20,7 @@ Method | HTTP request | Description
 
 
 # **addPet**
-> addPet(body)
+> Pet addPet(pet)
 
 Add a new pet to the store
 
@@ -31,10 +31,11 @@ import 'package:openapi/api.dart';
 //openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var body = new Pet(); // Pet | Pet object that needs to be added to the store
+var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try { 
-    api_instance.addPet(body);
+    var result = api_instance.addPet(pet);
+    print(result);
 } catch (e) {
     print("Exception when calling PetApi->addPet: $e\n");
 }
@@ -44,11 +45,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+[**Pet**](Pet.md)
 
 ### Authorization
 
@@ -57,7 +58,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -87,8 +88,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| Pet id to delete | [default to null]
- **apiKey** | **String**|  | [optional] [default to null]
+ **petId** | **int**| Pet id to delete | 
+ **apiKey** | **String**|  | [optional] 
 
 ### Return type
 
@@ -133,7 +134,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [default to []]
+ **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [default to const []]
 
 ### Return type
 
@@ -178,7 +179,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [default to []]
+ **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [default to const []]
 
 ### Return type
 
@@ -225,7 +226,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet to return | [default to null]
+ **petId** | **int**| ID of pet to return | 
 
 ### Return type
 
@@ -243,7 +244,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **updatePet**
-> updatePet(body)
+> Pet updatePet(pet)
 
 Update an existing pet
 
@@ -254,10 +255,11 @@ import 'package:openapi/api.dart';
 //openapi.api.Configuration.accessToken = 'YOUR_ACCESS_TOKEN';
 
 var api_instance = new PetApi();
-var body = new Pet(); // Pet | Pet object that needs to be added to the store
+var pet = new Pet(); // Pet | Pet object that needs to be added to the store
 
 try { 
-    api_instance.updatePet(body);
+    var result = api_instance.updatePet(pet);
+    print(result);
 } catch (e) {
     print("Exception when calling PetApi->updatePet: $e\n");
 }
@@ -267,11 +269,11 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
+ **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
 
 ### Return type
 
-void (empty response body)
+[**Pet**](Pet.md)
 
 ### Authorization
 
@@ -280,7 +282,7 @@ void (empty response body)
 ### HTTP request headers
 
  - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
+ - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
@@ -311,9 +313,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet that needs to be updated | [default to null]
- **name** | **String**| Updated name of the pet | [optional] [default to null]
- **status** | **String**| Updated status of the pet | [optional] [default to null]
+ **petId** | **int**| ID of pet that needs to be updated | 
+ **name** | **String**| Updated name of the pet | [optional] 
+ **status** | **String**| Updated status of the pet | [optional] 
 
 ### Return type
 
@@ -358,9 +360,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **int**| ID of pet to update | [default to null]
- **additionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
- **file** | **MultipartFile**| file to upload | [optional] [default to null]
+ **petId** | **int**| ID of pet to update | 
+ **additionalMetadata** | **String**| Additional data to pass to server | [optional] 
+ **file** | **MultipartFile**| file to upload | [optional] 
 
 ### Return type
 

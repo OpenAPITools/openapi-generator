@@ -1,0 +1,4 @@
+generatorName: php-lumen
+outputDir: samples/server/petstore/php-lumen
+inputSpec: modules/openapi-generator/src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/php-lumen

@@ -19,7 +19,7 @@ class PetApi {
         /// Add a new pet to the store
         ///
         /// 
-        Future<Response>addPet(Pet body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>addPet(Pet body,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/pet";
 
@@ -50,12 +50,14 @@ class PetApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         /// Deletes a pet
         ///
         /// 
-        Future<Response>deletePet(int petId,{ String apiKey,CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>deletePet(int petId,{ String apiKey,CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/pet/{petId}".replaceAll("{" r'petId' "}", petId.toString());
 
@@ -84,12 +86,14 @@ class PetApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         /// Finds Pets by status
         ///
         /// Multiple status values can be provided with comma separated strings
-        Future<Response<List<Pet>>>findPetsByStatus(List<String> status,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response<List<Pet>>>findPetsByStatus(List<String> status,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/pet/findByStatus";
 
@@ -118,6 +122,8 @@ class PetApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
                 final FullType type = const FullType(BuiltList, const [const FullType(Pet)]);
@@ -138,7 +144,7 @@ class PetApi {
         /// Finds Pets by tags
         ///
         /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-        Future<Response<List<Pet>>>findPetsByTags(List<String> tags,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response<List<Pet>>>findPetsByTags(List<String> tags,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/pet/findByTags";
 
@@ -167,6 +173,8 @@ class PetApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
                 final FullType type = const FullType(BuiltList, const [const FullType(Pet)]);
@@ -187,7 +195,7 @@ class PetApi {
         /// Find pet by ID
         ///
         /// Returns a single pet
-        Future<Response<Pet>>getPetById(int petId,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response<Pet>>getPetById(int petId,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/pet/{petId}".replaceAll("{" r'petId' "}", petId.toString());
 
@@ -215,10 +223,12 @@ class PetApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-        var serializer = _serializers.serializerForType(Pet);
-        var data = _serializers.deserializeWith<Pet>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+                var serializer = _serializers.serializerForType(Pet);
+                var data = _serializers.deserializeWith<Pet>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
             return Response<Pet>(
                 data: data,
@@ -234,7 +244,7 @@ class PetApi {
         /// Update an existing pet
         ///
         /// 
-        Future<Response>updatePet(Pet body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>updatePet(Pet body,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/pet";
 
@@ -265,12 +275,14 @@ class PetApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         /// Updates a pet in the store with form data
         ///
         /// 
-        Future<Response>updatePetWithForm(int petId,{ String name,String status,CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>updatePetWithForm(int petId,{ String name,String status,CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/pet/{petId}".replaceAll("{" r'petId' "}", petId.toString());
 
@@ -302,12 +314,14 @@ class PetApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         /// uploads an image
         ///
         /// 
-        Future<Response<ApiResponse>>uploadFile(int petId,{ String additionalMetadata,Uint8List file,CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response<ApiResponse>>uploadFile(int petId,{ String additionalMetadata,Uint8List file,CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/pet/{petId}/uploadImage".replaceAll("{" r'petId' "}", petId.toString());
 
@@ -343,10 +357,12 @@ class PetApi {
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-        var serializer = _serializers.serializerForType(ApiResponse);
-        var data = _serializers.deserializeWith<ApiResponse>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+                var serializer = _serializers.serializerForType(ApiResponse);
+                var data = _serializers.deserializeWith<ApiResponse>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
             return Response<ApiResponse>(
                 data: data,

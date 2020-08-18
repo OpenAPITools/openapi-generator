@@ -61,6 +61,35 @@ task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.Valida
 task validateSpecs(dependsOn: ['validateGoodSpec', 'validateBadSpec'])
 ----
 
+[NOTE]
+====
+The tasks support Gradle Up-To-Date checking and Gradle Cache. Enable caching globally by setting `org.gradle.caching=true` in the `gradle.settings`
+file or by passing the command line property `--build-cache` when executing on the command line.
+
+Disable up-to-date checks and caching by setting the following property when using the extension:
+
+.Disable caching for extension
+[source,groovy]
+----
+tasks.withType(org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    outputs.upToDateWhen { false }
+    outputs.cacheIf { false }
+}
+----
+Disable up-to-date checks and caching for a custom task:
+
+.Disable caching for custom task
+[source,groovy]
+----
+task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    outputs.upToDateWhen { false }
+    outputs.cacheIf { false }
+
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+}
+----
+====
+
 == Plugin Setup
 
 //# RELEASE_VERSION
@@ -84,7 +113,7 @@ buildscript {
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:4.2.3"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:4.3.1"
   }
 }
 
@@ -135,10 +164,10 @@ apply plugin: 'org.openapi.generator'
 |None
 |Adds authorization headers when fetching the OpenAPI definitions remotely. Pass in a URL-encoded string of name:header with a comma separating multiple values.
 
-|systemProperties
+|globalProperties
 |Map(String,String)
 |None
-|Sets specified system properties.
+|Sets specified global properties.
 
 |configFile
 |String
@@ -248,7 +277,7 @@ apply plugin: 'org.openapi.generator'
 |httpUserAgent
 |String
 |None
-|HTTP user agent, e.g. codegen_csharp_api_client. Generator default is 'OpenAPI-Generator/{packageVersion}}/{language}', but may be generator-specific.
+|HTTP user agent, e.g. codegen_csharp_api_client. Generator default is 'OpenAPI-Generator/{packageVersion}/{language}', but may be generator-specific.
 
 |reservedWordsMappings
 |Map(String,String)
@@ -346,12 +375,12 @@ For more control over generation of individual files, configure an ignore file a
 
 [NOTE]
 ====
-When configuring `systemProperties` in order to perform selective generation you can disable generation of some parts by providing `"false"` value:
+When configuring `globalProperties` in order to perform selective generation you can disable generation of some parts by providing `"false"` value:
 [source,groovy]
 ----
 openApiGenerate {
     // other settings omitted
-    systemProperties = [
+    globalProperties = [
         modelDocs: "false",
         apis: "false"
     ]
@@ -362,7 +391,7 @@ When enabling generation of only specific parts you either have to provide CSV l
 ----
 openApiGenerate {
     // other settings omitted
-    systemProperties = [
+    globalProperties = [
         apis: "",
         models: "User,Pet"
     ]
@@ -609,7 +638,7 @@ task buildKotlinClient(type: org.openapitools.generator.gradle.plugin.tasks.Gene
     configOptions = [
             dateLibrary: "java8"
     ]
-    systemProperties = [
+    globalProperties = [
             modelDocs: "false"
     ]
 }

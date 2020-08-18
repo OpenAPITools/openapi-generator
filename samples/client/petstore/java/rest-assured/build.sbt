@@ -19,6 +19,7 @@ lazy val root = (project in file(".")).
       "com.squareup.okio" % "okio" % "1.17.5" % "compile",
       "javax.validation" % "validation-api" % "2.0.1.Final" % "compile",
       "org.hibernate" % "hibernate-validator" % "6.0.19.Final" % "compile",
+	"javax.annotation" % "javax.annotation-api" % "1.3.2" % "compile",
       "junit" % "junit" % "4.13" % "test",
       "com.novocode" % "junit-interface" % "0.10" % "test"
     )
