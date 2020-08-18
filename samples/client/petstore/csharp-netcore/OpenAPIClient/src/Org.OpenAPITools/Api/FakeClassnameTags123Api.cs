@@ -269,7 +269,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ModelClient</returns>
         public async System.Threading.Tasks.Task<ModelClient> TestClassnameAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClassnameWithHttpInfoAsync(modelClient, cancellationToken);
+            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClassnameWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -315,7 +315,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<ModelClient>("/fake_classname_test", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<ModelClient>("/fake_classname_test", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

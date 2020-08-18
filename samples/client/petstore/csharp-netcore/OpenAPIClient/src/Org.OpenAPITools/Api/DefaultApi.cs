@@ -248,7 +248,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of InlineResponseDefault</returns>
         public async System.Threading.Tasks.Task<InlineResponseDefault> FooGetAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<InlineResponseDefault> localVarResponse = await FooGetWithHttpInfoAsync(cancellationToken);
+            Org.OpenAPITools.Client.ApiResponse<InlineResponseDefault> localVarResponse = await FooGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -282,7 +282,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<InlineResponseDefault>("/foo", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<InlineResponseDefault>("/foo", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {

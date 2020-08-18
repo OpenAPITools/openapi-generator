@@ -984,7 +984,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of HealthCheckResult</returns>
         public async System.Threading.Tasks.Task<HealthCheckResult> FakeHealthGetAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> localVarResponse = await FakeHealthGetWithHttpInfoAsync(cancellationToken);
+            Org.OpenAPITools.Client.ApiResponse<HealthCheckResult> localVarResponse = await FakeHealthGetWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1018,7 +1018,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<HealthCheckResult>("/fake/health", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<HealthCheckResult>("/fake/health", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1108,7 +1108,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task FakeHttpSignatureTestAsync(Pet pet, string query1 = default(string), string header1 = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await FakeHttpSignatureTestWithHttpInfoAsync(pet, query1, header1, cancellationToken);
+            await FakeHttpSignatureTestWithHttpInfoAsync(pet, query1, header1, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1159,7 +1159,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/fake/http-signature-test", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/fake/http-signature-test", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1231,7 +1231,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of bool</returns>
         public async System.Threading.Tasks.Task<bool> FakeOuterBooleanSerializeAsync(bool? body = default(bool?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<bool> localVarResponse = await FakeOuterBooleanSerializeWithHttpInfoAsync(body, cancellationToken);
+            Org.OpenAPITools.Client.ApiResponse<bool> localVarResponse = await FakeOuterBooleanSerializeWithHttpInfoAsync(body, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1268,7 +1268,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<bool>("/fake/outer/boolean", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<bool>("/fake/outer/boolean", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1340,7 +1340,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of OuterComposite</returns>
         public async System.Threading.Tasks.Task<OuterComposite> FakeOuterCompositeSerializeAsync(OuterComposite outerComposite = default(OuterComposite), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = await FakeOuterCompositeSerializeWithHttpInfoAsync(outerComposite, cancellationToken);
+            Org.OpenAPITools.Client.ApiResponse<OuterComposite> localVarResponse = await FakeOuterCompositeSerializeWithHttpInfoAsync(outerComposite, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1377,7 +1377,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<OuterComposite>("/fake/outer/composite", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<OuterComposite>("/fake/outer/composite", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1449,7 +1449,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of decimal</returns>
         public async System.Threading.Tasks.Task<decimal> FakeOuterNumberSerializeAsync(decimal? body = default(decimal?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<decimal> localVarResponse = await FakeOuterNumberSerializeWithHttpInfoAsync(body, cancellationToken);
+            Org.OpenAPITools.Client.ApiResponse<decimal> localVarResponse = await FakeOuterNumberSerializeWithHttpInfoAsync(body, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1486,7 +1486,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<decimal>("/fake/outer/number", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<decimal>("/fake/outer/number", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1558,7 +1558,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of string</returns>
         public async System.Threading.Tasks.Task<string> FakeOuterStringSerializeAsync(string body = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await FakeOuterStringSerializeWithHttpInfoAsync(body, cancellationToken);
+            Org.OpenAPITools.Client.ApiResponse<string> localVarResponse = await FakeOuterStringSerializeWithHttpInfoAsync(body, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1595,7 +1595,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<string>("/fake/outer/string", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<string>("/fake/outer/string", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1669,7 +1669,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestBodyWithFileSchemaAsync(FileSchemaTestClass fileSchemaTestClass, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await TestBodyWithFileSchemaWithHttpInfoAsync(fileSchemaTestClass, cancellationToken);
+            await TestBodyWithFileSchemaWithHttpInfoAsync(fileSchemaTestClass, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1708,7 +1708,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/fake/body-with-file-schema", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/fake/body-with-file-schema", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1790,7 +1790,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestBodyWithQueryParamsAsync(string query, User user, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await TestBodyWithQueryParamsWithHttpInfoAsync(query, user, cancellationToken);
+            await TestBodyWithQueryParamsWithHttpInfoAsync(query, user, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -1835,7 +1835,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/fake/body-with-query-params", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/fake/body-with-query-params", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -1911,7 +1911,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ModelClient</returns>
         public async System.Threading.Tasks.Task<ModelClient> TestClientModelAsync(ModelClient modelClient, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClientModelWithHttpInfoAsync(modelClient, cancellationToken);
+            Org.OpenAPITools.Client.ApiResponse<ModelClient> localVarResponse = await TestClientModelWithHttpInfoAsync(modelClient, cancellationToken).ConfigureAwait(false);
             return localVarResponse.Data;
         }
 
@@ -1952,7 +1952,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PatchAsync<ModelClient>("/fake", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.PatchAsync<ModelClient>("/fake", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -2118,7 +2118,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestEndpointParametersAsync(decimal number, double _double, string patternWithoutDelimiter, byte[] _byte, int? integer = default(int?), int? int32 = default(int?), long? int64 = default(long?), float? _float = default(float?), string _string = default(string), System.IO.Stream binary = default(System.IO.Stream), DateTime? date = default(DateTime?), DateTime? dateTime = default(DateTime?), string password = default(string), string callback = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await TestEndpointParametersWithHttpInfoAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback, cancellationToken);
+            await TestEndpointParametersWithHttpInfoAsync(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, _string, binary, date, dateTime, password, callback, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2223,7 +2223,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/fake", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/fake", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -2345,7 +2345,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestEnumParametersAsync(List<string> enumHeaderStringArray = default(List<string>), string enumHeaderString = default(string), List<string> enumQueryStringArray = default(List<string>), string enumQueryString = default(string), int? enumQueryInteger = default(int?), double? enumQueryDouble = default(double?), List<string> enumFormStringArray = default(List<string>), string enumFormString = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await TestEnumParametersWithHttpInfoAsync(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, cancellationToken);
+            await TestEnumParametersWithHttpInfoAsync(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2418,7 +2418,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/fake", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/fake", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -2522,7 +2522,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestGroupParametersAsync(int requiredStringGroup, bool requiredBooleanGroup, long requiredInt64Group, int? stringGroup = default(int?), bool? booleanGroup = default(bool?), long? int64Group = default(long?), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await TestGroupParametersWithHttpInfoAsync(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, cancellationToken);
+            await TestGroupParametersWithHttpInfoAsync(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2581,7 +2581,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/fake", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.DeleteAsync<Object>("/fake", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -2655,7 +2655,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestInlineAdditionalPropertiesAsync(Dictionary<string, string> requestBody, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await TestInlineAdditionalPropertiesWithHttpInfoAsync(requestBody, cancellationToken);
+            await TestInlineAdditionalPropertiesWithHttpInfoAsync(requestBody, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2694,7 +2694,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/fake/inline-additionalProperties", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.PostAsync<Object>("/fake/inline-additionalProperties", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -2776,7 +2776,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestJsonFormDataAsync(string param, string param2, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await TestJsonFormDataWithHttpInfoAsync(param, param2, cancellationToken);
+            await TestJsonFormDataWithHttpInfoAsync(param, param2, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2821,7 +2821,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/fake/jsonFormData", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/fake/jsonFormData", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
@@ -2926,7 +2926,7 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of void</returns>
         public async System.Threading.Tasks.Task TestQueryParameterCollectionFormatAsync(List<string> pipe, List<string> ioutil, List<string> http, List<string> url, List<string> context, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
         {
-            await TestQueryParameterCollectionFormatWithHttpInfoAsync(pipe, ioutil, http, url, context, cancellationToken);
+            await TestQueryParameterCollectionFormatWithHttpInfoAsync(pipe, ioutil, http, url, context, cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
@@ -2988,7 +2988,7 @@ namespace Org.OpenAPITools.Api
 
             // make the HTTP request
 
-            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/fake/test-query-paramters", localVarRequestOptions, this.Configuration, cancellationToken);
+            var localVarResponse = await this.AsynchronousClient.PutAsync<Object>("/fake/test-query-paramters", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
 
             if (this.ExceptionFactory != null)
             {
