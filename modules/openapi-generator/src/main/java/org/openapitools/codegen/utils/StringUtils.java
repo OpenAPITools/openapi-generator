@@ -77,8 +77,6 @@ public class StringUtils {
     public static String underscore(final String word) {
         return underscoreWordsCache.get(word, wordToUnderscore -> {
             String result;
-            String firstPattern = "([A-Z]+)([A-Z][a-z])";
-            String secondPattern = "([a-z\\d])([A-Z])";
             String replacementPattern = "$1_$2";
             // Replace package separator with slash.
             result = pkgSeparatorPattern.matcher(wordToUnderscore).replaceAll("/");
