@@ -36,11 +36,8 @@ impl AdditionalPropertiesClass {
 impl std::string::ToString for AdditionalPropertiesClass {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-            // Skipping map_property in query parameter serialization
-
-            // Skipping map_of_map_property in query parameter serialization
-            // Skipping map_of_map_property in query parameter serialization
-
+            // Skipping map map_property in query parameter serialization
+            // Skipping map map_of_map_property in query parameter serialization
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -217,18 +214,14 @@ impl Animal {
 impl std::string::ToString for Animal {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             Some("className".to_string()),
             Some(self.class_name.to_string()),
-
-
             self.color.as_ref().map(|color| {
                 [
                     "color".to_string(),
                     color.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -596,30 +589,24 @@ impl ApiResponse {
 impl std::string::ToString for ApiResponse {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.code.as_ref().map(|code| {
                 [
                     "code".to_string(),
                     code.to_string(),
                 ].join(",")
             }),
-
-
             self.r#type.as_ref().map(|r#type| {
                 [
                     "type".to_string(),
                     r#type.to_string(),
                 ].join(",")
             }),
-
-
             self.message.as_ref().map(|message| {
                 [
                     "message".to_string(),
                     message.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -798,8 +785,7 @@ impl ArrayOfArrayOfNumberOnly {
 impl std::string::ToString for ArrayOfArrayOfNumberOnly {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-            // Skipping ArrayArrayNumber in query parameter serialization
-
+            // Skipping non-primitive type ArrayArrayNumber in query parameter serialization
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -969,14 +955,12 @@ impl ArrayOfNumberOnly {
 impl std::string::ToString for ArrayOfNumberOnly {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.array_number.as_ref().map(|array_number| {
                 [
                     "ArrayNumber".to_string(),
                     array_number.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -1161,20 +1145,15 @@ impl ArrayTest {
 impl std::string::ToString for ArrayTest {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.array_of_string.as_ref().map(|array_of_string| {
                 [
                     "array_of_string".to_string(),
                     array_of_string.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
             }),
-
-            // Skipping array_array_of_integer in query parameter serialization
-
-            // Skipping array_array_of_model in query parameter serialization
-
-            // Skipping array_of_enum in query parameter serialization
-
+            // Skipping non-primitive type array_array_of_integer in query parameter serialization
+            // Skipping non-primitive type array_array_of_model in query parameter serialization
+            // Skipping non-primitive type array_of_enum in query parameter serialization
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -1379,54 +1358,42 @@ impl Capitalization {
 impl std::string::ToString for Capitalization {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.small_camel.as_ref().map(|small_camel| {
                 [
                     "smallCamel".to_string(),
                     small_camel.to_string(),
                 ].join(",")
             }),
-
-
             self.capital_camel.as_ref().map(|capital_camel| {
                 [
                     "CapitalCamel".to_string(),
                     capital_camel.to_string(),
                 ].join(",")
             }),
-
-
             self.small_snake.as_ref().map(|small_snake| {
                 [
                     "small_Snake".to_string(),
                     small_snake.to_string(),
                 ].join(",")
             }),
-
-
             self.capital_snake.as_ref().map(|capital_snake| {
                 [
                     "Capital_Snake".to_string(),
                     capital_snake.to_string(),
                 ].join(",")
             }),
-
-
             self.sca_eth_flow_points.as_ref().map(|sca_eth_flow_points| {
                 [
                     "SCA_ETH_Flow_Points".to_string(),
                     sca_eth_flow_points.to_string(),
                 ].join(",")
             }),
-
-
             self.att_name.as_ref().map(|att_name| {
                 [
                     "ATT_NAME".to_string(),
                     att_name.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -1626,26 +1593,20 @@ impl Cat {
 impl std::string::ToString for Cat {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             Some("className".to_string()),
             Some(self.class_name.to_string()),
-
-
             self.color.as_ref().map(|color| {
                 [
                     "color".to_string(),
                     color.to_string(),
                 ].join(",")
             }),
-
-
             self.declawed.as_ref().map(|declawed| {
                 [
                     "declawed".to_string(),
                     declawed.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -1830,22 +1791,18 @@ impl Category {
 impl std::string::ToString for Category {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.id.as_ref().map(|id| {
                 [
                     "id".to_string(),
                     id.to_string(),
                 ].join(",")
             }),
-
-
             self.name.as_ref().map(|name| {
                 [
                     "name".to_string(),
                     name.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -2021,14 +1978,12 @@ impl ClassModel {
 impl std::string::ToString for ClassModel {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self._class.as_ref().map(|_class| {
                 [
                     "_class".to_string(),
                     _class.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -2199,14 +2154,12 @@ impl Client {
 impl std::string::ToString for Client {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.client.as_ref().map(|client| {
                 [
                     "client".to_string(),
                     client.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -2386,26 +2339,20 @@ impl Dog {
 impl std::string::ToString for Dog {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             Some("className".to_string()),
             Some(self.class_name.to_string()),
-
-
             self.color.as_ref().map(|color| {
                 [
                     "color".to_string(),
                     color.to_string(),
                 ].join(",")
             }),
-
-
             self.breed.as_ref().map(|breed| {
                 [
                     "breed".to_string(),
                     breed.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -2585,14 +2532,12 @@ impl DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
 impl std::string::ToString for DollarSpecialLeftSquareBracketModelPeriodNameRightSquareBracket {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.dollar_special_left_square_bracket_property_period_name_right_square_bracket.as_ref().map(|dollar_special_left_square_bracket_property_period_name_right_square_bracket| {
                 [
                     "$special[property.name]".to_string(),
                     dollar_special_left_square_bracket_property_period_name_right_square_bracket.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -2773,12 +2718,9 @@ impl EnumArrays {
 impl std::string::ToString for EnumArrays {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-            // Skipping just_symbol in query parameter serialization
-
-            // Skipping array_enum in query parameter serialization
-
-            // Skipping array_array_enum in query parameter serialization
-
+            // Skipping non-primitive type just_symbol in query parameter serialization
+            // Skipping non-primitive type array_enum in query parameter serialization
+            // Skipping non-primitive type array_array_enum in query parameter serialization
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -3490,16 +3432,11 @@ impl EnumTest {
 impl std::string::ToString for EnumTest {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-            // Skipping enum_string in query parameter serialization
-
-            // Skipping enum_string_required in query parameter serialization
-
-            // Skipping enum_integer in query parameter serialization
-
-            // Skipping enum_number in query parameter serialization
-
-            // Skipping outerEnum in query parameter serialization
-
+            // Skipping non-primitive type enum_string in query parameter serialization
+            // Skipping non-primitive type enum_string_required in query parameter serialization
+            // Skipping non-primitive type enum_integer in query parameter serialization
+            // Skipping non-primitive type enum_number in query parameter serialization
+            // Skipping non-primitive type outerEnum in query parameter serialization
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -4172,74 +4109,51 @@ impl FormatTest {
 impl std::string::ToString for FormatTest {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.integer.as_ref().map(|integer| {
                 [
                     "integer".to_string(),
                     integer.to_string(),
                 ].join(",")
             }),
-
-
             self.int32.as_ref().map(|int32| {
                 [
                     "int32".to_string(),
                     int32.to_string(),
                 ].join(",")
             }),
-
-
             self.int64.as_ref().map(|int64| {
                 [
                     "int64".to_string(),
                     int64.to_string(),
                 ].join(",")
             }),
-
-
             Some("number".to_string()),
             Some(self.number.to_string()),
-
-
             self.float.as_ref().map(|float| {
                 [
                     "float".to_string(),
                     float.to_string(),
                 ].join(",")
             }),
-
-
             self.double.as_ref().map(|double| {
                 [
                     "double".to_string(),
                     double.to_string(),
                 ].join(",")
             }),
-
-
             self.string.as_ref().map(|string| {
                 [
                     "string".to_string(),
                     string.to_string(),
                 ].join(",")
             }),
-
-            // Skipping byte in query parameter serialization
-            // Skipping byte in query parameter serialization
-
-            // Skipping binary in query parameter serialization
-            // Skipping binary in query parameter serialization
-
-            // Skipping date in query parameter serialization
-
-            // Skipping dateTime in query parameter serialization
-
-            // Skipping uuid in query parameter serialization
-
-
+            // Skipping byte array byte in query parameter serialization
+            // Skipping binary data binary in query parameter serialization
+            // Skipping non-primitive type date in query parameter serialization
+            // Skipping non-primitive type dateTime in query parameter serialization
+            // Skipping non-primitive type uuid in query parameter serialization
             Some("password".to_string()),
             Some(self.password.to_string()),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -4461,22 +4375,18 @@ impl HasOnlyReadOnly {
 impl std::string::ToString for HasOnlyReadOnly {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.bar.as_ref().map(|bar| {
                 [
                     "bar".to_string(),
                     bar.to_string(),
                 ].join(",")
             }),
-
-
             self.foo.as_ref().map(|foo| {
                 [
                     "foo".to_string(),
                     foo.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -4651,14 +4561,12 @@ impl List {
 impl std::string::ToString for List {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.param_123_list.as_ref().map(|param_123_list| {
                 [
                     "123-list".to_string(),
                     param_123_list.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -4839,15 +4747,9 @@ impl MapTest {
 impl std::string::ToString for MapTest {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-            // Skipping map_map_of_string in query parameter serialization
-            // Skipping map_map_of_string in query parameter serialization
-
-            // Skipping map_map_of_enum in query parameter serialization
-            // Skipping map_map_of_enum in query parameter serialization
-
-            // Skipping map_of_enum_string in query parameter serialization
-            // Skipping map_of_enum_string in query parameter serialization
-
+            // Skipping map map_map_of_string in query parameter serialization
+            // Skipping map map_map_of_enum in query parameter serialization
+            // Skipping map map_of_enum_string in query parameter serialization
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -5161,13 +5063,9 @@ impl MixedPropertiesAndAdditionalPropertiesClass {
 impl std::string::ToString for MixedPropertiesAndAdditionalPropertiesClass {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-            // Skipping uuid in query parameter serialization
-
-            // Skipping dateTime in query parameter serialization
-
-            // Skipping map in query parameter serialization
-            // Skipping map in query parameter serialization
-
+            // Skipping non-primitive type uuid in query parameter serialization
+            // Skipping non-primitive type dateTime in query parameter serialization
+            // Skipping map map in query parameter serialization
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -5352,22 +5250,18 @@ impl Model200Response {
 impl std::string::ToString for Model200Response {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.name.as_ref().map(|name| {
                 [
                     "name".to_string(),
                     name.to_string(),
                 ].join(",")
             }),
-
-
             self.class.as_ref().map(|class| {
                 [
                     "class".to_string(),
                     class.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -5558,34 +5452,26 @@ impl Name {
 impl std::string::ToString for Name {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             Some("name".to_string()),
             Some(self.name.to_string()),
-
-
             self.snake_case.as_ref().map(|snake_case| {
                 [
                     "snake_case".to_string(),
                     snake_case.to_string(),
                 ].join(",")
             }),
-
-
             self.property.as_ref().map(|property| {
                 [
                     "property".to_string(),
                     property.to_string(),
                 ].join(",")
             }),
-
-
             self.param_123_number.as_ref().map(|param_123_number| {
                 [
                     "123Number".to_string(),
                     param_123_number.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -5768,14 +5654,12 @@ impl NumberOnly {
 impl std::string::ToString for NumberOnly {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.just_number.as_ref().map(|just_number| {
                 [
                     "JustNumber".to_string(),
                     just_number.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -5946,8 +5830,7 @@ impl ObjectContainingObjectWithOnlyAdditionalProperties {
 impl std::string::ToString for ObjectContainingObjectWithOnlyAdditionalProperties {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-            // Skipping inner in query parameter serialization
-
+            // Skipping non-primitive type inner in query parameter serialization
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -6287,42 +6170,32 @@ impl Order {
 impl std::string::ToString for Order {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.id.as_ref().map(|id| {
                 [
                     "id".to_string(),
                     id.to_string(),
                 ].join(",")
             }),
-
-
             self.pet_id.as_ref().map(|pet_id| {
                 [
                     "petId".to_string(),
                     pet_id.to_string(),
                 ].join(",")
             }),
-
-
             self.quantity.as_ref().map(|quantity| {
                 [
                     "quantity".to_string(),
                     quantity.to_string(),
                 ].join(",")
             }),
-
-            // Skipping shipDate in query parameter serialization
-
-            // Skipping status in query parameter serialization
-
-
+            // Skipping non-primitive type shipDate in query parameter serialization
+            // Skipping non-primitive type status in query parameter serialization
             self.complete.as_ref().map(|complete| {
                 [
                     "complete".to_string(),
                     complete.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -6801,30 +6674,24 @@ impl OuterComposite {
 impl std::string::ToString for OuterComposite {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.my_number.as_ref().map(|my_number| {
                 [
                     "my_number".to_string(),
                     my_number.to_string(),
                 ].join(",")
             }),
-
-
             self.my_string.as_ref().map(|my_string| {
                 [
                     "my_string".to_string(),
                     my_string.to_string(),
                 ].join(",")
             }),
-
-
             self.my_boolean.as_ref().map(|my_boolean| {
                 [
                     "my_boolean".to_string(),
                     my_boolean.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -7439,28 +7306,19 @@ impl Pet {
 impl std::string::ToString for Pet {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.id.as_ref().map(|id| {
                 [
                     "id".to_string(),
                     id.to_string(),
                 ].join(",")
             }),
-
-            // Skipping category in query parameter serialization
-
-
+            // Skipping non-primitive type category in query parameter serialization
             Some("name".to_string()),
             Some(self.name.to_string()),
-
-
             Some("photoUrls".to_string()),
             Some(self.photo_urls.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")),
-
-            // Skipping tags in query parameter serialization
-
-            // Skipping status in query parameter serialization
-
+            // Skipping non-primitive type tags in query parameter serialization
+            // Skipping non-primitive type status in query parameter serialization
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -7787,22 +7645,18 @@ impl ReadOnlyFirst {
 impl std::string::ToString for ReadOnlyFirst {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.bar.as_ref().map(|bar| {
                 [
                     "bar".to_string(),
                     bar.to_string(),
                 ].join(",")
             }),
-
-
             self.baz.as_ref().map(|baz| {
                 [
                     "baz".to_string(),
                     baz.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -7979,14 +7833,12 @@ impl Return {
 impl std::string::ToString for Return {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.r#return.as_ref().map(|r#return| {
                 [
                     "return".to_string(),
                     r#return.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -8163,22 +8015,18 @@ impl Tag {
 impl std::string::ToString for Tag {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.id.as_ref().map(|id| {
                 [
                     "id".to_string(),
                     id.to_string(),
                 ].join(",")
             }),
-
-
             self.name.as_ref().map(|name| {
                 [
                     "name".to_string(),
                     name.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -9039,70 +8887,54 @@ impl User {
 impl std::string::ToString for User {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.id.as_ref().map(|id| {
                 [
                     "id".to_string(),
                     id.to_string(),
                 ].join(",")
             }),
-
-
             self.username.as_ref().map(|username| {
                 [
                     "username".to_string(),
                     username.to_string(),
                 ].join(",")
             }),
-
-
             self.first_name.as_ref().map(|first_name| {
                 [
                     "firstName".to_string(),
                     first_name.to_string(),
                 ].join(",")
             }),
-
-
             self.last_name.as_ref().map(|last_name| {
                 [
                     "lastName".to_string(),
                     last_name.to_string(),
                 ].join(",")
             }),
-
-
             self.email.as_ref().map(|email| {
                 [
                     "email".to_string(),
                     email.to_string(),
                 ].join(",")
             }),
-
-
             self.password.as_ref().map(|password| {
                 [
                     "password".to_string(),
                     password.to_string(),
                 ].join(",")
             }),
-
-
             self.phone.as_ref().map(|phone| {
                 [
                     "phone".to_string(),
                     phone.to_string(),
                 ].join(",")
             }),
-
-
             self.user_status.as_ref().map(|user_status| {
                 [
                     "userStatus".to_string(),
                     user_status.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")

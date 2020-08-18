@@ -149,6 +149,192 @@ impl AdditionalPropertiesWithList {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct AdditionalPropertiesWithNullable {
+    #[serde(rename = "nullableString")]
+    #[serde(deserialize_with = "swagger::nullable_format::deserialize_optional_nullable")]
+    #[serde(default = "swagger::nullable_format::default_optional_nullable")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub nullable_string: Option<swagger::Nullable<String>>,
+
+    #[serde(rename = "nullableMap")]
+    #[serde(skip_serializing_if="Option::is_none")]
+    pub nullable_map: Option<std::collections::HashMap<String, swagger::Nullable<models::NullableObject>>>,
+
+}
+
+
+impl AdditionalPropertiesWithNullable {
+    #[allow(clippy::new_without_default)]
+    pub fn new() -> AdditionalPropertiesWithNullable {
+        AdditionalPropertiesWithNullable {
+            nullable_string: None,
+            nullable_map: None,
+        }
+    }
+}
+
+/// Converts the AdditionalPropertiesWithNullable value to the Query Parameters representation (style=form, explode=false)
+/// specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde serializer
+impl std::string::ToString for AdditionalPropertiesWithNullable {
+    fn to_string(&self) -> String {
+        let params: Vec<Option<String>> = vec![
+            self.nullable_string.as_ref().map(|nullable_string| {
+                [
+                    "nullableString".to_string(),
+                    nullable_string.as_ref().map_or("null".to_string(), |x| x.to_string()),
+                ].join(",")
+            }),
+            // Skipping map nullableMap in query parameter serialization
+        ];
+
+        params.into_iter().flatten().collect::<Vec<_>>().join(",")
+    }
+}
+
+/// Converts Query Parameters representation (style=form, explode=false) to a AdditionalPropertiesWithNullable value
+/// as specified in https://swagger.io/docs/specification/serialization/
+/// Should be implemented in a serde deserializer
+impl std::str::FromStr for AdditionalPropertiesWithNullable {
+    type Err = String;
+
+    fn from_str(s: &str) -> std::result::Result<Self, Self::Err> {
+        /// An intermediate representation of the struct to use for parsing.
+        #[derive(Default)]
+        #[allow(dead_code)]
+        struct IntermediateRep {
+            pub nullable_string: Vec<swagger::Nullable<String>>,
+            pub nullable_map: Vec<std::collections::HashMap<String, swagger::Nullable<models::NullableObject>>>,
+        }
+
+        let mut intermediate_rep = IntermediateRep::default();
+
+        // Parse into intermediate representation
+        let mut string_iter = s.split(',');
+        let mut key_result = string_iter.next();
+
+        while key_result.is_some() {
+            let val = match string_iter.next() {
+                Some(x) => x,
+                None => return std::result::Result::Err("Missing value while parsing AdditionalPropertiesWithNullable".to_string())
+            };
+
+            if let Some(key) = key_result {
+                #[allow(clippy::match_single_binding)]
+                match key {
+                    "nullableString" => return std::result::Result::Err("Parsing a nullable type in this style is not supported in AdditionalPropertiesWithNullable".to_string()),
+                    "nullableMap" => return std::result::Result::Err("Parsing a container in this style is not supported in AdditionalPropertiesWithNullable".to_string()),
+                    _ => return std::result::Result::Err("Unexpected key while parsing AdditionalPropertiesWithNullable".to_string())
+                }
+            }
+
+            // Get the next key
+            key_result = string_iter.next();
+        }
+
+        // Use the intermediate representation to return the struct
+        std::result::Result::Ok(AdditionalPropertiesWithNullable {
+            nullable_string: std::result::Result::Err("Nullable types not supported in AdditionalPropertiesWithNullable".to_string())?,
+            nullable_map: intermediate_rep.nullable_map.into_iter().next(),
+        })
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<AdditionalPropertiesWithNullable> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<AdditionalPropertiesWithNullable>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<AdditionalPropertiesWithNullable>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for AdditionalPropertiesWithNullable - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<AdditionalPropertiesWithNullable> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <AdditionalPropertiesWithNullable as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into AdditionalPropertiesWithNullable - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<AdditionalPropertiesWithNullable>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<AdditionalPropertiesWithNullable>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<AdditionalPropertiesWithNullable>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<AdditionalPropertiesWithNullable> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <AdditionalPropertiesWithNullable as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into AdditionalPropertiesWithNullable - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl AdditionalPropertiesWithNullable {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 // Utility function for wrapping list elements when serializing xml
 #[allow(non_snake_case)]
 fn wrap_in_snake_another_xml_inner<S>(item: &Vec<String>, serializer: S) -> std::result::Result<S::Ok, S::Error>
@@ -505,14 +691,12 @@ impl AnotherXmlObject {
 impl std::string::ToString for AnotherXmlObject {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.inner_string.as_ref().map(|inner_string| {
                 [
                     "inner_string".to_string(),
                     inner_string.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -1256,10 +1440,8 @@ impl AnyOfProperty {
 impl std::string::ToString for AnyOfProperty {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-            // Skipping requiredAnyOf in query parameter serialization
-
-            // Skipping optionalAnyOf in query parameter serialization
-
+            // Skipping non-primitive type requiredAnyOf in query parameter serialization
+            // Skipping non-primitive type optionalAnyOf in query parameter serialization
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -1441,16 +1623,13 @@ impl DuplicateXmlObject {
 impl std::string::ToString for DuplicateXmlObject {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.inner_string.as_ref().map(|inner_string| {
                 [
                     "inner_string".to_string(),
                     inner_string.to_string(),
                 ].join(",")
             }),
-
-            // Skipping inner_array in query parameter serialization
-
+            // Skipping non-primitive type inner_array in query parameter serialization
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -2313,14 +2492,12 @@ impl MultigetGet201Response {
 impl std::string::ToString for MultigetGet201Response {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.foo.as_ref().map(|foo| {
                 [
                     "foo".to_string(),
                     foo.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -2794,6 +2971,141 @@ impl MyIdList {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, PartialOrd, serde::Serialize, serde::Deserialize)]
+#[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
+pub struct NullableObject(String);
+
+impl std::convert::From<String> for NullableObject {
+    fn from(x: String) -> Self {
+        NullableObject(x)
+    }
+}
+
+impl std::convert::From<NullableObject> for String {
+    fn from(x: NullableObject) -> Self {
+        x.0
+    }
+}
+
+impl std::ops::Deref for NullableObject {
+    type Target = String;
+    fn deref(&self) -> &String {
+        &self.0
+    }
+}
+
+impl std::ops::DerefMut for NullableObject {
+    fn deref_mut(&mut self) -> &mut String {
+        &mut self.0
+    }
+}
+
+impl std::string::ToString for NullableObject {
+    fn to_string(&self) -> String {
+       self.0.clone()
+    }
+}
+
+impl std::str::FromStr for NullableObject {
+    type Err = ::std::convert::Infallible;
+    fn from_str(x: &str) -> std::result::Result<Self, Self::Err> {
+        std::result::Result::Ok(NullableObject(x.to_owned()))
+    }
+}
+
+// Methods for converting between header::IntoHeaderValue<NullableObject> and hyper::header::HeaderValue
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<header::IntoHeaderValue<NullableObject>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_value: header::IntoHeaderValue<NullableObject>) -> std::result::Result<Self, Self::Error> {
+        let hdr_value = hdr_value.to_string();
+        match hyper::header::HeaderValue::from_str(&hdr_value) {
+             std::result::Result::Ok(value) => std::result::Result::Ok(value),
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Invalid header value for NullableObject - value: {} is invalid {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(any(feature = "client", feature = "server"))]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<NullableObject> {
+    type Error = String;
+
+    fn try_from(hdr_value: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_value.to_str() {
+             std::result::Result::Ok(value) => {
+                    match <NullableObject as std::str::FromStr>::from_str(value) {
+                        std::result::Result::Ok(value) => std::result::Result::Ok(header::IntoHeaderValue(value)),
+                        std::result::Result::Err(err) => std::result::Result::Err(
+                            format!("Unable to convert header value '{}' into NullableObject - {}",
+                                value, err))
+                    }
+             },
+             std::result::Result::Err(e) => std::result::Result::Err(
+                 format!("Unable to convert header: {:?} to string: {}",
+                     hdr_value, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<header::IntoHeaderValue<Vec<NullableObject>>> for hyper::header::HeaderValue {
+    type Error = String;
+
+    fn try_from(hdr_values: header::IntoHeaderValue<Vec<NullableObject>>) -> std::result::Result<Self, Self::Error> {
+        let hdr_values : Vec<String> = hdr_values.0.into_iter().map(|hdr_value| {
+            hdr_value.to_string()
+        }).collect();
+
+        match hyper::header::HeaderValue::from_str(&hdr_values.join(", ")) {
+           std::result::Result::Ok(hdr_value) => std::result::Result::Ok(hdr_value),
+           std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to convert {:?} into a header - {}",
+               hdr_values, e))
+        }
+    }
+}
+
+#[cfg(feature = "server")]
+impl std::convert::TryFrom<hyper::header::HeaderValue> for header::IntoHeaderValue<Vec<NullableObject>> {
+    type Error = String;
+
+    fn try_from(hdr_values: hyper::header::HeaderValue) -> std::result::Result<Self, Self::Error> {
+        match hdr_values.to_str() {
+            std::result::Result::Ok(hdr_values) => {
+                let hdr_values : std::vec::Vec<NullableObject> = hdr_values
+                .split(',')
+                .filter_map(|hdr_value| match hdr_value.trim() {
+                    "" => std::option::Option::None,
+                    hdr_value => std::option::Option::Some({
+                        match <NullableObject as std::str::FromStr>::from_str(hdr_value) {
+                            std::result::Result::Ok(value) => std::result::Result::Ok(value),
+                            std::result::Result::Err(err) => std::result::Result::Err(
+                                format!("Unable to convert header value '{}' into NullableObject - {}",
+                                    hdr_value, err))
+                        }
+                    })
+                }).collect::<std::result::Result<std::vec::Vec<_>, String>>()?;
+
+                std::result::Result::Ok(header::IntoHeaderValue(hdr_values))
+            },
+            std::result::Result::Err(e) => std::result::Result::Err(format!("Unable to parse header: {:?} as a string - {}",
+                hdr_values, e)),
+        }
+    }
+}
+
+impl NullableObject {
+    /// Helper function to allow us to convert this model to an XML string.
+    /// Will panic if serialisation fails.
+    #[allow(dead_code)]
+    pub(crate) fn as_xml(&self) -> String {
+        serde_xml_rs::to_string(&self).expect("impossible to fail to serialize")
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize, validator::Validate)]
 #[cfg_attr(feature = "conversion", derive(frunk::LabelledGeneric))]
 pub struct NullableTest {
@@ -2870,66 +3182,50 @@ impl NullableTest {
 impl std::string::ToString for NullableTest {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             Some("nullable".to_string()),
             Some(self.nullable.as_ref().map_or("null".to_string(), |x| x.to_string())),
-
-
             self.nullable_with_null_default.as_ref().map(|nullable_with_null_default| {
                 [
                     "nullableWithNullDefault".to_string(),
                     nullable_with_null_default.as_ref().map_or("null".to_string(), |x| x.to_string()),
                 ].join(",")
             }),
-
-
             self.nullable_with_present_default.as_ref().map(|nullable_with_present_default| {
                 [
                     "nullableWithPresentDefault".to_string(),
                     nullable_with_present_default.as_ref().map_or("null".to_string(), |x| x.to_string()),
                 ].join(",")
             }),
-
-
             self.nullable_with_no_default.as_ref().map(|nullable_with_no_default| {
                 [
                     "nullableWithNoDefault".to_string(),
                     nullable_with_no_default.as_ref().map_or("null".to_string(), |x| x.to_string()),
                 ].join(",")
             }),
-
-
             self.nullable_array.as_ref().map(|nullable_array| {
                 [
                     "nullableArray".to_string(),
                     nullable_array.as_ref().map_or("null".to_string(), |x| x.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(",")),
                 ].join(",")
             }),
-
-
             self.min_item_test.as_ref().map(|min_item_test| {
                 [
                     "min_item_test".to_string(),
                     min_item_test.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
             }),
-
-
             self.max_item_test.as_ref().map(|max_item_test| {
                 [
                     "max_item_test".to_string(),
                     max_item_test.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
             }),
-
-
             self.min_max_item_test.as_ref().map(|min_max_item_test| {
                 [
                     "min_max_item_test".to_string(),
                     min_max_item_test.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -2947,11 +3243,11 @@ impl std::str::FromStr for NullableTest {
         #[derive(Default)]
         #[allow(dead_code)]
         struct IntermediateRep {
-            pub nullable: Vec<String>,
-            pub nullable_with_null_default: Vec<String>,
-            pub nullable_with_present_default: Vec<String>,
-            pub nullable_with_no_default: Vec<String>,
-            pub nullable_array: Vec<Vec<String>>,
+            pub nullable: Vec<swagger::Nullable<String>>,
+            pub nullable_with_null_default: Vec<swagger::Nullable<String>>,
+            pub nullable_with_present_default: Vec<swagger::Nullable<String>>,
+            pub nullable_with_no_default: Vec<swagger::Nullable<String>>,
+            pub nullable_array: Vec<swagger::Nullable<Vec<String>>>,
             pub min_item_test: Vec<Vec<i32>>,
             pub max_item_test: Vec<Vec<i32>>,
             pub min_max_item_test: Vec<Vec<i32>>,
@@ -3124,18 +3420,14 @@ impl ObjectHeader {
 impl std::string::ToString for ObjectHeader {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             Some("requiredObjectHeader".to_string()),
             Some(self.required_object_header.to_string()),
-
-
             self.optional_object_header.as_ref().map(|optional_object_header| {
                 [
                     "optionalObjectHeader".to_string(),
                     optional_object_header.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -3314,18 +3606,14 @@ impl ObjectParam {
 impl std::string::ToString for ObjectParam {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             Some("requiredParam".to_string()),
             Some(self.required_param.to_string()),
-
-
             self.optional_param.as_ref().map(|optional_param| {
                 [
                     "optionalParam".to_string(),
                     optional_param.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -3513,14 +3801,10 @@ impl ObjectUntypedProps {
 impl std::string::ToString for ObjectUntypedProps {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-            // Skipping required_untyped in query parameter serialization
-
-            // Skipping required_untyped_nullable in query parameter serialization
-
-            // Skipping not_required_untyped in query parameter serialization
-
-            // Skipping not_required_untyped_nullable in query parameter serialization
-
+            // Skipping non-primitive type required_untyped in query parameter serialization
+            // Skipping non-primitive type required_untyped_nullable in query parameter serialization
+            // Skipping non-primitive type not_required_untyped in query parameter serialization
+            // Skipping non-primitive type not_required_untyped_nullable in query parameter serialization
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -3539,7 +3823,7 @@ impl std::str::FromStr for ObjectUntypedProps {
         #[allow(dead_code)]
         struct IntermediateRep {
             pub required_untyped: Vec<serde_json::Value>,
-            pub required_untyped_nullable: Vec<serde_json::Value>,
+            pub required_untyped_nullable: Vec<swagger::Nullable<serde_json::Value>>,
             pub not_required_untyped: Vec<serde_json::Value>,
             pub not_required_untyped_nullable: Vec<serde_json::Value>,
         }
@@ -3702,14 +3986,12 @@ impl ObjectWithArrayOfObjects {
 impl std::string::ToString for ObjectWithArrayOfObjects {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.object_array.as_ref().map(|object_array| {
                 [
                     "objectArray".to_string(),
                     object_array.iter().map(|x| x.to_string()).collect::<Vec<_>>().join(","),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
@@ -5327,22 +5609,18 @@ impl XmlObject {
 impl std::string::ToString for XmlObject {
     fn to_string(&self) -> String {
         let params: Vec<Option<String>> = vec![
-
             self.inner_string.as_ref().map(|inner_string| {
                 [
                     "innerString".to_string(),
                     inner_string.to_string(),
                 ].join(",")
             }),
-
-
             self.other_inner_rename.as_ref().map(|other_inner_rename| {
                 [
                     "other_inner_rename".to_string(),
                     other_inner_rename.to_string(),
                 ].join(",")
             }),
-
         ];
 
         params.into_iter().flatten().collect::<Vec<_>>().join(",")
