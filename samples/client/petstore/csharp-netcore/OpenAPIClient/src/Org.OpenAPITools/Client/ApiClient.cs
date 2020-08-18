@@ -526,7 +526,7 @@ namespace Org.OpenAPITools.Client
             if (RetryConfiguration.AsyncRetryPolicy != null)
             {
                 var policy = RetryConfiguration.AsyncRetryPolicy;
-                var policyResult = await policy.ExecuteAndCaptureAsync(() => client.ExecuteAsync<T>(req, cancellationToken).ConfigureAwait(false));
+                var policyResult = await policy.ExecuteAndCaptureAsync(() => client.ExecuteAsync(req, cancellationToken)).ConfigureAwait(false);
                 response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
                 {
                     Request = req,
@@ -535,7 +535,7 @@ namespace Org.OpenAPITools.Client
             }
             else
             {
-                 response = client.ExecuteAsync<T>(req, cancellationToken).ConfigureAwait(false);
+                 response = await client.ExecuteAsync<T>(req, cancellationToken).ConfigureAwait(false);
             }
 
             InterceptResponse(req, response);
