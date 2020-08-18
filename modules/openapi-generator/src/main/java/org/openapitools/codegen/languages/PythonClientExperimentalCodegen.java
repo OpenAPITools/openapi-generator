@@ -215,25 +215,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         LOGGER.info(CodegenConstants.GENERATE_ALIAS_AS_MODEL + " is hard coded to true in this generator. Alias models will only be generated if they contain validations or enums");
     }
 
-//    /***
-//     * We have a custom version of this method so we can store a map going from python ModelNames to schemas
-//     *
-//     * @param openAPI input spec
-//     */
-//    @Override
-//    public void setOpenAPI(OpenAPI openAPI) {
-//        super.setOpenAPI(openAPI);
-//        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(openAPI);
-//        for (Map.Entry<String, Schema> entry: allDefinitions.entrySet()) {
-//            Schema modelSchema = entry.getValue();
-//            if (modelWillBeMade(modelSchema)) {
-//                String schemaName = entry.getKey();
-//                String schemaModelName = toModelName(schemaName);
-//                modelNameToSchema.put(schemaModelName, modelSchema);
-//            }
-//        }
-//    }
-
     /**
      * Configures a friendly name for the generator.  This will be used by the
      * generator to select the library with the -g flag.

@@ -980,7 +980,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     string = "a" # str | None (optional)
     binary = open('/path/to/file.txt', 'rb') # file_type | None (optional)
     date = datetime.datetime.strptime('1970-01-01', '%Y-%m-%d').date() # date | None (optional)
-    date_time = datetime.datetime.strptime('1970-01-01T00:00:00.00Z', '%Y-%m-%dT%H:%M:%S.%f') # datetime | None (optional)
+    date_time = datetime.datetime.strptime('1970-01-01T00:00:00.00Z', '%Y-%m-%dT%H:%M:%S.%f') # datetime | None (optional) if omitted the server will use the default value of dateutil_parser('2010-02-01T10:20:10.11111+01:00')
     password = "password_example" # str | None (optional)
     param_callback = "param_callback_example" # str | None (optional)
 
@@ -1015,7 +1015,7 @@ Name | Type | Description  | Notes
  **string** | **str**| None | [optional]
  **binary** | **file_type**| None | [optional]
  **date** | **date**| None | [optional]
- **date_time** | **datetime**| None | [optional]
+ **date_time** | **datetime**| None | [optional] if omitted the server will use the default value of dateutil_parser('2010-02-01T10:20:10.11111+01:00')
  **password** | **str**| None | [optional]
  **param_callback** | **str**| None | [optional]
 
