@@ -20,6 +20,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -28,6 +29,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -98,8 +100,8 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
         supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
 
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
-        Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
-                (openAPI.getComponents() != null ? openAPI.getComponents().getSecuritySchemes() : null) : null;
+        Map<String, List<SecurityScheme>> securitySchemeMap = openAPI != null ?
+                (openAPI.getComponents() != null ? AuthParser.toSecuritySchemeContainer(openAPI.getComponents().getSecuritySchemes()) : null) : null;
         List<CodegenSecurity> authMethods = fromSecurity(securitySchemeMap);
         if (ProcessUtils.hasHttpSignatureMethods(authMethods)) {
             supportingFiles.add(new SupportingFile("signing.mustache", "", "signing.go"));

@@ -187,7 +187,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     }
 
     @Override
-    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> securitySchemeMap) {
+    public List<CodegenSecurity> fromSecurity(Map<String, List<SecurityScheme>> securitySchemeMap) {
         List<CodegenSecurity> codegenSecurities = super.fromSecurity(securitySchemeMap);
         if (Boolean.FALSE.equals(codegenSecurities.isEmpty())) {
             supportingFiles.add(new SupportingFile("abstract_authenticator.mustache", toSrcPath(authPackage, srcBasePath), toAbstractName("Authenticator") + ".php"));

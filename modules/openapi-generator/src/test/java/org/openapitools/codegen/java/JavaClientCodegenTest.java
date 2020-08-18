@@ -649,7 +649,7 @@ public class JavaClientCodegenTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/pingBearerAuth.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
 
-        List<CodegenSecurity> security = codegen.fromSecurity(openAPI.getComponents().getSecuritySchemes());
+        List<CodegenSecurity> security = codegen.fromSecurity(openAPI.getComponents().getSecuritySchemes().entrySet().stream().collect(Collectors.toMap(e -> e.getKey(), e -> Collections.singletonList(e.getValue()))));
         Assert.assertEquals(security.size(), 1);
         Assert.assertEquals(security.get(0).isBasic, Boolean.TRUE);
         Assert.assertEquals(security.get(0).isBasicBasic, Boolean.FALSE);

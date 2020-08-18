@@ -234,7 +234,7 @@ public class ScalaAkkaClientCodegen extends AbstractScalaCodegen implements Code
     }
 
     @Override
-    public List<CodegenSecurity> fromSecurity(Map<String, SecurityScheme> schemes) {
+    public List<CodegenSecurity> fromSecurity(Map<String, List<SecurityScheme>> schemes) {
         final List<CodegenSecurity> codegenSecurities = super.fromSecurity(schemes);
         if (!removeOAuthSecurities) {
             return codegenSecurities;
