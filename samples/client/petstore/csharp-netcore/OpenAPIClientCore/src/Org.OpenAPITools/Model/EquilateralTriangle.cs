@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// EquilateralTriangle
     /// </summary>
-    [DataContract(Name="EquilateralTriangle")]
+    [DataContract(Name = "EquilateralTriangle")]
     public partial class EquilateralTriangle : IEquatable<EquilateralTriangle>, IValidatableObject
     {
         /// <summary>

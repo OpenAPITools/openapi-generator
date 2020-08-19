@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// InlineObject2
     /// </summary>
-    [DataContract(Name="inline_object_2")]
+    [DataContract(Name = "inline_object_2")]
     public partial class InlineObject2 : IEquatable<InlineObject2>, IValidatableObject
     {
         /// <summary>

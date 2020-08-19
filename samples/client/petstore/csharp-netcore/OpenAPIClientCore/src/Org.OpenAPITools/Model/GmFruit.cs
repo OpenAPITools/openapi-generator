@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// GmFruit
     /// </summary>
-    [DataContract(Name="gmFruit")]
+    [DataContract(Name = "gmFruit")]
     public partial class GmFruit : IEquatable<GmFruit>, IValidatableObject
     {
         /// <summary>

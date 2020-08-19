@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// OuterComposite
     /// </summary>
-    [DataContract(Name="OuterComposite")]
+    [DataContract(Name = "OuterComposite")]
     public partial class OuterComposite : IEquatable<OuterComposite>, IValidatableObject
     {
         /// <summary>

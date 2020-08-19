@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// AdditionalPropertiesClass
     /// </summary>
-    [DataContract(Name="AdditionalPropertiesClass")]
+    [DataContract(Name = "AdditionalPropertiesClass")]
     public partial class AdditionalPropertiesClass : IEquatable<AdditionalPropertiesClass>, IValidatableObject
     {
         /// <summary>

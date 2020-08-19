@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ArrayTest
     /// </summary>
-    [DataContract(Name="ArrayTest")]
+    [DataContract(Name = "ArrayTest")]
     public partial class ArrayTest : IEquatable<ArrayTest>, IValidatableObject
     {
         /// <summary>

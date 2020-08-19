@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Cat
     /// </summary>
-    [DataContract(Name="Cat")]
+    [DataContract(Name = "Cat")]
     public partial class Cat : Animal, IEquatable<Cat>, IValidatableObject
     {
         /// <summary>

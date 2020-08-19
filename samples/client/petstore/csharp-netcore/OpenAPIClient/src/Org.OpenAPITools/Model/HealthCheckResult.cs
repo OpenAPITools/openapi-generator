@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
     /// </summary>
-    [DataContract(Name="HealthCheckResult")]
+    [DataContract(Name = "HealthCheckResult")]
     public partial class HealthCheckResult : IEquatable<HealthCheckResult>, IValidatableObject
     {
         /// <summary>

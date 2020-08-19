@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// SimpleQuadrilateral
     /// </summary>
-    [DataContract(Name="SimpleQuadrilateral")]
+    [DataContract(Name = "SimpleQuadrilateral")]
     public partial class SimpleQuadrilateral : IEquatable<SimpleQuadrilateral>, IValidatableObject
     {
         /// <summary>

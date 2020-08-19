@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// EnumArrays
     /// </summary>
-    [DataContract(Name="EnumArrays")]
+    [DataContract(Name = "EnumArrays")]
     public partial class EnumArrays : IEquatable<EnumArrays>, IValidatableObject
     {
         /// <summary>

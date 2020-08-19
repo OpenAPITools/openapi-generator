@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Model for testing model name same as property name
     /// </summary>
-    [DataContract(Name="Name")]
+    [DataContract(Name = "Name")]
     public partial class Name : IEquatable<Name>, IValidatableObject
     {
         /// <summary>

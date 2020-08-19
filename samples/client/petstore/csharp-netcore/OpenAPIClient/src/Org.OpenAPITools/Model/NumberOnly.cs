@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// NumberOnly
     /// </summary>
-    [DataContract(Name="NumberOnly")]
+    [DataContract(Name = "NumberOnly")]
     public partial class NumberOnly : IEquatable<NumberOnly>, IValidatableObject
     {
         /// <summary>

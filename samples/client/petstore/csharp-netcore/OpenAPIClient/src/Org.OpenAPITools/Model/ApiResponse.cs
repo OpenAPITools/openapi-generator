@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ApiResponse
     /// </summary>
-    [DataContract(Name="ApiResponse")]
+    [DataContract(Name = "ApiResponse")]
     public partial class ApiResponse : IEquatable<ApiResponse>, IValidatableObject
     {
         /// <summary>

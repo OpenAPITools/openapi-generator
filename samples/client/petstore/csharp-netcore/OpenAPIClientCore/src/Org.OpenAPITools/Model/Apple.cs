@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Apple
     /// </summary>
-    [DataContract(Name="apple")]
+    [DataContract(Name = "apple")]
     public partial class Apple : IEquatable<Apple>, IValidatableObject
     {
         /// <summary>

@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Triangle
     /// </summary>
-    [DataContract(Name="Triangle")]
+    [DataContract(Name = "Triangle")]
     [JsonConverter(typeof(JsonSubtypes), "TriangleType")]
     public partial class Triangle : IEquatable<Triangle>, IValidatableObject
     {

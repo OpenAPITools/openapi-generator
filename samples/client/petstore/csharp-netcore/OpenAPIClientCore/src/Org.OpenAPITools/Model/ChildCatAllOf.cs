@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ChildCatAllOf
     /// </summary>
-    [DataContract(Name="ChildCat_allOf")]
+    [DataContract(Name = "ChildCat_allOf")]
     public partial class ChildCatAllOf : IEquatable<ChildCatAllOf>, IValidatableObject
     {
         /// <summary>

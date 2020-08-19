@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// GrandparentAnimal
     /// </summary>
-    [DataContract(Name="GrandparentAnimal")]
+    [DataContract(Name = "GrandparentAnimal")]
     [JsonConverter(typeof(JsonSubtypes), "PetType")]
     [JsonSubtypes.KnownSubType(typeof(ParentPet), "ParentPet")]
     [JsonSubtypes.KnownSubType(typeof(ChildCat), "ChildCat")]

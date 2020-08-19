@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Zebra
     /// </summary>
-    [DataContract(Name="zebra")]
+    [DataContract(Name = "zebra")]
     public partial class Zebra : Dictionary<String, Object>, IEquatable<Zebra>, IValidatableObject
     {
         /// <summary>

@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ShapeInterface
     /// </summary>
-    [DataContract(Name="ShapeInterface")]
+    [DataContract(Name = "ShapeInterface")]
     public partial class ShapeInterface : IEquatable<ShapeInterface>, IValidatableObject
     {
         /// <summary>

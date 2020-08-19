@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ReadOnlyFirst
     /// </summary>
-    [DataContract(Name="ReadOnlyFirst")]
+    [DataContract(Name = "ReadOnlyFirst")]
     public partial class ReadOnlyFirst : IEquatable<ReadOnlyFirst>, IValidatableObject
     {
         /// <summary>

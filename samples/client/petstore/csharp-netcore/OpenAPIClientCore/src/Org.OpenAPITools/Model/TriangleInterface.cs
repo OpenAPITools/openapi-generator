@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// TriangleInterface
     /// </summary>
-    [DataContract(Name="TriangleInterface")]
+    [DataContract(Name = "TriangleInterface")]
     public partial class TriangleInterface : IEquatable<TriangleInterface>, IValidatableObject
     {
         /// <summary>

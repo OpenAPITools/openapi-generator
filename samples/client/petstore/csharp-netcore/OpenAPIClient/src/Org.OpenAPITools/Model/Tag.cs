@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Tag
     /// </summary>
-    [DataContract(Name="Tag")]
+    [DataContract(Name = "Tag")]
     public partial class Tag : IEquatable<Tag>, IValidatableObject
     {
         /// <summary>

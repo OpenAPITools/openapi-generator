@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Order
     /// </summary>
-    [DataContract(Name="Order")]
+    [DataContract(Name = "Order")]
     public partial class Order : IEquatable<Order>, IValidatableObject
     {
         /// <summary>

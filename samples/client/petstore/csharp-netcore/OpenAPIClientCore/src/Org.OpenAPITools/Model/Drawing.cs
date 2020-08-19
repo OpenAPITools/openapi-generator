@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Drawing
     /// </summary>
-    [DataContract(Name="Drawing")]
+    [DataContract(Name = "Drawing")]
     public partial class Drawing : Dictionary<String, Fruit>, IEquatable<Drawing>, IValidatableObject
     {
         /// <summary>

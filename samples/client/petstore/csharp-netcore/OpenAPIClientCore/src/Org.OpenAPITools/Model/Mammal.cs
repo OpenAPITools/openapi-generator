@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Mammal
     /// </summary>
-    [DataContract(Name="mammal")]
+    [DataContract(Name = "mammal")]
     [JsonConverter(typeof(JsonSubtypes), "ClassName")]
     public partial class Mammal : IEquatable<Mammal>, IValidatableObject
     {
