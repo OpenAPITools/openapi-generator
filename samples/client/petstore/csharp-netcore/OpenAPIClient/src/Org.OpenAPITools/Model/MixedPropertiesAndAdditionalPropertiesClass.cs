@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// MixedPropertiesAndAdditionalPropertiesClass
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "MixedPropertiesAndAdditionalPropertiesClass")]
     public partial class MixedPropertiesAndAdditionalPropertiesClass : IEquatable<MixedPropertiesAndAdditionalPropertiesClass>, IValidatableObject
     {
         /// <summary>
