@@ -2087,6 +2087,10 @@ components:
           properties:
             name:
               type: string
+            pet_type:
+              enum:
+              - ChildCat
+              default: ChildCat
     ArrayOfEnums:
       type: array
       items:

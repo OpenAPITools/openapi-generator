@@ -40,7 +40,8 @@ import org.openapitools.client.JSON;
  * ChildCat
  */
 @JsonPropertyOrder({
-  ChildCat.JSON_PROPERTY_NAME
+  ChildCat.JSON_PROPERTY_NAME,
+  ChildCat.JSON_PROPERTY_PET_TYPE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "pet_type", visible = true)
@@ -48,6 +49,42 @@ import org.openapitools.client.JSON;
 public class ChildCat extends ParentPet {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
+
+  /**
+   * Gets or Sets petType
+   */
+  public enum PetTypeEnum {
+    CHILDCAT("ChildCat");
+
+    private String value;
+
+    PetTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static PetTypeEnum fromValue(String value) {
+      for (PetTypeEnum b : PetTypeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
+  private PetTypeEnum petType = PetTypeEnum.CHILDCAT;
 
 
   public ChildCat name(String name) {
@@ -71,6 +108,30 @@ public class ChildCat extends ParentPet {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+
+  public ChildCat petType(PetTypeEnum petType) {
+    this.petType = petType;
+    return this;
+  }
+
+   /**
+   * Get petType
+   * @return petType
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PET_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public PetTypeEnum getPetType() {
+    return petType;
+  }
+
+
+  public void setPetType(PetTypeEnum petType) {
+    this.petType = petType;
   }
 
   /**
@@ -123,14 +184,15 @@ public class ChildCat extends ParentPet {
       return false;
     }
     ChildCat childCat = (ChildCat) o;
-    return Objects.equals(this.name, childCat.name)&&
+    return Objects.equals(this.name, childCat.name) &&
+        Objects.equals(this.petType, childCat.petType)&&
         Objects.equals(this.additionalProperties, childCat.additionalProperties) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode(), additionalProperties);
+    return Objects.hash(name, petType, super.hashCode(), additionalProperties);
   }
 
 
@@ -140,6 +202,7 @@ public class ChildCat extends ParentPet {
     sb.append("class ChildCat {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    petType: ").append(toIndentedString(petType)).append("\n");
     sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();

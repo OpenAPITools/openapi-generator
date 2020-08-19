@@ -32,12 +32,49 @@ import org.openapitools.client.JSON;
  * ChildCatAllOf
  */
 @JsonPropertyOrder({
-  ChildCatAllOf.JSON_PROPERTY_NAME
+  ChildCatAllOf.JSON_PROPERTY_NAME,
+  ChildCatAllOf.JSON_PROPERTY_PET_TYPE
 })
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ChildCatAllOf {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
+
+  /**
+   * Gets or Sets petType
+   */
+  public enum PetTypeEnum {
+    CHILDCAT("ChildCat");
+
+    private String value;
+
+    PetTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static PetTypeEnum fromValue(String value) {
+      for (PetTypeEnum b : PetTypeEnum.values()) {
+        if (b.value.equals(value)) {
+          return b;
+        }
+      }
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
+    }
+  }
+
+  public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
+  private PetTypeEnum petType = PetTypeEnum.CHILDCAT;
 
 
   public ChildCatAllOf name(String name) {
@@ -64,6 +101,30 @@ public class ChildCatAllOf {
   }
 
 
+  public ChildCatAllOf petType(PetTypeEnum petType) {
+    this.petType = petType;
+    return this;
+  }
+
+   /**
+   * Get petType
+   * @return petType
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PET_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public PetTypeEnum getPetType() {
+    return petType;
+  }
+
+
+  public void setPetType(PetTypeEnum petType) {
+    this.petType = petType;
+  }
+
+
   /**
    * Return true if this ChildCat_allOf object is equal to o.
    */
@@ -76,12 +137,13 @@ public class ChildCatAllOf {
       return false;
     }
     ChildCatAllOf childCatAllOf = (ChildCatAllOf) o;
-    return Objects.equals(this.name, childCatAllOf.name);
+    return Objects.equals(this.name, childCatAllOf.name) &&
+        Objects.equals(this.petType, childCatAllOf.petType);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash(name, petType);
   }
 
 
@@ -90,6 +152,7 @@ public class ChildCatAllOf {
     StringBuilder sb = new StringBuilder();
     sb.append("class ChildCatAllOf {\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    petType: ").append(toIndentedString(petType)).append("\n");
     sb.append("}");
     return sb.toString();
   }
