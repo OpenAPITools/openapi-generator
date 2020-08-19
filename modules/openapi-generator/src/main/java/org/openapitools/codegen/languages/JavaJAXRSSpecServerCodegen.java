@@ -219,7 +219,7 @@ public class JavaJAXRSSpecServerCodegen extends AbstractJavaJAXRSServerCodegen {
             supportingFiles.add(new SupportingFile("beans.xml.mustache", "src/main/webapp/META-INF", "beans.xml")
                     .doNotOverwrite());
         } else if(KUMULUZEE_LIBRARY.equals(library)) {
-            writeOptional(outputFolder, new SupportingFile("config.yaml.mustache", "src/main/resources", "config.yaml"));
+            supportingFiles.add(new SupportingFile("config.yaml.mustache", "src/main/resources", "config.yaml"));
         }
     }
 

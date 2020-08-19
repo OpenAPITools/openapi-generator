@@ -97,9 +97,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     protected boolean doNotUseRx = true;
     protected boolean usePlayWS = false;
     protected String playVersion = PLAY_25;
-    protected String feignVersion = FEIGN_10;
     protected String microprofileFramework = MICROPROFILE_DEFAULT;
-    protected String playVersion = PLAY_26;
 
     protected boolean asyncNative = false;
     protected boolean parcelableModel = false;
@@ -471,7 +469,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             serializationLibrary = "none";
 
             if (microprofileFramework.equals(MICROPROFILE_KUMULUZEE)){
-                writeOptional(outputFolder, new SupportingFile("kumuluzee.pom.mustache", "", "pom.xml"));
+                supportingFiles.add(new SupportingFile("kumuluzee.pom.mustache", "", "pom.xml"));
                 supportingFiles.add(new SupportingFile("kumuluzee.config.yaml.mustache", "src/main/resources", "config.yaml"));
                 supportingFiles.add(new SupportingFile("kumuluzee.beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
             }
