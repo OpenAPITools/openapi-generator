@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// List
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "List")]
     public partial class List : IEquatable<List>, IValidatableObject
     {
         /// <summary>

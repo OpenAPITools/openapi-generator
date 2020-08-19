@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// MapTest
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "MapTest")]
     public partial class MapTest : IEquatable<MapTest>, IValidatableObject
     {
         /// <summary>
