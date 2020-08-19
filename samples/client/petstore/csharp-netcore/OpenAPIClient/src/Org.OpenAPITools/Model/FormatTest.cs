@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// FormatTest
     /// </summary>
-    [DataContract]
+    [DataContract(Name="format_test")]
     public partial class FormatTest : IEquatable<FormatTest>, IValidatableObject
     {
         /// <summary>

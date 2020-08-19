@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Pet
     /// </summary>
-    [DataContract]
+    [DataContract(Name="Pet")]
     public partial class Pet : IEquatable<Pet>, IValidatableObject
     {
         /// <summary>

@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Shape
     /// </summary>
-    [DataContract]
+    [DataContract(Name="Shape")]
     [JsonConverter(typeof(JsonSubtypes), "ShapeType")]
     public partial class Shape : IEquatable<Shape>, IValidatableObject
     {

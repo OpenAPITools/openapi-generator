@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Quadrilateral
     /// </summary>
-    [DataContract]
+    [DataContract(Name="Quadrilateral")]
     [JsonConverter(typeof(JsonSubtypes), "QuadrilateralType")]
     public partial class Quadrilateral : IEquatable<Quadrilateral>, IValidatableObject
     {

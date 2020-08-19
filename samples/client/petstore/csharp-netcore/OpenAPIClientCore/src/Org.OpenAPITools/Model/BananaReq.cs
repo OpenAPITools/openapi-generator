@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// BananaReq
     /// </summary>
-    [DataContract]
+    [DataContract(Name="bananaReq")]
     public partial class BananaReq : IEquatable<BananaReq>, IValidatableObject
     {
         /// <summary>

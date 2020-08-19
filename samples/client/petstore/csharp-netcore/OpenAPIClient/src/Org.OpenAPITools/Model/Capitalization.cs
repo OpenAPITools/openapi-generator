@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Capitalization
     /// </summary>
-    [DataContract]
+    [DataContract(Name="Capitalization")]
     public partial class Capitalization : IEquatable<Capitalization>, IValidatableObject
     {
         /// <summary>

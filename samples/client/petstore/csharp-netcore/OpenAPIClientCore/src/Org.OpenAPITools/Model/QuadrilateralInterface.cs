@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// QuadrilateralInterface
     /// </summary>
-    [DataContract]
+    [DataContract(Name="QuadrilateralInterface")]
     public partial class QuadrilateralInterface : IEquatable<QuadrilateralInterface>, IValidatableObject
     {
         /// <summary>

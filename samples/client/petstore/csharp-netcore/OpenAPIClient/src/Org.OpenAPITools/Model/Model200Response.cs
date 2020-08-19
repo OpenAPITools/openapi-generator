@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Model for testing model name starting with number
     /// </summary>
-    [DataContract]
+    [DataContract(Name="200_response")]
     public partial class Model200Response : IEquatable<Model200Response>, IValidatableObject
     {
         /// <summary>

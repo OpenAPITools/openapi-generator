@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// IsoscelesTriangle
     /// </summary>
-    [DataContract]
+    [DataContract(Name="IsoscelesTriangle")]
     public partial class IsoscelesTriangle : IEquatable<IsoscelesTriangle>, IValidatableObject
     {
         /// <summary>

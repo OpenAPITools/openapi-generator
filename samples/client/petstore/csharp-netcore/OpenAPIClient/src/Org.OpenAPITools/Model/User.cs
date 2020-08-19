@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// User
     /// </summary>
-    [DataContract]
+    [DataContract(Name="User")]
     public partial class User : IEquatable<User>, IValidatableObject
     {
         /// <summary>

@@ -29,7 +29,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// The value may be a shape or the &#39;null&#39; value. This is introduced in OAS schema &gt;&#x3D; 3.1.
     /// </summary>
-    [DataContract]
+    [DataContract(Name="ShapeOrNull")]
     [JsonConverter(typeof(JsonSubtypes), "ShapeType")]
     public partial class ShapeOrNull : IEquatable<ShapeOrNull>, IValidatableObject
     {

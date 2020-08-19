@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// DanishPig
     /// </summary>
-    [DataContract]
+    [DataContract(Name="DanishPig")]
     public partial class DanishPig : IEquatable<DanishPig>, IValidatableObject
     {
         /// <summary>

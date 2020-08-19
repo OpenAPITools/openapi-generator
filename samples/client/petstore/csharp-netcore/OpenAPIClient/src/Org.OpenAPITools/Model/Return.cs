@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Model for testing reserved words
     /// </summary>
-    [DataContract]
+    [DataContract(Name="Return")]
     public partial class Return : IEquatable<Return>, IValidatableObject
     {
         /// <summary>

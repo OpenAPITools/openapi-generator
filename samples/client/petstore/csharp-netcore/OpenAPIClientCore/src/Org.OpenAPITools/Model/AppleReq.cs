@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// AppleReq
     /// </summary>
-    [DataContract]
+    [DataContract(Name="appleReq")]
     public partial class AppleReq : IEquatable<AppleReq>, IValidatableObject
     {
         /// <summary>

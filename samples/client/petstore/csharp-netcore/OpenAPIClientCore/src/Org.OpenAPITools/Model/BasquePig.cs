@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// BasquePig
     /// </summary>
-    [DataContract]
+    [DataContract(Name="BasquePig")]
     public partial class BasquePig : IEquatable<BasquePig>, IValidatableObject
     {
         /// <summary>
