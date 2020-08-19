@@ -447,16 +447,19 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
 
         String varDataType = var.mostInnerItems != null ? var.mostInnerItems.dataType : var.dataType;
-        Schema referencedSchema = getModelNameToSchemaCache().get(varDataType);
-        String dataType = (referencedSchema != null) ? getTypeDeclaration(referencedSchema) : varDataType;
+        Optional<Schema> referencedSchema = ModelUtils.getSchemas(openAPI).entrySet().stream()
+                .filter(entry -> Objects.equals(varDataType, toModelName(entry.getKey())))
+                .map(Map.Entry::getValue)
+                .findFirst();
+        String dataType = (referencedSchema.isPresent()) ? getTypeDeclaration(referencedSchema.get()) : varDataType;
 
         // put "enumVars" map into `allowableValues", including `name` and `value`
         List<Map<String, Object>> enumVars = buildEnumVars(values, dataType);
 
         // if "x-enum-varnames" or "x-enum-descriptions" defined, update varnames
         Map<String, Object> extensions = var.mostInnerItems != null ? var.mostInnerItems.getVendorExtensions() : var.getVendorExtensions();
-        if (referencedSchema != null) {
-            extensions = referencedSchema.getExtensions();
+        if (referencedSchema.isPresent()) {
+            extensions = referencedSchema.get().getExtensions();
         }
         updateEnumVarsWithExtensions(enumVars, extensions);
         allowableValues.put("enumVars", enumVars);
