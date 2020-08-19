@@ -1,7 +1,7 @@
     /// <summary>
     /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
-    [DataContract(Name="{{{name}}}")]
+    [DataContract(Name = "{{{name}}}")]
     {{#discriminator}}
     [JsonConverter(typeof(JsonSubtypes), "{{{discriminatorName}}}")]
     {{#children}}
