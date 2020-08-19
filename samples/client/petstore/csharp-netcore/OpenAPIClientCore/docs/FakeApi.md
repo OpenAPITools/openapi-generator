@@ -5,11 +5,11 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**FakeHealthGet**](FakeApi.md#fakehealthget) | **GET** /fake/health | Health check endpoint
-[**FakeHttpSignatureTest**](FakeApi.md#fakehttpsignaturetest) | **GET** /fake/http-signature-test | test http signature authentication
 [**FakeOuterBooleanSerialize**](FakeApi.md#fakeouterbooleanserialize) | **POST** /fake/outer/boolean | 
 [**FakeOuterCompositeSerialize**](FakeApi.md#fakeoutercompositeserialize) | **POST** /fake/outer/composite | 
 [**FakeOuterNumberSerialize**](FakeApi.md#fakeouternumberserialize) | **POST** /fake/outer/number | 
 [**FakeOuterStringSerialize**](FakeApi.md#fakeouterstringserialize) | **POST** /fake/outer/string | 
+[**GetArrayOfEnums**](FakeApi.md#getarrayofenums) | **GET** /fake/array-of-enums | Array of Enums
 [**TestBodyWithFileSchema**](FakeApi.md#testbodywithfileschema) | **PUT** /fake/body-with-file-schema | 
 [**TestBodyWithQueryParams**](FakeApi.md#testbodywithqueryparams) | **PUT** /fake/body-with-query-params | 
 [**TestClientModel**](FakeApi.md#testclientmodel) | **PATCH** /fake | To test \&quot;client\&quot; model
@@ -77,78 +77,6 @@ No authorization required
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | The instance started successfully |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-<a name="fakehttpsignaturetest"></a>
-# **FakeHttpSignatureTest**
-> void FakeHttpSignatureTest (Pet pet, string query1 = null, string header1 = null)
-
-test http signature authentication
-
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class FakeHttpSignatureTestExample
-    {
-        public static void Main()
-        {
-            Configuration config = new Configuration();
-            config.BasePath = "http://petstore.swagger.io:80/v2";
-
-            var apiInstance = new FakeApi(config);
-            var pet = new Pet(); // Pet | Pet object that needs to be added to the store
-            var query1 = query1_example;  // string | query parameter (optional) 
-            var header1 = header1_example;  // string | header parameter (optional) 
-
-            try
-            {
-                // test http signature authentication
-                apiInstance.FakeHttpSignatureTest(pet, query1, header1);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling FakeApi.FakeHttpSignatureTest: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **pet** | [**Pet**](Pet.md)| Pet object that needs to be added to the store | 
- **query1** | **string**| query parameter | [optional] 
- **header1** | **string**| header parameter | [optional] 
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[http_signature_test](../README.md#http_signature_test)
-
-### HTTP request headers
-
- - **Content-Type**: application/json, application/xml
- - **Accept**: Not defined
 
 ### HTTP response details
 | Status code | Description | Response headers |
@@ -433,6 +361,70 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+<a name="getarrayofenums"></a>
+# **GetArrayOfEnums**
+> List&lt;OuterEnum&gt; GetArrayOfEnums ()
+
+Array of Enums
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using Org.OpenAPITools.Api;
+using Org.OpenAPITools.Client;
+using Org.OpenAPITools.Model;
+
+namespace Example
+{
+    public class GetArrayOfEnumsExample
+    {
+        public static void Main()
+        {
+            Configuration config = new Configuration();
+            config.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new FakeApi(config);
+
+            try
+            {
+                // Array of Enums
+                List<OuterEnum> result = apiInstance.GetArrayOfEnums();
+                Debug.WriteLine(result);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling FakeApi.GetArrayOfEnums: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List&lt;OuterEnum&gt;**](OuterEnum.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Got named array of enums |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 <a name="testbodywithfileschema"></a>
 # **TestBodyWithFileSchema**
 > void TestBodyWithFileSchema (FileSchemaTestClass fileSchemaTestClass)
@@ -679,7 +671,7 @@ namespace Example
             var _string = _string_example;  // string | None (optional) 
             var binary = BINARY_DATA_HERE;  // System.IO.Stream | None (optional) 
             var date = 2013-10-20;  // DateTime? | None (optional) 
-            var dateTime = 2013-10-20T19:20:30+01:00;  // DateTime? | None (optional) 
+            var dateTime = 2013-10-20T19:20:30+01:00;  // DateTime? | None (optional)  (default to "2010-02-01T10:20:10.111110+01:00")
             var password = password_example;  // string | None (optional) 
             var callback = callback_example;  // string | None (optional) 
 
@@ -714,7 +706,7 @@ Name | Type | Description  | Notes
  **_string** | **string**| None | [optional] 
  **binary** | **System.IO.Stream****System.IO.Stream**| None | [optional] 
  **date** | **DateTime?**| None | [optional] 
- **dateTime** | **DateTime?**| None | [optional] 
+ **dateTime** | **DateTime?**| None | [optional] [default to &quot;2010-02-01T10:20:10.111110+01:00&quot;]
  **password** | **string**| None | [optional] 
  **callback** | **string**| None | [optional] 
 
