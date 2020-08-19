@@ -17,9 +17,7 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MediaType;
@@ -28,7 +26,6 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
@@ -51,11 +48,11 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientExperimentalCodegen.class);
+    // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
+    private Map<String, Schema> modelNameToSchemaCache;
 
     public PythonClientExperimentalCodegen() {
         super();
@@ -1652,5 +1649,22 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         //TODO collectionFormat for form parameter not yet supported
         //codegenParameter.collectionFormat = getCollectionFormat(propertySchema);
         return codegenParameter;
+    }
+
+    /**
+     * Return a map from model name to Schema for efficient lookup.
+     *
+     * @return map from model name to Schema.
+     */
+    protected Map<String, Schema> getModelNameToSchemaCache() {
+        if (modelNameToSchemaCache == null) {
+            // Create a cache to efficiently lookup schema based on model name.
+            Map<String, Schema> m = new HashMap<String, Schema>();
+            ModelUtils.getSchemas(openAPI).forEach((key, schema) -> {
+                m.put(toModelName(key), schema);
+            });
+            modelNameToSchemaCache = Collections.unmodifiableMap(m);
+        }
+        return modelNameToSchemaCache;
     }
 }
