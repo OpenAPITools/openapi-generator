@@ -1329,14 +1329,14 @@ public class DefaultCodegen implements CodegenConfig {
      * @param name Codegen property object
      * @return the sanitized parameter name
      */
-    public String toParamName(final String name) {
-        String modifiable = removeNonNameElementToCamelCase(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
-        if (reservedWords.contains(modifiable)) {
-            return escapeReservedWord(modifiable);
-        } else if (((CharSequence) modifiable).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
-            return escape(modifiable, specialCharReplacements, null, null);
+    public String toParamName(String name) {
+        name = removeNonNameElementToCamelCase(name); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        if (reservedWords.contains(name)) {
+            return escapeReservedWord(name);
+        } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
+            return escape(name, specialCharReplacements, null, null);
         }
-        return modifiable;
+        return name;
 
     }
 
@@ -2243,24 +2243,16 @@ public class DefaultCodegen implements CodegenConfig {
         }
     }
 
-    Map<NamedSchema, CodegenModel> schemaCodegenModelCache = new HashMap<NamedSchema, CodegenModel>();
     Map<NamedSchema, CodegenProperty> schemaCodegenPropertyCache = new HashMap<NamedSchema, CodegenProperty>();
 
     /**
-     * Convert OAS Model object to Codegen Model object
+     * Convert OAS Model object to Codegen Model object.
      *
      * @param name   the name of the model
      * @param schema OAS Model object
      * @return Codegen Model object
      */
     public CodegenModel fromModel(String name, Schema schema) {
-        NamedSchema ns = new NamedSchema(name, schema);
-        CodegenModel cm = schemaCodegenModelCache.get(ns);
-        if (cm != null) {
-            LOGGER.debug("Cached fromModel for " + name + " : " + schema.getName());
-            return cm;
-        }
-
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         if (typeAliases == null) {
             // Only do this once during first call
@@ -2609,7 +2601,6 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
-        schemaCodegenModelCache.put(ns, m);
         return m;
     }
 
@@ -3029,7 +3020,13 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Convert OAS Property object to Codegen Property object
+     * Convert OAS Property object to Codegen Property object.
+     * 
+     * The return value is cached. An internal cache is looked up to determine
+     * if the CodegenProperty return value has already been instantiated for
+     * the (String name, Schema p) arguments.
+     * Any subsequent processing of the CodegenModel return value must be idempotent
+     * for a given (String name, Schema schema).
      *
      * @param name name of the property
      * @param p    OAS property schema
@@ -3042,10 +3039,10 @@ public class DefaultCodegen implements CodegenConfig {
         }
         LOGGER.debug("debugging fromProperty for " + name + " : " + p);
         NamedSchema ns = new NamedSchema(name, p);
-        CodegenProperty c = schemaCodegenPropertyCache.get(ns);
-        if (c != null) {
+        CodegenProperty cpc = schemaCodegenPropertyCache.get(ns);
+        if (cpc != null) {
             LOGGER.debug("Cached fromProperty for " + name + " : " + p.getName());
-            return c;
+            return cpc;
         }
         // unalias schema
         p = ModelUtils.unaliasSchema(this.openAPI, p, importMapping);
@@ -4816,7 +4813,6 @@ public class DefaultCodegen implements CodegenConfig {
 
             final String key = entry.getKey();
             final Schema prop = entry.getValue();
-
             if (prop == null) {
                 LOGGER.warn("Please report the issue. There shouldn't be null property for " + key);
             } else {
