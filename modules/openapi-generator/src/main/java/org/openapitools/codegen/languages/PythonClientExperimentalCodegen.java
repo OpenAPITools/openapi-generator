@@ -226,25 +226,37 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     }
 
     public String pythonDate(Object dateValue) {
-        OffsetDateTime date = null;
-        try {
-            date = (OffsetDateTime) dateValue;
-        } catch (ClassCastException e) {
-            LOGGER.warn("Invalid `date` format for value {}", dateValue.toString());
-            date = ((Date) dateValue).toInstant().atOffset(ZoneOffset.UTC);
+        String strValue = null;
+        if (dateValue instanceof OffsetDateTime) {
+            OffsetDateTime date = null;
+            try {
+                date = (OffsetDateTime) dateValue;
+            } catch (ClassCastException e) {
+                LOGGER.warn("Invalid `date` format for value {}", dateValue.toString());
+                date = ((Date) dateValue).toInstant().atOffset(ZoneOffset.UTC);
+            }
+            strValue = date.format(iso8601Date);
+        } else {
+            strValue = dateValue.toString();
         }
-        return "dateutil_parser('" + date.format(iso8601Date) + "').date()";
+        return "dateutil_parser('" + strValue + "').date()";
     }
 
     public String pythonDateTime(Object dateTimeValue) {
-        OffsetDateTime dateTime = null;
-        try {
-            dateTime = (OffsetDateTime) dateTimeValue;
-        } catch (ClassCastException e) {
-            LOGGER.warn("Invalid `date-time` format for value {}", dateTimeValue.toString());
-            dateTime = ((Date) dateTimeValue).toInstant().atOffset(ZoneOffset.UTC);
+        String strValue = null;
+        if (dateTimeValue instanceof OffsetDateTime) {
+            OffsetDateTime dateTime = null;
+            try {
+                dateTime = (OffsetDateTime) dateTimeValue;
+            } catch (ClassCastException e) {
+                LOGGER.warn("Invalid `date-time` format for value {}", dateTimeValue.toString());
+                dateTime = ((Date) dateTimeValue).toInstant().atOffset(ZoneOffset.UTC);
+            }
+            strValue = dateTime.format(iso8601DateTime);
+        } else {
+            strValue = dateTimeValue.toString();
         }
-        return "dateutil_parser('" + dateTime.format(iso8601DateTime) + "')";
+        return "dateutil_parser('" + strValue + "')";
     }
 
     /**
@@ -1088,7 +1100,13 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // to false, i.e. no additional properties are allowed.
     }
 
-    protected String toExampleValueBase(Schema sc) {
+    /**
+     * Gets an example if it exists
+     *
+     * @param sc input schema
+     * @return the example value
+     */
+    protected Object getObjectExample(Schema sc) {
         Schema schema = sc;
         String ref = sc.get$ref();
         if (ref != null) {
@@ -1099,16 +1117,14 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (objectModel) {
             return null;
         }
-        String example = null;
-        String defaultValue = toDefaultValue(schema);
         if (schema.getExample() != null) {
-            example = schema.getExample().toString();
-        } else if (defaultValue != null) {
-            example = defaultValue;
+            return schema.getExample();
+        } if (schema.getDefault() != null) {
+            return schema.getDefault();
         } else if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
-            example = schema.getEnum().get(0).toString();
+            return schema.getEnum().get(0);
         }
-        return example;
+        return null;
     }
 
     /***
@@ -1186,12 +1202,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         String currentIndentation = "";
         String closingIndentation = "";
         for (int i=0 ; i < indentationLevel ; i++) currentIndentation += indentionConst;
-        String example = null;
-        if (objExample instanceof String) {
-            example = (String) objExample;
-        } else {
-            example = toExampleValueBase(schema);
-        }
         if (exampleLine.equals(0)) {
             closingIndentation = currentIndentation;
             currentIndentation = "";
@@ -1207,6 +1217,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         String fullPrefix = currentIndentation + prefix + openChars;
 
+        String example = null;
+        if (objExample != null) {
+            example = objExample.toString();
+        }
         if (null != schema.get$ref()) {
             // $ref case:
             Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
@@ -1227,10 +1241,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             // though this tooling supports it.
             return fullPrefix + "None" + closeChars;
         } else if (ModelUtils.isBooleanSchema(schema)) {
-            if (example == null) {
+            if (objExample == null) {
                 example = "True";
             } else {
-                if ("false".equalsIgnoreCase(example)) {
+                if ("false".equalsIgnoreCase(objExample.toString())) {
                     example = "False";
                 } else {
                     example = "True";
@@ -1238,31 +1252,32 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             }
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isDateSchema(schema)) {
-            if (example == null) {
-                example = "1970-01-01";
+            if (objExample == null) {
+                example = pythonDate("1970-01-01");
+            } else {
+                example = pythonDate(objExample);
             }
-            example = "datetime.datetime.strptime('" + example + "', '%Y-%m-%d').date()";
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isDateTimeSchema(schema)) {
-            if (example == null) {
-                example = "1970-01-01T00:00:00.00Z";
+            if (objExample == null) {
+                example = pythonDateTime("1970-01-01T00:00:00.00Z");
+            } else {
+                example = pythonDateTime(objExample);
             }
-            // TODO add time zone offset to sample
-            example = "datetime.datetime.strptime('" + example + "', '%Y-%m-%dT%H:%M:%S.%f')";
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isBinarySchema(schema)) {
-            if (example == null) {
+            if (objExample == null) {
                 example = "/path/to/file.txt";
             }
             example = "open('" + example + "', 'rb')";
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isByteArraySchema(schema)) {
-            if (example == null) {
+            if (objExample == null) {
                 example = "'YQ=='";
             }
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isStringSchema(schema)) {
-            if (example == null) {
+            if (objExample == null) {
                 // a BigDecimal:
                 if ("Number".equalsIgnoreCase(schema.getFormat())) {
                     example = "2";
@@ -1293,7 +1308,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             }
             return  fullPrefix + ensureQuotes(example) + closeChars;
         } else if (ModelUtils.isIntegerSchema(schema)) {
-            if (example == null) {
+            if (objExample == null) {
                 if (schema.getMinimum() != null) {
                     example = schema.getMinimum().toString();
                 } else {
@@ -1302,7 +1317,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             }
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isNumberSchema(schema)) {
-            if (example == null) {
+            if (objExample == null) {
                 if (schema.getMinimum() != null) {
                     example = schema.getMinimum().toString();
                 } else {
@@ -1326,7 +1341,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             if (addPropsObj instanceof Schema) {
                 Schema addPropsSchema = (Schema) addPropsObj;
                 String key = "key";
-                Object addPropsExample = toExampleValueBase(addPropsSchema);
+                Object addPropsExample = getObjectExample(addPropsSchema);
                 if (addPropsSchema.getEnum() != null && !addPropsSchema.getEnum().isEmpty()) {
                     key = addPropsSchema.getEnum().get(0).toString();
                 }
@@ -1401,8 +1416,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 propExample = discProp.example;
             } else {
                 propModelName = getModelName(propSchema);
-                propExample = toExampleValueBase(propSchema);
-                propExample = exampleFromStringOrArraySchema(propSchema, propExample, propName);
+                propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
             }
             example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1) + ",\n";
         }
@@ -1415,18 +1429,27 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (currentExample != null) {
             return currentExample;
         }
-        String example = null;
-        if (simpleStringSchema(sc)) {
-            example = propName + "_example";
-        } else if (ModelUtils.isArraySchema(sc)) {
-            ArraySchema arraySchema = (ArraySchema) sc;
+        Schema schema = sc;
+        String ref = sc.get$ref();
+        if (ref != null) {
+            schema = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(ref));
+        }
+        Object example = getObjectExample(schema);
+        if (example != null) {
+            return example;
+        } else if (simpleStringSchema(schema)) {
+            return propName + "_example";
+        } else if (ModelUtils.isArraySchema(schema)) {
+            ArraySchema arraySchema = (ArraySchema) schema;
             Schema itemSchema = arraySchema.getItems();
-            String itemExample = toExampleValueBase(itemSchema);
-            if (simpleStringSchema(itemSchema) && itemExample == null) {
-                example = propName + "_example";
+            example = getObjectExample(itemSchema);
+            if (example != null ) {
+                return example;
+            } else if (simpleStringSchema(itemSchema)) {
+                return propName + "_example";
             }
         }
-        return example;
+        return null;
     }
 
 
@@ -1454,7 +1477,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty() && parameter.getExamples().values().iterator().next().getValue() != null) {
             example = parameter.getExamples().values().iterator().next().getValue();
         } else {
-            example = toExampleValueBase(schema);
+            example = getObjectExample(schema);
         }
         example = exampleFromStringOrArraySchema(schema, example, parameter.getName());
         String finalExample = toExampleValue(schema, example);
@@ -1487,13 +1510,16 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             return;
         }
 
+        if ("array_of_enums".equals(codegenParameter.paramName)) {
+            String a = "a";
+        }
         Object example = null;
         if (mediaType.getExample() != null) {
             example = mediaType.getExample();
         } else if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty() && mediaType.getExamples().values().iterator().next().getValue() != null) {
             example = mediaType.getExamples().values().iterator().next().getValue();
         } else {
-            example = toExampleValueBase(schema);
+            example = getObjectExample(schema);
         }
         example = exampleFromStringOrArraySchema(schema, example, codegenParameter.paramName);
         codegenParameter.example = toExampleValue(schema, example);
