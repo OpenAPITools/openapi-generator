@@ -1012,7 +1012,7 @@ public class ModelUtils {
     /**
      * Get the actual schema from aliases. If the provided schema is not an alias, the schema itself will be returned.
      *
-     * @param openAPI        specification being checked
+     * @param openAPI        OpenAPI document containing the schemas.
      * @param schema         schema (alias or direct reference)
      * @param importMappings mappings of external types to be omitted by unaliasing
      * @return actual schema
