@@ -53,6 +53,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientExperimentalCodegen.class);
     // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
     private Map<String, Schema> modelNameToSchemaCache;
+    private DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
+    private DateTimeFormatter iso8601DateTime = DateTimeFormatter.ISO_DATE_TIME;
 
     public PythonClientExperimentalCodegen() {
         super();
@@ -223,15 +225,26 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return "python-experimental";
     }
 
-    public String dateToString(Schema p, OffsetDateTime date, DateTimeFormatter dateFormatter, DateTimeFormatter dateTimeFormatter) {
-        // converts a date into a date or date-time python string
-        if (!(ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p))) {
-            throw new RuntimeException("passed schema must be of type Date or DateTime");
+    public String pythonDate(Object dateValue) {
+        OffsetDateTime date = null;
+        try {
+            date = (OffsetDateTime) dateValue;
+        } catch (ClassCastException e) {
+            LOGGER.warn("Invalid `date` format for value {}", dateValue.toString());
+            date = ((Date) dateValue).toInstant().atOffset(ZoneOffset.UTC);
         }
-        if (ModelUtils.isDateSchema(p)) {
-            return "dateutil_parser('" + date.format(dateFormatter) + "').date()";
+        return "dateutil_parser('" + date.format(iso8601Date) + "').date()";
+    }
+
+    public String pythonDateTime(Object dateTimeValue) {
+        OffsetDateTime dateTime = null;
+        try {
+            dateTime = (OffsetDateTime) dateTimeValue;
+        } catch (ClassCastException e) {
+            LOGGER.warn("Invalid `date-time` format for value {}", dateTimeValue.toString());
+            dateTime = ((Date) dateTimeValue).toInstant().atOffset(ZoneOffset.UTC);
         }
-        return "dateutil_parser('" + date.format(dateTimeFormatter) + "')";
+        return "dateutil_parser('" + dateTime.format(iso8601DateTime) + "')";
     }
 
     /**
@@ -254,76 +267,25 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             defaultObject = p.getEnum().get(0);
         }
 
-        // convert datetime and date enums if they exist
-        DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
-        DateTimeFormatter iso8601DateTime = DateTimeFormatter.ISO_DATE_TIME;
-
-        if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
-            List<Object> currentEnum = p.getEnum();
-            List<String> fixedEnum = new ArrayList<String>();
-            String fixedValue = null;
-            OffsetDateTime date = null;
-            if (currentEnum != null && !currentEnum.isEmpty()) {
-                for (Object enumItem : currentEnum) {
-                    date = (OffsetDateTime) enumItem;
-                    fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
-                    fixedEnum.add(fixedValue);
-                }
-                p.setEnum(fixedEnum);
-            }
-
-            // convert the example if it exists
-            Object currentExample = p.getExample();
-            if (currentExample != null) {
-                try {
-                    date = (OffsetDateTime) currentExample;
-                } catch (ClassCastException e) {
-                    date = ((Date) currentExample).toInstant().atOffset(ZoneOffset.UTC);
-                    LOGGER.warn("Invalid `date-time` format for value {}", currentExample);
-                }
-                fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
-                fixedEnum.add(fixedValue);
-                p.setExample(fixedValue);
-                LOGGER.warn(fixedValue);
-            }
-
-            // fix defaultObject
-            if (defaultObject != null) {
-                date = (OffsetDateTime) defaultObject;
-                fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
-                p.setDefault(fixedValue);
-                defaultObject = fixedValue;
-            }
-        }
-
         if (defaultObject == null) {
             return null;
         }
 
-        String defaultValue = null;
-        if (ModelUtils.isStringSchema(p)) {
-            defaultValue = defaultObject.toString();
-            if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
-                return defaultValue;
+        String defaultValue = defaultObject.toString();
+        if (ModelUtils.isDateSchema(p)) {
+            defaultValue = pythonDate(defaultObject);
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            defaultValue = pythonDateTime(defaultObject);
+        } else if (ModelUtils.isStringSchema(p) && !ModelUtils.isByteArraySchema(p) && !ModelUtils.isBinarySchema(p) && !ModelUtils.isFileSchema(p) && !ModelUtils.isUUIDSchema(p) && !ModelUtils.isEmailSchema(p)) {
+            defaultValue =  ensureQuotes(defaultValue);
+        } else if (ModelUtils.isBooleanSchema(p)) {
+            if (Boolean.valueOf(defaultValue) == false) {
+                defaultValue = "False";
+            } else {
+                defaultValue = "True";
             }
-
-            if (!ModelUtils.isByteArraySchema(p) && !ModelUtils.isBinarySchema(p) && !ModelUtils.isFileSchema(p) && !ModelUtils.isUUIDSchema(p) && !ModelUtils.isEmailSchema(p) && !ModelUtils.isDateTimeSchema(p) && !ModelUtils.isDateSchema(p)) {
-                defaultValue =  ensureQuotes(defaultValue);
-            }
-            return defaultValue;
-        } else if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
-            defaultValue = String.valueOf(defaultObject);
-            if (ModelUtils.isBooleanSchema(p)) {
-                if (Boolean.valueOf(defaultValue) == false) {
-                    return "False";
-                } else {
-                    return "True";
-                }
-            }
-            return defaultValue;
-        } else {
-            return defaultObject.toString();
         }
+        return defaultValue;
     }
 
     @Override
@@ -1145,17 +1107,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             example = defaultValue;
         } else if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
             example = schema.getEnum().get(0).toString();
-        }
-        if (ModelUtils.isStringSchema(schema) && example != null && example.length() >= 2) {
-            // TODO check to see if example does not have quotes on it
-            // if it lacks them add double quotes
-            // TODO update the string handling code to just use the value without adding quotes
-            char firstChar = example.charAt(0);
-            char lastChar = example.charAt(example.length() - 1);
-            char quoteChar = "'".charAt(0);
-            if (firstChar == quoteChar && lastChar == quoteChar) {
-                example = example.substring(1, example.length()-1);
-            }
         }
         return example;
     }
