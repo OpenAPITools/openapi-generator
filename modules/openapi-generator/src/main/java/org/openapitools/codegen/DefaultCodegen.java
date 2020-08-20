@@ -22,6 +22,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
@@ -1365,6 +1366,16 @@ public class DefaultCodegen implements CodegenConfig {
         } else {
             return modelPackage() + "." + name;
         }
+    }
+
+    /**
+     * Returns the same content as [[toModelImport]] with key the fully-qualified Model name and value the initial input.
+     * In case of union types this method has a key for each separate model and import.
+     * @param name the name of the "Model"
+     * @return Map of fully-qualified models.
+     */
+    public Map<String,String> toModelImportMap(String name){
+        return Collections.singletonMap(this.toModelImport(name),name);
     }
 
     /**
