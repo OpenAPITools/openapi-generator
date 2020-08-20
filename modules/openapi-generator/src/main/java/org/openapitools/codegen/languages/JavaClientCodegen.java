@@ -22,6 +22,7 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
@@ -60,11 +61,15 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     public static final String USE_RUNTIME_EXCEPTION = "useRuntimeException";
     public static final String USE_REFLECTION_EQUALS_HASHCODE = "useReflectionEqualsHashCode";
     public static final String CASE_INSENSITIVE_RESPONSE_HEADERS = "caseInsensitiveResponseHeaders";
+    public static final String MICROPROFILE_FRAMEWORK = "microprofileFramework";
     public static final String USE_ABSTRACTION_FOR_FILES = "useAbstractionForFiles";
 
     public static final String PLAY_24 = "play24";
     public static final String PLAY_25 = "play25";
     public static final String PLAY_26 = "play26";
+
+    public static final String MICROPROFILE_DEFAULT = "default";
+    public static final String MICROPROFILE_KUMULUZEE = "kumuluzee";
 
     public static final String FEIGN = "feign";
     public static final String GOOGLE_API_CLIENT = "google-api-client";
@@ -91,7 +96,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     // (mustache does not allow for boolean operators so we need this extra field)
     protected boolean doNotUseRx = true;
     protected boolean usePlayWS = false;
-    protected String playVersion = PLAY_26;
+    protected String playVersion = PLAY_25;
+    protected String microprofileFramework = MICROPROFILE_DEFAULT;
+
     protected boolean asyncNative = false;
     protected boolean parcelableModel = false;
     protected boolean useBeanValidation = false;
@@ -142,6 +149,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         cliOptions.add(CliOption.newBoolean(ASYNC_NATIVE, "If true, async handlers will be used, instead of the sync version"));
         cliOptions.add(CliOption.newBoolean(USE_REFLECTION_EQUALS_HASHCODE, "Use org.apache.commons.lang3.builder for equals and hashCode in the models. WARNING: This will fail under a security manager, unless the appropriate permissions are set up correctly and also there's potential performance impact."));
         cliOptions.add(CliOption.newBoolean(CASE_INSENSITIVE_RESPONSE_HEADERS, "Make API response's headers case-insensitive. Available on " + OKHTTP_GSON + ", " + JERSEY2 + " libraries"));
+        cliOptions.add(CliOption.newString(MICROPROFILE_FRAMEWORK, "Framework for microprofile. Possible values \"kumuluzee\""));
         cliOptions.add(CliOption.newBoolean(USE_ABSTRACTION_FOR_FILES, "Use alternative types instead of java.io.File to allow passing bytes without a file on disk. Available on " + RESTTEMPLATE + " library"));
 
         supportedLibraries.put(JERSEY1, "HTTP client: Jersey client 1.19.x. JSON processing: Jackson 2.9.x. Enable Java6 support using '-DsupportJava6=true'. Enable gzip request encoding using '-DuseGzipFeature=true'. IMPORTANT NOTE: jersey 1.x is no longer actively maintained so please upgrade to 'jersey2' or other HTTP libaries instead.");
@@ -157,6 +165,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         supportedLibraries.put(REST_ASSURED, "HTTP client: rest-assured : 4.x. JSON processing: Gson 2.x or Jackson 2.10.x. Only for Java 8");
         supportedLibraries.put(NATIVE, "HTTP client: Java native HttpClient. JSON processing: Jackson 2.9.x. Only for Java11+");
         supportedLibraries.put(MICROPROFILE, "HTTP client: Microprofile client 1.x. JSON processing: Jackson 2.9.x");
+
 
         CliOption libraryOption = new CliOption(CodegenConstants.LIBRARY, "library template (sub-template) to use");
         libraryOption.setEnum(supportedLibraries);
@@ -209,7 +218,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         } else if (MICROPROFILE.equals(getLibrary()) && "threetenbp".equals(dateLibrary)) {
             dateLibrary = "legacy";
         }
-
         super.processOpts();
 
         // RxJava
@@ -253,6 +261,17 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             this.setPlayVersion(additionalProperties.get(PLAY_VERSION).toString());
         }
         additionalProperties.put(PLAY_VERSION, playVersion);
+
+        // Microprofile framework
+        if (additionalProperties.containsKey(MICROPROFILE_FRAMEWORK)) {
+            this.setMicroprofileFramework(additionalProperties.get(MICROPROFILE_FRAMEWORK).toString());
+
+            if (!MICROPROFILE_KUMULUZEE.equals(microprofileFramework)) {
+                throw new RuntimeException("Ivalid microprofileFramework '{}'. Must be 'kumuluzee' or none.");
+            }
+
+        }
+        additionalProperties.put(MICROPROFILE_FRAMEWORK, microprofileFramework);
 
         if (additionalProperties.containsKey(ASYNC_NATIVE)) {
             this.setAsyncNative(convertPropertyToBooleanAndWriteBack(ASYNC_NATIVE));
@@ -448,6 +467,12 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("api_exception.mustache", apiExceptionFolder, "ApiException.java"));
             supportingFiles.add(new SupportingFile("api_exception_mapper.mustache", apiExceptionFolder, "ApiExceptionMapper.java"));
             serializationLibrary = "none";
+
+            if (microprofileFramework.equals(MICROPROFILE_KUMULUZEE)){
+                supportingFiles.add(new SupportingFile("kumuluzee.pom.mustache", "", "pom.xml"));
+                supportingFiles.add(new SupportingFile("kumuluzee.config.yaml.mustache", "src/main/resources", "config.yaml"));
+                supportingFiles.add(new SupportingFile("kumuluzee.beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
+            }
         } else {
             LOGGER.error("Unknown library option (-l/--library): " + getLibrary());
         }
@@ -841,6 +866,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
     public void setAsyncNative(boolean asyncNative) {
         this.asyncNative = asyncNative;
+    }
+
+    public void setMicroprofileFramework(String microprofileFramework) {
+        this.microprofileFramework = microprofileFramework;
     }
 
     public void setParcelableModel(boolean parcelableModel) {

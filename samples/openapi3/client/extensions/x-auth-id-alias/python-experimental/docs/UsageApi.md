@@ -61,7 +61,7 @@ configuration = x_auth_id_alias.Configuration(
 with x_auth_id_alias.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = usage_api.UsageApi(api_client)
-    
+
     # example, this endpoint has no required or optional parameters
     try:
         # Use any API key
@@ -145,7 +145,7 @@ configuration = x_auth_id_alias.Configuration(
 with x_auth_id_alias.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = usage_api.UsageApi(api_client)
-    
+
     # example, this endpoint has no required or optional parameters
     try:
         # Use both API keys
@@ -218,7 +218,7 @@ configuration = x_auth_id_alias.Configuration(
 with x_auth_id_alias.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = usage_api.UsageApi(api_client)
-    
+
     # example, this endpoint has no required or optional parameters
     try:
         # Use API key in header
@@ -291,7 +291,7 @@ configuration = x_auth_id_alias.Configuration(
 with x_auth_id_alias.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = usage_api.UsageApi(api_client)
-    
+
     # example, this endpoint has no required or optional parameters
     try:
         # Use API key in query

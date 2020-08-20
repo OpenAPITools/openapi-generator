@@ -58,6 +58,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
@@ -1077,26 +1078,11 @@ public class DefaultGenerator implements Generator {
             allImports.addAll(op.imports);
         }
 
-        List<Map<String, String>> imports = new ArrayList<>();
-        Set<String> mappingSet = new TreeSet<>();
-        for (String nextImport : allImports) {
-            Map<String, String> im = new LinkedHashMap<>();
-            String mapping = config.importMapping().get(nextImport);
-            if (mapping == null) {
-                mapping = config.toModelImport(nextImport);
-            }
+        Map<String,String> mappings = getAllImportsMappings(allImports);
+        Set<Map<String, String>> imports = toImportsObjects(mappings);
 
-            if (mapping != null && !mappingSet.contains(mapping)) { // ensure import (mapping) is unique
-                mappingSet.add(mapping);
-                im.put("import", mapping);
-                im.put("classname", nextImport);
-                if (!imports.contains(im)) { // avoid duplicates
-                    imports.add(im);
-                }
-            }
-        }
-
-        operations.put("imports", imports);
+        //Some codegen implementations rely on a list interface for the imports
+        operations.put("imports", imports.stream().collect(Collectors.toList()));
 
         // add a flag to indicate whether there's any {{import}}
         if (imports.size() > 0) {
@@ -1114,6 +1100,49 @@ public class DefaultGenerator implements Generator {
         }
         return operations;
     }
+
+    /**
+     * Transforms a set of imports to a map with key config.toModelImport(import) and value the import string.
+     * @param allImports - Set of imports
+     * @return Map of fully qualified import path and initial import.
+     */
+    private Map<String,String> getAllImportsMappings(Set<String> allImports){
+        Map<String,String> result = new HashMap<>();
+        allImports.forEach(nextImport->{
+            String mapping = config.importMapping().get(nextImport);
+            if(mapping!= null){
+                result.put(mapping,nextImport);
+            }else{
+                result.putAll(config.toModelImportMap(nextImport));
+            }
+        });
+        return result;
+    }
+
+    /**
+     * Using an import map created via {@link #getAllImportsMappings(Set)} to build a list import objects.
+     * The import objects have two keys: import and classname which hold the key and value of the initial map entry.
+     *
+     * @param mappedImports Map of fully qualified import and import
+     * @return The set of unique imports
+     */
+    private Set<Map<String,String>> toImportsObjects(Map<String,String> mappedImports){
+        Set<Map<String, String>> result = new TreeSet<Map<String,String>>(
+            (Comparator<Map<String, String>>) (o1, o2) -> {
+                String s1 = o1.get("classname");
+                String s2 = o2.get("classname");
+                return s1.compareTo(s2);
+            }
+        );
+
+        mappedImports.entrySet().forEach(mapping->{
+            Map<String, String> im = new LinkedHashMap<>();
+            im.put("import", mapping.getKey());
+            im.put("classname", mapping.getValue());
+            result.add(im);
+        });
+        return result;
+     }
 
     private Map<String, Object> processModels(CodegenConfig config, Map<String, Schema> definitions) {
         Map<String, Object> objs = new HashMap<>();

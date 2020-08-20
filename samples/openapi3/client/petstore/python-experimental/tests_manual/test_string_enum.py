@@ -42,7 +42,10 @@ class TestStringEnum(unittest.TestCase):
             'None': None,
             'PLACED': "placed",
             'APPROVED': "approved",
-            'DELIVERED': "delivered"
+            'DELIVERED': "delivered",
+            'DOUBLE_QUOTE_WITH_NEWLINE': "double quote \n with newline",
+            'MULTIPLE_LINES': "multiple\nlines",
+            'SINGLE_QUOTED': "single quoted"
         }
 
 
