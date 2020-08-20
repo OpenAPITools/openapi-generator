@@ -238,7 +238,7 @@ with petstore_api.ApiClient() as api_client:
         id=1,
         pet_id=1,
         quantity=1,
-        ship_date=datetime.datetime.strptime('1970-01-01T00:00:00.00Z', '%Y-%m-%dT%H:%M:%S.%f'),
+        ship_date=dateutil_parser('1970-01-01T00:00:00.00Z'),
         status="placed",
         complete=False,
     ) # Order | order placed for purchasing the pet

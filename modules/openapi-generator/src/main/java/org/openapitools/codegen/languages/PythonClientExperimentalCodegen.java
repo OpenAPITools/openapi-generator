@@ -1510,9 +1510,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             return;
         }
 
-        if ("array_of_enums".equals(codegenParameter.paramName)) {
-            String a = "a";
-        }
         Object example = null;
         if (mediaType.getExample() != null) {
             example = mediaType.getExample();
