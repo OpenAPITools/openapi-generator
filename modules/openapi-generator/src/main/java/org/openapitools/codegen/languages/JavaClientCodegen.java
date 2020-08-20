@@ -22,7 +22,6 @@ import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.GzipFeatures;
 import org.openapitools.codegen.languages.features.PerformBeanValidationFeatures;
@@ -40,7 +39,6 @@ import java.util.regex.Pattern;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static java.util.Collections.sort;
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaClientCodegen extends AbstractJavaCodegen
@@ -96,7 +94,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     // (mustache does not allow for boolean operators so we need this extra field)
     protected boolean doNotUseRx = true;
     protected boolean usePlayWS = false;
-    protected String playVersion = PLAY_25;
+    protected String playVersion = PLAY_26;
     protected String microprofileFramework = MICROPROFILE_DEFAULT;
 
     protected boolean asyncNative = false;
@@ -221,27 +219,27 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         super.processOpts();
 
         // RxJava
-        if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)){
+        if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)) {
             LOGGER.warn("You specified all RxJava versions 1, 2 and 3 but they are mutually exclusive. Defaulting to v3.");
             this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
-        }else {
-            if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2)){
+        } else {
+            if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA2)) {
                 LOGGER.warn("You specified both RxJava versions 1 and 2 but they are mutually exclusive. Defaulting to v2.");
                 this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
-            }else if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA3)) {
+            } else if (additionalProperties.containsKey(USE_RX_JAVA) && additionalProperties.containsKey(USE_RX_JAVA3)) {
                 LOGGER.warn("You specified both RxJava versions 1 and 3 but they are mutually exclusive. Defaulting to v3.");
                 this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
-            }else if(additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)){
+            } else if (additionalProperties.containsKey(USE_RX_JAVA2) && additionalProperties.containsKey(USE_RX_JAVA3)) {
                 LOGGER.warn("You specified both RxJava versions 2 and 3 but they are mutually exclusive. Defaulting to v3.");
                 this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
-            }else{
-                if(additionalProperties.containsKey(USE_RX_JAVA)){
+            } else {
+                if (additionalProperties.containsKey(USE_RX_JAVA)) {
                     this.setUseRxJava(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA).toString()));
                 }
-                if(additionalProperties.containsKey(USE_RX_JAVA2)){
+                if (additionalProperties.containsKey(USE_RX_JAVA2)) {
                     this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
                 }
-                if(additionalProperties.containsKey(USE_RX_JAVA3)){
+                if (additionalProperties.containsKey(USE_RX_JAVA3)) {
                     this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
                 }
             }
@@ -264,12 +262,10 @@ public class JavaClientCodegen extends AbstractJavaCodegen
 
         // Microprofile framework
         if (additionalProperties.containsKey(MICROPROFILE_FRAMEWORK)) {
-            this.setMicroprofileFramework(additionalProperties.get(MICROPROFILE_FRAMEWORK).toString());
-
             if (!MICROPROFILE_KUMULUZEE.equals(microprofileFramework)) {
-                throw new RuntimeException("Ivalid microprofileFramework '{}'. Must be 'kumuluzee' or none.");
+                throw new RuntimeException("Invalid microprofileFramework '" + microprofileFramework + "'. Must be 'kumuluzee' or none.");
             }
-
+            this.setMicroprofileFramework(additionalProperties.get(MICROPROFILE_FRAMEWORK).toString());
         }
         additionalProperties.put(MICROPROFILE_FRAMEWORK, microprofileFramework);
 
@@ -468,7 +464,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             supportingFiles.add(new SupportingFile("api_exception_mapper.mustache", apiExceptionFolder, "ApiExceptionMapper.java"));
             serializationLibrary = "none";
 
-            if (microprofileFramework.equals(MICROPROFILE_KUMULUZEE)){
+            if (microprofileFramework.equals(MICROPROFILE_KUMULUZEE)) {
                 supportingFiles.add(new SupportingFile("kumuluzee.pom.mustache", "", "pom.xml"));
                 supportingFiles.add(new SupportingFile("kumuluzee.config.yaml.mustache", "src/main/resources", "config.yaml"));
                 supportingFiles.add(new SupportingFile("kumuluzee.beans.xml.mustache", "src/main/resources/META-INF", "beans.xml"));
@@ -846,7 +842,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         this.useRxJava2 = useRxJava2;
         doNotUseRx = false;
     }
-    
+
     public void setUseRxJava3(boolean useRxJava3) {
         this.useRxJava3 = useRxJava3;
         doNotUseRx = false;
