@@ -154,7 +154,7 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
                                 Animal class but this time we won't travel
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
-            color (str): [optional] if omitted the server will use the default value of 'red'  # noqa: E501
+            color (str): [optional] if omitted the server will use the default value of "red"  # noqa: E501
         """
 
         class_name = kwargs.get('class_name', nulltype.Null)

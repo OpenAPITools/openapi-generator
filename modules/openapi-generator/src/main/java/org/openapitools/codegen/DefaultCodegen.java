@@ -6191,7 +6191,7 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenServerVariables;
     }
 
-    private void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
+    protected void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
         if (parameter == null || property == null) {
             return;
         }

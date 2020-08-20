@@ -63,7 +63,9 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = another_fake_api.AnotherFakeApi(api_client)
-    client = Client() # Client | client model
+    client = Client(
+        client="client_example",
+    ) # Client | client model
 
     try:
         # To test special tags
@@ -87,6 +89,7 @@ Class | Method | HTTP request | Description
 *FakeApi* | [**boolean**](docs/FakeApi.md#boolean) | **POST** /fake/refs/boolean | 
 *FakeApi* | [**composed_one_of_number_with_validations**](docs/FakeApi.md#composed_one_of_number_with_validations) | **POST** /fake/refs/composed_one_of_number_with_validations | 
 *FakeApi* | [**fake_health_get**](docs/FakeApi.md#fake_health_get) | **GET** /fake/health | Health check endpoint
+*FakeApi* | [**mammal**](docs/FakeApi.md#mammal) | **POST** /fake/refs/mammal | 
 *FakeApi* | [**number_with_validations**](docs/FakeApi.md#number_with_validations) | **POST** /fake/refs/number | 
 *FakeApi* | [**object_model_with_ref_props**](docs/FakeApi.md#object_model_with_ref_props) | **POST** /fake/refs/object_model_with_ref_props | 
 *FakeApi* | [**string**](docs/FakeApi.md#string) | **POST** /fake/refs/string | 
