@@ -978,7 +978,7 @@ with petstore_api.ApiClient(configuration) as api_client:
     int64 = 1 # int | None (optional)
     float = 3.14 # float | None (optional)
     string = "a" # str | None (optional)
-    binary = open('/path/to/file.txt', 'rb') # file_type | None (optional)
+    binary = open('/path/to/file', 'rb') # file_type | None (optional)
     date = dateutil_parser('1970-01-01').date() # date | None (optional)
     date_time = dateutil_parser('2020-02-02T20:20:20.22222Z') # datetime | None (optional) if omitted the server will use the default value of dateutil_parser('2010-02-01T10:20:10.11111+01:00')
     password = "password_example" # str | None (optional)

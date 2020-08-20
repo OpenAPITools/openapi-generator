@@ -1267,7 +1267,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             return fullPrefix + example + closeChars;
         } else if (ModelUtils.isBinarySchema(schema)) {
             if (objExample == null) {
-                example = "/path/to/file.txt";
+                example = "/path/to/file";
             }
             example = "open('" + example + "', 'rb')";
             return fullPrefix + example + closeChars;
