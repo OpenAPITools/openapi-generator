@@ -784,7 +784,32 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     // only add JsonNullable and related imports to optional and nullable values
                     addImports |= isOptionalNullable;
                     var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+
+                    if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {
+                        // treat enum string as just string
+                        var.datatypeWithEnum = var.dataType;
+
+                        if (StringUtils.isNotEmpty(var.defaultValue)) { // has default value
+                            String defaultValue = var.defaultValue.substring(var.defaultValue.lastIndexOf('.') + 1);
+                            for (Map<String, Object> enumVars : (List<Map<String, Object>>) var.getAllowableValues().get("enumVars")) {
+                                if (defaultValue.equals(enumVars.get("name"))) {
+                                    // update default to use the string directly instead of enum string
+                                    var.defaultValue = (String) enumVars.get("value");
+                                }
+                            }
+                        }
+
+                        // add import for Set, HashSet
+                        cm.imports.add("Set");
+                        Map<String, String> importsSet = new HashMap<String, String>();
+                        importsSet.put("import", "java.util.Set");
+                        imports.add(importsSet);
+                        Map<String, String> importsHashSet = new HashMap<String, String>();
+                        importsHashSet.put("import", "java.util.HashSet");
+                        imports.add(importsHashSet);
+                    }
                 }
+
                 if (addImports) {
                     Map<String, String> imports2Classnames = new HashMap<String, String>() {{
                         put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
