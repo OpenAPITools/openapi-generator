@@ -951,7 +951,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     @Override
     public String getSchemaType(Schema schema) {
         if (schema instanceof ComposedSchema) { // composed schema
-            Schema unaliasSchema = ModelUtils.unaliasSchema(this.openAPI, schema, importMapping);
+            Schema unaliasSchema = unaliasSchema(schema, importMapping);
             String ref = unaliasSchema.get$ref();
             if (ref != null) {
                 String schemaName = ModelUtils.getSimpleRef(unaliasSchema.get$ref());
@@ -960,6 +960,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 }
                 return getAlias(schemaName);
             } else {
+                // TODO remove this once I remove all the variable setting that uses it
                 // we may have be processing the component schema rather than a schema with a $ref
                 // to a component schema
                 // so loop through component schemas and use the found one's name if we match
@@ -980,6 +981,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 return "object";
             }
         }
+        // TODO update this to use only getSingleSchemaType
         String openAPIType = getSingleSchemaType(schema);
         if (typeMapping.containsKey(openAPIType)) {
             String type = typeMapping.get(openAPIType);
