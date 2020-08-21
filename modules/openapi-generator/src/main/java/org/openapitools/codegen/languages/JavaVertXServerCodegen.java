@@ -71,7 +71,7 @@ public class JavaVertXServerCodegen extends AbstractJavaCodegen {
 
         apiTemplateFiles.clear();
         apiTemplateFiles.put("api.mustache", ".java");
-        //apiTemplateFiles.put("apiVerticle.mustache", "Verticle.java");
+        apiTemplateFiles.put("handler.mustache", "Handler.java");
         apiTemplateFiles.put("apiException.mustache", "Exception.java");
 
         embeddedTemplateDir = templateDir = "JavaVertXServer";

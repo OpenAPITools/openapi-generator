@@ -51,7 +51,8 @@ import static org.apache.commons.lang3.StringUtils.isNotEmpty;
  * (see {@link DynamicSettings}.
  */
 @SuppressWarnings("UnusedReturnValue")
-public class CodegenConfigurator {
+public class
+CodegenConfigurator {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CodegenConfigurator.class);
 

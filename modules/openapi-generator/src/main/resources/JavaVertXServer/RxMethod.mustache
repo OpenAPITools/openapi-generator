@@ -1,1 +1,2 @@
-    public {{#returnType}}Single<{{{returnType}}}>{{/returnType}}{{^returnType}}Completable{{/returnType}} {{operationId}}(ApiContext apiCtx{{#hasParams}},{{/hasParams}}{{#allParams}} {{{dataType}}} {{paramName}}{{#hasMore}},{{/hasMore}}{{/allParams}});
+
+    public {{#returnType}}Single<{{{returnType}}}>{{/returnType}}{{^returnType}}Completable{{/returnType}} {{operationId}}({{#vendorExtensions.x-is-new-mount}}ApiContext apiCtx{{#hasParams}},{{/hasParams}}{{/vendorExtensions.x-is-new-mount}}{{#allParams}} {{#vendorExtensions.is-jsonobject}}JsonObject {{paramName}}{{/vendorExtensions.is-jsonobject}}{{^vendorExtensions.is-jsonobject}}{{{dataType}}} {{paramName}}{{/vendorExtensions.is-jsonobject}}{{#hasMore}},{{/hasMore}}{{/allParams}});

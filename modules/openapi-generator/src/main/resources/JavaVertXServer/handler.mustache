@@ -1,0 +1,21 @@
+package {{package}};
+
+{{#imports}}import {{import}};
+{{/imports}}
+
+import io.vertx.core.Handler;
+import io.vertx.ext.web.RoutingContext;
+import io.reactivex.Single;
+import java.util.Map;
+
+public interface {{classname}}Handler {
+
+  Map<String, Handler<RoutingContext>> handler(Map<String, Handler<RoutingContext>> operationHandlers);
+
+  {{#operations}}
+    {{#operation}}
+      String {{operationId}} = "{{operationId}}";
+    {{/operation}}
+  {{/operations}}
+
+}

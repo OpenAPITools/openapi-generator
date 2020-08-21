@@ -1,8 +1,6 @@
 import lombok.experimental.FieldNameConstants;
-import lombok.Builder;
 
 @FieldNameConstants
-@Builder
 {{>additionalModelTypeAnnotations}}
 public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
