@@ -225,6 +225,70 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return "python-experimental";
     }
 
+    @Override
+    protected Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings) {
+        Map<String, Schema> allSchemas = ModelUtils.getSchemas(openAPI);
+        if (allSchemas == null || allSchemas.isEmpty()) {
+            // skip the warning as the spec can have no model defined
+            //LOGGER.warn("allSchemas cannot be null/empty in unaliasSchema. Returned 'schema'");
+            return schema;
+        }
+
+        if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
+            String simpleRef = ModelUtils.getSimpleRef(schema.get$ref());
+            if (usedImportMappings.containsKey(simpleRef)) {
+                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, usedImportMappings.get(simpleRef));
+                return schema;
+            }
+            Schema ref = allSchemas.get(simpleRef);
+            if (ref == null) {
+                once(LOGGER).warn("{} is not defined", schema.get$ref());
+                return schema;
+            } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
+                // top-level enum class
+                return schema;
+            } else if (ModelUtils.isArraySchema(ref)) {
+                if (ModelUtils.isGenerateAliasAsModel(ref)) {
+                    return schema; // generate a model extending array
+                } else {
+                    return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
+                            usedImportMappings);
+                }
+            } else if (ModelUtils.isComposedSchema(ref)) {
+                return schema;
+            } else if (ModelUtils.isMapSchema(ref)) {
+                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
+                    return schema; // treat it as model
+                else {
+                    if (ModelUtils.isGenerateAliasAsModel(ref)) {
+                        return schema; // generate a model extending map
+                    } else {
+                        // treat it as a typical map
+                        return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
+                                usedImportMappings);
+                    }
+                }
+            } else if (ModelUtils.isObjectSchema(ref)) { // model
+                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
+                    return schema;
+                } else { // free form object (type: object)
+                    return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
+                            usedImportMappings);
+                }
+            } else if (HasValidation(ref)) {
+                // non object non array non map schemas that have validations
+                // are returned so we can generate those schemas as models
+                // we do this to:
+                // - preserve the validations in that model class in python
+                // - use those validations when we use this schema in composed oneOf schemas
+                return schema;
+            } else {
+                return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), usedImportMappings);
+            }
+        }
+        return schema;
+    }
+
     public String pythonDate(Object dateValue) {
         String strValue = null;
         if (dateValue instanceof OffsetDateTime) {
@@ -954,6 +1018,22 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return oasType;
     }
 
+    public Boolean HasValidation(Schema s) {
+        return (
+                s.getMaxItems() != null ||
+                s.getMinLength() != null ||
+                s.getMinItems() != null ||
+                s.getMultipleOf() != null ||
+                s.getPattern() != null ||
+                s.getMaxLength() != null ||
+                s.getMinimum() != null ||
+                s.getMaximum() != null ||
+                s.getExclusiveMaximum() != null ||
+                s.getExclusiveMinimum() != null ||
+                s.getUniqueItems() != null
+        );
+    }
+
     public Boolean modelWillBeMade(Schema s) {
         // only invoke this on $refed schemas
         if (ModelUtils.isComposedSchema(s) || ModelUtils.isObjectSchema(s) || ModelUtils.isArraySchema(s) || ModelUtils.isMapSchema(s)) {
@@ -963,20 +1043,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (enums != null && !enums.isEmpty()) {
             return true;
         }
-        Boolean hasValidation = (
-            s.getMaxItems() != null ||
-            s.getMinLength() != null ||
-            s.getMinItems() != null ||
-            s.getMultipleOf() != null ||
-            s.getPattern() != null ||
-            s.getMaxLength() != null ||
-            s.getMinimum() != null ||
-            s.getMaximum() != null ||
-            s.getExclusiveMaximum() != null ||
-            s.getExclusiveMinimum() != null ||
-            s.getUniqueItems() != null
-        );
-        if (hasValidation) {
+        if (HasValidation(s)) {
             return true;
         }
         return false;
