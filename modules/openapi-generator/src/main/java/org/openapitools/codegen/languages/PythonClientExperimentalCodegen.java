@@ -452,11 +452,16 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     @Override
     public CodegenProperty fromProperty(String name, Schema p) {
         // we have a custom version of this function to always set allowableValues.enumVars on all enum variables
-        CodegenProperty result = super.fromProperty(name, p);
-        if (result.isEnum) {
-            updateCodegenPropertyEnum(result);
+        CodegenProperty cp = super.fromProperty(name, p);
+        if (cp.isEnum) {
+            updateCodegenPropertyEnum(cp);
         }
-        return result;
+        // together with unaliasSchema this sets primitive types with validations as models
+        // this is used by fromResponse
+        if (cp.isPrimitiveType && p.get$ref() != null) {
+            cp.complexType = cp.dataType;
+        }
+        return cp;
     }
 
     /**
@@ -531,58 +536,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     }
 
     /**
-     * Convert OAS Response object to Codegen Response object
-     *
-     * @param responseCode HTTP response code
-     * @param response     OAS Response object
-     * @return Codegen Response object
-     */
-    @Override
-    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
-        // if a response points at a model whose type != object and it has validations and/or enums, then we will
-        // generate the model, and response.baseType must be the name
-        // of the model. Point responses at models if the model is python class type ModelSimple
-        // When we serialize/deserialize ModelSimple models, validations and enums will be checked.
-        Schema responseSchema;
-        if (this.openAPI != null && this.openAPI.getComponents() != null) {
-            responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(response), importMapping);
-        } else { // no model/alias defined
-            responseSchema = ModelUtils.getSchemaFromResponse(response);
-        }
-
-        String newBaseType = null;
-        if (responseSchema != null) {
-            CodegenProperty cp = fromProperty("response", responseSchema);
-            if (cp.complexType != null) {
-                String modelName = cp.complexType;
-                Schema modelSchema = ModelUtils.getSchema(this.openAPI, modelName);
-                if (modelSchema != null && !"object".equals(modelSchema.getType())) {
-                    CodegenProperty modelProp = fromProperty("response", modelSchema);
-                    if (modelProp.isEnum == true || modelProp.hasValidation == true) {
-                        // this model has validations and/or enums so we will generate it
-                        newBaseType = modelName;
-                    }
-                }
-            } else {
-                if (cp.isEnum == true || cp.hasValidation == true) {
-                    // this model has validations and/or enums so we will generate it
-                    Schema sc = ModelUtils.getSchemaFromResponse(response);
-                    newBaseType = toModelName(ModelUtils.getSimpleRef(sc.get$ref()));
-                }
-            }
-        }
-
-        CodegenResponse result = super.fromResponse(responseCode, response);
-        if (newBaseType != null) {
-            result.dataType = newBaseType;
-            // baseType is used to set the link to the model .md documentation
-            result.baseType = newBaseType;
-        }
-
-        return result;
-    }
-
-    /**
      * Set op's returnBaseType, returnType, examples etc.
      *
      * @param operation      endpoint Operation
@@ -596,64 +549,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                                      CodegenOperation op,
                                      ApiResponse methodResponse) {
         handleMethodResponse(operation, schemas, op, methodResponse, Collections.<String, String>emptyMap());
-    }
-
-    /**
-     * Set op's returnBaseType, returnType, examples etc.
-     *
-     * @param operation      endpoint Operation
-     * @param schemas        a map of the schemas in the openapi spec
-     * @param op             endpoint CodegenOperation
-     * @param methodResponse the default ApiResponse for the endpoint
-     * @param importMappings mappings of external types to be omitted by unaliasing
-     */
-    @Override
-    protected void handleMethodResponse(Operation operation,
-                                        Map<String, Schema> schemas,
-                                        CodegenOperation op,
-                                        ApiResponse methodResponse,
-                                        Map<String, String> importMappings) {
-        // we have a custom version of this method to handle endpoints that return models where
-        // type != object the model has validations and/or enums
-        // we do this by invoking our custom fromResponse method to create defaultResponse
-        // which we then use to set op.returnType and op.returnBaseType
-        CodegenResponse defaultResponse = fromResponse("defaultResponse", methodResponse);
-        Schema responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(methodResponse), importMappings);
-
-        if (responseSchema != null) {
-            op.returnBaseType = defaultResponse.baseType;
-
-            // generate examples
-            String exampleStatusCode = "200";
-            for (String key : operation.getResponses().keySet()) {
-                if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
-                    exampleStatusCode = key;
-                }
-            }
-            op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
-            op.defaultResponse = toDefaultValue(responseSchema);
-            op.returnType = defaultResponse.dataType;
-            op.hasReference = schemas.containsKey(op.returnBaseType);
-
-            // lookup discriminator
-            Schema schema = schemas.get(op.returnBaseType);
-            if (schema != null) {
-                CodegenModel cmod = fromModel(op.returnBaseType, schema);
-                op.discriminator = cmod.discriminator;
-            }
-
-            if (defaultResponse.isListContainer) {
-                op.isListContainer = true;
-            } else if (defaultResponse.isMapContainer) {
-                op.isMapContainer = true;
-            } else {
-                op.returnSimpleType = true;
-            }
-            if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null) {
-                op.returnTypeIsPrimitive = true;
-            }
-        }
-        addHeaders(methodResponse, op.responseHeaders);
     }
 
 
