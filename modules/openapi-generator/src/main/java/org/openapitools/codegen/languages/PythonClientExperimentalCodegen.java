@@ -444,6 +444,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     /**
      * Convert OAS Property object to Codegen Property object
+     * We have a custom version of this method to always set allowableValues.enumVars on all enum variables
+     * Together with unaliasSchema this sets primitive types with validations as models
+     * This method is used by fromResponse
      *
      * @param name name of the property
      * @param p    OAS property object
@@ -451,16 +454,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      */
     @Override
     public CodegenProperty fromProperty(String name, Schema p) {
-        // we have a custom version of this function to always set allowableValues.enumVars on all enum variables
         CodegenProperty cp = super.fromProperty(name, p);
         if (cp.isEnum) {
             updateCodegenPropertyEnum(cp);
-            if (p.get$ref() != null) {
-                String a = "a";
-            }
         }
-        // together with unaliasSchema this sets primitive types with validations as models
-        // this is used by fromResponse
         if (cp.isPrimitiveType && p.get$ref() != null) {
             cp.complexType = cp.dataType;
         }
