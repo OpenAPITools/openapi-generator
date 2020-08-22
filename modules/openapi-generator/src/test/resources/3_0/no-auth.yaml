@@ -1,0 +1,13 @@
+openapi: 3.0.2 # This should be 3.1, but the parser does not accept that version yet.
+info:
+  version: 1.0.0
+  title: security-oauth
+  license:
+    name: MIT
+servers:
+  - url: http://secured.api.example.xyz/v1
+
+paths:
+  /pets:
+    get:
+      summary: Get the pet

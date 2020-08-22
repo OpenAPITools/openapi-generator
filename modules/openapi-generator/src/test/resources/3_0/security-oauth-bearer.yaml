@@ -1,0 +1,34 @@
+openapi: 3.0.2 # This should be 3.1, but the parser does not accept that version yet.
+info:
+  version: 1.0.0
+  title: security-oauth
+  license:
+    name: MIT
+servers:
+  - url: http://secured.api.example.xyz/v1
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    anotherAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth:
+      - "scope:global"
+
+paths:
+  /pets:
+    get:
+      security:
+        - bearerAuth:
+            - "scope:specific"
+        - anotherAuth:
+            - "scope:another"
+    post:
+      summary: make the pet
