@@ -74,6 +74,7 @@ jobs:
         with:
           name: artifact
       - name: Run Ensures Script
+        shell: bash
         run: |
           git config core.fileMode false
           mkdir -p modules/openapi-generator-cli/target/
