@@ -18,8 +18,7 @@ func TestPlaceOrder(t *testing.T) {
 		Status:   sw.PtrString("placed"),
 		Complete: sw.PtrBool(false)}
 
-	req := client.StoreApi.PlaceOrderGetRequest(context.Background()).Order(newOrder)
-	_, r, err := client.StoreApi.PlaceOrderExecute(req)
+	_, r, err := client.StoreApi.PlaceOrder(context.Background()).Order(newOrder).Execute()
 
 	if err != nil {
 		// Skip parsing time error due to error in Petstore Test Server

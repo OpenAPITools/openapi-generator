@@ -17,8 +17,7 @@ func TestPutBodyWithFileSchema(t *testing.T) {
 		File:  &sw.File{SourceURI: sw.PtrString("https://example.com/image.png")},
 		Files: &[]sw.File{{SourceURI: sw.PtrString("https://example.com/image.png")}}}
 
-	req := client.FakeApi.TestBodyWithFileSchemaGetRequest(context.Background()).FileSchemaTestClass(schema)
-	r, err := client.FakeApi.TestBodyWithFileSchemaExecute(req)
+	r, err := client.FakeApi.TestBodyWithFileSchema(context.Background()).FileSchemaTestClass(schema).Execute()
 
 	if err != nil {
 		t.Fatalf("Error while adding pet: %v", err)
