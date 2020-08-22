@@ -1355,7 +1355,7 @@ public class DefaultGenerator implements Generator {
                 String relativeMeta = METADATA_DIR + File.separator + "VERSION";
                 filesToSort.sort(PathFileComparator.PATH_COMPARATOR);
                 filesToSort.forEach(f -> {
-                    String tmp = outDir.toPath().relativize(f.toPath()).toString();
+                    String tmp = outDir.toPath().relativize(f.toPath()).normalize().toString();
                     // some Java implementations don't honor .relativize documentation fully.
                     // When outDir is /a/b and the input is /a/b/c/d, the result should be c/d.
                     // Some implementations make the output ./c/d which seems to mix the logic
