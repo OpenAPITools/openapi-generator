@@ -75,6 +75,7 @@ jobs:
           name: artifact
       - name: Run Ensures Script
         run: |
+          git config core.fileMode false
           mkdir -p modules/openapi-generator-cli/target/
           mv artifact/openapi-generator-cli.jar modules/openapi-generator-cli/target/
           ./bin/utils/ensure-up-to-date
