@@ -1361,7 +1361,11 @@ public class DefaultGenerator implements Generator {
                     // Some implementations make the output ./c/d which seems to mix the logic
                     // as documented for symlinks. So we need to trim any / or ./ from the start,
                     // as nobody should be generating into system root and our expectation is no ./
-                    String relativePath = removeStart(removeStart(tmp, "./"), "/");
+                    String relativePath = removeStart(removeStart(tmp, "." + File.separator), File.separator);
+                    if (File.separator.equals("\\")) {
+                        // ensure that windows outputs same FILES format
+                        relativePath = relativePath.replace(File.separator, "/");
+                    }
                     if (!relativePath.equals(relativeMeta)) {
                         sb.append(relativePath).append(System.lineSeparator());
                     }
