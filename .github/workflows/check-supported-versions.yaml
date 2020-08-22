@@ -54,7 +54,7 @@ jobs:
 
       - name: Upload Maven build artifact
         uses: actions/upload-artifact@v1
-        if: matrix.java == '8'
+        if: matrix.java == '8' && matrix.os == 'ubuntu-latest'
         with:
           name: artifact
           path: modules/openapi-generator-cli/target/openapi-generator-cli.jar
@@ -74,7 +74,9 @@ jobs:
         with:
           name: artifact
       - name: Run Ensures Script
+        shell: bash
         run: |
+          git config core.fileMode false
           mkdir -p modules/openapi-generator-cli/target/
           mv artifact/openapi-generator-cli.jar modules/openapi-generator-cli/target/
           ./bin/utils/ensure-up-to-date

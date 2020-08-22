@@ -137,14 +137,9 @@ char *assembleTargetUrl(char    *basePath,
 
     int operationParameterLength = 0;
     int basePathLength = strlen(basePath);
-    bool slashNeedsToBeAppendedToBasePath = false;
 
     if(operationParameter != NULL) {
         operationParameterLength = (1 + strlen(operationParameter));
-    }
-    if(basePath[strlen(basePath) - 1] != '/') {
-        slashNeedsToBeAppendedToBasePath = true;
-        basePathLength++;
     }
 
     char *targetUrl =
