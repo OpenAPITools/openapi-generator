@@ -60,6 +60,7 @@ import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.apache.commons.lang3.StringUtils.removeStart;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
 @SuppressWarnings("rawtypes")
@@ -1351,10 +1352,17 @@ public class DefaultGenerator implements Generator {
                     }
                 });
 
+                String relativeMeta = METADATA_DIR + File.separator + "VERSION";
                 filesToSort.sort(PathFileComparator.PATH_COMPARATOR);
                 filesToSort.forEach(f -> {
-                    String relativePath = outDir.toPath().relativize(f.toPath()).toString();
-                    if (!relativePath.equals(METADATA_DIR + File.separator + "VERSION")) {
+                    String tmp = outDir.toPath().relativize(f.toPath()).toString();
+                    // some Java implementations don't honor .relativize documentation fully.
+                    // When outDir is /a/b and the input is /a/b/c/d, the result should be c/d.
+                    // Some implementations make the output ./c/d which seems to mix the logic
+                    // as documented for symlinks. So we need to trim any / or ./ from the start,
+                    // as nobody should be generating into system root and our expectation is no ./
+                    String relativePath = removeStart(removeStart(tmp, "./"), "/");
+                    if (!relativePath.equals(relativeMeta)) {
                         sb.append(relativePath).append(System.lineSeparator());
                     }
                 });
