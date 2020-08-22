@@ -275,7 +275,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                     return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
                             usedImportMappings);
                 }
-            } else if (HasValidation(ref)) {
+            } else if (hasValidation(ref)) {
                 // non object non array non map schemas that have validations
                 // are returned so we can generate those schemas as models
                 // we do this to:
@@ -455,6 +455,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         CodegenProperty cp = super.fromProperty(name, p);
         if (cp.isEnum) {
             updateCodegenPropertyEnum(cp);
+            if (p.get$ref() != null) {
+                String a = "a";
+            }
         }
         // together with unaliasSchema this sets primitive types with validations as models
         // this is used by fromResponse
@@ -508,31 +511,31 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // overwriting defaultValue omitted from here
     }
 
+    /***
+     * We have a custom version of this method to produce links to models when they are
+     * primitive type (not map, not array, not object) and include validations or are enums
+     *
+     * @param body requesst body
+     * @param imports import collection
+     * @param bodyParameterName body parameter name
+     * @return the resultant CodegenParameter
+     */
     @Override
     public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
-        CodegenParameter result = super.fromRequestBody(body, imports, bodyParameterName);
-        // if we generated a model with a non-object type because it has validations or enums,
-        // make sure that the datatype of that body parameter refers to our model class
-        Content content = body.getContent();
-        Set<String> keySet = content.keySet();
-        Object[] keyArray = (Object[]) keySet.toArray();
-        MediaType mediaType = content.get(keyArray[0]);
-        Schema schema = mediaType.getSchema();
-        String ref = schema.get$ref();
-        if (ref == null) {
-            return result;
+        CodegenParameter cp = super.fromRequestBody(body, imports, bodyParameterName);
+        Schema schema = ModelUtils.getSchemaFromRequestBody(body);
+        if (schema.get$ref() == null) {
+            return cp;
         }
-        String modelName = ModelUtils.getSimpleRef(ref);
-        // the result lacks validation info so we need to make a CodegenProperty from the schema to check
-        // if we have validation and enum info exists
-        Schema realSchema = ModelUtils.getSchema(this.openAPI, modelName);
-        CodegenProperty modelProp = fromProperty("body", realSchema);
-        if (modelProp.isPrimitiveType && (modelProp.hasValidation || modelProp.isEnum)) {
-            String simpleDataType = result.dataType;
-            result.dataType = toModelName(modelName);
-            result.baseType = result.dataType;
+        Schema unaliasedSchema = unaliasSchema(schema, importMapping);
+        CodegenProperty unaliasedProp = fromProperty("body", unaliasedSchema);
+        Boolean dataTypeMismatch = !cp.dataType.equals(unaliasedProp.dataType);
+        Boolean baseTypeMismatch = !cp.baseType.equals(unaliasedProp.complexType) && unaliasedProp.complexType != null;
+        if (dataTypeMismatch || baseTypeMismatch) {
+            cp.dataType = unaliasedProp.dataType;
+            cp.baseType = unaliasedProp.complexType;
         }
-        return result;
+        return cp;
     }
 
     /**
@@ -915,7 +918,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return oasType;
     }
 
-    public Boolean HasValidation(Schema s) {
+    public Boolean hasValidation(Schema s) {
         return (
                 s.getMaxItems() != null ||
                 s.getMinLength() != null ||
@@ -940,7 +943,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (enums != null && !enums.isEmpty()) {
             return true;
         }
-        if (HasValidation(s)) {
+        if (hasValidation(s)) {
             return true;
         }
         return false;
