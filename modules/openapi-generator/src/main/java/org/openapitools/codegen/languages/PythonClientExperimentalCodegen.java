@@ -539,23 +539,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     }
 
     /**
-     * Set op's returnBaseType, returnType, examples etc.
-     *
-     * @param operation      endpoint Operation
-     * @param schemas        a map of the schemas in the openapi spec
-     * @param op             endpoint CodegenOperation
-     * @param methodResponse the default ApiResponse for the endpoint
-     */
-    @Override
-    public void handleMethodResponse(Operation operation,
-                                     Map<String, Schema> schemas,
-                                     CodegenOperation op,
-                                     ApiResponse methodResponse) {
-        handleMethodResponse(operation, schemas, op, methodResponse, Collections.<String, String>emptyMap());
-    }
-
-
-    /**
      * Return the sanitized variable name for enum
      *
      * @param value    enum variable name
