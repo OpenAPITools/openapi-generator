@@ -15,10 +15,11 @@ import (
 var (
 	_ _context.Context
 )
-
 {{#generateInterfaces}}
-  type {{classname}} interface {
+
+type {{classname}} interface {
   {{#operation}}
+
   /*
    * {{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
   {{#notes}}
@@ -26,35 +27,43 @@ var (
   {{/notes}}
    * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
    * @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
-   * @return api{{operationId}}Request
+   * @return Api{{operationId}}Request
    */
-  {{{nickname}}}GetRequest(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) Api{{operationId}}Request
+  {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) Api{{operationId}}Request
 
   /*
-   * Execute executes the request{{#returnType}}
+   * {{nickname}}Execute executes the request{{#returnType}}
    * @return {{{.}}}{{/returnType}}
    */
   {{nickname}}Execute(r Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error)
-
   {{/operation}}
-  }
-
+}
 {{/generateInterfaces}}
+
 // {{classname}}Service {{classname}} service
 type {{classname}}Service service
-
 {{#operation}}
-type Api{{operationId}}Request struct {
-	ctx _context.Context{{#allParams}}
-	{{paramName}} {{^isPathParam}}*{{/isPathParam}}{{{dataType}}}{{/allParams}}
-}
 
+type Api{{operationId}}Request struct {
+	ctx _context.Context{{#generateInterfaces}}
+	ApiService {{classname}}
+{{/generateInterfaces}}{{^generateInterfaces}}
+	ApiService *{{classname}}Service
+{{/generateInterfaces}}
+{{#allParams}}
+	{{paramName}} {{^isPathParam}}*{{/isPathParam}}{{{dataType}}}
+{{/allParams}}
+}
 {{#allParams}}{{^isPathParam}}
 func (r Api{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) Api{{operationId}}Request {
 	r.{{paramName}} = &{{paramName}}
 	return r
+}{{/isPathParam}}{{/allParams}}
+
+func (r Api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
+    return r.ApiService.{{nickname}}Execute(r)
 }
-{{/isPathParam}}{{/allParams}}
+
 /*
  * {{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
 {{#notes}}
@@ -62,10 +71,11 @@ func (r Api{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{pa
 {{/notes}}
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
  * @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
- * @return api{{operationId}}Request
+ * @return Api{{operationId}}Request
  */
-func (a *{{{classname}}}Service) {{{nickname}}}GetRequest(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) Api{{operationId}}Request {
+func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) Api{{operationId}}Request {
 	return Api{{operationId}}Request{
+		ApiService: a,
 		ctx: ctx,{{#pathParams}}
 		{{paramName}}: {{paramName}},{{/pathParams}}
 	}
