@@ -13,6 +13,14 @@ class {{classname}}{{enumName}} {
   {{/enumVars}}
   {{/allowableValues}}
 
+  static List<{{classname}}{{enumName}}> get values => const [
+    {{#allowableValues}}
+      {{#enumVars}}
+        {{{name}}},
+      {{/enumVars}}
+    {{/allowableValues}}
+      ];
+
   {{{dataType}}} toJson () {
     return value;
   }

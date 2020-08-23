@@ -12,7 +12,15 @@ class {{classname}} {
   static const {{classname}} {{{name}}} = {{classname}}._internal({{value}});
     {{/enumVars}}
   {{/allowableValues}}
-  
+
+  static List<{{classname}}> get values => const [
+    {{#allowableValues}}
+      {{#enumVars}}
+        {{{name}}},
+      {{/enumVars}}
+    {{/allowableValues}}
+      ];
+
   {{dataType}} toJson () {
     return value;
   }
@@ -25,7 +33,7 @@ class {{classname}} {
   static {{classname}} fromJson({{dataType}} value) {
     return {{classname}}TypeTransformer().decode(value);
   }
-  
+
   static List<{{classname}}> listFromJson(List<dynamic> json) {
     return json == null
         ? List<{{classname}}>()
