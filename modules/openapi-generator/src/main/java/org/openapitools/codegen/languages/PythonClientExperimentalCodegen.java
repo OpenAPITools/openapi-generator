@@ -403,52 +403,50 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return objs;
     }
 
-    /**
+    /***
      * Override with special post-processing for all models.
+     * we have a custom version of this method to:
+     * - remove any primitive models that do not contain validations
+     *      these models are unaliased as inline definitions wherever the spec has them as refs
+     *      this means that the generated client does not use these models
+     *      because they are not used we do not write them
+     * - fix the model imports, go from model name to the full import string with toModelImport + globalImportFixer
+     *
+     * @param objs a map going from the model name to a object hoding the model info
+     * @return the updated objs
      */
-    @SuppressWarnings({"static-method", "unchecked"})
+    @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
          super.postProcessAllModels(objs);
 
-        // loop through all models and delete ones where type!=object and the model has no validations and enums
-        // we will remove them because they are not needed
-        Map<String, Schema> modelSchemasToRemove = new HashMap<String, Schema>();
-
-        for (Object objModel: objs.values()) {
-            HashMap<String, Object> hmModel = (HashMap<String, Object>) objModel;
-            List<Map<String, Object>> models = (List<Map<String, Object>>) hmModel.get("models");
-            for (Map<String, Object> model : models) {
-                CodegenModel cm = (CodegenModel) model.get("model");
-
-                // remove model if it is a primitive with no validations
-                if (cm.isEnum || cm.isAlias) {
-                    Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
-                    CodegenProperty modelProperty = fromProperty("_value", modelSchema);
-                    if (!modelProperty.isEnum && !modelProperty.hasValidation && !cm.isArrayModel) {
-                        // remove these models because they are aliases and do not have any enums or validations
-                        modelSchemasToRemove.put(cm.name, modelSchema);
-                        continue;
+        List<String> modelsToRemove = new ArrayList<>();
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        for (String schemaName: allDefinitions.keySet()) {
+            Schema refSchema = new Schema().$ref("#/components/schemas/"+schemaName);
+            Schema unaliasedSchema = unaliasSchema(refSchema, importMapping);
+            String modelName = toModelName(schemaName);
+            if (unaliasedSchema.get$ref() == null) {
+                modelsToRemove.add(modelName);
+            } else {
+                HashMap<String, Object> objModel = (HashMap<String, Object>) objs.get(modelName);
+                List<Map<String, Object>> models = (List<Map<String, Object>>) objModel.get("models");
+                for (Map<String, Object> model : models) {
+                    CodegenModel cm = (CodegenModel) model.get("model");
+                    String[] importModelNames = cm.imports.toArray(new String[0]);
+                    cm.imports.clear();
+                    for (String importModelName : importModelNames) {
+                        cm.imports.add(toModelImport(importModelName));
+                        String globalImportFixer = "globals()['" + importModelName + "'] = " + importModelName;
+                        cm.imports.add(globalImportFixer);
                     }
-                }
-
-                // fix model imports
-                if (cm.imports.size() == 0) {
-                    continue;
-                }
-                String[] modelNames = cm.imports.toArray(new String[0]);
-                cm.imports.clear();
-                for (String modelName : modelNames) {
-                    cm.imports.add(toModelImport(modelName));
-                    String globalImportFixer = "globals()['" + modelName + "'] = " + modelName;
-                    cm.imports.add(globalImportFixer);
                 }
             }
         }
 
-        // Remove modelSchemasToRemove models from objs
-        for (String modelName : modelSchemasToRemove.keySet()) {
+        for (String modelName : modelsToRemove) {
             objs.remove(modelName);
         }
+
         return objs;
     }
 
