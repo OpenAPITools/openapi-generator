@@ -1352,7 +1352,9 @@ public class DefaultGenerator implements Generator {
                     }
                 });
 
-                String relativeMeta = METADATA_DIR + File.separator + "VERSION";
+                // NOTE: Don't use File.separator here as we write linux-style paths to FILES, and File.separator will
+                // result in incorrect match on Windows machines.
+                String relativeMeta = METADATA_DIR + "/VERSION";
                 filesToSort.sort(PathFileComparator.PATH_COMPARATOR);
                 filesToSort.forEach(f -> {
                     String tmp = outDir.toPath().relativize(f.toPath()).normalize().toString();
