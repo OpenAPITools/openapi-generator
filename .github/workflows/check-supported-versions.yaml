@@ -66,9 +66,9 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        include:
-          - os: windows-latest
-            flags: --skip-docs
+#         include:
+#           - os: windows-latest
+#             flags: --skip-docs
     steps:
       - name: Check out code
         uses: actions/checkout@v2
