@@ -1325,92 +1325,12 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      */
     @Override
     public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
-        CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
-
-        LOGGER.debug("Debugging fromFormProperty {}: {}", name, propertySchema);
-        CodegenProperty codegenProperty = fromProperty(name, propertySchema);
-
-        ModelUtils.syncValidationProperties(propertySchema, codegenProperty);
-
-        codegenParameter.isFormParam = Boolean.TRUE;
-        codegenParameter.baseName = codegenProperty.baseName;
-        codegenParameter.paramName = toParamName((codegenParameter.baseName));
-        codegenParameter.baseType = codegenProperty.baseType;
-        codegenParameter.dataType = codegenProperty.dataType;
-        codegenParameter.dataFormat = codegenProperty.dataFormat;
-        codegenParameter.description = escapeText(codegenProperty.description);
-        codegenParameter.unescapedDescription = codegenProperty.getDescription();
-        codegenParameter.jsonSchema = Json.pretty(propertySchema);
-        codegenParameter.defaultValue = codegenProperty.getDefaultValue();
-
-        if (codegenProperty.getVendorExtensions() != null && !codegenProperty.getVendorExtensions().isEmpty()) {
-            codegenParameter.vendorExtensions = codegenProperty.getVendorExtensions();
-        }
-        if (propertySchema.getRequired() != null && !propertySchema.getRequired().isEmpty() && propertySchema.getRequired().contains(codegenProperty.baseName)) {
-            codegenParameter.required = Boolean.TRUE;
-        }
-
-        // non-array/map
-        updateCodegenPropertyEnum(codegenProperty);
-        codegenParameter.isEnum = codegenProperty.isEnum;
-        codegenParameter._enum = codegenProperty._enum;
-        codegenParameter.allowableValues = codegenProperty.allowableValues;
-
-        if (codegenProperty.isEnum) {
-            codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
-            codegenParameter.enumName = codegenProperty.enumName;
-        }
-
-        if (codegenProperty.items != null && codegenProperty.items.isEnum) {
-            codegenParameter.items = codegenProperty.items;
-            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-        }
-
-        // import
-        if (codegenProperty.complexType != null) {
-            imports.add(codegenProperty.complexType);
-        }
-
-        // validation
-        // handle maximum, minimum properly for int/long by removing the trailing ".0"
-        if (ModelUtils.isIntegerSchema(propertySchema)) {
-            codegenParameter.maximum = propertySchema.getMaximum() == null ? null : String.valueOf(propertySchema.getMaximum().longValue());
-            codegenParameter.minimum = propertySchema.getMinimum() == null ? null : String.valueOf(propertySchema.getMinimum().longValue());
-        } else {
-            codegenParameter.maximum = propertySchema.getMaximum() == null ? null : String.valueOf(propertySchema.getMaximum());
-            codegenParameter.minimum = propertySchema.getMinimum() == null ? null : String.valueOf(propertySchema.getMinimum());
-        }
-
-        codegenParameter.exclusiveMaximum = propertySchema.getExclusiveMaximum() == null ? false : propertySchema.getExclusiveMaximum();
-        codegenParameter.exclusiveMinimum = propertySchema.getExclusiveMinimum() == null ? false : propertySchema.getExclusiveMinimum();
-        codegenParameter.maxLength = propertySchema.getMaxLength();
-        codegenParameter.minLength = propertySchema.getMinLength();
-        codegenParameter.pattern = toRegularExpression(propertySchema.getPattern());
-        codegenParameter.maxItems = propertySchema.getMaxItems();
-        codegenParameter.minItems = propertySchema.getMinItems();
-        codegenParameter.uniqueItems = propertySchema.getUniqueItems() == null ? false : propertySchema.getUniqueItems();
-        codegenParameter.multipleOf = propertySchema.getMultipleOf();
-
-        // exclusive* are noop without corresponding min/max
-        if (codegenParameter.maximum != null || codegenParameter.minimum != null ||
-                codegenParameter.maxLength != null || codegenParameter.minLength != null ||
-                codegenParameter.maxItems != null || codegenParameter.minItems != null ||
-                codegenParameter.pattern != null || codegenParameter.multipleOf != null) {
-            codegenParameter.hasValidation = true;
-        }
-
-        setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+        CodegenParameter cp = super.fromFormProperty(name, propertySchema, imports);
         Parameter p = new Parameter();
         p.setSchema(propertySchema);
-        p.setName(codegenParameter.paramName);
-        setParameterExampleValue(codegenParameter, p);
-        // setParameterExampleValue(codegenParameter);
-        // set nullable
-        setParameterNullable(codegenParameter, codegenProperty);
-
-        //TODO collectionFormat for form parameter not yet supported
-        //codegenParameter.collectionFormat = getCollectionFormat(propertySchema);
-        return codegenParameter;
+        p.setName(cp.paramName);
+        setParameterExampleValue(cp, p);
+        return cp;
     }
 
     /**
