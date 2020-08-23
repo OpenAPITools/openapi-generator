@@ -1886,11 +1886,6 @@ components:
       type: number
       minimum: 10
       maximum: 20
-    NumberWithValidationsAndDefault:
-      type: number
-      default: 15.0
-      minimum: 10
-      maximum: 20
     ComposedOneOfNumberWithValidations:
       description: this is a model that allows payloads of type object or number
       oneOf:
