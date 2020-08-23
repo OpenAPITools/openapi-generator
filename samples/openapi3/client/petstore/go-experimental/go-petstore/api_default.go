@@ -21,12 +21,28 @@ var (
 	_ _context.Context
 )
 
+type DefaultApi interface {
+
+  /*
+   * FooGet Method for FooGet
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiFooGetRequest
+   */
+  FooGet(ctx _context.Context) ApiFooGetRequest
+
+  /*
+   * FooGetExecute executes the request
+   * @return InlineResponseDefault
+   */
+  FooGetExecute(r ApiFooGetRequest) (InlineResponseDefault, *_nethttp.Response, error)
+}
+
 // DefaultApiService DefaultApi service
 type DefaultApiService service
 
 type ApiFooGetRequest struct {
 	ctx _context.Context
-	ApiService *DefaultApiService
+	ApiService DefaultApi
 }
 
 

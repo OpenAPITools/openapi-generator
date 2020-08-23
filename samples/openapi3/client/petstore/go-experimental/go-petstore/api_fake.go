@@ -24,12 +24,203 @@ var (
 	_ _context.Context
 )
 
+type FakeApi interface {
+
+  /*
+   * FakeHealthGet Health check endpoint
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiFakeHealthGetRequest
+   */
+  FakeHealthGet(ctx _context.Context) ApiFakeHealthGetRequest
+
+  /*
+   * FakeHealthGetExecute executes the request
+   * @return HealthCheckResult
+   */
+  FakeHealthGetExecute(r ApiFakeHealthGetRequest) (HealthCheckResult, *_nethttp.Response, error)
+
+  /*
+   * FakeOuterBooleanSerialize Method for FakeOuterBooleanSerialize
+   * Test serialization of outer boolean types
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiFakeOuterBooleanSerializeRequest
+   */
+  FakeOuterBooleanSerialize(ctx _context.Context) ApiFakeOuterBooleanSerializeRequest
+
+  /*
+   * FakeOuterBooleanSerializeExecute executes the request
+   * @return bool
+   */
+  FakeOuterBooleanSerializeExecute(r ApiFakeOuterBooleanSerializeRequest) (bool, *_nethttp.Response, error)
+
+  /*
+   * FakeOuterCompositeSerialize Method for FakeOuterCompositeSerialize
+   * Test serialization of object with outer number type
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiFakeOuterCompositeSerializeRequest
+   */
+  FakeOuterCompositeSerialize(ctx _context.Context) ApiFakeOuterCompositeSerializeRequest
+
+  /*
+   * FakeOuterCompositeSerializeExecute executes the request
+   * @return OuterComposite
+   */
+  FakeOuterCompositeSerializeExecute(r ApiFakeOuterCompositeSerializeRequest) (OuterComposite, *_nethttp.Response, error)
+
+  /*
+   * FakeOuterNumberSerialize Method for FakeOuterNumberSerialize
+   * Test serialization of outer number types
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiFakeOuterNumberSerializeRequest
+   */
+  FakeOuterNumberSerialize(ctx _context.Context) ApiFakeOuterNumberSerializeRequest
+
+  /*
+   * FakeOuterNumberSerializeExecute executes the request
+   * @return float32
+   */
+  FakeOuterNumberSerializeExecute(r ApiFakeOuterNumberSerializeRequest) (float32, *_nethttp.Response, error)
+
+  /*
+   * FakeOuterStringSerialize Method for FakeOuterStringSerialize
+   * Test serialization of outer string types
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiFakeOuterStringSerializeRequest
+   */
+  FakeOuterStringSerialize(ctx _context.Context) ApiFakeOuterStringSerializeRequest
+
+  /*
+   * FakeOuterStringSerializeExecute executes the request
+   * @return string
+   */
+  FakeOuterStringSerializeExecute(r ApiFakeOuterStringSerializeRequest) (string, *_nethttp.Response, error)
+
+  /*
+   * TestBodyWithFileSchema Method for TestBodyWithFileSchema
+   * For this test, the body for this request much reference a schema named `File`.
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiTestBodyWithFileSchemaRequest
+   */
+  TestBodyWithFileSchema(ctx _context.Context) ApiTestBodyWithFileSchemaRequest
+
+  /*
+   * TestBodyWithFileSchemaExecute executes the request
+   */
+  TestBodyWithFileSchemaExecute(r ApiTestBodyWithFileSchemaRequest) (*_nethttp.Response, error)
+
+  /*
+   * TestBodyWithQueryParams Method for TestBodyWithQueryParams
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiTestBodyWithQueryParamsRequest
+   */
+  TestBodyWithQueryParams(ctx _context.Context) ApiTestBodyWithQueryParamsRequest
+
+  /*
+   * TestBodyWithQueryParamsExecute executes the request
+   */
+  TestBodyWithQueryParamsExecute(r ApiTestBodyWithQueryParamsRequest) (*_nethttp.Response, error)
+
+  /*
+   * TestClientModel To test \"client\" model
+   * To test "client" model
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiTestClientModelRequest
+   */
+  TestClientModel(ctx _context.Context) ApiTestClientModelRequest
+
+  /*
+   * TestClientModelExecute executes the request
+   * @return Client
+   */
+  TestClientModelExecute(r ApiTestClientModelRequest) (Client, *_nethttp.Response, error)
+
+  /*
+   * TestEndpointParameters Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters
+假端點
+偽のエンドポイント
+가짜 엔드 포인트
+
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiTestEndpointParametersRequest
+   */
+  TestEndpointParameters(ctx _context.Context) ApiTestEndpointParametersRequest
+
+  /*
+   * TestEndpointParametersExecute executes the request
+   */
+  TestEndpointParametersExecute(r ApiTestEndpointParametersRequest) (*_nethttp.Response, error)
+
+  /*
+   * TestEnumParameters To test enum parameters
+   * To test enum parameters
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiTestEnumParametersRequest
+   */
+  TestEnumParameters(ctx _context.Context) ApiTestEnumParametersRequest
+
+  /*
+   * TestEnumParametersExecute executes the request
+   */
+  TestEnumParametersExecute(r ApiTestEnumParametersRequest) (*_nethttp.Response, error)
+
+  /*
+   * TestGroupParameters Fake endpoint to test group parameters (optional)
+   * Fake endpoint to test group parameters (optional)
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiTestGroupParametersRequest
+   */
+  TestGroupParameters(ctx _context.Context) ApiTestGroupParametersRequest
+
+  /*
+   * TestGroupParametersExecute executes the request
+   */
+  TestGroupParametersExecute(r ApiTestGroupParametersRequest) (*_nethttp.Response, error)
+
+  /*
+   * TestInlineAdditionalProperties test inline additionalProperties
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiTestInlineAdditionalPropertiesRequest
+   */
+  TestInlineAdditionalProperties(ctx _context.Context) ApiTestInlineAdditionalPropertiesRequest
+
+  /*
+   * TestInlineAdditionalPropertiesExecute executes the request
+   */
+  TestInlineAdditionalPropertiesExecute(r ApiTestInlineAdditionalPropertiesRequest) (*_nethttp.Response, error)
+
+  /*
+   * TestJsonFormData test json serialization of form data
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiTestJsonFormDataRequest
+   */
+  TestJsonFormData(ctx _context.Context) ApiTestJsonFormDataRequest
+
+  /*
+   * TestJsonFormDataExecute executes the request
+   */
+  TestJsonFormDataExecute(r ApiTestJsonFormDataRequest) (*_nethttp.Response, error)
+
+  /*
+   * TestQueryParameterCollectionFormat Method for TestQueryParameterCollectionFormat
+   * To test the collection format in query parameters
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiTestQueryParameterCollectionFormatRequest
+   */
+  TestQueryParameterCollectionFormat(ctx _context.Context) ApiTestQueryParameterCollectionFormatRequest
+
+  /*
+   * TestQueryParameterCollectionFormatExecute executes the request
+   */
+  TestQueryParameterCollectionFormatExecute(r ApiTestQueryParameterCollectionFormatRequest) (*_nethttp.Response, error)
+}
+
 // FakeApiService FakeApi service
 type FakeApiService service
 
 type ApiFakeHealthGetRequest struct {
 	ctx _context.Context
-	ApiService *FakeApiService
+	ApiService FakeApi
 }
 
 
@@ -129,7 +320,7 @@ func (a *FakeApiService) FakeHealthGetExecute(r ApiFakeHealthGetRequest) (Health
 
 type ApiFakeOuterBooleanSerializeRequest struct {
 	ctx _context.Context
-	ApiService *FakeApiService
+	ApiService FakeApi
 	body *bool
 }
 
@@ -237,7 +428,7 @@ func (a *FakeApiService) FakeOuterBooleanSerializeExecute(r ApiFakeOuterBooleanS
 
 type ApiFakeOuterCompositeSerializeRequest struct {
 	ctx _context.Context
-	ApiService *FakeApiService
+	ApiService FakeApi
 	outerComposite *OuterComposite
 }
 
@@ -345,7 +536,7 @@ func (a *FakeApiService) FakeOuterCompositeSerializeExecute(r ApiFakeOuterCompos
 
 type ApiFakeOuterNumberSerializeRequest struct {
 	ctx _context.Context
-	ApiService *FakeApiService
+	ApiService FakeApi
 	body *float32
 }
 
@@ -453,7 +644,7 @@ func (a *FakeApiService) FakeOuterNumberSerializeExecute(r ApiFakeOuterNumberSer
 
 type ApiFakeOuterStringSerializeRequest struct {
 	ctx _context.Context
-	ApiService *FakeApiService
+	ApiService FakeApi
 	body *string
 }
 
@@ -561,7 +752,7 @@ func (a *FakeApiService) FakeOuterStringSerializeExecute(r ApiFakeOuterStringSer
 
 type ApiTestBodyWithFileSchemaRequest struct {
 	ctx _context.Context
-	ApiService *FakeApiService
+	ApiService FakeApi
 	fileSchemaTestClass *FileSchemaTestClass
 }
 
@@ -661,7 +852,7 @@ func (a *FakeApiService) TestBodyWithFileSchemaExecute(r ApiTestBodyWithFileSche
 
 type ApiTestBodyWithQueryParamsRequest struct {
 	ctx _context.Context
-	ApiService *FakeApiService
+	ApiService FakeApi
 	query *string
 	user *User
 }
@@ -769,7 +960,7 @@ func (a *FakeApiService) TestBodyWithQueryParamsExecute(r ApiTestBodyWithQueryPa
 
 type ApiTestClientModelRequest struct {
 	ctx _context.Context
-	ApiService *FakeApiService
+	ApiService FakeApi
 	client *Client
 }
 
@@ -880,7 +1071,7 @@ func (a *FakeApiService) TestClientModelExecute(r ApiTestClientModelRequest) (Cl
 
 type ApiTestEndpointParametersRequest struct {
 	ctx _context.Context
-	ApiService *FakeApiService
+	ApiService FakeApi
 	number *float32
 	double *float64
 	patternWithoutDelimiter *string
@@ -1110,7 +1301,7 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 
 type ApiTestEnumParametersRequest struct {
 	ctx _context.Context
-	ApiService *FakeApiService
+	ApiService FakeApi
 	enumHeaderStringArray *[]string
 	enumHeaderString *string
 	enumQueryStringArray *[]string
@@ -1272,7 +1463,7 @@ func (a *FakeApiService) TestEnumParametersExecute(r ApiTestEnumParametersReques
 
 type ApiTestGroupParametersRequest struct {
 	ctx _context.Context
-	ApiService *FakeApiService
+	ApiService FakeApi
 	requiredStringGroup *int32
 	requiredBooleanGroup *bool
 	requiredInt64Group *int64
@@ -1413,7 +1604,7 @@ func (a *FakeApiService) TestGroupParametersExecute(r ApiTestGroupParametersRequ
 
 type ApiTestInlineAdditionalPropertiesRequest struct {
 	ctx _context.Context
-	ApiService *FakeApiService
+	ApiService FakeApi
 	requestBody *map[string]string
 }
 
@@ -1512,7 +1703,7 @@ func (a *FakeApiService) TestInlineAdditionalPropertiesExecute(r ApiTestInlineAd
 
 type ApiTestJsonFormDataRequest struct {
 	ctx _context.Context
-	ApiService *FakeApiService
+	ApiService FakeApi
 	param *string
 	param2 *string
 }
@@ -1619,7 +1810,7 @@ func (a *FakeApiService) TestJsonFormDataExecute(r ApiTestJsonFormDataRequest) (
 
 type ApiTestQueryParameterCollectionFormatRequest struct {
 	ctx _context.Context
-	ApiService *FakeApiService
+	ApiService FakeApi
 	pipe *[]string
 	ioutil *[]string
 	http *[]string
