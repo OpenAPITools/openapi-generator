@@ -40,9 +40,13 @@ public:
 
     qint64 getId() const;
     void setId(const qint64 &id);
+    bool is_id_Set() const;
+    bool is_id_Valid() const;
 
     QString getName() const;
     void setName(const QString &name);
+    bool is_name_Set() const;
+    bool is_name_Valid() const;
 
     virtual bool isSet() const override;
     virtual bool isValid() const override;

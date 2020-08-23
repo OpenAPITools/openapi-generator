@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class AnotherFakeApi {
   private ApiClient apiClient;
 
@@ -27,13 +27,24 @@ public class AnotherFakeApi {
     this.apiClient = apiClient;
   }
 
+  /**
+   * Get the API cilent
+   *
+   * @return API client
+   */
   public ApiClient getApiClient() {
     return apiClient;
   }
 
+  /**
+   * Set the API cilent
+   *
+   * @param apiClient an instance of API client
+   */
   public void setApiClient(ApiClient apiClient) {
     this.apiClient = apiClient;
   }
+
   /**
    * To test special tags
    * To test special tags and operation ID starting with number
@@ -96,6 +107,9 @@ public class AnotherFakeApi {
     String[] localVarAuthNames = new String[] {  };
 
     GenericType<Client> localVarReturnType = new GenericType<Client>() {};
-    return apiClient.invokeAPI("AnotherFakeApi.call123testSpecialTags", localVarPath, "PATCH", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
+
+    return apiClient.invokeAPI("AnotherFakeApi.call123testSpecialTags", localVarPath, "PATCH", localVarQueryParams, localVarPostBody,
+                               localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
+                               localVarAuthNames, localVarReturnType, false);
   }
 }

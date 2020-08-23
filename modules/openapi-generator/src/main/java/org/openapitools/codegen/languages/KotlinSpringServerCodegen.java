@@ -18,12 +18,9 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap.Builder;
 import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
 import com.samskivert.mustache.Mustache.Lambda;
+import com.samskivert.mustache.Template;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.meta.features.*;
@@ -37,7 +34,9 @@ import java.io.Writer;
 import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
-import java.util.stream.Collectors;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Operation;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -66,6 +65,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     public static final String REACTIVE = "reactive";
     public static final String INTERFACE_ONLY = "interfaceOnly";
     public static final String DELEGATE_PATTERN = "delegatePattern";
+    public static final String USE_TAGS = "useTags";
 
     private String basePackage;
     private String invokerPackage;
@@ -81,6 +81,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
     private boolean reactive = false;
     private boolean interfaceOnly = false;
     private boolean delegatePattern = false;
+    protected boolean useTags = false;
 
     public KotlinSpringServerCodegen() {
         super();
@@ -152,6 +153,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
         addSwitch(REACTIVE, "use coroutines for reactive behavior", reactive);
         addSwitch(INTERFACE_ONLY, "Whether to generate only API interface stubs without the server files.", interfaceOnly);
         addSwitch(DELEGATE_PATTERN, "Whether to generate the server files using the delegate pattern", delegatePattern);
+        addSwitch(USE_TAGS, "Whether to use tags for creating interface and controller class names", useTags);
         supportedLibraries.put(SPRING_BOOT, "Spring-boot Server application.");
         setLibrary(SPRING_BOOT);
 
@@ -243,6 +245,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     public void setDelegatePattern(boolean delegatePattern) {
         this.delegatePattern = delegatePattern;
+    }
+
+    public void setUseTags(boolean useTags) {
+        this.useTags = useTags;
     }
 
     @Override
@@ -369,6 +375,10 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
             }
         }
 
+        if (additionalProperties.containsKey(USE_TAGS)) {
+            this.setUseTags(Boolean.parseBoolean(additionalProperties.get(USE_TAGS).toString()));
+        }
+
         modelTemplateFiles.put("model.mustache", ".kt");
 
         if (!this.interfaceOnly && this.delegatePattern) {
@@ -440,7 +450,7 @@ public class KotlinSpringServerCodegen extends AbstractKotlinCodegen
 
     @Override
     public void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations) {
-        if (library.equals(SPRING_BOOT) && this.delegatePattern) {
+        if (library.equals(SPRING_BOOT) && !useTags) {
             String basePath = resourcePath;
             if (basePath.startsWith("/")) {
                 basePath = basePath.substring(1);

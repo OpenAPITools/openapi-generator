@@ -102,6 +102,23 @@ public class ApiClient {
         authentications = Collections.unmodifiableMap(authentications);
     }
 
+    /*
+     * Basic constructor with custom OkHttpClient
+     */
+    public ApiClient(OkHttpClient client) {
+        init();
+
+        httpClient = client;
+
+        // Setup authentications (key: authentication name, value: authentication).{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+        authentications.put("{{name}}", new HttpBasicAuth());{{/isBasicBasic}}{{^isBasicBasic}}
+        authentications.put("{{name}}", new HttpBearerAuth("{{scheme}}"));{{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+        authentications.put("{{name}}", new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}"));{{/isApiKey}}{{#isOAuth}}
+        authentications.put("{{name}}", new OAuth());{{/isOAuth}}{{/authMethods}}
+        // Prevent the authentications from being modified.
+        authentications = Collections.unmodifiableMap(authentications);
+    }
+
     {{#hasOAuthMethods}}
     {{#oauthMethods}}
     {{#-first}}
@@ -513,7 +530,9 @@ public class ApiClient {
                 loggingInterceptor.setLevel(Level.BODY);
                 httpClient = httpClient.newBuilder().addInterceptor(loggingInterceptor).build();
             } else {
-                httpClient.interceptors().remove(loggingInterceptor);
+                final OkHttpClient.Builder builder = httpClient.newBuilder();
+                builder.interceptors().remove(loggingInterceptor);
+                httpClient = builder.build();
                 loggingInterceptor = null;
             }
         }
@@ -1063,6 +1082,9 @@ public class ApiClient {
                     result = (T) handleResponse(response, returnType);
                 } catch (ApiException e) {
                     callback.onFailure(e, response.code(), response.headers().toMultimap());
+                    return;
+                } catch (Exception e) {
+                    callback.onFailure(new ApiException(e), response.code(), response.headers().toMultimap());
                     return;
                 }
                 callback.onSuccess(result, response.code(), response.headers().toMultimap());

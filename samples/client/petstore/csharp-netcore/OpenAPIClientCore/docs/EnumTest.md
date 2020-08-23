@@ -8,6 +8,9 @@ Name | Type | Description | Notes
 **EnumInteger** | **int** |  | [optional] 
 **EnumNumber** | **double** |  | [optional] 
 **OuterEnum** | **OuterEnum** |  | [optional] 
+**OuterEnumInteger** | **OuterEnumInteger** |  | [optional] 
+**OuterEnumDefaultValue** | **OuterEnumDefaultValue** |  | [optional] 
+**OuterEnumIntegerDefaultValue** | **OuterEnumIntegerDefaultValue** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

@@ -10,11 +10,13 @@
 """
 
 
-from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+from petstore_api.model.foo import Foo
+globals()['Foo'] = Foo
+from petstore_api.model.inline_response_default import InlineResponseDefault
 
 
 class TestInlineResponseDefault(unittest.TestCase):
@@ -29,7 +31,7 @@ class TestInlineResponseDefault(unittest.TestCase):
     def testInlineResponseDefault(self):
         """Test InlineResponseDefault"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.InlineResponseDefault()  # noqa: E501
+        # model = InlineResponseDefault()  # noqa: E501
         pass
 
 

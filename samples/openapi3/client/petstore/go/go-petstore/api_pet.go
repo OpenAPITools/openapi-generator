@@ -14,6 +14,7 @@ import (
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
 	_neturl "net/url"
+	_bytes "bytes"
 	"strings"
 	"github.com/antihax/optional"
 	"os"
@@ -78,6 +79,7 @@ func (a *PetApiService) AddPet(ctx _context.Context, pet Pet) (*_nethttp.Respons
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -116,7 +118,7 @@ func (a *PetApiService) DeletePet(ctx _context.Context, petId int64, localVarOpt
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/pet/{petId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(petId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -154,6 +156,7 @@ func (a *PetApiService) DeletePet(ctx _context.Context, petId int64, localVarOpt
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -222,6 +225,7 @@ func (a *PetApiService) FindPetsByStatus(ctx _context.Context, status []string) 
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -299,6 +303,7 @@ func (a *PetApiService) FindPetsByTags(ctx _context.Context, tags []string) ([]P
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -342,7 +347,7 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/pet/{petId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(petId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -389,6 +394,7 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) (Pet, *_ne
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -464,6 +470,7 @@ func (a *PetApiService) UpdatePet(ctx _context.Context, pet Pet) (*_nethttp.Resp
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -504,7 +511,7 @@ func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, loc
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/pet/{petId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(petId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -545,6 +552,7 @@ func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64, loc
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -587,7 +595,7 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/pet/{petId}/uploadImage"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(petId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -640,6 +648,7 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64, localVarOp
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -690,7 +699,7 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 
 	// create path and map variables
 	localVarPath := a.client.cfg.BasePath + "/fake/{petId}/uploadImageWithRequiredFile"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.QueryEscape(parameterToString(petId, "")) , -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(petId, "")) , -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -736,6 +745,7 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

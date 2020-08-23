@@ -90,7 +90,16 @@ func ReadFormFileToTempFile(r *http.Request, key string) (*os.File, error) {
 	return file, nil
 }
 
-// parseIntParameter parses a sting parameter to an int64
-func parseIntParameter(param string) (int64, error) {
+// parseInt64Parameter parses a sting parameter to an int64
+func parseInt64Parameter(param string) (int64, error) {
 	return strconv.ParseInt(param, 10, 64)
+}
+
+// parseInt32Parameter parses a sting parameter to an int32
+func parseInt32Parameter(param string) (int32, error) {
+	val, err := strconv.ParseInt(param, 10, 32)
+	if err != nil {
+		return -1, err
+	}
+	return int32(val), nil
 }

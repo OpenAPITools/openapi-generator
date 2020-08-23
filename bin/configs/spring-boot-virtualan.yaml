@@ -1,0 +1,11 @@
+generatorName: spring
+outputDir: samples/server/petstore/springboot-virtualan
+library: spring-boot
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore-with-fake-endpoints-models-for-testing.yaml
+templateDir: modules/openapi-generator/src/main/resources/JavaSpring
+additionalProperties:
+  apiPackage: org.openapitools.virtualan.api
+  modelPackage: org.openapitools.virtualan.model
+  virtualService: true
+  artifactId: springboot-virtualan
+  hideGenerationTimestamp: "true"

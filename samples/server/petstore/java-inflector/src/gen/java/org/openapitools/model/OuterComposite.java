@@ -11,16 +11,16 @@ import java.math.BigDecimal;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class OuterComposite   {
   @JsonProperty("my_number")
-  private BigDecimal myNumber = null;
+  private BigDecimal myNumber;
 
   @JsonProperty("my_string")
-  private String myString = null;
+  private String myString;
 
   @JsonProperty("my_boolean")
-  private Boolean myBoolean = null;
+  private Boolean myBoolean;
 
   /**
    **/

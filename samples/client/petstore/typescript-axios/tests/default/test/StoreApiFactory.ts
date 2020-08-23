@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import { StoreApiFactory } from "@swagger/typescript-axios-petstore";
-import { Configuration } from "@swagger/typescript-axios-petstore";
+import { StoreApiFactory } from "@openapitools/typescript-axios-petstore";
+import { Configuration } from "@openapitools/typescript-axios-petstore";
 import {AxiosInstance, AxiosResponse} from "axios";
 import axios from "axios";
 

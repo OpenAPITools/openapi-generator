@@ -31,6 +31,7 @@ sidebar_label: python-experimental
 
 <ul class="column-ul">
 <li>bool</li>
+<li>bytes</li>
 <li>date</li>
 <li>datetime</li>
 <li>dict</li>
@@ -106,6 +107,7 @@ sidebar_label: python-experimental
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |
@@ -161,7 +163,7 @@ sidebar_label: python-experimental
 |Examples|✓|OAS2,OAS3
 |XMLStructureDefinitions|✗|OAS2,OAS3
 |MultiServer|✗|OAS3
-|ParameterizedServer|✗|OAS3
+|ParameterizedServer|✓|OAS3
 |ParameterStyling|✗|OAS3
 |Callbacks|✗|OAS3
 |LinkObjects|✗|OAS3

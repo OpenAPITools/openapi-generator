@@ -6,15 +6,16 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
+import org.openapitools.model.DogAllOf;
 
 
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class Dog extends Animal  {
   @JsonProperty("breed")
-  private String breed = null;
+  private String breed;
 
   /**
    **/

@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * 
  * @param breed 
@@ -21,7 +22,5 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class DogAllOf (
     @SerialName(value = "breed") val breed: kotlin.String? = null
-) 
-
-
+)
 

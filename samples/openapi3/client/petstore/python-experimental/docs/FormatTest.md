@@ -1,4 +1,4 @@
-# format_test.FormatTest
+# FormatTest
 
 ## Properties
 Name | Type | Description | Notes
@@ -16,6 +16,7 @@ Name | Type | Description | Notes
 **binary** | **file_type** |  | [optional] 
 **date_time** | **datetime** |  | [optional] 
 **uuid** | **str** |  | [optional] 
+**uuid_no_example** | **str** |  | [optional] 
 **pattern_with_digits** | **str** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
 **pattern_with_digits_and_delimiter** | **str** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. | [optional] 
 

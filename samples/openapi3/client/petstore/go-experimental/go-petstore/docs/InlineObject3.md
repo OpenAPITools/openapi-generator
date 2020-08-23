@@ -7,12 +7,12 @@ Name | Type | Description | Notes
 **Integer** | Pointer to **int32** | None | [optional] 
 **Int32** | Pointer to **int32** | None | [optional] 
 **Int64** | Pointer to **int64** | None | [optional] 
-**Number** | Pointer to **float32** | None | 
+**Number** | **float32** | None | 
 **Float** | Pointer to **float32** | None | [optional] 
-**Double** | Pointer to **float64** | None | 
+**Double** | **float64** | None | 
 **String** | Pointer to **string** | None | [optional] 
-**PatternWithoutDelimiter** | Pointer to **string** | None | 
-**Byte** | Pointer to **string** | None | 
+**PatternWithoutDelimiter** | **string** | None | 
+**Byte** | **string** | None | 
 **Binary** | Pointer to [***os.File**](*os.File.md) | None | [optional] 
 **Date** | Pointer to **string** | None | [optional] 
 **DateTime** | Pointer to [**time.Time**](time.Time.md) | None | [optional] 

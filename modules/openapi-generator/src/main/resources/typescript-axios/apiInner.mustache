@@ -1,8 +1,8 @@
 {{#withSeparateModelsAndApi}}
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 {{>licenseInfo}}
 
-import * as globalImportUrl from 'url';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 import { Configuration } from '{{apiRelativeToRoot}}configuration';
 // Some imports not used depending on template conditions
@@ -46,7 +46,8 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
     {{/allParams}}
             const localVarPath = `{{{path}}}`{{#pathParams}}
                 .replace(`{${"{{baseName}}"}}`, encodeURIComponent(String({{paramName}}))){{/pathParams}};
-            const localVarUrlObj = globalImportUrl.parse(localVarPath, true);
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
@@ -86,8 +87,8 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             // http bearer authentication required
             if (configuration && configuration.accessToken) {
                 const accessToken = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken()
-                    : configuration.accessToken;
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
             }
             {{/isBasicBearer}}
@@ -95,8 +96,8 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             // oauth required
             if (configuration && configuration.accessToken) {
                 const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
-                    ? configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}])
-                    : configuration.accessToken;
+                    ? await configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}])
+                    : await configuration.accessToken;
                 localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
             }
             {{/isOAuth}}
@@ -187,9 +188,14 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             {{/consumes.0}}
 
     {{/bodyParam}}
-            localVarUrlObj.query = {...localVarUrlObj.query, ...localVarQueryParameter, ...options.query};
-            // fix override query string Detail: https://stackoverflow.com/a/7517673/1077943
-            delete localVarUrlObj.search;
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                query.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
     {{#hasFormParams}}
@@ -201,7 +207,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
     {{/bodyParam}}
 
             return {
-                url: globalImportUrl.format(localVarUrlObj),
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
                 options: localVarRequestOptions,
             };
         },
@@ -292,6 +298,31 @@ export interface {{classname}}Interface {
 }
 
 {{/withInterfaces}}
+{{#useSingleRequestParameter}}
+{{#operation}}
+{{#allParams.0}}
+/**
+ * Request parameters for {{nickname}} operation in {{classname}}.
+ * @export
+ * @interface {{classname}}{{operationIdCamelCase}}Request
+ */
+export interface {{classname}}{{operationIdCamelCase}}Request {
+    {{#allParams}}
+    /**
+     * {{description}}
+     * @type {{=<% %>=}}{<%&dataType%>}<%={{ }}=%>
+     * @memberof {{classname}}{{operationIdCamelCase}}
+     */
+    readonly {{paramName}}{{^required}}?{{/required}}: {{{dataType}}}
+    {{^-last}}
+
+    {{/-last}}
+    {{/allParams}}
+}
+
+{{/allParams.0}}
+{{/operation}}
+{{/useSingleRequestParameter}}
 /**
  * {{classname}} - object-oriented interface{{#description}}
  * {{{description}}}{{/description}}
@@ -311,17 +342,33 @@ export class {{classname}} extends BaseAPI {
      {{#summary}}
      * @summary {{&summary}}
      {{/summary}}
+     {{#useSingleRequestParameter}}
+     {{#allParams.0}}
+     * @param {{=<% %>=}}{<%& classname %><%& operationIdCamelCase %>Request}<%={{ }}=%> requestParameters Request parameters.
+     {{/allParams.0}}
+     {{/useSingleRequestParameter}}
+     {{^useSingleRequestParameter}}
      {{#allParams}}
      * @param {{=<% %>=}}{<%&dataType%>}<%={{ }}=%> {{^required}}[{{/required}}{{paramName}}{{^required}}]{{/required}} {{description}}
      {{/allParams}}
+     {{/useSingleRequestParameter}}
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof {{classname}}
      */
+    {{#useSingleRequestParameter}}
+    public {{nickname}}({{#allParams.0}}requestParameters: {{classname}}{{operationIdCamelCase}}Request{{^hasRequiredParams}} = {}{{/hasRequiredParams}}, {{/allParams.0}}options?: any) {
+        return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams.0}}{{#allParams}}requestParameters.{{paramName}}, {{/allParams}}{{/allParams.0}}options).then((request) => request(this.axios, this.basePath));
+    }
+    {{/useSingleRequestParameter}}
+    {{^useSingleRequestParameter}}
     public {{nickname}}({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options?: any) {
         return {{classname}}Fp(this.configuration).{{nickname}}({{#allParams}}{{paramName}}, {{/allParams}}options).then((request) => request(this.axios, this.basePath));
     }
+    {{/useSingleRequestParameter}}
+    {{^-last}}
 
+    {{/-last}}
     {{/operation}}
 }
 {{/operations}}

@@ -41,7 +41,7 @@ mvn clean package
 java -jar modules/openapi-generator-cli/target/openapi-generator-cli.jar generate \
   -i https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.json \
   -l java --library=okhttp-gson \
-  -D hideGenerationTimestamp=true \
+  --additional-properties hideGenerationTimestamp=true \
   -o /var/tmp/java/okhttp-gson/ 
 ```
 

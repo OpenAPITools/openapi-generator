@@ -1,9 +1,10 @@
     required_properties = set([
         '_data_store',
         '_check_type',
-        '_from_server',
+        '_spec_property_naming',
         '_path_to_item',
         '_configuration',
+        '_visited_composed_classes',
         '_composed_instances',
         '_var_name_to_model_instances',
         '_additional_properties_model_instances',
@@ -14,8 +15,9 @@
         constant_args = {
             '_check_type': _check_type,
             '_path_to_item': _path_to_item,
-            '_from_server': _from_server,
+            '_spec_property_naming': _spec_property_naming,
             '_configuration': _configuration,
+            '_visited_composed_classes': self._visited_composed_classes,
         }
         required_args = {
 {{#requiredVars}}
@@ -39,7 +41,7 @@
 
         for var_name, var_value in required_args.items():
             setattr(self, var_name, var_value)
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name in unused_args and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \

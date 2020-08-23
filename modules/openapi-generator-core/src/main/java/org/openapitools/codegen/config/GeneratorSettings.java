@@ -325,7 +325,7 @@ public final class GeneratorSettings implements Serializable {
     /**
      * Gets the http user agent to be used by client generators which support setting this value.
      * <p>
-     * e.g. codegen_csharp_api_client, defaults to 'OpenAPI-Generator/{packageVersion}}/{language}'
+     * e.g. codegen_csharp_api_client, defaults to 'OpenAPI-Generator/{packageVersion}/{language}'
      *
      * @return the http user agent
      */

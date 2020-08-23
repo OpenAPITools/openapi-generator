@@ -3,7 +3,6 @@
 
 import { HttpMethods, QueryConfig, ResponseBody, ResponseText } from 'redux-query';
 import * as runtime from '../runtime';
-
 {{#imports.0}}
 import {
     {{#imports}}
@@ -60,7 +59,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         queryParameters['{{baseName}}'] = requestParameters.{{paramName}};
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-        queryParameters['{{baseName}}'] = requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
+        queryParameters['{{baseName}}'] = requestParameters.{{paramName}}?.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
         {{/isCollectionFormatMulti}}
     }
 
@@ -82,7 +81,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
 
     {{/isListContainer}}
     {{/queryParams}}
-    const headerParameters = {};
+    const headerParameters : runtime.HttpHeaders = {};
 
     {{#bodyParam}}
     {{^consumes}}
@@ -97,7 +96,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
     {{#headerParams}}
     {{#isListContainer}}
     if (requestParameters.{{paramName}}) {
-        headerParameters['{{baseName}}'] = requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
+        headerParameters['{{baseName}}'] = requestParameters.{{paramName}}?.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]);
     }
 
     {{/isListContainer}}
@@ -144,7 +143,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         })
         {{/isCollectionFormatMulti}}
         {{^isCollectionFormatMulti}}
-        formData.append('{{baseName}}', requestParameters.{{paramName}}.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
+        formData.append('{{baseName}}', requestParameters.{{paramName}}?.join(runtime.COLLECTION_FORMATS["{{collectionFormat}}"]));
         {{/isCollectionFormatMulti}}
     }
 
@@ -157,7 +156,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
     {{/isListContainer}}
     {{/formParams}}
     const config: QueryConfig<T> = {
-        url: `{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
+        url: `${runtime.Configuration.basePath}{{{path}}}`{{#pathParams}}.replace(`{${"{{baseName}}"}}`, encodeURIComponent(String(requestParameters.{{paramName}}))){{/pathParams}},
         meta,
         update: requestConfig.update,
         queryKey: requestConfig.queryKey,
@@ -171,7 +170,7 @@ function {{nickname}}Raw<T>({{#allParams.0}}requestParameters: {{operationIdCame
         {{#hasBodyParam}}
         {{#bodyParam}}
         {{#isContainer}}
-        body: queryParameters || requestParameters.{{paramName}}{{#isListContainer}}{{#items}}{{^isPrimitiveType}}.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isListContainer}},
+        body: queryParameters || requestParameters.{{paramName}}{{#isListContainer}}{{#items}}{{^isPrimitiveType}}?.map({{datatype}}ToJSON){{/isPrimitiveType}}{{/items}}{{/isListContainer}},
         {{/isContainer}}
         {{^isContainer}}
         {{^isPrimitiveType}}

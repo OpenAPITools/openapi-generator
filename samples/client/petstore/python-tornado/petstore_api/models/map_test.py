@@ -83,7 +83,7 @@ class MapTest(object):
 
 
         :param map_map_of_string: The map_map_of_string of this MapTest.  # noqa: E501
-        :type: dict(str, dict(str, str))
+        :type map_map_of_string: dict(str, dict(str, str))
         """
 
         self._map_map_of_string = map_map_of_string
@@ -104,7 +104,7 @@ class MapTest(object):
 
 
         :param map_of_enum_string: The map_of_enum_string of this MapTest.  # noqa: E501
-        :type: dict(str, str)
+        :type map_of_enum_string: dict(str, str)
         """
         allowed_values = ["UPPER", "lower"]  # noqa: E501
         if (self.local_vars_configuration.client_side_validation and
@@ -133,7 +133,7 @@ class MapTest(object):
 
 
         :param direct_map: The direct_map of this MapTest.  # noqa: E501
-        :type: dict(str, bool)
+        :type direct_map: dict(str, bool)
         """
 
         self._direct_map = direct_map
@@ -154,7 +154,7 @@ class MapTest(object):
 
 
         :param indirect_map: The indirect_map of this MapTest.  # noqa: E501
-        :type: dict(str, bool)
+        :type indirect_map: dict(str, bool)
         """
 
         self._indirect_map = indirect_map

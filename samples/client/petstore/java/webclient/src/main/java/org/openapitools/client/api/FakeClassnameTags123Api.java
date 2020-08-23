@@ -8,14 +8,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,7 +24,7 @@ import org.springframework.http.MediaType;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeClassnameTags123Api {
     private ApiClient apiClient;
 
@@ -51,13 +51,13 @@ public class FakeClassnameTags123Api {
      * <p><b>200</b> - successful operation
      * @param body client model
      * @return Client
-     * @throws RestClientException if an error occurs while attempting to invoke the API
+     * @throws WebClientResponseException if an error occurs while attempting to invoke the API
      */
-    public Mono<Client> testClassname(Client body) throws RestClientException {
+    public Mono<Client> testClassname(Client body) throws WebClientResponseException {
         Object postBody = body;
         // verify the required parameter 'body' is set
         if (body == null) {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing the required parameter 'body' when calling testClassname");
+            throw new WebClientResponseException("Missing the required parameter 'body' when calling testClassname", HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(), null, null, null);
         }
         // create path and map variables
         final Map<String, Object> pathParams = new HashMap<String, Object>();

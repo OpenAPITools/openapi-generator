@@ -16,6 +16,8 @@ import javax.validation.constraints.*;
 /**
  * AdditionalPropertiesClass
  */
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_string")
@@ -299,7 +301,6 @@ public class AdditionalPropertiesClass   {
   */
   @ApiModelProperty(value = "")
 
-  @Valid
 
   public Object getAnytype1() {
     return anytype1;
@@ -320,7 +321,6 @@ public class AdditionalPropertiesClass   {
   */
   @ApiModelProperty(value = "")
 
-  @Valid
 
   public Object getAnytype2() {
     return anytype2;
@@ -341,7 +341,6 @@ public class AdditionalPropertiesClass   {
   */
   @ApiModelProperty(value = "")
 
-  @Valid
 
   public Object getAnytype3() {
     return anytype3;

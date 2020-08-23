@@ -51,12 +51,13 @@ void PFXHttpRequestInput::add_file(QString variable_name, QString local_filename
     files.append(file);
 }
 
-PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent)
-    : QObject(parent), manager(nullptr), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false) {
+PFXHttpRequestWorker::PFXHttpRequestWorker(QObject *parent, QNetworkAccessManager *_manager)
+    : QObject(parent), manager(_manager), timeOutTimer(this), isResponseCompressionEnabled(false), isRequestCompressionEnabled(false), httpResponseCode(-1) {
     qsrand(QDateTime::currentDateTime().toTime_t());
-    manager = new QNetworkAccessManager(this);
+    if (manager == nullptr) {
+        manager = new QNetworkAccessManager(this);
+    }
     workingDirectory = QDir::currentPath();
-    connect(manager, &QNetworkAccessManager::finished, this, &PFXHttpRequestWorker::on_manager_finished);
     timeOutTimer.setSingleShot(true);
 }
 
@@ -115,6 +116,10 @@ void PFXHttpRequestWorker::setResponseCompressionEnabled(bool enable) {
 
 void PFXHttpRequestWorker::setRequestCompressionEnabled(bool enable) {
     isRequestCompressionEnabled = enable;
+}
+
+int  PFXHttpRequestWorker::getHttpResponseCode() const{
+    return httpResponseCode;
 }
 
 QString PFXHttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
@@ -350,7 +355,7 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         reply = manager->deleteResource(request);
     } else {
 #if (QT_VERSION >= 0x050800)
-        manager->sendCustomRequest(request, input->http_method.toLatin1(), request_content);
+        reply = manager->sendCustomRequest(request, input->http_method.toLatin1(), request_content);
 #else
         QBuffer *buffer = new QBuffer;
         buffer->setData(request_content);
@@ -360,13 +365,22 @@ void PFXHttpRequestWorker::execute(PFXHttpRequestInput *input) {
         buffer->setParent(reply);
 #endif
     }
+    if (reply != nullptr) {
+        reply->setParent(this);
+        connect(reply, &QNetworkReply::finished, [this, reply] {
+            on_reply_finished(reply);
+        });
+    }
     if (timeOutTimer.interval() > 0) {
-        QObject::connect(&timeOutTimer, &QTimer::timeout, [=]() { on_manager_timeout(reply); });
+        QObject::connect(&timeOutTimer, &QTimer::timeout, [this, reply] {
+            on_reply_timeout(reply);
+        });
         timeOutTimer.start();
     }
 }
 
-void PFXHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
+void PFXHttpRequestWorker::on_reply_finished(QNetworkReply *reply) {
+    bool codeSts = false;
     if(timeOutTimer.isActive()) {
         QObject::disconnect(&timeOutTimer, &QTimer::timeout, nullptr, nullptr);
         timeOutTimer.stop();
@@ -378,16 +392,22 @@ void PFXHttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
             headers.insert(item.first, item.second);
         }
     }
+    auto rescode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt(&codeSts);
+    if(codeSts){
+        httpResponseCode = rescode;
+    } else{
+        httpResponseCode = -1;
+    }
     process_response(reply);
     reply->deleteLater();
     emit on_execution_finished(this);
 }
 
-void PFXHttpRequestWorker::on_manager_timeout(QNetworkReply *reply) {
+void PFXHttpRequestWorker::on_reply_timeout(QNetworkReply *reply) {
     error_type = QNetworkReply::TimeoutError;
     response = "";
     error_str = "Timed out waiting for response";
-    disconnect(manager, nullptr, nullptr, nullptr);
+    disconnect(reply, nullptr, nullptr, nullptr);
     reply->abort();
     reply->deleteLater();
     emit on_execution_finished(this);

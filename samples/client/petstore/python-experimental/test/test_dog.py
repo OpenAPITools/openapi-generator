@@ -11,10 +11,21 @@
 
 
 from __future__ import absolute_import
-
+import sys
 import unittest
 
 import petstore_api
+try:
+    from petstore_api.model import animal
+except ImportError:
+    animal = sys.modules[
+        'petstore_api.model.animal']
+try:
+    from petstore_api.model import dog_all_of
+except ImportError:
+    dog_all_of = sys.modules[
+        'petstore_api.model.dog_all_of']
+from petstore_api.model.dog import Dog
 
 
 class TestDog(unittest.TestCase):
@@ -33,7 +44,7 @@ class TestDog(unittest.TestCase):
         class_name = 'Dog'
         color = 'white'
         breed = 'Jack Russel Terrier'
-        dog = petstore_api.Dog(
+        dog = Dog(
             class_name=class_name,
             color=color,
             breed=breed
@@ -64,29 +75,31 @@ class TestDog(unittest.TestCase):
 
         # setting a value that doesn't exist raises an exception
         # with a key
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             dog['invalid_variable'] = 'some value'
         # with setattr
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             setattr(dog, 'invalid_variable', 'some value')
 
         # getting a value that doesn't exist raises an exception
         # with a key
-        with self.assertRaises(petstore_api.ApiKeyError):
+        with self.assertRaises(AttributeError):
             invalid_variable = dog['invalid_variable']
         # with getattr
-        with self.assertRaises(petstore_api.ApiKeyError):
-            invalid_variable = getattr(dog, 'invalid_variable', 'some value')
+        self.assertEqual(getattr(dog, 'invalid_variable', 'some value'), 'some value')
+
+        with self.assertRaises(AttributeError):
+            invalid_variable = getattr(dog, 'invalid_variable')
 
         # make sure that the ModelComposed class properties are correct
         # model.composed_schemas() stores the anyOf/allOf/oneOf info
         self.assertEqual(
-            dog._composed_schemas(),
+            dog._composed_schemas,
             {
                 'anyOf': [],
                 'allOf': [
-                    petstore_api.Animal,
-                    petstore_api.DogAllOf,
+                    animal.Animal,
+                    dog_all_of.DogAllOf,
                 ],
                 'oneOf': [],
             }
@@ -94,9 +107,9 @@ class TestDog(unittest.TestCase):
         # model._composed_instances is a list of the instances that were
         # made from the anyOf/allOf/OneOf classes in model._composed_schemas()
         for composed_instance in dog._composed_instances:
-            if composed_instance.__class__ == petstore_api.Animal:
+            if composed_instance.__class__ == animal.Animal:
                 animal_instance = composed_instance
-            elif composed_instance.__class__ == petstore_api.DogAllOf:
+            elif composed_instance.__class__ == dog_all_of.DogAllOf:
                 dog_allof_instance = composed_instance
         self.assertEqual(
             dog._composed_instances,
@@ -127,13 +140,12 @@ class TestDog(unittest.TestCase):
 
         # including extra parameters raises an exception
         with self.assertRaises(petstore_api.ApiValueError):
-            dog = petstore_api.Dog(
+            dog = Dog(
                 class_name=class_name,
                 color=color,
                 breed=breed,
                 unknown_property='some value'
             )
-
 
 if __name__ == '__main__':
     unittest.main()

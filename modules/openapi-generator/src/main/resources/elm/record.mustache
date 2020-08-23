@@ -1,0 +1,24 @@
+{{#discriminator}}
+type {{classname}}
+    = {{classname}} Base{{classname}}
+{{#mappedModels}}    | {{classname}}{{modelName}} {{modelName}}
+{{/mappedModels}}
+
+
+{{/discriminator}}
+type alias {{#discriminator}}Base{{/discriminator}}{{classname}} =
+{{#lambda.indented}}
+    { {{#parent}}{{#allOf}}{{^-first}}, {{/-first}}{{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}: {{.}}
+{{/allOf}}, {{/parent}}{{#vars}}{{^-first}}, {{/-first}}{{name}} : {{#isCircularReference}}{{classname}}{{nameInCamelCase}}{{/isCircularReference}}{{^isCircularReference}}{{>recordField}}{{/isCircularReference}}
+{{/vars}}
+}{{/lambda.indented}}{{#vars}}{{#isCircularReference}}
+
+
+type {{classname}}{{nameInCamelCase}} = {{classname}}{{nameInCamelCase}} ({{>recordField}})
+
+
+unwrap{{classname}}{{nameInCamelCase}} : {{classname}}{{nameInCamelCase}} -> {{>recordField}}
+unwrap{{classname}}{{nameInCamelCase}} ({{classname}}{{nameInCamelCase}} {{name}}) = {{name}}{{/isCircularReference}}{{/vars}}{{#vars}}{{#isEnum}}
+
+
+{{>customType}}{{/isEnum}}{{/vars}}

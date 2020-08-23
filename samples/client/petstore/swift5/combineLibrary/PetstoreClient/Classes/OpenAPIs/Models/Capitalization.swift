@@ -17,7 +17,7 @@ public struct Capitalization: Codable {
     /** Name of the pet  */
     public var ATT_NAME: String?
 
-    public init(smallCamel: String?, capitalCamel: String?, smallSnake: String?, capitalSnake: String?, sCAETHFlowPoints: String?, ATT_NAME: String?) {
+    public init(smallCamel: String? = nil, capitalCamel: String? = nil, smallSnake: String? = nil, capitalSnake: String? = nil, sCAETHFlowPoints: String? = nil, ATT_NAME: String? = nil) {
         self.smallCamel = smallCamel
         self.capitalCamel = capitalCamel
         self.smallSnake = smallSnake

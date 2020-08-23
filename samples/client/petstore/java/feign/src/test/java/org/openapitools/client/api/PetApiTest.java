@@ -4,6 +4,7 @@ import org.openapitools.client.ApiClient;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -91,8 +92,8 @@ public class PetApiTest {
      */
     @Test
     public void findPetsByTagsTest() {
-        List<String> tags = null;
-        // List<Pet> response = api.findPetsByTags(tags);
+        Set<String> tags = null;
+        // Set<Pet> response = api.findPetsByTags(tags);
 
         // TODO: test validations
     }
@@ -109,7 +110,7 @@ public class PetApiTest {
     public void findPetsByTagsTestQueryMap() {
         PetApi.FindPetsByTagsQueryParams queryParams = new PetApi.FindPetsByTagsQueryParams()
             .tags(null);
-        // List<Pet> response = api.findPetsByTags(queryParams);
+        // Set<Pet> response = api.findPetsByTags(queryParams);
 
     // TODO: test validations
     }

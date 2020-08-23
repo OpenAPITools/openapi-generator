@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | Pointer to **string** |  | [optional] 
-**ClassName** | Pointer to **string** |  | 
+**ClassName** | **string** |  | 
 
 ## Methods
 
@@ -71,12 +71,6 @@ and a boolean to check if the value has been set.
 SetClassName sets ClassName field to given value.
 
 
-
-### AsMammal
-
-`func (s *Zebra) AsMammal() Mammal`
-
-Convenience method to wrap this instance of Zebra in Mammal
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

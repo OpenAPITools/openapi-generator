@@ -177,7 +177,8 @@
             "items" : {
               "type" : "string"
             },
-            "type" : "array"
+            "type" : "array",
+            "uniqueItems" : true
           },
           "style" : "form"
         } ],
@@ -189,7 +190,8 @@
                   "items" : {
                     "$ref" : "#/components/schemas/Pet"
                   },
-                  "type" : "array"
+                  "type" : "array",
+                  "uniqueItems" : true
                 }
               },
               "application/json" : {
@@ -197,7 +199,8 @@
                   "items" : {
                     "$ref" : "#/components/schemas/Pet"
                   },
-                  "type" : "array"
+                  "type" : "array",
+                  "uniqueItems" : true
                 }
               }
             },
@@ -1797,6 +1800,7 @@
               "type" : "string"
             },
             "type" : "array",
+            "uniqueItems" : true,
             "xml" : {
               "name" : "photoUrl",
               "wrapped" : true
@@ -2827,14 +2831,16 @@
           "breed" : {
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       },
       "Cat_allOf" : {
         "properties" : {
           "declawed" : {
             "type" : "boolean"
           }
-        }
+        },
+        "type" : "object"
       },
       "BigCat_allOf" : {
         "properties" : {
@@ -2842,7 +2848,8 @@
             "enum" : [ "lions", "tigers", "leopards", "jaguars" ],
             "type" : "string"
           }
-        }
+        },
+        "type" : "object"
       }
     },
     "securitySchemes" : {

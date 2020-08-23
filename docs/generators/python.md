@@ -31,6 +31,7 @@ sidebar_label: python
 
 <ul class="column-ul">
 <li>bool</li>
+<li>bytes</li>
 <li>date</li>
 <li>datetime</li>
 <li>dict</li>
@@ -104,6 +105,7 @@ sidebar_label: python
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

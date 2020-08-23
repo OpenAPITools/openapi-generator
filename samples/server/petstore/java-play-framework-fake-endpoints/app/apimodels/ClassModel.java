@@ -8,7 +8,7 @@ import javax.validation.constraints.*;
 /**
  * Model for testing model with \&quot;_class\&quot; property
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class ClassModel   {
   @JsonProperty("_class")

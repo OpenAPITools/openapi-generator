@@ -28,7 +28,7 @@ import java.io.IOException;
  * Model for testing model name same as property name
  */
 @ApiModel(description = "Model for testing model name same as property name")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Name {
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)

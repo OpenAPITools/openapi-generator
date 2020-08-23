@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * Describes the result of uploading an image resource
  */
 @ApiModel(description = "Describes the result of uploading an image resource")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class ModelApiResponse   {
   @JsonProperty("code")
   private Integer code;
