@@ -194,6 +194,7 @@ Class | Method | HTTP request | Description
  - [NullableShape](docs/NullableShape.md)
  - [NumberOnly](docs/NumberOnly.md)
  - [NumberWithValidations](docs/NumberWithValidations.md)
+ - [NumberWithValidationsAndDefault](docs/NumberWithValidationsAndDefault.md)
  - [ObjectModelWithRefProps](docs/ObjectModelWithRefProps.md)
  - [Order](docs/Order.md)
  - [ParentPet](docs/ParentPet.md)

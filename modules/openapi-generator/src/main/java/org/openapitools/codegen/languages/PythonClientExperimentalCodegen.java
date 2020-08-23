@@ -17,19 +17,16 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
-import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
@@ -461,6 +458,9 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (cp.isPrimitiveType && p.get$ref() != null) {
             cp.complexType = cp.dataType;
         }
+        if (cp.isListContainer && cp.complexType == null && cp.mostInnerItems.complexType != null) {
+            cp.complexType = cp.mostInnerItems.complexType;
+        }
         return cp;
     }
 
@@ -652,168 +652,58 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     /**
      * Convert OAS Model object to Codegen Model object
+     * We have a custom version of this method so we can:
+     * - set the correct regex values for requiredVars + optionalVars
+     * - set model.defaultValue and model.hasRequired per the three use cases defined in this method
      *
      * @param name   the name of the model
-     * @param schema OAS Model object
+     * @param sc OAS Model object
      * @return Codegen Model object
      */
     @Override
-    public CodegenModel fromModel(String name, Schema schema) {
-        // we have a custom version of this function so we can produce
-        // models for components whose type != object and which have validations and enums
-        // this ensures that:
-        // - endpoint (operation) responses with validations and type!=(object or array)
-        // - oneOf $ref components with validations and type!=(object or array)
-        // when endpoints receive payloads of these models
-        // that they will be converted into instances of these models
-        Map<String, String> propertyToModelName = new HashMap<String, String>();
-        Map<String, Schema> propertiesMap = schema.getProperties();
-        if (propertiesMap != null) {
-            for (Map.Entry<String, Schema> entry : propertiesMap.entrySet()) {
-                String schemaPropertyName = entry.getKey();
-                String pythonPropertyName = toVarName(schemaPropertyName);
-                Schema propertySchema = entry.getValue();
-                String ref = propertySchema.get$ref();
-                if (ref == null) {
-                    continue;
-                }
-                Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, propertySchema);
-                String refType = refSchema.getType();
-                if (refType == null || refType.equals("object")) {
-                    continue;
-                }
-                CodegenProperty modelProperty = fromProperty("_fake_name", refSchema);
-                if (modelProperty.isEnum == true || modelProperty.hasValidation == false) {
-                    continue;
-                }
-                String modelName = ModelUtils.getSimpleRef(ref);
-                propertyToModelName.put(pythonPropertyName, toModelName(modelName));
-            }
+    public CodegenModel fromModel(String name, Schema sc) {
+        CodegenModel cm = super.fromModel(name, sc);
+        if (cm.requiredVars.size() > 0 && (cm.oneOf.size() > 0 || cm.anyOf.size() > 0)) {
+            addNullDefaultToOneOfAnyOfReqProps(sc, cm);
         }
-        CodegenModel result = super.fromModel(name, schema);
-
-        // have oneOf point to the correct model
-        if (ModelUtils.isComposedSchema(schema)) {
-            ComposedSchema cs = (ComposedSchema) schema;
-            Map<String, Integer> importCounts = new HashMap<String, Integer>();
-            List<Schema> oneOfSchemas = cs.getOneOf();
-            if (oneOfSchemas != null) {
-                for (int i = 0; i < oneOfSchemas.size(); i++) {
-                    Schema oneOfSchema = oneOfSchemas.get(i);
-                    String languageType = getTypeDeclaration(oneOfSchema);
-                    String ref = oneOfSchema.get$ref();
-                    if (ref == null) {
-                        Integer currVal = importCounts.getOrDefault(languageType, 0);
-                        importCounts.put(languageType, currVal+1);
-                        continue;
-                    }
-                    Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, oneOfSchema);
-                    String refType = refSchema.getType();
-                    if (refType == null || refType.equals("object")) {
-                        Integer currVal = importCounts.getOrDefault(languageType, 0);
-                        importCounts.put(languageType, currVal+1);
-                        continue;
-                    }
-
-                    CodegenProperty modelProperty = fromProperty("_oneOfSchema", refSchema);
-                    if (modelProperty.isEnum == true) {
-                        Integer currVal = importCounts.getOrDefault(languageType, 0);
-                        importCounts.put(languageType, currVal+1);
-                        continue;
-                    }
-
-                    languageType = getTypeDeclaration(refSchema);
-                    if (modelProperty.hasValidation == false) {
-                        Integer currVal = importCounts.getOrDefault(languageType, 0);
-                        importCounts.put(languageType, currVal+1);
-                        continue;
-                    }
-                    Integer currVal = importCounts.getOrDefault(languageType, 0);
-                    importCounts.put(languageType, currVal);
-                    String modelName = toModelName(ModelUtils.getSimpleRef(ref));
-                    result.imports.add(modelName);
-                    result.oneOf.add(modelName);
-                    currVal = importCounts.getOrDefault(modelName, 0);
-                    importCounts.put(modelName, currVal+1);
-                }
-            }
-            for (Map.Entry<String, Integer> entry : importCounts.entrySet()) {
-                String importName = entry.getKey();
-                Integer importCount = entry.getValue();
-                if (importCount == 0) {
-                    result.oneOf.remove(importName);
-                }
-            }
-        }
-
-        // this block handles models which have the python base class ModelSimple
-        // which are responsible for storing validations, enums, and an unnamed value
-        Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
-        CodegenProperty modelProperty = fromProperty("_value", modelSchema);
-
-        Boolean isPythonModelSimpleModel = (result.isEnum || result.isArrayModel || result.isAlias && modelProperty.hasValidation);
-        if (isPythonModelSimpleModel) {
-            // In python, classes which inherit from our ModelSimple class store one value,
-            // like a str, int, list and extra data about that value like validations and enums
-
-            if (result.isEnum) {
-                // if there is only one allowed value then we know that it should be set, so value is optional
-                //  -> hasRequired = false
-                // if there are more than one allowed value then value is positional and required so
-                //  -> hasRequired = true
-                ArrayList values = (ArrayList) result.allowableValues.get("values");
-                if (values != null && values.size() > 1) {
-                    result.hasRequired = true;
-                }
-
-                if (modelProperty.defaultValue != null && result.defaultValue == null) {
-                    result.defaultValue = modelProperty.defaultValue;
-                }
-            } else {
-                if (result.defaultValue == null) {
-                    result.hasRequired = true;
-                }
-            }
-        }
-        // fix all property references to ModelSimple models, make those properties non-primitive and
-        // set their dataType and complexType to the model name, so documentation will refer to the correct model
-        // set regex values, before it was only done on model.vars
-        // NOTE: this is done for models of type != object which are not enums and have validations
         ArrayList<List<CodegenProperty>> listOfLists = new ArrayList<List<CodegenProperty>>();
-        listOfLists.add(result.vars);
-        listOfLists.add(result.allVars);
-        listOfLists.add(result.requiredVars);
-        listOfLists.add(result.optionalVars);
-        listOfLists.add(result.readOnlyVars);
-        listOfLists.add(result.readWriteVars);
+        listOfLists.add(cm.requiredVars);
+        listOfLists.add(cm.optionalVars);
         for (List<CodegenProperty> cpList : listOfLists) {
             for (CodegenProperty cp : cpList) {
-                // set regex values, before it was only done on model.vars
-                postProcessModelProperty(result, cp);
-                // fix references to non-object models
-                if (!propertyToModelName.containsKey(cp.name)) {
-                    continue;
-                }
-                cp.isPrimitiveType = false;
-                String modelName = propertyToModelName.get(cp.name);
-                cp.complexType = modelName;
-                cp.dataType = modelName;
-                cp.isEnum = false;
-                cp.hasValidation = false;
-                result.imports.add(modelName);
+                // sets regex values
+                postProcessModelProperty(cm, cp);
             }
         }
-
-        // if a class has a property of type self, remove the self import from imports
-        if (result.imports.contains(result.classname)) {
-            result.imports.remove(result.classname);
+        Boolean isNotPythonModelSimpleModel = (ModelUtils.isComposedSchema(sc) || ModelUtils.isObjectSchema(sc) || ModelUtils.isMapSchema(sc));
+        if (isNotPythonModelSimpleModel) {
+            return cm;
         }
-
-        if (result.requiredVars.size() > 0 && (result.oneOf.size() > 0 || result.anyOf.size() > 0)) {
-            addNullDefaultToOneOfAnyOfReqProps(schema, result);
+        // Use cases for default values / enums of length one
+        // 1. no default exists
+        //      schema does not contain default
+        //      cm.defaultValue unset, cm.hasRequired = true
+        // 2. server has a default
+        //      schema contains default
+        //      cm.defaultValue set, cm.hasRequired = true
+        //      different value here to differentiate between use case 3 below
+        //      This defaultValue is used in the client docs only and is not sent to the server
+        // 3. only one value is allowed in an enum
+        //      schema does not contain default
+        //      cm.defaultValue set, cm.hasRequired = false
+        //      because we know what value needs to be set so the user doesn't need to input it
+        //      This defaultValue is used in the client and is sent to the server
+        String defaultValue = toDefaultValue(sc);
+        if (sc.getDefault() == null && defaultValue == null) {
+            cm.hasRequired = true;
+        } else if (sc.getDefault() != null) {
+            cm.defaultValue = defaultValue;
+            cm.hasRequired = true;
+        } else if (defaultValue != null && cm.defaultValue == null) {
+            cm.defaultValue = defaultValue;
+            cm.hasRequired = false;
         }
-
-        return result;
+        return cm;
     }
 
     /**

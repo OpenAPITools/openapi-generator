@@ -76,6 +76,7 @@ from petstore_api.model.nullable_class import NullableClass
 from petstore_api.model.nullable_shape import NullableShape
 from petstore_api.model.number_only import NumberOnly
 from petstore_api.model.number_with_validations import NumberWithValidations
+from petstore_api.model.number_with_validations_and_default import NumberWithValidationsAndDefault
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
 from petstore_api.model.order import Order
 from petstore_api.model.parent_pet import ParentPet
