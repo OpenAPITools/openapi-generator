@@ -79,7 +79,9 @@ jobs:
       - name: Run Ensures Script
         shell: bash
         run: |
-          git config core.fileMode false
+          git config --global core.fileMode false
+          git config --global core.safecrlf false
+          git config --global core.autocrlf true
           mkdir -p modules/openapi-generator-cli/target/
           mv artifact/openapi-generator-cli.jar modules/openapi-generator-cli/target/
           ./bin/utils/ensure-up-to-date ${{ matrix.flags }}
