@@ -535,13 +535,42 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return cp;
     }
 
-    /**
-     * Return the sanitized variable name for enum
+    /***
+     * Adds the body model schema to the body parameter
+     * We have a custom version of this method so we can flip forceSimpleRef
+     * to True based upon the results of unaliasSchema
+     * With this customization, we ensure that when schemas are passed to getSchemaType
+     * - if they have ref in them they are a model
+     * - if they do not have ref in them they are not a model
      *
-     * @param value    enum variable name
-     * @param datatype data type
-     * @return the sanitized variable name for enum
+     * @param codegenParameter the body parameter
+     * @param name model schema ref key in components
+     * @param schema the model schema (not refed)
+     * @param imports collection of imports
+     * @param bodyParameterName body parameter name
+     * @param forceSimpleRef if true use a model reference
      */
+    @Override
+    protected void addBodyModelSchema(CodegenParameter codegenParameter, String name, Schema schema, Set<String> imports, String bodyParameterName, boolean forceSimpleRef) {
+        if (name != null) {
+            Schema bodySchema = new Schema().$ref("#/components/schemas/" + name);
+            Schema unaliased = unaliasSchema(bodySchema, importMapping);
+            if (unaliased.get$ref() != null) {
+                forceSimpleRef = true;
+            }
+        }
+        super.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, forceSimpleRef);
+
+    }
+
+
+        /**
+         * Return the sanitized variable name for enum
+         *
+         * @param value    enum variable name
+         * @param datatype data type
+         * @return the sanitized variable name for enum
+         */
     public String toEnumVarName(String value, String datatype) {
         // our enum var names are keys in a python dict, so change spaces to underscores
         if (value.length() == 0) {
@@ -707,10 +736,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     }
 
     /**
-     * returns the OpenAPI type for the property. Use getAlias to handle $ref of primitive type
-     * We have a custom version of this function because for composed schemas we also want to return the model name
-     * In DefaultCodegen.java it returns a name built off of individual allOf/anyOf/oneOf which is not what
-     * python-experimental needs. Python-experimental needs the name of the composed schema
+     * Returns the python type for the property.
      *
      * @param schema property schema
      * @return string presentation of the type
@@ -718,48 +744,12 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     @SuppressWarnings("static-method")
     @Override
     public String getSchemaType(Schema schema) {
-        if (schema instanceof ComposedSchema) { // composed schema
-            Schema unaliasSchema = unaliasSchema(schema, importMapping);
-            String ref = unaliasSchema.get$ref();
-            if (ref != null) {
-                String schemaName = ModelUtils.getSimpleRef(unaliasSchema.get$ref());
-                if (StringUtils.isNotEmpty(schemaName) && importMapping.containsKey(schemaName)) {
-                    return schemaName;
-                }
-                return getAlias(schemaName);
-            } else {
-                // TODO remove this once I remove all the variable setting that uses it
-                // we may have be processing the component schema rather than a schema with a $ref
-                // to a component schema
-                // so loop through component schemas and use the found one's name if we match
-                Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
-                for (String thisSchemaName : schemas.keySet()) {
-                    Schema thisSchema = schemas.get(thisSchemaName);
-                    if (!ModelUtils.isComposedSchema(thisSchema)) {
-                        continue;
-                    }
-                    if (thisSchema == unaliasSchema) {
-                        if (importMapping.containsKey(thisSchemaName)) {
-                            return thisSchemaName;
-                        }
-                        return getAlias(thisSchemaName);
-                    }
-                }
-                LOGGER.warn("Error obtaining the datatype from ref:" + unaliasSchema.get$ref() + ". Default to 'object'");
-                return "object";
-            }
-        }
-        // TODO update this to use only getSingleSchemaType
         String openAPIType = getSingleSchemaType(schema);
         if (typeMapping.containsKey(openAPIType)) {
             String type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return type;
-            }
-        } else {
-            return toModelName(openAPIType);
+            return type;
         }
-        return openAPIType;
+        return toModelName(openAPIType);
     }
 
     public String getModelName(Schema sc) {
@@ -772,20 +762,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             }
         }
         return null;
-    }
-
-    /**
-     * Output the type declaration of the property
-     *
-     * @param schema property schema
-     * @return a string presentation of the property type
-     */
-    public String getSimpleTypeDeclaration(Schema schema) {
-        String oasType = getSchemaType(schema);
-        if (typeMapping.containsKey(oasType)) {
-            return typeMapping.get(oasType);
-        }
-        return oasType;
     }
 
     public Boolean hasValidation(Schema s) {
@@ -890,7 +866,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (ModelUtils.isFileSchema(p)) {
             return prefix + "file_type" + fullSuffix;
         }
-        String baseType = getSimpleTypeDeclaration(p);
+        String baseType = getSchemaType(p);
         return prefix + baseType + fullSuffix;
     }
 
