@@ -26,15 +26,22 @@ type DefaultApiService service
 
 type ApiFooGetRequest struct {
 	ctx _context.Context
+	ApiService *DefaultApiService
+}
+
+
+func (r ApiFooGetRequest) Execute() (InlineResponseDefault, *_nethttp.Response, error) {
+    return r.ApiService.FooGetExecute(r)
 }
 
 /*
  * FooGet Method for FooGet
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @return apiFooGetRequest
+ * @return ApiFooGetRequest
  */
-func (a *DefaultApiService) FooGetGetRequest(ctx _context.Context) ApiFooGetRequest {
+func (a *DefaultApiService) FooGet(ctx _context.Context) ApiFooGetRequest {
 	return ApiFooGetRequest{
+		ApiService: a,
 		ctx: ctx,
 	}
 }

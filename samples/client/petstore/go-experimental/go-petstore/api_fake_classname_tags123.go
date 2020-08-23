@@ -21,28 +21,12 @@ var (
 	_ _context.Context
 )
 
-  type FakeClassnameTags123Api interface {
-  /*
-   * TestClassname To test class name in snake case
-   * To test class name in snake case
-   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-   * @return apiTestClassnameRequest
-   */
-  TestClassnameGetRequest(ctx _context.Context) ApiTestClassnameRequest
-
-  /*
-   * Execute executes the request
-   * @return Client
-   */
-  TestClassnameExecute(r ApiTestClassnameRequest) (Client, *_nethttp.Response, error)
-
-  }
-
 // FakeClassnameTags123ApiService FakeClassnameTags123Api service
 type FakeClassnameTags123ApiService service
 
 type ApiTestClassnameRequest struct {
 	ctx _context.Context
+	ApiService *FakeClassnameTags123ApiService
 	body *Client
 }
 
@@ -50,14 +34,20 @@ func (r ApiTestClassnameRequest) Body(body Client) ApiTestClassnameRequest {
 	r.body = &body
 	return r
 }
+
+func (r ApiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
+    return r.ApiService.TestClassnameExecute(r)
+}
+
 /*
  * TestClassname To test class name in snake case
  * To test class name in snake case
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @return apiTestClassnameRequest
+ * @return ApiTestClassnameRequest
  */
-func (a *FakeClassnameTags123ApiService) TestClassnameGetRequest(ctx _context.Context) ApiTestClassnameRequest {
+func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context) ApiTestClassnameRequest {
 	return ApiTestClassnameRequest{
+		ApiService: a,
 		ctx: ctx,
 	}
 }

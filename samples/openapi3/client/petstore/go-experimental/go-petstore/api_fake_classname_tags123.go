@@ -26,6 +26,7 @@ type FakeClassnameTags123ApiService service
 
 type ApiTestClassnameRequest struct {
 	ctx _context.Context
+	ApiService *FakeClassnameTags123ApiService
 	client *Client
 }
 
@@ -33,14 +34,20 @@ func (r ApiTestClassnameRequest) Client(client Client) ApiTestClassnameRequest {
 	r.client = &client
 	return r
 }
+
+func (r ApiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
+    return r.ApiService.TestClassnameExecute(r)
+}
+
 /*
  * TestClassname To test class name in snake case
  * To test class name in snake case
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @return apiTestClassnameRequest
+ * @return ApiTestClassnameRequest
  */
-func (a *FakeClassnameTags123ApiService) TestClassnameGetRequest(ctx _context.Context) ApiTestClassnameRequest {
+func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context) ApiTestClassnameRequest {
 	return ApiTestClassnameRequest{
+		ApiService: a,
 		ctx: ctx,
 	}
 }

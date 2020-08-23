@@ -26,6 +26,7 @@ type AnotherFakeApiService service
 
 type ApiCall123TestSpecialTagsRequest struct {
 	ctx _context.Context
+	ApiService *AnotherFakeApiService
 	client *Client
 }
 
@@ -33,14 +34,20 @@ func (r ApiCall123TestSpecialTagsRequest) Client(client Client) ApiCall123TestSp
 	r.client = &client
 	return r
 }
+
+func (r ApiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response, error) {
+    return r.ApiService.Call123TestSpecialTagsExecute(r)
+}
+
 /*
  * Call123TestSpecialTags To test special tags
  * To test special tags and operation ID starting with number
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @return apiCall123TestSpecialTagsRequest
+ * @return ApiCall123TestSpecialTagsRequest
  */
-func (a *AnotherFakeApiService) Call123TestSpecialTagsGetRequest(ctx _context.Context) ApiCall123TestSpecialTagsRequest {
+func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context) ApiCall123TestSpecialTagsRequest {
 	return ApiCall123TestSpecialTagsRequest{
+		ApiService: a,
 		ctx: ctx,
 	}
 }
