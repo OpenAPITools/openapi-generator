@@ -65,7 +65,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest]
+        include:
+          - os: windows-latest
+            flags: --skip-docs
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -79,4 +82,4 @@ jobs:
           git config core.fileMode false
           mkdir -p modules/openapi-generator-cli/target/
           mv artifact/openapi-generator-cli.jar modules/openapi-generator-cli/target/
-          ./bin/utils/ensure-up-to-date
+          ./bin/utils/ensure-up-to-date ${{ matrix.flags }}
