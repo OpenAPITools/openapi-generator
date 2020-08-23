@@ -238,6 +238,19 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 return schema;
             }
             Schema ref = allSchemas.get(simpleRef);
+            Boolean hasValidation = (
+                    ref.getMaxItems() != null ||
+                    ref.getMinLength() != null ||
+                    ref.getMinItems() != null ||
+                    ref.getMultipleOf() != null ||
+                    ref.getPattern() != null ||
+                    ref.getMaxLength() != null ||
+                    ref.getMinimum() != null ||
+                    ref.getMaximum() != null ||
+                    ref.getExclusiveMaximum() != null ||
+                    ref.getExclusiveMinimum() != null ||
+                    ref.getUniqueItems() != null
+            );
             if (ref == null) {
                 once(LOGGER).warn("{} is not defined", schema.get$ref());
                 return schema;
@@ -272,7 +285,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                     return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
                             usedImportMappings);
                 }
-            } else if (hasValidation(ref)) {
+            } else if (hasValidation) {
                 // non object non array non map schemas that have validations
                 // are returned so we can generate those schemas as models
                 // we do this to:
@@ -753,46 +766,13 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     }
 
     public String getModelName(Schema sc) {
-        Boolean thisModelWillBeMade = modelWillBeMade(sc);
-        Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
-        for (String thisSchemaName : schemas.keySet()) {
-            Schema thisSchema = schemas.get(thisSchemaName);
-            if (thisSchema == sc && thisModelWillBeMade) {
-                return toModelName(thisSchemaName);
+        if (sc.get$ref() != null) {
+            Schema unaliasedSchema = unaliasSchema(sc, importMapping);
+            if (unaliasedSchema.get$ref() != null) {
+                return toModelName(ModelUtils.getSimpleRef(sc.get$ref()));
             }
         }
         return null;
-    }
-
-    public Boolean hasValidation(Schema s) {
-        return (
-                s.getMaxItems() != null ||
-                s.getMinLength() != null ||
-                s.getMinItems() != null ||
-                s.getMultipleOf() != null ||
-                s.getPattern() != null ||
-                s.getMaxLength() != null ||
-                s.getMinimum() != null ||
-                s.getMaximum() != null ||
-                s.getExclusiveMaximum() != null ||
-                s.getExclusiveMinimum() != null ||
-                s.getUniqueItems() != null
-        );
-    }
-
-    public Boolean modelWillBeMade(Schema s) {
-        // only invoke this on $refed schemas
-        if (ModelUtils.isComposedSchema(s) || ModelUtils.isObjectSchema(s) || ModelUtils.isArraySchema(s) || ModelUtils.isMapSchema(s)) {
-            return true;
-        }
-        List<Object> enums = s.getEnum();
-        if (enums != null && !enums.isEmpty()) {
-            return true;
-        }
-        if (hasValidation(s)) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -824,8 +804,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (StringUtils.isNotEmpty(p.get$ref())) {
             // The input schema is a reference. If the resolved schema is
             // a composed schema, convert the name to a Python class.
-            Schema s = ModelUtils.getReferencedSchema(this.openAPI, p);
-            if (modelWillBeMade(s)) {
+            Schema unaliasedSchema = unaliasSchema(p, importMapping);
+            if (unaliasedSchema.get$ref() != null) {
                 String modelName = toModelName(ModelUtils.getSimpleRef(p.get$ref()));
                 if (referencedModelNames != null) {
                     referencedModelNames.add(modelName);
@@ -946,7 +926,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * @param in input string
      * @return quoted string
      */
-    public String ensureQuotes(String in) {
+    private String ensureQuotes(String in) {
         Pattern pattern = Pattern.compile("\r\n|\r|\n");
         Matcher matcher = pattern.matcher(in);
         if (matcher.find()) {
@@ -1035,20 +1015,15 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             example = objExample.toString();
         }
         if (null != schema.get$ref()) {
-            // $ref case:
             Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
             String ref = ModelUtils.getSimpleRef(schema.get$ref());
-            if (allDefinitions != null) {
-                Schema refSchema = allDefinitions.get(ref);
-                if (null == refSchema) {
-                    return fullPrefix + "None" + closeChars;
-                } else {
-                    String refModelName = getModelName(refSchema);
-                    return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine);
-                }
-            } else {
-                LOGGER.warn("allDefinitions not defined in toExampleValue!\n");
+            Schema refSchema = allDefinitions.get(ref);
+            if (null == refSchema) {
+                LOGGER.warn("Unable to find referenced schema "+schema.get$ref()+"\n");
+                return fullPrefix + "None" + closeChars;
             }
+            String refModelName = getModelName(schema);
+            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine);
         } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
