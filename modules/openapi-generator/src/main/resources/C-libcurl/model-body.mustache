@@ -48,8 +48,8 @@ fail:
     return NULL;
 }
 
-{{classFilename}}_{{classname}}_e {{classFilename}}_{{classname}}_parseFromJSON(cJSON *{{classname}}JSON) {
-    {{classFilename}}_{{classname}}_e *{{classname}} = NULL;
+{{projectName}}_{{classVarName}}_{{enumName}}_e {{classFilename}}_{{classname}}_parseFromJSON(cJSON *{{classname}}JSON) {
+    {{projectName}}_{{classVarName}}_{{enumName}}_e *{{classname}} = NULL;
 {{#isEnum}}
 {{#isNumeric}}
     cJSON *{{{classname}}}Var = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{classname}}}");
@@ -59,7 +59,7 @@ fail:
     }
 {{/isNumeric}}
 {{#isString}}
-    {{classFilename}}_{{{classname}}}_e {{classname}}Variable;
+    {{projectName}}_{{classVarName}}_{{enumName}}_e {{classname}}Variable;
     cJSON *{{{classname}}}Var = cJSON_GetObjectItemCaseSensitive({{classname}}JSON, "{{{classname}}}");
     if(!cJSON_IsString({{{classname}}}Var) || ({{{classname}}}Var->valuestring == NULL)){
         goto end;

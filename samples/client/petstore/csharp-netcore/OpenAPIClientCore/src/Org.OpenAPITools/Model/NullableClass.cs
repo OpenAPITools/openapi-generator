@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// NullableClass
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "NullableClass")]
     public partial class NullableClass : Dictionary<String, Object>, IEquatable<NullableClass>, IValidatableObject
     {
         /// <summary>

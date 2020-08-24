@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// HasOnlyReadOnly
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "hasOnlyReadOnly")]
     public partial class HasOnlyReadOnly : IEquatable<HasOnlyReadOnly>, IValidatableObject
     {
         /// <summary>

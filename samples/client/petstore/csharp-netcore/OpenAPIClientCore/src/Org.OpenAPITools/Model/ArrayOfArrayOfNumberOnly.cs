@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ArrayOfArrayOfNumberOnly
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "ArrayOfArrayOfNumberOnly")]
     public partial class ArrayOfArrayOfNumberOnly : IEquatable<ArrayOfArrayOfNumberOnly>, IValidatableObject
     {
         /// <summary>

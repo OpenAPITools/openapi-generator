@@ -1188,8 +1188,8 @@ class FakeApi(object):
         def __test_endpoint_enums_length_one(
             self,
             query_integer=3,
-            query_string='brillig',
-            path_string='hello',
+            query_string="brillig",
+            path_string="hello",
             path_integer=34,
             header_number=1.234,
             **kwargs
@@ -1200,13 +1200,13 @@ class FakeApi(object):
             This method makes a synchronous HTTP request by default. To make an
             asynchronous HTTP request, please pass async_req=True
 
-            >>> thread = api.test_endpoint_enums_length_one(query_integer=3, query_string='brillig', path_string='hello', path_integer=34, header_number=1.234, async_req=True)
+            >>> thread = api.test_endpoint_enums_length_one(query_integer=3, query_string="brillig", path_string="hello", path_integer=34, header_number=1.234, async_req=True)
             >>> result = thread.get()
 
             Args:
                 query_integer (int): defaults to 3, must be one of [3]
-                query_string (str): defaults to 'brillig', must be one of ['brillig']
-                path_string (str): defaults to 'hello', must be one of ['hello']
+                query_string (str): defaults to "brillig", must be one of ["brillig"]
+                path_string (str): defaults to "hello", must be one of ["hello"]
                 path_integer (int): defaults to 34, must be one of [34]
                 header_number (float): defaults to 1.234, must be one of [1.234]
 
@@ -1639,13 +1639,13 @@ class FakeApi(object):
 
             Keyword Args:
                 enum_header_string_array ([str]): Header parameter enum test (string array). [optional]
-                enum_header_string (str): Header parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+                enum_header_string (str): Header parameter enum test (string). [optional] if omitted the server will use the default value of "-efg"
                 enum_query_string_array ([str]): Query parameter enum test (string array). [optional]
-                enum_query_string (str): Query parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+                enum_query_string (str): Query parameter enum test (string). [optional] if omitted the server will use the default value of "-efg"
                 enum_query_integer (int): Query parameter enum test (double). [optional]
                 enum_query_double (float): Query parameter enum test (double). [optional]
-                enum_form_string_array ([str]): Form parameter enum test (string array). [optional] if omitted the server will use the default value of '$'
-                enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+                enum_form_string_array ([str]): Form parameter enum test (string array). [optional] if omitted the server will use the default value of "$"
+                enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of "-efg"
                 _return_http_data_only (bool): response data without head status
                     code and headers. Default is True.
                 _preload_content (bool): if False, the urllib3.HTTPResponse object
