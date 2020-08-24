@@ -36,4 +36,6 @@ void list_iterateThroughListBackward(list_t* list, void (*operationToPerform)(li
 
 void listEntry_printAsInt(listEntry_t* listEntry, void *additionalData);
 void listEntry_free(listEntry_t *listEntry, void *additionalData);
+
+char* findStrInStrList(list_t* strList, const char* str);
 #endif // INCLUDE_LIST_H
