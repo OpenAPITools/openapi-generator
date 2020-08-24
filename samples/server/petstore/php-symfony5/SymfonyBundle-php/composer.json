@@ -1,0 +1,87 @@
+{
+    "name": "GIT_USER_ID/GIT_REPO_ID",
+    "type": "project",
+    "description": "",
+    "minimum-stability": "dev",
+    "keywords": [
+        "openapi",
+        "php",
+        "sdk",
+        "api"
+    ],
+    "homepage": "https://github.com/openapitools/openapi-generator",
+    "license": "unlicense",
+    "authors": [
+        {
+            "name": "openapi-generator contributors",
+            "homepage": "https://github.com/openapitools/openapi-generator"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5",
+        "ext-ctype": "*",
+        "ext-iconv": "*",
+        "symfony/flex": "^1.3.1"
+    },
+    "flex-require": {
+        "symfony/console": "*",
+        "symfony/dotenv": "*",
+        "symfony/framework-bundle": "*",
+        "symfony/yaml": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0",
+        "friendsofphp/php-cs-fixer": "^2.16.3",
+        "symfony/browser-kit": "*",
+        "symfony/yaml": "^4.4.8",
+        "hoa/regex": "~1.0"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": { 
+            "OpenAPI\\Server\\" : "./" 
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OpenAPI\\Server\\": "././Tests/"
+        }
+    },
+    "replace": {
+        "paragonie/random_compat": "2.*",
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*",
+        "symfony/polyfill-php72": "*",
+        "symfony/polyfill-php71": "*",
+        "symfony/polyfill-php70": "*",
+        "symfony/polyfill-php56": "*"
+    },
+    "scripts": {
+        "auto-scripts": [
+        ],
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "5.2-dev"
+        },
+        "symfony": {
+            "allow-contrib": false,
+            "require": "5.2.*"
+        }
+    }
+}
