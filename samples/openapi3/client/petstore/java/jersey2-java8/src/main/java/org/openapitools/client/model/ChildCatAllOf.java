@@ -70,7 +70,7 @@ public class ChildCatAllOf {
   }
 
 
-  private static final Set<String> PET_TYPE_VALUES = new HashSet<>(Arrays.asList(
+  public static final Set<String> PET_TYPE_VALUES = new HashSet<>(Arrays.asList(
     "ChildCat"
   ));
 
