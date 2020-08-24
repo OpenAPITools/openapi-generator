@@ -16,6 +16,10 @@ import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Class that add support for java8+ {@code OffsetDateTime} class.
+ * It's generated for java clients when {@code AbstractJavaCodegen#dateLibrary} specified as {@code java8}.
+ */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class JavaTimeFormatter {
 
