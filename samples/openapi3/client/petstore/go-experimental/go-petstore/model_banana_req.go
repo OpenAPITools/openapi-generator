@@ -17,7 +17,10 @@ import (
 type BananaReq struct {
 	LengthCm float32 `json:"lengthCm"`
 	Sweet *bool `json:"sweet,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _BananaReq BananaReq
 
 // NewBananaReq instantiates a new BananaReq object
 // This constructor will assign default values to properties that have it defined,
@@ -101,7 +104,30 @@ func (o BananaReq) MarshalJSON() ([]byte, error) {
 	if o.Sweet != nil {
 		toSerialize["sweet"] = o.Sweet
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *BananaReq) UnmarshalJSON(bytes []byte) (err error) {
+	varBananaReq := _BananaReq{}
+
+	if err = json.Unmarshal(bytes, &varBananaReq); err == nil {
+		*o = BananaReq(varBananaReq)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "lengthCm")
+		delete(additionalProperties, "sweet")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableBananaReq struct {

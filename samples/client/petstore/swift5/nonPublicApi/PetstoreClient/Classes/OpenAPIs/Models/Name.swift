@@ -15,7 +15,7 @@ internal struct Name: Codable {
     internal var property: String?
     internal var _123number: Int?
 
-    internal init(name: Int, snakeCase: Int?, property: String?, _123number: Int?) {
+    internal init(name: Int, snakeCase: Int? = nil, property: String? = nil, _123number: Int? = nil) {
         self.name = name
         self.snakeCase = snakeCase
         self.property = property

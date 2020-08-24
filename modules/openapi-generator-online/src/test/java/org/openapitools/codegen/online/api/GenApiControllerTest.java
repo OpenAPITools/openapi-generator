@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(GenApiController.class)
 public class GenApiControllerTest {
 
-    private static final String OPENAPI_URL = "http://petstore.swagger.io/v2/swagger.json";
+    private static final String OPENAPI_URL = "https://raw.githubusercontent.com/OpenAPITools/openapi-generator/v4.3.1/modules/openapi-generator/src/test/resources/petstore.json";
     private static final String UUID_REGEX = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-4[a-fA-F0-9]{3}-[89aAbB][a-fA-F0-9]{3}-[a-fA-F0-9]{12}";
 
     @Autowired
@@ -43,7 +43,7 @@ public class GenApiControllerTest {
     public void getLanguages(String type, String expected) throws Exception {
         mockMvc.perform(get("/api/gen/" + type))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.[*]").value(hasItem(expected)));
     }
 
@@ -72,7 +72,7 @@ public class GenApiControllerTest {
     private void getOptions(String type, String name) throws Exception {
         mockMvc.perform(get("/api/gen/" + type + "/" + name))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.sortParamsByRequiredFlag.opt").value("sortParamsByRequiredFlag"));
     }
 
@@ -88,10 +88,10 @@ public class GenApiControllerTest {
 
     private void generateAndDownload(String type, String name) throws Exception {
         String result = mockMvc.perform(post("http://test.com:1234/api/gen/" + type + "/" + name)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"openAPIUrl\": \"" + OPENAPI_URL + "\"}"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.code").value(matchesPattern(UUID_REGEX)))
                 .andExpect(jsonPath("$.link").value(matchesPattern("http\\:\\/\\/test.com\\:1234\\/api\\/gen\\/download\\/" + UUID_REGEX)))
                 .andReturn().getResponse().getContentAsString();
@@ -107,13 +107,13 @@ public class GenApiControllerTest {
     @Test
     public void generateWIthForwardedHeaders() throws Exception {
         String result = mockMvc.perform(post("http://test.com:1234/api/gen/clients/java")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .header("X-Forwarded-Proto", "https")
                 .header("X-Forwarded-Host", "forwarded.com")
                 .header("X-Forwarded-Port", "5678")
                 .content("{\"openAPIUrl\": \"" + OPENAPI_URL + "\"}"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.code").value(matchesPattern(UUID_REGEX)))
                 .andExpect(jsonPath("$.link").value(matchesPattern("https\\:\\/\\/forwarded.com\\:5678\\/api\\/gen\\/download\\/" + UUID_REGEX)))
                 .andReturn().getResponse().getContentAsString();

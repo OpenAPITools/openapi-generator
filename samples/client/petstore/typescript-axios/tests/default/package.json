@@ -1,8 +1,8 @@
 {
   "private": true,
   "dependencies": {
-    "@swagger/typescript-axios-petstore": "file:../../builds/with-npm-version",
-    "axios": "0.18.0",
+    "@openapitools/typescript-axios-petstore": "file:../../builds/with-npm-version",
+    "axios": "0.19.2",
     "chai": "^4.1.0",
     "ts-node": "^3.3.0"
   },

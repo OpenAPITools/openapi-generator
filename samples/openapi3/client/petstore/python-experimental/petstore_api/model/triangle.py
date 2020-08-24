@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,26 +26,17 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import equilateral_triangle
-except ImportError:
-    equilateral_triangle = sys.modules[
-        'petstore_api.model.equilateral_triangle']
-try:
-    from petstore_api.model import isosceles_triangle
-except ImportError:
-    isosceles_triangle = sys.modules[
-        'petstore_api.model.isosceles_triangle']
-try:
-    from petstore_api.model import scalene_triangle
-except ImportError:
-    scalene_triangle = sys.modules[
-        'petstore_api.model.scalene_triangle']
+
+def lazy_import():
+    from petstore_api.model.equilateral_triangle import EquilateralTriangle
+    from petstore_api.model.isosceles_triangle import IsoscelesTriangle
+    from petstore_api.model.scalene_triangle import ScaleneTriangle
+    globals()['EquilateralTriangle'] = EquilateralTriangle
+    globals()['IsoscelesTriangle'] = IsoscelesTriangle
+    globals()['ScaleneTriangle'] = ScaleneTriangle
 
 
 class Triangle(ModelComposed):
@@ -80,20 +69,28 @@ class Triangle(ModelComposed):
     validations = {
     }
 
-    additional_properties_type = (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
+    @cached_property
+    def additional_properties_type():
+        """
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
+        """
+        lazy_import()
+        return (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
 
     _nullable = False
 
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'shape_type': (str,),  # noqa: E501
             'triangle_type': (str,),  # noqa: E501
@@ -101,10 +98,11 @@ class Triangle(ModelComposed):
 
     @cached_property
     def discriminator():
+        lazy_import()
         val = {
-            'EquilateralTriangle': equilateral_triangle.EquilateralTriangle,
-            'IsoscelesTriangle': isosceles_triangle.IsoscelesTriangle,
-            'ScaleneTriangle': scalene_triangle.ScaleneTriangle,
+            'EquilateralTriangle': EquilateralTriangle,
+            'IsoscelesTriangle': IsoscelesTriangle,
+            'ScaleneTriangle': ScaleneTriangle,
         }
         if not val:
             return None
@@ -129,7 +127,7 @@ class Triangle(ModelComposed):
 
     @convert_js_args_to_python_args
     def __init__(self, triangle_type, *args, **kwargs):  # noqa: E501
-        """triangle.Triangle - a model defined in OpenAPI
+        """Triangle - a model defined in OpenAPI
 
         Args:
             triangle_type (str):
@@ -220,7 +218,7 @@ class Triangle(ModelComposed):
 
         for var_name, var_value in required_args.items():
             setattr(self, var_name, var_value)
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name in unused_args and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \
@@ -238,14 +236,15 @@ class Triangle(ModelComposed):
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        lazy_import()
         return {
           'anyOf': [
           ],
           'allOf': [
           ],
           'oneOf': [
-              equilateral_triangle.EquilateralTriangle,
-              isosceles_triangle.IsoscelesTriangle,
-              scalene_triangle.ScaleneTriangle,
+              EquilateralTriangle,
+              IsoscelesTriangle,
+              ScaleneTriangle,
           ],
         }

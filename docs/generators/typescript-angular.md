@@ -16,7 +16,7 @@ sidebar_label: typescript-angular
 |modelFileSuffix|The suffix of the file of the generated model (model&lt;suffix&gt;.ts).| |null|
 |modelPropertyNaming|Naming convention for the property: 'camelCase', 'PascalCase', 'snake_case' and 'original', which keeps the original name. Only change it if you provide your own run-time code for (de-)serialization of models| |original|
 |modelSuffix|The suffix of the generated model.| |null|
-|ngVersion|The version of Angular. (At least 6.0.0)| |9.0.0|
+|ngVersion|The version of Angular. (At least 6.0.0)| |10.0.0|
 |npmName|The name under which you want to publish generated npm package. Required to generate a full package| |null|
 |npmRepository|Use this property to set an url your private npmRepo in the package.json| |null|
 |npmVersion|The version of your npm package. If not provided, using the version from the OpenAPI specification file.| |1.0.0|
@@ -64,6 +64,7 @@ sidebar_label: typescript-angular
 <li>Map</li>
 <li>Object</li>
 <li>ReadonlyArray</li>
+<li>Set</li>
 <li>String</li>
 <li>any</li>
 <li>boolean</li>
@@ -154,6 +155,7 @@ sidebar_label: typescript-angular
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

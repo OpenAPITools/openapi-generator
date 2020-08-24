@@ -41,7 +41,7 @@
 
         for var_name, var_value in required_args.items():
             setattr(self, var_name, var_value)
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name in unused_args and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \

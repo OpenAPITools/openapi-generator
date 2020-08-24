@@ -18,7 +18,6 @@ Use custom server
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import dynamic_servers
 from dynamic_servers.api import usage_api
@@ -34,7 +33,7 @@ configuration = dynamic_servers.Configuration(
 with dynamic_servers.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = usage_api.UsageApi(api_client)
-    
+
     # example, this endpoint has no required or optional parameters
     try:
         # Use custom server
@@ -77,7 +76,6 @@ Use default server
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import dynamic_servers
 from dynamic_servers.api import usage_api
@@ -93,7 +91,7 @@ configuration = dynamic_servers.Configuration(
 with dynamic_servers.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = usage_api.UsageApi(api_client)
-    
+
     # example, this endpoint has no required or optional parameters
     try:
         # Use default server

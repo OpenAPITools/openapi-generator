@@ -16,7 +16,10 @@ import (
 // Apple struct for Apple
 type Apple struct {
 	Cultivar *string `json:"cultivar,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Apple Apple
 
 // NewApple instantiates a new Apple object
 // This constructor will assign default values to properties that have it defined,
@@ -72,7 +75,29 @@ func (o Apple) MarshalJSON() ([]byte, error) {
 	if o.Cultivar != nil {
 		toSerialize["cultivar"] = o.Cultivar
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *Apple) UnmarshalJSON(bytes []byte) (err error) {
+	varApple := _Apple{}
+
+	if err = json.Unmarshal(bytes, &varApple); err == nil {
+		*o = Apple(varApple)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "cultivar")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableApple struct {

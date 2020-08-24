@@ -295,7 +295,7 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         // Add additional filename information for model imports in the apis
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
-            im.put("filename", ((String) im.get("import")).replace(".", File.separator));
+            im.put("filename", ((String) im.get("import")).replace(".", "/"));
             im.put("classname", getModelnameFromModelFilename(im.get("import").toString()));
         }
         
@@ -839,10 +839,10 @@ public class TypeScriptClientCodegen extends DefaultCodegen implements CodegenCo
         Schema inner;
         if (ModelUtils.isArraySchema(p)) {
             inner = ((ArraySchema) p).getItems();
-            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
+            return this.getSchemaType(p) + "<" + this.getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
             inner = (Schema) p.getAdditionalProperties();
-            return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
+            return "{ [key: string]: " + this.getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + "; }";
         } else if (ModelUtils.isFileSchema(p)) {
             return "HttpFile";
         } else if (ModelUtils.isBinarySchema(p)) {

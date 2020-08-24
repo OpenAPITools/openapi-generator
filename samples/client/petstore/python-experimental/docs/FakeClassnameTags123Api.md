@@ -8,7 +8,7 @@ Method | HTTP request | Description
 
 
 # **test_classname**
-> client.Client test_classname(body)
+> Client test_classname(body)
 
 To test class name in snake case
 
@@ -18,11 +18,10 @@ To test class name in snake case
 
 * Api Key Authentication (api_key_query):
 ```python
-from __future__ import print_function
 import time
 import petstore_api
 from petstore_api.api import fake_classname_tags_123_api
-from petstore_api.model import client
+from petstore_api.model.client import Client
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -49,8 +48,10 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = fake_classname_tags_123_api.FakeClassnameTags123Api(api_client)
-    body = client.Client() # client.Client | client model
-    
+    body = Client(
+        client="client_example",
+    ) # Client | client model
+
     # example passing only required values which don't have defaults set
     try:
         # To test class name in snake case
@@ -64,11 +65,11 @@ with petstore_api.ApiClient(configuration) as api_client:
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**client.Client**](Client.md)| client model |
+ **body** | [**Client**](Client.md)| client model |
 
 ### Return type
 
-[**client.Client**](Client.md)
+[**Client**](Client.md)
 
 ### Authorization
 

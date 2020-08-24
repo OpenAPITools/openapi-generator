@@ -35,6 +35,7 @@ from petstore_api.model.child_cat_all_of import ChildCatAllOf
 from petstore_api.model.class_model import ClassModel
 from petstore_api.model.client import Client
 from petstore_api.model.complex_quadrilateral import ComplexQuadrilateral
+from petstore_api.model.composed_one_of_number_with_validations import ComposedOneOfNumberWithValidations
 from petstore_api.model.danish_pig import DanishPig
 from petstore_api.model.dog import Dog
 from petstore_api.model.dog_all_of import DogAllOf
@@ -60,6 +61,9 @@ from petstore_api.model.inline_object3 import InlineObject3
 from petstore_api.model.inline_object4 import InlineObject4
 from petstore_api.model.inline_object5 import InlineObject5
 from petstore_api.model.inline_response_default import InlineResponseDefault
+from petstore_api.model.integer_enum import IntegerEnum
+from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
+from petstore_api.model.integer_enum_with_default_value import IntegerEnumWithDefaultValue
 from petstore_api.model.isosceles_triangle import IsoscelesTriangle
 from petstore_api.model.list import List
 from petstore_api.model.mammal import Mammal
@@ -71,12 +75,9 @@ from petstore_api.model.name import Name
 from petstore_api.model.nullable_class import NullableClass
 from petstore_api.model.nullable_shape import NullableShape
 from petstore_api.model.number_only import NumberOnly
+from petstore_api.model.number_with_validations import NumberWithValidations
+from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
 from petstore_api.model.order import Order
-from petstore_api.model.outer_composite import OuterComposite
-from petstore_api.model.outer_enum import OuterEnum
-from petstore_api.model.outer_enum_default_value import OuterEnumDefaultValue
-from petstore_api.model.outer_enum_integer import OuterEnumInteger
-from petstore_api.model.outer_enum_integer_default_value import OuterEnumIntegerDefaultValue
 from petstore_api.model.parent_pet import ParentPet
 from petstore_api.model.pet import Pet
 from petstore_api.model.pig import Pig
@@ -90,6 +91,8 @@ from petstore_api.model.shape_or_null import ShapeOrNull
 from petstore_api.model.simple_quadrilateral import SimpleQuadrilateral
 from petstore_api.model.special_model_name import SpecialModelName
 from petstore_api.model.string_boolean_map import StringBooleanMap
+from petstore_api.model.string_enum import StringEnum
+from petstore_api.model.string_enum_with_default_value import StringEnumWithDefaultValue
 from petstore_api.model.tag import Tag
 from petstore_api.model.triangle import Triangle
 from petstore_api.model.triangle_interface import TriangleInterface

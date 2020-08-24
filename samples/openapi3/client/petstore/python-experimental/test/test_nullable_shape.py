@@ -10,21 +10,14 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import quadrilateral
-except ImportError:
-    quadrilateral = sys.modules[
-        'petstore_api.model.quadrilateral']
-try:
-    from petstore_api.model import triangle
-except ImportError:
-    triangle = sys.modules[
-        'petstore_api.model.triangle']
+from petstore_api.model.quadrilateral import Quadrilateral
+from petstore_api.model.triangle import Triangle
+globals()['Quadrilateral'] = Quadrilateral
+globals()['Triangle'] = Triangle
 from petstore_api.model.nullable_shape import NullableShape
 
 

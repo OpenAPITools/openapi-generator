@@ -1,4 +1,4 @@
-# child_cat.ChildCat
+# ChildCat
 
 ## Properties
 Name | Type | Description | Notes

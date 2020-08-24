@@ -23,7 +23,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```powershell
 Import-Module -Name PSPetstore
 
-$OrderId = "OrderId_example" # String | ID of the order that needs to be deleted (default to null)
+$OrderId = "OrderId_example" # String | ID of the order that needs to be deleted
 
 # Delete purchase order by ID
 try {
@@ -38,7 +38,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **OrderId** | **String**| ID of the order that needs to be deleted | [default to null]
+ **OrderId** | **String**| ID of the order that needs to be deleted | 
 
 ### Return type
 
@@ -114,7 +114,7 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```powershell
 Import-Module -Name PSPetstore
 
-$OrderId = 987 # Int64 | ID of pet that needs to be fetched (default to null)
+$OrderId = 987 # Int64 | ID of pet that needs to be fetched
 
 # Find purchase order by ID
 try {
@@ -129,7 +129,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **OrderId** | **Int64**| ID of pet that needs to be fetched | [default to null]
+ **OrderId** | **Int64**| ID of pet that needs to be fetched | 
 
 ### Return type
 

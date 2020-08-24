@@ -22,6 +22,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
@@ -1368,6 +1369,16 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Returns the same content as [[toModelImport]] with key the fully-qualified Model name and value the initial input.
+     * In case of union types this method has a key for each separate model and import.
+     * @param name the name of the "Model"
+     * @return Map of fully-qualified models.
+     */
+    public Map<String,String> toModelImportMap(String name){
+        return Collections.singletonMap(this.toModelImport(name),name);
+    }
+
+    /**
      * Return the fully-qualified "Api" name for import
      *
      * @param name the name of the "Api"
@@ -1768,7 +1779,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (encoding != null) {
                 codegenParameter.contentType = encoding.getContentType();
             } else {
-                LOGGER.debug("encoding not specified for " + codegenParameter.baseName);
+                LOGGER.debug("encoding not specified for {}", codegenParameter.baseName);
             }
         }
     }
@@ -1790,6 +1801,9 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Return the default value of the property
      *
+     * Return null if you do NOT want a default value.
+     * Any non-null value will cause {{#defaultValue} check to pass.
+     *
      * @param schema Property schema
      * @return string presentation of the default value of the property
      */
@@ -1810,7 +1824,7 @@ public class DefaultCodegen implements CodegenConfig {
      */
     @SuppressWarnings("squid:S3923")
     private String getPropertyDefaultValue(Schema schema) {
-        /**
+        /*
          * Although all branches return null, this is left intentionally as examples for new contributors
          */
         if (ModelUtils.isBooleanSchema(schema)) {
@@ -1960,10 +1974,10 @@ public class DefaultCodegen implements CodegenConfig {
     /**
      * Return a string representation of the schema type, resolving aliasing and references if necessary.
      *
-     * @param schema
+     * @param schema input
      * @return the string representation of the schema type.
      */
-    private String getSingleSchemaType(Schema schema) {
+    protected String getSingleSchemaType(Schema schema) {
         Schema unaliasSchema = ModelUtils.unaliasSchema(this.openAPI, schema, importMapping);
 
         if (StringUtils.isNotBlank(unaliasSchema.get$ref())) { // reference to another definition/schema
@@ -2483,19 +2497,6 @@ public class DefaultCodegen implements CodegenConfig {
         // remove duplicated properties
         m.removeAllDuplicatedProperty();
 
-        // post process model properties
-        if (m.vars != null) {
-            for (CodegenProperty prop : m.vars) {
-                postProcessModelProperty(m, prop);
-            }
-            m.hasVars = m.vars.size() > 0;
-        }
-        if (m.allVars != null) {
-            for (CodegenProperty prop : m.allVars) {
-                postProcessModelProperty(m, prop);
-            }
-        }
-
         // set isDiscriminator on the discriminator property
         if (m.discriminator != null) {
             String discPropName = m.discriminator.getPropertyBaseName();
@@ -2523,6 +2524,36 @@ public class DefaultCodegen implements CodegenConfig {
             };
             Collections.sort(m.vars, comparator);
             Collections.sort(m.allVars, comparator);
+        }
+
+        // process 'additionalProperties'
+        if (schema.getAdditionalProperties() == null) {
+            if (disallowAdditionalPropertiesIfNotPresent) {
+                m.isAdditionalPropertiesTrue = false;
+            } else {
+                m.isAdditionalPropertiesTrue = true;
+            }
+        } else if (schema.getAdditionalProperties() instanceof Boolean) {
+            if (Boolean.TRUE.equals(schema.getAdditionalProperties())) {
+                m.isAdditionalPropertiesTrue = true;
+            } else {
+                m.isAdditionalPropertiesTrue = false;
+            }
+        } else {
+            m.isAdditionalPropertiesTrue = false;
+        }
+
+        // post process model properties
+        if (m.vars != null) {
+            for (CodegenProperty prop : m.vars) {
+                postProcessModelProperty(m, prop);
+            }
+            m.hasVars = m.vars.size() > 0;
+        }
+        if (m.allVars != null) {
+            for (CodegenProperty prop : m.allVars) {
+                postProcessModelProperty(m, prop);
+            }
         }
 
         return m;
@@ -5633,8 +5664,11 @@ public class DefaultCodegen implements CodegenConfig {
         LOGGER.debug("debugging fromRequestBodyToFormParameters= " + body);
         Schema schema = ModelUtils.getSchemaFromRequestBody(body);
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
-        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
-            Map<String, Schema> properties = schema.getProperties();
+        List<String> allRequired = new ArrayList<String>();
+        Map<String, Schema> properties = new LinkedHashMap<>();
+        addProperties(properties, allRequired, schema);
+
+        if (!properties.isEmpty()) {
             for (Map.Entry<String, Schema> entry : properties.entrySet()) {
                 CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
                 // key => property name
@@ -5889,7 +5923,7 @@ public class DefaultCodegen implements CodegenConfig {
 
         if (ModelUtils.isMapSchema(schema)) {
             // Schema with additionalproperties: true (including composed schemas with additionalproperties: true)
-            if (ModelUtils.isGenerateAliasAsModel() && StringUtils.isNotBlank(name)) {
+            if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
                 this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
             } else {
                 Schema inner = getAdditionalProperties(schema);
@@ -5930,7 +5964,7 @@ public class DefaultCodegen implements CodegenConfig {
                 setParameterNullable(codegenParameter, codegenProperty);
             }
         } else if (ModelUtils.isArraySchema(schema)) {
-            if (ModelUtils.isGenerateAliasAsModel() && StringUtils.isNotBlank(name)) {
+            if (ModelUtils.isGenerateAliasAsModel(schema) && StringUtils.isNotBlank(name)) {
                 this.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, true);
             } else {
                 final ArraySchema arraySchema = (ArraySchema) schema;
@@ -6168,7 +6202,7 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenServerVariables;
     }
 
-    private void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
+    protected void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
         if (parameter == null || property == null) {
             return;
         }

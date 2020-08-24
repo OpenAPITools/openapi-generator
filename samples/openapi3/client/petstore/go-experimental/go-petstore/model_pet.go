@@ -22,7 +22,10 @@ type Pet struct {
 	Tags *[]Tag `json:"tags,omitempty"`
 	// pet status in the store
 	Status *string `json:"status,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Pet Pet
 
 // NewPet instantiates a new Pet object
 // This constructor will assign default values to properties that have it defined,
@@ -239,7 +242,34 @@ func (o Pet) MarshalJSON() ([]byte, error) {
 	if o.Status != nil {
 		toSerialize["status"] = o.Status
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *Pet) UnmarshalJSON(bytes []byte) (err error) {
+	varPet := _Pet{}
+
+	if err = json.Unmarshal(bytes, &varPet); err == nil {
+		*o = Pet(varPet)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "category")
+		delete(additionalProperties, "name")
+		delete(additionalProperties, "photoUrls")
+		delete(additionalProperties, "tags")
+		delete(additionalProperties, "status")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullablePet struct {

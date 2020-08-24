@@ -27,7 +27,7 @@ The following generators are available:
 * [elm](generators/elm.md)  
 * [erlang-client](generators/erlang-client.md)  
 * [erlang-proper](generators/erlang-proper.md)  
-* [flash](generators/flash.md)  
+* [flash-deprecated (deprecated)](generators/flash-deprecated.md)  
 * [go](generators/go.md)  
 * [go-experimental (experimental)](generators/go-experimental.md)  
 * [groovy](generators/groovy.md)  

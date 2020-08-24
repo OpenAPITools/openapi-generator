@@ -1,4 +1,4 @@
-# has_only_read_only.HasOnlyReadOnly
+# HasOnlyReadOnly
 
 ## Properties
 Name | Type | Description | Notes

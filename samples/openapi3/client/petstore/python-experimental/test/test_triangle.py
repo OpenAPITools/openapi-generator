@@ -10,26 +10,16 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import equilateral_triangle
-except ImportError:
-    equilateral_triangle = sys.modules[
-        'petstore_api.model.equilateral_triangle']
-try:
-    from petstore_api.model import isosceles_triangle
-except ImportError:
-    isosceles_triangle = sys.modules[
-        'petstore_api.model.isosceles_triangle']
-try:
-    from petstore_api.model import scalene_triangle
-except ImportError:
-    scalene_triangle = sys.modules[
-        'petstore_api.model.scalene_triangle']
+from petstore_api.model.equilateral_triangle import EquilateralTriangle
+from petstore_api.model.isosceles_triangle import IsoscelesTriangle
+from petstore_api.model.scalene_triangle import ScaleneTriangle
+globals()['EquilateralTriangle'] = EquilateralTriangle
+globals()['IsoscelesTriangle'] = IsoscelesTriangle
+globals()['ScaleneTriangle'] = ScaleneTriangle
 from petstore_api.model.triangle import Triangle
 
 
@@ -44,12 +34,9 @@ class TestTriangle(unittest.TestCase):
 
     def testTriangle(self):
         """Test Triangle"""
-        tri = Triangle(shape_type="Triangle", triangle_type="EquilateralTriangle")
-        assert isinstance(tri, equilateral_triangle.EquilateralTriangle)
-        tri = Triangle(shape_type="Triangle", triangle_type="IsoscelesTriangle")
-        assert isinstance(tri, isosceles_triangle.IsoscelesTriangle)
-        tri = Triangle(shape_type="Triangle", triangle_type="ScaleneTriangle")
-        assert isinstance(tri, scalene_triangle.ScaleneTriangle)
+        # FIXME: construct object with mandatory attributes with example values
+        # model = Triangle()  # noqa: E501
+        pass
 
 
 if __name__ == '__main__':

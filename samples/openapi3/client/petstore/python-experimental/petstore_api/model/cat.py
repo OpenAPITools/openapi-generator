@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,26 +26,17 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import address
-except ImportError:
-    address = sys.modules[
-        'petstore_api.model.address']
-try:
-    from petstore_api.model import animal
-except ImportError:
-    animal = sys.modules[
-        'petstore_api.model.animal']
-try:
-    from petstore_api.model import cat_all_of
-except ImportError:
-    cat_all_of = sys.modules[
-        'petstore_api.model.cat_all_of']
+
+def lazy_import():
+    from petstore_api.model.address import Address
+    from petstore_api.model.animal import Animal
+    from petstore_api.model.cat_all_of import CatAllOf
+    globals()['Address'] = Address
+    globals()['Animal'] = Animal
+    globals()['CatAllOf'] = CatAllOf
 
 
 class Cat(ModelComposed):
@@ -80,20 +69,28 @@ class Cat(ModelComposed):
     validations = {
     }
 
-    additional_properties_type = (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
+    @cached_property
+    def additional_properties_type():
+        """
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
+        """
+        lazy_import()
+        return (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
 
     _nullable = False
 
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'class_name': (str,),  # noqa: E501
             'declawed': (bool,),  # noqa: E501
@@ -128,7 +125,7 @@ class Cat(ModelComposed):
 
     @convert_js_args_to_python_args
     def __init__(self, class_name, *args, **kwargs):  # noqa: E501
-        """cat.Cat - a model defined in OpenAPI
+        """Cat - a model defined in OpenAPI
 
         Args:
             class_name (str):
@@ -165,7 +162,7 @@ class Cat(ModelComposed):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             declawed (bool): [optional]  # noqa: E501
-            color (str): [optional] if omitted the server will use the default value of 'red'  # noqa: E501
+            color (str): [optional] if omitted the server will use the default value of "red"  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)
@@ -218,7 +215,7 @@ class Cat(ModelComposed):
 
         for var_name, var_value in required_args.items():
             setattr(self, var_name, var_value)
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name in unused_args and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \
@@ -236,13 +233,14 @@ class Cat(ModelComposed):
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        lazy_import()
         return {
           'anyOf': [
           ],
           'allOf': [
-              address.Address,
-              animal.Animal,
-              cat_all_of.CatAllOf,
+              Address,
+              Animal,
+              CatAllOf,
           ],
           'oneOf': [
           ],

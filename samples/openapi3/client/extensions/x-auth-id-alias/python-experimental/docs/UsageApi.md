@@ -22,7 +22,6 @@ Use any API key
 * Api Key Authentication (api_key):
 * Api Key Authentication (api_key_query):
 ```python
-from __future__ import print_function
 import time
 import x_auth_id_alias
 from x_auth_id_alias.api import usage_api
@@ -62,7 +61,7 @@ configuration = x_auth_id_alias.Configuration(
 with x_auth_id_alias.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = usage_api.UsageApi(api_client)
-    
+
     # example, this endpoint has no required or optional parameters
     try:
         # Use any API key
@@ -107,7 +106,6 @@ Use both API keys
 * Api Key Authentication (api_key):
 * Api Key Authentication (api_key_query):
 ```python
-from __future__ import print_function
 import time
 import x_auth_id_alias
 from x_auth_id_alias.api import usage_api
@@ -147,7 +145,7 @@ configuration = x_auth_id_alias.Configuration(
 with x_auth_id_alias.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = usage_api.UsageApi(api_client)
-    
+
     # example, this endpoint has no required or optional parameters
     try:
         # Use both API keys
@@ -191,7 +189,6 @@ Use API key in header
 
 * Api Key Authentication (api_key):
 ```python
-from __future__ import print_function
 import time
 import x_auth_id_alias
 from x_auth_id_alias.api import usage_api
@@ -221,7 +218,7 @@ configuration = x_auth_id_alias.Configuration(
 with x_auth_id_alias.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = usage_api.UsageApi(api_client)
-    
+
     # example, this endpoint has no required or optional parameters
     try:
         # Use API key in header
@@ -265,7 +262,6 @@ Use API key in query
 
 * Api Key Authentication (api_key_query):
 ```python
-from __future__ import print_function
 import time
 import x_auth_id_alias
 from x_auth_id_alias.api import usage_api
@@ -295,7 +291,7 @@ configuration = x_auth_id_alias.Configuration(
 with x_auth_id_alias.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = usage_api.UsageApi(api_client)
-    
+
     # example, this endpoint has no required or optional parameters
     try:
         # Use API key in query

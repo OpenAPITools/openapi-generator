@@ -23,7 +23,10 @@ type Order struct {
 	// Order Status
 	Status *string `json:"status,omitempty"`
 	Complete *bool `json:"complete,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Order Order
 
 // NewOrder instantiates a new Order object
 // This constructor will assign default values to properties that have it defined,
@@ -258,7 +261,34 @@ func (o Order) MarshalJSON() ([]byte, error) {
 	if o.Complete != nil {
 		toSerialize["complete"] = o.Complete
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *Order) UnmarshalJSON(bytes []byte) (err error) {
+	varOrder := _Order{}
+
+	if err = json.Unmarshal(bytes, &varOrder); err == nil {
+		*o = Order(varOrder)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "id")
+		delete(additionalProperties, "petId")
+		delete(additionalProperties, "quantity")
+		delete(additionalProperties, "shipDate")
+		delete(additionalProperties, "status")
+		delete(additionalProperties, "complete")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableOrder struct {

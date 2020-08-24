@@ -26,7 +26,9 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
         [string]$Method,
         [Parameter(Mandatory)]
         [AllowEmptyString()]
-        [string]$ReturnType
+        [string]$ReturnType,
+        [Parameter(Mandatory)]
+        [bool]$IsBodyNullable
     )
 
     'Calling method: Invoke-{{{apiNamePrefix}}}ApiClient' | Write-Debug
@@ -85,8 +87,11 @@ function Invoke-{{{apiNamePrefix}}}ApiClient {
         $RequestBody = $FormParameters
     }
 
-    if ($Body) {
+    if ($Body -or $IsBodyNullable) {
         $RequestBody = $Body
+        if ([string]::IsNullOrEmpty($RequestBody) -and $IsBodyNullable -eq $true) {
+            $RequestBody = "null"
+        }
     }
 
     {{#hasHttpSignatureMethods}}

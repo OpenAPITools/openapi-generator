@@ -7,7 +7,7 @@ sidebar_label: aspnetcore
 | ------ | ----------- | ------ | ------- |
 |aspnetCoreVersion|ASP.NET Core version: 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)| |2.2|
 |buildTarget|Target to build an application or library| |program|
-|classModifier|Class Modifier can be empty, abstract| ||
+|classModifier|Class Modifier for controller classes: Empty string or abstract.| ||
 |compatibilityVersion|ASP.Net Core CompatibilityVersion| |Version_2_2|
 |enumNameSuffix|Suffix that will be appended to all enum names.| |Enum|
 |enumValueSuffix|Suffix that will be appended to all enum values.| |Enum|
@@ -18,7 +18,7 @@ sidebar_label: aspnetcore
 |modelClassModifier|Model Class Modifier can be nothing or partial| |partial|
 |newtonsoftVersion|Version for Microsoft.AspNetCore.Mvc.NewtonsoftJson for ASP.NET Core 3.0+| |3.0.0|
 |operationIsAsync|Set methods to async or sync (default).| |false|
-|operationModifier|Operation Modifier can be virtual, abstract or partial| |virtual|
+|operationModifier|Operation Modifier can be virtual or abstract| |virtual|
 |operationResultTask|Set methods result to Task&lt;&gt;.| |false|
 |packageAuthors|Specifies Authors property in the .NET Core project file.| |OpenAPI|
 |packageCopyright|Specifies an AssemblyCopyright for the .NET Framework global assembly attributes stored in the AssemblyInfo file.| |No Copyright|
@@ -201,6 +201,7 @@ sidebar_label: aspnetcore
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

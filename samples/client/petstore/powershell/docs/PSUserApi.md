@@ -182,7 +182,7 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
 
-$Username = "Username_example" # String | The name that needs to be deleted (default to null)
+$Username = "Username_example" # String | The name that needs to be deleted
 
 # Delete user
 try {
@@ -197,7 +197,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Username** | **String**| The name that needs to be deleted | [default to null]
+ **Username** | **String**| The name that needs to be deleted | 
 
 ### Return type
 
@@ -225,7 +225,7 @@ Get user by user name
 ```powershell
 Import-Module -Name PSPetstore
 
-$Username = "Username_example" # String | The name that needs to be fetched. Use user1 for testing. (default to null)
+$Username = "Username_example" # String | The name that needs to be fetched. Use user1 for testing.
 
 # Get user by user name
 try {
@@ -240,7 +240,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Username** | **String**| The name that needs to be fetched. Use user1 for testing. | [default to null]
+ **Username** | **String**| The name that needs to be fetched. Use user1 for testing. | 
 
 ### Return type
 
@@ -269,8 +269,8 @@ Logs user into the system
 ```powershell
 Import-Module -Name PSPetstore
 
-$Username = "Username_example" # String | The user name for login (default to null)
-$Password = "Password_example" # String | The password for login in clear text (default to null)
+$Username = "Username_example" # String | The user name for login
+$Password = "Password_example" # String | The password for login in clear text
 
 # Logs user into the system
 try {
@@ -285,8 +285,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Username** | **String**| The user name for login | [default to null]
- **Password** | **String**| The password for login in clear text | [default to null]
+ **Username** | **String**| The user name for login | 
+ **Password** | **String**| The password for login in clear text | 
 
 ### Return type
 
@@ -367,7 +367,7 @@ $Configuration["ApiKey"]["AUTH_KEY"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration["ApiKeyPrefix"]["AUTH_KEY"] = "Bearer"
 
-$Username = "Username_example" # String | name that need to be deleted (default to null)
+$Username = "Username_example" # String | name that need to be deleted
 $User =  # User | Updated user object
 
 # Updated user
@@ -383,7 +383,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Username** | **String**| name that need to be deleted | [default to null]
+ **Username** | **String**| name that need to be deleted | 
  **User** | [**User**](User.md)| Updated user object | 
 
 ### Return type

@@ -10,31 +10,20 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import outer_enum
-except ImportError:
-    outer_enum = sys.modules[
-        'petstore_api.model.outer_enum']
-try:
-    from petstore_api.model import outer_enum_default_value
-except ImportError:
-    outer_enum_default_value = sys.modules[
-        'petstore_api.model.outer_enum_default_value']
-try:
-    from petstore_api.model import outer_enum_integer
-except ImportError:
-    outer_enum_integer = sys.modules[
-        'petstore_api.model.outer_enum_integer']
-try:
-    from petstore_api.model import outer_enum_integer_default_value
-except ImportError:
-    outer_enum_integer_default_value = sys.modules[
-        'petstore_api.model.outer_enum_integer_default_value']
+from petstore_api.model.integer_enum import IntegerEnum
+from petstore_api.model.integer_enum_one_value import IntegerEnumOneValue
+from petstore_api.model.integer_enum_with_default_value import IntegerEnumWithDefaultValue
+from petstore_api.model.string_enum import StringEnum
+from petstore_api.model.string_enum_with_default_value import StringEnumWithDefaultValue
+globals()['IntegerEnum'] = IntegerEnum
+globals()['IntegerEnumOneValue'] = IntegerEnumOneValue
+globals()['IntegerEnumWithDefaultValue'] = IntegerEnumWithDefaultValue
+globals()['StringEnum'] = StringEnum
+globals()['StringEnumWithDefaultValue'] = StringEnumWithDefaultValue
 from petstore_api.model.enum_test import EnumTest
 
 

@@ -16,8 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
+import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.examples.Example;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MediaType;
@@ -26,9 +26,9 @@ import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
 import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -37,6 +37,7 @@ import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.github.curiousoddman.rgxgen.RgxGen;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -44,12 +45,16 @@ import java.time.format.DateTimeFormatter;
 import java.io.File;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
+import static org.openapitools.codegen.utils.OnceLogger.once;
 
 public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientExperimentalCodegen.class);
+    // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
+    private Map<String, Schema> modelNameToSchemaCache;
+    private DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
+    private DateTimeFormatter iso8601DateTime = DateTimeFormatter.ISO_DATE_TIME;
 
     public PythonClientExperimentalCodegen() {
         super();
@@ -140,6 +145,20 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         supportingFiles.remove(new SupportingFile("__init__model.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
         supportingFiles.add(new SupportingFile("python-experimental/__init__model.mustache", packagePath() + File.separatorChar + "model", "__init__.py"));
 
+        supportingFiles.remove(new SupportingFile("configuration.mustache", packagePath(), "configuration.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/configuration.mustache", packagePath(), "configuration.py"));
+
+        supportingFiles.remove(new SupportingFile("__init__api.mustache", packagePath() + File.separatorChar + "api", "__init__.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/__init__api.mustache", packagePath() + File.separatorChar + "api", "__init__.py"));
+
+        supportingFiles.remove(new SupportingFile("exceptions.mustache", packagePath(), "exceptions.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/exceptions.mustache", packagePath(), "exceptions.py"));
+
+        if ("urllib3".equals(getLibrary())) {
+            supportingFiles.remove(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
+            supportingFiles.add(new SupportingFile("python-experimental/rest.mustache", packagePath(), "rest.py"));
+        }
+
         supportingFiles.remove(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("python-experimental/__init__package.mustache", packagePath(), "__init__.py"));
 
@@ -176,12 +195,18 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         supportingFiles.add(new SupportingFile(readmeTemplate, "", readmePath));
 
         if (!generateSourceCodeOnly) {
-          supportingFiles.remove(new SupportingFile("setup.mustache", "", "setup.py"));
-          supportingFiles.add(new SupportingFile("python-experimental/setup.mustache", "", "setup.py"));
-          supportingFiles.remove(new SupportingFile("requirements.mustache", "", "requirements.txt"));
-          supportingFiles.add(new SupportingFile("python-experimental/requirements.mustache", "", "requirements.txt"));
-          supportingFiles.remove(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
-          supportingFiles.add(new SupportingFile("python-experimental/test-requirements.mustache", "", "test-requirements.txt"));
+            supportingFiles.remove(new SupportingFile("travis.mustache", "", ".travis.yml"));
+            supportingFiles.add(new SupportingFile("python-experimental/travis.mustache", "", ".travis.yml"));
+            supportingFiles.remove(new SupportingFile("gitlab-ci.mustache", "", ".gitlab-ci.yml"));
+            supportingFiles.add(new SupportingFile("python-experimental/gitlab-ci.mustache", "", ".gitlab-ci.yml"));
+            supportingFiles.remove(new SupportingFile("tox.mustache", "", "tox.ini"));
+            supportingFiles.add(new SupportingFile("python-experimental/tox.mustache", "", "tox.ini"));
+            supportingFiles.remove(new SupportingFile("setup.mustache", "", "setup.py"));
+            supportingFiles.add(new SupportingFile("python-experimental/setup.mustache", "", "setup.py"));
+            supportingFiles.remove(new SupportingFile("requirements.mustache", "", "requirements.txt"));
+            supportingFiles.add(new SupportingFile("python-experimental/requirements.mustache", "", "requirements.txt"));
+            supportingFiles.remove(new SupportingFile("test-requirements.mustache", "", "test-requirements.txt"));
+            supportingFiles.add(new SupportingFile("python-experimental/test-requirements.mustache", "", "test-requirements.txt"));
         }
 
         // default this to true so the python ModelSimple models will be generated
@@ -200,15 +225,38 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return "python-experimental";
     }
 
-    public String dateToString(Schema p, OffsetDateTime date, DateTimeFormatter dateFormatter, DateTimeFormatter dateTimeFormatter) {
-        // converts a date into a date or date-time python string
-        if (!(ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p))) {
-            throw new RuntimeException("passed schema must be of type Date or DateTime");
+    public String pythonDate(Object dateValue) {
+        String strValue = null;
+        if (dateValue instanceof OffsetDateTime) {
+            OffsetDateTime date = null;
+            try {
+                date = (OffsetDateTime) dateValue;
+            } catch (ClassCastException e) {
+                LOGGER.warn("Invalid `date` format for value {}", dateValue.toString());
+                date = ((Date) dateValue).toInstant().atOffset(ZoneOffset.UTC);
+            }
+            strValue = date.format(iso8601Date);
+        } else {
+            strValue = dateValue.toString();
         }
-        if (ModelUtils.isDateSchema(p)) {
-            return "dateutil_parser('" + date.format(dateFormatter) + "').date()";
+        return "dateutil_parser('" + strValue + "').date()";
+    }
+
+    public String pythonDateTime(Object dateTimeValue) {
+        String strValue = null;
+        if (dateTimeValue instanceof OffsetDateTime) {
+            OffsetDateTime dateTime = null;
+            try {
+                dateTime = (OffsetDateTime) dateTimeValue;
+            } catch (ClassCastException e) {
+                LOGGER.warn("Invalid `date-time` format for value {}", dateTimeValue.toString());
+                dateTime = ((Date) dateTimeValue).toInstant().atOffset(ZoneOffset.UTC);
+            }
+            strValue = dateTime.format(iso8601DateTime);
+        } else {
+            strValue = dateTimeValue.toString();
         }
-        return "dateutil_parser('" + date.format(dateTimeFormatter) + "')";
+        return "dateutil_parser('" + strValue + "')";
     }
 
     /**
@@ -231,155 +279,54 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             defaultObject = p.getEnum().get(0);
         }
 
-        // convert datetime and date enums if they exist
-        DateTimeFormatter iso8601Date = DateTimeFormatter.ISO_DATE;
-        DateTimeFormatter iso8601DateTime = DateTimeFormatter.ISO_DATE_TIME;
-
-        if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
-            List<Object> currentEnum = p.getEnum();
-            List<String> fixedEnum = new ArrayList<String>();
-            String fixedValue = null;
-            OffsetDateTime date = null;
-            if (currentEnum != null && !currentEnum.isEmpty()) {
-                for (Object enumItem : currentEnum) {
-                    date = (OffsetDateTime) enumItem;
-                    fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
-                    fixedEnum.add(fixedValue);
-                }
-                p.setEnum(fixedEnum);
-            }
-
-            // convert the example if it exists
-            Object currentExample = p.getExample();
-            if (currentExample != null) {
-                try {
-                    date = (OffsetDateTime) currentExample;
-                } catch (ClassCastException e) {
-                    date = ((Date) currentExample).toInstant().atOffset(ZoneOffset.UTC);
-                    LOGGER.warn("Invalid `date-time` format for value {}", currentExample);
-                }
-                fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
-                fixedEnum.add(fixedValue);
-                p.setExample(fixedValue);
-                LOGGER.warn(fixedValue);
-            }
-
-            // fix defaultObject
-            if (defaultObject != null) {
-                date = (OffsetDateTime) defaultObject;
-                fixedValue = dateToString(p, date, iso8601Date, iso8601DateTime);
-                p.setDefault(fixedValue);
-                defaultObject = fixedValue;
-            }
-        }
-
         if (defaultObject == null) {
             return null;
         }
 
-        String defaultValue = null;
-        if (ModelUtils.isStringSchema(p)) {
-            defaultValue = defaultObject.toString();
-            if (ModelUtils.isDateSchema(p) || ModelUtils.isDateTimeSchema(p)) {
-                return defaultValue;
+        String defaultValue = defaultObject.toString();
+        if (ModelUtils.isDateSchema(p)) {
+            defaultValue = pythonDate(defaultObject);
+        } else if (ModelUtils.isDateTimeSchema(p)) {
+            defaultValue = pythonDateTime(defaultObject);
+        } else if (ModelUtils.isStringSchema(p) && !ModelUtils.isByteArraySchema(p) && !ModelUtils.isBinarySchema(p) && !ModelUtils.isFileSchema(p) && !ModelUtils.isUUIDSchema(p) && !ModelUtils.isEmailSchema(p)) {
+            defaultValue =  ensureQuotes(defaultValue);
+        } else if (ModelUtils.isBooleanSchema(p)) {
+            if (Boolean.valueOf(defaultValue) == false) {
+                defaultValue = "False";
+            } else {
+                defaultValue = "True";
             }
-
-            if (!ModelUtils.isByteArraySchema(p) && !ModelUtils.isBinarySchema(p) && !ModelUtils.isFileSchema(p) && !ModelUtils.isUUIDSchema(p) && !ModelUtils.isEmailSchema(p) && !ModelUtils.isDateTimeSchema(p) && !ModelUtils.isDateSchema(p)) {
-                if (Pattern.compile("\r\n|\r|\n").matcher((String) defaultValue).find()) {
-                    defaultValue = "'''" + defaultValue + "'''";
-                } else {
-                    defaultValue = "'" + defaultValue + "'";
-                }
-            }
-            return defaultValue;
-        } else if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
-            defaultValue = String.valueOf(defaultObject);
-            if (ModelUtils.isBooleanSchema(p)) {
-                if (Boolean.valueOf(defaultValue) == false) {
-                    return "False";
-                } else {
-                    return "True";
-                }
-            }
-            return defaultValue;
-        } else {
-            return defaultObject.toString();
         }
+        return defaultValue;
     }
 
     @Override
     public String toModelImport(String name) {
-        // name looks like cat.Cat
-        String moduleName = name.split("\\.")[0];
-        // https://exceptionshub.com/circular-or-cyclic-imports-in-python.html
-        return "from " + modelPackage() + " import "+ moduleName;
-    }
-
-    private String robustImport(String name) {
-        // name looks like cat.Cat
-        String moduleName = name.split("\\.")[0];
-        // https://exceptionshub.com/circular-or-cyclic-imports-in-python.html
-        String modelImport = "try:\n    from " + modelPackage() +
-          " import " + moduleName+ "\nexcept ImportError:\n    " +
-          moduleName + " = sys.modules[\n        '" + modelPackage() + "." + moduleName + "']";
-        return modelImport;
-    }
-
-    private String getPythonClassName(String name) {
-        // name looks like cat.Cat or Cat
-        String[] pieces = name.split("\\.");
-        if (pieces.length == 1) {
-            return pieces[0];
-        }
-        return pieces[1];
-    }
-
-    private void fixOperationImports(Set<String> imports) {
-        if (imports.size() == 0) {
-            return;
-        }
-        String[] modelNames = imports.toArray(new String[0]);
-        imports.clear();
-        // loops through imports and converts them all from 'module.Class' to 'from  models.module import module'
-        for (String modelName : modelNames) {
-            // if a modelName lacks the module (Pet) then we convert it to pet.Pet
-            if (modelName.indexOf(".") == -1) {
-                modelName = toModelName(modelName);
-            }
-            imports.add(toModelImport(modelName));
-        }
+        // name looks like Cat
+        return "from " + modelPackage() + "." + toModelFilename(name) + " import "+ toModelName(name);
     }
 
     @Override
     @SuppressWarnings("static-method")
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        // fix the imports that each model has, add the module reference to the model
+        // loops through imports and converts them all
+        // from 'Pet' to 'from petstore_api.model.pet import Pet'
+
         HashMap<String, Object> val = (HashMap<String, Object>)objs.get("operations");
         ArrayList<CodegenOperation> operations = (ArrayList<CodegenOperation>) val.get("operation");
         ArrayList<HashMap<String, String>> imports = (ArrayList<HashMap<String, String>>)objs.get("imports");
-        imports.clear();
         for (CodegenOperation operation : operations) {
-            fixOperationImports(operation.imports);
-            for (String thisImport : operation.imports) {
-                HashMap<String, String> higherImport = new HashMap<String, String>();
-                higherImport.put("import", thisImport);
-                if (!imports.contains(higherImport)) {
-                    imports.add(higherImport);
-                }
+            if (operation.imports.size() == 0) {
+                continue;
+            }
+            String[] modelNames = operation.imports.toArray(new String[0]);
+            operation.imports.clear();
+            for (String modelName : modelNames) {
+                operation.imports.add(toModelImport(modelName));
             }
         }
         return objs;
-    }
-
-    private void fixModelImports(Set<String> imports) {
-        // loops through imports and converts them all from 'module.Class' to 'import models.module as module'
-        if (imports.size() == 0) {
-            return;
-        }
-        String[] modelNames = imports.toArray(new String[0]);
-        imports.clear();
-        for (String modelName : modelNames) {
-            imports.add(robustImport(modelName));
-        }
     }
 
     /**
@@ -387,54 +334,39 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      */
     @SuppressWarnings({"static-method", "unchecked"})
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+         super.postProcessAllModels(objs);
+
         // loop through all models and delete ones where type!=object and the model has no validations and enums
         // we will remove them because they are not needed
         Map<String, Schema> modelSchemasToRemove = new HashMap<String, Schema>();
-        for (Map.Entry<String, Object> entry : objs.entrySet()) {
-            Map<String, Object> inner = (Map<String, Object>) entry.getValue();
-            List<Map<String, Object>> models = (List<Map<String, Object>>) inner.get("models");
-            for (Map<String, Object> mo : models) {
-                CodegenModel cm = (CodegenModel) mo.get("model");
 
-                // make sure discriminator models are included in imports
-                CodegenDiscriminator discriminator = cm.discriminator;
-                if (discriminator != null) {
-                    Set<CodegenDiscriminator.MappedModel> mappedModels = discriminator.getMappedModels();
-                    for (CodegenDiscriminator.MappedModel mappedModel : mappedModels) {
-                        String otherModelName = mappedModel.getModelName();
-                        cm.imports.add(otherModelName);
-                    }
-                }
+        for (Object objModel: objs.values()) {
+            HashMap<String, Object> hmModel = (HashMap<String, Object>) objModel;
+            List<Map<String, Object>> models = (List<Map<String, Object>>) hmModel.get("models");
+            for (Map<String, Object> model : models) {
+                CodegenModel cm = (CodegenModel) model.get("model");
 
-                // add imports for anyOf, allOf, oneOf
-                ArrayList<Set<String>> composedSchemaSets = new ArrayList<Set<String>>();
-                composedSchemaSets.add(cm.allOf);
-                composedSchemaSets.add(cm.anyOf);
-                composedSchemaSets.add(cm.oneOf);
-                for (Set<String> importSet : composedSchemaSets) {
-                    for (String otherModelName : importSet) {
-                        if (!languageSpecificPrimitives.contains(otherModelName)) {
-                            cm.imports.add(otherModelName);
-                        }
-                    }
-                }
-
-                Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
-                CodegenProperty modelProperty = fromProperty("value", modelSchema);
-
-                // import complex type from additional properties
-                if (cm.additionalPropertiesType != null && modelProperty.items != null && modelProperty.items.complexType != null) {
-                    cm.imports.add(modelProperty.items.complexType);
-                }
-
-                // fix the imports that each model has, change them to absolute
-                fixModelImports(cm.imports);
-
+                // remove model if it is a primitive with no validations
                 if (cm.isEnum || cm.isAlias) {
+                    Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
+                    CodegenProperty modelProperty = fromProperty("_value", modelSchema);
                     if (!modelProperty.isEnum && !modelProperty.hasValidation && !cm.isArrayModel) {
                         // remove these models because they are aliases and do not have any enums or validations
                         modelSchemasToRemove.put(cm.name, modelSchema);
+                        continue;
                     }
+                }
+
+                // fix model imports
+                if (cm.imports.size() == 0) {
+                    continue;
+                }
+                String[] modelNames = cm.imports.toArray(new String[0]);
+                cm.imports.clear();
+                for (String modelName : modelNames) {
+                    cm.imports.add(toModelImport(modelName));
+                    String globalImportFixer = "globals()['" + modelName + "'] = " + modelName;
+                    cm.imports.add(globalImportFixer);
                 }
             }
         }
@@ -529,19 +461,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (modelProp.isPrimitiveType && (modelProp.hasValidation || modelProp.isEnum)) {
             String simpleDataType = result.dataType;
             result.dataType = toModelName(modelName);
-            result.baseType = getPythonClassName(result.dataType);
-            imports.remove(modelName);
-            imports.add(result.dataType);
-            // set the example value
-            if (modelProp.isEnum) {
-                String value = modelProp._enum.get(0).toString();
-                result.example = result.dataType + "(" + toEnumValue(value, simpleDataType) + ")";
-            } else {
-                result.example = result.dataType + "(" + result.example + ")";
-            }
-        } else if (!result.isPrimitiveType) {
-            // fix the baseType for the api docs so the .md link to the class's documentation file is correct
-            result.baseType = getPythonClassName(result.baseType);
+            result.baseType = result.dataType;
         }
         return result;
     }
@@ -570,7 +490,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (responseSchema != null) {
             CodegenProperty cp = fromProperty("response", responseSchema);
             if (cp.complexType != null) {
-                String modelName = getPythonClassName(cp.complexType);
+                String modelName = cp.complexType;
                 Schema modelSchema = ModelUtils.getSchema(this.openAPI, modelName);
                 if (modelSchema != null && !"object".equals(modelSchema.getType())) {
                     CodegenProperty modelProp = fromProperty("response", modelSchema);
@@ -583,19 +503,16 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 if (cp.isEnum == true || cp.hasValidation == true) {
                     // this model has validations and/or enums so we will generate it
                     Schema sc = ModelUtils.getSchemaFromResponse(response);
-                    newBaseType = ModelUtils.getSimpleRef(sc.get$ref());
+                    newBaseType = toModelName(ModelUtils.getSimpleRef(sc.get$ref()));
                 }
             }
         }
 
         CodegenResponse result = super.fromResponse(responseCode, response);
         if (newBaseType != null) {
-            result.dataType = toModelName(newBaseType);
+            result.dataType = newBaseType;
             // baseType is used to set the link to the model .md documentation
-            result.baseType = getPythonClassName(newBaseType);
-        } else if (!result.primitiveType) {
-            // fix the baseType for the api docs so the .md link to the class's documentation file is correct
-            result.baseType = getPythonClassName(result.baseType);
+            result.baseType = newBaseType;
         }
 
         return result;
@@ -705,7 +622,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (datatype.equals("int") || datatype.equals("float")) {
             return value;
         } else {
-            return "\"" + escapeText(value) + "\"";
+            return ensureQuotes(value);
         }
     }
 
@@ -713,28 +630,18 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public void postProcessModelProperty(CodegenModel model, CodegenProperty p) {
         postProcessPattern(p.pattern, p.vendorExtensions);
         // set property.complexType so the model docs will link to the ClassName.md
-        if (p.complexType != null && !languageSpecificPrimitives.contains(p.complexType)) {
-            p.complexType = getPythonClassName(p.complexType);
-        } else if (p.isListContainer && p.mostInnerItems.complexType != null && !languageSpecificPrimitives.contains(p.mostInnerItems.complexType)) {
+        if (p.complexType == null && p.isListContainer && p.mostInnerItems.complexType != null && !languageSpecificPrimitives.contains(p.mostInnerItems.complexType)) {
             // fix ListContainers
-            p.complexType = getPythonClassName(p.mostInnerItems.complexType);
-        }
-        // if a model has a property that is of type self, remove the module name from the dataType
-        if (p.complexType != null && p.dataType.contains(model.classname)) {
-            String classNameNoModule = getPythonClassName(model.classname);
-            p.dataType = p.dataType.replace(model.classname, classNameNoModule);
+            p.complexType = p.mostInnerItems.complexType;
         }
     }
 
     @Override
     public void postProcessParameter(CodegenParameter p) {
         postProcessPattern(p.pattern, p.vendorExtensions);
-        // set baseType to null so the api docs will not point to a model for languageSpecificPrimitives
         if (p.baseType != null && languageSpecificPrimitives.contains(p.baseType)){
+            // set baseType to null so the api docs will not point to a model for languageSpecificPrimitives
             p.baseType = null;
-        } else if (p.isListContainer && p.mostInnerItems.complexType != null && !languageSpecificPrimitives.contains(p.mostInnerItems.complexType)) {
-            // fix ListContainers
-            p.baseType = getPythonClassName(p.mostInnerItems.complexType);
         }
     }
 
@@ -790,6 +697,18 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     }
 
     /**
+     * Sets the value of the 'model.parent' property in CodegenModel
+     * We have a custom version of this function so we can add the dataType on the ArrayModel
+    */
+    @Override
+    protected void addParentContainer(CodegenModel model, String name, Schema schema) {
+        super.addParentContainer(model, name, schema);
+
+        List<String> referencedModelNames = new ArrayList<String>();
+        model.dataType = getTypeString(schema, "", "", referencedModelNames);
+    }
+
+    /**
      * Convert OAS Model object to Codegen Model object
      *
      * @param name   the name of the model
@@ -800,9 +719,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     public CodegenModel fromModel(String name, Schema schema) {
         // we have a custom version of this function so we can produce
         // models for components whose type != object and which have validations and enums
-        // this ensures that endpoint (operation) responses with validations and enums
-        // will generate models, and when those endpoint responses are received in python
-        // the response is cast as a model, and the model will validate the response using the enums and validations
+        // this ensures that:
+        // - endpoint (operation) responses with validations and type!=(object or array)
+        // - oneOf $ref components with validations and type!=(object or array)
+        // when endpoints receive payloads of these models
+        // that they will be converted into instances of these models
         Map<String, String> propertyToModelName = new HashMap<String, String>();
         Map<String, Schema> propertiesMap = schema.getProperties();
         if (propertiesMap != null) {
@@ -820,7 +741,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                     continue;
                 }
                 CodegenProperty modelProperty = fromProperty("_fake_name", refSchema);
-                if (modelProperty.isEnum == false && modelProperty.hasValidation == false) {
+                if (modelProperty.isEnum == true || modelProperty.hasValidation == false) {
                     continue;
                 }
                 String modelName = ModelUtils.getSimpleRef(ref);
@@ -828,37 +749,94 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             }
         }
         CodegenModel result = super.fromModel(name, schema);
-        // use this to store the model name like Cat
-        // we can't use result.name because that is used to lookup models in the spec
-        // we can't use result.classname because that stores cat.Cat
-        // we can't use result.classVarName because that stores the variable for making example instances
-        result.unescapedDescription = simpleModelName(name);
 
-        // make non-object type models have one property so we can use it to store enums and validations
-        if (result.isAlias || result.isEnum || result.isArrayModel) {
-            Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
-            CodegenProperty modelProperty = fromProperty("value", modelSchema);
-            if (modelProperty.isEnum == true || modelProperty.hasValidation == true || result.isArrayModel) {
-                // these models are non-object models with enums and/or validations
-                // add a single property to the model so we can have a way to access validations
-                result.isAlias = true;
-                modelProperty.required = true;
-                List<CodegenProperty> theProperties = Arrays.asList(modelProperty);
-                result.setAllVars(theProperties);
-                result.setVars(theProperties);
-                result.setRequiredVars(theProperties);
-                // post process model properties
-                if (result.vars != null) {
-                    for (CodegenProperty prop : result.vars) {
-                        postProcessModelProperty(result, prop);
+        // have oneOf point to the correct model
+        if (ModelUtils.isComposedSchema(schema)) {
+            ComposedSchema cs = (ComposedSchema) schema;
+            Map<String, Integer> importCounts = new HashMap<String, Integer>();
+            List<Schema> oneOfSchemas = cs.getOneOf();
+            if (oneOfSchemas != null) {
+                for (int i = 0; i < oneOfSchemas.size(); i++) {
+                    Schema oneOfSchema = oneOfSchemas.get(i);
+                    String languageType = getTypeDeclaration(oneOfSchema);
+                    String ref = oneOfSchema.get$ref();
+                    if (ref == null) {
+                        Integer currVal = importCounts.getOrDefault(languageType, 0);
+                        importCounts.put(languageType, currVal+1);
+                        continue;
                     }
+                    Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, oneOfSchema);
+                    String refType = refSchema.getType();
+                    if (refType == null || refType.equals("object")) {
+                        Integer currVal = importCounts.getOrDefault(languageType, 0);
+                        importCounts.put(languageType, currVal+1);
+                        continue;
+                    }
+
+                    CodegenProperty modelProperty = fromProperty("_oneOfSchema", refSchema);
+                    if (modelProperty.isEnum == true) {
+                        Integer currVal = importCounts.getOrDefault(languageType, 0);
+                        importCounts.put(languageType, currVal+1);
+                        continue;
+                    }
+
+                    languageType = getTypeDeclaration(refSchema);
+                    if (modelProperty.hasValidation == false) {
+                        Integer currVal = importCounts.getOrDefault(languageType, 0);
+                        importCounts.put(languageType, currVal+1);
+                        continue;
+                    }
+                    Integer currVal = importCounts.getOrDefault(languageType, 0);
+                    importCounts.put(languageType, currVal);
+                    String modelName = toModelName(ModelUtils.getSimpleRef(ref));
+                    result.imports.add(modelName);
+                    result.oneOf.add(modelName);
+                    currVal = importCounts.getOrDefault(modelName, 0);
+                    importCounts.put(modelName, currVal+1);
+                }
+            }
+            for (Map.Entry<String, Integer> entry : importCounts.entrySet()) {
+                String importName = entry.getKey();
+                Integer importCount = entry.getValue();
+                if (importCount == 0) {
+                    result.oneOf.remove(importName);
                 }
             }
         }
 
-        // set regex values, before it was only done on model.vars
-        // fix all property references to non-object models, make those properties non-primitive and
+        // this block handles models which have the python base class ModelSimple
+        // which are responsible for storing validations, enums, and an unnamed value
+        Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
+        CodegenProperty modelProperty = fromProperty("_value", modelSchema);
+
+        Boolean isPythonModelSimpleModel = (result.isEnum || result.isArrayModel || result.isAlias && modelProperty.hasValidation);
+        if (isPythonModelSimpleModel) {
+            // In python, classes which inherit from our ModelSimple class store one value,
+            // like a str, int, list and extra data about that value like validations and enums
+
+            if (result.isEnum) {
+                // if there is only one allowed value then we know that it should be set, so value is optional
+                //  -> hasRequired = false
+                // if there are more than one allowed value then value is positional and required so
+                //  -> hasRequired = true
+                ArrayList values = (ArrayList) result.allowableValues.get("values");
+                if (values != null && values.size() > 1) {
+                    result.hasRequired = true;
+                }
+
+                if (modelProperty.defaultValue != null && result.defaultValue == null) {
+                    result.defaultValue = modelProperty.defaultValue;
+                }
+            } else {
+                if (result.defaultValue == null) {
+                    result.hasRequired = true;
+                }
+            }
+        }
+        // fix all property references to ModelSimple models, make those properties non-primitive and
         // set their dataType and complexType to the model name, so documentation will refer to the correct model
+        // set regex values, before it was only done on model.vars
+        // NOTE: this is done for models of type != object which are not enums and have validations
         ArrayList<List<CodegenProperty>> listOfLists = new ArrayList<List<CodegenProperty>>();
         listOfLists.add(result.vars);
         listOfLists.add(result.allVars);
@@ -876,13 +854,14 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 }
                 cp.isPrimitiveType = false;
                 String modelName = propertyToModelName.get(cp.name);
-                cp.complexType = getPythonClassName(modelName);
+                cp.complexType = modelName;
                 cp.dataType = modelName;
                 cp.isEnum = false;
                 cp.hasValidation = false;
                 result.imports.add(modelName);
             }
         }
+
         // if a class has a property of type self, remove the self import from imports
         if (result.imports.contains(result.classname)) {
             result.imports.remove(result.classname);
@@ -893,6 +872,72 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         }
 
         return result;
+    }
+
+    /**
+     * returns the OpenAPI type for the property. Use getAlias to handle $ref of primitive type
+     * We have a custom version of this function because for composed schemas we also want to return the model name
+     * In DefaultCodegen.java it returns a name built off of individual allOf/anyOf/oneOf which is not what
+     * python-experimental needs. Python-experimental needs the name of the composed schema
+     *
+     * @param schema property schema
+     * @return string presentation of the type
+     **/
+    @SuppressWarnings("static-method")
+    @Override
+    public String getSchemaType(Schema schema) {
+        if (schema instanceof ComposedSchema) { // composed schema
+            Schema unaliasSchema = ModelUtils.unaliasSchema(this.openAPI, schema, importMapping);
+            String ref = unaliasSchema.get$ref();
+            if (ref != null) {
+                String schemaName = ModelUtils.getSimpleRef(unaliasSchema.get$ref());
+                if (StringUtils.isNotEmpty(schemaName) && importMapping.containsKey(schemaName)) {
+                    return schemaName;
+                }
+                return getAlias(schemaName);
+            } else {
+                // we may have be processing the component schema rather than a schema with a $ref
+                // to a component schema
+                // so loop through component schemas and use the found one's name if we match
+                Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
+                for (String thisSchemaName : schemas.keySet()) {
+                    Schema thisSchema = schemas.get(thisSchemaName);
+                    if (!ModelUtils.isComposedSchema(thisSchema)) {
+                        continue;
+                    }
+                    if (thisSchema == unaliasSchema) {
+                        if (importMapping.containsKey(thisSchemaName)) {
+                            return thisSchemaName;
+                        }
+                        return getAlias(thisSchemaName);
+                    }
+                }
+                LOGGER.warn("Error obtaining the datatype from ref:" + unaliasSchema.get$ref() + ". Default to 'object'");
+                return "object";
+            }
+        }
+        String openAPIType = getSingleSchemaType(schema);
+        if (typeMapping.containsKey(openAPIType)) {
+            String type = typeMapping.get(openAPIType);
+            if (languageSpecificPrimitives.contains(type)) {
+                return type;
+            }
+        } else {
+            return toModelName(openAPIType);
+        }
+        return openAPIType;
+    }
+
+    public String getModelName(Schema sc) {
+        Boolean thisModelWillBeMade = modelWillBeMade(sc);
+        Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
+        for (String thisSchemaName : schemas.keySet()) {
+            Schema thisSchema = schemas.get(thisSchemaName);
+            if (thisSchema == sc && thisModelWillBeMade) {
+                return toModelName(thisSchemaName);
+            }
+        }
+        return null;
     }
 
     /**
@@ -907,6 +952,34 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             return typeMapping.get(oasType);
         }
         return oasType;
+    }
+
+    public Boolean modelWillBeMade(Schema s) {
+        // only invoke this on $refed schemas
+        if (ModelUtils.isComposedSchema(s) || ModelUtils.isObjectSchema(s) || ModelUtils.isArraySchema(s) || ModelUtils.isMapSchema(s)) {
+            return true;
+        }
+        List<Object> enums = s.getEnum();
+        if (enums != null && !enums.isEmpty()) {
+            return true;
+        }
+        Boolean hasValidation = (
+            s.getMaxItems() != null ||
+            s.getMinLength() != null ||
+            s.getMinItems() != null ||
+            s.getMultipleOf() != null ||
+            s.getPattern() != null ||
+            s.getMaxLength() != null ||
+            s.getMinimum() != null ||
+            s.getMaximum() != null ||
+            s.getExclusiveMaximum() != null ||
+            s.getExclusiveMinimum() != null ||
+            s.getUniqueItems() != null
+        );
+        if (hasValidation) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -939,12 +1012,12 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             // The input schema is a reference. If the resolved schema is
             // a composed schema, convert the name to a Python class.
             Schema s = ModelUtils.getReferencedSchema(this.openAPI, p);
-            if (s instanceof ComposedSchema) {
-                String modelName = ModelUtils.getSimpleRef(p.get$ref());
+            if (modelWillBeMade(s)) {
+                String modelName = toModelName(ModelUtils.getSimpleRef(p.get$ref()));
                 if (referencedModelNames != null) {
                     referencedModelNames.add(modelName);
                 }
-                return prefix + toModelName(modelName) + fullSuffix;
+                return prefix + modelName + fullSuffix;
             }
         }
         if (isAnyTypeSchema(p)) {
@@ -1027,122 +1100,545 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // to false, i.e. no additional properties are allowed.
     }
 
-    @Override
-    public void setParameterExampleValue(CodegenParameter p) {
-        // we have a custom version of this function so we can set the file
-        // type example value
-        String example;
+    /**
+     * Gets an example if it exists
+     *
+     * @param sc input schema
+     * @return the example value
+     */
+    protected Object getObjectExample(Schema sc) {
+        Schema schema = sc;
+        String ref = sc.get$ref();
+        if (ref != null) {
+            schema = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(ref));
+        }
+        // TODO handle examples in object models in the future
+        Boolean objectModel = (ModelUtils.isObjectSchema(schema) || ModelUtils.isMapSchema(schema) || ModelUtils.isComposedSchema(schema));
+        if (objectModel) {
+            return null;
+        }
+        if (schema.getExample() != null) {
+            return schema.getExample();
+        } if (schema.getDefault() != null) {
+            return schema.getDefault();
+        } else if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+            return schema.getEnum().get(0);
+        }
+        return null;
+    }
 
-        if (p.defaultValue == null) {
-            example = p.example;
+    /***
+     * Ensures that the string has a leading and trailing quote
+     *
+     * @param in input string
+     * @return quoted string
+     */
+    public String ensureQuotes(String in) {
+        Pattern pattern = Pattern.compile("\r\n|\r|\n");
+        Matcher matcher = pattern.matcher(in);
+        if (matcher.find()) {
+            // if a string has a new line in it add triple quotes to make it a python multiline string
+            return "'''" + in + "'''";
+        }
+        String strPattern = "^['\"].*?['\"]$";
+        if (in.matches(strPattern)) {
+            return in;
+        }
+        return "\"" + in + "\"";
+    }
+
+    public String toExampleValue(Schema schema, Object objExample) {
+        String modelName = getModelName(schema);
+        return toExampleValueRecursive(modelName, schema, objExample, 1, "", 0);
+    }
+
+    private Boolean simpleStringSchema(Schema schema) {
+        Schema sc = schema;
+        String ref = schema.get$ref();
+        if (ref != null) {
+            sc = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(ref));
+        }
+        if (ModelUtils.isStringSchema(sc) && !ModelUtils.isDateSchema(sc) && !ModelUtils.isDateTimeSchema(sc) && !"Number".equalsIgnoreCase(sc.getFormat()) && !ModelUtils.isByteArraySchema(sc) && !ModelUtils.isBinarySchema(sc) && schema.getPattern() == null) {
+            return true;
+        }
+        return false;
+    }
+
+    private MappedModel getDiscriminatorMappedModel(CodegenDiscriminator disc) {
+        for ( MappedModel mm : disc.getMappedModels() ) {
+            String modelName = mm.getModelName();
+            Schema modelSchema = getModelNameToSchemaCache().get(modelName);
+            if (ModelUtils.isObjectSchema(modelSchema)) {
+                return mm;
+            }
+        }
+        return null;
+    }
+
+    /***
+     * Recursively generates string examples for schemas
+     *
+     * @param modelName the string name of the refed model that will be generated for the schema or null
+     * @param schema the schema that we need an example for
+     * @param objExample the example that applies to this schema, for now only string example are used
+     * @param indentationLevel integer indentation level that we are currently at
+     *                         we assume the indentaion amount is 4 spaces times this integer
+     * @param prefix the string prefix that we will use when assigning an example for this line
+     *               this is used when setting key: value, pairs "key: " is the prefix
+     *               and this is used when setting properties like some_property='some_property_example'
+     * @param exampleLine this is the current line that we are generatign an example for, starts at 0
+     *                    we don't indentin the 0th line because using the example value looks like:
+     *                    prop = ModelName( line 0
+     *                        some_property='some_property_example' line 1
+     *                    ) line 2
+     *                    and our example value is:
+     *                    ModelName( line 0
+     *                        some_property='some_property_example' line 1
+     *                    ) line 2
+     * @return the string example
+     */
+    private String toExampleValueRecursive(String modelName, Schema schema, Object objExample, int indentationLevel, String prefix, Integer exampleLine) {
+        final String indentionConst = "    ";
+        String currentIndentation = "";
+        String closingIndentation = "";
+        for (int i=0 ; i < indentationLevel ; i++) currentIndentation += indentionConst;
+        if (exampleLine.equals(0)) {
+            closingIndentation = currentIndentation;
+            currentIndentation = "";
         } else {
-            p.example = p.defaultValue;
+            closingIndentation = currentIndentation;
+        }
+        String openChars = "";
+        String closeChars = "";
+        if (modelName != null) {
+            openChars = modelName+"(";
+            closeChars = ")";
+        }
+
+        String fullPrefix = currentIndentation + prefix + openChars;
+
+        String example = null;
+        if (objExample != null) {
+            example = objExample.toString();
+        }
+        if (null != schema.get$ref()) {
+            // $ref case:
+            Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+            String ref = ModelUtils.getSimpleRef(schema.get$ref());
+            if (allDefinitions != null) {
+                Schema refSchema = allDefinitions.get(ref);
+                if (null == refSchema) {
+                    return fullPrefix + "None" + closeChars;
+                } else {
+                    String refModelName = getModelName(refSchema);
+                    return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine);
+                }
+            } else {
+                LOGGER.warn("allDefinitions not defined in toExampleValue!\n");
+            }
+        } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
+            // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
+            // though this tooling supports it.
+            return fullPrefix + "None" + closeChars;
+        } else if (ModelUtils.isBooleanSchema(schema)) {
+            if (objExample == null) {
+                example = "True";
+            } else {
+                if ("false".equalsIgnoreCase(objExample.toString())) {
+                    example = "False";
+                } else {
+                    example = "True";
+                }
+            }
+            return fullPrefix + example + closeChars;
+        } else if (ModelUtils.isDateSchema(schema)) {
+            if (objExample == null) {
+                example = pythonDate("1970-01-01");
+            } else {
+                example = pythonDate(objExample);
+            }
+            return fullPrefix + example + closeChars;
+        } else if (ModelUtils.isDateTimeSchema(schema)) {
+            if (objExample == null) {
+                example = pythonDateTime("1970-01-01T00:00:00.00Z");
+            } else {
+                example = pythonDateTime(objExample);
+            }
+            return fullPrefix + example + closeChars;
+        } else if (ModelUtils.isBinarySchema(schema)) {
+            if (objExample == null) {
+                example = "/path/to/file";
+            }
+            example = "open('" + example + "', 'rb')";
+            return fullPrefix + example + closeChars;
+        } else if (ModelUtils.isByteArraySchema(schema)) {
+            if (objExample == null) {
+                example = "'YQ=='";
+            }
+            return fullPrefix + example + closeChars;
+        } else if (ModelUtils.isStringSchema(schema)) {
+            if (objExample == null) {
+                // a BigDecimal:
+                if ("Number".equalsIgnoreCase(schema.getFormat())) {
+                    example = "2";
+                    return  fullPrefix + example + closeChars;
+                } else if (StringUtils.isNotBlank(schema.getPattern())) {
+                    String pattern = schema.getPattern();
+                    RgxGen rgxGen = new RgxGen(pattern);
+                    // this seed makes it so if we have [a-z] we pick a
+                    Random random = new Random(18);
+                    String sample = rgxGen.generate(random);
+                    // omit leading / and trailing /, omit trailing /i
+                    Pattern valueExtractor = Pattern.compile("^/?(.+?)/?.?$");
+                    Matcher m = valueExtractor.matcher(sample);
+                    if (m.find()) {
+                        example = m.group(m.groupCount());
+                    } else {
+                        example = "";
+                    }
+                } else if (schema.getMinLength() != null) {
+                    example = "";
+                    int len = schema.getMinLength().intValue();
+                    for (int i=0;i<len;i++) example += "a";
+                } else if (ModelUtils.isUUIDSchema(schema)) {
+                    example = "046b6c7f-0b8a-43b9-b35d-6489e6daee91";
+                } else {
+                    example = "string_example";
+                }
+            }
+            return  fullPrefix + ensureQuotes(example) + closeChars;
+        } else if (ModelUtils.isIntegerSchema(schema)) {
+            if (objExample == null) {
+                if (schema.getMinimum() != null) {
+                    example = schema.getMinimum().toString();
+                } else {
+                    example = "1";
+                }
+            }
+            return fullPrefix + example + closeChars;
+        } else if (ModelUtils.isNumberSchema(schema)) {
+            if (objExample == null) {
+                if (schema.getMinimum() != null) {
+                    example = schema.getMinimum().toString();
+                } else {
+                    example = "3.14";
+                }
+            }
+            return fullPrefix + example + closeChars;
+        } else if (ModelUtils.isArraySchema(schema)) {
+            ArraySchema arrayschema = (ArraySchema) schema;
+            Schema itemSchema = arrayschema.getItems();
+            String itemModelName = getModelName(itemSchema);
+            example = fullPrefix + "[" + "\n" + toExampleValueRecursive(itemModelName, itemSchema, objExample, indentationLevel+1, "", exampleLine+1) + ",\n" + closingIndentation + "]" + closeChars;
+            return example;
+        } else if (ModelUtils.isMapSchema(schema)) {
+            if (modelName == null) {
+                fullPrefix += "{";
+                closeChars = "}";
+            }
+            Object addPropsObj = schema.getAdditionalProperties();
+            // TODO handle true case for additionalProperties
+            if (addPropsObj instanceof Schema) {
+                Schema addPropsSchema = (Schema) addPropsObj;
+                String key = "key";
+                Object addPropsExample = getObjectExample(addPropsSchema);
+                if (addPropsSchema.getEnum() != null && !addPropsSchema.getEnum().isEmpty()) {
+                    key = addPropsSchema.getEnum().get(0).toString();
+                }
+                addPropsExample = exampleFromStringOrArraySchema(addPropsSchema, addPropsExample, key);
+                String addPropPrefix = ensureQuotes(key) + ": ";
+                String addPropsModelName = getModelName(addPropsSchema);
+                example = fullPrefix + "\n" +  toExampleValueRecursive(addPropsModelName, addPropsSchema, addPropsExample, indentationLevel + 1, addPropPrefix, exampleLine + 1) + ",\n" + closingIndentation + closeChars;
+            } else {
+                example = fullPrefix + closeChars;
+            }
+            return example;
+        } else if (ModelUtils.isObjectSchema(schema)) {
+            if (modelName == null) {
+                fullPrefix += "{";
+                closeChars = "}";
+            }
+            CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
+            if (disc != null) {
+                MappedModel mm = getDiscriminatorMappedModel(disc);
+                if (mm != null) {
+                    String discPropNameValue = mm.getMappingName();
+                    String chosenModelName = mm.getModelName();
+                    // TODO handle this case in the future, this is when the discriminated
+                    // schema allOf includes this schema, like Cat allOf includes Pet
+                    // so this is the composed schema use case
+                } else {
+                    return fullPrefix + closeChars;
+                }
+            }
+            return exampleForObjectModel(schema, fullPrefix, closeChars, null, indentationLevel, exampleLine, closingIndentation);
+        } else if (ModelUtils.isComposedSchema(schema)) {
+            // TODO add examples for composed schema models without discriminators
+
+            CodegenDiscriminator disc = createDiscriminator(modelName, schema, openAPI);
+            if (disc != null) {
+                MappedModel mm = getDiscriminatorMappedModel(disc);
+                if (mm != null) {
+                    String discPropNameValue = mm.getMappingName();
+                    String chosenModelName = mm.getModelName();
+                    Schema modelSchema = getModelNameToSchemaCache().get(chosenModelName);
+                    CodegenProperty cp = new CodegenProperty();
+                    cp.setName(disc.getPropertyName());
+                    cp.setExample(discPropNameValue);
+                    return exampleForObjectModel(modelSchema, fullPrefix, closeChars, cp, indentationLevel, exampleLine, closingIndentation);
+                } else {
+                    return fullPrefix + closeChars;
+                }
+            }
+            return fullPrefix + closeChars;
+        } else {
+            LOGGER.warn("Type " + schema.getType() + " not handled properly in toExampleValue");
+        }
+
+        return example;
+    }
+
+    private String exampleForObjectModel(Schema schema, String fullPrefix, String closeChars, CodegenProperty discProp, int indentationLevel, int exampleLine, String closingIndentation) {
+        Map<String, Schema> requiredAndOptionalProps = schema.getProperties();
+        if (requiredAndOptionalProps == null || requiredAndOptionalProps.isEmpty()) {
+            return fullPrefix + closeChars;
+        }
+
+        String example = fullPrefix + "\n";
+        for (Map.Entry<String, Schema> entry : requiredAndOptionalProps.entrySet()) {
+            String propName = entry.getKey();
+            Schema propSchema = entry.getValue();
+            propName = toVarName(propName);
+            String propModelName = null;
+            Object propExample = null;
+            if (discProp != null && propName.equals(discProp.name)) {
+                propModelName = null;
+                propExample = discProp.example;
+            } else {
+                propModelName = getModelName(propSchema);
+                propExample = exampleFromStringOrArraySchema(propSchema, null, propName);
+            }
+            example += toExampleValueRecursive(propModelName, propSchema, propExample, indentationLevel + 1, propName + "=", exampleLine + 1) + ",\n";
+        }
+        // TODO handle additionalProperties also
+        example += closingIndentation + closeChars;
+        return example;
+    }
+
+    private Object exampleFromStringOrArraySchema(Schema sc, Object currentExample, String propName) {
+        if (currentExample != null) {
+            return currentExample;
+        }
+        Schema schema = sc;
+        String ref = sc.get$ref();
+        if (ref != null) {
+            schema = ModelUtils.getSchema(this.openAPI, ModelUtils.getSimpleRef(ref));
+        }
+        Object example = getObjectExample(schema);
+        if (example != null) {
+            return example;
+        } else if (simpleStringSchema(schema)) {
+            return propName + "_example";
+        } else if (ModelUtils.isArraySchema(schema)) {
+            ArraySchema arraySchema = (ArraySchema) schema;
+            Schema itemSchema = arraySchema.getItems();
+            example = getObjectExample(itemSchema);
+            if (example != null ) {
+                return example;
+            } else if (simpleStringSchema(itemSchema)) {
+                return propName + "_example";
+            }
+        }
+        return null;
+    }
+
+
+    /***
+     *
+     * Set the codegenParameter example value
+     * We have a custom version of this function so we can invoke toExampleValue
+     *
+     * @param codegenParameter the item we are setting the example on
+     * @param parameter the base parameter that came from the spec
+     */
+    @Override
+    public void setParameterExampleValue(CodegenParameter codegenParameter, Parameter parameter) {
+        Schema schema = parameter.getSchema();
+        if (schema == null) {
+            LOGGER.warn("CodegenParameter.example defaulting to null because parameter lacks a schema");
             return;
         }
 
-        String type = p.baseType;
-        if (type == null) {
-            type = p.dataType;
-        }
-
-        if ("String".equalsIgnoreCase(type) || "str".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = p.paramName + "_example";
-            }
-            example = "'" + escapeText(example) + "'";
-        } else if ("Integer".equals(type) || "int".equals(type)) {
-            if (example == null) {
-                example = "56";
-            }
-        } else if ("Float".equalsIgnoreCase(type) || "Double".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "3.4";
-            }
-        } else if ("BOOLEAN".equalsIgnoreCase(type) || "bool".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "True";
-            }
-        } else if ("file".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "/path/to/file";
-            }
-            example = "open('"+example+"', 'rb')";
-        } else if ("Date".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "2013-10-20";
-            }
-            example = "'" + escapeText(example) + "'";
-        } else if ("DateTime".equalsIgnoreCase(type)) {
-            if (example == null) {
-                example = "2013-10-20T19:20:30+01:00";
-            }
-            example = "'" + escapeText(example) + "'";
-        } else if (!languageSpecificPrimitives.contains(type)) {
-            // type is a model class, e.g. user.User
-            example = type + "()";
+        Object example = null;
+        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
+            example = codegenParameter.vendorExtensions.get("x-example");
+        } else if (parameter.getExample() != null) {
+            example = parameter.getExample();
+        } else if (parameter.getExamples() != null && !parameter.getExamples().isEmpty() && parameter.getExamples().values().iterator().next().getValue() != null) {
+            example = parameter.getExamples().values().iterator().next().getValue();
         } else {
-            LOGGER.warn("Type " + type + " not handled properly in setParameterExampleValue");
+            example = getObjectExample(schema);
         }
-
-        if (example == null) {
-            example = "None";
-        } else if (Boolean.TRUE.equals(p.isListContainer)) {
-            example = "[" + example + "]";
-        } else if (Boolean.TRUE.equals(p.isMapContainer)) {
-            example = "{'key': " + example + "}";
-        }
-
-        p.example = example;
+        example = exampleFromStringOrArraySchema(schema, example, parameter.getName());
+        String finalExample = toExampleValue(schema, example);
+        codegenParameter.example = finalExample;
     }
 
-    private String simpleModelName(String name) {
-        // this returns a model name like Cat
-        String modelName = sanitizeName(name);
-        // remove dollar sign
-        modelName = modelName.replaceAll("$", "");
-
-        // model name cannot use reserved keyword, e.g. return
-        if (isReservedWord(modelName)) {
-            LOGGER.warn(modelName + " (reserved word) cannot be used as model name. Renamed to " + camelize("model_" + modelName));
-            modelName = "model_" + modelName; // e.g. return => ModelReturn (after camelize)
-        }
-
-        // model name starts with number
-        if (modelName.matches("^\\d.*")) {
-            LOGGER.warn(modelName + " (model name starts with number) cannot be used as model name. Renamed to " + camelize("model_" + modelName));
-            modelName = "model_" + modelName; // e.g. 200Response => Model200Response (after camelize)
-        }
-
-        if (!StringUtils.isEmpty(modelNamePrefix)) {
-            modelName = modelNamePrefix + "_" + modelName;
-        }
-
-        if (!StringUtils.isEmpty(modelNameSuffix)) {
-            modelName = modelName + "_" + modelNameSuffix;
-        }
-
-        // camelize the model name
-        // phone_number => PhoneNumber
-        return camelize(modelName);
-    }
-
-
+    /**
+     * Return the example value of the parameter.
+     *
+     * @param codegenParameter Codegen parameter
+     * @param requestBody      Request body
+     */
     @Override
-    public String toModelFilename(String name) {
-        // underscore the model file name
-        // PhoneNumber => phone_number
-        return underscore(dropDots(simpleModelName(name)));
+    public void setParameterExampleValue(CodegenParameter codegenParameter, RequestBody requestBody) {
+        if (codegenParameter.vendorExtensions != null && codegenParameter.vendorExtensions.containsKey("x-example")) {
+            codegenParameter.example = Json.pretty(codegenParameter.vendorExtensions.get("x-example"));
+        }
+
+        Content content = requestBody.getContent();
+
+        if (content.size() > 1) {
+            // @see ModelUtils.getSchemaFromContent()
+            once(LOGGER).warn("Multiple MediaTypes found, using only the first one");
+        }
+
+        MediaType mediaType = content.values().iterator().next();
+        Schema schema = mediaType.getSchema();
+        if (schema == null) {
+            LOGGER.warn("CodegenParameter.example defaulting to null because requestBody content lacks a schema");
+            return;
+        }
+
+        Object example = null;
+        if (mediaType.getExample() != null) {
+            example = mediaType.getExample();
+        } else if (mediaType.getExamples() != null && !mediaType.getExamples().isEmpty() && mediaType.getExamples().values().iterator().next().getValue() != null) {
+            example = mediaType.getExamples().values().iterator().next().getValue();
+        } else {
+            example = getObjectExample(schema);
+        }
+        example = exampleFromStringOrArraySchema(schema, example, codegenParameter.paramName);
+        codegenParameter.example = toExampleValue(schema, example);
     }
 
+    /**
+     * Create a CodegenParameter for a Form Property
+     * We have a custom version of this method so we can invoke
+     * setParameterExampleValue(codegenParameter, parameter)
+     * rather than setParameterExampleValue(codegenParameter)
+     * This ensures that all of our samples are generated in
+     * toExampleValueRecursive
+     *
+     * @param name the property name
+     * @param propertySchema the property schema
+     * @param imports our import set
+     * @return the resultant CodegenParameter
+     */
     @Override
-    public String toModelName(String name) {
-        // we have a custom version of this function so we can support circular references in python 2 and 3
-        return toModelFilename(name)+"."+simpleModelName(name);
+    public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
+        CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
+
+        LOGGER.debug("Debugging fromFormProperty {}: {}", name, propertySchema);
+        CodegenProperty codegenProperty = fromProperty(name, propertySchema);
+
+        ModelUtils.syncValidationProperties(propertySchema, codegenProperty);
+
+        codegenParameter.isFormParam = Boolean.TRUE;
+        codegenParameter.baseName = codegenProperty.baseName;
+        codegenParameter.paramName = toParamName((codegenParameter.baseName));
+        codegenParameter.baseType = codegenProperty.baseType;
+        codegenParameter.dataType = codegenProperty.dataType;
+        codegenParameter.dataFormat = codegenProperty.dataFormat;
+        codegenParameter.description = escapeText(codegenProperty.description);
+        codegenParameter.unescapedDescription = codegenProperty.getDescription();
+        codegenParameter.jsonSchema = Json.pretty(propertySchema);
+        codegenParameter.defaultValue = codegenProperty.getDefaultValue();
+
+        if (codegenProperty.getVendorExtensions() != null && !codegenProperty.getVendorExtensions().isEmpty()) {
+            codegenParameter.vendorExtensions = codegenProperty.getVendorExtensions();
+        }
+        if (propertySchema.getRequired() != null && !propertySchema.getRequired().isEmpty() && propertySchema.getRequired().contains(codegenProperty.baseName)) {
+            codegenParameter.required = Boolean.TRUE;
+        }
+
+        // non-array/map
+        updateCodegenPropertyEnum(codegenProperty);
+        codegenParameter.isEnum = codegenProperty.isEnum;
+        codegenParameter._enum = codegenProperty._enum;
+        codegenParameter.allowableValues = codegenProperty.allowableValues;
+
+        if (codegenProperty.isEnum) {
+            codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
+            codegenParameter.enumName = codegenProperty.enumName;
+        }
+
+        if (codegenProperty.items != null && codegenProperty.items.isEnum) {
+            codegenParameter.items = codegenProperty.items;
+            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
+        }
+
+        // import
+        if (codegenProperty.complexType != null) {
+            imports.add(codegenProperty.complexType);
+        }
+
+        // validation
+        // handle maximum, minimum properly for int/long by removing the trailing ".0"
+        if (ModelUtils.isIntegerSchema(propertySchema)) {
+            codegenParameter.maximum = propertySchema.getMaximum() == null ? null : String.valueOf(propertySchema.getMaximum().longValue());
+            codegenParameter.minimum = propertySchema.getMinimum() == null ? null : String.valueOf(propertySchema.getMinimum().longValue());
+        } else {
+            codegenParameter.maximum = propertySchema.getMaximum() == null ? null : String.valueOf(propertySchema.getMaximum());
+            codegenParameter.minimum = propertySchema.getMinimum() == null ? null : String.valueOf(propertySchema.getMinimum());
+        }
+
+        codegenParameter.exclusiveMaximum = propertySchema.getExclusiveMaximum() == null ? false : propertySchema.getExclusiveMaximum();
+        codegenParameter.exclusiveMinimum = propertySchema.getExclusiveMinimum() == null ? false : propertySchema.getExclusiveMinimum();
+        codegenParameter.maxLength = propertySchema.getMaxLength();
+        codegenParameter.minLength = propertySchema.getMinLength();
+        codegenParameter.pattern = toRegularExpression(propertySchema.getPattern());
+        codegenParameter.maxItems = propertySchema.getMaxItems();
+        codegenParameter.minItems = propertySchema.getMinItems();
+        codegenParameter.uniqueItems = propertySchema.getUniqueItems() == null ? false : propertySchema.getUniqueItems();
+        codegenParameter.multipleOf = propertySchema.getMultipleOf();
+
+        // exclusive* are noop without corresponding min/max
+        if (codegenParameter.maximum != null || codegenParameter.minimum != null ||
+                codegenParameter.maxLength != null || codegenParameter.minLength != null ||
+                codegenParameter.maxItems != null || codegenParameter.minItems != null ||
+                codegenParameter.pattern != null || codegenParameter.multipleOf != null) {
+            codegenParameter.hasValidation = true;
+        }
+
+        setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+        Parameter p = new Parameter();
+        p.setSchema(propertySchema);
+        p.setName(codegenParameter.paramName);
+        setParameterExampleValue(codegenParameter, p);
+        // setParameterExampleValue(codegenParameter);
+        // set nullable
+        setParameterNullable(codegenParameter, codegenProperty);
+
+        //TODO collectionFormat for form parameter not yet supported
+        //codegenParameter.collectionFormat = getCollectionFormat(propertySchema);
+        return codegenParameter;
     }
 
-    @Override
-    public String toModelDocFilename(String name) {
-        // this is used to generate the model's .md documentation file
-        return simpleModelName(name);
+    /**
+     * Return a map from model name to Schema for efficient lookup.
+     *
+     * @return map from model name to Schema.
+     */
+    protected Map<String, Schema> getModelNameToSchemaCache() {
+        if (modelNameToSchemaCache == null) {
+            // Create a cache to efficiently lookup schema based on model name.
+            Map<String, Schema> m = new HashMap<String, Schema>();
+            ModelUtils.getSchemas(openAPI).forEach((key, schema) -> {
+                m.put(toModelName(key), schema);
+            });
+            modelNameToSchemaCache = Collections.unmodifiableMap(m);
+        }
+        return modelNameToSchemaCache;
     }
 }
