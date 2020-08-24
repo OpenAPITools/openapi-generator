@@ -181,6 +181,7 @@ samples/server/petstore/php-laravel/lib/composer.lock
 samples/server/petstore/php-lumen/lib/composer.lock
 samples/server/petstore/php-slim4/composer.lock
 samples/server/petstore/php-symfony/SymfonyBundle-php/composer.lock
+samples/server/petstore/php-symfony5/SymfonyBundle-php/composer.lock
 samples/server/petstore/php-ze-ph/composer.lock
 
 # ts
