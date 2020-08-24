@@ -2076,7 +2076,9 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (isAnyTypeSchema(schema)) {
             return "AnyType";
         } else if (StringUtils.isNotEmpty(schema.getType())) {
-            LOGGER.warn("Unknown type found in the schema: " + schema.getType());
+            if (!importMapping.containsKey(schema.getType())) {
+                LOGGER.warn("Unknown type found in the schema: " + schema.getType());
+            }
             return schema.getType();
         }
         // The 'type' attribute has not been set in the OAS schema, which means the value
