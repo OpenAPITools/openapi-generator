@@ -657,6 +657,19 @@ public abstract class AbstractCSharpCodegen extends DefaultCodegen implements Co
                         }
                     }
 
+
+                    // check if the payload is json and set x-is-json accordingly
+                    if (operation.consumes != null) {
+                        for (Map<String, String> consume : operation.consumes) {
+                            if (consume.containsKey("mediaType")) {
+                                if (isJsonMimeType(consume.get("mediaType"))) {
+                                    operation.vendorExtensions.put("x-is-json", true);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
                     if (operation.examples != null) {
                         for (Map<String, String> example : operation.examples) {
                             for (Map.Entry<String, String> entry : example.entrySet()) {

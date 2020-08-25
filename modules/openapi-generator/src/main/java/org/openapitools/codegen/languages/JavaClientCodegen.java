@@ -926,29 +926,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         setSerializationLibrary(serializationLibrary);
     }
 
-    final private static Pattern JSON_MIME_PATTERN = Pattern.compile("(?i)application\\/json(;.*)?");
-    final private static Pattern JSON_VENDOR_MIME_PATTERN = Pattern.compile("(?i)application\\/vnd.(.*)+json(;.*)?");
 
-    /**
-     * Check if the given MIME is a JSON MIME.
-     * JSON MIME examples:
-     * application/json
-     * application/json; charset=UTF8
-     * APPLICATION/JSON
-     */
-    static boolean isJsonMimeType(String mime) {
-        return mime != null && (JSON_MIME_PATTERN.matcher(mime).matches());
-    }
-
-    /**
-     * Check if the given MIME is a JSON Vendor MIME.
-     * JSON MIME examples:
-     * application/vnd.mycompany+json
-     * application/vnd.mycompany.resourceA.version1+json
-     */
-    static boolean isJsonVendorMimeType(String mime) {
-        return mime != null && JSON_VENDOR_MIME_PATTERN.matcher(mime).matches();
-    }
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
