@@ -319,6 +319,11 @@
   infoLink: "https://www.qulix.com"
   pinned: false
 -
+  caption: Raksul
+  image: "img/companies/raksul-corporate.svg"
+  infoLink: "https://corp.raksul.com"
+  pinned: false
+-
   caption: "Raiffeisen Schweiz Genossenschaft"
   image: "img/companies/raiffeisen.png"
   infoLink: "https://www.raiffeisen.ch/"
