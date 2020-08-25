@@ -53,7 +53,7 @@ public class AdditionalPropertiesArray extends HashMap<String, List> {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
