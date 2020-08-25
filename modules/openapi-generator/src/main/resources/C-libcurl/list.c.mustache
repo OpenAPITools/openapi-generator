@@ -1,6 +1,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #include "../include/list.h"
 static listEntry_t *listEntry_create(void *data) {
@@ -165,4 +166,20 @@ listEntry_t *list_getElementAt(list_t *list, long indexOfElement) {
 
         return currentListEntry;
     }
+}
+
+char* findStrInStrList(list_t *strList, const char *str)
+{
+    if (!strList || !str) {
+        return NULL;
+    }
+
+    listEntry_t* listEntry = NULL;
+    list_ForEach(listEntry, strList) {
+        if (strstr((char*)listEntry->data, str) != NULL) {
+            return (char*)listEntry->data;
+        }
+    }
+
+    return NULL;
 }
