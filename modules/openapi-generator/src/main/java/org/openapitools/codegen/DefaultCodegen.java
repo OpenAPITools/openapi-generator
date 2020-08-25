@@ -6516,6 +6516,9 @@ public class DefaultCodegen implements CodegenConfig {
      * application/json
      * application/json; charset=UTF8
      * APPLICATION/JSON
+     *
+     * @param mime MIME string
+     * @return true if the input matches the JSON MIME
      */
     protected static boolean isJsonMimeType(String mime) {
         return mime != null && (JSON_MIME_PATTERN.matcher(mime).matches());
@@ -6526,9 +6529,11 @@ public class DefaultCodegen implements CodegenConfig {
      * JSON MIME examples:
      * application/vnd.mycompany+json
      * application/vnd.mycompany.resourceA.version1+json
+     *
+     * @param mime MIME string
+     * @return true if the input matches the JSON vendor MIME
      */
     protected static boolean isJsonVendorMimeType(String mime) {
         return mime != null && JSON_VENDOR_MIME_PATTERN.matcher(mime).matches();
     }
-
 }
