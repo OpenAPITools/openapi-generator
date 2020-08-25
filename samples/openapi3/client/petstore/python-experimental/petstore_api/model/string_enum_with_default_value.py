@@ -103,7 +103,7 @@ class StringEnumWithDefaultValue(ModelSimple):
         """StringEnumWithDefaultValue - a model defined in OpenAPI
 
         Args:
-            value (str): if omitted the server will use the default value of 'placed', must be one of ["placed", "approved", "delivered", ]  # noqa: E501
+            value (str): if omitted the server will use the default value of "placed", must be one of ["placed", "approved", "delivered", ]  # noqa: E501
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types

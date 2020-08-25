@@ -22,6 +22,7 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.Ticker;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Mustache.Compiler;
 import com.samskivert.mustache.Mustache.Lambda;
@@ -1368,6 +1369,16 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
+     * Returns the same content as [[toModelImport]] with key the fully-qualified Model name and value the initial input.
+     * In case of union types this method has a key for each separate model and import.
+     * @param name the name of the "Model"
+     * @return Map of fully-qualified models.
+     */
+    public Map<String,String> toModelImportMap(String name){
+        return Collections.singletonMap(this.toModelImport(name),name);
+    }
+
+    /**
      * Return the fully-qualified "Api" name for import
      *
      * @param name the name of the "Api"
@@ -2065,7 +2076,9 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (isAnyTypeSchema(schema)) {
             return "AnyType";
         } else if (StringUtils.isNotEmpty(schema.getType())) {
-            LOGGER.warn("Unknown type found in the schema: " + schema.getType());
+            if (!importMapping.containsKey(schema.getType())) {
+                LOGGER.warn("Unknown type found in the schema: " + schema.getType());
+            }
             return schema.getType();
         }
         // The 'type' attribute has not been set in the OAS schema, which means the value
@@ -6191,7 +6204,7 @@ public class DefaultCodegen implements CodegenConfig {
         return codegenServerVariables;
     }
 
-    private void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
+    protected void setParameterNullable(CodegenParameter parameter, CodegenProperty property) {
         if (parameter == null || property == null) {
             return;
         }

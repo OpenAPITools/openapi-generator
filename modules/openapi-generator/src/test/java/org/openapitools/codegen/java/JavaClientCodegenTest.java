@@ -552,7 +552,7 @@ public class JavaClientCodegenTest {
         assertEquals(getCodegenOperation.authMethods.size(), 2);
         assertTrue(getCodegenOperation.authMethods.get(0).hasMore);
         Assert.assertFalse(getCodegenOperation.authMethods.get(1).hasMore);
-   }
+    }
 
     @Test
     public void testFreeFormObjects() {
@@ -881,7 +881,7 @@ public class JavaClientCodegenTest {
                 //single file
                 "multipartSingleWithHttpInfo(File file)",
                 "formParams.add(\"file\", new FileSystemResource(file));"
-                );
+        );
     }
 
     /**
@@ -925,6 +925,35 @@ public class JavaClientCodegenTest {
                 "multipartSingle(File file)",
                 "formParams.add(\"file\", new FileSystemResource(file));"
         );
+    }
+
+    @Test
+    public void testAllowModelWithNoProperties() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/2_0/emptyBaseModel.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 47);
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/RealCommand.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/Command.java");
+
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/RealCommand.java"),
+                "class RealCommand extends Command");
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/Command.java"),
+                "class Command");
+
+        output.deleteOnExit();
     }
 
     /**

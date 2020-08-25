@@ -57,6 +57,11 @@ class StringEnum(ModelSimple):
             'PLACED': "placed",
             'APPROVED': "approved",
             'DELIVERED': "delivered",
+            'SINGLE_QUOTED': "single quoted",
+            'MULTIPLE_LINES': '''multiple
+lines''',
+            'DOUBLE_QUOTE_WITH_NEWLINE': '''double quote 
+ with newline''',
         },
     }
 
@@ -104,7 +109,9 @@ class StringEnum(ModelSimple):
         """StringEnum - a model defined in OpenAPI
 
         Args:
-            value (str):, must be one of ["placed", "approved", "delivered", ]  # noqa: E501
+            value (str):, must be one of ["placed", "approved", "delivered", "single quoted", '''multiple
+lines''', '''double quote 
+ with newline''', ]  # noqa: E501
 
         Keyword Args:
             _check_type (bool): if True, values for parameters in openapi_types

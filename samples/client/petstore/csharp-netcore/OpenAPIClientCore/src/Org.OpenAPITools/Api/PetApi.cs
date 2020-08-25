@@ -603,6 +603,7 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.Data = pet;
 
+            // authentication (http_signature_test) required
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -668,6 +669,7 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.Data = pet;
 
+            // authentication (http_signature_test) required
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -858,6 +860,7 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status));
 
+            // authentication (http_signature_test) required
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -924,6 +927,7 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status));
 
+            // authentication (http_signature_test) required
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -987,6 +991,7 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags));
 
+            // authentication (http_signature_test) required
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -1053,6 +1058,7 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags));
 
+            // authentication (http_signature_test) required
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -1234,6 +1240,7 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.Data = pet;
 
+            // authentication (http_signature_test) required
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -1299,6 +1306,7 @@ namespace Org.OpenAPITools.Api
 
             localVarRequestOptions.Data = pet;
 
+            // authentication (http_signature_test) required
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))

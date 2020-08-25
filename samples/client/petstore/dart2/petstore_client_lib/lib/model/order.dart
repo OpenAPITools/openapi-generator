@@ -93,6 +93,12 @@ class OrderStatusEnum {
   /// Order Status
   static const OrderStatusEnum delivered_ = OrderStatusEnum._internal("delivered");
 
+  static List<OrderStatusEnum> get values => const [
+        placed_,
+        approved_,
+        delivered_,
+      ];
+
   String toJson () {
     return value;
   }

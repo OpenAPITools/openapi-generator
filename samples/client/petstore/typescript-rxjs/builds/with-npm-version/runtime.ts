@@ -11,7 +11,7 @@
  * Do not edit the class manually.
  */
 
-import { Observable, of, Subscriber } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ajax, AjaxRequest, AjaxResponse } from 'rxjs/ajax';
 import { map, concatMap } from 'rxjs/operators';
 
