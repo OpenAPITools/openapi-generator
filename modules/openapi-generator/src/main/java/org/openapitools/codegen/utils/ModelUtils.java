@@ -19,6 +19,9 @@ package org.openapitools.codegen.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.Ticker;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
@@ -37,6 +40,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.IJsonSchemaValidationProperties;
 import org.openapitools.codegen.config.GlobalSettings;
+import static org.openapitools.codegen.utils.StringUtils.NAME_CACHE_SIZE_PROPERTY;
+import static org.openapitools.codegen.utils.StringUtils.NAME_CACHE_EXPIRY_PROPERTY;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.io.FileUtils;
@@ -44,6 +49,7 @@ import org.apache.commons.io.FileUtils;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.nio.file.Files;
@@ -68,6 +74,18 @@ public class ModelUtils {
     private static final String freeFormExplicit = "x-is-free-form";
 
     private static ObjectMapper JSON_MAPPER, YAML_MAPPER;
+
+    private static Cache<String, String> simpleRefCache;
+
+    static {
+        int cacheSize = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_SIZE_PROPERTY, "200"));
+        int cacheExpiry = Integer.parseInt(GlobalSettings.getProperty(NAME_CACHE_EXPIRY_PROPERTY, "5"));
+        simpleRefCache = Caffeine.newBuilder()
+                .maximumSize(cacheSize)
+                .expireAfterAccess(cacheExpiry, TimeUnit.SECONDS)
+                .ticker(Ticker.systemTicker())
+                .build();
+    }
 
     static {
         JSON_MAPPER = ObjectMapperFactory.createJson();
@@ -376,19 +394,21 @@ public class ModelUtils {
         public void visit(Schema schema, String mimeType);
     }
 
-    public static String getSimpleRef(String ref) {
-        if (ref.startsWith("#/components/")) {
-            ref = ref.substring(ref.lastIndexOf("/") + 1);
-        } else if (ref.startsWith("#/definitions/")) {
-            ref = ref.substring(ref.lastIndexOf("/") + 1);
-        } else {
-            once(LOGGER).warn("Failed to get the schema name: {}", ref);
-            //throw new RuntimeException("Failed to get the schema: " + ref);
-            return null;
-
-        }
-
-        return ref;
+    public static String getSimpleRef(final String ref) {
+        return simpleRefCache.get(ref, r -> {
+            String modifiable = ref;
+            if (modifiable.startsWith("#/components/")) {
+                modifiable = modifiable.substring(modifiable.lastIndexOf("/") + 1);
+            } else if (modifiable.startsWith("#/definitions/")) {
+                modifiable = modifiable.substring(modifiable.lastIndexOf("/") + 1);
+            } else {
+                once(LOGGER).warn("Failed to get the schema name: {}", modifiable);
+                //throw new RuntimeException("Failed to get the schema: " + modifiable);
+                return null;
+    
+            }
+            return modifiable;    
+        });
     }
 
     /**

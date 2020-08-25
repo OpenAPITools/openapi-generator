@@ -75,6 +75,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 
+import org.openapitools.codegen.utils.TreeNode;
 import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -446,7 +447,6 @@ public class DefaultCodegen implements CodegenConfig {
                 }
             }
         }
-
         return objs;
     }
 
@@ -588,6 +588,11 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     // override with any special post-processing
+    //
+    // Invoked by DefaultGenerator.generateModels() in the following order:
+    // 1) postProcessModels()
+    // 1) updateAllModels()
+    // 2) postProcessAllModels(), before generating files based on processed models.
     @SuppressWarnings("static-method")
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         return objs;
@@ -2802,57 +2807,78 @@ public class DefaultCodegen implements CodegenConfig {
         return descendentSchemas;
     }
 
+    // A cache of 'allOf' descendants.
+    private Cache<String, List<MappedModel>> allOfDescendants;
+
+    /**
+     * Returns the list of 'allOf' descendants for 'thisSchemaName' in the openAPI document.
+     * When interpreting 'allOf' to model a class inheritance hierarchy, getAllOfDescendants()
+     * returns the subclasses of 'thisSchemaName' recursively.
+     * 
+     * @param thisSchemaName The name of a OpenAPI schema.
+     * @param openAPI The OpenAPI document.
+     * @return A list of 'allOf' descendants.
+     */
     protected List<MappedModel> getAllOfDescendants(String thisSchemaName, OpenAPI openAPI) {
-        ArrayList<String> queue = new ArrayList();
+        // Create a parent-child data structure to model the 'allOf' relationships.
+        processAllOfHierarchy();
+
         List<MappedModel> descendentSchemas = new ArrayList();
         Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
-        String currentSchemaName = thisSchemaName;
-        while (true) {
-            for (String childName : schemas.keySet()) {
-                if (childName == thisSchemaName) {
-                    continue;
-                }
-                Schema child = schemas.get(childName);
-                if (ModelUtils.isComposedSchema(child)) {
-                    ComposedSchema composedChild = (ComposedSchema) child;
-                    List<Schema> parents = composedChild.getAllOf();
-                    if (parents != null) {
-                        for (Schema parent : parents) {
-                            String ref = parent.get$ref();
-                            if (ref == null) {
-                                // for schemas with no ref, it is not possible to build the discriminator map
-                                // because ref is how we get the model name
-                                // we only hit this use case for a schema with inline composed schemas, and one of those
-                                // schemas also has inline composed schemas
-                                throw new RuntimeException("Invalid inline schema defined in allOf in '" + childName + "'. Per the OpenApi spec, for this case when a composed schema defines a discriminator, the allOf schemas must use $ref. Change this inline definition to a $ref definition");
-                            }
-                            String parentName = ModelUtils.getSimpleRef(ref);
-                            if (parentName.equals(currentSchemaName)) {
-                                if (queue.contains(childName) || descendentSchemas.contains(childName)) {
-                                    throw new RuntimeException("Stack overflow hit when looking for " + thisSchemaName + " an infinite loop starting and ending at " + childName + " was seen");
-                                }
-                                queue.add(childName);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            if (queue.size() == 0) {
-                break;
-            }
-            currentSchemaName = queue.remove(0);
-            MappedModel mm = new MappedModel(currentSchemaName, toModelName(currentSchemaName));
-            descendentSchemas.add(mm);
-            Schema cs = schemas.get(currentSchemaName);
+        TreeNode<NamedSchema> tn = allOfHierarchy.get(thisSchemaName);
+        for (NamedSchema s : tn.getDescendants()) {
+            descendentSchemas.add(new MappedModel(s.name, toModelName(s.name)));
+            Schema cs = schemas.get(s.name);
             Map<String, Object> vendorExtensions = cs.getExtensions();
             if (vendorExtensions != null && !vendorExtensions.isEmpty() && vendorExtensions.containsKey("x-discriminator-value")) {
                 String xDiscriminatorValue = (String) vendorExtensions.get("x-discriminator-value");
-                mm = new MappedModel(xDiscriminatorValue, toModelName(currentSchemaName));
-                descendentSchemas.add(mm);
+                descendentSchemas.add(new MappedModel(xDiscriminatorValue, toModelName(s.name)));
             }
         }
         return descendentSchemas;
+    }
+
+    private Map<String, TreeNode<NamedSchema>> allOfHierarchy = new HashMap<String, TreeNode<NamedSchema>>();
+
+    /**
+     * Create a graph representation of the class inheritance hierarchy based on the 'allOf' keyword.
+     */
+    protected void processAllOfHierarchy() {
+        if (allOfHierarchy.size() > 0) {
+            // 'allOf' hierarchy has already been processed. Nothing to do.
+            return;
+        }
+        for (Map.Entry<String, Schema>  entry : ModelUtils.getSchemas(openAPI).entrySet()) {
+            NamedSchema ns = new NamedSchema(entry.getKey(), entry.getValue());
+            allOfHierarchy.put(entry.getKey(), new TreeNode<NamedSchema>(ns));
+        }
+        for (Map.Entry<String, TreeNode<NamedSchema>> entry: allOfHierarchy.entrySet()) {
+            String name = entry.getKey();
+            TreeNode<NamedSchema> node = entry.getValue();
+            Schema schema = node.getData().schema;
+            if (ModelUtils.isComposedSchema(schema)) {
+                ComposedSchema composedChild = (ComposedSchema) schema;
+                List<Schema> parents = composedChild.getAllOf();
+                if (parents != null) {
+                    for (Schema parent : parents) {
+                        String ref = parent.get$ref();
+                        if (ref == null) {
+                            // for schemas with no ref, it is not possible to build the discriminator map
+                            // because ref is how we get the model name
+                            // we only hit this use case for a schema with inline composed schemas, and one of those
+                            // schemas also has inline composed schemas
+                            throw new RuntimeException("Invalid inline schema defined in allOf in '" + name + "'. Per the OpenApi spec, for this case when a composed schema defines a discriminator, the allOf schemas must use $ref. Change this inline definition to a $ref definition");
+                        }
+                        String parentName = ModelUtils.getSimpleRef(ref);
+                        TreeNode<NamedSchema> parentNode = allOfHierarchy.get(parentName);
+                        if (parentNode == null) {
+                            throw new RuntimeException("Cannot find 'allOf' parent " + parentName + " of " + name);
+                        }
+                        parentNode.addChild(node);
+                    }
+                }
+            }
+        }
     }
 
     protected CodegenDiscriminator createDiscriminator(String schemaName, Schema schema, OpenAPI openAPI) {
