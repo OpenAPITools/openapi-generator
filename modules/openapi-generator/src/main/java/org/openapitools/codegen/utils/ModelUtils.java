@@ -393,6 +393,8 @@ public class ModelUtils {
         } catch (UnsupportedEncodingException ignored) {
         }
 
+        ref = ref.replace("~0", "~").replace("~1", "/");
+
         return ref;
     }
 
