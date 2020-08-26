@@ -129,7 +129,7 @@ public class Swift5ClientCodegenTest {
         Assert.assertEquals(op.bodyParam.dataType, "Date");
     }
 
-    @Test(description = "Bug onvista", enabled = true)
+    @Test(description = "Bug example code generation", enabled = true)
     public void crashSwift5ExampleCodeGenerationStackOverflowTest() throws IOException {
         //final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/Swift5CodeGenerationStackOverflow#2966.yaml");
         Path target = Files.createTempDirectory("test");
