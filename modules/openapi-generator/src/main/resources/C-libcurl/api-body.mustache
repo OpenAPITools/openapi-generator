@@ -470,6 +470,7 @@ end:
     {{/formParams}}
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
     {{/returnType}}
     {{^returnType}}
