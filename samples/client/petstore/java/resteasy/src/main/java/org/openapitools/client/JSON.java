@@ -2,9 +2,7 @@ package org.openapitools.client;
 
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
-{{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
-{{/openApiNullable}}
 import com.fasterxml.jackson.datatype.joda.*;
 
 import java.text.DateFormat;
@@ -24,10 +22,8 @@ public class JSON implements ContextResolver<ObjectMapper> {
     mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
     mapper.setDateFormat(new RFC3339DateFormat());
-    {{#openApiNullable}}
     JsonNullableModule jnm = new JsonNullableModule();
     mapper.registerModule(jnm);
-    {{/openApiNullable}}
     mapper.registerModule(new JodaModule());
   }
 
