@@ -173,7 +173,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/isBasic}}
     {{#isOAuth}}
     if let Some(ref local_var_token) = configuration.oauth_access_token {
-        local_var_req_builder = req_builder.bearer_auth(local_var_token.to_owned());
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     {{/isOAuth}}
     {{/authMethods}}
@@ -224,7 +224,7 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
     {{/required}}
     {{/isFile}}
     {{/formParams}}
-    local_var_req_builder = local_var_req_builder.multipart(form);
+    local_var_req_builder = local_var_req_builder.multipart(local_var_form);
     {{/hasFormParams}}
     {{/isMultipart}}
     {{^isMultipart}}
@@ -294,12 +294,12 @@ pub {{#supportAsync}}async {{/supportAsync}}fn {{{operationId}}}(configuration: 
         {{/supportMultipleResponses}}
         {{#supportMultipleResponses}}
         let local_var_entity: Option<{{{operationIdCamelCase}}}Success> = serde_json::from_str(&local_var_content).ok();
-        let local_var_result = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_result = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Ok(local_var_result)
         {{/supportMultipleResponses}}
     } else {
         let local_var_entity: Option<{{{operationIdCamelCase}}}Error> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }

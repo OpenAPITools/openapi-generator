@@ -106,7 +106,7 @@ pub fn create_user(configuration: &configuration::Configuration, body: crate::mo
         Ok(())
     } else {
         let local_var_entity: Option<CreateUserError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
@@ -133,7 +133,7 @@ pub fn create_users_with_array_input(configuration: &configuration::Configuratio
         Ok(())
     } else {
         let local_var_entity: Option<CreateUsersWithArrayInputError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
@@ -160,7 +160,7 @@ pub fn create_users_with_list_input(configuration: &configuration::Configuration
         Ok(())
     } else {
         let local_var_entity: Option<CreateUsersWithListInputError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
@@ -187,7 +187,7 @@ pub fn delete_user(configuration: &configuration::Configuration, username: &str)
         Ok(())
     } else {
         let local_var_entity: Option<DeleteUserError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
@@ -213,7 +213,7 @@ pub fn get_user_by_name(configuration: &configuration::Configuration, username: 
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<GetUserByNameError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
@@ -241,7 +241,7 @@ pub fn login_user(configuration: &configuration::Configuration, username: &str, 
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<LoginUserError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
@@ -267,7 +267,7 @@ pub fn logout_user(configuration: &configuration::Configuration, ) -> Result<(),
         Ok(())
     } else {
         let local_var_entity: Option<LogoutUserError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
@@ -295,7 +295,7 @@ pub fn update_user(configuration: &configuration::Configuration, username: &str,
         Ok(())
     } else {
         let local_var_entity: Option<UpdateUserError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }

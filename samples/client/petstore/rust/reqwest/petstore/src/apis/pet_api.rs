@@ -93,7 +93,7 @@ pub fn add_pet(configuration: &configuration::Configuration, body: crate::models
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
     if let Some(ref local_var_token) = configuration.oauth_access_token {
-        local_var_req_builder = req_builder.bearer_auth(local_var_token.to_owned());
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     local_var_req_builder = local_var_req_builder.json(&body);
 
@@ -107,7 +107,7 @@ pub fn add_pet(configuration: &configuration::Configuration, body: crate::models
         Ok(())
     } else {
         let local_var_entity: Option<AddPetError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
@@ -126,7 +126,7 @@ pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api
         local_var_req_builder = local_var_req_builder.header("api_key", local_var_param_value.to_string());
     }
     if let Some(ref local_var_token) = configuration.oauth_access_token {
-        local_var_req_builder = req_builder.bearer_auth(local_var_token.to_owned());
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
 
     let local_var_req = local_var_req_builder.build()?;
@@ -139,7 +139,7 @@ pub fn delete_pet(configuration: &configuration::Configuration, pet_id: i64, api
         Ok(())
     } else {
         let local_var_entity: Option<DeletePetError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
@@ -157,7 +157,7 @@ pub fn find_pets_by_status(configuration: &configuration::Configuration, status:
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
     if let Some(ref local_var_token) = configuration.oauth_access_token {
-        local_var_req_builder = req_builder.bearer_auth(local_var_token.to_owned());
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
 
     let local_var_req = local_var_req_builder.build()?;
@@ -170,7 +170,7 @@ pub fn find_pets_by_status(configuration: &configuration::Configuration, status:
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<FindPetsByStatusError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
@@ -188,7 +188,7 @@ pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
     if let Some(ref local_var_token) = configuration.oauth_access_token {
-        local_var_req_builder = req_builder.bearer_auth(local_var_token.to_owned());
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
 
     let local_var_req = local_var_req_builder.build()?;
@@ -201,7 +201,7 @@ pub fn find_pets_by_tags(configuration: &configuration::Configuration, tags: Vec
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<FindPetsByTagsError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
@@ -236,7 +236,7 @@ pub fn get_pet_by_id(configuration: &configuration::Configuration, pet_id: i64) 
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<GetPetByIdError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
@@ -252,7 +252,7 @@ pub fn update_pet(configuration: &configuration::Configuration, body: crate::mod
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
     if let Some(ref local_var_token) = configuration.oauth_access_token {
-        local_var_req_builder = req_builder.bearer_auth(local_var_token.to_owned());
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     local_var_req_builder = local_var_req_builder.json(&body);
 
@@ -266,7 +266,7 @@ pub fn update_pet(configuration: &configuration::Configuration, body: crate::mod
         Ok(())
     } else {
         let local_var_entity: Option<UpdatePetError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
@@ -282,7 +282,7 @@ pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
     if let Some(ref local_var_token) = configuration.oauth_access_token {
-        local_var_req_builder = req_builder.bearer_auth(local_var_token.to_owned());
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     let mut local_var_form_params = std::collections::HashMap::new();
     if let Some(local_var_param_value) = name {
@@ -303,7 +303,7 @@ pub fn update_pet_with_form(configuration: &configuration::Configuration, pet_id
         Ok(())
     } else {
         let local_var_entity: Option<UpdatePetWithFormError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
@@ -319,7 +319,7 @@ pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, ad
         local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
     if let Some(ref local_var_token) = configuration.oauth_access_token {
-        local_var_req_builder = req_builder.bearer_auth(local_var_token.to_owned());
+        local_var_req_builder = local_var_req_builder.bearer_auth(local_var_token.to_owned());
     };
     let mut local_var_form = reqwest::multipart::Form::new();
     if let Some(local_var_param_value) = additional_metadata {
@@ -328,7 +328,7 @@ pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, ad
     if let Some(local_var_param_value) = file {
         local_var_form = local_var_form.file("file", local_var_param_value)?;
     }
-    local_var_req_builder = local_var_req_builder.multipart(form);
+    local_var_req_builder = local_var_req_builder.multipart(local_var_form);
 
     let local_var_req = local_var_req_builder.build()?;
     let mut local_var_resp = local_var_client.execute(local_var_req)?;
@@ -340,7 +340,7 @@ pub fn upload_file(configuration: &configuration::Configuration, pet_id: i64, ad
         serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
         let local_var_entity: Option<UploadFileError> = serde_json::from_str(&local_var_content).ok();
-        let local_var_error = ResponseContent { local_var_status, local_var_content, local_var_entity };
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
         Err(Error::ResponseError(local_var_error))
     }
 }
