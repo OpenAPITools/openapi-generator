@@ -1,4 +1,4 @@
-# petstore-spring-cloud
+# petstore-spring-cloud-no-nullable
 
 ## Requirements
 
@@ -27,7 +27,7 @@ Add this dependency to your project's POM:
 ```xml
 <dependency>
     <groupId>org.openapitools</groupId>
-    <artifactId>petstore-spring-cloud</artifactId>
+    <artifactId>petstore-spring-cloud-no-nullable</artifactId>
     <version>1.0.0</version>
     <scope>compile</scope>
 </dependency>
@@ -38,7 +38,7 @@ Add this dependency to your project's POM:
 Add this dependency to your project's build file:
 
 ```groovy
-compile "org.openapitools:petstore-spring-cloud:1.0.0"
+compile "org.openapitools:petstore-spring-cloud-no-nullable:1.0.0"
 ```
 
 ### Others
@@ -49,5 +49,5 @@ mvn package
 
 Then manually install the following JARs:
 
-* target/petstore-spring-cloud-1.0.0.jar
+* target/petstore-spring-cloud-no-nullable-1.0.0.jar
 * target/lib/*.jar

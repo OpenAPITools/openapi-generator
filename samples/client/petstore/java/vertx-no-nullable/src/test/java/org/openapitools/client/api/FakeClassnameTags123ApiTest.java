@@ -64,8 +64,8 @@ public class FakeClassnameTags123ApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void testClassnameTest(TestContext context) {
-        Async async = context.async();
+    public void testClassnameTest(TestContext testContext) {
+        Async async = testContext.async();
         Client body = null;
         api.testClassname(body, result -> {
             // TODO: test validations

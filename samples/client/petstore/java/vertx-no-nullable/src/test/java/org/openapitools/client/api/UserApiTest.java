@@ -64,8 +64,8 @@ public class UserApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void createUserTest(TestContext context) {
-        Async async = context.async();
+    public void createUserTest(TestContext testContext) {
+        Async async = testContext.async();
         User body = null;
         api.createUser(body, result -> {
             // TODO: test validations
@@ -80,8 +80,8 @@ public class UserApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void createUsersWithArrayInputTest(TestContext context) {
-        Async async = context.async();
+    public void createUsersWithArrayInputTest(TestContext testContext) {
+        Async async = testContext.async();
         List<User> body = null;
         api.createUsersWithArrayInput(body, result -> {
             // TODO: test validations
@@ -96,8 +96,8 @@ public class UserApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void createUsersWithListInputTest(TestContext context) {
-        Async async = context.async();
+    public void createUsersWithListInputTest(TestContext testContext) {
+        Async async = testContext.async();
         List<User> body = null;
         api.createUsersWithListInput(body, result -> {
             // TODO: test validations
@@ -112,8 +112,8 @@ public class UserApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void deleteUserTest(TestContext context) {
-        Async async = context.async();
+    public void deleteUserTest(TestContext testContext) {
+        Async async = testContext.async();
         String username = null;
         api.deleteUser(username, result -> {
             // TODO: test validations
@@ -128,8 +128,8 @@ public class UserApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void getUserByNameTest(TestContext context) {
-        Async async = context.async();
+    public void getUserByNameTest(TestContext testContext) {
+        Async async = testContext.async();
         String username = null;
         api.getUserByName(username, result -> {
             // TODO: test validations
@@ -144,8 +144,8 @@ public class UserApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void loginUserTest(TestContext context) {
-        Async async = context.async();
+    public void loginUserTest(TestContext testContext) {
+        Async async = testContext.async();
         String username = null;
         String password = null;
         api.loginUser(username, password, result -> {
@@ -161,8 +161,8 @@ public class UserApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void logoutUserTest(TestContext context) {
-        Async async = context.async();
+    public void logoutUserTest(TestContext testContext) {
+        Async async = testContext.async();
         api.logoutUser(result -> {
             // TODO: test validations
             async.complete();
@@ -176,8 +176,8 @@ public class UserApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void updateUserTest(TestContext context) {
-        Async async = context.async();
+    public void updateUserTest(TestContext testContext) {
+        Async async = testContext.async();
         String username = null;
         User body = null;
         api.updateUser(username, body, result -> {

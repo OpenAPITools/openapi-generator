@@ -64,8 +64,8 @@ public class StoreApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void deleteOrderTest(TestContext context) {
-        Async async = context.async();
+    public void deleteOrderTest(TestContext testContext) {
+        Async async = testContext.async();
         String orderId = null;
         api.deleteOrder(orderId, result -> {
             // TODO: test validations
@@ -80,8 +80,8 @@ public class StoreApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void getInventoryTest(TestContext context) {
-        Async async = context.async();
+    public void getInventoryTest(TestContext testContext) {
+        Async async = testContext.async();
         api.getInventory(result -> {
             // TODO: test validations
             async.complete();
@@ -95,8 +95,8 @@ public class StoreApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void getOrderByIdTest(TestContext context) {
-        Async async = context.async();
+    public void getOrderByIdTest(TestContext testContext) {
+        Async async = testContext.async();
         Long orderId = null;
         api.getOrderById(orderId, result -> {
             // TODO: test validations
@@ -111,8 +111,8 @@ public class StoreApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void placeOrderTest(TestContext context) {
-        Async async = context.async();
+    public void placeOrderTest(TestContext testContext) {
+        Async async = testContext.async();
         Order body = null;
         api.placeOrder(body, result -> {
             // TODO: test validations

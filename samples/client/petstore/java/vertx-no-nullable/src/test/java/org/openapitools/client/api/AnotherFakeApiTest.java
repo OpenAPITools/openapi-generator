@@ -64,8 +64,8 @@ public class AnotherFakeApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void call123testSpecialTagsTest(TestContext context) {
-        Async async = context.async();
+    public void call123testSpecialTagsTest(TestContext testContext) {
+        Async async = testContext.async();
         Client body = null;
         api.call123testSpecialTags(body, result -> {
             // TODO: test validations

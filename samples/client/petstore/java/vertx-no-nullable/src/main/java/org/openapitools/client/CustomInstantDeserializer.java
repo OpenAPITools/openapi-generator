@@ -1,4 +1,4 @@
-package org.openapitools.configuration;
+package org.openapitools.client;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonTokenId;

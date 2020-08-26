@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 /**
  * MapTest
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class MapTest   {
   @JsonProperty("map_map_of_string")
   @Valid
@@ -75,7 +75,7 @@ public class MapTest   {
 
   public MapTest putMapMapOfStringItem(String key, Map<String, String> mapMapOfStringItem) {
     if (this.mapMapOfString == null) {
-      this.mapMapOfString = new HashMap<String, Map<String, String>>();
+      this.mapMapOfString = new HashMap<>();
     }
     this.mapMapOfString.put(key, mapMapOfStringItem);
     return this;
@@ -104,7 +104,7 @@ public class MapTest   {
 
   public MapTest putMapOfEnumStringItem(String key, InnerEnum mapOfEnumStringItem) {
     if (this.mapOfEnumString == null) {
-      this.mapOfEnumString = new HashMap<String, InnerEnum>();
+      this.mapOfEnumString = new HashMap<>();
     }
     this.mapOfEnumString.put(key, mapOfEnumStringItem);
     return this;
@@ -132,7 +132,7 @@ public class MapTest   {
 
   public MapTest putDirectMapItem(String key, Boolean directMapItem) {
     if (this.directMap == null) {
-      this.directMap = new HashMap<String, Boolean>();
+      this.directMap = new HashMap<>();
     }
     this.directMap.put(key, directMapItem);
     return this;
@@ -160,7 +160,7 @@ public class MapTest   {
 
   public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
     if (this.indirectMap == null) {
-      this.indirectMap = new HashMap<String, Boolean>();
+      this.indirectMap = new HashMap<>();
     }
     this.indirectMap.put(key, indirectMapItem);
     return this;
@@ -183,7 +183,7 @@ public class MapTest   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -219,7 +219,7 @@ public class MapTest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

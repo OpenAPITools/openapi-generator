@@ -15,6 +15,7 @@ package org.openapitools.client.api;
 import io.vertx.core.file.AsyncFile;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
+import java.util.Set;
 
 import org.openapitools.client.Configuration;
 
@@ -66,8 +67,8 @@ public class PetApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void addPetTest(TestContext context) {
-        Async async = context.async();
+    public void addPetTest(TestContext testContext) {
+        Async async = testContext.async();
         Pet body = null;
         api.addPet(body, result -> {
             // TODO: test validations
@@ -82,8 +83,8 @@ public class PetApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void deletePetTest(TestContext context) {
-        Async async = context.async();
+    public void deletePetTest(TestContext testContext) {
+        Async async = testContext.async();
         Long petId = null;
         String apiKey = null;
         api.deletePet(petId, apiKey, result -> {
@@ -99,8 +100,8 @@ public class PetApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void findPetsByStatusTest(TestContext context) {
-        Async async = context.async();
+    public void findPetsByStatusTest(TestContext testContext) {
+        Async async = testContext.async();
         List<String> status = null;
         api.findPetsByStatus(status, result -> {
             // TODO: test validations
@@ -115,9 +116,9 @@ public class PetApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void findPetsByTagsTest(TestContext context) {
-        Async async = context.async();
-        List<String> tags = null;
+    public void findPetsByTagsTest(TestContext testContext) {
+        Async async = testContext.async();
+        Set<String> tags = null;
         api.findPetsByTags(tags, result -> {
             // TODO: test validations
             async.complete();
@@ -131,8 +132,8 @@ public class PetApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void getPetByIdTest(TestContext context) {
-        Async async = context.async();
+    public void getPetByIdTest(TestContext testContext) {
+        Async async = testContext.async();
         Long petId = null;
         api.getPetById(petId, result -> {
             // TODO: test validations
@@ -147,8 +148,8 @@ public class PetApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void updatePetTest(TestContext context) {
-        Async async = context.async();
+    public void updatePetTest(TestContext testContext) {
+        Async async = testContext.async();
         Pet body = null;
         api.updatePet(body, result -> {
             // TODO: test validations
@@ -163,8 +164,8 @@ public class PetApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void updatePetWithFormTest(TestContext context) {
-        Async async = context.async();
+    public void updatePetWithFormTest(TestContext testContext) {
+        Async async = testContext.async();
         Long petId = null;
         String name = null;
         String status = null;
@@ -181,8 +182,8 @@ public class PetApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void uploadFileTest(TestContext context) {
-        Async async = context.async();
+    public void uploadFileTest(TestContext testContext) {
+        Async async = testContext.async();
         Long petId = null;
         String additionalMetadata = null;
         AsyncFile file = null;
@@ -199,8 +200,8 @@ public class PetApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void uploadFileWithRequiredFileTest(TestContext context) {
-        Async async = context.async();
+    public void uploadFileWithRequiredFileTest(TestContext testContext) {
+        Async async = testContext.async();
         Long petId = null;
         AsyncFile requiredFile = null;
         String additionalMetadata = null;

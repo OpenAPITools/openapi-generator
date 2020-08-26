@@ -16,8 +16,8 @@ import io.vertx.core.file.AsyncFile;
 import java.math.BigDecimal;
 import org.openapitools.client.model.Client;
 import org.openapitools.client.model.FileSchemaTestClass;
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
+import org.threeten.bp.LocalDate;
+import org.threeten.bp.OffsetDateTime;
 import org.openapitools.client.model.OuterComposite;
 import org.openapitools.client.model.User;
 import org.openapitools.client.model.XmlItem;
@@ -72,8 +72,8 @@ public class FakeApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void createXmlItemTest(TestContext context) {
-        Async async = context.async();
+    public void createXmlItemTest(TestContext testContext) {
+        Async async = testContext.async();
         XmlItem xmlItem = null;
         api.createXmlItem(xmlItem, result -> {
             // TODO: test validations
@@ -88,8 +88,8 @@ public class FakeApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void fakeOuterBooleanSerializeTest(TestContext context) {
-        Async async = context.async();
+    public void fakeOuterBooleanSerializeTest(TestContext testContext) {
+        Async async = testContext.async();
         Boolean body = null;
         api.fakeOuterBooleanSerialize(body, result -> {
             // TODO: test validations
@@ -104,8 +104,8 @@ public class FakeApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void fakeOuterCompositeSerializeTest(TestContext context) {
-        Async async = context.async();
+    public void fakeOuterCompositeSerializeTest(TestContext testContext) {
+        Async async = testContext.async();
         OuterComposite body = null;
         api.fakeOuterCompositeSerialize(body, result -> {
             // TODO: test validations
@@ -120,8 +120,8 @@ public class FakeApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void fakeOuterNumberSerializeTest(TestContext context) {
-        Async async = context.async();
+    public void fakeOuterNumberSerializeTest(TestContext testContext) {
+        Async async = testContext.async();
         BigDecimal body = null;
         api.fakeOuterNumberSerialize(body, result -> {
             // TODO: test validations
@@ -136,8 +136,8 @@ public class FakeApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void fakeOuterStringSerializeTest(TestContext context) {
-        Async async = context.async();
+    public void fakeOuterStringSerializeTest(TestContext testContext) {
+        Async async = testContext.async();
         String body = null;
         api.fakeOuterStringSerialize(body, result -> {
             // TODO: test validations
@@ -152,8 +152,8 @@ public class FakeApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void testBodyWithFileSchemaTest(TestContext context) {
-        Async async = context.async();
+    public void testBodyWithFileSchemaTest(TestContext testContext) {
+        Async async = testContext.async();
         FileSchemaTestClass body = null;
         api.testBodyWithFileSchema(body, result -> {
             // TODO: test validations
@@ -168,8 +168,8 @@ public class FakeApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void testBodyWithQueryParamsTest(TestContext context) {
-        Async async = context.async();
+    public void testBodyWithQueryParamsTest(TestContext testContext) {
+        Async async = testContext.async();
         String query = null;
         User body = null;
         api.testBodyWithQueryParams(query, body, result -> {
@@ -185,8 +185,8 @@ public class FakeApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void testClientModelTest(TestContext context) {
-        Async async = context.async();
+    public void testClientModelTest(TestContext testContext) {
+        Async async = testContext.async();
         Client body = null;
         api.testClientModel(body, result -> {
             // TODO: test validations
@@ -201,8 +201,8 @@ public class FakeApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void testEndpointParametersTest(TestContext context) {
-        Async async = context.async();
+    public void testEndpointParametersTest(TestContext testContext) {
+        Async async = testContext.async();
         BigDecimal number = null;
         Double _double = null;
         String patternWithoutDelimiter = null;
@@ -230,8 +230,8 @@ public class FakeApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void testEnumParametersTest(TestContext context) {
-        Async async = context.async();
+    public void testEnumParametersTest(TestContext testContext) {
+        Async async = testContext.async();
         List<String> enumHeaderStringArray = null;
         String enumHeaderString = null;
         List<String> enumQueryStringArray = null;
@@ -253,8 +253,8 @@ public class FakeApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void testGroupParametersTest(TestContext context) {
-        Async async = context.async();
+    public void testGroupParametersTest(TestContext testContext) {
+        Async async = testContext.async();
         Integer requiredStringGroup = null;
         Boolean requiredBooleanGroup = null;
         Long requiredInt64Group = null;
@@ -274,8 +274,8 @@ public class FakeApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void testInlineAdditionalPropertiesTest(TestContext context) {
-        Async async = context.async();
+    public void testInlineAdditionalPropertiesTest(TestContext testContext) {
+        Async async = testContext.async();
         Map<String, String> param = null;
         api.testInlineAdditionalProperties(param, result -> {
             // TODO: test validations
@@ -290,8 +290,8 @@ public class FakeApiTest {
      * @param context Vertx test context for doing assertions
      */
     @Test
-    public void testJsonFormDataTest(TestContext context) {
-        Async async = context.async();
+    public void testJsonFormDataTest(TestContext testContext) {
+        Async async = testContext.async();
         String param = null;
         String param2 = null;
         api.testJsonFormData(param, param2, result -> {
@@ -299,5 +299,25 @@ public class FakeApiTest {
             async.complete();
         });
     }
-
+    
+    /**
+     * 
+     * To test the collection format in query parameters
+     *
+     * @param context Vertx test context for doing assertions
+     */
+    @Test
+    public void testQueryParameterCollectionFormatTest(TestContext testContext) {
+        Async async = testContext.async();
+        List<String> pipe = null;
+        List<String> ioutil = null;
+        List<String> http = null;
+        List<String> url = null;
+        List<String> context = null;
+        api.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, result -> {
+            // TODO: test validations
+            async.complete();
+        });
+    }
+    
 }

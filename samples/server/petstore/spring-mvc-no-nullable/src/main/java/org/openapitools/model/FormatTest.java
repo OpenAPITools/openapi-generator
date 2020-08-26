@@ -6,17 +6,17 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 import org.springframework.core.io.Resource;
-import org.threeten.bp.LocalDate;
-import org.threeten.bp.OffsetDateTime;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * FormatTest
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class FormatTest   {
   @JsonProperty("integer")
   private Integer integer;
@@ -226,7 +226,7 @@ public class FormatTest   {
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
-@Pattern(regexp="^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$") 
+
   public byte[] getByte() {
     return _byte;
   }
@@ -364,7 +364,7 @@ public class FormatTest   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -420,7 +420,7 @@ public class FormatTest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

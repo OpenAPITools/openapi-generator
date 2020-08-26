@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 /**
  * AdditionalPropertiesClass
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_string")
   @Valid
@@ -65,7 +65,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapStringItem(String key, String mapStringItem) {
     if (this.mapString == null) {
-      this.mapString = new HashMap<String, String>();
+      this.mapString = new HashMap<>();
     }
     this.mapString.put(key, mapStringItem);
     return this;
@@ -93,7 +93,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapNumberItem(String key, BigDecimal mapNumberItem) {
     if (this.mapNumber == null) {
-      this.mapNumber = new HashMap<String, BigDecimal>();
+      this.mapNumber = new HashMap<>();
     }
     this.mapNumber.put(key, mapNumberItem);
     return this;
@@ -122,7 +122,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapIntegerItem(String key, Integer mapIntegerItem) {
     if (this.mapInteger == null) {
-      this.mapInteger = new HashMap<String, Integer>();
+      this.mapInteger = new HashMap<>();
     }
     this.mapInteger.put(key, mapIntegerItem);
     return this;
@@ -150,7 +150,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapBooleanItem(String key, Boolean mapBooleanItem) {
     if (this.mapBoolean == null) {
-      this.mapBoolean = new HashMap<String, Boolean>();
+      this.mapBoolean = new HashMap<>();
     }
     this.mapBoolean.put(key, mapBooleanItem);
     return this;
@@ -178,7 +178,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapArrayIntegerItem(String key, List<Integer> mapArrayIntegerItem) {
     if (this.mapArrayInteger == null) {
-      this.mapArrayInteger = new HashMap<String, List<Integer>>();
+      this.mapArrayInteger = new HashMap<>();
     }
     this.mapArrayInteger.put(key, mapArrayIntegerItem);
     return this;
@@ -207,7 +207,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapArrayAnytypeItem(String key, List<Object> mapArrayAnytypeItem) {
     if (this.mapArrayAnytype == null) {
-      this.mapArrayAnytype = new HashMap<String, List<Object>>();
+      this.mapArrayAnytype = new HashMap<>();
     }
     this.mapArrayAnytype.put(key, mapArrayAnytypeItem);
     return this;
@@ -236,7 +236,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapMapStringItem(String key, Map<String, String> mapMapStringItem) {
     if (this.mapMapString == null) {
-      this.mapMapString = new HashMap<String, Map<String, String>>();
+      this.mapMapString = new HashMap<>();
     }
     this.mapMapString.put(key, mapMapStringItem);
     return this;
@@ -265,7 +265,7 @@ public class AdditionalPropertiesClass   {
 
   public AdditionalPropertiesClass putMapMapAnytypeItem(String key, Map<String, Object> mapMapAnytypeItem) {
     if (this.mapMapAnytype == null) {
-      this.mapMapAnytype = new HashMap<String, Map<String, Object>>();
+      this.mapMapAnytype = new HashMap<>();
     }
     this.mapMapAnytype.put(key, mapMapAnytypeItem);
     return this;
@@ -298,7 +298,6 @@ public class AdditionalPropertiesClass   {
   */
   @ApiModelProperty(value = "")
 
-  @Valid
 
   public Object getAnytype1() {
     return anytype1;
@@ -319,7 +318,6 @@ public class AdditionalPropertiesClass   {
   */
   @ApiModelProperty(value = "")
 
-  @Valid
 
   public Object getAnytype2() {
     return anytype2;
@@ -340,7 +338,6 @@ public class AdditionalPropertiesClass   {
   */
   @ApiModelProperty(value = "")
 
-  @Valid
 
   public Object getAnytype3() {
     return anytype3;
@@ -352,7 +349,7 @@ public class AdditionalPropertiesClass   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -402,7 +399,7 @@ public class AdditionalPropertiesClass   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
