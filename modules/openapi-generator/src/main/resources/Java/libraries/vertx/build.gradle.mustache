@@ -35,6 +35,9 @@ ext {
     {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.1"
     {{/openApiNullable}}
+    {{#threetenbp}}
+    jackson_threeten_version = "2.9.10"
+    {{/threetenbp}}
 }
 
 dependencies {
@@ -52,7 +55,7 @@ dependencies {
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/java8}}
     {{#threetenbp}}
-    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:$jackson_version"
+    compile "com.github.joschi.jackson:jackson-datatype-threetenbp:jackson_threeten_version"
     {{/threetenbp}}
     {{#openApiNullable}}
     compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
