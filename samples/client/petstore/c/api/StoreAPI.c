@@ -134,6 +134,7 @@ StoreAPI_getInventory(apiClient_t *apiClient)
     free(localVarPath);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -217,6 +218,7 @@ StoreAPI_getOrderById(apiClient_t *apiClient, long orderId )
     free(localVarToReplace_orderId);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -291,6 +293,7 @@ StoreAPI_placeOrder(apiClient_t *apiClient, order_t * body )
     free(localVarBodyParameters);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }

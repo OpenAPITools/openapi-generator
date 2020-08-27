@@ -271,6 +271,7 @@ PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t * status )
     free(localVarPath);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -352,6 +353,7 @@ PetAPI_findPetsByTags(apiClient_t *apiClient, list_t * tags )
     free(localVarPath);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -435,6 +437,7 @@ PetAPI_getPetById(apiClient_t *apiClient, long petId )
     free(localVarToReplace_petId);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -702,6 +705,7 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId , char * additionalMetadata
     free(keyPairForm_file);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }

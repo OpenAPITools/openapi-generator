@@ -372,6 +372,7 @@ UserAPI_getUserByName(apiClient_t *apiClient, char * username )
     free(localVarToReplace_username);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -477,6 +478,7 @@ UserAPI_loginUser(apiClient_t *apiClient, char * username , char * password )
     }
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
