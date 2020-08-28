@@ -67,6 +67,18 @@ public class JSONComposedSchemaTest {
     }
 
     /**
+     * Test to ensure the setter will throw IllegalArgumentException
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testEnumDiscriminator() throws Exception {
+        ChildCat cc = new ChildCat();
+        cc.setPetType("ChildCat");
+        assertEquals("ChildCat", cc.getPetType());
+
+        cc.setPetType("WrongValue");
+    }
+
+    /**
      * Test to ensure the getter will throw ClassCastException
      */
     @Test(expected = ClassCastException.class)

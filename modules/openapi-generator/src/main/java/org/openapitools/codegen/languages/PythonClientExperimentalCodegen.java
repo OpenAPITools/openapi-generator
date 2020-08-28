@@ -17,19 +17,16 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.core.util.Json;
-import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.parameters.RequestBody;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenDiscriminator.MappedModel;
-import org.openapitools.codegen.examples.ExampleGenerator;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
@@ -225,6 +222,83 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return "python-experimental";
     }
 
+    @Override
+    protected Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings) {
+        Map<String, Schema> allSchemas = ModelUtils.getSchemas(openAPI);
+        if (allSchemas == null || allSchemas.isEmpty()) {
+            // skip the warning as the spec can have no model defined
+            //LOGGER.warn("allSchemas cannot be null/empty in unaliasSchema. Returned 'schema'");
+            return schema;
+        }
+
+        if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
+            String simpleRef = ModelUtils.getSimpleRef(schema.get$ref());
+            if (usedImportMappings.containsKey(simpleRef)) {
+                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, usedImportMappings.get(simpleRef));
+                return schema;
+            }
+            Schema ref = allSchemas.get(simpleRef);
+            Boolean hasValidation = (
+                    ref.getMaxItems() != null ||
+                    ref.getMinLength() != null ||
+                    ref.getMinItems() != null ||
+                    ref.getMultipleOf() != null ||
+                    ref.getPattern() != null ||
+                    ref.getMaxLength() != null ||
+                    ref.getMinimum() != null ||
+                    ref.getMaximum() != null ||
+                    ref.getExclusiveMaximum() != null ||
+                    ref.getExclusiveMinimum() != null ||
+                    ref.getUniqueItems() != null
+            );
+            if (ref == null) {
+                once(LOGGER).warn("{} is not defined", schema.get$ref());
+                return schema;
+            } else if (ref.getEnum() != null && !ref.getEnum().isEmpty()) {
+                // top-level enum class
+                return schema;
+            } else if (ModelUtils.isArraySchema(ref)) {
+                if (ModelUtils.isGenerateAliasAsModel(ref)) {
+                    return schema; // generate a model extending array
+                } else {
+                    return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
+                            usedImportMappings);
+                }
+            } else if (ModelUtils.isComposedSchema(ref)) {
+                return schema;
+            } else if (ModelUtils.isMapSchema(ref)) {
+                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
+                    return schema; // treat it as model
+                else {
+                    if (ModelUtils.isGenerateAliasAsModel(ref)) {
+                        return schema; // generate a model extending map
+                    } else {
+                        // treat it as a typical map
+                        return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
+                                usedImportMappings);
+                    }
+                }
+            } else if (ModelUtils.isObjectSchema(ref)) { // model
+                if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
+                    return schema;
+                } else { // free form object (type: object)
+                    return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
+                            usedImportMappings);
+                }
+            } else if (hasValidation) {
+                // non object non array non map schemas that have validations
+                // are returned so we can generate those schemas as models
+                // we do this to:
+                // - preserve the validations in that model class in python
+                // - use those validations when we use this schema in composed oneOf schemas
+                return schema;
+            } else {
+                return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), usedImportMappings);
+            }
+        }
+        return schema;
+    }
+
     public String pythonDate(Object dateValue) {
         String strValue = null;
         if (dateValue instanceof OffsetDateTime) {
@@ -329,57 +403,58 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         return objs;
     }
 
-    /**
+    /***
      * Override with special post-processing for all models.
+     * we have a custom version of this method to:
+     * - remove any primitive models that do not contain validations
+     *      these models are unaliased as inline definitions wherever the spec has them as refs
+     *      this means that the generated client does not use these models
+     *      because they are not used we do not write them
+     * - fix the model imports, go from model name to the full import string with toModelImport + globalImportFixer
+     *
+     * @param objs a map going from the model name to a object hoding the model info
+     * @return the updated objs
      */
-    @SuppressWarnings({"static-method", "unchecked"})
+    @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
          super.postProcessAllModels(objs);
 
-        // loop through all models and delete ones where type!=object and the model has no validations and enums
-        // we will remove them because they are not needed
-        Map<String, Schema> modelSchemasToRemove = new HashMap<String, Schema>();
-
-        for (Object objModel: objs.values()) {
-            HashMap<String, Object> hmModel = (HashMap<String, Object>) objModel;
-            List<Map<String, Object>> models = (List<Map<String, Object>>) hmModel.get("models");
-            for (Map<String, Object> model : models) {
-                CodegenModel cm = (CodegenModel) model.get("model");
-
-                // remove model if it is a primitive with no validations
-                if (cm.isEnum || cm.isAlias) {
-                    Schema modelSchema = ModelUtils.getSchema(this.openAPI, cm.name);
-                    CodegenProperty modelProperty = fromProperty("_value", modelSchema);
-                    if (!modelProperty.isEnum && !modelProperty.hasValidation && !cm.isArrayModel) {
-                        // remove these models because they are aliases and do not have any enums or validations
-                        modelSchemasToRemove.put(cm.name, modelSchema);
-                        continue;
+        List<String> modelsToRemove = new ArrayList<>();
+        Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
+        for (String schemaName: allDefinitions.keySet()) {
+            Schema refSchema = new Schema().$ref("#/components/schemas/"+schemaName);
+            Schema unaliasedSchema = unaliasSchema(refSchema, importMapping);
+            String modelName = toModelName(schemaName);
+            if (unaliasedSchema.get$ref() == null) {
+                modelsToRemove.add(modelName);
+            } else {
+                HashMap<String, Object> objModel = (HashMap<String, Object>) objs.get(modelName);
+                List<Map<String, Object>> models = (List<Map<String, Object>>) objModel.get("models");
+                for (Map<String, Object> model : models) {
+                    CodegenModel cm = (CodegenModel) model.get("model");
+                    String[] importModelNames = cm.imports.toArray(new String[0]);
+                    cm.imports.clear();
+                    for (String importModelName : importModelNames) {
+                        cm.imports.add(toModelImport(importModelName));
+                        String globalImportFixer = "globals()['" + importModelName + "'] = " + importModelName;
+                        cm.imports.add(globalImportFixer);
                     }
-                }
-
-                // fix model imports
-                if (cm.imports.size() == 0) {
-                    continue;
-                }
-                String[] modelNames = cm.imports.toArray(new String[0]);
-                cm.imports.clear();
-                for (String modelName : modelNames) {
-                    cm.imports.add(toModelImport(modelName));
-                    String globalImportFixer = "globals()['" + modelName + "'] = " + modelName;
-                    cm.imports.add(globalImportFixer);
                 }
             }
         }
 
-        // Remove modelSchemasToRemove models from objs
-        for (String modelName : modelSchemasToRemove.keySet()) {
+        for (String modelName : modelsToRemove) {
             objs.remove(modelName);
         }
+
         return objs;
     }
 
     /**
      * Convert OAS Property object to Codegen Property object
+     * We have a custom version of this method to always set allowableValues.enumVars on all enum variables
+     * Together with unaliasSchema this sets primitive types with validations as models
+     * This method is used by fromResponse
      *
      * @param name name of the property
      * @param p    OAS property object
@@ -387,12 +462,17 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      */
     @Override
     public CodegenProperty fromProperty(String name, Schema p) {
-        // we have a custom version of this function to always set allowableValues.enumVars on all enum variables
-        CodegenProperty result = super.fromProperty(name, p);
-        if (result.isEnum) {
-            updateCodegenPropertyEnum(result);
+        CodegenProperty cp = super.fromProperty(name, p);
+        if (cp.isEnum) {
+            updateCodegenPropertyEnum(cp);
         }
-        return result;
+        if (cp.isPrimitiveType && p.get$ref() != null) {
+            cp.complexType = cp.dataType;
+        }
+        if (cp.isListContainer && cp.complexType == null && cp.mostInnerItems.complexType != null) {
+            cp.complexType = cp.mostInnerItems.complexType;
+        }
+        return cp;
     }
 
     /**
@@ -439,167 +519,69 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // overwriting defaultValue omitted from here
     }
 
+    /***
+     * We have a custom version of this method to produce links to models when they are
+     * primitive type (not map, not array, not object) and include validations or are enums
+     *
+     * @param body requesst body
+     * @param imports import collection
+     * @param bodyParameterName body parameter name
+     * @return the resultant CodegenParameter
+     */
     @Override
     public CodegenParameter fromRequestBody(RequestBody body, Set<String> imports, String bodyParameterName) {
-        CodegenParameter result = super.fromRequestBody(body, imports, bodyParameterName);
-        // if we generated a model with a non-object type because it has validations or enums,
-        // make sure that the datatype of that body parameter refers to our model class
-        Content content = body.getContent();
-        Set<String> keySet = content.keySet();
-        Object[] keyArray = (Object[]) keySet.toArray();
-        MediaType mediaType = content.get(keyArray[0]);
-        Schema schema = mediaType.getSchema();
-        String ref = schema.get$ref();
-        if (ref == null) {
-            return result;
+        CodegenParameter cp = super.fromRequestBody(body, imports, bodyParameterName);
+        Schema schema = ModelUtils.getSchemaFromRequestBody(body);
+        if (schema.get$ref() == null) {
+            return cp;
         }
-        String modelName = ModelUtils.getSimpleRef(ref);
-        // the result lacks validation info so we need to make a CodegenProperty from the schema to check
-        // if we have validation and enum info exists
-        Schema realSchema = ModelUtils.getSchema(this.openAPI, modelName);
-        CodegenProperty modelProp = fromProperty("body", realSchema);
-        if (modelProp.isPrimitiveType && (modelProp.hasValidation || modelProp.isEnum)) {
-            String simpleDataType = result.dataType;
-            result.dataType = toModelName(modelName);
-            result.baseType = result.dataType;
+        Schema unaliasedSchema = unaliasSchema(schema, importMapping);
+        CodegenProperty unaliasedProp = fromProperty("body", unaliasedSchema);
+        Boolean dataTypeMismatch = !cp.dataType.equals(unaliasedProp.dataType);
+        Boolean baseTypeMismatch = !cp.baseType.equals(unaliasedProp.complexType) && unaliasedProp.complexType != null;
+        if (dataTypeMismatch || baseTypeMismatch) {
+            cp.dataType = unaliasedProp.dataType;
+            cp.baseType = unaliasedProp.complexType;
         }
-        return result;
+        return cp;
     }
 
-    /**
-     * Convert OAS Response object to Codegen Response object
+    /***
+     * Adds the body model schema to the body parameter
+     * We have a custom version of this method so we can flip forceSimpleRef
+     * to True based upon the results of unaliasSchema
+     * With this customization, we ensure that when schemas are passed to getSchemaType
+     * - if they have ref in them they are a model
+     * - if they do not have ref in them they are not a model
      *
-     * @param responseCode HTTP response code
-     * @param response     OAS Response object
-     * @return Codegen Response object
+     * @param codegenParameter the body parameter
+     * @param name model schema ref key in components
+     * @param schema the model schema (not refed)
+     * @param imports collection of imports
+     * @param bodyParameterName body parameter name
+     * @param forceSimpleRef if true use a model reference
      */
     @Override
-    public CodegenResponse fromResponse(String responseCode, ApiResponse response) {
-        // if a response points at a model whose type != object and it has validations and/or enums, then we will
-        // generate the model, and response.baseType must be the name
-        // of the model. Point responses at models if the model is python class type ModelSimple
-        // When we serialize/deserialize ModelSimple models, validations and enums will be checked.
-        Schema responseSchema;
-        if (this.openAPI != null && this.openAPI.getComponents() != null) {
-            responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(response), importMapping);
-        } else { // no model/alias defined
-            responseSchema = ModelUtils.getSchemaFromResponse(response);
-        }
-
-        String newBaseType = null;
-        if (responseSchema != null) {
-            CodegenProperty cp = fromProperty("response", responseSchema);
-            if (cp.complexType != null) {
-                String modelName = cp.complexType;
-                Schema modelSchema = ModelUtils.getSchema(this.openAPI, modelName);
-                if (modelSchema != null && !"object".equals(modelSchema.getType())) {
-                    CodegenProperty modelProp = fromProperty("response", modelSchema);
-                    if (modelProp.isEnum == true || modelProp.hasValidation == true) {
-                        // this model has validations and/or enums so we will generate it
-                        newBaseType = modelName;
-                    }
-                }
-            } else {
-                if (cp.isEnum == true || cp.hasValidation == true) {
-                    // this model has validations and/or enums so we will generate it
-                    Schema sc = ModelUtils.getSchemaFromResponse(response);
-                    newBaseType = toModelName(ModelUtils.getSimpleRef(sc.get$ref()));
-                }
+    protected void addBodyModelSchema(CodegenParameter codegenParameter, String name, Schema schema, Set<String> imports, String bodyParameterName, boolean forceSimpleRef) {
+        if (name != null) {
+            Schema bodySchema = new Schema().$ref("#/components/schemas/" + name);
+            Schema unaliased = unaliasSchema(bodySchema, importMapping);
+            if (unaliased.get$ref() != null) {
+                forceSimpleRef = true;
             }
         }
+        super.addBodyModelSchema(codegenParameter, name, schema, imports, bodyParameterName, forceSimpleRef);
 
-        CodegenResponse result = super.fromResponse(responseCode, response);
-        if (newBaseType != null) {
-            result.dataType = newBaseType;
-            // baseType is used to set the link to the model .md documentation
-            result.baseType = newBaseType;
-        }
-
-        return result;
-    }
-
-    /**
-     * Set op's returnBaseType, returnType, examples etc.
-     *
-     * @param operation      endpoint Operation
-     * @param schemas        a map of the schemas in the openapi spec
-     * @param op             endpoint CodegenOperation
-     * @param methodResponse the default ApiResponse for the endpoint
-     */
-    @Override
-    public void handleMethodResponse(Operation operation,
-                                     Map<String, Schema> schemas,
-                                     CodegenOperation op,
-                                     ApiResponse methodResponse) {
-        handleMethodResponse(operation, schemas, op, methodResponse, Collections.<String, String>emptyMap());
-    }
-
-    /**
-     * Set op's returnBaseType, returnType, examples etc.
-     *
-     * @param operation      endpoint Operation
-     * @param schemas        a map of the schemas in the openapi spec
-     * @param op             endpoint CodegenOperation
-     * @param methodResponse the default ApiResponse for the endpoint
-     * @param importMappings mappings of external types to be omitted by unaliasing
-     */
-    @Override
-    protected void handleMethodResponse(Operation operation,
-                                        Map<String, Schema> schemas,
-                                        CodegenOperation op,
-                                        ApiResponse methodResponse,
-                                        Map<String, String> importMappings) {
-        // we have a custom version of this method to handle endpoints that return models where
-        // type != object the model has validations and/or enums
-        // we do this by invoking our custom fromResponse method to create defaultResponse
-        // which we then use to set op.returnType and op.returnBaseType
-        CodegenResponse defaultResponse = fromResponse("defaultResponse", methodResponse);
-        Schema responseSchema = ModelUtils.unaliasSchema(this.openAPI, ModelUtils.getSchemaFromResponse(methodResponse), importMappings);
-
-        if (responseSchema != null) {
-            op.returnBaseType = defaultResponse.baseType;
-
-            // generate examples
-            String exampleStatusCode = "200";
-            for (String key : operation.getResponses().keySet()) {
-                if (operation.getResponses().get(key) == methodResponse && !key.equals("default")) {
-                    exampleStatusCode = key;
-                }
-            }
-            op.examples = new ExampleGenerator(schemas, this.openAPI).generateFromResponseSchema(exampleStatusCode, responseSchema, getProducesInfo(this.openAPI, operation));
-            op.defaultResponse = toDefaultValue(responseSchema);
-            op.returnType = defaultResponse.dataType;
-            op.hasReference = schemas.containsKey(op.returnBaseType);
-
-            // lookup discriminator
-            Schema schema = schemas.get(op.returnBaseType);
-            if (schema != null) {
-                CodegenModel cmod = fromModel(op.returnBaseType, schema);
-                op.discriminator = cmod.discriminator;
-            }
-
-            if (defaultResponse.isListContainer) {
-                op.isListContainer = true;
-            } else if (defaultResponse.isMapContainer) {
-                op.isMapContainer = true;
-            } else {
-                op.returnSimpleType = true;
-            }
-            if (languageSpecificPrimitives().contains(op.returnBaseType) || op.returnBaseType == null) {
-                op.returnTypeIsPrimitive = true;
-            }
-        }
-        addHeaders(methodResponse, op.responseHeaders);
     }
 
 
-    /**
-     * Return the sanitized variable name for enum
-     *
-     * @param value    enum variable name
-     * @param datatype data type
-     * @return the sanitized variable name for enum
-     */
+        /**
+         * Return the sanitized variable name for enum
+         *
+         * @param value    enum variable name
+         * @param datatype data type
+         * @return the sanitized variable name for enum
+         */
     public String toEnumVarName(String value, String datatype) {
         // our enum var names are keys in a python dict, so change spaces to underscores
         if (value.length() == 0) {
@@ -710,175 +692,62 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
     /**
      * Convert OAS Model object to Codegen Model object
+     * We have a custom version of this method so we can:
+     * - set the correct regex values for requiredVars + optionalVars
+     * - set model.defaultValue and model.hasRequired per the three use cases defined in this method
      *
      * @param name   the name of the model
-     * @param schema OAS Model object
+     * @param sc OAS Model object
      * @return Codegen Model object
      */
     @Override
-    public CodegenModel fromModel(String name, Schema schema) {
-        // we have a custom version of this function so we can produce
-        // models for components whose type != object and which have validations and enums
-        // this ensures that:
-        // - endpoint (operation) responses with validations and type!=(object or array)
-        // - oneOf $ref components with validations and type!=(object or array)
-        // when endpoints receive payloads of these models
-        // that they will be converted into instances of these models
-        Map<String, String> propertyToModelName = new HashMap<String, String>();
-        Map<String, Schema> propertiesMap = schema.getProperties();
-        if (propertiesMap != null) {
-            for (Map.Entry<String, Schema> entry : propertiesMap.entrySet()) {
-                String schemaPropertyName = entry.getKey();
-                String pythonPropertyName = toVarName(schemaPropertyName);
-                Schema propertySchema = entry.getValue();
-                String ref = propertySchema.get$ref();
-                if (ref == null) {
-                    continue;
-                }
-                Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, propertySchema);
-                String refType = refSchema.getType();
-                if (refType == null || refType.equals("object")) {
-                    continue;
-                }
-                CodegenProperty modelProperty = fromProperty("_fake_name", refSchema);
-                if (modelProperty.isEnum == true || modelProperty.hasValidation == false) {
-                    continue;
-                }
-                String modelName = ModelUtils.getSimpleRef(ref);
-                propertyToModelName.put(pythonPropertyName, toModelName(modelName));
-            }
+    public CodegenModel fromModel(String name, Schema sc) {
+        CodegenModel cm = super.fromModel(name, sc);
+        if (cm.requiredVars.size() > 0 && (cm.oneOf.size() > 0 || cm.anyOf.size() > 0)) {
+            addNullDefaultToOneOfAnyOfReqProps(sc, cm);
         }
-        CodegenModel result = super.fromModel(name, schema);
-
-        // have oneOf point to the correct model
-        if (ModelUtils.isComposedSchema(schema)) {
-            ComposedSchema cs = (ComposedSchema) schema;
-            Map<String, Integer> importCounts = new HashMap<String, Integer>();
-            List<Schema> oneOfSchemas = cs.getOneOf();
-            if (oneOfSchemas != null) {
-                for (int i = 0; i < oneOfSchemas.size(); i++) {
-                    Schema oneOfSchema = oneOfSchemas.get(i);
-                    String languageType = getTypeDeclaration(oneOfSchema);
-                    String ref = oneOfSchema.get$ref();
-                    if (ref == null) {
-                        Integer currVal = importCounts.getOrDefault(languageType, 0);
-                        importCounts.put(languageType, currVal+1);
-                        continue;
-                    }
-                    Schema refSchema = ModelUtils.getReferencedSchema(this.openAPI, oneOfSchema);
-                    String refType = refSchema.getType();
-                    if (refType == null || refType.equals("object")) {
-                        Integer currVal = importCounts.getOrDefault(languageType, 0);
-                        importCounts.put(languageType, currVal+1);
-                        continue;
-                    }
-
-                    CodegenProperty modelProperty = fromProperty("_oneOfSchema", refSchema);
-                    if (modelProperty.isEnum == true) {
-                        Integer currVal = importCounts.getOrDefault(languageType, 0);
-                        importCounts.put(languageType, currVal+1);
-                        continue;
-                    }
-
-                    languageType = getTypeDeclaration(refSchema);
-                    if (modelProperty.hasValidation == false) {
-                        Integer currVal = importCounts.getOrDefault(languageType, 0);
-                        importCounts.put(languageType, currVal+1);
-                        continue;
-                    }
-                    Integer currVal = importCounts.getOrDefault(languageType, 0);
-                    importCounts.put(languageType, currVal);
-                    String modelName = toModelName(ModelUtils.getSimpleRef(ref));
-                    result.imports.add(modelName);
-                    result.oneOf.add(modelName);
-                    currVal = importCounts.getOrDefault(modelName, 0);
-                    importCounts.put(modelName, currVal+1);
-                }
-            }
-            for (Map.Entry<String, Integer> entry : importCounts.entrySet()) {
-                String importName = entry.getKey();
-                Integer importCount = entry.getValue();
-                if (importCount == 0) {
-                    result.oneOf.remove(importName);
-                }
-            }
-        }
-
-        // this block handles models which have the python base class ModelSimple
-        // which are responsible for storing validations, enums, and an unnamed value
-        Schema modelSchema = ModelUtils.getSchema(this.openAPI, result.name);
-        CodegenProperty modelProperty = fromProperty("_value", modelSchema);
-
-        Boolean isPythonModelSimpleModel = (result.isEnum || result.isArrayModel || result.isAlias && modelProperty.hasValidation);
-        if (isPythonModelSimpleModel) {
-            // In python, classes which inherit from our ModelSimple class store one value,
-            // like a str, int, list and extra data about that value like validations and enums
-
-            if (result.isEnum) {
-                // if there is only one allowed value then we know that it should be set, so value is optional
-                //  -> hasRequired = false
-                // if there are more than one allowed value then value is positional and required so
-                //  -> hasRequired = true
-                ArrayList values = (ArrayList) result.allowableValues.get("values");
-                if (values != null && values.size() > 1) {
-                    result.hasRequired = true;
-                }
-
-                if (modelProperty.defaultValue != null && result.defaultValue == null) {
-                    result.defaultValue = modelProperty.defaultValue;
-                }
-            } else {
-                if (result.defaultValue == null) {
-                    result.hasRequired = true;
-                }
-            }
-        }
-        // fix all property references to ModelSimple models, make those properties non-primitive and
-        // set their dataType and complexType to the model name, so documentation will refer to the correct model
-        // set regex values, before it was only done on model.vars
-        // NOTE: this is done for models of type != object which are not enums and have validations
         ArrayList<List<CodegenProperty>> listOfLists = new ArrayList<List<CodegenProperty>>();
-        listOfLists.add(result.vars);
-        listOfLists.add(result.allVars);
-        listOfLists.add(result.requiredVars);
-        listOfLists.add(result.optionalVars);
-        listOfLists.add(result.readOnlyVars);
-        listOfLists.add(result.readWriteVars);
+        listOfLists.add(cm.requiredVars);
+        listOfLists.add(cm.optionalVars);
         for (List<CodegenProperty> cpList : listOfLists) {
             for (CodegenProperty cp : cpList) {
-                // set regex values, before it was only done on model.vars
-                postProcessModelProperty(result, cp);
-                // fix references to non-object models
-                if (!propertyToModelName.containsKey(cp.name)) {
-                    continue;
-                }
-                cp.isPrimitiveType = false;
-                String modelName = propertyToModelName.get(cp.name);
-                cp.complexType = modelName;
-                cp.dataType = modelName;
-                cp.isEnum = false;
-                cp.hasValidation = false;
-                result.imports.add(modelName);
+                // sets regex values
+                postProcessModelProperty(cm, cp);
             }
         }
-
-        // if a class has a property of type self, remove the self import from imports
-        if (result.imports.contains(result.classname)) {
-            result.imports.remove(result.classname);
+        Boolean isNotPythonModelSimpleModel = (ModelUtils.isComposedSchema(sc) || ModelUtils.isObjectSchema(sc) || ModelUtils.isMapSchema(sc));
+        if (isNotPythonModelSimpleModel) {
+            return cm;
         }
-
-        if (result.requiredVars.size() > 0 && (result.oneOf.size() > 0 || result.anyOf.size() > 0)) {
-            addNullDefaultToOneOfAnyOfReqProps(schema, result);
+        // Use cases for default values / enums of length one
+        // 1. no default exists
+        //      schema does not contain default
+        //      cm.defaultValue unset, cm.hasRequired = true
+        // 2. server has a default
+        //      schema contains default
+        //      cm.defaultValue set, cm.hasRequired = true
+        //      different value here to differentiate between use case 3 below
+        //      This defaultValue is used in the client docs only and is not sent to the server
+        // 3. only one value is allowed in an enum
+        //      schema does not contain default
+        //      cm.defaultValue set, cm.hasRequired = false
+        //      because we know what value needs to be set so the user doesn't need to input it
+        //      This defaultValue is used in the client and is sent to the server
+        String defaultValue = toDefaultValue(sc);
+        if (sc.getDefault() == null && defaultValue == null) {
+            cm.hasRequired = true;
+        } else if (sc.getDefault() != null) {
+            cm.defaultValue = defaultValue;
+            cm.hasRequired = true;
+        } else if (defaultValue != null && cm.defaultValue == null) {
+            cm.defaultValue = defaultValue;
+            cm.hasRequired = false;
         }
-
-        return result;
+        return cm;
     }
 
     /**
-     * returns the OpenAPI type for the property. Use getAlias to handle $ref of primitive type
-     * We have a custom version of this function because for composed schemas we also want to return the model name
-     * In DefaultCodegen.java it returns a name built off of individual allOf/anyOf/oneOf which is not what
-     * python-experimental needs. Python-experimental needs the name of the composed schema
+     * Returns the python type for the property.
      *
      * @param schema property schema
      * @return string presentation of the type
@@ -886,100 +755,22 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     @SuppressWarnings("static-method")
     @Override
     public String getSchemaType(Schema schema) {
-        if (schema instanceof ComposedSchema) { // composed schema
-            Schema unaliasSchema = ModelUtils.unaliasSchema(this.openAPI, schema, importMapping);
-            String ref = unaliasSchema.get$ref();
-            if (ref != null) {
-                String schemaName = ModelUtils.getSimpleRef(unaliasSchema.get$ref());
-                if (StringUtils.isNotEmpty(schemaName) && importMapping.containsKey(schemaName)) {
-                    return schemaName;
-                }
-                return getAlias(schemaName);
-            } else {
-                // we may have be processing the component schema rather than a schema with a $ref
-                // to a component schema
-                // so loop through component schemas and use the found one's name if we match
-                Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
-                for (String thisSchemaName : schemas.keySet()) {
-                    Schema thisSchema = schemas.get(thisSchemaName);
-                    if (!ModelUtils.isComposedSchema(thisSchema)) {
-                        continue;
-                    }
-                    if (thisSchema == unaliasSchema) {
-                        if (importMapping.containsKey(thisSchemaName)) {
-                            return thisSchemaName;
-                        }
-                        return getAlias(thisSchemaName);
-                    }
-                }
-                LOGGER.warn("Error obtaining the datatype from ref:" + unaliasSchema.get$ref() + ". Default to 'object'");
-                return "object";
-            }
-        }
         String openAPIType = getSingleSchemaType(schema);
         if (typeMapping.containsKey(openAPIType)) {
             String type = typeMapping.get(openAPIType);
-            if (languageSpecificPrimitives.contains(type)) {
-                return type;
-            }
-        } else {
-            return toModelName(openAPIType);
+            return type;
         }
-        return openAPIType;
+        return toModelName(openAPIType);
     }
 
     public String getModelName(Schema sc) {
-        Boolean thisModelWillBeMade = modelWillBeMade(sc);
-        Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
-        for (String thisSchemaName : schemas.keySet()) {
-            Schema thisSchema = schemas.get(thisSchemaName);
-            if (thisSchema == sc && thisModelWillBeMade) {
-                return toModelName(thisSchemaName);
+        if (sc.get$ref() != null) {
+            Schema unaliasedSchema = unaliasSchema(sc, importMapping);
+            if (unaliasedSchema.get$ref() != null) {
+                return toModelName(ModelUtils.getSimpleRef(sc.get$ref()));
             }
         }
         return null;
-    }
-
-    /**
-     * Output the type declaration of the property
-     *
-     * @param schema property schema
-     * @return a string presentation of the property type
-     */
-    public String getSimpleTypeDeclaration(Schema schema) {
-        String oasType = getSchemaType(schema);
-        if (typeMapping.containsKey(oasType)) {
-            return typeMapping.get(oasType);
-        }
-        return oasType;
-    }
-
-    public Boolean modelWillBeMade(Schema s) {
-        // only invoke this on $refed schemas
-        if (ModelUtils.isComposedSchema(s) || ModelUtils.isObjectSchema(s) || ModelUtils.isArraySchema(s) || ModelUtils.isMapSchema(s)) {
-            return true;
-        }
-        List<Object> enums = s.getEnum();
-        if (enums != null && !enums.isEmpty()) {
-            return true;
-        }
-        Boolean hasValidation = (
-            s.getMaxItems() != null ||
-            s.getMinLength() != null ||
-            s.getMinItems() != null ||
-            s.getMultipleOf() != null ||
-            s.getPattern() != null ||
-            s.getMaxLength() != null ||
-            s.getMinimum() != null ||
-            s.getMaximum() != null ||
-            s.getExclusiveMaximum() != null ||
-            s.getExclusiveMinimum() != null ||
-            s.getUniqueItems() != null
-        );
-        if (hasValidation) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -1011,8 +802,8 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (StringUtils.isNotEmpty(p.get$ref())) {
             // The input schema is a reference. If the resolved schema is
             // a composed schema, convert the name to a Python class.
-            Schema s = ModelUtils.getReferencedSchema(this.openAPI, p);
-            if (modelWillBeMade(s)) {
+            Schema unaliasedSchema = unaliasSchema(p, importMapping);
+            if (unaliasedSchema.get$ref() != null) {
                 String modelName = toModelName(ModelUtils.getSimpleRef(p.get$ref()));
                 if (referencedModelNames != null) {
                     referencedModelNames.add(modelName);
@@ -1053,7 +844,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (ModelUtils.isFileSchema(p)) {
             return prefix + "file_type" + fullSuffix;
         }
-        String baseType = getSimpleTypeDeclaration(p);
+        String baseType = getSchemaType(p);
         return prefix + baseType + fullSuffix;
     }
 
@@ -1133,7 +924,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      * @param in input string
      * @return quoted string
      */
-    public String ensureQuotes(String in) {
+    private String ensureQuotes(String in) {
         Pattern pattern = Pattern.compile("\r\n|\r|\n");
         Matcher matcher = pattern.matcher(in);
         if (matcher.find()) {
@@ -1222,20 +1013,15 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             example = objExample.toString();
         }
         if (null != schema.get$ref()) {
-            // $ref case:
             Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
             String ref = ModelUtils.getSimpleRef(schema.get$ref());
-            if (allDefinitions != null) {
-                Schema refSchema = allDefinitions.get(ref);
-                if (null == refSchema) {
-                    return fullPrefix + "None" + closeChars;
-                } else {
-                    String refModelName = getModelName(refSchema);
-                    return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine);
-                }
-            } else {
-                LOGGER.warn("allDefinitions not defined in toExampleValue!\n");
+            Schema refSchema = allDefinitions.get(ref);
+            if (null == refSchema) {
+                LOGGER.warn("Unable to find referenced schema "+schema.get$ref()+"\n");
+                return fullPrefix + "None" + closeChars;
             }
+            String refModelName = getModelName(schema);
+            return toExampleValueRecursive(refModelName, refSchema, objExample, indentationLevel, prefix, exampleLine);
         } else if (ModelUtils.isNullType(schema) || isAnyTypeSchema(schema)) {
             // The 'null' type is allowed in OAS 3.1 and above. It is not supported by OAS 3.0.x,
             // though this tooling supports it.
@@ -1537,92 +1323,12 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
      */
     @Override
     public CodegenParameter fromFormProperty(String name, Schema propertySchema, Set<String> imports) {
-        CodegenParameter codegenParameter = CodegenModelFactory.newInstance(CodegenModelType.PARAMETER);
-
-        LOGGER.debug("Debugging fromFormProperty {}: {}", name, propertySchema);
-        CodegenProperty codegenProperty = fromProperty(name, propertySchema);
-
-        ModelUtils.syncValidationProperties(propertySchema, codegenProperty);
-
-        codegenParameter.isFormParam = Boolean.TRUE;
-        codegenParameter.baseName = codegenProperty.baseName;
-        codegenParameter.paramName = toParamName((codegenParameter.baseName));
-        codegenParameter.baseType = codegenProperty.baseType;
-        codegenParameter.dataType = codegenProperty.dataType;
-        codegenParameter.dataFormat = codegenProperty.dataFormat;
-        codegenParameter.description = escapeText(codegenProperty.description);
-        codegenParameter.unescapedDescription = codegenProperty.getDescription();
-        codegenParameter.jsonSchema = Json.pretty(propertySchema);
-        codegenParameter.defaultValue = codegenProperty.getDefaultValue();
-
-        if (codegenProperty.getVendorExtensions() != null && !codegenProperty.getVendorExtensions().isEmpty()) {
-            codegenParameter.vendorExtensions = codegenProperty.getVendorExtensions();
-        }
-        if (propertySchema.getRequired() != null && !propertySchema.getRequired().isEmpty() && propertySchema.getRequired().contains(codegenProperty.baseName)) {
-            codegenParameter.required = Boolean.TRUE;
-        }
-
-        // non-array/map
-        updateCodegenPropertyEnum(codegenProperty);
-        codegenParameter.isEnum = codegenProperty.isEnum;
-        codegenParameter._enum = codegenProperty._enum;
-        codegenParameter.allowableValues = codegenProperty.allowableValues;
-
-        if (codegenProperty.isEnum) {
-            codegenParameter.datatypeWithEnum = codegenProperty.datatypeWithEnum;
-            codegenParameter.enumName = codegenProperty.enumName;
-        }
-
-        if (codegenProperty.items != null && codegenProperty.items.isEnum) {
-            codegenParameter.items = codegenProperty.items;
-            codegenParameter.mostInnerItems = codegenProperty.mostInnerItems;
-        }
-
-        // import
-        if (codegenProperty.complexType != null) {
-            imports.add(codegenProperty.complexType);
-        }
-
-        // validation
-        // handle maximum, minimum properly for int/long by removing the trailing ".0"
-        if (ModelUtils.isIntegerSchema(propertySchema)) {
-            codegenParameter.maximum = propertySchema.getMaximum() == null ? null : String.valueOf(propertySchema.getMaximum().longValue());
-            codegenParameter.minimum = propertySchema.getMinimum() == null ? null : String.valueOf(propertySchema.getMinimum().longValue());
-        } else {
-            codegenParameter.maximum = propertySchema.getMaximum() == null ? null : String.valueOf(propertySchema.getMaximum());
-            codegenParameter.minimum = propertySchema.getMinimum() == null ? null : String.valueOf(propertySchema.getMinimum());
-        }
-
-        codegenParameter.exclusiveMaximum = propertySchema.getExclusiveMaximum() == null ? false : propertySchema.getExclusiveMaximum();
-        codegenParameter.exclusiveMinimum = propertySchema.getExclusiveMinimum() == null ? false : propertySchema.getExclusiveMinimum();
-        codegenParameter.maxLength = propertySchema.getMaxLength();
-        codegenParameter.minLength = propertySchema.getMinLength();
-        codegenParameter.pattern = toRegularExpression(propertySchema.getPattern());
-        codegenParameter.maxItems = propertySchema.getMaxItems();
-        codegenParameter.minItems = propertySchema.getMinItems();
-        codegenParameter.uniqueItems = propertySchema.getUniqueItems() == null ? false : propertySchema.getUniqueItems();
-        codegenParameter.multipleOf = propertySchema.getMultipleOf();
-
-        // exclusive* are noop without corresponding min/max
-        if (codegenParameter.maximum != null || codegenParameter.minimum != null ||
-                codegenParameter.maxLength != null || codegenParameter.minLength != null ||
-                codegenParameter.maxItems != null || codegenParameter.minItems != null ||
-                codegenParameter.pattern != null || codegenParameter.multipleOf != null) {
-            codegenParameter.hasValidation = true;
-        }
-
-        setParameterBooleanFlagWithCodegenProperty(codegenParameter, codegenProperty);
+        CodegenParameter cp = super.fromFormProperty(name, propertySchema, imports);
         Parameter p = new Parameter();
         p.setSchema(propertySchema);
-        p.setName(codegenParameter.paramName);
-        setParameterExampleValue(codegenParameter, p);
-        // setParameterExampleValue(codegenParameter);
-        // set nullable
-        setParameterNullable(codegenParameter, codegenProperty);
-
-        //TODO collectionFormat for form parameter not yet supported
-        //codegenParameter.collectionFormat = getCollectionFormat(propertySchema);
-        return codegenParameter;
+        p.setName(cp.paramName);
+        setParameterExampleValue(cp, p);
+        return cp;
     }
 
     /**
