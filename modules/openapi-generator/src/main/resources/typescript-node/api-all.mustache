@@ -8,7 +8,6 @@ import { {{ classname }} } from './{{ classFilename }}';
 export * from './{{ classFilename }}Interface'
 {{/withInterfaces}}
 {{/apis}}
-import * as fs from 'fs';
 import * as http from 'http';
 
 export class HttpError extends Error {
@@ -18,15 +17,7 @@ export class HttpError extends Error {
     }
 }
 
-export interface RequestDetailedFile {
-    value: Buffer;
-    options?: {
-        filename?: string;
-        contentType?: string;
-    }
-}
-
-export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
+export { RequestFile } from '../model/models';
 
 export const APIS = [{{#apis}}{{#operations}}{{ classname }}{{/operations}}{{^-last}}, {{/-last}}{{/apis}}];
 {{/apiInfo}}
