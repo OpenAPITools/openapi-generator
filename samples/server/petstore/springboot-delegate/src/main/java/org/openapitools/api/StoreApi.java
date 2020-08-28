@@ -22,6 +22,10 @@ import java.util.Map;
 @Api(value = "store", description = "the store API")
 public interface StoreApi {
 
+    default StoreApiDelegate getDelegate() {
+        return new StoreApiDelegate() {};
+    }
+
     /**
      * DELETE /store/order/{order_id} : Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -37,7 +41,9 @@ public interface StoreApi {
     @DeleteMapping(
         value = "/store/order/{order_id}"
     )
-    ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId);
+    default ResponseEntity<Void> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("order_id") String orderId) {
+        return getDelegate().deleteOrder(orderId);
+    }
 
 
     /**
@@ -55,7 +61,9 @@ public interface StoreApi {
         value = "/store/inventory",
         produces = { "application/json" }
     )
-    ResponseEntity<Map<String, Integer>> getInventory();
+    default ResponseEntity<Map<String, Integer>> getInventory() {
+        return getDelegate().getInventory();
+    }
 
 
     /**
@@ -76,7 +84,9 @@ public interface StoreApi {
         value = "/store/order/{order_id}",
         produces = { "application/xml", "application/json" }
     )
-    ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId);
+    default ResponseEntity<Order> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("order_id") Long orderId) {
+        return getDelegate().getOrderById(orderId);
+    }
 
 
     /**
@@ -94,6 +104,8 @@ public interface StoreApi {
         value = "/store/order",
         produces = { "application/xml", "application/json" }
     )
-    ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body);
+    default ResponseEntity<Order> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body) {
+        return getDelegate().placeOrder(body);
+    }
 
 }
