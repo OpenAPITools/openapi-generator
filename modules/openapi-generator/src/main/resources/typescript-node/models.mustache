@@ -20,7 +20,7 @@ export interface RequestDetailedFile {
 
 export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
 
-// Object serialization only relevant if generating APIs, too
+{{! Object serialization only relevant if generating APIs, too }}
 {{#generateApis}}
 
 {{#models}}
