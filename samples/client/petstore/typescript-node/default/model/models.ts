@@ -19,7 +19,6 @@ export interface RequestDetailedFile {
 
 export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
 
-// Object serialization only relevant if generating APIs, too
 
 import { ApiResponse } from './apiResponse';
 import { Category } from './category';
