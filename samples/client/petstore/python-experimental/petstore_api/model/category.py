@@ -108,7 +108,7 @@ class Category(ModelNormal):
         Args:
 
         Keyword Args:
-            name (str): defaults to 'default-name'  # noqa: E501
+            name (str): defaults to "default-name"  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -142,7 +142,7 @@ class Category(ModelNormal):
             id (int): [optional]  # noqa: E501
         """
 
-        name = kwargs.get('name', 'default-name')
+        name = kwargs.get('name', "default-name")
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
         _path_to_item = kwargs.pop('_path_to_item', ())

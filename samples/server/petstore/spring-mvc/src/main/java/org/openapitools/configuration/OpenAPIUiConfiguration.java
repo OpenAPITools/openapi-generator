@@ -2,7 +2,6 @@ package org.openapitools.configuration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -16,9 +15,6 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.threeten.bp.Instant;
-import org.threeten.bp.OffsetDateTime;
-import org.threeten.bp.ZonedDateTime;
 
 import java.util.List;
 
@@ -73,14 +69,10 @@ public class OpenAPIUiConfiguration extends WebMvcConfigurerAdapter {
 
   @Bean
   public Jackson2ObjectMapperBuilder builder() {
-    ThreeTenModule module = new ThreeTenModule();
-    module.addDeserializer(Instant.class, CustomInstantDeserializer.INSTANT);
-    module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
-    module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
     return new Jackson2ObjectMapperBuilder()
         .indentOutput(true)
         .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-        .modulesToInstall(module, new JsonNullableModule())
+        .modulesToInstall(new JsonNullableModule())
         .dateFormat(new RFC3339DateFormat());
   }
 

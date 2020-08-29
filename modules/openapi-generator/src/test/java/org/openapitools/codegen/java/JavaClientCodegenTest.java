@@ -552,7 +552,7 @@ public class JavaClientCodegenTest {
         assertEquals(getCodegenOperation.authMethods.size(), 2);
         assertTrue(getCodegenOperation.authMethods.get(0).hasMore);
         Assert.assertFalse(getCodegenOperation.authMethods.get(1).hasMore);
-   }
+    }
 
     @Test
     public void testFreeFormObjects() {
@@ -872,7 +872,7 @@ public class JavaClientCodegenTest {
         TestUtils.assertFileContains(defaultApi,
                 //multiple files
                 "multipartArrayWithHttpInfo(List<File> files)",
-                "formParams.put(\"files\", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
+                "formParams.addAll(\"files\", files.stream().map(FileSystemResource::new).collect(Collectors.toList()));",
 
                 //mixed
                 "multipartMixedWithHttpInfo(File file, MultipartMixedMarker marker)",
@@ -881,7 +881,7 @@ public class JavaClientCodegenTest {
                 //single file
                 "multipartSingleWithHttpInfo(File file)",
                 "formParams.add(\"file\", new FileSystemResource(file));"
-                );
+        );
     }
 
     /**
@@ -927,6 +927,35 @@ public class JavaClientCodegenTest {
         );
     }
 
+    @Test
+    public void testAllowModelWithNoProperties() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setLibrary(JavaClientCodegen.OKHTTP_GSON)
+                .setInputSpec("src/test/resources/2_0/emptyBaseModel.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        Assert.assertEquals(files.size(), 47);
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/RealCommand.java");
+        TestUtils.ensureContainsFile(files, output, "src/main/java/org/openapitools/client/model/Command.java");
+
+        validateJavaSourceFiles(files);
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/RealCommand.java"),
+                "class RealCommand extends Command");
+
+        TestUtils.assertFileContains(Paths.get(output + "/src/main/java/org/openapitools/client/model/Command.java"),
+                "class Command");
+
+        output.deleteOnExit();
+    }
+
     /**
      * See https://github.com/OpenAPITools/openapi-generator/issues/6715
      */
@@ -960,7 +989,7 @@ public class JavaClientCodegenTest {
                 //multiple files
                 "multipartArray(java.util.Collection<org.springframework.core.io.Resource> files)",
                 "multipartArrayWithHttpInfo(java.util.Collection<org.springframework.core.io.Resource> files)",
-                "formParams.put(\"files\", files.stream().collect(Collectors.toList()));",
+                "formParams.addAll(\"files\", files.stream().collect(Collectors.toList()));",
 
                 //mixed
                 "multipartMixed(org.springframework.core.io.Resource file, MultipartMixedMarker marker)",

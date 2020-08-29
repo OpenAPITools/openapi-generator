@@ -129,7 +129,7 @@ class UserApi(baseUrl: String) {
   def loginUser(username: String, password: String
 ): Request[Either[ResponseError[Exception], String], Nothing] =
     basicRequest
-      .method(Method.GET, uri"$baseUrl/user/login?username=$username&password=$password")
+      .method(Method.GET, uri"$baseUrl/user/login?username=${ username }&password=${ password }")
       .contentType("application/json")
       .response(asJson[String])
 

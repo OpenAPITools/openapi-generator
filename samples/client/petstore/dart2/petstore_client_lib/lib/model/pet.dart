@@ -97,6 +97,12 @@ class PetStatusEnum {
   /// pet status in the store
   static const PetStatusEnum sold_ = PetStatusEnum._internal("sold");
 
+  static List<PetStatusEnum> get values => const [
+        available_,
+        pending_,
+        sold_,
+      ];
+
   String toJson () {
     return value;
   }
