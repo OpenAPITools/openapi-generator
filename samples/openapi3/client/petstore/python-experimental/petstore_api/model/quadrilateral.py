@@ -88,11 +88,7 @@ class Quadrilateral(ModelComposed):
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
-        lazy_import()
-        return {
-            'shape_type': (str,),  # noqa: E501
-            'quadrilateral_type': (str,),  # noqa: E501
-        }
+        return {}
 
     @cached_property
     def discriminator():
@@ -105,10 +101,7 @@ class Quadrilateral(ModelComposed):
             return None
         return {'quadrilateral_type': val}
 
-    attribute_map = {
-        'shape_type': 'shapeType',  # noqa: E501
-        'quadrilateral_type': 'quadrilateralType',  # noqa: E501
-    }
+    attribute_map = {}
 
     required_properties = set([
         '_data_store',

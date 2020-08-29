@@ -1194,6 +1194,8 @@
                 <module>samples/client/petstore/rust/reqwest/petstore</module>
                 <module>samples/client/petstore/rust/reqwest/petstore-async</module>
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
+                <module>samples/openapi3/client/extensions/x-auth-id-alias/python-experimental</module>
+                <module>samples/openapi3/client/features/one-of/python-experimental</module>
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/javascript-flowtyped</module>
                 <module>samples/client/petstore/python</module>

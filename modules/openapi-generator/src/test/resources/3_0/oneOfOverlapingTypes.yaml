@@ -1,0 +1,48 @@
+openapi: 3.0.1
+info:
+  title: fruity
+  version: 0.0.1
+paths:
+  /:
+    get:
+      responses:
+        "200":
+          description: desc
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/fruit"
+components:
+  schemas:
+    fruit:
+      title: fruit
+      oneOf:
+        - $ref: "#/components/schemas/apple"
+        - $ref: "#/components/schemas/banana"
+    appleColor:
+      type: string
+      enum:
+        - yellow
+        - green
+        - red
+    apple:
+      title: apple
+      type: object
+      properties:
+        kind:
+          type: string
+        color:
+          $ref: '#/components/schemas/appleColor'
+    bananaColor:
+      type: string
+      enum:
+        - yellow
+        - green
+    banana:
+      title: banana
+      type: object
+      properties:
+        count:
+          type: number
+        color:
+          $ref: '#/components/schemas/bananaColor'

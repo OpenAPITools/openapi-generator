@@ -1,0 +1,6 @@
+generatorName: python-experimental
+outputDir: samples/openapi3/client/features/one-of/python-experimental
+inputSpec: modules/openapi-generator/src/test/resources/3_0/oneOfOverlapingTypes.yaml
+templateDir: modules/openapi-generator/src/main/resources/python
+additionalProperties:
+  packageName: one_of

@@ -81,25 +81,14 @@ class FruitReq(ModelComposed):
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
-        lazy_import()
-        return {
-            'cultivar': (str,),  # noqa: E501
-            'length_cm': (float,),  # noqa: E501
-            'mealy': (bool,),  # noqa: E501
-            'sweet': (bool,),  # noqa: E501
-        }
+        return {}
 
     @cached_property
     def discriminator():
         return None
 
 
-    attribute_map = {
-        'cultivar': 'cultivar',  # noqa: E501
-        'length_cm': 'lengthCm',  # noqa: E501
-        'mealy': 'mealy',  # noqa: E501
-        'sweet': 'sweet',  # noqa: E501
-    }
+    attribute_map = {}
 
     required_properties = set([
         '_data_store',
