@@ -1,5 +1,3 @@
 package {{packageName}}.infrastructure
 
-import kotlinx.io.core.toByteArray
-
-fun String.toBase64() = toByteArray().encodeBase64()
+fun String.toBase64() = encodeToByteArray().encodeBase64()

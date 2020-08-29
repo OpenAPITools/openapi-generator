@@ -7,27 +7,26 @@ package {{apiPackage}}
 import {{packageName}}.infrastructure.*
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.forms.FormPart
+import io.ktor.client.utils.EmptyContent
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import io.ktor.http.ParametersBuilder
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.list
 import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
 {{#operations}}
 {{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}} constructor(
     baseUrl: kotlin.String = "{{{basePath}}}",
     httpClientEngine: HttpClientEngine? = null,
-    serializer: KotlinxSerializer
-) : ApiClientBase(baseUrl, httpClientEngine, serializer) {
-    constructor(
-        baseUrl: String = "{{{basePath}}}",
-        httpClientEngine: HttpClientEngine? = null,
-        jsonConfiguration: JsonConfiguration = JsonConfiguration.Stable
-    ) : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
-
+    json: Json = Json {},
+) : ApiClientBase(baseUrl, httpClientEngine, json) {
     {{#operation}}
     /**
      * {{summary}}
@@ -44,9 +43,9 @@ import kotlinx.serialization.builtins.serializer
         {{/allParams}}
     ): HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
         {{! TODO: Optimize all the ?.let to only the places where it's needed }}
-        val authNames_ = listOf<String>({{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}})
+        val authNamesOag = listOf<String>({{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}})
 
-        val body_ = {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}{{^required}}{{{paramName}}}?.let { {{/required}}{{operationIdCamelCase}}Request({{{paramName}}}{{^isList}}.asList(){{/isList}}){{^required}} }{{/required}}{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{^required}}{{{paramName}}}?.let { {{/required}}{{operationIdCamelCase}}Request({{{paramName}}}){{^required}} }{{/required}}{{/isMapContainer}}{{^isMapContainer}}{{{paramName}}}{{/isMapContainer}}{{/isListContainer}}{{/bodyParam}}{{/hasBodyParam}}
+        val bodyOag = {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}{{^required}}{{{paramName}}}?.let { {{/required}}{{operationIdCamelCase}}Request({{{paramName}}}{{^isList}}.asList(){{/isList}}){{^required}} }{{/required}}{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{^required}}{{{paramName}}}?.let { {{/required}}{{operationIdCamelCase}}Request({{{paramName}}}){{^required}} }{{/required}}{{/isMapContainer}}{{^isMapContainer}}{{{paramName}}}{{/isMapContainer}}{{/isListContainer}}{{/bodyParam}}{{/hasBodyParam}}
             {{^hasBodyParam}}
             {{#hasFormParams}}
             {{#isMultipart}}
@@ -65,43 +64,43 @@ import kotlinx.serialization.builtins.serializer
             {{/isMultipart}}
             {{/hasFormParams}}
             {{^hasFormParams}}
-            io.ktor.client.utils.EmptyContent
+            EmptyContent
             {{/hasFormParams}}
             {{/hasBodyParam}}
 
-        {{! TODO: Don't use all the listOf() }}
-        val queries_ = Queries()
-        {{#queryParams}}
-        {{#isContainer}}
-        {{#isMapContainer}}
-        {{^required}}if ({{{paramName}}} != null) {{/required}}queries_.addMap({{{paramName}}})
-        {{/isMapContainer}}
-        {{^isMapContainer}}
-        {{^required}}if ({{{paramName}}} != null) {{/required}}queries_.addMulti("{{baseName}}", {{{paramName}}}, "{{collectionFormat}}")
-        {{/isMapContainer}}
-        {{/isContainer}}
-        {{^isContainer}}
-        queries_.add("{{baseName}}", {{{paramName}}})
-        {{/isContainer}}
-        {{/queryParams}}
+        val queriesOag = Queries {
+            {{#queryParams}}
+            {{#isContainer}}
+            {{#isMapContainer}}
+            {{^required}}if ({{{paramName}}} != null) {{/required}}addMap({{{paramName}}})
+            {{/isMapContainer}}
+            {{^isMapContainer}}
+            {{^required}}if ({{{paramName}}} != null) {{/required}}addMulti("{{baseName}}", {{{paramName}}}, "{{collectionFormat}}")
+            {{/isMapContainer}}
+            {{/isContainer}}
+            {{^isContainer}}
+            add("{{baseName}}", {{{paramName}}})
+            {{/isContainer}}
+            {{/queryParams}}
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
             {{#headerParams}}
             "{{baseName}}" to {{#isContainer}}{{{paramName}}}?.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this?.toString(){{/isContainer}}{{#hasMore}},{{/hasMore}}
             {{/headerParams}}
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.{{httpMethod}},
-            "{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", "${{{paramName}}}"){{/pathParams}},
-            queries = queries_,
-            headers = headers_
+            "{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", {{{paramName}}}.toString()){{/pathParams}},
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return {{#hasBodyParam}}jsonRequest{{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}{{#isMultipart}}multipartFormRequest{{/isMultipart}}{{^isMultipart}}urlEncodedFormRequest{{/isMultipart}}{{/hasFormParams}}{{^hasFormParams}}request{{/hasFormParams}}{{/hasBodyParam}}(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).{{#isListContainer}}wrap<{{operationIdCamelCase}}Response>().map { value{{^isList}}.toTypedArray(){{/isList}} }{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}wrap<{{operationIdCamelCase}}Response>().map { value }{{/isMapContainer}}{{^isMapContainer}}wrap(){{/isMapContainer}}{{/isListContainer}}
     }
 {{#hasBodyParam}}

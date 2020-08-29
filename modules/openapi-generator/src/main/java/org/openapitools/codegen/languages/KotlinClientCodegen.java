@@ -526,7 +526,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         typeMapping.put("object", "kotlin.String");  // kotlin.Any not serializable
 
         // multiplatform import mapping
-        importMapping.put("BigDecimal", "Double");
+        importMapping.put("BigDecimal", "kotlin.Double");
         importMapping.put("UUID", "kotlin.String");
         importMapping.put("URI", "kotlin.String");
         importMapping.put("InputProvider", "io.ktor.client.request.forms.InputProvider");
