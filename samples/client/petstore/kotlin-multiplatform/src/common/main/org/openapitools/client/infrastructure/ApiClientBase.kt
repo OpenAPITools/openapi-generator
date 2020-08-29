@@ -16,20 +16,15 @@ import io.ktor.http.*
 import io.ktor.http.content.OutgoingContent
 import io.ktor.http.content.PartData
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 
 import org.openapitools.client.auth.*
 
 open class ApiClientBase(
         private val baseUrl: String,
         httpClientEngine: HttpClientEngine?,
-        private val serializer: KotlinxSerializer
+        json: Json = Json {}
 ) {
-    constructor(
-            baseUrl: String,
-            httpClientEngine: HttpClientEngine?,
-            jsonConfiguration: JsonConfiguration
-    ) : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
+    private val serializer = KotlinxSerializer(json)
 
     private val client: HttpClient by lazy {
         val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = this@ApiClientBase.serializer }

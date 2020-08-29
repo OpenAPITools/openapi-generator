@@ -17,26 +17,25 @@ import org.openapitools.client.models.Pet
 import org.openapitools.client.infrastructure.*
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.forms.FormPart
+import io.ktor.client.utils.EmptyContent
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import io.ktor.http.ParametersBuilder
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.list
 import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
 class PetApi constructor(
     baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
     httpClientEngine: HttpClientEngine? = null,
-    serializer: KotlinxSerializer
-) : ApiClientBase(baseUrl, httpClientEngine, serializer) {
-    constructor(
-        baseUrl: String = "http://petstore.swagger.io/v2",
-        httpClientEngine: HttpClientEngine? = null,
-        jsonConfiguration: JsonConfiguration = JsonConfiguration.Stable
-    ) : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
-
+    json: Json = Json {},
+) : ApiClientBase(baseUrl, httpClientEngine, json) {
     /**
      * Add a new pet to the store
      * 
@@ -46,26 +45,27 @@ class PetApi constructor(
     suspend fun addPet(
         body: Pet
     ): HttpResponse<Unit> {
-        val authNames_ = listOf<String>("petstore_auth")
+        val authNamesOag = listOf<String>("petstore_auth")
 
-        val body_ = body
+        val bodyOag = body
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.POST,
             "/pet",
-            queries = queries_,
-            headers = headers_
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return jsonRequest(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
 
@@ -81,28 +81,29 @@ class PetApi constructor(
         petId: kotlin.Long,
         apiKey: kotlin.String? = null
     ): HttpResponse<Unit> {
-        val authNames_ = listOf<String>("petstore_auth")
+        val authNamesOag = listOf<String>("petstore_auth")
 
-        val body_ = 
-            io.ktor.client.utils.EmptyContent
+        val bodyOag = 
+            EmptyContent
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
             "api_key" to this?.toString()
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.DELETE,
-            "/pet/{petId}".replace("petId", "$petId"),
-            queries = queries_,
-            headers = headers_
+            "/pet/{petId}".replace("{" + "petId" + "}", petId.toString()),
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return request(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
     /**
@@ -115,43 +116,45 @@ class PetApi constructor(
     suspend fun findPetsByStatus(
         status: kotlin.collections.List<kotlin.String>
     ): HttpResponse<kotlin.collections.List<Pet>> {
-        val authNames_ = listOf<String>("petstore_auth")
+        val authNamesOag = listOf<String>("petstore_auth")
 
-        val body_ = 
-            io.ktor.client.utils.EmptyContent
+        val bodyOag = 
+            EmptyContent
 
-        val queries_ = Queries()
-        queries_.addMulti("status", status, "csv")
+        val queriesOag = Queries {
+            addMulti("status", status, "csv")
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.GET,
             "/pet/findByStatus",
-            queries = queries_,
-            headers = headers_
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return request(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap<FindPetsByStatusResponse>().map { value }
     }
-    @Serializable
+    @Serializable(with = FindPetsByStatusResponse.Companion::class)
     private class FindPetsByStatusResponse(val value: List<Pet>) {
-        @Serializer(FindPetsByStatusResponse::class)
         companion object : KSerializer<FindPetsByStatusResponse> {
-            private val serializer = Pet.serializer().list
-            override val descriptor = PrimitiveDescriptor("FindPetsByStatusResponse", PrimitiveKind.STRING)
+            private val serializer = ListSerializer(Pet.serializer())
+            override val descriptor = PrimitiveSerialDescriptor("FindPetsByStatusResponse", PrimitiveKind.STRING)
 
-            override fun serialize(encoder: Encoder, value: FindPetsByStatusResponse) =
+            override fun serialize(encoder: Encoder, value: FindPetsByStatusResponse): Unit =
                 serializer.serialize(encoder, value.value)
 
-            override fun deserialize(decoder: Decoder) = FindPetsByStatusResponse(serializer.deserialize(decoder))
+            override fun deserialize(decoder: Decoder): FindPetsByStatusResponse =
+                FindPetsByStatusResponse(serializer.deserialize(decoder))
         }
     }
+
     /**
      * Finds Pets by tags
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -162,43 +165,45 @@ class PetApi constructor(
     suspend fun findPetsByTags(
         tags: kotlin.collections.List<kotlin.String>
     ): HttpResponse<kotlin.collections.List<Pet>> {
-        val authNames_ = listOf<String>("petstore_auth")
+        val authNamesOag = listOf<String>("petstore_auth")
 
-        val body_ = 
-            io.ktor.client.utils.EmptyContent
+        val bodyOag = 
+            EmptyContent
 
-        val queries_ = Queries()
-        queries_.addMulti("tags", tags, "csv")
+        val queriesOag = Queries {
+            addMulti("tags", tags, "csv")
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.GET,
             "/pet/findByTags",
-            queries = queries_,
-            headers = headers_
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return request(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap<FindPetsByTagsResponse>().map { value }
     }
-    @Serializable
+    @Serializable(with = FindPetsByTagsResponse.Companion::class)
     private class FindPetsByTagsResponse(val value: List<Pet>) {
-        @Serializer(FindPetsByTagsResponse::class)
         companion object : KSerializer<FindPetsByTagsResponse> {
-            private val serializer = Pet.serializer().list
-            override val descriptor = PrimitiveDescriptor("FindPetsByTagsResponse", PrimitiveKind.STRING)
+            private val serializer = ListSerializer(Pet.serializer())
+            override val descriptor = PrimitiveSerialDescriptor("FindPetsByTagsResponse", PrimitiveKind.STRING)
 
-            override fun serialize(encoder: Encoder, value: FindPetsByTagsResponse) =
+            override fun serialize(encoder: Encoder, value: FindPetsByTagsResponse): Unit =
                 serializer.serialize(encoder, value.value)
 
-            override fun deserialize(decoder: Decoder) = FindPetsByTagsResponse(serializer.deserialize(decoder))
+            override fun deserialize(decoder: Decoder): FindPetsByTagsResponse =
+                FindPetsByTagsResponse(serializer.deserialize(decoder))
         }
     }
+
     /**
      * Find pet by ID
      * Returns a single pet
@@ -209,27 +214,28 @@ class PetApi constructor(
     suspend fun getPetById(
         petId: kotlin.Long
     ): HttpResponse<Pet> {
-        val authNames_ = listOf<String>("api_key")
+        val authNamesOag = listOf<String>("api_key")
 
-        val body_ = 
-            io.ktor.client.utils.EmptyContent
+        val bodyOag = 
+            EmptyContent
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.GET,
-            "/pet/{petId}".replace("petId", "$petId"),
-            queries = queries_,
-            headers = headers_
+            "/pet/{petId}".replace("{" + "petId" + "}", petId.toString()),
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return request(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
     /**
@@ -241,26 +247,27 @@ class PetApi constructor(
     suspend fun updatePet(
         body: Pet
     ): HttpResponse<Unit> {
-        val authNames_ = listOf<String>("petstore_auth")
+        val authNamesOag = listOf<String>("petstore_auth")
 
-        val body_ = body
+        val bodyOag = body
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.PUT,
             "/pet",
-            queries = queries_,
-            headers = headers_
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return jsonRequest(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
 
@@ -278,30 +285,31 @@ class PetApi constructor(
         name: kotlin.String? = null,
         status: kotlin.String? = null
     ): HttpResponse<Unit> {
-        val authNames_ = listOf<String>("petstore_auth")
+        val authNamesOag = listOf<String>("petstore_auth")
 
-        val body_ = 
+        val bodyOag = 
             ParametersBuilder().also {
                 name?.apply { it.append("name", name.toString()) }
                 status?.apply { it.append("status", status.toString()) }
             }.build()
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.POST,
-            "/pet/{petId}".replace("petId", "$petId"),
-            queries = queries_,
-            headers = headers_
+            "/pet/{petId}".replace("{" + "petId" + "}", petId.toString()),
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return urlEncodedFormRequest(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
     /**
@@ -318,30 +326,31 @@ class PetApi constructor(
         additionalMetadata: kotlin.String? = null,
         file: io.ktor.client.request.forms.InputProvider? = null
     ): HttpResponse<ApiResponse> {
-        val authNames_ = listOf<String>("petstore_auth")
+        val authNamesOag = listOf<String>("petstore_auth")
 
-        val body_ = 
+        val bodyOag = 
             formData {
                 additionalMetadata?.let { append(FormPart("additionalMetadata", additionalMetadata)) }
                 file?.let { append(FormPart("file", file)) }
             }
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.POST,
-            "/pet/{petId}/uploadImage".replace("petId", "$petId"),
-            queries = queries_,
-            headers = headers_
+            "/pet/{petId}/uploadImage".replace("{" + "petId" + "}", petId.toString()),
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return multipartFormRequest(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
 }

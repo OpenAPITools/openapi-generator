@@ -16,26 +16,25 @@ import org.openapitools.client.models.User
 import org.openapitools.client.infrastructure.*
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.forms.FormPart
+import io.ktor.client.utils.EmptyContent
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import io.ktor.http.ParametersBuilder
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.list
 import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
 class UserApi constructor(
     baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
     httpClientEngine: HttpClientEngine? = null,
-    serializer: KotlinxSerializer
-) : ApiClientBase(baseUrl, httpClientEngine, serializer) {
-    constructor(
-        baseUrl: String = "http://petstore.swagger.io/v2",
-        httpClientEngine: HttpClientEngine? = null,
-        jsonConfiguration: JsonConfiguration = JsonConfiguration.Stable
-    ) : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
-
+    json: Json = Json {},
+) : ApiClientBase(baseUrl, httpClientEngine, json) {
     /**
      * Create user
      * This can only be done by the logged in user.
@@ -45,26 +44,27 @@ class UserApi constructor(
     suspend fun createUser(
         body: User
     ): HttpResponse<Unit> {
-        val authNames_ = listOf<String>()
+        val authNamesOag = listOf<String>()
 
-        val body_ = body
+        val bodyOag = body
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.POST,
             "/user",
-            queries = queries_,
-            headers = headers_
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return jsonRequest(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
 
@@ -78,42 +78,44 @@ class UserApi constructor(
     suspend fun createUsersWithArrayInput(
         body: kotlin.collections.List<User>
     ): HttpResponse<Unit> {
-        val authNames_ = listOf<String>()
+        val authNamesOag = listOf<String>()
 
-        val body_ = CreateUsersWithArrayInputRequest(body)
+        val bodyOag = CreateUsersWithArrayInputRequest(body)
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.POST,
             "/user/createWithArray",
-            queries = queries_,
-            headers = headers_
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return jsonRequest(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
 
-    @Serializable
+    @Serializable(with = CreateUsersWithArrayInputRequest.Companion::class)
     private class CreateUsersWithArrayInputRequest(val value: List<User>) {
-        @Serializer(CreateUsersWithArrayInputRequest::class)
         companion object : KSerializer<CreateUsersWithArrayInputRequest> {
-            private val serializer = User.serializer().list
-            override val descriptor = PrimitiveDescriptor("CreateUsersWithArrayInputRequest", PrimitiveKind.STRING)
+            private val serializer = ListSerializer(User.serializer())
+            override val descriptor = PrimitiveSerialDescriptor("CreateUsersWithArrayInputRequest", PrimitiveKind.STRING)
 
-            override fun serialize(encoder: Encoder, value: CreateUsersWithArrayInputRequest) =
+            override fun serialize(encoder: Encoder, value: CreateUsersWithArrayInputRequest): Unit =
                 serializer.serialize(encoder, value.value)
 
-            override fun deserialize(decoder: Decoder) = CreateUsersWithArrayInputRequest(serializer.deserialize(decoder))
+            override fun deserialize(decoder: Decoder): CreateUsersWithArrayInputRequest =
+                CreateUsersWithArrayInputRequest(serializer.deserialize(decoder))
         }
     }
+
     /**
      * Creates list of users with given input array
      * 
@@ -123,42 +125,44 @@ class UserApi constructor(
     suspend fun createUsersWithListInput(
         body: kotlin.collections.List<User>
     ): HttpResponse<Unit> {
-        val authNames_ = listOf<String>()
+        val authNamesOag = listOf<String>()
 
-        val body_ = CreateUsersWithListInputRequest(body)
+        val bodyOag = CreateUsersWithListInputRequest(body)
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.POST,
             "/user/createWithList",
-            queries = queries_,
-            headers = headers_
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return jsonRequest(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
 
-    @Serializable
+    @Serializable(with = CreateUsersWithListInputRequest.Companion::class)
     private class CreateUsersWithListInputRequest(val value: List<User>) {
-        @Serializer(CreateUsersWithListInputRequest::class)
         companion object : KSerializer<CreateUsersWithListInputRequest> {
-            private val serializer = User.serializer().list
-            override val descriptor = PrimitiveDescriptor("CreateUsersWithListInputRequest", PrimitiveKind.STRING)
+            private val serializer = ListSerializer(User.serializer())
+            override val descriptor = PrimitiveSerialDescriptor("CreateUsersWithListInputRequest", PrimitiveKind.STRING)
 
-            override fun serialize(encoder: Encoder, value: CreateUsersWithListInputRequest) =
+            override fun serialize(encoder: Encoder, value: CreateUsersWithListInputRequest): Unit =
                 serializer.serialize(encoder, value.value)
 
-            override fun deserialize(decoder: Decoder) = CreateUsersWithListInputRequest(serializer.deserialize(decoder))
+            override fun deserialize(decoder: Decoder): CreateUsersWithListInputRequest =
+                CreateUsersWithListInputRequest(serializer.deserialize(decoder))
         }
     }
+
     /**
      * Delete user
      * This can only be done by the logged in user.
@@ -168,27 +172,28 @@ class UserApi constructor(
     suspend fun deleteUser(
         username: kotlin.String
     ): HttpResponse<Unit> {
-        val authNames_ = listOf<String>()
+        val authNamesOag = listOf<String>()
 
-        val body_ = 
-            io.ktor.client.utils.EmptyContent
+        val bodyOag = 
+            EmptyContent
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.DELETE,
-            "/user/{username}".replace("username", "$username"),
-            queries = queries_,
-            headers = headers_
+            "/user/{username}".replace("{" + "username" + "}", username.toString()),
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return request(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
     /**
@@ -201,27 +206,28 @@ class UserApi constructor(
     suspend fun getUserByName(
         username: kotlin.String
     ): HttpResponse<User> {
-        val authNames_ = listOf<String>()
+        val authNamesOag = listOf<String>()
 
-        val body_ = 
-            io.ktor.client.utils.EmptyContent
+        val bodyOag = 
+            EmptyContent
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.GET,
-            "/user/{username}".replace("username", "$username"),
-            queries = queries_,
-            headers = headers_
+            "/user/{username}".replace("{" + "username" + "}", username.toString()),
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return request(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
     /**
@@ -236,29 +242,30 @@ class UserApi constructor(
         username: kotlin.String,
         password: kotlin.String
     ): HttpResponse<kotlin.String> {
-        val authNames_ = listOf<String>()
+        val authNamesOag = listOf<String>()
 
-        val body_ = 
-            io.ktor.client.utils.EmptyContent
+        val bodyOag = 
+            EmptyContent
 
-        val queries_ = Queries()
-        queries_.add("username", username)
-        queries_.add("password", password)
+        val queriesOag = Queries {
+            add("username", username)
+            add("password", password)
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.GET,
             "/user/login",
-            queries = queries_,
-            headers = headers_
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return request(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
     /**
@@ -268,27 +275,28 @@ class UserApi constructor(
      */
     suspend fun logoutUser(
     ): HttpResponse<Unit> {
-        val authNames_ = listOf<String>()
+        val authNamesOag = listOf<String>()
 
-        val body_ = 
-            io.ktor.client.utils.EmptyContent
+        val bodyOag = 
+            EmptyContent
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.GET,
             "/user/logout",
-            queries = queries_,
-            headers = headers_
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return request(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
     /**
@@ -302,26 +310,27 @@ class UserApi constructor(
         username: kotlin.String,
         body: User
     ): HttpResponse<Unit> {
-        val authNames_ = listOf<String>()
+        val authNamesOag = listOf<String>()
 
-        val body_ = body
+        val bodyOag = body
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.PUT,
-            "/user/{username}".replace("username", "$username"),
-            queries = queries_,
-            headers = headers_
+            "/user/{username}".replace("{" + "username" + "}", username.toString()),
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return jsonRequest(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
 

@@ -1,13 +1,12 @@
 plugins {
-    kotlin("multiplatform") version "1.3.72"
-    kotlin("plugin.serialization") version "1.3.72"
+    kotlin("multiplatform") version "1.4.0"
+    kotlin("plugin.serialization") version "1.4.0"
 }
 
 group = "org.openapitools"
 version = "1.0.0"
 
-val ktorVersion = "1.3.2"
-val kotlinxIoVersion = "0.1.16"
+val ktorVersion = "1.4.0"
 
 repositories {
     jcenter()
@@ -33,7 +32,10 @@ kotlin {
             }
         }
     }
-    js()
+    js(BOTH) {
+        browser()
+        nodejs()
+    }
 
     sourceSets {
         val commonMain by getting {
@@ -41,7 +43,6 @@ kotlin {
 
             dependencies {
                 implementation(kotlin("stdlib-common"))
-                implementation("org.jetbrains.kotlinx:kotlinx-io:$kotlinxIoVersion")
                 api("io.ktor:ktor-client-core:$ktorVersion")
                 api("io.ktor:ktor-client-json:$ktorVersion")
                 api("io.ktor:ktor-client-serialization:$ktorVersion")
@@ -63,10 +64,7 @@ kotlin {
 
             dependencies {
                 implementation(kotlin("stdlib-jdk8"))
-                implementation("org.jetbrains.kotlinx:kotlinx-io-jvm:$kotlinxIoVersion")
                 api("io.ktor:ktor-client-core-jvm:$ktorVersion")
-                api("io.ktor:ktor-client-json-jvm:$ktorVersion")
-                api("io.ktor:ktor-client-serialization-jvm:$ktorVersion")
             }
         }
 
@@ -77,6 +75,7 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation(kotlin("test-junit5"))
                 implementation("org.junit.jupiter:junit-jupiter:5.6.2")
+                implementation("io.ktor:ktor-client-apache:$ktorVersion")
                 implementation("io.ktor:ktor-client-mock-jvm:$ktorVersion")
             }
         }
@@ -86,10 +85,7 @@ kotlin {
 
             dependencies {
                 implementation(kotlin("stdlib-native"))
-                implementation("org.jetbrains.kotlinx:kotlinx-io-native:$kotlinxIoVersion")
                 api("io.ktor:ktor-client-ios:$ktorVersion")
-                api("io.ktor:ktor-client-json-native:$ktorVersion")
-                api("io.ktor:ktor-client-serialization-native:$ktorVersion")
             }
         }
 
@@ -106,10 +102,7 @@ kotlin {
 
             dependencies {
                 implementation(kotlin("stdlib-js"))
-                implementation("org.jetbrains.kotlinx:kotlinx-io-js:$kotlinxIoVersion")
                 api("io.ktor:ktor-client-js:$ktorVersion")
-                api("io.ktor:ktor-client-json-js:$ktorVersion")
-                api("io.ktor:ktor-client-serialization-js:$ktorVersion")
             }
         }
 
@@ -120,5 +113,11 @@ kotlin {
                 implementation("io.ktor:ktor-client-mock-js:$ktorVersion")
             }
         }
+    }
+}
+
+tasks {
+    named<Test>("jvmTest") {
+        useJUnitPlatform()
     }
 }

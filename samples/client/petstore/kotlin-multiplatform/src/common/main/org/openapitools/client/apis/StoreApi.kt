@@ -16,26 +16,25 @@ import org.openapitools.client.models.Order
 import org.openapitools.client.infrastructure.*
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.forms.FormPart
+import io.ktor.client.utils.EmptyContent
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import io.ktor.http.ParametersBuilder
-import kotlinx.serialization.*
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.builtins.list
 import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 
 class StoreApi constructor(
     baseUrl: kotlin.String = "http://petstore.swagger.io/v2",
     httpClientEngine: HttpClientEngine? = null,
-    serializer: KotlinxSerializer
-) : ApiClientBase(baseUrl, httpClientEngine, serializer) {
-    constructor(
-        baseUrl: String = "http://petstore.swagger.io/v2",
-        httpClientEngine: HttpClientEngine? = null,
-        jsonConfiguration: JsonConfiguration = JsonConfiguration.Stable
-    ) : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
-
+    json: Json = Json {},
+) : ApiClientBase(baseUrl, httpClientEngine, json) {
     /**
      * Delete purchase order by ID
      * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
@@ -45,27 +44,28 @@ class StoreApi constructor(
     suspend fun deleteOrder(
         orderId: kotlin.String
     ): HttpResponse<Unit> {
-        val authNames_ = listOf<String>()
+        val authNamesOag = listOf<String>()
 
-        val body_ = 
-            io.ktor.client.utils.EmptyContent
+        val bodyOag = 
+            EmptyContent
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.DELETE,
-            "/store/order/{orderId}".replace("orderId", "$orderId"),
-            queries = queries_,
-            headers = headers_
+            "/store/order/{orderId}".replace("{" + "orderId" + "}", orderId.toString()),
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return request(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
     /**
@@ -76,27 +76,28 @@ class StoreApi constructor(
     @Suppress("UNCHECKED_CAST")
     suspend fun getInventory(
     ): HttpResponse<kotlin.collections.Map<kotlin.String, kotlin.Int>> {
-        val authNames_ = listOf<String>("api_key")
+        val authNamesOag = listOf<String>("api_key")
 
-        val body_ = 
-            io.ktor.client.utils.EmptyContent
+        val bodyOag = 
+            EmptyContent
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.GET,
             "/store/inventory",
-            queries = queries_,
-            headers = headers_
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return request(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap<GetInventoryResponse>().map { value }
     }
     @Serializable
@@ -119,27 +120,28 @@ class StoreApi constructor(
     suspend fun getOrderById(
         orderId: kotlin.Long
     ): HttpResponse<Order> {
-        val authNames_ = listOf<String>()
+        val authNamesOag = listOf<String>()
 
-        val body_ = 
-            io.ktor.client.utils.EmptyContent
+        val bodyOag = 
+            EmptyContent
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.GET,
-            "/store/order/{orderId}".replace("orderId", "$orderId"),
-            queries = queries_,
-            headers = headers_
+            "/store/order/{orderId}".replace("{" + "orderId" + "}", orderId.toString()),
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return request(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
     /**
@@ -152,26 +154,27 @@ class StoreApi constructor(
     suspend fun placeOrder(
         body: Order
     ): HttpResponse<Order> {
-        val authNames_ = listOf<String>()
+        val authNamesOag = listOf<String>()
 
-        val body_ = body
+        val bodyOag = body
 
-        val queries_ = Queries()
+        val queriesOag = Queries {
+        }
 
-        val headers_ = mutableMapOf<String, String?>(
+        val headersOag = mutableMapOf<String, String?>(
         )
 
-        val config_ = RequestConfig(
+        val configOag = RequestConfig(
             RequestMethod.POST,
             "/store/order",
-            queries = queries_,
-            headers = headers_
+            queries = queriesOag,
+            headers = headersOag
         )
 
         return jsonRequest(
-            config_,
-            body_,
-            authNames_
+            configOag,
+            bodyOag,
+            authNamesOag
         ).wrap()
     }
 

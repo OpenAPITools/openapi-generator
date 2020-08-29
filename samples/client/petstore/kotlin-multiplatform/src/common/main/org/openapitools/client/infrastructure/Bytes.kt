@@ -32,7 +32,7 @@ internal fun hex(bytes: ByteArray): String {
         result[resultIndex++] = digits[b and 0x0f]
     }
 
-    return String(result)
+    return result.concatToString()
 }
 
 /**

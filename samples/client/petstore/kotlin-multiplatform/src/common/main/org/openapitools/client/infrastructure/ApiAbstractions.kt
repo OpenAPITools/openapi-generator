@@ -14,6 +14,10 @@ sealed class QueryParam {
 }
 
 class Queries(val queries: MutableMap<String, QueryParam> = mutableMapOf()) {
+    constructor(queries: MutableMap<String, QueryParam> = mutableMapOf(), config: Queries.() -> Unit): this(queries) {
+        config(this)
+    }
+
     // Single
     fun add(name: String, value: String?) {
         if (value != null) {
