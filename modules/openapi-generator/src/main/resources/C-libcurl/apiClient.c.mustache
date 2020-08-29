@@ -520,10 +520,6 @@ void apiClient_invoke(apiClient_t    *apiClient,
 
         free(targetUrl);
 
-        if(contentType != NULL) {
-            free(buffContent);
-        }
-
         if(res == CURLE_OK) {
             curl_easy_getinfo(handle, CURLINFO_RESPONSE_CODE, &apiClient->response_code);
         } else {
