@@ -2577,7 +2577,7 @@ public class DefaultCodegen implements CodegenConfig {
     private CodegenProperty discriminatorFound(String composedSchemaName, Schema sc, String discPropName, OpenAPI openAPI) {
         Schema refSchema = ModelUtils.getReferencedSchema(openAPI, sc);
         if (refSchema.getProperties() != null && refSchema.getProperties().get(discPropName) != null) {
-            Schema discSchema = (Schema) refSchema.getProperties().get(discPropName);
+            Schema discSchema = ModelUtils.getReferencedSchema(openAPI, (Schema) refSchema.getProperties().get(discPropName));
             CodegenProperty cp = new CodegenProperty();
             if (ModelUtils.isStringSchema(discSchema)) {
                 cp.isString = true;
