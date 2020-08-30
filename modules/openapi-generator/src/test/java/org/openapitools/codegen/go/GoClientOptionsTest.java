@@ -43,6 +43,7 @@ public class GoClientOptionsTest extends AbstractOptionsTest {
     protected void verifyOptions() {
         verify(clientCodegen).setPackageVersion(GoClientOptionsProvider.PACKAGE_VERSION_VALUE);
         verify(clientCodegen).setPackageName(GoClientOptionsProvider.PACKAGE_NAME_VALUE);
+        verify(clientCodegen).setLegacyGoEnumNamingFlag(GoClientOptionsProvider.LEGACY_GO_ENUM_NAMING_VALUE);
         verify(clientCodegen).setWithGoCodegenComment(GoClientOptionsProvider.WITH_GO_CODEGEN_COMMENT_VALUE);
         verify(clientCodegen).setWithXml(GoClientOptionsProvider.WITH_XML_VALUE);
         verify(clientCodegen).setWithXml(GoClientOptionsProvider.ENUM_CLASS_PREFIX_VALUE);

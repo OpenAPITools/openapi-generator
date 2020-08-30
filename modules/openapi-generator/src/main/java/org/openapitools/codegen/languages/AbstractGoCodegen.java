@@ -37,6 +37,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGoCodegen.class);
     private static final String NUMERIC_ENUM_PREFIX = "_";
 
+    protected boolean legacyGoEnumNamingFlag = false;
     protected boolean withGoCodegenComment = false;
     protected boolean withAWSV4Signature = false;
     protected boolean withXml = false;
@@ -149,6 +150,8 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                 .defaultValue("1.0.0"));
         cliOptions.add(new CliOption(CodegenConstants.HIDE_GENERATION_TIMESTAMP, CodegenConstants.HIDE_GENERATION_TIMESTAMP_DESC)
                 .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(CodegenConstants.LEGACY_GO_ENUM_NAMING, CodegenConstants.LEGACY_GO_ENUM_NAMING_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
     }
 
     @Override
@@ -158,6 +161,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         if (StringUtils.isEmpty(System.getenv("GO_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable GO_POST_PROCESS_FILE not defined so Go code may not be properly formatted. To define it, try `export GO_POST_PROCESS_FILE=\"/usr/local/bin/gofmt -w\"` (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+        }
+        if (additionalProperties.containsKey(CodegenConstants.LEGACY_GO_ENUM_NAMING)) {
+            this.setLegacyGoEnumNamingFlag(Boolean.valueOf(additionalProperties
+                    .get(CodegenConstants.LEGACY_GO_ENUM_NAMING).toString()));
         }
     }
 
@@ -671,6 +678,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     public Map<String, Object> postProcessModelsEnum(Map<String, Object> objs) {
         objs = super.postProcessModelsEnum(objs);
 
+        if (Boolean.TRUE.equals(this.legacyGoEnumNamingFlag)) {
+            // For legacy behavior which uses fewer prefixes but is subject to namespace collisions
+            return objs;
+        }
+
         List<Object> models = (List<Object>) objs.get("models");
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
@@ -811,6 +823,10 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
         } else {
             return enumName;
         }
+    }
+
+    public void setLegacyGoEnumNamingFlag(Boolean legacyGoEnumNamingFlag) {
+        this.legacyGoEnumNamingFlag = legacyGoEnumNamingFlag;
     }
 
     public void setWithGoCodegenComment(boolean withGoCodegenComment) {
