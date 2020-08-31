@@ -47,12 +47,9 @@ public class GoClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.PACKAGE_NAME, PACKAGE_NAME_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.WITH_GO_CODEGEN_COMMENT, "true")
-                .put(CodegenConstants.WITH_XML, "true")
-                .put(CodegenConstants.ENUM_CLASS_PREFIX, "true")
-                .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, "true")
                 .put(CodegenConstants.IS_GO_SUBMODULE, "true")
-                .put(CodegenConstants.WITH_AWSV4_SIGNATURE_COMMENT, "true")
-                .put("structPrefix", "true")
+                .put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true")
+                .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
                 .build();
     }
 
