@@ -28,8 +28,7 @@ The following generators are available:
 * [erlang-client](generators/erlang-client.md)  
 * [erlang-proper](generators/erlang-proper.md)  
 * [flash-deprecated (deprecated)](generators/flash-deprecated.md)  
-* [go](generators/go.md)  
-* [go-experimental (experimental)](generators/go-experimental.md)  
+* [go-deprecated](generators/go-deprecated.md)  
 * [groovy](generators/groovy.md)  
 * [haskell-http-client](generators/haskell-http-client.md)  
 * [java](generators/java.md)  
@@ -147,6 +146,10 @@ The following generators are available:
 * [apache2](generators/apache2.md)  
 * [graphql-schema](generators/graphql-schema.md)  
 * [protobuf-schema (beta)](generators/protobuf-schema.md)  
+
+
+## UNSPECIFIED generators
+* [go](generators/go.md)  
 
 
 
