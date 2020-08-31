@@ -21,6 +21,8 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,6 +74,8 @@ public class GoDeprecatedClientCodegen extends AbstractGoCodegen {
                         ClientModificationFeature.UserAgent
                 )
         );
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.DEPRECATED).build();
 
         outputFolder = "generated-code/go-deprecated";
         modelTemplateFiles.put("model.mustache", ".go");
