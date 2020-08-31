@@ -88,7 +88,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         usesOptionals = false;
 
-        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.EXPERIMENTAL).build();
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.STABLE).build();
 
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
         // option to change how we process + set the data in the 'additionalProperties' keyword.
