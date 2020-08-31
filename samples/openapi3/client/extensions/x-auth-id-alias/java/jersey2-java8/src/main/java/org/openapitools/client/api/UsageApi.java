@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class UsageApi {
   private ApiClient apiClient;
 
@@ -102,7 +102,7 @@ public class UsageApi {
 
     return apiClient.invokeAPI("UsageApi.anyKey", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * Use both API keys
@@ -162,7 +162,7 @@ public class UsageApi {
 
     return apiClient.invokeAPI("UsageApi.bothKeys", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * Use API key in header
@@ -222,7 +222,7 @@ public class UsageApi {
 
     return apiClient.invokeAPI("UsageApi.keyInHeader", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
   /**
    * Use API key in query
@@ -282,6 +282,6 @@ public class UsageApi {
 
     return apiClient.invokeAPI("UsageApi.keyInQuery", localVarPath, "GET", localVarQueryParams, localVarPostBody,
                                localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType,
-                               localVarAuthNames, localVarReturnType);
+                               localVarAuthNames, localVarReturnType, false);
   }
 }

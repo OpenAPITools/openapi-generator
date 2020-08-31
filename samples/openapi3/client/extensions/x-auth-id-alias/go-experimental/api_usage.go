@@ -29,7 +29,6 @@ type apiAnyKeyRequest struct {
 	apiService *UsageApiService
 }
 
-
 /*
 AnyKey Use any API key
 Use any API key
@@ -45,7 +44,7 @@ func (a *UsageApiService) AnyKey(ctx _context.Context) apiAnyKeyRequest {
 
 /*
 Execute executes the request
- @return map[string]interface{}
+@return map[string]interface{}
 */
 func (r apiAnyKeyRequest) Execute() (map[string]interface{}, *_nethttp.Response, error) {
 	var (
@@ -153,7 +152,6 @@ type apiBothKeysRequest struct {
 	apiService *UsageApiService
 }
 
-
 /*
 BothKeys Use both API keys
 Use both API keys
@@ -169,7 +167,7 @@ func (a *UsageApiService) BothKeys(ctx _context.Context) apiBothKeysRequest {
 
 /*
 Execute executes the request
- @return map[string]interface{}
+@return map[string]interface{}
 */
 func (r apiBothKeysRequest) Execute() (map[string]interface{}, *_nethttp.Response, error) {
 	var (
@@ -277,7 +275,6 @@ type apiKeyInHeaderRequest struct {
 	apiService *UsageApiService
 }
 
-
 /*
 KeyInHeader Use API key in header
 Use API key in header
@@ -293,7 +290,7 @@ func (a *UsageApiService) KeyInHeader(ctx _context.Context) apiKeyInHeaderReques
 
 /*
 Execute executes the request
- @return map[string]interface{}
+@return map[string]interface{}
 */
 func (r apiKeyInHeaderRequest) Execute() (map[string]interface{}, *_nethttp.Response, error) {
 	var (
@@ -387,7 +384,6 @@ type apiKeyInQueryRequest struct {
 	apiService *UsageApiService
 }
 
-
 /*
 KeyInQuery Use API key in query
 Use API key in query
@@ -403,7 +399,7 @@ func (a *UsageApiService) KeyInQuery(ctx _context.Context) apiKeyInQueryRequest 
 
 /*
 Execute executes the request
- @return map[string]interface{}
+@return map[string]interface{}
 */
 func (r apiKeyInQueryRequest) Execute() (map[string]interface{}, *_nethttp.Response, error) {
 	var (

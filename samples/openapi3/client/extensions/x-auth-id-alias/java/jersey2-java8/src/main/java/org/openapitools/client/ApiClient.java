@@ -24,6 +24,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import java.net.URI;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.security.cert.X509Certificate;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import org.glassfish.jersey.logging.LoggingFeature;
@@ -54,11 +61,12 @@ import org.openapitools.client.auth.HttpBasicAuth;
 import org.openapitools.client.auth.HttpBearerAuth;
 import org.openapitools.client.auth.ApiKeyAuth;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ApiClient {
   protected Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   protected Map<String, String> defaultCookieMap = new HashMap<String, String>();
   protected String basePath = "http://petstore.swagger.io:80/v2";
+  protected String userAgent;
   private static final Logger log = Logger.getLogger(ApiClient.class.getName());
 
   protected List<ServerConfiguration> servers = new ArrayList<ServerConfiguration>(Arrays.asList(
@@ -367,8 +375,17 @@ public class ApiClient {
    * @return API client
    */
   public ApiClient setUserAgent(String userAgent) {
+    userAgent = userAgent;
     addDefaultHeader("User-Agent", userAgent);
     return this;
+  }
+
+  /**
+   * Get the User-Agent header's value.
+   * @return User-Agent string
+   */
+  public String getUserAgent(){
+    return userAgent;
   }
 
   /**
@@ -685,7 +702,7 @@ public class ApiClient {
    * @return Entity
    * @throws ApiException API exception
    */
-  public Entity<?> serialize(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
+  public Entity<?> serialize(Object obj, Map<String, Object> formParams, String contentType, boolean isBodyNullable) throws ApiException {
     Entity<?> entity;
     if (contentType.startsWith("multipart/form-data")) {
       MultiPart multiPart = new MultiPart();
@@ -709,7 +726,19 @@ public class ApiClient {
       entity = Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED_TYPE);
     } else {
       // We let jersey handle the serialization
-      entity = Entity.entity(obj == null ? Entity.text("") : obj, contentType);
+      if (isBodyNullable) { // payload is nullable
+        if (obj instanceof String) {
+          entity = Entity.entity(obj == null ? "null" : "\"" + ((String)obj).replaceAll("\"", Matcher.quoteReplacement("\\\"")) + "\"", contentType);
+        } else {
+          entity = Entity.entity(obj == null ? "null" : obj, contentType);
+        }
+      } else {
+        if (obj instanceof String) {
+          entity = Entity.entity(obj == null ? "" : "\"" + ((String)obj).replaceAll("\"", Matcher.quoteReplacement("\\\"")) + "\"", contentType);
+        } else {
+          entity = Entity.entity(obj == null ? "" : obj, contentType);
+        }
+      }
     }
     return entity;
   }
@@ -720,10 +749,11 @@ public class ApiClient {
    * @param obj Object
    * @param formParams Form parameters
    * @param contentType Context type
+   * @param isBodyNullable True if the body is nullable
    * @return String
    * @throws ApiException API exception
    */
-  public String serializeToString(Object obj, Map<String, Object> formParams, String contentType) throws ApiException {
+  public String serializeToString(Object obj, Map<String, Object> formParams, String contentType, boolean isBodyNullable) throws ApiException {
     try {
       if (contentType.startsWith("multipart/form-data")) {
         throw new ApiException("multipart/form-data not yet supported for serializeToString (http signature authentication)");
@@ -739,7 +769,11 @@ public class ApiClient {
           return formString.substring(0, formString.length() - 1);
         }
       } else {
-        return json.getMapper().writeValueAsString(obj);
+        if (isBodyNullable) {
+          return obj == null ? "null" : json.getMapper().writeValueAsString(obj);
+        } else {
+          return obj == null ? "" : json.getMapper().writeValueAsString(obj);
+        }
       }
     } catch (Exception ex) {
       throw new ApiException("Failed to perform serializeToString: " + ex.toString());
@@ -847,6 +881,7 @@ public class ApiClient {
    * @param contentType The request's Content-Type header
    * @param authNames The authentications to apply
    * @param returnType The return type into which to deserialize the response
+   * @param isBodyNullable True if the body is nullable
    * @return The response body in type of string
    * @throws ApiException API exception
    */
@@ -862,7 +897,8 @@ public class ApiClient {
       String accept,
       String contentType,
       String[] authNames,
-      GenericType<T> returnType)
+      GenericType<T> returnType,
+      boolean isBodyNullable)
       throws ApiException {
 
     // Not using `.target(targetURL).path(path)` below,
@@ -909,7 +945,7 @@ public class ApiClient {
       }
     }
 
-    Entity<?> entity = serialize(body, formParams, contentType);
+    Entity<?> entity = serialize(body, formParams, contentType, isBodyNullable);
 
     // put all headers in one place
     Map<String, String> allHeaderParams = new HashMap<>(defaultHeaderMap);
@@ -921,7 +957,7 @@ public class ApiClient {
         queryParams,
         allHeaderParams,
         cookieParams,
-        serializeToString(body, formParams, contentType),
+        serializeToString(body, formParams, contentType, isBodyNullable),
         method,
         target.getUri());
 
@@ -992,8 +1028,8 @@ public class ApiClient {
    * @deprecated Add qualified name of the operation as a first parameter.
    */
   @Deprecated
-  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType) throws ApiException {
-    return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType);
+  public <T> ApiResponse<T> invokeAPI(String path, String method, List<Pair> queryParams, Object body, Map<String, String> headerParams, Map<String, String> cookieParams, Map<String, Object> formParams, String accept, String contentType, String[] authNames, GenericType<T> returnType, boolean isBodyNullable) throws ApiException {
+    return invokeAPI(null, path, method, queryParams, body, headerParams, cookieParams, formParams, accept, contentType, authNames, returnType, isBodyNullable);
   }
 
   /**
@@ -1019,11 +1055,62 @@ public class ApiClient {
       java.util.logging.Logger.getLogger("org.glassfish.jersey.client").setLevel(java.util.logging.Level.SEVERE);
     }
     performAdditionalClientConfiguration(clientConfig);
-    return ClientBuilder.newClient(clientConfig);
+    ClientBuilder clientBuilder = ClientBuilder.newBuilder();
+    customizeClientBuilder(clientBuilder);
+    clientBuilder = clientBuilder.withConfig(clientConfig);
+    return clientBuilder.build();
   }
 
+  /**
+   * Perform additional configuration of the API client.
+   * This method can be overriden to customize the API client.
+   */
   protected void performAdditionalClientConfiguration(ClientConfig clientConfig) {
     // No-op extension point
+  }
+
+  /**
+   * Customize the client builder.
+   *
+   * This method can be overriden to customize the API client. For example, this can be used to:
+   * 1. Set the hostname verifier to be used by the client to verify the endpoint's hostname
+   *    against its identification information.
+   * 2. Set the client-side key store.
+   * 3. Set the SSL context that will be used when creating secured transport connections to
+   *    server endpoints from web targets created by the client instance that is using this SSL context.
+   * 4. Set the client-side trust store.
+   *
+   * To completely disable certificate validation (at your own risk), you can
+   * override this method and invoke disableCertificateValidation(clientBuilder).
+   */
+  protected void customizeClientBuilder(ClientBuilder clientBuilder) {
+    // No-op extension point
+  }
+
+  /**
+   * Disable X.509 certificate validation in TLS connections.
+   *
+   * Please note that trusting all certificates is extremely risky.
+   * This may be useful in a development environment with self-signed certificates.
+   */
+  protected void disableCertificateValidation(ClientBuilder clientBuilder) throws KeyManagementException, NoSuchAlgorithmException {
+    TrustManager[] trustAllCerts = new X509TrustManager[] {
+      new X509TrustManager() {
+        @Override
+        public X509Certificate[] getAcceptedIssuers() {
+          return null;
+        }
+        @Override
+        public void checkClientTrusted(X509Certificate[] certs, String authType) {
+        }
+        @Override
+        public void checkServerTrusted(X509Certificate[] certs, String authType) {
+        }
+      }
+    };
+    SSLContext sslContext = SSLContext.getInstance("TLS");
+    sslContext.init(null, trustAllCerts, new SecureRandom());
+    clientBuilder.sslContext(sslContext);
   }
 
   protected Map<String, List<String>> buildResponseHeaders(Response response) {
