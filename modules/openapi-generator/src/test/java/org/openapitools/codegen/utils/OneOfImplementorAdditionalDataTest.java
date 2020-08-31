@@ -3,7 +3,7 @@ package org.openapitools.codegen.utils;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
-import org.openapitools.codegen.languages.GoClientExperimentalCodegen;
+import org.openapitools.codegen.languages.GoClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -47,7 +47,7 @@ public class OneOfImplementorAdditionalDataTest {
         cp3.hasMore = false;
         implModel.vars.add(cp3);
         List<Map<String, String>> implModelImports = new ArrayList<>();
-        GoClientExperimentalCodegen cc = new GoClientExperimentalCodegen();
+        GoClientCodegen cc = new GoClientCodegen();
         cc.setModelPackage("openapi");
 
         o.addToImplementor(cc, implModel, implModelImports, false);

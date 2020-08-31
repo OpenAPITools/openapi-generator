@@ -590,7 +590,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
-        // The 'go-experimental/model.mustache' template conditionally generates accessor methods.
+        // The 'go/model.mustache' template conditionally generates accessor methods.
         // For primitive types and custom types (e.g. interface{}, map[string]interface{}...),
         // the generated code has a wrapper type and a Get() function to access the underlying type.
         // For containers (e.g. Array, Map), the generated code returns the type directly. 
@@ -630,7 +630,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
                     }
                 }
 
-                if (this instanceof GoClientExperimentalCodegen && model.isEnum) {
+                if (this instanceof GoClientCodegen && model.isEnum) {
                     imports.add(createMapping("import", "fmt"));
                 }
 
