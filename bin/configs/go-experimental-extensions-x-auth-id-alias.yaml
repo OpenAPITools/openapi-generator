@@ -1,6 +1,6 @@
-generatorName: go-experimental
-outputDir: samples/openapi3/client/extensions/x-auth-id-alias/go-experimental
+generatorName: go
+outputDir: samples/openapi3/client/extensions/x-auth-id-alias/go
 inputSpec: modules/openapi-generator/src/test/resources/3_0/extensions/x-auth-id-alias.yaml
-templateDir: modules/openapi-generator/src/main/resources/go-experimental
+templateDir: modules/openapi-generator/src/main/resources/go
 additionalProperties:
   packageName: x_auth_id_alias
