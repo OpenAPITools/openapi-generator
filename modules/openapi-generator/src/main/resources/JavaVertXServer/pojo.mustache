@@ -27,8 +27,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#seriali
   public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};
   }
-  public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+  public {{classname}} {{setter}}({{{datatypeWithEnum}}} {{name}}) {
     this.{{name}} = {{name}};
+    return this;
   }
 
   {{/vars}}
