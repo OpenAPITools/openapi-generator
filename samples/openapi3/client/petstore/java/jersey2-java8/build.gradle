@@ -101,13 +101,14 @@ ext {
     jersey_version = "2.27"
     junit_version = "4.13"
     scribejava_apis_version = "6.9.0"
-    tomitribe_http_signatures_version = "1.3"
+    tomitribe_http_signatures_version = "1.5"
 }
 
 dependencies {
     compile "io.swagger:swagger-annotations:$swagger_annotations_version"
     compile "com.google.code.findbugs:jsr305:3.0.2"
     compile "org.glassfish.jersey.core:jersey-client:$jersey_version"
+    compile "org.glassfish.jersey.inject:jersey-hk2:$jersey_version"
     compile "org.glassfish.jersey.media:jersey-media-multipart:$jersey_version"
     compile "org.glassfish.jersey.media:jersey-media-json-jackson:$jersey_version"
     compile "com.fasterxml.jackson.core:jackson-core:$jackson_version"
@@ -117,6 +118,7 @@ dependencies {
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     compile "com.github.scribejava:scribejava-apis:$scribejava_apis_version"
     compile "org.tomitribe:tomitribe-http-signatures:$tomitribe_http_signatures_version"
+    compile 'javax.annotation:javax.annotation-api:1.3.2'
     testCompile "junit:junit:$junit_version"
 }
 

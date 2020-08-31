@@ -32,12 +32,10 @@ type apiAddPetRequest struct {
 	pet *Pet
 }
 
-
 func (r apiAddPetRequest) Pet(pet Pet) apiAddPetRequest {
 	r.pet = &pet
 	return r
 }
-
 /*
 AddPet Add a new pet to the store
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -52,7 +50,6 @@ func (a *PetApiService) AddPet(ctx _context.Context) apiAddPetRequest {
 
 /*
 Execute executes the request
-
 */
 func (r apiAddPetRequest) Execute() (*_nethttp.Response, error) {
 	var (
@@ -61,7 +58,6 @@ func (r apiAddPetRequest) Execute() (*_nethttp.Response, error) {
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.AddPet")
@@ -74,7 +70,6 @@ func (r apiAddPetRequest) Execute() (*_nethttp.Response, error) {
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.pet == nil {
 		return nil, reportError("pet is required and must be specified")
 	}
@@ -131,12 +126,10 @@ type apiDeletePetRequest struct {
 	apiKey *string
 }
 
-
 func (r apiDeletePetRequest) ApiKey(apiKey string) apiDeletePetRequest {
 	r.apiKey = &apiKey
 	return r
 }
-
 /*
 DeletePet Deletes a pet
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -153,7 +146,6 @@ func (a *PetApiService) DeletePet(ctx _context.Context, petId int64) apiDeletePe
 
 /*
 Execute executes the request
-
 */
 func (r apiDeletePetRequest) Execute() (*_nethttp.Response, error) {
 	var (
@@ -162,7 +154,6 @@ func (r apiDeletePetRequest) Execute() (*_nethttp.Response, error) {
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.DeletePet")
@@ -176,8 +167,7 @@ func (r apiDeletePetRequest) Execute() (*_nethttp.Response, error) {
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
-	
+
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -230,12 +220,10 @@ type apiFindPetsByStatusRequest struct {
 	status *[]string
 }
 
-
 func (r apiFindPetsByStatusRequest) Status(status []string) apiFindPetsByStatusRequest {
 	r.status = &status
 	return r
 }
-
 /*
 FindPetsByStatus Finds Pets by status
 Multiple status values can be provided with comma separated strings
@@ -251,7 +239,7 @@ func (a *PetApiService) FindPetsByStatus(ctx _context.Context) apiFindPetsByStat
 
 /*
 Execute executes the request
- @return []Pet
+@return []Pet
 */
 func (r apiFindPetsByStatusRequest) Execute() ([]Pet, *_nethttp.Response, error) {
 	var (
@@ -273,7 +261,6 @@ func (r apiFindPetsByStatusRequest) Execute() ([]Pet, *_nethttp.Response, error)
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.status == nil {
 		return localVarReturnValue, nil, reportError("status is required and must be specified")
 	}
@@ -337,12 +324,10 @@ type apiFindPetsByTagsRequest struct {
 	tags *[]string
 }
 
-
 func (r apiFindPetsByTagsRequest) Tags(tags []string) apiFindPetsByTagsRequest {
 	r.tags = &tags
 	return r
 }
-
 /*
 FindPetsByTags Finds Pets by tags
 Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
@@ -358,7 +343,7 @@ func (a *PetApiService) FindPetsByTags(ctx _context.Context) apiFindPetsByTagsRe
 
 /*
 Execute executes the request
- @return []Pet
+@return []Pet
 */
 func (r apiFindPetsByTagsRequest) Execute() ([]Pet, *_nethttp.Response, error) {
 	var (
@@ -380,7 +365,6 @@ func (r apiFindPetsByTagsRequest) Execute() ([]Pet, *_nethttp.Response, error) {
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.tags == nil {
 		return localVarReturnValue, nil, reportError("tags is required and must be specified")
 	}
@@ -444,7 +428,6 @@ type apiGetPetByIdRequest struct {
 	petId int64
 }
 
-
 /*
 GetPetById Find pet by ID
 Returns a single pet
@@ -462,7 +445,7 @@ func (a *PetApiService) GetPetById(ctx _context.Context, petId int64) apiGetPetB
 
 /*
 Execute executes the request
- @return Pet
+@return Pet
 */
 func (r apiGetPetByIdRequest) Execute() (Pet, *_nethttp.Response, error) {
 	var (
@@ -485,7 +468,6 @@ func (r apiGetPetByIdRequest) Execute() (Pet, *_nethttp.Response, error) {
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -559,12 +541,10 @@ type apiUpdatePetRequest struct {
 	pet *Pet
 }
 
-
 func (r apiUpdatePetRequest) Pet(pet Pet) apiUpdatePetRequest {
 	r.pet = &pet
 	return r
 }
-
 /*
 UpdatePet Update an existing pet
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -579,7 +559,6 @@ func (a *PetApiService) UpdatePet(ctx _context.Context) apiUpdatePetRequest {
 
 /*
 Execute executes the request
-
 */
 func (r apiUpdatePetRequest) Execute() (*_nethttp.Response, error) {
 	var (
@@ -588,7 +567,6 @@ func (r apiUpdatePetRequest) Execute() (*_nethttp.Response, error) {
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.UpdatePet")
@@ -601,7 +579,6 @@ func (r apiUpdatePetRequest) Execute() (*_nethttp.Response, error) {
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.pet == nil {
 		return nil, reportError("pet is required and must be specified")
 	}
@@ -659,17 +636,14 @@ type apiUpdatePetWithFormRequest struct {
 	status *string
 }
 
-
 func (r apiUpdatePetWithFormRequest) Name(name string) apiUpdatePetWithFormRequest {
 	r.name = &name
 	return r
 }
-
 func (r apiUpdatePetWithFormRequest) Status(status string) apiUpdatePetWithFormRequest {
 	r.status = &status
 	return r
 }
-
 /*
 UpdatePetWithForm Updates a pet in the store with form data
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -686,7 +660,6 @@ func (a *PetApiService) UpdatePetWithForm(ctx _context.Context, petId int64) api
 
 /*
 Execute executes the request
-
 */
 func (r apiUpdatePetWithFormRequest) Execute() (*_nethttp.Response, error) {
 	var (
@@ -695,7 +668,6 @@ func (r apiUpdatePetWithFormRequest) Execute() (*_nethttp.Response, error) {
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		
 	)
 
 	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "PetApiService.UpdatePetWithForm")
@@ -709,8 +681,7 @@ func (r apiUpdatePetWithFormRequest) Execute() (*_nethttp.Response, error) {
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
-		
+
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
 
@@ -768,17 +739,14 @@ type apiUploadFileRequest struct {
 	file **os.File
 }
 
-
 func (r apiUploadFileRequest) AdditionalMetadata(additionalMetadata string) apiUploadFileRequest {
 	r.additionalMetadata = &additionalMetadata
 	return r
 }
-
 func (r apiUploadFileRequest) File(file *os.File) apiUploadFileRequest {
 	r.file = &file
 	return r
 }
-
 /*
 UploadFile uploads an image
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -795,7 +763,7 @@ func (a *PetApiService) UploadFile(ctx _context.Context, petId int64) apiUploadF
 
 /*
 Execute executes the request
- @return ApiResponse
+@return ApiResponse
 */
 func (r apiUploadFileRequest) Execute() (ApiResponse, *_nethttp.Response, error) {
 	var (
@@ -818,8 +786,7 @@ func (r apiUploadFileRequest) Execute() (ApiResponse, *_nethttp.Response, error)
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
-		
+
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"multipart/form-data"}
 
@@ -894,17 +861,14 @@ type apiUploadFileWithRequiredFileRequest struct {
 	additionalMetadata *string
 }
 
-
 func (r apiUploadFileWithRequiredFileRequest) RequiredFile(requiredFile *os.File) apiUploadFileWithRequiredFileRequest {
 	r.requiredFile = &requiredFile
 	return r
 }
-
 func (r apiUploadFileWithRequiredFileRequest) AdditionalMetadata(additionalMetadata string) apiUploadFileWithRequiredFileRequest {
 	r.additionalMetadata = &additionalMetadata
 	return r
 }
-
 /*
 UploadFileWithRequiredFile uploads an image (required)
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -921,7 +885,7 @@ func (a *PetApiService) UploadFileWithRequiredFile(ctx _context.Context, petId i
 
 /*
 Execute executes the request
- @return ApiResponse
+@return ApiResponse
 */
 func (r apiUploadFileWithRequiredFileRequest) Execute() (ApiResponse, *_nethttp.Response, error) {
 	var (
@@ -944,12 +908,10 @@ func (r apiUploadFileWithRequiredFileRequest) Execute() (ApiResponse, *_nethttp.
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
-	
 	if r.requiredFile == nil {
 		return localVarReturnValue, nil, reportError("requiredFile is required and must be specified")
 	}
-	
+
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"multipart/form-data"}
 

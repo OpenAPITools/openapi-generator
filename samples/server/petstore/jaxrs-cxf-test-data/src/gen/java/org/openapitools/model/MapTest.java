@@ -3,6 +3,7 @@ package org.openapitools.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.openapitools.model.StringBooleanMap;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -63,7 +64,8 @@ public enum InnerEnum {
   private Map<String, Boolean> directMap = null;
 
   @ApiModelProperty(value = "")
-  private Map<String, Boolean> indirectMap = null;
+  @Valid
+  private StringBooleanMap indirectMap = new StringBooleanMap();
  /**
   * Get mapMapOfString
   * @return mapMapOfString
@@ -165,30 +167,22 @@ public enum InnerEnum {
   * @return indirectMap
   */
   @JsonProperty("indirect_map")
-  public Map<String, Boolean> getIndirectMap() {
+  public StringBooleanMap getIndirectMap() {
     return indirectMap;
   }
 
   /**
    * Sets the <code>indirectMap</code> property.
    */
-  public void setIndirectMap(Map<String, Boolean> indirectMap) {
+  public void setIndirectMap(StringBooleanMap indirectMap) {
     this.indirectMap = indirectMap;
   }
 
   /**
    * Sets the <code>indirectMap</code> property.
    */
-  public MapTest indirectMap(Map<String, Boolean> indirectMap) {
+  public MapTest indirectMap(StringBooleanMap indirectMap) {
     this.indirectMap = indirectMap;
-    return this;
-  }
-
-  /**
-   * Puts a new item into the <code>indirectMap</code> map.
-   */
-  public MapTest putIndirectMapItem(String key, Boolean indirectMapItem) {
-    this.indirectMap.put(key, indirectMapItem);
     return this;
   }
 
@@ -210,7 +204,7 @@ public enum InnerEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

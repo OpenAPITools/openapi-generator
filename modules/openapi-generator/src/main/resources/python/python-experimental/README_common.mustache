@@ -1,5 +1,4 @@
 ```python
-from __future__ import print_function
 {{#apiInfo}}{{#apis}}{{^hasMore}}{{#hasHttpSignatureMethods}}import datetime{{/hasHttpSignatureMethods}}{{/hasMore}}{{/apis}}{{/apiInfo}}
 import time
 import {{{packageName}}}
@@ -48,7 +47,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
-{{#models}}{{#model}} - [{{{classname}}}]({{modelDocPath}}{{{unescapedDescription}}}.md)
+{{#models}}{{#model}} - [{{{classname}}}]({{modelDocPath}}{{{classname}}}.md)
 {{/model}}{{/models}}
 
 ## Documentation For Authorization

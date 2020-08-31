@@ -30,12 +30,10 @@ type apiTestClassnameRequest struct {
 	body *Client
 }
 
-
 func (r apiTestClassnameRequest) Body(body Client) apiTestClassnameRequest {
 	r.body = &body
 	return r
 }
-
 /*
 TestClassname To test class name in snake case
 To test class name in snake case
@@ -51,7 +49,7 @@ func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context) api
 
 /*
 Execute executes the request
- @return Client
+@return Client
 */
 func (r apiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
 	var (
@@ -73,7 +71,6 @@ func (r apiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.body == nil {
 		return localVarReturnValue, nil, reportError("body is required and must be specified")
 	}

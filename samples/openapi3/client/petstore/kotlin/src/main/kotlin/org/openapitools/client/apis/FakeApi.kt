@@ -484,7 +484,7 @@ class FakeApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun testEnumParameters(enumHeaderStringArray: kotlin.Array<kotlin.String>?, enumHeaderString: kotlin.String?, enumQueryStringArray: kotlin.Array<kotlin.String>?, enumQueryString: kotlin.String?, enumQueryInteger: kotlin.Int?, enumQueryDouble: kotlin.Double?, enumFormStringArray: kotlin.Array<kotlin.String>?, enumFormString: kotlin.String?) : Unit {
+    fun testEnumParameters(enumHeaderStringArray: kotlin.collections.List<kotlin.String>?, enumHeaderString: kotlin.String?, enumQueryStringArray: kotlin.collections.List<kotlin.String>?, enumQueryString: kotlin.String?, enumQueryInteger: kotlin.Int?, enumQueryDouble: kotlin.Double?, enumFormStringArray: kotlin.collections.List<kotlin.String>?, enumFormString: kotlin.String?) : Unit {
         val localVariableBody: kotlin.Any? = mapOf("enum_form_string_array" to enumFormStringArray, "enum_form_string" to enumFormString)
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
             .apply {
@@ -678,7 +678,7 @@ class FakeApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun testQueryParameterCollectionFormat(pipe: kotlin.Array<kotlin.String>, ioutil: kotlin.Array<kotlin.String>, http: kotlin.Array<kotlin.String>, url: kotlin.Array<kotlin.String>, context: kotlin.Array<kotlin.String>) : Unit {
+    fun testQueryParameterCollectionFormat(pipe: kotlin.collections.List<kotlin.String>, ioutil: kotlin.collections.List<kotlin.String>, http: kotlin.collections.List<kotlin.String>, url: kotlin.collections.List<kotlin.String>, context: kotlin.collections.List<kotlin.String>) : Unit {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf<kotlin.String, List<kotlin.String>>()
             .apply {

@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * HasOnlyReadOnly
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class HasOnlyReadOnly   {
   @JsonProperty("bar")
   private String bar;
@@ -37,7 +37,7 @@ public class HasOnlyReadOnly   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -69,7 +69,7 @@ public class HasOnlyReadOnly   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

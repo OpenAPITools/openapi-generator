@@ -7,14 +7,12 @@
 
 import Foundation
 
-
-public struct Tag: Codable { 
-
+public struct Tag: Codable {
 
     public private(set) var id: Int64?
     public private(set) var name: String?
 
-    public init(id: Int64?, name: String?) {
+    public init(id: Int64? = nil, name: String? = nil) {
         self.id = id
         self.name = name
     }

@@ -7,7 +7,9 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
 
@@ -15,7 +17,7 @@ import org.openapitools.model.Tag;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class Pet   {
   @JsonProperty("id")
   private Long id;
@@ -27,7 +29,7 @@ public class Pet   {
   private String name;
 
   @JsonProperty("photoUrls")
-  private List<String> photoUrls = new ArrayList<String>();
+  private Set<String> photoUrls = new LinkedHashSet<String>();
 
   @JsonProperty("tags")
   private List<Tag> tags = null;
@@ -121,7 +123,7 @@ public class Pet   {
 
   /**
    **/
-  public Pet photoUrls(List<String> photoUrls) {
+  public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -129,10 +131,10 @@ public class Pet   {
   
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("photoUrls")
-  public List<String> getPhotoUrls() {
+  public Set<String> getPhotoUrls() {
     return photoUrls;
   }
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
@@ -173,7 +175,7 @@ public class Pet   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -213,7 +215,7 @@ public class Pet   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

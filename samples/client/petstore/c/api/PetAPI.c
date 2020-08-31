@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include "PetAPI.h"
 
-
+#define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
 #define intToStr(dst, src) \
     do {\
@@ -76,7 +76,7 @@ PetAPI_addPet(apiClient_t *apiClient, pet_t * body )
 
 
     // Body Param
-    cJSON *localVarSingleItemJSON_body;
+    cJSON *localVarSingleItemJSON_body = NULL;
     if (body != NULL)
     {
         //string
@@ -111,7 +111,10 @@ end:
     
     list_free(localVarContentType);
     free(localVarPath);
-    cJSON_Delete(localVarSingleItemJSON_body);
+    if (localVarSingleItemJSON_body) {
+        cJSON_Delete(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_body = NULL;
+    }
     free(localVarBodyParameters);
 
 }
@@ -151,7 +154,7 @@ PetAPI_deletePet(apiClient_t *apiClient, long petId , char * api_key )
 
 
     // header parameters
-    char *keyHeader_api_key;
+    char *keyHeader_api_key = NULL;
     char * valueHeader_api_key;
     keyValuePair_t *keyPairHeader_api_key = 0;
     if (api_key) {
@@ -188,7 +191,10 @@ end:
     
     free(localVarPath);
     free(localVarToReplace_petId);
-    free(keyHeader_api_key);
+    if (keyHeader_api_key) {
+        free(keyHeader_api_key);
+        keyHeader_api_key = NULL;
+    }
     free(valueHeader_api_key);
     free(keyPairHeader_api_key);
 
@@ -271,6 +277,7 @@ PetAPI_findPetsByStatus(apiClient_t *apiClient, list_t * status )
     free(localVarPath);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -352,6 +359,7 @@ PetAPI_findPetsByTags(apiClient_t *apiClient, list_t * tags )
     free(localVarPath);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -435,6 +443,7 @@ PetAPI_getPetById(apiClient_t *apiClient, long petId )
     free(localVarToReplace_petId);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -460,7 +469,7 @@ PetAPI_updatePet(apiClient_t *apiClient, pet_t * body )
 
 
     // Body Param
-    cJSON *localVarSingleItemJSON_body;
+    cJSON *localVarSingleItemJSON_body = NULL;
     if (body != NULL)
     {
         //string
@@ -501,7 +510,10 @@ end:
     
     list_free(localVarContentType);
     free(localVarPath);
-    cJSON_Delete(localVarSingleItemJSON_body);
+    if (localVarSingleItemJSON_body) {
+        cJSON_Delete(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_body = NULL;
+    }
     free(localVarBodyParameters);
 
 }
@@ -541,7 +553,7 @@ PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId , char * name , char
 
 
     // form parameters
-    char *keyForm_name;
+    char *keyForm_name = NULL;
     char * valueForm_name;
     keyValuePair_t *keyPairForm_name = 0;
     if (name != NULL)
@@ -553,7 +565,7 @@ PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId , char * name , char
     }
 
     // form parameters
-    char *keyForm_status;
+    char *keyForm_status = NULL;
     char * valueForm_status;
     keyValuePair_t *keyPairForm_status = 0;
     if (status != NULL)
@@ -591,10 +603,16 @@ end:
     list_free(localVarContentType);
     free(localVarPath);
     free(localVarToReplace_petId);
-    free(keyForm_name);
+    if (keyForm_name) {
+        free(keyForm_name);
+        keyForm_name = NULL;
+    }
     free(valueForm_name);
     keyValuePair_free(keyPairForm_name);
-    free(keyForm_status);
+    if (keyForm_status) {
+        free(keyForm_status);
+        keyForm_status = NULL;
+    }
     free(valueForm_status);
     keyValuePair_free(keyPairForm_status);
 
@@ -635,7 +653,7 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId , char * additionalMetadata
 
 
     // form parameters
-    char *keyForm_additionalMetadata;
+    char *keyForm_additionalMetadata = NULL;
     char * valueForm_additionalMetadata;
     keyValuePair_t *keyPairForm_additionalMetadata = 0;
     if (additionalMetadata != NULL)
@@ -647,7 +665,7 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId , char * additionalMetadata
     }
 
     // form parameters
-    char *keyForm_file;
+    char *keyForm_file = NULL;
     binary_t* valueForm_file;
     keyValuePair_t *keyPairForm_file = 0;
     if (file != NULL)
@@ -693,15 +711,22 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId , char * additionalMetadata
     list_free(localVarContentType);
     free(localVarPath);
     free(localVarToReplace_petId);
-    free(keyForm_additionalMetadata);
+    if (keyForm_additionalMetadata) {
+        free(keyForm_additionalMetadata);
+        keyForm_additionalMetadata = NULL;
+    }
     free(valueForm_additionalMetadata);
     free(keyPairForm_additionalMetadata);
-    free(keyForm_file);
+    if (keyForm_file) {
+        free(keyForm_file);
+        keyForm_file = NULL;
+    }
 //    free(fileVar_file->data);
 //    free(fileVar_file);
     free(keyPairForm_file);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }

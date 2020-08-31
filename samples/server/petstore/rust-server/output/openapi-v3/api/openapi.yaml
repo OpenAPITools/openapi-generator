@@ -211,6 +211,7 @@ paths:
           headers:
             Success-Info:
               explode: false
+              required: true
               schema:
                 type: String
               style: simple
@@ -406,6 +407,23 @@ paths:
           description: Success
       tags:
       - Repo
+  /json-complex-query-param:
+    get:
+      parameters:
+      - content:
+          application/json:
+            schema:
+              items:
+                $ref: '#/components/schemas/StringObject'
+              type: array
+        explode: true
+        in: query
+        name: list-of-strings
+        required: false
+        style: form
+      responses:
+        "200":
+          description: Success
 components:
   schemas:
     EnumWithStarObject:
@@ -540,6 +558,13 @@ components:
       type: boolean
     OptionalObjectHeader:
       type: integer
+    AdditionalPropertiesWithList:
+      additionalProperties:
+        items:
+          type: string
+        type: array
+      maxProperties: 1
+      type: object
     NullableTest:
       properties:
         nullable:
@@ -581,6 +606,7 @@ components:
       properties:
         foo:
           type: string
+      type: object
   securitySchemes:
     authScheme:
       flows:

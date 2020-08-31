@@ -5,6 +5,14 @@
         <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="SWGInlineObjectManagedObject" representedClassName="SWGInlineObjectManagedObject" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="SWGInlineObject1ManagedObject" representedClassName="SWGInlineObject1ManagedObject" syncable="YES">
+        <attribute name="additionalMetadata" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="file" optional="YES" attributeType="Binary" syncable="YES"/>
+    </entity>
     <entity name="SWGOrderManagedObject" representedClassName="SWGOrderManagedObject" syncable="YES">
         <attribute name="_id" optional="YES" attributeType="Double" syncable="YES"/>
         <attribute name="petId" optional="YES" attributeType="Double" syncable="YES"/>

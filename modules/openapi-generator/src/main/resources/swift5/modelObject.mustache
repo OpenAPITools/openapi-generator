@@ -1,5 +1,9 @@
-{{^objcCompatible}}{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct {{classname}}: Codable { {{/objcCompatible}}
-{{#objcCompatible}}@objc {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} class {{classname}}: NSObject, Codable { {{/objcCompatible}}
+{{^objcCompatible}}
+{{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} struct {{classname}}: Codable{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}} {
+{{/objcCompatible}}
+{{#objcCompatible}}
+@objc {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} class {{classname}}: NSObject, Codable{{#vendorExtensions.x-swift-hashable}}, Hashable{{/vendorExtensions.x-swift-hashable}} {
+{{/objcCompatible}}
 
 {{#allVars}}
 {{#isEnum}}
@@ -31,7 +35,7 @@
 {{/allVars}}
 
 {{#hasVars}}
-    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init({{#allVars}}{{name}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/allVars}}) {
+    {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}public{{/nonPublicApi}} init({{#allVars}}{{name}}: {{{datatypeWithEnum}}}{{#required}}{{#isNullable}}?{{/isNullable}}{{/required}}{{^required}}? = nil{{/required}}{{#hasMore}}, {{/hasMore}}{{/allVars}}) {
         {{#allVars}}
         self.{{name}} = {{name}}
         {{/allVars}}

@@ -13,6 +13,10 @@
 
 package org.openapitools.client.model;
 
+import java.util.Map;
+import java.util.HashMap;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.Map;
@@ -22,11 +26,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.ChildCatAllOf;
 import org.openapitools.client.model.ParentPet;
+import java.util.Set;
+import java.util.HashSet;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import org.openapitools.client.JSON;
 
@@ -35,16 +42,18 @@ import org.openapitools.client.JSON;
  * ChildCat
  */
 @JsonPropertyOrder({
-  ChildCat.JSON_PROPERTY_NAME
+  ChildCat.JSON_PROPERTY_NAME,
+  ChildCat.JSON_PROPERTY_PET_TYPE
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "pet_type", visible = true)
-@JsonSubTypes({
-})
 
 public class ChildCat extends ParentPet {
   public static final String JSON_PROPERTY_NAME = "name";
   private String name;
+
+  public static final String JSON_PROPERTY_PET_TYPE = "pet_type";
+  private String petType = "ChildCat";
 
 
   public ChildCat name(String name) {
@@ -71,8 +80,84 @@ public class ChildCat extends ParentPet {
   }
 
 
+  public static final Set<String> PET_TYPE_VALUES = new HashSet<>(Arrays.asList(
+    "ChildCat"
+  ));
+
+  public ChildCat petType(String petType) {
+    if (!PET_TYPE_VALUES.contains(petType)) {
+      throw new IllegalArgumentException(petType + " is invalid. Possible values for petType: " + String.join(", ", PET_TYPE_VALUES));
+    }
+
+    this.petType = petType;
+    return this;
+  }
+
+   /**
+   * Get petType
+   * @return petType
+  **/
+  @javax.annotation.Nullable
+  @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PET_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
+  public String getPetType() {
+    return petType;
+  }
+
+
+  public void setPetType(String petType) {
+    if (!PET_TYPE_VALUES.contains(petType)) {
+      throw new IllegalArgumentException(petType + " is invalid. Possible values for petType: " + String.join(", ", PET_TYPE_VALUES));
+    }
+
+    this.petType = petType;
+  }
+
+  /**
+   * A container for additional, undeclared properties.
+   * This is a holder for any undeclared properties as specified with
+   * the 'additionalProperties' keyword in the OAS document.
+   */
+  private Map<String, Object> additionalProperties;
+
+  /**
+   * Set the additional (undeclared) property with the specified name and value.
+   * If the property does not already exist, create it otherwise replace it.
+   */
+  @JsonAnySetter
+  public ChildCat putAdditionalProperty(String key, Object value) {
+    if (this.additionalProperties == null) {
+        this.additionalProperties = new HashMap<String, Object>();
+    }
+    this.additionalProperties.put(key, value);
+    return this;
+  }
+
+  /**
+   * Return the additional (undeclared) property.
+   */
+  @JsonAnyGetter
+  public Map<String, Object> getAdditionalProperties() {
+    return additionalProperties;
+  }
+
+  /**
+   * Return the additional (undeclared) property with the specified name.
+   */
+  public Object getAdditionalProperty(String key) {
+    if (this.additionalProperties == null) {
+        return null;
+    }
+    return this.additionalProperties.get(key);
+  }
+
+  /**
+   * Return true if this ChildCat object is equal to o.
+   */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -81,12 +166,14 @@ public class ChildCat extends ParentPet {
     }
     ChildCat childCat = (ChildCat) o;
     return Objects.equals(this.name, childCat.name) &&
+        Objects.equals(this.petType, childCat.petType)&&
+        Objects.equals(this.additionalProperties, childCat.additionalProperties) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, super.hashCode());
+    return Objects.hash(name, petType, super.hashCode(), additionalProperties);
   }
 
 
@@ -96,6 +183,8 @@ public class ChildCat extends ParentPet {
     sb.append("class ChildCat {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    petType: ").append(toIndentedString(petType)).append("\n");
+    sb.append("    additionalProperties: ").append(toIndentedString(additionalProperties)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -104,7 +193,7 @@ public class ChildCat extends ParentPet {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

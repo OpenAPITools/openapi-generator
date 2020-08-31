@@ -10,21 +10,14 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import shape_interface
-except ImportError:
-    shape_interface = sys.modules[
-        'petstore_api.model.shape_interface']
-try:
-    from petstore_api.model import triangle_interface
-except ImportError:
-    triangle_interface = sys.modules[
-        'petstore_api.model.triangle_interface']
+from petstore_api.model.shape_interface import ShapeInterface
+from petstore_api.model.triangle_interface import TriangleInterface
+globals()['ShapeInterface'] = ShapeInterface
+globals()['TriangleInterface'] = TriangleInterface
 from petstore_api.model.scalene_triangle import ScaleneTriangle
 
 

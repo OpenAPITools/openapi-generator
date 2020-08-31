@@ -55,7 +55,7 @@ library
     , random >=1.1
     , safe-exceptions <0.2
     , text >=0.11 && <1.3
-    , time (>=1.5 && <1.9) || (>=1.10 && <2.0)
+    , time >=1.5
     , transformers >=0.4.0.0
     , unordered-containers
     , vector >=0.10.9 && <0.13

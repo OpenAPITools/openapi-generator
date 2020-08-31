@@ -153,6 +153,7 @@
                 <version>3.2.0</version>
                 <configuration>
                     <doclint>none</doclint>
+                    <source>1.8</source>
                 </configuration>
                 <executions>
                     <execution>
@@ -229,14 +230,12 @@
             <artifactId>jsr305</artifactId>
             <version>3.0.2</version>
         </dependency>
-        {{^hideGenerationTimestamp}}
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>javax.annotation-api</artifactId>
-            <version>1.3.2</version>
+            <version>${javax-annotation-version}</version>
             <scope>provided</scope>
         </dependency>
-        {{/hideGenerationTimestamp}}
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -364,6 +363,7 @@
         <jackson-threetenbp-version>2.10.0</jackson-threetenbp-version>
         {{/threetenbp}}
         {{/jackson}}
+        <javax-annotation-version>1.3.2</javax-annotation-version>
         <okio-version>1.17.5</okio-version>
         <junit-version>4.13</junit-version>
     </properties>

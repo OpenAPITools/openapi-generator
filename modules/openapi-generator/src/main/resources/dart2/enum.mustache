@@ -9,20 +9,35 @@ class {{classname}} {
       {{#description}}
   /// {{description}}
       {{/description}}
-  static const {{classname}} {{{name}}} = const {{classname}}._internal({{{value}}});
+  static const {{classname}} {{{name}}} = {{classname}}._internal({{value}});
     {{/enumVars}}
   {{/allowableValues}}
-  
-  {{dataType}} toJson (){
-    return this.value;
+
+  static List<{{classname}}> get values => const [
+    {{#allowableValues}}
+      {{#enumVars}}
+        {{{name}}},
+      {{/enumVars}}
+    {{/allowableValues}}
+      ];
+
+  {{dataType}} toJson () {
+    return value;
+  }
+
+  @override
+  String toString () {
+    return value;
   }
 
   static {{classname}} fromJson({{dataType}} value) {
-    return new {{classname}}TypeTransformer().decode(value);
+    return {{classname}}TypeTransformer().decode(value);
   }
-  
+
   static List<{{classname}}> listFromJson(List<dynamic> json) {
-    return json == null ? new List<{{classname}}>() : json.map((value) => {{classname}}.fromJson(value)).toList();
+    return json == null
+        ? List<{{classname}}>()
+        : json.map((value) => {{classname}}.fromJson(value)).toList();
   }
 }
 

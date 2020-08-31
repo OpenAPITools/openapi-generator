@@ -51,6 +51,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     public static final String USE_RX_JAVA = "useRxJava";
     public static final String USE_RX_JAVA2 = "useRxJava2";
+    public static final String USE_RX_JAVA3 = "useRxJava3";
     public static final String USE_COROUTINES = "useCoroutines";
     public static final String DO_NOT_USE_RX_AND_COROUTINES = "doNotUseRxAndCoroutines";
 
@@ -62,9 +63,10 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
     protected String dateLibrary = DateLibrary.JAVA8.value;
     protected String requestDateConverter = RequestDateConverter.TO_JSON.value;
-    protected String collectionType = CollectionType.ARRAY.value;
+    protected String collectionType = CollectionType.LIST.value;
     protected boolean useRxJava = false;
     protected boolean useRxJava2 = false;
+    protected boolean useRxJava3 = false;
     protected boolean useCoroutines = false;
     // backwards compatibility for openapi configs that specify neither rx1 nor rx2
     // (mustache does not allow for boolean operators so we need this extra field)
@@ -198,6 +200,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA, "Whether to use the RxJava adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_RX_JAVA2, "Whether to use the RxJava2 adapter with the retrofit2 library."));
+        cliOptions.add(CliOption.newBoolean(USE_RX_JAVA3, "Whether to use the RxJava3 adapter with the retrofit2 library."));
         cliOptions.add(CliOption.newBoolean(USE_COROUTINES, "Whether to use the Coroutines adapter with the retrofit2 library."));
     }
 
@@ -216,6 +219,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public void setUseRxJava(boolean useRxJava) {
         if (useRxJava) {
             this.useRxJava2 = false;
+            this.useRxJava3 = false;
             this.doNotUseRxAndCoroutines = false;
             this.useCoroutines = false;
         }
@@ -225,16 +229,28 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
     public void setUseRxJava2(boolean useRxJava2) {
         if (useRxJava2) {
             this.useRxJava = false;
+            this.useRxJava3 = false;
             this.doNotUseRxAndCoroutines = false;
             this.useCoroutines = false;
         }
         this.useRxJava2 = useRxJava2;
+    }
+    
+    public void setUseRxJava3(boolean useRxJava3) {
+        if (useRxJava3) {
+            this.useRxJava = false;
+            this.useRxJava2 = false;
+            this.doNotUseRxAndCoroutines = false;
+            this.useCoroutines = false;
+        }
+        this.useRxJava3 = useRxJava3;
     }
 
     public void setDoNotUseRxAndCoroutines(boolean doNotUseRxAndCoroutines) {
         if (doNotUseRxAndCoroutines) {
             this.useRxJava = false;
             this.useRxJava2 = false;
+            this.useRxJava3 = false;
             this.useCoroutines = false;
         }
         this.doNotUseRxAndCoroutines = doNotUseRxAndCoroutines;
@@ -244,6 +260,7 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
         if (useCoroutines) {
             this.useRxJava = false;
             this.useRxJava2 = false;
+            this.useRxJava3 = false;
             this.doNotUseRxAndCoroutines = false;
         }
         this.useCoroutines = useCoroutines;
@@ -273,12 +290,16 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         boolean hasRx = additionalProperties.containsKey(USE_RX_JAVA);
         boolean hasRx2 = additionalProperties.containsKey(USE_RX_JAVA2);
+        boolean hasRx3 = additionalProperties.containsKey(USE_RX_JAVA3);
         boolean hasCoroutines = additionalProperties.containsKey(USE_COROUTINES);
         int optionCount = 0;
         if (hasRx) {
             optionCount++;
         }
         if (hasRx2) {
+            optionCount++;
+        }
+        if (hasRx3) {
             optionCount++;
         }
         if (hasCoroutines) {
@@ -288,16 +309,18 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
 
         // RxJava & Coroutines
         if (hasConflict) {
-            LOGGER.warn("You specified both RxJava versions 1 and 2 or Coroutines together, please choose one them.");
+            LOGGER.warn("You specified RxJava versions 1 and 2 and 3 or Coroutines together, please choose one of them.");
         } else if (hasRx) {
             this.setUseRxJava(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA).toString()));
         } else if (hasRx2) {
             this.setUseRxJava2(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA2).toString()));
+        } else if (hasRx3) {
+            this.setUseRxJava3(Boolean.valueOf(additionalProperties.get(USE_RX_JAVA3).toString()));
         } else if (hasCoroutines) {
             this.setUseCoroutines(Boolean.valueOf(additionalProperties.get(USE_COROUTINES).toString()));
         }
 
-        if (!hasRx && !hasRx2 && !hasCoroutines) {
+        if (!hasRx && !hasRx2 && !hasRx3 && !hasCoroutines) {
             setDoNotUseRxAndCoroutines(true);
             additionalProperties.put(DO_NOT_USE_RX_AND_COROUTINES, true);
         }
@@ -593,10 +616,21 @@ public class KotlinClientCodegen extends AbstractKotlinCodegen {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
 
+                if (JVM_RETROFIT2.equals(getLibrary()) && StringUtils.isNotEmpty(operation.path) && operation.path.startsWith("/")) {
+                    operation.path = operation.path.substring(1);
+                }
+
                 // set multipart against all relevant operations
                 if (operation.hasConsumes == Boolean.TRUE) {
                     if (isMultipartType(operation.consumes)) {
                         operation.isMultipart = Boolean.TRUE;
+                    }
+                }
+
+                // import okhttp3.MultipartBody if any parameter is a file
+                for (CodegenParameter param : operation.allParams) {
+                    if (Boolean.TRUE.equals(param.isFile)) {
+                        operations.put("x-kotlin-multipart-import", true);
                     }
                 }
 

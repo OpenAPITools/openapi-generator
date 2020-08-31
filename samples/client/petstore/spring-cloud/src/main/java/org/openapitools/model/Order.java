@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
  * An order for a pets from the pet store
  */
 @ApiModel(description = "An order for a pets from the pet store")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Order   {
   @JsonProperty("id")
   private Long id;
@@ -196,7 +196,7 @@ public class Order   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -236,7 +236,7 @@ public class Order   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

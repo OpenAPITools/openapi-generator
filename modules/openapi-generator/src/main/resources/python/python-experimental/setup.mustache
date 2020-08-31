@@ -18,7 +18,6 @@ VERSION = "{{packageVersion}}"
 
 REQUIRES = [
   "urllib3 >= 1.15",
-  "six >= 1.10",
   "certifi",
   "python-dateutil",
   "nulltype",
@@ -33,7 +32,6 @@ REQUIRES = [
   "pycryptodome>=3.9.0",
 {{/hasHttpSignatureMethods}}
 ]
-EXTRAS = {':python_version <= "2.7"': ['future']}
 
 setup(
     name=NAME,
@@ -43,8 +41,8 @@ setup(
     author_email="{{#infoEmail}}{{infoEmail}}{{/infoEmail}}{{^infoEmail}}team@openapitools.org{{/infoEmail}}",
     url="{{packageUrl}}",
     keywords=["OpenAPI", "OpenAPI-Generator", "{{{appName}}}"],
+    python_requires=">=3.5",
     install_requires=REQUIRES,
-    extras_require=EXTRAS,
     packages=find_packages(exclude=["test", "tests"]),
     include_package_data=True,
     {{#licenseInfo}}license="{{licenseInfo}}",

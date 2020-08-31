@@ -12,14 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Validated
 @Api(value = "Store", description = "the Store API")
 public interface StoreApi {
@@ -46,8 +39,9 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found") })
-    @RequestMapping(value = "/store/order/{orderId}",
-        method = RequestMethod.DELETE)
+    @DeleteMapping(
+        value = "/store/order/{orderId}"
+    )
     CompletableFuture<ResponseEntity<Void>> deleteOrder(@ApiParam(value = "ID of the order that needs to be deleted",required=true) @PathVariable("orderId") String orderId);
 
 
@@ -62,9 +56,10 @@ public interface StoreApi {
     }, tags={ "store", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
-    @RequestMapping(value = "/store/inventory",
-        produces = "application/json", 
-        method = RequestMethod.GET)
+    @GetMapping(
+        value = "/store/inventory",
+        produces = "application/json"
+    )
     CompletableFuture<ResponseEntity<Map<String, Integer>>> getInventory();
 
 
@@ -82,9 +77,10 @@ public interface StoreApi {
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Order not found") })
-    @RequestMapping(value = "/store/order/{orderId}",
-        produces = "application/json", 
-        method = RequestMethod.GET)
+    @GetMapping(
+        value = "/store/order/{orderId}",
+        produces = "application/json"
+    )
     CompletableFuture<ResponseEntity<Order>> getOrderById(@Min(1L) @Max(5L) @ApiParam(value = "ID of pet that needs to be fetched",required=true) @PathVariable("orderId") Long orderId);
 
 
@@ -99,9 +95,10 @@ public interface StoreApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Order.class),
         @ApiResponse(code = 400, message = "Invalid Order") })
-    @RequestMapping(value = "/store/order",
-        produces = "application/json", 
-        method = RequestMethod.POST)
+    @PostMapping(
+        value = "/store/order",
+        produces = "application/json"
+    )
     CompletableFuture<ResponseEntity<Order>> placeOrder(@ApiParam(value = "order placed for purchasing the pet" ,required=true )  @Valid @RequestBody Order body);
 
 }

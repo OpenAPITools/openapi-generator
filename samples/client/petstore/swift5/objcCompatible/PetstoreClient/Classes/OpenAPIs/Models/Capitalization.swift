@@ -7,9 +7,7 @@
 
 import Foundation
 
-
-
-@objc public class Capitalization: NSObject, Codable { 
+@objc public class Capitalization: NSObject, Codable {
 
     public var smallCamel: String?
     public var capitalCamel: String?
@@ -19,7 +17,7 @@ import Foundation
     /** Name of the pet  */
     public var ATT_NAME: String?
 
-    public init(smallCamel: String?, capitalCamel: String?, smallSnake: String?, capitalSnake: String?, sCAETHFlowPoints: String?, ATT_NAME: String?) {
+    public init(smallCamel: String? = nil, capitalCamel: String? = nil, smallSnake: String? = nil, capitalSnake: String? = nil, sCAETHFlowPoints: String? = nil, ATT_NAME: String? = nil) {
         self.smallCamel = smallCamel
         self.capitalCamel = capitalCamel
         self.smallSnake = smallSnake
@@ -28,7 +26,7 @@ import Foundation
         self.ATT_NAME = ATT_NAME
     }
 
-    public enum CodingKeys: String, CodingKey, CaseIterable { 
+    public enum CodingKeys: String, CodingKey, CaseIterable {
         case smallCamel
         case capitalCamel = "CapitalCamel"
         case smallSnake = "small_Snake"

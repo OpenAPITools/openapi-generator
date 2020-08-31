@@ -17,45 +17,53 @@ use crate::{{{operationId}}}Response;
 {{/apiInfo}}
 
 /// A client that implements the API by making HTTP calls out to a server.
-pub struct Client<S> where
+pub struct Client<S, C> where
     S: Service<
-           Request<Body>,
+           (Request<Body>, C),
            Response=Response<Body>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
+    C: Clone + Send + Sync + 'static
 {
     /// Inner service
     client_service: S,
+
+    /// Marker
+    marker: PhantomData<fn(C)>,
 }
 
-impl<S> fmt::Debug for Client<S> where
+impl<S, C> fmt::Debug for Client<S, C> where
     S: Service<
-           Request<Body>,
+           (Request<Body>, C),
            Response=Response<Body>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
+    C: Clone + Send + Sync + 'static
 {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "Client")
     }
 }
 
-impl<S> Clone for Client<S> where
+impl<S, C> Clone for Client<S, C> where
     S: Service<
-           Request<Body>,
+           (Request<Body>, C),
            Response=Response<Body>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
+    C: Clone + Send + Sync + 'static
 {
     fn clone(&self) -> Self {
         Self {
             client_service: self.client_service.clone(),
+            marker: PhantomData,
         }
     }
 }
 
-impl<C> Client<hyper::client::Client<C, Body>> where
-      C: hyper::client::connect::Connect + Clone + Send + Sync + 'static
+impl<Connector, C> Client<DropContextService<hyper::client::Client<Connector, Body>, C>, C> where
+    Connector: hyper::client::connect::Connect + Clone + Send + Sync + 'static,
+    C: Clone + Send + Sync + 'static
 {
     /// Create a client with a custom implementation of hyper::client::Connect.
     ///
@@ -69,17 +77,20 @@ impl<C> Client<hyper::client::Client<C, Body>> where
     /// # Arguments
     ///
     /// * `connector` - Implementation of `hyper::client::Connect` to use for the client
-    pub fn new_with_connector(connector: C) -> Self
+    pub fn new_with_connector(connector: Connector) -> Self
     {
         let client_service = hyper::client::Client::builder().build(connector);
+        let client_service = DropContextService::new(client_service);
 
         Self {
             client_service,
+            marker: PhantomData,
         }
     }
 }
 
-impl Client<hyper::client::Client<hyper::client::HttpConnector, Body>>
+impl<C> Client<DropContextService<hyper::client::Client<hyper::client::HttpConnector, Body>, C>, C> where
+    C: Clone + Send + Sync + 'static
 {
     /// Create an HTTP client.
     pub fn new_http() -> Self {
@@ -94,7 +105,8 @@ type HttpConnector = hyper_tls::HttpsConnector<hyper::client::HttpConnector>;
 #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "ios")))]
 type HttpsConnector = hyper_openssl::HttpsConnector<hyper::client::HttpConnector>;
 
-impl Client<hyper::client::Client<HttpsConnector, Body>>
+impl<C> Client<DropContextService<hyper::client::Client<HttpsConnector, Body>, C>, C> where
+    C: Clone + Send + Sync + 'static
 {
     /// Create a client with a TLS connection to the server.
     #[cfg(any(target_os = "macos", target_os = "windows", target_os = "ios"))]
@@ -155,12 +167,13 @@ impl Client<hyper::client::Client<HttpsConnector, Body>>
     }
 }
 
-impl<S> Client<S> where
+impl<S, C> Client<S, C> where
     S: Service<
-           Request<Body>,
+           (Request<Body>, C),
            Response=Response<Body>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
+    C: Clone + Send + Sync + 'static
 {
     /// Constructor for creating a `Client` by passing in a pre-made `swagger::Service`
     ///
@@ -170,19 +183,20 @@ impl<S> Client<S> where
     ) -> Self {
         Client {
             client_service,
+            marker: PhantomData,
         }
     }
 }
 
 #[async_trait]
-impl<C, S> CallbackApi<C> for Client<S> where
-    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<AuthData>>{{/hasAuthMethods}} + Send + Sync,
+impl<S, C> CallbackApi<C> for Client<S, C> where
     S: Service<
-           Request<Body>,
+           (Request<Body>, C),
            Response=Response<Body>,
            Error=hyper::Error> + Clone + Send + Sync,
     S::Future: Send + 'static,
     S::Error: Into<crate::ServiceError> + fmt::Display,
+    C: Has<XSpanIdString> {{#hasAuthMethods}}+ Has<Option<AuthData>>{{/hasAuthMethods}} + Clone + Send + Sync,
 {
     fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), crate::ServiceError>> {
         match self.client_service.clone().poll_ready(cx) {

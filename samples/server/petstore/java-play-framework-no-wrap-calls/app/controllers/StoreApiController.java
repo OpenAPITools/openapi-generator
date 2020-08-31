@@ -3,6 +3,7 @@ package controllers;
 import java.util.Map;
 import apimodels.Order;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
@@ -21,15 +22,15 @@ import javax.validation.constraints.*;
 import play.Configuration;
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class StoreApiController extends Controller {
 
     private final StoreApiControllerImpInterface imp;
     private final ObjectMapper mapper;
-    private final Configuration configuration;
+    private final Config configuration;
 
     @Inject
-    private StoreApiController(Configuration configuration, StoreApiControllerImpInterface imp) {
+    private StoreApiController(Config configuration, StoreApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
         this.configuration = configuration;

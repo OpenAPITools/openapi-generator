@@ -13,7 +13,4 @@ clean:
 		find . -name "__pycache__" -delete
 
 test: clean
-		bash ./test_python2.sh
-
-test-all: clean
-		bash ./test_python2_and_3.sh
+		bash ./test_python.sh

@@ -10,16 +10,12 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import string_boolean_map
-except ImportError:
-    string_boolean_map = sys.modules[
-        'petstore_api.model.string_boolean_map']
+from petstore_api.model.string_boolean_map import StringBooleanMap
+globals()['StringBooleanMap'] = StringBooleanMap
 from petstore_api.model.map_test import MapTest
 
 

@@ -3,7 +3,7 @@
 #include <ctype.h>
 #include "UserAPI.h"
 
-
+#define MAX_NUMBER_LENGTH 16
 #define MAX_BUFFER_LENGTH 4096
 #define intToStr(dst, src) \
     do {\
@@ -35,7 +35,7 @@ UserAPI_createUser(apiClient_t *apiClient, user_t * body )
 
 
     // Body Param
-    cJSON *localVarSingleItemJSON_body;
+    cJSON *localVarSingleItemJSON_body = NULL;
     if (body != NULL)
     {
         //string
@@ -68,7 +68,10 @@ end:
     
     
     free(localVarPath);
-    cJSON_Delete(localVarSingleItemJSON_body);
+    if (localVarSingleItemJSON_body) {
+        cJSON_Delete(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_body = NULL;
+    }
     free(localVarBodyParameters);
 
 }
@@ -95,9 +98,9 @@ UserAPI_createUsersWithArrayInput(apiClient_t *apiClient, list_t * body )
 
     // Body Param
     //notstring
-    cJSON *localVar_body;
-    cJSON *localVarItemJSON_body;
-    cJSON *localVarSingleItemJSON_body;
+    cJSON *localVar_body = NULL;
+    cJSON *localVarItemJSON_body = NULL;
+    cJSON *localVarSingleItemJSON_body = NULL;
     if (body != NULL)
     {
         localVarItemJSON_body = cJSON_CreateObject();
@@ -147,9 +150,18 @@ end:
     
     
     free(localVarPath);
-    cJSON_Delete(localVarItemJSON_body);
-    cJSON_Delete(localVarSingleItemJSON_body);
-    cJSON_Delete(localVar_body);
+    if (localVarItemJSON_body) {
+        cJSON_Delete(localVarItemJSON_body);
+        localVarItemJSON_body = NULL;
+    }
+    if (localVarSingleItemJSON_body) {
+        cJSON_Delete(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_body = NULL;
+    }
+    if (localVar_body) {
+        cJSON_Delete(localVar_body);
+        localVar_body = NULL;
+    }
     free(localVarBodyParameters);
 
 }
@@ -176,9 +188,9 @@ UserAPI_createUsersWithListInput(apiClient_t *apiClient, list_t * body )
 
     // Body Param
     //notstring
-    cJSON *localVar_body;
-    cJSON *localVarItemJSON_body;
-    cJSON *localVarSingleItemJSON_body;
+    cJSON *localVar_body = NULL;
+    cJSON *localVarItemJSON_body = NULL;
+    cJSON *localVarSingleItemJSON_body = NULL;
     if (body != NULL)
     {
         localVarItemJSON_body = cJSON_CreateObject();
@@ -228,9 +240,18 @@ end:
     
     
     free(localVarPath);
-    cJSON_Delete(localVarItemJSON_body);
-    cJSON_Delete(localVarSingleItemJSON_body);
-    cJSON_Delete(localVar_body);
+    if (localVarItemJSON_body) {
+        cJSON_Delete(localVarItemJSON_body);
+        localVarItemJSON_body = NULL;
+    }
+    if (localVarSingleItemJSON_body) {
+        cJSON_Delete(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_body = NULL;
+    }
+    if (localVar_body) {
+        cJSON_Delete(localVar_body);
+        localVar_body = NULL;
+    }
     free(localVarBodyParameters);
 
 }
@@ -372,6 +393,7 @@ UserAPI_getUserByName(apiClient_t *apiClient, char * username )
     free(localVarToReplace_username);
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -477,6 +499,7 @@ UserAPI_loginUser(apiClient_t *apiClient, char * username , char * password )
     }
     return elementToReturn;
 end:
+    free(localVarPath);
     return NULL;
 
 }
@@ -562,7 +585,7 @@ UserAPI_updateUser(apiClient_t *apiClient, char * username , user_t * body )
 
 
     // Body Param
-    cJSON *localVarSingleItemJSON_body;
+    cJSON *localVarSingleItemJSON_body = NULL;
     if (body != NULL)
     {
         //string
@@ -599,7 +622,10 @@ end:
     
     free(localVarPath);
     free(localVarToReplace_username);
-    cJSON_Delete(localVarSingleItemJSON_body);
+    if (localVarSingleItemJSON_body) {
+        cJSON_Delete(localVarSingleItemJSON_body);
+        localVarSingleItemJSON_body = NULL;
+    }
     free(localVarBodyParameters);
 
 }

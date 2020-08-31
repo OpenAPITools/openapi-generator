@@ -98,6 +98,23 @@ public class ApiClient {
     }
 
     /*
+     * Basic constructor with custom OkHttpClient
+     */
+    public ApiClient(OkHttpClient client) {
+        init();
+
+        httpClient = client;
+
+        // Setup authentications (key: authentication name, value: authentication).
+        authentications.put("api_key", new ApiKeyAuth("header", "api_key"));
+        authentications.put("api_key_query", new ApiKeyAuth("query", "api_key_query"));
+        authentications.put("http_basic_test", new HttpBasicAuth());
+        authentications.put("petstore_auth", new OAuth());
+        // Prevent the authentications from being modified.
+        authentications = Collections.unmodifiableMap(authentications);
+    }
+
+    /*
      * Constructor for ApiClient to support access token retry on 401/403 configured with client ID
      */
     public ApiClient(String clientId) {
@@ -480,7 +497,9 @@ public class ApiClient {
                 loggingInterceptor.setLevel(Level.BODY);
                 httpClient = httpClient.newBuilder().addInterceptor(loggingInterceptor).build();
             } else {
-                httpClient.interceptors().remove(loggingInterceptor);
+                final OkHttpClient.Builder builder = httpClient.newBuilder();
+                builder.interceptors().remove(loggingInterceptor);
+                httpClient = builder.build();
                 loggingInterceptor = null;
             }
         }
@@ -1028,6 +1047,9 @@ public class ApiClient {
                     result = (T) handleResponse(response, returnType);
                 } catch (ApiException e) {
                     callback.onFailure(e, response.code(), response.headers().toMultimap());
+                    return;
+                } catch (Exception e) {
+                    callback.onFailure(new ApiException(e), response.code(), response.headers().toMultimap());
                     return;
                 }
                 callback.onSuccess(result, response.code(), response.headers().toMultimap());

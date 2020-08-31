@@ -10,8 +10,6 @@
 """
 
 
-from __future__ import absolute_import
-
 import unittest
 
 import petstore_api
@@ -27,6 +25,38 @@ class TestFakeApi(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def test_additional_properties_with_array_of_enums(self):
+        """Test case for additional_properties_with_array_of_enums
+
+        Additional Properties with Array of Enums  # noqa: E501
+        """
+        pass
+
+    def test_array_model(self):
+        """Test case for array_model
+
+        """
+        pass
+
+    def test_array_of_enums(self):
+        """Test case for array_of_enums
+
+        Array of Enums  # noqa: E501
+        """
+        pass
+
+    def test_boolean(self):
+        """Test case for boolean
+
+        """
+        pass
+
+    def test_composed_one_of_number_with_validations(self):
+        """Test case for composed_one_of_number_with_validations
+
+        """
+        pass
+
     def test_fake_health_get(self):
         """Test case for fake_health_get
 
@@ -34,26 +64,26 @@ class TestFakeApi(unittest.TestCase):
         """
         pass
 
-    def test_fake_outer_boolean_serialize(self):
-        """Test case for fake_outer_boolean_serialize
+    def test_number_with_validations(self):
+        """Test case for number_with_validations
 
         """
         pass
 
-    def test_fake_outer_composite_serialize(self):
-        """Test case for fake_outer_composite_serialize
+    def test_object_model_with_ref_props(self):
+        """Test case for object_model_with_ref_props
 
         """
         pass
 
-    def test_fake_outer_number_serialize(self):
-        """Test case for fake_outer_number_serialize
+    def test_string(self):
+        """Test case for string
 
         """
         pass
 
-    def test_fake_outer_string_serialize(self):
-        """Test case for fake_outer_string_serialize
+    def test_string_enum(self):
+        """Test case for string_enum
 
         """
         pass

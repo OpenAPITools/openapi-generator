@@ -8,7 +8,7 @@ This server has been generated with [Slim PSR-7](https://github.com/slimphp/Slim
 ## Requirements
 
 * Web server with URL rewriting
-* PHP 7.1 or newer
+* PHP 7.2 or newer
 
 This package contains `.htaccess` for Apache configuration.
 If you use another server(Nginx, HHVM, IIS, lighttpd) check out [Web Servers](https://www.slimframework.com/docs/v3/start/web-servers.html) doc.
@@ -20,6 +20,10 @@ This command downloads the Slim Framework and its third-party dependencies into 
 ```bash
 $ composer install
 ```
+
+## Add configs
+
+Application requires at least one config file(`config/dev/config.inc.php` or `config/prod/config.inc.php`). You can use [config/dev/example.inc.php](config/dev/example.inc.php) as starting point.
 
 ## Start devserver
 
@@ -35,9 +39,9 @@ $ php -S localhost:8888 -t php-slim-server
 
 ### PHPUnit
 
-This package uses PHPUnit 6 or 7(depends from your PHP version) for unit testing.
+This package uses PHPUnit 8 or 9(depends from your PHP version) for unit testing.
 [Test folder](test) contains templates which you can fill with real test assertions.
-How to write tests read at [PHPUnit Manual - Chapter 2. Writing Tests for PHPUnit](https://phpunit.de/manual/6.5/en/writing-tests-for-phpunit.html).
+How to write tests read at [2. Writing Tests for PHPUnit - PHPUnit 8.5 Manual](https://phpunit.readthedocs.io/en/8.5/writing-tests-for-phpunit.html).
 
 #### Run
 
@@ -46,14 +50,12 @@ Command | Target
 `$ composer test` | All tests
 `$ composer test-apis` | Apis tests
 `$ composer test-models` | Models tests
-`$ composer test-mock` | Mock feature tests
-`$ composer test-utils` | Utils tests
 
 #### Config
 
 Package contains fully functional config `./phpunit.xml.dist` file. Create `./phpunit.xml` in root folder to override it.
 
-Quote from [3. The Command-Line Test Runner — PHPUnit 7.4 Manual](https://phpunit.readthedocs.io/en/7.4/textui.html#command-line-options):
+Quote from [3. The Command-Line Test Runner — PHPUnit 8.5 Manual](https://phpunit.readthedocs.io/en/8.5/textui.html#command-line-options):
 
 > If phpunit.xml or phpunit.xml.dist (in that order) exist in the current working directory and --configuration is not used, the configuration will be automatically read from that file.
 
@@ -84,28 +86,28 @@ $ composer phplint
 
 ## Show errors
 
-Switch on option in `./index.php`:
+Switch on option in your application config file like:
 ```diff
-/**
- * Add Error Handling Middleware
- *
- * @param bool $displayErrorDetails -> Should be set to false in production
- * @param bool $logErrors -> Parameter is passed to the default ErrorHandler
- * @param bool $logErrorDetails -> Display error details in error log
- * which can be replaced by a callable of your choice.
-
- * Note: This middleware should be added last. It will not handle any exceptions/errors
- * for middleware added after it.
- */
---- $app->addErrorMiddleware(false, true, true);
-+++ $app->addErrorMiddleware(true, true, true);
+ return [
+     'slimSettings' => [
+-        'displayErrorDetails' => false,
++        'displayErrorDetails' => true,
+         'logErrors' => true,
+         'logErrorDetails' => true,
+     ],
 ```
 
-## [Mock Server Documentation](./docs/MockServer.md)
+## Mock Server
+For a quick start uncomment [mocker middleware options](config/dev/example.inc.php#L67-L94) in your application config file.
+
+Used packages:
+* [Openapi Data Mocker](https://github.com/ybelenko/openapi-data-mocker) - first implementation of OAS3 fake data generator.
+* [Openapi Data Mocker Server Middleware](https://github.com/ybelenko/openapi-data-mocker-server-middleware) - PSR-15 HTTP server middleware.
+* [Openapi Data Mocker Interfaces](https://github.com/ybelenko/openapi-data-mocker-interfaces) - package with mocking interfaces.
 
 ## API Endpoints
 
-All URIs are relative to *http://petstore.swagger.io:80/v2*
+All URIs are relative to *http://petstore.swagger.io/v2*
 
 > Important! Do not modify abstract API controllers directly! Instead extend them by implementation classes like:
 
@@ -131,22 +133,6 @@ For instance, when abstract class located at `./lib/Api/AbstractPetApi.php` you 
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AbstractAnotherFakeApi* | **call123TestSpecialTags** | **PATCH** /another-fake/dummy | To test special tags
-*AbstractFakeApi* | **createXmlItem** | **POST** /fake/create_xml_item | creates an XmlItem
-*AbstractFakeApi* | **fakeOuterBooleanSerialize** | **POST** /fake/outer/boolean | 
-*AbstractFakeApi* | **fakeOuterCompositeSerialize** | **POST** /fake/outer/composite | 
-*AbstractFakeApi* | **fakeOuterNumberSerialize** | **POST** /fake/outer/number | 
-*AbstractFakeApi* | **fakeOuterStringSerialize** | **POST** /fake/outer/string | 
-*AbstractFakeApi* | **testBodyWithFileSchema** | **PUT** /fake/body-with-file-schema | 
-*AbstractFakeApi* | **testBodyWithQueryParams** | **PUT** /fake/body-with-query-params | 
-*AbstractFakeApi* | **testClientModel** | **PATCH** /fake | To test \"client\" model
-*AbstractFakeApi* | **testEndpointParameters** | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-*AbstractFakeApi* | **testEnumParameters** | **GET** /fake | To test enum parameters
-*AbstractFakeApi* | **testGroupParameters** | **DELETE** /fake | Fake endpoint to test group parameters (optional)
-*AbstractFakeApi* | **testInlineAdditionalProperties** | **POST** /fake/inline-additionalProperties | test inline additionalProperties
-*AbstractFakeApi* | **testJsonFormData** | **GET** /fake/jsonFormData | test json serialization of form data
-*AbstractFakeApi* | **testQueryParameterCollectionFormat** | **PUT** /fake/test-query-paramters | 
-*AbstractFakeClassnameTags123Api* | **testClassname** | **PATCH** /fake_classname_test | To test class name in snake case
 *AbstractPetApi* | **addPet** | **POST** /pet | Add a new pet to the store
 *AbstractPetApi* | **findPetsByStatus** | **GET** /pet/findByStatus | Finds Pets by status
 *AbstractPetApi* | **findPetsByTags** | **GET** /pet/findByTags | Finds Pets by tags
@@ -155,11 +141,10 @@ Class | Method | HTTP request | Description
 *AbstractPetApi* | **getPetById** | **GET** /pet/{petId} | Find pet by ID
 *AbstractPetApi* | **updatePetWithForm** | **POST** /pet/{petId} | Updates a pet in the store with form data
 *AbstractPetApi* | **uploadFile** | **POST** /pet/{petId}/uploadImage | uploads an image
-*AbstractPetApi* | **uploadFileWithRequiredFile** | **POST** /fake/{petId}/uploadImageWithRequiredFile | uploads an image (required)
 *AbstractStoreApi* | **getInventory** | **GET** /store/inventory | Returns pet inventories by status
 *AbstractStoreApi* | **placeOrder** | **POST** /store/order | Place an order for a pet
-*AbstractStoreApi* | **deleteOrder** | **DELETE** /store/order/{order_id} | Delete purchase order by ID
-*AbstractStoreApi* | **getOrderById** | **GET** /store/order/{order_id} | Find purchase order by ID
+*AbstractStoreApi* | **deleteOrder** | **DELETE** /store/order/{orderId} | Delete purchase order by ID
+*AbstractStoreApi* | **getOrderById** | **GET** /store/order/{orderId} | Find purchase order by ID
 *AbstractUserApi* | **createUser** | **POST** /user | Create user
 *AbstractUserApi* | **createUsersWithArrayInput** | **POST** /user/createWithArray | Creates list of users with given input array
 *AbstractUserApi* | **createUsersWithListInput** | **POST** /user/createWithList | Creates list of users with given input array
@@ -172,66 +157,20 @@ Class | Method | HTTP request | Description
 
 ## Models
 
-* OpenAPIServer\Model\AdditionalPropertiesAnyType
-* OpenAPIServer\Model\AdditionalPropertiesArray
-* OpenAPIServer\Model\AdditionalPropertiesBoolean
-* OpenAPIServer\Model\AdditionalPropertiesClass
-* OpenAPIServer\Model\AdditionalPropertiesInteger
-* OpenAPIServer\Model\AdditionalPropertiesNumber
-* OpenAPIServer\Model\AdditionalPropertiesObject
-* OpenAPIServer\Model\AdditionalPropertiesString
-* OpenAPIServer\Model\Animal
 * OpenAPIServer\Model\ApiResponse
-* OpenAPIServer\Model\ArrayOfArrayOfNumberOnly
-* OpenAPIServer\Model\ArrayOfNumberOnly
-* OpenAPIServer\Model\ArrayTest
-* OpenAPIServer\Model\BigCat
-* OpenAPIServer\Model\BigCatAllOf
-* OpenAPIServer\Model\Capitalization
-* OpenAPIServer\Model\Cat
-* OpenAPIServer\Model\CatAllOf
 * OpenAPIServer\Model\Category
-* OpenAPIServer\Model\ClassModel
-* OpenAPIServer\Model\Client
-* OpenAPIServer\Model\Dog
-* OpenAPIServer\Model\DogAllOf
-* OpenAPIServer\Model\EnumArrays
-* OpenAPIServer\Model\EnumClass
-* OpenAPIServer\Model\EnumTest
-* OpenAPIServer\Model\File
-* OpenAPIServer\Model\FileSchemaTestClass
-* OpenAPIServer\Model\FormatTest
-* OpenAPIServer\Model\HasOnlyReadOnly
-* OpenAPIServer\Model\MapTest
-* OpenAPIServer\Model\MixedPropertiesAndAdditionalPropertiesClass
-* OpenAPIServer\Model\Model200Response
-* OpenAPIServer\Model\ModelList
-* OpenAPIServer\Model\ModelReturn
-* OpenAPIServer\Model\Name
-* OpenAPIServer\Model\NumberOnly
+* OpenAPIServer\Model\InlineObject
+* OpenAPIServer\Model\InlineObject1
 * OpenAPIServer\Model\Order
-* OpenAPIServer\Model\OuterComposite
-* OpenAPIServer\Model\OuterEnum
 * OpenAPIServer\Model\Pet
-* OpenAPIServer\Model\ReadOnlyFirst
-* OpenAPIServer\Model\SpecialModelName
 * OpenAPIServer\Model\Tag
-* OpenAPIServer\Model\TypeHolderDefault
-* OpenAPIServer\Model\TypeHolderExample
 * OpenAPIServer\Model\User
-* OpenAPIServer\Model\XmlItem
 
 
 ## Authentication
 
 ### Security schema `api_key`
 > Important! To make ApiKey authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
-
-### Security schema `api_key_query`
-> Important! To make ApiKey authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\ApiKeyAuthenticator](./src/Auth/ApiKeyAuthenticator.php) class.
-
-### Security schema `http_basic_test`
-> Important! To make Basic authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\BasicAuthenticator](./src/Auth/BasicAuthenticator.php) class.
 
 ### Security schema `petstore_auth`
 > Important! To make OAuth authentication work you need to extend [\OpenAPIServer\Auth\AbstractAuthenticator](./lib/Auth/AbstractAuthenticator.php) class by [\OpenAPIServer\Auth\OAuthAuthenticator](./src/Auth/OAuthAuthenticator.php) class.

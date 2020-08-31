@@ -1,21 +1,11 @@
 package org.openapitools.codegen.kotlin.spring;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.testing.Helpers;
-import io.swagger.parser.OpenAPIParser;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.servers.Server;
-import io.swagger.v3.parser.core.models.ParseOptions;
+
 import org.apache.commons.io.FileUtils;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.kotlin.KotlinTestUtils;
-import org.openapitools.codegen.languages.AbstractJavaCodegen;
-import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.languages.KotlinSpringServerCodegen;
-import org.openapitools.codegen.languages.SpringCodegen;
-import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -23,6 +13,10 @@ import java.io.File;
 import java.nio.file.Files;
 import java.util.Collections;
 import java.util.List;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.servers.Server;
 
 public class KotlinSpringServerCodegenTest {
 

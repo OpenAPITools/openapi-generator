@@ -9,13 +9,14 @@ use std::io::{ErrorKind, Read};
 use std::error::Error;
 use std::future::Future;
 use std::fmt;
+use std::marker::PhantomData;
 use std::path::Path;
 use std::sync::{Arc, Mutex};
 use std::str;
 use std::str::FromStr;
 use std::string::ToString;
 use std::task::{Context, Poll};
-use swagger::{ApiError, AuthData, BodyExt, Connector, Has, XSpanIdString};
+use swagger::{ApiError, AuthData, BodyExt, Connector, DropContextService, Has, XSpanIdString};
 use url::form_urlencoded;
 
 {{#apiUsesMultipartFormData}}

@@ -65,6 +65,8 @@ public class ModelUtils {
     // A vendor extension to track the value of the 'disallowAdditionalPropertiesIfNotPresent' CLI
     private static final String disallowAdditionalPropertiesIfNotPresent = "x-disallow-additional-properties-if-not-present";
 
+    private static final String freeFormExplicit = "x-is-free-form";
+
     private static ObjectMapper JSON_MAPPER, YAML_MAPPER;
 
     static {
@@ -86,6 +88,10 @@ public class ModelUtils {
 
     public static boolean isGenerateAliasAsModel() {
         return Boolean.parseBoolean(GlobalSettings.getProperty(generateAliasAsModelKey, "false"));
+    }
+
+    public static boolean isGenerateAliasAsModel(Schema schema) {
+        return isGenerateAliasAsModel() || (schema.getExtensions() != null && schema.getExtensions().getOrDefault("x-generate-alias-as-model", false).equals(true));
     }
 
     /**
@@ -668,25 +674,23 @@ public class ModelUtils {
     }
 
     /**
-     * Check to see if the schema is a model with at least one property.
+     * Check to see if the schema is a model
      *
      * @param schema potentially containing a '$ref'
      * @return true if it's a model with at least one properties
      */
     public static boolean isModel(Schema schema) {
         if (schema == null) {
-            // TODO: Is this message necessary? A null schema is not a model, so the result is correct.
-            once(LOGGER).error("Schema cannot be null in isModel check");
             return false;
         }
 
-        // has at least one property
-        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+        // has properties
+        if (null != schema.getProperties()) {
             return true;
         }
 
-        // composed schema is a model
-        return schema instanceof ComposedSchema;
+        // composed schema is a model, consider very simple ObjectSchema a model
+        return schema instanceof ComposedSchema || schema instanceof ObjectSchema;
     }
 
     /**
@@ -741,6 +745,16 @@ public class ModelUtils {
             // no properties
             if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
                 Schema addlProps = getAdditionalProperties(openAPI, schema);
+
+                if (schema.getExtensions() != null && schema.getExtensions().containsKey(freeFormExplicit)) {
+                    // User has hard-coded vendor extension to handle free-form evaluation.
+                    boolean isFreeFormExplicit = Boolean.parseBoolean(String.valueOf(schema.getExtensions().get(freeFormExplicit)));
+                    if (!isFreeFormExplicit && addlProps != null && addlProps.getProperties() != null && !addlProps.getProperties().isEmpty()) {
+                        once(LOGGER).error(String.format(Locale.ROOT, "Potentially confusing usage of %s within model which defines additional properties", freeFormExplicit));
+                    }
+                    return isFreeFormExplicit;
+                }
+
                 // additionalProperties not defined
                 if (addlProps == null) {
                     return true;
@@ -1026,7 +1040,7 @@ public class ModelUtils {
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
             String simpleRef = ModelUtils.getSimpleRef(schema.get$ref());
             if (importMappings.containsKey(simpleRef)) {
-                LOGGER.info("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, importMappings.get(simpleRef));
+                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, importMappings.get(simpleRef));
                 return schema;
             }
             Schema ref = allSchemas.get(simpleRef);
@@ -1037,7 +1051,7 @@ public class ModelUtils {
                 // top-level enum class
                 return schema;
             } else if (isArraySchema(ref)) {
-                if (isGenerateAliasAsModel()) {
+                if (isGenerateAliasAsModel(ref)) {
                     return schema; // generate a model extending array
                 } else {
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
@@ -1049,7 +1063,7 @@ public class ModelUtils {
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
                     return schema; // treat it as model
                 else {
-                    if (isGenerateAliasAsModel()) {
+                    if (isGenerateAliasAsModel(ref)) {
                         return schema; // generate a model extending map
                     } else {
                         // treat it as a typical map

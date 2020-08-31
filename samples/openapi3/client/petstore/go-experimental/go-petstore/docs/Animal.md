@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ClassName** | Pointer to **string** |  | 
+**ClassName** | **string** |  | 
 **Color** | Pointer to **string** |  | [optional] [default to "red"]
 
 ## Methods

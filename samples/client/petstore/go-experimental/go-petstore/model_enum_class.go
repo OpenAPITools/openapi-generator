@@ -38,7 +38,7 @@ func (v *EnumClass) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid EnumClass", *v)
+	return fmt.Errorf("%+v is not a valid EnumClass", value)
 }
 
 // Ptr returns reference to EnumClass value

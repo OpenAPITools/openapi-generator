@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,31 +26,19 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import child_cat
-except ImportError:
-    child_cat = sys.modules[
-        'petstore_api.model.child_cat']
-try:
-    from petstore_api.model import child_dog
-except ImportError:
-    child_dog = sys.modules[
-        'petstore_api.model.child_dog']
-try:
-    from petstore_api.model import child_lizard
-except ImportError:
-    child_lizard = sys.modules[
-        'petstore_api.model.child_lizard']
-try:
-    from petstore_api.model import parent_pet
-except ImportError:
-    parent_pet = sys.modules[
-        'petstore_api.model.parent_pet']
+
+def lazy_import():
+    from petstore_api.model.child_cat import ChildCat
+    from petstore_api.model.child_dog import ChildDog
+    from petstore_api.model.child_lizard import ChildLizard
+    from petstore_api.model.parent_pet import ParentPet
+    globals()['ChildCat'] = ChildCat
+    globals()['ChildDog'] = ChildDog
+    globals()['ChildLizard'] = ChildLizard
+    globals()['ParentPet'] = ParentPet
 
 
 class GrandparentAnimal(ModelNormal):
@@ -92,24 +78,26 @@ class GrandparentAnimal(ModelNormal):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'pet_type': (str,),  # noqa: E501
         }
 
     @cached_property
     def discriminator():
+        lazy_import()
         val = {
-            'ChildCat': child_cat.ChildCat,
-            'ChildDog': child_dog.ChildDog,
-            'ChildLizard': child_lizard.ChildLizard,
-            'ParentPet': parent_pet.ParentPet,
+            'ChildCat': ChildCat,
+            'ChildDog': ChildDog,
+            'ChildLizard': ChildLizard,
+            'ParentPet': ParentPet,
         }
         if not val:
             return None
@@ -132,7 +120,7 @@ class GrandparentAnimal(ModelNormal):
 
     @convert_js_args_to_python_args
     def __init__(self, pet_type, *args, **kwargs):  # noqa: E501
-        """grandparent_animal.GrandparentAnimal - a model defined in OpenAPI
+        """GrandparentAnimal - a model defined in OpenAPI
 
         Args:
             pet_type (str):
@@ -194,7 +182,7 @@ class GrandparentAnimal(ModelNormal):
         self._visited_composed_classes = _visited_composed_classes + (self.__class__,)
 
         self.pet_type = pet_type
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \

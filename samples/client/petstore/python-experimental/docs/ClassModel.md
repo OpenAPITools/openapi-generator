@@ -1,4 +1,4 @@
-# class_model.ClassModel
+# ClassModel
 
 Model for testing model with \"_class\" property
 ## Properties

@@ -34,6 +34,10 @@ import java.io.File;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.time.OffsetDateTime;
+import java.time.Instant;
+import java.time.temporal.ChronoField;
+import java.util.concurrent.TimeUnit;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
@@ -193,6 +197,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         typeMapping.put("array", "Array");
         typeMapping.put("List", "Array");
         typeMapping.put("map", "Dictionary");
+        typeMapping.put("set", "Set");
         typeMapping.put("date", "Date");
         typeMapping.put("Date", "Date");
         typeMapping.put("DateTime", "Date");
@@ -520,7 +525,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
-            return "[" + getTypeDeclaration(inner) + "]";
+            return ModelUtils.isSet(p) ? "Set<" + getTypeDeclaration(inner) + ">" : "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = getAdditionalProperties(p);
             return "[String:" + getTypeDeclaration(inner) + "]";
@@ -620,14 +625,19 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
                 }
             }
         }
-        if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
-            if (p.getDefault() != null) {
+        if (p.getDefault() != null) {
+            if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
                 return p.getDefault().toString();
-            }
-        } else if (ModelUtils.isStringSchema(p)) {
-            if (p.getDefault() != null) {
+            } else if (ModelUtils.isDateTimeSchema(p)) {
+                // Datetime time stamps in Swift are expressed as Seconds with Microsecond precision.
+                // In Java, we need to be creative to get the Timestamp in Microseconds as a long.
+                Instant instant = ((OffsetDateTime) p.getDefault()).toInstant();
+                long epochMicro = TimeUnit.SECONDS.toMicros(instant.getEpochSecond()) + ((long) instant.get(ChronoField.MICRO_OF_SECOND));
+                return "Date(timeIntervalSince1970: " + String.valueOf(epochMicro) + ".0 / 1_000_000)";
+            } else if (ModelUtils.isStringSchema(p)) {
                 return "\"" + escapeText((String) p.getDefault()) + "\"";
             }
+            // TODO: Handle more cases from `ModelUtils`, such as Date
         }
         return null;
     }
@@ -639,7 +649,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             String inner = getSchemaType(ap.getItems());
-            return "[" + inner + "]";
+            return ModelUtils.isSet(p) ? "Set<" + inner + ">" : "[" + inner + "]";
         }
         return null;
     }

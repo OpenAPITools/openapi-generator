@@ -34,43 +34,57 @@ class TestFakeApi(unittest.TestCase):
         """
         pass
 
-    def test_fake_outer_boolean_serialize(self):
-        """Test case for fake_outer_boolean_serialize
+    def test_boolean(self):
+        """Test case for boolean
 
         """
-        pass
+        endpoint = self.api.boolean
+        assert endpoint.openapi_types['body'] == (bool,)
+        assert endpoint.settings['response_type'] == (bool,)
 
-    def test_fake_outer_composite_serialize(self):
-        """Test case for fake_outer_composite_serialize
-
-        """
-        pass
-
-    def test_fake_outer_enum_serialize(self):
-        """Test case for fake_outer_enum_serialize
+    def test_string(self):
+        """Test case for string
 
         """
-        # verify that the input and output are type OuterEnum
-        from petstore_api.model import outer_enum
-        endpoint = self.api.fake_outer_enum_serialize
-        assert endpoint.openapi_types['body'] == (outer_enum.OuterEnum,)
-        assert endpoint.settings['response_type'] == (outer_enum.OuterEnum,)
+        endpoint = self.api.string
+        assert endpoint.openapi_types['body'] == (str,)
+        assert endpoint.settings['response_type'] == (str,)
 
-    def test_fake_outer_number_serialize(self):
-        """Test case for fake_outer_number_serialize
+    def test_object_model_with_ref_props(self):
+        """Test case for object_model_with_ref_props
 
         """
-        # verify that the input and output are the correct type
-        from petstore_api.model import outer_number
-        endpoint = self.api.fake_outer_number_serialize
-        assert endpoint.openapi_types['body'] == (outer_number.OuterNumber,)
-        assert endpoint.settings['response_type'] == (outer_number.OuterNumber,)
+        from petstore_api.model import object_model_with_ref_props
+        endpoint = self.api.object_model_with_ref_props
+        assert endpoint.openapi_types['body'] == (object_model_with_ref_props.ObjectModelWithRefProps,)
+        assert endpoint.settings['response_type'] == (object_model_with_ref_props.ObjectModelWithRefProps,)
 
-    def test_fake_outer_string_serialize(self):
-        """Test case for fake_outer_string_serialize
+    def test_string_enum(self):
+        """Test case for string_enum
 
         """
-        pass
+        from petstore_api.model import string_enum
+        endpoint = self.api.string_enum
+        assert endpoint.openapi_types['body'] == (string_enum.StringEnum,)
+        assert endpoint.settings['response_type'] == (string_enum.StringEnum,)
+
+    def test_array_model(self):
+        """Test case for array_model
+
+        """
+        from petstore_api.model import animal_farm
+        endpoint = self.api.array_model
+        assert endpoint.openapi_types['body'] == (animal_farm.AnimalFarm,)
+        assert endpoint.settings['response_type'] == (animal_farm.AnimalFarm,)
+
+    def test_number_with_validations(self):
+        """Test case for number_with_validations
+
+        """
+        from petstore_api.model import number_with_validations
+        endpoint = self.api.number_with_validations
+        assert endpoint.openapi_types['body'] == (number_with_validations.NumberWithValidations,)
+        assert endpoint.settings['response_type'] == (number_with_validations.NumberWithValidations,)
 
     def test_test_body_with_file_schema(self):
         """Test case for test_body_with_file_schema
@@ -107,7 +121,7 @@ class TestFakeApi(unittest.TestCase):
             call_with_http_info.assert_called_with(
                 _check_input_type=True,
                 _check_return_type=True,
-                _host_index=0,
+                _host_index=None,
                 _preload_content=True,
                 _request_timeout=None,
                 _return_http_data_only=True,

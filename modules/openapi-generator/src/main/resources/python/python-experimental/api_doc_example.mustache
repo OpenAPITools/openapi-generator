@@ -1,5 +1,4 @@
 ```python
-from __future__ import print_function
 import time
 import {{{packageName}}}
 from {{apiPackage}} import {{classVarName}}
@@ -17,44 +16,61 @@ with {{{packageName}}}.ApiClient() as api_client:
 {{/hasAuthMethods}}
     # Create an instance of the API class
     api_instance = {{classVarName}}.{{{classname}}}(api_client)
-    {{#requiredParams}}{{^defaultValue}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}
-    {{/defaultValue}}{{/requiredParams}}{{#optionalParams}}{{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}
-    {{/optionalParams}}
-    {{#requiredParams}}
-    {{^hasMore}}
+{{#requiredParams}}
+{{^defaultValue}}
+    {{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}
+{{/defaultValue}}
+{{/requiredParams}}
+{{#optionalParams}}
+    {{paramName}} = {{{example}}} # {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}
+{{/optionalParams}}
+{{#requiredParams}}
+{{^hasMore}}
 
     # example passing only required values which don't have defaults set
     try:
-    {{#summary}}    # {{{.}}}
-    {{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#requiredParams}}{{^defaultValue}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/defaultValue}}{{/requiredParams}}){{#returnType}}
-        pprint(api_response){{/returnType}}
+{{#summary}}
+        # {{{.}}}
+{{/summary}}
+        {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#requiredParams}}{{^defaultValue}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/defaultValue}}{{/requiredParams}})
+{{#returnType}}
+        pprint(api_response)
+{{/returnType}}
     except {{{packageName}}}.ApiException as e:
         print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
-    {{/hasMore}}
-    {{/requiredParams}}
-    {{#optionalParams}}
-    {{^hasMore}}
+{{/hasMore}}
+{{/requiredParams}}
+{{#optionalParams}}
+{{^hasMore}}
 
     # example passing only required values which don't have defaults set
     # and optional values
     try:
-    {{#summary}}    # {{{.}}}
-    {{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#requiredParams}}{{^defaultValue}}{{paramName}}, {{/defaultValue}}{{/requiredParams}}{{#optionalParams}}{{paramName}}={{paramName}}{{#hasMore}}, {{/hasMore}}{{/optionalParams}}){{#returnType}}
-        pprint(api_response){{/returnType}}
+{{#summary}}
+        # {{{.}}}
+{{/summary}}
+        {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}({{#requiredParams}}{{^defaultValue}}{{paramName}}, {{/defaultValue}}{{/requiredParams}}{{#optionalParams}}{{paramName}}={{paramName}}{{#hasMore}}, {{/hasMore}}{{/optionalParams}})
+{{#returnType}}
+        pprint(api_response)
+{{/returnType}}
     except {{{packageName}}}.ApiException as e:
         print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
-    {{/hasMore}}
-    {{/optionalParams}}
-    {{^requiredParams}}
-    {{^optionalParams}}
+{{/hasMore}}
+{{/optionalParams}}
+{{^requiredParams}}
+{{^optionalParams}}
 
     # example, this endpoint has no required or optional parameters
     try:
-    {{#summary}}    # {{{.}}}
-    {{/summary}}    {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}(){{#returnType}}
-        pprint(api_response){{/returnType}}
+{{#summary}}
+        # {{{.}}}
+{{/summary}}
+        {{#returnType}}api_response = {{/returnType}}api_instance.{{{operationId}}}()
+{{#returnType}}
+        pprint(api_response)
+{{/returnType}}
     except {{{packageName}}}.ApiException as e:
         print("Exception when calling {{classname}}->{{operationId}}: %s\n" % e)
-    {{/optionalParams}}
-    {{/requiredParams}}
+{{/optionalParams}}
+{{/requiredParams}}
 ```

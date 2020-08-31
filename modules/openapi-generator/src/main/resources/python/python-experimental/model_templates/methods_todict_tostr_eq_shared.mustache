@@ -13,17 +13,12 @@
 
         if not set(self._data_store.keys()) == set(other._data_store.keys()):
             return False
-        for _var_name, this_val in six.iteritems(self._data_store):
+        for _var_name, this_val in self._data_store.items():
             that_val = other._data_store[_var_name]
             types = set()
             types.add(this_val.__class__)
             types.add(that_val.__class__)
             vals_equal = this_val == that_val
-            if (not six.PY3 and
-                    len(types) == 2 and unicode in types):  # noqa: F821
-                vals_equal = (
-                    this_val.encode('utf-8') == that_val.encode('utf-8')
-                )
             if not vals_equal:
                 return False
         return True

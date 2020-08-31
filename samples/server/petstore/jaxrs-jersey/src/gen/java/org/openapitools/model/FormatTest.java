@@ -46,7 +46,7 @@ import javax.validation.Valid;
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS,
   FormatTest.JSON_PROPERTY_PATTERN_WITH_DIGITS_AND_DELIMITER
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class FormatTest   {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   @JsonProperty(JSON_PROPERTY_INTEGER)
@@ -420,7 +420,7 @@ public class FormatTest   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -479,7 +479,7 @@ public class FormatTest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

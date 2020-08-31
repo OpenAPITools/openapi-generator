@@ -2,6 +2,8 @@ package org.openapitools.client;
 
 import org.openapitools.client.model.*;
 import java.lang.Exception;
+import java.util.List;
+import java.util.Map;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import org.junit.*;
@@ -14,6 +16,77 @@ public class JSONComposedSchemaTest {
     @Before
     public void setup() {
         json = new JSON();
+    }
+
+    @Test
+    public void testOneOfSchemaAdditionalProperties() throws Exception {
+        {
+            // The discriminator value is zebra but the properties belong to Whale.
+            // The 'whale' properties are considered to be additional (undeclared) properties
+            // because in the 'zebra' schema, the 'additionalProperties' keyword has been set
+            // to true.
+            // TODO: The outcome should depend on the value of the 'useOneOfDiscriminatorLookup' CLI.
+            String str = "{ \"className\": \"zebra\", \"hasBaleen\": true, \"hasTeeth\": false }";
+            AbstractOpenApiSchema o = json.getContext(null).readValue(str, Mammal.class);
+            assertNotNull(o);
+            assertTrue(o.getActualInstance() instanceof Zebra);
+            Zebra z = (Zebra)o.getActualInstance();
+            assertNotNull(z.getAdditionalProperties());
+            assertEquals(2, z.getAdditionalProperties().size());
+            assertTrue(z.getAdditionalProperties().containsKey("hasBaleen"));
+        }
+        {
+            // Same test as above, but this time deserializing directly into the Zebra class.
+            String str = "{ \"className\": \"zebra\", \"hasBaleen\": true, \"hasTeeth\": false }";
+            Zebra o = json.getContext(null).readValue(str, Zebra.class);
+            assertNotNull(o);
+            assertNotNull(o.getAdditionalProperties());
+            assertEquals(2, o.getAdditionalProperties().size());
+        }
+        {
+            // Same test as above, but with properties that belong neither to zebra nor whale
+            String str = "{ \"className\": \"zebra\", \"some_other_property\": \"abc\" }";
+            AbstractOpenApiSchema o = json.getContext(null).readValue(str, Mammal.class);
+            assertNotNull(o);
+            assertTrue(o.getActualInstance() instanceof Zebra);
+            Zebra z = (Zebra)o.getActualInstance();
+            assertNotNull(z.getAdditionalProperties());
+            assertEquals(1, z.getAdditionalProperties().size());
+        }
+        {
+            // Same test as above, but with properties that belong neither to zebra nor whale
+            // Deserialize directly into Zebra.
+            String str = "{ \"className\": \"zebra\", \"some_other_property\": \"abc\" }";
+            Zebra o = json.getContext(null).readValue(str, Zebra.class);
+            assertNotNull(o);
+            assertNotNull(o.getAdditionalProperties());
+            assertEquals(1, o.getAdditionalProperties().size());
+            assertTrue(o.getAdditionalProperties().containsKey("some_other_property"));
+            assertTrue(o.getAdditionalProperties().containsValue("abc"));
+        }
+    }
+
+    /**
+     * Test to ensure the setter will throw IllegalArgumentException
+     */
+    @Test(expected = IllegalArgumentException.class)
+    public void testEnumDiscriminator() throws Exception {
+        ChildCat cc = new ChildCat();
+        cc.setPetType("ChildCat");
+        assertEquals("ChildCat", cc.getPetType());
+
+        cc.setPetType("WrongValue");
+    }
+
+    /**
+     * Test to ensure the getter will throw ClassCastException
+     */
+    @Test(expected = ClassCastException.class)
+    public void testCastException() throws Exception {
+        String str = "{ \"cultivar\": \"golden delicious\", \"mealy\": false }";
+        FruitReq o = json.getContext(null).readValue(str, FruitReq.class);
+        assertTrue(o.getActualInstance() instanceof AppleReq);
+        BananaReq inst2 = o.getBananaReq(); // should throw ClassCastException
     }
 
     /**
@@ -31,6 +104,10 @@ public class JSONComposedSchemaTest {
             AppleReq inst = (AppleReq) o.getActualInstance();
             assertEquals(inst.getCultivar(), "golden delicious");
             assertEquals(inst.getMealy(), false);
+
+            AppleReq inst2 = o.getAppleReq();
+            assertEquals(inst2.getCultivar(), "golden delicious");
+            assertEquals(inst2.getMealy(), false);
         }
         {
             // Same test, but this time with additional (undeclared) properties.
@@ -66,7 +143,7 @@ public class JSONComposedSchemaTest {
             String str = "null";
             FruitReq o = json.getContext(null).readValue(str, FruitReq.class);
             assertNull(o);
-        }        
+        }
     }
 
     /**
@@ -104,21 +181,12 @@ public class JSONComposedSchemaTest {
             });
         }
         {
-            // The discriminator value is zebra but the properties belong to Whale.
-            // The 'whale' properties are considered to be additional (undeclared) properties
-            // because in the 'zebra' schema, the 'additionalProperties' keyword has been set
-            // to true.
-            // TODO: The outcome should depend on the value of the 'useOneOfDiscriminatorLookup' CLI.
-            String str = "{ \"className\": \"zebra\", \"hasBaleen\": true, \"hasTeeth\": false }";
-            AbstractOpenApiSchema o = json.getContext(null).readValue(str, Mammal.class);
-            assertNotNull(o);
-            assertTrue(o.getActualInstance() instanceof Zebra);
-        }
-        {
             String str = "{ \"className\": \"zebra\" }";
             AbstractOpenApiSchema o = json.getContext(null).readValue(str, Mammal.class);
             assertNotNull(o);
             assertTrue(o.getActualInstance() instanceof Zebra);
+            Zebra z = (Zebra)o.getActualInstance();
+            assertNull(z.getAdditionalProperties());
         }
         {
             /* comment out while unboxing nested oneOf/anyOf is still in discussion
@@ -186,11 +254,10 @@ public class JSONComposedSchemaTest {
 
     @Test
     public void testOneOfNestedComposedSchema() throws Exception {
-        /*
         {
             String str = "{ " +
                 " \"mainShape\":      { \"shapeType\": \"Triangle\", \"triangleType\": \"EquilateralTriangle\" }, " +
-                " \"shapeOrNull\":    { \"shapeType\": \"Triangle\", \"triangleType\": \"IsoscelesTriangle\" }, " +
+                " \"shapeOrNull\":    { \"shapeType\": \"Quadrilateral\", \"quadrilateralType\": \"SimpleQuadrilateral\" }, " +
                 " \"nullableShape\":  { \"shapeType\": \"Triangle\", \"triangleType\": \"ScaleneTriangle\" } " +
             "}";
             Drawing d = json.getContext(null).readValue(str, Drawing.class);
@@ -198,9 +265,13 @@ public class JSONComposedSchemaTest {
             assertNotNull(d.getMainShape());
             assertNotNull(d.getShapeOrNull());
             assertNotNull(d.getNullableShape());
-            assertTrue(d.getMainShape().getActualInstance() instanceof EquilateralTriangle);
-            assertTrue(d.getShapeOrNull().getActualInstance() instanceof IsoscelesTriangle);
-            assertTrue(d.getNullableShape().getActualInstance() instanceof ScaleneTriangle);
+            assertTrue(d.getMainShape().getActualInstance() instanceof Triangle);
+            assertTrue(d.getShapeOrNull().getActualInstance() instanceof Quadrilateral);
+            assertTrue(d.getNullableShape().getActualInstance() instanceof Triangle);
+            // TODO: add assertions with call to getActualInstanceRecursively().
+            //assertTrue(d.getMainShape().getActualInstanceRecursively() instanceof EquilateralTriangle);
+            //assertTrue(d.getShapeOrNull().getActualInstanceRecursively() instanceof SimpleQuadrilateral);
+            //assertTrue(d.getNullableShape().getActualInstanceRecursively() instanceof ScaleneTriangle);
         }
 
         {
@@ -214,9 +285,42 @@ public class JSONComposedSchemaTest {
             assertNotNull(d.getMainShape());
             assertNull(d.getShapeOrNull());
             assertNull(d.getNullableShape());
-            assertTrue(d.getMainShape().getActualInstance() instanceof EquilateralTriangle);
+            assertTrue(d.getMainShape().getActualInstance() instanceof Triangle);
         }
-        */
+    }
+
+    @Test
+    public void testOneOfNestedComposedSchemaWithAdditionalProperties() throws Exception {
+        {
+            String str = "{ " +
+                " \"mainShape\":      { \"shapeType\": \"Triangle\", \"triangleType\": \"EquilateralTriangle\" }, " +
+                " \"shapeOrNull\":    { \"shapeType\": \"Quadrilateral\", \"quadrilateralType\": \"SimpleQuadrilateral\" }, " +
+                " \"nullableShape\":  { \"shapeType\": \"Triangle\", \"triangleType\": \"ScaleneTriangle\" }, " +
+                " \"fruit_1\":        { \"cultivar\": \"golden delicious\", \"origin\": \"California\" }," +
+                " \"fruit_2\":        { \"cultivar\": \"honeycrisp\", \"origin\": \"California\" }" +
+            "}";
+            Drawing d = json.getContext(null).readValue(str, Drawing.class);
+            assertNotNull(d);
+            assertNotNull(d.getMainShape());
+            assertNotNull(d.getShapeOrNull());
+            assertNotNull(d.getNullableShape());
+            assertTrue(d.getMainShape().getActualInstance() instanceof Triangle);
+            assertTrue(d.getShapeOrNull().getActualInstance() instanceof Quadrilateral);
+            assertTrue(d.getNullableShape().getActualInstance() instanceof Triangle);
+            // TODO: add assertions with call to getActualInstanceRecursively().
+            //assertTrue(d.getMainShape().getActualInstanceRecursively() instanceof EquilateralTriangle);
+            //assertTrue(d.getShapeOrNull().getActualInstanceRecursively() instanceof SimpleQuadrilateral);
+            //assertTrue(d.getNullableShape().getActualInstanceRecursively() instanceof ScaleneTriangle);
+            assertNotNull(d.getAdditionalProperties());
+            assertEquals(2, d.getAdditionalProperties().size());
+            assertTrue(d.getAdditionalProperties().containsKey("fruit_1"));
+            assertTrue(d.getAdditionalProperties().containsKey("fruit_2"));
+            Fruit f1 = d.getAdditionalProperties().get("fruit_1");
+            assertTrue(f1.getActualInstance() instanceof Apple);
+            Apple a = (Apple)f1.getActualInstance();
+            assertEquals("golden delicious", a.getCultivar());
+            assertEquals("California", a.getOrigin());
+        }
     }
 
     /**
@@ -233,13 +337,30 @@ public class JSONComposedSchemaTest {
             assertEquals("white", d.getColor());
         }
         {
-            String str = "{ \"pet_type\": \"ChildCat\", \"name\": \"fluffy\" }";
+            String str = "{ \"pet_type\": \"ChildCat\", \"name\": \"fluffy\", " +
+                " \"stuff1\": \"the_value\", " +      // additional, undeclared property of type string.
+                " \"stuff2\": { \"p1\": 123 }, " +    // additional, undeclared property of type object.
+                " \"stuff3\": null," +                // additional, undeclared property with null value.
+                " \"stuff4\": [ 12, \"abc\" ]" +      // additional, undeclared property of type array.
+                " }";
             GrandparentAnimal o = json.getContext(null).readValue(str, GrandparentAnimal.class);            
             assertNotNull(o);
             assertTrue(o instanceof ParentPet);
             assertTrue(o instanceof ChildCat);
             ChildCat c = (ChildCat)o;
             assertEquals("fluffy", c.getName());
+            assertNotNull(c.getAdditionalProperties());
+            assertEquals(4, c.getAdditionalProperties().size());
+            assertTrue(c.getAdditionalProperties().containsKey("stuff1"));
+            assertTrue(c.getAdditionalProperties().containsKey("stuff2"));
+            assertTrue(c.getAdditionalProperties().containsKey("stuff3"));
+            assertTrue(c.getAdditionalProperties().containsKey("stuff4"));
+            assertEquals("the_value", c.getAdditionalProperties().get("stuff1"));
+            assertNotNull(c.getAdditionalProperties().get("stuff2"));
+            assertTrue(c.getAdditionalProperties().get("stuff2") instanceof Map);
+            assertNull(c.getAdditionalProperties().get("stuff3"));
+            assertNotNull(c.getAdditionalProperties().get("stuff4"));
+            assertTrue(c.getAdditionalProperties().get("stuff4") instanceof List);
         }
         {
             String str = "{ \"pet_type\": \"ChildCat\", \"name\": \"fluffy\" }";

@@ -2,7 +2,6 @@
 
 {{>partial_header}}
 
-from __future__ import absolute_import
 import sys
 import unittest
 
@@ -12,11 +11,11 @@ import {{packageName}}
 {{#imports}}
 {{{.}}}
 {{/imports}}
-from {{modelPackage}}.{{classFilename}} import {{unescapedDescription}}
+from {{modelPackage}}.{{classFilename}} import {{classname}}
 
 
-class Test{{unescapedDescription}}(unittest.TestCase):
-    """{{unescapedDescription}} unit test stubs"""
+class Test{{classname}}(unittest.TestCase):
+    """{{classname}} unit test stubs"""
 
     def setUp(self):
         pass
@@ -24,10 +23,10 @@ class Test{{unescapedDescription}}(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test{{unescapedDescription}}(self):
-        """Test {{unescapedDescription}}"""
+    def test{{classname}}(self):
+        """Test {{classname}}"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = {{unescapedDescription}}()  # noqa: E501
+        # model = {{classname}}()  # noqa: E501
         pass
 
 {{/model}}

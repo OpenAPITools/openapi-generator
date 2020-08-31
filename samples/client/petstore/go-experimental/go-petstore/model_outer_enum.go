@@ -38,7 +38,7 @@ func (v *OuterEnum) UnmarshalJSON(src []byte) error {
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid OuterEnum", *v)
+	return fmt.Errorf("%+v is not a valid OuterEnum", value)
 }
 
 // Ptr returns reference to OuterEnum value

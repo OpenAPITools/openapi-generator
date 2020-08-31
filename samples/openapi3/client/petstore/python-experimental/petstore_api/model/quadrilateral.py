@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,21 +26,15 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import complex_quadrilateral
-except ImportError:
-    complex_quadrilateral = sys.modules[
-        'petstore_api.model.complex_quadrilateral']
-try:
-    from petstore_api.model import simple_quadrilateral
-except ImportError:
-    simple_quadrilateral = sys.modules[
-        'petstore_api.model.simple_quadrilateral']
+
+def lazy_import():
+    from petstore_api.model.complex_quadrilateral import ComplexQuadrilateral
+    from petstore_api.model.simple_quadrilateral import SimpleQuadrilateral
+    globals()['ComplexQuadrilateral'] = ComplexQuadrilateral
+    globals()['SimpleQuadrilateral'] = SimpleQuadrilateral
 
 
 class Quadrilateral(ModelComposed):
@@ -75,20 +67,28 @@ class Quadrilateral(ModelComposed):
     validations = {
     }
 
-    additional_properties_type = (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
+    @cached_property
+    def additional_properties_type():
+        """
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
+        """
+        lazy_import()
+        return (bool, date, datetime, dict, float, int, list, str, none_type,)  # noqa: E501
 
     _nullable = False
 
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'shape_type': (str,),  # noqa: E501
             'quadrilateral_type': (str,),  # noqa: E501
@@ -96,9 +96,10 @@ class Quadrilateral(ModelComposed):
 
     @cached_property
     def discriminator():
+        lazy_import()
         val = {
-            'ComplexQuadrilateral': complex_quadrilateral.ComplexQuadrilateral,
-            'SimpleQuadrilateral': simple_quadrilateral.SimpleQuadrilateral,
+            'ComplexQuadrilateral': ComplexQuadrilateral,
+            'SimpleQuadrilateral': SimpleQuadrilateral,
         }
         if not val:
             return None
@@ -123,7 +124,7 @@ class Quadrilateral(ModelComposed):
 
     @convert_js_args_to_python_args
     def __init__(self, quadrilateral_type, *args, **kwargs):  # noqa: E501
-        """quadrilateral.Quadrilateral - a model defined in OpenAPI
+        """Quadrilateral - a model defined in OpenAPI
 
         Args:
             quadrilateral_type (str):
@@ -214,7 +215,7 @@ class Quadrilateral(ModelComposed):
 
         for var_name, var_value in required_args.items():
             setattr(self, var_name, var_value)
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name in unused_args and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \
@@ -232,13 +233,14 @@ class Quadrilateral(ModelComposed):
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        lazy_import()
         return {
           'anyOf': [
           ],
           'allOf': [
           ],
           'oneOf': [
-              complex_quadrilateral.ComplexQuadrilateral,
-              simple_quadrilateral.SimpleQuadrilateral,
+              ComplexQuadrilateral,
+              SimpleQuadrilateral,
           ],
         }

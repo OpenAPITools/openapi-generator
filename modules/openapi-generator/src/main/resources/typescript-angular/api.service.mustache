@@ -107,6 +107,10 @@ export class {{classname}} {
         }
 
         if (typeof value === "object") {
+            {{#isQueryParamObjectFormatJson}}
+            httpParams = httpParams.append(key, JSON.stringify(value));
+            {{/isQueryParamObjectFormatJson}}
+            {{^isQueryParamObjectFormatJson}}
             if (Array.isArray(value)) {
                 (value as any[]).forEach( elem => httpParams = this.addToHttpParamsRecursive(httpParams, elem, key));
             } else if (value instanceof Date) {
@@ -118,8 +122,9 @@ export class {{classname}} {
                 }
             } else {
                 Object.keys(value).forEach( k => httpParams = this.addToHttpParamsRecursive(
-                    httpParams, value[k], key != null ? `${key}.${k}` : k));
+                    httpParams, value[k], key != null ? `${key}{{#isQueryParamObjectFormatDot}}.{{/isQueryParamObjectFormatDot}}{{#isQueryParamObjectFormatKey}}[{{/isQueryParamObjectFormatKey}}${k}{{#isQueryParamObjectFormatKey}}]{{/isQueryParamObjectFormatKey}}` : k));
             }
+            {{/isQueryParamObjectFormatJson}}
         } else if (key != null) {
             httpParams = httpParams.append(key, value);
         } else {
@@ -148,6 +153,9 @@ export class {{classname}} {
      {{/useSingleRequestParameter}}
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
+     {{#isDeprecated}}
+     * @deprecated
+     {{/isDeprecated}}
      */
     public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{#hasMore}} | {{/hasMore}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>;
     public {{nickname}}({{^useSingleRequestParameter}}{{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}{{/useSingleRequestParameter}}{{#useSingleRequestParameter}}{{#allParams.0}}requestParameters: {{#prefixParameterInterfaces}}{{classname}}{{/prefixParameterInterfaces}}{{operationIdCamelCase}}RequestParams, {{/allParams.0}}{{/useSingleRequestParameter}}observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: {{#produces}}'{{mediaType}}'{{#hasMore}} | {{/hasMore}}{{/produces}}{{^produces}}undefined{{/produces}}}): Observable<HttpResponse<{{#returnType}}{{{returnType}}}{{#isResponseTypeFile}}|undefined{{/isResponseTypeFile}}{{/returnType}}{{^returnType}}any{{/returnType}}>>;
@@ -205,46 +213,33 @@ export class {{classname}} {
 {{/headerParams}}
 
 {{#authMethods}}
+{{#-first}}
+        let credential: string | undefined;
+{{/-first}}
         // authentication ({{name}}) required
+        credential = this.configuration.lookupCredential('{{name}}');
+        if (credential) {
 {{#isApiKey}}
-        if (this.configuration.apiKeys) {
-            {{! Fallback behaviour may be removed for 5.0 release. See #5062 }}
-            const key: string | undefined = this.configuration.apiKeys["{{name}}"] || this.configuration.apiKeys["{{keyParamName}}"];
-            if (key) {
-{{#isKeyInHeader}}
-                headers = headers.set('{{keyParamName}}', key);
-{{/isKeyInHeader}}
-{{#isKeyInQuery}}
-                queryParameters = queryParameters.set('{{keyParamName}}', key);
-{{/isKeyInQuery}}
-            }
-        }
-
+    {{#isKeyInHeader}}
+            headers = headers.set('{{keyParamName}}', credential);
+    {{/isKeyInHeader}}
+    {{#isKeyInQuery}}
+            queryParameters = queryParameters.set('{{keyParamName}}', credential);
+    {{/isKeyInQuery}}
 {{/isApiKey}}
 {{#isBasic}}
     {{#isBasicBasic}}
-        if (this.configuration.username || this.configuration.password) {
-            headers = headers.set('Authorization', 'Basic ' + btoa(this.configuration.username + ':' + this.configuration.password));
-        }
+            headers = headers.set('Authorization', 'Basic ' + credential);
     {{/isBasicBasic}}
     {{#isBasicBearer}}
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
-        }
+            headers = headers.set('Authorization', 'Bearer ' + credential);
     {{/isBasicBearer}}
 {{/isBasic}}
 {{#isOAuth}}
-        if (this.configuration.accessToken) {
-            const accessToken = typeof this.configuration.accessToken === 'function'
-                ? this.configuration.accessToken()
-                : this.configuration.accessToken;
-            headers = headers.set('Authorization', 'Bearer ' + accessToken);
+            headers = headers.set('Authorization', 'Bearer ' + credential);
+{{/isOAuth}}
         }
 
-{{/isOAuth}}
 {{/authMethods}}
         let httpHeaderAcceptSelected: string | undefined = options && options.httpHeaderAccept;
         if (httpHeaderAcceptSelected === undefined) {

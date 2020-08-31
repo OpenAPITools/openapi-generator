@@ -1,6 +1,7 @@
 part of openapi.api;
 
 const _delimiters = const {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
+var _dateFormatter = DateFormat('yyyy-MM-dd');
 
 // port from Java version
 Iterable<QueryParam> _convertParametersForCollectionFormat(

@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class User  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class User  implements Serializable {
   
   private @Valid Long id;
   private @Valid String username;
@@ -33,16 +33,17 @@ public class User  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
-  }
-
-  /**
+  }/**
    **/
   public User username(String username) {
     this.username = username;
@@ -50,16 +51,17 @@ public class User  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("username")
   public String getUsername() {
     return username;
   }
+
   public void setUsername(String username) {
     this.username = username;
-  }
-
-  /**
+  }/**
    **/
   public User firstName(String firstName) {
     this.firstName = firstName;
@@ -67,16 +69,17 @@ public class User  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("firstName")
   public String getFirstName() {
     return firstName;
   }
+
   public void setFirstName(String firstName) {
     this.firstName = firstName;
-  }
-
-  /**
+  }/**
    **/
   public User lastName(String lastName) {
     this.lastName = lastName;
@@ -84,16 +87,17 @@ public class User  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("lastName")
   public String getLastName() {
     return lastName;
   }
+
   public void setLastName(String lastName) {
     this.lastName = lastName;
-  }
-
-  /**
+  }/**
    **/
   public User email(String email) {
     this.email = email;
@@ -101,16 +105,17 @@ public class User  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("email")
   public String getEmail() {
     return email;
   }
+
   public void setEmail(String email) {
     this.email = email;
-  }
-
-  /**
+  }/**
    **/
   public User password(String password) {
     this.password = password;
@@ -118,16 +123,17 @@ public class User  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("password")
   public String getPassword() {
     return password;
   }
+
   public void setPassword(String password) {
     this.password = password;
-  }
-
-  /**
+  }/**
    **/
   public User phone(String phone) {
     this.phone = phone;
@@ -135,16 +141,17 @@ public class User  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("phone")
   public String getPhone() {
     return phone;
   }
+
   public void setPhone(String phone) {
     this.phone = phone;
-  }
-
-  /**
+  }/**
    * User Status
    **/
   public User userStatus(Integer userStatus) {
@@ -153,18 +160,20 @@ public class User  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "User Status")
   @JsonProperty("userStatus")
   public Integer getUserStatus() {
     return userStatus;
   }
+
   public void setUserStatus(Integer userStatus) {
     this.userStatus = userStatus;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -208,11 +217,13 @@ public class User  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

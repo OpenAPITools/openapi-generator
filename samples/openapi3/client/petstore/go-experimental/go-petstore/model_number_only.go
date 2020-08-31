@@ -16,7 +16,10 @@ import (
 // NumberOnly struct for NumberOnly
 type NumberOnly struct {
 	JustNumber *float32 `json:"JustNumber,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _NumberOnly NumberOnly
 
 // NewNumberOnly instantiates a new NumberOnly object
 // This constructor will assign default values to properties that have it defined,
@@ -72,7 +75,29 @@ func (o NumberOnly) MarshalJSON() ([]byte, error) {
 	if o.JustNumber != nil {
 		toSerialize["JustNumber"] = o.JustNumber
 	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
 	return json.Marshal(toSerialize)
+}
+
+func (o *NumberOnly) UnmarshalJSON(bytes []byte) (err error) {
+	varNumberOnly := _NumberOnly{}
+
+	if err = json.Unmarshal(bytes, &varNumberOnly); err == nil {
+		*o = NumberOnly(varNumberOnly)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "JustNumber")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
 type NullableNumberOnly struct {

@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,9 +26,7 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
 
@@ -115,8 +111,8 @@ class FormatTest(ModelNormal):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
@@ -136,6 +132,7 @@ class FormatTest(ModelNormal):
             'binary': (file_type,),  # noqa: E501
             'date_time': (datetime,),  # noqa: E501
             'uuid': (str,),  # noqa: E501
+            'uuid_no_example': (str,),  # noqa: E501
             'pattern_with_digits': (str,),  # noqa: E501
             'pattern_with_digits_and_delimiter': (str,),  # noqa: E501
         }
@@ -143,6 +140,7 @@ class FormatTest(ModelNormal):
     @cached_property
     def discriminator():
         return None
+
 
     attribute_map = {
         'number': 'number',  # noqa: E501
@@ -158,6 +156,7 @@ class FormatTest(ModelNormal):
         'binary': 'binary',  # noqa: E501
         'date_time': 'dateTime',  # noqa: E501
         'uuid': 'uuid',  # noqa: E501
+        'uuid_no_example': 'uuidNoExample',  # noqa: E501
         'pattern_with_digits': 'pattern_with_digits',  # noqa: E501
         'pattern_with_digits_and_delimiter': 'pattern_with_digits_and_delimiter',  # noqa: E501
     }
@@ -175,7 +174,7 @@ class FormatTest(ModelNormal):
 
     @convert_js_args_to_python_args
     def __init__(self, number, byte, date, password, *args, **kwargs):  # noqa: E501
-        """format_test.FormatTest - a model defined in OpenAPI
+        """FormatTest - a model defined in OpenAPI
 
         Args:
             number (float):
@@ -223,6 +222,7 @@ class FormatTest(ModelNormal):
             binary (file_type): [optional]  # noqa: E501
             date_time (datetime): [optional]  # noqa: E501
             uuid (str): [optional]  # noqa: E501
+            uuid_no_example (str): [optional]  # noqa: E501
             pattern_with_digits (str): A string that is a 10 digit number. Can have leading zeros.. [optional]  # noqa: E501
             pattern_with_digits_and_delimiter (str): A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.. [optional]  # noqa: E501
         """
@@ -254,7 +254,7 @@ class FormatTest(ModelNormal):
         self.byte = byte
         self.date = date
         self.password = password
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name not in self.attribute_map and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \

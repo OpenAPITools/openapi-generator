@@ -361,7 +361,7 @@ public class CodegenConstants {
 
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT = "disallowAdditionalPropertiesIfNotPresent";
     public static final String DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_DESC =
-        "Specify the behavior when the 'additionalProperties' keyword is not present in the OAS document\n" +
+        "Specify the behavior when the 'additionalProperties' keyword is not present in the OAS document. " +
         
         "If false: the 'additionalProperties' implementation is compliant with the OAS and JSON schema specifications. " +
 
