@@ -24,8 +24,4 @@ PENDING | &quot;pending&quot;
 SOLD | &quot;sold&quot;
 
 
-## Implemented Interfaces
-
-* Parcelable
-
 

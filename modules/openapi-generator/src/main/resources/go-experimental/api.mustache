@@ -252,13 +252,24 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if auth, ok := auth["{{#vendorExtensions.x-auth-id-alias}}{{.}}{{/vendorExtensions.x-auth-id-alias}}{{^vendorExtensions.x-auth-id-alias}}{{name}}{{/vendorExtensions.x-auth-id-alias}}"]; ok {
+			{{#vendorExtensions.x-auth-id-alias}}
+			if apiKey, ok := auth["{{.}}"]; ok {
 				var key string
-				if auth.Prefix != "" {
-					key = auth.Prefix + " " + auth.Key
+				if prefix, ok := auth["{{name}}"]; ok && prefix.Prefix != "" {
+					key = prefix.Prefix + " " + apiKey.Key
 				} else {
-					key = auth.Key
+					key = apiKey.Key
 				}
+			{{/vendorExtensions.x-auth-id-alias}}
+			{{^vendorExtensions.x-auth-id-alias}}
+			if apiKey, ok := auth["{{name}}"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+			{{/vendorExtensions.x-auth-id-alias}}
 				{{#isKeyInHeader}}
 				localVarHeaderParams["{{keyParamName}}"] = key
 				{{/isKeyInHeader}}

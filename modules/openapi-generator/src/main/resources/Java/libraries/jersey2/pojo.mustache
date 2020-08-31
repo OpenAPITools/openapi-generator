@@ -18,7 +18,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   {{#vars}}
     {{#isEnum}}
     {{^isContainer}}
+    {{^vendorExtensions.x-enum-as-string}}
 {{>modelInnerEnum}}
+    {{/vendorExtensions.x-enum-as-string}}
     {{/isContainer}}
     {{#isContainer}}
     {{#mostInnerItems}}
@@ -98,7 +100,19 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   {{#vars}}
 
   {{^isReadOnly}}
+  {{#vendorExtensions.x-enum-as-string}}
+  public static final Set<String> {{{nameInSnakeCase}}}_VALUES = new HashSet<>(Arrays.asList(
+    {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}
+  ));
+
+  {{/vendorExtensions.x-enum-as-string}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    {{#vendorExtensions.x-enum-as-string}}
+    if (!{{{nameInSnakeCase}}}_VALUES.contains({{name}})) {
+      throw new IllegalArgumentException({{name}} + " is invalid. Possible values for {{name}}: " + String.join(", ", {{{nameInSnakeCase}}}_VALUES));
+    }
+
+    {{/vendorExtensions.x-enum-as-string}}
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -220,6 +234,12 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
 
   {{^isReadOnly}}
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+    {{#vendorExtensions.x-enum-as-string}}
+    if (!{{{nameInSnakeCase}}}_VALUES.contains({{name}})) {
+      throw new IllegalArgumentException({{name}} + " is invalid. Possible values for {{name}}: " + String.join(", ", {{{nameInSnakeCase}}}_VALUES));
+    }
+
+    {{/vendorExtensions.x-enum-as-string}}
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
