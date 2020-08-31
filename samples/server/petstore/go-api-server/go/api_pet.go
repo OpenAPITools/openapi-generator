@@ -91,11 +91,10 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 	
 	result, err := c.service.AddPet(r.Context(), *pet)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // DeletePet - Deletes a pet
@@ -109,11 +108,10 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 	apiKey := r.Header.Get("apiKey")
 	result, err := c.service.DeletePet(r.Context(), petId, apiKey)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // FindPetsByStatus - Finds Pets by status
@@ -122,11 +120,10 @@ func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 	status := strings.Split(query.Get("status"), ",")
 	result, err := c.service.FindPetsByStatus(r.Context(), status)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // FindPetsByTags - Finds Pets by tags
@@ -135,11 +132,10 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 	tags := strings.Split(query.Get("tags"), ",")
 	result, err := c.service.FindPetsByTags(r.Context(), tags)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // GetPetById - Find pet by ID
@@ -152,11 +148,10 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 	}
 	result, err := c.service.GetPetById(r.Context(), petId)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // UpdatePet - Update an existing pet
@@ -169,11 +164,10 @@ func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) {
 	
 	result, err := c.service.UpdatePet(r.Context(), *pet)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // UpdatePetWithForm - Updates a pet in the store with form data
@@ -194,11 +188,10 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 	status := r.FormValue("status")
 	result, err := c.service.UpdatePetWithForm(r.Context(), petId, name, status)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // UploadFile - uploads an image
@@ -224,9 +217,8 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	
 	result, err := c.service.UploadFile(r.Context(), petId, additionalMetadata, file)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }

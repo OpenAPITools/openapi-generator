@@ -63,22 +63,20 @@ func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request)
 	orderId := params["orderId"]
 	result, err := c.service.DeleteOrder(r.Context(), orderId)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // GetInventory - Returns pet inventories by status
 func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request) { 
 	result, err := c.service.GetInventory(r.Context())
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // GetOrderById - Find purchase order by ID
@@ -91,11 +89,10 @@ func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request
 	}
 	result, err := c.service.GetOrderById(r.Context(), orderId)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // PlaceOrder - Place an order for a pet
@@ -108,9 +105,8 @@ func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 	
 	result, err := c.service.PlaceOrder(r.Context(), *order)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }

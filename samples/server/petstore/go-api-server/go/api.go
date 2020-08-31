@@ -58,14 +58,14 @@ type UserApiRouter interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file 
 // and updated with the logic required for the API.
 type PetApiServicer interface { 
-	AddPet(context.Context, Pet) (interface{}, error)
-	DeletePet(context.Context, int64, string) (interface{}, error)
-	FindPetsByStatus(context.Context, []string) (interface{}, error)
-	FindPetsByTags(context.Context, []string) (interface{}, error)
-	GetPetById(context.Context, int64) (interface{}, error)
-	UpdatePet(context.Context, Pet) (interface{}, error)
-	UpdatePetWithForm(context.Context, int64, string, string) (interface{}, error)
-	UploadFile(context.Context, int64, string, *os.File) (interface{}, error)
+	AddPet(context.Context, Pet) (Response, error)
+	DeletePet(context.Context, int64, string) (Response, error)
+	FindPetsByStatus(context.Context, []string) (Response, error)
+	FindPetsByTags(context.Context, []string) (Response, error)
+	GetPetById(context.Context, int64) (Response, error)
+	UpdatePet(context.Context, Pet) (Response, error)
+	UpdatePetWithForm(context.Context, int64, string, string) (Response, error)
+	UploadFile(context.Context, int64, string, *os.File) (Response, error)
 }
 
 
@@ -74,10 +74,10 @@ type PetApiServicer interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file 
 // and updated with the logic required for the API.
 type StoreApiServicer interface { 
-	DeleteOrder(context.Context, string) (interface{}, error)
-	GetInventory(context.Context) (interface{}, error)
-	GetOrderById(context.Context, int64) (interface{}, error)
-	PlaceOrder(context.Context, Order) (interface{}, error)
+	DeleteOrder(context.Context, string) (Response, error)
+	GetInventory(context.Context) (Response, error)
+	GetOrderById(context.Context, int64) (Response, error)
+	PlaceOrder(context.Context, Order) (Response, error)
 }
 
 
@@ -86,12 +86,12 @@ type StoreApiServicer interface {
 // while the service implementation can ignored with the .openapi-generator-ignore file 
 // and updated with the logic required for the API.
 type UserApiServicer interface { 
-	CreateUser(context.Context, User) (interface{}, error)
-	CreateUsersWithArrayInput(context.Context, []User) (interface{}, error)
-	CreateUsersWithListInput(context.Context, []User) (interface{}, error)
-	DeleteUser(context.Context, string) (interface{}, error)
-	GetUserByName(context.Context, string) (interface{}, error)
-	LoginUser(context.Context, string, string) (interface{}, error)
-	LogoutUser(context.Context) (interface{}, error)
-	UpdateUser(context.Context, string, User) (interface{}, error)
+	CreateUser(context.Context, User) (Response, error)
+	CreateUsersWithArrayInput(context.Context, []User) (Response, error)
+	CreateUsersWithListInput(context.Context, []User) (Response, error)
+	DeleteUser(context.Context, string) (Response, error)
+	GetUserByName(context.Context, string) (Response, error)
+	LoginUser(context.Context, string, string) (Response, error)
+	LogoutUser(context.Context) (Response, error)
+	UpdateUser(context.Context, string, User) (Response, error)
 }

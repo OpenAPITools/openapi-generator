@@ -91,11 +91,10 @@ func (c *UserApiController) CreateUser(w http.ResponseWriter, r *http.Request) {
 	
 	result, err := c.service.CreateUser(r.Context(), *user)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
@@ -108,11 +107,10 @@ func (c *UserApiController) CreateUsersWithArrayInput(w http.ResponseWriter, r *
 	
 	result, err := c.service.CreateUsersWithArrayInput(r.Context(), *user)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
@@ -125,11 +123,10 @@ func (c *UserApiController) CreateUsersWithListInput(w http.ResponseWriter, r *h
 	
 	result, err := c.service.CreateUsersWithListInput(r.Context(), *user)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // DeleteUser - Delete user
@@ -138,11 +135,10 @@ func (c *UserApiController) DeleteUser(w http.ResponseWriter, r *http.Request) {
 	username := params["username"]
 	result, err := c.service.DeleteUser(r.Context(), username)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // GetUserByName - Get user by user name
@@ -151,11 +147,10 @@ func (c *UserApiController) GetUserByName(w http.ResponseWriter, r *http.Request
 	username := params["username"]
 	result, err := c.service.GetUserByName(r.Context(), username)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // LoginUser - Logs user into the system
@@ -165,22 +160,20 @@ func (c *UserApiController) LoginUser(w http.ResponseWriter, r *http.Request) {
 	password := query.Get("password")
 	result, err := c.service.LoginUser(r.Context(), username, password)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // LogoutUser - Logs out current logged in user session
 func (c *UserApiController) LogoutUser(w http.ResponseWriter, r *http.Request) { 
 	result, err := c.service.LogoutUser(r.Context())
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }
 
 // UpdateUser - Updated user
@@ -195,9 +188,8 @@ func (c *UserApiController) UpdateUser(w http.ResponseWriter, r *http.Request) {
 	
 	result, err := c.service.UpdateUser(r.Context(), username, *user)
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
-	}
-	
-	EncodeJSONResponse(result, nil, w)
+	}	
+	EncodeJSONResponse(result.Body, &result.Code, w)
 }

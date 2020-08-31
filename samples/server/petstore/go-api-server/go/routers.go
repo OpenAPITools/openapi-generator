@@ -26,6 +26,12 @@ type Route struct {
 	HandlerFunc http.HandlerFunc
 }
 
+// A Response defines the Message and reponse Code for an api response.
+type Response struct {
+	Body interface{}
+	Code int
+}
+
 // Routes are a collection of defined api endpoints
 type Routes []Route
 
