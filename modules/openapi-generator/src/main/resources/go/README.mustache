@@ -64,7 +64,7 @@ Class | Method | HTTP request | Description
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
+auth := context.WithValue(context.Background(), {{packageName}}.ContextAPIKey, {{packageName}}.APIKey{
     Key: "APIKEY",
     Prefix: "Bearer", // Omit if not necessary.
 })
@@ -72,19 +72,33 @@ r, err := client.Service.Operation(auth, args)
 ```
 
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
+{{#isHttpSignature}}
+Not supported.
+
+{{/isHttpSignature}}
+{{#isBasicBasic}}- **Type**: HTTP basic authentication
 
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
+auth := context.WithValue(context.Background(), {{packageName}}.ContextBasicAuth, {{packageName}}.BasicAuth{
     UserName: "username",
     Password: "password",
 })
 r, err := client.Service.Operation(auth, args)
 ```
 
-{{/isBasic}}
+{{/isBasicBasic}}
+{{#isBasicBearer}}- **Type**: HTTP Bearer token authentication
+
+Example
+
+```golang
+auth := context.WithValue(context.Background(), {{packageName}}.ContextAccessToken, "BEARERTOKENSTRING")
+r, err := client.Service.Operation(auth, args)
+```
+
+{{/isBasicBearer}}
 {{#isOAuth}}
 
 - **Type**: OAuth
@@ -97,7 +111,7 @@ r, err := client.Service.Operation(auth, args)
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextAccessToken, "ACCESSTOKENSTRING")
+auth := context.WithValue(context.Background(), {{packageName}}.ContextAccessToken, "ACCESSTOKENSTRING")
 r, err := client.Service.Operation(auth, args)
 ```
 
@@ -109,7 +123,7 @@ import "golang.org/x/oauth2"
 /* Perform OAuth2 round trip request and obtain a token */
 
 tokenSource := oauth2cfg.TokenSource(createContext(httpClient), &token)
-auth := context.WithValue(oauth2.NoContext, sw.ContextOAuth2, tokenSource)
+auth := context.WithValue(oauth2.NoContext, {{packageName}}.ContextOAuth2, tokenSource)
 r, err := client.Service.Operation(auth, args)
 ```
 
@@ -120,7 +134,7 @@ r, err := client.Service.Operation(auth, args)
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextAWSv4, sw.AWSv4{
+auth := context.WithValue(context.Background(), {{packageName}}.ContextAWSv4, {{packageName}}.AWSv4{
     AccessKey: "ACCESSKEYSTRING",
     SecretKey: "SECRETKEYSTRING",
 })
