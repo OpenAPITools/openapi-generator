@@ -46,7 +46,6 @@ public class GoClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setWithGoCodegenComment(GoClientOptionsProvider.WITH_GO_CODEGEN_COMMENT_VALUE);
         verify(clientCodegen).setEnumClassPrefix(GoClientOptionsProvider.ENUM_CLASS_PREFIX_VALUE);
         verify(clientCodegen).setIsGoSubmodule(GoClientOptionsProvider.IS_GO_SUBMODULE_VALUE);
-        verify(clientCodegen).setStructPrefix(GoClientOptionsProvider.STRUCT_PREFIX_VALUE);
         verify(clientCodegen).setUseOneOfDiscriminatorLookup(GoClientOptionsProvider.USE_ONEOF_DISCRIMINATOR_LOOKUP_VALUE);
         verify(clientCodegen).setDisallowAdditionalPropertiesIfNotPresent(GoClientOptionsProvider.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_VALUE);
     }
