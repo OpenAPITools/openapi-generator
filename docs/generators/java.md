@@ -36,6 +36,7 @@ sidebar_label: java
 |licenseUrl|The URL of the license| |http://unlicense.org|
 |microprofileFramework|Framework for microprofile. Possible values &quot;kumuluzee&quot;| |null|
 |modelPackage|package for generated models| |org.openapitools.client.model|
+|openApiNullable|Enable OpenAPI Jackson Nullable library| |true|
 |parcelableModel|Whether to generate models for Android that implement Parcelable with the okhttp-gson library.| |false|
 |parentArtifactId|parent artifactId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|
 |parentGroupId|parent groupId in generated pom N.B. parentGroupId, parentArtifactId and parentVersion must all be specified for any of them to take effect| |null|

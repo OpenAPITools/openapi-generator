@@ -39,7 +39,9 @@ import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
 import com.fasterxml.jackson.databind.ObjectMapper;
+{{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/openApiNullable}}
 {{/threetenbp}}
 
 import java.io.BufferedReader;
@@ -702,7 +704,9 @@ public class ApiClient {
         messageConverters.add(new MappingJackson2HttpMessageConverter());
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.configure(ToXmlGenerator.Feature.WRITE_XML_DECLARATION, true);
+        {{#openApiNullable}}
         xmlMapper.registerModule(new JsonNullableModule());
+        {{/openApiNullable}}
         messageConverters.add(new MappingJackson2XmlHttpMessageConverter(xmlMapper));
 
         RestTemplate restTemplate = new RestTemplate(messageConverters);
@@ -716,7 +720,9 @@ public class ApiClient {
                 module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
                 module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
                 mapper.registerModule(module);
+                {{#openApiNullable}}
                 mapper.registerModule(new JsonNullableModule());
+                {{/openApiNullable}}
             }
         }
         {{/threetenbp}}

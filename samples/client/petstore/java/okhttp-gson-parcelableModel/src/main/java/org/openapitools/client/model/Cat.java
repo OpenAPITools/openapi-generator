@@ -33,7 +33,7 @@ import android.os.Parcel;
  * Cat
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class Cat extends Animal implements Parcelable {
+public class Cat extends Animal {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;

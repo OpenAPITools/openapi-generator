@@ -779,11 +779,14 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 Map<String, Object> mo = (Map<String, Object>) _mo;
                 CodegenModel cm = (CodegenModel) mo.get("model");
                 boolean addImports = false;
+
                 for (CodegenProperty var : cm.vars) {
-                    boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
-                    // only add JsonNullable and related imports to optional and nullable values
-                    addImports |= isOptionalNullable;
-                    var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+                    if (this.openApiNullable) {
+                        boolean isOptionalNullable = Boolean.FALSE.equals(var.required) && Boolean.TRUE.equals(var.isNullable);
+                        // only add JsonNullable and related imports to optional and nullable values
+                        addImports |= isOptionalNullable;
+                        var.getVendorExtensions().put("x-is-jackson-optional-nullable", isOptionalNullable);
+                    }
 
                     if (Boolean.TRUE.equals(var.getVendorExtensions().get("x-enum-as-string"))) {
                         // treat enum string as just string
@@ -808,6 +811,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                         importsHashSet.put("import", "java.util.HashSet");
                         imports.add(importsHashSet);
                     }
+
                 }
 
                 if (addImports) {
@@ -824,34 +828,34 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                     }
                 }
             }
-        }
 
-        // add implements for serializable/parcelable to all models
-        for (Object _mo : models) {
-            Map<String, Object> mo = (Map<String, Object>) _mo;
-            CodegenModel cm = (CodegenModel) mo.get("model");
+            // add implements for serializable/parcelable to all models
+            for (Object _mo : models) {
+                Map<String, Object> mo = (Map<String, Object>) _mo;
+                CodegenModel cm = (CodegenModel) mo.get("model");
 
-            cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
-            if (JERSEY2.equals(getLibrary())) {
-                cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
+                cm.getVendorExtensions().putIfAbsent("x-implements", new ArrayList<String>());
+                if (JERSEY2.equals(getLibrary())) {
+                    cm.getVendorExtensions().put("x-implements", new ArrayList<String>());
 
-                if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
-                    // if oneOf contains "null" type
-                    cm.isNullable = true;
-                    cm.oneOf.remove("ModelNull");
+                    if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
+                        // if oneOf contains "null" type
+                        cm.isNullable = true;
+                        cm.oneOf.remove("ModelNull");
+                    }
+
+                    if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
+                        // if anyOf contains "null" type
+                        cm.isNullable = true;
+                        cm.anyOf.remove("ModelNull");
+                    }
                 }
-
-                if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
-                    // if anyOf contains "null" type
-                    cm.isNullable = true;
-                    cm.anyOf.remove("ModelNull");
+                if (this.parcelableModel) {
+                    ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Parcelable");
                 }
-            }
-            if (this.parcelableModel) {
-                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Parcelable");
-            }
-            if (this.serializableModel) {
-                ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
+                if (this.serializableModel) {
+                    ((ArrayList<String>) cm.getVendorExtensions().get("x-implements")).add("Serializable");
+                }
             }
         }
 
@@ -950,8 +954,6 @@ public class JavaClientCodegen extends AbstractJavaCodegen
         }
         setSerializationLibrary(serializationLibrary);
     }
-
-
 
     @Override
     public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
