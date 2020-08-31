@@ -1,0 +1,13 @@
+.gitignore
+.travis.yml
+README.md
+UsageApi.md
+api/openapi.yaml
+client.go
+configuration.go
+git_push.sh
+go.mod
+go.sum
+response.go
+utils.go
+x_auth_id_alias/api_usage.go
