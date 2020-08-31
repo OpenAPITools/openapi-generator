@@ -27,12 +27,11 @@ public class GoClientOptionsProvider implements OptionsProvider {
     public static final String PACKAGE_VERSION_VALUE = "1.0.0";
     public static final String PACKAGE_NAME_VALUE = "Go";
     public static final boolean WITH_GO_CODEGEN_COMMENT_VALUE = true;
-    public static final boolean WITH_XML_VALUE = true;
     public static final boolean ENUM_CLASS_PREFIX_VALUE = true;
-    public static final Boolean PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = true;
     public static final boolean IS_GO_SUBMODULE_VALUE = true;
     public static final boolean STRUCT_PREFIX_VALUE = true;
-    public static final boolean WITH_AWSV4_SIGNATURE = true;
+    public static final boolean USE_ONEOF_DISCRIMINATOR_LOOKUP_VALUE = true;
+    public static final boolean DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT_VALUE = true;
 
     @Override
     public String getLanguage() {
