@@ -46,6 +46,7 @@ public class GoClientOptionsProvider implements OptionsProvider {
                 .put(CodegenConstants.PACKAGE_NAME, PACKAGE_NAME_VALUE)
                 .put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, "true")
                 .put(CodegenConstants.WITH_GO_CODEGEN_COMMENT, "true")
+                .put(CodegenConstants.ENUM_CLASS_PREFIX, "true")
                 .put(CodegenConstants.IS_GO_SUBMODULE, "true")
                 .put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, "true")
                 .put(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT, "true")
