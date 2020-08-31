@@ -29,26 +29,26 @@ func NewStoreApiService() StoreApiServicer {
 func (s *StoreApiService) DeleteOrder(ctx context.Context, orderId string) (Response, error) {
 	// TODO - update DeleteOrder with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	return Response{}, errors.New("service method 'DeleteOrder' not implemented")
+	return Response{Code:500}, errors.New("service method 'DeleteOrder' not implemented")
 }
 
 // GetInventory - Returns pet inventories by status
 func (s *StoreApiService) GetInventory(ctx context.Context) (Response, error) {
 	// TODO - update GetInventory with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	return Response{}, errors.New("service method 'GetInventory' not implemented")
+	return Response{Code:500}, errors.New("service method 'GetInventory' not implemented")
 }
 
 // GetOrderById - Find purchase order by ID
 func (s *StoreApiService) GetOrderById(ctx context.Context, orderId int64) (Response, error) {
 	// TODO - update GetOrderById with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	return Response{}, errors.New("service method 'GetOrderById' not implemented")
+	return Response{Code:500}, errors.New("service method 'GetOrderById' not implemented")
 }
 
 // PlaceOrder - Place an order for a pet
 func (s *StoreApiService) PlaceOrder(ctx context.Context, order Order) (Response, error) {
 	// TODO - update PlaceOrder with the required logic for this service method.
 	// Add api_store_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
-	return Response{}, errors.New("service method 'PlaceOrder' not implemented")
+	return Response{Code:500}, errors.New("service method 'PlaceOrder' not implemented")
 }
