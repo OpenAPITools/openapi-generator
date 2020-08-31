@@ -123,25 +123,25 @@ class ApiException(OpenApiException):
 class NotFoundException(ApiException):
 
     def __init__(self, status=None, reason=None, http_resp=None):
-        super().__init__(status, reason, http_resp)
+        super(NotFoundException, self).__init__(status, reason, http_resp)
 
 
 class UnauthorizedException(ApiException):
 
     def __init__(self, status=None, reason=None, http_resp=None):
-        super().__init__(status, reason, http_resp)
+        super(UnauthorizedException, self).__init__(status, reason, http_resp)
 
 
 class ForbiddenException(ApiException):
 
     def __init__(self, status=None, reason=None, http_resp=None):
-        super().__init__(status, reason, http_resp)
+        super(ForbiddenException, self).__init__(status, reason, http_resp)
 
 
 class ServiceException(ApiException):
 
     def __init__(self, status=None, reason=None, http_resp=None):
-        super().__init__(status, reason, http_resp)
+        super(ServiceException, self).__init__(status, reason, http_resp)
 
 
 def render_path(path_to_item):
