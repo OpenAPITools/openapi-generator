@@ -345,7 +345,8 @@ public class XmlItem {
   @JsonProperty(JSON_PROPERTY_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   // items.xmlName=
-  @JacksonXmlElementWrapper(useWrapping = true, localName = "wrappedArray")
+  @JacksonXmlProperty(localName = "wrapped_array")
+  @JacksonXmlElementWrapper(useWrapping = true, localName = "wrapped_array")
 
   public List<Integer> getWrappedArray() {
     return wrappedArray;
@@ -483,6 +484,9 @@ public class XmlItem {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAME_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=xml_name_array_item
+  @JacksonXmlProperty(localName = "xml_name_array_item")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<Integer> getNameArray() {
     return nameArray;
@@ -517,7 +521,8 @@ public class XmlItem {
   @JsonProperty(JSON_PROPERTY_NAME_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   // items.xmlName=xml_name_wrapped_array_item
-  @JacksonXmlElementWrapper(useWrapping = true, localName = "xml_name_wrapped_array_item")
+  @JacksonXmlProperty(localName = "xml_name_wrapped_array_item")
+  @JacksonXmlElementWrapper(useWrapping = true, localName = "xml_name_wrapped_array")
 
   public List<Integer> getNameWrappedArray() {
     return nameWrappedArray;
@@ -655,6 +660,9 @@ public class XmlItem {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "prefix_array")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<Integer> getPrefixArray() {
     return prefixArray;
@@ -689,7 +697,8 @@ public class XmlItem {
   @JsonProperty(JSON_PROPERTY_PREFIX_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   // items.xmlName=
-  @JacksonXmlElementWrapper(useWrapping = true, localName = "prefixWrappedArray")
+  @JacksonXmlProperty(localName = "prefix_wrapped_array")
+  @JacksonXmlElementWrapper(useWrapping = true, localName = "prefix_wrapped_array")
 
   public List<Integer> getPrefixWrappedArray() {
     return prefixWrappedArray;
@@ -827,6 +836,9 @@ public class XmlItem {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_NAMESPACE_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "namespace_array")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<Integer> getNamespaceArray() {
     return namespaceArray;
@@ -861,7 +873,8 @@ public class XmlItem {
   @JsonProperty(JSON_PROPERTY_NAMESPACE_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   // items.xmlName=
-  @JacksonXmlElementWrapper(useWrapping = true, namespace="http://f.com/schema", localName = "namespaceWrappedArray")
+  @JacksonXmlProperty(namespace="http://f.com/schema", localName = "namespace_wrapped_array")
+  @JacksonXmlElementWrapper(useWrapping = true, namespace="http://f.com/schema", localName = "namespace_wrapped_array")
 
   public List<Integer> getNamespaceWrappedArray() {
     return namespaceWrappedArray;
@@ -999,6 +1012,9 @@ public class XmlItem {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "prefix_ns_array")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<Integer> getPrefixNsArray() {
     return prefixNsArray;
@@ -1033,7 +1049,8 @@ public class XmlItem {
   @JsonProperty(JSON_PROPERTY_PREFIX_NS_WRAPPED_ARRAY)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
   // items.xmlName=
-  @JacksonXmlElementWrapper(useWrapping = true, namespace="http://f.com/schema", localName = "prefixNsWrappedArray")
+  @JacksonXmlProperty(namespace="http://f.com/schema", localName = "prefix_ns_wrapped_array")
+  @JacksonXmlElementWrapper(useWrapping = true, namespace="http://f.com/schema", localName = "prefix_ns_wrapped_array")
 
   public List<Integer> getPrefixNsWrappedArray() {
     return prefixNsWrappedArray;

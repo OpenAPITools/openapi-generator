@@ -136,6 +136,9 @@ public class MixedPropertiesAndAdditionalPropertiesClass {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_MAP)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "map")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public Map<String, Animal> getMap() {
     return map;

@@ -71,6 +71,9 @@ public class ArrayOfArrayOfNumberOnly {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_NUMBER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "ArrayArrayNumber")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<List<BigDecimal>> getArrayArrayNumber() {
     return arrayArrayNumber;

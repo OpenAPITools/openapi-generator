@@ -87,6 +87,9 @@ public class ArrayTest {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_OF_STRING)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "array_of_string")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<String> getArrayOfString() {
     return arrayOfString;
@@ -120,6 +123,9 @@ public class ArrayTest {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_INTEGER)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "array_array_of_integer")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<List<Long>> getArrayArrayOfInteger() {
     return arrayArrayOfInteger;
@@ -153,6 +159,9 @@ public class ArrayTest {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_ARRAY_ARRAY_OF_MODEL)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "array_array_of_model")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<List<ReadOnlyFirst>> getArrayArrayOfModel() {
     return arrayArrayOfModel;

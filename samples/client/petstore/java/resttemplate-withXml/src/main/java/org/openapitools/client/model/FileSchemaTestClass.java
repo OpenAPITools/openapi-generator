@@ -101,6 +101,9 @@ public class FileSchemaTestClass {
   @ApiModelProperty(value = "")
   @JsonProperty(JSON_PROPERTY_FILES)
   @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  // items.xmlName=
+  @JacksonXmlProperty(localName = "files")
+  @JacksonXmlElementWrapper(useWrapping = false)
 
   public List<java.io.File> getFiles() {
     return files;
