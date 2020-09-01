@@ -225,7 +225,7 @@ type ApiFakeHealthGetRequest struct {
 
 
 func (r ApiFakeHealthGetRequest) Execute() (HealthCheckResult, *_nethttp.Response, error) {
-    return r.ApiService.FakeHealthGetExecute(r)
+	return r.ApiService.FakeHealthGetExecute(r)
 }
 
 /*
@@ -330,7 +330,7 @@ func (r ApiFakeOuterBooleanSerializeRequest) Body(body bool) ApiFakeOuterBoolean
 }
 
 func (r ApiFakeOuterBooleanSerializeRequest) Execute() (bool, *_nethttp.Response, error) {
-    return r.ApiService.FakeOuterBooleanSerializeExecute(r)
+	return r.ApiService.FakeOuterBooleanSerializeExecute(r)
 }
 
 /*
@@ -438,7 +438,7 @@ func (r ApiFakeOuterCompositeSerializeRequest) OuterComposite(outerComposite Out
 }
 
 func (r ApiFakeOuterCompositeSerializeRequest) Execute() (OuterComposite, *_nethttp.Response, error) {
-    return r.ApiService.FakeOuterCompositeSerializeExecute(r)
+	return r.ApiService.FakeOuterCompositeSerializeExecute(r)
 }
 
 /*
@@ -546,7 +546,7 @@ func (r ApiFakeOuterNumberSerializeRequest) Body(body float32) ApiFakeOuterNumbe
 }
 
 func (r ApiFakeOuterNumberSerializeRequest) Execute() (float32, *_nethttp.Response, error) {
-    return r.ApiService.FakeOuterNumberSerializeExecute(r)
+	return r.ApiService.FakeOuterNumberSerializeExecute(r)
 }
 
 /*
@@ -654,7 +654,7 @@ func (r ApiFakeOuterStringSerializeRequest) Body(body string) ApiFakeOuterString
 }
 
 func (r ApiFakeOuterStringSerializeRequest) Execute() (string, *_nethttp.Response, error) {
-    return r.ApiService.FakeOuterStringSerializeExecute(r)
+	return r.ApiService.FakeOuterStringSerializeExecute(r)
 }
 
 /*
@@ -762,7 +762,7 @@ func (r ApiTestBodyWithFileSchemaRequest) FileSchemaTestClass(fileSchemaTestClas
 }
 
 func (r ApiTestBodyWithFileSchemaRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.TestBodyWithFileSchemaExecute(r)
+	return r.ApiService.TestBodyWithFileSchemaExecute(r)
 }
 
 /*
@@ -867,7 +867,7 @@ func (r ApiTestBodyWithQueryParamsRequest) User(user User) ApiTestBodyWithQueryP
 }
 
 func (r ApiTestBodyWithQueryParamsRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.TestBodyWithQueryParamsExecute(r)
+	return r.ApiService.TestBodyWithQueryParamsExecute(r)
 }
 
 /*
@@ -970,7 +970,7 @@ func (r ApiTestClientModelRequest) Client(client Client) ApiTestClientModelReque
 }
 
 func (r ApiTestClientModelRequest) Execute() (Client, *_nethttp.Response, error) {
-    return r.ApiService.TestClientModelExecute(r)
+	return r.ApiService.TestClientModelExecute(r)
 }
 
 /*
@@ -1146,7 +1146,7 @@ func (r ApiTestEndpointParametersRequest) Callback(callback string) ApiTestEndpo
 }
 
 func (r ApiTestEndpointParametersRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.TestEndpointParametersExecute(r)
+	return r.ApiService.TestEndpointParametersExecute(r)
 }
 
 /*
@@ -1346,7 +1346,7 @@ func (r ApiTestEnumParametersRequest) EnumFormString(enumFormString string) ApiT
 }
 
 func (r ApiTestEnumParametersRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.TestEnumParametersExecute(r)
+	return r.ApiService.TestEnumParametersExecute(r)
 }
 
 /*
@@ -1498,7 +1498,7 @@ func (r ApiTestGroupParametersRequest) Int64Group(int64Group int64) ApiTestGroup
 }
 
 func (r ApiTestGroupParametersRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.TestGroupParametersExecute(r)
+	return r.ApiService.TestGroupParametersExecute(r)
 }
 
 /*
@@ -1614,7 +1614,7 @@ func (r ApiTestInlineAdditionalPropertiesRequest) RequestBody(requestBody map[st
 }
 
 func (r ApiTestInlineAdditionalPropertiesRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.TestInlineAdditionalPropertiesExecute(r)
+	return r.ApiService.TestInlineAdditionalPropertiesExecute(r)
 }
 
 /*
@@ -1718,7 +1718,7 @@ func (r ApiTestJsonFormDataRequest) Param2(param2 string) ApiTestJsonFormDataReq
 }
 
 func (r ApiTestJsonFormDataRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.TestJsonFormDataExecute(r)
+	return r.ApiService.TestJsonFormDataExecute(r)
 }
 
 /*
@@ -1840,7 +1840,7 @@ func (r ApiTestQueryParameterCollectionFormatRequest) Context(context []string) 
 }
 
 func (r ApiTestQueryParameterCollectionFormatRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.TestQueryParameterCollectionFormatExecute(r)
+	return r.ApiService.TestQueryParameterCollectionFormatExecute(r)
 }
 
 /*

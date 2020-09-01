@@ -47,7 +47,7 @@ type ApiFooGetRequest struct {
 
 
 func (r ApiFooGetRequest) Execute() (InlineResponseDefault, *_nethttp.Response, error) {
-    return r.ApiService.FooGetExecute(r)
+	return r.ApiService.FooGetExecute(r)
 }
 
 /*

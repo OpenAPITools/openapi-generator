@@ -162,7 +162,7 @@ func (r ApiAddPetRequest) Body(body Pet) ApiAddPetRequest {
 }
 
 func (r ApiAddPetRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.AddPetExecute(r)
+	return r.ApiService.AddPetExecute(r)
 }
 
 /*
@@ -262,7 +262,7 @@ func (r ApiDeletePetRequest) ApiKey(apiKey string) ApiDeletePetRequest {
 }
 
 func (r ApiDeletePetRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.DeletePetExecute(r)
+	return r.ApiService.DeletePetExecute(r)
 }
 
 /*
@@ -362,7 +362,7 @@ func (r ApiFindPetsByStatusRequest) Status(status []string) ApiFindPetsByStatusR
 }
 
 func (r ApiFindPetsByStatusRequest) Execute() ([]Pet, *_nethttp.Response, error) {
-    return r.ApiService.FindPetsByStatusExecute(r)
+	return r.ApiService.FindPetsByStatusExecute(r)
 }
 
 /*
@@ -472,7 +472,7 @@ func (r ApiFindPetsByTagsRequest) Tags(tags []string) ApiFindPetsByTagsRequest {
 }
 
 func (r ApiFindPetsByTagsRequest) Execute() ([]Pet, *_nethttp.Response, error) {
-    return r.ApiService.FindPetsByTagsExecute(r)
+	return r.ApiService.FindPetsByTagsExecute(r)
 }
 
 /*
@@ -578,7 +578,7 @@ type ApiGetPetByIdRequest struct {
 
 
 func (r ApiGetPetByIdRequest) Execute() (Pet, *_nethttp.Response, error) {
-    return r.ApiService.GetPetByIdExecute(r)
+	return r.ApiService.GetPetByIdExecute(r)
 }
 
 /*
@@ -701,7 +701,7 @@ func (r ApiUpdatePetRequest) Body(body Pet) ApiUpdatePetRequest {
 }
 
 func (r ApiUpdatePetRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.UpdatePetExecute(r)
+	return r.ApiService.UpdatePetExecute(r)
 }
 
 /*
@@ -806,7 +806,7 @@ func (r ApiUpdatePetWithFormRequest) Status(status string) ApiUpdatePetWithFormR
 }
 
 func (r ApiUpdatePetWithFormRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.UpdatePetWithFormExecute(r)
+	return r.ApiService.UpdatePetWithFormExecute(r)
 }
 
 /*
@@ -915,7 +915,7 @@ func (r ApiUploadFileRequest) File(file *os.File) ApiUploadFileRequest {
 }
 
 func (r ApiUploadFileRequest) Execute() (ApiResponse, *_nethttp.Response, error) {
-    return r.ApiService.UploadFileExecute(r)
+	return r.ApiService.UploadFileExecute(r)
 }
 
 /*
@@ -1043,7 +1043,7 @@ func (r ApiUploadFileWithRequiredFileRequest) AdditionalMetadata(additionalMetad
 }
 
 func (r ApiUploadFileWithRequiredFileRequest) Execute() (ApiResponse, *_nethttp.Response, error) {
-    return r.ApiService.UploadFileWithRequiredFileExecute(r)
+	return r.ApiService.UploadFileWithRequiredFileExecute(r)
 }
 
 /*
