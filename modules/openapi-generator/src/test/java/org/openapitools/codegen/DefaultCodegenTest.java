@@ -2251,5 +2251,6 @@ public class DefaultCodegenTest {
         final Set<String> expectedAllOf = new HashSet<>(Arrays.asList("UserTimeBase"));
         assertEquals(cm.allOf, expectedAllOf);
         assertEquals(openAPI.getComponents().getSchemas().size(), 2);
+        assertNull(cm.getDiscriminator());
     }
 }
