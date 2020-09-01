@@ -2248,8 +2248,8 @@ public class DefaultCodegenTest {
         modelName = "UserSleep";
         sc = openAPI.getComponents().getSchemas().get(modelName);
         cm = codegen.fromModel(modelName, sc);
-        final Set<String> expectedAllOf = new HashSet<>(Arrays.asList("UserTimeBase", "UserSleepAllOf"));
+        final Set<String> expectedAllOf = new HashSet<>(Arrays.asList("UserTimeBase"));
         assertEquals(cm.allOf, expectedAllOf);
-        assertEquals(openAPI.getComponents().getSchemas().size(), 3);
+        assertEquals(openAPI.getComponents().getSchemas().size(), 2);
     }
 }
