@@ -1363,6 +1363,7 @@ public class DefaultCodegenTest {
         assertEquals(cm.discriminator, discriminator);
     }
 
+
     @Test
     public void testAllOfSingleRefNoOwnProps() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/composed-allof.yaml");
@@ -1371,9 +1372,9 @@ public class DefaultCodegenTest {
         Schema schema = openAPI.getComponents().getSchemas().get("NewMessageEventCoreNoOwnProps");
         codegen.setOpenAPI(openAPI);
         CodegenModel model = codegen.fromModel("NewMessageEventCoreNoOwnProps", schema);
-        Assert.assertEquals(getNames(model.getVars()), Arrays.asList("id","message"));
-        Assert.assertNull(model.parent);
-        Assert.assertNull(model.allParents); 
+        Assert.assertEquals(getNames(model.getVars()), Collections.emptyList());
+        Assert.assertEquals(model.parent, "MessageEventCore");
+        Assert.assertEquals(model.allParents, Collections.singletonList("MessageEventCore"));
     }
 
     class CodegenWithMultipleInheritance extends DefaultCodegen {
@@ -1383,6 +1384,7 @@ public class DefaultCodegenTest {
             supportsMultipleInheritance = true;
         }
     }
+
 
     @Test
     public void testAllOfParent() {
