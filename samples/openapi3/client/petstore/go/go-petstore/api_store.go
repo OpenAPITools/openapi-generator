@@ -27,11 +27,13 @@ var (
 type StoreApiService service
 
 /*
-DeleteOrder Delete purchase order by ID
-For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+ * DeleteOrder Delete purchase order by ID
+ *
+ * For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param orderId ID of the order that needs to be deleted
-*/
+ */
 func (a *StoreApiService) DeleteOrder(ctx _context.Context, orderId string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete
@@ -95,11 +97,13 @@ func (a *StoreApiService) DeleteOrder(ctx _context.Context, orderId string) (*_n
 }
 
 /*
-GetInventory Returns pet inventories by status
-Returns a map of status codes to quantities
+ * GetInventory Returns pet inventories by status
+ *
+ * Returns a map of status codes to quantities
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-@return map[string]int32
-*/
+ * @return map[string]int32
+ */
 func (a *StoreApiService) GetInventory(ctx _context.Context) (map[string]int32, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
@@ -183,12 +187,14 @@ func (a *StoreApiService) GetInventory(ctx _context.Context) (map[string]int32, 
 }
 
 /*
-GetOrderById Find purchase order by ID
-For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+ * GetOrderById Find purchase order by ID
+ *
+ * For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param orderId ID of pet that needs to be fetched
-@return Order
-*/
+ * @return Order
+ */
 func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) (Order, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
@@ -268,11 +274,12 @@ func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) (Ord
 }
 
 /*
-PlaceOrder Place an order for a pet
+ * PlaceOrder Place an order for a pet
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param order order placed for purchasing the pet
-@return Order
-*/
+ * @return Order
+ */
 func (a *StoreApiService) PlaceOrder(ctx _context.Context, order Order) (Order, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost

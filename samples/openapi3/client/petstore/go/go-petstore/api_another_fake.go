@@ -26,12 +26,14 @@ var (
 type AnotherFakeApiService service
 
 /*
-Call123TestSpecialTags To test special tags
-To test special tags and operation ID starting with number
+ * Call123TestSpecialTags To test special tags
+ *
+ * To test special tags and operation ID starting with number
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param client client model
-@return Client
-*/
+ * @return Client
+ */
 func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context, client Client) (Client, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch

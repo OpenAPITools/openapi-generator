@@ -26,10 +26,11 @@ var (
 type DefaultApiService service
 
 /*
-FooGet Method for FooGet
+ * FooGet Method for FooGet
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-@return InlineResponseDefault
-*/
+ * @return InlineResponseDefault
+ */
 func (a *DefaultApiService) FooGet(ctx _context.Context) (InlineResponseDefault, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet

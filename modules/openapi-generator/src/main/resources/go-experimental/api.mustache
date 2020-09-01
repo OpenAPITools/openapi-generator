@@ -15,49 +15,77 @@ import (
 var (
 	_ _context.Context
 )
+{{#generateInterfaces}}
+
+type {{classname}} interface {
+  {{#operation}}
+
+  /*
+   * {{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
+  {{#notes}}
+   * {{{unescapedNotes}}}
+  {{/notes}}
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
+   * @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
+   * @return Api{{operationId}}Request
+   */
+  {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) Api{{operationId}}Request
+
+  /*
+   * {{nickname}}Execute executes the request{{#returnType}}
+   * @return {{{.}}}{{/returnType}}
+   */
+  {{nickname}}Execute(r Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error)
+  {{/operation}}
+}
+{{/generateInterfaces}}
 
 // {{classname}}Service {{classname}} service
 type {{classname}}Service service
-
 {{#operation}}
-type api{{operationId}}Request struct {
-	ctx _context.Context
-	apiService *{{classname}}Service{{#allParams}}
-	{{paramName}} {{^isPathParam}}*{{/isPathParam}}{{{dataType}}}{{/allParams}}
-}
 
+type Api{{operationId}}Request struct {
+	ctx _context.Context{{#generateInterfaces}}
+	ApiService {{classname}}
+{{/generateInterfaces}}{{^generateInterfaces}}
+	ApiService *{{classname}}Service
+{{/generateInterfaces}}
 {{#allParams}}
-{{^isPathParam}}
-func (r api{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) api{{operationId}}Request {
+	{{paramName}} {{^isPathParam}}*{{/isPathParam}}{{{dataType}}}
+{{/allParams}}
+}
+{{#allParams}}{{^isPathParam}}
+func (r Api{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) Api{{operationId}}Request {
 	r.{{paramName}} = &{{paramName}}
 	return r
+}{{/isPathParam}}{{/allParams}}
+
+func (r Api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
+    return r.ApiService.{{nickname}}Execute(r)
 }
-{{/isPathParam}}
-{{/allParams}}
+
 /*
-{{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
+ * {{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
 {{#notes}}
-{{{unescapedNotes}}}
+ * {{{unescapedNotes}}}
 {{/notes}}
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
  * @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
-@return api{{operationId}}Request
-*/
-func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) api{{operationId}}Request {
-	return api{{operationId}}Request{
-		apiService: a,
+ * @return Api{{operationId}}Request
+ */
+func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) Api{{operationId}}Request {
+	return Api{{operationId}}Request{
+		ApiService: a,
 		ctx: ctx,{{#pathParams}}
 		{{paramName}}: {{paramName}},{{/pathParams}}
 	}
 }
 
 /*
-Execute executes the request
-{{#returnType}}
-@return {{{.}}}
-{{/returnType}}
-*/
-func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
+ * Execute executes the request{{#returnType}}
+ * @return {{{.}}}{{/returnType}}
+ */
+func (a *{{{classname}}}Service) {{nickname}}Execute(r Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.Method{{httpMethod}}
 		localVarPostBody     interface{}
@@ -69,7 +97,7 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 		{{/returnType}}
 	)
 
-	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "{{{classname}}}Service.{{{nickname}}}")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "{{{classname}}}Service.{{{nickname}}}")
 	if err != nil {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -282,12 +310,12 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 {{/isKeyInCookie}}
 {{/isApiKey}}
 {{/authMethods}}
-	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}nil, err
 	}
 
-	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
+	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, err
 	}
@@ -311,7 +339,7 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 		if localVarHTTPResponse.StatusCode == {{{code}}} {
 		{{/wildcard}}
 			var v {{{dataType}}}
-			err = r.apiService.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
 				return {{#returnType}}localVarReturnValue, {{/returnType}}localVarHTTPResponse, newErr
@@ -331,7 +359,7 @@ func (r api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 	}
 
 	{{#returnType}}
-	err = r.apiService.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,

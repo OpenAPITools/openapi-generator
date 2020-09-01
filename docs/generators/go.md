@@ -6,6 +6,7 @@ sidebar_label: go
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |enumClassPrefix|Prefix enum with class name| |false|
+|generateInterfaces|Generate interfaces for api classes| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |isGoSubmodule|whether the generated Go module is a submodule| |false|
 |packageName|Go package name (convention: lowercase).| |openapi|

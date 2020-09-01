@@ -49,17 +49,17 @@ type APIClient struct {
 
 	// API Services
 
-	AnotherFakeApi *AnotherFakeApiService
+	AnotherFakeApi AnotherFakeApi
 
-	FakeApi *FakeApiService
+	FakeApi FakeApi
 
-	FakeClassnameTags123Api *FakeClassnameTags123ApiService
+	FakeClassnameTags123Api FakeClassnameTags123Api
 
-	PetApi *PetApiService
+	PetApi PetApi
 
-	StoreApi *StoreApiService
+	StoreApi StoreApi
 
-	UserApi *UserApiService
+	UserApi UserApi
 }
 
 type service struct {

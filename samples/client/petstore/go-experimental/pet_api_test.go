@@ -9,6 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	sw "./go-petstore"
+	mock "./mock"
 )
 
 var client *sw.APIClient
@@ -39,6 +40,15 @@ func TestAddPet(t *testing.T) {
 	if r.StatusCode != 200 {
 		t.Log(r)
 	}
+}
+
+func TestAddPetMock(t *testing.T) {
+	actualApi := client.PetApi
+
+	mockApi := mock.NewMockPetApi()
+	client.PetApi = mockApi
+	TestAddPet(t)
+	client.PetApi = actualApi
 }
 
 func TestFindPetsByStatusWithMissingParam(t *testing.T) {
