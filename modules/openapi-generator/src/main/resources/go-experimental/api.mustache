@@ -27,15 +27,15 @@ type {{classname}} interface {
   {{/notes}}
    * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
    * @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
-   * @return Api{{operationId}}Request
+   * @return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
    */
-  {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) Api{{operationId}}Request
+  {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
 
   /*
    * {{nickname}}Execute executes the request{{#returnType}}
    * @return {{{.}}}{{/returnType}}
    */
-  {{nickname}}Execute(r Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error)
+  {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error)
   {{/operation}}
 }
 {{/generateInterfaces}}
@@ -44,7 +44,7 @@ type {{classname}} interface {
 type {{classname}}Service service
 {{#operation}}
 
-type Api{{operationId}}Request struct {
+type {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request struct {
 	ctx _context.Context{{#generateInterfaces}}
 	ApiService {{classname}}
 {{/generateInterfaces}}{{^generateInterfaces}}
@@ -55,13 +55,13 @@ type Api{{operationId}}Request struct {
 {{/allParams}}
 }
 {{#allParams}}{{^isPathParam}}
-func (r Api{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) Api{{operationId}}Request {
+func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) {{vendorExtensions.x-export-param-name}}({{paramName}} {{{dataType}}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
 	r.{{paramName}} = &{{paramName}}
 	return r
 }{{/isPathParam}}{{/allParams}}
 
-func (r Api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
-    return r.ApiService.{{nickname}}Execute(r)
+func (r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
+	return r.ApiService.{{nickname}}Execute(r)
 }
 
 /*
@@ -71,10 +71,10 @@ func (r Api{{operationId}}Request) Execute() ({{#returnType}}{{{.}}}, {{/returnT
 {{/notes}}
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
  * @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
- * @return Api{{operationId}}Request
+ * @return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
  */
-func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) Api{{operationId}}Request {
-	return Api{{operationId}}Request{
+func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
+	return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request{
 		ApiService: a,
 		ctx: ctx,{{#pathParams}}
 		{{paramName}}: {{paramName}},{{/pathParams}}
@@ -85,7 +85,7 @@ func (a *{{{classname}}}Service) {{{nickname}}}(ctx _context.Context{{#pathParam
  * Execute executes the request{{#returnType}}
  * @return {{{.}}}{{/returnType}}
  */
-func (a *{{{classname}}}Service) {{nickname}}Execute(r Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
+func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.Method{{httpMethod}}
 		localVarPostBody     interface{}

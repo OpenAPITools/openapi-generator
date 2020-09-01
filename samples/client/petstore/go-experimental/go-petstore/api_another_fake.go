@@ -53,7 +53,7 @@ func (r ApiCall123TestSpecialTagsRequest) Body(body Client) ApiCall123TestSpecia
 }
 
 func (r ApiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response, error) {
-    return r.ApiService.Call123TestSpecialTagsExecute(r)
+	return r.ApiService.Call123TestSpecialTagsExecute(r)
 }
 
 /*
