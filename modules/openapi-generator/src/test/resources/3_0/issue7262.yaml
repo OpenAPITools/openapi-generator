@@ -19,10 +19,6 @@ components:
       allOf:
         - $ref: '#/components/schemas/UserTimeBase'
         - type: object
-#          properties:
-#            break:
-#              type: string
-#              nullable: true
           additionalProperties: true
     UserTimeBase:
       required:
