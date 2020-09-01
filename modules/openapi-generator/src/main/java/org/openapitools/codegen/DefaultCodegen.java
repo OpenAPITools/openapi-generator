@@ -2826,9 +2826,8 @@ public class DefaultCodegen implements CodegenConfig {
                             if (ref == null) {
                                 // for schemas with no ref, it is not possible to build the discriminator map
                                 // because ref is how we get the model name
-                                // we only hit this use case for a schema with inline composed schemas, and one of those
-                                // schemas also has inline composed schemas
-                                throw new RuntimeException("Invalid inline schema defined in allOf in '" + childName + "'. Per the OpenApi spec, for this case when a composed schema defines a discriminator, the allOf schemas must use $ref. Change this inline definition to a $ref definition");
+                                // we hit this use case when an allOf composed schema contains an inline schema
+                                continue;
                             }
                             String parentName = ModelUtils.getSimpleRef(ref);
                             if (parentName.equals(currentSchemaName)) {
