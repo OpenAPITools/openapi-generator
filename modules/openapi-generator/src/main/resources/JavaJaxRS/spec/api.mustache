@@ -4,11 +4,9 @@ package {{package}};
 {{/imports}}
 
 import javax.ws.rs.*;
-import javax.ws.rs.core.Response;
+{{#returnResponse}}import javax.ws.rs.core.Response;{{/returnResponse}}
 
-{{#useSwaggerAnnotations}}
-import io.swagger.annotations.*;
-{{/useSwaggerAnnotations}}
+{{#useSwaggerAnnotations}}import io.swagger.annotations.*;{{/useSwaggerAnnotations}}
 
 import java.io.InputStream;
 import java.util.Map;
