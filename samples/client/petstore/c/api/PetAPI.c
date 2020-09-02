@@ -155,7 +155,7 @@ PetAPI_deletePet(apiClient_t *apiClient, long petId , char * api_key )
 
     // header parameters
     char *keyHeader_api_key = NULL;
-    char * valueHeader_api_key;
+    char * valueHeader_api_key = 0;
     keyValuePair_t *keyPairHeader_api_key = 0;
     if (api_key) {
         keyHeader_api_key = strdup("api_key");
@@ -195,7 +195,10 @@ end:
         free(keyHeader_api_key);
         keyHeader_api_key = NULL;
     }
-    free(valueHeader_api_key);
+    if (valueHeader_api_key) {
+        free(valueHeader_api_key);
+        valueHeader_api_key = NULL;
+    }
     free(keyPairHeader_api_key);
 
 }
@@ -554,7 +557,7 @@ PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId , char * name , char
 
     // form parameters
     char *keyForm_name = NULL;
-    char * valueForm_name;
+    char * valueForm_name = 0;
     keyValuePair_t *keyPairForm_name = 0;
     if (name != NULL)
     {
@@ -566,7 +569,7 @@ PetAPI_updatePetWithForm(apiClient_t *apiClient, long petId , char * name , char
 
     // form parameters
     char *keyForm_status = NULL;
-    char * valueForm_status;
+    char * valueForm_status = 0;
     keyValuePair_t *keyPairForm_status = 0;
     if (status != NULL)
     {
@@ -607,13 +610,19 @@ end:
         free(keyForm_name);
         keyForm_name = NULL;
     }
-    free(valueForm_name);
+    if (valueForm_name) {
+        free(valueForm_name);
+        valueForm_name = NULL;
+    }
     keyValuePair_free(keyPairForm_name);
     if (keyForm_status) {
         free(keyForm_status);
         keyForm_status = NULL;
     }
-    free(valueForm_status);
+    if (valueForm_status) {
+        free(valueForm_status);
+        valueForm_status = NULL;
+    }
     keyValuePair_free(keyPairForm_status);
 
 }
@@ -654,7 +663,7 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId , char * additionalMetadata
 
     // form parameters
     char *keyForm_additionalMetadata = NULL;
-    char * valueForm_additionalMetadata;
+    char * valueForm_additionalMetadata = 0;
     keyValuePair_t *keyPairForm_additionalMetadata = 0;
     if (additionalMetadata != NULL)
     {
@@ -666,7 +675,7 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId , char * additionalMetadata
 
     // form parameters
     char *keyForm_file = NULL;
-    binary_t* valueForm_file;
+    binary_t* valueForm_file = 0;
     keyValuePair_t *keyPairForm_file = 0;
     if (file != NULL)
     {
@@ -715,7 +724,10 @@ PetAPI_uploadFile(apiClient_t *apiClient, long petId , char * additionalMetadata
         free(keyForm_additionalMetadata);
         keyForm_additionalMetadata = NULL;
     }
-    free(valueForm_additionalMetadata);
+    if (valueForm_additionalMetadata) {
+        free(valueForm_additionalMetadata);
+        valueForm_additionalMetadata = NULL;
+    }
     free(keyPairForm_additionalMetadata);
     if (keyForm_file) {
         free(keyForm_file);
