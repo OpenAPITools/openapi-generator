@@ -416,6 +416,34 @@ public class AbstractJavaCodegenTest {
         Schema<?> schema = createObjectSchemaWithMinItems();
         String defaultValue = codegen.toDefaultValue(schema);
         Assert.assertNull(defaultValue);
+
+        // Create an alias to an array schema
+        Schema<?> nestedArraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("NestedArray", nestedArraySchema)));
+
+        // Create an array schema with item type set to the array alias
+        schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
+
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new ArrayList<List<Integer>>()");
+
+        ModelUtils.setGenerateAliasAsModel(true);
+        defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new ArrayList<NestedArray>()");
+
+        // Create a map schema with additionalProperties type set to array alias
+        schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
+
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new HashMap<String, List<Integer>>()");
+
+        ModelUtils.setGenerateAliasAsModel(true);
+        defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new HashMap<String, NestedArray>()");
+        
+        // Test default value for date format
         DateSchema dateSchema = new DateSchema();
         LocalDate defaultLocalDate = LocalDate.of(2019,2,15);
         Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
