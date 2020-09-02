@@ -199,6 +199,15 @@ Note, each API key must be added to a map of `map[string]APIKey` where the key i
 
 ### bearer_test
 
+- **Type**: HTTP Bearer token authentication
+
+Example
+
+```golang
+auth := context.WithValue(context.Background(), sw.ContextAccessToken, "BEARERTOKENSTRING")
+r, err := client.Service.Operation(auth, args)
+```
+
 
 ### http_basic_test
 

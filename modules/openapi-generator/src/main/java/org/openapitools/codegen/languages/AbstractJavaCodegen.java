@@ -61,6 +61,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
     public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
+    public static final String OPENAPI_NULLABLE = "openApiNullable";
 
     protected String dateLibrary = "threetenbp";
     protected boolean supportAsync = false;
@@ -100,6 +101,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String parentVersion = "";
     protected boolean parentOverridden = false;
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
+    protected boolean openApiNullable = true;
 
     public AbstractJavaCodegen() {
         super();
@@ -218,6 +220,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         cliOptions.add(CliOption.newBoolean(DISABLE_HTML_ESCAPING, "Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)", disableHtmlEscaping));
         cliOptions.add(CliOption.newString(BOOLEAN_GETTER_PREFIX, "Set booleanGetterPrefix").defaultValue(this.getBooleanGetterPrefix()));
         cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations)"));
+        cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library", this.openApiNullable));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -411,6 +414,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setWithXml(Boolean.valueOf(additionalProperties.get(WITH_XML).toString()));
         }
         additionalProperties.put(WITH_XML, withXml);
+
+        if (additionalProperties.containsKey(OPENAPI_NULLABLE)) {
+            this.setOpenApiNullable(Boolean.valueOf(additionalProperties.get(OPENAPI_NULLABLE).toString()));
+        }
+        additionalProperties.put(OPENAPI_NULLABLE, openApiNullable);
 
         if (additionalProperties.containsKey(CodegenConstants.PARENT_GROUP_ID)) {
             this.setParentGroupId((String) additionalProperties.get(CodegenConstants.PARENT_GROUP_ID));
@@ -809,6 +817,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             return String.format(Locale.ROOT, pattern, typeDeclaration);
         } else if (ModelUtils.isMapSchema(schema) && !(schema instanceof ComposedSchema)) {
+            if (schema.getProperties() != null && schema.getProperties().size() > 0) {
+                // object is complex object with free-form additional properties
+                if (schema.getDefault() != null) {
+                    return super.toDefaultValue(schema);
+                }
+                return null;
+            }
             final String pattern;
             if (fullJavaUtil) {
                 pattern = "new java.util.HashMap<%s>()";
@@ -1498,6 +1513,14 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setBooleanGetterPrefix(String booleanGetterPrefix) {
         this.booleanGetterPrefix = booleanGetterPrefix;
+    }
+
+    public boolean isOpenApiNullable() {
+        return openApiNullable;
+    }
+
+    public void setOpenApiNullable(final boolean openApiNullable) {
+        this.openApiNullable = openApiNullable;
     }
 
     @Override

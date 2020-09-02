@@ -18,7 +18,9 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   {{#vars}}
     {{#isEnum}}
     {{^isContainer}}
+    {{^vendorExtensions.x-enum-as-string}}
 {{>modelInnerEnum}}
+    {{/vendorExtensions.x-enum-as-string}}
     {{/isContainer}}
     {{#isContainer}}
     {{#mostInnerItems}}
@@ -98,7 +100,19 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
   {{#vars}}
 
   {{^isReadOnly}}
+  {{#vendorExtensions.x-enum-as-string}}
+  public static final Set<String> {{{nameInSnakeCase}}}_VALUES = new HashSet<>(Arrays.asList(
+    {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}}, {{/-last}}{{/enumVars}}{{/allowableValues}}
+  ));
+
+  {{/vendorExtensions.x-enum-as-string}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    {{#vendorExtensions.x-enum-as-string}}
+    if (!{{{nameInSnakeCase}}}_VALUES.contains({{name}})) {
+      throw new IllegalArgumentException({{name}} + " is invalid. Possible values for {{name}}: " + String.join(", ", {{{nameInSnakeCase}}}_VALUES));
+    }
+
+    {{/vendorExtensions.x-enum-as-string}}
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -220,6 +234,12 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
 
   {{^isReadOnly}}
   public void {{setter}}({{{datatypeWithEnum}}} {{name}}) {
+    {{#vendorExtensions.x-enum-as-string}}
+    if (!{{{nameInSnakeCase}}}_VALUES.contains({{name}})) {
+      throw new IllegalArgumentException({{name}} + " is invalid. Possible values for {{name}}: " + String.join(", ", {{{nameInSnakeCase}}}_VALUES));
+    }
+
+    {{/vendorExtensions.x-enum-as-string}}
     {{#vendorExtensions.x-is-jackson-optional-nullable}}
     this.{{name}} = JsonNullable.<{{{datatypeWithEnum}}}>of({{name}});
     {{/vendorExtensions.x-is-jackson-optional-nullable}}
@@ -236,7 +256,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
    * Return true if this {{name}} object is equal to o.
    */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
   {{#useReflectionEqualsHashCode}}
     return EqualsBuilder.reflectionEquals(this, o, false, null, true);
   {{/useReflectionEqualsHashCode}}
@@ -269,7 +289,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
 {{/supportJava6}}
 {{#supportJava6}}
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
   if (this == o) {
     return true;
   }
@@ -311,7 +331,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{{#vendorE
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

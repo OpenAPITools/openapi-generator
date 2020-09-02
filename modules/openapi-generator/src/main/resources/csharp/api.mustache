@@ -251,7 +251,7 @@ namespace {{packageName}}.{{apiPackage}}
             if ({{paramName}} != null) localVarHeaderParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToString({{paramName}})); // header parameter
             {{/headerParams}}
             {{#formParams}}
-            if ({{paramName}} != null) {{#isFile}}localVarFileParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}localVarFormParams.Add("{{baseName}}", this.Configuration.ApiClient.{{#isPrimitiveType}}ParameterToString{{/isPrimitiveType}}{{^isPrimitiveType}}Serialize{{/isPrimitiveType}}({{paramName}})); // form parameter{{/isFile}}
+            if ({{paramName}} != null) {{#isFile}}localVarFileParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}localVarFormParams.Add("{{baseName}}", {{#vendorExtensions.x-is-json}}{{paramName}}.ToJson(){{/vendorExtensions.x-is-json}}{{^vendorExtensions.x-is-json}}this.Configuration.ApiClient.{{#isPrimitiveType}}ParameterToString{{/isPrimitiveType}}{{^isPrimitiveType}}Serialize{{/isPrimitiveType}}({{paramName}}){{/vendorExtensions.x-is-json}}); // form parameter{{/isFile}}
             {{/formParams}}
             {{#bodyParam}}
             if ({{paramName}} != null && {{paramName}}.GetType() != typeof(byte[]))
@@ -398,7 +398,7 @@ namespace {{packageName}}.{{apiPackage}}
             if ({{paramName}} != null) localVarHeaderParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToString({{paramName}})); // header parameter
             {{/headerParams}}
             {{#formParams}}
-            if ({{paramName}} != null) {{#isFile}}localVarFileParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}localVarFormParams.Add("{{baseName}}", this.Configuration.ApiClient.{{#isPrimitiveType}}ParameterToString{{/isPrimitiveType}}{{^isPrimitiveType}}Serialize{{/isPrimitiveType}}({{paramName}})); // form parameter{{/isFile}}
+            if ({{paramName}} != null) {{#isFile}}localVarFileParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}localVarFormParams.Add("{{baseName}}", {{#vendorExtensions.x-is-json}}{{paramName}}.ToJson(){{/vendorExtensions.x-is-json}}{{^vendorExtensions.x-is-json}}this.Configuration.ApiClient.{{#isPrimitiveType}}ParameterToString{{/isPrimitiveType}}{{^isPrimitiveType}}Serialize{{/isPrimitiveType}}({{paramName}}){{/vendorExtensions.x-is-json}}); // form parameter{{/isFile}}
             {{/formParams}}
             {{#bodyParam}}
             if ({{paramName}} != null && {{paramName}}.GetType() != typeof(byte[]))

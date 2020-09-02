@@ -3,6 +3,7 @@ package {{package}};
 {{#imports}}import {{import}};
 {{/imports}}
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
@@ -43,11 +44,11 @@ public class {{classname}}Controller extends Controller {
     {{/controllerOnly}}
     private final ObjectMapper mapper;
     {{#useBeanValidation}}
-    private final Configuration configuration;
+    private final Config configuration;
     {{/useBeanValidation}}
 
     @Inject
-    private {{classname}}Controller({{#useBeanValidation}}Configuration configuration{{^controllerOnly}}, {{/controllerOnly}}{{/useBeanValidation}}{{^controllerOnly}}{{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp{{/controllerOnly}}) {
+    private {{classname}}Controller({{#useBeanValidation}}Config configuration{{^controllerOnly}}, {{/controllerOnly}}{{/useBeanValidation}}{{^controllerOnly}}{{classname}}ControllerImp{{#useInterfaces}}Interface{{/useInterfaces}} imp{{/controllerOnly}}) {
         {{^controllerOnly}}
         this.imp = imp;
         {{/controllerOnly}}

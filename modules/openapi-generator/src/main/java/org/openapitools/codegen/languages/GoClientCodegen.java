@@ -40,6 +40,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public static final String WITH_XML = "withXml";
     public static final String STRUCT_PREFIX = "structPrefix";
     public static final String WITH_AWSV4_SIGNATURE = "withAWSV4Signature";
+    public static final String GENERATE_INTERFACES = "generateInterfaces";
 
     public GoClientCodegen() {
         super();
@@ -91,6 +92,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_CLASS_PREFIX, CodegenConstants.ENUM_CLASS_PREFIX_DESC));
         cliOptions.add(CliOption.newBoolean(STRUCT_PREFIX, "whether to prefix struct with the class name. e.g. DeletePetOpts => PetApiDeletePetOpts"));
         cliOptions.add(CliOption.newBoolean(WITH_AWSV4_SIGNATURE, "whether to include AWS v4 signature support"));
+        cliOptions.add(CliOption.newBoolean(GENERATE_INTERFACES, "Generate interfaces for api classes"));
 
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(
@@ -163,6 +165,11 @@ public class GoClientCodegen extends AbstractGoCodegen {
         if (additionalProperties.containsKey(STRUCT_PREFIX)) {
             setStructPrefix(Boolean.parseBoolean(additionalProperties.get(STRUCT_PREFIX).toString()));
             additionalProperties.put(STRUCT_PREFIX, structPrefix);
+        }
+
+        if (additionalProperties.containsKey(GENERATE_INTERFACES)) {
+            setGenerateInterfaces(Boolean.parseBoolean(additionalProperties.get(GENERATE_INTERFACES).toString()));
+            additionalProperties.put(GENERATE_INTERFACES, generateInterfaces);
         }
     }
 

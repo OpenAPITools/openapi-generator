@@ -10,6 +10,7 @@ import okhttp3.Response
 /**
  * Provides an extension to evaluation whether the response is a 3xx code
  */
+@Suppress("EXTENSION_SHADOWED_BY_MEMBER")
 {{#nonPublicApi}}internal {{/nonPublicApi}}val Response.isRedirect : Boolean get() = this.code{{#jvm-okhttp3}}(){{/jvm-okhttp3}} in 300..399
 
 /**

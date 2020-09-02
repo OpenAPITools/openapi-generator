@@ -26,12 +26,14 @@ var (
 type FakeClassnameTags123ApiService service
 
 /*
-TestClassname To test class name in snake case
-To test class name in snake case
+ * TestClassname To test class name in snake case
+ *
+ * To test class name in snake case
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param body client model
-@return Client
-*/
+ * @return Client
+ */
 func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context, body Client) (Client, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch

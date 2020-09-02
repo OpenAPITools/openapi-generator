@@ -35,8 +35,8 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = store_api.StoreApi(api_client)
-    order_id = 'order_id_example' # str | ID of the order that needs to be deleted
-    
+    order_id = "order_id_example" # str | ID of the order that needs to be deleted
+
     # example passing only required values which don't have defaults set
     try:
         # Delete purchase order by ID
@@ -112,7 +112,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = store_api.StoreApi(api_client)
-    
+
     # example, this endpoint has no required or optional parameters
     try:
         # Returns pet inventories by status
@@ -171,8 +171,8 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = store_api.StoreApi(api_client)
-    order_id = 56 # int | ID of pet that needs to be fetched
-    
+    order_id = 1 # int | ID of pet that needs to be fetched
+
     # example passing only required values which don't have defaults set
     try:
         # Find purchase order by ID
@@ -234,8 +234,15 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = store_api.StoreApi(api_client)
-    body = Order() # Order | order placed for purchasing the pet
-    
+    body = Order(
+        id=1,
+        pet_id=1,
+        quantity=1,
+        ship_date=dateutil_parser('1970-01-01T00:00:00.00Z'),
+        status="placed",
+        complete=False,
+    ) # Order | order placed for purchasing the pet
+
     # example passing only required values which don't have defaults set
     try:
         # Place an order for a pet

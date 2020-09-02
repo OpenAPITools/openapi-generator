@@ -134,7 +134,7 @@ Class | Method | HTTP request | Description
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
+auth := context.WithValue(context.Background(), petstore.ContextAPIKey, petstore.APIKey{
     Key: "APIKEY",
     Prefix: "Bearer", // Omit if not necessary.
 })
@@ -149,7 +149,7 @@ r, err := client.Service.Operation(auth, args)
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
+auth := context.WithValue(context.Background(), petstore.ContextAPIKey, petstore.APIKey{
     Key: "APIKEY",
     Prefix: "Bearer", // Omit if not necessary.
 })
@@ -164,7 +164,7 @@ r, err := client.Service.Operation(auth, args)
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
+auth := context.WithValue(context.Background(), petstore.ContextBasicAuth, petstore.BasicAuth{
     UserName: "username",
     Password: "password",
 })
@@ -185,7 +185,7 @@ r, err := client.Service.Operation(auth, args)
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextAccessToken, "ACCESSTOKENSTRING")
+auth := context.WithValue(context.Background(), petstore.ContextAccessToken, "ACCESSTOKENSTRING")
 r, err := client.Service.Operation(auth, args)
 ```
 
@@ -197,7 +197,7 @@ import "golang.org/x/oauth2"
 /* Perform OAuth2 round trip request and obtain a token */
 
 tokenSource := oauth2cfg.TokenSource(createContext(httpClient), &token)
-auth := context.WithValue(oauth2.NoContext, sw.ContextOAuth2, tokenSource)
+auth := context.WithValue(oauth2.NoContext, petstore.ContextOAuth2, tokenSource)
 r, err := client.Service.Operation(auth, args)
 ```
 

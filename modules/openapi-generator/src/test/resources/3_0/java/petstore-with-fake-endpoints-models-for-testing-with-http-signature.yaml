@@ -2087,6 +2087,12 @@ components:
           properties:
             name:
               type: string
+            pet_type:
+              x-enum-as-string: true
+              type: string
+              enum:
+              - ChildCat
+              default: ChildCat
     ArrayOfEnums:
       type: array
       items:

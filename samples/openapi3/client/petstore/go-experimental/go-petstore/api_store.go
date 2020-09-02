@@ -22,34 +22,98 @@ var (
 	_ _context.Context
 )
 
+type StoreApi interface {
+
+  /*
+   * DeleteOrder Delete purchase order by ID
+   * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @param orderId ID of the order that needs to be deleted
+   * @return ApiDeleteOrderRequest
+   */
+  DeleteOrder(ctx _context.Context, orderId string) ApiDeleteOrderRequest
+
+  /*
+   * DeleteOrderExecute executes the request
+   */
+  DeleteOrderExecute(r ApiDeleteOrderRequest) (*_nethttp.Response, error)
+
+  /*
+   * GetInventory Returns pet inventories by status
+   * Returns a map of status codes to quantities
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiGetInventoryRequest
+   */
+  GetInventory(ctx _context.Context) ApiGetInventoryRequest
+
+  /*
+   * GetInventoryExecute executes the request
+   * @return map[string]int32
+   */
+  GetInventoryExecute(r ApiGetInventoryRequest) (map[string]int32, *_nethttp.Response, error)
+
+  /*
+   * GetOrderById Find purchase order by ID
+   * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @param orderId ID of pet that needs to be fetched
+   * @return ApiGetOrderByIdRequest
+   */
+  GetOrderById(ctx _context.Context, orderId int64) ApiGetOrderByIdRequest
+
+  /*
+   * GetOrderByIdExecute executes the request
+   * @return Order
+   */
+  GetOrderByIdExecute(r ApiGetOrderByIdRequest) (Order, *_nethttp.Response, error)
+
+  /*
+   * PlaceOrder Place an order for a pet
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiPlaceOrderRequest
+   */
+  PlaceOrder(ctx _context.Context) ApiPlaceOrderRequest
+
+  /*
+   * PlaceOrderExecute executes the request
+   * @return Order
+   */
+  PlaceOrderExecute(r ApiPlaceOrderRequest) (Order, *_nethttp.Response, error)
+}
+
 // StoreApiService StoreApi service
 type StoreApiService service
 
-type apiDeleteOrderRequest struct {
+type ApiDeleteOrderRequest struct {
 	ctx _context.Context
-	apiService *StoreApiService
+	ApiService StoreApi
 	orderId string
 }
 
+
+func (r ApiDeleteOrderRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.DeleteOrderExecute(r)
+}
+
 /*
-DeleteOrder Delete purchase order by ID
-For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+ * DeleteOrder Delete purchase order by ID
+ * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param orderId ID of the order that needs to be deleted
-@return apiDeleteOrderRequest
-*/
-func (a *StoreApiService) DeleteOrder(ctx _context.Context, orderId string) apiDeleteOrderRequest {
-	return apiDeleteOrderRequest{
-		apiService: a,
+ * @return ApiDeleteOrderRequest
+ */
+func (a *StoreApiService) DeleteOrder(ctx _context.Context, orderId string) ApiDeleteOrderRequest {
+	return ApiDeleteOrderRequest{
+		ApiService: a,
 		ctx: ctx,
 		orderId: orderId,
 	}
 }
 
 /*
-Execute executes the request
-*/
-func (r apiDeleteOrderRequest) Execute() (*_nethttp.Response, error) {
+ * Execute executes the request
+ */
+func (a *StoreApiService) DeleteOrderExecute(r ApiDeleteOrderRequest) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
@@ -58,7 +122,7 @@ func (r apiDeleteOrderRequest) Execute() (*_nethttp.Response, error) {
 		localVarFileBytes    []byte
 	)
 
-	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.DeleteOrder")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.DeleteOrder")
 	if err != nil {
 		return nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -87,12 +151,12 @@ func (r apiDeleteOrderRequest) Execute() (*_nethttp.Response, error) {
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
 	}
 
-	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
+	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarHTTPResponse, err
 	}
@@ -113,29 +177,35 @@ func (r apiDeleteOrderRequest) Execute() (*_nethttp.Response, error) {
 
 	return localVarHTTPResponse, nil
 }
-type apiGetInventoryRequest struct {
+
+type ApiGetInventoryRequest struct {
 	ctx _context.Context
-	apiService *StoreApiService
+	ApiService StoreApi
+}
+
+
+func (r ApiGetInventoryRequest) Execute() (map[string]int32, *_nethttp.Response, error) {
+	return r.ApiService.GetInventoryExecute(r)
 }
 
 /*
-GetInventory Returns pet inventories by status
-Returns a map of status codes to quantities
+ * GetInventory Returns pet inventories by status
+ * Returns a map of status codes to quantities
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-@return apiGetInventoryRequest
-*/
-func (a *StoreApiService) GetInventory(ctx _context.Context) apiGetInventoryRequest {
-	return apiGetInventoryRequest{
-		apiService: a,
+ * @return ApiGetInventoryRequest
+ */
+func (a *StoreApiService) GetInventory(ctx _context.Context) ApiGetInventoryRequest {
+	return ApiGetInventoryRequest{
+		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 /*
-Execute executes the request
-@return map[string]int32
-*/
-func (r apiGetInventoryRequest) Execute() (map[string]int32, *_nethttp.Response, error) {
+ * Execute executes the request
+ * @return map[string]int32
+ */
+func (a *StoreApiService) GetInventoryExecute(r ApiGetInventoryRequest) (map[string]int32, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
@@ -145,7 +215,7 @@ func (r apiGetInventoryRequest) Execute() (map[string]int32, *_nethttp.Response,
 		localVarReturnValue  map[string]int32
 	)
 
-	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.GetInventory")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.GetInventory")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -176,23 +246,23 @@ func (r apiGetInventoryRequest) Execute() (map[string]int32, *_nethttp.Response,
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if auth, ok := auth["api_key"]; ok {
+			if apiKey, ok := auth["api_key"]; ok {
 				var key string
-				if auth.Prefix != "" {
-					key = auth.Prefix + " " + auth.Key
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
 				} else {
-					key = auth.Key
+					key = apiKey.Key
 				}
 				localVarHeaderParams["api_key"] = key
 			}
 		}
 	}
-	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
+	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -211,7 +281,7 @@ func (r apiGetInventoryRequest) Execute() (map[string]int32, *_nethttp.Response,
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = r.apiService.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -222,32 +292,38 @@ func (r apiGetInventoryRequest) Execute() (map[string]int32, *_nethttp.Response,
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
-type apiGetOrderByIdRequest struct {
+
+type ApiGetOrderByIdRequest struct {
 	ctx _context.Context
-	apiService *StoreApiService
+	ApiService StoreApi
 	orderId int64
 }
 
+
+func (r ApiGetOrderByIdRequest) Execute() (Order, *_nethttp.Response, error) {
+	return r.ApiService.GetOrderByIdExecute(r)
+}
+
 /*
-GetOrderById Find purchase order by ID
-For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+ * GetOrderById Find purchase order by ID
+ * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param orderId ID of pet that needs to be fetched
-@return apiGetOrderByIdRequest
-*/
-func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) apiGetOrderByIdRequest {
-	return apiGetOrderByIdRequest{
-		apiService: a,
+ * @return ApiGetOrderByIdRequest
+ */
+func (a *StoreApiService) GetOrderById(ctx _context.Context, orderId int64) ApiGetOrderByIdRequest {
+	return ApiGetOrderByIdRequest{
+		ApiService: a,
 		ctx: ctx,
 		orderId: orderId,
 	}
 }
 
 /*
-Execute executes the request
-@return Order
-*/
-func (r apiGetOrderByIdRequest) Execute() (Order, *_nethttp.Response, error) {
+ * Execute executes the request
+ * @return Order
+ */
+func (a *StoreApiService) GetOrderByIdExecute(r ApiGetOrderByIdRequest) (Order, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
@@ -257,7 +333,7 @@ func (r apiGetOrderByIdRequest) Execute() (Order, *_nethttp.Response, error) {
 		localVarReturnValue  Order
 	)
 
-	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.GetOrderById")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.GetOrderById")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -292,12 +368,12 @@ func (r apiGetOrderByIdRequest) Execute() (Order, *_nethttp.Response, error) {
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
+	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -316,7 +392,7 @@ func (r apiGetOrderByIdRequest) Execute() (Order, *_nethttp.Response, error) {
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = r.apiService.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
@@ -327,33 +403,39 @@ func (r apiGetOrderByIdRequest) Execute() (Order, *_nethttp.Response, error) {
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
-type apiPlaceOrderRequest struct {
+
+type ApiPlaceOrderRequest struct {
 	ctx _context.Context
-	apiService *StoreApiService
+	ApiService StoreApi
 	order *Order
 }
 
-func (r apiPlaceOrderRequest) Order(order Order) apiPlaceOrderRequest {
+func (r ApiPlaceOrderRequest) Order(order Order) ApiPlaceOrderRequest {
 	r.order = &order
 	return r
 }
+
+func (r ApiPlaceOrderRequest) Execute() (Order, *_nethttp.Response, error) {
+	return r.ApiService.PlaceOrderExecute(r)
+}
+
 /*
-PlaceOrder Place an order for a pet
+ * PlaceOrder Place an order for a pet
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-@return apiPlaceOrderRequest
-*/
-func (a *StoreApiService) PlaceOrder(ctx _context.Context) apiPlaceOrderRequest {
-	return apiPlaceOrderRequest{
-		apiService: a,
+ * @return ApiPlaceOrderRequest
+ */
+func (a *StoreApiService) PlaceOrder(ctx _context.Context) ApiPlaceOrderRequest {
+	return ApiPlaceOrderRequest{
+		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 /*
-Execute executes the request
-@return Order
-*/
-func (r apiPlaceOrderRequest) Execute() (Order, *_nethttp.Response, error) {
+ * Execute executes the request
+ * @return Order
+ */
+func (a *StoreApiService) PlaceOrderExecute(r ApiPlaceOrderRequest) (Order, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
@@ -363,7 +445,7 @@ func (r apiPlaceOrderRequest) Execute() (Order, *_nethttp.Response, error) {
 		localVarReturnValue  Order
 	)
 
-	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.PlaceOrder")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StoreApiService.PlaceOrder")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -396,12 +478,12 @@ func (r apiPlaceOrderRequest) Execute() (Order, *_nethttp.Response, error) {
 	}
 	// body params
 	localVarPostBody = r.order
-	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
+	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -420,7 +502,7 @@ func (r apiPlaceOrderRequest) Execute() (Order, *_nethttp.Response, error) {
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = r.apiService.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,

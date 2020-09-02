@@ -1,22 +1,22 @@
 <h1 align="center">OpenAPI Generator</h1>
 
+
 <div align="center">
 
-[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`5.0.0`): [![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
-[![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
-[![Run Status](https://api.shippable.com/projects/5af6bf74e790f4070084a115/badge?branch=master)](https://app.shippable.com/github/OpenAPITools/openapi-generator)
-[![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
-[![JDK11 Build](https://cloud.drone.io/api/badges/OpenAPITools/openapi-generator/status.svg?ref=refs/heads/master)](https://cloud.drone.io/OpenAPITools/openapi-generator)
-[![iOS Build Status](https://app.bitrise.io/app/4a2b10a819d12b67/status.svg?token=859FMDR8QHwabCzwvZK6vQ&branch=master)](https://app.bitrise.io/app/4a2b10a819d12b67)
-![Check Supported Java Versions](https://github.com/openapitools/openapi-generator/workflows/Check%20Supported%20Java%20Versions/badge.svg)
+[![Stable releaases in Maven Central](https://img.shields.io/maven-metadata/v/https/repo1.maven.org/maven2/org/openapitools/openapi-generator/maven-metadata.xml.svg)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.openapitools%22%20AND%20a%3A%22openapi-generator%22) [![Apache 2.0 License](https://img.shields.io/badge/License-Apache%202.0-orange)](./LICENSE) ![Open Collective backers](https://img.shields.io/opencollective/backers/openapi_generator?color=orange&label=OpenCollective%20Backers) [![Join the Slack chat room](https://img.shields.io/badge/Slack-Join%20the%20chat%20room-orange)](https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM) [![Follow OpenAPI Generator Twitter account to get the latest update](https://img.shields.io/twitter/follow/oas_generator.svg?style=social&label=Follow)](https://twitter.com/oas_generator)  
 
 </div>
 
 <div align="center">
 
-[![Jion the Slack chat room](https://img.shields.io/badge/Slack-Join%20the%20chat%20room-orange)](https://join.slack.com/t/openapi-generator/shared_invite/enQtNzAyNDMyOTU0OTE1LTY5ZDBiNDI5NzI5ZjQ1Y2E5OWVjMjZkYzY1ZGM2MWQ4YWFjMzcyNDY5MGI4NjQxNDBiMTlmZTc5NjY2ZTQ5MGM)
-[![Stable releaases in the Maven store](https://img.shields.io/maven-metadata/v/https/repo1.maven.org/maven2/org/openapitools/openapi-generator/maven-metadata.xml.svg)](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.openapitools%22%20AND%20a%3A%22openapi-generator%22)
-[![Follow OpenAPI Generator Twitter account to get the latest update](https://img.shields.io/twitter/follow/oas_generator.svg?style=social&label=Follow)](https://twitter.com/oas_generator)
+[Master](https://github.com/OpenAPITools/openapi-generator/tree/master) (`5.0.0`):  
+[![Build Status](https://img.shields.io/travis/OpenAPITools/openapi-generator/master.svg?label=Integration%20Test)](https://travis-ci.org/OpenAPITools/openapi-generator)
+[![Integration Test2](https://circleci.com/gh/OpenAPITools/openapi-generator.svg?style=shield)](https://circleci.com/gh/OpenAPITools/openapi-generator)
+[![Run Status](https://api.shippable.com/projects/5af6bf74e790f4070084a115/badge?branch=master)](https://app.shippable.com/github/OpenAPITools/openapi-generator)
+[![Windows Test](https://ci.appveyor.com/api/projects/status/github/openapitools/openapi-generator?branch=master&svg=true&passingText=Windows%20Test%20-%20OK&failingText=Windows%20Test%20-%20Fails)](https://ci.appveyor.com/project/WilliamCheng/openapi-generator-wh2wu)
+[![JDK11 Build](https://cloud.drone.io/api/badges/OpenAPITools/openapi-generator/status.svg?ref=refs/heads/master)](https://cloud.drone.io/OpenAPITools/openapi-generator)
+[![Bitrise](https://img.shields.io/bitrise/4a2b10a819d12b67/master?label=bitrise%3A%20Swift+4,5&token=859FMDR8QHwabCzwvZK6vQ)](https://app.bitrise.io/app/4a2b10a819d12b67)
+[![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/openapitools/openapi-generator/Check%20Supported%20Java%20Versions/master?label=Check%20Supported%20Java%20Versions&logo=github&logoColor=green)](https://github.com/OpenAPITools/openapi-generator/actions?query=workflow%3A%22Check+Supported+Java+Versions%22)
 
 </div>
 
@@ -627,6 +627,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Prometheus/Alertmanager](https://github.com/prometheus/alertmanager)
 - [QEDIT](https://qed-it.com)
 - [Qulix Systems](https://www.qulix.com)
+- [Raksul](https://corp.raksul.com)
 - [Raiffeisen Schweiz Genossenschaft](https://www.raiffeisen.ch)
 - [RedHat](https://www.redhat.com)
 - [RepreZen API Studio](https://www.reprezen.com/swagger-openapi-code-generation-api-first-microservices-enterprise-development)
@@ -641,6 +642,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [TUI InfoTec GmbH](http://www.tui-infotec.com/)
 - [unblu inc.](https://www.unblu.com/)
 - [Veamly](https://www.veamly.com/)
+- [wbt-solutions](https://www.wbt-solutions.de/)
 - [Woleet](https://www.woleet.io/)
 - [WSO2](https://wso2.com/)
 - [Vouchery.io](https://vouchery.io)
@@ -769,6 +771,8 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-07-23 - [Generate Client SDK for .NET Core using Open Api](https://dev.to/no0law1/generate-client-sdk-for-net-core-using-open-api-2dgh) by [Nuno Reis](https://dev.to/no0law1)
 - 2020-07-26 - [Dartのhttp_interceptorライブラリを使うと配列のクエリパラメータが消えてしまう件の応急処置](https://qiita.com/gyamoto/items/eeeff81b6770487319ed) by [@gyamoto](https://qiita.com/gyamoto)
 - 2020-08-03 - [Criando Bibliotecas para APIs RESTful com OpenAPI, Swagger Editor e OpenAPI Generator](https://medium.com/@everisBrasil/criando-bibliotecas-para-apis-restful-com-openapi-swagger-editor-e-openapi-generator-75349a6420fd) by [everis Brasil (an NTT DATA Company)](https://medium.com/@everisBrasil)
+- 2020-08-19 - [マイクロサービスを連携してみよう](https://thinkit.co.jp/article/17704) by [岡井 裕矢(おかい ゆうや)](https://thinkit.co.jp/author/17588), [泉 勝(いずみ まさる)](https://thinkit.co.jp/author/17705) at [Think IT（シンクイット）](https://thinkit.co.jp/)
+- 2020-08-25 - [OpenAPI Generator と TypeScript で型安全にフロントエンド開発をしている話](https://tech.smarthr.jp/entry/2020/08/25/135631) at [SmartHR Tech Blog](https://tech.smarthr.jp/)
 
 ## [6 - About Us](#table-of-contents)
 
