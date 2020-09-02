@@ -31,7 +31,7 @@ type ApiAnyKeyRequest struct {
 
 
 func (r ApiAnyKeyRequest) Execute() (map[string]interface{}, *_nethttp.Response, error) {
-    return r.ApiService.AnyKeyExecute(r)
+	return r.ApiService.AnyKeyExecute(r)
 }
 
 /*
@@ -160,7 +160,7 @@ type ApiBothKeysRequest struct {
 
 
 func (r ApiBothKeysRequest) Execute() (map[string]interface{}, *_nethttp.Response, error) {
-    return r.ApiService.BothKeysExecute(r)
+	return r.ApiService.BothKeysExecute(r)
 }
 
 /*
@@ -289,7 +289,7 @@ type ApiKeyInHeaderRequest struct {
 
 
 func (r ApiKeyInHeaderRequest) Execute() (map[string]interface{}, *_nethttp.Response, error) {
-    return r.ApiService.KeyInHeaderExecute(r)
+	return r.ApiService.KeyInHeaderExecute(r)
 }
 
 /*
@@ -404,7 +404,7 @@ type ApiKeyInQueryRequest struct {
 
 
 func (r ApiKeyInQueryRequest) Execute() (map[string]interface{}, *_nethttp.Response, error) {
-    return r.ApiService.KeyInQueryExecute(r)
+	return r.ApiService.KeyInQueryExecute(r)
 }
 
 /*

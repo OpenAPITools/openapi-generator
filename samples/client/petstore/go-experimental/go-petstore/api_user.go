@@ -144,7 +144,7 @@ func (r ApiCreateUserRequest) Body(body User) ApiCreateUserRequest {
 }
 
 func (r ApiCreateUserRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.CreateUserExecute(r)
+	return r.ApiService.CreateUserExecute(r)
 }
 
 /*
@@ -244,7 +244,7 @@ func (r ApiCreateUsersWithArrayInputRequest) Body(body []User) ApiCreateUsersWit
 }
 
 func (r ApiCreateUsersWithArrayInputRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.CreateUsersWithArrayInputExecute(r)
+	return r.ApiService.CreateUsersWithArrayInputExecute(r)
 }
 
 /*
@@ -343,7 +343,7 @@ func (r ApiCreateUsersWithListInputRequest) Body(body []User) ApiCreateUsersWith
 }
 
 func (r ApiCreateUsersWithListInputRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.CreateUsersWithListInputExecute(r)
+	return r.ApiService.CreateUsersWithListInputExecute(r)
 }
 
 /*
@@ -438,7 +438,7 @@ type ApiDeleteUserRequest struct {
 
 
 func (r ApiDeleteUserRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.DeleteUserExecute(r)
+	return r.ApiService.DeleteUserExecute(r)
 }
 
 /*
@@ -532,7 +532,7 @@ type ApiGetUserByNameRequest struct {
 
 
 func (r ApiGetUserByNameRequest) Execute() (User, *_nethttp.Response, error) {
-    return r.ApiService.GetUserByNameExecute(r)
+	return r.ApiService.GetUserByNameExecute(r)
 }
 
 /*
@@ -645,7 +645,7 @@ func (r ApiLoginUserRequest) Password(password string) ApiLoginUserRequest {
 }
 
 func (r ApiLoginUserRequest) Execute() (string, *_nethttp.Response, error) {
-    return r.ApiService.LoginUserExecute(r)
+	return r.ApiService.LoginUserExecute(r)
 }
 
 /*
@@ -753,7 +753,7 @@ type ApiLogoutUserRequest struct {
 
 
 func (r ApiLogoutUserRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.LogoutUserExecute(r)
+	return r.ApiService.LogoutUserExecute(r)
 }
 
 /*
@@ -848,7 +848,7 @@ func (r ApiUpdateUserRequest) Body(body User) ApiUpdateUserRequest {
 }
 
 func (r ApiUpdateUserRequest) Execute() (*_nethttp.Response, error) {
-    return r.ApiService.UpdateUserExecute(r)
+	return r.ApiService.UpdateUserExecute(r)
 }
 
 /*

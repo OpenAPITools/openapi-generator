@@ -53,7 +53,7 @@ func (r ApiTestClassnameRequest) Client(client Client) ApiTestClassnameRequest {
 }
 
 func (r ApiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
-    return r.ApiService.TestClassnameExecute(r)
+	return r.ApiService.TestClassnameExecute(r)
 }
 
 /*
