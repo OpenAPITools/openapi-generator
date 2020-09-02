@@ -46,3 +46,11 @@ Produced file(`mysql_schema.sql`) contains every table definition. Current imple
 1. Click **Import** link in left sidebar
 2. In **File upload** fieldset click to **Choose Files** and find generated `mysql_schema.sql`
 3. Push **Execute** button
+
+### Prepared SQL queries
+
+[Model folder]({{modelSrcPath}}) contains SQL queries(`SELECT *`,  `SELECT`, `INSERT`, `UPDATE`,  `DELETE`) usually suggested by `PHPMyAdmin` when you hit `SQL` tab. They are absolutely useless without adaptation to your needs. Copypaste them then edit.
+
+Important! Some of SQLs(`INSERT`/`UPDATE`) contains {{#namedParametersEnabled}}named parameters eg. :namedParam{{/namedParametersEnabled}}{{^namedParametersEnabled}}question marks(`?`) which are parameter placeholders{{/namedParametersEnabled}}. You need to bind values to these params to execute query.
+
+If your MySQL driver doesn't support named parameters(`PHP PDO` supports while `PHP mysqli` doesn't) you need to make sure that `namedParametersEnabled` generator option is disabled.

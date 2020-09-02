@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -20,27 +19,30 @@ type InlineObject2 struct {
 	EnumFormStringArray *[]string `json:"enum_form_string_array,omitempty"`
 	// Form parameter enum test (string)
 	EnumFormString *string `json:"enum_form_string,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _InlineObject2 InlineObject2
 
 // NewInlineObject2 instantiates a new InlineObject2 object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewInlineObject2() *InlineObject2 {
-    this := InlineObject2{}
-    var enumFormString string = "-efg"
-    this.EnumFormString = &enumFormString
-    return &this
+	this := InlineObject2{}
+	var enumFormString string = "-efg"
+	this.EnumFormString = &enumFormString
+	return &this
 }
 
 // NewInlineObject2WithDefaults instantiates a new InlineObject2 object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewInlineObject2WithDefaults() *InlineObject2 {
-    this := InlineObject2{}
-    var enumFormString string = "-efg"
-    this.EnumFormString = &enumFormString
-    return &this
+	this := InlineObject2{}
+	var enumFormString string = "-efg"
+	this.EnumFormString = &enumFormString
+	return &this
 }
 
 // GetEnumFormStringArray returns the EnumFormStringArray field value if set, zero value otherwise.
@@ -52,14 +54,13 @@ func (o *InlineObject2) GetEnumFormStringArray() []string {
 	return *o.EnumFormStringArray
 }
 
-// GetEnumFormStringArrayOk returns a tuple with the EnumFormStringArray field value if set, zero value otherwise
+// GetEnumFormStringArrayOk returns a tuple with the EnumFormStringArray field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject2) GetEnumFormStringArrayOk() ([]string, bool) {
+func (o *InlineObject2) GetEnumFormStringArrayOk() (*[]string, bool) {
 	if o == nil || o.EnumFormStringArray == nil {
-		var ret []string
-		return ret, false
+		return nil, false
 	}
-	return *o.EnumFormStringArray, true
+	return o.EnumFormStringArray, true
 }
 
 // HasEnumFormStringArray returns a boolean if a field has been set.
@@ -85,14 +86,13 @@ func (o *InlineObject2) GetEnumFormString() string {
 	return *o.EnumFormString
 }
 
-// GetEnumFormStringOk returns a tuple with the EnumFormString field value if set, zero value otherwise
+// GetEnumFormStringOk returns a tuple with the EnumFormString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *InlineObject2) GetEnumFormStringOk() (string, bool) {
+func (o *InlineObject2) GetEnumFormStringOk() (*string, bool) {
 	if o == nil || o.EnumFormString == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.EnumFormString, true
+	return o.EnumFormString, true
 }
 
 // HasEnumFormString returns a boolean if a field has been set.
@@ -109,25 +109,74 @@ func (o *InlineObject2) SetEnumFormString(v string) {
 	o.EnumFormString = &v
 }
 
+func (o InlineObject2) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.EnumFormStringArray != nil {
+		toSerialize["enum_form_string_array"] = o.EnumFormStringArray
+	}
+	if o.EnumFormString != nil {
+		toSerialize["enum_form_string"] = o.EnumFormString
+	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
+	return json.Marshal(toSerialize)
+}
+
+func (o *InlineObject2) UnmarshalJSON(bytes []byte) (err error) {
+	varInlineObject2 := _InlineObject2{}
+
+	if err = json.Unmarshal(bytes, &varInlineObject2); err == nil {
+		*o = InlineObject2(varInlineObject2)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "enum_form_string_array")
+		delete(additionalProperties, "enum_form_string")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
+}
+
 type NullableInlineObject2 struct {
-	Value InlineObject2
-	ExplicitNull bool
+	value *InlineObject2
+	isSet bool
+}
+
+func (v NullableInlineObject2) Get() *InlineObject2 {
+	return v.value
+}
+
+func (v *NullableInlineObject2) Set(val *InlineObject2) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableInlineObject2) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableInlineObject2) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableInlineObject2(val *InlineObject2) *NullableInlineObject2 {
+	return &NullableInlineObject2{value: val, isSet: true}
 }
 
 func (v NullableInlineObject2) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableInlineObject2) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+
+

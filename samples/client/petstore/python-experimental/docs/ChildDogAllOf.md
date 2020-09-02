@@ -1,4 +1,4 @@
-# child_dog_all_of.ChildDogAllOf
+# ChildDogAllOf
 
 ## Properties
 Name | Type | Description | Notes

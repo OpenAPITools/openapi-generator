@@ -14,6 +14,7 @@ import (
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
 	_neturl "net/url"
+	_bytes "bytes"
 )
 
 // Linger please
@@ -25,10 +26,11 @@ var (
 type DefaultApiService service
 
 /*
-FooGet Method for FooGet
+ * FooGet Method for FooGet
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-@return InlineResponseDefault
-*/
+ * @return InlineResponseDefault
+ */
 func (a *DefaultApiService) FooGet(ctx _context.Context) (InlineResponseDefault, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
@@ -74,6 +76,7 @@ func (a *DefaultApiService) FooGet(ctx _context.Context) (InlineResponseDefault,
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}

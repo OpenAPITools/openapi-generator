@@ -6,6 +6,7 @@ sidebar_label: go
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |enumClassPrefix|Prefix enum with class name| |false|
+|generateInterfaces|Generate interfaces for api classes| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |isGoSubmodule|whether the generated Go module is a submodule| |false|
 |packageName|Go package name (convention: lowercase).| |openapi|
@@ -40,6 +41,8 @@ sidebar_label: go
 <li>int</li>
 <li>int32</li>
 <li>int64</li>
+<li>interface{}</li>
+<li>map[string]interface{}</li>
 <li>rune</li>
 <li>string</li>
 <li>uint</li>
@@ -107,6 +110,7 @@ sidebar_label: go
 |BasePath|✓|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✓|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

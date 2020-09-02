@@ -10,31 +10,32 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
 // Apple struct for Apple
 type Apple struct {
 	Cultivar *string `json:"cultivar,omitempty"`
-	Color *string `json:"color,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _Apple Apple
 
 // NewApple instantiates a new Apple object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewApple() *Apple {
-    this := Apple{}
-    return &this
+	this := Apple{}
+	return &this
 }
 
 // NewAppleWithDefaults instantiates a new Apple object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewAppleWithDefaults() *Apple {
-    this := Apple{}
-    return &this
+	this := Apple{}
+	return &this
 }
 
 // GetCultivar returns the Cultivar field value if set, zero value otherwise.
@@ -46,14 +47,13 @@ func (o *Apple) GetCultivar() string {
 	return *o.Cultivar
 }
 
-// GetCultivarOk returns a tuple with the Cultivar field value if set, zero value otherwise
+// GetCultivarOk returns a tuple with the Cultivar field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Apple) GetCultivarOk() (string, bool) {
+func (o *Apple) GetCultivarOk() (*string, bool) {
 	if o == nil || o.Cultivar == nil {
-		var ret string
-		return ret, false
+		return nil, false
 	}
-	return *o.Cultivar, true
+	return o.Cultivar, true
 }
 
 // HasCultivar returns a boolean if a field has been set.
@@ -70,62 +70,70 @@ func (o *Apple) SetCultivar(v string) {
 	o.Cultivar = &v
 }
 
-// GetColor returns the Color field value if set, zero value otherwise.
-func (o *Apple) GetColor() string {
-	if o == nil || o.Color == nil {
-		var ret string
-		return ret
-	}
-	return *o.Color
-}
-
-// GetColorOk returns a tuple with the Color field value if set, zero value otherwise
-// and a boolean to check if the value has been set.
-func (o *Apple) GetColorOk() (string, bool) {
-	if o == nil || o.Color == nil {
-		var ret string
-		return ret, false
-	}
-	return *o.Color, true
-}
-
-// HasColor returns a boolean if a field has been set.
-func (o *Apple) HasColor() bool {
-	if o != nil && o.Color != nil {
-		return true
+func (o Apple) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.Cultivar != nil {
+		toSerialize["cultivar"] = o.Cultivar
 	}
 
-	return false
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
+	return json.Marshal(toSerialize)
 }
 
-// SetColor gets a reference to the given string and assigns it to the Color field.
-func (o *Apple) SetColor(v string) {
-	o.Color = &v
+func (o *Apple) UnmarshalJSON(bytes []byte) (err error) {
+	varApple := _Apple{}
+
+	if err = json.Unmarshal(bytes, &varApple); err == nil {
+		*o = Apple(varApple)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "cultivar")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
 }
 
-// AsFruit wraps this instance of Apple in Fruit
-func (s *Apple) AsFruit() Fruit {
-    return Fruit{ FruitInterface: s }
-}
 type NullableApple struct {
-	Value Apple
-	ExplicitNull bool
+	value *Apple
+	isSet bool
+}
+
+func (v NullableApple) Get() *Apple {
+	return v.value
+}
+
+func (v *NullableApple) Set(val *Apple) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableApple) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableApple) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableApple(val *Apple) *NullableApple {
+	return &NullableApple{value: val, isSet: true}
 }
 
 func (v NullableApple) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableApple) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+
+

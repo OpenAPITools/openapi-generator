@@ -1,0 +1,21 @@
+{{>licenseInfo}}
+#include "{{modelNamePrefix}}BaseModel.h"
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} 
+{
+{{/cppNamespaceDeclarations}}
+
+void Response::SetHttpResponseCode(EHttpResponseCodes::Type InHttpResponseCode)
+{
+    ResponseCode = InHttpResponseCode;
+    SetSuccessful(EHttpResponseCodes::IsOk(InHttpResponseCode));
+    if(InHttpResponseCode == EHttpResponseCodes::RequestTimeout)
+    {
+        SetResponseString(TEXT("Request Timeout"));
+    }
+}
+
+{{#cppNamespaceDeclarations}}
+}
+{{/cppNamespaceDeclarations}}

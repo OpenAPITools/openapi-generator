@@ -15,6 +15,7 @@ import (
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
 	_neturl "net/url"
+	_bytes "bytes"
 )
 
 // Linger please
@@ -22,16 +23,32 @@ var (
 	_ _context.Context
 )
 
+type AnotherFakeApi interface {
+
+    /*
+     * Call123TestSpecialTags To test special tags
+     *
+     * To test special tags and operation ID starting with number
+     *
+     * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+     * @param body client model
+     * @return Client
+     */
+    Call123TestSpecialTags(ctx _context.Context, body Client) (Client, *_nethttp.Response, error)
+}
+
 // AnotherFakeApiService AnotherFakeApi service
 type AnotherFakeApiService service
 
 /*
-Call123TestSpecialTags To test special tags
-To test special tags and operation ID starting with number
+ * Call123TestSpecialTags To test special tags
+ *
+ * To test special tags and operation ID starting with number
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param body client model
-@return Client
-*/
+ * @return Client
+ */
 func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context, body Client) (Client, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
@@ -79,6 +96,7 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context, bod
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -87,15 +105,6 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context, bod
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v Client
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}

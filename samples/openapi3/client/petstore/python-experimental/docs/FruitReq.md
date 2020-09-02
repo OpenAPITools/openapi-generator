@@ -1,4 +1,4 @@
-# fruit_req.FruitReq
+# FruitReq
 
 ## Properties
 Name | Type | Description | Notes

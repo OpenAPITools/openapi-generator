@@ -5,8 +5,8 @@ namespace OpenAPI\Client;
 use OpenAPI\Client\Api\PetApi;
 use OpenAPI\Client\Model\ApiResponse;
 use OpenAPI\Client\Model\Pet;
-use PHPUnit\Framework\Assert;
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\Assert;
 
 class PetApiTest extends TestCase
 {
@@ -15,7 +15,7 @@ class PetApiTest extends TestCase
     private $api;
 
     // add a new pet (id 10005) to ensure the pet object is available for all the tests
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         // increase memory limit to avoid fatal error due to findPetByStatus
         // returning a lot of data
@@ -50,7 +50,7 @@ class PetApiTest extends TestCase
         Assert::assertEquals(200, $status);
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->api = new Api\PetApi();
     }
@@ -362,13 +362,12 @@ class PetApiTest extends TestCase
 
     /**
      * test invalid argument
-     *
-     * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage Missing the required parameter $status when calling findPetsByStatus
      */
     public function testInvalidArgument()
     {
         // the argument is required, and we must specify one or some from 'available', 'pending', 'sold'
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Missing the required parameter $status when calling findPetsByStatus');
         $this->api->findPetsByStatus([]);
     }
 

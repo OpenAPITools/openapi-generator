@@ -56,16 +56,31 @@ namespace Example
     {
         public void main()
         {
-            {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}{{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
+            {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
+            {{#hasAuthMethods}}
+            {{#authMethods}}
+            {{#isBasic}}
+            {{#isBasicBasic}}
             // Configure HTTP basic authorization: {{{name}}}
             Configuration.Default.Username = "YOUR_USERNAME";
-            Configuration.Default.Password = "YOUR_PASSWORD";{{/isBasic}}{{#isApiKey}}
+            Configuration.Default.Password = "YOUR_PASSWORD";
+            {{/isBasicBasic}}
+            {{#isBasicBearer}}
+            // Configure Bearer access token for authorization: {{{name}}}
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+            {{/isBasicBearer}}
+            {{/isBasic}}
+            {{#isApiKey}}
             // Configure API key authorization: {{{name}}}
             Configuration.Default.ApiKey.Add("{{{keyParamName}}}", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("{{{keyParamName}}}", "Bearer");{{/isApiKey}}{{#isOAuth}}
+            // Configuration.Default.ApiKeyPrefix.Add("{{{keyParamName}}}", "Bearer");
+            {{/isApiKey}}
+            {{#isOAuth}}
             // Configure OAuth2 access token for authorization: {{{name}}}
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";{{/isOAuth}}{{/authMethods}}
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+            {{/isOAuth}}
+            {{/authMethods}}
             {{/hasAuthMethods}}
 
             var apiInstance = new {{classname}}();
@@ -123,21 +138,29 @@ No model defined in this package
 All endpoints do not require authorization.
 {{/authMethods}}
 {{#authMethods}}
-{{#last}}
+{{#-last}}
 Authentication schemes defined for the API:
-{{/last}}
+{{/-last}}
 {{/authMethods}}
 {{#authMethods}}
 <a name="{{name}}"></a>
 ### {{name}}
 
-{{#isApiKey}}- **Type**: API key
+{{#isApiKey}}
+- **Type**: API key
 - **API key parameter name**: {{keyParamName}}
 - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
 {{/isApiKey}}
-{{#isBasic}}- **Type**: HTTP basic authentication
+{{#isBasic}}
+{{#isBasicBasic}}
+- **Type**: HTTP basic authentication
+{{/isBasicBasic}}
+{{#isBasicBearer}}
+- **Type**: HTTP bearer authentication
+{{/isBasicBearer}}
 {{/isBasic}}
-{{#isOAuth}}- **Type**: OAuth
+{{#isOAuth}}
+- **Type**: OAuth
 - **Flow**: {{flow}}
 - **Authorization URL**: {{authorizationUrl}}
 - **Scopes**: {{^scopes}}N/A{{/scopes}}

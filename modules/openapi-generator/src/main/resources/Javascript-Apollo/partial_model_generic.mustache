@@ -1,0 +1,82 @@
+
+{{#models}}{{#model}}{{#emitJSDoc}}/**
+ * The {{classname}} model module.
+ * @module {{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}
+ * @version {{projectVersion}}
+ */{{/emitJSDoc}}
+class {{classname}} {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}extends Array {{/vendorExtensions.x-is-array}}{{/parentModel}}{{/parent}}{
+    {{#vars}}
+    {{#emitJSDoc}}/**
+     * @member {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{baseName}}
+     * @type {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=>{{#defaultValue}}
+     * @default {{{defaultValue}}}{{/defaultValue}}
+     */{{/emitJSDoc}}
+    {{baseName}}{{#defaultValue}} = {{{defaultValue}}}{{/defaultValue}};
+    {{/vars}}
+
+    {{#useInheritance}}{{#interfaceModels}}{{#allVars}}{{#emitJSDoc}}/**
+     * @member {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{baseName}}
+     * @type {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=>
+     */{{/emitJSDoc}}
+    #{{baseName}};
+    {{/allVars}}{{/interfaceModels}}{{/useInheritance}}
+
+    {{#emitJSDoc}}/**
+     * Constructs a new <code>{{classname}}</code>.{{#description}}
+     * {{description}}{{/description}}
+     * @alias module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}{{#useInheritance}}{{#parent}}
+     * @extends {{#parentModel}}module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{classname}}{{/parentModel}}{{^parentModel}}{{#vendorExtensions.x-is-array}}Array{{/vendorExtensions.x-is-array}}{{#vendorExtensions.x-is-map}}Object{{/vendorExtensions.x-is-map}}{{/parentModel}}{{/parent}}{{#interfaces}}
+     * @implements module:{{#invokerPackage}}{{invokerPackage}}/{{/invokerPackage}}{{#modelPackage}}{{modelPackage}}/{{/modelPackage}}{{.}}{{/interfaces}}{{/useInheritance}}{{#vendorExtensions.x-all-required}}
+     * @param {{name}} {{=< >=}}{<&vendorExtensions.x-jsdoc-type>}<={{ }}=> {{#description}}{{{description}}}{{/description}}{{/vendorExtensions.x-all-required}}
+     */{{/emitJSDoc}}
+    constructor({{#vendorExtensions.x-all-required}}{{name}}{{^-last}}, {{/-last}}{{/vendorExtensions.x-all-required}}) { {{#parent}}{{^parentModel}}{{#vendorExtensions.x-is-array}}
+        super();
+        {{/vendorExtensions.x-is-array}}{{/parentModel}}{{/parent}}{{#useInheritance}}
+        {{#interfaceModels}}{{classname}}.initialize(this{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}});{{/interfaceModels}}{{/useInheritance}}
+        {{classname}}.initialize(this{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}});
+    }
+
+    {{#emitJSDoc}}/**
+     * Initializes the fields of this object.
+     * This method is used by the constructors of any subclasses, in order to implement multiple inheritance (mix-ins).
+     * Only for internal use.
+     */{{/emitJSDoc}}
+    static initialize(obj{{#vendorExtensions.x-all-required}}, {{name}}{{/vendorExtensions.x-all-required}}) { {{#vars}}{{#required}}
+        obj['{{baseName}}'] = {{name}};{{/required}}{{/vars}}
+    }
+
+    {{#emitJSDoc}}/**
+     * Constructs a <code>{{classname}}</code> from a plain JavaScript object, optionally creating a new instance.
+     * Copies all relevant properties from <code>data</code> to <code>obj</code> if supplied or a new instance if not.
+     * @param {Object} data The plain JavaScript object bearing properties of interest.
+     * @param {{=< >=}}{module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> obj Optional instance to populate.
+     * @return {{=< >=}}{module:<#invokerPackage><invokerPackage>/</invokerPackage><#modelPackage><modelPackage>/</modelPackage><classname>}<={{ }}=> The populated <code>{{classname}}</code> instance.
+     */{{/emitJSDoc}}
+    static constructFromObject(data, obj) {
+        if (data){{! TODO: support polymorphism: discriminator property on data determines class to instantiate.}} {
+            obj = obj || new {{classname}}();{{#parent}}{{^parentModel}}
+
+            ApiClient.constructFromObject(data, obj, '{{vendorExtensions.x-item-type}}');
+            {{/parentModel}}{{/parent}}{{#useInheritance}}{{#parentModel}}
+            {{classname}}.constructFromObject(data, obj);{{/parentModel}}{{#interfaces}}
+            {{.}}.constructFromObject(data, obj);{{/interfaces}}{{/useInheritance}}
+
+            {{#vars}}
+            if (data.hasOwnProperty('{{baseName}}')) {
+                obj['{{baseName}}']{{{defaultValueWithParam}}}
+            }
+            {{/vars}}
+        }
+        return obj;
+    }
+    {{/model}}
+}
+
+{{#vars}}{{#isEnum}}{{^isContainer}}
+{{>partial_model_inner_enum}}
+{{/isContainer}}{{/isEnum}}{{#items.isEnum}}{{#items}}{{^isContainer}}
+{{>partial_model_inner_enum}}
+{{/isContainer}}{{/items}}{{/items.isEnum}}{{/vars}}
+
+export default {{classname}};
+{{/models}}

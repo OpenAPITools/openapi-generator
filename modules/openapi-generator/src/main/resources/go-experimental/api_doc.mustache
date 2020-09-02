@@ -20,6 +20,37 @@ Method | HTTP request | Description
 
 {{{unespacedNotes}}}{{/notes}}
 
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    {{goImportAlias}} "./openapi"
+)
+
+func main() {
+    {{#allParams}}
+    {{paramName}} := {{{vendorExtensions.x-go-example}}} // {{{dataType}}} | {{{description}}}{{^required}} (optional){{/required}}{{#defaultValue}} (default to {{{.}}}){{/defaultValue}}
+    {{/allParams}}
+
+    configuration := {{goImportAlias}}.NewConfiguration()
+    api_client := {{goImportAlias}}.NewAPIClient(configuration)
+    resp, r, err := api_client.{{classname}}.{{operationId}}(context.Background(), {{#requiredParams}}{{paramName}}{{^-last}}, {{/-last}}{{/requiredParams}}){{#optionalParams}}.{{{vendorExtensions.x-export-param-name}}}({{{paramName}}}){{/optionalParams}}.Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `{{classname}}.{{operationId}}``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    {{#returnType}}
+    // response from `{{operationId}}`: {{{.}}}
+    fmt.Fprintf(os.Stdout, "Response from `{{classname}}.{{operationId}}`: %v\n", resp)
+    {{/returnType}}
+}
+```
+
 ### Path Parameters
 
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#pathParams}}{{#-last}}

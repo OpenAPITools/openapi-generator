@@ -25,7 +25,13 @@ import org.openapitools.client.infrastructure.ResponseType
 import org.openapitools.client.infrastructure.Success
 import org.openapitools.client.infrastructure.toMultiValue
 
-internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiClient(basePath) {
+internal class UserApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
+    companion object {
+        @JvmStatic
+        val defaultBasePath: String by lazy {
+            System.getProperties().getProperty("org.openapitools.client.baseUrl", "http://petstore.swagger.io/v2")
+        }
+    }
 
     /**
     * Create user
@@ -77,7 +83,7 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createUsersWithArrayInput(body: kotlin.Array<User>) : Unit {
+    fun createUsersWithArrayInput(body: kotlin.collections.List<User>) : Unit {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
@@ -117,7 +123,7 @@ internal class UserApi(basePath: kotlin.String = "http://petstore.swagger.io/v2"
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun createUsersWithListInput(body: kotlin.Array<User>) : Unit {
+    fun createUsersWithListInput(body: kotlin.collections.List<User>) : Unit {
         val localVariableBody: kotlin.Any? = body
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf()

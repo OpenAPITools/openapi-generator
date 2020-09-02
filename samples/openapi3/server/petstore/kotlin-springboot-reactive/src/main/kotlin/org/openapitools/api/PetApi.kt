@@ -40,7 +40,7 @@ import kotlin.collections.Map
 
 @RestController
 @Validated
-@Api(value = "Pet", description = "The Pet API")
+@Api(value = "pet", description = "The pet API")
 @RequestMapping("\${api.base-path:/v2}")
 class PetApiController(@Autowired(required = true) val service: PetApiService) {
 
@@ -48,16 +48,18 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = "Add a new pet to the store",
         nickname = "addPet",
         notes = "",
+        response = Pet::class,
         authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])])
     @ApiResponses(
-        value = [ApiResponse(code = 405, message = "Invalid input")])
+        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class),ApiResponse(code = 405, message = "Invalid input")])
     @RequestMapping(
         value = ["/pet"],
+        produces = ["application/xml", "application/json"], 
         consumes = ["application/json", "application/xml"],
         method = [RequestMethod.POST])
     suspend fun addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody pet: Pet
-): ResponseEntity<Unit> {
-        return ResponseEntity(service.addPet(pet), HttpStatus.valueOf(405))
+): ResponseEntity<Pet> {
+        return ResponseEntity(service.addPet(pet), HttpStatus.valueOf(200))
     }
 
     @ApiOperation(
@@ -133,16 +135,18 @@ class PetApiController(@Autowired(required = true) val service: PetApiService) {
         value = "Update an existing pet",
         nickname = "updatePet",
         notes = "",
+        response = Pet::class,
         authorizations = [Authorization(value = "petstore_auth", scopes = [AuthorizationScope(scope = "write:pets", description = "modify pets in your account"), AuthorizationScope(scope = "read:pets", description = "read your pets")])])
     @ApiResponses(
-        value = [ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Pet not found"),ApiResponse(code = 405, message = "Validation exception")])
+        value = [ApiResponse(code = 200, message = "successful operation", response = Pet::class),ApiResponse(code = 400, message = "Invalid ID supplied"),ApiResponse(code = 404, message = "Pet not found"),ApiResponse(code = 405, message = "Validation exception")])
     @RequestMapping(
         value = ["/pet"],
+        produces = ["application/xml", "application/json"], 
         consumes = ["application/json", "application/xml"],
         method = [RequestMethod.PUT])
     suspend fun updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true ) @Valid @RequestBody pet: Pet
-): ResponseEntity<Unit> {
-        return ResponseEntity(service.updatePet(pet), HttpStatus.valueOf(400))
+): ResponseEntity<Pet> {
+        return ResponseEntity(service.updatePet(pet), HttpStatus.valueOf(200))
     }
 
     @ApiOperation(

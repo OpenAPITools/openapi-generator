@@ -1,0 +1,60 @@
+class {{classname}}{{enumName}} {
+  /// The underlying value of this enum member.
+  final {{{dataType}}} value;
+
+  const {{classname}}{{enumName}}._internal(this.value);
+
+  {{#allowableValues}}
+  {{#enumVars}}
+  {{#description}}
+  /// {{description}}
+  {{/description}}
+  static const {{classname}}{{enumName}} {{name}} = {{classname}}{{enumName}}._internal({{{value}}});
+  {{/enumVars}}
+  {{/allowableValues}}
+
+  static List<{{classname}}{{enumName}}> get values => const [
+    {{#allowableValues}}
+      {{#enumVars}}
+        {{{name}}},
+      {{/enumVars}}
+    {{/allowableValues}}
+      ];
+
+  {{{dataType}}} toJson () {
+    return value;
+  }
+
+  @override
+  String toString () {
+    return value;
+  }
+
+  static {{classname}}{{enumName}} fromJson({{{dataType}}} value) {
+    return {{classname}}{{enumName}}TypeTransformer().decode(value);
+  }
+
+  static List<{{classname}}{{enumName}}> listFromJson(List<dynamic> json) {
+    return json == null
+      ? List<{{classname}}{{enumName}}>()
+      : json.map((value) => {{classname}}{{enumName}}.fromJson(value)).toList();
+  }
+}
+
+class {{classname}}{{enumName}}TypeTransformer {
+
+  dynamic encode({{classname}}{{enumName}} data) {
+    return data.value;
+  }
+
+  {{classname}}{{enumName}} decode(dynamic data) {
+    switch (data) {
+    {{#allowableValues}}
+      {{#enumVars}}
+      case {{{value}}}: return {{classname}}{{enumName}}.{{{name}}};
+      {{/enumVars}}
+    {{/allowableValues}}
+      default: return null;
+    }
+  }
+}

@@ -10,7 +10,6 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
@@ -20,23 +19,26 @@ type MapTest struct {
 	MapOfEnumString *map[string]string `json:"map_of_enum_string,omitempty"`
 	DirectMap *map[string]bool `json:"direct_map,omitempty"`
 	IndirectMap *map[string]bool `json:"indirect_map,omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _MapTest MapTest
 
 // NewMapTest instantiates a new MapTest object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewMapTest() *MapTest {
-    this := MapTest{}
-    return &this
+	this := MapTest{}
+	return &this
 }
 
 // NewMapTestWithDefaults instantiates a new MapTest object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewMapTestWithDefaults() *MapTest {
-    this := MapTest{}
-    return &this
+	this := MapTest{}
+	return &this
 }
 
 // GetMapMapOfString returns the MapMapOfString field value if set, zero value otherwise.
@@ -48,14 +50,13 @@ func (o *MapTest) GetMapMapOfString() map[string]map[string]string {
 	return *o.MapMapOfString
 }
 
-// GetMapMapOfStringOk returns a tuple with the MapMapOfString field value if set, zero value otherwise
+// GetMapMapOfStringOk returns a tuple with the MapMapOfString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MapTest) GetMapMapOfStringOk() (map[string]map[string]string, bool) {
+func (o *MapTest) GetMapMapOfStringOk() (*map[string]map[string]string, bool) {
 	if o == nil || o.MapMapOfString == nil {
-		var ret map[string]map[string]string
-		return ret, false
+		return nil, false
 	}
-	return *o.MapMapOfString, true
+	return o.MapMapOfString, true
 }
 
 // HasMapMapOfString returns a boolean if a field has been set.
@@ -81,14 +82,13 @@ func (o *MapTest) GetMapOfEnumString() map[string]string {
 	return *o.MapOfEnumString
 }
 
-// GetMapOfEnumStringOk returns a tuple with the MapOfEnumString field value if set, zero value otherwise
+// GetMapOfEnumStringOk returns a tuple with the MapOfEnumString field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MapTest) GetMapOfEnumStringOk() (map[string]string, bool) {
+func (o *MapTest) GetMapOfEnumStringOk() (*map[string]string, bool) {
 	if o == nil || o.MapOfEnumString == nil {
-		var ret map[string]string
-		return ret, false
+		return nil, false
 	}
-	return *o.MapOfEnumString, true
+	return o.MapOfEnumString, true
 }
 
 // HasMapOfEnumString returns a boolean if a field has been set.
@@ -114,14 +114,13 @@ func (o *MapTest) GetDirectMap() map[string]bool {
 	return *o.DirectMap
 }
 
-// GetDirectMapOk returns a tuple with the DirectMap field value if set, zero value otherwise
+// GetDirectMapOk returns a tuple with the DirectMap field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MapTest) GetDirectMapOk() (map[string]bool, bool) {
+func (o *MapTest) GetDirectMapOk() (*map[string]bool, bool) {
 	if o == nil || o.DirectMap == nil {
-		var ret map[string]bool
-		return ret, false
+		return nil, false
 	}
-	return *o.DirectMap, true
+	return o.DirectMap, true
 }
 
 // HasDirectMap returns a boolean if a field has been set.
@@ -147,14 +146,13 @@ func (o *MapTest) GetIndirectMap() map[string]bool {
 	return *o.IndirectMap
 }
 
-// GetIndirectMapOk returns a tuple with the IndirectMap field value if set, zero value otherwise
+// GetIndirectMapOk returns a tuple with the IndirectMap field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MapTest) GetIndirectMapOk() (map[string]bool, bool) {
+func (o *MapTest) GetIndirectMapOk() (*map[string]bool, bool) {
 	if o == nil || o.IndirectMap == nil {
-		var ret map[string]bool
-		return ret, false
+		return nil, false
 	}
-	return *o.IndirectMap, true
+	return o.IndirectMap, true
 }
 
 // HasIndirectMap returns a boolean if a field has been set.
@@ -171,25 +169,82 @@ func (o *MapTest) SetIndirectMap(v map[string]bool) {
 	o.IndirectMap = &v
 }
 
+func (o MapTest) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.MapMapOfString != nil {
+		toSerialize["map_map_of_string"] = o.MapMapOfString
+	}
+	if o.MapOfEnumString != nil {
+		toSerialize["map_of_enum_string"] = o.MapOfEnumString
+	}
+	if o.DirectMap != nil {
+		toSerialize["direct_map"] = o.DirectMap
+	}
+	if o.IndirectMap != nil {
+		toSerialize["indirect_map"] = o.IndirectMap
+	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
+	return json.Marshal(toSerialize)
+}
+
+func (o *MapTest) UnmarshalJSON(bytes []byte) (err error) {
+	varMapTest := _MapTest{}
+
+	if err = json.Unmarshal(bytes, &varMapTest); err == nil {
+		*o = MapTest(varMapTest)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "map_map_of_string")
+		delete(additionalProperties, "map_of_enum_string")
+		delete(additionalProperties, "direct_map")
+		delete(additionalProperties, "indirect_map")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
+}
+
 type NullableMapTest struct {
-	Value MapTest
-	ExplicitNull bool
+	value *MapTest
+	isSet bool
+}
+
+func (v NullableMapTest) Get() *MapTest {
+	return v.value
+}
+
+func (v *NullableMapTest) Set(val *MapTest) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableMapTest) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableMapTest) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableMapTest(val *MapTest) *NullableMapTest {
+	return &NullableMapTest{value: val, isSet: true}
 }
 
 func (v NullableMapTest) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableMapTest) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+
+

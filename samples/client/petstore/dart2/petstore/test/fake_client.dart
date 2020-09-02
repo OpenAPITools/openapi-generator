@@ -22,7 +22,7 @@ class FakeClient extends Fake implements Client {
     this.putResponseBody,
     this.sendResponseBody,
     this.expectedUrl,
-    this.expectedHeaders = const {'Content-Type': 'application/json'},
+    this.expectedHeaders = null,
   });
 
   Exception throwException;

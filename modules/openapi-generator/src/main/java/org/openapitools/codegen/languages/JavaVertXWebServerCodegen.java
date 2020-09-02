@@ -113,7 +113,8 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
         supportingFiles.add(new SupportingFile("supportFiles/ParameterCast.mustache", sourcePackageFolder, "ParameterCast.java"));
         supportingFiles.add(new SupportingFile("supportFiles/pom.mustache", "", "pom.xml"));
 
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
+                .doNotOverwrite());
     }
 
     @Override

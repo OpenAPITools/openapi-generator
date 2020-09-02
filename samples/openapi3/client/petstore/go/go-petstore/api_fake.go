@@ -14,6 +14,7 @@ import (
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
 	_neturl "net/url"
+	_bytes "bytes"
 	"github.com/antihax/optional"
 	"os"
 	"reflect"
@@ -28,10 +29,11 @@ var (
 type FakeApiService service
 
 /*
-FakeHealthGet Health check endpoint
+ * FakeHealthGet Health check endpoint
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-@return HealthCheckResult
-*/
+ * @return HealthCheckResult
+ */
 func (a *FakeApiService) FakeHealthGet(ctx _context.Context) (HealthCheckResult, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
@@ -77,6 +79,7 @@ func (a *FakeApiService) FakeHealthGet(ctx _context.Context) (HealthCheckResult,
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -85,15 +88,6 @@ func (a *FakeApiService) FakeHealthGet(ctx _context.Context) (HealthCheckResult,
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v HealthCheckResult
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -110,19 +104,104 @@ func (a *FakeApiService) FakeHealthGet(ctx _context.Context) (HealthCheckResult,
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+// FakeHttpSignatureTestOpts Optional parameters for the method 'FakeHttpSignatureTest'
+type FakeHttpSignatureTestOpts struct {
+    Query1 optional.String
+    Header1 optional.String
+}
+
+/*
+ * FakeHttpSignatureTest test http signature authentication
+ *
+ * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ * @param pet Pet object that needs to be added to the store
+ * @param optional nil or *FakeHttpSignatureTestOpts - Optional Parameters:
+ * @param "Query1" (optional.String) -  query parameter
+ * @param "Header1" (optional.String) -  header parameter
+ */
+func (a *FakeApiService) FakeHttpSignatureTest(ctx _context.Context, pet Pet, localVarOptionals *FakeHttpSignatureTestOpts) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+	)
+
+	// create path and map variables
+	localVarPath := a.client.cfg.BasePath + "/fake/http-signature-test"
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	if localVarOptionals != nil && localVarOptionals.Query1.IsSet() {
+		localVarQueryParams.Add("query_1", parameterToString(localVarOptionals.Query1.Value(), ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json", "application/xml"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if localVarOptionals != nil && localVarOptionals.Header1.IsSet() {
+		localVarHeaderParams["header_1"] = parameterToString(localVarOptionals.Header1.Value(), "")
+	}
+	// body params
+	localVarPostBody = &pet
+	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(r)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 // FakeOuterBooleanSerializeOpts Optional parameters for the method 'FakeOuterBooleanSerialize'
 type FakeOuterBooleanSerializeOpts struct {
     Body optional.Bool
 }
 
 /*
-FakeOuterBooleanSerialize Method for FakeOuterBooleanSerialize
-Test serialization of outer boolean types
+ * FakeOuterBooleanSerialize Method for FakeOuterBooleanSerialize
+ *
+ * Test serialization of outer boolean types
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *FakeOuterBooleanSerializeOpts - Optional Parameters:
  * @param "Body" (optional.Bool) -  Input boolean as post body
-@return bool
-*/
+ * @return bool
+ */
 func (a *FakeApiService) FakeOuterBooleanSerialize(ctx _context.Context, localVarOptionals *FakeOuterBooleanSerializeOpts) (bool, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
@@ -173,6 +252,7 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx _context.Context, localVa
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -181,15 +261,6 @@ func (a *FakeApiService) FakeOuterBooleanSerialize(ctx _context.Context, localVa
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v bool
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -212,13 +283,15 @@ type FakeOuterCompositeSerializeOpts struct {
 }
 
 /*
-FakeOuterCompositeSerialize Method for FakeOuterCompositeSerialize
-Test serialization of object with outer number type
+ * FakeOuterCompositeSerialize Method for FakeOuterCompositeSerialize
+ *
+ * Test serialization of object with outer number type
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *FakeOuterCompositeSerializeOpts - Optional Parameters:
  * @param "OuterComposite" (optional.Interface of OuterComposite) -  Input composite as post body
-@return OuterComposite
-*/
+ * @return OuterComposite
+ */
 func (a *FakeApiService) FakeOuterCompositeSerialize(ctx _context.Context, localVarOptionals *FakeOuterCompositeSerializeOpts) (OuterComposite, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
@@ -273,6 +346,7 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx _context.Context, local
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -281,15 +355,6 @@ func (a *FakeApiService) FakeOuterCompositeSerialize(ctx _context.Context, local
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v OuterComposite
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -312,13 +377,15 @@ type FakeOuterNumberSerializeOpts struct {
 }
 
 /*
-FakeOuterNumberSerialize Method for FakeOuterNumberSerialize
-Test serialization of outer number types
+ * FakeOuterNumberSerialize Method for FakeOuterNumberSerialize
+ *
+ * Test serialization of outer number types
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *FakeOuterNumberSerializeOpts - Optional Parameters:
  * @param "Body" (optional.Float32) -  Input number as post body
-@return float32
-*/
+ * @return float32
+ */
 func (a *FakeApiService) FakeOuterNumberSerialize(ctx _context.Context, localVarOptionals *FakeOuterNumberSerializeOpts) (float32, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
@@ -369,6 +436,7 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx _context.Context, localVar
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -377,15 +445,6 @@ func (a *FakeApiService) FakeOuterNumberSerialize(ctx _context.Context, localVar
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v float32
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -408,13 +467,15 @@ type FakeOuterStringSerializeOpts struct {
 }
 
 /*
-FakeOuterStringSerialize Method for FakeOuterStringSerialize
-Test serialization of outer string types
+ * FakeOuterStringSerialize Method for FakeOuterStringSerialize
+ *
+ * Test serialization of outer string types
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *FakeOuterStringSerializeOpts - Optional Parameters:
  * @param "Body" (optional.String) -  Input string as post body
-@return string
-*/
+ * @return string
+ */
 func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context, localVarOptionals *FakeOuterStringSerializeOpts) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
@@ -465,6 +526,7 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context, localVar
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -473,15 +535,6 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context, localVar
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v string
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -499,11 +552,13 @@ func (a *FakeApiService) FakeOuterStringSerialize(ctx _context.Context, localVar
 }
 
 /*
-TestBodyWithFileSchema Method for TestBodyWithFileSchema
-For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+ * TestBodyWithFileSchema Method for TestBodyWithFileSchema
+ *
+ * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param fileSchemaTestClass
-*/
+ */
 func (a *FakeApiService) TestBodyWithFileSchema(ctx _context.Context, fileSchemaTestClass FileSchemaTestClass) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPut
@@ -550,6 +605,7 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx _context.Context, fileSchema
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -566,11 +622,12 @@ func (a *FakeApiService) TestBodyWithFileSchema(ctx _context.Context, fileSchema
 }
 
 /*
-TestBodyWithQueryParams Method for TestBodyWithQueryParams
+ * TestBodyWithQueryParams Method for TestBodyWithQueryParams
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param query
  * @param user
-*/
+ */
 func (a *FakeApiService) TestBodyWithQueryParams(ctx _context.Context, query string, user User) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPut
@@ -618,6 +675,7 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx _context.Context, query str
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -634,12 +692,14 @@ func (a *FakeApiService) TestBodyWithQueryParams(ctx _context.Context, query str
 }
 
 /*
-TestClientModel To test \"client\" model
-To test \&quot;client\&quot; model
+ * TestClientModel To test \"client\" model
+ *
+ * To test \&quot;client\&quot; model
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param client client model
-@return Client
-*/
+ * @return Client
+ */
 func (a *FakeApiService) TestClientModel(ctx _context.Context, client Client) (Client, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
@@ -687,6 +747,7 @@ func (a *FakeApiService) TestClientModel(ctx _context.Context, client Client) (C
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -695,15 +756,6 @@ func (a *FakeApiService) TestClientModel(ctx _context.Context, client Client) (C
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v Client
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
@@ -735,8 +787,10 @@ type TestEndpointParametersOpts struct {
 }
 
 /*
-TestEndpointParameters Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+ * TestEndpointParameters Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+ *
+ * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param number None
  * @param double None
@@ -753,7 +807,7 @@ Fake endpoint for testing various parameters 假端點 偽のエンドポイン�
  * @param "DateTime" (optional.Time) -  None
  * @param "Password" (optional.String) -  None
  * @param "Callback" (optional.String) -  None
-*/
+ */
 func (a *FakeApiService) TestEndpointParameters(ctx _context.Context, number float32, double float64, patternWithoutDelimiter string, byte_ string, localVarOptionals *TestEndpointParametersOpts) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
@@ -856,6 +910,7 @@ func (a *FakeApiService) TestEndpointParameters(ctx _context.Context, number flo
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -884,8 +939,10 @@ type TestEnumParametersOpts struct {
 }
 
 /*
-TestEnumParameters To test enum parameters
-To test enum parameters
+ * TestEnumParameters To test enum parameters
+ *
+ * To test enum parameters
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param optional nil or *TestEnumParametersOpts - Optional Parameters:
  * @param "EnumHeaderStringArray" (optional.Interface of []string) -  Header parameter enum test (string array)
@@ -896,7 +953,7 @@ To test enum parameters
  * @param "EnumQueryDouble" (optional.Float64) -  Query parameter enum test (double)
  * @param "EnumFormStringArray" (optional.Interface of []string) -  Form parameter enum test (string array)
  * @param "EnumFormString" (optional.String) -  Form parameter enum test (string)
-*/
+ */
 func (a *FakeApiService) TestEnumParameters(ctx _context.Context, localVarOptionals *TestEnumParametersOpts) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
@@ -973,6 +1030,7 @@ func (a *FakeApiService) TestEnumParameters(ctx _context.Context, localVarOption
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -996,8 +1054,10 @@ type TestGroupParametersOpts struct {
 }
 
 /*
-TestGroupParameters Fake endpoint to test group parameters (optional)
-Fake endpoint to test group parameters (optional)
+ * TestGroupParameters Fake endpoint to test group parameters (optional)
+ *
+ * Fake endpoint to test group parameters (optional)
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param requiredStringGroup Required String in group parameters
  * @param requiredBooleanGroup Required Boolean in group parameters
@@ -1006,7 +1066,7 @@ Fake endpoint to test group parameters (optional)
  * @param "StringGroup" (optional.Int32) -  String in group parameters
  * @param "BooleanGroup" (optional.Bool) -  Boolean in group parameters
  * @param "Int64Group" (optional.Int64) -  Integer in group parameters
-*/
+ */
 func (a *FakeApiService) TestGroupParameters(ctx _context.Context, requiredStringGroup int32, requiredBooleanGroup bool, requiredInt64Group int64, localVarOptionals *TestGroupParametersOpts) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete
@@ -1063,6 +1123,7 @@ func (a *FakeApiService) TestGroupParameters(ctx _context.Context, requiredStrin
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1079,10 +1140,11 @@ func (a *FakeApiService) TestGroupParameters(ctx _context.Context, requiredStrin
 }
 
 /*
-TestInlineAdditionalProperties test inline additionalProperties
+ * TestInlineAdditionalProperties test inline additionalProperties
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param requestBody request body
-*/
+ */
 func (a *FakeApiService) TestInlineAdditionalProperties(ctx _context.Context, requestBody map[string]string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
@@ -1129,6 +1191,7 @@ func (a *FakeApiService) TestInlineAdditionalProperties(ctx _context.Context, re
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1145,11 +1208,12 @@ func (a *FakeApiService) TestInlineAdditionalProperties(ctx _context.Context, re
 }
 
 /*
-TestJsonFormData test json serialization of form data
+ * TestJsonFormData test json serialization of form data
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param param field1
  * @param param2 field2
-*/
+ */
 func (a *FakeApiService) TestJsonFormData(ctx _context.Context, param string, param2 string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
@@ -1196,6 +1260,7 @@ func (a *FakeApiService) TestJsonFormData(ctx _context.Context, param string, pa
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
@@ -1212,15 +1277,17 @@ func (a *FakeApiService) TestJsonFormData(ctx _context.Context, param string, pa
 }
 
 /*
-TestQueryParameterCollectionFormat Method for TestQueryParameterCollectionFormat
-To test the collection format in query parameters
+ * TestQueryParameterCollectionFormat Method for TestQueryParameterCollectionFormat
+ *
+ * To test the collection format in query parameters
+ *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param pipe
  * @param ioutil
  * @param http
  * @param url
  * @param context
-*/
+ */
 func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx _context.Context, pipe []string, ioutil []string, http []string, url []string, context []string) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPut
@@ -1248,7 +1315,7 @@ func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx _context.Context
 		}
 	}
 	localVarQueryParams.Add("ioutil", parameterToString(ioutil, "csv"))
-	localVarQueryParams.Add("http", parameterToString(http, "space"))
+	localVarQueryParams.Add("http", parameterToString(http, "ssv"))
 	localVarQueryParams.Add("url", parameterToString(url, "csv"))
 	{
 		t:=context
@@ -1290,6 +1357,7 @@ func (a *FakeApiService) TestQueryParameterCollectionFormat(ctx _context.Context
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}

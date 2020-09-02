@@ -174,6 +174,8 @@ public interface CodegenConfig {
 
     String toModelImport(String name);
 
+    Map<String,String> toModelImportMap(String name);
+
     String toApiImport(String name);
 
     void addOperationToGroup(String tag, String resourcePath, Operation operation, CodegenOperation co, Map<String, List<CodegenOperation>> operations);
@@ -191,6 +193,8 @@ public interface CodegenConfig {
     void postProcessModelProperty(CodegenModel model, CodegenProperty property);
 
     void postProcessParameter(CodegenParameter parameter);
+
+    String modelFilename(String templateName, String modelName);
 
     String apiFilename(String templateName, String tag);
 
@@ -246,8 +250,6 @@ public interface CodegenConfig {
     void setDocExtension(String docExtension);
 
     String getDocExtension();
-
-    String getCommonTemplateDir();
 
     void setIgnoreFilePathOverride(String ignoreFileOverride);
 

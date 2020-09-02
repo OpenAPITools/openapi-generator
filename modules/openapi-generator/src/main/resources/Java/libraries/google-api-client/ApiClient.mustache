@@ -4,7 +4,9 @@ import {{apiPackage}}.*;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+{{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
+{{/openApiNullable}}
 {{#joda}}
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 {{/joda}}
@@ -54,8 +56,10 @@ public class ApiClient {
         module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
         objectMapper.registerModule(module);
         {{/threetenbp}}
+        {{#openApiNullable}}
         JsonNullableModule jnm = new JsonNullableModule();
         objectMapper.registerModule(jnm);
+        {{/openApiNullable}}
         return objectMapper;
     }
 

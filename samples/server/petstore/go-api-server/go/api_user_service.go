@@ -10,6 +10,7 @@
 package petstoreserver
 
 import (
+	"context"
 	"errors"
 )
 
@@ -25,56 +26,56 @@ func NewUserApiService() UserApiServicer {
 }
 
 // CreateUser - Create user
-func (s *UserApiService) CreateUser(body User) (interface{}, error) {
+func (s *UserApiService) CreateUser(ctx context.Context, user User) (interface{}, error) {
 	// TODO - update CreateUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'CreateUser' not implemented")
 }
 
 // CreateUsersWithArrayInput - Creates list of users with given input array
-func (s *UserApiService) CreateUsersWithArrayInput(body []User) (interface{}, error) {
+func (s *UserApiService) CreateUsersWithArrayInput(ctx context.Context, user []User) (interface{}, error) {
 	// TODO - update CreateUsersWithArrayInput with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'CreateUsersWithArrayInput' not implemented")
 }
 
 // CreateUsersWithListInput - Creates list of users with given input array
-func (s *UserApiService) CreateUsersWithListInput(body []User) (interface{}, error) {
+func (s *UserApiService) CreateUsersWithListInput(ctx context.Context, user []User) (interface{}, error) {
 	// TODO - update CreateUsersWithListInput with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'CreateUsersWithListInput' not implemented")
 }
 
 // DeleteUser - Delete user
-func (s *UserApiService) DeleteUser(username string) (interface{}, error) {
+func (s *UserApiService) DeleteUser(ctx context.Context, username string) (interface{}, error) {
 	// TODO - update DeleteUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'DeleteUser' not implemented")
 }
 
 // GetUserByName - Get user by user name
-func (s *UserApiService) GetUserByName(username string) (interface{}, error) {
+func (s *UserApiService) GetUserByName(ctx context.Context, username string) (interface{}, error) {
 	// TODO - update GetUserByName with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'GetUserByName' not implemented")
 }
 
 // LoginUser - Logs user into the system
-func (s *UserApiService) LoginUser(username string, password string) (interface{}, error) {
+func (s *UserApiService) LoginUser(ctx context.Context, username string, password string) (interface{}, error) {
 	// TODO - update LoginUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'LoginUser' not implemented")
 }
 
 // LogoutUser - Logs out current logged in user session
-func (s *UserApiService) LogoutUser() (interface{}, error) {
+func (s *UserApiService) LogoutUser(ctx context.Context) (interface{}, error) {
 	// TODO - update LogoutUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'LogoutUser' not implemented")
 }
 
 // UpdateUser - Updated user
-func (s *UserApiService) UpdateUser(username string, body User) (interface{}, error) {
+func (s *UserApiService) UpdateUser(ctx context.Context, username string, user User) (interface{}, error) {
 	// TODO - update UpdateUser with the required logic for this service method.
 	// Add api_user_service.go to the .openapi-generator-ignore to avoid overwriting this service implementation when updating open api generation.
 	return nil, errors.New("service method 'UpdateUser' not implemented")

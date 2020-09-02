@@ -21,39 +21,59 @@ var (
 	_ _context.Context
 )
 
+type AnotherFakeApi interface {
+
+  /*
+   * Call123TestSpecialTags To test special tags
+   * To test special tags and operation ID starting with number
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiCall123TestSpecialTagsRequest
+   */
+  Call123TestSpecialTags(ctx _context.Context) ApiCall123TestSpecialTagsRequest
+
+  /*
+   * Call123TestSpecialTagsExecute executes the request
+   * @return Client
+   */
+  Call123TestSpecialTagsExecute(r ApiCall123TestSpecialTagsRequest) (Client, *_nethttp.Response, error)
+}
+
 // AnotherFakeApiService AnotherFakeApi service
 type AnotherFakeApiService service
 
-type apiCall123TestSpecialTagsRequest struct {
+type ApiCall123TestSpecialTagsRequest struct {
 	ctx _context.Context
-	apiService *AnotherFakeApiService
+	ApiService AnotherFakeApi
 	client *Client
 }
 
-
-func (r apiCall123TestSpecialTagsRequest) Client(client Client) apiCall123TestSpecialTagsRequest {
+func (r ApiCall123TestSpecialTagsRequest) Client(client Client) ApiCall123TestSpecialTagsRequest {
 	r.client = &client
 	return r
 }
 
+func (r ApiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response, error) {
+	return r.ApiService.Call123TestSpecialTagsExecute(r)
+}
+
 /*
-Call123TestSpecialTags To test special tags
-To test special tags and operation ID starting with number
+ * Call123TestSpecialTags To test special tags
+ * To test special tags and operation ID starting with number
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-@return apiCall123TestSpecialTagsRequest
-*/
-func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context) apiCall123TestSpecialTagsRequest {
-	return apiCall123TestSpecialTagsRequest{
-		apiService: a,
+ * @return ApiCall123TestSpecialTagsRequest
+ */
+func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context) ApiCall123TestSpecialTagsRequest {
+	return ApiCall123TestSpecialTagsRequest{
+		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 /*
-Execute executes the request
- @return Client
-*/
-func (r apiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response, error) {
+ * Execute executes the request
+ * @return Client
+ */
+func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSpecialTagsRequest) (Client, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
@@ -63,7 +83,7 @@ func (r apiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response,
 		localVarReturnValue  Client
 	)
 
-	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "AnotherFakeApiService.Call123TestSpecialTags")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnotherFakeApiService.Call123TestSpecialTags")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -73,7 +93,6 @@ func (r apiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response,
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.client == nil {
 		return localVarReturnValue, nil, reportError("client is required and must be specified")
 	}
@@ -97,12 +116,12 @@ func (r apiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response,
 	}
 	// body params
 	localVarPostBody = r.client
-	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
+	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -118,19 +137,10 @@ func (r apiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response,
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v Client
-			err = r.apiService.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = r.apiService.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,

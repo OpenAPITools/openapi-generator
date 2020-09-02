@@ -21,39 +21,59 @@ var (
 	_ _context.Context
 )
 
+type FakeClassnameTags123Api interface {
+
+  /*
+   * TestClassname To test class name in snake case
+   * To test class name in snake case
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiTestClassnameRequest
+   */
+  TestClassname(ctx _context.Context) ApiTestClassnameRequest
+
+  /*
+   * TestClassnameExecute executes the request
+   * @return Client
+   */
+  TestClassnameExecute(r ApiTestClassnameRequest) (Client, *_nethttp.Response, error)
+}
+
 // FakeClassnameTags123ApiService FakeClassnameTags123Api service
 type FakeClassnameTags123ApiService service
 
-type apiTestClassnameRequest struct {
+type ApiTestClassnameRequest struct {
 	ctx _context.Context
-	apiService *FakeClassnameTags123ApiService
+	ApiService FakeClassnameTags123Api
 	client *Client
 }
 
-
-func (r apiTestClassnameRequest) Client(client Client) apiTestClassnameRequest {
+func (r ApiTestClassnameRequest) Client(client Client) ApiTestClassnameRequest {
 	r.client = &client
 	return r
 }
 
+func (r ApiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
+	return r.ApiService.TestClassnameExecute(r)
+}
+
 /*
-TestClassname To test class name in snake case
-To test class name in snake case
+ * TestClassname To test class name in snake case
+ * To test class name in snake case
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-@return apiTestClassnameRequest
-*/
-func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context) apiTestClassnameRequest {
-	return apiTestClassnameRequest{
-		apiService: a,
+ * @return ApiTestClassnameRequest
+ */
+func (a *FakeClassnameTags123ApiService) TestClassname(ctx _context.Context) ApiTestClassnameRequest {
+	return ApiTestClassnameRequest{
+		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 /*
-Execute executes the request
- @return Client
-*/
-func (r apiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
+ * Execute executes the request
+ * @return Client
+ */
+func (a *FakeClassnameTags123ApiService) TestClassnameExecute(r ApiTestClassnameRequest) (Client, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
@@ -63,7 +83,7 @@ func (r apiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
 		localVarReturnValue  Client
 	)
 
-	localBasePath, err := r.apiService.client.cfg.ServerURLWithContext(r.ctx, "FakeClassnameTags123ApiService.TestClassname")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "FakeClassnameTags123ApiService.TestClassname")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -73,7 +93,6 @@ func (r apiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	
 	if r.client == nil {
 		return localVarReturnValue, nil, reportError("client is required and must be specified")
 	}
@@ -100,23 +119,23 @@ func (r apiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if auth, ok := auth["api_key_query"]; ok {
+			if apiKey, ok := auth["api_key_query"]; ok {
 				var key string
-				if auth.Prefix != "" {
-					key = auth.Prefix + " " + auth.Key
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
 				} else {
-					key = auth.Key
+					key = apiKey.Key
 				}
 				localVarQueryParams.Add("api_key_query", key)
 			}
 		}
 	}
-	req, err := r.apiService.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := r.apiService.client.callAPI(req)
+	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
@@ -132,19 +151,10 @@ func (r apiTestClassnameRequest) Execute() (Client, *_nethttp.Response, error) {
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 200 {
-			var v Client
-			err = r.apiService.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
-	err = r.apiService.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
 		newErr := GenericOpenAPIError{
 			body:  localVarBody,

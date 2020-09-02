@@ -12,19 +12,19 @@ import java.util.Date;
 
 
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaInflectorServerCodegen")
 public class Order   {
   @JsonProperty("id")
-  private Long id = null;
+  private Long id;
 
   @JsonProperty("petId")
-  private Long petId = null;
+  private Long petId;
 
   @JsonProperty("quantity")
-  private Integer quantity = null;
+  private Integer quantity;
 
   @JsonProperty("shipDate")
-  private Date shipDate = null;
+  private Date shipDate;
 
   /**
    * Order Status
@@ -55,12 +55,12 @@ public class Order   {
           return b;
         }
       }
-      return null;
+      throw new IllegalArgumentException("Unexpected value '" + text + "'");
     }
   }
 
   @JsonProperty("status")
-  private StatusEnum status = null;
+  private StatusEnum status;
 
   @JsonProperty("complete")
   private Boolean complete = false;
@@ -170,7 +170,7 @@ public class Order   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -210,7 +210,7 @@ public class Order   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

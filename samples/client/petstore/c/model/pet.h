@@ -11,14 +11,21 @@
 #include "../external/cJSON.h"
 #include "../include/list.h"
 #include "../include/keyValuePair.h"
+#include "../include/binary.h"
+
+typedef struct pet_t pet_t;
+
 #include "category.h"
 #include "tag.h"
 
-                typedef enum  {  available, pending, sold } status_e;
+// Enum STATUS for pet
 
-        char* status_ToString(status_e status);
+typedef enum  { openapi_petstore_pet_STATUS_NULL = 0, openapi_petstore_pet_STATUS_available, openapi_petstore_pet_STATUS_pending, openapi_petstore_pet_STATUS_sold } openapi_petstore_pet_STATUS_e;
 
-        status_e status_FromString(char* status);
+char* pet_status_ToString(openapi_petstore_pet_STATUS_e status);
+
+openapi_petstore_pet_STATUS_e pet_status_FromString(char* status);
+
 
 
 typedef struct pet_t {
@@ -27,7 +34,7 @@ typedef struct pet_t {
     char *name; // string
     list_t *photo_urls; //primitive container
     list_t *tags; //nonprimitive container
-    status_e status; //enum
+    openapi_petstore_pet_STATUS_e status; //enum
 
 } pet_t;
 
@@ -37,7 +44,7 @@ pet_t *pet_create(
     char *name,
     list_t *photo_urls,
     list_t *tags,
-    status_e status
+    openapi_petstore_pet_STATUS_e status
 );
 
 void pet_free(pet_t *pet);

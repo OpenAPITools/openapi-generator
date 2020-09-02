@@ -25,26 +25,26 @@ import kotlinx.serialization.*
 import kotlinx.serialization.internal.StringDescriptor
 
 class FakeClassnameTags123Api @UseExperimental(UnstableDefault::class) constructor(
-        baseUrl: kotlin.String = "http://petstore.swagger.io:80/v2",
-        httpClientEngine: HttpClientEngine? = null,
-        serializer: KotlinxSerializer)
-    : ApiClient(baseUrl, httpClientEngine, serializer) {
+    baseUrl: kotlin.String = "http://petstore.swagger.io:80/v2",
+    httpClientEngine: HttpClientEngine? = null,
+    serializer: KotlinxSerializer
+) : ApiClient(baseUrl, httpClientEngine, serializer) {
 
     @UseExperimental(UnstableDefault::class)
     constructor(
         baseUrl: kotlin.String = "http://petstore.swagger.io:80/v2",
         httpClientEngine: HttpClientEngine? = null,
-        jsonConfiguration: JsonConfiguration = JsonConfiguration.Default)
-    : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
+        jsonConfiguration: JsonConfiguration = JsonConfiguration.Default
+    ) : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
 
     /**
-    * To test class name in snake case
-    * To test class name in snake case
-    * @param client client model 
-    * @return Client
-    */
+     * To test class name in snake case
+     * To test class name in snake case
+     * @param client client model 
+     * @return Client
+     */
     @Suppress("UNCHECKED_CAST")
-    suspend fun testClassname(client: Client) : HttpResponse<Client> {
+    suspend fun testClassname(client: Client): HttpResponse<Client> {
 
         val localVariableAuthNames = listOf<String>("api_key_query")
 
@@ -68,7 +68,7 @@ class FakeClassnameTags123Api @UseExperimental(UnstableDefault::class) construct
         ).wrap()
     }
 
-    
+
 
 
     companion object {

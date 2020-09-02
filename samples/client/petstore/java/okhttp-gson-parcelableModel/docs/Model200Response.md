@@ -11,8 +11,4 @@ Name | Type | Description | Notes
 **propertyClass** | **String** |  |  [optional]
 
 
-## Implemented Interfaces
-
-* Parcelable
-
 

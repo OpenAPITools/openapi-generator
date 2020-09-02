@@ -35,6 +35,7 @@ Class | Method | HTTP request | Description
 *AnotherFakeApi* | [**Call123TestSpecialTags**](docs/AnotherFakeApi.md#call123testspecialtags) | **Patch** /another-fake/dummy | To test special tags
 *DefaultApi* | [**FooGet**](docs/DefaultApi.md#fooget) | **Get** /foo | 
 *FakeApi* | [**FakeHealthGet**](docs/FakeApi.md#fakehealthget) | **Get** /fake/health | Health check endpoint
+*FakeApi* | [**FakeHttpSignatureTest**](docs/FakeApi.md#fakehttpsignaturetest) | **Get** /fake/http-signature-test | test http signature authentication
 *FakeApi* | [**FakeOuterBooleanSerialize**](docs/FakeApi.md#fakeouterbooleanserialize) | **Post** /fake/outer/boolean | 
 *FakeApi* | [**FakeOuterCompositeSerialize**](docs/FakeApi.md#fakeoutercompositeserialize) | **Post** /fake/outer/composite | 
 *FakeApi* | [**FakeOuterNumberSerialize**](docs/FakeApi.md#fakeouternumberserialize) | **Post** /fake/outer/number | 
@@ -136,7 +137,7 @@ Class | Method | HTTP request | Description
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
+auth := context.WithValue(context.Background(), petstore.ContextAPIKey, petstore.APIKey{
     Key: "APIKEY",
     Prefix: "Bearer", // Omit if not necessary.
 })
@@ -151,7 +152,7 @@ r, err := client.Service.Operation(auth, args)
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextAPIKey, sw.APIKey{
+auth := context.WithValue(context.Background(), petstore.ContextAPIKey, petstore.APIKey{
     Key: "APIKEY",
     Prefix: "Bearer", // Omit if not necessary.
 })
@@ -161,15 +162,12 @@ r, err := client.Service.Operation(auth, args)
 
 ## bearer_test
 
-- **Type**: HTTP basic authentication
+- **Type**: HTTP Bearer token authentication
 
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
-    UserName: "username",
-    Password: "password",
-})
+auth := context.WithValue(context.Background(), petstore.ContextAccessToken, "BEARERTOKENSTRING")
 r, err := client.Service.Operation(auth, args)
 ```
 
@@ -181,12 +179,17 @@ r, err := client.Service.Operation(auth, args)
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextBasicAuth, sw.BasicAuth{
+auth := context.WithValue(context.Background(), petstore.ContextBasicAuth, petstore.BasicAuth{
     UserName: "username",
     Password: "password",
 })
 r, err := client.Service.Operation(auth, args)
 ```
+
+
+## http_signature_test
+
+Not supported.
 
 
 ## petstore_auth
@@ -202,7 +205,7 @@ r, err := client.Service.Operation(auth, args)
 Example
 
 ```golang
-auth := context.WithValue(context.Background(), sw.ContextAccessToken, "ACCESSTOKENSTRING")
+auth := context.WithValue(context.Background(), petstore.ContextAccessToken, "ACCESSTOKENSTRING")
 r, err := client.Service.Operation(auth, args)
 ```
 
@@ -214,7 +217,7 @@ import "golang.org/x/oauth2"
 /* Perform OAuth2 round trip request and obtain a token */
 
 tokenSource := oauth2cfg.TokenSource(createContext(httpClient), &token)
-auth := context.WithValue(oauth2.NoContext, sw.ContextOAuth2, tokenSource)
+auth := context.WithValue(oauth2.NoContext, petstore.ContextOAuth2, tokenSource)
 r, err := client.Service.Operation(auth, args)
 ```
 

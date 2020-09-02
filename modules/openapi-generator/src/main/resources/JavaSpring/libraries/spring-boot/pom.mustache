@@ -10,7 +10,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         {{#useSpringfox}}
-        <springfox-version>2.8.0</springfox-version>
+        <springfox-version>2.9.2</springfox-version>
         {{/useSpringfox}}
     </properties>
 {{#parentOverridden}}
@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>{{#java8}}2.0.1.RELEASE{{/java8}}{{^java8}}1.5.12.RELEASE{{/java8}}</version>
+        <version>{{#java8}}2.3.3.RELEASE{{/java8}}{{^java8}}1.5.12.RELEASE{{/java8}}</version>
     </parent>
 {{/parentOverridden}}
     <build>
@@ -97,7 +97,7 @@
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>2.2.11</version>
+            <version>2.3.1</version>
         </dependency>
         {{/useSpringfox}}
         {{^useSpringfox}}
@@ -148,11 +148,13 @@
             <version>2.8.4</version>
         </dependency>
         {{/threetenbp}}
+        {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.1.0</version>
+            <version>0.2.1</version>
         </dependency>
+        {{/openApiNullable}}
 {{#useBeanValidation}}
     <!-- Bean Validation API support -->
         <dependency>

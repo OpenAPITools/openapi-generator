@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.EnumSet;
 
-public class PythonAiohttpConnexionServerCodegen extends PythonAbstractConnexionServerCodegen {
+public class PythonAiohttpConnexionServerCodegen extends AbstractPythonConnexionServerCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonAiohttpConnexionServerCodegen.class);
 
     public PythonAiohttpConnexionServerCodegen() {
@@ -71,6 +71,7 @@ public class PythonAiohttpConnexionServerCodegen extends PythonAbstractConnexion
         supportingFiles.add(new SupportingFile("conftest.mustache", testPackage, "conftest.py"));
         supportingFiles.add(new SupportingFile("__init__test.mustache", testPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__main.mustache", packagePath(), "__init__.py"));
+        supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
         supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
     }

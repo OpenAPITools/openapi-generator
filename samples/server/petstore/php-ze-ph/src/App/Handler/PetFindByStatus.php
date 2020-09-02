@@ -18,6 +18,11 @@ class PetFindByStatus
     /**
      * Finds Pets by status
      * @PHA\Get()
+     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={
+     *     "type":\App\DTO\FindPetsByStatusQueryData::class,
+     *     "objectAttr":"queryData",
+     *     "source": PHAttribute\Transfer::SOURCE_GET
+     * })
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/xml")
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
@@ -32,6 +37,8 @@ class PetFindByStatus
     public function findPetsByStatus(ServerRequestInterface $request): array
     {
         //TODO implement method
+        /** @var \App\DTO\FindPetsByStatusQueryData $queryData */
+        $queryData = $request->getAttribute("queryData");
         throw new PHException\HttpCode(501, "Not implemented");
     }
 }

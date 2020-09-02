@@ -10,30 +10,32 @@
 package petstore
 
 import (
-	"bytes"
 	"encoding/json"
 )
 
 // SpecialModelName struct for SpecialModelName
 type SpecialModelName struct {
 	SpecialPropertyName *int64 `json:"$special[property.name],omitempty"`
+	AdditionalProperties map[string]interface{}
 }
+
+type _SpecialModelName SpecialModelName
 
 // NewSpecialModelName instantiates a new SpecialModelName object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
 func NewSpecialModelName() *SpecialModelName {
-    this := SpecialModelName{}
-    return &this
+	this := SpecialModelName{}
+	return &this
 }
 
 // NewSpecialModelNameWithDefaults instantiates a new SpecialModelName object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
 func NewSpecialModelNameWithDefaults() *SpecialModelName {
-    this := SpecialModelName{}
-    return &this
+	this := SpecialModelName{}
+	return &this
 }
 
 // GetSpecialPropertyName returns the SpecialPropertyName field value if set, zero value otherwise.
@@ -45,14 +47,13 @@ func (o *SpecialModelName) GetSpecialPropertyName() int64 {
 	return *o.SpecialPropertyName
 }
 
-// GetSpecialPropertyNameOk returns a tuple with the SpecialPropertyName field value if set, zero value otherwise
+// GetSpecialPropertyNameOk returns a tuple with the SpecialPropertyName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SpecialModelName) GetSpecialPropertyNameOk() (int64, bool) {
+func (o *SpecialModelName) GetSpecialPropertyNameOk() (*int64, bool) {
 	if o == nil || o.SpecialPropertyName == nil {
-		var ret int64
-		return ret, false
+		return nil, false
 	}
-	return *o.SpecialPropertyName, true
+	return o.SpecialPropertyName, true
 }
 
 // HasSpecialPropertyName returns a boolean if a field has been set.
@@ -69,25 +70,70 @@ func (o *SpecialModelName) SetSpecialPropertyName(v int64) {
 	o.SpecialPropertyName = &v
 }
 
+func (o SpecialModelName) MarshalJSON() ([]byte, error) {
+	toSerialize := map[string]interface{}{}
+	if o.SpecialPropertyName != nil {
+		toSerialize["$special[property.name]"] = o.SpecialPropertyName
+	}
+
+	for key, value := range o.AdditionalProperties {
+		toSerialize[key] = value
+	}
+
+	return json.Marshal(toSerialize)
+}
+
+func (o *SpecialModelName) UnmarshalJSON(bytes []byte) (err error) {
+	varSpecialModelName := _SpecialModelName{}
+
+	if err = json.Unmarshal(bytes, &varSpecialModelName); err == nil {
+		*o = SpecialModelName(varSpecialModelName)
+	}
+
+	additionalProperties := make(map[string]interface{})
+
+	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "$special[property.name]")
+		o.AdditionalProperties = additionalProperties
+	}
+
+	return err
+}
+
 type NullableSpecialModelName struct {
-	Value SpecialModelName
-	ExplicitNull bool
+	value *SpecialModelName
+	isSet bool
+}
+
+func (v NullableSpecialModelName) Get() *SpecialModelName {
+	return v.value
+}
+
+func (v *NullableSpecialModelName) Set(val *SpecialModelName) {
+	v.value = val
+	v.isSet = true
+}
+
+func (v NullableSpecialModelName) IsSet() bool {
+	return v.isSet
+}
+
+func (v *NullableSpecialModelName) Unset() {
+	v.value = nil
+	v.isSet = false
+}
+
+func NewNullableSpecialModelName(val *SpecialModelName) *NullableSpecialModelName {
+	return &NullableSpecialModelName{value: val, isSet: true}
 }
 
 func (v NullableSpecialModelName) MarshalJSON() ([]byte, error) {
-    switch {
-    case v.ExplicitNull:
-        return []byte("null"), nil
-    default:
-		return json.Marshal(v.Value)
-	}
+	return json.Marshal(v.value)
 }
 
 func (v *NullableSpecialModelName) UnmarshalJSON(src []byte) error {
-	if bytes.Equal(src, []byte("null")) {
-		v.ExplicitNull = true
-		return nil
-	}
-
-	return json.Unmarshal(src, &v.Value)
+	v.isSet = true
+	return json.Unmarshal(src, &v.value)
 }
+
+

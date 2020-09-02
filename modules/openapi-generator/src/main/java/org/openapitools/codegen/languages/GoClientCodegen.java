@@ -40,6 +40,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public static final String WITH_XML = "withXml";
     public static final String STRUCT_PREFIX = "structPrefix";
     public static final String WITH_AWSV4_SIGNATURE = "withAWSV4Signature";
+    public static final String GENERATE_INTERFACES = "generateInterfaces";
 
     public GoClientCodegen() {
         super();
@@ -91,6 +92,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_CLASS_PREFIX, CodegenConstants.ENUM_CLASS_PREFIX_DESC));
         cliOptions.add(CliOption.newBoolean(STRUCT_PREFIX, "whether to prefix struct with the class name. e.g. DeletePetOpts => PetApiDeletePetOpts"));
         cliOptions.add(CliOption.newBoolean(WITH_AWSV4_SIGNATURE, "whether to include AWS v4 signature support"));
+        cliOptions.add(CliOption.newBoolean(GENERATE_INTERFACES, "Generate interfaces for api classes"));
 
         // option to change the order of form/body parameter
         cliOptions.add(CliOption.newBoolean(
@@ -137,44 +139,37 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         if (additionalProperties.containsKey(WITH_GO_CODEGEN_COMMENT)) {
             setWithGoCodegenComment(Boolean.parseBoolean(additionalProperties.get(WITH_GO_CODEGEN_COMMENT).toString()));
-            if (withGoCodegenComment) {
-                additionalProperties.put(WITH_GO_CODEGEN_COMMENT, "true");
-            }
+            additionalProperties.put(WITH_GO_CODEGEN_COMMENT, withGoCodegenComment);
         }
 
         if (additionalProperties.containsKey(WITH_AWSV4_SIGNATURE)) {
             setWithAWSV4Signature(Boolean.parseBoolean(additionalProperties.get(WITH_AWSV4_SIGNATURE).toString()));
-            if (withAWSV4Signature) {
-                additionalProperties.put(WITH_AWSV4_SIGNATURE, "true");
-            }
+            additionalProperties.put(WITH_AWSV4_SIGNATURE, withAWSV4Signature);
         }
 
         if (additionalProperties.containsKey(WITH_XML)) {
             setWithXml(Boolean.parseBoolean(additionalProperties.get(WITH_XML).toString()));
-            if (withXml) {
-                additionalProperties.put(WITH_XML, "true");
-            }
+            additionalProperties.put(WITH_XML, withXml);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
             setEnumClassPrefix(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_CLASS_PREFIX).toString()));
-            if (enumClassPrefix) {
-                additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, "true");
-            }
+            additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, enumClassPrefix);
         }
 
         if (additionalProperties.containsKey(CodegenConstants.IS_GO_SUBMODULE)) {
             setIsGoSubmodule(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.IS_GO_SUBMODULE).toString()));
-            if (isGoSubmodule) {
-                additionalProperties.put(CodegenConstants.IS_GO_SUBMODULE, "true");
-            }
+            additionalProperties.put(CodegenConstants.IS_GO_SUBMODULE, isGoSubmodule);
         }
 
         if (additionalProperties.containsKey(STRUCT_PREFIX)) {
             setStructPrefix(Boolean.parseBoolean(additionalProperties.get(STRUCT_PREFIX).toString()));
-            if (structPrefix) {
-                additionalProperties.put(STRUCT_PREFIX, "true");
-            }
+            additionalProperties.put(STRUCT_PREFIX, structPrefix);
+        }
+
+        if (additionalProperties.containsKey(GENERATE_INTERFACES)) {
+            setGenerateInterfaces(Boolean.parseBoolean(additionalProperties.get(GENERATE_INTERFACES).toString()));
+            additionalProperties.put(GENERATE_INTERFACES, generateInterfaces);
         }
     }
 
