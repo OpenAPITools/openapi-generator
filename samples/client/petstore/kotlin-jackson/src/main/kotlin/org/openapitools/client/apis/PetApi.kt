@@ -85,10 +85,11 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String?) : Unit {
+    fun deletePet(petId: kotlin.Long, apiKey: kotlin.String? = null) : Unit {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mutableMapOf()
-        val localVariableHeaders: MutableMap<String, String> = mutableMapOf("api_key" to apiKey.toString())
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
+        apiKey?.apply { localVariableHeaders["api_key"] = this.toString() }
         val localVariableConfig = RequestConfig(
             RequestMethod.DELETE,
             "/pet/{petId}".replace("{"+"petId"+"}", "$petId"),
@@ -297,7 +298,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     * @throws ServerException If the API returns a server error response
     */
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String?, status: kotlin.String?) : Unit {
+    fun updatePetWithForm(petId: kotlin.Long, name: kotlin.String? = null, status: kotlin.String? = null) : Unit {
         val localVariableBody: kotlin.Any? = mapOf("name" to name, "status" to status)
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "application/x-www-form-urlencoded")
@@ -340,7 +341,7 @@ class PetApi(basePath: kotlin.String = defaultBasePath) : ApiClient(basePath) {
     */
     @Suppress("UNCHECKED_CAST")
     @Throws(UnsupportedOperationException::class, ClientException::class, ServerException::class)
-    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String?, file: java.io.File?) : ApiResponse {
+    fun uploadFile(petId: kotlin.Long, additionalMetadata: kotlin.String? = null, file: java.io.File? = null) : ApiResponse {
         val localVariableBody: kotlin.Any? = mapOf("additionalMetadata" to additionalMetadata, "file" to file)
         val localVariableQuery: MultiValueMap = mutableMapOf()
         val localVariableHeaders: MutableMap<String, String> = mutableMapOf("Content-Type" to "multipart/form-data")
