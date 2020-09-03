@@ -33,8 +33,8 @@ org.openapitools.codegen.languages.ErlangServerCodegen
 org.openapitools.codegen.languages.FlashClientCodegen
 org.openapitools.codegen.languages.FsharpFunctionsServerCodegen
 org.openapitools.codegen.languages.FsharpGiraffeServerCodegen
-org.openapitools.codegen.languages.GoDeprecatedClientCodegen
 org.openapitools.codegen.languages.GoClientCodegen
+org.openapitools.codegen.languages.GoDeprecatedClientCodegen
 org.openapitools.codegen.languages.GoServerCodegen
 org.openapitools.codegen.languages.GoGinServerCodegen
 org.openapitools.codegen.languages.GraphQLSchemaCodegen
