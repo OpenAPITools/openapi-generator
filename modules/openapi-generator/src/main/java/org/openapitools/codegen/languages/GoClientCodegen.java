@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
@@ -31,20 +32,80 @@ import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
-public class GoClientCodegen extends GoDeprecatedClientCodegen {
+public class GoClientCodegen extends AbstractGoCodegen {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GoClientCodegen.class);
+    protected String packageVersion = "1.0.0";
+    protected String apiDocPath = "docs/";
+    protected String modelDocPath = "docs/";
+    public static final String WITH_GO_CODEGEN_COMMENT = "withGoCodegenComment";
+    public static final String WITH_XML = "withXml";
+    public static final String STRUCT_PREFIX = "structPrefix";
+    public static final String WITH_AWSV4_SIGNATURE = "withAWSV4Signature";
+    public static final String GENERATE_INTERFACES = "generateInterfaces";
     protected String goImportAlias = "openapiclient";
+    protected boolean isGoSubmodule = false;
     protected boolean useOneOfDiscriminatorLookup = false; // use oneOf discriminator's mapping for model lookup
 
     public GoClientCodegen() {
         super();
-        outputFolder = "generated-code/go";
-        embeddedTemplateDir = templateDir = "go";
 
-        usesOptionals = false;
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .includeGlobalFeatures(
+                        GlobalFeature.ParameterizedServer
+                )
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .includeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath,
+                        ClientModificationFeature.UserAgent
+                )
+        );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.STABLE).build();
+
+        outputFolder = "generated-code/go";
+        embeddedTemplateDir = templateDir = "go";
+        usesOptionals = false;
+
+        apiTemplateFiles.put("api.mustache", ".go");
+        modelDocTemplateFiles.put("model_doc.mustache", ".md");
+        apiDocTemplateFiles.put("api_doc.mustache", ".md");
+        embeddedTemplateDir = templateDir = "go-deprecated";
+
+        // default HIDE_GENERATION_TIMESTAMP to true
+        hideGenerationTimestamp = Boolean.TRUE;
+
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.IS_GO_SUBMODULE, CodegenConstants.IS_GO_SUBMODULE_DESC));
+        cliOptions.add(CliOption.newBoolean(WITH_GO_CODEGEN_COMMENT, "whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs"));
+        cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_CLASS_PREFIX, CodegenConstants.ENUM_CLASS_PREFIX_DESC));
+        cliOptions.add(CliOption.newBoolean(STRUCT_PREFIX, "whether to prefix struct with the class name. e.g. DeletePetOpts => PetApiDeletePetOpts"));
+        cliOptions.add(CliOption.newBoolean(WITH_AWSV4_SIGNATURE, "whether to include AWS v4 signature support"));
+        cliOptions.add(CliOption.newBoolean(GENERATE_INTERFACES, "Generate interfaces for api classes"));
+
+        // option to change the order of form/body parameter
+        cliOptions.add(CliOption.newBoolean(
+                CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS,
+                CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS_DESC)
+                .defaultValue(Boolean.FALSE.toString()));
 
         cliOptions.add(new CliOption(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP_DESC).defaultValue("false"));
         // option to change how we process + set the data in the 'additionalProperties' keyword.
@@ -95,7 +156,62 @@ public class GoClientCodegen extends GoDeprecatedClientCodegen {
     public void processOpts() {
         this.setLegacyDiscriminatorBehavior(false);
         super.processOpts();
-        supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
+
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_NAME)) {
+            setPackageName((String) additionalProperties.get(CodegenConstants.PACKAGE_NAME));
+        } else {
+            setPackageName("openapi");
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.PACKAGE_VERSION)) {
+            setPackageVersion((String) additionalProperties.get(CodegenConstants.PACKAGE_VERSION));
+        } else {
+            setPackageVersion("1.0.0");
+        }
+
+        additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
+        additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
+
+        additionalProperties.put("apiDocPath", apiDocPath);
+        additionalProperties.put("modelDocPath", modelDocPath);
+
+        modelPackage = packageName;
+        apiPackage = packageName;
+
+        if (additionalProperties.containsKey(WITH_GO_CODEGEN_COMMENT)) {
+            setWithGoCodegenComment(Boolean.parseBoolean(additionalProperties.get(WITH_GO_CODEGEN_COMMENT).toString()));
+            additionalProperties.put(WITH_GO_CODEGEN_COMMENT, withGoCodegenComment);
+        }
+
+        if (additionalProperties.containsKey(WITH_AWSV4_SIGNATURE)) {
+            setWithAWSV4Signature(Boolean.parseBoolean(additionalProperties.get(WITH_AWSV4_SIGNATURE).toString()));
+            additionalProperties.put(WITH_AWSV4_SIGNATURE, withAWSV4Signature);
+        }
+
+        if (additionalProperties.containsKey(WITH_XML)) {
+            setWithXml(Boolean.parseBoolean(additionalProperties.get(WITH_XML).toString()));
+            additionalProperties.put(WITH_XML, withXml);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
+            setEnumClassPrefix(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_CLASS_PREFIX).toString()));
+            additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, enumClassPrefix);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.IS_GO_SUBMODULE)) {
+            setIsGoSubmodule(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.IS_GO_SUBMODULE).toString()));
+            additionalProperties.put(CodegenConstants.IS_GO_SUBMODULE, isGoSubmodule);
+        }
+
+        if (additionalProperties.containsKey(STRUCT_PREFIX)) {
+            setStructPrefix(Boolean.parseBoolean(additionalProperties.get(STRUCT_PREFIX).toString()));
+            additionalProperties.put(STRUCT_PREFIX, structPrefix);
+        }
+
+        if (additionalProperties.containsKey(GENERATE_INTERFACES)) {
+            setGenerateInterfaces(Boolean.parseBoolean(additionalProperties.get(GENERATE_INTERFACES).toString()));
+            additionalProperties.put(GENERATE_INTERFACES, generateInterfaces);
+        }
 
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
         Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?
@@ -114,13 +230,25 @@ public class GoClientCodegen extends GoDeprecatedClientCodegen {
         if (additionalProperties.containsKey(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP)) {
             setUseOneOfDiscriminatorLookup(convertPropertyToBooleanAndWriteBack(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP));
         } else {
-            additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, useOneOfDiscriminatorLookup);
+            additionalProperties.put(CodegenConstants.USE_ONEOF_DISCRIMINATOR_LOOKUP, getUseOneOfDiscriminatorLookup());
         }
 
         if (additionalProperties.containsKey(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT)) {
             this.setDisallowAdditionalPropertiesIfNotPresent(Boolean.valueOf(additionalProperties
                     .get(CodegenConstants.DISALLOW_ADDITIONAL_PROPERTIES_IF_NOT_PRESENT).toString()));
         }
+
+        supportingFiles.add(new SupportingFile("openapi.mustache", "api", "openapi.yaml"));
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
+        supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
+        supportingFiles.add(new SupportingFile("configuration.mustache", "", "configuration.go"));
+        supportingFiles.add(new SupportingFile("client.mustache", "", "client.go"));
+        supportingFiles.add(new SupportingFile("response.mustache", "", "response.go"));
+        supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
+        supportingFiles.add(new SupportingFile("go.sum", "", "go.sum"));
+        supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
+        supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
 
     }
 
@@ -134,6 +262,14 @@ public class GoClientCodegen extends GoDeprecatedClientCodegen {
 
     public void setGoImportAlias(String goImportAlias) {
         this.goImportAlias = goImportAlias;
+    }
+
+    public void setPackageVersion(String packageVersion) {
+        this.packageVersion = packageVersion;
+    }
+
+    public void setIsGoSubmodule(boolean isGoSubmodule) {
+        this.isGoSubmodule = isGoSubmodule;
     }
 
     @Override
