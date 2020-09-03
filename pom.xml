@@ -1331,8 +1331,6 @@
                 <module>samples/client/petstore/groovy</module>
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
-                <module>samples/client/petstore/go-experimental</module>
-                <module>samples/openapi3/client/petstore/go-experimental</module>
                 <module>samples/openapi3/client/petstore/go</module>
                 <module>samples/client/petstore/javascript-es6</module>
                 <module>samples/client/petstore/javascript-promise-es6</module>
