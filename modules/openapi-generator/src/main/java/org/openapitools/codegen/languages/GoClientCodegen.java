@@ -28,6 +28,7 @@ import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.util.*;
 
 import static org.openapitools.codegen.utils.StringUtils.camelize;
@@ -133,6 +134,17 @@ public class GoClientCodegen extends AbstractGoCodegen {
     @Override
     public String getName() {
         return "go";
+    }
+
+    /**
+     * Configures the type of generator.
+     *
+     * @return the CodegenType for this generator
+     * @see org.openapitools.codegen.CodegenType
+     */
+    @Override
+    public CodegenType getTag() {
+        return CodegenType.CLIENT;
     }
 
     @Override
@@ -269,6 +281,41 @@ public class GoClientCodegen extends AbstractGoCodegen {
     public void setIsGoSubmodule(boolean isGoSubmodule) {
         this.isGoSubmodule = isGoSubmodule;
     }
+
+    /**
+     * Location to write api files.  You can use the apiPackage() as defined when the class is
+     * instantiated
+     */
+    @Override
+    public String apiFileFolder() {
+        return outputFolder + File.separator;
+    }
+
+    @Override
+    public String modelFileFolder() {
+        return outputFolder + File.separator;
+    }
+
+    @Override
+    public String apiDocFileFolder() {
+        return (outputFolder + "/" + apiDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String modelDocFileFolder() {
+        return (outputFolder + "/" + modelDocPath).replace('/', File.separatorChar);
+    }
+
+    @Override
+    public String toModelDocFilename(String name) {
+        return toModelName(name);
+    }
+
+    @Override
+    public String toApiDocFilename(String name) {
+        return toApiName(name);
+    }
+
 
     @Override
     public String toModelName(String name) {
