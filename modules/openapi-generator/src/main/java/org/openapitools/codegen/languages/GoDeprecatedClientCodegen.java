@@ -22,6 +22,8 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +46,8 @@ public class GoDeprecatedClientCodegen extends AbstractGoCodegen {
 
     public GoDeprecatedClientCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.DEPRECATED).build();
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
