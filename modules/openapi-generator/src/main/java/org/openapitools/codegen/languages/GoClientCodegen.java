@@ -88,7 +88,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
         apiTemplateFiles.put("api.mustache", ".go");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        embeddedTemplateDir = templateDir = "go-deprecated";
 
         // default HIDE_GENERATION_TIMESTAMP to true
         hideGenerationTimestamp = Boolean.TRUE;
@@ -249,7 +248,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("go.sum", "", "go.sum"));
         supportingFiles.add(new SupportingFile(".travis.yml", "", ".travis.yml"));
         supportingFiles.add(new SupportingFile("utils.mustache", "", "utils.go"));
-
     }
 
     public void setUseOneOfDiscriminatorLookup(boolean useOneOfDiscriminatorLookup) {
@@ -534,6 +532,4 @@ public class GoClientCodegen extends AbstractGoCodegen {
         example += "}";
         return example;
     }
-
-
 }
