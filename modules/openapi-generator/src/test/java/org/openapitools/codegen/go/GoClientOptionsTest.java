@@ -19,7 +19,7 @@ package org.openapitools.codegen.go;
 
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
-import org.openapitools.codegen.languages.GoClientCodegen;
+import org.openapitools.codegen.languages.GoDeprecatedClientCodegen;
 import org.openapitools.codegen.options.GoClientOptionsProvider;
 
 import static org.mockito.Mockito.mock;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.verify;
 
 public class GoClientOptionsTest extends AbstractOptionsTest {
 
-    private GoClientCodegen clientCodegen = mock(GoClientCodegen.class, mockSettings);
+    private GoDeprecatedClientCodegen clientCodegen = mock(GoDeprecatedClientCodegen.class, mockSettings);
 
     public GoClientOptionsTest() {
         super(new GoClientOptionsProvider());

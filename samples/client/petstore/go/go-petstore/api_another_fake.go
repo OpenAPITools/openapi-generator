@@ -14,7 +14,6 @@ import (
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
 	_neturl "net/url"
-	_bytes "bytes"
 )
 
 // Linger please
@@ -22,19 +21,59 @@ var (
 	_ _context.Context
 )
 
+type AnotherFakeApi interface {
+
+  /*
+   * Call123TestSpecialTags To test special tags
+   * To test special tags and operation ID starting with number
+   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+   * @return ApiCall123TestSpecialTagsRequest
+   */
+  Call123TestSpecialTags(ctx _context.Context) ApiCall123TestSpecialTagsRequest
+
+  /*
+   * Call123TestSpecialTagsExecute executes the request
+   * @return Client
+   */
+  Call123TestSpecialTagsExecute(r ApiCall123TestSpecialTagsRequest) (Client, *_nethttp.Response, error)
+}
+
 // AnotherFakeApiService AnotherFakeApi service
 type AnotherFakeApiService service
 
+type ApiCall123TestSpecialTagsRequest struct {
+	ctx _context.Context
+	ApiService AnotherFakeApi
+	body *Client
+}
+
+func (r ApiCall123TestSpecialTagsRequest) Body(body Client) ApiCall123TestSpecialTagsRequest {
+	r.body = &body
+	return r
+}
+
+func (r ApiCall123TestSpecialTagsRequest) Execute() (Client, *_nethttp.Response, error) {
+	return r.ApiService.Call123TestSpecialTagsExecute(r)
+}
+
 /*
  * Call123TestSpecialTags To test special tags
- *
  * To test special tags and operation ID starting with number
- *
  * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- * @param body client model
+ * @return ApiCall123TestSpecialTagsRequest
+ */
+func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context) ApiCall123TestSpecialTagsRequest {
+	return ApiCall123TestSpecialTagsRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+/*
+ * Execute executes the request
  * @return Client
  */
-func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context, body Client) (Client, *_nethttp.Response, error) {
+func (a *AnotherFakeApiService) Call123TestSpecialTagsExecute(r ApiCall123TestSpecialTagsRequest) (Client, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPatch
 		localVarPostBody     interface{}
@@ -44,11 +83,19 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context, bod
 		localVarReturnValue  Client
 	)
 
-	// create path and map variables
-	localVarPath := a.client.cfg.BasePath + "/another-fake/dummy"
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnotherFakeApiService.Call123TestSpecialTags")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/another-fake/dummy"
+
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
+	if r.body == nil {
+		return localVarReturnValue, nil, reportError("body is required and must be specified")
+	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -68,20 +115,19 @@ func (a *AnotherFakeApiService) Call123TestSpecialTags(ctx _context.Context, bod
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = &body
-	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	localVarPostBody = r.body
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
 
-	localVarHTTPResponse, err := a.client.callAPI(r)
+	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(_bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
