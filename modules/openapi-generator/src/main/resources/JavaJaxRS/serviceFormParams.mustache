@@ -1,1 +1,1 @@
-{{#isFormParam}}{{^isFile}}{{{dataType}}} {{paramName}}{{/isFile}}{{#isFile}}InputStream {{paramName}}InputStream, FormDataContentDisposition {{paramName}}Detail{{/isFile}}{{/isFormParam}}
+{{#isFormParam}}{{^isFile}}{{{dataType}}} {{paramName}}{{/isFile}}{{#isFile}}{{^isListContainer}}FormDataBodyPart {{paramName}}Bodypart{{/isListContainer}}{{#isListContainer}}List<FormDataBodyPart> {{paramName}}Bodypart{{/isListContainer}}{{/isFile}}{{/isFormParam}}
