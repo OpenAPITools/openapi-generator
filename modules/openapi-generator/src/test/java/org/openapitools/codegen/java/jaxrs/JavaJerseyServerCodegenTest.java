@@ -1,23 +1,33 @@
 package org.openapitools.codegen.java.jaxrs;
 
+import io.swagger.parser.OpenAPIParser;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
+import io.swagger.v3.oas.models.Operation;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.parser.core.models.ParseOptions;
+
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
+import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.MockDefaultGenerator;
 import org.openapitools.codegen.MockDefaultGenerator.WrittenTemplateBasedFile;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaJerseyServerCodegen;
+import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
 
@@ -85,6 +95,53 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         Assert.assertEquals(codegen.getInvokerPackage(), "xyz.yyyyy.iiii.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.INVOKER_PACKAGE), "xyz.yyyyy.iiii.invoker");
         Assert.assertEquals(codegen.additionalProperties().get(JavaJerseyServerCodegen.SERVER_PORT), "8088");
+    }
+
+    // Helper function, intended to reduce boilerplate @ copied from ../spring/SpringCodegenTest.java
+    private Map<String, String> generateFiles(DefaultCodegen codegen, String filePath) throws IOException {
+        final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
+        output.deleteOnExit();
+        final String outputPath = output.getAbsolutePath().replace('\\', '/');
+
+        codegen.setOutputDir(output.getAbsolutePath());
+        codegen.additionalProperties().put(CXFServerFeatures.LOAD_TEST_DATA_FROM_FILE, "true");
+
+        final ClientOptInput input = new ClientOptInput();
+        final OpenAPI openAPI = new OpenAPIParser().readLocation(filePath, null, new ParseOptions()).getOpenAPI();
+        input.openAPI(openAPI);
+        input.config(codegen);
+
+        final MockDefaultGenerator generator = new MockDefaultGenerator();
+        generator.opts(input).generate();
+
+        return generator.getFiles().entrySet().stream().collect(Collectors.toMap(e -> e.getKey().replace(outputPath, ""), Map.Entry::getValue));
+    }
+
+    // almost same test as issue #3139 on Spring
+    @Test
+    public void testMultipartJerseyServer() throws Exception {
+
+        final Map<String, String> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
+
+        // Check files and parameters if List<> or Single
+        final String[] fileS = new String[] {
+                                        "/src/gen/java/org/openapitools/api/MultipartSingleApi.java",
+                                        "/src/gen/java/org/openapitools/api/MultipartSingleApiService.java",
+                                        "/src/main/java/org/openapitools/api/impl/MultipartSingleApiServiceImpl.java"};
+        for (String f : fileS) {
+           final String contents = files.get(f);
+           Assert.assertTrue(contents.contains("FormDataBodyPart file"));
+        }
+
+        final String[] fileA = new String[] {
+                                        "/src/gen/java/org/openapitools/api/MultipartArrayApiService.java",
+                                        "/src/gen/java/org/openapitools/api/MultipartArrayApi.java",
+                                        "/src/main/java/org/openapitools/api/impl/MultipartArrayApiServiceImpl.java"};
+        for (String f : fileA) {
+           final String contents = files.get(f);
+           Assert.assertTrue(contents.contains("List<FormDataBodyPart> files"));
+        }
+
     }
 
 }
