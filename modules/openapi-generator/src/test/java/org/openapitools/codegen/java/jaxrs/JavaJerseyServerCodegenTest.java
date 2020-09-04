@@ -18,9 +18,12 @@ import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.JavaJerseyServerCodegen;
 import org.openapitools.codegen.languages.features.CXFServerFeatures;
 import org.openapitools.codegen.templating.MustacheEngineAdapter;
+import org.openapitools.codegen.DefaultGenerator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.openapitools.codegen.TestUtils.assertFileContains;
 
 import java.io.File;
 import java.io.IOException;
@@ -246,7 +249,7 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
     }
 
     // Helper function, intended to reduce boilerplate @ copied from ../spring/SpringCodegenTest.java
-    private Map<String, String> generateFiles(DefaultCodegen codegen, String filePath) throws IOException {
+    private Map<String, File> generateFiles(DefaultCodegen codegen, String filePath) throws IOException {
         final File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
         final String outputPath = output.getAbsolutePath().replace('\\', '/');
@@ -259,35 +262,30 @@ public class JavaJerseyServerCodegenTest extends JavaJaxrsBaseTest {
         input.openAPI(openAPI);
         input.config(codegen);
 
-        final MockDefaultGenerator generator = new MockDefaultGenerator();
-        generator.opts(input).generate();
+        final DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(input).generate();
 
-        return generator.getFiles().entrySet().stream().collect(Collectors.toMap(e -> e.getKey().replace(outputPath, ""), Map.Entry::getValue));
+        return files.stream().collect(Collectors.toMap(e -> e.getName().replace(outputPath, ""), i -> i));
     }
 
     // almost same test as issue #3139 on Spring
     @Test
     public void testMultipartJerseyServer() throws Exception {
 
-        final Map<String, String> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/form-multipart-binary-array.yaml");
 
-        // Check files and parameters if List<> or Single
-        final String[] fileS = new String[] {
-                                        "/src/gen/java/org/openapitools/api/MultipartSingleApi.java",
-                                        "/src/gen/java/org/openapitools/api/MultipartSingleApiService.java",
-                                        "/src/main/java/org/openapitools/api/impl/MultipartSingleApiServiceImpl.java"};
-        for (String f : fileS) {
-           final String contents = files.get(f);
-           Assert.assertTrue(contents.contains("FormDataBodyPart file"));
+        // Check files for Single, Mixed
+        String[] fileS = new String[] {
+                               "MultipartSingleApi.java", "MultipartSingleApiService.java", "MultipartSingleApiServiceImpl.java",
+                               "MultipartMixedApi.java",  "MultipartMixedApiService.java",  "MultipartMixedApiServiceImpl.java"    };
+        for (String f : fileS){
+           assertFileContains( files.get(f).toPath(), "FormDataBodyPart file" );
         }
 
-        final String[] fileA = new String[] {
-                                        "/src/gen/java/org/openapitools/api/MultipartArrayApiService.java",
-                                        "/src/gen/java/org/openapitools/api/MultipartArrayApi.java",
-                                        "/src/main/java/org/openapitools/api/impl/MultipartArrayApiServiceImpl.java"};
+        // Check files for Array
+        final String[] fileA = new String[] { "MultipartArrayApiService.java", "MultipartArrayApi.java", "MultipartArrayApiServiceImpl.java"};
         for (String f : fileA) {
-           final String contents = files.get(f);
-           Assert.assertTrue(contents.contains("List<FormDataBodyPart> files"));
+           assertFileContains( files.get(f).toPath(), "List<FormDataBodyPart> files");
         }
 
     }
