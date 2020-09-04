@@ -1,0 +1,95 @@
+package {{packageName}}
+
+import io.ktor.client.engine.HttpClientEngine
+import kotlinx.serialization.json.Json
+import {{packageName}}.apis.*
+import {{packageName}}.infrastructure.ApiClientBase
+
+{{#nonPublicApi}}internal {{/nonPublicApi}}class ApiClient(
+    baseUrl: String = "{{{basePath}}}",
+    httpClientEngine: HttpClientEngine? = null,
+    json: Json = Json {}
+) {
+    {{! TODO: Remove backticks when conflicts are resolved }}
+    {{#apiInfo}}
+    {{#apis}}
+    val `{{{classVarName}}}` = {{{classFilename}}}(baseUrl, httpClientEngine, json)
+    {{/apis}}
+    {{/apiInfo}}
+
+    val allClients: Set<ApiClientBase> = setOf(
+        {{#apiInfo}}
+        {{#apis}}
+        `{{{classVarName}}}`,
+        {{/apis}}
+        {{/apiInfo}}
+    )
+
+    /**
+     * Set the username for the first HTTP basic authentication for all apis.
+     *
+     * @param username Username
+     */
+    fun setUsername(username: String) {
+        for (client in allClients) {
+            client.setUsername(username)
+        }
+    }
+
+    /**
+     * Set the password for the first HTTP basic authentication for all apis.
+     *
+     * @param password Password
+     */
+    fun setPassword(password: String) {
+        for (client in allClients) {
+            client.setPassword(password)
+        }
+    }
+
+    /**
+     * Set the API key value for the first API key authentication for all apis.
+     *
+     * @param apiKey API key
+     * @param paramName The name of the API key parameter, or null or set the first key.
+     */
+    fun setApiKey(apiKey: String, paramName: String? = null) {
+        for (client in allClients) {
+            client.setApiKey(apiKey, paramName)
+        }
+    }
+
+    /**
+     * Set the API key prefix for the first API key authentication for all apis.
+     *
+     * @param apiKeyPrefix API key prefix
+     * @param paramName The name of the API key parameter, or null or set the first key.
+     */
+    fun setApiKeyPrefix(apiKeyPrefix: String, paramName: String? = null) {
+        for (client in allClients) {
+            client.setApiKeyPrefix(apiKeyPrefix, paramName)
+        }
+    }
+
+    /**
+     * Set the access token for the first OAuth2 authentication for all apis.
+     *
+     * @param accessToken Access token
+     */
+    fun setAccessToken(accessToken: String) {
+        for (client in allClients) {
+            client.setAccessToken(accessToken)
+        }
+    }
+
+    /**
+     * Set the access token for the first Bearer authentication for all apis.
+     *
+     * @param bearerToken The bearer token.
+     */
+    fun setBearerToken(bearerToken: String) {
+        for (client in allClients) {
+            client.setBearerToken(bearerToken)
+        }
+    }
+}

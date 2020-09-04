@@ -1,0 +1,118 @@
+group '{{groupId}}'
+version '{{artifactVersion}}'
+
+wrapper {
+    gradleVersion = '4.9'
+    distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
+}
+
+buildscript {
+    ext.kotlin_version = '1.3.61'
+    {{#jvm-retrofit2}}
+    ext.retrofitVersion = '2.6.2'
+    {{/jvm-retrofit2}}
+    {{#useRxJava}}
+    ext.rxJavaVersion = '1.3.8'
+    {{/useRxJava}}
+    {{#useRxJava2}}
+    ext.rxJava2Version = '2.2.17'
+    {{/useRxJava2}}
+    {{#useRxJava3}}
+    ext.rxJava3Version = '3.0.4'
+    {{/useRxJava3}}
+
+    repositories {
+        maven { url "https://repo1.maven.org/maven2" }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'kotlin'
+{{#moshiCodeGen}}
+apply plugin: 'kotlin-kapt'
+{{/moshiCodeGen}}
+
+repositories {
+    maven { url "https://repo1.maven.org/maven2" }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    {{#moshi}}
+    {{^moshiCodeGen}}
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    compile "com.squareup.moshi:moshi-kotlin:1.9.2"
+    {{/moshiCodeGen}}
+    compile "com.squareup.moshi:moshi-adapters:1.9.2"
+    {{#moshiCodeGen}}
+    compile "com.squareup.moshi:moshi:1.9.2"
+    kapt "com.squareup.moshi:moshi-kotlin-codegen:1.9.2"
+    {{/moshiCodeGen}}
+    {{/moshi}}
+    {{#gson}}
+    compile "com.google.code.gson:gson:2.8.6"
+    {{/gson}}
+    {{#jackson}}
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.10.2"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.10.2"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.10.2"
+    {{/jackson}}
+    {{#jvm-okhttp3}}
+    {{^moshi}}
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    {{/moshi}}
+    {{#moshi}}
+    {{#modeCodeGen}}
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    {{/modeCodeGen}}
+    {{/moshi}}
+    compile "com.squareup.okhttp3:okhttp:3.12.6"
+    {{/jvm-okhttp3}}
+    {{#jvm-okhttp4}}
+    {{^moshi}}
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    {{/moshi}}
+    {{#moshi}}
+    {{#modeCodeGen}}
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    {{/modeCodeGen}}
+    {{/moshi}}
+    compile "com.squareup.okhttp3:okhttp:4.2.2"
+    {{/jvm-okhttp4}}
+    {{#threetenbp}}
+    compile "org.threeten:threetenbp:1.4.0"
+    {{/threetenbp}}
+    {{#jvm-retrofit2}}
+    {{#hasOAuthMethods}}
+    compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.0"
+    {{/hasOAuthMethods}}
+    compile "com.squareup.okhttp3:logging-interceptor:4.4.0"
+    {{#useRxJava}}
+    compile "io.reactivex:rxjava:$rxJavaVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
+    {{/useRxJava}}
+    {{#useRxJava2}}
+    compile "io.reactivex.rxjava2:rxjava:$rxJava2Version"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    {{/useRxJava2}}
+    {{#useRxJava3}}
+    compile "io.reactivex.rxjava3:rxjava:$rxJava3Version"
+    compile "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
+    {{/useRxJava3}}
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    {{#gson}}
+    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    {{/gson}}
+    {{#moshi}}
+    compile "com.squareup.retrofit2:converter-moshi:$retrofitVersion"
+    {{/moshi}}
+    compile "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
+    {{/jvm-retrofit2}}
+    testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.0"
+}

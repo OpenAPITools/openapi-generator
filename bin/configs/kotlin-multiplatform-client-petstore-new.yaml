@@ -1,0 +1,6 @@
+generatorName: kotlin-multiplatform
+outputDir: samples/client/petstore/kotlin/multiplatform
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/kotlin-multiplatform
+additionalProperties:
+  hideGenerationTimestamp: "true"

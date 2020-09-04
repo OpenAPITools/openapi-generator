@@ -1,0 +1,6 @@
+{{#description}}
+    /**
+     * {{{description}}}
+     */
+{{/description}}
+    @SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}") {{>modelMutable}} {{{name}}}: {{#isEnum}}{{#isListContainer}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{classname}}.{{{nameInCamelCase}}}>{{/isListContainer}}{{^isListContainer}}{{classname}}.{{{nameInCamelCase}}}{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}?

@@ -1,0 +1,10 @@
+{{#description}}
+    /**
+     * {{{description}}}
+     */
+{{/description}}
+    @SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}")
+    {{#deprecated}}
+    @Deprecated(message = "This property is deprecated.")
+    {{/deprecated}}
+    {{#isInherited}}override {{/isInherited}}{{>modelMutable}} {{{name}}}: {{#isEnum}}{{#isListContainer}}{{#isList}}List{{/isList}}{{^isList}}Array{{/isList}}<{{classname}}.{{{nameInCamelCase}}}>{{/isListContainer}}{{^isListContainer}}{{classname}}.{{{nameInCamelCase}}}{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}? = {{#defaultvalue}}{{defaultvalue}}{{/defaultvalue}}{{^defaultvalue}}null{{/defaultvalue}}
