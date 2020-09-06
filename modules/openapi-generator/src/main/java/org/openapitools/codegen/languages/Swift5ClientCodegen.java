@@ -1003,15 +1003,15 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
         for (CodegenOperation operation : operations) {
             for (CodegenParameter cp : operation.allParams) {
-                cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps));
+              cp.vendorExtensions.put("x-swift-example", constructExampleCode(cp, modelMaps, new ExampleCodeGenerationContext()));
             }
         }
         return objs;
     }
 
-    public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps) {
+    public String constructExampleCode(CodegenParameter codegenParameter, HashMap<String, CodegenModel> modelMaps, ExampleCodeGenerationContext context) {
         if (codegenParameter.isListContainer) { // array
-            return "[" + constructExampleCode(codegenParameter.items, modelMaps) + "]";
+            return "[" + constructExampleCode(codegenParameter.items, modelMaps, context) + "]";
         } else if (codegenParameter.isMapContainer) { // TODO: map, file type
             return "\"TODO\"";
         } else if (languageSpecificPrimitives.contains(codegenParameter.dataType)) { // primitive type
@@ -1041,7 +1041,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         } else { // model
             // look up the model
             if (modelMaps.containsKey(codegenParameter.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps);
+                return constructExampleCode(modelMaps.get(codegenParameter.dataType), modelMaps, context);
             } else {
                 //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenParameter.dataType);
                 return "TODO";
@@ -1049,9 +1049,9 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
     }
 
-    public String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps) {
+    private String constructExampleCode(CodegenProperty codegenProperty, HashMap<String, CodegenModel> modelMaps, ExampleCodeGenerationContext context) {
         if (codegenProperty.isListContainer) { // array
-            return "[" + constructExampleCode(codegenProperty.items, modelMaps) + "]";
+            return "[" + constructExampleCode(codegenProperty.items, modelMaps, context) + "]";
         } else if (codegenProperty.isMapContainer) { // TODO: map, file type
             return "\"TODO\"";
         } else if (languageSpecificPrimitives.contains(codegenProperty.dataType)) { // primitive type
@@ -1081,7 +1081,7 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         } else {
             // look up the model
             if (modelMaps.containsKey(codegenProperty.dataType)) {
-                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps);
+                return constructExampleCode(modelMaps.get(codegenProperty.dataType), modelMaps, context);
             } else {
                 //LOGGER.error("Error in constructing examples. Failed to look up the model " + codegenProperty.dataType);
                 return "\"TODO\"";
@@ -1089,15 +1089,51 @@ public class Swift5ClientCodegen extends DefaultCodegen implements CodegenConfig
         }
     }
 
-    public String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps) {
-        String example;
-        example = codegenModel.name + "(";
-        List<String> propertyExamples = new ArrayList<>();
-        for (CodegenProperty codegenProperty : codegenModel.vars) {
-            propertyExamples.add(codegenProperty.name + ": " + constructExampleCode(codegenProperty, modelMaps));
+    private String constructExampleCode(CodegenModel codegenModel, HashMap<String, CodegenModel> modelMaps, ExampleCodeGenerationContext context) {
+        if (context.isTypeVisted(codegenModel.dataType)) {
+            String exampleCode = context.getExampleCode(codegenModel.dataType);
+            if (exampleCode != null) {
+                // Reuse already generated exampleCode
+                return exampleCode;
+            } else {
+                // Visited but no Example Code.  Circuit Breaker -->  No StackOverflow
+                return "{...}";
+            }
+        } else {
+            context.visitType(codegenModel.dataType);
+            String example = codegenModel.name + "(";
+            List<String> propertyExamples = new ArrayList<>();
+            for (CodegenProperty codegenProperty : codegenModel.vars) {
+                String propertyExample = constructExampleCode(codegenProperty, modelMaps, context);
+                propertyExamples.add(codegenProperty.name + ": " + propertyExample);
+            }
+            example += StringUtils.join(propertyExamples, ", ");
+            example += ")";
+
+            context.setExampleCode(codegenModel.dataType, example);
+            return example;
         }
-        example += StringUtils.join(propertyExamples, ", ");
-        example += ")";
-        return example;
+    }
+
+    private static class ExampleCodeGenerationContext {
+
+        private Map<String, String> modelExampleCode = new HashMap<>();
+
+        public boolean isTypeVisted(String type) {
+           return modelExampleCode.containsKey(type);
+        }
+
+        public void visitType(String type) {
+          modelExampleCode.put(type, null);
+        }
+
+        public void setExampleCode(String type, String code) {
+            modelExampleCode.put(type, code);
+        }
+
+        public String getExampleCode(String type) {
+            return modelExampleCode.get(type);
+        }
+
     }
 }
