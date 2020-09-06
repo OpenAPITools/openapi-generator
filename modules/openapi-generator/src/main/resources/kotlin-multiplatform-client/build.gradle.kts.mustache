@@ -1,12 +1,16 @@
 plugins {
-    kotlin("multiplatform") version "1.4.0"
-    kotlin("plugin.serialization") version "1.4.0"
+    kotlin("multiplatform") version "{{kotlinVersion}}"
+    kotlin("plugin.serialization") version "{{kotlinVersion}}"
+    {{#androidEnabled}}
+    id("com.android.application")
+    id("kotlin-android-extensions")
+    {{/androidEnabled}}
 }
 
 group = "{{groupId}}"
 version = "{{artifactVersion}}"
 
-val ktorVersion = "1.4.0"
+val ktorVersion = "{{ktorVersion}}"
 
 repositories {
     jcenter()
@@ -17,6 +21,7 @@ kotlin {
      * To find out how to configure the targets, please follow the link:
      * https://kotlinlang.org/docs/reference/building-mpp-with-gradle.html#setting-up-targets
      */
+    {{#jvmEnabled}}
     jvm {
         val main by compilations.getting {
             kotlinOptions {
@@ -25,6 +30,11 @@ kotlin {
             }
         }
     }
+    {{/jvmEnabled}}
+    {{#androidEnabled}}
+    android()
+    {{/androidEnabled}}
+    {{#iosEnabled}}
     ios {
         binaries {
             framework {
@@ -32,10 +42,21 @@ kotlin {
             }
         }
     }
+    {{/iosEnabled}}
+    {{#jsEnabled}}
     js(BOTH) {
+        {{#jsBrowser}}
         browser()
+        {{/jsBrowser}}
+        {{#jsNode}}
         nodejs()
+        {{/jsNode}}
     }
+    {{/jsEnabled}}
+    {{#nativeEnabled}}
+    {{!TODO: Fix native}}
+    native()
+    {{/nativeEnabled}}
 
     sourceSets {
         val commonMain by getting {
@@ -59,6 +80,7 @@ kotlin {
             }
         }
 
+        {{#jvmEnabled}}
         val jvmMain by getting {
             kotlin.srcDir("src/jvm/main")
 
@@ -80,6 +102,27 @@ kotlin {
             }
         }
 
+        {{/jvmEnabled}}
+        {{#androidEnabled}}
+        val androidMain by getting {
+            kotlin.srcDir("src/android/main")
+
+            dependencies {
+                implementation(kotlin("stdlib-jdk8"))
+                api("io.ktor:ktor-client-okhttp:$ktorVersion")
+            }
+        }
+
+        val androidTest by getting {
+            kotlin.srcDir("src/android/test")
+
+            dependencies {
+                implementation("io.ktor:ktor-client-mock-jvm:$ktorVersion")
+            }
+        }
+
+        {{/androidEnabled}}
+        {{#iosEnabled}}
         val iosMain by getting {
             kotlin.srcDir("src/ios/main")
 
@@ -97,6 +140,8 @@ kotlin {
             }
         }
 
+        {{/iosEnabled}}
+        {{#jsEnabled}}
         val jsMain by getting {
             kotlin.srcDir("src/js/main")
 
@@ -113,11 +158,45 @@ kotlin {
                 implementation("io.ktor:ktor-client-mock-js:$ktorVersion")
             }
         }
+
+        {{/jsEnabled}}
+        {{#nativeEnabled}}
+        val nativeMain by getting {
+            kotlin.srcDir("src/native/main")
+
+            dependencies {
+                implementation(kotlin("stdlib-native"))
+                api("io.ktor:ktor-client-native:$ktorVersion")
+            }
+        }
+
+        val nativeTest by getting {
+            kotlin.srcDir("src/native/test")
+
+            dependencies {
+                implementation("io.ktor:ktor-client-mock-native:$ktorVersion")
+            }
+        }
+        {{/nativeEnabled}}
     }
 }
 
+{{#androidEnabled}}
+android {
+    compileSdkVersion(29)
+    defaultConfig {
+        minSdkVersion(24)
+        targetSdkVersion(29)
+        versionCode = 1
+        versionName = "{{artifactVersion}}"
+    }
+}
+
+{{/androidEnabled}}
+{{#jvmEnabled}}
 tasks {
     named<Test>("jvmTest") {
         useJUnitPlatform()
     }
 }
+{{/jvmEnabled}}

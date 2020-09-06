@@ -32,7 +32,7 @@ package {{packageName}}.infrastructure
     }
 
     // For Iterables
-    fun addMulti(name: String, values: Iterable<Any?>, collectionFormat: String) {
+    fun addMulti(name: String, values: Iterable<*>, collectionFormat: String) {
         val transformed = values.filterNotNull().map { it.toString() }
         queries[name] = when (collectionFormat) {
             "multi" -> QueryParam.Multi(transformed)
@@ -41,11 +41,10 @@ package {{packageName}}.infrastructure
     }
 
     // For Arrays
-    fun addMulti(name: String, values: Array<Any?>, collectionFormat: String) =
+    fun addMulti(name: String, values: kotlin.Array<*>, collectionFormat: String) =
         addMulti(name, values.asIterable(), collectionFormat)
 
     // For Maps
-    fun addMap(values: Map<String, Any?>) {
+    fun addMap(values: Map<String, *>) =
         queries.putAll(values.filterValues { it != null }.mapValues { QueryParam.Single(it.value.toString()) })
-    }
 }

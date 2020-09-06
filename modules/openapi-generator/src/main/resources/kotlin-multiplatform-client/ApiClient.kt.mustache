@@ -13,7 +13,7 @@ import {{packageName}}.infrastructure.ApiClientBase
     {{! TODO: Remove backticks when conflicts are resolved }}
     {{#apiInfo}}
     {{#apis}}
-    val `{{{classVarName}}}` = {{{classFilename}}}(baseUrl, httpClientEngine, json)
+    val `{{{classVarName}}}` by lazy { {{{classFilename}}}(baseUrl, httpClientEngine, json) }
     {{/apis}}
     {{/apiInfo}}
 

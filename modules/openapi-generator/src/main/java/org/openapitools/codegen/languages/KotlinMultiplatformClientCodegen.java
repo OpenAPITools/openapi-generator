@@ -1,5 +1,6 @@
 package org.openapitools.codegen.languages;
 
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.meta.features.*;
@@ -8,9 +9,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
     public static final String PROJECT_NAME = "projectName";
+
+    protected static final String VENDOR_EXTENSION_BASE_NAME_LITERAL = "x-base-name-literal";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KotlinMultiplatformClientCodegen.class);
 
@@ -20,34 +25,12 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
             CodegenConstants.SERIALIZATION_LIBRARY
     };
 
-    // Versions
-    protected String kotlinVersion;
-    protected String ktorVersion;
-    protected String gradleVersion;
-
-    // Platforms specific options
-    protected boolean jvmEnabled;
-    protected boolean androidEnabled;
-    protected boolean jsEnabled;
-    protected boolean iosEnabled;
-    protected boolean nativeEnabled;
-
-    protected boolean jsAsyncPromise;
-    protected boolean jvmAsyncJdk8;
-    protected boolean androidAsyncJdk8;
-
-    // Other options
-    protected boolean dateLibraryString;
-    protected boolean dateLibraryIntegrated;
-    protected boolean subproject;
-    protected boolean jsBrowser;
-    protected boolean jsNode;
-
     public static final class Options {
         // Versions
         public static final String KOTLIN_VERSION = "kotlinVersion";
         public static final String KTOR_VERSION = "ktorVersion";
         public static final String GRADLE_VERSION = "gradleVersion";
+        public static final String ANDROID_GRADLE_VERSION = "androidGradleVersion";
 
         // Platforms specific options
         public static final String JVM_ASYNC = "jvmAsync";
@@ -65,11 +48,13 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
             public static final String KOTLIN_VERSION = "1.4.0";
             public static final String KTOR_VERSION = "1.4.0";
             public static final String GRADLE_VERSION = "6.6.1";
+            public static final String ANDROID_GRADLE_VERSION = "4.0.1";
 
             // Platforms specific options
             // Default choices: https://www.jetbrains.com/lp/devecosystem-2020/kotlin/
             public static final boolean JVM_ENABLED = true;
-            public static final boolean ANDROID_ENABLED = true;
+            // Disabled by default, because it's harder to setup and the jvm client is normally sufficient for android
+            public static final boolean ANDROID_ENABLED = false;
             public static final boolean JS_ENABLED = false;
             public static final boolean IOS_ENABLED = false;
             public static final boolean NATIVE_ENABLED = false;
@@ -93,17 +78,21 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
             IOS("ios"),
             NATIVE("native");
 
-            public final String name;
+            public final String value;
 
-            Platform(String name) {
-                this.name = name;
+            Platform(String value) {
+                this.value = value;
             }
 
             public static Platform fromName(String name) {
                 return Arrays.stream(values())
-                        .filter(v -> v.name.equals(name))
+                        .filter(v -> v.value.equals(name))
                         .findAny()
-                        .orElseThrow(IllegalArgumentException::new);
+                        .orElseThrow(() -> new InvalidEnumNameException(name, "Platform", Arrays.stream(values()).map(Platform::value)));
+            }
+
+            public String value() {
+                return value;
             }
         }
 
@@ -111,17 +100,21 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
             STRING("string"),
             INTEGRATED("integrated");
 
-            public final String name;
+            public final String value;
 
-            DateLibrary(String name) {
-                this.name = name;
+            DateLibrary(String value) {
+                this.value = value;
             }
 
             public static DateLibrary fromName(String name) {
                 return Arrays.stream(values())
-                        .filter(v -> v.name.equals(name))
+                        .filter(v -> v.value.equals(name))
                         .findAny()
-                        .orElseThrow(IllegalArgumentException::new);
+                        .orElseThrow(() -> new InvalidEnumNameException(name, "DateLibrary", Arrays.stream(values()).map(DateLibrary::value)));
+            }
+
+            public String value() {
+                return value;
             }
         }
 
@@ -134,17 +127,21 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
             https://github.com/Kotlin/kotlinx.coroutines/blob/master/integration/README.md
              */
 
-            public final String name;
+            public final String value;
 
-            JavaAsync(String name) {
-                this.name = name;
+            JavaAsync(String value) {
+                this.value = value;
             }
 
             public static JavaAsync fromName(String name) {
                 return Arrays.stream(values())
-                        .filter(v -> v.name.equals(name))
+                        .filter(v -> v.value.equals(name))
                         .findAny()
-                        .orElseThrow(IllegalArgumentException::new);
+                        .orElseThrow(() -> new InvalidEnumNameException(name, "JavaAsync", Arrays.stream(values()).map(JavaAsync::value)));
+            }
+
+            public String value() {
+                return value;
             }
         }
 
@@ -152,17 +149,21 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
             NONE("none"),
             PROMISE("promise");
 
-            public final String name;
+            public final String value;
 
-            JsAsync(String name) {
-                this.name = name;
+            JsAsync(String value) {
+                this.value = value;
             }
 
             public static JsAsync fromName(String name) {
                 return Arrays.stream(values())
-                        .filter(v -> v.name.equals(name))
+                        .filter(v -> v.value.equals(name))
                         .findAny()
-                        .orElseThrow(IllegalArgumentException::new);
+                        .orElseThrow(() -> new InvalidEnumNameException(name, "JsAsync", Arrays.stream(values()).map(JsAsync::value)));
+            }
+
+            public String value() {
+                return value;
             }
         }
     }
@@ -179,15 +180,11 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         return "Generates a kotlin-multiplatform client.";
     }
 
-    public static CliOption platformOption(Options.Platform platform, boolean defaultState) {
+    public static CliOption newPlatformOption(Options.Platform platform, boolean defaultState) {
         return CliOption.newBoolean(
-                platform.name + "Enabled", "Enables generation of core for " + platform.name + " in the multiplatform project",
+                platform.value + "Enabled", "Enables generation of core for " + platform.value + " in the multiplatform project",
                 defaultState
         );
-    }
-
-    public boolean getPlatformOption(Options.Platform platform) {
-        return (boolean) additionalProperties.get(platform.name + "Enabled");
     }
 
     public KotlinMultiplatformClientCodegen() {
@@ -237,22 +234,23 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         apiTemplateFiles.put("api.mustache", ".kt");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
-        embeddedTemplateDir = templateDir = "kotlin-client";
+        embeddedTemplateDir = templateDir = "kotlin-multiplatform-client";
         apiPackage = packageName + ".apis";
         modelPackage = packageName + ".models";
 
         cliOptions.removeIf(option -> Arrays.stream(optionExcludes).anyMatch(e -> e.equals(option.getOpt())));
 
-        cliOptions.add(CliOption.newString(Options.KOTLIN_VERSION, Options.Defaults.KOTLIN_VERSION));
-        cliOptions.add(CliOption.newString(Options.KTOR_VERSION, Options.Defaults.KTOR_VERSION));
-        cliOptions.add(CliOption.newString(Options.GRADLE_VERSION, Options.Defaults.GRADLE_VERSION));
+        cliOptions.add(CliOption.newString(Options.KOTLIN_VERSION, "Sets the kotlin version used").defaultValue(Options.Defaults.KOTLIN_VERSION));
+        cliOptions.add(CliOption.newString(Options.KTOR_VERSION, "Sets the ktor version used").defaultValue(Options.Defaults.KTOR_VERSION));
+        cliOptions.add(CliOption.newString(Options.GRADLE_VERSION, "Sets the gradle version used").defaultValue(Options.Defaults.GRADLE_VERSION));
+        cliOptions.add(CliOption.newString(Options.ANDROID_GRADLE_VERSION, "Sets the android gradle plugin version used").defaultValue(Options.Defaults.ANDROID_GRADLE_VERSION));
 
         CliOption dateLibrary = new CliOption(Options.DATE_LIBRARY, "Option. Date library to use");
         Map<String, String> dateOptions = new HashMap<>();
-        dateOptions.put(Options.DateLibrary.INTEGRATED.name, "Custom Date objects that may be converted into platform specific types via helpers from the `actual` objects");
-        dateOptions.put(Options.DateLibrary.STRING.name, "String");
+        dateOptions.put(Options.DateLibrary.INTEGRATED.value, "Custom Date objects that may be converted into platform specific types via helpers from the `actual` objects");
+        dateOptions.put(Options.DateLibrary.STRING.value, "String");
         dateLibrary.setEnum(dateOptions);
-        dateLibrary.setDefault(Options.Defaults.DATE_LIBRARY.name);
+        dateLibrary.setDefault(Options.Defaults.DATE_LIBRARY.value);
         cliOptions.add(dateLibrary);
 
         cliOptions.add(CliOption.newBoolean(
@@ -261,11 +259,12 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
                 Options.Defaults.SUBPROJECT
         ));
 
-        cliOptions.add(platformOption(Options.Platform.JVM, Options.Defaults.JVM_ENABLED));
-        cliOptions.add(platformOption(Options.Platform.ANDROID, Options.Defaults.ANDROID_ENABLED));
-        cliOptions.add(platformOption(Options.Platform.JS, Options.Defaults.JS_ENABLED));
-        cliOptions.add(platformOption(Options.Platform.IOS, Options.Defaults.IOS_ENABLED));
-        cliOptions.add(platformOption(Options.Platform.NATIVE, Options.Defaults.NATIVE_ENABLED));
+        cliOptions.add(newPlatformOption(Options.Platform.JVM, Options.Defaults.JVM_ENABLED));
+        // Disabled due to incomplete build
+        //cliOptions.add(newPlatformOption(Options.Platform.ANDROID, Options.Defaults.ANDROID_ENABLED));
+        cliOptions.add(newPlatformOption(Options.Platform.JS, Options.Defaults.JS_ENABLED));
+        cliOptions.add(newPlatformOption(Options.Platform.IOS, Options.Defaults.IOS_ENABLED));
+        cliOptions.add(newPlatformOption(Options.Platform.NATIVE, Options.Defaults.NATIVE_ENABLED));
 
         cliOptions.add(CliOption.newBoolean(
                 Options.JS_BROWSER,
@@ -280,26 +279,27 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
 
         CliOption jvmAsync = new CliOption(Options.JVM_ASYNC, "Option. Date library to use");
         Map<String, String> jvmAsyncOptions = new HashMap<>();
-        jvmAsyncOptions.put(Options.JavaAsync.NONE.name, "Only supports coroutines on jvm");
-        jvmAsyncOptions.put(Options.JavaAsync.JDK8.name, "Adds additional support for java 8 `CompletableFuture` on jvm");
+        jvmAsyncOptions.put(Options.JavaAsync.NONE.value, "Only supports coroutines on jvm");
+        jvmAsyncOptions.put(Options.JavaAsync.JDK8.value, "Adds additional support for java 8 `CompletableFuture` on jvm");
         jvmAsync.setEnum(jvmAsyncOptions);
-        jvmAsync.setDefault(Options.Defaults.DATE_LIBRARY.name);
+        jvmAsync.setDefault(Options.Defaults.DATE_LIBRARY.value);
         cliOptions.add(jvmAsync);
 
-        CliOption androidAsync = new CliOption(Options.ANDROID_ASYNC, "Option. Date library to use");
-        Map<String, String> androidAsyncOptions = new HashMap<>();
-        androidAsyncOptions.put(Options.JavaAsync.NONE.name, "Only supports coroutines on android");
-        androidAsyncOptions.put(Options.JavaAsync.JDK8.name, "Adds additional support for java 8 `CompletableFuture` on android");
-        androidAsync.setEnum(androidAsyncOptions);
-        androidAsync.setDefault(Options.Defaults.ANDROID_ASYNC.name);
-        cliOptions.add(androidAsync);
+        // Disabled due to incomplete build
+        //CliOption androidAsync = new CliOption(Options.ANDROID_ASYNC, "Option. Date library to use");
+        //Map<String, String> androidAsyncOptions = new HashMap<>();
+        //androidAsyncOptions.put(Options.JavaAsync.NONE.value, "Only supports coroutines on android");
+        //androidAsyncOptions.put(Options.JavaAsync.JDK8.value, "Adds additional support for java 8 `CompletableFuture` on android");
+        //androidAsync.setEnum(androidAsyncOptions);
+        //androidAsync.setDefault(Options.Defaults.ANDROID_ASYNC.value);
+        //cliOptions.add(androidAsync);
 
         CliOption jsAsync = new CliOption(Options.JS_ASYNC, "Option. Date library to use");
         Map<String, String> jsAsyncOptions = new HashMap<>();
-        jsAsyncOptions.put(Options.JsAsync.NONE.name, "Only supports coroutines in javascript");
-        jsAsyncOptions.put(Options.JsAsync.PROMISE.name, "Adds additional support for Promises in javascript");
+        jsAsyncOptions.put(Options.JsAsync.NONE.value, "Only supports coroutines in javascript");
+        jsAsyncOptions.put(Options.JsAsync.PROMISE.value, "Adds additional support for Promises in javascript");
         jsAsync.setEnum(jsAsyncOptions);
-        jsAsync.setDefault(Options.Defaults.JS_ASYNC.name);
+        jsAsync.setDefault(Options.Defaults.JS_ASYNC.value);
         cliOptions.add(jsAsync);
     }
 
@@ -311,43 +311,215 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
 
         super.processOpts();
 
-        kotlinVersion = (String) additionalProperties.get(Options.KOTLIN_VERSION);
-        ktorVersion = (String) additionalProperties.get(Options.KTOR_VERSION);
-        gradleVersion = (String) additionalProperties.get(Options.GRADLE_VERSION);
+        String kotlinVersion = stringOption(Options.KOTLIN_VERSION, Options.Defaults.KOTLIN_VERSION);
+        String ktorVersion = stringOption(Options.KTOR_VERSION, Options.Defaults.KTOR_VERSION);
+        String gradleVersion = stringOption(Options.GRADLE_VERSION, Options.Defaults.GRADLE_VERSION);
+        String androidGradleVersion = stringOption(Options.ANDROID_GRADLE_VERSION, Options.Defaults.ANDROID_GRADLE_VERSION);
 
-        Options.DateLibrary dateLibrary = Options.DateLibrary.fromName((String) additionalProperties.get(Options.DATE_LIBRARY));
+        Options.DateLibrary dateLibrary = Options.DateLibrary.fromName(stringOption(Options.DATE_LIBRARY, Options.Defaults.DATE_LIBRARY.value));
         setDateLibrary(dateLibrary);
-        subproject = (boolean) additionalProperties.get(Options.SUBPROJECT);
+        boolean subproject = booleanOption(Options.SUBPROJECT, Options.Defaults.SUBPROJECT);
 
-        jvmEnabled = getPlatformOption(Options.Platform.JVM);
-        androidEnabled = getPlatformOption(Options.Platform.ANDROID);
-        jsEnabled = getPlatformOption(Options.Platform.JS);
-        iosEnabled = getPlatformOption(Options.Platform.IOS);
-        nativeEnabled = getPlatformOption(Options.Platform.NATIVE);
+        boolean jvmEnabled = platformOption(Options.Platform.JVM, Options.Defaults.JVM_ENABLED);
+        boolean androidEnabled = platformOption(Options.Platform.ANDROID, Options.Defaults.ANDROID_ENABLED);
+        boolean jsEnabled = platformOption(Options.Platform.JS, Options.Defaults.JS_ENABLED);
+        boolean iosEnabled = platformOption(Options.Platform.IOS, Options.Defaults.IOS_ENABLED);
+        boolean nativeEnabled = platformOption(Options.Platform.NATIVE, Options.Defaults.NATIVE_ENABLED);
 
-        Options.JavaAsync jvmAsync = Options.JavaAsync.fromName((String) additionalProperties.get(Options.JVM_ASYNC));
+        Options.JavaAsync jvmAsync = Options.JavaAsync.fromName(stringOption(Options.JVM_ASYNC, Options.Defaults.JVM_ASYNC.value));
         setJvmAsync(jvmAsync);
 
-        Options.JavaAsync androidAsync = Options.JavaAsync.fromName((String) additionalProperties.get(Options.ANDROID_ASYNC));
+        Options.JavaAsync androidAsync = Options.JavaAsync.fromName(stringOption(Options.ANDROID_ASYNC, Options.Defaults.ANDROID_ASYNC.value));
         setAndroidAsync(androidAsync);
 
-        Options.JsAsync jsAsync = Options.JsAsync.fromName((String) additionalProperties.get(Options.JS_ASYNC));
+        Options.JsAsync jsAsync = Options.JsAsync.fromName(stringOption(Options.JS_ASYNC, Options.Defaults.JS_ASYNC.value));
         setJsAsync(jsAsync);
 
-        jsBrowser = (boolean) additionalProperties.get(Options.JS_BROWSER);
-        jsNode = (boolean) additionalProperties.get(Options.JS_NODE);
+        boolean jsBrowser = booleanOption(Options.JS_BROWSER, Options.Defaults.JS_BROWSER);
+        boolean jsNode = booleanOption(Options.JS_NODE, Options.Defaults.JS_NODE);
+
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        // Build
+        supportingFiles.add(new SupportingFile("build.gradle.kts.mustache", "", "build.gradle.kts"));
+        if (!subproject) {
+            supportingFiles.add(new SupportingFile("settings.gradle.kts.mustache", "", "settings.gradle.kts"));
+            supportingFiles.add(new SupportingFile("gradlew", "", "gradlew"));
+            supportingFiles.add(new SupportingFile("gradlew.bat", "", "gradlew.bat"));
+            String wrapperSrc = "gradle/wrapper";
+            String wrapperDest = "gradle" + File.separator + "wrapper";
+            supportingFiles.add(new SupportingFile(wrapperSrc + File.separator + "gradle-wrapper.properties.mustache", wrapperDest, "gradle-wrapper.properties"));
+            supportingFiles.add(new SupportingFile(wrapperSrc + File.separator + "gradle-wrapper.jar", wrapperDest, "gradle-wrapper.jar"));
+        }
+
+        final String srcDir = sourceFolder + File.separator + packageName;
+
+        // Infra
+        final String infraDest = (srcDir + File.separator + "infrastructure").replace(".", File.separator);
+        final String infraSrc = "common/main/infrastructure/";
+        supportingFiles.add(new SupportingFile("ApiClient.kt.mustache", "", "ApiClient.kt"));
+        supportingFiles.add(new SupportingFile(infraSrc + "ApiClientBase.kt.mustache", infraDest, "ApiClientBase.kt"));
+        supportingFiles.add(new SupportingFile(infraSrc + "ApiAbstractions.kt.mustache", infraDest, "ApiAbstractions.kt"));
+        supportingFiles.add(new SupportingFile(infraSrc + "RequestConfig.kt.mustache", infraDest, "RequestConfig.kt"));
+        supportingFiles.add(new SupportingFile(infraSrc + "RequestMethod.kt.mustache", infraDest, "RequestMethod.kt"));
+        supportingFiles.add(new SupportingFile(infraSrc + "Base64ByteArray.kt.mustache", infraDest, "Base64ByteArray.kt"));
+        supportingFiles.add(new SupportingFile(infraSrc + "Bytes.kt.mustache", infraDest, "Bytes.kt"));
+        supportingFiles.add(new SupportingFile(infraSrc + "HttpResponse.kt.mustache", infraDest, "HttpResponse.kt"));
+        supportingFiles.add(new SupportingFile(infraSrc + "OctetByteArray.kt.mustache", infraDest, "OctetByteArray.kt"));
+
+        // Auth
+        final String authDest = (srcDir + File.separator + "auth").replace(".", File.separator);
+        final String authSrc = "common/main/auth/";
+        supportingFiles.add(new SupportingFile(authSrc + "ApiKeyAuth.kt.mustache", authDest, "ApiKeyAuth.kt"));
+        supportingFiles.add(new SupportingFile(authSrc + "Authentication.kt.mustache", authDest, "Authentication.kt"));
+        supportingFiles.add(new SupportingFile(authSrc + "HttpBasicAuth.kt.mustache", authDest, "HttpBasicAuth.kt"));
+        supportingFiles.add(new SupportingFile(authSrc + "HttpBearerAuth.kt.mustache", authDest, "HttpBearerAuth.kt"));
+        supportingFiles.add(new SupportingFile(authSrc + "OAuth.kt.mustache", authDest, "OAuth.kt"));
+
+        // Multiplatform default includes
+        defaultIncludes.add("io.ktor.client.request.forms.InputProvider");
+        defaultIncludes.add(packageName + ".infrastructure.Base64ByteArray");
+        defaultIncludes.add(packageName + ".infrastructure.OctetByteArray");
+
+        // Multiplatform type mapping
+        typeMapping.put("number", "kotlin.Double");
+        typeMapping.put("file", "OctetByteArray");
+        typeMapping.put("binary", "OctetByteArray");
+        typeMapping.put("ByteArray", "Base64ByteArray");
+        typeMapping.put("object", "kotlin.String");  // kotlin.Any not serializable
+
+        // Multiplatform import mapping
+        importMapping.put("BigDecimal", "kotlin.Double");
+        importMapping.put("UUID", "kotlin.String");
+        importMapping.put("URI", "kotlin.String");
+        importMapping.put("InputProvider", "io.ktor.client.request.forms.InputProvider");
+        importMapping.put("File", packageName + ".infrastructure.OctetByteArray");
+        importMapping.put("Base64ByteArray", packageName + ".infrastructure.Base64ByteArray");
+        importMapping.put("OctetByteArray", packageName + ".infrastructure.OctetByteArray");
+
+        switch (dateLibrary) {
+            case STRING: {
+                typeMapping.put("date-time", "kotlin.String");
+                typeMapping.put("date", "kotlin.String");
+                typeMapping.put("Date", "kotlin.String");
+                typeMapping.put("DateTime", "kotlin.String");
+                importMapping.put("Timestamp", "kotlin.String");
+                importMapping.put("LocalDateTime", "kotlin.String");
+                importMapping.put("LocalDate", "kotlin.String");
+                importMapping.put("LocalTime", "kotlin.String");
+            }
+            case INTEGRATED: {
+                // TODO: Add impl
+                typeMapping.put("date-time", "kotlin.String");
+                typeMapping.put("date", "kotlin.String");
+                typeMapping.put("Date", "kotlin.String");
+                typeMapping.put("DateTime", "kotlin.String");
+                importMapping.put("Timestamp", "kotlin.String");
+                importMapping.put("LocalDateTime", "kotlin.String");
+                importMapping.put("LocalDate", "kotlin.String");
+                importMapping.put("LocalTime", "kotlin.String");
+            }
+        }
+    }
+
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        Map<String, Object> objects = super.postProcessModels(objs);
+        @SuppressWarnings("unchecked") List<Object> models = (List<Object>) objs.get("models");
+
+        for (Object model : models) {
+            @SuppressWarnings("unchecked") Map<String, Object> mo = (Map<String, Object>) model;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            // Escape the variable base name for use as a string literal
+            List<CodegenProperty> vars = Stream.of(
+                    cm.vars,
+                    cm.allVars,
+                    cm.optionalVars,
+                    cm.requiredVars,
+                    cm.readOnlyVars,
+                    cm.readWriteVars,
+                    cm.parentVars
+            )
+                    .flatMap(List::stream)
+                    .collect(Collectors.toList());
+
+            for (CodegenProperty var : vars) {
+                var.vendorExtensions.put(VENDOR_EXTENSION_BASE_NAME_LITERAL, var.baseName.replace("$", "\\$"));
+            }
+        }
+
+        return objects;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
+        super.postProcessOperationsWithModels(objs, allModels);
+        Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+        if (operations != null) {
+            List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
+            for (CodegenOperation operation : ops) {
+                // Set multipart against all relevant operations
+                if (operation.hasConsumes == Boolean.TRUE) {
+                    if (isMultipartType(operation.consumes)) {
+                        operation.isMultipart = Boolean.TRUE;
+                    }
+                }
+
+                // Modify the data type of binary form parameters to a more friendly type for multiplatform builds
+                for (CodegenParameter param : operation.allParams) {
+                    if (param.dataFormat != null && param.dataFormat.equals("binary")) {
+                        param.baseType = param.dataType = "io.ktor.client.request.forms.InputProvider";
+                    }
+                }
+            }
+        }
+        return operations;
+    }
+
+    private static boolean isMultipartType(List<Map<String, String>> consumes) {
+        Map<String, String> firstType = consumes.get(0);
+        if (firstType != null) {
+            return "multipart/form-data".equals(firstType.get("mediaType"));
+        }
+        return false;
+    }
+
+    public boolean platformOption(Options.Platform platform, boolean defaultValue) {
+        String option = platform.value + "Enabled";
+        if (additionalProperties.containsKey(option)) {
+            return (boolean) additionalProperties.get(option);
+        }
+        additionalProperties.put(option, defaultValue);
+        return defaultValue;
+    }
+
+    private String stringOption(String option, String defaultValue) {
+        if (additionalProperties.containsKey(option)) {
+            return (String) additionalProperties.get(option);
+        }
+        additionalProperties.put(option, defaultValue);
+        return defaultValue;
+    }
+
+    private boolean booleanOption(String option, boolean defaultValue) {
+        if (additionalProperties.containsKey(option)) {
+            return (boolean) additionalProperties.get(option);
+        }
+        additionalProperties.put(option, defaultValue);
+        return defaultValue;
     }
 
     private void setDateLibrary(Options.DateLibrary dateLibrary) {
         switch (dateLibrary) {
             case STRING: {
-                dateLibraryString = true;
-                dateLibraryIntegrated = false;
+                additionalProperties.put("dateLibraryString", true);
+                additionalProperties.put("dateLibraryIntegrated", false);
                 break;
             }
             case INTEGRATED: {
-                dateLibraryIntegrated = true;
-                dateLibraryString = false;
+                additionalProperties.put("dateLibraryIntegrated", true);
+                additionalProperties.put("dateLibraryString", false);
                 break;
             }
             default: {
@@ -359,10 +531,12 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
     private void setJsAsync(Options.JsAsync jsAsync) {
         switch (jsAsync) {
             case NONE: {
-                jsAsyncPromise = false;
+                additionalProperties.put("jsAsyncPromise", false);
+                break;
             }
             case PROMISE: {
-                jsAsyncPromise = true;
+                additionalProperties.put("jsAsyncPromise", true);
+                break;
             }
             default: {
                 throw new IllegalStateException();
@@ -373,10 +547,15 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
     private void setAndroidAsync(Options.JavaAsync androidAsync) {
         switch (androidAsync) {
             case NONE: {
-                androidAsyncJdk8 = false;
+                additionalProperties.put("androidAsyncJdk8", false);
+                break;
             }
             case JDK8: {
-                androidAsyncJdk8 = true;
+                additionalProperties.put("androidAsyncJdk8", true);
+                break;
+            }
+            default: {
+                throw new IllegalStateException();
             }
         }
     }
@@ -384,11 +563,22 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
     private void setJvmAsync(Options.JavaAsync jvmAsync) {
         switch (jvmAsync) {
             case NONE: {
-                jvmAsyncJdk8 = false;
+                additionalProperties.put("jvmAsyncJdk8", false);
+                break;
             }
             case JDK8: {
-                jvmAsyncJdk8 = true;
+                additionalProperties.put("jvmAsyncJdk8", true);
+                break;
             }
+            default: {
+                throw new IllegalStateException();
+            }
+        }
+    }
+
+    private static class InvalidEnumNameException extends IllegalArgumentException {
+        InvalidEnumNameException(String name, String enumName, Stream<String> values) {
+            super("\"" + name + "\" isn't a valid option for enum " + enumName + "; Options: " + values.map(v -> "\"" + v + "\"").collect(Collectors.joining(", ")));
         }
     }
 }
