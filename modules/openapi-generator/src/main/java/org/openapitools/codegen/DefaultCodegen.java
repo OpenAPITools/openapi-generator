@@ -2272,6 +2272,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.isArrayModel = true;
             m.arrayModelType = fromProperty(name, schema).complexType;
             addParentContainer(m, name, schema);
+            ModelUtils.syncValidationProperties(schema, m);
         } else if (schema instanceof ComposedSchema) {
             final ComposedSchema composed = (ComposedSchema) schema;
             Map<String, Schema> properties = new LinkedHashMap<String, Schema>();
