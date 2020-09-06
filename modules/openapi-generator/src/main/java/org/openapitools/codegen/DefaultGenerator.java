@@ -679,8 +679,8 @@ public class DefaultGenerator implements Generator {
         for (SupportingFile support : config.supportingFiles()) {
             try {
                 String outputFolder = config.outputFolder();
-                if (StringUtils.isNotEmpty(support.folder)) {
-                    outputFolder += File.separator + support.folder;
+                if (StringUtils.isNotEmpty(support.getFolder())) {
+                    outputFolder += File.separator + support.getFolder();
                 }
                 File of = new File(outputFolder);
                 if (!of.isDirectory()) {
@@ -688,16 +688,16 @@ public class DefaultGenerator implements Generator {
                         once(LOGGER).debug("Output directory {} not created. It {}.", outputFolder, of.exists() ? "already exists." : "may not have appropriate permissions.");
                     }
                 }
-                String outputFilename = new File(support.destinationFilename).isAbsolute() // split
-                        ? support.destinationFilename
-                        : outputFolder + File.separator + support.destinationFilename.replace('/', File.separatorChar);
+                String outputFilename = new File(support.getDestinationFilename()).isAbsolute() // split
+                        ? support.getDestinationFilename()
+                        : outputFolder + File.separator + support.getDestinationFilename().replace('/', File.separatorChar);
 
                 boolean shouldGenerate = true;
                 if (supportingFilesToGenerate != null && !supportingFilesToGenerate.isEmpty()) {
-                    shouldGenerate = supportingFilesToGenerate.contains(support.destinationFilename);
+                    shouldGenerate = supportingFilesToGenerate.contains(support.getDestinationFilename());
                 }
 
-                File written = processTemplateToFile(bundle, support.templateFile, outputFilename, shouldGenerate, CodegenConstants.SUPPORTING_FILES);
+                File written = processTemplateToFile(bundle, support.getTemplateFile(), outputFilename, shouldGenerate, CodegenConstants.SUPPORTING_FILES);
                 if (written != null) {
                     files.add(written);
                     if (config.isEnablePostProcessFile() && !dryRun) {

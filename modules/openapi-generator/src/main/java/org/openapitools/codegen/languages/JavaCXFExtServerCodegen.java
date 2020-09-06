@@ -1368,12 +1368,20 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         }
         if (this.generateSpringApplication) {
             if (supportMultipleSpringServices) {
+                SupportingFile supportingFile = null;
                 for (SupportingFile sf : supportingFiles) {
-                    if ("server/ApplicationContext.xml.mustache".equals(sf.templateFile)) {
-                        sf.destinationFilename = "ApplicationContext-" + invokerPackage + ".xml";
+                    if ("server/ApplicationContext.xml.mustache".equals(sf.getTemplateFile())) {
+                        supportingFile = sf;
                         break;
                     }
                 }
+                supportingFiles.remove(supportingFile);
+                SupportingFile updated = new SupportingFile(
+                        supportingFile.getTemplateFile(),
+                        supportingFile.getFolder(),
+                        "ApplicationContext-" + invokerPackage + ".xml"
+                );
+                supportingFiles.add(updated);
             }
         }
     }
