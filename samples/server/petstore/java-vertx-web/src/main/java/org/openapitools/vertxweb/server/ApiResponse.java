@@ -1,4 +1,4 @@
-package {{invokerPackage}};
+package org.openapitools.vertxweb.server;
 
 public class ApiResponse<T> {
     private final T data;

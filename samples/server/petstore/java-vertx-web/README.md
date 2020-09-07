@@ -1,6 +1,3 @@
-{{^hideGenerationTimestamp}}
-Project generated on : {{generatedDate}}
-{{/hideGenerationTimestamp}}
 
 ## Getting Started
 
