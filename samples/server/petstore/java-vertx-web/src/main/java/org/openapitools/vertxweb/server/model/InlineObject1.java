@@ -3,7 +3,6 @@ package org.openapitools.vertxweb.server.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.FileUpload;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -4,7 +4,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.vertx.core.json.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 import org.openapitools.vertxweb.server.model.Category;
