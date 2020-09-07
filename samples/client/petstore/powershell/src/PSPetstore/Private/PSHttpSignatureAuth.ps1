@@ -180,7 +180,7 @@ function Get-PSRSASignature {
             $keyStr = Get-Content -Path $PrivateKeyFilePath -Raw
             $ecKeyBase64String = $keyStr.Replace($ecKeyHeader, "").Replace($ecKeyFooter, "").Trim()
             $keyBytes = [System.Convert]::FromBase64String($ecKeyBase64String)
-            $rsa = [System.Security.Cryptography.RSACng]::new()
+            $rsa = [System.Security.Cryptography.RSA]::Create()
             [int]$bytCount = 0
             $rsa.ImportRSAPrivateKey($keyBytes, [ref] $bytCount)
 
