@@ -72,6 +72,8 @@ public class CodegenConfigurator {
     private Map<String, String> serverVariables = new HashMap<>();
     private String auth;
 
+    private List<TemplateFile> userDefinedTemplates = new ArrayList<>();
+
     public CodegenConfigurator() {
 
     }
@@ -86,6 +88,7 @@ public class CodegenConfigurator {
 
             GeneratorSettings generatorSettings = settings.getGeneratorSettings();
             WorkflowSettings workflowSettings = settings.getWorkflowSettings();
+            List<TemplateFile> userDefinedTemplateSettings = settings.getFiles();
 
             // We copy "cached" properties into configurator so it is appropriately configured with all settings in external files.
             // FIXME: target is to eventually move away from CodegenConfigurator properties except gen/workflow settings.
@@ -119,6 +122,10 @@ public class CodegenConfigurator {
 
             configurator.generatorSettingsBuilder = GeneratorSettings.newBuilder(generatorSettings);
             configurator.workflowSettingsBuilder = WorkflowSettings.newBuilder(workflowSettings);
+
+            if (userDefinedTemplateSettings != null) {
+                configurator.userDefinedTemplates.addAll(userDefinedTemplateSettings);
+            }
 
             return configurator;
         }
@@ -604,7 +611,8 @@ public class CodegenConfigurator {
         }
 
         ClientOptInput input = new ClientOptInput()
-                .config(config);
+                .config(config)
+                .userDefinedTemplates(userDefinedTemplates);
 
         return input.openAPI((OpenAPI)context.getSpecDocument());
     }

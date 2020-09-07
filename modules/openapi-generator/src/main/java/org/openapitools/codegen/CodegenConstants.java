@@ -17,19 +17,63 @@
 
 package org.openapitools.codegen;
 
+import org.openapitools.codegen.config.TemplateFileType;
+
 /**
  * A class for storing constants that are used throughout the project.
  */
 public class CodegenConstants {
     /* System Properties */
-    // NOTE: We may want to move these to a separate class to avoid confusion or modification.
-    public static final String APIS = "apis";
-    public static final String MODELS = "models";
-    public static final String SUPPORTING_FILES = "supportingFiles";
-    public static final String MODEL_TESTS = "modelTests";
-    public static final String MODEL_DOCS = "modelDocs";
-    public static final String API_TESTS = "apiTests";
-    public static final String API_DOCS = "apiDocs";
+
+    /**
+     * Constant value of apis configuration options
+     * @deprecated Moved to reduce overuse of CodegenConstants. Use {@link TemplateFileType.Constants#APIS} instead
+     */
+    @Deprecated()
+    public static final String APIS = TemplateFileType.Constants.APIS;
+
+    /**
+     * Constant value of models configuration options
+     * @deprecated Moved to reduce overuse of CodegenConstants. Use {@link TemplateFileType.Constants#MODELS} instead
+     */
+    @Deprecated()
+    public static final String MODELS = TemplateFileType.Constants.MODELS;
+
+    /**
+     * Constant value of supportingFiles configuration options
+     * @deprecated Moved to reduce overuse of CodegenConstants. Use {@link TemplateFileType.Constants#SUPPORTING_FILES} instead
+     */
+    @Deprecated()
+    public static final String SUPPORTING_FILES = TemplateFileType.Constants.SUPPORTING_FILES;
+
+    /**
+     * Constant value of modelTests configuration options
+     * @deprecated Moved to reduce overuse of CodegenConstants. Use {@link TemplateFileType.Constants#MODEL_TESTS} instead
+     */
+    @Deprecated()
+    public static final String MODEL_TESTS = TemplateFileType.Constants.MODEL_TESTS;
+
+    /**
+     * Constant value of modelDocs configuration options
+     * @deprecated Moved to reduce overuse of CodegenConstants. Use {@link TemplateFileType.Constants#MODEL_DOCS} instead
+     */
+    @Deprecated()
+    public static final String MODEL_DOCS = TemplateFileType.Constants.MODEL_DOCS;
+
+    /**
+     * Constant value of apiTests configuration options
+     * @deprecated Moved to reduce overuse of CodegenConstants. Use {@link TemplateFileType.Constants#API_TESTS} instead
+     */
+    @Deprecated()
+    public static final String API_TESTS = TemplateFileType.Constants.API_TESTS;
+
+    /**
+     * Constant value of apis configuration options
+     * @deprecated Moved to reduce overuse of CodegenConstants. Use {@link TemplateFileType.Constants#API_DOCS} instead
+     */
+    @Deprecated()
+    public static final String API_DOCS = TemplateFileType.Constants.API_DOCS;
+
     public static final String WITH_XML = "withXml";
     public static final String SKIP_FORM_MODEL = "skipFormModel";
     /* /end System Properties */
