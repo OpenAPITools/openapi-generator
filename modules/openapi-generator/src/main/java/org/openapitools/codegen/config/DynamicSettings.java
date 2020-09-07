@@ -12,9 +12,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Represents a serialization helper of {@link GeneratorSettings} and {@link WorkflowSettings}. When used to deserialize any available Jackson binding input,
- * this will accumulate any "unknown properties" into {@link GeneratorSettings#getAdditionalProperties()} as a side effect of calling
- * {@link DynamicSettings#getGeneratorSettings()}.
+ * Represents a serialization helper of {@link org.openapitools.codegen.config.GeneratorSettings} and {@link org.openapitools.codegen.config.WorkflowSettings}. When used to deserialize any available Jackson binding input,
+ * this will accumulate any "unknown properties" into {@link org.openapitools.codegen.config.GeneratorSettings#getAdditionalProperties()} as a side effect of calling
+ * {@link org.openapitools.codegen.config.DynamicSettings#getGeneratorSettings()}.
  */
 @SuppressWarnings({"unused", "WeakerAccess"})
 public class DynamicSettings {
@@ -30,8 +30,9 @@ public class DynamicSettings {
     private WorkflowSettings workflowSettings;
 
     /**
-     * Gets the {@link TemplateFile} allowing user redefinition and addition of templating files
-     * @return A lis
+     * Gets the list of {@link org.openapitools.codegen.config.TemplateFile} allowing user redefinition and addition of templating files
+     *
+     * @return A list of {@link org.openapitools.codegen.config.TemplateFile}
      */
     public List<TemplateFile> getFiles() {
         if (files == null) return new ArrayList<>();
@@ -48,11 +49,12 @@ public class DynamicSettings {
         }).collect(Collectors.toList());
     }
 
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     @JsonProperty("files")
     private Map<String, TemplateFile> files;
 
     /**
-     * Gets the {@link GeneratorSettings} included in the config object.
+     * Gets the {@link org.openapitools.codegen.config.GeneratorSettings} included in the config object.
      *
      * @return A new instance of settings
      */
@@ -69,7 +71,7 @@ public class DynamicSettings {
     }
 
     /**
-     * Gets the {@link WorkflowSettings} included in the config object.
+     * Gets the {@link org.openapitools.codegen.config.WorkflowSettings} included in the config object.
      *
      * @return A new instance of settings
      */
@@ -79,6 +81,9 @@ public class DynamicSettings {
                 .build();
     }
 
+    /**
+     * <p>Constructor for DynamicSettings.</p>
+     */
     @JsonCreator
     public DynamicSettings() { }
 

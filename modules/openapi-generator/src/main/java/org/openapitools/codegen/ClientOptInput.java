@@ -72,12 +72,14 @@ public class ClientOptInput {
         return config;
     }
 
-    // not deprecated as this is added to match other functionality, we need to move to Context<?> instead of ClientOptInput.
     public List<TemplateFile> getUserDefinedTemplates() {
+        // not deprecated as this is added to match other functionality, we need to move to Context<?> instead of ClientOptInput.
         return userDefinedTemplates;
     }
 
     /**
+     * Sets the generator/config instance
+     *
      * @deprecated use {@link #config(CodegenConfig)} instead
      * @param config codegen config
      */
@@ -96,6 +98,8 @@ public class ClientOptInput {
     }
 
     /**
+     * Sets the OpenAPI document
+     *
      * @deprecated use {@link #openAPI(OpenAPI)} instead
      * @param openAPI the specification
      */

@@ -97,10 +97,10 @@ public class AdaCodegen extends AbstractAdaCodegen implements CodegenConfig {
         String srcPrefix = "src" + File.separator;
         String modelPrefix = srcPrefix + "model" + File.separator + toFilename(modelPackage);
         String clientPrefix = srcPrefix + "client" + File.separator + toFilename(modelPackage);
-        supportingFiles.add(new SupportingFile("model-spec.mustache", null, modelPrefix + "-models.ads"));
-        supportingFiles.add(new SupportingFile("model-body.mustache", null, modelPrefix + "-models.adb"));
-        supportingFiles.add(new SupportingFile("client-spec.mustache", null, clientPrefix + "-clients.ads"));
-        supportingFiles.add(new SupportingFile("client-body.mustache", null, clientPrefix + "-clients.adb"));
+        supportingFiles.add(new SupportingFile("model-spec.mustache", "", modelPrefix + "-models.ads"));
+        supportingFiles.add(new SupportingFile("model-body.mustache", "", modelPrefix + "-models.adb"));
+        supportingFiles.add(new SupportingFile("client-spec.mustache", "", clientPrefix + "-clients.ads"));
+        supportingFiles.add(new SupportingFile("client-body.mustache", "", clientPrefix + "-clients.adb"));
 
         if (additionalProperties.containsKey(CodegenConstants.PROJECT_NAME)) {
             projectName = (String) additionalProperties.get(CodegenConstants.PROJECT_NAME);
