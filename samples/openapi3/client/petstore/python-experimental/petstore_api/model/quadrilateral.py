@@ -65,6 +65,8 @@ class Quadrilateral(ModelComposed):
     }
 
     validations = {
+        ('value',): {
+        },
     }
 
     @cached_property

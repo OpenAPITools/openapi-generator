@@ -459,8 +459,19 @@ public class DefaultGenerator implements Generator {
                 Schema schema = schemas.get(name);
 
                 if (ModelUtils.isFreeFormObject(this.openAPI, schema)) { // check to see if it'a a free-form object
-                    LOGGER.info("Model {} not generated since it's a free-form object", name);
-                    continue;
+                    // there are 3 free form use cases
+                    // 1. free form with no validation that is not allOf included in any composed schemas
+                    // 2. free form with validation
+                    // 3. free form that is allOf included in any composed schemas
+                    //      this use case arises when using interface schemas
+                    // generators may choose to make models for use case 2 + 3
+                    Schema refSchema = new Schema();
+                    refSchema.set$ref("#/components/schemas/"+name);
+                    Schema unaliasedSchema = config.unaliasSchema(refSchema, config.importMapping());
+                    if (unaliasedSchema.get$ref() == null) {
+                        LOGGER.info("Model {} not generated since it's a free-form object", name);
+                        continue;
+                    }
                 } else if (ModelUtils.isMapSchema(schema)) { // check to see if it's a "map" model
                     // A composed schema (allOf, oneOf, anyOf) is considered a Map schema if the additionalproperties attribute is set
                     // for that composed schema. However, in the case of a composed schema, the properties are defined or referenced

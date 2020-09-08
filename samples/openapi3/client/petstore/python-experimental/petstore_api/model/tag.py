@@ -59,6 +59,8 @@ class Tag(ModelNormal):
     }
 
     validations = {
+        ('value',): {
+        },
     }
 
     additional_properties_type = None

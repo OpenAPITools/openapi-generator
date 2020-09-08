@@ -24,7 +24,11 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import java.io.File;
 import java.math.BigDecimal;
+<<<<<<< HEAD
 import java.nio.file.Files;
+=======
+import java.util.ArrayList;
+>>>>>>> Adds free form model generation in python-experimental
 import java.util.Arrays;
 import java.util.List;
 
@@ -398,5 +402,53 @@ public class PythonClientExperimentalTest {
         TestUtils.ensureContainsFile(files, output, "openapi_client/model/a.py");
         TestUtils.ensureContainsFile(files, output, "openapi_client/model/b.py");
         output.deleteOnExit();
+    }
+
+    @Test(description = "tests unaliasing of free form object components")
+    public void unaliasingOfFreeFormObjectComponents() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7361.yaml");
+        final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName;
+        Schema refSchema;
+        Schema sc;
+        String ref;
+
+        // model is not generated
+        modelName = "FreeForm";
+        ref = "#/components/schemas/"+modelName;
+        refSchema = new Schema();
+        refSchema.set$ref(ref);
+        sc = codegen.unaliasSchema(refSchema, codegen.importMapping());
+        Assert.assertNull(sc.get$ref());
+
+        modelName = "FreeFormInterface";
+        ref = "#/components/schemas/"+modelName;
+        refSchema = new Schema();
+        refSchema.set$ref(ref);
+        sc = codegen.unaliasSchema(refSchema, codegen.importMapping());
+        // ref existence means model will be generated
+        Assert.assertEquals(sc.get$ref(), ref);
+
+        modelName = "FreeFormWithValidation";
+        ref = "#/components/schemas/"+modelName;
+        refSchema = new Schema();
+        refSchema.set$ref(ref);
+        sc = codegen.unaliasSchema(refSchema, codegen.importMapping());
+        // ref existence means model will be generated
+        Assert.assertEquals(sc.get$ref(), ref);
+    }
+
+    @Test(description = "tests ObjectWithValidations")
+    public void testObjectWithValidations() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7361.yaml");
+        final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "FreeFormWithValidation";
+        Schema modelSchema = ModelUtils.getSchema(openAPI, modelName);
+        final CodegenModel model = codegen.fromModel(modelName, modelSchema);
+        Assert.assertEquals((int) model.getMinProperties(), 1);
     }
 }

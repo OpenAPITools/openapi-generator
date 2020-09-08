@@ -65,6 +65,8 @@ class Pig(ModelComposed):
     }
 
     validations = {
+        ('value',): {
+        },
     }
 
     @cached_property

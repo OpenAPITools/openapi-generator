@@ -33,6 +33,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
+import org.openapitools.codegen.languages.PythonClientExperimentalCodegen;
 import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.templating.mustache.LowercaseLambda;
@@ -2266,4 +2267,39 @@ public class DefaultCodegenTest {
         assertEquals((int) cm.getMinItems(), 1);
     }
 
+    @Test(description = "tests unaliasing of free form object components")
+    public void unaliasingOfFreeFormObjectComponents() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7361.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName;
+        Schema refSchema;
+        Schema sc;
+        String ref;
+
+        modelName = "FreeForm";
+        ref = "#/components/schemas/"+modelName;
+        refSchema = new Schema();
+        refSchema.set$ref(ref);
+        sc = codegen.unaliasSchema(refSchema, codegen.importMapping());
+        // model is not generated
+        Assert.assertNull(sc.get$ref());
+
+        modelName = "FreeFormInterface";
+        ref = "#/components/schemas/"+modelName;
+        refSchema = new Schema();
+        refSchema.set$ref(ref);
+        sc = codegen.unaliasSchema(refSchema, codegen.importMapping());
+        // model is not generated
+        Assert.assertNull(sc.get$ref());
+
+        modelName = "FreeFormWithValidation";
+        ref = "#/components/schemas/"+modelName;
+        refSchema = new Schema();
+        refSchema.set$ref(ref);
+        sc = codegen.unaliasSchema(refSchema, codegen.importMapping());
+        // model is not generated
+        Assert.assertNull(sc.get$ref());
+    }
 }

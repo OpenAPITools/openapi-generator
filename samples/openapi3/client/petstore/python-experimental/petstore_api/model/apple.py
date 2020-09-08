@@ -59,6 +59,8 @@ class Apple(ModelNormal):
     }
 
     validations = {
+        ('value',): {
+        },
         ('cultivar',): {
             'regex': {
                 'pattern': r'^[a-zA-Z\s]*$',  # noqa: E501

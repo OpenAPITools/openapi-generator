@@ -59,6 +59,8 @@ class TriangleInterface(ModelNormal):
     }
 
     validations = {
+        ('value',): {
+        },
     }
 
     additional_properties_type = None

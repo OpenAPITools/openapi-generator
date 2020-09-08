@@ -59,6 +59,8 @@ class BasquePig(ModelNormal):
     }
 
     validations = {
+        ('value',): {
+        },
     }
 
     additional_properties_type = None

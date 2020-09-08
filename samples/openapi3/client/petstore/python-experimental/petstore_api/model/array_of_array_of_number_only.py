@@ -59,6 +59,8 @@ class ArrayOfArrayOfNumberOnly(ModelNormal):
     }
 
     validations = {
+        ('value',): {
+        },
     }
 
     additional_properties_type = None

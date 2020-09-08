@@ -50,6 +50,26 @@
 {{/isArrayModel}}
 {{/isEnum}}
 {{/isAlias}}
+{{^isAlias}}
+{{^isString}}
+{{^isLong}}
+{{^isNumber}}
+{{^isNumeric}}
+{{^isFloat}}
+{{^isDouble}}
+{{^isEnum}}
+{{^isMapModel}}
+        ('value',): {
+{{> python-experimental/model_templates/validations }}
+{{/isMapModel}}
+{{/isEnum}}
+{{/isDouble}}
+{{/isFloat}}
+{{/isNumeric}}
+{{/isNumber}}
+{{/isLong}}
+{{/isString}}
+{{/isAlias}}
 {{#requiredVars}}
 {{#hasValidation}}
         ('{{name}}',): {

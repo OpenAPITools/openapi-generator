@@ -67,6 +67,8 @@ class Cat(ModelComposed):
     }
 
     validations = {
+        ('value',): {
+        },
     }
 
     @cached_property

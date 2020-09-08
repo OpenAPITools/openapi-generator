@@ -65,6 +65,8 @@ class Shape(ModelComposed):
     }
 
     validations = {
+        ('value',): {
+        },
     }
 
     @cached_property

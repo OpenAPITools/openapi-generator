@@ -59,6 +59,8 @@ class Banana(ModelNormal):
     }
 
     validations = {
+        ('value',): {
+        },
     }
 
     additional_properties_type = None

@@ -65,6 +65,8 @@ class ComplexQuadrilateral(ModelComposed):
     }
 
     validations = {
+        ('value',): {
+        },
     }
 
     @cached_property

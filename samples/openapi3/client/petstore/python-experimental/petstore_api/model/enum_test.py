@@ -89,6 +89,8 @@ class EnumTest(ModelNormal):
     }
 
     validations = {
+        ('value',): {
+        },
     }
 
     additional_properties_type = None

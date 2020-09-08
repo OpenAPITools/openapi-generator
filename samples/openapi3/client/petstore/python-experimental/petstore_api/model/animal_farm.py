@@ -59,6 +59,8 @@ class AnimalFarm(ModelSimple):
     }
 
     validations = {
+        ('value',): {
+        },
     }
 
     additional_properties_type = None

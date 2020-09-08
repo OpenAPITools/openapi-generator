@@ -59,6 +59,8 @@ class NumberOnly(ModelNormal):
     }
 
     validations = {
+        ('value',): {
+        },
     }
 
     additional_properties_type = None
