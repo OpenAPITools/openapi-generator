@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import io.swagger.v3.core.util.Yaml;
+import org.openapitools.codegen.api.TemplateDefinition;
+import org.openapitools.codegen.api.TemplateFileType;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -164,7 +166,7 @@ public class DynamicSettingsTest {
         DynamicSettings dynamicSettings = mapper.readValue(spec, DynamicSettings.class);
         GeneratorSettings generatorSettings = dynamicSettings.getGeneratorSettings();
         WorkflowSettings workflowSettings = dynamicSettings.getWorkflowSettings();
-        List<TemplateFile> files = dynamicSettings.getFiles();
+        List<TemplateDefinition> files = dynamicSettings.getFiles();
 
         assertNotNull(dynamicSettings);
         assertNotNull(generatorSettings);
@@ -184,7 +186,7 @@ public class DynamicSettingsTest {
 
         assertEquals(files.size(), 11);
 
-        Map<String, TemplateFile> mapped = files.stream().collect(Collectors.toMap(TemplateFile::getTemplateFile, Function.identity(), (a, b) -> a, TreeMap::new));
+        Map<String, TemplateDefinition> mapped = files.stream().collect(Collectors.toMap(TemplateDefinition::getTemplateFile, Function.identity(), (a, b) -> a, TreeMap::new));
 
         assertEquals(mapped.get("README.mustache").getTemplateFile(), "README.mustache");
         assertEquals(mapped.get("README.mustache").getFolder(), "");

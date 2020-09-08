@@ -6,10 +6,13 @@ import java.util.StringJoiner;
 /**
  * TemplateDefinition is a type which defines the basics of a template file and target output location.
  */
+@SuppressWarnings("unused")
 public class TemplateDefinition {
     private final String templateFile;
     private final String folder;
     private final String destinationFilename;
+
+    protected TemplateFileType templateType;
 
     /**
      * <p>Constructor for TemplateDefinition.</p>
@@ -19,6 +22,13 @@ public class TemplateDefinition {
      */
     public TemplateDefinition(String templateFile, String destinationFilename) {
         this(templateFile, "", destinationFilename);
+    }
+
+    /**
+     * Parameter-less constructor for TemplateDefinition, used for simplified serialization (see DynamicSettings).
+     */
+    public TemplateDefinition() {
+        this("", "", "");
     }
 
     /**
@@ -36,6 +46,7 @@ public class TemplateDefinition {
         this.templateFile = templateFile;
         this.folder = folder;
         this.destinationFilename = destinationFilename;
+        this.templateType = TemplateFileType.SupportingFiles;
     }
 
     /**
@@ -65,6 +76,24 @@ public class TemplateDefinition {
         return templateFile;
     }
 
+    /**
+     * Gets the type of template
+     *
+     * @return a {@link TemplateFileType} enum which defines the type of this template.
+     */
+    public TemplateFileType getTemplateType() {
+        return templateType;
+    }
+
+    /**
+     * Sets the type of template
+     *
+     * @param templateType a {@link TemplateFileType} enum which defines the type of this template
+     */
+    public void setTemplateType(TemplateFileType templateType) {
+        this.templateType = templateType;
+    }
+
     /** {@inheritDoc} */
     @Override
     public boolean equals(Object o) {
@@ -73,13 +102,14 @@ public class TemplateDefinition {
         TemplateDefinition that = (TemplateDefinition) o;
         return getTemplateFile().equals(that.getTemplateFile()) &&
                 getFolder().equals(that.getFolder()) &&
-                getDestinationFilename().equals(that.getDestinationFilename());
+                getDestinationFilename().equals(that.getDestinationFilename()) &&
+                getTemplateType() == that.getTemplateType();
     }
 
     /** {@inheritDoc} */
     @Override
     public int hashCode() {
-        return Objects.hash(getTemplateFile(), getFolder(), getDestinationFilename());
+        return Objects.hash(getTemplateFile(), getFolder(), getDestinationFilename(), getTemplateType());
     }
 
     /** {@inheritDoc} */
@@ -89,6 +119,7 @@ public class TemplateDefinition {
                 .add("templateFile='" + templateFile + "'")
                 .add("folder='" + folder + "'")
                 .add("destinationFilename='" + destinationFilename + "'")
+                .add("templateType=" + templateType)
                 .toString();
     }
 }

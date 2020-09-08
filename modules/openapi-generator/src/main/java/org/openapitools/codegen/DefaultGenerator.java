@@ -30,7 +30,6 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.security.*;
 import io.swagger.v3.oas.models.tags.Tag;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.comparator.PathFileComparator;
 import org.apache.commons.lang3.ObjectUtils;
@@ -40,8 +39,7 @@ import org.openapitools.codegen.api.TemplatePathLocator;
 import org.openapitools.codegen.api.TemplateProcessor;
 import org.openapitools.codegen.config.GlobalSettings;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
-import org.openapitools.codegen.config.TemplateFile;
-import org.openapitools.codegen.config.TemplateFileType;
+import org.openapitools.codegen.api.TemplateFileType;
 import org.openapitools.codegen.ignore.CodegenIgnoreProcessor;
 import org.openapitools.codegen.languages.PythonClientExperimentalCodegen;
 import org.openapitools.codegen.meta.GeneratorMetadata;
@@ -61,7 +59,6 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.ZonedDateTime;
 import java.util.*;
@@ -94,7 +91,7 @@ public class DefaultGenerator implements Generator {
     private Map<String, String> generatorPropertyDefaults = new HashMap<>();
     protected TemplateProcessor templateProcessor = null;
 
-    private List<TemplateFile> userDefinedTemplates = new ArrayList<>();
+    private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
 
 
     public DefaultGenerator() {
@@ -112,7 +109,7 @@ public class DefaultGenerator implements Generator {
         this.opts = opts;
         this.openAPI = opts.getOpenAPI();
         this.config = opts.getConfig();
-        List<TemplateFile> userFiles = opts.getUserDefinedTemplates();
+        List<TemplateDefinition> userFiles = opts.getUserDefinedTemplates();
         if (userFiles != null) {
             this.userDefinedTemplates = ImmutableList.copyOf(userFiles);
         }
@@ -934,7 +931,11 @@ public class DefaultGenerator implements Generator {
             userDefinedTemplates.stream()
                     .filter(i -> i.getTemplateType().equals(TemplateFileType.SupportingFiles))
                     .forEach(userDefinedTemplate -> {
-                        SupportingFile newFile = new SupportingFile(userDefinedTemplate);
+                        SupportingFile newFile = new SupportingFile(
+                                userDefinedTemplate.getTemplateFile(),
+                                userDefinedTemplate.getFolder(),
+                                userDefinedTemplate.getDestinationFilename()
+                        );
                         if (supportingFilesMap.containsKey(userDefinedTemplate.getTemplateFile())) {
                             SupportingFile f = supportingFilesMap.get(userDefinedTemplate.getTemplateFile());
                             config.supportingFiles().remove(f);

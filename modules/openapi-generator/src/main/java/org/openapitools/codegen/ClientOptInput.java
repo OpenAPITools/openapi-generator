@@ -20,8 +20,8 @@ package org.openapitools.codegen;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.parser.core.models.AuthorizationValue;
 
+import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.auth.AuthParser;
-import org.openapitools.codegen.config.TemplateFile;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class ClientOptInput {
     private CodegenConfig config;
     private OpenAPI openAPI;
     private List<AuthorizationValue> auths;
-    private List<TemplateFile> userDefinedTemplates;
+    private List<TemplateDefinition> userDefinedTemplates;
 
     public ClientOptInput openAPI(OpenAPI openAPI) {
         this.setOpenAPI(openAPI);
@@ -41,7 +41,7 @@ public class ClientOptInput {
         return this;
     }
 
-    public ClientOptInput userDefinedTemplates(List<TemplateFile> userDefinedTemplates) {
+    public ClientOptInput userDefinedTemplates(List<TemplateDefinition> userDefinedTemplates) {
         this.userDefinedTemplates = userDefinedTemplates;
         return this;
     }
@@ -72,7 +72,7 @@ public class ClientOptInput {
         return config;
     }
 
-    public List<TemplateFile> getUserDefinedTemplates() {
+    public List<TemplateDefinition> getUserDefinedTemplates() {
         // not deprecated as this is added to match other functionality, we need to move to Context<?> instead of ClientOptInput.
         return userDefinedTemplates;
     }

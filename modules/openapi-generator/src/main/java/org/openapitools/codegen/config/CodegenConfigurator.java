@@ -31,6 +31,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.api.TemplateDefinition;
 import org.openapitools.codegen.api.TemplatingEngineAdapter;
 import org.openapitools.codegen.auth.AuthParser;
 import org.openapitools.codegen.utils.ModelUtils;
@@ -72,7 +73,7 @@ public class CodegenConfigurator {
     private Map<String, String> serverVariables = new HashMap<>();
     private String auth;
 
-    private List<TemplateFile> userDefinedTemplates = new ArrayList<>();
+    private List<TemplateDefinition> userDefinedTemplates = new ArrayList<>();
 
     public CodegenConfigurator() {
 
@@ -88,7 +89,7 @@ public class CodegenConfigurator {
 
             GeneratorSettings generatorSettings = settings.getGeneratorSettings();
             WorkflowSettings workflowSettings = settings.getWorkflowSettings();
-            List<TemplateFile> userDefinedTemplateSettings = settings.getFiles();
+            List<TemplateDefinition> userDefinedTemplateSettings = settings.getFiles();
 
             // We copy "cached" properties into configurator so it is appropriately configured with all settings in external files.
             // FIXME: target is to eventually move away from CodegenConfigurator properties except gen/workflow settings.

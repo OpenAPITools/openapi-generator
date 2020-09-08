@@ -18,6 +18,7 @@
 package org.openapitools.codegen;
 
 import org.openapitools.codegen.api.TemplateDefinition;
+import org.openapitools.codegen.api.TemplateFileType;
 
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -40,10 +41,6 @@ public class SupportingFile extends TemplateDefinition {
         super(templateFile, folder, destinationFilename);
     }
 
-    public SupportingFile(TemplateDefinition templateDefinition) {
-        this(templateDefinition.getTemplateFile(), templateDefinition.getFolder(), templateDefinition.getDestinationFilename());
-    }
-
     /**
      * Identifies this instance as referring to a supporting file which should not overwrite a file of the same name.
      *
@@ -52,6 +49,26 @@ public class SupportingFile extends TemplateDefinition {
     public SupportingFile doNotOverwrite() {
         canOverwrite = false;
         return this;
+    }
+
+    /**
+     * Sets the type of template
+     *
+     * @param templateType a {@link TemplateFileType} enum which defines the type of this template
+     */
+    @Override
+    public void setTemplateType(TemplateFileType templateType) {
+
+    }
+
+    /**
+     * Gets the type of template
+     *
+     * @return a {@link TemplateFileType} enum which defines the type of this template.
+     */
+    @Override
+    public TemplateFileType getTemplateType() {
+        return TemplateFileType.SupportingFiles;
     }
 
     @Override

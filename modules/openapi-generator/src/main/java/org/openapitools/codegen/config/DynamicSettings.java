@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.api.TemplateDefinition;
+import org.openapitools.codegen.api.TemplateFileType;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -30,28 +32,30 @@ public class DynamicSettings {
     private WorkflowSettings workflowSettings;
 
     /**
-     * Gets the list of {@link org.openapitools.codegen.config.TemplateFile} allowing user redefinition and addition of templating files
+     * Gets the list of template files allowing user redefinition and addition of templating files
      *
-     * @return A list of {@link org.openapitools.codegen.config.TemplateFile}
+     * @return A list of template files
      */
-    public List<TemplateFile> getFiles() {
+    public List<TemplateDefinition> getFiles() {
         if (files == null) return new ArrayList<>();
 
         return files.entrySet().stream().map(kvp -> {
-            TemplateFile file = kvp.getValue();
+            TemplateDefinition file = kvp.getValue();
             String templateFile = kvp.getKey();
             String destination = file.getDestinationFilename();
             if (TemplateFileType.SupportingFiles.equals(file.getTemplateType()) && StringUtils.isBlank(destination)) {
                 // this special case allows definitions such as LICENSE:{}
                 destination = templateFile;
             }
-            return new TemplateFile(templateFile, file.getFolder(), destination, file.getTemplateType());
+            TemplateDefinition definition = new TemplateDefinition(templateFile, file.getFolder(), destination);
+            definition.setTemplateType(file.getTemplateType());
+            return definition;
         }).collect(Collectors.toList());
     }
 
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     @JsonProperty("files")
-    private Map<String, TemplateFile> files;
+    private Map<String, TemplateDefinition> files;
 
     /**
      * Gets the {@link org.openapitools.codegen.config.GeneratorSettings} included in the config object.

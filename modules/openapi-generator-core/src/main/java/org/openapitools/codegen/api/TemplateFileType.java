@@ -1,4 +1,4 @@
-package org.openapitools.codegen.config;
+package org.openapitools.codegen.api;
 
 import java.util.StringJoiner;
 
@@ -35,10 +35,10 @@ public enum TemplateFileType {
     }
 
     /**
-     * Obtains the {@link org.openapitools.codegen.config.TemplateFileType} for an input string.
+     * Obtains the {@link TemplateFileType} for an input string.
      *
      * @param templateType a {@link java.lang.String} object.
-     * @return a {@link org.openapitools.codegen.config.TemplateFileType} object.
+     * @return a {@link TemplateFileType} object.
      */
     public static TemplateFileType forTemplateType(String templateType) {
         for (TemplateFileType value : values()) {
