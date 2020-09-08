@@ -690,9 +690,9 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return camelize(StringUtils.lowerCase(name), true);
             case PascalCase:
-                return camelize(name);
+                return camelize(StringUtils.lowerCase(name));
             case snake_case:
                 return underscore(name);
             case UPPERCASE:
