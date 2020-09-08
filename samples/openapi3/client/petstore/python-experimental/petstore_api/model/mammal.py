@@ -72,8 +72,6 @@ class Mammal(ModelComposed):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     @cached_property

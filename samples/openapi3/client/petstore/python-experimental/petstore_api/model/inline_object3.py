@@ -59,8 +59,6 @@ class InlineObject3(ModelNormal):
     }
 
     validations = {
-        ('value',): {
-        },
         ('number',): {
             'inclusive_maximum': 543.2,
             'inclusive_minimum': 32.1,

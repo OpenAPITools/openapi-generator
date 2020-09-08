@@ -65,8 +65,6 @@ class NullableShape(ModelComposed):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     @cached_property

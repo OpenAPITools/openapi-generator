@@ -63,8 +63,6 @@ class SomeObject(ModelComposed):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     @cached_property

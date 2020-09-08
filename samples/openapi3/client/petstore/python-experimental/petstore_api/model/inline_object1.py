@@ -59,8 +59,6 @@ class InlineObject1(ModelNormal):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     additional_properties_type = None

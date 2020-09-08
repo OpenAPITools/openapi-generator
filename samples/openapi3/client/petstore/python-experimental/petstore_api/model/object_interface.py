@@ -59,8 +59,6 @@ class ObjectInterface(ModelNormal):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     @cached_property

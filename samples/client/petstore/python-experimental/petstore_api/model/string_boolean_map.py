@@ -59,6 +59,8 @@ class StringBooleanMap(ModelNormal):
     }
 
     validations = {
+        ('value',): {
+        },
     }
 
     @cached_property

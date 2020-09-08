@@ -59,8 +59,6 @@ class ArrayOfEnums(ModelSimple):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     additional_properties_type = None

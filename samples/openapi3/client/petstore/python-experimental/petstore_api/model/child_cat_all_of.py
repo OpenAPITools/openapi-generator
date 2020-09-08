@@ -59,8 +59,6 @@ class ChildCatAllOf(ModelNormal):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     additional_properties_type = None

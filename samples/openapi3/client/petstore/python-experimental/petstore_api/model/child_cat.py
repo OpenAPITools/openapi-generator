@@ -65,8 +65,6 @@ class ChildCat(ModelComposed):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     @cached_property

@@ -65,8 +65,6 @@ class FruitReq(ModelComposed):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     additional_properties_type = None

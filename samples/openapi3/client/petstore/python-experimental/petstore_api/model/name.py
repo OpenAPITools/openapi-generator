@@ -59,8 +59,6 @@ class Name(ModelNormal):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     additional_properties_type = None

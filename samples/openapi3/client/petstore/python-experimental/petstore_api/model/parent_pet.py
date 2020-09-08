@@ -65,8 +65,6 @@ class ParentPet(ModelComposed):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     @cached_property

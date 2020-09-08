@@ -67,8 +67,6 @@ class Triangle(ModelComposed):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     @cached_property

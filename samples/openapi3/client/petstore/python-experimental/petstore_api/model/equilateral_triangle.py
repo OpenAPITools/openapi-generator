@@ -65,8 +65,6 @@ class EquilateralTriangle(ModelComposed):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     @cached_property

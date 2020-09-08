@@ -65,8 +65,6 @@ class ScaleneTriangle(ModelComposed):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     @cached_property

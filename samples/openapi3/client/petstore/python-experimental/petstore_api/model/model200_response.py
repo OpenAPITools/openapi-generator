@@ -59,8 +59,6 @@ class Model200Response(ModelNormal):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     additional_properties_type = None

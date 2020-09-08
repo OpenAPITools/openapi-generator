@@ -550,6 +550,12 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.multipleOf = multipleOf;
     }
 
+    // indicates if the model component has validation on the root level schema
+    // this will be true when minItems or minProperties is set
+    public boolean hasValidation() {
+        return (maxItems != null || minItems != null || minProperties != null || maxProperties != null || minLength != null || maxLength != null || multipleOf != null || pattern != null || minimum != null || maximum != null || Boolean.TRUE.equals(uniqueItems));
+    }
+
     public List<CodegenProperty> getReadOnlyVars() {
         return readOnlyVars;
     }

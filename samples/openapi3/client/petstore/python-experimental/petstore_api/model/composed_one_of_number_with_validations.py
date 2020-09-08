@@ -65,8 +65,6 @@ class ComposedOneOfNumberWithValidations(ModelComposed):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     @cached_property
