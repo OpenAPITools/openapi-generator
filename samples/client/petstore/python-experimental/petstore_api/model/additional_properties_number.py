@@ -59,8 +59,6 @@ class AdditionalPropertiesNumber(ModelNormal):
     }
 
     validations = {
-        ('value',): {
-        },
     }
 
     @cached_property

@@ -16,7 +16,6 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.models.Model;
 import io.swagger.v3.core.util.Json;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.oas.models.media.ArraySchema;
