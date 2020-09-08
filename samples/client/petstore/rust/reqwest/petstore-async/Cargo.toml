@@ -13,5 +13,11 @@ url = "1.5"
 version = "^0.10"
 default-features = false
 features = ["json"]
+[dependencies.chrono]
+version = "^0.4"
+features = ["serde"]
+[dependencies.uuid]
+version = "^0.8"
+features = ["serde"]
 
 [dev-dependencies]

@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **id** | Option<**i64**> |  | [optional]
 **pet_id** | Option<**i64**> |  | [optional]
 **quantity** | Option<**i32**> |  | [optional]
-**ship_date** | Option<**String**> |  | [optional]
+**ship_date** | Option<[**chrono::DateTime<chrono::offset::Utc>**](chrono::DateTime<chrono::offset::Utc>.md)> |  | [optional]
 **status** | Option<**String**> | Order Status | [optional]
 **complete** | Option<**bool**> |  | [optional][default to false]
 

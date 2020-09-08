@@ -41,11 +41,17 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
     private boolean useSingleRequestParameter = false;
     private boolean supportAsync = true;
     private boolean supportMultipleResponses = false;
+    private boolean useChrono = true;
+    private boolean useUuid = true;
+    private boolean useUrl = true;
 
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
     public static final String HYPER_LIBRARY = "hyper";
     public static final String REQWEST_LIBRARY = "reqwest";
+    public static final String CHRONO_LIBRARY = "chrono";
+    public static final String UUID_LIBRARY = "uuid";
+    public static final String URL_LIBRARY = "url";
     public static final String SUPPORT_ASYNC = "supportAsync";
     public static final String SUPPORT_MULTIPLE_RESPONSES = "supportMultipleResponses";
 
@@ -179,6 +185,12 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
                 .defaultValue(Boolean.TRUE.toString()));
         cliOptions.add(new CliOption(SUPPORT_MULTIPLE_RESPONSES, "If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only", SchemaTypeUtil.BOOLEAN_TYPE)
             .defaultValue(Boolean.FALSE.toString()));
+        cliOptions.add(new CliOption(CHRONO_LIBRARY, "Use the 'chrono' library for DateTime and Date types.", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(UUID_LIBRARY, "Use the 'uuid' library for UUID types.", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.TRUE.toString()));
+        cliOptions.add(new CliOption(URL_LIBRARY, "Use the 'url' library for URL types.", SchemaTypeUtil.BOOLEAN_TYPE)
+                .defaultValue(Boolean.TRUE.toString()));
 
         supportedLibraries.put(HYPER_LIBRARY, "HTTP client: Hyper.");
         supportedLibraries.put(REQWEST_LIBRARY, "HTTP client: Reqwest.");
@@ -269,6 +281,16 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
         writePropertyBack(SUPPORT_MULTIPLE_RESPONSES, getSupportMultipleReturns());
 
+        if (additionalProperties.containsKey(CHRONO_LIBRARY)) {
+            this.setUseChrono(convertPropertyToBoolean(CHRONO_LIBRARY));
+        }
+        writePropertyBack(CHRONO_LIBRARY, getUseChrono());
+
+        if (additionalProperties.containsKey(UUID_LIBRARY)) {
+            this.setUseUuid(convertPropertyToBoolean(UUID_LIBRARY));
+        }
+        writePropertyBack(UUID_LIBRARY, getUseUuid());
+
         additionalProperties.put(CodegenConstants.PACKAGE_NAME, packageName);
         additionalProperties.put(CodegenConstants.PACKAGE_VERSION, packageVersion);
 
@@ -302,6 +324,19 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
             supportingFiles.add(new SupportingFile("request.rs", apiFolder, "request.rs"));
             supportingFiles.add(new SupportingFile(getLibrary() + "/client.mustache", apiFolder, "client.rs"));
         }
+
+        if (getUseChrono()) {
+            typeMapping.put("DateTime", "chrono::DateTime<chrono::offset::Utc>");
+            typeMapping.put("date", "chrono::Date<chrono::offset::Utc>");
+        }
+
+        if (getUseUuid()) {
+            typeMapping.put("UUID", "uuid::Uuid");
+        }
+
+        if (getUseUrl()) {
+            typeMapping.put("URI", "url::Url");
+        }
     }
 
     private boolean getSupportAsync() {
@@ -318,6 +353,30 @@ public class RustClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public void setSupportMultipleReturns(boolean supportMultipleResponses) {
         this.supportMultipleResponses = supportMultipleResponses;
+    }
+
+    private boolean getUseChrono() {
+        return useChrono;
+    }
+
+    private void setUseChrono(boolean useChrono) {
+        this.useChrono = useChrono;
+    }
+
+    private boolean getUseUuid() {
+        return useUuid;
+    }
+
+    private void setUseUuid(boolean useUuid) {
+        this.useUuid = useUuid;
+    }
+
+    private boolean getUseUrl() {
+        return useUrl;
+    }
+
+    private void setUseUrl(boolean useUrl) {
+        this.useUrl = useUrl;
     }
 
     private boolean getUseSingleRequestParameter() {

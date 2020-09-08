@@ -12,6 +12,9 @@ sidebar_label: rust
 |supportAsync|If set, generate async function call instead. This option is for 'reqwest' library only| |true|
 |supportMultipleResponses|If set, return type wraps an enum of all possible 2xx schemas. This option is for 'reqwest' library only| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |false|
+|chrono|Use the 'chrono' library for 'DateTime' and 'Date' types.| |true|
+|uuid|Use the 'uuid' library for 'uuid' types.| |true|
+|url|Use the 'url' library for 'URI' types.| |true|
 
 ## IMPORT MAPPING
 

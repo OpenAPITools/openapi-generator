@@ -26,6 +26,21 @@ default-features = false
 features = ["json"]
 {{/supportAsync}}
 {{/reqwest}}
+{{#chrono}}
+[dependencies.chrono]
+version = "^0.4"
+features = ["serde"]
+{{/chrono}}
+{{#uuid}}
+[dependencies.uuid]
+version = "^0.8"
+features = ["serde"]
+{{/uuid}}
+{{#url}}
+[dependencies.url]
+version = "^2.1"
+features = ["serde"]
+{{/url}}
 
 [dev-dependencies]
 {{#hyper}}

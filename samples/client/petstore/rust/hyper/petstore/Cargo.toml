@@ -13,6 +13,12 @@ hyper = "~0.11"
 serde_yaml = "0.7"
 base64 = "~0.7.0"
 futures = "0.1.23"
+[dependencies.chrono]
+version = "^0.4"
+features = ["serde"]
+[dependencies.uuid]
+version = "^0.8"
+features = ["serde"]
 
 [dev-dependencies]
 tokio-core = "*"

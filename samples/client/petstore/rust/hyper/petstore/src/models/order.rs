@@ -21,7 +21,7 @@ pub struct Order {
     #[serde(rename = "quantity", skip_serializing_if = "Option::is_none")]
     pub quantity: Option<i32>,
     #[serde(rename = "shipDate", skip_serializing_if = "Option::is_none")]
-    pub ship_date: Option<String>,
+    pub ship_date: Option<chrono::DateTime<chrono::offset::Utc>>,
     /// Order Status
     #[serde(rename = "status", skip_serializing_if = "Option::is_none")]
     pub status: Option<Status>,
