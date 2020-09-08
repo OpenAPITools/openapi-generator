@@ -24,8 +24,8 @@ import org.openapitools.api.NotFoundException;
 
 import java.io.InputStream;
 
-import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+import com.sun.jersey.multipart.FormDataBodyPart;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -167,15 +167,14 @@ public class FakeApi  {
         @ApiParam(value = "None")  @FormParam("int64")  Long int64,
         @ApiParam(value = "None")  @FormParam("float")  Float _float,
         @ApiParam(value = "None")  @FormParam("string")  String string,
-        @FormDataParam("binary") InputStream inputStream,
-        @FormDataParam("binary") FormDataContentDisposition fileDetail,
+        @FormDataParam("binary") FormDataBodyPart binaryBodypart,
         @ApiParam(value = "None")  @FormParam("date")  Date date,
         @ApiParam(value = "None")  @FormParam("dateTime")  Date dateTime,
         @ApiParam(value = "None")  @FormParam("password")  String password,
         @ApiParam(value = "None")  @FormParam("callback")  String paramCallback,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.testEndpointParameters(number,_double,patternWithoutDelimiter,_byte,integer,int32,int64,_float,string,inputStream, fileDetail,date,dateTime,password,paramCallback,securityContext);
+        return delegate.testEndpointParameters(number,_double,patternWithoutDelimiter,_byte,integer,int32,int64,_float,string,binaryBodypart,date,dateTime,password,paramCallback,securityContext);
     }
     @GET
     
@@ -274,11 +273,10 @@ public class FakeApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     public Response uploadFileWithRequiredFile(
         @ApiParam(value = "ID of pet to update", required = true) @PathParam("petId") @NotNull  Long petId,
-        @FormDataParam("requiredFile") InputStream inputStream,
-        @FormDataParam("requiredFile") FormDataContentDisposition fileDetail,
+        @FormDataParam("requiredFile") FormDataBodyPart requiredFileBodypart,
         @FormDataParam("additionalMetadata")  String additionalMetadata,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.uploadFileWithRequiredFile(petId,inputStream, fileDetail,additionalMetadata,securityContext);
+        return delegate.uploadFileWithRequiredFile(petId,requiredFileBodypart,additionalMetadata,securityContext);
     }
 }
