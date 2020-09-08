@@ -280,4 +280,10 @@ public class ModelUtilsTest {
         ArraySchema as = null;
         Assert.assertFalse(ModelUtils.isSet(as));
     }
+
+    @Test
+    public void testSimpleRefDecoding() {
+        String decoded = ModelUtils.getSimpleRef("#/components/~01%20Hallo~1Welt");
+        Assert.assertEquals(decoded, "~1 Hallo/Welt");
+    }
 }
