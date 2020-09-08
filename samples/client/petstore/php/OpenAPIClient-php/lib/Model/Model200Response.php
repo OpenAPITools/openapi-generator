@@ -40,10 +40,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class Model200Response implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -66,6 +69,8 @@ class Model200Response implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'name' => 'int32',
@@ -183,8 +188,8 @@ class Model200Response implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
-        $this->container['class'] = isset($data['class']) ? $data['class'] : null;
+        $this->container['name'] = $data['name'] ?? null;
+        $this->container['class'] = $data['class'] ?? null;
     }
 
     /**
@@ -226,7 +231,7 @@ class Model200Response implements ModelInterface, ArrayAccess
      *
      * @param int|null $name name
      *
-     * @return $this
+     * @return self
      */
     public function setName($name)
     {
@@ -250,7 +255,7 @@ class Model200Response implements ModelInterface, ArrayAccess
      *
      * @param string|null $class class
      *
-     * @return $this
+     * @return self
      */
     public function setClass($class)
     {
@@ -275,18 +280,18 @@ class Model200Response implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */

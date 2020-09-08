@@ -39,6 +39,9 @@ namespace OpenAPI\Client;
  */
 class Configuration
 {
+    /**
+     * @var Configuration
+     */
     private static $defaultConfiguration;
 
     /**
@@ -138,7 +141,7 @@ class Configuration
      *
      * @param string $apiKeyIdentifier API key identifier (authentication scheme)
      *
-     * @return string API key or token
+     * @return null|string API key or token
      */
     public function getApiKey($apiKeyIdentifier)
     {
@@ -164,7 +167,7 @@ class Configuration
      *
      * @param string $apiKeyIdentifier API key identifier (authentication scheme)
      *
-     * @return string
+     * @return null|string
      */
     public function getApiKeyPrefix($apiKeyIdentifier)
     {
@@ -407,7 +410,7 @@ class Configuration
      *
      * @param  string $apiKeyIdentifier name of apikey
      *
-     * @return string API key with the prefix
+     * @return null|string API key with the prefix
      */
     public function getApiKeyWithPrefix($apiKeyIdentifier)
     {
@@ -430,7 +433,7 @@ class Configuration
     /**
      * Returns an array of host settings
      *
-     * @return an array of host settings
+     * @return array an array of host settings
      */
     public function getHostSettings()
     {
@@ -478,9 +481,9 @@ class Configuration
     /**
      * Returns URL based on the index and variables
      *
-     * @param index array index of the host settings
-     * @param variables hash of variable and the corresponding value (optional)
-     * @return URL based on host settings
+     * @param int        $index     index of the host settings
+     * @param array|null $variables hash of variable and the corresponding value (optional)
+     * @return string URL based on host settings
      */
     public function getHostFromSettings($index, $variables = null)
     {

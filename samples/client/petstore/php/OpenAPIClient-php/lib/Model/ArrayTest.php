@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class ArrayTest implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -66,6 +69,8 @@ class ArrayTest implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'array_of_string' => null,
@@ -187,9 +192,9 @@ class ArrayTest implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['array_of_string'] = isset($data['array_of_string']) ? $data['array_of_string'] : null;
-        $this->container['array_array_of_integer'] = isset($data['array_array_of_integer']) ? $data['array_array_of_integer'] : null;
-        $this->container['array_array_of_model'] = isset($data['array_array_of_model']) ? $data['array_array_of_model'] : null;
+        $this->container['array_of_string'] = $data['array_of_string'] ?? null;
+        $this->container['array_array_of_integer'] = $data['array_array_of_integer'] ?? null;
+        $this->container['array_array_of_model'] = $data['array_array_of_model'] ?? null;
     }
 
     /**
@@ -231,7 +236,7 @@ class ArrayTest implements ModelInterface, ArrayAccess
      *
      * @param string[]|null $array_of_string array_of_string
      *
-     * @return $this
+     * @return self
      */
     public function setArrayOfString($array_of_string)
     {
@@ -255,7 +260,7 @@ class ArrayTest implements ModelInterface, ArrayAccess
      *
      * @param int[][]|null $array_array_of_integer array_array_of_integer
      *
-     * @return $this
+     * @return self
      */
     public function setArrayArrayOfInteger($array_array_of_integer)
     {
@@ -279,7 +284,7 @@ class ArrayTest implements ModelInterface, ArrayAccess
      *
      * @param \OpenAPI\Client\Model\ReadOnlyFirst[][]|null $array_array_of_model array_array_of_model
      *
-     * @return $this
+     * @return self
      */
     public function setArrayArrayOfModel($array_array_of_model)
     {
@@ -304,18 +309,18 @@ class ArrayTest implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */

@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class MapTest implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -67,6 +70,8 @@ class MapTest implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'map_map_of_string' => null,
@@ -207,10 +212,10 @@ class MapTest implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['map_map_of_string'] = isset($data['map_map_of_string']) ? $data['map_map_of_string'] : null;
-        $this->container['map_of_enum_string'] = isset($data['map_of_enum_string']) ? $data['map_of_enum_string'] : null;
-        $this->container['direct_map'] = isset($data['direct_map']) ? $data['direct_map'] : null;
-        $this->container['indirect_map'] = isset($data['indirect_map']) ? $data['indirect_map'] : null;
+        $this->container['map_map_of_string'] = $data['map_map_of_string'] ?? null;
+        $this->container['map_of_enum_string'] = $data['map_of_enum_string'] ?? null;
+        $this->container['direct_map'] = $data['direct_map'] ?? null;
+        $this->container['indirect_map'] = $data['indirect_map'] ?? null;
     }
 
     /**
@@ -252,7 +257,7 @@ class MapTest implements ModelInterface, ArrayAccess
      *
      * @param map[string,map[string,string]]|null $map_map_of_string map_map_of_string
      *
-     * @return $this
+     * @return self
      */
     public function setMapMapOfString($map_map_of_string)
     {
@@ -276,7 +281,7 @@ class MapTest implements ModelInterface, ArrayAccess
      *
      * @param map[string,string]|null $map_of_enum_string map_of_enum_string
      *
-     * @return $this
+     * @return self
      */
     public function setMapOfEnumString($map_of_enum_string)
     {
@@ -309,7 +314,7 @@ class MapTest implements ModelInterface, ArrayAccess
      *
      * @param map[string,bool]|null $direct_map direct_map
      *
-     * @return $this
+     * @return self
      */
     public function setDirectMap($direct_map)
     {
@@ -333,7 +338,7 @@ class MapTest implements ModelInterface, ArrayAccess
      *
      * @param map[string,bool]|null $indirect_map indirect_map
      *
-     * @return $this
+     * @return self
      */
     public function setIndirectMap($indirect_map)
     {
@@ -358,18 +363,18 @@ class MapTest implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */

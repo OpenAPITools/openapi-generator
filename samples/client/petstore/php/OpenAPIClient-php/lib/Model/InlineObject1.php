@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class InlineObject1 implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -65,6 +68,8 @@ class InlineObject1 implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'additional_metadata' => null,
@@ -182,8 +187,8 @@ class InlineObject1 implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['additional_metadata'] = isset($data['additional_metadata']) ? $data['additional_metadata'] : null;
-        $this->container['file'] = isset($data['file']) ? $data['file'] : null;
+        $this->container['additional_metadata'] = $data['additional_metadata'] ?? null;
+        $this->container['file'] = $data['file'] ?? null;
     }
 
     /**
@@ -225,7 +230,7 @@ class InlineObject1 implements ModelInterface, ArrayAccess
      *
      * @param string|null $additional_metadata Additional data to pass to server
      *
-     * @return $this
+     * @return self
      */
     public function setAdditionalMetadata($additional_metadata)
     {
@@ -249,7 +254,7 @@ class InlineObject1 implements ModelInterface, ArrayAccess
      *
      * @param \SplFileObject|null $file file to upload
      *
-     * @return $this
+     * @return self
      */
     public function setFile($file)
     {
@@ -274,18 +279,18 @@ class InlineObject1 implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */
