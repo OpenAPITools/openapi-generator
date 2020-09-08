@@ -44,7 +44,7 @@ public abstract class FakeApiService {
       throws NotFoundException;
       public abstract Response testClientModel(Client body,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response testEndpointParameters(BigDecimal number,Double _double,String patternWithoutDelimiter,byte[] _byte,Integer integer,Integer int32,Long int64,Float _float,String string,InputStream binaryInputStream, FormDataContentDisposition binaryDetail,Date date,Date dateTime,String password,String paramCallback,SecurityContext securityContext)
+      public abstract Response testEndpointParameters(BigDecimal number,Double _double,String patternWithoutDelimiter,byte[] _byte,Integer integer,Integer int32,Long int64,Float _float,String string,FormDataBodyPart binaryBodypart,Date date,Date dateTime,String password,String paramCallback,SecurityContext securityContext)
       throws NotFoundException;
       public abstract Response testEnumParameters(List<String> enumHeaderStringArray,String enumHeaderString,List<String> enumQueryStringArray,String enumQueryString,Integer enumQueryInteger,Double enumQueryDouble,List<String> enumFormStringArray,String enumFormString,SecurityContext securityContext)
       throws NotFoundException;

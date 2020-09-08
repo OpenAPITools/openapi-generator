@@ -66,13 +66,13 @@ public class PetApiServiceImpl extends PetApiService {
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response uploadFile(Long petId, String additionalMetadata, InputStream fileInputStream, FormDataContentDisposition fileDetail, SecurityContext securityContext)
+    public Response uploadFile(Long petId, String additionalMetadata, FormDataBodyPart fileBodypart, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     @Override
-    public Response uploadFileWithRequiredFile(Long petId, InputStream requiredFileInputStream, FormDataContentDisposition requiredFileDetail, String additionalMetadata, SecurityContext securityContext)
+    public Response uploadFileWithRequiredFile(Long petId, FormDataBodyPart requiredFileBodypart, String additionalMetadata, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
