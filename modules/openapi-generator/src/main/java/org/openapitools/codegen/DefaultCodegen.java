@@ -3908,6 +3908,12 @@ public class DefaultCodegen implements CodegenConfig {
                     throw new RuntimeException("Invalid response code " + responseCode);
             }
         }
+
+        // for code ending with XX, e.g. 4XX, 5XX
+        if (r.code.length() == 3 && "XX".equals(r.code.substring(1))) {
+            r.wildcardFirstChar = r.code.substring(0, 1);
+        }
+
         Schema responseSchema;
         if (this.openAPI != null && this.openAPI.getComponents() != null) {
             responseSchema = unaliasSchema(ModelUtils.getSchemaFromResponse(response), importMapping);

@@ -27,6 +27,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     public boolean is3xx;
     public boolean is4xx;
     public boolean is5xx;
+    public String wildcardFirstChar; // store the first character of 2XX, 5XX, etc
     public String message;
     public boolean hasMore;
     public List<Map<String, Object>> examples;
@@ -73,72 +74,6 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private String maximum;
     public String pattern;
     public Number multipleOf;
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, hasHeaders,
-                isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
-                isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
-                isMapContainer, isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions,
-                getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
-                getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CodegenResponse)) return false;
-        CodegenResponse that = (CodegenResponse) o;
-        return hasMore == that.hasMore &&
-                hasHeaders == that.hasHeaders &&
-                isString == that.isString &&
-                isNumeric == that.isNumeric &&
-                isInteger == that.isInteger &&
-                isLong == that.isLong &&
-                isNumber == that.isNumber &&
-                isFloat == that.isFloat &&
-                isDouble == that.isDouble &&
-                isByteArray == that.isByteArray &&
-                isBoolean == that.isBoolean &&
-                isDate == that.isDate &&
-                isDateTime == that.isDateTime &&
-                isUuid == that.isUuid &&
-                isEmail == that.isEmail &&
-                isModel == that.isModel &&
-                isFreeFormObject == that.isFreeFormObject &&
-                isAnyType == that.isAnyType &&
-                isDefault == that.isDefault &&
-                simpleType == that.simpleType &&
-                primitiveType == that.primitiveType &&
-                isMapContainer == that.isMapContainer &&
-                isListContainer == that.isListContainer &&
-                isBinary == that.isBinary &&
-                isFile == that.isFile &&
-                Objects.equals(headers, that.headers) &&
-                Objects.equals(code, that.code) &&
-                Objects.equals(message, that.message) &&
-                Objects.equals(examples, that.examples) &&
-                Objects.equals(dataType, that.dataType) &&
-                Objects.equals(baseType, that.baseType) &&
-                Objects.equals(containerType, that.containerType) &&
-                Objects.equals(schema, that.schema) &&
-                Objects.equals(jsonSchema, that.jsonSchema) &&
-                Objects.equals(vendorExtensions, that.vendorExtensions) &&
-                Objects.equals(getMaxProperties(), that.getMaxProperties()) &&
-                Objects.equals(getMinProperties(), that.getMinProperties()) &&
-                Objects.equals(uniqueItems, that.uniqueItems) &&
-                Objects.equals(getMaxItems(), that.getMaxItems()) &&
-                Objects.equals(getMinItems(), that.getMinItems()) &&
-                Objects.equals(getMaxLength(), that.getMaxLength()) &&
-                Objects.equals(getMinLength(), that.getMinLength()) &&
-                Objects.equals(exclusiveMinimum, that.exclusiveMinimum) &&
-                Objects.equals(exclusiveMaximum, that.exclusiveMaximum) &&
-                Objects.equals(getMinimum(), that.getMinimum()) &&
-                Objects.equals(getMaximum(), that.getMaximum()) &&
-                Objects.equals(getPattern(), that.getPattern()) &&
-                Objects.equals(getMultipleOf(), that.getMultipleOf());
-
-    }
 
     @Override
     public String getPattern() {
@@ -272,9 +207,15 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("CodegenResponse{");
+        final StringBuffer sb = new StringBuffer("CodegenResponse{");
         sb.append("headers=").append(headers);
         sb.append(", code='").append(code).append('\'');
+        sb.append(", is1xx=").append(is1xx);
+        sb.append(", is2xx=").append(is2xx);
+        sb.append(", is3xx=").append(is3xx);
+        sb.append(", is4xx=").append(is4xx);
+        sb.append(", is5xx=").append(is5xx);
+        sb.append(", wildcardFirstChar=").append(wildcardFirstChar);
         sb.append(", message='").append(message).append('\'');
         sb.append(", hasMore=").append(hasMore);
         sb.append(", examples=").append(examples);
@@ -320,9 +261,82 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", minimum='").append(minimum).append('\'');
         sb.append(", maximum='").append(maximum).append('\'');
         sb.append(", pattern='").append(pattern).append('\'');
-        sb.append(", multipleOf='").append(multipleOf).append('\'');
+        sb.append(", multipleOf=").append(multipleOf);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CodegenResponse that = (CodegenResponse) o;
+        return is1xx == that.is1xx &&
+                is2xx == that.is2xx &&
+                is3xx == that.is3xx &&
+                is4xx == that.is4xx &&
+                is5xx == that.is5xx &&
+                wildcardFirstChar == that.wildcardFirstChar &&
+                hasMore == that.hasMore &&
+                hasHeaders == that.hasHeaders &&
+                isString == that.isString &&
+                isNumeric == that.isNumeric &&
+                isInteger == that.isInteger &&
+                isLong == that.isLong &&
+                isNumber == that.isNumber &&
+                isFloat == that.isFloat &&
+                isDouble == that.isDouble &&
+                isByteArray == that.isByteArray &&
+                isBoolean == that.isBoolean &&
+                isDate == that.isDate &&
+                isDateTime == that.isDateTime &&
+                isUuid == that.isUuid &&
+                isEmail == that.isEmail &&
+                isModel == that.isModel &&
+                isFreeFormObject == that.isFreeFormObject &&
+                isAnyType == that.isAnyType &&
+                isDefault == that.isDefault &&
+                simpleType == that.simpleType &&
+                primitiveType == that.primitiveType &&
+                isMapContainer == that.isMapContainer &&
+                isListContainer == that.isListContainer &&
+                isBinary == that.isBinary &&
+                isFile == that.isFile &&
+                uniqueItems == that.uniqueItems &&
+                exclusiveMinimum == that.exclusiveMinimum &&
+                exclusiveMaximum == that.exclusiveMaximum &&
+                Objects.equals(headers, that.headers) &&
+                Objects.equals(code, that.code) &&
+                Objects.equals(message, that.message) &&
+                Objects.equals(examples, that.examples) &&
+                Objects.equals(dataType, that.dataType) &&
+                Objects.equals(baseType, that.baseType) &&
+                Objects.equals(containerType, that.containerType) &&
+                Objects.equals(schema, that.schema) &&
+                Objects.equals(jsonSchema, that.jsonSchema) &&
+                Objects.equals(vendorExtensions, that.vendorExtensions) &&
+                Objects.equals(maxProperties, that.maxProperties) &&
+                Objects.equals(minProperties, that.minProperties) &&
+                Objects.equals(maxItems, that.maxItems) &&
+                Objects.equals(minItems, that.minItems) &&
+                Objects.equals(maxLength, that.maxLength) &&
+                Objects.equals(minLength, that.minLength) &&
+                Objects.equals(minimum, that.minimum) &&
+                Objects.equals(maximum, that.maximum) &&
+                Objects.equals(pattern, that.pattern) &&
+                Objects.equals(multipleOf, that.multipleOf);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(headers, code, is1xx, is2xx, is3xx, is4xx, is5xx, wildcardFirstChar, message, hasMore,
+                examples, dataType, baseType, containerType, hasHeaders, isString, isNumeric, isInteger, isLong,
+                isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate, isDateTime, isUuid, isEmail, isModel,
+                isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType, isMapContainer, isListContainer,
+                isBinary, isFile, schema, jsonSchema, vendorExtensions, maxProperties, minProperties, uniqueItems,
+                maxItems, minItems, maxLength, minLength, exclusiveMinimum, exclusiveMaximum, minimum, maximum,
+                pattern, multipleOf);
     }
 
     // this is used in templates. Do not remove it.
