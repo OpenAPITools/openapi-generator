@@ -18,6 +18,10 @@ public class TypeScriptAxiosClientCodegenTest {
         assertEquals(codegen.toEnumVarName("SCIENCE_FICTION", "string"), "SCIENCE_FICTION");
         assertEquals(codegen.toEnumVarName("science", "string"), "science");
         assertEquals(codegen.toEnumVarName("science_fiction", "string"), "science_fiction");
+        assertEquals(codegen.toEnumVarName("scienceFiction", "string"), "scienceFiction");
+        assertEquals(codegen.toEnumVarName("ScienceFiction", "string"), "ScienceFiction");
+        assertEquals(codegen.toEnumVarName("A", "string"), "A");
+        assertEquals(codegen.toEnumVarName("b", "string"), "b");
     }
 
     @Test
@@ -28,6 +32,8 @@ public class TypeScriptAxiosClientCodegenTest {
         assertEquals(codegen.toEnumVarName("SCIENCE_FICTION", "string"), "scienceFiction");
         assertEquals(codegen.toEnumVarName("science", "string"), "science");
         assertEquals(codegen.toEnumVarName("science_fiction", "string"), "scienceFiction");
+        assertEquals(codegen.toEnumVarName("scienceFiction", "string"), "scienceFiction");
+        assertEquals(codegen.toEnumVarName("ScienceFiction", "string"), "scienceFiction");
     }
 
     @Test
@@ -38,6 +44,10 @@ public class TypeScriptAxiosClientCodegenTest {
         assertEquals(codegen.toEnumVarName("SCIENCE_FICTION", "string"), "ScienceFiction");
         assertEquals(codegen.toEnumVarName("science", "string"), "Science");
         assertEquals(codegen.toEnumVarName("science_fiction", "string"), "ScienceFiction");
+        assertEquals(codegen.toEnumVarName("scienceFiction", "string"), "ScienceFiction");
+        assertEquals(codegen.toEnumVarName("ScienceFiction", "string"), "ScienceFiction");
+        assertEquals(codegen.toEnumVarName("A", "string"), "A");
+        assertEquals(codegen.toEnumVarName("b", "string"), "B");
     }
 
     @Test
@@ -48,6 +58,10 @@ public class TypeScriptAxiosClientCodegenTest {
         assertEquals(codegen.toEnumVarName("SCIENCE_FICTION", "string"), "science_fiction");
         assertEquals(codegen.toEnumVarName("science", "string"), "science");
         assertEquals(codegen.toEnumVarName("science_fiction", "string"), "science_fiction");
+        assertEquals(codegen.toEnumVarName("scienceFiction", "string"), "science_fiction");
+        assertEquals(codegen.toEnumVarName("ScienceFiction", "string"), "science_fiction");
+        assertEquals(codegen.toEnumVarName("A", "string"), "a");
+        assertEquals(codegen.toEnumVarName("b", "string"), "b");
     }
 
     @Test
@@ -58,6 +72,10 @@ public class TypeScriptAxiosClientCodegenTest {
         assertEquals(codegen.toEnumVarName("SCIENCE_FICTION", "string"), "SCIENCE_FICTION");
         assertEquals(codegen.toEnumVarName("science", "string"), "SCIENCE");
         assertEquals(codegen.toEnumVarName("science_fiction", "string"), "SCIENCE_FICTION");
+        assertEquals(codegen.toEnumVarName("scienceFiction", "string"), "SCIENCE_FICTION");
+        assertEquals(codegen.toEnumVarName("ScienceFiction", "string"), "SCIENCE_FICTION");
+        assertEquals(codegen.toEnumVarName("A", "string"), "A");
+        assertEquals(codegen.toEnumVarName("b", "string"), "B");
     }
 
 }
