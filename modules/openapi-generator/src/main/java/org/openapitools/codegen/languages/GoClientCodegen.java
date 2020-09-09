@@ -40,7 +40,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
     protected String packageVersion = "1.0.0";
     protected String apiDocPath = "docs/";
     protected String modelDocPath = "docs/";
-    public static final String WITH_GO_CODEGEN_COMMENT = "withGoCodegenComment";
     public static final String WITH_XML = "withXml";
     public static final String STRUCT_PREFIX = "structPrefix";
     public static final String WITH_AWSV4_SIGNATURE = "withAWSV4Signature";
@@ -95,7 +94,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
         hideGenerationTimestamp = Boolean.TRUE;
 
         cliOptions.add(CliOption.newBoolean(CodegenConstants.IS_GO_SUBMODULE, CodegenConstants.IS_GO_SUBMODULE_DESC));
-        cliOptions.add(CliOption.newBoolean(WITH_GO_CODEGEN_COMMENT, "whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs"));
         cliOptions.add(CliOption.newBoolean(WITH_XML, "whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML)"));
         cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_CLASS_PREFIX, CodegenConstants.ENUM_CLASS_PREFIX_DESC));
         cliOptions.add(CliOption.newBoolean(STRUCT_PREFIX, "whether to prefix struct with the class name. e.g. DeletePetOpts => PetApiDeletePetOpts"));
@@ -189,11 +187,6 @@ public class GoClientCodegen extends AbstractGoCodegen {
 
         modelPackage = packageName;
         apiPackage = packageName;
-
-        if (additionalProperties.containsKey(WITH_GO_CODEGEN_COMMENT)) {
-            setWithGoCodegenComment(Boolean.parseBoolean(additionalProperties.get(WITH_GO_CODEGEN_COMMENT).toString()));
-            additionalProperties.put(WITH_GO_CODEGEN_COMMENT, withGoCodegenComment);
-        }
 
         if (additionalProperties.containsKey(WITH_AWSV4_SIGNATURE)) {
             setWithAWSV4Signature(Boolean.parseBoolean(additionalProperties.get(WITH_AWSV4_SIGNATURE).toString()));

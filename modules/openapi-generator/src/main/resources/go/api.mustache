@@ -103,7 +103,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	}
 
 	localVarPath := localBasePath + "{{{path}}}"{{#pathParams}}
-	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", _neturl.PathEscape(parameterToString(r.{{paramName}}," {{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")), -1){{/pathParams}}
+	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", _neturl.PathEscape(parameterToString(r.{{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")), -1){{/pathParams}}
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

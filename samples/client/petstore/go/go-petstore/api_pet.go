@@ -298,7 +298,7 @@ func (a *PetApiService) DeletePetExecute(r ApiDeletePetRequest) (*_nethttp.Respo
 	}
 
 	localVarPath := localBasePath + "/pet/{petId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(r.petId," ")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(r.petId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -617,7 +617,7 @@ func (a *PetApiService) GetPetByIdExecute(r ApiGetPetByIdRequest) (Pet, *_nethtt
 	}
 
 	localVarPath := localBasePath + "/pet/{petId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(r.petId," ")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(r.petId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -842,7 +842,7 @@ func (a *PetApiService) UpdatePetWithFormExecute(r ApiUpdatePetWithFormRequest) 
 	}
 
 	localVarPath := localBasePath + "/pet/{petId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(r.petId," ")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(r.petId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -953,7 +953,7 @@ func (a *PetApiService) UploadFileExecute(r ApiUploadFileRequest) (ApiResponse, 
 	}
 
 	localVarPath := localBasePath + "/pet/{petId}/uploadImage"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(r.petId," ")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(r.petId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
@@ -1081,7 +1081,7 @@ func (a *PetApiService) UploadFileWithRequiredFileExecute(r ApiUploadFileWithReq
 	}
 
 	localVarPath := localBasePath + "/fake/{petId}/uploadImageWithRequiredFile"
-	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(r.petId," ")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"petId"+"}", _neturl.PathEscape(parameterToString(r.petId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
