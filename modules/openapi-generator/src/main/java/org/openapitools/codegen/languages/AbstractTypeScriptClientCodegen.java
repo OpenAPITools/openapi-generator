@@ -690,33 +690,16 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             case original:
                 return name;
             case camelCase:
-                return camelize(prepareEnumString(name), true);
+                return camelize(underscore(name), true);
             case PascalCase:
-                return camelize(prepareEnumString(name));
+                return camelize(underscore(name));
             case snake_case:
                 return underscore(name);
             case UPPERCASE:
-                return prepareEnumString(name).toUpperCase(Locale.ROOT);
+                return underscore(name).toUpperCase(Locale.ROOT);
             default:
                 throw new IllegalArgumentException("Unsupported enum property naming: '" + name);
         }
-    }
-
-    private String prepareEnumString(String name) {
-        if (name == null || name.isEmpty()) {
-            return name;
-        }
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(name.charAt(0));
-        for (int i = 1; i < name.length(); i++) {
-            if (Character.isLowerCase(name.charAt(i - 1)) && Character.isUpperCase(name.charAt(i))) {
-                stringBuilder.append('_').append(name.charAt(i));
-            } else {
-                stringBuilder.append(name.charAt(i));
-            }
-        }
-        return StringUtils.lowerCase(stringBuilder.toString());
     }
 
     @Override
