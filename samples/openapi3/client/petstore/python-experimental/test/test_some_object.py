@@ -14,8 +14,8 @@ import sys
 import unittest
 
 import petstore_api
-from petstore_api.model.free_form_interface import FreeFormInterface
-globals()['FreeFormInterface'] = FreeFormInterface
+from petstore_api.model.object_interface import ObjectInterface
+globals()['ObjectInterface'] = ObjectInterface
 from petstore_api.model.some_object import SomeObject
 
 
