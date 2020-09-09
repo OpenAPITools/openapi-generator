@@ -716,7 +716,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 stringBuilder.append(name.charAt(i));
             }
         }
-        return stringBuilder.toString().toLowerCase();
+        return StringUtils.lowerCase(stringBuilder.toString());
     }
 
     @Override
