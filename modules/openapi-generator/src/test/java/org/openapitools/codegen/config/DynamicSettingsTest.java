@@ -68,7 +68,7 @@ public class DynamicSettingsTest {
         assertNotNull(workflowSettings);
 
         assertEquals(generatorSettings.getGeneratorName(), "none");
-        assertEquals(workflowSettings.getTemplateDir(), current.getAbsolutePath());
+        assertEquals(workflowSettings.getTemplateDir(), current.getCanonicalPath());
         assertNotEquals(workflowSettings.getTemplateDir(), input);
 
         assertEquals(generatorSettings.getAdditionalProperties().size(), 4);
