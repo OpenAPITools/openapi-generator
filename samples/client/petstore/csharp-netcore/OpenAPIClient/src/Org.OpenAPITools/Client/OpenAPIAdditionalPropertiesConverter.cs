@@ -25,6 +25,10 @@ namespace Org.OpenAPITools.Client
             _types = types;
         }
 
+        public OpenAPIAdditionalPropertiesConverter()
+        {
+        }
+
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
             //var date = value as DateTime;

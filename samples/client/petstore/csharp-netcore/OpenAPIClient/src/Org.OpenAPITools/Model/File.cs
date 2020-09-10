@@ -39,6 +39,7 @@ namespace Org.OpenAPITools.Model
         public File(string sourceURI = default(string))
         {
             this.SourceURI = sourceURI;
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
         }
 
         /// <summary>
@@ -51,6 +52,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 

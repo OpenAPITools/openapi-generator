@@ -69,7 +69,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Pet() { }
+        protected Pet()
+        {
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Pet" /> class.
         /// </summary>
@@ -89,6 +92,7 @@ namespace Org.OpenAPITools.Model
             this.Category = category;
             this.Tags = tags;
             this.Status = status;
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
         }
 
         /// <summary>
@@ -124,6 +128,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 

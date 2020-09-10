@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Name() { }
+        protected Name()
+        {
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
@@ -46,6 +49,7 @@ namespace Org.OpenAPITools.Model
         {
             this._Name = name;
             this.Property = property;
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
         }
 
         /// <summary>
@@ -75,6 +79,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 

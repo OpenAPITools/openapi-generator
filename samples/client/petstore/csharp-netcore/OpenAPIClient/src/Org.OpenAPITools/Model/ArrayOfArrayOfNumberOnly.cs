@@ -39,6 +39,7 @@ namespace Org.OpenAPITools.Model
         public ArrayOfArrayOfNumberOnly(List<List<decimal>> arrayArrayNumber = default(List<List<decimal>>))
         {
             this.ArrayArrayNumber = arrayArrayNumber;
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
         }
 
         /// <summary>
@@ -50,6 +51,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 

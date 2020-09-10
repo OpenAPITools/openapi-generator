@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Cat() { }
+        protected Cat()
+        {
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
@@ -46,6 +49,7 @@ namespace Org.OpenAPITools.Model
         public Cat(bool declawed = default(bool), string className = "Cat", string color = "red") : base(className, color)
         {
             this.Declawed = declawed;
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
         }
 
         /// <summary>
@@ -57,6 +61,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 

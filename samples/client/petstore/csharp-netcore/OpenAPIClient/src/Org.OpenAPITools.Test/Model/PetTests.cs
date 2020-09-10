@@ -105,6 +105,10 @@ namespace Org.OpenAPITools.Test
             // create pet
             Pet p1 = new Pet(name: "Csharp test", photoUrls: new List<string> { "http://petstore.com/csharp_test" });
             Assert.Equal("{\"name\":\"Csharp test\",\"photoUrls\":[\"http://petstore.com/csharp_test\"]}", JsonConvert.SerializeObject(p1));
+
+            Pet p2 = new Pet(name: "Csharp test", photoUrls: new List<string> { "http://petstore.com/csharp_test" });
+            p2.AdditionalProperites.Add("hello", "world");
+            Assert.Equal("{\"name\":\"Csharp test\",\"photoUrls\":[\"http://petstore.com/csharp_test\"]}", JsonConvert.SerializeObject(p2));
         }
 
         /// <summary>

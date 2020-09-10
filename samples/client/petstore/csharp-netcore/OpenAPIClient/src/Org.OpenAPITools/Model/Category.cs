@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Category" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Category() { }
+        protected Category()
+        {
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Category" /> class.
         /// </summary>
@@ -47,6 +50,7 @@ namespace Org.OpenAPITools.Model
             // to ensure "name" is required (not null)
             this.Name = name ?? throw new ArgumentNullException("name is a required property for Category and cannot be null");
             this.Id = id;
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
         }
 
         /// <summary>
@@ -64,6 +68,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 

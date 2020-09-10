@@ -92,11 +92,13 @@ namespace Org.OpenAPITools.Model
         {
             this.JustSymbol = justSymbol;
             this.ArrayEnum = arrayEnum;
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
         }
 
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 

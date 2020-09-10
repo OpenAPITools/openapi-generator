@@ -36,7 +36,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="InlineObject5" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected InlineObject5() { }
+        protected InlineObject5()
+        {
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineObject5" /> class.
         /// </summary>
@@ -47,6 +50,7 @@ namespace Org.OpenAPITools.Model
             // to ensure "requiredFile" is required (not null)
             this.RequiredFile = requiredFile ?? throw new ArgumentNullException("requiredFile is a required property for InlineObject5 and cannot be null");
             this.AdditionalMetadata = additionalMetadata;
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
         }
 
         /// <summary>
@@ -66,6 +70,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 

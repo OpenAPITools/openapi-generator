@@ -42,7 +42,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Animal" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Animal() { }
+        protected Animal()
+        {
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Animal" /> class.
         /// </summary>
@@ -54,6 +57,7 @@ namespace Org.OpenAPITools.Model
             this.ClassName = className ?? throw new ArgumentNullException("className is a required property for Animal and cannot be null");
             // use default value if no "color" provided
             this.Color = color ?? "red";
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
         }
 
         /// <summary>
@@ -71,6 +75,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 

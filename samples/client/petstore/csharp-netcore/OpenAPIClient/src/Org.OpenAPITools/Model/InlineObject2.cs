@@ -101,11 +101,13 @@ namespace Org.OpenAPITools.Model
         {
             this.EnumFormStringArray = enumFormStringArray;
             this.EnumFormString = enumFormString;
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
         }
 
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 

@@ -165,7 +165,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected EnumTest() { }
+        protected EnumTest()
+        {
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
@@ -187,11 +190,13 @@ namespace Org.OpenAPITools.Model
             this.OuterEnumInteger = outerEnumInteger;
             this.OuterEnumDefaultValue = outerEnumDefaultValue;
             this.OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+            this.AdditionalProperites = new Dictionary<string, dynamic>();
         }
 
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
+        [DataMember(EmitDefaultValue = false)]
         [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
