@@ -30,6 +30,7 @@ namespace Org.OpenAPITools.Model
     /// CatAllOf
     /// </summary>
     [DataContract(Name = "Cat_allOf")]
+    [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
     public partial class CatAllOf : IEquatable<CatAllOf>, IValidatableObject
     {
         /// <summary>
@@ -51,8 +52,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+        [DataMember(Name = "AdditionalProperites", EmitDefaultValue = false)]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
         /// <summary>

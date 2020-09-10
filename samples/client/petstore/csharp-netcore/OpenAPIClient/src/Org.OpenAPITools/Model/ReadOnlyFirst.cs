@@ -30,6 +30,7 @@ namespace Org.OpenAPITools.Model
     /// ReadOnlyFirst
     /// </summary>
     [DataContract(Name = "ReadOnlyFirst")]
+    [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
     public partial class ReadOnlyFirst : IEquatable<ReadOnlyFirst>, IValidatableObject
     {
         /// <summary>
@@ -57,8 +58,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+        [DataMember(Name = "AdditionalProperites", EmitDefaultValue = false)]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
         /// <summary>

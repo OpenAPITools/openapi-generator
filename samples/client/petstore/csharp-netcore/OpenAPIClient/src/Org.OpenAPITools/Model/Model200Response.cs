@@ -30,6 +30,7 @@ namespace Org.OpenAPITools.Model
     /// Model for testing model name starting with number
     /// </summary>
     [DataContract(Name = "200_response")]
+    [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
     public partial class Model200Response : IEquatable<Model200Response>, IValidatableObject
     {
         /// <summary>
@@ -59,8 +60,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+        [DataMember(Name = "AdditionalProperites", EmitDefaultValue = false)]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
         /// <summary>

@@ -30,6 +30,7 @@ namespace Org.OpenAPITools.Model
     /// AdditionalPropertiesClass
     /// </summary>
     [DataContract(Name = "AdditionalPropertiesClass")]
+    [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
     public partial class AdditionalPropertiesClass : IEquatable<AdditionalPropertiesClass>, IValidatableObject
     {
         /// <summary>
@@ -59,8 +60,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+        [DataMember(Name = "AdditionalProperites", EmitDefaultValue = false)]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
         /// <summary>

@@ -8,8 +8,12 @@
  */
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace Org.OpenAPITools.Client
 {
@@ -31,9 +35,35 @@ namespace Org.OpenAPITools.Client
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            //var date = value as DateTime;
-            //var niceLookingDate = date.ToString("MMMM dd, yyyy 'at' H:mm tt");
-            writer.WriteValue("hahahahha");
+            JObject jo = new JObject();
+            Type type = value.GetType();
+
+            foreach (PropertyInfo prop in type.GetProperties())
+            {
+                if (prop.CanRead)
+                {
+                    var attributes = prop.GetCustomAttributes(typeof(DataMemberAttribute), true);
+                    object propVal = prop.GetValue(value, null);
+                    foreach (DataMemberAttribute dma in attributes)
+                    {
+                        if (propVal != null)
+                        {
+                            if (dma.Name == "AdditionalProperites")
+                            {
+                                foreach (var item in (Dictionary<string, dynamic>)propVal)
+                                {
+                                    jo.Add(item.Key, JToken.FromObject(item.Value, serializer));
+                                }
+                            }
+                            else
+                            {
+                                jo.Add(dma.Name, JToken.FromObject(propVal, serializer));
+                            }
+                        }
+                    }
+                }
+            }
+            jo.WriteTo(writer);
         }
     
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)

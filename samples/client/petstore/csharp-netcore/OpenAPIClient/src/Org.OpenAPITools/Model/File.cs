@@ -30,6 +30,7 @@ namespace Org.OpenAPITools.Model
     /// Must be named &#x60;File&#x60; for test.
     /// </summary>
     [DataContract(Name = "File")]
+    [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
     public partial class File : IEquatable<File>, IValidatableObject
     {
         /// <summary>
@@ -52,8 +53,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+        [DataMember(Name = "AdditionalProperites", EmitDefaultValue = false)]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
         /// <summary>

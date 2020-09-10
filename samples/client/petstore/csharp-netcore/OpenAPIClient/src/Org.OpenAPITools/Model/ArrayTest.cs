@@ -30,6 +30,7 @@ namespace Org.OpenAPITools.Model
     /// ArrayTest
     /// </summary>
     [DataContract(Name = "ArrayTest")]
+    [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
     public partial class ArrayTest : IEquatable<ArrayTest>, IValidatableObject
     {
         /// <summary>
@@ -67,8 +68,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+        [DataMember(Name = "AdditionalProperites", EmitDefaultValue = false)]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
         /// <summary>

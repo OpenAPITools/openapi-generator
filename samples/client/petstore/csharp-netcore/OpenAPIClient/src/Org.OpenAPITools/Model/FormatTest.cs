@@ -30,6 +30,7 @@ namespace Org.OpenAPITools.Model
     /// FormatTest
     /// </summary>
     [DataContract(Name = "format_test")]
+    [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
     public partial class FormatTest : IEquatable<FormatTest>, IValidatableObject
     {
         /// <summary>
@@ -176,8 +177,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+        [DataMember(Name = "AdditionalProperites", EmitDefaultValue = false)]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
         /// <summary>

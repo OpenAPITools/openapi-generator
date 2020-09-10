@@ -30,6 +30,7 @@ namespace Org.OpenAPITools.Model
     /// InlineObject4
     /// </summary>
     [DataContract(Name = "inline_object_4")]
+    [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
     public partial class InlineObject4 : IEquatable<InlineObject4>, IValidatableObject
     {
         /// <summary>
@@ -71,8 +72,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+        [DataMember(Name = "AdditionalProperites", EmitDefaultValue = false)]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
         /// <summary>

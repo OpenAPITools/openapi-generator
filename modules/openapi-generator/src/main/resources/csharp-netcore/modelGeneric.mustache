@@ -11,6 +11,11 @@
     [JsonSubtypes.KnownSubType(typeof({{{modelName}}}), "{{{mappingName}}}")]
     {{/mappedModels}}
     {{/discriminator}}
+    {{^discriminator}}
+    {{#isAdditionalPropertiesTrue}}
+    [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+    {{/isAdditionalPropertiesTrue}}
+    {{/discriminator}}
     {{>visibility}} partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
     {
         {{#vars}}
@@ -125,8 +130,7 @@
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+        [DataMember(Name = "AdditionalProperites", EmitDefaultValue = false)]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
         {{/isAdditionalPropertiesTrue}}

@@ -30,6 +30,7 @@ namespace Org.OpenAPITools.Model
     /// MapTest
     /// </summary>
     [DataContract(Name = "MapTest")]
+    [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
     public partial class MapTest : IEquatable<MapTest>, IValidatableObject
     {
         /// <summary>
@@ -95,8 +96,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+        [DataMember(Name = "AdditionalProperites", EmitDefaultValue = false)]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
         /// <summary>

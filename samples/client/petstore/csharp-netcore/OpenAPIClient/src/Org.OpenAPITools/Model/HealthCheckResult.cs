@@ -30,6 +30,7 @@ namespace Org.OpenAPITools.Model
     /// Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
     /// </summary>
     [DataContract(Name = "HealthCheckResult")]
+    [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
     public partial class HealthCheckResult : IEquatable<HealthCheckResult>, IValidatableObject
     {
         /// <summary>
@@ -51,8 +52,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+        [DataMember(Name = "AdditionalProperites", EmitDefaultValue = false)]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
         /// <summary>

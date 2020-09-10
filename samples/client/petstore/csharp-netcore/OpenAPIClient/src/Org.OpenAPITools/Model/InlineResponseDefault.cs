@@ -30,6 +30,7 @@ namespace Org.OpenAPITools.Model
     /// InlineResponseDefault
     /// </summary>
     [DataContract(Name = "inline_response_default")]
+    [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
     public partial class InlineResponseDefault : IEquatable<InlineResponseDefault>, IValidatableObject
     {
         /// <summary>
@@ -51,8 +52,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+        [DataMember(Name = "AdditionalProperites", EmitDefaultValue = false)]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
         /// <summary>

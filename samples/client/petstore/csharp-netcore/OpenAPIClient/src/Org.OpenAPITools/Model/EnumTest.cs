@@ -30,6 +30,7 @@ namespace Org.OpenAPITools.Model
     /// EnumTest
     /// </summary>
     [DataContract(Name = "Enum_Test")]
+    [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
     public partial class EnumTest : IEquatable<EnumTest>, IValidatableObject
     {
         /// <summary>
@@ -196,8 +197,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets AdditionalProperties
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
-        [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+        [DataMember(Name = "AdditionalProperites", EmitDefaultValue = false)]
         public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
         /// <summary>
