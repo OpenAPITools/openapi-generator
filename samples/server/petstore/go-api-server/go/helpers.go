@@ -9,11 +9,7 @@
 
 package petstoreserver
 
-// ApiResponse - Describes the result of uploading an image resource
-type ApiResponse struct {
-	Code int32 `json:"code,omitempty"`
-
-	Type string `json:"type,omitempty"`
-
-	Message string `json:"message,omitempty"`
+//Response return a ImplResponse struct filled
+func Response(code int, body interface{}) ImplResponse {
+	return ImplResponse{Code: code, Body: body}
 }
