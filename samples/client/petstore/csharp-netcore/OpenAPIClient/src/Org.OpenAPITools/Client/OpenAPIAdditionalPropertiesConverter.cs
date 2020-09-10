@@ -38,26 +38,26 @@ namespace Org.OpenAPITools.Client
             JObject jo = new JObject();
             Type type = value.GetType();
 
-            foreach (PropertyInfo prop in type.GetProperties())
+            foreach (PropertyInfo property in type.GetProperties())
             {
-                if (prop.CanRead)
+                if (property.CanRead)
                 {
-                    var attributes = prop.GetCustomAttributes(typeof(DataMemberAttribute), true);
-                    object propVal = prop.GetValue(value, null);
-                    foreach (DataMemberAttribute dma in attributes)
+                    object propertyValue = property.GetValue(value, null);
+                    foreach (DataMemberAttribute attribute in property.GetCustomAttributes(typeof(DataMemberAttribute), true))
                     {
-                        if (propVal != null)
+                        if (propertyValue != null)
                         {
-                            if (dma.Name == "AdditionalProperites")
+                            // flatten the dictionary if it's "AdditionalProperites"
+                            if (attribute.Name == "AdditionalProperites")
                             {
-                                foreach (var item in (Dictionary<string, dynamic>)propVal)
+                                foreach (var item in (Dictionary<string, dynamic>)propertyValue)
                                 {
                                     jo.Add(item.Key, JToken.FromObject(item.Value, serializer));
                                 }
                             }
                             else
                             {
-                                jo.Add(dma.Name, JToken.FromObject(propVal, serializer));
+                                jo.Add(attribute.Name, JToken.FromObject(propertyValue, serializer));
                             }
                         }
                     }
