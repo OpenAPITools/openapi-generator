@@ -37,23 +37,23 @@ public class StoreApiController extends Controller {
 
 
     @ApiAction
-    public Result deleteOrder(String orderId) throws Exception {
+    public Result deleteOrder(Request request, String orderId) throws Exception {
         return ok();
     }
 
     @ApiAction
-    public Result getInventory() throws Exception {
+    public Result getInventory(Request request) throws Exception {
         return ok();
     }
 
     @ApiAction
-    public Result getOrderById( @Min(1) @Max(5)Long orderId) throws Exception {
+    public Result getOrderById(Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
         return ok();
     }
 
     @ApiAction
-    public Result placeOrder() throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result placeOrder(Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         Order body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), Order.class);

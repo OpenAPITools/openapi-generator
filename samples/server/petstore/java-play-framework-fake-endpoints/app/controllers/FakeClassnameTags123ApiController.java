@@ -38,8 +38,8 @@ public class FakeClassnameTags123ApiController extends Controller {
 
 
     @ApiAction
-    public Result testClassname() throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result testClassname(Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         Client body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), Client.class);
@@ -49,7 +49,7 @@ public class FakeClassnameTags123ApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        Client obj = imp.testClassname(body);
+        Client obj = imp.testClassname(request, body);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }

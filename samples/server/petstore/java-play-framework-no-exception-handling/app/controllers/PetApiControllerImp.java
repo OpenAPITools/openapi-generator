@@ -14,45 +14,45 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiControllerImp implements PetApiControllerImpInterface {
     @Override
-    public void addPet(Pet body)  {
+    public void addPet(Request request, Pet body)  {
         //Do your magic!!!
     }
 
     @Override
-    public void deletePet(Long petId, String apiKey)  {
+    public void deletePet(Request request, Long petId, String apiKey)  {
         //Do your magic!!!
     }
 
     @Override
-    public List<Pet> findPetsByStatus( @NotNull List<String> status)  {
-        //Do your magic!!!
-        return new ArrayList<Pet>();
-    }
-
-    @Override
-    public List<Pet> findPetsByTags( @NotNull List<String> tags)  {
+    public List<Pet> findPetsByStatus(Request request, @NotNull List<String> status)  {
         //Do your magic!!!
         return new ArrayList<Pet>();
     }
 
     @Override
-    public Pet getPetById(Long petId)  {
+    public List<Pet> findPetsByTags(Request request, @NotNull List<String> tags)  {
+        //Do your magic!!!
+        return new ArrayList<Pet>();
+    }
+
+    @Override
+    public Pet getPetById(Request request, Long petId)  {
         //Do your magic!!!
         return new Pet();
     }
 
     @Override
-    public void updatePet(Pet body)  {
+    public void updatePet(Request request, Pet body)  {
         //Do your magic!!!
     }
 
     @Override
-    public void updatePetWithForm(Long petId, String name, String status)  {
+    public void updatePetWithForm(Request request, Long petId, String name, String status)  {
         //Do your magic!!!
     }
 
     @Override
-    public ModelApiResponse uploadFile(Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file)  {
+    public ModelApiResponse uploadFile(Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file)  {
         //Do your magic!!!
         return new ModelApiResponse();
     }

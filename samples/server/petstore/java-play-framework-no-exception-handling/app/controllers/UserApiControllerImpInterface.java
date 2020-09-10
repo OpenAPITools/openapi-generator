@@ -12,20 +12,20 @@ import javax.validation.constraints.*;
 
 @SuppressWarnings("RedundantThrows")
 public interface UserApiControllerImpInterface {
-    void createUser(User body) ;
+    void createUser(Request request, User body) ;
 
-    void createUsersWithArrayInput(List<User> body) ;
+    void createUsersWithArrayInput(Request request, List<User> body) ;
 
-    void createUsersWithListInput(List<User> body) ;
+    void createUsersWithListInput(Request request, List<User> body) ;
 
-    void deleteUser(String username) ;
+    void deleteUser(Request request, String username) ;
 
-    User getUserByName(String username) ;
+    User getUserByName(Request request, String username) ;
 
-    String loginUser( @NotNull String username,  @NotNull String password) ;
+    String loginUser(Request request, @NotNull String username, @NotNull String password) ;
 
-    void logoutUser() ;
+    void logoutUser(Request request) ;
 
-    void updateUser(String username, User body) ;
+    void updateUser(Request request, String username, User body) ;
 
 }

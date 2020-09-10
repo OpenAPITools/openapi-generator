@@ -35,94 +35,94 @@ public class UserApiController extends Controller {
 
 
     @ApiAction
-    public Result createUser() throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result createUser(Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         User body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), User.class);
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.createUser(body);
+        imp.createUser(request, body);
         return ok();
     }
 
     @ApiAction
-    public Result createUsersWithArrayInput() throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result createUsersWithArrayInput(Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         List<User> body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.createUsersWithArrayInput(body);
+        imp.createUsersWithArrayInput(request, body);
         return ok();
     }
 
     @ApiAction
-    public Result createUsersWithListInput() throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result createUsersWithListInput(Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         List<User> body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.createUsersWithListInput(body);
+        imp.createUsersWithListInput(request, body);
         return ok();
     }
 
     @ApiAction
-    public Result deleteUser(String username) throws Exception {
-        imp.deleteUser(username);
+    public Result deleteUser(Request request, String username) throws Exception {
+        imp.deleteUser(request, username);
         return ok();
     }
 
     @ApiAction
-    public Result getUserByName(String username) throws Exception {
-        User obj = imp.getUserByName(username);
+    public Result getUserByName(Request request, String username) throws Exception {
+        User obj = imp.getUserByName(request, username);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
     }
 
     @ApiAction
-    public Result loginUser() throws Exception {
-        String valueusername = request().getQueryString("username");
+    public Result loginUser(Request request) throws Exception {
+        String valueusername = request.getQueryString("username");
         String username;
         if (valueusername != null) {
             username = valueusername;
         } else {
             throw new IllegalArgumentException("'username' parameter is required");
         }
-        String valuepassword = request().getQueryString("password");
+        String valuepassword = request.getQueryString("password");
         String password;
         if (valuepassword != null) {
             password = valuepassword;
         } else {
             throw new IllegalArgumentException("'password' parameter is required");
         }
-        String obj = imp.loginUser(username, password);
+        String obj = imp.loginUser(request, username, password);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
     }
 
     @ApiAction
-    public Result logoutUser() throws Exception {
-        imp.logoutUser();
+    public Result logoutUser(Request request) throws Exception {
+        imp.logoutUser(request);
         return ok();
     }
 
     @ApiAction
-    public Result updateUser(String username) throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result updateUser(Request request, String username) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         User body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), User.class);
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.updateUser(username, body);
+        imp.updateUser(request, username, body);
         return ok();
     }
 }

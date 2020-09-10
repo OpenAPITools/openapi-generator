@@ -41,8 +41,8 @@ public class PetApiController extends Controller {
 
 
     @ApiAction
-    public Result addPet() throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result addPet(Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         Pet body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), Pet.class);
@@ -52,26 +52,26 @@ public class PetApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.addPet(body);
+        imp.addPet(request, body);
         return ok();
     }
 
     @ApiAction
-    public Result deletePet(Long petId) throws Exception {
-        String valueapiKey = request().getHeader("api_key");
+    public Result deletePet(Request request, Long petId) throws Exception {
+        String valueapiKey = request.getHeader("api_key");
         String apiKey;
         if (valueapiKey != null) {
             apiKey = valueapiKey;
         } else {
             apiKey = null;
         }
-        imp.deletePet(petId, apiKey);
+        imp.deletePet(request, petId, apiKey);
         return ok();
     }
 
     @ApiAction
-    public Result findPetsByStatus() throws Exception {
-        String[] statusArray = request().queryString().get("status");
+    public Result findPetsByStatus(Request request) throws Exception {
+        String[] statusArray = request.queryString().get("status");
         if (statusArray == null) {
             throw new IllegalArgumentException("'status' parameter is required");
         }
@@ -83,7 +83,7 @@ public class PetApiController extends Controller {
                 status.add(curParam);
             }
         }
-        List<Pet> obj = imp.findPetsByStatus(status);
+        List<Pet> obj = imp.findPetsByStatus(request, status);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             for (Pet curItem : obj) {
                 OpenAPIUtils.validate(curItem);
@@ -94,8 +94,8 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result findPetsByTags() throws Exception {
-        String[] tagsArray = request().queryString().get("tags");
+    public Result findPetsByTags(Request request) throws Exception {
+        String[] tagsArray = request.queryString().get("tags");
         if (tagsArray == null) {
             throw new IllegalArgumentException("'tags' parameter is required");
         }
@@ -107,7 +107,7 @@ public class PetApiController extends Controller {
                 tags.add(curParam);
             }
         }
-        Set<Pet> obj = imp.findPetsByTags(tags);
+        Set<Pet> obj = imp.findPetsByTags(request, tags);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             for (Pet curItem : obj) {
                 OpenAPIUtils.validate(curItem);
@@ -118,8 +118,8 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result getPetById(Long petId) throws Exception {
-        Pet obj = imp.getPetById(petId);
+    public Result getPetById(Request request, Long petId) throws Exception {
+        Pet obj = imp.getPetById(request, petId);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }
@@ -128,8 +128,8 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result updatePet() throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result updatePet(Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         Pet body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), Pet.class);
@@ -139,41 +139,41 @@ public class PetApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.updatePet(body);
+        imp.updatePet(request, body);
         return ok();
     }
 
     @ApiAction
-    public Result updatePetWithForm(Long petId) throws Exception {
-        String valuename = (request().body().asMultipartFormData().asFormUrlEncoded().get("name"))[0];
+    public Result updatePetWithForm(Request request, Long petId) throws Exception {
+        String valuename = (request.body().asMultipartFormData().asFormUrlEncoded().get("name"))[0];
         String name;
         if (valuename != null) {
             name = valuename;
         } else {
             name = null;
         }
-        String valuestatus = (request().body().asMultipartFormData().asFormUrlEncoded().get("status"))[0];
+        String valuestatus = (request.body().asMultipartFormData().asFormUrlEncoded().get("status"))[0];
         String status;
         if (valuestatus != null) {
             status = valuestatus;
         } else {
             status = null;
         }
-        imp.updatePetWithForm(petId, name, status);
+        imp.updatePetWithForm(request, petId, name, status);
         return ok();
     }
 
     @ApiAction
-    public Result uploadFile(Long petId) throws Exception {
-        String valueadditionalMetadata = (request().body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata"))[0];
+    public Result uploadFile(Request request, Long petId) throws Exception {
+        String valueadditionalMetadata = (request.body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata"))[0];
         String additionalMetadata;
         if (valueadditionalMetadata != null) {
             additionalMetadata = valueadditionalMetadata;
         } else {
             additionalMetadata = null;
         }
-        Http.MultipartFormData.FilePart file = request().body().asMultipartFormData().getFile("file");
-        ModelApiResponse obj = imp.uploadFile(petId, additionalMetadata, file);
+        Http.MultipartFormData.FilePart file = request.body().asMultipartFormData().getFile("file");
+        ModelApiResponse obj = imp.uploadFile(request, petId, additionalMetadata, file);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }
@@ -182,19 +182,19 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result uploadFileWithRequiredFile(Long petId) throws Exception {
-        String valueadditionalMetadata = (request().body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata"))[0];
+    public Result uploadFileWithRequiredFile(Request request, Long petId) throws Exception {
+        String valueadditionalMetadata = (request.body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata"))[0];
         String additionalMetadata;
         if (valueadditionalMetadata != null) {
             additionalMetadata = valueadditionalMetadata;
         } else {
             additionalMetadata = null;
         }
-        Http.MultipartFormData.FilePart requiredFile = request().body().asMultipartFormData().getFile("requiredFile");
+        Http.MultipartFormData.FilePart requiredFile = request.body().asMultipartFormData().getFile("requiredFile");
         if ((requiredFile == null || ((File) requiredFile.getFile()).length() == 0)) {
             throw new IllegalArgumentException("'requiredFile' file cannot be empty");
         }
-        ModelApiResponse obj = imp.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
+        ModelApiResponse obj = imp.uploadFileWithRequiredFile(request, petId, requiredFile, additionalMetadata);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }

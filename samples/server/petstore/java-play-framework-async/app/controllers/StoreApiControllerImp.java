@@ -13,12 +13,12 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class StoreApiControllerImp implements StoreApiControllerImpInterface {
     @Override
-    public void deleteOrder(String orderId) throws Exception {
+    public void deleteOrder(Request request, String orderId) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public CompletionStage<Map<String, Integer>> getInventory() throws Exception {
+    public CompletionStage<Map<String, Integer>> getInventory(Request request) throws Exception {
         //Do your magic!!!
         return CompletableFuture.supplyAsync(() -> {
            return new HashMap<String, Integer>();
@@ -26,7 +26,7 @@ public class StoreApiControllerImp implements StoreApiControllerImpInterface {
     }
 
     @Override
-    public CompletionStage<Order> getOrderById( @Min(1) @Max(5)Long orderId) throws Exception {
+    public CompletionStage<Order> getOrderById(Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
         //Do your magic!!!
         return CompletableFuture.supplyAsync(() -> {
            return new Order();
@@ -34,7 +34,7 @@ public class StoreApiControllerImp implements StoreApiControllerImpInterface {
     }
 
     @Override
-    public CompletionStage<Order> placeOrder(Order body) throws Exception {
+    public CompletionStage<Order> placeOrder(Request request, Order body) throws Exception {
         //Do your magic!!!
         return CompletableFuture.supplyAsync(() -> {
            return new Order();

@@ -13,20 +13,20 @@ import javax.validation.constraints.*;
 
 @SuppressWarnings("RedundantThrows")
 public interface PetApiControllerImpInterface {
-    void addPet(Pet body) ;
+    void addPet(Request request, Pet body) ;
 
-    void deletePet(Long petId, String apiKey) ;
+    void deletePet(Request request, Long petId, String apiKey) ;
 
-    List<Pet> findPetsByStatus( @NotNull List<String> status) ;
+    List<Pet> findPetsByStatus(Request request, @NotNull List<String> status) ;
 
-    List<Pet> findPetsByTags( @NotNull List<String> tags) ;
+    List<Pet> findPetsByTags(Request request, @NotNull List<String> tags) ;
 
-    Pet getPetById(Long petId) ;
+    Pet getPetById(Request request, Long petId) ;
 
-    void updatePet(Pet body) ;
+    void updatePet(Request request, Pet body) ;
 
-    void updatePetWithForm(Long petId, String name, String status) ;
+    void updatePetWithForm(Request request, Long petId, String name, String status) ;
 
-    ModelApiResponse uploadFile(Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) ;
+    ModelApiResponse uploadFile(Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) ;
 
 }
