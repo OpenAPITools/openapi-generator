@@ -25,9 +25,12 @@ using OpenAPIDateConverter = {{packageName}}.Client.OpenAPIDateConverter;
 {{#useCompareNetObjects}}
 using OpenAPIClientUtils = {{packageName}}.Client.ClientUtils;
 {{/useCompareNetObjects}}
-
 {{#models}}
 {{#model}}
+{{#isAdditionalPropertiesTrue}}
+using OpenAPIAdditionalPropertiesConverter = {{packageName}}.Client.OpenAPIAdditionalPropertiesConverter;
+{{/isAdditionalPropertiesTrue}}
+
 namespace {{packageName}}.{{modelPackage}}
 {
 {{#isEnum}}{{>modelEnum}}{{/isEnum}}{{^isEnum}}{{>modelGeneric}}{{/isEnum}}

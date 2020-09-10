@@ -22,6 +22,7 @@ using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using OpenAPIAdditionalPropertiesConverter = Org.OpenAPITools.Client.OpenAPIAdditionalPropertiesConverter;
 
 namespace Org.OpenAPITools.Model
 {
@@ -55,6 +56,12 @@ namespace Org.OpenAPITools.Model
         /// <value>file to upload</value>
         [DataMember(Name = "file", EmitDefaultValue = false)]
         public System.IO.Stream File { get; set; }
+
+        /// <summary>
+        /// Gets or Sets AdditionalProperties
+        /// </summary>
+        [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+        public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

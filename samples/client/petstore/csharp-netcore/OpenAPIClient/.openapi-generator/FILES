@@ -79,6 +79,7 @@ src/Org.OpenAPITools/Client/IAsynchronousClient.cs
 src/Org.OpenAPITools/Client/IReadableConfiguration.cs
 src/Org.OpenAPITools/Client/ISynchronousClient.cs
 src/Org.OpenAPITools/Client/Multimap.cs
+src/Org.OpenAPITools/Client/OpenAPIAdditionalPropertiesConverter.cs
 src/Org.OpenAPITools/Client/OpenAPIDateConverter.cs
 src/Org.OpenAPITools/Client/RequestOptions.cs
 src/Org.OpenAPITools/Client/RetryConfiguration.cs

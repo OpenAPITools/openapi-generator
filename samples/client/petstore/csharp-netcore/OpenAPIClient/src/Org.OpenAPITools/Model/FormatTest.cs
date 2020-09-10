@@ -22,6 +22,7 @@ using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
+using OpenAPIAdditionalPropertiesConverter = Org.OpenAPITools.Client.OpenAPIAdditionalPropertiesConverter;
 
 namespace Org.OpenAPITools.Model
 {
@@ -167,6 +168,12 @@ namespace Org.OpenAPITools.Model
         /// <value>A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.</value>
         [DataMember(Name = "pattern_with_digits_and_delimiter", EmitDefaultValue = false)]
         public string PatternWithDigitsAndDelimiter { get; set; }
+
+        /// <summary>
+        /// Gets or Sets AdditionalProperties
+        /// </summary>
+        [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+        public Dictionary<string, dynamic> AdditionalProperites { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
