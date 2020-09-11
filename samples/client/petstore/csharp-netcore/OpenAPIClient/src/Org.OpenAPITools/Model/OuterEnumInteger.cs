@@ -22,8 +22,6 @@ using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using Newtonsoft.Json.Linq;
-using System.Reflection;
 
 namespace Org.OpenAPITools.Model
 {

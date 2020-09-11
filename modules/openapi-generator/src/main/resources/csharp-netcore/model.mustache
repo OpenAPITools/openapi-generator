@@ -27,10 +27,6 @@ using OpenAPIClientUtils = {{packageName}}.Client.ClientUtils;
 {{/useCompareNetObjects}}
 {{#models}}
 {{#model}}
-{{#isAdditionalPropertiesTrue}}
-using Newtonsoft.Json.Linq;
-using System.Reflection;
-{{/isAdditionalPropertiesTrue}}
 
 namespace {{packageName}}.{{modelPackage}}
 {
