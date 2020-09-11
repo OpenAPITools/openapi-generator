@@ -54,7 +54,7 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
         supportsInheritance = true;
 
-        sourceFolder = "src/gen/java";
+        sourceFolder = "src"+ File.separator +"gen"+ File.separator +"java";
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-client";
         dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
@@ -112,7 +112,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
+            .doNotOverwrite());
 
     }
 

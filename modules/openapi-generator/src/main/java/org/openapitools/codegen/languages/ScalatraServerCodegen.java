@@ -117,8 +117,6 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         supportingFiles.add(new SupportingFile("project/plugins.sbt", "project", "plugins.sbt"));
         supportingFiles.add(new SupportingFile("sbt", "", "sbt"));
 
-        instantiationTypes.put("map", "HashMap");
-
         importMapping = new HashMap<String, String>();
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("UUID", "java.util.UUID");
@@ -138,6 +136,8 @@ public class ScalatraServerCodegen extends AbstractScalaCodegen implements Codeg
         importMapping.put("Set", "scala.collection.immutable.Set");
         importMapping.put("ListSet", "scala.collection.immutable.ListSet");
 
+        instantiationTypes.put("array", "List");
+        instantiationTypes.put("map", "HashMap");
         instantiationTypes.put("set", "Set");
     }
 

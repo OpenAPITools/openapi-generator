@@ -20,6 +20,10 @@
 namespace {{this}} {
 {{/modelNamespaceDeclarations}}
 
+{{#vendorExtensions.x-has-forward-declarations}}
+{{#vendorExtensions.x-forward-declarations}}{{.}}
+{{/vendorExtensions.x-forward-declarations}}
+{{/vendorExtensions.x-has-forward-declarations}}
 {{#isEnum}}
 class {{declspec}} {{classname}}
     : public {{#parent}}{{{parent}}}{{/parent}}{{^parent}}ModelBase{{/parent}}

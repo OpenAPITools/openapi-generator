@@ -1,0 +1,37 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Example
+  license:
+    name: MIT
+servers:
+  - url: http://api.example.xyz/v1
+
+components:
+  schemas:
+    Food:
+      deprecated: true
+      type: string
+      enum:
+        - dry
+        - wet
+
+    Pet:
+      title: a Pet
+      deprecated: true
+      description: A pet up for adoption
+      type: object
+      required:
+        - name
+        - status
+      properties:
+        name:
+          type: string
+          example: doggie
+        status:
+          type: string
+          description: pet status
+          enum:
+            - available
+            - pending
+            - adopted

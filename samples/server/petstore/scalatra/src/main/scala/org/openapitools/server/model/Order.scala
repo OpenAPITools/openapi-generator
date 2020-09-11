@@ -10,7 +10,7 @@
  */
 
 package org.openapitools.server.model
-import org.joda.time.DateTime
+import java.time.OffsetDateTime
 
 case class Order(
   id: Option[Long],
@@ -19,7 +19,7 @@ case class Order(
 
   quantity: Option[Int],
 
-  shipDate: Option[DateTime],
+  shipDate: Option[OffsetDateTime],
 
   /* Order Status */
   status: Option[String],

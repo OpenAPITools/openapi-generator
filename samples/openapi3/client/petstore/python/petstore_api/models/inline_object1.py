@@ -75,7 +75,7 @@ class InlineObject1(object):
         Additional data to pass to server  # noqa: E501
 
         :param additional_metadata: The additional_metadata of this InlineObject1.  # noqa: E501
-        :type: str
+        :type additional_metadata: str
         """
 
         self._additional_metadata = additional_metadata
@@ -98,7 +98,7 @@ class InlineObject1(object):
         file to upload  # noqa: E501
 
         :param file: The file of this InlineObject1.  # noqa: E501
-        :type: file
+        :type file: file
         """
 
         self._file = file

@@ -34,7 +34,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.StringUtils.*;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class PhpSlimServerCodegen extends AbstractPhpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlimServerCodegen.class);
@@ -241,7 +241,7 @@ public class PhpSlimServerCodegen extends AbstractPhpCodegen {
                                 .replace("\\/", "/"))
                         .replaceAll("[\\t\\n\\r]", " ")
                         .replace("\\", "\\\\"));
-                        // .replace("\"", "\\\""));
+        // .replace("\"", "\\\""));
 
         // from AbstractPhpCodegen.java
         // Trim the string to avoid leading and trailing spaces.

@@ -26,6 +26,7 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.AbstractJavaCodegen;
@@ -66,7 +67,7 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void testPreprocessOpenAPI() throws Exception {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
         codegen.preprocessOpenAPI(openAPI);
@@ -77,7 +78,7 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void testPreprocessOpenAPINumVersion() throws Exception {
-        final OpenAPI openAPIOtherNumVersion = TestUtils.parseSpec("src/test/resources/2_0/duplicateOperationIds.yaml");
+        final OpenAPI openAPIOtherNumVersion = TestUtils.parseFlattenSpec("src/test/resources/2_0/duplicateOperationIds.yaml");
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
 
         codegen.preprocessOpenAPI(openAPIOtherNumVersion);
@@ -415,6 +416,34 @@ public class AbstractJavaCodegenTest {
         Schema<?> schema = createObjectSchemaWithMinItems();
         String defaultValue = codegen.toDefaultValue(schema);
         Assert.assertNull(defaultValue);
+
+        // Create an alias to an array schema
+        Schema<?> nestedArraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("NestedArray", nestedArraySchema)));
+
+        // Create an array schema with item type set to the array alias
+        schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
+
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new ArrayList<List<Integer>>()");
+
+        ModelUtils.setGenerateAliasAsModel(true);
+        defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new ArrayList<NestedArray>()");
+
+        // Create a map schema with additionalProperties type set to array alias
+        schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
+
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new HashMap<String, List<Integer>>()");
+
+        ModelUtils.setGenerateAliasAsModel(true);
+        defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new HashMap<String, NestedArray>()");
+        
+        // Test default value for date format
         DateSchema dateSchema = new DateSchema();
         LocalDate defaultLocalDate = LocalDate.of(2019,2,15);
         Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -446,6 +475,18 @@ public class AbstractJavaCodegenTest {
         defaultValue = codegen.getTypeDeclaration(schema);
         Assert.assertEquals(defaultValue, "List<NestedArray>");
 
+        // Create an array schema with item type set to the array alias
+        schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
+        schema.setUniqueItems(true);
+
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "Set<List<Integer>>");
+
+        ModelUtils.setGenerateAliasAsModel(true);
+        defaultValue = codegen.getTypeDeclaration(schema);
+        Assert.assertEquals(defaultValue, "Set<NestedArray>");
+
         // Create a map schema with additionalProperties type set to array alias
         schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
 
@@ -461,7 +502,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanTrueFromString() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "true");
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
@@ -470,7 +511,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanTrueFromBoolean() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, true);
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertTrue((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
@@ -479,7 +520,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanFalseFromString() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "false");
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
@@ -488,7 +529,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanFalseFromBoolean() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, false);
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
@@ -497,7 +538,7 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanFalseFromGarbage() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, "blibb");
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
@@ -506,10 +547,59 @@ public class AbstractJavaCodegenTest {
     @Test
     public void processOptsBooleanFalseFromNumeric() {
         final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore.yaml");
         codegen.additionalProperties().put(CodegenConstants.SNAPSHOT_VERSION, 42L);
         codegen.preprocessOpenAPI(openAPI);
         Assert.assertFalse((boolean) codegen.additionalProperties().get(CodegenConstants.SNAPSHOT_VERSION));
+    }
+
+    @Test
+    public void nullDefaultValueForModelWithDynamicProperties() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/mapSchemas.yaml");
+        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("ModelWithAdditionalProperties");
+        CodegenModel cm = codegen.fromModel("ModelWithAdditionalProperties", schema);
+        Assert.assertEquals(cm.vars.size(), 1, "Expected single declared var");
+        Assert.assertEquals(cm.vars.get(0).name, "id");
+        Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
+
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertNull(defaultValue);
+    }
+
+    @Test
+    public void maplikeDefaultValueForModelWithStringToStringMapping() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/mapSchemas.yaml");
+        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("ModelWithStringToStringMapping");
+        CodegenModel cm = codegen.fromModel("ModelWithAdditionalProperties", schema);
+        Assert.assertEquals(cm.vars.size(), 0, "Expected no declared vars");
+        Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
+
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new HashMap<String, String>()", "Expected string-string map aliased model to default to new HashMap<String, String>()");
+    }
+
+    @Test
+    public void maplikeDefaultValueForModelWithStringToModelMapping() {
+        final P_AbstractJavaCodegen codegen = new P_AbstractJavaCodegen();
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/mapSchemas.yaml");
+        codegen.additionalProperties().put(CodegenConstants.GENERATE_ALIAS_AS_MODEL, true);
+        codegen.setOpenAPI(openAPI);
+
+        Schema schema = openAPI.getComponents().getSchemas().get("ModelWithStringToModelMapping");
+        CodegenModel cm = codegen.fromModel("ModelWithStringToModelMapping", schema);
+        Assert.assertEquals(cm.vars.size(), 0, "Expected no declared vars");
+        Assert.assertNull(cm.defaultValue, "Expected no defined default value in spec");
+
+        String defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new HashMap<String, ComplexModel>()", "Expected string-ref map aliased model to default to new HashMap<String, ComplexModel>()");
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {

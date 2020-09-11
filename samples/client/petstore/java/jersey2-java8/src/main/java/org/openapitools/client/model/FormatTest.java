@@ -15,9 +15,12 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashMap;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -27,6 +30,8 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.openapitools.client.JSON;
+
 
 /**
  * FormatTest
@@ -47,7 +52,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
   FormatTest.JSON_PROPERTY_PASSWORD,
   FormatTest.JSON_PROPERTY_BIG_DECIMAL
 })
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FormatTest {
   public static final String JSON_PROPERTY_INTEGER = "integer";
   private Integer integer;
@@ -93,7 +98,6 @@ public class FormatTest {
 
 
   public FormatTest integer(Integer integer) {
-    
     this.integer = integer;
     return this;
   }
@@ -120,7 +124,6 @@ public class FormatTest {
 
 
   public FormatTest int32(Integer int32) {
-    
     this.int32 = int32;
     return this;
   }
@@ -147,7 +150,6 @@ public class FormatTest {
 
 
   public FormatTest int64(Long int64) {
-    
     this.int64 = int64;
     return this;
   }
@@ -172,7 +174,6 @@ public class FormatTest {
 
 
   public FormatTest number(BigDecimal number) {
-    
     this.number = number;
     return this;
   }
@@ -198,7 +199,6 @@ public class FormatTest {
 
 
   public FormatTest _float(Float _float) {
-    
     this._float = _float;
     return this;
   }
@@ -225,7 +225,6 @@ public class FormatTest {
 
 
   public FormatTest _double(Double _double) {
-    
     this._double = _double;
     return this;
   }
@@ -252,7 +251,6 @@ public class FormatTest {
 
 
   public FormatTest string(String string) {
-    
     this.string = string;
     return this;
   }
@@ -277,7 +275,6 @@ public class FormatTest {
 
 
   public FormatTest _byte(byte[] _byte) {
-    
     this._byte = _byte;
     return this;
   }
@@ -301,7 +298,6 @@ public class FormatTest {
 
 
   public FormatTest binary(File binary) {
-    
     this.binary = binary;
     return this;
   }
@@ -326,7 +322,6 @@ public class FormatTest {
 
 
   public FormatTest date(LocalDate date) {
-    
     this.date = date;
     return this;
   }
@@ -350,7 +345,6 @@ public class FormatTest {
 
 
   public FormatTest dateTime(OffsetDateTime dateTime) {
-    
     this.dateTime = dateTime;
     return this;
   }
@@ -375,7 +369,6 @@ public class FormatTest {
 
 
   public FormatTest uuid(UUID uuid) {
-    
     this.uuid = uuid;
     return this;
   }
@@ -400,7 +393,6 @@ public class FormatTest {
 
 
   public FormatTest password(String password) {
-    
     this.password = password;
     return this;
   }
@@ -424,7 +416,6 @@ public class FormatTest {
 
 
   public FormatTest bigDecimal(BigDecimal bigDecimal) {
-    
     this.bigDecimal = bigDecimal;
     return this;
   }
@@ -448,8 +439,11 @@ public class FormatTest {
   }
 
 
+  /**
+   * Return true if this format_test object is equal to o.
+   */
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -505,7 +499,7 @@ public class FormatTest {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

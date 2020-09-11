@@ -1,0 +1,41 @@
+openapi: 3.0.1
+info:
+  title: Regression test for an API which doesn't have any example
+  version: 0.0.1
+servers:
+- url: /
+paths:
+  /op:
+    get:
+      requestBody:
+        $ref: '#/components/requestBodies/inline_object'
+        content:
+          application/json:
+            schema:
+              properties:
+                propery:
+                  type: string
+              required:
+              - property
+              type: object
+        required: true
+      responses:
+        "200":
+          description: OK
+components:
+  requestBodies:
+    inline_object:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_object'
+      required: true
+  schemas:
+    inline_object:
+      properties:
+        propery:
+          type: string
+      required:
+      - property
+      type: object
+

@@ -1,4 +1,4 @@
-# ./Models.Order
+# Order
 ## Properties
 
 Name | Type | Description | Notes

@@ -72,7 +72,7 @@ class Category(object):
 
 
         :param id: The id of this Category.  # noqa: E501
-        :type: int
+        :type id: int
         """
 
         self._id = id
@@ -93,7 +93,7 @@ class Category(object):
 
 
         :param name: The name of this Category.  # noqa: E501
-        :type: str
+        :type name: str
         """
         if self.local_vars_configuration.client_side_validation and name is None:  # noqa: E501
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501

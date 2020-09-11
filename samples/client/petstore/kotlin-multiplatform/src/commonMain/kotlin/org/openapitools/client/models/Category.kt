@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * A category for a pet
  * @param id 
@@ -21,9 +22,7 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  */
 @Serializable
 data class Category (
-    @SerialName(value = "id") val id: kotlin.Long? = null
-,
+    @SerialName(value = "id") val id: kotlin.Long? = null,
     @SerialName(value = "name") val name: kotlin.String? = null
-
 )
 

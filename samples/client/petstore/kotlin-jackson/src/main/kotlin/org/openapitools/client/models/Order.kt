@@ -13,7 +13,7 @@ package org.openapitools.client.models
 
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.fasterxml.jackson.annotation.JsonFormat
+
 /**
  * An order for a pets from the pet store
  * @param id 
@@ -25,27 +25,19 @@ import com.fasterxml.jackson.annotation.JsonFormat
  */
 
 data class Order (
-    @JsonProperty("id")
-    val id: kotlin.Long? = null
-,
-    @JsonProperty("petId")
-    val petId: kotlin.Long? = null
-,
-    @JsonProperty("quantity")
-    val quantity: kotlin.Int? = null
-,
-    @JsonFormat
-    (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    @JsonProperty("shipDate")
-    val shipDate: java.time.OffsetDateTime? = null
-,
+    @field:JsonProperty("id")
+    val id: kotlin.Long? = null,
+    @field:JsonProperty("petId")
+    val petId: kotlin.Long? = null,
+    @field:JsonProperty("quantity")
+    val quantity: kotlin.Int? = null,
+    @field:JsonProperty("shipDate")
+    val shipDate: java.time.OffsetDateTime? = null,
     /* Order Status */
-    @JsonProperty("status")
-    val status: Order.Status? = null
-,
-    @JsonProperty("complete")
+    @field:JsonProperty("status")
+    val status: Order.Status? = null,
+    @field:JsonProperty("complete")
     val complete: kotlin.Boolean? = null
-
 ) {
 
     /**
@@ -53,11 +45,10 @@ data class Order (
     * Values: PLACED,APPROVED,DELIVERED
     */
     
-    @JsonFormat(shape = JsonFormat.Shape.NATURAL)
     enum class Status(val value: kotlin.String){
-        @JsonProperty(value="placed") PLACED("placed"),
-        @JsonProperty(value="approved") APPROVED("approved"),
-        @JsonProperty(value="delivered") DELIVERED("delivered");
+        @JsonProperty(value = "placed") PLACED("placed"),
+        @JsonProperty(value = "approved") APPROVED("approved"),
+        @JsonProperty(value = "delivered") DELIVERED("delivered");
     }
 }
 

@@ -68,7 +68,7 @@ class AdditionalPropertiesInteger(object):
 
 
         :param name: The name of this AdditionalPropertiesInteger.  # noqa: E501
-        :type: str
+        :type name: str
         """
 
         self._name = name

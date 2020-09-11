@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import com.squareup.moshi.Json
 import java.io.Serializable
+
 /**
  * A tag for a pet
  * @param id 
@@ -22,15 +23,13 @@ import java.io.Serializable
 
 data class Tag (
     @Json(name = "id")
-    val id: kotlin.Long? = null
-,
+    val id: kotlin.Long? = null,
     @Json(name = "name")
     val name: kotlin.String? = null
-
 ) : Serializable {
-	companion object {
-		private const val serialVersionUID: Long = 123
-	}
+    companion object {
+        private const val serialVersionUID: Long = 123
+    }
 
 }
 

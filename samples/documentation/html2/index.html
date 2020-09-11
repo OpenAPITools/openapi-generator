@@ -155,6 +155,31 @@ h={};g()}};typeof define==="function"&&define.amd&&define("google-code-prettify"
       //Convert elements with "marked" class to markdown
       processMarked();
     });
+
+    function findNode(id, currentNode) {
+        return (Object.keys(currentNode)[0] === id) ? currentNode : findNodeInChildren(id, currentNode);
+    }
+
+    function findNodeInChildren(id, currentNode) {
+        for (let prop in currentNode) {
+            if (currentNode.hasOwnProperty(prop)) {
+                let currentChild = currentNode[prop];
+                if (id === prop) {
+                    return currentChild;
+                } else {
+                    // Search in the current child
+                    if (typeof (currentChild) === 'object') {
+                        let result = findNode(id, currentChild);
+                        if (result !== false) {
+                            return result;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
   </script>
   <style type="text/css">
     @import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
@@ -842,12 +867,40 @@ ul.nav-tabs {
       "format" : "int64"
     },
     "name" : {
+      "pattern" : "^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$",
       "type" : "string"
     }
   },
   "description" : "A category for a pet",
   "xml" : {
     "name" : "Category"
+  }
+};
+    defs["inline_object"] = {
+  "type" : "object",
+  "properties" : {
+    "name" : {
+      "type" : "string",
+      "description" : "Updated name of the pet"
+    },
+    "status" : {
+      "type" : "string",
+      "description" : "Updated status of the pet"
+    }
+  }
+};
+    defs["inline_object_1"] = {
+  "type" : "object",
+  "properties" : {
+    "additionalMetadata" : {
+      "type" : "string",
+      "description" : "Additional data to pass to server"
+    },
+    "file" : {
+      "type" : "string",
+      "description" : "file to upload",
+      "format" : "binary"
+    }
   }
 };
     defs["Order"] = {
@@ -1146,13 +1199,15 @@ public class PetApiExample {
         PetApi apiInstance = new PetApi();
         Pet pet = ; // Pet | 
         try {
-            apiInstance.addPet(pet);
+            Pet result = apiInstance.addPet(pet);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#addPet");
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-addPet-0-android">
@@ -1164,7 +1219,8 @@ public class PetApiExample {
         PetApi apiInstance = new PetApi();
         Pet pet = ; // Pet | 
         try {
-            apiInstance.addPet(pet);
+            Pet result = apiInstance.addPet(pet);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#addPet");
             e.printStackTrace();
@@ -1188,7 +1244,10 @@ PetApi *apiInstance = [[PetApi alloc] init];
 
 // Add a new pet to the store
 [apiInstance addPetWith:pet
-              completionHandler: ^(NSError* error) {
+              completionHandler: ^(Pet output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
                             if (error) {
                                 NSLog(@"Error: %@", error);
                             }
@@ -1211,7 +1270,7 @@ var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully.');
+    console.log('API called successfully. Returned data: ' + data);
   }
 };
 api.addPet(pet, callback);
@@ -1244,7 +1303,8 @@ namespace Example
             try
             {
                 // Add a new pet to the store
-                apiInstance.addPet(pet);
+                Pet result = apiInstance.addPet(pet);
+                Debug.WriteLine(result);
             }
             catch (Exception e)
             {
@@ -1267,7 +1327,8 @@ $api_instance = new OpenAPITools\Client\Api\PetApi();
 $pet = ; // Pet | 
 
 try {
-    $api_instance->addPet($pet);
+    $result = $api_instance->addPet($pet);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->addPet: ', $e->getMessage(), PHP_EOL;
 }
@@ -1286,7 +1347,8 @@ my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $pet = WWW::OPenAPIClient::Object::Pet->new(); # Pet | 
 
 eval { 
-    $api_instance->addPet(pet => $pet);
+    my $result = $api_instance->addPet(pet => $pet);
+    print Dumper($result);
 };
 if ($@) {
     warn "Exception when calling PetApi->addPet: $@\n";
@@ -1309,7 +1371,8 @@ pet =  # Pet |
 
 try: 
     # Add a new pet to the store
-    api_instance.add_pet(pet)
+    api_response = api_instance.add_pet(pet)
+    pprint(api_response)
 except ApiException as e:
     print("Exception when calling PetApi->addPet: %s\n" % e)</code></pre>
                             </div>
@@ -1359,8 +1422,26 @@ pub fn main() {
 <p class="marked">Pet object that needs to be added to the store</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
-  var schema = schemaWrapper.schema;
+  var schemaWrapper = {
+  "description" : "Pet object that needs to be added to the store",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  },
+  "required" : true
+};
+  var schema = findNode('schema', schemaWrapper).schema;
+  if (!schema) {
+      schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {
@@ -1385,6 +1466,77 @@ $(document).ready(function() {
 
 
                           <h2>Responses</h2>
+                            <h3 id="examples-Pet-addPet-title-200"></h3>
+                            <p id="examples-Pet-addPet-description-200" class="marked"></p>
+                            <script>
+                              var responsePet200_description = `successful operation`;
+                              var responsePet200_description_break = responsePet200_description.indexOf('\n');
+                              if (responsePet200_description_break == -1) {
+                                $("#examples-Pet-addPet-title-200").text("Status: 200 - " + responsePet200_description);
+                              } else {
+                                $("#examples-Pet-addPet-title-200").text("Status: 200 - " + responsePet200_description.substring(0, responsePet200_description_break));
+                                $("#examples-Pet-addPet-description-200").html(responsePet200_description.substring(responsePet200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-Pet-addPet-200" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-Pet-addPet-200-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-Pet-addPet-200-wrapper" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-Pet-addPet-200-schema">
+                                  <div id="responses-Pet-addPet-schema-200" class="exampleStyle">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  }
+};
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                            schema = schemaWrapper.schema;
+                                        }
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-Pet-addPet-200-schema-data').val(JSON.stringify(schema));
+                                        var result = $('#responses-Pet-addPet-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-Pet-addPet-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
                             <h3 id="examples-Pet-addPet-title-405"></h3>
                             <p id="examples-Pet-addPet-description-405" class="marked"></p>
                             <script>
@@ -1473,7 +1625,8 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-deletePet-0-android">
@@ -1504,8 +1657,8 @@ public class PetApiExample {
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
-Long *petId = 789; // Pet id to delete
-String *apiKey = apiKey_example; //  (optional)
+Long *petId = 789; // Pet id to delete (default to null)
+String *apiKey = apiKey_example; //  (optional) (default to null)
 
 PetApi *apiInstance = [[PetApi alloc] init];
 
@@ -1566,8 +1719,8 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var petId = 789;  // Long | Pet id to delete
-            var apiKey = apiKey_example;  // String |  (optional) 
+            var petId = 789;  // Long | Pet id to delete (default to null)
+            var apiKey = apiKey_example;  // String |  (optional)  (default to null)
 
             try
             {
@@ -1635,8 +1788,8 @@ openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = openapi_client.PetApi()
-petId = 789 # Long | Pet id to delete
-apiKey = apiKey_example # String |  (optional)
+petId = 789 # Long | Pet id to delete (default to null)
+apiKey = apiKey_example # String |  (optional) (default to null)
 
 try: 
     # Deletes a pet
@@ -1829,7 +1982,8 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-findPetsByStatus-0-android">
@@ -1860,7 +2014,7 @@ public class PetApiExample {
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
-array[String] *status = ; // Status values that need to be considered for filter
+array[String] *status = ; // Status values that need to be considered for filter (default to null)
 
 PetApi *apiInstance = [[PetApi alloc] init];
 
@@ -1920,7 +2074,7 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var status = new array[String](); // array[String] | Status values that need to be considered for filter
+            var status = new array[String](); // array[String] | Status values that need to be considered for filter (default to null)
 
             try
             {
@@ -1989,7 +2143,7 @@ openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = openapi_client.PetApi()
-status =  # array[String] | Status values that need to be considered for filter
+status =  # array[String] | Status values that need to be considered for filter (default to null)
 
 try: 
     # Finds Pets by status
@@ -2016,11 +2170,6 @@ pub fn main() {
 
                           <h2>Scopes</h2>
                           <table>
-                            
-                              <tr>
-                                <td>write:pets</td>
-                                <td>modify pets in your account</td>
-                              </tr>
                             
                               <tr>
                                 <td>read:pets</td>
@@ -2118,9 +2267,14 @@ Status values that need to be considered for filter
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                            schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -2227,7 +2381,8 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-findPetsByTags-0-android">
@@ -2258,7 +2413,7 @@ public class PetApiExample {
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
-array[String] *tags = ; // Tags to filter by
+array[String] *tags = ; // Tags to filter by (default to null)
 
 PetApi *apiInstance = [[PetApi alloc] init];
 
@@ -2318,7 +2473,7 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var tags = new array[String](); // array[String] | Tags to filter by
+            var tags = new array[String](); // array[String] | Tags to filter by (default to null)
 
             try
             {
@@ -2387,7 +2542,7 @@ openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = openapi_client.PetApi()
-tags =  # array[String] | Tags to filter by
+tags =  # array[String] | Tags to filter by (default to null)
 
 try: 
     # Finds Pets by tags
@@ -2414,11 +2569,6 @@ pub fn main() {
 
                           <h2>Scopes</h2>
                           <table>
-                            
-                              <tr>
-                                <td>write:pets</td>
-                                <td>modify pets in your account</td>
-                              </tr>
                             
                               <tr>
                                 <td>read:pets</td>
@@ -2516,9 +2666,14 @@ Tags to filter by
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                            schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -2627,7 +2782,8 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-getPetById-0-android">
@@ -2660,7 +2816,7 @@ public class PetApiExample {
 // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 //[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"api_key"];
 
-Long *petId = 789; // ID of pet to return
+Long *petId = 789; // ID of pet to return (default to null)
 
 PetApi *apiInstance = [[PetApi alloc] init];
 
@@ -2724,7 +2880,7 @@ namespace Example
             // Configuration.Default.ApiKeyPrefix.Add("api_key", "Bearer");
 
             var apiInstance = new PetApi();
-            var petId = 789;  // Long | ID of pet to return
+            var petId = 789;  // Long | ID of pet to return (default to null)
 
             try
             {
@@ -2799,7 +2955,7 @@ openapi_client.configuration.api_key['api_key'] = 'YOUR_API_KEY'
 
 # create an instance of the API class
 api_instance = openapi_client.PetApi()
-petId = 789 # Long | ID of pet to return
+petId = 789 # Long | ID of pet to return (default to null)
 
 try: 
     # Find pet by ID
@@ -2915,9 +3071,14 @@ ID of pet to return
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                            schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -3039,13 +3200,15 @@ public class PetApiExample {
         PetApi apiInstance = new PetApi();
         Pet pet = ; // Pet | 
         try {
-            apiInstance.updatePet(pet);
+            Pet result = apiInstance.updatePet(pet);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePet");
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-updatePet-0-android">
@@ -3057,7 +3220,8 @@ public class PetApiExample {
         PetApi apiInstance = new PetApi();
         Pet pet = ; // Pet | 
         try {
-            apiInstance.updatePet(pet);
+            Pet result = apiInstance.updatePet(pet);
+            System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling PetApi#updatePet");
             e.printStackTrace();
@@ -3081,7 +3245,10 @@ PetApi *apiInstance = [[PetApi alloc] init];
 
 // Update an existing pet
 [apiInstance updatePetWith:pet
-              completionHandler: ^(NSError* error) {
+              completionHandler: ^(Pet output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
                             if (error) {
                                 NSLog(@"Error: %@", error);
                             }
@@ -3104,7 +3271,7 @@ var callback = function(error, data, response) {
   if (error) {
     console.error(error);
   } else {
-    console.log('API called successfully.');
+    console.log('API called successfully. Returned data: ' + data);
   }
 };
 api.updatePet(pet, callback);
@@ -3137,7 +3304,8 @@ namespace Example
             try
             {
                 // Update an existing pet
-                apiInstance.updatePet(pet);
+                Pet result = apiInstance.updatePet(pet);
+                Debug.WriteLine(result);
             }
             catch (Exception e)
             {
@@ -3160,7 +3328,8 @@ $api_instance = new OpenAPITools\Client\Api\PetApi();
 $pet = ; // Pet | 
 
 try {
-    $api_instance->updatePet($pet);
+    $result = $api_instance->updatePet($pet);
+    print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling PetApi->updatePet: ', $e->getMessage(), PHP_EOL;
 }
@@ -3179,7 +3348,8 @@ my $api_instance = WWW::OPenAPIClient::PetApi->new();
 my $pet = WWW::OPenAPIClient::Object::Pet->new(); # Pet | 
 
 eval { 
-    $api_instance->updatePet(pet => $pet);
+    my $result = $api_instance->updatePet(pet => $pet);
+    print Dumper($result);
 };
 if ($@) {
     warn "Exception when calling PetApi->updatePet: $@\n";
@@ -3202,7 +3372,8 @@ pet =  # Pet |
 
 try: 
     # Update an existing pet
-    api_instance.update_pet(pet)
+    api_response = api_instance.update_pet(pet)
+    pprint(api_response)
 except ApiException as e:
     print("Exception when calling PetApi->updatePet: %s\n" % e)</code></pre>
                             </div>
@@ -3252,8 +3423,26 @@ pub fn main() {
 <p class="marked">Pet object that needs to be added to the store</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
-  var schema = schemaWrapper.schema;
+  var schemaWrapper = {
+  "description" : "Pet object that needs to be added to the store",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  },
+  "required" : true
+};
+  var schema = findNode('schema', schemaWrapper).schema;
+  if (!schema) {
+      schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {
@@ -3278,6 +3467,77 @@ $(document).ready(function() {
 
 
                           <h2>Responses</h2>
+                            <h3 id="examples-Pet-updatePet-title-200"></h3>
+                            <p id="examples-Pet-updatePet-description-200" class="marked"></p>
+                            <script>
+                              var responsePet200_description = `successful operation`;
+                              var responsePet200_description_break = responsePet200_description.indexOf('\n');
+                              if (responsePet200_description_break == -1) {
+                                $("#examples-Pet-updatePet-title-200").text("Status: 200 - " + responsePet200_description);
+                              } else {
+                                $("#examples-Pet-updatePet-title-200").text("Status: 200 - " + responsePet200_description.substring(0, responsePet200_description_break));
+                                $("#examples-Pet-updatePet-description-200").html(responsePet200_description.substring(responsePet200_description_break));
+                              }
+                            </script>
+
+
+                            <ul id="responses-detail-Pet-updatePet-200" class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-Pet-updatePet-200-schema">Schema</a>
+                                </li>
+
+
+
+
+                            </ul>
+
+
+                            <div class="tab-content" id="responses-Pet-updatePet-200-wrapper" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-Pet-updatePet-200-schema">
+                                  <div id="responses-Pet-updatePet-schema-200" class="exampleStyle">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "successful operation",
+  "content" : {
+    "application/xml" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    },
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Pet"
+      }
+    }
+  }
+};
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                            schema = schemaWrapper.schema;
+                                        }
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-Pet-updatePet-200-schema-data').val(JSON.stringify(schema));
+                                        var result = $('#responses-Pet-updatePet-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-Pet-updatePet-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
                             <h3 id="examples-Pet-updatePet-title-400"></h3>
                             <p id="examples-Pet-updatePet-description-400" class="marked"></p>
                             <script>
@@ -3411,7 +3671,8 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-updatePetWithForm-0-android">
@@ -3443,7 +3704,7 @@ public class PetApiExample {
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
-Long *petId = 789; // ID of pet that needs to be updated
+Long *petId = 789; // ID of pet that needs to be updated (default to null)
 String *name = name_example; // Updated name of the pet (optional) (default to null)
 String *status = status_example; // Updated status of the pet (optional) (default to null)
 
@@ -3508,7 +3769,7 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var petId = 789;  // Long | ID of pet that needs to be updated
+            var petId = 789;  // Long | ID of pet that needs to be updated (default to null)
             var name = name_example;  // String | Updated name of the pet (optional)  (default to null)
             var status = status_example;  // String | Updated status of the pet (optional)  (default to null)
 
@@ -3580,7 +3841,7 @@ openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = openapi_client.PetApi()
-petId = 789 # Long | ID of pet that needs to be updated
+petId = 789 # Long | ID of pet that needs to be updated (default to null)
 name = name_example # String | Updated name of the pet (optional) (default to null)
 status = status_example # String | Updated status of the pet (optional) (default to null)
 
@@ -3801,7 +4062,8 @@ public class PetApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Pet-uploadFile-0-android">
@@ -3834,7 +4096,7 @@ public class PetApiExample {
 // Configure OAuth2 access token for authorization: (authentication scheme: petstore_auth)
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
-Long *petId = 789; // ID of pet to update
+Long *petId = 789; // ID of pet to update (default to null)
 String *additionalMetadata = additionalMetadata_example; // Additional data to pass to server (optional) (default to null)
 File *file = BINARY_DATA_HERE; // file to upload (optional) (default to null)
 
@@ -3902,7 +4164,7 @@ namespace Example
             Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
 
             var apiInstance = new PetApi();
-            var petId = 789;  // Long | ID of pet to update
+            var petId = 789;  // Long | ID of pet to update (default to null)
             var additionalMetadata = additionalMetadata_example;  // String | Additional data to pass to server (optional)  (default to null)
             var file = BINARY_DATA_HERE;  // File | file to upload (optional)  (default to null)
 
@@ -3977,7 +4239,7 @@ openapi_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 
 # create an instance of the API class
 api_instance = openapi_client.PetApi()
-petId = 789 # Long | ID of pet to update
+petId = 789 # Long | ID of pet to update (default to null)
 additionalMetadata = additionalMetadata_example # String | Additional data to pass to server (optional) (default to null)
 file = BINARY_DATA_HERE # File | file to upload (optional) (default to null)
 
@@ -4152,9 +4414,14 @@ file to upload
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                            schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -4236,7 +4503,8 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Store-deleteOrder-0-android">
@@ -4261,7 +4529,7 @@ public class StoreApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Store-deleteOrder-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">String *orderId = orderId_example; // ID of the order that needs to be deleted
+                              <pre class="prettyprint"><code class="language-cpp">String *orderId = orderId_example; // ID of the order that needs to be deleted (default to null)
 
 StoreApi *apiInstance = [[StoreApi alloc] init];
 
@@ -4310,7 +4578,7 @@ namespace Example
         {
             
             var apiInstance = new StoreApi();
-            var orderId = orderId_example;  // String | ID of the order that needs to be deleted
+            var orderId = orderId_example;  // String | ID of the order that needs to be deleted (default to null)
 
             try
             {
@@ -4367,7 +4635,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = openapi_client.StoreApi()
-orderId = orderId_example # String | ID of the order that needs to be deleted
+orderId = orderId_example # String | ID of the order that needs to be deleted (default to null)
 
 try: 
     # Delete purchase order by ID
@@ -4545,7 +4813,8 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Store-getInventory-0-android">
@@ -4790,9 +5059,14 @@ pub fn main() {
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                            schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -4872,7 +5146,8 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Store-getOrderById-0-android">
@@ -4898,7 +5173,7 @@ public class StoreApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-Store-getOrderById-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">Long *orderId = 789; // ID of pet that needs to be fetched
+                              <pre class="prettyprint"><code class="language-cpp">Long *orderId = 789; // ID of pet that needs to be fetched (default to null)
 
 StoreApi *apiInstance = [[StoreApi alloc] init];
 
@@ -4950,7 +5225,7 @@ namespace Example
         {
             
             var apiInstance = new StoreApi();
-            var orderId = 789;  // Long | ID of pet that needs to be fetched
+            var orderId = 789;  // Long | ID of pet that needs to be fetched (default to null)
 
             try
             {
@@ -5010,7 +5285,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = openapi_client.StoreApi()
-orderId = 789 # Long | ID of pet that needs to be fetched
+orderId = 789 # Long | ID of pet that needs to be fetched (default to null)
 
 try: 
     # Find purchase order by ID
@@ -5126,9 +5401,14 @@ ID of pet that needs to be fetched
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                            schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -5252,7 +5532,8 @@ public class StoreApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-Store-placeOrder-0-android">
@@ -5435,8 +5716,21 @@ pub fn main() {
 <p class="marked">order placed for purchasing the pet</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
-  var schema = schemaWrapper.schema;
+  var schemaWrapper = {
+  "description" : "order placed for purchasing the pet",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/Order"
+      }
+    }
+  },
+  "required" : true
+};
+  var schema = findNode('schema', schemaWrapper).schema;
+  if (!schema) {
+      schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {
@@ -5506,9 +5800,14 @@ $(document).ready(function() {
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                            schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -5602,7 +5901,14 @@ import java.util.*;
 public class UserApiExample {
 
     public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
         
+        // Configure API key authorization: auth_cookie
+        ApiKeyAuth auth_cookie = (ApiKeyAuth) defaultClient.getAuthentication("auth_cookie");
+        auth_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //auth_cookie.setApiKeyPrefix("Token");
+
         UserApi apiInstance = new UserApi();
         User user = ; // User | 
         try {
@@ -5612,7 +5918,8 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-createUser-0-android">
@@ -5637,7 +5944,14 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-createUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">User *user = ; // 
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+
+// Configure API key authorization: (authentication scheme: auth_cookie)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"AUTH_KEY"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"AUTH_KEY"];
+
+User *user = ; // 
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
@@ -5653,6 +5967,13 @@ UserApi *apiInstance = [[UserApi alloc] init];
 
                             <div class="tab-pane" id="examples-User-createUser-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
+
+// Configure API key authorization: auth_cookie
+var auth_cookie = defaultClient.authentications['auth_cookie'];
+auth_cookie.apiKey = "YOUR API KEY"
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//auth_cookie.apiKeyPrefix['AUTH_KEY'] = "Token"
 
 var api = new OpenApiPetstore.UserApi()
 var user = ; // {User} 
@@ -5685,6 +6006,11 @@ namespace Example
         public void main()
         {
             
+            // Configure API key authorization: auth_cookie
+            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+
             var apiInstance = new UserApi();
             var user = new User(); // User | 
 
@@ -5707,6 +6033,11 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure API key authorization: auth_cookie
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('AUTH_KEY', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('AUTH_KEY', 'Bearer');
+
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $user = ; // User | 
 
@@ -5722,6 +6053,11 @@ try {
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
+
+# Configure API key authorization: auth_cookie
+$WWW::OPenAPIClient::Configuration::api_key->{'AUTH_KEY'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'AUTH_KEY'} = "Bearer";
 
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $user = WWW::OPenAPIClient::Object::User->new(); # User | 
@@ -5740,6 +6076,11 @@ import time
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
+
+# Configure API key authorization: auth_cookie
+openapi_client.configuration.api_key['AUTH_KEY'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openapi_client.configuration.api_key_prefix['AUTH_KEY'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = openapi_client.UserApi()
@@ -5787,8 +6128,21 @@ pub fn main() {
 <p class="marked">Created user object</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
-  var schema = schemaWrapper.schema;
+  var schemaWrapper = {
+  "description" : "Created user object",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/User"
+      }
+    }
+  },
+  "required" : true
+};
+  var schema = findNode('schema', schemaWrapper).schema;
+  if (!schema) {
+      schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {
@@ -5885,7 +6239,14 @@ import java.util.*;
 public class UserApiExample {
 
     public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
         
+        // Configure API key authorization: auth_cookie
+        ApiKeyAuth auth_cookie = (ApiKeyAuth) defaultClient.getAuthentication("auth_cookie");
+        auth_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //auth_cookie.setApiKeyPrefix("Token");
+
         UserApi apiInstance = new UserApi();
         array[User] user = ; // array[User] | 
         try {
@@ -5895,7 +6256,8 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-android">
@@ -5920,7 +6282,14 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">array[User] *user = ; // 
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+
+// Configure API key authorization: (authentication scheme: auth_cookie)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"AUTH_KEY"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"AUTH_KEY"];
+
+array[User] *user = ; // 
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
@@ -5936,6 +6305,13 @@ UserApi *apiInstance = [[UserApi alloc] init];
 
                             <div class="tab-pane" id="examples-User-createUsersWithArrayInput-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
+
+// Configure API key authorization: auth_cookie
+var auth_cookie = defaultClient.authentications['auth_cookie'];
+auth_cookie.apiKey = "YOUR API KEY"
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//auth_cookie.apiKeyPrefix['AUTH_KEY'] = "Token"
 
 var api = new OpenApiPetstore.UserApi()
 var user = ; // {array[User]} 
@@ -5968,6 +6344,11 @@ namespace Example
         public void main()
         {
             
+            // Configure API key authorization: auth_cookie
+            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+
             var apiInstance = new UserApi();
             var user = new array[User](); // array[User] | 
 
@@ -5990,6 +6371,11 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure API key authorization: auth_cookie
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('AUTH_KEY', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('AUTH_KEY', 'Bearer');
+
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $user = ; // array[User] | 
 
@@ -6005,6 +6391,11 @@ try {
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
+
+# Configure API key authorization: auth_cookie
+$WWW::OPenAPIClient::Configuration::api_key->{'AUTH_KEY'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'AUTH_KEY'} = "Bearer";
 
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $user = [WWW::OPenAPIClient::Object::array[User]->new()]; # array[User] | 
@@ -6023,6 +6414,11 @@ import time
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
+
+# Configure API key authorization: auth_cookie
+openapi_client.configuration.api_key['AUTH_KEY'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openapi_client.configuration.api_key_prefix['AUTH_KEY'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = openapi_client.UserApi()
@@ -6070,8 +6466,24 @@ pub fn main() {
 <p class="marked">List of user object</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
-  var schema = schemaWrapper.schema;
+  var schemaWrapper = {
+  "description" : "List of user object",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/User"
+        }
+      }
+    }
+  },
+  "required" : true
+};
+  var schema = findNode('schema', schemaWrapper).schema;
+  if (!schema) {
+      schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {
@@ -6168,7 +6580,14 @@ import java.util.*;
 public class UserApiExample {
 
     public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
         
+        // Configure API key authorization: auth_cookie
+        ApiKeyAuth auth_cookie = (ApiKeyAuth) defaultClient.getAuthentication("auth_cookie");
+        auth_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //auth_cookie.setApiKeyPrefix("Token");
+
         UserApi apiInstance = new UserApi();
         array[User] user = ; // array[User] | 
         try {
@@ -6178,7 +6597,8 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-createUsersWithListInput-0-android">
@@ -6203,7 +6623,14 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-createUsersWithListInput-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">array[User] *user = ; // 
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+
+// Configure API key authorization: (authentication scheme: auth_cookie)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"AUTH_KEY"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"AUTH_KEY"];
+
+array[User] *user = ; // 
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
@@ -6219,6 +6646,13 @@ UserApi *apiInstance = [[UserApi alloc] init];
 
                             <div class="tab-pane" id="examples-User-createUsersWithListInput-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
+
+// Configure API key authorization: auth_cookie
+var auth_cookie = defaultClient.authentications['auth_cookie'];
+auth_cookie.apiKey = "YOUR API KEY"
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//auth_cookie.apiKeyPrefix['AUTH_KEY'] = "Token"
 
 var api = new OpenApiPetstore.UserApi()
 var user = ; // {array[User]} 
@@ -6251,6 +6685,11 @@ namespace Example
         public void main()
         {
             
+            // Configure API key authorization: auth_cookie
+            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+
             var apiInstance = new UserApi();
             var user = new array[User](); // array[User] | 
 
@@ -6273,6 +6712,11 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure API key authorization: auth_cookie
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('AUTH_KEY', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('AUTH_KEY', 'Bearer');
+
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $user = ; // array[User] | 
 
@@ -6288,6 +6732,11 @@ try {
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
+
+# Configure API key authorization: auth_cookie
+$WWW::OPenAPIClient::Configuration::api_key->{'AUTH_KEY'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'AUTH_KEY'} = "Bearer";
 
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $user = [WWW::OPenAPIClient::Object::array[User]->new()]; # array[User] | 
@@ -6306,6 +6755,11 @@ import time
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
+
+# Configure API key authorization: auth_cookie
+openapi_client.configuration.api_key['AUTH_KEY'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openapi_client.configuration.api_key_prefix['AUTH_KEY'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = openapi_client.UserApi()
@@ -6353,8 +6807,24 @@ pub fn main() {
 <p class="marked">List of user object</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
-  var schema = schemaWrapper.schema;
+  var schemaWrapper = {
+  "description" : "List of user object",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "type" : "array",
+        "items" : {
+          "$ref" : "#/components/schemas/User"
+        }
+      }
+    }
+  },
+  "required" : true
+};
+  var schema = findNode('schema', schemaWrapper).schema;
+  if (!schema) {
+      schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {
@@ -6451,7 +6921,14 @@ import java.util.*;
 public class UserApiExample {
 
     public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
         
+        // Configure API key authorization: auth_cookie
+        ApiKeyAuth auth_cookie = (ApiKeyAuth) defaultClient.getAuthentication("auth_cookie");
+        auth_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //auth_cookie.setApiKeyPrefix("Token");
+
         UserApi apiInstance = new UserApi();
         String username = username_example; // String | The name that needs to be deleted
         try {
@@ -6461,7 +6938,8 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-deleteUser-0-android">
@@ -6486,7 +6964,14 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-deleteUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // The name that needs to be deleted
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+
+// Configure API key authorization: (authentication scheme: auth_cookie)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"AUTH_KEY"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"AUTH_KEY"];
+
+String *username = username_example; // The name that needs to be deleted (default to null)
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
@@ -6502,6 +6987,13 @@ UserApi *apiInstance = [[UserApi alloc] init];
 
                             <div class="tab-pane" id="examples-User-deleteUser-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
+
+// Configure API key authorization: auth_cookie
+var auth_cookie = defaultClient.authentications['auth_cookie'];
+auth_cookie.apiKey = "YOUR API KEY"
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//auth_cookie.apiKeyPrefix['AUTH_KEY'] = "Token"
 
 var api = new OpenApiPetstore.UserApi()
 var username = username_example; // {String} The name that needs to be deleted
@@ -6534,8 +7026,13 @@ namespace Example
         public void main()
         {
             
+            // Configure API key authorization: auth_cookie
+            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+
             var apiInstance = new UserApi();
-            var username = username_example;  // String | The name that needs to be deleted
+            var username = username_example;  // String | The name that needs to be deleted (default to null)
 
             try
             {
@@ -6556,6 +7053,11 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure API key authorization: auth_cookie
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('AUTH_KEY', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('AUTH_KEY', 'Bearer');
+
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $username = username_example; // String | The name that needs to be deleted
 
@@ -6571,6 +7073,11 @@ try {
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
+
+# Configure API key authorization: auth_cookie
+$WWW::OPenAPIClient::Configuration::api_key->{'AUTH_KEY'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'AUTH_KEY'} = "Bearer";
 
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $username = username_example; # String | The name that needs to be deleted
@@ -6590,9 +7097,14 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
+# Configure API key authorization: auth_cookie
+openapi_client.configuration.api_key['AUTH_KEY'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openapi_client.configuration.api_key_prefix['AUTH_KEY'] = 'Bearer'
+
 # create an instance of the API class
 api_instance = openapi_client.UserApi()
-username = username_example # String | The name that needs to be deleted
+username = username_example # String | The name that needs to be deleted (default to null)
 
 try: 
     # Delete user
@@ -6764,7 +7276,8 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-getUserByName-0-android">
@@ -6790,7 +7303,7 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-getUserByName-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // The name that needs to be fetched. Use user1 for testing.
+                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // The name that needs to be fetched. Use user1 for testing. (default to null)
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
@@ -6842,7 +7355,7 @@ namespace Example
         {
             
             var apiInstance = new UserApi();
-            var username = username_example;  // String | The name that needs to be fetched. Use user1 for testing.
+            var username = username_example;  // String | The name that needs to be fetched. Use user1 for testing. (default to null)
 
             try
             {
@@ -6902,7 +7415,7 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = openapi_client.UserApi()
-username = username_example # String | The name that needs to be fetched. Use user1 for testing.
+username = username_example # String | The name that needs to be fetched. Use user1 for testing. (default to null)
 
 try: 
     # Get user by user name
@@ -7015,9 +7528,14 @@ The name that needs to be fetched. Use user1 for testing.
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                            schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -7142,7 +7660,8 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-loginUser-0-android">
@@ -7169,8 +7688,8 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-loginUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // The user name for login
-String *password = password_example; // The password for login in clear text
+                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // The user name for login (default to null)
+String *password = password_example; // The password for login in clear text (default to null)
 
 UserApi *apiInstance = [[UserApi alloc] init];
 
@@ -7224,8 +7743,8 @@ namespace Example
         {
             
             var apiInstance = new UserApi();
-            var username = username_example;  // String | The user name for login
-            var password = password_example;  // String | The password for login in clear text
+            var username = username_example;  // String | The user name for login (default to null)
+            var password = password_example;  // String | The password for login in clear text (default to null)
 
             try
             {
@@ -7287,8 +7806,8 @@ from pprint import pprint
 
 # create an instance of the API class
 api_instance = openapi_client.UserApi()
-username = username_example # String | The user name for login
-password = password_example # String | The password for login in clear text
+username = username_example # String | The user name for login (default to null)
+password = password_example # String | The password for login in clear text (default to null)
 
 try: 
     # Logs user into the system
@@ -7416,8 +7935,19 @@ The password for login in clear text
                                         var schemaWrapper = {
   "description" : "successful operation",
   "headers" : {
+    "Set-Cookie" : {
+      "description" : "Cookie authentication key for use with the `auth_cookie` apiKey authentication.",
+      "style" : "simple",
+      "explode" : false,
+      "schema" : {
+        "type" : "string",
+        "example" : "AUTH_KEY=abcde12345; Path=/; HttpOnly"
+      }
+    },
     "X-Rate-Limit" : {
       "description" : "calls per hour allowed by the user",
+      "style" : "simple",
+      "explode" : false,
       "schema" : {
         "type" : "integer",
         "format" : "int32"
@@ -7425,6 +7955,8 @@ The password for login in clear text
     },
     "X-Expires-After" : {
       "description" : "date in UTC when toekn expires",
+      "style" : "simple",
+      "explode" : false,
       "schema" : {
         "type" : "string",
         "format" : "date-time"
@@ -7444,9 +7976,14 @@ The password for login in clear text
     }
   }
 };
-                                        var schema = schemaWrapper.schema;
+                                        var schema = findNode('schema',schemaWrapper).schema;
+                                        if (!schema) {
+                                            schema = schemaWrapper.schema;
+                                        }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
+                                        } else if (schema.items != null && schema.items.$ref != null) {
+                                            schema.items = defsParser.$refs.get(schema.items.$ref);
                                         } else {
                                           schemaWrapper.definitions = Object.assign({}, defs);
                                           $RefParser.dereference(schemaWrapper).catch(function(err) {
@@ -7472,6 +8009,12 @@ The password for login in clear text
                                               <th width="100px">Format</th>
                                               <th>Description</th>
                                           </tr>
+                                              <tr>
+                                                  <td>SetMinusCookie</td>
+                                                  <td>String</td>
+                                                  <td></td>
+                                                  <td>Cookie authentication key for use with the &#x60;auth_cookie&#x60; apiKey authentication.</td>
+                                              </tr>
                                               <tr>
                                                   <td>XMinusRateMinusLimit</td>
                                                   <td>Integer</td>
@@ -7559,7 +8102,14 @@ import java.util.*;
 public class UserApiExample {
 
     public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
         
+        // Configure API key authorization: auth_cookie
+        ApiKeyAuth auth_cookie = (ApiKeyAuth) defaultClient.getAuthentication("auth_cookie");
+        auth_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //auth_cookie.setApiKeyPrefix("Token");
+
         UserApi apiInstance = new UserApi();
         try {
             apiInstance.logoutUser();
@@ -7568,7 +8118,8 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-logoutUser-0-android">
@@ -7592,7 +8143,14 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-logoutUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+
+// Configure API key authorization: (authentication scheme: auth_cookie)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"AUTH_KEY"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"AUTH_KEY"];
+
+
 UserApi *apiInstance = [[UserApi alloc] init];
 
 // Logs out current logged in user session
@@ -7607,6 +8165,13 @@ UserApi *apiInstance = [[UserApi alloc] init];
 
                             <div class="tab-pane" id="examples-User-logoutUser-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
+
+// Configure API key authorization: auth_cookie
+var auth_cookie = defaultClient.authentications['auth_cookie'];
+auth_cookie.apiKey = "YOUR API KEY"
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//auth_cookie.apiKeyPrefix['AUTH_KEY'] = "Token"
 
 var api = new OpenApiPetstore.UserApi()
 var callback = function(error, data, response) {
@@ -7637,6 +8202,11 @@ namespace Example
         public void main()
         {
             
+            // Configure API key authorization: auth_cookie
+            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+
             var apiInstance = new UserApi();
 
             try
@@ -7658,6 +8228,11 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure API key authorization: auth_cookie
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('AUTH_KEY', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('AUTH_KEY', 'Bearer');
+
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 
 try {
@@ -7672,6 +8247,11 @@ try {
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
+
+# Configure API key authorization: auth_cookie
+$WWW::OPenAPIClient::Configuration::api_key->{'AUTH_KEY'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'AUTH_KEY'} = "Bearer";
 
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 
@@ -7689,6 +8269,11 @@ import time
 import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
+
+# Configure API key authorization: auth_cookie
+openapi_client.configuration.api_key['AUTH_KEY'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openapi_client.configuration.api_key_prefix['AUTH_KEY'] = 'Bearer'
 
 # create an instance of the API class
 api_instance = openapi_client.UserApi()
@@ -7799,7 +8384,14 @@ import java.util.*;
 public class UserApiExample {
 
     public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
         
+        // Configure API key authorization: auth_cookie
+        ApiKeyAuth auth_cookie = (ApiKeyAuth) defaultClient.getAuthentication("auth_cookie");
+        auth_cookie.setApiKey("YOUR API KEY");
+        // Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+        //auth_cookie.setApiKeyPrefix("Token");
+
         UserApi apiInstance = new UserApi();
         String username = username_example; // String | name that need to be deleted
         User user = ; // User | 
@@ -7810,7 +8402,8 @@ public class UserApiExample {
             e.printStackTrace();
         }
     }
-}</code></pre>
+}
+</code></pre>
                           </div>
 
                           <div class="tab-pane" id="examples-User-updateUser-0-android">
@@ -7836,7 +8429,14 @@ public class UserApiExample {
   <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
   </div> -->
                             <div class="tab-pane" id="examples-User-updateUser-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // name that need to be deleted
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+
+// Configure API key authorization: (authentication scheme: auth_cookie)
+[apiConfig setApiKey:@"YOUR_API_KEY" forApiKeyIdentifier:@"AUTH_KEY"];
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+//[apiConfig setApiKeyPrefix:@"Bearer" forApiKeyIdentifier:@"AUTH_KEY"];
+
+String *username = username_example; // name that need to be deleted (default to null)
 User *user = ; // 
 
 UserApi *apiInstance = [[UserApi alloc] init];
@@ -7854,6 +8454,13 @@ UserApi *apiInstance = [[UserApi alloc] init];
 
                             <div class="tab-pane" id="examples-User-updateUser-0-javascript">
                               <pre class="prettyprint"><code class="language-js">var OpenApiPetstore = require('open_api_petstore');
+var defaultClient = OpenApiPetstore.ApiClient.instance;
+
+// Configure API key authorization: auth_cookie
+var auth_cookie = defaultClient.authentications['auth_cookie'];
+auth_cookie.apiKey = "YOUR API KEY"
+// Uncomment the following line to set a prefix for the API key, e.g. "Token" (defaults to null)
+//auth_cookie.apiKeyPrefix['AUTH_KEY'] = "Token"
 
 var api = new OpenApiPetstore.UserApi()
 var username = username_example; // {String} name that need to be deleted
@@ -7887,8 +8494,13 @@ namespace Example
         public void main()
         {
             
+            // Configure API key authorization: auth_cookie
+            Configuration.Default.ApiKey.Add("AUTH_KEY", "YOUR_API_KEY");
+            // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+            // Configuration.Default.ApiKeyPrefix.Add("AUTH_KEY", "Bearer");
+
             var apiInstance = new UserApi();
-            var username = username_example;  // String | name that need to be deleted
+            var username = username_example;  // String | name that need to be deleted (default to null)
             var user = new User(); // User | 
 
             try
@@ -7910,6 +8522,11 @@ namespace Example
                               <pre class="prettyprint"><code class="language-php"><&#63;php
 require_once(__DIR__ . '/vendor/autoload.php');
 
+// Configure API key authorization: auth_cookie
+OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKey('AUTH_KEY', 'YOUR_API_KEY');
+// Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+// OpenAPITools\Client\Configuration::getDefaultConfiguration()->setApiKeyPrefix('AUTH_KEY', 'Bearer');
+
 $api_instance = new OpenAPITools\Client\Api\UserApi();
 $username = username_example; // String | name that need to be deleted
 $user = ; // User | 
@@ -7926,6 +8543,11 @@ try {
                               <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
 use WWW::OPenAPIClient::Configuration;
 use WWW::OPenAPIClient::UserApi;
+
+# Configure API key authorization: auth_cookie
+$WWW::OPenAPIClient::Configuration::api_key->{'AUTH_KEY'} = 'YOUR_API_KEY';
+# uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+#$WWW::OPenAPIClient::Configuration::api_key_prefix->{'AUTH_KEY'} = "Bearer";
 
 my $api_instance = WWW::OPenAPIClient::UserApi->new();
 my $username = username_example; # String | name that need to be deleted
@@ -7946,9 +8568,14 @@ import openapi_client
 from openapi_client.rest import ApiException
 from pprint import pprint
 
+# Configure API key authorization: auth_cookie
+openapi_client.configuration.api_key['AUTH_KEY'] = 'YOUR_API_KEY'
+# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
+# openapi_client.configuration.api_key_prefix['AUTH_KEY'] = 'Bearer'
+
 # create an instance of the API class
 api_instance = openapi_client.UserApi()
-username = username_example # String | name that need to be deleted
+username = username_example # String | name that need to be deleted (default to null)
 user =  # User | 
 
 try: 
@@ -8024,8 +8651,21 @@ name that need to be deleted
 <p class="marked">Updated user object</p>
 <script>
 $(document).ready(function() {
-  var schemaWrapper = ;
-  var schema = schemaWrapper.schema;
+  var schemaWrapper = {
+  "description" : "Updated user object",
+  "content" : {
+    "application/json" : {
+      "schema" : {
+        "$ref" : "#/components/schemas/User"
+      }
+    }
+  },
+  "required" : true
+};
+  var schema = findNode('schema', schemaWrapper).schema;
+  if (!schema) {
+      schema = schemaWrapper.schema;
+  }
   if (schema.$ref != null) {
     schema = defsParser.$refs.get(schema.$ref);
   } else {
@@ -9838,8 +10478,7 @@ g,0<c.length&&(c=Aa[c[0]])&&(a.c[e]=c))}a.c[e]||(c=Aa[e])&&(a.c[e]=c);for(c=0;c<
 </script>
 
   <script>
-    var schemaWrapper = {};
-    schemaWrapper.definitions = Object.assign({}, defs);
+    var schemaWrapper = { "components": { "schemas" : defs}};
     defsParser = new $RefParser();
     defsParser.dereference(schemaWrapper).catch(function(err) {
       console.log(err);

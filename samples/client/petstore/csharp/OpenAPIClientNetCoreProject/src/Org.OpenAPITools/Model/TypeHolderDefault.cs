@@ -98,31 +98,31 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets StringItem
         /// </summary>
-        [DataMember(Name="string_item", EmitDefaultValue=false)]
+        [DataMember(Name="string_item", EmitDefaultValue=true)]
         public string StringItem { get; set; }
 
         /// <summary>
         /// Gets or Sets NumberItem
         /// </summary>
-        [DataMember(Name="number_item", EmitDefaultValue=false)]
+        [DataMember(Name="number_item", EmitDefaultValue=true)]
         public decimal NumberItem { get; set; }
 
         /// <summary>
         /// Gets or Sets IntegerItem
         /// </summary>
-        [DataMember(Name="integer_item", EmitDefaultValue=false)]
+        [DataMember(Name="integer_item", EmitDefaultValue=true)]
         public int IntegerItem { get; set; }
 
         /// <summary>
         /// Gets or Sets BoolItem
         /// </summary>
-        [DataMember(Name="bool_item", EmitDefaultValue=false)]
+        [DataMember(Name="bool_item", EmitDefaultValue=true)]
         public bool BoolItem { get; set; }
 
         /// <summary>
         /// Gets or Sets ArrayItem
         /// </summary>
-        [DataMember(Name="array_item", EmitDefaultValue=false)]
+        [DataMember(Name="array_item", EmitDefaultValue=true)]
         public List<int> ArrayItem { get; set; }
 
         /// <summary>

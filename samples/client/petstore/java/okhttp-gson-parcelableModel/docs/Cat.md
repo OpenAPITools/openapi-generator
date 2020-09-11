@@ -9,8 +9,4 @@ Name | Type | Description | Notes
 **declawed** | **Boolean** |  |  [optional]
 
 
-## Implemented Interfaces
-
-* Parcelable
-
 

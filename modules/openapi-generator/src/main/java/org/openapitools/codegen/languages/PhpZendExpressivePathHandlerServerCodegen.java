@@ -36,6 +36,7 @@ import java.util.*;
 public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpZendExpressivePathHandlerServerCodegen.class);
 
+    // TODO: Rename to x- prefixed vendor extensions, per specification.
     public static final String VEN_FROM_QUERY = "internal.ze-ph.fromQuery";
     public static final String VEN_COLLECTION_FORMAT = "internal.ze-ph.collectionFormat";
     public static final String VEN_QUERY_DATA_TYPE = "internal.ze-ph.queryDataType";
@@ -337,7 +338,7 @@ public class PhpZendExpressivePathHandlerServerCodegen extends AbstractPhpCodege
             op.httpMethod = httpMethodDeclaration;
             //Producing content with media type "*/*" is not supported
             if (op.produces != null) {
-                for (Map<String, String> p: op.produces) {
+                for (Map<String, String> p : op.produces) {
                     if (p.replace("mediaType", "*/*", "n/a")) {
                         LOGGER.warn("Media type range '*/*' is not supported, using 'n/a' for code generation instead");
                     }

@@ -174,10 +174,21 @@ samples/client/petstore/python-asyncio/.venv/
 samples/client/petstore/python-asyncio/.pytest_cache/
 samples/client/petstore/python-tornado/.venv/
 
+# PHP
+samples/client/petstore/php/OpenAPIClient-php/composer.lock
+samples/openapi3/server/petstore/php-symfony/SymfonyBundle-php/composer.lock
+samples/openapi3/server/petstore/php-ze-ph/composer.lock
+samples/server/petstore/php-laravel/lib/composer.lock
+samples/server/petstore/php-lumen/lib/composer.lock
+samples/server/petstore/php-slim4/composer.lock
+samples/server/petstore/php-symfony/SymfonyBundle-php/composer.lock
+samples/server/petstore/php-ze-ph/composer.lock
+
 # ts
 samples/client/petstore/typescript-angular2/npm/npm-debug.log
 samples/client/petstore/typescript-node/npm/npm-debug.log
 samples/client/petstore/typescript-angular/tsd-debug.log
+samples/client/petstore/typescript-axios/tests/**/dist/
 samples/client/petstore/typescript-fetch/tests/**/dist/
 
 # aspnetcore
@@ -231,7 +242,8 @@ samples/client/petstore/dart/petstore/test/packages
 **/.dart_tool
 
 # JS
-samples/client/petstore/javascript/package-lock.json
+samples/client/petstore/javascript-es6/package-lock.json
+samples/client/petstore/javascript-promise-es6/package-lock.json
 
 # elm
 samples/client/petstore/elm/index.html

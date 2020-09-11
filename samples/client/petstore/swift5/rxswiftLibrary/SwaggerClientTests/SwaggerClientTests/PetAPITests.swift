@@ -66,7 +66,30 @@ class PetAPITests: XCTestCase {
         self.waitForExpectations(timeout: testTimeout, handler: nil)
     }
 
-    func test3DeletePet() {
+    func test3UploadFile() {
+        let expectation = self.expectation(description: "testUploadFile")
+
+        let imageName = UUID().uuidString + ".png"
+
+        guard
+            let image = UIImage(color: .red, size: CGSize(width: 10, height: 10)),
+            let imageURL = FileUtils.saveImage(imageName: imageName, image: image)
+        else {
+            fatalError()
+        }
+
+        PetAPI.uploadFile(petId: 1000, additionalMetadata: "additionalMetadata", file: imageURL).subscribe(onNext: { _ in
+            FileUtils.deleteFile(fileURL: imageURL)
+            expectation.fulfill()
+        }, onError: { _ in
+            FileUtils.deleteFile(fileURL: imageURL)
+            XCTFail("error uploading file")
+        }).disposed(by: disposeBag)
+
+        self.waitForExpectations(timeout: testTimeout, handler: nil)
+    }
+
+    func test4DeletePet() {
         let expectation = self.expectation(description: "testDeletePet")
         PetAPI.deletePet(petId: 1000).subscribe(onNext: {
                 expectation.fulfill()

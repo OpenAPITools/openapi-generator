@@ -15,6 +15,7 @@ import org.openapitools.client.models.Foo
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * 
  * @param string 
@@ -22,7 +23,5 @@ import kotlinx.serialization.internal.CommonEnumSerializer
 @Serializable
 data class InlineResponseDefault (
     @SerialName(value = "string") val string: Foo? = null
-) 
-
-
+)
 

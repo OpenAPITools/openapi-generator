@@ -14,6 +14,7 @@ package org.openapitools.client.models
 
 import kotlinx.serialization.*
 import kotlinx.serialization.internal.CommonEnumSerializer
+
 /**
  * Describes the result of uploading an image resource
  * @param code 
@@ -22,11 +23,8 @@ import kotlinx.serialization.internal.CommonEnumSerializer
  */
 @Serializable
 data class ApiResponse (
-    @SerialName(value = "code") val code: kotlin.Int? = null
-,
-    @SerialName(value = "type") val type: kotlin.String? = null
-,
+    @SerialName(value = "code") val code: kotlin.Int? = null,
+    @SerialName(value = "type") val type: kotlin.String? = null,
     @SerialName(value = "message") val message: kotlin.String? = null
-
 )
 

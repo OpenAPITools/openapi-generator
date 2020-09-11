@@ -33,6 +33,9 @@ user_t *user_create(
 
 
 void user_free(user_t *user) {
+    if(NULL == user){
+        return ;
+    }
     listEntry_t *listEntry;
     free(user->username);
     free(user->first_name);

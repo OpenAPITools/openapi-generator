@@ -13,6 +13,7 @@ package org.openapitools.client.models
 
 
 import com.google.gson.annotations.SerializedName
+
 /**
  * Describes the result of uploading an image resource
  * @param code 
@@ -22,13 +23,10 @@ import com.google.gson.annotations.SerializedName
 
 data class ApiResponse (
     @SerializedName("code")
-    val code: kotlin.Int? = null
-,
+    val code: kotlin.Int? = null,
     @SerializedName("type")
-    val type: kotlin.String? = null
-,
+    val type: kotlin.String? = null,
     @SerializedName("message")
     val message: kotlin.String? = null
-
 )
 

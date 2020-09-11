@@ -45,7 +45,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
     public static final String PACKAGE_NAME = "packageName";
     public static final String PACKAGE_VERSION = "packageVersion";
 
-    static final String X_MODEL_MODULE = "x-modelModule";
+    static final String X_MODEL_MODULE = "x-model-module";
 
     public static final String CO_HTTP = "cohttp";
 
@@ -437,7 +437,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
 
         if (StringUtils.isEmpty(System.getenv("OCAML_POST_PROCESS_FILE"))) {
             LOGGER.info("Hint: Environment variable 'OCAML_POST_PROCESS_FILE' (optional) not defined. E.g. to format the source code, please try 'export OCAML_POST_PROCESS_FILE=\"ocamlformat -i --enable-outside-detected-project\"' (Linux/Mac)");
-            LOGGER.info("Note: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
+            LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         } else if (!this.isEnablePostProcessFile()) {
             LOGGER.info("Warning: Environment variable 'OCAML_POST_PROCESS_FILE' is set but file post-processing is not enabled. To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
@@ -584,7 +584,7 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             }
             return getTypeDeclaration(inner) + " list";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             if (inner == null) {
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined. Default to string");
                 inner = new StringSchema().description("TODO default missing map inner type to string");
@@ -715,9 +715,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
         @SuppressWarnings("unchecked")
         List<CodegenOperation> operations = (List<CodegenOperation>) objectMap.get("operation");
 
-        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
-        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
-
         for (CodegenOperation operation : operations) {
             // http method verb conversion, depending on client library (e.g. Hyper: PUT => Put, Reqwest: PUT => put)
             //if (CO_HTTP.equals(getLibrary())) {
@@ -728,7 +725,6 @@ public class OCamlClientCodegen extends DefaultCodegen implements CodegenConfig 
             }
 
             if ("Yojson.Safe.t".equals(operation.returnBaseType)) {
-                operation.vendorExtensions.put("x-returnFreeFormObject", true); // TODO: 5.0 Remove
                 operation.vendorExtensions.put("x-return-free-form-object", true);
             }
         }

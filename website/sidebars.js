@@ -5,7 +5,9 @@ module.exports = {
       'installation',
       'plugins',
       'online',
-      'usage'
+      'usage',
+      'globals',
+      'file-post-processing'
     ],
     'Extending': [
       'templating',

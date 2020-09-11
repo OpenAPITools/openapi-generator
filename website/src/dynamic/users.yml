@@ -9,6 +9,11 @@
   infoLink: "https://www.agoda.com/"
   pinned: false
 -
+  caption: "Allianz"
+  image: "img/companies/allianz.png"
+  infoLink: "https://www.allianz.com"
+  pinned: false
+-
   caption: "Angular.Schule"
   image: "img/companies/angular-schule.svg"
   infoLink: "https://angular.schule/"
@@ -84,6 +89,11 @@
   infoLink: "https://www.codecentric.de/"
   pinned: false
 -
+  caption: "CoinAPI"
+  image: "img/companies/coinapi.png"
+  infoLink: "https://www.coinapi.io/"
+  pinned: false
+-
   caption: Commencis
   image: "img/companies/commencis.png"
   infoLink: "https://www.commencis.com/"
@@ -97,6 +107,11 @@
   caption: Cupix
   image: "img/companies/cupix.png"
   infoLink: "https://www.cupix.com/"
+  pinned: false
+-
+  caption: "Datadog"
+  image: "img/companies/datadog.png"
+  infoLink: "https://www.datadoghq.com"
   pinned: false
 -
   caption: "DB Systel"
@@ -122,6 +137,11 @@
   caption: "Element AI"
   image: "img/companies/element_ai.png"
   infoLink: "https://www.elementai.com/"
+  pinned: false
+-
+  caption: "emineo"
+  image: "img/companies/emineo.png"
+  infoLink: "https://www.emineo.ch/"
   pinned: false
 -
   caption: "freee"
@@ -234,6 +254,11 @@
   infoLink: "https://www.metaswitch.com/"
   pinned: true
 -
+  caption: MoonVision
+  image: "img/companies/moonvision.png"
+  infoLink: "https://www.moonvision.io/"
+  pinned: false
+-
   caption: Myworkout
   image: "img/companies/myworkout.png"
   infoLink: "https://myworkout.com/"
@@ -242,6 +267,16 @@
   caption: NamSor
   image: "img/companies/namsor.png"
   infoLink: "https://www.namsor.com/?utm_source=openapi_generator&utm_medium=official_website&utm_campaign=sponsor"
+  pinned: false
+-
+  caption: Nokia 
+  image: "img/companies/nokia.png"
+  infoLink: "https://www.nokia.com/"
+  pinned: false
+-
+  caption: Options Clearing Corporation (OCC)
+  image: "img/companies/occ.jpg"
+  infoLink: "https://www.theocc.com/"
   pinned: false
 -
   caption: Openet
@@ -284,6 +319,11 @@
   infoLink: "https://www.qulix.com"
   pinned: false
 -
+  caption: Raksul
+  image: "img/companies/raksul-corporate.svg"
+  infoLink: "https://corp.raksul.com"
+  pinned: false
+-
   caption: "Raiffeisen Schweiz Genossenschaft"
   image: "img/companies/raiffeisen.png"
   infoLink: "https://www.raiffeisen.ch/"
@@ -307,6 +347,11 @@
   caption: "Sony Interactive Entertainment"
   image: "img/companies/sie.jpeg"
   infoLink: "https://www.sie.com/en/index.html"
+  pinned: false
+-
+  caption: "Splitit"
+  image: "img/companies/splitit.png"
+  infoLink: "https://www.splitit.com/"
   pinned: false
 -
   caption: Stingray
@@ -344,6 +389,21 @@
   infoLink: "https://www.veamly.com/"
   pinned: false
 -
+  caption: Vonage
+  image: "img/companies/vonage.png"
+  infoLink: "https://vonage.com"
+  pinned: false
+-
+  caption: Vouchery.io
+  image: "img/companies/voucheryio.png"
+  infoLink: "https://vouchery.io"
+  pinned: false
+-
+  caption: wbt-solutions
+  image: "img/companies/wbt_solutions.png"
+  infoLink: "https://www.wbt-solutions.de/"
+  pinned: false
+-
   caption: Woleet
   image: "img/companies/woleet.png"
   infoLink: "https://woleet.io"
@@ -354,11 +414,6 @@
   infoLink: "https://wso2.com/"
   pinned: true
 -
-  caption: Vouchery.io
-  image: "img/companies/voucheryio.png"
-  infoLink: "https://vouchery.io"
-  pinned: false
--
   caption: Xero
   image: "img/companies/xero.png"
   infoLink: "https://www.xero.com/"
@@ -367,6 +422,11 @@
   caption: Yahoo! Japan
   image: "img/companies/yahoo_japan.png"
   infoLink: "https://www.yahoo.co.jp"
+  pinned: false
+-
+  caption: YITU Technology
+  image: "img/companies/yitu.jpeg"
+  infoLink: "https://www.yitutech.com/"
   pinned: false
 -
   caption: Yelp 

@@ -129,7 +129,7 @@ class FormatTest(object):
 
 
         :param integer: The integer of this FormatTest.  # noqa: E501
-        :type: int
+        :type integer: int
         """
         if (self.local_vars_configuration.client_side_validation and
                 integer is not None and integer > 100):  # noqa: E501
@@ -156,7 +156,7 @@ class FormatTest(object):
 
 
         :param int32: The int32 of this FormatTest.  # noqa: E501
-        :type: int
+        :type int32: int
         """
         if (self.local_vars_configuration.client_side_validation and
                 int32 is not None and int32 > 200):  # noqa: E501
@@ -183,7 +183,7 @@ class FormatTest(object):
 
 
         :param int64: The int64 of this FormatTest.  # noqa: E501
-        :type: int
+        :type int64: int
         """
 
         self._int64 = int64
@@ -204,7 +204,7 @@ class FormatTest(object):
 
 
         :param number: The number of this FormatTest.  # noqa: E501
-        :type: float
+        :type number: float
         """
         if self.local_vars_configuration.client_side_validation and number is None:  # noqa: E501
             raise ValueError("Invalid value for `number`, must not be `None`")  # noqa: E501
@@ -233,7 +233,7 @@ class FormatTest(object):
 
 
         :param float: The float of this FormatTest.  # noqa: E501
-        :type: float
+        :type float: float
         """
         if (self.local_vars_configuration.client_side_validation and
                 float is not None and float > 987.6):  # noqa: E501
@@ -260,7 +260,7 @@ class FormatTest(object):
 
 
         :param double: The double of this FormatTest.  # noqa: E501
-        :type: float
+        :type double: float
         """
         if (self.local_vars_configuration.client_side_validation and
                 double is not None and double > 123.4):  # noqa: E501
@@ -287,7 +287,7 @@ class FormatTest(object):
 
 
         :param string: The string of this FormatTest.  # noqa: E501
-        :type: str
+        :type string: str
         """
         if (self.local_vars_configuration.client_side_validation and
                 string is not None and not re.search(r'[a-z]', string, flags=re.IGNORECASE)):  # noqa: E501
@@ -311,7 +311,7 @@ class FormatTest(object):
 
 
         :param byte: The byte of this FormatTest.  # noqa: E501
-        :type: str
+        :type byte: str
         """
         if self.local_vars_configuration.client_side_validation and byte is None:  # noqa: E501
             raise ValueError("Invalid value for `byte`, must not be `None`")  # noqa: E501
@@ -337,7 +337,7 @@ class FormatTest(object):
 
 
         :param binary: The binary of this FormatTest.  # noqa: E501
-        :type: file
+        :type binary: file
         """
 
         self._binary = binary
@@ -358,7 +358,7 @@ class FormatTest(object):
 
 
         :param date: The date of this FormatTest.  # noqa: E501
-        :type: date
+        :type date: date
         """
         if self.local_vars_configuration.client_side_validation and date is None:  # noqa: E501
             raise ValueError("Invalid value for `date`, must not be `None`")  # noqa: E501
@@ -381,7 +381,7 @@ class FormatTest(object):
 
 
         :param date_time: The date_time of this FormatTest.  # noqa: E501
-        :type: datetime
+        :type date_time: datetime
         """
 
         self._date_time = date_time
@@ -402,7 +402,7 @@ class FormatTest(object):
 
 
         :param uuid: The uuid of this FormatTest.  # noqa: E501
-        :type: str
+        :type uuid: str
         """
 
         self._uuid = uuid
@@ -423,7 +423,7 @@ class FormatTest(object):
 
 
         :param password: The password of this FormatTest.  # noqa: E501
-        :type: str
+        :type password: str
         """
         if self.local_vars_configuration.client_side_validation and password is None:  # noqa: E501
             raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
@@ -452,7 +452,7 @@ class FormatTest(object):
 
 
         :param big_decimal: The big_decimal of this FormatTest.  # noqa: E501
-        :type: BigDecimal
+        :type big_decimal: BigDecimal
         """
 
         self._big_decimal = big_decimal

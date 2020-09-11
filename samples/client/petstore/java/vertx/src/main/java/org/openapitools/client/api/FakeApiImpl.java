@@ -18,13 +18,16 @@ import io.vertx.core.json.JsonObject;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import java.util.*;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
 import org.openapitools.client.Pair;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeApiImpl implements FakeApi {
 
     private ApiClient apiClient;
@@ -46,12 +49,23 @@ public class FakeApiImpl implements FakeApi {
     }
 
     /**
-     * creates an XmlItem
-     * this route creates an XmlItem
-     * @param xmlItem XmlItem Body (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * creates an XmlItem
+    * this route creates an XmlItem
+        * @param xmlItem XmlItem Body (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void createXmlItem(XmlItem xmlItem, Handler<AsyncResult<Void>> resultHandler) {
+        createXmlItem(xmlItem, null, resultHandler);
+    }
+
+    /**
+    * creates an XmlItem
+    * this route creates an XmlItem
+    * @param xmlItem XmlItem Body (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void createXmlItem(XmlItem xmlItem, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = xmlItem;
         
         // verify the required parameter 'xmlItem' is set
@@ -80,15 +94,26 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = { "application/xml", "application/xml; charset=utf-8", "application/xml; charset=utf-16", "text/xml", "text/xml; charset=utf-8", "text/xml; charset=utf-16" };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
-     * 
-     * Test serialization of outer boolean types
-     * @param body Input boolean as post body (optional)
-     * @param resultHandler Asynchronous result handler
-     */
+    * 
+    * Test serialization of outer boolean types
+        * @param body Input boolean as post body (optional)
+    * @param resultHandler Asynchronous result handler
+    */
     public void fakeOuterBooleanSerialize(Boolean body, Handler<AsyncResult<Boolean>> resultHandler) {
+        fakeOuterBooleanSerialize(body, null, resultHandler);
+    }
+
+    /**
+    * 
+    * Test serialization of outer boolean types
+    * @param body Input boolean as post body (optional)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void fakeOuterBooleanSerialize(Boolean body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Boolean>> resultHandler) {
         Object localVarBody = body;
         
         // create path and map variables
@@ -111,15 +136,26 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<Boolean> localVarReturnType = new TypeReference<Boolean>() {};
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
     /**
-     * 
-     * Test serialization of object with outer number type
-     * @param body Input composite as post body (optional)
-     * @param resultHandler Asynchronous result handler
-     */
+    * 
+    * Test serialization of object with outer number type
+        * @param body Input composite as post body (optional)
+    * @param resultHandler Asynchronous result handler
+    */
     public void fakeOuterCompositeSerialize(OuterComposite body, Handler<AsyncResult<OuterComposite>> resultHandler) {
+        fakeOuterCompositeSerialize(body, null, resultHandler);
+    }
+
+    /**
+    * 
+    * Test serialization of object with outer number type
+    * @param body Input composite as post body (optional)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void fakeOuterCompositeSerialize(OuterComposite body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<OuterComposite>> resultHandler) {
         Object localVarBody = body;
         
         // create path and map variables
@@ -142,15 +178,26 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<OuterComposite> localVarReturnType = new TypeReference<OuterComposite>() {};
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
     /**
-     * 
-     * Test serialization of outer number types
-     * @param body Input number as post body (optional)
-     * @param resultHandler Asynchronous result handler
-     */
+    * 
+    * Test serialization of outer number types
+        * @param body Input number as post body (optional)
+    * @param resultHandler Asynchronous result handler
+    */
     public void fakeOuterNumberSerialize(BigDecimal body, Handler<AsyncResult<BigDecimal>> resultHandler) {
+        fakeOuterNumberSerialize(body, null, resultHandler);
+    }
+
+    /**
+    * 
+    * Test serialization of outer number types
+    * @param body Input number as post body (optional)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void fakeOuterNumberSerialize(BigDecimal body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<BigDecimal>> resultHandler) {
         Object localVarBody = body;
         
         // create path and map variables
@@ -173,15 +220,26 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<BigDecimal> localVarReturnType = new TypeReference<BigDecimal>() {};
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
     /**
-     * 
-     * Test serialization of outer string types
-     * @param body Input string as post body (optional)
-     * @param resultHandler Asynchronous result handler
-     */
+    * 
+    * Test serialization of outer string types
+        * @param body Input string as post body (optional)
+    * @param resultHandler Asynchronous result handler
+    */
     public void fakeOuterStringSerialize(String body, Handler<AsyncResult<String>> resultHandler) {
+        fakeOuterStringSerialize(body, null, resultHandler);
+    }
+
+    /**
+    * 
+    * Test serialization of outer string types
+    * @param body Input string as post body (optional)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void fakeOuterStringSerialize(String body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<String>> resultHandler) {
         Object localVarBody = body;
         
         // create path and map variables
@@ -204,15 +262,26 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<String> localVarReturnType = new TypeReference<String>() {};
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
     /**
-     * 
-     * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
-     * @param body  (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * 
+    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+        * @param body  (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void testBodyWithFileSchema(FileSchemaTestClass body, Handler<AsyncResult<Void>> resultHandler) {
+        testBodyWithFileSchema(body, null, resultHandler);
+    }
+
+    /**
+    * 
+    * For this test, the body for this request much reference a schema named &#x60;File&#x60;.
+    * @param body  (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testBodyWithFileSchema(FileSchemaTestClass body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = body;
         
         // verify the required parameter 'body' is set
@@ -241,16 +310,28 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
-     * 
-     * 
-     * @param query  (required)
-     * @param body  (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * 
+    * 
+        * @param query  (required)
+        * @param body  (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void testBodyWithQueryParams(String query, User body, Handler<AsyncResult<Void>> resultHandler) {
+        testBodyWithQueryParams(query, body, null, resultHandler);
+    }
+
+    /**
+    * 
+    * 
+    * @param query  (required)
+    * @param body  (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testBodyWithQueryParams(String query, User body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = body;
         
         // verify the required parameter 'query' is set
@@ -286,15 +367,26 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
-     * To test \&quot;client\&quot; model
-     * To test \&quot;client\&quot; model
-     * @param body client model (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * To test \&quot;client\&quot; model
+    * To test \&quot;client\&quot; model
+        * @param body client model (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void testClientModel(Client body, Handler<AsyncResult<Client>> resultHandler) {
+        testClientModel(body, null, resultHandler);
+    }
+
+    /**
+    * To test \&quot;client\&quot; model
+    * To test \&quot;client\&quot; model
+    * @param body client model (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testClientModel(Client body, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Client>> resultHandler) {
         Object localVarBody = body;
         
         // verify the required parameter 'body' is set
@@ -323,28 +415,52 @@ public class FakeApiImpl implements FakeApi {
         String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
         TypeReference<Client> localVarReturnType = new TypeReference<Client>() {};
-        apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, localVarReturnType, resultHandler);
+        apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, localVarReturnType, resultHandler);
     }
     /**
-     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-     * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
-     * @param number None (required)
-     * @param _double None (required)
-     * @param patternWithoutDelimiter None (required)
-     * @param _byte None (required)
-     * @param integer None (optional)
-     * @param int32 None (optional)
-     * @param int64 None (optional)
-     * @param _float None (optional)
-     * @param string None (optional)
-     * @param binary None (optional)
-     * @param date None (optional)
-     * @param dateTime None (optional)
-     * @param password None (optional)
-     * @param paramCallback None (optional)
-     * @param resultHandler Asynchronous result handler
-     */
+    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+        * @param number None (required)
+        * @param _double None (required)
+        * @param patternWithoutDelimiter None (required)
+        * @param _byte None (required)
+        * @param integer None (optional)
+        * @param int32 None (optional)
+        * @param int64 None (optional)
+        * @param _float None (optional)
+        * @param string None (optional)
+        * @param binary None (optional)
+        * @param date None (optional)
+        * @param dateTime None (optional)
+        * @param password None (optional)
+        * @param paramCallback None (optional)
+    * @param resultHandler Asynchronous result handler
+    */
     public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, Handler<AsyncResult<Void>> resultHandler) {
+        testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback, null, resultHandler);
+    }
+
+    /**
+    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+    * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+    * @param number None (required)
+    * @param _double None (required)
+    * @param patternWithoutDelimiter None (required)
+    * @param _byte None (required)
+    * @param integer None (optional)
+    * @param int32 None (optional)
+    * @param int64 None (optional)
+    * @param _float None (optional)
+    * @param string None (optional)
+    * @param binary None (optional)
+    * @param date None (optional)
+    * @param dateTime None (optional)
+    * @param password None (optional)
+    * @param paramCallback None (optional)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testEndpointParameters(BigDecimal number, Double _double, String patternWithoutDelimiter, byte[] _byte, Integer integer, Integer int32, Long int64, Float _float, String string, AsyncFile binary, LocalDate date, OffsetDateTime dateTime, String password, String paramCallback, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'number' is set
@@ -405,22 +521,40 @@ if (paramCallback != null) localVarFormParams.put("callback", paramCallback);
         String[] localVarContentTypes = { "application/x-www-form-urlencoded" };
         String[] localVarAuthNames = new String[] { "http_basic_test" };
 
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
-     * To test enum parameters
-     * To test enum parameters
-     * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
-     * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
-     * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
-     * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
-     * @param enumQueryInteger Query parameter enum test (double) (optional)
-     * @param enumQueryDouble Query parameter enum test (double) (optional)
-     * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
-     * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
-     * @param resultHandler Asynchronous result handler
-     */
+    * To test enum parameters
+    * To test enum parameters
+        * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+        * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
+        * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+        * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
+        * @param enumQueryInteger Query parameter enum test (double) (optional)
+        * @param enumQueryDouble Query parameter enum test (double) (optional)
+        * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+        * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+    * @param resultHandler Asynchronous result handler
+    */
     public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, Handler<AsyncResult<Void>> resultHandler) {
+        testEnumParameters(enumHeaderStringArray, enumHeaderString, enumQueryStringArray, enumQueryString, enumQueryInteger, enumQueryDouble, enumFormStringArray, enumFormString, null, resultHandler);
+    }
+
+    /**
+    * To test enum parameters
+    * To test enum parameters
+    * @param enumHeaderStringArray Header parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+    * @param enumHeaderString Header parameter enum test (string) (optional, default to -efg)
+    * @param enumQueryStringArray Query parameter enum test (string array) (optional, default to new ArrayList&lt;&gt;())
+    * @param enumQueryString Query parameter enum test (string) (optional, default to -efg)
+    * @param enumQueryInteger Query parameter enum test (double) (optional)
+    * @param enumQueryDouble Query parameter enum test (double) (optional)
+    * @param enumFormStringArray Form parameter enum test (string array) (optional, default to $)
+    * @param enumFormString Form parameter enum test (string) (optional, default to -efg)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testEnumParameters(List<String> enumHeaderStringArray, String enumHeaderString, List<String> enumQueryStringArray, String enumQueryString, Integer enumQueryInteger, Double enumQueryDouble, List<String> enumFormStringArray, String enumFormString, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // create path and map variables
@@ -453,20 +587,36 @@ if (enumFormString != null) localVarFormParams.put("enum_form_string", enumFormS
         String[] localVarContentTypes = { "application/x-www-form-urlencoded" };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
-     * Fake endpoint to test group parameters (optional)
-     * Fake endpoint to test group parameters (optional)
-     * @param requiredStringGroup Required String in group parameters (required)
-     * @param requiredBooleanGroup Required Boolean in group parameters (required)
-     * @param requiredInt64Group Required Integer in group parameters (required)
-     * @param stringGroup String in group parameters (optional)
-     * @param booleanGroup Boolean in group parameters (optional)
-     * @param int64Group Integer in group parameters (optional)
-     * @param resultHandler Asynchronous result handler
-     */
+    * Fake endpoint to test group parameters (optional)
+    * Fake endpoint to test group parameters (optional)
+        * @param requiredStringGroup Required String in group parameters (required)
+        * @param requiredBooleanGroup Required Boolean in group parameters (required)
+        * @param requiredInt64Group Required Integer in group parameters (required)
+        * @param stringGroup String in group parameters (optional)
+        * @param booleanGroup Boolean in group parameters (optional)
+        * @param int64Group Integer in group parameters (optional)
+    * @param resultHandler Asynchronous result handler
+    */
     public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, Handler<AsyncResult<Void>> resultHandler) {
+        testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, null, resultHandler);
+    }
+
+    /**
+    * Fake endpoint to test group parameters (optional)
+    * Fake endpoint to test group parameters (optional)
+    * @param requiredStringGroup Required String in group parameters (required)
+    * @param requiredBooleanGroup Required Boolean in group parameters (required)
+    * @param requiredInt64Group Required Integer in group parameters (required)
+    * @param stringGroup String in group parameters (optional)
+    * @param booleanGroup Boolean in group parameters (optional)
+    * @param int64Group Integer in group parameters (optional)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testGroupParameters(Integer requiredStringGroup, Boolean requiredBooleanGroup, Long requiredInt64Group, Integer stringGroup, Boolean booleanGroup, Long int64Group, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'requiredStringGroup' is set
@@ -515,15 +665,26 @@ if (booleanGroup != null)
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "DELETE", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
-     * test inline additionalProperties
-     * 
-     * @param param request body (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * test inline additionalProperties
+    * 
+        * @param param request body (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void testInlineAdditionalProperties(Map<String, String> param, Handler<AsyncResult<Void>> resultHandler) {
+        testInlineAdditionalProperties(param, null, resultHandler);
+    }
+
+    /**
+    * test inline additionalProperties
+    * 
+    * @param param request body (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testInlineAdditionalProperties(Map<String, String> param, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = param;
         
         // verify the required parameter 'param' is set
@@ -552,16 +713,28 @@ if (booleanGroup != null)
         String[] localVarContentTypes = { "application/json" };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
-     * test json serialization of form data
-     * 
-     * @param param field1 (required)
-     * @param param2 field2 (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * test json serialization of form data
+    * 
+        * @param param field1 (required)
+        * @param param2 field2 (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void testJsonFormData(String param, String param2, Handler<AsyncResult<Void>> resultHandler) {
+        testJsonFormData(param, param2, null, resultHandler);
+    }
+
+    /**
+    * test json serialization of form data
+    * 
+    * @param param field1 (required)
+    * @param param2 field2 (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testJsonFormData(String param, String param2, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'param' is set
@@ -598,19 +771,34 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         String[] localVarContentTypes = { "application/x-www-form-urlencoded" };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
     }
     /**
-     * 
-     * To test the collection format in query parameters
-     * @param pipe  (required)
-     * @param ioutil  (required)
-     * @param http  (required)
-     * @param url  (required)
-     * @param context  (required)
-     * @param resultHandler Asynchronous result handler
-     */
+    * 
+    * To test the collection format in query parameters
+        * @param pipe  (required)
+        * @param ioutil  (required)
+        * @param http  (required)
+        * @param url  (required)
+        * @param context  (required)
+    * @param resultHandler Asynchronous result handler
+    */
     public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, Handler<AsyncResult<Void>> resultHandler) {
+        testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, null, resultHandler);
+    }
+
+    /**
+    * 
+    * To test the collection format in query parameters
+    * @param pipe  (required)
+    * @param ioutil  (required)
+    * @param http  (required)
+    * @param url  (required)
+    * @param context  (required)
+    * @param authInfo per call authentication override.
+    * @param resultHandler Asynchronous result handler
+    */
+    public void testQueryParameterCollectionFormat(List<String> pipe, List<String> ioutil, List<String> http, List<String> url, List<String> context, ApiClient.AuthInfo authInfo, Handler<AsyncResult<Void>> resultHandler) {
         Object localVarBody = null;
         
         // verify the required parameter 'pipe' is set
@@ -650,7 +838,7 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         List<Pair> localVarQueryParams = new ArrayList<>();
         localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "pipe", pipe));
         localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "ioutil", ioutil));
-        localVarQueryParams.addAll(apiClient.parameterToPairs("space", "http", http));
+        localVarQueryParams.addAll(apiClient.parameterToPairs("ssv", "http", http));
         localVarQueryParams.addAll(apiClient.parameterToPairs("csv", "url", url));
         localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "context", context));
 
@@ -668,6 +856,14 @@ if (param2 != null) localVarFormParams.put("param2", param2);
         String[] localVarContentTypes = {  };
         String[] localVarAuthNames = new String[] {  };
 
-        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, null, resultHandler);
+        apiClient.invokeAPI(localVarPath, "PUT", localVarQueryParams, localVarBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccepts, localVarContentTypes, localVarAuthNames, authInfo, null, resultHandler);
+    }
+
+    private String encodeParameter(String parameter) {
+        try {
+            return URLEncoder.encode(parameter, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException e) {
+            return parameter;
+        }
     }
 }
