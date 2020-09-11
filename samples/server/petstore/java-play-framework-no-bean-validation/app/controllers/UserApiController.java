@@ -35,7 +35,7 @@ public class UserApiController extends Controller {
 
 
     @ApiAction
-    public Result createUser(Request request) throws Exception {
+    public Result createUser(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         User body;
         if (nodebody != null) {
@@ -48,7 +48,7 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result createUsersWithArrayInput(Request request) throws Exception {
+    public Result createUsersWithArrayInput(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         List<User> body;
         if (nodebody != null) {
@@ -61,7 +61,7 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result createUsersWithListInput(Request request) throws Exception {
+    public Result createUsersWithListInput(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         List<User> body;
         if (nodebody != null) {
@@ -74,20 +74,20 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result deleteUser(Request request, String username) throws Exception {
+    public Result deleteUser(Http.Request request, String username) throws Exception {
         imp.deleteUser(request, username);
         return ok();
     }
 
     @ApiAction
-    public Result getUserByName(Request request, String username) throws Exception {
+    public Result getUserByName(Http.Request request, String username) throws Exception {
         User obj = imp.getUserByName(request, username);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
     }
 
     @ApiAction
-    public Result loginUser(Request request) throws Exception {
+    public Result loginUser(Http.Request request) throws Exception {
         String valueusername = request.getQueryString("username");
         String username;
         if (valueusername != null) {
@@ -108,13 +108,13 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result logoutUser(Request request) throws Exception {
+    public Result logoutUser(Http.Request request) throws Exception {
         imp.logoutUser(request);
         return ok();
     }
 
     @ApiAction
-    public Result updateUser(Request request, String username) throws Exception {
+    public Result updateUser(Http.Request request, String username) throws Exception {
         JsonNode nodebody = request.body().asJson();
         User body;
         if (nodebody != null) {

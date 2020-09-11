@@ -40,20 +40,20 @@ public class StoreApiController extends Controller {
 
 
     @ApiAction
-    public Result deleteOrder(Request request, String orderId)  {
+    public Result deleteOrder(Http.Request request, String orderId)  {
         imp.deleteOrder(request, orderId);
         return ok();
     }
 
     @ApiAction
-    public Result getInventory(Request request)  {
+    public Result getInventory(Http.Request request)  {
         Map<String, Integer> obj = imp.getInventory(request);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
     }
 
     @ApiAction
-    public Result getOrderById(Request request,  @Min(1) @Max(5)Long orderId)  {
+    public Result getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId)  {
         Order obj = imp.getOrderById(request, orderId);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
@@ -63,7 +63,7 @@ public class StoreApiController extends Controller {
     }
 
     @ApiAction
-    public Result placeOrder(Request request) throws IOException {
+    public Result placeOrder(Http.Request request) throws IOException {
         JsonNode nodebody = request.body().asJson();
         Order body;
         if (nodebody != null) {

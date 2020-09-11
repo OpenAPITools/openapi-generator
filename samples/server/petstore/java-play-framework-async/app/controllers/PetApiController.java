@@ -43,7 +43,7 @@ public class PetApiController extends Controller {
 
 
     @ApiAction
-    public CompletionStage<Result> addPet(Request request) throws Exception {
+    public CompletionStage<Result> addPet(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         Pet body;
         if (nodebody != null) {
@@ -55,14 +55,14 @@ public class PetApiController extends Controller {
             throw new IllegalArgumentException("'body' parameter is required");
         }
         return CompletableFuture.supplyAsync(() -> {
-            imp.addPet(request, body)
+            imp.addPet(request, body);
             return ok();
         });
     }
 
     @ApiAction
-    public CompletionStage<Result> deletePet(Request request, Long petId) throws Exception {
-        String valueapiKey = request.getHeader("api_key");
+    public CompletionStage<Result> deletePet(Http.Request request, Long petId) throws Exception {
+        String valueapiKey = request.header("api_key").get();
         String apiKey;
         if (valueapiKey != null) {
             apiKey = valueapiKey;
@@ -70,13 +70,13 @@ public class PetApiController extends Controller {
             apiKey = null;
         }
         return CompletableFuture.supplyAsync(() -> {
-            imp.deletePet(request, petId, apiKey)
+            imp.deletePet(request, petId, apiKey);
             return ok();
         });
     }
 
     @ApiAction
-    public CompletionStage<Result> findPetsByStatus(Request request) throws Exception {
+    public CompletionStage<Result> findPetsByStatus(Http.Request request) throws Exception {
         String[] statusArray = request.queryString().get("status");
         if (statusArray == null) {
             throw new IllegalArgumentException("'status' parameter is required");
@@ -104,7 +104,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public CompletionStage<Result> findPetsByTags(Request request) throws Exception {
+    public CompletionStage<Result> findPetsByTags(Http.Request request) throws Exception {
         String[] tagsArray = request.queryString().get("tags");
         if (tagsArray == null) {
             throw new IllegalArgumentException("'tags' parameter is required");
@@ -132,7 +132,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public CompletionStage<Result> getPetById(Request request, Long petId) throws Exception {
+    public CompletionStage<Result> getPetById(Http.Request request, Long petId) throws Exception {
         CompletionStage<Pet> stage = imp.getPetById(request, petId).thenApply(obj -> { 
             if (configuration.getBoolean("useOutputBeanValidation")) {
                 OpenAPIUtils.validate(obj);
@@ -146,7 +146,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public CompletionStage<Result> updatePet(Request request) throws Exception {
+    public CompletionStage<Result> updatePet(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         Pet body;
         if (nodebody != null) {
@@ -158,13 +158,13 @@ public class PetApiController extends Controller {
             throw new IllegalArgumentException("'body' parameter is required");
         }
         return CompletableFuture.supplyAsync(() -> {
-            imp.updatePet(request, body)
+            imp.updatePet(request, body);
             return ok();
         });
     }
 
     @ApiAction
-    public CompletionStage<Result> updatePetWithForm(Request request, Long petId) throws Exception {
+    public CompletionStage<Result> updatePetWithForm(Http.Request request, Long petId) throws Exception {
         String valuename = (request.body().asMultipartFormData().asFormUrlEncoded().get("name"))[0];
         String name;
         if (valuename != null) {
@@ -180,13 +180,13 @@ public class PetApiController extends Controller {
             status = null;
         }
         return CompletableFuture.supplyAsync(() -> {
-            imp.updatePetWithForm(request, petId, name, status)
+            imp.updatePetWithForm(request, petId, name, status);
             return ok();
         });
     }
 
     @ApiAction
-    public CompletionStage<Result> uploadFile(Request request, Long petId) throws Exception {
+    public CompletionStage<Result> uploadFile(Http.Request request, Long petId) throws Exception {
         String valueadditionalMetadata = (request.body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata"))[0];
         String additionalMetadata;
         if (valueadditionalMetadata != null) {

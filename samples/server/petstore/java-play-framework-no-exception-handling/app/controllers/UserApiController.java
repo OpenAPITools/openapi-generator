@@ -40,7 +40,7 @@ public class UserApiController extends Controller {
 
 
     @ApiAction
-    public Result createUser(Request request) throws IOException {
+    public Result createUser(Http.Request request) throws IOException {
         JsonNode nodebody = request.body().asJson();
         User body;
         if (nodebody != null) {
@@ -56,7 +56,7 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result createUsersWithArrayInput(Request request) throws IOException {
+    public Result createUsersWithArrayInput(Http.Request request) throws IOException {
         JsonNode nodebody = request.body().asJson();
         List<User> body;
         if (nodebody != null) {
@@ -74,7 +74,7 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result createUsersWithListInput(Request request) throws IOException {
+    public Result createUsersWithListInput(Http.Request request) throws IOException {
         JsonNode nodebody = request.body().asJson();
         List<User> body;
         if (nodebody != null) {
@@ -92,13 +92,13 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result deleteUser(Request request, String username)  {
+    public Result deleteUser(Http.Request request, String username)  {
         imp.deleteUser(request, username);
         return ok();
     }
 
     @ApiAction
-    public Result getUserByName(Request request, String username)  {
+    public Result getUserByName(Http.Request request, String username)  {
         User obj = imp.getUserByName(request, username);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
@@ -108,7 +108,7 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result loginUser(Request request)  {
+    public Result loginUser(Http.Request request)  {
         String valueusername = request.getQueryString("username");
         String username;
         if (valueusername != null) {
@@ -129,13 +129,13 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result logoutUser(Request request)  {
+    public Result logoutUser(Http.Request request)  {
         imp.logoutUser(request);
         return ok();
     }
 
     @ApiAction
-    public Result updateUser(Request request, String username) throws IOException {
+    public Result updateUser(Http.Request request, String username) throws IOException {
         JsonNode nodebody = request.body().asJson();
         User body;
         if (nodebody != null) {

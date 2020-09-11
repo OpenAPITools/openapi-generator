@@ -14,45 +14,45 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiControllerImp implements PetApiControllerImpInterface {
     @Override
-    public void addPet(Request request, Pet body) throws Exception {
+    public void addPet(Http.Request request, Pet body) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void deletePet(Request request, Long petId, String apiKey) throws Exception {
+    public void deletePet(Http.Request request, Long petId, String apiKey) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public List<Pet> findPetsByStatus(Request request, @NotNull List<String> status) throws Exception {
-        //Do your magic!!!
-        return new ArrayList<Pet>();
-    }
-
-    @Override
-    public List<Pet> findPetsByTags(Request request, @NotNull List<String> tags) throws Exception {
+    public List<Pet> findPetsByStatus(Http.Request request, @NotNull List<String> status) throws Exception {
         //Do your magic!!!
         return new ArrayList<Pet>();
     }
 
     @Override
-    public Pet getPetById(Request request, Long petId) throws Exception {
+    public List<Pet> findPetsByTags(Http.Request request, @NotNull List<String> tags) throws Exception {
+        //Do your magic!!!
+        return new ArrayList<Pet>();
+    }
+
+    @Override
+    public Pet getPetById(Http.Request request, Long petId) throws Exception {
         //Do your magic!!!
         return new Pet();
     }
 
     @Override
-    public void updatePet(Request request, Pet body) throws Exception {
+    public void updatePet(Http.Request request, Pet body) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public void updatePetWithForm(Request request, Long petId, String name, String status) throws Exception {
+    public void updatePetWithForm(Http.Request request, Long petId, String name, String status) throws Exception {
         //Do your magic!!!
     }
 
     @Override
-    public ModelApiResponse uploadFile(Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception {
+    public ModelApiResponse uploadFile(Http.Request request, Long petId, String additionalMetadata, Http.MultipartFormData.FilePart file) throws Exception {
         //Do your magic!!!
         return new ModelApiResponse();
     }

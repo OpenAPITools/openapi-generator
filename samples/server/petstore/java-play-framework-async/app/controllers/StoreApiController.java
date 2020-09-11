@@ -42,15 +42,15 @@ public class StoreApiController extends Controller {
 
 
     @ApiAction
-    public CompletionStage<Result> deleteOrder(Request request, String orderId) throws Exception {
+    public CompletionStage<Result> deleteOrder(Http.Request request, String orderId) throws Exception {
         return CompletableFuture.supplyAsync(() -> {
-            imp.deleteOrder(request, orderId)
+            imp.deleteOrder(request, orderId);
             return ok();
         });
     }
 
     @ApiAction
-    public CompletionStage<Result> getInventory(Request request) throws Exception {
+    public CompletionStage<Result> getInventory(Http.Request request) throws Exception {
         CompletionStage<Map<String, Integer>> stage = imp.getInventory(request).thenApply(obj -> { 
             return obj;
         });
@@ -61,7 +61,7 @@ public class StoreApiController extends Controller {
     }
 
     @ApiAction
-    public CompletionStage<Result> getOrderById(Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
+    public CompletionStage<Result> getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
         CompletionStage<Order> stage = imp.getOrderById(request, orderId).thenApply(obj -> { 
             if (configuration.getBoolean("useOutputBeanValidation")) {
                 OpenAPIUtils.validate(obj);
@@ -75,7 +75,7 @@ public class StoreApiController extends Controller {
     }
 
     @ApiAction
-    public CompletionStage<Result> placeOrder(Request request) throws Exception {
+    public CompletionStage<Result> placeOrder(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         Order body;
         if (nodebody != null) {

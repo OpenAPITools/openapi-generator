@@ -40,7 +40,7 @@ public class PetApiController extends Controller {
 
 
     @ApiAction
-    public Result addPet(Request request) throws Exception {
+    public Result addPet(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         Pet body;
         if (nodebody != null) {
@@ -56,8 +56,8 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result deletePet(Request request, Long petId) throws Exception {
-        String valueapiKey = request.getHeader("api_key");
+    public Result deletePet(Http.Request request, Long petId) throws Exception {
+        String valueapiKey = request.header("api_key").get();
         String apiKey;
         if (valueapiKey != null) {
             apiKey = valueapiKey;
@@ -69,7 +69,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result findPetsByStatus(Request request) throws Exception {
+    public Result findPetsByStatus(Http.Request request) throws Exception {
         String[] statusArray = request.queryString().get("status");
         if (statusArray == null) {
             throw new IllegalArgumentException("'status' parameter is required");
@@ -93,7 +93,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result findPetsByTags(Request request) throws Exception {
+    public Result findPetsByTags(Http.Request request) throws Exception {
         String[] tagsArray = request.queryString().get("tags");
         if (tagsArray == null) {
             throw new IllegalArgumentException("'tags' parameter is required");
@@ -117,7 +117,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result getPetById(Request request, Long petId) throws Exception {
+    public Result getPetById(Http.Request request, Long petId) throws Exception {
         Pet obj = imp.getPetById(request, petId);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
@@ -127,7 +127,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result updatePet(Request request) throws Exception {
+    public Result updatePet(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         Pet body;
         if (nodebody != null) {
@@ -143,7 +143,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result updatePetWithForm(Request request, Long petId) throws Exception {
+    public Result updatePetWithForm(Http.Request request, Long petId) throws Exception {
         String valuename = (request.body().asMultipartFormData().asFormUrlEncoded().get("name"))[0];
         String name;
         if (valuename != null) {
@@ -163,7 +163,7 @@ public class PetApiController extends Controller {
     }
 
     @ApiAction
-    public Result uploadFile(Request request, Long petId) throws Exception {
+    public Result uploadFile(Http.Request request, Long petId) throws Exception {
         String valueadditionalMetadata = (request.body().asMultipartFormData().asFormUrlEncoded().get("additionalMetadata"))[0];
         String additionalMetadata;
         if (valueadditionalMetadata != null) {

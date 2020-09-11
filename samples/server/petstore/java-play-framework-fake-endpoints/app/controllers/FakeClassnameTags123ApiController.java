@@ -38,7 +38,7 @@ public class FakeClassnameTags123ApiController extends Controller {
 
 
     @ApiAction
-    public Result testClassname(Request request) throws Exception {
+    public Result testClassname(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         Client body;
         if (nodebody != null) {

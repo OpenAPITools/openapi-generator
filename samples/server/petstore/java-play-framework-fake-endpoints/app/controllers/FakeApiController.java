@@ -47,7 +47,7 @@ public class FakeApiController extends Controller {
 
 
     @ApiAction
-    public Result createXmlItem(Request request) throws Exception {
+    public Result createXmlItem(Http.Request request) throws Exception {
         JsonNode nodexmlItem = request.body().asJson();
         XmlItem xmlItem;
         if (nodexmlItem != null) {
@@ -63,7 +63,7 @@ public class FakeApiController extends Controller {
     }
 
     @ApiAction
-    public Result fakeOuterBooleanSerialize(Request request) throws Exception {
+    public Result fakeOuterBooleanSerialize(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         Boolean body;
         if (nodebody != null) {
@@ -80,7 +80,7 @@ public class FakeApiController extends Controller {
     }
 
     @ApiAction
-    public Result fakeOuterCompositeSerialize(Request request) throws Exception {
+    public Result fakeOuterCompositeSerialize(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         OuterComposite body;
         if (nodebody != null) {
@@ -100,7 +100,7 @@ public class FakeApiController extends Controller {
     }
 
     @ApiAction
-    public Result fakeOuterNumberSerialize(Request request) throws Exception {
+    public Result fakeOuterNumberSerialize(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         BigDecimal body;
         if (nodebody != null) {
@@ -120,7 +120,7 @@ public class FakeApiController extends Controller {
     }
 
     @ApiAction
-    public Result fakeOuterStringSerialize(Request request) throws Exception {
+    public Result fakeOuterStringSerialize(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         String body;
         if (nodebody != null) {
@@ -137,7 +137,7 @@ public class FakeApiController extends Controller {
     }
 
     @ApiAction
-    public Result testBodyWithFileSchema(Request request) throws Exception {
+    public Result testBodyWithFileSchema(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         FileSchemaTestClass body;
         if (nodebody != null) {
@@ -153,7 +153,7 @@ public class FakeApiController extends Controller {
     }
 
     @ApiAction
-    public Result testBodyWithQueryParams(Request request) throws Exception {
+    public Result testBodyWithQueryParams(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         User body;
         if (nodebody != null) {
@@ -176,7 +176,7 @@ public class FakeApiController extends Controller {
     }
 
     @ApiAction
-    public Result testClientModel(Request request) throws Exception {
+    public Result testClientModel(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         Client body;
         if (nodebody != null) {
@@ -196,7 +196,7 @@ public class FakeApiController extends Controller {
     }
 
     @ApiAction
-    public Result testEndpointParameters(Request request) throws Exception {
+    public Result testEndpointParameters(Http.Request request) throws Exception {
         String valueinteger = (request.body().asMultipartFormData().asFormUrlEncoded().get("integer"))[0];
         Integer integer;
         if (valueinteger != null) {
@@ -294,7 +294,7 @@ public class FakeApiController extends Controller {
     }
 
     @ApiAction
-    public Result testEnumParameters(Request request) throws Exception {
+    public Result testEnumParameters(Http.Request request) throws Exception {
         String[] enumQueryStringArrayArray = request.queryString().get("enum_query_string_array");
         List<String> enumQueryStringArrayList = OpenAPIUtils.parametersToList("csv", enumQueryStringArrayArray);
         List<String> enumQueryStringArray = new ArrayList<>();
@@ -341,7 +341,7 @@ public class FakeApiController extends Controller {
         } else {
             enumFormString = "-efg";
         }
-        String[] enumHeaderStringArrayArray = request.headers().get("enum_header_string_array");
+        String[] enumHeaderStringArrayArray = request.getHeaders().getAll("enum_header_string_array").toArray(new String[0]);
         List<String> enumHeaderStringArrayList = OpenAPIUtils.parametersToList("csv", enumHeaderStringArrayArray);
         List<String> enumHeaderStringArray = new ArrayList<>();
         for (String curParam : enumHeaderStringArrayList) {
@@ -350,7 +350,7 @@ public class FakeApiController extends Controller {
                 enumHeaderStringArray.add(curParam);
             }
         }
-        String valueenumHeaderString = request.getHeader("enum_header_string");
+        String valueenumHeaderString = request.header("enum_header_string").get();
         String enumHeaderString;
         if (valueenumHeaderString != null) {
             enumHeaderString = valueenumHeaderString;
@@ -362,7 +362,7 @@ public class FakeApiController extends Controller {
     }
 
     @ApiAction
-    public Result testGroupParameters(Request request) throws Exception {
+    public Result testGroupParameters(Http.Request request) throws Exception {
         String valuerequiredStringGroup = request.getQueryString("required_string_group");
         Integer requiredStringGroup;
         if (valuerequiredStringGroup != null) {
@@ -391,14 +391,14 @@ public class FakeApiController extends Controller {
         } else {
             int64Group = null;
         }
-        String valuerequiredBooleanGroup = request.getHeader("required_boolean_group");
+        String valuerequiredBooleanGroup = request.header("required_boolean_group").get();
         Boolean requiredBooleanGroup;
         if (valuerequiredBooleanGroup != null) {
             requiredBooleanGroup = Boolean.valueOf(valuerequiredBooleanGroup);
         } else {
             throw new IllegalArgumentException("'required_boolean_group' parameter is required");
         }
-        String valuebooleanGroup = request.getHeader("boolean_group");
+        String valuebooleanGroup = request.header("boolean_group").get();
         Boolean booleanGroup;
         if (valuebooleanGroup != null) {
             booleanGroup = Boolean.valueOf(valuebooleanGroup);
@@ -410,7 +410,7 @@ public class FakeApiController extends Controller {
     }
 
     @ApiAction
-    public Result testInlineAdditionalProperties(Request request) throws Exception {
+    public Result testInlineAdditionalProperties(Http.Request request) throws Exception {
         JsonNode nodeparam = request.body().asJson();
         Map<String, String> param;
         if (nodeparam != null) {
@@ -428,7 +428,7 @@ public class FakeApiController extends Controller {
     }
 
     @ApiAction
-    public Result testJsonFormData(Request request) throws Exception {
+    public Result testJsonFormData(Http.Request request) throws Exception {
         String valueparam = (request.body().asMultipartFormData().asFormUrlEncoded().get("param"))[0];
         String param;
         if (valueparam != null) {
@@ -448,7 +448,7 @@ public class FakeApiController extends Controller {
     }
 
     @ApiAction
-    public Result testQueryParameterCollectionFormat(Request request) throws Exception {
+    public Result testQueryParameterCollectionFormat(Http.Request request) throws Exception {
         String[] pipeArray = request.queryString().get("pipe");
         if (pipeArray == null) {
             throw new IllegalArgumentException("'pipe' parameter is required");

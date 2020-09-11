@@ -13,24 +13,24 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class StoreApiControllerImp  {
     
-    public void deleteOrder(Request request, String orderId) throws Exception {
+    public void deleteOrder(Http.Request request, String orderId) throws Exception {
         //Do your magic!!!
     }
 
     
-    public Map<String, Integer> getInventory(Request request) throws Exception {
+    public Map<String, Integer> getInventory(Http.Request request) throws Exception {
         //Do your magic!!!
         return new HashMap<String, Integer>();
     }
 
     
-    public Order getOrderById(Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
+    public Order getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
         //Do your magic!!!
         return new Order();
     }
 
     
-    public Order placeOrder(Request request, Order body) throws Exception {
+    public Order placeOrder(Http.Request request, Order body) throws Exception {
         //Do your magic!!!
         return new Order();
     }

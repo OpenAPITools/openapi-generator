@@ -38,7 +38,7 @@ public class AnotherFakeApiController extends Controller {
 
 
     @ApiAction
-    public Result call123testSpecialTags(Request request) throws Exception {
+    public Result call123testSpecialTags(Http.Request request) throws Exception {
         JsonNode nodebody = request.body().asJson();
         Client body;
         if (nodebody != null) {
