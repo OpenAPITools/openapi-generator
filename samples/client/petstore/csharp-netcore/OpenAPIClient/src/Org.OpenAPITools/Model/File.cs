@@ -22,7 +22,8 @@ using Newtonsoft.Json.Converters;
 using System.ComponentModel.DataAnnotations;
 using OpenAPIDateConverter = Org.OpenAPITools.Client.OpenAPIDateConverter;
 using OpenAPIClientUtils = Org.OpenAPITools.Client.ClientUtils;
-using OpenAPIAdditionalPropertiesConverter = Org.OpenAPITools.Client.OpenAPIAdditionalPropertiesConverter;
+using Newtonsoft.Json.Linq;
+using System.Reflection;
 
 namespace Org.OpenAPITools.Model
 {
@@ -30,7 +31,7 @@ namespace Org.OpenAPITools.Model
     /// Must be named &#x60;File&#x60; for test.
     /// </summary>
     [DataContract(Name = "File")]
-    [JsonConverter(typeof(OpenAPIAdditionalPropertiesConverter))]
+    [JsonConverter(typeof(FileConverter))]
     public partial class File : IEquatable<File>, IValidatableObject
     {
         /// <summary>
@@ -123,5 +124,100 @@ namespace Org.OpenAPITools.Model
             yield break;
         }
     }
+
+    /// <summary>
+    /// Converter for additional properties
+    /// </summary>
+    public class FileConverter: JsonConverter
+    {
+        private readonly Type[] _types;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileConverter" /> class.
+        /// </summary>
+        /// <param name="types">Types.</param>
+        public FileConverter(params Type[] types)
+        {
+            _types = types;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileConverter" /> class.
+        /// </summary>
+        public FileConverter()
+        {
+        }
+
+        /// <summary>
+        /// Function to the write JSON string
+        /// </summary>
+        /// <param name="writer">Json Writer</param>
+        /// <param name="value">Object</param>
+        /// <param name="serializer">Json Serializer</param>
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            JObject jo = new JObject();
+            Type type = value.GetType();
+
+            foreach (PropertyInfo property in type.GetProperties())
+            {
+                if (property.CanRead)
+                {
+                    object propertyValue = property.GetValue(value, null);
+                    foreach (DataMemberAttribute attribute in property.GetCustomAttributes(typeof(DataMemberAttribute), true))
+                    {
+                        if (propertyValue != null)
+                        {
+                            // flatten the dictionary if it's "AdditionalProperites"
+                            if (attribute.Name == "AdditionalProperites")
+                            {
+                                foreach (var item in (Dictionary<string, dynamic>)propertyValue)
+                                {
+                                    jo.Add(item.Key, JToken.FromObject(item.Value, serializer));
+                                }
+                            }
+                            else
+                            {
+                                jo.Add(attribute.Name, JToken.FromObject(propertyValue, serializer));
+                            }
+                        }
+                    }
+                }
+            }
+            jo.WriteTo(writer);
+        }
+    
+        /// <summary>
+        /// Function to convert JSON string into File 
+        /// </summary>
+        /// <param name="reader">Json Reader</param>
+        /// <param name="objectType">Object type</param>
+        /// <param name="existingValue">Input be serialized</param>
+        /// <param name="serializer">Json Serializer</param>
+        /// <returns>An instance of File serialized from the JSON string</returns>
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            //var result = base.ReadJson(reader, objectType, existingValue, serializer)
+            return null;
+        }
+
+        /// <summary>
+        /// A boolean property named CanRead
+        /// </summary>
+        public override bool CanRead
+        {
+            get { return false; }
+        }
+
+        /// <summary>
+        /// Returns true if the input can be converted
+        /// </summary>
+        /// <returns>Boolean</returns>
+        public override bool CanConvert(Type objectType)
+        {
+            return _types.Any(t => t == objectType);
+        }
+    }
+
 
 }

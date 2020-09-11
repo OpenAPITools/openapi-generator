@@ -28,7 +28,8 @@ using OpenAPIClientUtils = {{packageName}}.Client.ClientUtils;
 {{#models}}
 {{#model}}
 {{#isAdditionalPropertiesTrue}}
-using OpenAPIAdditionalPropertiesConverter = {{packageName}}.Client.OpenAPIAdditionalPropertiesConverter;
+using Newtonsoft.Json.Linq;
+using System.Reflection;
 {{/isAdditionalPropertiesTrue}}
 
 namespace {{packageName}}.{{modelPackage}}
