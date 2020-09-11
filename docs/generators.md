@@ -5,7 +5,8 @@ title: Generators List
 
 The following generators are available:
 
-## CLIENT generators* [ada](generators/ada.md)  
+## CLIENT generators
+* [ada](generators/ada.md)  
 * [android](generators/android.md)  
 * [apex](generators/apex.md)  
 * [bash](generators/bash.md)  

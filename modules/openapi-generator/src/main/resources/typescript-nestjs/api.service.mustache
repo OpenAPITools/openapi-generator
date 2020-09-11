@@ -32,14 +32,9 @@ export class {{classname}} {
     public defaultHeaders = new Map()
     public configuration = new Configuration();
 
-    constructor(protected httpClient: HttpService, @Inject('BASE_PATH') basePath: string, configuration: Configuration) {
-        if (basePath) {
-            this.basePath = basePath;
-        }
-        if (configuration) {
-            this.configuration = configuration;
-            this.basePath = basePath || configuration.basePath || this.basePath;
-        }
+    constructor(protected httpClient: HttpService, configuration: Configuration) {
+        this.configuration = configuration;
+        this.basePath = basePath || configuration.basePath || this.basePath;
     }
 
     /**
@@ -48,12 +43,7 @@ export class {{classname}} {
      */
     private canConsumeForm(consumes: string[]): boolean {
         const form = 'multipart/form-data';
-        for (const consume of consumes) {
-            if (form === consume) {
-                return true;
-            }
-        }
-        return false;
+        return consumes.includes(form);
     }
 
 {{#operation}}

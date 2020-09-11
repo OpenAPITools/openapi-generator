@@ -1,6 +1,5 @@
 /*
  * Copyright 2018 OpenAPI-Generator Contributors (https://openapi-generator.tech)
- * Copyright 2018 SmartBear Software
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +42,6 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     public static final String WITH_INTERFACES = "withInterfaces";
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NEST_VERSION = "nestVersion";
-    public static final String PROVIDED_IN_ROOT = "providedInRoot";
     public static final String SERVICE_SUFFIX = "serviceSuffix";
     public static final String SERVICE_FILE_SUFFIX = "serviceFileSuffix";
     public static final String MODEL_SUFFIX = "modelSuffix";
@@ -85,9 +83,6 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
-        this.cliOptions.add(CliOption.newBoolean(PROVIDED_IN_ROOT,
-                "Use this property to provide Injectables in root (it is only valid in nestjs version greater or equal to 6.0.0).",
-                false));
         this.cliOptions.add(new CliOption(NEST_VERSION, "The version of Nestjs.").defaultValue(this.nestVersion));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
@@ -129,7 +124,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("README.mustache", getIndexDirectory(), "README.md"));
 
-        // determine NG version
+        // determine Nestjs version
         SemVer nestVersion;
         if (additionalProperties.containsKey(NEST_VERSION)) {
             nestVersion = new SemVer(additionalProperties.get(NEST_VERSION).toString());
@@ -163,23 +158,10 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
             taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
         }
 
-        if (nestVersion.atLeast("6.0.0")) {
-            if (!additionalProperties.containsKey(PROVIDED_IN_ROOT)) {
-                additionalProperties.put(PROVIDED_IN_ROOT, true);
-            } else {
-                additionalProperties.put(PROVIDED_IN_ROOT, Boolean.parseBoolean(
-                    additionalProperties.get(PROVIDED_IN_ROOT).toString()
-                ));
-            }
-        } else {
-            additionalProperties.put(PROVIDED_IN_ROOT, false);
-        }
-
         additionalProperties.put(NEST_VERSION, nestVersion);
         additionalProperties.put("injectionToken", nestVersion.atLeast("4.0.0") ? "InjectionToken" : "OpaqueToken");
         additionalProperties.put("injectionTokenTyped", nestVersion.atLeast("4.0.0"));
         additionalProperties.put("useHttpClient", nestVersion.atLeast("4.3.0"));
-        additionalProperties.put("useRxJS6", nestVersion.atLeast("6.0.0"));        
         if (additionalProperties.containsKey(SERVICE_SUFFIX)) {
             serviceSuffix = additionalProperties.get(SERVICE_SUFFIX).toString();
             validateClassSuffixArgument("Service", serviceSuffix);
@@ -206,15 +188,8 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
-
-        // Set the typescript version compatible to the Nestjs version
-        if (nestVersion.atLeast("6.0.0")) {
-            additionalProperties.put("tsVersion", ">=3.4.0 <3.6.0");
-        } else {
-            // Nestjs v2-v4 requires typescript ">=2.1.5 <2.8"
-            additionalProperties.put("tsVersion", ">=2.1.5 <2.8.0");
-        }
         
+        additionalProperties.put("tsVersion", ">=3.6.0. <4.0.0");
         //Files for building our lib
         supportingFiles.add(new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
         supportingFiles.add(new SupportingFile("tsconfig.build.mustache", getIndexDirectory(), "tsconfig.build.json"));
@@ -299,37 +274,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
             if (op.getHasFormParams()) {
                 hasSomeFormParams = true;
             }
-            if ((boolean) additionalProperties.get("useHttpClient")) {
-                op.httpMethod = op.httpMethod.toLowerCase(Locale.ENGLISH);
-            } else {
-                // Convert httpMethod to Nestjs's RequestMethod enum
-                // https://nestjs.io/docs/ts/latest/api/http/index/RequestMethod-enum.html
-                switch (op.httpMethod) {
-                    case "GET":
-                        op.httpMethod = "RequestMethod.Get";
-                        break;
-                    case "POST":
-                        op.httpMethod = "RequestMethod.Post";
-                        break;
-                    case "PUT":
-                        op.httpMethod = "RequestMethod.Put";
-                        break;
-                    case "DELETE":
-                        op.httpMethod = "RequestMethod.Delete";
-                        break;
-                    case "OPTIONS":
-                        op.httpMethod = "RequestMethod.Options";
-                        break;
-                    case "HEAD":
-                        op.httpMethod = "RequestMethod.Head";
-                        break;
-                    case "PATCH":
-                        op.httpMethod = "RequestMethod.Patch";
-                        break;
-                    default:
-                        throw new RuntimeException("Unknown HTTP Method " + op.httpMethod + " not allowed");
-                }
-            }
+            op.httpMethod = op.httpMethod.toLowerCase(Locale.ENGLISH);
 
             // Prep a string buffer where we're going to set up our new version of the string.
             StringBuilder pathBuffer = new StringBuilder();

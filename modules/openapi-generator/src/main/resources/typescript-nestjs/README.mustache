@@ -8,40 +8,6 @@ npm install
 npm run build
 ```
 
-### publishing
-
-First build the package than run ```npm publish dist``` (don't forget to specify the `dist` folder!)
-
-### consuming
-
-Navigate to the folder of your consuming project and run one of next commands.
-
-_published:_
-
-```
-npm install {{npmName}}@{{npmVersion}} --save
-```
-
-_without publishing (not recommended):_
-
-```
-npm install PATH_TO_GENERATED_PACKAGE/dist --save
-```
-
-_using `npm link`:_
-
-In PATH_TO_GENERATED_PACKAGE/dist:
-
-```
-npm link
-```
-
-In your project:
-```
-npm link {{npmName}}
-```
-
-
 #### General usage
 
 In your Nestjs project:
@@ -90,7 +56,7 @@ export class AppComponent {
 }
 ```
 
-Note: The ApiModule is restricted to being instantiated once app wide.
+Note: The ApiModule a dynamic module and instantiated once app wide.
 This is to ensure that all services are treated as singletons.
 
 #### Using multiple swagger files / APIs / ApiModules

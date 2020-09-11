@@ -5,6 +5,6 @@ If Not Exist %executable% (
 )
 
 REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M
-set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -g typescript-nestjs -o samples\client\petstore\typescript-nestjs-v7-not-provided-in-root\builds\default --additional-properties nestVersion=6.0.0 --additional-properties providedInRoot=false
+set ags=generate -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -g typescript-nestjs -o samples\client\petstore\typescript-nestjs-v7-not-provided-in-root\builds\default --additional-properties nestVersion=6.0.0 --additional-properties
 
 java %JAVA_OPTS% -jar %executable% %ags%

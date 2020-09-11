@@ -16,10 +16,6 @@ import { {{classname}} } from './{{importPath}}';
     {{/hasMore}}{{/apis}}{{/apiInfo}} 
   ],
   providers: [
-    {
-        provide: 'BASE_PATH',
-        useValue: BASE_PATH
-    },
     {{#apiInfo}}{{#apis}}{{classname}}{{#hasMore}},
     {{/hasMore}}{{/apis}}{{/apiInfo}} 
   ]
@@ -32,9 +28,5 @@ export class ApiModule {
         };
     }
 
-    constructor( httpService: HttpService) {
-        if (!httpService) {
-            throw new Error('You need to import the {HttpModule in your AppModule!');
-        }
-    }
+    constructor( httpService: HttpService) { }
 }
