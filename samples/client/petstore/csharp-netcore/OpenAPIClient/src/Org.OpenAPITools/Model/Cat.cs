@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected Cat()
         {
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="Cat" /> class.
@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         public Cat(bool declawed = default(bool), string className = "Cat", string color = "red") : base(className, color)
         {
             this.Declawed = declawed;
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperites { get; set; }
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -73,6 +73,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class Cat {\n");
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  Declawed: ").Append(Declawed).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -116,6 +117,8 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = base.GetHashCode();
                 hashCode = hashCode * 59 + this.Declawed.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

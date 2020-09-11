@@ -49,7 +49,7 @@
         {{#isAdditionalPropertiesTrue}}
         protected {{classname}}()
         {
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
         {{/isAdditionalPropertiesTrue}}
     {{/hasOnlyReadOnly}}
@@ -101,7 +101,7 @@
             {{/isInherited}}
             {{/vars}}
             {{#isAdditionalPropertiesTrue}}
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
             {{/isAdditionalPropertiesTrue}}
         }
 
@@ -126,7 +126,7 @@
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperites { get; set; }
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         {{/isAdditionalPropertiesTrue}}
         /// <summary>
@@ -143,6 +143,9 @@
             {{#vars}}
             sb.Append("  {{name}}: ").Append({{name}}).Append("\n");
             {{/vars}}
+            {{#isAdditionalPropertiesTrue}}
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            {{/isAdditionalPropertiesTrue}}
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -201,7 +204,10 @@
                     {{^vendorExtensions.x-is-value-type}}this.{{name}} != null &&
                     input.{{name}} != null &&
                     {{/vendorExtensions.x-is-value-type}}this.{{name}}.SequenceEqual(input.{{name}})
-                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}};
+                ){{#hasMore}} && {{/hasMore}}{{/isContainer}}{{/vars}}{{^vars}}{{#parent}}base.Equals(input){{/parent}}{{^parent}}false{{/parent}}{{/vars}}{{^isAdditionalPropertiesTrue}};{{/isAdditionalPropertiesTrue}}
+                {{#isAdditionalPropertiesTrue}}
+                && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
+                {{/isAdditionalPropertiesTrue}}
             {{/useCompareNetObjects}}
         }
 
@@ -228,6 +234,10 @@
                 hashCode = hashCode * 59 + this.{{name}}.GetHashCode();
                 {{/vendorExtensions.x-is-value-type}}
                 {{/vars}}
+                {{#isAdditionalPropertiesTrue}}
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                {{/isAdditionalPropertiesTrue}}
                 return hashCode;
             }
         }

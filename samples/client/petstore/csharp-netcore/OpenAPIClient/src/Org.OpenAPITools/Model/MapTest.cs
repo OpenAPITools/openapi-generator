@@ -70,7 +70,7 @@ namespace Org.OpenAPITools.Model
             this.MapOfEnumString = mapOfEnumString;
             this.DirectMap = directMap;
             this.IndirectMap = indirectMap;
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperites { get; set; }
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -109,6 +109,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  MapOfEnumString: ").Append(MapOfEnumString).Append("\n");
             sb.Append("  DirectMap: ").Append(DirectMap).Append("\n");
             sb.Append("  IndirectMap: ").Append(IndirectMap).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -158,6 +159,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.DirectMap.GetHashCode();
                 if (this.IndirectMap != null)
                     hashCode = hashCode * 59 + this.IndirectMap.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

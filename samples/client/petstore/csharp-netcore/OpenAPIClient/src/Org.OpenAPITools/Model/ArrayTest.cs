@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Model
             this.ArrayOfString = arrayOfString;
             this.ArrayArrayOfInteger = arrayArrayOfInteger;
             this.ArrayArrayOfModel = arrayArrayOfModel;
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperites { get; set; }
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -80,6 +80,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  ArrayOfString: ").Append(ArrayOfString).Append("\n");
             sb.Append("  ArrayArrayOfInteger: ").Append(ArrayArrayOfInteger).Append("\n");
             sb.Append("  ArrayArrayOfModel: ").Append(ArrayArrayOfModel).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -128,6 +129,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.ArrayArrayOfInteger.GetHashCode();
                 if (this.ArrayArrayOfModel != null)
                     hashCode = hashCode * 59 + this.ArrayArrayOfModel.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

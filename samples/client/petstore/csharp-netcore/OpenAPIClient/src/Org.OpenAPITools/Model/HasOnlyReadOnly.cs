@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         public HasOnlyReadOnly()
         {
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperites { get; set; }
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -68,6 +68,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class HasOnlyReadOnly {\n");
             sb.Append("  Bar: ").Append(Bar).Append("\n");
             sb.Append("  Foo: ").Append(Foo).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -114,6 +115,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Bar.GetHashCode();
                 if (this.Foo != null)
                     hashCode = hashCode * 59 + this.Foo.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

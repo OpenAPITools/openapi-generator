@@ -166,7 +166,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected EnumTest()
         {
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
@@ -189,14 +189,14 @@ namespace Org.OpenAPITools.Model
             this.OuterEnumInteger = outerEnumInteger;
             this.OuterEnumDefaultValue = outerEnumDefaultValue;
             this.OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperites { get; set; }
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -214,6 +214,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  OuterEnumInteger: ").Append(OuterEnumInteger).Append("\n");
             sb.Append("  OuterEnumDefaultValue: ").Append(OuterEnumDefaultValue).Append("\n");
             sb.Append("  OuterEnumIntegerDefaultValue: ").Append(OuterEnumIntegerDefaultValue).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -264,6 +265,8 @@ namespace Org.OpenAPITools.Model
                 hashCode = hashCode * 59 + this.OuterEnumInteger.GetHashCode();
                 hashCode = hashCode * 59 + this.OuterEnumDefaultValue.GetHashCode();
                 hashCode = hashCode * 59 + this.OuterEnumIntegerDefaultValue.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

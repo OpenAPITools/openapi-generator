@@ -43,7 +43,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected Animal()
         {
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="Animal" /> class.
@@ -56,7 +56,7 @@ namespace Org.OpenAPITools.Model
             this.ClassName = className ?? throw new ArgumentNullException("className is a required property for Animal and cannot be null");
             // use default value if no "color" provided
             this.Color = color ?? "red";
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperites { get; set; }
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -87,6 +87,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class Animal {\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
             sb.Append("  Color: ").Append(Color).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -133,6 +134,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.ClassName.GetHashCode();
                 if (this.Color != null)
                     hashCode = hashCode * 59 + this.Color.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

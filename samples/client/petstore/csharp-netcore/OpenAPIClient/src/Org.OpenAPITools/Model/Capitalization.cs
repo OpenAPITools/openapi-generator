@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
             this.CapitalSnake = capitalSnake;
             this.SCAETHFlowPoints = sCAETHFlowPoints;
             this.ATT_NAME = aTTNAME;
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperites { get; set; }
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -108,6 +108,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  CapitalSnake: ").Append(CapitalSnake).Append("\n");
             sb.Append("  SCAETHFlowPoints: ").Append(SCAETHFlowPoints).Append("\n");
             sb.Append("  ATT_NAME: ").Append(ATT_NAME).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -162,6 +163,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.SCAETHFlowPoints.GetHashCode();
                 if (this.ATT_NAME != null)
                     hashCode = hashCode * 59 + this.ATT_NAME.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

@@ -38,7 +38,7 @@ namespace Org.OpenAPITools.Model
         public NumberOnly(decimal justNumber = default(decimal))
         {
             this.JustNumber = justNumber;
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperites { get; set; }
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -62,6 +62,7 @@ namespace Org.OpenAPITools.Model
             var sb = new StringBuilder();
             sb.Append("class NumberOnly {\n");
             sb.Append("  JustNumber: ").Append(JustNumber).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -105,6 +106,8 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = hashCode * 59 + this.JustNumber.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

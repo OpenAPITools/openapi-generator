@@ -108,14 +108,14 @@ namespace Org.OpenAPITools.Test
 
             // test additonal properties (serialization)
             Pet p2 = new Pet(name: "Csharp test", photoUrls: new List<string> { "http://petstore.com/csharp_test" });
-            p2.AdditionalProperites.Add("hello", "world");
+            p2.AdditionalProperties.Add("hello", "world");
             Assert.Equal("{\"name\":\"Csharp test\",\"photoUrls\":[\"http://petstore.com/csharp_test\"],\"hello\":\"world\"}", JsonConvert.SerializeObject(p2));
 
             // test additonal properties (deserialization)
             Pet p3 = JsonConvert.DeserializeObject<Pet>("{\"name\":\"Csharp test\",\"photoUrls\":[\"http://petstore.com/csharp_test\"],\"hello\":\"world\",\"int\":123}");
             Assert.Equal("Csharp test", p3.Name);
-            Assert.Equal("world", p3.AdditionalProperites["hello"]);
-            Assert.Equal(123L, p3.AdditionalProperites["int"]);
+            Assert.Equal("world", p3.AdditionalProperties["hello"]);
+            Assert.Equal(123L, p3.AdditionalProperties["int"]);
         }
 
         /// <summary>

@@ -40,7 +40,7 @@ namespace Org.OpenAPITools.Model
         {
             this.AdditionalMetadata = additionalMetadata;
             this.File = file;
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperites { get; set; }
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -73,6 +73,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class InlineObject1 {\n");
             sb.Append("  AdditionalMetadata: ").Append(AdditionalMetadata).Append("\n");
             sb.Append("  File: ").Append(File).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -119,6 +120,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.AdditionalMetadata.GetHashCode();
                 if (this.File != null)
                     hashCode = hashCode * 59 + this.File.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

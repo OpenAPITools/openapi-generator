@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         [JsonConstructorAttribute]
         protected InlineObject4()
         {
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineObject4" /> class.
@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
             this.Param = param ?? throw new ArgumentNullException("param is a required property for InlineObject4 and cannot be null");
             // to ensure "param2" is required (not null)
             this.Param2 = param2 ?? throw new ArgumentNullException("param2 is a required property for InlineObject4 and cannot be null");
-            this.AdditionalProperites = new Dictionary<string, object>();
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets additional properties
         /// </summary>
         [JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperites { get; set; }
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -83,6 +83,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class InlineObject4 {\n");
             sb.Append("  Param: ").Append(Param).Append("\n");
             sb.Append("  Param2: ").Append(Param2).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -129,6 +130,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Param.GetHashCode();
                 if (this.Param2 != null)
                     hashCode = hashCode * 59 + this.Param2.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }
