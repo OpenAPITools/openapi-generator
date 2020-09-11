@@ -39,6 +39,7 @@ namespace Org.OpenAPITools.Model
         {
             // use default value if no "bar" provided
             this.Bar = bar ?? "bar";
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -46,6 +47,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "bar", EmitDefaultValue = false)]
         public string Bar { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -56,6 +63,7 @@ namespace Org.OpenAPITools.Model
             var sb = new StringBuilder();
             sb.Append("class Foo {\n");
             sb.Append("  Bar: ").Append(Bar).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -100,6 +108,8 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 if (this.Bar != null)
                     hashCode = hashCode * 59 + this.Bar.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }
