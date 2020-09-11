@@ -66,7 +66,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Zebra" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Zebra() { }
+        protected Zebra()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Zebra" /> class.
         /// </summary>
@@ -77,6 +80,7 @@ namespace Org.OpenAPITools.Model
             // to ensure "className" is required (not null)
             this.ClassName = className ?? throw new ArgumentNullException("className is a required property for Zebra and cannot be null");
             this.Type = type;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -84,6 +88,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "className", EmitDefaultValue = false)]
         public string ClassName { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -96,6 +106,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  ").Append(base.ToString().Replace("\n", "\n  ")).Append("\n");
             sb.Append("  Type: ").Append(Type).Append("\n");
             sb.Append("  ClassName: ").Append(ClassName).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -141,6 +152,8 @@ namespace Org.OpenAPITools.Model
                 hashCode = hashCode * 59 + this.Type.GetHashCode();
                 if (this.ClassName != null)
                     hashCode = hashCode * 59 + this.ClassName.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }
