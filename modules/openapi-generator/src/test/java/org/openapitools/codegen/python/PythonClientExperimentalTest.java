@@ -382,6 +382,7 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(noDefaultEumLengthOneModel.hasRequired, false);
     }
 
+<<<<<<< HEAD
     @Test
     public void testObjectModelWithRefedAdditionalPropertiesIsGenerated() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
@@ -436,6 +437,8 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(sc.get$ref(), ref);
     }
 
+=======
+>>>>>>> Removes unneeded test
     @Test
     public void testFreeFormSchemas() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
