@@ -15,6 +15,7 @@
  */
 
 package org.openapitools.codegen.python;
+import org.openapitools.codegen.config.CodegenConfigurator;
 
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -24,16 +25,11 @@ import io.swagger.v3.parser.util.SchemaTypeUtil;
 
 import java.io.File;
 import java.math.BigDecimal;
-<<<<<<< HEAD
 import java.nio.file.Files;
-=======
-import java.util.ArrayList;
->>>>>>> Adds free form model generation in python-experimental
 import java.util.Arrays;
 import java.util.List;
 
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PythonClientExperimentalCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
@@ -438,6 +434,25 @@ public class PythonClientExperimentalTest {
         sc = codegen.unaliasSchema(refSchema, codegen.importMapping());
         // ref existence means model will be generated
         Assert.assertEquals(sc.get$ref(), ref);
+    }
+
+    @Test
+    public void testFreeFormSchemas() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python-experimental")
+                .setInputSpec("src/test/resources/3_0/issue_7361.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "openapi_client/model/free_form_with_validation.py");
+        TestUtils.ensureContainsFile(files, output, "openapi_client/model/free_form_interface.py");
+        TestUtils.ensureDoesNotContainsFile(files, output, "openapi_client/model/free_form.py");
+        output.deleteOnExit();
     }
 
     @Test(description = "tests ObjectWithValidations")

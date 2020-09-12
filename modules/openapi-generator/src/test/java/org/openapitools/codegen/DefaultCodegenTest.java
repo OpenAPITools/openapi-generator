@@ -33,6 +33,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PythonClientExperimentalCodegen;
 import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
@@ -45,6 +46,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -2267,39 +2269,22 @@ public class DefaultCodegenTest {
         assertEquals((int) cm.getMinItems(), 1);
     }
 
-    @Test(description = "tests unaliasing of free form object components")
-    public void unaliasingOfFreeFormObjectComponents() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7361.yaml");
-        final DefaultCodegen codegen = new DefaultCodegen();
-        codegen.setOpenAPI(openAPI);
+    @Test
+    public void testFreeFormSchemas() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
 
-        String modelName;
-        Schema refSchema;
-        Schema sc;
-        String ref;
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_0/issue_7361.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
-        modelName = "FreeForm";
-        ref = "#/components/schemas/"+modelName;
-        refSchema = new Schema();
-        refSchema.set$ref(ref);
-        sc = codegen.unaliasSchema(refSchema, codegen.importMapping());
-        // model is not generated
-        Assert.assertNull(sc.get$ref());
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
 
-        modelName = "FreeFormInterface";
-        ref = "#/components/schemas/"+modelName;
-        refSchema = new Schema();
-        refSchema.set$ref(ref);
-        sc = codegen.unaliasSchema(refSchema, codegen.importMapping());
-        // model is not generated
-        Assert.assertNull(sc.get$ref());
-
-        modelName = "FreeFormWithValidation";
-        ref = "#/components/schemas/"+modelName;
-        refSchema = new Schema();
-        refSchema.set$ref(ref);
-        sc = codegen.unaliasSchema(refSchema, codegen.importMapping());
-        // model is not generated
-        Assert.assertNull(sc.get$ref());
+        TestUtils.ensureDoesNotContainsFile(files, output, "src/main/java/org/openapitools/client/model/free_form_with_validation.py");
+        TestUtils.ensureDoesNotContainsFile(files, output, "src/main/java/org/openapitools/client/model/free_form_interface.py");
+        TestUtils.ensureDoesNotContainsFile(files, output, "src/main/java/org/openapitools/client/model/free_form.py");
+        output.deleteOnExit();
     }
 }
