@@ -481,7 +481,7 @@ public class JavaClientCodegen extends AbstractJavaCodegen
             Iterator<SupportingFile> iter = supportingFiles.iterator();
             while (iter.hasNext()) {
                 SupportingFile sf = iter.next();
-                if (sf.templateFile.startsWith("auth/")) {
+                if (sf.getTemplateFile().startsWith("auth/")) {
                     iter.remove();
                 }
             }
