@@ -150,15 +150,6 @@ public class GoClientExperimentalCodegen extends GoClientCodegen {
     }
 
     @Override
-    public String toEnumDefaultValue(String value, String datatype) {
-        String prefix = "";
-        if (enumClassPrefix) {
-            prefix = datatype.toUpperCase(Locale.ROOT) + "_";
-        }
-        return prefix + value;
-    }
-
-    @Override
     public void updateCodegenPropertyEnum(CodegenProperty var) {
         // make sure the inline enums have plain defaults (e.g. string, int, float)
         String enumDefault = null;
