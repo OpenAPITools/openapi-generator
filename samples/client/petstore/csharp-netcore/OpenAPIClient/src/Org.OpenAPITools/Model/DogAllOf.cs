@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// DogAllOf
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "Dog_allOf")]
     public partial class DogAllOf : IEquatable<DogAllOf>, IValidatableObject
     {
         /// <summary>
@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         public DogAllOf(string breed = default(string))
         {
             this.Breed = breed;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -45,6 +46,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "breed", EmitDefaultValue = false)]
         public string Breed { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -55,6 +62,7 @@ namespace Org.OpenAPITools.Model
             var sb = new StringBuilder();
             sb.Append("class DogAllOf {\n");
             sb.Append("  Breed: ").Append(Breed).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -99,6 +107,8 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 if (this.Breed != null)
                     hashCode = hashCode * 59 + this.Breed.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

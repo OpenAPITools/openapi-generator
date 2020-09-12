@@ -48,7 +48,9 @@ java -cp /path/totemplate-classpath-example-1.0-SNAPSHOT.jar:modules/openapi-gen
     -g html -o template-example -t templates/htmlDocs
 ```
 
-Note that our template directory is relative to the resource directory of the JAR defined on the classpath.
+**NOTE** Running your custom generator in the example above requires adding it to the classpath. This differs on [Windows](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/classpath.html) slightly from [unix](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/classpath.html).
+
+Take note that our template directory is relative to the resource directory of the JAR defined on the classpath.
 
 ### Retrieving Templates
 
@@ -470,7 +472,9 @@ java $JAVA_OPTS -cp /your/path/build/libs/pebble-template-adapter-1.0-SNAPSHOT-a
     --global-property models,modelDocs,modelTests,apis,apiTests,apiDocs
 ```
 
-Notice how we've targeted our custom template engine adapter via `-e pebble`. If you don't include the SPI file under `META-INF/services`, you'll need to specify the exact classpath: `org.openapitools.examples.templating.PebbleTemplateAdapter`. Notice that the target class here matches the Kotlin class name. This is because of the `@file:JvmName` annotation.
+**NOTE** Running your custom generator requires adding it to the classpath. This differs on [Windows](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/classpath.html) slightly from [unix](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/classpath.html).
+
+In the above example, we've targeted our custom template engine adapter via `-e pebble`. If you don't include the SPI file under `META-INF/services`, you'll need to specify the exact classpath: `org.openapitools.examples.templating.PebbleTemplateAdapter`. Notice that the target class here matches the Kotlin class name. This is because of the `@file:JvmName` annotation.
 
 Congratulations on creating a custom templating engine adapter!
 

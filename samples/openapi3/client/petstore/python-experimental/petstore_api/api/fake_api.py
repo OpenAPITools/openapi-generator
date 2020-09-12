@@ -30,6 +30,7 @@ from petstore_api.model.client import Client
 from petstore_api.model.composed_one_of_number_with_validations import ComposedOneOfNumberWithValidations
 from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from petstore_api.model.health_check_result import HealthCheckResult
+from petstore_api.model.mammal import Mammal
 from petstore_api.model.number_with_validations import NumberWithValidations
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
 from petstore_api.model.string_enum import StringEnum
@@ -708,6 +709,124 @@ class FakeApi(object):
             },
             api_client=api_client,
             callable=__fake_health_get
+        )
+
+        def __mammal(
+            self,
+            mammal,
+            **kwargs
+        ):
+            """mammal  # noqa: E501
+
+            Test serialization of mammals  # noqa: E501
+            This method makes a synchronous HTTP request by default. To make an
+            asynchronous HTTP request, please pass async_req=True
+
+            >>> thread = api.mammal(mammal, async_req=True)
+            >>> result = thread.get()
+
+            Args:
+                mammal (Mammal): Input mammal
+
+            Keyword Args:
+                _return_http_data_only (bool): response data without head status
+                    code and headers. Default is True.
+                _preload_content (bool): if False, the urllib3.HTTPResponse object
+                    will be returned without reading/decoding response data.
+                    Default is True.
+                _request_timeout (float/tuple): timeout setting for this request. If one
+                    number provided, it will be total request timeout. It can also
+                    be a pair (tuple) of (connection, read) timeouts.
+                    Default is None.
+                _check_input_type (bool): specifies if type checking
+                    should be done one the data sent to the server.
+                    Default is True.
+                _check_return_type (bool): specifies if type checking
+                    should be done one the data received from the server.
+                    Default is True.
+                _host_index (int/None): specifies the index of the server
+                    that we want to use.
+                    Default is read from the configuration.
+                async_req (bool): execute request asynchronously
+
+            Returns:
+                Mammal
+                    If the method is called asynchronously, returns the request
+                    thread.
+            """
+            kwargs['async_req'] = kwargs.get(
+                'async_req', False
+            )
+            kwargs['_return_http_data_only'] = kwargs.get(
+                '_return_http_data_only', True
+            )
+            kwargs['_preload_content'] = kwargs.get(
+                '_preload_content', True
+            )
+            kwargs['_request_timeout'] = kwargs.get(
+                '_request_timeout', None
+            )
+            kwargs['_check_input_type'] = kwargs.get(
+                '_check_input_type', True
+            )
+            kwargs['_check_return_type'] = kwargs.get(
+                '_check_return_type', True
+            )
+            kwargs['_host_index'] = kwargs.get('_host_index')
+            kwargs['mammal'] = \
+                mammal
+            return self.call_with_http_info(**kwargs)
+
+        self.mammal = Endpoint(
+            settings={
+                'response_type': (Mammal,),
+                'auth': [],
+                'endpoint_path': '/fake/refs/mammal',
+                'operation_id': 'mammal',
+                'http_method': 'POST',
+                'servers': None,
+            },
+            params_map={
+                'all': [
+                    'mammal',
+                ],
+                'required': [
+                    'mammal',
+                ],
+                'nullable': [
+                ],
+                'enum': [
+                ],
+                'validation': [
+                ]
+            },
+            root_map={
+                'validations': {
+                },
+                'allowed_values': {
+                },
+                'openapi_types': {
+                    'mammal':
+                        (Mammal,),
+                },
+                'attribute_map': {
+                },
+                'location_map': {
+                    'mammal': 'body',
+                },
+                'collection_format_map': {
+                }
+            },
+            headers_map={
+                'accept': [
+                    'application/json'
+                ],
+                'content_type': [
+                    'application/json'
+                ]
+            },
+            api_client=api_client,
+            callable=__mammal
         )
 
         def __number_with_validations(
@@ -1549,7 +1668,7 @@ class FakeApi(object):
                 string (str): None. [optional]
                 binary (file_type): None. [optional]
                 date (date): None. [optional]
-                date_time (datetime): None. [optional]
+                date_time (datetime): None. [optional] if omitted the server will use the default value of dateutil_parser('2010-02-01T10:20:10.11111+01:00')
                 password (str): None. [optional]
                 param_callback (str): None. [optional]
                 _return_http_data_only (bool): response data without head status
@@ -1792,13 +1911,13 @@ class FakeApi(object):
 
             Keyword Args:
                 enum_header_string_array ([str]): Header parameter enum test (string array). [optional]
-                enum_header_string (str): Header parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+                enum_header_string (str): Header parameter enum test (string). [optional] if omitted the server will use the default value of "-efg"
                 enum_query_string_array ([str]): Query parameter enum test (string array). [optional]
-                enum_query_string (str): Query parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+                enum_query_string (str): Query parameter enum test (string). [optional] if omitted the server will use the default value of "-efg"
                 enum_query_integer (int): Query parameter enum test (double). [optional]
                 enum_query_double (float): Query parameter enum test (double). [optional]
-                enum_form_string_array ([str]): Form parameter enum test (string array). [optional] if omitted the server will use the default value of '$'
-                enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of '-efg'
+                enum_form_string_array ([str]): Form parameter enum test (string array). [optional] if omitted the server will use the default value of "$"
+                enum_form_string (str): Form parameter enum test (string). [optional] if omitted the server will use the default value of "-efg"
                 _return_http_data_only (bool): response data without head status
                     code and headers. Default is True.
                 _preload_content (bool): if False, the urllib3.HTTPResponse object

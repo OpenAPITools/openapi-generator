@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ModelClient
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "_Client")]
     public partial class ModelClient : IEquatable<ModelClient>, IValidatableObject
     {
         /// <summary>
@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         public ModelClient(string _client = default(string))
         {
             this.__Client = _client;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -45,6 +46,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "client", EmitDefaultValue = false)]
         public string __Client { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -55,6 +62,7 @@ namespace Org.OpenAPITools.Model
             var sb = new StringBuilder();
             sb.Append("class ModelClient {\n");
             sb.Append("  __Client: ").Append(__Client).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -99,6 +107,8 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 if (this.__Client != null)
                     hashCode = hashCode * 59 + this.__Client.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

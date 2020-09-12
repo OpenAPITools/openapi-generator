@@ -54,6 +54,11 @@
             <name>Sunn</name>
             <email>sunn.ssb@live.com</email>
         </developer>
+        <developer>
+            <id>spacether</id>
+            <name>Justin Black</name>
+            <email>justin.a.black@gmail.com</email>
+        </developer>
     </developers>
     <issueManagement>
         <system>github</system>
@@ -1331,8 +1336,6 @@
                 <module>samples/client/petstore/groovy</module>
                 <!-- test non-java projects -->
                 <module>samples/client/petstore/go</module>
-                <module>samples/client/petstore/go-experimental</module>
-                <module>samples/openapi3/client/petstore/go-experimental</module>
                 <module>samples/openapi3/client/petstore/go</module>
                 <module>samples/client/petstore/javascript-es6</module>
                 <module>samples/client/petstore/javascript-promise-es6</module>
@@ -1515,7 +1518,7 @@
         <jackson-version>2.10.2</jackson-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <commons-lang-version>3.4</commons-lang-version>
-        <slf4j-version>1.7.12</slf4j-version>
+        <slf4j-version>1.7.29</slf4j-version>
         <scala-maven-plugin-version>4.3.1</scala-maven-plugin-version>
         <jmustache-version>1.14</jmustache-version>
         <handlebars.java-version>4.1.2</handlebars.java-version>

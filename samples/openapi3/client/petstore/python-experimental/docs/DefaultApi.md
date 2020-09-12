@@ -31,7 +31,7 @@ configuration = petstore_api.Configuration(
 with petstore_api.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = default_api.DefaultApi(api_client)
-    
+
     # example, this endpoint has no required or optional parameters
     try:
         api_response = api_instance.foo_get()

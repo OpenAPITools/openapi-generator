@@ -52,116 +52,116 @@ pub enum PlaceOrderError {
 /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
 pub fn delete_order(configuration: &configuration::Configuration, order_id: &str) -> Result<(), Error<DeleteOrderError>> {
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=crate::apis::urlencode(order_id));
-    let mut req_builder = client.delete(uri_str.as_str());
+    let local_var_uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=crate::apis::urlencode(order_id));
+    let mut local_var_req_builder = local_var_client.delete(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
 
-    let req = req_builder.build()?;
-    let mut resp = client.execute(req)?;
+    let local_var_req = local_var_req_builder.build()?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
-    let status = resp.status();
-    let content = resp.text()?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text()?;
 
-    if status.is_success() {
+    if local_var_status.is_success() {
         Ok(())
     } else {
-        let entity: Option<DeleteOrderError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<DeleteOrderError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
 /// Returns a map of status codes to quantities
 pub fn get_inventory(configuration: &configuration::Configuration, ) -> Result<::std::collections::HashMap<String, i32>, Error<GetInventoryError>> {
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/store/inventory", configuration.base_path);
-    let mut req_builder = client.get(uri_str.as_str());
+    let local_var_uri_str = format!("{}/store/inventory", configuration.base_path);
+    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    if let Some(ref apikey) = configuration.api_key {
-        let key = apikey.key.clone();
-        let val = match apikey.prefix {
-            Some(ref prefix) => format!("{} {}", prefix, key),
-            None => key,
+    if let Some(ref local_var_apikey) = configuration.api_key {
+        let local_var_key = local_var_apikey.key.clone();
+        let local_var_value = match local_var_apikey.prefix {
+            Some(ref local_var_prefix) => format!("{} {}", local_var_prefix, local_var_key),
+            None => local_var_key,
         };
-        req_builder = req_builder.header("api_key", val);
+        local_var_req_builder = local_var_req_builder.header("api_key", local_var_value);
     };
 
-    let req = req_builder.build()?;
-    let mut resp = client.execute(req)?;
+    let local_var_req = local_var_req_builder.build()?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
-    let status = resp.status();
-    let content = resp.text()?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text()?;
 
-    if status.is_success() {
-        serde_json::from_str(&content).map_err(Error::from)
+    if local_var_status.is_success() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let entity: Option<GetInventoryError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<GetInventoryError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
 /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
 pub fn get_order_by_id(configuration: &configuration::Configuration, order_id: i64) -> Result<crate::models::Order, Error<GetOrderByIdError>> {
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=order_id);
-    let mut req_builder = client.get(uri_str.as_str());
+    let local_var_uri_str = format!("{}/store/order/{orderId}", configuration.base_path, orderId=order_id);
+    let mut local_var_req_builder = local_var_client.get(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
 
-    let req = req_builder.build()?;
-    let mut resp = client.execute(req)?;
+    let local_var_req = local_var_req_builder.build()?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
-    let status = resp.status();
-    let content = resp.text()?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text()?;
 
-    if status.is_success() {
-        serde_json::from_str(&content).map_err(Error::from)
+    if local_var_status.is_success() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let entity: Option<GetOrderByIdError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<GetOrderByIdError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 
 pub fn place_order(configuration: &configuration::Configuration, body: crate::models::Order) -> Result<crate::models::Order, Error<PlaceOrderError>> {
 
-    let client = &configuration.client;
+    let local_var_client = &configuration.client;
 
-    let uri_str = format!("{}/store/order", configuration.base_path);
-    let mut req_builder = client.post(uri_str.as_str());
+    let local_var_uri_str = format!("{}/store/order", configuration.base_path);
+    let mut local_var_req_builder = local_var_client.post(local_var_uri_str.as_str());
 
-    if let Some(ref user_agent) = configuration.user_agent {
-        req_builder = req_builder.header(reqwest::header::USER_AGENT, user_agent.clone());
+    if let Some(ref local_var_user_agent) = configuration.user_agent {
+        local_var_req_builder = local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
     }
-    req_builder = req_builder.json(&body);
+    local_var_req_builder = local_var_req_builder.json(&body);
 
-    let req = req_builder.build()?;
-    let mut resp = client.execute(req)?;
+    let local_var_req = local_var_req_builder.build()?;
+    let mut local_var_resp = local_var_client.execute(local_var_req)?;
 
-    let status = resp.status();
-    let content = resp.text()?;
+    let local_var_status = local_var_resp.status();
+    let local_var_content = local_var_resp.text()?;
 
-    if status.is_success() {
-        serde_json::from_str(&content).map_err(Error::from)
+    if local_var_status.is_success() {
+        serde_json::from_str(&local_var_content).map_err(Error::from)
     } else {
-        let entity: Option<PlaceOrderError> = serde_json::from_str(&content).ok();
-        let error = ResponseContent { status, content, entity };
-        Err(Error::ResponseError(error))
+        let local_var_entity: Option<PlaceOrderError> = serde_json::from_str(&local_var_content).ok();
+        let local_var_error = ResponseContent { status: local_var_status, content: local_var_content, entity: local_var_entity };
+        Err(Error::ResponseError(local_var_error))
     }
 }
 

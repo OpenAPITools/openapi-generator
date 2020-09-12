@@ -18,6 +18,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
 using System.Text;
+using System.Threading;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -26,6 +27,7 @@ using RestSharp;
 using RestSharp.Deserializers;
 using ErrorEventArgs = Newtonsoft.Json.Serialization.ErrorEventArgs;
 using RestSharpMethod = RestSharp.Method;
+using Polly;
 
 namespace Org.OpenAPITools.Client
 {
@@ -387,14 +389,27 @@ namespace Org.OpenAPITools.Client
             var existingDeserializer = req.JsonSerializer as IDeserializer;
             if (existingDeserializer != null)
             {
-                client.AddHandler(() => existingDeserializer, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+                client.AddHandler("application/json", () => existingDeserializer);
+                client.AddHandler("text/json", () => existingDeserializer);
+                client.AddHandler("text/x-json", () => existingDeserializer);
+                client.AddHandler("text/javascript", () => existingDeserializer);
+                client.AddHandler("*+json", () => existingDeserializer);
             }
             else
             {
-                client.AddHandler(() => new CustomJsonCodec(configuration), "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+                var customDeserializer = new CustomJsonCodec(configuration);
+                client.AddHandler("application/json", () => customDeserializer);
+                client.AddHandler("text/json", () => customDeserializer);
+                client.AddHandler("text/x-json", () => customDeserializer);
+                client.AddHandler("text/javascript", () => customDeserializer);
+                client.AddHandler("*+json", () => customDeserializer);
             }
 
-            client.AddHandler(() => new XmlDeserializer(), "application/xml", "text/xml", "*+xml", "*");
+            var xmlDeserializer = new XmlDeserializer();
+            client.AddHandler("application/xml", () => xmlDeserializer);
+            client.AddHandler("text/xml", () => xmlDeserializer);
+            client.AddHandler("*+xml", () => xmlDeserializer);
+            client.AddHandler("*", () => xmlDeserializer);
 
             client.Timeout = configuration.Timeout;
 
@@ -410,7 +425,21 @@ namespace Org.OpenAPITools.Client
 
             InterceptRequest(req);
 
-            var response = client.Execute<T>(req);
+            IRestResponse<T> response;
+            if (RetryConfiguration.RetryPolicy != null)	
+            {
+                var policy = RetryConfiguration.RetryPolicy;
+                var policyResult = policy.ExecuteAndCapture(() => client.Execute(req));
+                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
+                {
+                    Request = req,
+                    ErrorException = policyResult.FinalException
+                };
+            }
+            else
+            {
+                response = client.Execute<T>(req);
+            }
 
             InterceptResponse(req, response);
 
@@ -457,14 +486,27 @@ namespace Org.OpenAPITools.Client
             var existingDeserializer = req.JsonSerializer as IDeserializer;
             if (existingDeserializer != null)
             {
-                client.AddHandler(() => existingDeserializer, "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+                client.AddHandler("application/json", () => existingDeserializer);
+                client.AddHandler("text/json", () => existingDeserializer);
+                client.AddHandler("text/x-json", () => existingDeserializer);
+                client.AddHandler("text/javascript", () => existingDeserializer);
+                client.AddHandler("*+json", () => existingDeserializer);
             }
             else
             {
-                client.AddHandler(() => new CustomJsonCodec(configuration), "application/json", "text/json", "text/x-json", "text/javascript", "*+json");
+                var customDeserializer = new CustomJsonCodec(configuration);
+                client.AddHandler("application/json", () => customDeserializer);
+                client.AddHandler("text/json", () => customDeserializer);
+                client.AddHandler("text/x-json", () => customDeserializer);
+                client.AddHandler("text/javascript", () => customDeserializer);
+                client.AddHandler("*+json", () => customDeserializer);
             }
 
-            client.AddHandler(() => new XmlDeserializer(), "application/xml", "text/xml", "*+xml", "*");
+            var xmlDeserializer = new XmlDeserializer();
+            client.AddHandler("application/xml", () => xmlDeserializer);
+            client.AddHandler("text/xml", () => xmlDeserializer);
+            client.AddHandler("*+xml", () => xmlDeserializer);
+            client.AddHandler("*", () => xmlDeserializer);
 
             client.Timeout = configuration.Timeout;
 
@@ -480,7 +522,21 @@ namespace Org.OpenAPITools.Client
 
             InterceptRequest(req);
 
-            var response = await client.ExecuteAsync<T>(req, cancellationToken);
+            IRestResponse<T> response;
+            if (RetryConfiguration.AsyncRetryPolicy != null)
+            {
+                var policy = RetryConfiguration.AsyncRetryPolicy;
+                var policyResult = await policy.ExecuteAndCaptureAsync(() => client.ExecuteAsync(req, cancellationToken)).ConfigureAwait(false);
+                response = (policyResult.Outcome == OutcomeType.Successful) ? client.Deserialize<T>(policyResult.Result) : new RestResponse<T>
+                {
+                    Request = req,
+                    ErrorException = policyResult.FinalException
+                };
+            }
+            else
+            {
+                 response = await client.ExecuteAsync<T>(req, cancellationToken).ConfigureAwait(false);
+            }
 
             InterceptResponse(req, response);
 

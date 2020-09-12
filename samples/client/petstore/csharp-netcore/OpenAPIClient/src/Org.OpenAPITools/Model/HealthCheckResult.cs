@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "HealthCheckResult")]
     public partial class HealthCheckResult : IEquatable<HealthCheckResult>, IValidatableObject
     {
         /// <summary>
@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         public HealthCheckResult(string nullableMessage = default(string))
         {
             this.NullableMessage = nullableMessage;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -45,6 +46,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "NullableMessage", EmitDefaultValue = true)]
         public string NullableMessage { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -55,6 +62,7 @@ namespace Org.OpenAPITools.Model
             var sb = new StringBuilder();
             sb.Append("class HealthCheckResult {\n");
             sb.Append("  NullableMessage: ").Append(NullableMessage).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -99,6 +107,8 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 if (this.NullableMessage != null)
                     hashCode = hashCode * 59 + this.NullableMessage.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

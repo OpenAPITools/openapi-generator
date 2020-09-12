@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// List
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "List")]
     public partial class List : IEquatable<List>, IValidatableObject
     {
         /// <summary>
@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         public List(string _123list = default(string))
         {
             this._123List = _123list;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -45,6 +46,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "123-list", EmitDefaultValue = false)]
         public string _123List { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -55,6 +62,7 @@ namespace Org.OpenAPITools.Model
             var sb = new StringBuilder();
             sb.Append("class List {\n");
             sb.Append("  _123List: ").Append(_123List).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -99,6 +107,8 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 if (this._123List != null)
                     hashCode = hashCode * 59 + this._123List.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

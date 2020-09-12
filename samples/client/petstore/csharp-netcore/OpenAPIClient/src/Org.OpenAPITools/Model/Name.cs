@@ -28,14 +28,17 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Model for testing model name same as property name
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "Name")]
     public partial class Name : IEquatable<Name>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected Name() { }
+        protected Name()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="Name" /> class.
         /// </summary>
@@ -45,6 +48,7 @@ namespace Org.OpenAPITools.Model
         {
             this._Name = name;
             this.Property = property;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -72,6 +76,12 @@ namespace Org.OpenAPITools.Model
         public int _123Number { get; private set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -83,6 +93,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  SnakeCase: ").Append(SnakeCase).Append("\n");
             sb.Append("  Property: ").Append(Property).Append("\n");
             sb.Append("  _123Number: ").Append(_123Number).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -130,6 +141,8 @@ namespace Org.OpenAPITools.Model
                 if (this.Property != null)
                     hashCode = hashCode * 59 + this.Property.GetHashCode();
                 hashCode = hashCode * 59 + this._123Number.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

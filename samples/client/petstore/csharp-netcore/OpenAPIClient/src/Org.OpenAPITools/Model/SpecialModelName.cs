@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// SpecialModelName
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "_special_model.name_")]
     public partial class SpecialModelName : IEquatable<SpecialModelName>, IValidatableObject
     {
         /// <summary>
@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         public SpecialModelName(long specialPropertyName = default(long))
         {
             this.SpecialPropertyName = specialPropertyName;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -45,6 +46,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "$special[property.name]", EmitDefaultValue = false)]
         public long SpecialPropertyName { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -55,6 +62,7 @@ namespace Org.OpenAPITools.Model
             var sb = new StringBuilder();
             sb.Append("class SpecialModelName {\n");
             sb.Append("  SpecialPropertyName: ").Append(SpecialPropertyName).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -98,6 +106,8 @@ namespace Org.OpenAPITools.Model
             {
                 int hashCode = 41;
                 hashCode = hashCode * 59 + this.SpecialPropertyName.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

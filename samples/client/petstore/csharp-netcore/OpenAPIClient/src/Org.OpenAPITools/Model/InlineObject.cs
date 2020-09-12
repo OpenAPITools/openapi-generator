@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// InlineObject
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "inline_object")]
     public partial class InlineObject : IEquatable<InlineObject>, IValidatableObject
     {
         /// <summary>
@@ -40,6 +40,7 @@ namespace Org.OpenAPITools.Model
         {
             this.Name = name;
             this.Status = status;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -57,6 +58,12 @@ namespace Org.OpenAPITools.Model
         public string Status { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -66,6 +73,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class InlineObject {\n");
             sb.Append("  Name: ").Append(Name).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -112,6 +120,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Name.GetHashCode();
                 if (this.Status != null)
                     hashCode = hashCode * 59 + this.Status.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

@@ -21,6 +21,10 @@ This command downloads the Slim Framework and its third-party dependencies into 
 $ composer install
 ```
 
+## Add configs
+
+Application requires at least one config file(`config/dev/config.inc.php` or `config/prod/config.inc.php`). You can use [config/dev/example.inc.php](config/dev/example.inc.php) as starting point.
+
 ## Start devserver
 
 Run the following command in terminal to start localhost web server, assuming `./php-slim-server/` is public-accessible directory with `index.php` file:
@@ -82,25 +86,19 @@ $ composer phplint
 
 ## Show errors
 
-Switch on option in `./index.php`:
+Switch on option in your application config file like:
 ```diff
-/**
- * Add Error Handling Middleware
- *
- * @param bool $displayErrorDetails -> Should be set to false in production
- * @param bool $logErrors -> Parameter is passed to the default ErrorHandler
- * @param bool $logErrorDetails -> Display error details in error log
- * which can be replaced by a callable of your choice.
-
- * Note: This middleware should be added last. It will not handle any exceptions/errors
- * for middleware added after it.
- */
---- $app->addErrorMiddleware(false, true, true);
-+++ $app->addErrorMiddleware(true, true, true);
+ return [
+     'slimSettings' => [
+-        'displayErrorDetails' => false,
++        'displayErrorDetails' => true,
+         'logErrors' => true,
+         'logErrorDetails' => true,
+     ],
 ```
 
 ## Mock Server
-For a quick start uncomment [mocker middleware config](index.php#L62-L89).
+For a quick start uncomment [mocker middleware options](config/dev/example.inc.php#L67-L94) in your application config file.
 
 Used packages:
 * [Openapi Data Mocker](https://github.com/ybelenko/openapi-data-mocker) - first implementation of OAS3 fake data generator.

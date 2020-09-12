@@ -28,7 +28,12 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
   {{/gson}}
   {{#isContainer}}
   {{#useBeanValidation}}@Valid{{/useBeanValidation}}
+  {{#openApiNullable}}
   private {{>nullableDataType}} {{name}} = {{#isNullable}}JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}}{{/isNullable}};
+  {{/openApiNullable}}
+  {{^openApiNullable}}
+  private {{>nullableDataType}} {{name}} = {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null{{/required}};
+  {{/openApiNullable}}
   {{/isContainer}}
   {{^isContainer}}
   {{#isDate}}
@@ -37,24 +42,42 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
   {{#isDateTime}}
   @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
   {{/isDateTime}}
+  {{#openApiNullable}}
   private {{>nullableDataType}} {{name}}{{#isNullable}} = JsonNullable.undefined(){{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  {{/openApiNullable}}
+  {{^openApiNullable}}
+  private {{>nullableDataType}} {{name}}{{#isNullable}} = null{{/isNullable}}{{^isNullable}}{{#defaultValue}} = {{{.}}}{{/defaultValue}}{{/isNullable}};
+  {{/openApiNullable}}
   {{/isContainer}}
 
   {{/vars}}
   {{#vars}}
   public {{classname}} {{name}}({{{datatypeWithEnum}}} {{name}}) {
+    {{#openApiNullable}}
     this.{{name}} = {{#isNullable}}JsonNullable.of({{name}}){{/isNullable}}{{^isNullable}}{{name}}{{/isNullable}};
+    {{/openApiNullable}}
+    {{^openApiNullable}}
+    this.{{name}} = {{name}};
+    {{/openApiNullable}}
     return this;
   }
   {{#isListContainer}}
 
   public {{classname}} add{{nameInCamelCase}}Item({{{items.datatypeWithEnum}}} {{name}}Item) {
+    {{#openApiNullable}}
     {{^required}}
     if (this.{{name}} == null{{#isNullable}} || !this.{{name}}.isPresent(){{/isNullable}}) {
       this.{{name}} = {{#isNullable}}JsonNullable.of({{{defaultValue}}}){{/isNullable}}{{^isNullable}}{{{defaultValue}}}{{/isNullable}};
     }
     {{/required}}
     this.{{name}}{{#isNullable}}.get(){{/isNullable}}.add({{name}}Item);
+    {{/openApiNullable}}
+    {{^openApiNullable}}
+    if (this.{{name}} == null) {
+      this.{{name}} = {{{defaultValue}}};
+    }
+    this.{{name}}.add({{name}}Item);
+    {{/openApiNullable}}
     return this;
   }
   {{/isListContainer}}
@@ -101,7 +124,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
   {{/vars}}
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -134,7 +157,7 @@ public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}}{{^parent}}
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

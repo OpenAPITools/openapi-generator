@@ -101,7 +101,9 @@ ext {
 {{#jackson}}
     jackson_version = "2.10.3"
     jackson_databind_version = "2.10.3"
+    {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.1"
+    {{/openApiNullable}}
     {{#threetenbp}}
     jackson_threetenbp_version = "2.10.0"
     {{/threetenbp}}
@@ -128,7 +130,9 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
+    {{#openApiNullable}}
     compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    {{/openApiNullable}}
     {{#withXml}}
     compile "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:$jackson_version"
     {{/withXml}}

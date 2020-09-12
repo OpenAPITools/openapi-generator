@@ -33,7 +33,6 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
-import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.templating.mustache.LowercaseLambda;
@@ -2233,4 +2232,40 @@ public class DefaultCodegenTest {
         assertTrue(names.contains("passwordConfirmation"));
         assertTrue(names.contains("oldPassword"));
     }
+
+    @Test
+    public void inlineAllOfSchemaDoesNotThrowException() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue7262.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "UserTimeBase";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+
+        final Set<CodegenDiscriminator.MappedModel> expectedMappedModels = new HashSet<>(Arrays.asList(new CodegenDiscriminator.MappedModel("UserSleep", "UserSleep")));
+        final Set<CodegenDiscriminator.MappedModel> mappedModels = cm.getDiscriminator().getMappedModels();
+        assertEquals(mappedModels, expectedMappedModels);
+
+        modelName = "UserSleep";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        final Set<String> expectedAllOf = new HashSet<>(Arrays.asList("UserTimeBase"));
+        assertEquals(cm.allOf, expectedAllOf);
+        assertEquals(openAPI.getComponents().getSchemas().size(), 2);
+        assertNull(cm.getDiscriminator());
+    }
+
+    @Test
+    public void arrayModelHasValidation() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue7356.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "ArrayWithValidations";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+        assertEquals((int) cm.getMinItems(), 1);
+    }
+
 }

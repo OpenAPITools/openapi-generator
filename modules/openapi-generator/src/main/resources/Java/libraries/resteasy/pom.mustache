@@ -226,11 +226,13 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind-version}</version>
         </dependency>
+        {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
+        {{/openApiNullable}}
         {{#withXml}}
 
         <!-- XML processing: Jackson -->
@@ -241,13 +243,6 @@
         </dependency>
 
         {{/withXml}}
-        {{#java8}}
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>${jackson-version}</version>
-        </dependency>
-        {{/java8}}
         {{^java8}}
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>

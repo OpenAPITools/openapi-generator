@@ -1239,10 +1239,6 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
         return name;
     }
 
-    static boolean isJsonMimeType(String mime) {
-        return mime != null && JSON_MIME_PATTERN.matcher(mime).matches();
-    }
-
     static boolean isWildcardMimeType(String mime) {
         return mime != null && mime.equals("*/*");
     }

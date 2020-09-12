@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// EnumTest
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "Enum_Test")]
     public partial class EnumTest : IEquatable<EnumTest>, IValidatableObject
     {
         /// <summary>
@@ -164,7 +164,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected EnumTest() { }
+        protected EnumTest()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="EnumTest" /> class.
         /// </summary>
@@ -186,7 +189,14 @@ namespace Org.OpenAPITools.Model
             this.OuterEnumInteger = outerEnumInteger;
             this.OuterEnumDefaultValue = outerEnumDefaultValue;
             this.OuterEnumIntegerDefaultValue = outerEnumIntegerDefaultValue;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -204,6 +214,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  OuterEnumInteger: ").Append(OuterEnumInteger).Append("\n");
             sb.Append("  OuterEnumDefaultValue: ").Append(OuterEnumDefaultValue).Append("\n");
             sb.Append("  OuterEnumIntegerDefaultValue: ").Append(OuterEnumIntegerDefaultValue).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -254,6 +265,8 @@ namespace Org.OpenAPITools.Model
                 hashCode = hashCode * 59 + this.OuterEnumInteger.GetHashCode();
                 hashCode = hashCode * 59 + this.OuterEnumDefaultValue.GetHashCode();
                 hashCode = hashCode * 59 + this.OuterEnumIntegerDefaultValue.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

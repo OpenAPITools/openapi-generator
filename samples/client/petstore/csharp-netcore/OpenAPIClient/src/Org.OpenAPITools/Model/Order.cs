@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// Order
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "Order")]
     public partial class Order : IEquatable<Order>, IValidatableObject
     {
         /// <summary>
@@ -81,6 +81,7 @@ namespace Org.OpenAPITools.Model
             this.ShipDate = shipDate;
             this.Status = status;
             this.Complete = complete;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -114,6 +115,12 @@ namespace Org.OpenAPITools.Model
         public bool Complete { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -127,6 +134,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  ShipDate: ").Append(ShipDate).Append("\n");
             sb.Append("  Status: ").Append(Status).Append("\n");
             sb.Append("  Complete: ").Append(Complete).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -176,6 +184,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.ShipDate.GetHashCode();
                 hashCode = hashCode * 59 + this.Status.GetHashCode();
                 hashCode = hashCode * 59 + this.Complete.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

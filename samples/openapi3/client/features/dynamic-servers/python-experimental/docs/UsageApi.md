@@ -33,7 +33,7 @@ configuration = dynamic_servers.Configuration(
 with dynamic_servers.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = usage_api.UsageApi(api_client)
-    
+
     # example, this endpoint has no required or optional parameters
     try:
         # Use custom server
@@ -91,7 +91,7 @@ configuration = dynamic_servers.Configuration(
 with dynamic_servers.ApiClient() as api_client:
     # Create an instance of the API class
     api_instance = usage_api.UsageApi(api_client)
-    
+
     # example, this endpoint has no required or optional parameters
     try:
         # Use default server

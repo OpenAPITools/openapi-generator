@@ -274,11 +274,13 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind-version}</version>
         </dependency>
+        {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
+        {{/openApiNullable}}
         {{#withXml}}
 
             <!-- XML Support -->
@@ -351,7 +353,9 @@
         <feign-version>10.11</feign-version>
         <feign-form-version>3.8.0</feign-form-version>
         <jackson-version>2.10.3</jackson-version>
+        {{#openApiNullable}}
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        {{/openApiNullable}}
         <jackson-databind-version>2.10.3</jackson-databind-version>
         {{#threetenbp}}
         <jackson-threetenbp-version>2.9.10</jackson-threetenbp-version>

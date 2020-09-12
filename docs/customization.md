@@ -20,7 +20,12 @@ These names can be anything you like. If you are building a client for the white
 
 ### Use your new generator with the CLI
 
-To compile your library, enter the `out/generators/my-codegen` directory, run `mvn package` and execute the generator:
+To compile your library, enter the `out/generators/my-codegen` directory, run `mvn package`.
+
+**NOTE** Running your custom generator requires adding it to the classpath. This differs on [Windows](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/classpath.html) slightly from [unix](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/classpath.html).
+If you are running a Windows Subsystem for Linux or a shell such as gitbash, and have issues with the unix variant, try the Windows syntax below.
+ 
+Now, execute the generator:
 
 ```sh
 java -cp out/generators/my-codegen/target/my-codegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
@@ -28,7 +33,7 @@ java -cp out/generators/my-codegen/target/my-codegen-openapi-generator-1.0.0.jar
 
 For Windows users, you will need to use `;` instead of `:` in the classpath, e.g.
 ```
-java -cp out/generators/my-codegen/target/my-codegen-openapi-generator-1.0.0.jar;modules/openapi-generator-cli/target/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
+java -cp "out/generators/my-codegen/target/my-codegen-openapi-generator-1.0.0.jar;modules/openapi-generator-cli/target/openapi-generator-cli.jar" org.openapitools.codegen.OpenAPIGenerator
 ```
 
 Note the `my-codegen` is an option for `-g` now, and you can use the usual arguments for generating your code:
@@ -42,7 +47,7 @@ java -cp out/codegens/customCodegen/target/my-codegen-openapi-generator-1.0.0.ja
 
 For Windows users:
 ```
-java -cp out/codegens/customCodegen/target/my-codegen-openapi-generator-1.0.0.jar;modules/openapi-generator-cli/target/openapi-generator-cli.jar \
+java -cp "out/codegens/customCodegen/target/my-codegen-openapi-generator-1.0.0.jar;modules/openapi-generator-cli/target/openapi-generator-cli.jar" \
   org.openapitools.codegen.OpenAPIGenerator generate -g my-codegen \
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
   -o ./out/myClient

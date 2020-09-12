@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// ArrayOfNumberOnly
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "ArrayOfNumberOnly")]
     public partial class ArrayOfNumberOnly : IEquatable<ArrayOfNumberOnly>, IValidatableObject
     {
         /// <summary>
@@ -38,6 +38,7 @@ namespace Org.OpenAPITools.Model
         public ArrayOfNumberOnly(List<decimal> arrayNumber = default(List<decimal>))
         {
             this.ArrayNumber = arrayNumber;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -45,6 +46,12 @@ namespace Org.OpenAPITools.Model
         /// </summary>
         [DataMember(Name = "ArrayNumber", EmitDefaultValue = false)]
         public List<decimal> ArrayNumber { get; set; }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -55,6 +62,7 @@ namespace Org.OpenAPITools.Model
             var sb = new StringBuilder();
             sb.Append("class ArrayOfNumberOnly {\n");
             sb.Append("  ArrayNumber: ").Append(ArrayNumber).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -99,6 +107,8 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 if (this.ArrayNumber != null)
                     hashCode = hashCode * 59 + this.ArrayNumber.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

@@ -122,7 +122,9 @@ ext {
     swagger_annotations_version = "1.5.22"
     jackson_version = "2.10.4"
     jackson_databind_version = "2.10.4"
+    {{#openApiNullable}}
     jackson_databind_nullable_version = "0.2.1"
+    {{/openApiNullable}}
     spring_web_version = "5.2.5.RELEASE"
     jodatime_version = "2.9.9"
     junit_version = "4.13"
@@ -140,7 +142,9 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-annotations:$jackson_version"
     compile "com.fasterxml.jackson.core:jackson-databind:$jackson_databind_version"
     compile "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:$jackson_version"
+    {{#openApiNullable}}
     compile "org.openapitools:jackson-databind-nullable:$jackson_databind_nullable_version"
+    {{/openApiNullable}}
     {{#java8}}
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jackson_version"
     {{/java8}}

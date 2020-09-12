@@ -2240,6 +2240,12 @@ components:
       properties:
         name:
           type: string
+        pet_type:
+          default: ChildCat
+          enum:
+          - ChildCat
+          type: string
+          x-enum-as-string: true
       type: object
   securitySchemes:
     petstore_auth:
