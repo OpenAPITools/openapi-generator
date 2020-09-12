@@ -8,7 +8,6 @@ sidebar_label: go
 |enumClassPrefix|Prefix enum with class name| |false|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |isGoSubmodule|whether the generated Go module is a submodule| |false|
-|legacyGoEnumNaming|whether to use legacy enum prefixes and suffixes which are shorter but subject to namespace collisions| |false|
 |packageName|Go package name (convention: lowercase).| |openapi|
 |packageVersion|Go package version.| |1.0.0|
 |prependFormOrBodyParameters|Add form or body parameters to the beginning of the parameter list.| |false|
