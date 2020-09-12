@@ -61,7 +61,7 @@ import           Servant.Client                     (ClientEnv, Scheme (Http), C
                                                      mkClientEnv, parseBaseUrl)
 import           Servant.Client.Core                (baseUrlPort, baseUrlHost)
 import           Servant.Client.Internal.HttpClient (ClientM (..))
-import           Servant.Server                     (Handler (..))
+import           Servant.Server                     (Handler (..), Application)
 import           Servant.Server.StaticFiles         (serveDirectoryFileServer)
 import           Web.FormUrlEncoded
 import           Web.HttpApiData
@@ -271,8 +271,8 @@ requestMiddlewareId a = a
 
 -- | Run the OpenAPIPetstore server at the provided host and port.
 runOpenAPIPetstoreServer
-:: (MonadIO m, MonadThrow m)
-=> Config -> OpenAPIPetstoreBackend (ExceptT ServerError IO) -> m ()
+  :: (MonadIO m, MonadThrow m)
+  => Config -> OpenAPIPetstoreBackend (ExceptT ServerError IO) -> m ()
 runOpenAPIPetstoreServer config backend = runOpenAPIPetstoreMiddlewareServer config requestMiddlewareId backend
 
 -- | Run the OpenAPIPetstore server at the provided host and port.

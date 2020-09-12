@@ -1,0 +1,11 @@
+[tox]
+envlist = py3
+skipsdist=True
+
+[testenv]
+deps=-r{toxinidir}/requirements.txt
+     -r{toxinidir}/test-requirements.txt
+	 {toxinidir}
+
+commands=
+   {{^useNose}}pytest --cov={{{pythonSrcRoot}}}{{{packageName}}}{{/useNose}}{{#useNose}}nosetests{{/useNose}}

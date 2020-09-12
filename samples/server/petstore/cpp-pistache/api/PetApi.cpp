@@ -58,6 +58,9 @@ void PetApi::add_pet_handler(const Pistache::Rest::Request &request, Pistache::H
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
+    } catch (Pistache::Http::HttpError &e) {
+        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
+        return;
     } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
@@ -78,6 +81,9 @@ void PetApi::delete_pet_handler(const Pistache::Rest::Request &request, Pistache
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
+    } catch (Pistache::Http::HttpError &e) {
+        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
+        return;
     } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
@@ -91,9 +97,9 @@ void PetApi::find_pets_by_status_handler(const Pistache::Rest::Request &request,
     auto statusQuery = request.query().get("status");
     Pistache::Optional<std::vector<std::string>> status;
     if(!statusQuery.isEmpty()){
-        std::vector<std::string> value;
-        if(fromStringValue(statusQuery.get(), value)){
-            status = Pistache::Some(value);
+        std::vector<std::string> valueQuery_instance;
+        if(fromStringValue(statusQuery.get(), valueQuery_instance)){
+            status = Pistache::Some(valueQuery_instance);
         }
     }
     
@@ -102,6 +108,9 @@ void PetApi::find_pets_by_status_handler(const Pistache::Rest::Request &request,
     } catch (nlohmann::detail::exception &e) {
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
+        return;
+    } catch (Pistache::Http::HttpError &e) {
+        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
         //send a 500 error
@@ -116,9 +125,9 @@ void PetApi::find_pets_by_tags_handler(const Pistache::Rest::Request &request, P
     auto tagsQuery = request.query().get("tags");
     Pistache::Optional<std::vector<std::string>> tags;
     if(!tagsQuery.isEmpty()){
-        std::vector<std::string> value;
-        if(fromStringValue(tagsQuery.get(), value)){
-            tags = Pistache::Some(value);
+        std::vector<std::string> valueQuery_instance;
+        if(fromStringValue(tagsQuery.get(), valueQuery_instance)){
+            tags = Pistache::Some(valueQuery_instance);
         }
     }
     
@@ -127,6 +136,9 @@ void PetApi::find_pets_by_tags_handler(const Pistache::Rest::Request &request, P
     } catch (nlohmann::detail::exception &e) {
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
+        return;
+    } catch (Pistache::Http::HttpError &e) {
+        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
         //send a 500 error
@@ -144,6 +156,9 @@ void PetApi::get_pet_by_id_handler(const Pistache::Rest::Request &request, Pista
     } catch (nlohmann::detail::exception &e) {
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
+        return;
+    } catch (Pistache::Http::HttpError &e) {
+        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
         //send a 500 error
@@ -165,6 +180,9 @@ void PetApi::update_pet_handler(const Pistache::Rest::Request &request, Pistache
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
+    } catch (Pistache::Http::HttpError &e) {
+        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
+        return;
     } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
@@ -179,6 +197,9 @@ void PetApi::update_pet_with_form_handler(const Pistache::Rest::Request &request
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
         return;
+    } catch (Pistache::Http::HttpError &e) {
+        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
+        return;
     } catch (std::exception &e) {
         //send a 500 error
         response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
@@ -192,6 +213,9 @@ void PetApi::upload_file_handler(const Pistache::Rest::Request &request, Pistach
     } catch (nlohmann::detail::exception &e) {
         //send a 400 error
         response.send(Pistache::Http::Code::Bad_Request, e.what());
+        return;
+    } catch (Pistache::Http::HttpError &e) {
+        response.send(static_cast<Pistache::Http::Code>(e.code()), e.what());
         return;
     } catch (std::exception &e) {
         //send a 500 error

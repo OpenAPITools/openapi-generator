@@ -1,0 +1,78 @@
+swagger: '2.0'
+info:
+  description: "Tests models which trigger aliased primitives but contain JSON Schema Validation Properties"
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+host: petstore.swagger.io:80
+basePath: /v2
+tags:
+  - name: fake
+    description: A fake api
+schemes:
+  - http
+paths:
+  /fake/StringEnum:
+    post:
+      tags:
+        - fake
+      description: Test serialization of StringEnum
+      operationId: StringEnum
+      parameters:
+        - name: body
+          in: body
+          description: Input string as post body
+          schema:
+            $ref: '#/definitions/StringEnum'
+      responses:
+        '200':
+          description: Returned string
+          schema:
+            $ref: '#/definitions/StringEnum'
+  /fake/StringRegex:
+    post:
+      tags:
+        - fake
+      description: Test serialization of StringRegex
+      operationId: StringRegex
+      parameters:
+        - name: body
+          in: body
+          description: Input string as post body
+          schema:
+            $ref: '#/definitions/StringRegex'
+      responses:
+        '200':
+          description: Returned string
+          schema:
+            $ref: '#/definitions/StringRegex'
+  /fake/ObjectModelWithRefs:
+    post:
+      tags:
+        - fake
+      description: Test serialization of ObjectModelWithRefs
+      operationId: ObjectModelWithRefs
+      parameters:
+        - name: body
+          in: body
+          description: Input object as post body
+          schema:
+            $ref: '#/definitions/ObjectModelWithRefs'
+      responses:
+        '200':
+          description: Returned object
+          schema:
+            $ref: '#/definitions/ObjectModelWithRefs'
+definitions:
+  ObjectModelWithRefs:
+    type: object
+    required:
+      - stringRegex
+    properties:
+      stringRegex:
+        $ref: '#/definitions/StringRegex'
+  StringRegex:
+    type: string
+    pattern: '^\d{3}-\d{2}-\d{4}$'

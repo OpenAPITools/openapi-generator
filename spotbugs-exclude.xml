@@ -1,0 +1,34 @@
+<FindBugsFilter>
+
+	<Match>
+		<Bug pattern="RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE" />
+	</Match>
+
+	<Match>
+		<Bug pattern="URF_UNREAD_PUBLIC_OR_PROTECTED_FIELD" />
+	</Match>
+
+	<Match>
+		<Bug pattern="RV_RETURN_VALUE_IGNORED_BAD_PRACTICE" />
+	</Match>
+
+	<Match>
+		<Bug pattern="URF_UNREAD_FIELD" />
+		<Or>
+			<And>
+				<Class name="io.undertow.server.protocol.ajp.AjpRequestParseState" />
+				<Field name="dataSize" />
+			</And>
+		</Or>
+	</Match>
+
+	<!-- For source/class naming, see https://spotbugs.readthedocs.io/en/stable/filter.html#java-element-name-matching -->
+	<Match>
+		<!-- Ignore all source files with samples in path name -->
+		<Source name="~.*\samples\.*"/>
+	</Match>
+	<Match>
+		<!-- Ignore all bugs in any test classes -->
+		<Class name="~.*\.*Test" />
+	</Match>
+</FindBugsFilter>

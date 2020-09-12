@@ -1,0 +1,25 @@
+    def __setattr__(self, name, value):
+        """this allows us to set a value with instance.field_name = val"""
+        if name in self.required_properties:
+            self.__dict__[name] = value
+            return
+
+        self.set_attribute(name, value)
+
+    def __getattr__(self, name):
+        """this allows us to get a value with val = instance.field_name"""
+        if name in self.required_properties:
+            return self.__dict__[name]
+
+        if name in self.__dict__['_data_store']:
+            return self.__dict__['_data_store'][name]
+
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+        raise ApiAttributeError(
+            "{0} has no attribute '{1}'".format(
+                type(self).__name__, name),
+            [name]
+        )

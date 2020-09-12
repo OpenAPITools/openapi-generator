@@ -15,6 +15,7 @@
       <cucumber-junit.version>1.2.5</cucumber-junit.version>
       <cucumber-java.version>1.2.5</cucumber-java.version>
       <cucumber-reporting.version>3.10.0</cucumber-reporting.version>
+      <javax-annotation-version>1.3.2</javax-annotation-version>
       <springfox-swagger2>2.6.1-SNAPSHOT</springfox-swagger2>
       <springfox-swagger-ui>2.6.0</springfox-swagger-ui>
       <slf4j-api>1.7.25</slf4j-api>
@@ -47,7 +48,7 @@
          <id>central</id>
          <name>Maven Repository Switchboard</name>
          <layout>default</layout>
-         <url>http://repo1.maven.org/maven2</url>
+         <url>https://repo1.maven.org/maven2</url>
          <snapshots>
             <enabled>false</enabled>
          </snapshots>
@@ -145,6 +146,12 @@
           <artifactId>commons-logging</artifactId>
           <version>1.2</version>
       </dependency>
+      <dependency>
+          <groupId>javax.annotation</groupId>
+          <artifactId>javax.annotation-api</artifactId>
+          <version>${javax-annotation-version}</version>
+          <scope>provided</scope>
+      </dependency>
       <!-- cucumber dependencies -->
       <dependency>
          <groupId>info.cukes</groupId>
@@ -232,7 +239,7 @@
       <dependency>
             <groupId>org.threeten</groupId>
             <artifactId>threetenbp</artifactId>
-            <version>1.3.6</version>
+            <version>1.4.0</version>
       </dependency>
    </dependencies>
    <dependencyManagement>
@@ -268,7 +275,7 @@
                      </excludes>
                   </configuration>
                </plugin>
-               
+
                <plugin>
                   <groupId>net.alchim31.maven</groupId>
                   <artifactId>scala-maven-plugin</artifactId>
@@ -284,7 +291,7 @@
                             <runMultipleSimulations>true</runMultipleSimulations>
                             <includes>
                                 <simulationClass>testapi</simulationClass>
-                                
+
                             </includes>
                         </configuration>
                         <executions>

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,4 +47,33 @@ public class SemVer implements Comparable<SemVer> {
     public String toString() {
         return major + "." + minor + "." + revision;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + major;
+        result = prime * result + minor;
+        result = prime * result + revision;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SemVer other = (SemVer) obj;
+        if (major != other.major)
+            return false;
+        if (minor != other.minor)
+            return false;
+        if (revision != other.revision)
+            return false;
+        return true;
+    }
+
 }

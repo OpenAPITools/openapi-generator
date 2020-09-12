@@ -58,7 +58,7 @@ public class {{classname}} {
     **/
     public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws IOException {
         {{#returnType}}HttpResponse response = {{/returnType}}{{operationId}}ForHttpResponse({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
-        TypeReference typeRef = new TypeReference<{{{returnType}}}>() {};
+        TypeReference<{{{returnType}}}> typeRef = new TypeReference<{{{returnType}}}>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);{{/returnType}}
     }
 
@@ -77,7 +77,7 @@ public class {{classname}} {
     **/
     public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#bodyParam}}{{^required}}{{{dataType}}} {{paramName}}, {{/required}}{{/bodyParam}}{{#requiredParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}Map<String, Object> params) throws IOException {
         {{#returnType}}HttpResponse response = {{/returnType}}{{operationId}}ForHttpResponse({{#bodyParam}}{{^required}}{{paramName}}, {{/required}}{{/bodyParam}}{{#requiredParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}params);{{#returnType}}
-        TypeReference typeRef = new TypeReference<{{{returnType}}}>() {};
+        TypeReference<{{{returnType}}}> typeRef = new TypeReference<{{{returnType}}}>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);{{/returnType}}
     }
 

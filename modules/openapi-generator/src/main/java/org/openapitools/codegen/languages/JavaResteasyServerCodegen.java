@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,6 +22,7 @@ import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.JbossFeature;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,8 +35,9 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
     protected boolean generateJbossDeploymentDescriptor = true;
 
     public JavaResteasyServerCodegen() {
-
         super();
+
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         artifactId = "openapi-jaxrs-resteasy-server";
         outputFolder = "generated-code/JavaJaxRS-Resteasy";
@@ -79,10 +81,15 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
             this.setGenerateJbossDeploymentDescriptor(generateJbossDeploymentDescriptorProp);
         }
 
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
-        writeOptional(outputFolder, new SupportingFile("gradle.mustache", "", "build.gradle"));
-        writeOptional(outputFolder, new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("gradle.mustache", "", "build.gradle")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
+                .doNotOverwrite());
+
         supportingFiles.add(new SupportingFile("ApiException.mustache",
                 (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiException.java"));
         supportingFiles.add(new SupportingFile("ApiOriginFilter.mustache",
@@ -91,16 +98,19 @@ public class JavaResteasyServerCodegen extends AbstractJavaJAXRSServerCodegen im
                 (sourceFolder + '/' + apiPackage).replace(".", "/"), "ApiResponseMessage.java"));
         supportingFiles.add(new SupportingFile("NotFoundException.mustache",
                 (sourceFolder + '/' + apiPackage).replace(".", "/"), "NotFoundException.java"));
-        writeOptional(outputFolder, new SupportingFile("web.mustache",
-                ("src/main/webapp/WEB-INF"), "web.xml"));
+        supportingFiles.add(new SupportingFile("web.mustache",
+                ("src/main/webapp/WEB-INF"), "web.xml")
+                .doNotOverwrite());
 
         if (generateJbossDeploymentDescriptor) {
-            writeOptional(outputFolder, new SupportingFile("jboss-web.mustache",
-                    ("src/main/webapp/WEB-INF"), "jboss-web.xml"));
+            supportingFiles.add(new SupportingFile("jboss-web.mustache",
+                    ("src/main/webapp/WEB-INF"), "jboss-web.xml")
+                .doNotOverwrite());
         }
 
-        writeOptional(outputFolder, new SupportingFile("RestApplication.mustache",
-                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java"));
+        supportingFiles.add(new SupportingFile("RestApplication.mustache",
+                (sourceFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
+                .doNotOverwrite());
         supportingFiles.add(new SupportingFile("StringUtil.mustache",
                 (sourceFolder + '/' + invokerPackage).replace(".", "/"), "StringUtil.java"));
         supportingFiles.add(new SupportingFile("JacksonConfig.mustache",

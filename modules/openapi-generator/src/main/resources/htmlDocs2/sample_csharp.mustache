@@ -10,18 +10,20 @@ namespace Example
     {
         public void main()
         {
-            {{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
-            // Configure HTTP basic authorization: {{{name}}}
+            {{#hasAuthMethods}}
+            {{#authMethods}}
+            {{^isBasicBearer}}{{#isBasic}}// Configure HTTP basic authorization: {{{name}}}
             Configuration.Default.Username = "YOUR_USERNAME";
-            Configuration.Default.Password = "YOUR_PASSWORD";{{/isBasic}}{{#isApiKey}}
-            // Configure API key authorization: {{{name}}}
+            Configuration.Default.Password = "YOUR_PASSWORD";{{/isBasic}}{{/isBasicBearer}}{{#isBasicBearer}}// Configure Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} access token for authorization: {{{name}}}
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";{{/isBasicBearer}}{{#isApiKey}}// Configure API key authorization: {{{name}}}
             Configuration.Default.ApiKey.Add("{{{keyParamName}}}", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-            // Configuration.Default.ApiKeyPrefix.Add("{{{keyParamName}}}", "Bearer");{{/isApiKey}}{{#isOAuth}}
-            // Configure OAuth2 access token for authorization: {{{name}}}
-            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";{{/isOAuth}}{{/authMethods}}
+            // Configuration.Default.ApiKeyPrefix.Add("{{{keyParamName}}}", "Bearer");{{/isApiKey}}{{#isOAuth}}// Configure OAuth2 access token for authorization: {{{name}}}
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";{{/isOAuth}}
+            {{/authMethods}}
             {{/hasAuthMethods}}
-
+            
+            // Create an instance of the API class
             var apiInstance = new {{classname}}();
             {{#allParams}}
             {{#isPrimitiveType}}
@@ -32,16 +34,13 @@ namespace Example
             {{/isPrimitiveType}}
             {{/allParams}}
 
-            try
-            {
+            try {
                 {{#summary}}
                 // {{{.}}}
                 {{/summary}}
                 {{#returnType}}{{{.}}} result = {{/returnType}}apiInstance.{{{operationId}}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
                 Debug.WriteLine(result);{{/returnType}}
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Debug.Print("Exception when calling {{classname}}.{{operationId}}: " + e.Message );
             }
         }

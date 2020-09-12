@@ -14,7 +14,7 @@ import org.openapitools.model.Tag;
 import javax.validation.constraints.*;
 import io.swagger.annotations.*;
 
-@ApiModel(description="A pet for sale in the pet store")
+@ApiModel(description="A pet for sale in the pet store")@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen")
 public class Pet   {
   
 

@@ -183,7 +183,7 @@ No authorization required
 
 ## placeOrder
 
-> \OpenAPI\Client\Model\Order placeOrder($body)
+> \OpenAPI\Client\Model\Order placeOrder($order)
 
 Place an order for a pet
 
@@ -199,10 +199,10 @@ $apiInstance = new OpenAPI\Client\Api\StoreApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = new \OpenAPI\Client\Model\Order(); // \OpenAPI\Client\Model\Order | order placed for purchasing the pet
+$order = new \OpenAPI\Client\Model\Order(); // \OpenAPI\Client\Model\Order | order placed for purchasing the pet
 
 try {
-    $result = $apiInstance->placeOrder($body);
+    $result = $apiInstance->placeOrder($order);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling StoreApi->placeOrder: ', $e->getMessage(), PHP_EOL;
@@ -215,7 +215,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\OpenAPI\Client\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
+ **order** | [**\OpenAPI\Client\Model\Order**](../Model/Order.md)| order placed for purchasing the pet |
 
 ### Return type
 
@@ -227,7 +227,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/xml, application/json
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)

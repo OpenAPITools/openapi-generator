@@ -93,13 +93,15 @@
         {{/parentOverridden}}
         </dependency>
         {{/threetenbp}}
+        {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-{{^parentOverridden}}
+            {{^parentOverridden}}
             <version>0.1.0</version>
-{{/parentOverridden}}
+            {{/parentOverridden}}
         </dependency>
+        {{/openApiNullable}}
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

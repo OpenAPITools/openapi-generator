@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Threading;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -197,19 +198,20 @@ namespace Org.OpenAPITools.Client
         /// <param name="fileParams">File parameters.</param>
         /// <param name="pathParams">Path parameters.</param>
         /// <param name="contentType">Content type.</param>
+        /// <param name="cancellationToken">Cancellation Token.</param>
         /// <returns>The Task instance.</returns>
         public async System.Threading.Tasks.Task<Object> CallApiAsync(
             String path, Method method, List<KeyValuePair<String, String>> queryParams, Object postBody,
             Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
             Dictionary<String, FileParameter> fileParams, Dictionary<String, String> pathParams,
-            String contentType)
+            String contentType, CancellationToken cancellationToken)
         {
             var request = PrepareRequest(
                 path, method, queryParams, postBody, headerParams, formParams, fileParams,
                 pathParams, contentType);
             RestClient.UserAgent = Configuration.UserAgent;
             InterceptRequest(request);
-            var response = await RestClient.Execute(request);
+            var response = await RestClient.Execute(request, cancellationToken);
             InterceptResponse(request, response);
             return (Object)response;
         }
@@ -259,6 +261,8 @@ namespace Org.OpenAPITools.Client
                 // https://msdn.microsoft.com/en-us/library/az4se3k1(v=vs.110).aspx#Anchor_8
                 // For example: 2009-06-15T13:45:30.0000000
                 return ((DateTimeOffset)obj).ToString (Configuration.DateTimeFormat);
+            else if (obj is bool)
+                return (bool)obj ? "true" : "false";
             else if (obj is IList)
             {
                 var flattenedString = new StringBuilder();
@@ -503,6 +507,7 @@ namespace Org.OpenAPITools.Client
         /// Convert params to key/value pairs. 
         /// Use collectionFormat to properly format lists and collections.
         /// </summary>
+        /// <param name="collectionFormat">Collection format.</param>
         /// <param name="name">Key name.</param>
         /// <param name="value">Value object.</param>
         /// <returns>A list of KeyValuePairs</returns>

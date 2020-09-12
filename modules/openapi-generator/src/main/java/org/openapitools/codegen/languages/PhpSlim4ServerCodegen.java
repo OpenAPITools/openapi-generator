@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,23 +16,16 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.Operation;
-import io.swagger.v3.oas.models.security.SecurityScheme;
-import io.swagger.v3.oas.models.servers.Server;
-import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.SupportingFile;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.*;
-
-import static org.openapitools.codegen.utils.StringUtils.*;
 
 public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PhpSlim4ServerCodegen.class);
@@ -40,16 +33,21 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
     public static final String PSR7_IMPLEMENTATION = "psr7Implementation";
 
     protected String psr7Implementation = "slim-psr7";
-    protected List<Map<String, String>> composerPackages = new ArrayList<Map<String, String>>();
-    protected List<Map<String, String>> composerDevPackages = new ArrayList<Map<String, String>>();
+    protected String interfacesDirName = "Interfaces";
+    protected String interfacesPackage = "";
 
     public PhpSlim4ServerCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeClientModificationFeatures(ClientModificationFeature.MockServer)
+        );
 
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.STABLE)
                 .build();
 
+        interfacesPackage = invokerPackage + "\\" + interfacesDirName;
         outputFolder = "generated-code" + File.separator + "slim4";
         embeddedTemplateDir = templateDir = "php-slim4-server";
 
@@ -77,12 +75,22 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
 
     @Override
     public String getHelp() {
-        return "Generates a PHP Slim 4 Framework server library.";
+        return "Generates a PHP Slim 4 Framework server library(with Mock server).";
     }
 
     @Override
     public void processOpts() {
         super.processOpts();
+
+        if (additionalProperties.containsKey(CodegenConstants.INVOKER_PACKAGE)) {
+            // Update interfacesPackage
+            interfacesPackage = invokerPackage + "\\" + interfacesDirName;
+        }
+
+        // same for interfaces package
+        additionalProperties.put("interfacesPackage", interfacesPackage);
+        additionalProperties.put("interfacesSrcPath", "./" + toSrcPath(interfacesPackage, srcBasePath));
+        additionalProperties.put("interfacesTestPath", "./" + toSrcPath(interfacesPackage, testBasePath));
 
         if (additionalProperties.containsKey(PSR7_IMPLEMENTATION)) {
             this.setPsr7Implementation((String) additionalProperties.get(PSR7_IMPLEMENTATION));
@@ -115,7 +123,12 @@ public class PhpSlim4ServerCodegen extends PhpSlimServerCodegen {
 
         // Slim 4 doesn't parse JSON body anymore we need to add suggested middleware
         // ref: https://www.slimframework.com/docs/v4/objects/request.html#the-request-body
+        supportingFiles.add(new SupportingFile("htaccess_deny_all", "config", ".htaccess"));
+        supportingFiles.add(new SupportingFile("config_example.mustache", "config" + File.separator + "dev", "example.inc.php"));
+        supportingFiles.add(new SupportingFile("config_example.mustache", "config" + File.separator + "prod", "example.inc.php"));
         supportingFiles.add(new SupportingFile("json_body_parser_middleware.mustache", toSrcPath(invokerPackage + "\\Middleware", srcBasePath), "JsonBodyParserMiddleware.php"));
+        supportingFiles.add(new SupportingFile("base_model.mustache", toSrcPath(invokerPackage, srcBasePath), "BaseModel.php"));
+        supportingFiles.add(new SupportingFile("base_model_test.mustache", toSrcPath(invokerPackage, testBasePath), "BaseModelTest.php"));
     }
 
     /**

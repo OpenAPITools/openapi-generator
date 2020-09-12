@@ -1,0 +1,23 @@
+{
+  "name": "{{npmName}}",
+  "version": "{{npmVersion}}",
+  "description": "OpenAPI client for {{npmName}}",
+  "author": "OpenAPI-Generator",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts" : {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "redux-query": "^3.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.0"
+  }{{#npmRepository}},{{/npmRepository}}
+{{#npmRepository}}
+  "publishConfig": {
+    "registry": "{{npmRepository}}"
+  }
+{{/npmRepository}}
+}

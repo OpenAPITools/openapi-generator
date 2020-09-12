@@ -1,10 +1,27 @@
+{{#generateApis}}
+import localVarRequest from 'request';
+{{/generateApis}}
+
 {{#models}}
 {{#model}}
 export * from '{{{ classFilename }}}';
 {{/model}}
 {{/models}}
 
-import localVarRequest = require('request');
+import * as fs from 'fs';
+
+export interface RequestDetailedFile {
+    value: Buffer;
+    options?: {
+        filename?: string;
+        contentType?: string;
+    }
+}
+
+export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
+
+{{! Object serialization only relevant if generating APIs, too }}
+{{#generateApis}}
 
 {{#models}}
 {{#model}}
@@ -180,6 +197,19 @@ export class HttpBasicAuth implements Authentication {
     }
 }
 
+export class HttpBearerAuth implements Authentication {
+    public accessToken: string | (() => string) = '';
+
+    applyToRequest(requestOptions: localVarRequest.Options): void {
+        if (requestOptions && requestOptions.headers) {
+            const accessToken = typeof this.accessToken === 'function'
+                            ? this.accessToken()
+                            : this.accessToken;
+            requestOptions.headers["Authorization"] = "Bearer " + accessToken;
+        }
+    }
+}
+
 export class ApiKeyAuth implements Authentication {
     public apiKey: string = '';
 
@@ -220,3 +250,6 @@ export class VoidAuth implements Authentication {
         // Do nothing
     }
 }
+
+export type Interceptor = (requestOptions: localVarRequest.Options) => (Promise<void> | void);
+{{/generateApis}}

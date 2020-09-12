@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,4 +29,18 @@ open class OpenApiGeneratorValidateExtension(project: Project) {
      * The input specification to validate. Supports all formats supported by the Parser.
      */
     val inputSpec = project.objects.property<String>()
+
+    /**
+     * Whether or not to offer recommendations related to the validated specification document.
+     */
+    val recommend = project.objects.property<Boolean?>()
+
+    init {
+        applyDefaults()
+    }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun applyDefaults(){
+        recommend.set(true)
+    }
 }

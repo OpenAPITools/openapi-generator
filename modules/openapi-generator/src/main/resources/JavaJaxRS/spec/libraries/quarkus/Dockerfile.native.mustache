@@ -3,7 +3,7 @@
 #
 # Before building the docker image run:
 #
-# mvn package -Pnative -Dnative-image.docker-build=true
+# mvn package -Pnative -Dquarkus.native.container-build=true
 #
 # Then, build the image with:
 #

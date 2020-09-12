@@ -13,6 +13,7 @@ package org.openapitools.client.models
 
 
 import com.google.gson.annotations.SerializedName
+
 /**
  * An order for a pets from the pet store
  * @param id 
@@ -31,25 +32,23 @@ data class Order (
     @SerializedName("quantity")
     val quantity: kotlin.Int? = null,
     @SerializedName("shipDate")
-    val shipDate: java.time.LocalDateTime? = null,
+    val shipDate: java.time.OffsetDateTime? = null,
     /* Order Status */
     @SerializedName("status")
     val status: Order.Status? = null,
     @SerializedName("complete")
     val complete: kotlin.Boolean? = null
-) 
+) {
 
-
-{
     /**
     * Order Status
     * Values: placed,approved,delivered
     */
     
     enum class Status(val value: kotlin.String){
-        @SerializedName(value="placed")  placed("placed"),
-        @SerializedName(value="approved")  approved("approved"),
-        @SerializedName(value="delivered")  delivered("delivered");
+        @SerializedName(value = "placed") placed("placed"),
+        @SerializedName(value = "approved") approved("approved"),
+        @SerializedName(value = "delivered") delivered("delivered");
     }
 }
 

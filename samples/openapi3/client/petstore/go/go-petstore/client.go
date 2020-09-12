@@ -17,8 +17,10 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log"
 	"mime/multipart"
 	"net/http"
+	"net/http/httputil"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -45,19 +47,19 @@ type APIClient struct {
 
 	// API Services
 
-	AnotherFakeApi *AnotherFakeApiService
+	AnotherFakeApi AnotherFakeApi
 
-	DefaultApi *DefaultApiService
+	DefaultApi DefaultApi
 
-	FakeApi *FakeApiService
+	FakeApi FakeApi
 
-	FakeClassnameTags123Api *FakeClassnameTags123ApiService
+	FakeClassnameTags123Api FakeClassnameTags123Api
 
-	PetApi *PetApiService
+	PetApi PetApi
 
-	StoreApi *StoreApiService
+	StoreApi StoreApi
 
-	UserApi *UserApiService
+	UserApi UserApi
 }
 
 type service struct {
@@ -175,12 +177,27 @@ func parameterToJson(obj interface{}) (string, error) {
 
 // callAPI do the request.
 func (c *APIClient) callAPI(request *http.Request) (*http.Response, error) {
-	return c.cfg.HTTPClient.Do(request)
-}
+	if c.cfg.Debug {
+		dump, err := httputil.DumpRequestOut(request, true)
+		if err != nil {
+			return nil, err
+		}
+		log.Printf("\n%s\n", string(dump))
+	}
 
-// ChangeBasePath changes base path to allow switching to mocks
-func (c *APIClient) ChangeBasePath(path string) {
-	c.cfg.BasePath = path
+	resp, err := c.cfg.HTTPClient.Do(request)
+	if err != nil {
+		return resp, err
+	}
+
+	if c.cfg.Debug {
+		dump, err := httputil.DumpResponse(resp, true)
+		if err != nil {
+			return resp, err
+		}
+		log.Printf("\n%s\n", string(dump))
+	}
+	return resp, err
 }
 
 // Allow modification of underlying config for alternate implementations and testing
@@ -343,16 +360,29 @@ func (c *APIClient) prepareRequest(
 		if auth, ok := ctx.Value(ContextAccessToken).(string); ok {
 			localVarRequest.Header.Add("Authorization", "Bearer "+auth)
 		}
+
 	}
 
 	for header, value := range c.cfg.DefaultHeader {
 		localVarRequest.Header.Add(header, value)
 	}
-
+	if ctx != nil {
+		// HTTP Signature Authentication. All request headers must be set (including default headers)
+		// because the headers may be included in the signature.
+		if auth, ok := ctx.Value(ContextHttpSignatureAuth).(HttpSignatureAuth); ok {
+			err = SignRequest(ctx, localVarRequest, auth)
+			if err != nil {
+				return nil, err
+			}
+		}
+	}
 	return localVarRequest, nil
 }
 
 func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err error) {
+	if len(b) == 0 {
+		return nil
+	}
 	if s, ok := v.(*string); ok {
 		*s = string(b)
 		return nil
@@ -364,7 +394,15 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 		return nil
 	}
 	if jsonCheck.MatchString(contentType) {
-		if err = json.Unmarshal(b, v); err != nil {
+		if actualObj, ok := v.(interface{GetActualInstance() interface{}}); ok { // oneOf, anyOf schemas
+			if unmarshalObj, ok := actualObj.(interface{UnmarshalJSON([]byte) error}); ok { // make sure it has UnmarshalJSON defined
+				if err = unmarshalObj.UnmarshalJSON(b); err!= nil {
+					return err
+				}
+			} else {
+				errors.New("Unknown type with GetActualInstance but no unmarshalObj.UnmarshalJSON defined")
+			}
+		} else if err = json.Unmarshal(b, v); err != nil { // simple model
 			return err
 		}
 		return nil

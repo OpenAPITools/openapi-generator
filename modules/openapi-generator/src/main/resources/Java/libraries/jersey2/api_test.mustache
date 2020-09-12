@@ -1,0 +1,56 @@
+{{>licenseInfo}}
+
+package {{package}};
+
+import {{invokerPackage}}.*;
+import {{invokerPackage}}.auth.*;
+{{#imports}}import {{import}};
+{{/imports}}
+import org.junit.Assert;
+import org.junit.Ignore;
+import org.junit.Test;
+
+
+{{^fullJavaUtil}}
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+{{/fullJavaUtil}}
+
+/**
+ * API tests for {{classname}}
+ */
+public class {{classname}}Test {
+
+    private final {{classname}} api = new {{classname}}();
+
+    {{#operations}}
+    {{#operation}}
+    /**
+     * {{summary}}
+     *
+     * {{notes}}
+     *
+     * @throws ApiException
+     *          if the Api call fails
+     */
+    @Test
+    public void {{operationId}}Test() throws ApiException {
+        {{#allParams}}
+        //{{{dataType}}} {{paramName}} = null;
+        {{/allParams}}
+        {{^vendorExtensions.x-group-parameters}}
+        //{{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+        {{/vendorExtensions.x-group-parameters}}
+        {{#vendorExtensions.x-group-parameters}}
+        //{{#returnType}}{{{returnType}}} response = {{/returnType}}api.{{operationId}}({{#pathParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/pathParams}}){{#allParams}}{{^isPathParam}}
+        //        .{{paramName}}({{paramName}}){{/isPathParam}}{{/allParams}}
+        //        .execute();
+        {{/vendorExtensions.x-group-parameters}}
+        // TODO: test validations
+    }
+
+    {{/operation}}
+    {{/operations}}
+}

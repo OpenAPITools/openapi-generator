@@ -128,8 +128,8 @@ public interface FakeApi {
   );
 
   /**
-   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
    * @param number None (required)
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
@@ -226,7 +226,7 @@ public interface FakeApi {
    */
   @PUT("fake/test-query-paramters")
   Completable testQueryParameterCollectionFormat(
-    @retrofit2.http.Query("pipe") CSVParams pipe, @retrofit2.http.Query("ioutil") CSVParams ioutil, @retrofit2.http.Query("http") SPACEParams http, @retrofit2.http.Query("url") CSVParams url, @retrofit2.http.Query("context") List<String> context
+    @retrofit2.http.Query("pipe") CSVParams pipe, @retrofit2.http.Query("ioutil") CSVParams ioutil, @retrofit2.http.Query("http") SSVParams http, @retrofit2.http.Query("url") CSVParams url, @retrofit2.http.Query("context") List<String> context
   );
 
 }

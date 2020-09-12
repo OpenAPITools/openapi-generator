@@ -1,4 +1,5 @@
-= {{{appName}}} 
+= {{{appName}}}
+{{#headerAttributes}} 
 {{infoEmail}}
 {{#version}}{{{version}}}{{/version}}
 :toc: left
@@ -8,15 +9,35 @@
 :keywords: openapi, rest, {{appName}} 
 :specDir: {{specDir}}
 :snippetDir: {{snippetDir}}
-:generator-template: v1 2019-11-10
+:generator-template: v1 2019-12-20
 :info-url: {{infoUrl}}
 :app-name: {{appName}}
+{{/headerAttributes}}
 
+{{#useIntroduction}}
+== Introduction
+{{/useIntroduction}}
+{{^useIntroduction}}
 [abstract]
 .Abstract
+{{/useIntroduction}}
 {{{appDescription}}}
 
 {{#specinclude}}intro.adoc{{/specinclude}}
+
+{{#hasAuthMethods}}
+== Access
+
+{{#authMethods}}
+{{#isBasic}}
+{{#isBasicBasic}}* *HTTP Basic* Authentication _{{{name}}}_{{/isBasicBasic}}
+{{#isBasicBearer}}* *Bearer* Authentication {{/isBasicBearer}}
+{{/isBasic}}
+{{#isOAuth}}* *OAuth*  AuthorizationUrl: _{{authorizationUrl}}_, TokenUrl:   _{{tokenUrl}}_ {{/isOAuth}}
+{{#isApiKey}}* *APIKey* KeyParamName:     _{{keyParamName}}_,     KeyInQuery: _{{isKeyInQuery}}_, KeyInHeader: _{{isKeyInHeader}}_{{/isApiKey}}
+{{/authMethods}}
+
+{{/hasAuthMethods}}
 
 == Endpoints
 
@@ -30,9 +51,17 @@
 {{#operation}}
 
 [.{{nickname}}]
+{{#useMethodAndPath}}
+==== {{httpMethod}} {{path}}
+
+Operation Id:: {{nickname}}
+
+{{/useMethodAndPath}}
+{{^useMethodAndPath}}
 ==== {{nickname}}
     
 `{{httpMethod}} {{path}}`
+{{/useMethodAndPath}}
 
 {{{summary}}}
 
@@ -80,12 +109,14 @@
 {{/responses}}
 |===         
 
+{{^skipExamples}}
 ===== Samples
 
 {{#snippetinclude}}{{path}}/{{httpMethod}}/http-request.adoc{{/snippetinclude}}
 {{#snippetinclude}}{{path}}/{{httpMethod}}/http-response.adoc{{/snippetinclude}}
 
 {{#snippetlink}}* wiremock data, {{path}}/{{httpMethod}}/{{httpMethod}}.json{{/snippetlink}}
+{{/skipExamples}}
 
 ifdef::internal-generation[]
 ===== Implementation

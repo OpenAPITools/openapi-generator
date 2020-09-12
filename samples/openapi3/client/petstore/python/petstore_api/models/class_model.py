@@ -68,7 +68,7 @@ class ClassModel(object):
 
 
         :param _class: The _class of this ClassModel.  # noqa: E501
-        :type: str
+        :type _class: str
         """
 
         self.__class = _class

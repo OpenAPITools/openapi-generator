@@ -26,7 +26,7 @@
 #' \item \emph{ @param } {{paramName}} list( {{dataType}} )
 {{/isPrimitiveType}}
 {{^isPrimitiveType}}
-#' \item \emph{ @param } {{paramName}} list( \link[{{packageName}}:{{baseType}}]{ {{dataType}} } )
+#' \item \emph{ @param } {{paramName}} list( \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%> )
 {{/isPrimitiveType}}
 {{/items}}
 {{/isListContainer}}
@@ -35,7 +35,7 @@
 #' \item \emph{ @param } {{paramName}} named list( {{dataType}} )
 {{/isPrimitiveType}}
 {{^isPrimitiveType}}
-#' \item \emph{ @param } {{paramName}} named list( \link[{{packageName}}:{{baseType}}]{ {{dataType}} } )
+#' \item \emph{ @param } {{paramName}} named list( \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%> )
 {{/isPrimitiveType}}
 {{/isMapContainer}}
 {{/isContainer}}
@@ -44,14 +44,14 @@
 #' \item \emph{ @param } {{paramName}} {{dataType}}
 {{/isPrimitiveType}}
 {{^isPrimitiveType}}
-#' \item \emph{ @param } {{paramName}} \link[{{packageName}}:{{baseType}}]{ {{dataType}} }
+#' \item \emph{ @param } {{paramName}} \link{{=<% %>=}}{<%dataType%>}<%={{ }}=%>
 {{/isPrimitiveType}}
 {{/isContainer}}
 {{/isEnum}}
 {{/allParams}}
 {{#returnType}}
 {{^returnTypeIsPrimitive}}
-#' \item \emph{ @returnType } \link[{{packageName}}:{{returnBaseType}}]{ {{#returnContainer}}{{#isListContainer}}list({{returnBaseType}}){{/isListContainer}}{{#isMapContainer}}named list({{returnBaseType}}){{/isMapContainer}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{/returnContainer}} }   \cr
+#' \item \emph{ @returnType } {{#returnContainer}}{{#isListContainer}}list( {{/isListContainer}}{{#isMapContainer}}named list( {{/isMapContainer}}{{/returnContainer}}\link{{=<% %>=}}{<%#returnContainer%><%={{ }}=%>{{returnBaseType}}{{/returnContainer}}{{^returnContainer}}{{returnType}}{{=<% %>=}}<%/returnContainer%>}<%={{ }}=%>{{#returnContainer}}{{#isListContainer}} ){{/isListContainer}}{{#isMapContainer}} ){{/isMapContainer}}{{/returnContainer}} \cr
 {{/returnTypeIsPrimitive}}
 {{/returnType}}
 #'
@@ -78,7 +78,7 @@
 #'
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 {{#operation}}
 #' ####################  {{operationId}}  ####################
 #'
@@ -141,7 +141,7 @@
 {{/operation}}
 #' }
 #' @importFrom R6 R6Class
-#' @importFrom caTools base64encode
+#' @importFrom base64enc base64encode
 {{#useRlangExceptionHandling}}
 #' @importFrom rlang abort
 {{/useRlangExceptionHandling}}
@@ -239,7 +239,7 @@
       {{#isBasic}}
       {{#isBasicBasic}}
       # HTTP basic auth
-      headerParams['Authorization'] <- paste("Basic", caTools::base64encode(paste(self$apiClient$username, self$apiClient$password, sep=":")), sep=" ")
+      headerParams['Authorization'] <- paste("Basic", base64enc::base64encode(charToRaw(paste(self$apiClient$username, self$apiClient$password, sep=":"))))
       {{/isBasicBasic}}
       {{/isBasic}}
       {{#isApiKey}}
@@ -271,12 +271,14 @@
       if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
         {{#returnType}}
         {{#isPrimitiveType}}
-        content <- httr::content(resp, "text", encoding = "UTF-8")
+        content <- httr::content(
+            resp, "text", encoding = "UTF-8", simplifyVector = FALSE
+        )
         ApiResponse$new(content,resp)
         {{/isPrimitiveType}}
         {{^isPrimitiveType}}
         deserializedRespObj <- tryCatch(
-          self$apiClient$deserialize(resp, "{{returnType}}", "package:{{packageName}}"),
+          self$apiClient$deserialize(resp, "{{returnType}}", loadNamespace("{{packageName}}")),
           error = function(e){
            {{#useDefaultExceptionHandling}}
              stop("Failed to deserialize response")

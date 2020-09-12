@@ -43,6 +43,10 @@ class ApiClient {
           return new ApiResponse.fromJson(value);
         case 'Category':
           return new Category.fromJson(value);
+        case 'InlineObject':
+          return new InlineObject.fromJson(value);
+        case 'InlineObject1':
+          return new InlineObject1.fromJson(value);
         case 'Order':
           return new Order.fromJson(value);
         case 'Pet':
@@ -137,6 +141,8 @@ class ApiClient {
           return client.delete(url, headers: headerParams);
         case "PATCH":
           return client.patch(url, headers: headerParams, body: msgBody);
+        case "HEAD":
+          return client.head(url, headers: headerParams);
         default:
           return client.get(url, headers: headerParams);
       }

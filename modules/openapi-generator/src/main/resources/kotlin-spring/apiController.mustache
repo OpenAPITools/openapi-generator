@@ -1,0 +1,24 @@
+package {{package}};
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.Optional;
+{{>generatedAnnotation}}
+
+@Controller
+{{=<% %>=}}
+@RequestMapping("\${openapi.<%title%>.base-path:<%>defaultBasePath%>}")
+<%={{ }}=%>
+{{#operations}}
+class {{classname}}Controller(
+        @org.springframework.beans.factory.annotation.Autowired(required = false) delegate: {{classname}}Delegate
+) : {{classname}} {
+    private val delegate: {{classname}}Delegate
+
+    init {
+        this.delegate = Optional.ofNullable(delegate).orElse(object : {{classname}}Delegate {})
+    }
+
+    override fun getDelegate(): {{classname}}Delegate = delegate
+}
+{{/operations}}

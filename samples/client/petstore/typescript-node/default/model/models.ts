@@ -1,3 +1,5 @@
+import localVarRequest from 'request';
+
 export * from './apiResponse';
 export * from './category';
 export * from './order';
@@ -5,7 +7,18 @@ export * from './pet';
 export * from './tag';
 export * from './user';
 
-import localVarRequest = require('request');
+import * as fs from 'fs';
+
+export interface RequestDetailedFile {
+    value: Buffer;
+    options?: {
+        filename?: string;
+        contentType?: string;
+    }
+}
+
+export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
+
 
 import { ApiResponse } from './apiResponse';
 import { Category } from './category';
@@ -169,6 +182,19 @@ export class HttpBasicAuth implements Authentication {
     }
 }
 
+export class HttpBearerAuth implements Authentication {
+    public accessToken: string | (() => string) = '';
+
+    applyToRequest(requestOptions: localVarRequest.Options): void {
+        if (requestOptions && requestOptions.headers) {
+            const accessToken = typeof this.accessToken === 'function'
+                            ? this.accessToken()
+                            : this.accessToken;
+            requestOptions.headers["Authorization"] = "Bearer " + accessToken;
+        }
+    }
+}
+
 export class ApiKeyAuth implements Authentication {
     public apiKey: string = '';
 
@@ -209,3 +235,5 @@ export class VoidAuth implements Authentication {
         // Do nothing
     }
 }
+
+export type Interceptor = (requestOptions: localVarRequest.Options) => (Promise<void> | void);

@@ -1,0 +1,1 @@
+{{#isFormParam}}{{^isFile}}{{#isMultipart}}@Part{{/isMultipart}}{{^isMultipart}}@Field{{/isMultipart}}("{{baseName}}") {{{paramName}}}: {{{dataType}}}{{/isFile}}{{#isFile}}{{#isMultipart}}@Part{{/isMultipart}}{{^isMultipart}}@Field("{{baseName}}"){{/isMultipart}} {{{paramName}}}: MultipartBody.Part{{/isFile}}{{/isFormParam}}

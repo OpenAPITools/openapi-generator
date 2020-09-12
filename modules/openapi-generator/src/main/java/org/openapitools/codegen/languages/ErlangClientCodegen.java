@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,7 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.templating.mustache.JoinWithCommaLambda;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +57,28 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
 
     public ErlangClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.of(SecurityFeature.ApiKey))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .excludeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath
+                )
+        );
+
         outputFolder = "generated-code/erlang";
         modelTemplateFiles.put("model.mustache", ".erl");
         apiTemplateFiles.put("api.mustache", ".erl");
@@ -101,7 +124,7 @@ public class ErlangClientCodegen extends DefaultCodegen implements CodegenConfig
         cliOptions.clear();
         cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Erlang application name (convention: lowercase).")
                 .defaultValue(this.packageName));
-        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_NAME, "Erlang application version")
+        cliOptions.add(new CliOption(CodegenConstants.PACKAGE_VERSION, "Erlang application version")
                 .defaultValue(this.packageVersion));
     }
 

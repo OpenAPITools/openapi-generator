@@ -21,8 +21,11 @@ namespace {{this}} {
 struct {{classname}}
 {
     {{#vars}}
-    {{^required}}Pistache::Optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{baseName}};
+    {{^required}}Pistache::Optional<{{/required}}{{{dataType}}}{{^required}}>{{/required}} {{name}};
     {{/vars}}
+
+    bool operator==(const {{classname}}& other) const;
+    bool operator!=(const {{classname}}& other) const;
 
     nlohmann::json to_json() const;
     static {{classname}} from_json(const nlohmann::json& j);

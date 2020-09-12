@@ -12,13 +12,11 @@ cmake_minimum_required (VERSION 2.8)
 
 #PROJECT's NAME
 project(CppRestOpenAPIClient)
-
+set(CMAKE_VERBOSE_MAKEFILE ON)
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 # THE LOCATION OF OUTPUT BINARIES
 set(CMAKE_LIBRARY_DIR ${PROJECT_SOURCE_DIR}/lib)
-set(LIBRARY_OUTPUT_PATH ${CMAKE_LIBRARY_DIR})
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
@@ -27,24 +25,28 @@ endif()
 # BUILD TYPE
 message("A ${CMAKE_BUILD_TYPE} build configuration is detected")
 
-# Update require components as necessary
-#find_package(Boost 1.45.0 REQUIRED COMPONENTS ${Boost_THREAD_LIBRARY} ${Boost_SYSTEM_LIBRARY} ${Boost_REGEX_LIBRARY} ${Boost_DATE_TIME_LIBRARY} ${Boost_PROGRAM_OPTIONS_LIBRARY} ${Boost_FILESYSTEM_LIBRARY})
+if (UNIX)
+    message(STATUS "Building client library for Linux/Unix")
 
-# build and set path to cpp rest sdk
-set(CPPREST_ROOT ${PROJECT_SOURCE_DIR}/3rdParty/cpprest)
-set(CPPREST_INCLUDE_DIR ${CPPREST_ROOT}/include)
-set(CPPREST_LIBRARY_DIR ${CPPREST_ROOT}/lib)
+    set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fPIC -Wall -Wno-unused-variable")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -Wall -Wno-unused-variable")
+    set(cpprestsdk_DIR /usr/lib/${CMAKE_LIBRARY_ARCHITECTURE}/cmake/)
 
-include_directories(${PROJECT_SOURCE_DIR} api model ${CPPREST_INCLUDE_DIR})
+    find_package(cpprestsdk REQUIRED)
+    find_package(Boost REQUIRED)
+else()
+    message(STATUS "Building client library for Windows")
 
+    find_package(cpprestsdk REQUIRED)
+    find_package(Boost REQUIRED)
+    find_package(pthreads REQUIRED)
+endif()
 
-# If using vcpkg, set include directories. Also comment out CPPREST section above since vcpkg will handle it.
-# To install required vcpkg packages execute:
-# > vcpkg install cpprestsdk cpprestsdk:x64-windows boost-uuid boost-uuid:x64-windows
-# set(VCPKG_ROOT "C:\\vcpkg\\installed\\x64-windows")
-# set(VCPKG_INCLUDE_DIR ${VCPKG_ROOT}/include)
-# set(VCPKG_LIBRARY_DIR ${VCPKG_ROOT}/lib)
-# include_directories(${PROJECT_SOURCE_DIR} api model ${VCPKG_INCLUDE_DIR})
+# Manually set the cpprestsdk paths when not using package manager
+#set(CPPREST_INCLUDE_DIR ${CPPREST_ROOT}/include)
+#set(CPPREST_LIBRARY_DIR ${CPPREST_ROOT}/lib)
+#include_directories(${CPPREST_INCLUDE_DIR})
+#link_directories(${CPPREST_LIBRARY_DIR})
 
 #SUPPORTING FILES
 set(SUPPORTING_FILES  "ApiClient" "ApiConfiguration" "ApiException" "HttpContent" "IHttpBody" "JsonBody" "ModelBase" "MultipartFormData" "Object")
@@ -52,3 +54,24 @@ set(SUPPORTING_FILES  "ApiClient" "ApiConfiguration" "ApiException" "HttpContent
 file(GLOB SOURCE_FILES  "api/*"  "model/*")
 
 add_library(${PROJECT_NAME} ${SUPPORTING_FILES} ${SOURCE_FILES})
+
+target_include_directories(
+    ${PROJECT_NAME} PRIVATE
+    ${Boost_INCLUDE_DIRS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/model
+    ${CMAKE_CURRENT_SOURCE_DIR}/api
+)
+
+target_link_directories(
+    ${PROJECT_NAME} PRIVATE
+    ${Boost_LIBRARY_DIRS}
+)
+
+if (UNIX)
+    target_link_libraries(${PROJECT_NAME} PRIVATE cpprest pthread ${Boost_LIBRARIES} crypto)
+else()
+    target_link_libraries(${PROJECT_NAME} PRIVATE cpprestsdk::cpprest ${pthreads_LIBRARIES} ${Boost_LIBRARIES} bcrypt)
+endif()
+
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)

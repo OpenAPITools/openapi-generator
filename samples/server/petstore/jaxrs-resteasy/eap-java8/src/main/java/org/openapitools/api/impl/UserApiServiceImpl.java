@@ -14,7 +14,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaResteasyEapServerCodegen")
 public class UserApiServiceImpl implements UserApi {
       public Response createUser(User body,SecurityContext securityContext) {
       // do some magic!

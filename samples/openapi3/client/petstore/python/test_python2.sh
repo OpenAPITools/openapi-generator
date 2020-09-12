@@ -18,13 +18,12 @@ fi
 
 ### install dependencies
 pip install -r $REQUIREMENTS_FILE | tee -a $REQUIREMENTS_OUT
-python setup.py develop
 
 ### run tests
-nosetests || exit 1
+tox -e py27 || exit 1
 
 ### static analysis of code
-flake8 --show-source petstore_api/
+#flake8 --show-source petstore_api/
 
 ### deactivate virtualenv
 #if [ $DEACTIVE == true ]; then

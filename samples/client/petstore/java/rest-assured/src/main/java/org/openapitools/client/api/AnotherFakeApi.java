@@ -57,6 +57,11 @@ public class AnotherFakeApi {
         return reqSpec;
     }
 
+    public List<Oper> getAllOperations() {
+        return Arrays.asList(
+                call123testSpecialTags()
+        );
+    }
 
     @ApiOperation(value = "To test special tags",
             notes = "To test special tags and operation ID starting with number",
@@ -85,7 +90,7 @@ public class AnotherFakeApi {
      * @see #body client model (required)
      * return Client
      */
-    public static class Call123testSpecialTagsOper {
+    public static class Call123testSpecialTagsOper implements Oper {
 
         public static final Method REQ_METHOD = PATCH;
         public static final String REQ_URI = "/another-fake/dummy";
@@ -106,6 +111,7 @@ public class AnotherFakeApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }

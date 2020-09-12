@@ -57,6 +57,18 @@ public class UserApi {
         return reqSpec;
     }
 
+    public List<Oper> getAllOperations() {
+        return Arrays.asList(
+                createUser(),
+                createUsersWithArrayInput(),
+                createUsersWithListInput(),
+                deleteUser(),
+                getUserByName(),
+                loginUser(),
+                logoutUser(),
+                updateUser()
+        );
+    }
 
     @ApiOperation(value = "Create user",
             notes = "This can only be done by the logged in user.",
@@ -159,7 +171,7 @@ public class UserApi {
      *
      * @see #body Created user object (required)
      */
-    public static class CreateUserOper {
+    public static class CreateUserOper implements Oper {
 
         public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/user";
@@ -180,6 +192,7 @@ public class UserApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -219,7 +232,7 @@ public class UserApi {
      *
      * @see #body List of user object (required)
      */
-    public static class CreateUsersWithArrayInputOper {
+    public static class CreateUsersWithArrayInputOper implements Oper {
 
         public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/user/createWithArray";
@@ -240,6 +253,7 @@ public class UserApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -279,7 +293,7 @@ public class UserApi {
      *
      * @see #body List of user object (required)
      */
-    public static class CreateUsersWithListInputOper {
+    public static class CreateUsersWithListInputOper implements Oper {
 
         public static final Method REQ_METHOD = POST;
         public static final String REQ_URI = "/user/createWithList";
@@ -300,6 +314,7 @@ public class UserApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -339,7 +354,7 @@ public class UserApi {
      *
      * @see #usernamePath The name that needs to be deleted (required)
      */
-    public static class DeleteUserOper {
+    public static class DeleteUserOper implements Oper {
 
         public static final Method REQ_METHOD = DELETE;
         public static final String REQ_URI = "/user/{username}";
@@ -359,6 +374,7 @@ public class UserApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -401,7 +417,7 @@ public class UserApi {
      * @see #usernamePath The name that needs to be fetched. Use user1 for testing. (required)
      * return User
      */
-    public static class GetUserByNameOper {
+    public static class GetUserByNameOper implements Oper {
 
         public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/user/{username}";
@@ -421,6 +437,7 @@ public class UserApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -474,7 +491,7 @@ public class UserApi {
      * @see #passwordQuery The password for login in clear text (required)
      * return String
      */
-    public static class LoginUserOper {
+    public static class LoginUserOper implements Oper {
 
         public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/user/login";
@@ -494,6 +511,7 @@ public class UserApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -555,7 +573,7 @@ public class UserApi {
      * 
      *
      */
-    public static class LogoutUserOper {
+    public static class LogoutUserOper implements Oper {
 
         public static final Method REQ_METHOD = GET;
         public static final String REQ_URI = "/user/logout";
@@ -575,6 +593,7 @@ public class UserApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }
@@ -606,7 +625,7 @@ public class UserApi {
      * @see #usernamePath name that need to be deleted (required)
      * @see #body Updated user object (required)
      */
-    public static class UpdateUserOper {
+    public static class UpdateUserOper implements Oper {
 
         public static final Method REQ_METHOD = PUT;
         public static final String REQ_URI = "/user/{username}";
@@ -627,6 +646,7 @@ public class UserApi {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }

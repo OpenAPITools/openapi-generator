@@ -18,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import java.util.List;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Configuration
 @ComponentScan(basePackages = {"org.openapitools.api", "org.openapitools.configuration"})
 @EnableWebMvc
@@ -73,6 +73,7 @@ public class OpenAPIUiConfiguration extends WebMvcConfigurerAdapter {
         .indentOutput(true)
         .featuresToDisable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
         .modulesToInstall(new JsonNullableModule())
+        
         .dateFormat(new RFC3339DateFormat());
   }
 

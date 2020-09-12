@@ -17,6 +17,7 @@ import org.openapitools.client.ApiException;
 import java.io.File;
 import org.openapitools.client.model.ModelApiResponse;
 import org.openapitools.client.model.Pet;
+import java.util.Set;
 import org.junit.Test;
 import org.junit.Ignore;
 
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 /**
  * API tests for PetApi
@@ -45,8 +47,9 @@ public class PetApiTest {
     @Test
     public void addPetTest() throws ApiException {
         Pet body = null;
+        
         api.addPet(body);
-
+        
         // TODO: test validations
     }
     
@@ -62,8 +65,9 @@ public class PetApiTest {
     public void deletePetTest() throws ApiException {
         Long petId = null;
         String apiKey = null;
+        
         api.deletePet(petId, apiKey);
-
+        
         // TODO: test validations
     }
     
@@ -78,8 +82,9 @@ public class PetApiTest {
     @Test
     public void findPetsByStatusTest() throws ApiException {
         List<String> status = null;
-        List<Pet> response = api.findPetsByStatus(status);
-
+        List<Pet> response = 
+        api.findPetsByStatus(status);
+        
         // TODO: test validations
     }
     
@@ -93,9 +98,10 @@ public class PetApiTest {
      */
     @Test
     public void findPetsByTagsTest() throws ApiException {
-        List<String> tags = null;
-        List<Pet> response = api.findPetsByTags(tags);
-
+        Set<String> tags = null;
+        Set<Pet> response = 
+        api.findPetsByTags(tags);
+        
         // TODO: test validations
     }
     
@@ -110,8 +116,9 @@ public class PetApiTest {
     @Test
     public void getPetByIdTest() throws ApiException {
         Long petId = null;
-        Pet response = api.getPetById(petId);
-
+        Pet response = 
+        api.getPetById(petId);
+        
         // TODO: test validations
     }
     
@@ -126,8 +133,9 @@ public class PetApiTest {
     @Test
     public void updatePetTest() throws ApiException {
         Pet body = null;
+        
         api.updatePet(body);
-
+        
         // TODO: test validations
     }
     
@@ -144,8 +152,9 @@ public class PetApiTest {
         Long petId = null;
         String name = null;
         String status = null;
+        
         api.updatePetWithForm(petId, name, status);
-
+        
         // TODO: test validations
     }
     
@@ -162,8 +171,9 @@ public class PetApiTest {
         Long petId = null;
         String additionalMetadata = null;
         File file = null;
-        ModelApiResponse response = api.uploadFile(petId, additionalMetadata, file);
-
+        ModelApiResponse response = 
+        api.uploadFile(petId, additionalMetadata, file);
+        
         // TODO: test validations
     }
     
@@ -180,8 +190,9 @@ public class PetApiTest {
         Long petId = null;
         File requiredFile = null;
         String additionalMetadata = null;
-        ModelApiResponse response = api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
-
+        ModelApiResponse response = 
+        api.uploadFileWithRequiredFile(petId, requiredFile, additionalMetadata);
+        
         // TODO: test validations
     }
     

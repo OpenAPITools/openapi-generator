@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 @Path("/another-fake")
 @Api(description = "the another-fake API")
-public interface AnotherFakeApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public interface AnotherFakeApi {
 
     @PATCH
     @Path("/dummy")
@@ -24,5 +24,5 @@ public interface AnotherFakeApi {
     @ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", tags={ "$another-fake?" })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    Response call123testSpecialTags(@Valid Client client);
+    Response call123testSpecialTags(@Valid Client body);
 }

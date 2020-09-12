@@ -1,0 +1,3 @@
+generatorName: typescript-fetch
+outputDir: samples/client/petstore/typescript-fetch/builds/default
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml

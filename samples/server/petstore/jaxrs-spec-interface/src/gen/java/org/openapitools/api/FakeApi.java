@@ -25,7 +25,7 @@ import javax.validation.Valid;
 
 @Path("/fake")
 @Api(description = "the fake API")
-public interface FakeApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public interface FakeApi {
 
     @POST
     @Path("/create_xml_item")
@@ -93,7 +93,7 @@ public interface FakeApi {
 
     @POST
     @Consumes({ "application/x-www-form-urlencoded" })
-    @ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", authorizations = {
+    @ApiOperation(value = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", notes = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", authorizations = {
         @Authorization(value = "http_basic_test")
     }, tags={ "fake",  })
     @ApiResponses(value = { 

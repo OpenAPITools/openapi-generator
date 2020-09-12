@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,6 +21,7 @@ import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
@@ -63,6 +65,30 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     public ObjcClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey,
+                        SecurityFeature.OAuth2_Implicit
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath,
+                        ClientModificationFeature.UserAgent
+                )
+        );
+
         supportsInheritance = true;
         outputFolder = "generated-code" + File.separator + "objc";
         modelTemplateFiles.put("model-header.mustache", ".h");
@@ -363,7 +389,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
                 return getSchemaType(p) + "<" + innerTypeDeclaration + ">*";
             }
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
 
             String innerTypeDeclaration = getTypeDeclaration(inner);
 
@@ -627,12 +653,13 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
                 if (!operation.allParams.isEmpty()) {
                     String firstParamName = operation.allParams.get(0).paramName;
-                    operation.vendorExtensions.put("firstParamAltName", camelize(firstParamName));
+                    operation.vendorExtensions.put("x-first-param-alt-name", camelize(firstParamName));
                 }
             }
         }
@@ -642,7 +669,7 @@ public class ObjcClientCodegen extends DefaultCodegen implements CodegenConfig {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty schema) {
         super.postProcessModelProperty(model, schema);
-        schema.vendorExtensions.put("x-uppercaseName", camelize(schema.name));
+        schema.vendorExtensions.put("x-uppercase-name", camelize(schema.name));
     }
 
     /**

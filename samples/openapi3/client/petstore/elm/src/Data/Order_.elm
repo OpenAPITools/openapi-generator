@@ -10,7 +10,7 @@
 -}
 
 
-module Data.Order_ exposing (Order_, Status(..), decoder, encode)
+module Data.Order_ exposing (Order_, Status(..), decoder, encode, encodeWithTag, toString)
 
 import DateTime exposing (DateTime)
 import Dict exposing (Dict)
@@ -51,16 +51,31 @@ decoder =
 
 
 encode : Order_ -> Encode.Value
-encode model =
-    Encode.object
-        [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
-        , ( "petId", Maybe.withDefault Encode.null (Maybe.map Encode.int model.petId) )
-        , ( "quantity", Maybe.withDefault Encode.null (Maybe.map Encode.int model.quantity) )
-        , ( "shipDate", Maybe.withDefault Encode.null (Maybe.map DateTime.encode model.shipDate) )
-        , ( "status", Maybe.withDefault Encode.null (Maybe.map encodeStatus model.status) )
-        , ( "complete", Maybe.withDefault Encode.null (Maybe.map Encode.bool model.complete) )
+encode =
+    Encode.object << encodePairs
 
-        ]
+
+encodeWithTag : ( String, String ) -> Order_ -> Encode.Value
+encodeWithTag (tagField, tag) model =
+    Encode.object <| encodePairs model ++ [ ( tagField, Encode.string tag ) ]
+
+
+encodePairs : Order_ -> List (String, Encode.Value)
+encodePairs model =
+    [ ( "id", Maybe.withDefault Encode.null (Maybe.map Encode.int model.id) )
+    , ( "petId", Maybe.withDefault Encode.null (Maybe.map Encode.int model.petId) )
+    , ( "quantity", Maybe.withDefault Encode.null (Maybe.map Encode.int model.quantity) )
+    , ( "shipDate", Maybe.withDefault Encode.null (Maybe.map DateTime.encode model.shipDate) )
+    , ( "status", Maybe.withDefault Encode.null (Maybe.map encodeStatus model.status) )
+    , ( "complete", Maybe.withDefault Encode.null (Maybe.map Encode.bool model.complete) )
+    ]
+
+
+
+toString : Order_ -> String
+toString =
+    Encode.encode 0 << encode
+
 
 
 
@@ -96,6 +111,7 @@ encodeStatus model =
 
         StatusDelivered ->
             Encode.string "delivered"
+
 
 
 

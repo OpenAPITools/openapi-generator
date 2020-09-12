@@ -1,0 +1,71 @@
+    def __setattr__(self, name, value):
+        """this allows us to set a value with instance.field_name = val"""
+        if name in self.required_properties:
+            self.__dict__[name] = value
+            return
+
+        # set the attribute on the correct instance
+        model_instances = self._var_name_to_model_instances.get(
+            name, self._additional_properties_model_instances)
+        if model_instances:
+            for model_instance in model_instances:
+                if model_instance == self:
+                    self.set_attribute(name, value)
+                else:
+                    setattr(model_instance, name, value)
+                if name not in self._var_name_to_model_instances:
+                    # we assigned an additional property
+                    self.__dict__['_var_name_to_model_instances'][name] = (
+                        model_instance
+                    )
+            return None
+
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+        raise ApiAttributeError(
+            "{0} has no attribute '{1}'".format(
+                type(self).__name__, name),
+            path_to_item
+        )
+
+    def __getattr__(self, name):
+        """this allows us to get a value with val = instance.field_name"""
+        if name in self.required_properties:
+            return self.__dict__[name]
+
+        # get the attribute from the correct instance
+        model_instances = self._var_name_to_model_instances.get(
+            name, self._additional_properties_model_instances)
+        path_to_item = []
+        if self._path_to_item:
+            path_to_item.extend(self._path_to_item)
+        path_to_item.append(name)
+        values = []
+        # A composed model stores child (oneof/anyOf/allOf) models under
+        # self._var_name_to_model_instances. A named property can exist in
+        # multiple child models. If the property is present in more than one
+        # child model, the value must be the same across all the child models.
+        if model_instances:
+            for model_instance in model_instances:
+                if name in model_instance._data_store:
+                    v = model_instance._data_store[name]
+                    if v not in values:
+                        values.append(v)
+        len_values = len(values)
+        if len_values == 0:
+            raise ApiAttributeError(
+                "{0} has no attribute '{1}'".format(
+                    type(self).__name__, name),
+                path_to_item
+            )
+        elif len_values == 1:
+            return values[0]
+        elif len_values > 1:
+            raise ApiValueError(
+                "Values stored for property {0} in {1} differ when looking "
+                "at self and self's composed instances. All values must be "
+                "the same".format(name, type(self).__name__),
+                path_to_item
+            )

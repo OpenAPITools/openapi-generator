@@ -11,9 +11,8 @@
  */
 package hello.world.model
 
-import hello.world.core.ApiModel
 import org.joda.time.DateTime
-import java.util.UUID
+import hello.world.core.ApiModel
 
 case class SomeObj (
   `type`: Option[SomeObjEnums.`Type`] = None,

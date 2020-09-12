@@ -38,7 +38,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the fake API")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class FakeApi  {
    private final FakeApiService delegate = FakeApiServiceFactory.getFakeApi();
 
@@ -151,7 +151,7 @@ public class FakeApi  {
     
     @Consumes({ "application/x-www-form-urlencoded" })
     
-    @io.swagger.annotations.ApiOperation(value = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", notes = "Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 ", response = Void.class, authorizations = {
+    @io.swagger.annotations.ApiOperation(value = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", notes = "Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트", response = Void.class, authorizations = {
         @io.swagger.annotations.Authorization(value = "http_basic_test")
     }, tags={ "fake",  })
     @io.swagger.annotations.ApiResponses(value = { 

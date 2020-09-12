@@ -115,7 +115,7 @@ describe(`API (functionality)`, () => {
       createdPet.name = newName;
 
       petService.updatePetWithForm(createdPet.id, createdPet.name).subscribe(
-        result => expect(result).toBeFalsy(),
+        result => expect(result.code).toEqual(200),
         error => fail(`expected a result, not the error: ${error.message}`),
       );
 
@@ -130,7 +130,7 @@ describe(`API (functionality)`, () => {
       const petService = TestBed.get(PetService);
 
       return petService.deletePet(createdPet.id).subscribe(
-        result => expect(result).toBeFalsy(),
+        result => expect(result.code).toEqual(200),
         error => fail(`expected a result, not the error: ${error.message}`),
       );
     }));
@@ -165,7 +165,7 @@ describe(`API (functionality)`, () => {
       const userService = TestBed.get(UserService);
 
       return userService.createUser(newUser).subscribe(
-        result => expect(result).toBeFalsy(),
+        result => expect(result.code).toEqual(200),
         error => fail(`expected a result, not the error: ${error.message}`),
       );
     }));

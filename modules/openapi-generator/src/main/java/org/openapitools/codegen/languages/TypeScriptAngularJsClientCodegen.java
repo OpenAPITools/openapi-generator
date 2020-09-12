@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,6 +20,8 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.CodegenParameter;
 import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 
 import java.io.File;
 
@@ -38,16 +40,19 @@ public class TypeScriptAngularJsClientCodegen extends AbstractTypeScriptClientCo
         removeOption(NPM_VERSION);
         removeOption(SNAPSHOT);
 
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
     }
 
     @Override
     public String getName() {
-        return "typescript-angularjs";
+        return "typescript-angularjs-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript AngularJS client library.";
+        return "Generates a TypeScript AngularJS client library. This generator has been deprecated and will be removed in the future release.";
     }
 
     @Override

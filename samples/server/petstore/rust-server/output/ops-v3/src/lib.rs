@@ -1,54 +1,15 @@
 #![allow(missing_docs, trivial_casts, unused_variables, unused_mut, unused_imports, unused_extern_crates, non_camel_case_types)]
 
-#[macro_use]
-extern crate lazy_static;
-#[macro_use]
-extern crate log;
-#[macro_use]
-extern crate serde_derive;
-
-#[cfg(any(feature = "client", feature = "server"))]
-#[macro_use]
-extern crate hyper;
-#[cfg(any(feature = "client", feature = "server"))]
-#[macro_use]
-extern crate url;
-
-// Crates for conversion support
-#[cfg(feature = "conversion")]
-#[macro_use]
-extern crate frunk_derives;
-#[cfg(feature = "conversion")]
-#[macro_use]
-extern crate frunk_enum_derive;
-#[cfg(feature = "conversion")]
-extern crate frunk_core;
-
-extern crate mime;
-extern crate serde;
-extern crate serde_json;
-
-extern crate futures;
-extern crate chrono;
-extern crate swagger;
-
+use async_trait::async_trait;
 use futures::Stream;
-use std::io::Error;
+use std::error::Error;
+use std::task::{Poll, Context};
+use swagger::{ApiError, ContextWrapper};
 
-#[allow(unused_imports)]
-use std::collections::HashMap;
-
-#[cfg(any(feature = "client", feature = "server"))]
-mod mimetypes;
-
-#[deprecated(note = "Import swagger-rs directly")]
-pub use swagger::{ApiError, ContextWrapper};
-#[deprecated(note = "Import futures directly")]
-pub use futures::Future;
+type ServiceError = Box<dyn Error + Send + Sync + 'static>;
 
 pub const BASE_PATH: &'static str = "";
 pub const API_VERSION: &'static str = "0.0.1";
-
 
 #[derive(Debug, PartialEq)]
 pub enum Op10GetResponse {
@@ -272,446 +233,649 @@ pub enum Op9GetResponse {
     OK
 }
 
-
 /// API
-pub trait Api<C> {
-
-
-    fn op10_get(&self, context: &C) -> Box<Future<Item=Op10GetResponse, Error=ApiError>>;
-
-
-    fn op11_get(&self, context: &C) -> Box<Future<Item=Op11GetResponse, Error=ApiError>>;
-
-
-    fn op12_get(&self, context: &C) -> Box<Future<Item=Op12GetResponse, Error=ApiError>>;
-
-
-    fn op13_get(&self, context: &C) -> Box<Future<Item=Op13GetResponse, Error=ApiError>>;
-
-
-    fn op14_get(&self, context: &C) -> Box<Future<Item=Op14GetResponse, Error=ApiError>>;
-
-
-    fn op15_get(&self, context: &C) -> Box<Future<Item=Op15GetResponse, Error=ApiError>>;
-
-
-    fn op16_get(&self, context: &C) -> Box<Future<Item=Op16GetResponse, Error=ApiError>>;
-
-
-    fn op17_get(&self, context: &C) -> Box<Future<Item=Op17GetResponse, Error=ApiError>>;
-
-
-    fn op18_get(&self, context: &C) -> Box<Future<Item=Op18GetResponse, Error=ApiError>>;
-
-
-    fn op19_get(&self, context: &C) -> Box<Future<Item=Op19GetResponse, Error=ApiError>>;
-
-
-    fn op1_get(&self, context: &C) -> Box<Future<Item=Op1GetResponse, Error=ApiError>>;
-
-
-    fn op20_get(&self, context: &C) -> Box<Future<Item=Op20GetResponse, Error=ApiError>>;
-
-
-    fn op21_get(&self, context: &C) -> Box<Future<Item=Op21GetResponse, Error=ApiError>>;
-
-
-    fn op22_get(&self, context: &C) -> Box<Future<Item=Op22GetResponse, Error=ApiError>>;
-
-
-    fn op23_get(&self, context: &C) -> Box<Future<Item=Op23GetResponse, Error=ApiError>>;
-
-
-    fn op24_get(&self, context: &C) -> Box<Future<Item=Op24GetResponse, Error=ApiError>>;
-
-
-    fn op25_get(&self, context: &C) -> Box<Future<Item=Op25GetResponse, Error=ApiError>>;
-
-
-    fn op26_get(&self, context: &C) -> Box<Future<Item=Op26GetResponse, Error=ApiError>>;
-
-
-    fn op27_get(&self, context: &C) -> Box<Future<Item=Op27GetResponse, Error=ApiError>>;
-
-
-    fn op28_get(&self, context: &C) -> Box<Future<Item=Op28GetResponse, Error=ApiError>>;
-
-
-    fn op29_get(&self, context: &C) -> Box<Future<Item=Op29GetResponse, Error=ApiError>>;
-
-
-    fn op2_get(&self, context: &C) -> Box<Future<Item=Op2GetResponse, Error=ApiError>>;
-
-
-    fn op30_get(&self, context: &C) -> Box<Future<Item=Op30GetResponse, Error=ApiError>>;
-
-
-    fn op31_get(&self, context: &C) -> Box<Future<Item=Op31GetResponse, Error=ApiError>>;
-
-
-    fn op32_get(&self, context: &C) -> Box<Future<Item=Op32GetResponse, Error=ApiError>>;
-
-
-    fn op33_get(&self, context: &C) -> Box<Future<Item=Op33GetResponse, Error=ApiError>>;
-
-
-    fn op34_get(&self, context: &C) -> Box<Future<Item=Op34GetResponse, Error=ApiError>>;
-
-
-    fn op35_get(&self, context: &C) -> Box<Future<Item=Op35GetResponse, Error=ApiError>>;
-
-
-    fn op36_get(&self, context: &C) -> Box<Future<Item=Op36GetResponse, Error=ApiError>>;
-
-
-    fn op37_get(&self, context: &C) -> Box<Future<Item=Op37GetResponse, Error=ApiError>>;
-
-
-    fn op3_get(&self, context: &C) -> Box<Future<Item=Op3GetResponse, Error=ApiError>>;
-
-
-    fn op4_get(&self, context: &C) -> Box<Future<Item=Op4GetResponse, Error=ApiError>>;
-
-
-    fn op5_get(&self, context: &C) -> Box<Future<Item=Op5GetResponse, Error=ApiError>>;
-
-
-    fn op6_get(&self, context: &C) -> Box<Future<Item=Op6GetResponse, Error=ApiError>>;
-
-
-    fn op7_get(&self, context: &C) -> Box<Future<Item=Op7GetResponse, Error=ApiError>>;
-
-
-    fn op8_get(&self, context: &C) -> Box<Future<Item=Op8GetResponse, Error=ApiError>>;
-
-
-    fn op9_get(&self, context: &C) -> Box<Future<Item=Op9GetResponse, Error=ApiError>>;
+#[async_trait]
+pub trait Api<C: Send + Sync> {
+    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>> {
+        Poll::Ready(Ok(()))
+    }
+
+    async fn op10_get(
+        &self,
+        context: &C) -> Result<Op10GetResponse, ApiError>;
+
+    async fn op11_get(
+        &self,
+        context: &C) -> Result<Op11GetResponse, ApiError>;
+
+    async fn op12_get(
+        &self,
+        context: &C) -> Result<Op12GetResponse, ApiError>;
+
+    async fn op13_get(
+        &self,
+        context: &C) -> Result<Op13GetResponse, ApiError>;
+
+    async fn op14_get(
+        &self,
+        context: &C) -> Result<Op14GetResponse, ApiError>;
+
+    async fn op15_get(
+        &self,
+        context: &C) -> Result<Op15GetResponse, ApiError>;
+
+    async fn op16_get(
+        &self,
+        context: &C) -> Result<Op16GetResponse, ApiError>;
+
+    async fn op17_get(
+        &self,
+        context: &C) -> Result<Op17GetResponse, ApiError>;
+
+    async fn op18_get(
+        &self,
+        context: &C) -> Result<Op18GetResponse, ApiError>;
+
+    async fn op19_get(
+        &self,
+        context: &C) -> Result<Op19GetResponse, ApiError>;
+
+    async fn op1_get(
+        &self,
+        context: &C) -> Result<Op1GetResponse, ApiError>;
+
+    async fn op20_get(
+        &self,
+        context: &C) -> Result<Op20GetResponse, ApiError>;
+
+    async fn op21_get(
+        &self,
+        context: &C) -> Result<Op21GetResponse, ApiError>;
+
+    async fn op22_get(
+        &self,
+        context: &C) -> Result<Op22GetResponse, ApiError>;
+
+    async fn op23_get(
+        &self,
+        context: &C) -> Result<Op23GetResponse, ApiError>;
+
+    async fn op24_get(
+        &self,
+        context: &C) -> Result<Op24GetResponse, ApiError>;
+
+    async fn op25_get(
+        &self,
+        context: &C) -> Result<Op25GetResponse, ApiError>;
+
+    async fn op26_get(
+        &self,
+        context: &C) -> Result<Op26GetResponse, ApiError>;
+
+    async fn op27_get(
+        &self,
+        context: &C) -> Result<Op27GetResponse, ApiError>;
+
+    async fn op28_get(
+        &self,
+        context: &C) -> Result<Op28GetResponse, ApiError>;
+
+    async fn op29_get(
+        &self,
+        context: &C) -> Result<Op29GetResponse, ApiError>;
+
+    async fn op2_get(
+        &self,
+        context: &C) -> Result<Op2GetResponse, ApiError>;
+
+    async fn op30_get(
+        &self,
+        context: &C) -> Result<Op30GetResponse, ApiError>;
+
+    async fn op31_get(
+        &self,
+        context: &C) -> Result<Op31GetResponse, ApiError>;
+
+    async fn op32_get(
+        &self,
+        context: &C) -> Result<Op32GetResponse, ApiError>;
+
+    async fn op33_get(
+        &self,
+        context: &C) -> Result<Op33GetResponse, ApiError>;
+
+    async fn op34_get(
+        &self,
+        context: &C) -> Result<Op34GetResponse, ApiError>;
+
+    async fn op35_get(
+        &self,
+        context: &C) -> Result<Op35GetResponse, ApiError>;
+
+    async fn op36_get(
+        &self,
+        context: &C) -> Result<Op36GetResponse, ApiError>;
+
+    async fn op37_get(
+        &self,
+        context: &C) -> Result<Op37GetResponse, ApiError>;
+
+    async fn op3_get(
+        &self,
+        context: &C) -> Result<Op3GetResponse, ApiError>;
+
+    async fn op4_get(
+        &self,
+        context: &C) -> Result<Op4GetResponse, ApiError>;
+
+    async fn op5_get(
+        &self,
+        context: &C) -> Result<Op5GetResponse, ApiError>;
+
+    async fn op6_get(
+        &self,
+        context: &C) -> Result<Op6GetResponse, ApiError>;
+
+    async fn op7_get(
+        &self,
+        context: &C) -> Result<Op7GetResponse, ApiError>;
+
+    async fn op8_get(
+        &self,
+        context: &C) -> Result<Op8GetResponse, ApiError>;
+
+    async fn op9_get(
+        &self,
+        context: &C) -> Result<Op9GetResponse, ApiError>;
 
 }
 
-/// API without a `Context`
-pub trait ApiNoContext {
+/// API where `Context` isn't passed on every API call
+#[async_trait]
+pub trait ApiNoContext<C: Send + Sync> {
 
+    fn poll_ready(&self, _cx: &mut Context) -> Poll<Result<(), Box<dyn Error + Send + Sync + 'static>>>;
 
-    fn op10_get(&self) -> Box<Future<Item=Op10GetResponse, Error=ApiError>>;
+    fn context(&self) -> &C;
 
+    async fn op10_get(
+        &self,
+        ) -> Result<Op10GetResponse, ApiError>;
 
-    fn op11_get(&self) -> Box<Future<Item=Op11GetResponse, Error=ApiError>>;
+    async fn op11_get(
+        &self,
+        ) -> Result<Op11GetResponse, ApiError>;
 
+    async fn op12_get(
+        &self,
+        ) -> Result<Op12GetResponse, ApiError>;
 
-    fn op12_get(&self) -> Box<Future<Item=Op12GetResponse, Error=ApiError>>;
+    async fn op13_get(
+        &self,
+        ) -> Result<Op13GetResponse, ApiError>;
 
+    async fn op14_get(
+        &self,
+        ) -> Result<Op14GetResponse, ApiError>;
 
-    fn op13_get(&self) -> Box<Future<Item=Op13GetResponse, Error=ApiError>>;
+    async fn op15_get(
+        &self,
+        ) -> Result<Op15GetResponse, ApiError>;
 
+    async fn op16_get(
+        &self,
+        ) -> Result<Op16GetResponse, ApiError>;
 
-    fn op14_get(&self) -> Box<Future<Item=Op14GetResponse, Error=ApiError>>;
+    async fn op17_get(
+        &self,
+        ) -> Result<Op17GetResponse, ApiError>;
 
+    async fn op18_get(
+        &self,
+        ) -> Result<Op18GetResponse, ApiError>;
 
-    fn op15_get(&self) -> Box<Future<Item=Op15GetResponse, Error=ApiError>>;
+    async fn op19_get(
+        &self,
+        ) -> Result<Op19GetResponse, ApiError>;
 
+    async fn op1_get(
+        &self,
+        ) -> Result<Op1GetResponse, ApiError>;
 
-    fn op16_get(&self) -> Box<Future<Item=Op16GetResponse, Error=ApiError>>;
+    async fn op20_get(
+        &self,
+        ) -> Result<Op20GetResponse, ApiError>;
 
+    async fn op21_get(
+        &self,
+        ) -> Result<Op21GetResponse, ApiError>;
 
-    fn op17_get(&self) -> Box<Future<Item=Op17GetResponse, Error=ApiError>>;
+    async fn op22_get(
+        &self,
+        ) -> Result<Op22GetResponse, ApiError>;
 
+    async fn op23_get(
+        &self,
+        ) -> Result<Op23GetResponse, ApiError>;
 
-    fn op18_get(&self) -> Box<Future<Item=Op18GetResponse, Error=ApiError>>;
+    async fn op24_get(
+        &self,
+        ) -> Result<Op24GetResponse, ApiError>;
 
+    async fn op25_get(
+        &self,
+        ) -> Result<Op25GetResponse, ApiError>;
 
-    fn op19_get(&self) -> Box<Future<Item=Op19GetResponse, Error=ApiError>>;
+    async fn op26_get(
+        &self,
+        ) -> Result<Op26GetResponse, ApiError>;
 
+    async fn op27_get(
+        &self,
+        ) -> Result<Op27GetResponse, ApiError>;
 
-    fn op1_get(&self) -> Box<Future<Item=Op1GetResponse, Error=ApiError>>;
+    async fn op28_get(
+        &self,
+        ) -> Result<Op28GetResponse, ApiError>;
 
+    async fn op29_get(
+        &self,
+        ) -> Result<Op29GetResponse, ApiError>;
 
-    fn op20_get(&self) -> Box<Future<Item=Op20GetResponse, Error=ApiError>>;
+    async fn op2_get(
+        &self,
+        ) -> Result<Op2GetResponse, ApiError>;
 
+    async fn op30_get(
+        &self,
+        ) -> Result<Op30GetResponse, ApiError>;
 
-    fn op21_get(&self) -> Box<Future<Item=Op21GetResponse, Error=ApiError>>;
-
-
-    fn op22_get(&self) -> Box<Future<Item=Op22GetResponse, Error=ApiError>>;
-
-
-    fn op23_get(&self) -> Box<Future<Item=Op23GetResponse, Error=ApiError>>;
-
-
-    fn op24_get(&self) -> Box<Future<Item=Op24GetResponse, Error=ApiError>>;
-
-
-    fn op25_get(&self) -> Box<Future<Item=Op25GetResponse, Error=ApiError>>;
-
-
-    fn op26_get(&self) -> Box<Future<Item=Op26GetResponse, Error=ApiError>>;
-
-
-    fn op27_get(&self) -> Box<Future<Item=Op27GetResponse, Error=ApiError>>;
-
-
-    fn op28_get(&self) -> Box<Future<Item=Op28GetResponse, Error=ApiError>>;
-
-
-    fn op29_get(&self) -> Box<Future<Item=Op29GetResponse, Error=ApiError>>;
-
-
-    fn op2_get(&self) -> Box<Future<Item=Op2GetResponse, Error=ApiError>>;
-
-
-    fn op30_get(&self) -> Box<Future<Item=Op30GetResponse, Error=ApiError>>;
-
-
-    fn op31_get(&self) -> Box<Future<Item=Op31GetResponse, Error=ApiError>>;
-
-
-    fn op32_get(&self) -> Box<Future<Item=Op32GetResponse, Error=ApiError>>;
-
-
-    fn op33_get(&self) -> Box<Future<Item=Op33GetResponse, Error=ApiError>>;
-
-
-    fn op34_get(&self) -> Box<Future<Item=Op34GetResponse, Error=ApiError>>;
-
-
-    fn op35_get(&self) -> Box<Future<Item=Op35GetResponse, Error=ApiError>>;
-
-
-    fn op36_get(&self) -> Box<Future<Item=Op36GetResponse, Error=ApiError>>;
-
-
-    fn op37_get(&self) -> Box<Future<Item=Op37GetResponse, Error=ApiError>>;
-
-
-    fn op3_get(&self) -> Box<Future<Item=Op3GetResponse, Error=ApiError>>;
-
-
-    fn op4_get(&self) -> Box<Future<Item=Op4GetResponse, Error=ApiError>>;
-
-
-    fn op5_get(&self) -> Box<Future<Item=Op5GetResponse, Error=ApiError>>;
-
-
-    fn op6_get(&self) -> Box<Future<Item=Op6GetResponse, Error=ApiError>>;
-
-
-    fn op7_get(&self) -> Box<Future<Item=Op7GetResponse, Error=ApiError>>;
-
-
-    fn op8_get(&self) -> Box<Future<Item=Op8GetResponse, Error=ApiError>>;
-
-
-    fn op9_get(&self) -> Box<Future<Item=Op9GetResponse, Error=ApiError>>;
+    async fn op31_get(
+        &self,
+        ) -> Result<Op31GetResponse, ApiError>;
+
+    async fn op32_get(
+        &self,
+        ) -> Result<Op32GetResponse, ApiError>;
+
+    async fn op33_get(
+        &self,
+        ) -> Result<Op33GetResponse, ApiError>;
+
+    async fn op34_get(
+        &self,
+        ) -> Result<Op34GetResponse, ApiError>;
+
+    async fn op35_get(
+        &self,
+        ) -> Result<Op35GetResponse, ApiError>;
+
+    async fn op36_get(
+        &self,
+        ) -> Result<Op36GetResponse, ApiError>;
+
+    async fn op37_get(
+        &self,
+        ) -> Result<Op37GetResponse, ApiError>;
+
+    async fn op3_get(
+        &self,
+        ) -> Result<Op3GetResponse, ApiError>;
+
+    async fn op4_get(
+        &self,
+        ) -> Result<Op4GetResponse, ApiError>;
+
+    async fn op5_get(
+        &self,
+        ) -> Result<Op5GetResponse, ApiError>;
+
+    async fn op6_get(
+        &self,
+        ) -> Result<Op6GetResponse, ApiError>;
+
+    async fn op7_get(
+        &self,
+        ) -> Result<Op7GetResponse, ApiError>;
+
+    async fn op8_get(
+        &self,
+        ) -> Result<Op8GetResponse, ApiError>;
+
+    async fn op9_get(
+        &self,
+        ) -> Result<Op9GetResponse, ApiError>;
 
 }
 
 /// Trait to extend an API to make it easy to bind it to a context.
-pub trait ContextWrapperExt<'a, C> where Self: Sized {
+pub trait ContextWrapperExt<C: Send + Sync> where Self: Sized
+{
     /// Binds this API to a context.
-    fn with_context(self: &'a Self, context: C) -> ContextWrapper<'a, Self, C>;
+    fn with_context(self: Self, context: C) -> ContextWrapper<Self, C>;
 }
 
-impl<'a, T: Api<C> + Sized, C> ContextWrapperExt<'a, C> for T {
-    fn with_context(self: &'a T, context: C) -> ContextWrapper<'a, T, C> {
+impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ContextWrapperExt<C> for T {
+    fn with_context(self: T, context: C) -> ContextWrapper<T, C> {
          ContextWrapper::<T, C>::new(self, context)
     }
 }
 
-impl<'a, T: Api<C>, C> ApiNoContext for ContextWrapper<'a, T, C> {
-
-
-    fn op10_get(&self) -> Box<Future<Item=Op10GetResponse, Error=ApiError>> {
-        self.api().op10_get(&self.context())
+#[async_trait]
+impl<T: Api<C> + Send + Sync, C: Clone + Send + Sync> ApiNoContext<C> for ContextWrapper<T, C> {
+    fn poll_ready(&self, cx: &mut Context) -> Poll<Result<(), ServiceError>> {
+        self.api().poll_ready(cx)
     }
 
-
-    fn op11_get(&self) -> Box<Future<Item=Op11GetResponse, Error=ApiError>> {
-        self.api().op11_get(&self.context())
+    fn context(&self) -> &C {
+        ContextWrapper::context(self)
     }
 
-
-    fn op12_get(&self) -> Box<Future<Item=Op12GetResponse, Error=ApiError>> {
-        self.api().op12_get(&self.context())
+    async fn op10_get(
+        &self,
+        ) -> Result<Op10GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op10_get(&context).await
     }
 
-
-    fn op13_get(&self) -> Box<Future<Item=Op13GetResponse, Error=ApiError>> {
-        self.api().op13_get(&self.context())
+    async fn op11_get(
+        &self,
+        ) -> Result<Op11GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op11_get(&context).await
     }
 
-
-    fn op14_get(&self) -> Box<Future<Item=Op14GetResponse, Error=ApiError>> {
-        self.api().op14_get(&self.context())
+    async fn op12_get(
+        &self,
+        ) -> Result<Op12GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op12_get(&context).await
     }
 
-
-    fn op15_get(&self) -> Box<Future<Item=Op15GetResponse, Error=ApiError>> {
-        self.api().op15_get(&self.context())
+    async fn op13_get(
+        &self,
+        ) -> Result<Op13GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op13_get(&context).await
     }
 
-
-    fn op16_get(&self) -> Box<Future<Item=Op16GetResponse, Error=ApiError>> {
-        self.api().op16_get(&self.context())
+    async fn op14_get(
+        &self,
+        ) -> Result<Op14GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op14_get(&context).await
     }
 
-
-    fn op17_get(&self) -> Box<Future<Item=Op17GetResponse, Error=ApiError>> {
-        self.api().op17_get(&self.context())
+    async fn op15_get(
+        &self,
+        ) -> Result<Op15GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op15_get(&context).await
     }
 
-
-    fn op18_get(&self) -> Box<Future<Item=Op18GetResponse, Error=ApiError>> {
-        self.api().op18_get(&self.context())
+    async fn op16_get(
+        &self,
+        ) -> Result<Op16GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op16_get(&context).await
     }
 
-
-    fn op19_get(&self) -> Box<Future<Item=Op19GetResponse, Error=ApiError>> {
-        self.api().op19_get(&self.context())
+    async fn op17_get(
+        &self,
+        ) -> Result<Op17GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op17_get(&context).await
     }
 
-
-    fn op1_get(&self) -> Box<Future<Item=Op1GetResponse, Error=ApiError>> {
-        self.api().op1_get(&self.context())
+    async fn op18_get(
+        &self,
+        ) -> Result<Op18GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op18_get(&context).await
     }
 
-
-    fn op20_get(&self) -> Box<Future<Item=Op20GetResponse, Error=ApiError>> {
-        self.api().op20_get(&self.context())
+    async fn op19_get(
+        &self,
+        ) -> Result<Op19GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op19_get(&context).await
     }
 
-
-    fn op21_get(&self) -> Box<Future<Item=Op21GetResponse, Error=ApiError>> {
-        self.api().op21_get(&self.context())
+    async fn op1_get(
+        &self,
+        ) -> Result<Op1GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op1_get(&context).await
     }
 
-
-    fn op22_get(&self) -> Box<Future<Item=Op22GetResponse, Error=ApiError>> {
-        self.api().op22_get(&self.context())
+    async fn op20_get(
+        &self,
+        ) -> Result<Op20GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op20_get(&context).await
     }
 
-
-    fn op23_get(&self) -> Box<Future<Item=Op23GetResponse, Error=ApiError>> {
-        self.api().op23_get(&self.context())
+    async fn op21_get(
+        &self,
+        ) -> Result<Op21GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op21_get(&context).await
     }
 
-
-    fn op24_get(&self) -> Box<Future<Item=Op24GetResponse, Error=ApiError>> {
-        self.api().op24_get(&self.context())
+    async fn op22_get(
+        &self,
+        ) -> Result<Op22GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op22_get(&context).await
     }
 
-
-    fn op25_get(&self) -> Box<Future<Item=Op25GetResponse, Error=ApiError>> {
-        self.api().op25_get(&self.context())
+    async fn op23_get(
+        &self,
+        ) -> Result<Op23GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op23_get(&context).await
     }
 
-
-    fn op26_get(&self) -> Box<Future<Item=Op26GetResponse, Error=ApiError>> {
-        self.api().op26_get(&self.context())
+    async fn op24_get(
+        &self,
+        ) -> Result<Op24GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op24_get(&context).await
     }
 
-
-    fn op27_get(&self) -> Box<Future<Item=Op27GetResponse, Error=ApiError>> {
-        self.api().op27_get(&self.context())
+    async fn op25_get(
+        &self,
+        ) -> Result<Op25GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op25_get(&context).await
     }
 
-
-    fn op28_get(&self) -> Box<Future<Item=Op28GetResponse, Error=ApiError>> {
-        self.api().op28_get(&self.context())
+    async fn op26_get(
+        &self,
+        ) -> Result<Op26GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op26_get(&context).await
     }
 
-
-    fn op29_get(&self) -> Box<Future<Item=Op29GetResponse, Error=ApiError>> {
-        self.api().op29_get(&self.context())
+    async fn op27_get(
+        &self,
+        ) -> Result<Op27GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op27_get(&context).await
     }
 
-
-    fn op2_get(&self) -> Box<Future<Item=Op2GetResponse, Error=ApiError>> {
-        self.api().op2_get(&self.context())
+    async fn op28_get(
+        &self,
+        ) -> Result<Op28GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op28_get(&context).await
     }
 
-
-    fn op30_get(&self) -> Box<Future<Item=Op30GetResponse, Error=ApiError>> {
-        self.api().op30_get(&self.context())
+    async fn op29_get(
+        &self,
+        ) -> Result<Op29GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op29_get(&context).await
     }
 
-
-    fn op31_get(&self) -> Box<Future<Item=Op31GetResponse, Error=ApiError>> {
-        self.api().op31_get(&self.context())
+    async fn op2_get(
+        &self,
+        ) -> Result<Op2GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op2_get(&context).await
     }
 
-
-    fn op32_get(&self) -> Box<Future<Item=Op32GetResponse, Error=ApiError>> {
-        self.api().op32_get(&self.context())
+    async fn op30_get(
+        &self,
+        ) -> Result<Op30GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op30_get(&context).await
     }
 
-
-    fn op33_get(&self) -> Box<Future<Item=Op33GetResponse, Error=ApiError>> {
-        self.api().op33_get(&self.context())
+    async fn op31_get(
+        &self,
+        ) -> Result<Op31GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op31_get(&context).await
     }
 
-
-    fn op34_get(&self) -> Box<Future<Item=Op34GetResponse, Error=ApiError>> {
-        self.api().op34_get(&self.context())
+    async fn op32_get(
+        &self,
+        ) -> Result<Op32GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op32_get(&context).await
     }
 
-
-    fn op35_get(&self) -> Box<Future<Item=Op35GetResponse, Error=ApiError>> {
-        self.api().op35_get(&self.context())
+    async fn op33_get(
+        &self,
+        ) -> Result<Op33GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op33_get(&context).await
     }
 
-
-    fn op36_get(&self) -> Box<Future<Item=Op36GetResponse, Error=ApiError>> {
-        self.api().op36_get(&self.context())
+    async fn op34_get(
+        &self,
+        ) -> Result<Op34GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op34_get(&context).await
     }
 
-
-    fn op37_get(&self) -> Box<Future<Item=Op37GetResponse, Error=ApiError>> {
-        self.api().op37_get(&self.context())
+    async fn op35_get(
+        &self,
+        ) -> Result<Op35GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op35_get(&context).await
     }
 
-
-    fn op3_get(&self) -> Box<Future<Item=Op3GetResponse, Error=ApiError>> {
-        self.api().op3_get(&self.context())
+    async fn op36_get(
+        &self,
+        ) -> Result<Op36GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op36_get(&context).await
     }
 
-
-    fn op4_get(&self) -> Box<Future<Item=Op4GetResponse, Error=ApiError>> {
-        self.api().op4_get(&self.context())
+    async fn op37_get(
+        &self,
+        ) -> Result<Op37GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op37_get(&context).await
     }
 
-
-    fn op5_get(&self) -> Box<Future<Item=Op5GetResponse, Error=ApiError>> {
-        self.api().op5_get(&self.context())
+    async fn op3_get(
+        &self,
+        ) -> Result<Op3GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op3_get(&context).await
     }
 
-
-    fn op6_get(&self) -> Box<Future<Item=Op6GetResponse, Error=ApiError>> {
-        self.api().op6_get(&self.context())
+    async fn op4_get(
+        &self,
+        ) -> Result<Op4GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op4_get(&context).await
     }
 
-
-    fn op7_get(&self) -> Box<Future<Item=Op7GetResponse, Error=ApiError>> {
-        self.api().op7_get(&self.context())
+    async fn op5_get(
+        &self,
+        ) -> Result<Op5GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op5_get(&context).await
     }
 
-
-    fn op8_get(&self) -> Box<Future<Item=Op8GetResponse, Error=ApiError>> {
-        self.api().op8_get(&self.context())
+    async fn op6_get(
+        &self,
+        ) -> Result<Op6GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op6_get(&context).await
     }
 
+    async fn op7_get(
+        &self,
+        ) -> Result<Op7GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op7_get(&context).await
+    }
 
-    fn op9_get(&self) -> Box<Future<Item=Op9GetResponse, Error=ApiError>> {
-        self.api().op9_get(&self.context())
+    async fn op8_get(
+        &self,
+        ) -> Result<Op8GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op8_get(&context).await
+    }
+
+    async fn op9_get(
+        &self,
+        ) -> Result<Op9GetResponse, ApiError>
+    {
+        let context = self.context().clone();
+        self.api().op9_get(&context).await
     }
 
 }
+
 
 #[cfg(feature = "client")]
 pub mod client;
 
 // Re-export Client as a top-level name
 #[cfg(feature = "client")]
-pub use self::client::Client;
+pub use client::Client;
 
 #[cfg(feature = "server")]
 pub mod server;
@@ -720,4 +884,10 @@ pub mod server;
 #[cfg(feature = "server")]
 pub use self::server::Service;
 
+#[cfg(feature = "server")]
+pub mod context;
+
 pub mod models;
+
+#[cfg(any(feature = "client", feature = "server"))]
+pub(crate) mod header;

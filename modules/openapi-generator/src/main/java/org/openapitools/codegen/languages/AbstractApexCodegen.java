@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public abstract class AbstractApexCodegen extends DefaultCodegen implements CodegenConfig {
@@ -194,7 +195,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
 
             if (inner == null) {
                 LOGGER.warn(p.getName() + "(map property) does not have a proper inner type defined");
@@ -227,11 +228,11 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (ModelUtils.isMapSchema(p)) {
             final MapSchema ap = (MapSchema) p;
             final String pattern = "new HashMap<%s>()";
-            if (ModelUtils.getAdditionalProperties(ap) == null) {
+            if (getAdditionalProperties(ap) == null) {
                 return null;
             }
 
-            return String.format(Locale.ROOT, pattern, String.format(Locale.ROOT, "String, %s", getTypeDeclaration(ModelUtils.getAdditionalProperties(ap))));
+            return String.format(Locale.ROOT, pattern, String.format(Locale.ROOT, "String, %s", getTypeDeclaration(getAdditionalProperties(ap))));
         } else if (ModelUtils.isLongSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString() + "l";
@@ -364,7 +365,7 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
         } else if (ModelUtils.isLongSchema(p)) {
             example = example.isEmpty() ? "123456789L" : example + "L";
         } else if (ModelUtils.isMapSchema(p)) {
-            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(ModelUtils.getAdditionalProperties(p)) + "}";
+            example = "new " + getTypeDeclaration(p) + "{'key'=>" + toExampleValue(getAdditionalProperties(p)) + "}";
 
         } else if (ModelUtils.isPasswordSchema(p)) {
             example = example.isEmpty() ? "password123" : escapeText(example);
@@ -455,9 +456,9 @@ public abstract class AbstractApexCodegen extends DefaultCodegen implements Code
             }
         }
 
-        cm.vendorExtensions.put("hasPropertyMappings", !propertyMappings.isEmpty());
-        cm.vendorExtensions.put("hasDefaultValues", hasDefaultValues);
-        cm.vendorExtensions.put("propertyMappings", propertyMappings);
+        cm.vendorExtensions.put("x-has-property-mappings", !propertyMappings.isEmpty());
+        cm.vendorExtensions.put("x-has-default-values", hasDefaultValues);
+        cm.vendorExtensions.put("x-property-mappings", propertyMappings);
 
         if (!propertyMappings.isEmpty()) {
             cm.interfaces.add("OAS.MappedProperties");

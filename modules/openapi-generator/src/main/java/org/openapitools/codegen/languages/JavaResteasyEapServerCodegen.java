@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,6 +24,7 @@ import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
 import org.openapitools.codegen.languages.features.JbossFeature;
 import org.openapitools.codegen.languages.features.SwaggerFeatures;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,8 +39,9 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
     protected boolean useSwaggerFeature = false;
 
     public JavaResteasyEapServerCodegen() {
-
         super();
+
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
 
         artifactId = "openapi-jaxrs-resteasy-eap-server";
         useBeanValidation = true;
@@ -59,7 +61,6 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         embeddedTemplateDir = templateDir = "JavaJaxRS" + File.separator + "resteasy" + File.separator + "eap";
 
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
         cliOptions.add(CliOption.newBoolean(GENERATE_JBOSS_DEPLOYMENT_DESCRIPTOR, "Generate Jboss Deployment Descriptor",generateJbossDeploymentDescriptor));
         cliOptions.add(CliOption.newBoolean(USE_SWAGGER_FEATURE, "Use dynamic Swagger generator",useSwaggerFeature));
 
@@ -96,19 +97,26 @@ public class JavaResteasyEapServerCodegen extends AbstractJavaJAXRSServerCodegen
 
         writePropertyBack(USE_SWAGGER_FEATURE, useSwaggerFeature);
 
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
-        writeOptional(outputFolder, new SupportingFile("gradle.mustache", "", "build.gradle"));
-        writeOptional(outputFolder, new SupportingFile("settingsGradle.mustache", "", "settings.gradle"));
-        writeOptional(outputFolder, new SupportingFile("README.mustache", "", "README.md"));
-        writeOptional(outputFolder, new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("gradle.mustache", "", "build.gradle")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("settingsGradle.mustache", "", "settings.gradle")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
+                .doNotOverwrite());
+        supportingFiles.add(new SupportingFile("web.mustache", ("src/main/webapp/WEB-INF"), "web.xml")
+                .doNotOverwrite());
 
         supportingFiles.add(new SupportingFile("JacksonConfig.mustache", (projectFolder + File.separator + "java" + '/' + invokerPackage).replace(".", "/"), "JacksonConfig.java"));
 
         if (generateJbossDeploymentDescriptor) {
-            writeOptional(outputFolder, new SupportingFile("jboss-web.mustache", ("src/main/webapp/WEB-INF"), "jboss-web.xml"));
+            supportingFiles.add(new SupportingFile("jboss-web.mustache", ("src/main/webapp/WEB-INF"), "jboss-web.xml")
+                .doNotOverwrite());
         }
 
-        writeOptional(outputFolder, new SupportingFile("RestApplication.mustache", (projectFolder + File.separator + "java" + '/' + invokerPackage).replace(".", "/"), "RestApplication.java"));
+        supportingFiles.add(new SupportingFile("RestApplication.mustache", (projectFolder + File.separator + "java" + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
+            .doNotOverwrite());
 
     }
 

@@ -3,6 +3,7 @@ package org.openapitools.api;
 import java.io.File;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
+import java.util.Set;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -17,7 +18,7 @@ import javax.validation.Valid;
 
 @Path("/pet")
 @Api(description = "the pet API")
-public interface PetApi {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public interface PetApi {
 
     @POST
     @Consumes({ "application/json", "application/xml" })
@@ -28,8 +29,9 @@ public interface PetApi {
         })
     }, tags={ "pet",  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 405, message = "Invalid input", response = Void.class) })
-    Response addPet(@Valid Pet pet);
+    Response addPet(@Valid Pet body);
 
     @DELETE
     @Path("/{petId}")
@@ -40,8 +42,9 @@ public interface PetApi {
         })
     }, tags={ "pet",  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid pet value", response = Void.class) })
-    Response deletePet(@PathParam("petId") @ApiParam("Pet id to delete") Long petId,@HeaderParam("api_key")   String apiKey);
+    Response deletePet(@PathParam("petId") @ApiParam("Pet id to delete") Long petId,@HeaderParam("api_key")    String apiKey);
 
     @GET
     @Path("/findByStatus")
@@ -55,7 +58,7 @@ public interface PetApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value", response = Void.class, responseContainer = "List") })
-    Response findPetsByStatus(@QueryParam("status") @NotNull  @DefaultValue("new ArrayList<String>()")  @ApiParam("Status values that need to be considered for filter")  List<String> status);
+    Response findPetsByStatus(@QueryParam("status") @NotNull   @ApiParam("Status values that need to be considered for filter")  List<String> status);
 
     @GET
     @Path("/findByTags")
@@ -67,9 +70,9 @@ public interface PetApi {
         })
     }, tags={ "pet",  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Invalid tag value", response = Void.class, responseContainer = "List") })
-    Response findPetsByTags(@QueryParam("tags") @NotNull  @DefaultValue("new ArrayList<String>()")  @ApiParam("Tags to filter by")  List<String> tags);
+        @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "Set"),
+        @ApiResponse(code = 400, message = "Invalid tag value", response = Void.class, responseContainer = "Set") })
+    Response findPetsByTags(@QueryParam("tags") @NotNull   @ApiParam("Tags to filter by")  Set<String> tags);
 
     @GET
     @Path("/{petId}")
@@ -92,10 +95,11 @@ public interface PetApi {
         })
     }, tags={ "pet",  })
     @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "successful operation", response = Void.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied", response = Void.class),
         @ApiResponse(code = 404, message = "Pet not found", response = Void.class),
         @ApiResponse(code = 405, message = "Validation exception", response = Void.class) })
-    Response updatePet(@Valid Pet pet);
+    Response updatePet(@Valid Pet body);
 
     @POST
     @Path("/{petId}")

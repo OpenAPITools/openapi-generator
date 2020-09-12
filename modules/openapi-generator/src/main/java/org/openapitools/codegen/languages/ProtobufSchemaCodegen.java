@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,14 +19,15 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 
-import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.GeneratorMetadata;
 import org.openapitools.codegen.meta.Stability;
-import org.openapitools.codegen.utils.ProcessUtils;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.meta.features.WireFormatFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import org.apache.commons.lang3.StringUtils;
@@ -66,6 +67,13 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
         generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
                 .stability(Stability.BETA)
                 .build();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .includeWireFormatFeatures(WireFormatFeature.PROTOBUF)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.PROTOBUF))
+                .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
+        );
 
         outputFolder = "generated-code/protobuf-schema";
         modelTemplateFiles.put("model.mustache", ".proto");
@@ -207,13 +215,12 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         objs = postProcessModelsEnum(objs);
         List<Object> models = (List<Object>) objs.get("models");
-        // add x-index to properties
-        ProcessUtils.addIndexToProperties(models, 1);
 
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
 
+            int index = 1;
             for (CodegenProperty var : cm.vars) {
                 // add x-protobuf-type: repeated if it's an array
                 if (Boolean.TRUE.equals(var.isListContainer)) {
@@ -238,6 +245,10 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                         enumIndex++;
                     }
                 }
+
+                // Add x-protobuf-index, unless already specified
+                var.vendorExtensions.putIfAbsent("x-protobuf-index", index);
+                index++;
             }
         }
         return objs;
@@ -413,7 +424,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
                     }
                 }
 
-                p.vendorExtensions.put("x-index", index);
+                p.vendorExtensions.putIfAbsent("x-protobuf-index", index);
                 index++;
             }
 
@@ -450,7 +461,7 @@ public class ProtobufSchemaCodegen extends DefaultCodegen implements CodegenConf
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "[str, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);

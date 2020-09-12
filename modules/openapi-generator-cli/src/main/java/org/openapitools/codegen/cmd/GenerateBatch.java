@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.airlift.airline.Arguments;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.DefaultGenerator;
@@ -39,6 +40,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -46,13 +48,15 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection"})
+@SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection", "java:S106"})
 @Command(name = "batch", description = "Generate code in batch via external configs.", hidden = true)
-public class GenerateBatch implements Runnable {
-
+public class GenerateBatch extends OpenApiGeneratorCommand {
+    private static AtomicInteger failures = new AtomicInteger(0);
+    private static AtomicInteger successes = new AtomicInteger(0);
     private static final Logger LOGGER = LoggerFactory.getLogger(GenerateBatch.class);
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
@@ -88,7 +92,7 @@ public class GenerateBatch implements Runnable {
      * @see Thread#run()
      */
     @Override
-    public void run() {
+    public void execute() {
         if (configs.size() < 1) {
             LOGGER.error("No configuration file inputs specified");
             System.exit(1);
@@ -100,16 +104,6 @@ public class GenerateBatch implements Runnable {
             numThreads = threads;
         }
 
-        // This allows us to put meta-configs in a different file from referenced configs.
-        // If not specified, we'll assume it's the parent directory of the first file.
-        File includesDir;
-        if (includes != null) {
-            includesDir = new File(includes);
-        } else {
-            Path first = Paths.get(configs.get(0));
-            includesDir = first.getParent().toFile();
-        }
-
         Path rootDir;
         if (root != null) {
             rootDir = Paths.get(root);
@@ -117,26 +111,27 @@ public class GenerateBatch implements Runnable {
             rootDir = Paths.get(System.getProperty("user.dir"));
         }
 
-        LOGGER.info(String.format(Locale.ROOT, "Batch generation using %d threads.\nIncludes: %s\nRoot: %s", numThreads, includesDir.getAbsolutePath(), rootDir.toAbsolutePath().toString()));
+        // This allows us to put meta-configs in a different file from referenced configs.
+        // If not specified, we'll assume it's the parent directory of the first file.
+        File includesDir;
+        if (includes != null) {
+            includesDir = new File(includes);
+        } else {
+            Path first = Paths.get(configs.get(0));
+            if (Files.isRegularFile(first) && !Files.isSymbolicLink(first)) {
+                includesDir = first.toAbsolutePath().getParent().toFile();
+            } else {
+                // Not traversing symbolic links for includes. Falling back to rooted working directory.
+                includesDir = rootDir.toFile();
+            }
+        }
+
+        LOGGER.info(String.format(Locale.ROOT, "Batch generation using up to %d threads.\nIncludes: %s\nRoot: %s", numThreads, includesDir.getAbsolutePath(), rootDir.toAbsolutePath().toString()));
 
         // Create a module which loads our config files, but supports a special "!include" key which can point to an existing config file.
         // This allows us to create a sort of meta-config which holds configs which are otherwise required at CLI time (via generate task).
         // That is, this allows us to create a wrapper config for generatorName, inputSpec, outputDir, etc.
-        SimpleModule module = new SimpleModule("GenerateBatch");
-        module.setDeserializerModifier(new BeanDeserializerModifier() {
-            @Override
-            public JsonDeserializer<?> modifyDeserializer(DeserializationConfig config,
-                                                          BeanDescription bd, JsonDeserializer<?> original) {
-                JsonDeserializer<?> result;
-                if (bd.getBeanClass() == DynamicSettings.class) {
-                    result = new DynamicSettingsRefSupport(original, includesDir);
-                } else {
-                    result = original;
-                }
-                return result;
-            }
-        });
-
+        SimpleModule module = getCustomDeserializationModel(includesDir);
         List<CodegenConfigurator> configurators = configs.stream().map(config -> CodegenConfigurator.fromFile(config, module)).collect(Collectors.toList());
 
         // it doesn't make sense to interleave INFO level logs, so limit these to only ERROR.
@@ -159,9 +154,17 @@ public class GenerateBatch implements Runnable {
 
             executor.awaitTermination(awaitFor, TimeUnit.MINUTES);
 
-            System.out.println("COMPLETE.");
+            int failCount = failures.intValue();
+            if (failCount > 0) {
+                System.err.println(String.format(Locale.ROOT, "[FAIL] Completed with %d failures, %d successes", failCount, successes.intValue()));
+                System.exit(1);
+            } else {
+                System.out.println(String.format(Locale.ROOT, "[SUCCESS] Batch generation finished %d generators successfully.", successes.intValue()));
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
+            // re-interrupt
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -189,12 +192,13 @@ public class GenerateBatch implements Runnable {
          */
         @Override
         public void run() {
+            String name = "";
             try {
                 GlobalSettings.reset();
 
                 ClientOptInput opts = configurator.toClientOptInput();
                 CodegenConfig config = opts.getConfig();
-                String name = config.getName();
+                name = config.getName();
                 
                 Path target = Paths.get(config.getOutputDir());
                 Path updated = rootDir.resolve(target);
@@ -208,8 +212,14 @@ public class GenerateBatch implements Runnable {
                 defaultGenerator.generate();
 
                 System.out.printf(Locale.ROOT, "[%s] Finished generating %s…%n", Thread.currentThread().getName(), name);
+                successes.incrementAndGet();
             } catch (Throwable e) {
-                System.err.printf(Locale.ROOT, "[%s] Generation failed: (%s) %s%n", Thread.currentThread().getName(), e.getClass().getSimpleName(), e.getMessage());
+                failures.incrementAndGet();
+                String failedOn = name;
+                if (StringUtils.isEmpty(failedOn)) {
+                    failedOn = "unspecified";
+                }
+                System.err.printf(Locale.ROOT, "[%s] Generation failed for %s: (%s) %s%n", Thread.currentThread().getName(), failedOn, e.getClass().getSimpleName(), e.getMessage());
                 e.printStackTrace(System.err);
                 if (exitOnError) {
                     System.exit(1);
@@ -218,6 +228,28 @@ public class GenerateBatch implements Runnable {
                 GlobalSettings.reset();
             }
         }
+    }
+
+    static SimpleModule getCustomDeserializationModel(final File includesDir) {
+        // Create a module which loads our config files, but supports a special "!include" key which can point to an existing config file.
+        // This allows us to create a sort of meta-config which holds configs which are otherwise required at CLI time (via generate task).
+        // That is, this allows us to create a wrapper config for generatorName, inputSpec, outputDir, etc.
+        SimpleModule module = new SimpleModule("GenerateBatch");
+        module.setDeserializerModifier(new BeanDeserializerModifier() {
+            @Override
+            public JsonDeserializer<?> modifyDeserializer(DeserializationConfig config,
+                                                          BeanDescription bd, JsonDeserializer<?> original) {
+                JsonDeserializer<?> result;
+                if (bd.getBeanClass() == DynamicSettings.class) {
+                    result = new DynamicSettingsRefSupport(original, includesDir);
+                } else {
+                    result = original;
+                }
+                return result;
+            }
+        });
+
+        return module;
     }
 
     static class DynamicSettingsRefSupport extends DelegatingDeserializer {
@@ -248,11 +280,13 @@ public class GenerateBatch implements Runnable {
                         // load the file into the tree node and continue parsing as normal
                         ((ObjectNode) node).remove(INCLUDE);
 
-                        JsonParser includeParser = codec.getFactory().createParser(includeFile);
-                        TreeNode includeNode = includeParser.readValueAsTree();
+                        TreeNode includeNode;
+                        try (JsonParser includeParser = codec.getFactory().createParser(includeFile)) {
+                            includeNode = includeParser.readValueAsTree();
+                        }
 
                         ObjectReader reader = codec.readerForUpdating(node);
-                        TreeNode updated = reader.readValue(includeFile);
+                        TreeNode updated = reader.readValue(includeNode.traverse());
                         JsonParser updatedParser = updated.traverse();
                         updatedParser.nextToken();
                         return super.deserialize(updatedParser, ctx);

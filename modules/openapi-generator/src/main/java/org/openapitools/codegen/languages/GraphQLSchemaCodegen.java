@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,8 +20,11 @@ import org.openapitools.codegen.CliOption;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.EnumSet;
 
 public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements CodegenConfig {
 
@@ -42,6 +45,24 @@ public class GraphQLSchemaCodegen extends AbstractGraphQLCodegen implements Code
 
     public GraphQLSchemaCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+//                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON))
+                .securityFeatures(EnumSet.noneOf(
+                        SecurityFeature.class
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .excludeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+        );
+
         outputFolder = "generated-code/graphql-schema";
         modelTemplateFiles.put("model.mustache", ".graphql");
         apiTemplateFiles.put("api.mustache", ".graphql");

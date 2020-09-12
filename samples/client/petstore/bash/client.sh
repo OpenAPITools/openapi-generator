@@ -15,7 +15,7 @@
 # This is a Bash client for OpenAPI Petstore.
 #
 # LICENSE:
-# http://www.apache.org/licenses/LICENSE-2.0.html
+# https://www.apache.org/licenses/LICENSE-2.0.html
 #
 # CONTACT:
 # 

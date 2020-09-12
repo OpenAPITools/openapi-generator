@@ -46,7 +46,7 @@ import {{packageName}}.auth.*
         val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
         httpClientEngine?.let { HttpClient(it, clientConfig) } ?: HttpClient(clientConfig)
     }
-
+    {{#hasAuthMethods}}
     private val authentications: kotlin.collections.Map<String, Authentication> by lazy {
         mapOf({{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
                 "{{name}}" to HttpBasicAuth(){{/isBasicBasic}}{{^isBasicBasic}}
@@ -54,6 +54,10 @@ import {{packageName}}.auth.*
                 "{{name}}" to ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}
                 "{{name}}" to OAuth(){{/isOAuth}}{{#hasMore}}, {{/hasMore}}{{/authMethods}})
     }
+    {{/hasAuthMethods}}
+    {{^hasAuthMethods}}
+    private val authentications: kotlin.collections.Map<String, Authentication>? = null
+    {{/hasAuthMethods}}
 
     {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
         protected val UNSAFE_HEADERS = listOf(HttpHeaders.ContentType)
@@ -74,7 +78,7 @@ import {{packageName}}.auth.*
      * @param username Username
      */
     fun setUsername(username: String) {
-        val auth = authentications.values.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
+        val auth = authentications?.values?.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
                 ?: throw Exception("No HTTP basic authentication configured")
         auth.username = username
     }
@@ -85,7 +89,7 @@ import {{packageName}}.auth.*
      * @param password Password
      */
     fun setPassword(password: String) {
-        val auth = authentications.values.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
+        val auth = authentications?.values?.firstOrNull { it is HttpBasicAuth } as HttpBasicAuth?
                 ?: throw Exception("No HTTP basic authentication configured")
         auth.password = password
     }
@@ -97,7 +101,7 @@ import {{packageName}}.auth.*
      * @param paramName The name of the API key parameter, or null or set the first key.
      */
     fun setApiKey(apiKey: String, paramName: String? = null) {
-        val auth = authentications.values.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName)} as ApiKeyAuth?
+        val auth = authentications?.values?.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName)} as ApiKeyAuth?
                 ?: throw Exception("No API key authentication configured")
         auth.apiKey = apiKey
     }
@@ -109,7 +113,7 @@ import {{packageName}}.auth.*
      * @param paramName The name of the API key parameter, or null or set the first key.
      */
     fun setApiKeyPrefix(apiKeyPrefix: String, paramName: String? = null) {
-        val auth = authentications.values.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName) } as ApiKeyAuth?
+        val auth = authentications?.values?.firstOrNull { it is ApiKeyAuth && (paramName == null || paramName == it.paramName) } as ApiKeyAuth?
                 ?: throw Exception("No API key authentication configured")
         auth.apiKeyPrefix = apiKeyPrefix
     }
@@ -120,7 +124,7 @@ import {{packageName}}.auth.*
      * @param accessToken Access token
      */
     fun setAccessToken(accessToken: String) {
-        val auth = authentications.values.firstOrNull { it is OAuth } as OAuth?
+        val auth = authentications?.values?.firstOrNull { it is OAuth } as OAuth?
                 ?: throw Exception("No OAuth2 authentication configured")
         auth.accessToken = accessToken
     }
@@ -131,7 +135,7 @@ import {{packageName}}.auth.*
      * @param bearerToken The bearer token.
      */
     fun setBearerToken(bearerToken: String) {
-        val auth = authentications.values.firstOrNull { it is HttpBearerAuth } as HttpBearerAuth?
+        val auth = authentications?.values?.firstOrNull { it is HttpBearerAuth } as HttpBearerAuth?
                 ?: throw Exception("No Bearer authentication configured")
         auth.bearerToken = bearerToken
     }
@@ -175,7 +179,7 @@ import {{packageName}}.auth.*
 
     private fun RequestConfig.updateForAuth(authNames: kotlin.collections.List<String>) {
         for (authName in authNames) {
-            val auth = authentications[authName] ?: throw Exception("Authentication undefined: $authName")
+            val auth = authentications?.get(authName) ?: throw Exception("Authentication undefined: $authName")
             auth.apply(query, headers)
         }
     }

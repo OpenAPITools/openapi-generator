@@ -83,13 +83,13 @@ func (c *PetApiController) Routes() Routes {
 
 // AddPet - Add a new pet to the store
 func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) { 
-	body := &Pet{}
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+	pet := &Pet{}
+	if err := json.NewDecoder(r.Body).Decode(&pet); err != nil {
 		w.WriteHeader(500)
 		return
 	}
 	
-	result, err := c.service.AddPet(*body)
+	result, err := c.service.AddPet(r.Context(), *pet)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -101,14 +101,13 @@ func (c *PetApiController) AddPet(w http.ResponseWriter, r *http.Request) {
 // DeletePet - Deletes a pet
 func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
-	petId, err := parseIntParameter(params["petId"])
+	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
 	apiKey := r.Header.Get("apiKey")
-	result, err := c.service.DeletePet(petId, apiKey)
+	result, err := c.service.DeletePet(r.Context(), petId, apiKey)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -121,7 +120,7 @@ func (c *PetApiController) DeletePet(w http.ResponseWriter, r *http.Request) {
 func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Request) { 
 	query := r.URL.Query()
 	status := strings.Split(query.Get("status"), ",")
-	result, err := c.service.FindPetsByStatus(status)
+	result, err := c.service.FindPetsByStatus(r.Context(), status)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -134,7 +133,7 @@ func (c *PetApiController) FindPetsByStatus(w http.ResponseWriter, r *http.Reque
 func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request) { 
 	query := r.URL.Query()
 	tags := strings.Split(query.Get("tags"), ",")
-	result, err := c.service.FindPetsByTags(tags)
+	result, err := c.service.FindPetsByTags(r.Context(), tags)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -146,13 +145,12 @@ func (c *PetApiController) FindPetsByTags(w http.ResponseWriter, r *http.Request
 // GetPetById - Find pet by ID
 func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
-	petId, err := parseIntParameter(params["petId"])
+	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
-	result, err := c.service.GetPetById(petId)
+	result, err := c.service.GetPetById(r.Context(), petId)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -163,13 +161,13 @@ func (c *PetApiController) GetPetById(w http.ResponseWriter, r *http.Request) {
 
 // UpdatePet - Update an existing pet
 func (c *PetApiController) UpdatePet(w http.ResponseWriter, r *http.Request) { 
-	body := &Pet{}
-	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+	pet := &Pet{}
+	if err := json.NewDecoder(r.Body).Decode(&pet); err != nil {
 		w.WriteHeader(500)
 		return
 	}
 	
-	result, err := c.service.UpdatePet(*body)
+	result, err := c.service.UpdatePet(r.Context(), *pet)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -187,15 +185,14 @@ func (c *PetApiController) UpdatePetWithForm(w http.ResponseWriter, r *http.Requ
 	}
 	
 	params := mux.Vars(r)
-	petId, err := parseIntParameter(params["petId"])
+	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
 	name := r.FormValue("name")
 	status := r.FormValue("status")
-	result, err := c.service.UpdatePetWithForm(petId, name, status)
+	result, err := c.service.UpdatePetWithForm(r.Context(), petId, name, status)
 	if err != nil {
 		w.WriteHeader(500)
 		return
@@ -213,12 +210,11 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 	}
 	
 	params := mux.Vars(r)
-	petId, err := parseIntParameter(params["petId"])
+	petId, err := parseInt64Parameter(params["petId"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
 	additionalMetadata := r.FormValue("additionalMetadata")
 	file, err := ReadFormFileToTempFile(r, "file")
 	if err != nil {
@@ -226,7 +222,7 @@ func (c *PetApiController) UploadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	
-	result, err := c.service.UploadFile(petId, additionalMetadata, file)
+	result, err := c.service.UploadFile(r.Context(), petId, additionalMetadata, file)
 	if err != nil {
 		w.WriteHeader(500)
 		return

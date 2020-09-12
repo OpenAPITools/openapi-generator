@@ -31,7 +31,7 @@ petstore-cli addPet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
+ **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
 
 ### Return type
 
@@ -203,7 +203,7 @@ petstore-cli updatePet
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
+ **pet** | [**Pet**](Pet.md) | Pet object that needs to be added to the store |
 
 ### Return type
 

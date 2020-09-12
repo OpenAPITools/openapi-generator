@@ -36,7 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class FakeApi {
   private ApiClient apiClient;
 
@@ -393,8 +393,8 @@ public class FakeApi {
     return apiClient.invokeAPI(localVarPath, "PATCH", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarCookieParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
       }
   /**
-   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
-   * Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
+   * Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
    * @param number None (required)
    * @param _double None (required)
    * @param patternWithoutDelimiter None (required)
@@ -760,7 +760,7 @@ if (param2 != null)
 
     localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "pipe", pipe));
     localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "ioutil", ioutil));
-    localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("space", "http", http));
+    localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("ssv", "http", http));
     localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("csv", "url", url));
     localVarCollectionQueryParams.addAll(apiClient.parameterToPairs("multi", "context", context));
 

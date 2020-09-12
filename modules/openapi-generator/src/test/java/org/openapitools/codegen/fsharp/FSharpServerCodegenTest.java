@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -66,9 +66,9 @@ public class FSharpServerCodegenTest {
         
         Object[] keys = sorted.keySet().toArray();
         
-        Assert.assertTrue(keys[0] == "wheel");
-        Assert.assertTrue(keys[1] == "bike" || keys[1] == "car");
-        Assert.assertTrue(keys[2] == "bike" || keys[2] == "car");
+        Assert.assertTrue("wheel".equals(keys[0]));
+        Assert.assertTrue("bike".equals(keys[1]) || "car".equals(keys[1]));
+        Assert.assertTrue("bike".equals(keys[2]) || "car".equals(keys[2]));
         Assert.assertEquals(keys[3], "parent");
         Assert.assertEquals(keys[4], "child");
         

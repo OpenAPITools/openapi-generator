@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import org.springframework.http.codec.multipart.Part;
 
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ import java.util.Optional;
  * A delegate to be called by the {@link AnotherFakeApiController}}.
  * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public interface AnotherFakeApiDelegate {
 
     default Optional<NativeWebRequest> getRequest() {
@@ -27,6 +28,11 @@ public interface AnotherFakeApiDelegate {
     }
 
     /**
+     * PATCH /another-fake/dummy : To test special tags
+     * To test special tags and operation ID starting with number
+     *
+     * @param body client model (required)
+     * @return successful operation (status code 200)
      * @see AnotherFakeApi#call123testSpecialTags
      */
     default Mono<ResponseEntity<Client>> call123testSpecialTags(Mono<Client> body,

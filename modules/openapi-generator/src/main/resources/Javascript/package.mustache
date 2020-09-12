@@ -10,6 +10,11 @@
   "browser": {
     "fs": false
   },
+{{#npmRepository}}
+  "publishConfig":{
+    "registry":"{{npmRepository}}"
+  },
+{{/npmRepository}}
   "dependencies": {
     "superagent": "5.1.0"
   },

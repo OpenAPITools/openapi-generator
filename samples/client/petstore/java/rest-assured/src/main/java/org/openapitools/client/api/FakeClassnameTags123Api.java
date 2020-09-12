@@ -57,6 +57,11 @@ public class FakeClassnameTags123Api {
         return reqSpec;
     }
 
+    public List<Oper> getAllOperations() {
+        return Arrays.asList(
+                testClassname()
+        );
+    }
 
     @ApiOperation(value = "To test class name in snake case",
             notes = "To test class name in snake case",
@@ -85,7 +90,7 @@ public class FakeClassnameTags123Api {
      * @see #body client model (required)
      * return Client
      */
-    public static class TestClassnameOper {
+    public static class TestClassnameOper implements Oper {
 
         public static final Method REQ_METHOD = PATCH;
         public static final String REQ_URI = "/fake_classname_test";
@@ -106,6 +111,7 @@ public class FakeClassnameTags123Api {
          * @param <T> type
          * @return type
          */
+        @Override
         public <T> T execute(Function<Response, T> handler) {
             return handler.apply(RestAssured.given().spec(reqSpec.build()).expect().spec(respSpec.build()).when().request(REQ_METHOD, REQ_URI));
         }

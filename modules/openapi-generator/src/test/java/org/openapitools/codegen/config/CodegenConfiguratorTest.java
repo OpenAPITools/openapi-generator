@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,7 +19,6 @@ package org.openapitools.codegen.config;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultGenerator;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -66,7 +65,7 @@ public class CodegenConfiguratorTest {
                 .addImportMapping("one", "two")
                 .addInstantiationType("three", "four")
                 .addLanguageSpecificPrimitive("five")
-                .addSystemProperty("six", "seven")
+                .addGlobalProperty("six", "seven")
                 .addTypeMapping("eight", "nine")
                 .setApiPackage("test-api")
                 .setArtifactId("test-artifactId")

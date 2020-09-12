@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -167,11 +167,12 @@ public class JavaModelEnumTest {
 
     @Test
     public void testEnumTestSchema() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/petstore-with-fake-endpoints-models-for-testing.yaml");
         JavaClientCodegen codegen = new JavaClientCodegen();
         codegen.setOpenAPI(openAPI);
 
         Schema enumTest = openAPI.getComponents().getSchemas().get("Enum_Test");
+        Assert.assertNotNull(enumTest);
         CodegenModel cm = codegen.fromModel("Enum_Test", enumTest);
 
         Assert.assertEquals(cm.getVars().size(), 8);

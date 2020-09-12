@@ -66,7 +66,7 @@ public class AsciidocSampleGeneratorTest {
      * ensure api-docs.json includes sample and spec files directory as attributes.
      */
     @Test
-    public void testSampleAsciidocMarkupGenerationFromJsonWithAttributes() throws Exception {
+    public void testSampleAsciidocMarkupGenerationFromJsonWithAttributes() {
         Assert.assertTrue(markupContent.contains(":specDir: " + specDir.toString()),
                 "expected :specDir: in: " + markupContent.substring(0, 350));
         Assert.assertTrue(markupContent.contains(":snippetDir: " + snippetDir.toString()),
@@ -77,19 +77,19 @@ public class AsciidocSampleGeneratorTest {
      * ensure api-docs.json includes sample and spec files into markup.
      */
     @Test
-    public void testSampleAsciidocMarkupGenerationFromJsonWithIncludes() throws Exception {
+    public void testSampleAsciidocMarkupGenerationFromJsonWithIncludes() {
 
         // include correct markup from separate directories, relative links
-        Assert.assertTrue(markupContent.contains("include::rest/project/GET/spec.adoc["),
+        Assert.assertTrue(markupContent.contains("include::{specDir}rest/project/GET/spec.adoc["),
                 "expected project spec.adoc to be included in " + markupFileName);
 
-        Assert.assertTrue(markupContent.contains("include::rest/project/GET/implementation.adoc["),
+        Assert.assertTrue(markupContent.contains("include::{specDir}rest/project/GET/implementation.adoc["),
                 "expected project implementation.adoc to be included in " + markupFileName);
 
-        Assert.assertTrue(markupContent.contains("include::rest/project/GET/http-request.adoc["),
+        Assert.assertTrue(markupContent.contains("include::{snippetDir}rest/project/GET/http-request.adoc["),
                 "expected project http-request.adoc to be included in " + markupFileName);
 
-        Assert.assertTrue(markupContent.contains("include::rest/project/GET/http-response.adoc["),
+        Assert.assertTrue(markupContent.contains("include::{snippetDir}rest/project/GET/http-response.adoc["),
                 "expected project http-response.adoc to be included in " + markupFileName);
 
         Assert.assertTrue(markupContent.contains("link:rest/project/GET/GET.json["),
@@ -100,7 +100,7 @@ public class AsciidocSampleGeneratorTest {
      * markup doc header content.
      */
     @Test
-    public void testSampleAsciidocMarkupGenerationFromJsonWithContent() throws Exception {
+    public void testSampleAsciidocMarkupGenerationFromJsonWithContent() {
         Assert.assertTrue(markupContent.contains("= time@work rest api"),
                 "missing main header for api spec from json: " + markupContent.substring(0, 100));
 
@@ -110,9 +110,31 @@ public class AsciidocSampleGeneratorTest {
      * fix: parameter name unchanged.
      */
     @Test
-    public void testSampleAsciidocMarkupGenerationParameterNameUnchanged() throws Exception {
+    public void testSampleAsciidocMarkupGenerationParameterNameUnchanged() {
         Assert.assertTrue(markupContent.contains("from-iso-date-string"),
                 "keep parameter name from-iso-date-string unchanged.");
+    }
+
+    /**
+     * added apikey info in access section.
+     */
+    @Test
+    public void testSampleAsciidocMarkupGenerationAccessApiKey() {
+        Assert.assertTrue(markupContent.contains("*APIKey*"),
+                "access section mit apikey expected.");
+        Assert.assertFalse(markupContent.contains("*OAuth*"),
+                "access section no oauth expected.");
+        Assert.assertFalse(markupContent.contains("*HTTP Basic*"),
+                "access section no http basic expected.");
+    }
+
+    /**
+     * no form params in this sample spec.
+     */
+    @Test
+    public void testSampleAsciidocMarkupGenerationWithoutFormParameter() {
+        Assert.assertFalse(markupContent.contains("= Form Parameter"),
+                "no form parameters in this openapi spec expected.");
     }
 
 }

@@ -10,14 +10,15 @@
  * Do not edit the class manually.
  */
 
-import localVarRequest = require('request');
-import http = require('http');
+
+import localVarRequest from 'request';
+import http from 'http';
 
 /* tslint:disable:no-unused-locals */
 import { Order } from '../model/order';
 
-import { ObjectSerializer, Authentication, VoidAuth } from '../model/models';
-import { HttpBasicAuth, ApiKeyAuth, OAuth } from '../model/models';
+import { ObjectSerializer, Authentication, VoidAuth, Interceptor } from '../model/models';
+import { HttpBasicAuth, HttpBearerAuth, ApiKeyAuth, OAuth } from '../model/models';
 
 import { HttpError, RequestFile } from './apis';
 
@@ -33,13 +34,15 @@ export enum StoreApiApiKeys {
 
 export class StoreApi {
     protected _basePath = defaultBasePath;
-    protected defaultHeaders : any = {};
+    protected _defaultHeaders : any = {};
     protected _useQuerystring : boolean = false;
 
     protected authentications = {
         'default': <Authentication>new VoidAuth(),
         'api_key': new ApiKeyAuth('header', 'api_key'),
     }
+
+    protected interceptors: Interceptor[] = [];
 
     constructor(basePath?: string);
     constructor(basePathOrUsername: string, password?: string, basePath?: string) {
@@ -62,6 +65,14 @@ export class StoreApi {
         this._basePath = basePath;
     }
 
+    set defaultHeaders(defaultHeaders: any) {
+        this._defaultHeaders = defaultHeaders;
+    }
+
+    get defaultHeaders() {
+        return this._defaultHeaders;
+    }
+
     get basePath() {
         return this._basePath;
     }
@@ -74,16 +85,20 @@ export class StoreApi {
         (this.authentications as any)[StoreApiApiKeys[key]].apiKey = value;
     }
 
+    public addInterceptor(interceptor: Interceptor) {
+        this.interceptors.push(interceptor);
+    }
+
     /**
      * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
      * @summary Delete purchase order by ID
      * @param orderId ID of the order that needs to be deleted
      */
-    public async deleteOrder (orderId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body?: any;  }> {
+    public async deleteOrder (orderId: string, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body?: any;  }> {
         const localVarPath = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         let localVarFormParams: any = {};
 
         // verify required parameter 'orderId' is not null or undefined
@@ -106,7 +121,13 @@ export class StoreApi {
 
         let authenticationPromise = Promise.resolve();
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -114,7 +135,7 @@ export class StoreApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body?: any;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body?: any;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
@@ -133,10 +154,10 @@ export class StoreApi {
      * Returns a map of status codes to quantities
      * @summary Returns pet inventories by status
      */
-    public async getInventory (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: { [key: string]: number; };  }> {
+    public async getInventory (options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: { [key: string]: number; };  }> {
         const localVarPath = this.basePath + '/store/inventory';
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/json'];
         // give precedence to 'application/json'
         if (produces.indexOf('application/json') >= 0) {
@@ -160,10 +181,17 @@ export class StoreApi {
         };
 
         let authenticationPromise = Promise.resolve();
-        authenticationPromise = authenticationPromise.then(() => this.authentications.api_key.applyToRequest(localVarRequestOptions));
-
+        if (this.authentications.api_key.apiKey) {
+            authenticationPromise = authenticationPromise.then(() => this.authentications.api_key.applyToRequest(localVarRequestOptions));
+        }
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -171,7 +199,7 @@ export class StoreApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body: { [key: string]: number; };  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: { [key: string]: number; };  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
@@ -192,11 +220,11 @@ export class StoreApi {
      * @summary Find purchase order by ID
      * @param orderId ID of pet that needs to be fetched
      */
-    public async getOrderById (orderId: number, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Order;  }> {
+    public async getOrderById (orderId: number, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Order;  }> {
         const localVarPath = this.basePath + '/store/order/{orderId}'
             .replace('{' + 'orderId' + '}', encodeURIComponent(String(orderId)));
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/xml', 'application/json'];
         // give precedence to 'application/json'
         if (produces.indexOf('application/json') >= 0) {
@@ -226,7 +254,13 @@ export class StoreApi {
 
         let authenticationPromise = Promise.resolve();
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -234,7 +268,7 @@ export class StoreApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body: Order;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: Order;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);
@@ -255,10 +289,10 @@ export class StoreApi {
      * @summary Place an order for a pet
      * @param body order placed for purchasing the pet
      */
-    public async placeOrder (body: Order, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.ClientResponse; body: Order;  }> {
+    public async placeOrder (body: Order, options: {headers: {[name: string]: string}} = {headers: {}}) : Promise<{ response: http.IncomingMessage; body: Order;  }> {
         const localVarPath = this.basePath + '/store/order';
         let localVarQueryParameters: any = {};
-        let localVarHeaderParams: any = (<any>Object).assign({}, this.defaultHeaders);
+        let localVarHeaderParams: any = (<any>Object).assign({}, this._defaultHeaders);
         const produces = ['application/xml', 'application/json'];
         // give precedence to 'application/json'
         if (produces.indexOf('application/json') >= 0) {
@@ -289,7 +323,13 @@ export class StoreApi {
 
         let authenticationPromise = Promise.resolve();
         authenticationPromise = authenticationPromise.then(() => this.authentications.default.applyToRequest(localVarRequestOptions));
-        return authenticationPromise.then(() => {
+
+        let interceptorPromise = authenticationPromise;
+        for (const interceptor of this.interceptors) {
+            interceptorPromise = interceptorPromise.then(() => interceptor(localVarRequestOptions));
+        }
+
+        return interceptorPromise.then(() => {
             if (Object.keys(localVarFormParams).length) {
                 if (localVarUseFormData) {
                     (<any>localVarRequestOptions).formData = localVarFormParams;
@@ -297,7 +337,7 @@ export class StoreApi {
                     localVarRequestOptions.form = localVarFormParams;
                 }
             }
-            return new Promise<{ response: http.ClientResponse; body: Order;  }>((resolve, reject) => {
+            return new Promise<{ response: http.IncomingMessage; body: Order;  }>((resolve, reject) => {
                 localVarRequest(localVarRequestOptions, (error, response, body) => {
                     if (error) {
                         reject(error);

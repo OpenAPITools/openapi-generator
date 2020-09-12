@@ -1,6 +1,0 @@
-framework module TestClient {
-  umbrella header "TestClient-umbrella.h"
-
-  export *
-  module * { export * }
-}
