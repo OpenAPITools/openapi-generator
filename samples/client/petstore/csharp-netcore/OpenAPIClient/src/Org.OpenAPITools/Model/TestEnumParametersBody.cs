@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// TestEnumParametersBody
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "testEnumParametersBody")]
     public partial class TestEnumParametersBody : IEquatable<TestEnumParametersBody>, IValidatableObject
     {
         /// <summary>
@@ -100,7 +100,14 @@ namespace Org.OpenAPITools.Model
         {
             this.EnumFormStringArray = enumFormStringArray;
             this.EnumFormString = enumFormString;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
+
+        /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -112,6 +119,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class TestEnumParametersBody {\n");
             sb.Append("  EnumFormStringArray: ").Append(EnumFormStringArray).Append("\n");
             sb.Append("  EnumFormString: ").Append(EnumFormString).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -156,6 +164,8 @@ namespace Org.OpenAPITools.Model
                 int hashCode = 41;
                 hashCode = hashCode * 59 + this.EnumFormStringArray.GetHashCode();
                 hashCode = hashCode * 59 + this.EnumFormString.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

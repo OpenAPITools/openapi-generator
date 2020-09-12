@@ -16,6 +16,7 @@ import (
 	_nethttp "net/http"
 	_neturl "net/url"
 	"strings"
+	"github.com/antihax/optional"
 	"os"
 )
 
@@ -354,10 +355,10 @@ func (a *PetApiService) DeletePetExecute(r ApiDeletePetRequest) (*_nethttp.Respo
 type ApiFindPetsByStatusRequest struct {
 	ctx _context.Context
 	ApiService PetApi
-	status *[]string
+	status *[]StatusItems
 }
 
-func (r ApiFindPetsByStatusRequest) Status(status []string) ApiFindPetsByStatusRequest {
+func (r ApiFindPetsByStatusRequest) Status(status []StatusItems) ApiFindPetsByStatusRequest {
 	r.status = &status
 	return r
 }

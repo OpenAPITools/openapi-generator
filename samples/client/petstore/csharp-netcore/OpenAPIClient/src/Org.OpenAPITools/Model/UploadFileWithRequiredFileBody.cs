@@ -28,14 +28,17 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// UploadFileWithRequiredFileBody
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "uploadFileWithRequiredFileBody")]
     public partial class UploadFileWithRequiredFileBody : IEquatable<UploadFileWithRequiredFileBody>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UploadFileWithRequiredFileBody" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected UploadFileWithRequiredFileBody() { }
+        protected UploadFileWithRequiredFileBody()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="UploadFileWithRequiredFileBody" /> class.
         /// </summary>
@@ -46,6 +49,7 @@ namespace Org.OpenAPITools.Model
             // to ensure "requiredFile" is required (not null)
             this.RequiredFile = requiredFile ?? throw new ArgumentNullException("requiredFile is a required property for UploadFileWithRequiredFileBody and cannot be null");
             this.AdditionalMetadata = additionalMetadata;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -63,6 +67,12 @@ namespace Org.OpenAPITools.Model
         public System.IO.Stream RequiredFile { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -72,6 +82,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("class UploadFileWithRequiredFileBody {\n");
             sb.Append("  AdditionalMetadata: ").Append(AdditionalMetadata).Append("\n");
             sb.Append("  RequiredFile: ").Append(RequiredFile).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -118,6 +129,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.AdditionalMetadata.GetHashCode();
                 if (this.RequiredFile != null)
                     hashCode = hashCode * 59 + this.RequiredFile.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

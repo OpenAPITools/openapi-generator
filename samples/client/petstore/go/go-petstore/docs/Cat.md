@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetDeclawed
 
-`func (o *Cat) GetDeclawed() bool`
+`func (o *Cat) GetDeclawed() `
 
 GetDeclawed returns the Declawed field if non-nil, zero value otherwise.
 
 ### GetDeclawedOk
 
-`func (o *Cat) GetDeclawedOk() (*bool, bool)`
+`func (o *Cat) GetDeclawedOk() (*, bool)`
 
 GetDeclawedOk returns a tuple with the Declawed field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDeclawed
 
-`func (o *Cat) SetDeclawed(v bool)`
+`func (o *Cat) SetDeclawed(v )`
 
 SetDeclawed sets Declawed field to given value.
 

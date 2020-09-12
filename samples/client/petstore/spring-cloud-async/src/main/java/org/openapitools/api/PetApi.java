@@ -13,7 +13,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,10 +49,9 @@ public interface PetApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input") })
-    @PostMapping(
-        value = "/pet",
-        consumes = "application/json"
-    )
+    @RequestMapping(value = "/pet",
+        consumes = "application/json",
+        method = RequestMethod.POST)
     CompletableFuture<ResponseEntity<Void>> addPet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body);
 
 
@@ -64,9 +70,8 @@ public interface PetApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid pet value") })
-    @DeleteMapping(
-        value = "/pet/{petId}"
-    )
+    @RequestMapping(value = "/pet/{petId}",
+        method = RequestMethod.DELETE)
     CompletableFuture<ResponseEntity<Void>> deletePet(@ApiParam(value = "Pet id to delete",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "" ) @RequestHeader(value="api_key", required=false) String apiKey);
 
 
@@ -87,10 +92,9 @@ public interface PetApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value") })
-    @GetMapping(
-        value = "/pet/findByStatus",
-        produces = "application/json"
-    )
+    @RequestMapping(value = "/pet/findByStatus",
+        produces = "application/json", 
+        method = RequestMethod.GET)
     CompletableFuture<ResponseEntity<List<Pet>>> findPetsByStatus(@NotNull @ApiParam(value = "Status values that need to be considered for filter", required = true, allowableValues = "available, pending, sold") @Valid @RequestParam(value = "status", required = true) List<String> status);
 
 
@@ -112,10 +116,9 @@ public interface PetApi {
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid tag value") })
-    @GetMapping(
-        value = "/pet/findByTags",
-        produces = "application/json"
-    )
+    @RequestMapping(value = "/pet/findByTags",
+        produces = "application/json", 
+        method = RequestMethod.GET)
     CompletableFuture<ResponseEntity<List<Pet>>> findPetsByTags(@NotNull @ApiParam(value = "Tags to filter by", required = true) @Valid @RequestParam(value = "tags", required = true) List<String> tags);
 
 
@@ -135,10 +138,9 @@ public interface PetApi {
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Pet not found") })
-    @GetMapping(
-        value = "/pet/{petId}",
-        produces = "application/json"
-    )
+    @RequestMapping(value = "/pet/{petId}",
+        produces = "application/json", 
+        method = RequestMethod.GET)
     CompletableFuture<ResponseEntity<Pet>> getPetById(@ApiParam(value = "ID of pet to return",required=true) @PathVariable("petId") Long petId);
 
 
@@ -160,10 +162,9 @@ public interface PetApi {
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Pet not found"),
         @ApiResponse(code = 405, message = "Validation exception") })
-    @PutMapping(
-        value = "/pet",
-        consumes = "application/json"
-    )
+    @RequestMapping(value = "/pet",
+        consumes = "application/json",
+        method = RequestMethod.PUT)
     CompletableFuture<ResponseEntity<Void>> updatePet(@ApiParam(value = "Pet object that needs to be added to the store" ,required=true )  @Valid @RequestBody Pet body);
 
 
@@ -183,10 +184,9 @@ public interface PetApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input") })
-    @PostMapping(
-        value = "/pet/{petId}",
-        consumes = "application/x-www-form-urlencoded"
-    )
+    @RequestMapping(value = "/pet/{petId}",
+        consumes = "application/x-www-form-urlencoded",
+        method = RequestMethod.POST)
     CompletableFuture<ResponseEntity<Void>> updatePetWithForm(@ApiParam(value = "ID of pet that needs to be updated",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Updated name of the pet" ) @RequestParam(value="name", required=false)  String name,@ApiParam(value = "Updated status of the pet" ) @RequestParam(value="status", required=false)  String status);
 
 
@@ -206,11 +206,10 @@ public interface PetApi {
     }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-    @PostMapping(
-        value = "/pet/{petId}/uploadImage",
-        produces = "application/json",
-        consumes = "multipart/form-data"
-    )
+    @RequestMapping(value = "/pet/{petId}/uploadImage",
+        produces = "application/json", 
+        consumes = "multipart/form-data",
+        method = RequestMethod.POST)
     CompletableFuture<ResponseEntity<ModelApiResponse>> uploadFile(@ApiParam(value = "ID of pet to update",required=true) @PathVariable("petId") Long petId,@ApiParam(value = "Additional data to pass to server" ) @RequestParam(value="additionalMetadata", required=false)  String additionalMetadata,@ApiParam(value = "file to upload") @RequestParam("file") MultipartFile file);
 
 }

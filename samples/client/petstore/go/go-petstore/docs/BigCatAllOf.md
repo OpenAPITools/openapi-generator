@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Kind** | Pointer to **string** |  | [optional] 
+**Kind** | Pointer to [**BigCatAllOfKind**](BigCatAllOfKind.md) |  | [optional] 
 
 ## Methods
 
@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetKind
 
-`func (o *BigCatAllOf) GetKind() string`
+`func (o *BigCatAllOf) GetKind() `
 
 GetKind returns the Kind field if non-nil, zero value otherwise.
 
 ### GetKindOk
 
-`func (o *BigCatAllOf) GetKindOk() (*string, bool)`
+`func (o *BigCatAllOf) GetKindOk() (*, bool)`
 
 GetKindOk returns a tuple with the Kind field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetKind
 
-`func (o *BigCatAllOf) SetKind(v string)`
+`func (o *BigCatAllOf) SetKind(v )`
 
 SetKind sets Kind field to given value.
 

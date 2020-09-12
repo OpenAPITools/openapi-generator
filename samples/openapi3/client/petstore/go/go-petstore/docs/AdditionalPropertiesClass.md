@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetMapProperty
 
-`func (o *AdditionalPropertiesClass) GetMapProperty() map[string]string`
+`func (o *AdditionalPropertiesClass) GetMapProperty() `
 
 GetMapProperty returns the MapProperty field if non-nil, zero value otherwise.
 
 ### GetMapPropertyOk
 
-`func (o *AdditionalPropertiesClass) GetMapPropertyOk() (*map[string]string, bool)`
+`func (o *AdditionalPropertiesClass) GetMapPropertyOk() (*, bool)`
 
 GetMapPropertyOk returns a tuple with the MapProperty field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMapProperty
 
-`func (o *AdditionalPropertiesClass) SetMapProperty(v map[string]string)`
+`func (o *AdditionalPropertiesClass) SetMapProperty(v )`
 
 SetMapProperty sets MapProperty field to given value.
 
@@ -53,20 +53,20 @@ HasMapProperty returns a boolean if a field has been set.
 
 ### GetMapOfMapProperty
 
-`func (o *AdditionalPropertiesClass) GetMapOfMapProperty() map[string]map[string]string`
+`func (o *AdditionalPropertiesClass) GetMapOfMapProperty() `
 
 GetMapOfMapProperty returns the MapOfMapProperty field if non-nil, zero value otherwise.
 
 ### GetMapOfMapPropertyOk
 
-`func (o *AdditionalPropertiesClass) GetMapOfMapPropertyOk() (*map[string]map[string]string, bool)`
+`func (o *AdditionalPropertiesClass) GetMapOfMapPropertyOk() (*, bool)`
 
 GetMapOfMapPropertyOk returns a tuple with the MapOfMapProperty field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMapOfMapProperty
 
-`func (o *AdditionalPropertiesClass) SetMapOfMapProperty(v map[string]map[string]string)`
+`func (o *AdditionalPropertiesClass) SetMapOfMapProperty(v )`
 
 SetMapOfMapProperty sets MapOfMapProperty field to given value.
 

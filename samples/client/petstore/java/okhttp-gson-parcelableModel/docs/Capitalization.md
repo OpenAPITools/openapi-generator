@@ -14,4 +14,8 @@ Name | Type | Description | Notes
 **ATT_NAME** | **String** | Name of the pet  |  [optional]
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// TestEnumParametersBody
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "testEnumParametersBody")]
     public partial class TestEnumParametersBody : IEquatable<TestEnumParametersBody>, IValidatableObject
     {
         /// <summary>

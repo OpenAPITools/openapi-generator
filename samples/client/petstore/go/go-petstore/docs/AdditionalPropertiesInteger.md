@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetName
 
-`func (o *AdditionalPropertiesInteger) GetName() string`
+`func (o *AdditionalPropertiesInteger) GetName() `
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *AdditionalPropertiesInteger) GetNameOk() (*string, bool)`
+`func (o *AdditionalPropertiesInteger) GetNameOk() (*, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *AdditionalPropertiesInteger) SetName(v string)`
+`func (o *AdditionalPropertiesInteger) SetName(v )`
 
 SetName sets Name field to given value.
 

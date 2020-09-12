@@ -9,11 +9,11 @@
 
 package petstoreserver
 
-type statusItems string
+type StatusItems string
 
-// List of statusItems
+// List of StatusItems
 const (
-	STATUS_ITEMS_AVAILABLE StatusItems = "available"
-	STATUS_ITEMS_PENDING StatusItems = "pending"
-	STATUS_ITEMS_SOLD StatusItems = "sold"
+	AVAILABLE StatusItems = "available"
+	PENDING StatusItems = "pending"
+	SOLD StatusItems = "sold"
 )

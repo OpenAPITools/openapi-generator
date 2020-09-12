@@ -1,7 +1,6 @@
 package org.openapitools;
 
 import com.fasterxml.jackson.databind.Module;
-import org.openapitools.jackson.nullable.JsonNullableModule;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
@@ -49,9 +48,5 @@ public class OpenAPI2SpringBoot implements CommandLineRunner {
         };
     }
 
-    @Bean
-    public Module jsonNullableModule() {
-        return new JsonNullableModule();
-    }
 
 }

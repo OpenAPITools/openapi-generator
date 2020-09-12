@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewFruitReq
 
-`func NewFruitReq(cultivar string, lengthCm float32, ) *FruitReq`
+`func NewFruitReq(Cultivar string, LengthCm float32, ) *FruitReq`
 
 NewFruitReq instantiates a new FruitReq object
 This constructor will assign default values to properties that have it defined,
@@ -30,40 +30,40 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetCultivar
 
-`func (o *FruitReq) GetCultivar() string`
+`func (o *FruitReq) GetCultivar() `
 
 GetCultivar returns the Cultivar field if non-nil, zero value otherwise.
 
 ### GetCultivarOk
 
-`func (o *FruitReq) GetCultivarOk() (*string, bool)`
+`func (o *FruitReq) GetCultivarOk() (*, bool)`
 
 GetCultivarOk returns a tuple with the Cultivar field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetCultivar
 
-`func (o *FruitReq) SetCultivar(v string)`
+`func (o *FruitReq) SetCultivar(v )`
 
 SetCultivar sets Cultivar field to given value.
 
 
 ### GetMealy
 
-`func (o *FruitReq) GetMealy() bool`
+`func (o *FruitReq) GetMealy() `
 
 GetMealy returns the Mealy field if non-nil, zero value otherwise.
 
 ### GetMealyOk
 
-`func (o *FruitReq) GetMealyOk() (*bool, bool)`
+`func (o *FruitReq) GetMealyOk() (*, bool)`
 
 GetMealyOk returns a tuple with the Mealy field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMealy
 
-`func (o *FruitReq) SetMealy(v bool)`
+`func (o *FruitReq) SetMealy(v )`
 
 SetMealy sets Mealy field to given value.
 
@@ -75,40 +75,40 @@ HasMealy returns a boolean if a field has been set.
 
 ### GetLengthCm
 
-`func (o *FruitReq) GetLengthCm() float32`
+`func (o *FruitReq) GetLengthCm() `
 
 GetLengthCm returns the LengthCm field if non-nil, zero value otherwise.
 
 ### GetLengthCmOk
 
-`func (o *FruitReq) GetLengthCmOk() (*float32, bool)`
+`func (o *FruitReq) GetLengthCmOk() (*, bool)`
 
 GetLengthCmOk returns a tuple with the LengthCm field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLengthCm
 
-`func (o *FruitReq) SetLengthCm(v float32)`
+`func (o *FruitReq) SetLengthCm(v )`
 
 SetLengthCm sets LengthCm field to given value.
 
 
 ### GetSweet
 
-`func (o *FruitReq) GetSweet() bool`
+`func (o *FruitReq) GetSweet() `
 
 GetSweet returns the Sweet field if non-nil, zero value otherwise.
 
 ### GetSweetOk
 
-`func (o *FruitReq) GetSweetOk() (*bool, bool)`
+`func (o *FruitReq) GetSweetOk() (*, bool)`
 
 GetSweetOk returns a tuple with the Sweet field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSweet
 
-`func (o *FruitReq) SetSweet(v bool)`
+`func (o *FruitReq) SetSweet(v )`
 
 SetSweet sets Sweet field to given value.
 

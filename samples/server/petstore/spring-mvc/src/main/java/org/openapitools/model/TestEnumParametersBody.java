@@ -8,7 +8,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
-import org.openapitools.jackson.nullable.JsonNullable;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -105,7 +104,7 @@ public class TestEnumParametersBody   {
 
   public TestEnumParametersBody addEnumFormStringArrayItem(EnumFormStringArrayEnum enumFormStringArrayItem) {
     if (this.enumFormStringArray == null) {
-      this.enumFormStringArray = new ArrayList<EnumFormStringArrayEnum>();
+      this.enumFormStringArray = new ArrayList<>();
     }
     this.enumFormStringArray.add(enumFormStringArrayItem);
     return this;
@@ -148,7 +147,7 @@ public class TestEnumParametersBody   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -180,7 +179,7 @@ public class TestEnumParametersBody   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

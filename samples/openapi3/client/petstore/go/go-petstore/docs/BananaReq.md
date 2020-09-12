@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 
 ### NewBananaReq
 
-`func NewBananaReq(lengthCm float32, ) *BananaReq`
+`func NewBananaReq(LengthCm float32, ) *BananaReq`
 
 NewBananaReq instantiates a new BananaReq object
 This constructor will assign default values to properties that have it defined,
@@ -28,40 +28,40 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetLengthCm
 
-`func (o *BananaReq) GetLengthCm() float32`
+`func (o *BananaReq) GetLengthCm() `
 
 GetLengthCm returns the LengthCm field if non-nil, zero value otherwise.
 
 ### GetLengthCmOk
 
-`func (o *BananaReq) GetLengthCmOk() (*float32, bool)`
+`func (o *BananaReq) GetLengthCmOk() (*, bool)`
 
 GetLengthCmOk returns a tuple with the LengthCm field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLengthCm
 
-`func (o *BananaReq) SetLengthCm(v float32)`
+`func (o *BananaReq) SetLengthCm(v )`
 
 SetLengthCm sets LengthCm field to given value.
 
 
 ### GetSweet
 
-`func (o *BananaReq) GetSweet() bool`
+`func (o *BananaReq) GetSweet() `
 
 GetSweet returns the Sweet field if non-nil, zero value otherwise.
 
 ### GetSweetOk
 
-`func (o *BananaReq) GetSweetOk() (*bool, bool)`
+`func (o *BananaReq) GetSweetOk() (*, bool)`
 
 GetSweetOk returns a tuple with the Sweet field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSweet
 
-`func (o *BananaReq) SetSweet(v bool)`
+`func (o *BananaReq) SetSweet(v )`
 
 SetSweet sets Sweet field to given value.
 

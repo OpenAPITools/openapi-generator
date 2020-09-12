@@ -153,7 +153,7 @@ class Cat(ModelComposed):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
             declawed (bool): [optional]  # noqa: E501
-            color (str): [optional] if omitted the server will use the default value of "red"  # noqa: E501
+            color (str): [optional] if omitted the server will use the default value of 'red'  # noqa: E501
         """
 
         _check_type = kwargs.pop('_check_type', True)

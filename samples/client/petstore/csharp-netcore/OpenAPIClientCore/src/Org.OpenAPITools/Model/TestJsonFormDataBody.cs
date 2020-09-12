@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// TestJsonFormDataBody
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "testJsonFormDataBody")]
     public partial class TestJsonFormDataBody : IEquatable<TestJsonFormDataBody>, IValidatableObject
     {
         /// <summary>

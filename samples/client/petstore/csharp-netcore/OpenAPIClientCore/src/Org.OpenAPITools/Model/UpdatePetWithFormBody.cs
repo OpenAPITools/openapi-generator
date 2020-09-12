@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// UpdatePetWithFormBody
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "updatePetWithFormBody")]
     public partial class UpdatePetWithFormBody : IEquatable<UpdatePetWithFormBody>, IValidatableObject
     {
         /// <summary>

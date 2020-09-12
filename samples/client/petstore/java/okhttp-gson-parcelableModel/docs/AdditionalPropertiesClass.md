@@ -19,4 +19,8 @@ Name | Type | Description | Notes
 **anytype3** | **Object** |  |  [optional]
 
 
+## Implemented Interfaces
+
+* Parcelable
+
 

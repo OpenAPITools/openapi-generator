@@ -125,7 +125,7 @@ class TypeHolderExample(ModelNormal):
             array_item ([int]):
 
         Keyword Args:
-            string_item (str): defaults to "what", must be one of ["what", ]  # noqa: E501
+            string_item (str): defaults to 'what', must be one of ["what", ]  # noqa: E501
             number_item (float): defaults to 1.234, must be one of [1.234, ]  # noqa: E501
             integer_item (int): defaults to -2, must be one of [-2, ]  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
@@ -160,7 +160,7 @@ class TypeHolderExample(ModelNormal):
                                 _visited_composed_classes = (Animal,)
         """
 
-        string_item = kwargs.get('string_item', "what")
+        string_item = kwargs.get('string_item', 'what')
         number_item = kwargs.get('number_item', 1.234)
         integer_item = kwargs.get('integer_item', -2)
         _check_type = kwargs.pop('_check_type', True)

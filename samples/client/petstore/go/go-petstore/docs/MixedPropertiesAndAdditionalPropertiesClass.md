@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetUuid
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() string`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuid() `
 
 GetUuid returns the Uuid field if non-nil, zero value otherwise.
 
 ### GetUuidOk
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuidOk() (*string, bool)`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetUuidOk() (*, bool)`
 
 GetUuidOk returns a tuple with the Uuid field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetUuid
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) SetUuid(v string)`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) SetUuid(v )`
 
 SetUuid sets Uuid field to given value.
 
@@ -54,20 +54,20 @@ HasUuid returns a boolean if a field has been set.
 
 ### GetDateTime
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime() time.Time`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTime() `
 
 GetDateTime returns the DateTime field if non-nil, zero value otherwise.
 
 ### GetDateTimeOk
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTimeOk() (*time.Time, bool)`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetDateTimeOk() (*, bool)`
 
 GetDateTimeOk returns a tuple with the DateTime field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDateTime
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) SetDateTime(v time.Time)`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) SetDateTime(v )`
 
 SetDateTime sets DateTime field to given value.
 
@@ -79,20 +79,20 @@ HasDateTime returns a boolean if a field has been set.
 
 ### GetMap
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() map[string]Animal`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMap() `
 
 GetMap returns the Map field if non-nil, zero value otherwise.
 
 ### GetMapOk
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMapOk() (*map[string]Animal, bool)`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) GetMapOk() (*, bool)`
 
 GetMapOk returns a tuple with the Map field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMap
 
-`func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v map[string]Animal)`
+`func (o *MixedPropertiesAndAdditionalPropertiesClass) SetMap(v )`
 
 SetMap sets Map field to given value.
 

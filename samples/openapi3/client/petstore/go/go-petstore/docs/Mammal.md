@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewMammal
 
-`func NewMammal(className string, ) *Mammal`
+`func NewMammal(ClassName string, ) *Mammal`
 
 NewMammal instantiates a new Mammal object
 This constructor will assign default values to properties that have it defined,
@@ -30,20 +30,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetHasBaleen
 
-`func (o *Mammal) GetHasBaleen() bool`
+`func (o *Mammal) GetHasBaleen() `
 
 GetHasBaleen returns the HasBaleen field if non-nil, zero value otherwise.
 
 ### GetHasBaleenOk
 
-`func (o *Mammal) GetHasBaleenOk() (*bool, bool)`
+`func (o *Mammal) GetHasBaleenOk() (*, bool)`
 
 GetHasBaleenOk returns a tuple with the HasBaleen field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetHasBaleen
 
-`func (o *Mammal) SetHasBaleen(v bool)`
+`func (o *Mammal) SetHasBaleen(v )`
 
 SetHasBaleen sets HasBaleen field to given value.
 
@@ -55,20 +55,20 @@ HasHasBaleen returns a boolean if a field has been set.
 
 ### GetHasTeeth
 
-`func (o *Mammal) GetHasTeeth() bool`
+`func (o *Mammal) GetHasTeeth() `
 
 GetHasTeeth returns the HasTeeth field if non-nil, zero value otherwise.
 
 ### GetHasTeethOk
 
-`func (o *Mammal) GetHasTeethOk() (*bool, bool)`
+`func (o *Mammal) GetHasTeethOk() (*, bool)`
 
 GetHasTeethOk returns a tuple with the HasTeeth field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetHasTeeth
 
-`func (o *Mammal) SetHasTeeth(v bool)`
+`func (o *Mammal) SetHasTeeth(v )`
 
 SetHasTeeth sets HasTeeth field to given value.
 
@@ -80,40 +80,40 @@ HasHasTeeth returns a boolean if a field has been set.
 
 ### GetClassName
 
-`func (o *Mammal) GetClassName() string`
+`func (o *Mammal) GetClassName() `
 
 GetClassName returns the ClassName field if non-nil, zero value otherwise.
 
 ### GetClassNameOk
 
-`func (o *Mammal) GetClassNameOk() (*string, bool)`
+`func (o *Mammal) GetClassNameOk() (*, bool)`
 
 GetClassNameOk returns a tuple with the ClassName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetClassName
 
-`func (o *Mammal) SetClassName(v string)`
+`func (o *Mammal) SetClassName(v )`
 
 SetClassName sets ClassName field to given value.
 
 
 ### GetType
 
-`func (o *Mammal) GetType() ZebraType`
+`func (o *Mammal) GetType() `
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *Mammal) GetTypeOk() (*ZebraType, bool)`
+`func (o *Mammal) GetTypeOk() (*, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *Mammal) SetType(v ZebraType)`
+`func (o *Mammal) SetType(v )`
 
 SetType sets Type field to given value.
 

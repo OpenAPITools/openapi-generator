@@ -186,6 +186,7 @@ Class | Method | HTTP request | Description
  - [User](docs/User.md)
  - [Whale](docs/Whale.md)
  - [Zebra](docs/Zebra.md)
+ - [ZebraType](docs/ZebraType.md)
 
 
 ## Documentation For Authorization

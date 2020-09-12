@@ -31,7 +31,7 @@ import android.os.Parcel;
  */
 @ApiModel(description = "Model for testing model with \"_class\" property")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class ClassModel {
+public class ClassModel implements Parcelable {
   public static final String SERIALIZED_NAME_PROPERTY_CLASS = "_class";
   @SerializedName(SERIALIZED_NAME_PROPERTY_CLASS)
   private String propertyClass;

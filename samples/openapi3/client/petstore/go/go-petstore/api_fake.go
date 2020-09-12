@@ -15,8 +15,8 @@ import (
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"github.com/antihax/optional"
 	"os"
-	"time"
 	"reflect"
 )
 
@@ -1303,45 +1303,45 @@ func (a *FakeApiService) TestEndpointParametersExecute(r ApiTestEndpointParamete
 type ApiTestEnumParametersRequest struct {
 	ctx _context.Context
 	ApiService FakeApi
-	enumHeaderStringArray *[]string
-	enumHeaderString *string
-	enumQueryStringArray *[]string
-	enumQueryString *string
-	enumQueryInteger *int32
-	enumQueryDouble *float64
-	enumFormStringArray *[]string
-	enumFormString *string
+	enumHeaderStringArray *[]TestEnumParametersBodyEnumFormStringArrayItems
+	enumHeaderString *EnumHeaderString
+	enumQueryStringArray *[]TestEnumParametersBodyEnumFormStringArrayItems
+	enumQueryString *EnumHeaderString
+	enumQueryInteger *EnumQueryInteger
+	enumQueryDouble *EnumQueryDouble
+	enumFormStringArray *[]TestEnumParametersBodyEnumFormStringArrayItems
+	enumFormString *TestEnumParametersBodyEnumFormString
 }
 
-func (r ApiTestEnumParametersRequest) EnumHeaderStringArray(enumHeaderStringArray []string) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumHeaderStringArray(enumHeaderStringArray []TestEnumParametersBodyEnumFormStringArrayItems) ApiTestEnumParametersRequest {
 	r.enumHeaderStringArray = &enumHeaderStringArray
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumHeaderString(enumHeaderString string) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumHeaderString(enumHeaderString EnumHeaderString) ApiTestEnumParametersRequest {
 	r.enumHeaderString = &enumHeaderString
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumQueryStringArray(enumQueryStringArray []string) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumQueryStringArray(enumQueryStringArray []TestEnumParametersBodyEnumFormStringArrayItems) ApiTestEnumParametersRequest {
 	r.enumQueryStringArray = &enumQueryStringArray
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumQueryString(enumQueryString string) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumQueryString(enumQueryString EnumHeaderString) ApiTestEnumParametersRequest {
 	r.enumQueryString = &enumQueryString
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumQueryInteger(enumQueryInteger int32) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumQueryInteger(enumQueryInteger EnumQueryInteger) ApiTestEnumParametersRequest {
 	r.enumQueryInteger = &enumQueryInteger
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumQueryDouble(enumQueryDouble float64) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumQueryDouble(enumQueryDouble EnumQueryDouble) ApiTestEnumParametersRequest {
 	r.enumQueryDouble = &enumQueryDouble
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumFormStringArray(enumFormStringArray []string) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumFormStringArray(enumFormStringArray []TestEnumParametersBodyEnumFormStringArrayItems) ApiTestEnumParametersRequest {
 	r.enumFormStringArray = &enumFormStringArray
 	return r
 }
-func (r ApiTestEnumParametersRequest) EnumFormString(enumFormString string) ApiTestEnumParametersRequest {
+func (r ApiTestEnumParametersRequest) EnumFormString(enumFormString TestEnumParametersBodyEnumFormString) ApiTestEnumParametersRequest {
 	r.enumFormString = &enumFormString
 	return r
 }

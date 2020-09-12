@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// InlineResponseDefault
     /// </summary>
-    [DataContract(Name = "inline_response_default")]
+    [DataContract(Name = "InlineResponseDefault")]
     public partial class InlineResponseDefault : IEquatable<InlineResponseDefault>, IValidatableObject
     {
         /// <summary>

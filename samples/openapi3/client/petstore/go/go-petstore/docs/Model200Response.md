@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetName
 
-`func (o *Model200Response) GetName() int32`
+`func (o *Model200Response) GetName() `
 
 GetName returns the Name field if non-nil, zero value otherwise.
 
 ### GetNameOk
 
-`func (o *Model200Response) GetNameOk() (*int32, bool)`
+`func (o *Model200Response) GetNameOk() (*, bool)`
 
 GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetName
 
-`func (o *Model200Response) SetName(v int32)`
+`func (o *Model200Response) SetName(v )`
 
 SetName sets Name field to given value.
 
@@ -53,20 +53,20 @@ HasName returns a boolean if a field has been set.
 
 ### GetClass
 
-`func (o *Model200Response) GetClass() string`
+`func (o *Model200Response) GetClass() `
 
 GetClass returns the Class field if non-nil, zero value otherwise.
 
 ### GetClassOk
 
-`func (o *Model200Response) GetClassOk() (*string, bool)`
+`func (o *Model200Response) GetClassOk() (*, bool)`
 
 GetClassOk returns a tuple with the Class field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetClass
 
-`func (o *Model200Response) SetClass(v string)`
+`func (o *Model200Response) SetClass(v )`
 
 SetClass sets Class field to given value.
 

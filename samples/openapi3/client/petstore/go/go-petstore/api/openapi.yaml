@@ -46,7 +46,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_default'
+                $ref: '#/components/schemas/InlineResponseDefault'
           description: response
   /pet:
     post:
@@ -98,12 +98,7 @@ paths:
         required: true
         schema:
           items:
-            default: available
-            enum:
-            - available
-            - pending
-            - sold
-            type: string
+            $ref: '#/components/schemas/statusItems'
           type: array
         style: form
       responses:
@@ -246,18 +241,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                name:
-                  description: Updated name of the pet
-                  type: string
-                status:
-                  description: Updated status of the pet
-                  type: string
-              type: object
+              $ref: '#/components/schemas/updatePetWithFormBody'
       responses:
         "405":
           description: Invalid input
@@ -282,19 +269,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_1'
         content:
           multipart/form-data:
             schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                file:
-                  description: file to upload
-                  format: binary
-                  type: string
-              type: object
+              $ref: '#/components/schemas/uploadFileBody'
       responses:
         "200":
           content:
@@ -675,11 +653,7 @@ paths:
         required: false
         schema:
           items:
-            default: $
-            enum:
-            - '>'
-            - $
-            type: string
+            $ref: '#/components/schemas/testEnumParametersBodyEnumFormStringArrayItems'
           type: array
         style: simple
       - description: Header parameter enum test (string)
@@ -688,12 +662,7 @@ paths:
         name: enum_header_string
         required: false
         schema:
-          default: -efg
-          enum:
-          - _abc
-          - -efg
-          - (xyz)
-          type: string
+          $ref: '#/components/schemas/enum_header_string'
         style: simple
       - description: Query parameter enum test (string array)
         explode: true
@@ -702,11 +671,7 @@ paths:
         required: false
         schema:
           items:
-            default: $
-            enum:
-            - '>'
-            - $
-            type: string
+            $ref: '#/components/schemas/testEnumParametersBodyEnumFormStringArrayItems'
           type: array
         style: form
       - description: Query parameter enum test (string)
@@ -715,12 +680,7 @@ paths:
         name: enum_query_string
         required: false
         schema:
-          default: -efg
-          enum:
-          - _abc
-          - -efg
-          - (xyz)
-          type: string
+          $ref: '#/components/schemas/enum_header_string'
         style: form
       - description: Query parameter enum test (double)
         explode: true
@@ -728,11 +688,7 @@ paths:
         name: enum_query_integer
         required: false
         schema:
-          enum:
-          - 1
-          - -2
-          format: int32
-          type: integer
+          $ref: '#/components/schemas/enum_query_integer'
         style: form
       - description: Query parameter enum test (double)
         explode: true
@@ -740,36 +696,13 @@ paths:
         name: enum_query_double
         required: false
         schema:
-          enum:
-          - 1.1
-          - -1.2
-          format: double
-          type: number
+          $ref: '#/components/schemas/enum_query_double'
         style: form
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_2'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                enum_form_string_array:
-                  description: Form parameter enum test (string array)
-                  items:
-                    default: $
-                    enum:
-                    - '>'
-                    - $
-                    type: string
-                  type: array
-                enum_form_string:
-                  default: -efg
-                  description: Form parameter enum test (string)
-                  enum:
-                  - _abc
-                  - -efg
-                  - (xyz)
-                  type: string
-              type: object
+              $ref: '#/components/schemas/testEnumParametersBody'
       responses:
         "400":
           description: Invalid request
@@ -801,81 +734,10 @@ paths:
         가짜 엔드 포인트
       operationId: testEndpointParameters
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_3'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                integer:
-                  description: None
-                  maximum: 100
-                  minimum: 10
-                  type: integer
-                int32:
-                  description: None
-                  format: int32
-                  maximum: 200
-                  minimum: 20
-                  type: integer
-                int64:
-                  description: None
-                  format: int64
-                  type: integer
-                number:
-                  description: None
-                  maximum: 543.2
-                  minimum: 32.1
-                  type: number
-                float:
-                  description: None
-                  format: float
-                  maximum: 987.6
-                  type: number
-                double:
-                  description: None
-                  format: double
-                  maximum: 123.4
-                  minimum: 67.8
-                  type: number
-                string:
-                  description: None
-                  pattern: /[a-z]/i
-                  type: string
-                pattern_without_delimiter:
-                  description: None
-                  pattern: ^[A-Z].*
-                  type: string
-                byte:
-                  description: None
-                  format: byte
-                  type: string
-                binary:
-                  description: None
-                  format: binary
-                  type: string
-                date:
-                  description: None
-                  format: date
-                  type: string
-                dateTime:
-                  description: None
-                  format: date-time
-                  type: string
-                password:
-                  description: None
-                  format: password
-                  maxLength: 64
-                  minLength: 10
-                  type: string
-                callback:
-                  description: None
-                  type: string
-              required:
-              - byte
-              - double
-              - number
-              - pattern_without_delimiter
-              type: object
+              $ref: '#/components/schemas/testEndpointParametersBody'
       responses:
         "400":
           description: Invalid username supplied
@@ -970,21 +832,10 @@ paths:
     get:
       operationId: testJsonFormData
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_4'
         content:
           application/x-www-form-urlencoded:
             schema:
-              properties:
-                param:
-                  description: field1
-                  type: string
-                param2:
-                  description: field2
-                  type: string
-              required:
-              - param
-              - param2
-              type: object
+              $ref: '#/components/schemas/testJsonFormDataBody'
       responses:
         "200":
           description: successful operation
@@ -1132,21 +983,10 @@ paths:
           type: integer
         style: simple
       requestBody:
-        $ref: '#/components/requestBodies/inline_object_5'
         content:
           multipart/form-data:
             schema:
-              properties:
-                additionalMetadata:
-                  description: Additional data to pass to server
-                  type: string
-                requiredFile:
-                  description: file to upload
-                  format: binary
-                  type: string
-              required:
-              - requiredFile
-              type: object
+              $ref: '#/components/schemas/uploadFileWithRequiredFileBody'
       responses:
         "200":
           content:
@@ -1201,36 +1041,6 @@ components:
             $ref: '#/components/schemas/Pet'
       description: Pet object that needs to be added to the store
       required: true
-    inline_object:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object'
-    inline_object_1:
-      content:
-        multipart/form-data:
-          schema:
-            $ref: '#/components/schemas/inline_object_1'
-    inline_object_2:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object_2'
-    inline_object_3:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object_3'
-    inline_object_4:
-      content:
-        application/x-www-form-urlencoded:
-          schema:
-            $ref: '#/components/schemas/inline_object_4'
-    inline_object_5:
-      content:
-        multipart/form-data:
-          schema:
-            $ref: '#/components/schemas/inline_object_5'
   schemas:
     Foo:
       example:
@@ -1250,7 +1060,6 @@ components:
         id: 0
         shipDate: 2000-01-23T04:56:07.000+00:00
         complete: false
-        status: placed
       properties:
         id:
           format: int64
@@ -1265,12 +1074,7 @@ components:
           format: date-time
           type: string
         status:
-          description: Order Status
-          enum:
-          - placed
-          - approved
-          - delivered
-          type: string
+          $ref: '#/components/schemas/OrderStatus'
         complete:
           default: false
           type: boolean
@@ -1375,7 +1179,6 @@ components:
           id: 1
         - name: name
           id: 1
-        status: available
       properties:
         id:
           format: int64
@@ -1401,12 +1204,7 @@ components:
             name: tag
             wrapped: true
         status:
-          description: pet status in the store
-          enum:
-          - available
-          - pending
-          - sold
-          type: string
+          $ref: '#/components/schemas/PetStatus'
       required:
       - name
       - photoUrls
@@ -1472,12 +1270,12 @@ components:
     Dog:
       allOf:
       - $ref: '#/components/schemas/Animal'
-      - $ref: '#/components/schemas/Dog_allOf'
+      - $ref: '#/components/schemas/DogAllOf'
     Cat:
       allOf:
       - $ref: '#/components/schemas/Animal'
       - $ref: '#/components/schemas/Address'
-      - $ref: '#/components/schemas/Cat_allOf'
+      - $ref: '#/components/schemas/CatAllOf'
     Address:
       additionalProperties:
         type: integer
@@ -1575,29 +1373,13 @@ components:
     Enum_Test:
       properties:
         enum_string:
-          enum:
-          - UPPER
-          - lower
-          - ""
-          type: string
+          $ref: '#/components/schemas/Enum_TestEnumString'
         enum_string_required:
-          enum:
-          - UPPER
-          - lower
-          - ""
-          type: string
+          $ref: '#/components/schemas/Enum_TestEnumString'
         enum_integer:
-          enum:
-          - 1
-          - -1
-          format: int32
-          type: integer
+          $ref: '#/components/schemas/Enum_TestEnumInteger'
         enum_number:
-          enum:
-          - 1.1
-          - -1.2
-          format: double
-          type: number
+          $ref: '#/components/schemas/enum_query_double'
         outerEnum:
           $ref: '#/components/schemas/OuterEnum'
         outerEnumInteger:
@@ -1691,10 +1473,7 @@ components:
           type: object
         map_of_enum_string:
           additionalProperties:
-            enum:
-            - UPPER
-            - lower
-            type: string
+            $ref: '#/components/schemas/MapTestMapOfEnumStringAddlProps'
           type: object
         direct_map:
           additionalProperties:
@@ -1749,16 +1528,10 @@ components:
     EnumArrays:
       properties:
         just_symbol:
-          enum:
-          - '>='
-          - $
-          type: string
+          $ref: '#/components/schemas/EnumArraysJustSymbol'
         array_enum:
           items:
-            enum:
-            - fish
-            - crab
-            type: string
+            $ref: '#/components/schemas/EnumArraysArrayEnumItems'
           type: array
       type: object
     OuterEnum:
@@ -1953,11 +1726,7 @@ components:
     zebra:
       properties:
         type:
-          enum:
-          - plains
-          - mountain
-          - grevys
-          type: string
+          $ref: '#/components/schemas/zebraType'
         className:
           type: string
       required:
@@ -1992,7 +1761,7 @@ components:
       required:
       - lengthCm
       type: object
-    inline_response_default:
+    InlineResponseDefault:
       example:
         string:
           bar: bar
@@ -2000,7 +1769,14 @@ components:
         string:
           $ref: '#/components/schemas/Foo'
       type: object
-    inline_object:
+    statusItems:
+      default: available
+      enum:
+      - available
+      - pending
+      - sold
+      type: string
+    updatePetWithFormBody:
       properties:
         name:
           description: Updated name of the pet
@@ -2009,7 +1785,7 @@ components:
           description: Updated status of the pet
           type: string
       type: object
-    inline_object_1:
+    uploadFileBody:
       properties:
         additionalMetadata:
           description: Additional data to pass to server
@@ -2019,27 +1795,50 @@ components:
           format: binary
           type: string
       type: object
-    inline_object_2:
+    testEnumParametersBodyEnumFormStringArrayItems:
+      default: $
+      enum:
+      - '>'
+      - $
+      type: string
+    testEnumParametersBodyEnumFormString:
+      default: -efg
+      description: Form parameter enum test (string)
+      enum:
+      - _abc
+      - -efg
+      - (xyz)
+      type: string
+    testEnumParametersBody:
       properties:
         enum_form_string_array:
           description: Form parameter enum test (string array)
           items:
-            default: $
-            enum:
-            - '>'
-            - $
-            type: string
+            $ref: '#/components/schemas/testEnumParametersBodyEnumFormStringArrayItems'
           type: array
         enum_form_string:
-          default: -efg
-          description: Form parameter enum test (string)
-          enum:
-          - _abc
-          - -efg
-          - (xyz)
-          type: string
+          $ref: '#/components/schemas/testEnumParametersBodyEnumFormString'
       type: object
-    inline_object_3:
+    enum_header_string:
+      default: -efg
+      enum:
+      - _abc
+      - -efg
+      - (xyz)
+      type: string
+    enum_query_integer:
+      enum:
+      - 1
+      - -2
+      format: int32
+      type: integer
+    enum_query_double:
+      enum:
+      - 1.1
+      - -1.2
+      format: double
+      type: number
+    testEndpointParametersBody:
       properties:
         integer:
           description: None
@@ -2111,7 +1910,7 @@ components:
       - number
       - pattern_without_delimiter
       type: object
-    inline_object_4:
+    testJsonFormDataBody:
       properties:
         param:
           description: field1
@@ -2123,7 +1922,7 @@ components:
       - param
       - param2
       type: object
-    inline_object_5:
+    uploadFileWithRequiredFileBody:
       properties:
         additionalMetadata:
           description: Additional data to pass to server
@@ -2135,16 +1934,63 @@ components:
       required:
       - requiredFile
       type: object
-    Dog_allOf:
+    OrderStatus:
+      description: Order Status
+      enum:
+      - placed
+      - approved
+      - delivered
+      type: string
+    PetStatus:
+      description: pet status in the store
+      enum:
+      - available
+      - pending
+      - sold
+      type: string
+    DogAllOf:
       properties:
         breed:
           type: string
       type: object
-    Cat_allOf:
+    CatAllOf:
       properties:
         declawed:
           type: boolean
       type: object
+    Enum_TestEnumString:
+      enum:
+      - UPPER
+      - lower
+      - ""
+      type: string
+    Enum_TestEnumInteger:
+      enum:
+      - 1
+      - -1
+      format: int32
+      type: integer
+    MapTestMapOfEnumStringAddlProps:
+      enum:
+      - UPPER
+      - lower
+      type: string
+    EnumArraysJustSymbol:
+      enum:
+      - '>='
+      - $
+      type: string
+    EnumArraysArrayEnumItems:
+      enum:
+      - fish
+      - crab
+      type: string
+    zebraType:
+      enum:
+      - plains
+      - mountain
+      - grevys
+      type: string
   securitySchemes:
     petstore_auth:
       flows:

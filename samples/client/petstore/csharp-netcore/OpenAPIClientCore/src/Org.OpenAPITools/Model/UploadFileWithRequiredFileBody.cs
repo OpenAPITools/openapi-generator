@@ -28,7 +28,7 @@ namespace Org.OpenAPITools.Model
     /// <summary>
     /// UploadFileWithRequiredFileBody
     /// </summary>
-    [DataContract]
+    [DataContract(Name = "uploadFileWithRequiredFileBody")]
     public partial class UploadFileWithRequiredFileBody : IEquatable<UploadFileWithRequiredFileBody>, IValidatableObject
     {
         /// <summary>

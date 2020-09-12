@@ -119,7 +119,7 @@ class TypeHolderDefault(ModelNormal):
             array_item ([int]):
 
         Keyword Args:
-            string_item (str): defaults to "what"  # noqa: E501
+            string_item (str): defaults to 'what'  # noqa: E501
             number_item (float): defaults to 1.234  # noqa: E501
             integer_item (int): defaults to -2  # noqa: E501
             bool_item (bool): defaults to True  # noqa: E501
@@ -157,7 +157,7 @@ class TypeHolderDefault(ModelNormal):
             datetime_item (datetime): [optional]  # noqa: E501
         """
 
-        string_item = kwargs.get('string_item', "what")
+        string_item = kwargs.get('string_item', 'what')
         number_item = kwargs.get('number_item', 1.234)
         integer_item = kwargs.get('integer_item', -2)
         bool_item = kwargs.get('bool_item', True)

@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetClient
 
-`func (o *Client) GetClient() string`
+`func (o *Client) GetClient() `
 
 GetClient returns the Client field if non-nil, zero value otherwise.
 
 ### GetClientOk
 
-`func (o *Client) GetClientOk() (*string, bool)`
+`func (o *Client) GetClientOk() (*, bool)`
 
 GetClientOk returns a tuple with the Client field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetClient
 
-`func (o *Client) SetClient(v string)`
+`func (o *Client) SetClient(v )`
 
 SetClient sets Client field to given value.
 

@@ -13,7 +13,7 @@ type PetStatus string
 
 // List of PetStatus
 const (
-	PET_STATUS_AVAILABLE PetStatus = "available"
-	PET_STATUS_PENDING PetStatus = "pending"
-	PET_STATUS_SOLD PetStatus = "sold"
+	AVAILABLE PetStatus = "available"
+	PENDING PetStatus = "pending"
+	SOLD PetStatus = "sold"
 )

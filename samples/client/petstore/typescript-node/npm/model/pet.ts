@@ -10,7 +10,7 @@
  * Do not edit the class manually.
  */
 
-import { RequestFile } from './models';
+import { RequestFile } from '../api';
 import { Category } from './category';
 import { Tag } from './tag';
 

@@ -30,7 +30,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 @JsonPropertyOrder({
   DogAllOf.JSON_PROPERTY_BREED
 })
-@JsonTypeName("Dog_allOf")
+@JsonTypeName("DogAllOf")
 @javax.annotation.concurrent.Immutable
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class DogAllOf {

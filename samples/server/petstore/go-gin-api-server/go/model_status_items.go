@@ -13,7 +13,7 @@ type statusItems string
 
 // List of statusItems
 const (
-	STATUS_ITEMS_AVAILABLE StatusItems = "available"
-	STATUS_ITEMS_PENDING StatusItems = "pending"
-	STATUS_ITEMS_SOLD StatusItems = "sold"
+	AVAILABLE StatusItems = "available"
+	PENDING StatusItems = "pending"
+	SOLD StatusItems = "sold"
 )

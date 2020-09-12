@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetReturn
 
-`func (o *Return) GetReturn() int32`
+`func (o *Return) GetReturn() `
 
 GetReturn returns the Return field if non-nil, zero value otherwise.
 
 ### GetReturnOk
 
-`func (o *Return) GetReturnOk() (*int32, bool)`
+`func (o *Return) GetReturnOk() (*, bool)`
 
 GetReturnOk returns a tuple with the Return field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetReturn
 
-`func (o *Return) SetReturn(v int32)`
+`func (o *Return) SetReturn(v )`
 
 SetReturn sets Return field to given value.
 

@@ -32,7 +32,7 @@ import android.os.Parcel;
  * EnumArrays
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
-public class EnumArrays {
+public class EnumArrays implements Parcelable {
   /**
    * Gets or Sets justSymbol
    */
