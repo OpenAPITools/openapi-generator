@@ -677,7 +677,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             CodegenModel cm = (CodegenModel) mo.get("model");
 
             // If enumClassPrefix=true prepend enum var names with model's name to help prevent namespace collision
-            if (Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
+            if (Boolean.TRUE.equals(this.enumClassPrefix) && Boolean.TRUE.equals(cm.isEnum) && cm.allowableValues != null) {
                 String prefix = toEnumVarName(cm.name, "string") + "_";
                 cm.allowableValues = prefixAllowableValues(cm.allowableValues, prefix);
             }
@@ -685,8 +685,11 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             if (Boolean.TRUE.equals(cm.hasEnums)) {
                 for (CodegenProperty param : cm.vars) {
                     if (Boolean.TRUE.equals(param.isEnum) && param.allowableValues != null) {
-                        String prefix = toEnumVarName(param.name, "string") + "_";
-                        param.allowableValues = prefixAllowableValues(param.allowableValues, prefix);
+                        // If enumClassPrefix=true prepend enum var names with model's name to help prevent namespace collision
+                        if (Boolean.TRUE.equals(this.enumClassPrefix)) {
+                            String prefix = toEnumVarName(param.name, "string") + "_";
+                            param.allowableValues = prefixAllowableValues(param.allowableValues, prefix);
+                        }
                         // Form datatype for this field: use ClassNameFieldName syntax
                         param.dataType = cm.classname + param.nameInCamelCase;
                         if (Boolean.TRUE.equals(param.isListContainer)) {
@@ -706,8 +709,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
     }
 
     public Map<String, Object> prefixAllowableValues(Map<String, Object> allowableValues, String prefix) {
-        // Only prefix with enum name if enumClassPrefix=true
-        if (Boolean.TRUE.equals(this.enumClassPrefix) && allowableValues.get("enumVars") != null) {
+        if (allowableValues.get("enumVars") != null) {
             List<Map<String, Object>> enumVars = (List<Map<String, Object>>) allowableValues.get("enumVars");
             for (Map<String, Object> enumVar : enumVars) {
                 String enumName = (String) enumVar.get("name");
