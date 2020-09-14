@@ -47,10 +47,6 @@ module Petstore
 
       # form parameters
       form_params = opts[:form_params] || {}
-
-      # http body (model)
-      post_body = opts[:body] 
-
       # return_type
       return_type = opts[:return_type] || 'HealthCheckResult' 
 
@@ -61,7 +57,7 @@ module Petstore
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
-        :body => post_body,
+        :body => nil,
         :auth_names => auth_names,
         :return_type => return_type
       )
@@ -115,7 +111,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(pet) 
+      post_body = @api_client.object_to_http_body(pet)
 
       # return_type
       return_type = opts[:return_type] 
@@ -173,7 +169,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(opts[:'body']) 
+      post_body = @api_client.object_to_http_body(opts[:'body'])
 
       # return_type
       return_type = opts[:return_type] || 'Boolean' 
@@ -231,7 +227,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(opts[:'outer_composite']) 
+      post_body = @api_client.object_to_http_body(opts[:'outer_composite'])
 
       # return_type
       return_type = opts[:return_type] || 'OuterComposite' 
@@ -289,7 +285,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(opts[:'body']) 
+      post_body = @api_client.object_to_http_body(opts[:'body'])
 
       # return_type
       return_type = opts[:return_type] || 'Float' 
@@ -347,7 +343,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(opts[:'body']) 
+      post_body = @api_client.object_to_http_body(opts[:'body'])
 
       # return_type
       return_type = opts[:return_type] || 'String' 
@@ -407,7 +403,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(file_schema_test_class) 
+      post_body = @api_client.object_to_http_body(file_schema_test_class)
 
       # return_type
       return_type = opts[:return_type] 
@@ -472,7 +468,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(user) 
+      post_body = @api_client.object_to_http_body(user)
 
       # return_type
       return_type = opts[:return_type] 
@@ -536,7 +532,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(client) 
+      post_body = @api_client.object_to_http_body(client)
 
       # return_type
       return_type = opts[:return_type] || 'Client' 
@@ -702,10 +698,6 @@ module Petstore
       form_params['dateTime'] = opts[:'date_time'] if !opts[:'date_time'].nil?
       form_params['password'] = opts[:'password'] if !opts[:'password'].nil?
       form_params['callback'] = opts[:'callback'] if !opts[:'callback'].nil?
-
-      # http body (model)
-      post_body = opts[:body] 
-
       # return_type
       return_type = opts[:return_type] 
 
@@ -716,7 +708,7 @@ module Petstore
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
-        :body => post_body,
+        :body => nil,
         :auth_names => auth_names,
         :return_type => return_type
       )
@@ -814,10 +806,6 @@ module Petstore
       form_params = opts[:form_params] || {}
       form_params['enum_form_string_array'] = @api_client.build_collection_param(opts[:'enum_form_string_array'], :csv) if !opts[:'enum_form_string_array'].nil?
       form_params['enum_form_string'] = opts[:'enum_form_string'] if !opts[:'enum_form_string'].nil?
-
-      # http body (model)
-      post_body = opts[:body] 
-
       # return_type
       return_type = opts[:return_type] 
 
@@ -828,7 +816,7 @@ module Petstore
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
-        :body => post_body,
+        :body => nil,
         :auth_names => auth_names,
         :return_type => return_type
       )
@@ -898,10 +886,6 @@ module Petstore
 
       # form parameters
       form_params = opts[:form_params] || {}
-
-      # http body (model)
-      post_body = opts[:body] 
-
       # return_type
       return_type = opts[:return_type] 
 
@@ -912,7 +896,7 @@ module Petstore
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
-        :body => post_body,
+        :body => nil,
         :auth_names => auth_names,
         :return_type => return_type
       )
@@ -960,7 +944,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(request_body) 
+      post_body = @api_client.object_to_http_body(request_body)
 
       # return_type
       return_type = opts[:return_type] 
@@ -1026,10 +1010,6 @@ module Petstore
       form_params = opts[:form_params] || {}
       form_params['param'] = param
       form_params['param2'] = param2
-
-      # http body (model)
-      post_body = opts[:body] 
-
       # return_type
       return_type = opts[:return_type] 
 
@@ -1040,7 +1020,7 @@ module Petstore
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
-        :body => post_body,
+        :body => nil,
         :auth_names => auth_names,
         :return_type => return_type
       )
@@ -1113,10 +1093,6 @@ module Petstore
 
       # form parameters
       form_params = opts[:form_params] || {}
-
-      # http body (model)
-      post_body = opts[:body] 
-
       # return_type
       return_type = opts[:return_type] 
 
@@ -1127,7 +1103,7 @@ module Petstore
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
-        :body => post_body,
+        :body => nil,
         :auth_names => auth_names,
         :return_type => return_type
       )

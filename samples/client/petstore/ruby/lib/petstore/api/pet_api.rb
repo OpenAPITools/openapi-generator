@@ -55,7 +55,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(pet) 
+      post_body = @api_client.object_to_http_body(pet)
 
       # return_type
       return_type = opts[:return_type] 
@@ -114,10 +114,6 @@ module Petstore
 
       # form parameters
       form_params = opts[:form_params] || {}
-
-      # http body (model)
-      post_body = opts[:body] 
-
       # return_type
       return_type = opts[:return_type] 
 
@@ -128,7 +124,7 @@ module Petstore
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
-        :body => post_body,
+        :body => nil,
         :auth_names => auth_names,
         :return_type => return_type
       )
@@ -177,10 +173,6 @@ module Petstore
 
       # form parameters
       form_params = opts[:form_params] || {}
-
-      # http body (model)
-      post_body = opts[:body] 
-
       # return_type
       return_type = opts[:return_type] || 'Array<Pet>' 
 
@@ -191,7 +183,7 @@ module Petstore
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
-        :body => post_body,
+        :body => nil,
         :auth_names => auth_names,
         :return_type => return_type
       )
@@ -240,10 +232,6 @@ module Petstore
 
       # form parameters
       form_params = opts[:form_params] || {}
-
-      # http body (model)
-      post_body = opts[:body] 
-
       # return_type
       return_type = opts[:return_type] || 'Array<Pet>' 
 
@@ -254,7 +242,7 @@ module Petstore
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
-        :body => post_body,
+        :body => nil,
         :auth_names => auth_names,
         :return_type => return_type
       )
@@ -302,10 +290,6 @@ module Petstore
 
       # form parameters
       form_params = opts[:form_params] || {}
-
-      # http body (model)
-      post_body = opts[:body] 
-
       # return_type
       return_type = opts[:return_type] || 'Pet' 
 
@@ -316,7 +300,7 @@ module Petstore
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
-        :body => post_body,
+        :body => nil,
         :auth_names => auth_names,
         :return_type => return_type
       )
@@ -364,7 +348,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(pet) 
+      post_body = @api_client.object_to_http_body(pet)
 
       # return_type
       return_type = opts[:return_type] 
@@ -428,10 +412,6 @@ module Petstore
       form_params = opts[:form_params] || {}
       form_params['name'] = opts[:'name'] if !opts[:'name'].nil?
       form_params['status'] = opts[:'status'] if !opts[:'status'].nil?
-
-      # http body (model)
-      post_body = opts[:body] 
-
       # return_type
       return_type = opts[:return_type] 
 
@@ -442,7 +422,7 @@ module Petstore
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
-        :body => post_body,
+        :body => nil,
         :auth_names => auth_names,
         :return_type => return_type
       )
@@ -496,10 +476,6 @@ module Petstore
       form_params = opts[:form_params] || {}
       form_params['additionalMetadata'] = opts[:'additional_metadata'] if !opts[:'additional_metadata'].nil?
       form_params['file'] = opts[:'file'] if !opts[:'file'].nil?
-
-      # http body (model)
-      post_body = opts[:body] 
-
       # return_type
       return_type = opts[:return_type] || 'ApiResponse' 
 
@@ -510,7 +486,7 @@ module Petstore
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
-        :body => post_body,
+        :body => nil,
         :auth_names => auth_names,
         :return_type => return_type
       )
@@ -568,10 +544,6 @@ module Petstore
       form_params = opts[:form_params] || {}
       form_params['requiredFile'] = required_file
       form_params['additionalMetadata'] = opts[:'additional_metadata'] if !opts[:'additional_metadata'].nil?
-
-      # http body (model)
-      post_body = opts[:body] 
-
       # return_type
       return_type = opts[:return_type] || 'ApiResponse' 
 
@@ -582,7 +554,7 @@ module Petstore
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
-        :body => post_body,
+        :body => nil,
         :auth_names => auth_names,
         :return_type => return_type
       )

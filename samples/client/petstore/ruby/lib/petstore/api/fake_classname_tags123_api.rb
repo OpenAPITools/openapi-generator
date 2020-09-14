@@ -59,7 +59,7 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(client) 
+      post_body = @api_client.object_to_http_body(client)
 
       # return_type
       return_type = opts[:return_type] || 'Client' 

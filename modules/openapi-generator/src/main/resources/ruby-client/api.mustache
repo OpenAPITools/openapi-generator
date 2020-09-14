@@ -171,10 +171,12 @@ module {{moduleName}}
       form_params['{{baseName}}'] = {{#collectionFormat}}@api_client.build_collection_param(opts[:'{{{paramName}}}'], :{{{collectionFormat}}}){{/collectionFormat}}{{^collectionFormat}}opts[:'{{{paramName}}}']{{/collectionFormat}} if !opts[:'{{paramName}}'].nil?
       {{/required}}
       {{/formParams}}
+      {{#bodyParam}}
 
       # http body (model)
-      post_body = opts[:body] {{#bodyParam}}|| @api_client.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}}) {{/bodyParam}}
+      post_body = @api_client.object_to_http_body({{#required}}{{{paramName}}}{{/required}}{{^required}}opts[:'{{{paramName}}}']{{/required}})
 
+      {{/bodyParam}}
       # return_type
       return_type = opts[:return_type] {{#returnType}}|| '{{{returnType}}}' {{/returnType}}
 
@@ -185,7 +187,7 @@ module {{moduleName}}
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
-        :body => post_body,
+        :body => {{#bodyParam}}post_body{{/bodyParam}}{{^bodyParam}}nil{{/bodyParam}},
         :auth_names => auth_names,
         :return_type => return_type
       )
