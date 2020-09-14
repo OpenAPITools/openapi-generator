@@ -94,6 +94,10 @@ class {{classname}} {
             onReceiveProgress: onReceiveProgress,
             ){{#returnType}}.then((response) {
 
+        {{#returnTypeIsPrimitive}}
+            var data = response.data as {{{returnType}}};
+        {{/returnTypeIsPrimitive}}
+        {{^returnTypeIsPrimitive}}
         {{#isResponseFile}}
             final data = response.data;
         {{/isResponseFile}}
@@ -113,6 +117,7 @@ class {{classname}} {
             final data = _serializers.deserializeWith<{{{returnType}}}>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
         {{/isArray}}
         {{/isResponseFile}}
+        {{/returnTypeIsPrimitive}}
 
             return Response<{{{returnType}}}>(
                 data: data,
