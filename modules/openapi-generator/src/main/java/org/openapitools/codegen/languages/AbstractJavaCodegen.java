@@ -472,8 +472,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("JsonSerialize", "com.fasterxml.jackson.databind.annotation.JsonSerialize");
 
         // imports for pojos
-        importMapping.put("ApiModelProperty", "io.swagger.annotations.ApiModelProperty");
-        importMapping.put("ApiModel", "io.swagger.annotations.ApiModel");
+        importMapping.put("Schema", "io.swagger.v3.oas.annotations.media.Schema");
         importMapping.put("BigDecimal", "java.math.BigDecimal");
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonSubTypes", "com.fasterxml.jackson.annotation.JsonSubTypes");
@@ -1040,7 +1039,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         Map<String, Schema> allDefinitions = ModelUtils.getSchemas(this.openAPI);
         CodegenModel codegenModel = super.fromModel(name, model);
         if (codegenModel.description != null) {
-            codegenModel.imports.add("ApiModel");
+          //codegenModel.imports.add("ApiModel");
+          codegenModel.imports.add("Schema");
         }
         if (codegenModel.discriminator != null && additionalProperties.containsKey("jackson")) {
             codegenModel.imports.add("JsonSubTypes");
@@ -1082,8 +1082,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         if (!BooleanUtils.toBoolean(model.isEnum)) {
             // needed by all pojos, but not enums
-            model.imports.add("ApiModelProperty");
-            model.imports.add("ApiModel");
+            model.imports.add("Schema");
         }
     }
 
@@ -1683,7 +1682,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         if (!supportsAdditionalPropertiesWithComposedSchema) {
             // The additional (undeclared) propertiees are modeled in Java as a HashMap.
-            // 
+            //
             // 1. supportsAdditionalPropertiesWithComposedSchema is set to false:
             //    The generated model class extends from the HashMap. That does not work
             //    with composed schemas that also use a discriminator because the model class

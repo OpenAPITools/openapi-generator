@@ -1,9 +1,7 @@
 package {{basePackage}};
 
 import com.fasterxml.jackson.databind.Module;
-{{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullableModule;
-{{/openApiNullable}}
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
@@ -11,20 +9,20 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 {{^reactive}}
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-    {{^useSpringfox}}
+{{^useSpringDoc}}
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-    {{/useSpringfox}}
+{{/useSpringDoc}}
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
     {{^java8}}
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
     {{/java8}}
 {{/reactive}}
 {{#reactive}}
-import org.springframework.web.reactive.config.CorsRegistry;
-    {{^useSpringfox}}
+{{^useSpringDoc}}
 import org.springframework.web.reactive.config.ResourceHandlerRegistry;
-    {{/useSpringfox}}
+{{/useSpringDoc}}
+import org.springframework.web.reactive.config.CorsRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 {{/reactive}}
 
@@ -63,21 +61,19 @@ public class OpenAPI2SpringBoot implements CommandLineRunner {
                         .allowedMethods("*")
                         .allowedHeaders("Content-Type");
             }*/
-{{^useSpringfox}}
+{{^useSpringDoc}}
 
             @Override
             public void addResourceHandlers(ResourceHandlerRegistry registry) {
                 registry.addResourceHandler("/swagger-ui/**").addResourceLocations("classpath:/META-INF/resources/webjars/swagger-ui/3.14.2/");
             }
-{{/useSpringfox}}
+{{/useSpringDoc}}
         };
     }
 
-{{#openApiNullable}}
     @Bean
     public Module jsonNullableModule() {
         return new JsonNullableModule();
     }
-{{/openApiNullable}}
 
 }

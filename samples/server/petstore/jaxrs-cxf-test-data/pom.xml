@@ -87,7 +87,7 @@
           </execution>
         </executions>
       </plugin>
-      
+
       <!-- build WAR file -->
       <plugin>
         <artifactId>maven-war-plugin</artifactId>
@@ -200,7 +200,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
-    </dependency>    
+    </dependency>
     <!-- Spring Boot dependencies for integration tests -->
     <!--dependency>
       <groupId>org.springframework.boot</groupId>
@@ -233,7 +233,7 @@
     <dependency>
       <groupId>org.openapitools</groupId>
       <artifactId>openapi-generator</artifactId>
-      <version>5.0.0-SNAPSHOT</version>
+      <version>5.0.0.byond.fork</version>
     </dependency>
   </dependencies>
   <repositories>

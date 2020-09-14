@@ -2,13 +2,18 @@
     @Path("{{{path}}}"){{/subresourceOperation}}{{#hasConsumes}}
     @Consumes({ {{#consumes}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/consumes}} }){{/hasConsumes}}{{#hasProduces}}
     @Produces({ {{#produces}}"{{{mediaType}}}"{{#hasMore}}, {{/hasMore}}{{/produces}} }){{/hasProduces}}{{#useSwaggerAnnotations}}
-    @ApiOperation(value = "{{{summary}}}", notes = "{{{notes}}}"{{#hasAuthMethods}}, authorizations = {
-        {{#authMethods}}@Authorization(value = "{{name}}"{{#isOAuth}}, scopes = {
-            {{#scopes}}@AuthorizationScope(scope = "{{scope}}", description = "{{description}}"){{#hasMore}},
+    @Operation(summary = "{{{summary}}}", description = "{{{notes}}}"
+
+    {{#hasAuthMethods}}, security = {
+        {{#authMethods}}@SecurityRequirement(name = "{{name}}"{{#isOAuth}}, scopes = {
+            {{#scopes}}"{{scope}}"{{#hasMore}},
             {{/hasMore}}{{/scopes}}
         }{{/isOAuth}}){{#hasMore}},
         {{/hasMore}}{{/authMethods}}
-    }{{/hasAuthMethods}}, tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{#hasMore}}, {{/hasMore}}{{/vendorExtensions.x-tags}} })
-    @ApiResponses(value = { {{#responses}}
-        @ApiResponse(code = {{{code}}}, message = "{{{message}}}", response = {{{baseType}}}.class{{#returnContainer}}, responseContainer = "{{{returnContainer}}}"{{/returnContainer}}){{#hasMore}},{{/hasMore}}{{/responses}} }){{/useSwaggerAnnotations}}
+    }{{/hasAuthMethods}}
+    ,responses = { {{#responses}}
+      @ApiResponse(responseCode = "{{{code}}}", description = "{{{message}}}", content = @Content({{#returnContainer}}mediaType = "{{{returnContainer}}}",{{/returnContainer}} {{#baseType}}schema = @Schema(implementation = {{{baseType}}}.class){{/baseType}})){{#hasMore}},{{/hasMore}}{{/responses}} }
+    , tags={ {{#vendorExtensions.x-tags}}"{{tag}}"{{#hasMore}}, {{/hasMore}}{{/vendorExtensions.x-tags}} })
+    {{/useSwaggerAnnotations}}
     {{#returnResponse}}Response{{/returnResponse}}{{^returnResponse}}{{>returnTypeInterface}}{{/returnResponse}} {{nickname}}({{#allParams}}{{>queryParams}}{{>pathParams}}{{>headerParams}}{{>bodyParams}}{{>formParams}}{{#hasMore}},{{/hasMore}}{{/allParams}});
+

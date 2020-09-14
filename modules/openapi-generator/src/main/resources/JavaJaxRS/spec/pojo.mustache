@@ -1,5 +1,5 @@
 {{#useSwaggerAnnotations}}
-import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.*;
 {{/useSwaggerAnnotations}}
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,12 +9,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
 {{#discriminator}}{{>typeInfoAnnotation}}{{/discriminator}}{{#description}}/**
  * {{description}}
  **/{{/description}}
-{{#useSwaggerAnnotations}}{{#description}}@ApiModel(description = "{{{description}}}"){{/description}}{{/useSwaggerAnnotations}}
+{{#useSwaggerAnnotations}}{{#description}}@Schema(description = "{{{description}}}"){{/description}}{{/useSwaggerAnnotations}}
 {{>generatedAnnotation}}{{>additionalModelTypeAnnotations}}public class {{classname}} {{#parent}}extends {{{parent}}}{{/parent}} {{#serializableModel}}implements Serializable{{/serializableModel}} {
   {{#vars}}{{#isEnum}}{{^isContainer}}
 
 {{>enumClass}}{{/isContainer}}{{#isContainer}}{{#mostInnerItems}}
- 
+
 {{>enumClass}}{{/mostInnerItems}}{{/isContainer}}{{/isEnum}}
   private {{#useBeanValidation}}@Valid {{/useBeanValidation}}{{{datatypeWithEnum}}} {{name}}{{#defaultValue}} = {{{.}}}{{/defaultValue}};{{/vars}}
 
@@ -41,7 +41,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
   }{{/generateBuilders}}
 
   {{#vendorExtensions.x-extra-annotation}}{{{vendorExtensions.x-extra-annotation}}}{{/vendorExtensions.x-extra-annotation}}{{#useSwaggerAnnotations}}
-  @ApiModelProperty({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}value = "{{{description}}}"){{/useSwaggerAnnotations}}
+  @Schema({{#example}}example = "{{{example}}}", {{/example}}{{#required}}required = {{required}}, {{/required}}name = "{{{description}}}"){{/useSwaggerAnnotations}}
   @JsonProperty("{{baseName}}")
 {{#useBeanValidation}}{{>beanValidation}}{{/useBeanValidation}}  public {{{datatypeWithEnum}}} {{getter}}() {
     return {{name}};

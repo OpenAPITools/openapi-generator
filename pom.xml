@@ -10,7 +10,7 @@
     <packaging>pom</packaging>
     <name>openapi-generator-project</name>
     <!-- RELEASE_VERSION -->
-    <version>5.0.0-SNAPSHOT</version>
+    <version>5.0.0.byond.fork</version>
     <!-- /RELEASE_VERSION -->
     <url>https://github.com/openapitools/openapi-generator</url>
     <scm>
@@ -65,14 +65,22 @@
         <url>https://github.com/openapitools/openapi-generator/issues</url>
     </issueManagement>
     <distributionManagement>
+<!--        <snapshotRepository>-->
+<!--            <id>ossrh</id>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--        </snapshotRepository>-->
+<!--        <repository>-->
+<!--            <id>ossrh</id>-->
+<!--            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
+<!--        </repository>-->
+      <repository>
+        <id>${artifactory.central.repo}</id>
+        <url>${artifactory.host}${artifactory.release.path}</url>
+      </repository>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        <id>${artifactory.snapshots.repo}</id>
+        <url>${artifactory.host}${artifactory.snapshot.path}</url>
         </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
     </distributionManagement>
     <licenses>
         <license>
