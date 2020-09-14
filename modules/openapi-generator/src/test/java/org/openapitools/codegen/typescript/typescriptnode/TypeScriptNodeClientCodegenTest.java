@@ -1,11 +1,16 @@
 package org.openapitools.codegen.typescript.typescriptnode;
 
+import com.google.common.collect.ImmutableMap;
 import io.swagger.v3.oas.models.OpenAPI;
+import org.jetbrains.annotations.NotNull;
+import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.*;
 
 public class TypeScriptNodeClientCodegenTest {
 
@@ -87,9 +92,9 @@ public class TypeScriptNodeClientCodegenTest {
         Assert.assertEquals(codegen.toModelFilename("ApiResponse"), mappedName);
     }
 
-    @Test(description = "prepend model import with ./ by default")
+    @Test(description = "prepend model import with ../model by default")
     public void defaultModelImportTest() {
-        Assert.assertEquals(codegen.toModelImport("ApiResponse"), "model/apiResponse");
+        Assert.assertEquals(codegen.toModelImport("ApiResponse"), "../model/apiResponse");
     }
 
     @Test(description = "use mapped name for model import when provided")
@@ -134,4 +139,43 @@ public class TypeScriptNodeClientCodegenTest {
         Assert.assertEquals(codegen.toApiImport("Category"), mappedName);
     }
 
+    @Test(description = "correctly produces imports without import mapping")
+    public void postProcessOperationsWithModelsTestWithoutImportMapping() {
+        final String importName = "../model/pet";
+        Map<String, Object> operations = postProcessOperationsHelper(importName);
+
+        codegen.postProcessOperationsWithModels(operations, Collections.emptyList());
+        List<Map<String, Object>> extractedImports = (List<Map<String, Object>>) operations.get("imports");
+        Assert.assertEquals(extractedImports.get(0).get("filename"), importName);
+    }
+
+    @Test(description = "correctly produces imports with import mapping")
+    public void postProcessOperationsWithModelsTestWithImportMapping() {
+        final String importName = "@namespace/dir/category";
+        Map<String, Object> operations = postProcessOperationsHelper(importName);
+
+        codegen.postProcessOperationsWithModels(operations, Collections.emptyList());
+        List<Map<String, Object>> extractedImports = (List<Map<String, Object>>) operations.get("imports");
+
+        Assert.assertEquals(extractedImports.get(0).get("filename"), importName);
+    }
+
+    @NotNull
+    private Map<String, Object> postProcessOperationsHelper(String importName) {
+        Map<String, Object> operations = new HashMap<String, Object>() {{
+            put("operation", Collections.emptyList());
+            put("classname", "Pet");
+        }};
+
+        Map<String, Object> importList = new HashMap<String, Object>() {{
+            put("import", importName);
+            put("classname", "Pet");
+        }};
+        List<Map<String, Object>> imports = new ArrayList<>();
+        imports.add(importList);
+        return new HashMap<String, Object>() {{
+            put("operations", operations);
+            put("imports", imports);
+        }};
+    }
 }
