@@ -781,7 +781,7 @@ public class ModelUtils {
                         }
                     } else if (addlProps instanceof Schema) {
                         // additionalProperties defined as {}
-                        if (addlProps.getType() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
+                        if (addlProps.getType() == null && addlProps.get$ref() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
                             return true;
                         }
                     }

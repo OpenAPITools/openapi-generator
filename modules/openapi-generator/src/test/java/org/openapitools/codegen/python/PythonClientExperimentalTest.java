@@ -21,9 +21,15 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
+
+import java.io.File;
 import java.math.BigDecimal;
+import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.List;
+
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PythonClientExperimentalCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
@@ -374,5 +380,23 @@ public class PythonClientExperimentalTest {
         final CodegenModel noDefaultEumLengthOneModel = codegen.fromModel("noDefaultEumLengthOneModel", noDefaultEumLengthOne);
         Assert.assertEquals(noDefaultEumLengthOneModel.defaultValue, "15.0");
         Assert.assertEquals(noDefaultEumLengthOneModel.hasRequired, false);
+    }
+
+    @Test
+    public void testObjectModelWithRefedAdditionalPropertiesIsGenerated() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python-experimental")
+                .setInputSpec("src/test/resources/3_0/issue_7372.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "openapi_client/model/a.py");
+        TestUtils.ensureContainsFile(files, output, "openapi_client/model/b.py");
+        output.deleteOnExit();
     }
 }
