@@ -1,9 +1,6 @@
 package org.openapitools.codegen.typescript.typescriptnode;
 
-import com.google.common.collect.ImmutableMap;
 import io.swagger.v3.oas.models.OpenAPI;
-import org.jetbrains.annotations.NotNull;
-import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.TestUtils;
 import org.openapitools.codegen.languages.TypeScriptNodeClientCodegen;
 import org.testng.Assert;
@@ -160,7 +157,6 @@ public class TypeScriptNodeClientCodegenTest {
         Assert.assertEquals(extractedImports.get(0).get("filename"), importName);
     }
 
-    @NotNull
     private Map<String, Object> postProcessOperationsHelper(String importName) {
         Map<String, Object> operations = new HashMap<String, Object>() {{
             put("operation", Collections.emptyList());
