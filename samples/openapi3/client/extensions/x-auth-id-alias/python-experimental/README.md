@@ -62,22 +62,14 @@ configuration = x_auth_id_alias.Configuration(
 # satisfies your auth use case.
 
 # Configure API key authorization: api_key
-configuration = x_auth_id_alias.Configuration(
-    host = "http://petstore.swagger.io:80/v2",
-    api_key = {
-        'api_key': 'YOUR_API_KEY'
-    }
-)
+configuration.api_key['api_key'] = 'YOUR_API_KEY'
+
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key'] = 'Bearer'
 
 # Configure API key authorization: api_key_query
-configuration = x_auth_id_alias.Configuration(
-    host = "http://petstore.swagger.io:80/v2",
-    api_key = {
-        'api_key_query': 'YOUR_API_KEY'
-    }
-)
+configuration.api_key['api_key_query'] = 'YOUR_API_KEY'
+
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key_query'] = 'Bearer'
 
