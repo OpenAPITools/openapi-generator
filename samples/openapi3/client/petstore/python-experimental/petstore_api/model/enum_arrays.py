@@ -17,15 +17,20 @@ import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
+    Enum,
     ModelComposed,
     ModelNormal,
     ModelSimple,
+    NoneEnum,
     cached_property,
     change_keys_js_to_python,
     convert_js_args_to_python_args,
     date,
     datetime,
+    get_inheritance_chain_vars,
+    get_new_instance,
     file_type,
+    mfg_new_class,
     none_type,
     validate_get_composed_info,
 )
@@ -57,8 +62,8 @@ class EnumArrays(ModelNormal):
 
     allowed_values = {
         ('just_symbol',): {
-            '&gt;&#x3D;': ">=",
-            '$': "$",
+            'GREATER_THAN_EQUALS': ">=",
+            'DOLLAR': "$",
         },
         ('array_enum',): {
             'FISH': "fish",

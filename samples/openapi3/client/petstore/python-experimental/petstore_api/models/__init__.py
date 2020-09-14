@@ -74,6 +74,7 @@ from petstore_api.model.model_return import ModelReturn
 from petstore_api.model.name import Name
 from petstore_api.model.nullable_class import NullableClass
 from petstore_api.model.nullable_shape import NullableShape
+from petstore_api.model.nullable_string import NullableString
 from petstore_api.model.number_only import NumberOnly
 from petstore_api.model.number_with_validations import NumberWithValidations
 from petstore_api.model.object_interface import ObjectInterface

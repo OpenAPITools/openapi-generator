@@ -43,8 +43,8 @@
             )
         if (name,) in self.validations:
             check_validations(
-                self.validations,
-                (name,),
+                self.validations[(name,)],
+                path_to_item,
                 value,
                 self._configuration
             )

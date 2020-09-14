@@ -29,13 +29,14 @@ class TestIntegerEnumOneValue(unittest.TestCase):
     def testIntegerEnumOneValue(self):
         """Test IntegerEnumOneValue"""
         model = IntegerEnumOneValue()
-        assert model.value == 0, "With only one option, the value is assigned automatically"
+        assert model == 0, "With only one option, the value is assigned automatically"
 
         model = IntegerEnumOneValue(0)
-        assert model.value == 0, "We can also pass in the value as a positional arg"
+        assert model == 0, "We can also pass in the value as a positional arg"
 
-        model = IntegerEnumOneValue(value=0)
-        assert model.value == 0, "We can also pass in the value as a named argument"
+        # one can't pass the value with the value keyword
+        with self.assertRaises(petstore_api.ApiTypeError):
+            IntegerEnumOneValue(value=0)
 
 
 if __name__ == '__main__':

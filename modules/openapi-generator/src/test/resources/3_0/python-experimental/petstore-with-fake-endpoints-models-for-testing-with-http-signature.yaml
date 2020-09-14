@@ -1872,6 +1872,9 @@ components:
       type: integer
       enum:
         - 0
+    NullableString:
+      nullable: true
+      type: string
     ObjectModelWithRefProps:
       description: a model that includes properties which should stay primitive (String + Boolean) and one which is defined as a class, NumberWithValidations
       type: object

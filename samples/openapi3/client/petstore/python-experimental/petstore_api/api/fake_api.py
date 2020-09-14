@@ -2006,46 +2006,46 @@ class FakeApi(object):
                 'allowed_values': {
                     ('enum_header_string_array',): {
 
-                        "&gt;": ">",
-                        "$": "$"
+                        "GREATER_THAN": ">",
+                        "DOLLAR": "$"
                     },
                     ('enum_header_string',): {
 
                         "_ABC": "_abc",
-                        "-EFG": "-efg",
-                        "(XYZ)": "(xyz)"
+                        "EFG": "-efg",
+                        "XYZ": "(xyz)"
                     },
                     ('enum_query_string_array',): {
 
-                        "&gt;": ">",
-                        "$": "$"
+                        "GREATER_THAN": ">",
+                        "DOLLAR": "$"
                     },
                     ('enum_query_string',): {
 
                         "_ABC": "_abc",
-                        "-EFG": "-efg",
-                        "(XYZ)": "(xyz)"
+                        "EFG": "-efg",
+                        "XYZ": "(xyz)"
                     },
                     ('enum_query_integer',): {
 
-                        "1": 1,
-                        "-2": -2
+                        "POSITIVE_1": 1,
+                        "NEGATIVE_2": -2
                     },
                     ('enum_query_double',): {
 
-                        "1.1": 1.1,
-                        "-1.2": -1.2
+                        "POSITIVE_1_PT_1": 1.1,
+                        "NEGATIVE_1_PT_2": -1.2
                     },
                     ('enum_form_string_array',): {
 
-                        "&gt;": ">",
-                        "$": "$"
+                        "GREATER_THAN": ">",
+                        "DOLLAR": "$"
                     },
                     ('enum_form_string',): {
 
                         "_ABC": "_abc",
-                        "-EFG": "-efg",
-                        "(XYZ)": "(xyz)"
+                        "EFG": "-efg",
+                        "XYZ": "(xyz)"
                     },
                 },
                 'openapi_types': {

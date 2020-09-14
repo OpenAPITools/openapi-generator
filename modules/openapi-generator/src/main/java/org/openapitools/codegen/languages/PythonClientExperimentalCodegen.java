@@ -158,6 +158,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
 
         supportingFiles.remove(new SupportingFile("__init__package.mustache", packagePath(), "__init__.py"));
         supportingFiles.add(new SupportingFile("python-experimental/__init__package.mustache", packagePath(), "__init__.py"));
+        supportingFiles.add(new SupportingFile("python-experimental/enums.mustache", packagePath(), "enums.py"));
 
         // add the models and apis folders
         supportingFiles.add(new SupportingFile("python-experimental/__init__models.mustache", packagePath() + File.separatorChar + "models", "__init__.py"));
@@ -284,6 +285,10 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 // we do this to:
                 // - preserve the validations in that model class in python
                 // - use those validations when we use this schema in composed oneOf schemas
+                return schema;
+            } else if (Boolean.TRUE.equals(ref.getNullable()) && ref.getEnum() == null) {
+                // non enum primitive with nullable True
+                // we make these models so instances of this will be subclasses of this model
                 return schema;
             } else {
                 return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())), usedImportMappings);
@@ -577,9 +582,54 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         if (value.length() == 0) {
             return "EMPTY";
         }
+        String intPattern = "^[-\\+]?\\d+$";
+        String floatPattern = "^[-\\+]?\\d+\\.\\d+$";
+        Boolean intMatch = Pattern.matches(intPattern, value);
+        Boolean floatMatch = Pattern.matches(floatPattern, value);
+        if (intMatch || floatMatch) {
+            String plusSign = "^\\+.+";
+            String negSign = "^-.+";
+            if (Pattern.matches(plusSign, value)) {
+                value = value.replace("+", "POSITIVE_");
+            } else if (Pattern.matches(negSign, value)) {
+                value = value.replace("-", "NEGATIVE_");
+            } else {
+                value = "POSITIVE_" + value;
+            }
+            if (floatMatch) {
+                value = value.replace(".", "_PT_");
+            }
+            return value;
+        }
+        // Replace " " with _
+        String usedValue = value.replaceAll("\\s+", "_").toUpperCase(Locale.ROOT);
+        // strip first character if it is invalid
+        usedValue = usedValue.replaceAll("^[^_a-zA-Z]", "");
+        usedValue = usedValue.replaceAll("[^_a-zA-Z0-9]*", "");
+        if (usedValue.length() == 0) {
+            for (int i = 0; i < value.length(); i++){
+                Character c = value.charAt(i);
+                String charName = Character.getName(c.hashCode());
+                usedValue += charNameToVarName(charName);
+            }
+            // remove trailing _
+            usedValue = usedValue.replaceAll("[_]$", "");
+        }
+        return usedValue;
+    }
 
-        String var = value.replaceAll("\\s+", "_").toUpperCase(Locale.ROOT);
-        return var;
+    /**
+     * Replace - and " " with _
+     * Remove SIGN
+     *
+     * @param varName
+     * @return
+     */
+    private String charNameToVarName(String charName) {
+        String varName = charName.replaceAll("[\\-\\s]", "_");
+        varName = varName.replaceAll("SIGN", "");
+        return varName;
+
     }
 
     /**

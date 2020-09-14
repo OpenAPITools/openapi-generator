@@ -26,6 +26,10 @@ from petstore_api.exceptions import (
     ApiTypeError,
     ApiValueError,
 )
+from petstore_api.enums import (
+    Enum,
+    NoneEnum,
+)
 
 none_type = type(None)
 file_type = io.IOBase
@@ -101,9 +105,132 @@ def composed_model_input_classes(cls):
     return []
 
 
-class OpenApiModel(object):
+class OpenApiModel:
     """The base class for all OpenAPIModels"""
 
+
+class ModelSimple(OpenApiModel):
+    """the parent class of models whose type != object in their
+    swagger/openapi
+
+    Use Cases:
+    1. Enums with None or boolean, or other values
+    - the boolean or none values will be in the allowed_values + __new__ will be called
+    2. Primitive type nullable, not enum
+    - get_new_instance will be called to mfg a class. This makes it so none instances are still of a class type
+    - __new__ will not be called
+    3. Primitive type not nullable, not enum
+    - __new__ will be called
+    """
+
+    def __new__(cls, *args, _check_type=True, _path_to_item=("first positional arg",), _configuration=None, _visited_composed_classes=(), **kwargs):
+        """
+        This is only called if the ModelSimple is not nullable
+        """
+        if len(args) > 1:
+            raise ApiTypeError(
+                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                    args,
+                    cls.__name__,
+                ),
+                path_to_item=_path_to_item,
+                valid_classes=(cls,),
+            )
+        if kwargs:
+            raise ApiTypeError(
+                "Invalid keyword arguments=%s passed to %s. Remove those invalid arguments." % (
+                    kwargs,
+                    cls.__name__,
+                ),
+                path_to_item=_path_to_item,
+                valid_classes=(cls,),
+            )
+
+        if issubclass(cls, list):
+            inst = super().__new__(cls)
+            arg = validate_and_convert_types(
+                list(args)[0],
+                cls.openapi_type,
+                _path_to_item,
+                True,
+                _check_type,
+                configuration=_configuration
+            )
+            super(ModelSimple, inst).__init__(arg)
+        else:
+            arg = validate_and_convert_types(
+                args[0],
+                cls.openapi_type,
+                _path_to_item,
+                True,
+                _check_type,
+                configuration=_configuration
+            )
+            check_validations(
+                cls.validations,
+                _path_to_item,
+                arg,
+                _configuration
+            )
+            if issubclass(cls, Enum):
+                # this sets enum values when we have a class that inherits from Enum
+                new_instance_class = object
+                for base_cls in cls.__bases__:
+                    if base_cls in inheritable_primitive_types:
+                        new_instance_class = base_cls
+                        break
+                inst = new_instance_class.__new__(cls)
+                inst._value_ = arg
+            else:
+                inst = super().__new__(cls, arg)
+        return inst
+
+    def __init__(self, *args, **kwargs):
+        """a model defined in OpenAPI
+
+        Args:
+            arg: the input value
+
+        Keyword Args:
+            _check_type (bool): if True, values for parameters in openapi_types
+                                will be type checked and a TypeError will be
+                                raised if the wrong type is input.
+                                Defaults to True
+            _path_to_item (tuple/list): This is a list of keys or values to
+                                drill down to the model in received_data
+                                when deserializing a response
+            _spec_property_naming (bool): True if the variable names in the input data
+                                are serialized names, as specified in the OpenAPI document.
+                                False if the variable names in the input data
+                                are pythonic names, e.g. snake case (default)
+            _configuration (Configuration): the instance to use when
+                                deserializing a file_type parameter.
+                                If passed, type conversion is attempted
+                                If omitted no type conversion is done.
+            _visited_composed_classes (tuple): This stores a tuple of
+                                classes that we have traveled through so that
+                                if we see that class again we will not use its
+                                discriminator again.
+                                When traveling through a discriminator, the
+                                composed schema that is
+                                is traveled through is added to this set.
+                                For example if Animal has a discriminator
+                                petType and we pass in "Dog", and the class Dog
+                                allOf includes Animal, we move through Animal
+                                once using the discriminator, and pick Dog.
+                                Then in Dog, we will make an instance of the
+                                Animal class but this time we won't travel
+                                through its discriminator because we passed in
+                                _visited_composed_classes = (Animal,)
+        """
+
+        self._check_type = kwargs.pop('_check_type', True)
+        self._path_to_item = kwargs.pop('_path_to_item', ())
+        self._configuration = kwargs.pop('_configuration', None)
+        self._visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
+
+
+class OpenApiObjectModel(OpenApiModel):
     def set_attribute(self, name, value):
         # this is only used to set properties on self
 
@@ -149,8 +276,8 @@ class OpenApiModel(object):
             )
         if (name,) in self.validations:
             check_validations(
-                self.validations,
-                (name,),
+                self.validations[(name,)],
+                path_to_item,
                 value,
                 self._configuration
             )
@@ -286,55 +413,7 @@ class OpenApiModel(object):
         return new_inst
 
 
-class ModelSimple(OpenApiModel):
-    """the parent class of models whose type != object in their
-    swagger/openapi"""
-
-    def __setattr__(self, name, value):
-        """this allows us to set a value with instance.field_name = val"""
-        if name in self.required_properties:
-            self.__dict__[name] = value
-            return
-
-        self.set_attribute(name, value)
-
-    def __getattr__(self, name):
-        """this allows us to get a value with val = instance.field_name"""
-        if name in self.required_properties:
-            return self.__dict__[name]
-
-        if name in self.__dict__['_data_store']:
-            return self.__dict__['_data_store'][name]
-
-        path_to_item = []
-        if self._path_to_item:
-            path_to_item.extend(self._path_to_item)
-        path_to_item.append(name)
-        raise ApiAttributeError(
-            "{0} has no attribute '{1}'".format(
-                type(self).__name__, name),
-            [name]
-        )
-
-    def to_str(self):
-        """Returns the string representation of the model"""
-        return str(self.value)
-
-    def __eq__(self, other):
-        """Returns true if both objects are equal"""
-        if not isinstance(other, self.__class__):
-            return False
-
-        this_val = self._data_store['value']
-        that_val = other._data_store['value']
-        types = set()
-        types.add(this_val.__class__)
-        types.add(that_val.__class__)
-        vals_equal = this_val == that_val
-        return vals_equal
-
-
-class ModelNormal(OpenApiModel):
+class ModelNormal(OpenApiObjectModel):
     """the parent class of models whose type == object in their
     swagger/openapi"""
 
@@ -390,7 +469,7 @@ class ModelNormal(OpenApiModel):
         return True
 
 
-class ModelComposed(OpenApiModel):
+class ModelComposed(OpenApiObjectModel):
     """the parent class of models whose type == object in their
     swagger/openapi and have oneOf/allOf/anyOf
 
@@ -603,6 +682,8 @@ def get_simple_class(input_value):
     if isinstance(input_value, type):
         # input_value is a class
         return input_value
+    elif issubclass(input_value.__class__, ModelSimple):
+        return input_value.__class__
     elif isinstance(input_value, tuple):
         return tuple
     elif isinstance(input_value, list):
@@ -699,74 +780,74 @@ def check_validations(
     """Raises an exception if the input_values are invalid
 
     Args:
-        validations (dict): the validation dictionary.
+        validations (dict): the validation dictionary for a specific schema or property
         input_variable_path (tuple): the path to the input variable.
         input_values (list/str/int/float/date/datetime): the values that we
             are checking.
         configuration (Configuration): the configuration class.
     """
+    var_name = input_variable_path[-1]
 
-    current_validations = validations[input_variable_path]
     if (is_json_validation_enabled('multipleOf', configuration) and
-            'multiple_of' in current_validations and
+            'multiple_of' in validations and
             isinstance(input_values, (int, float)) and
-            not (float(input_values) / current_validations['multiple_of']).is_integer()):
+            not (float(input_values) / validations['multiple_of']).is_integer()):
         # Note 'multipleOf' will be as good as the floating point arithmetic.
         raise ApiValueError(
             "Invalid value for `%s`, value must be a multiple of "
             "`%s`" % (
-                input_variable_path[0],
-                current_validations['multiple_of']
+                var_name,
+                validations['multiple_of']
             )
         )
 
     if (is_json_validation_enabled('maxLength', configuration) and
-            'max_length' in current_validations and
-            len(input_values) > current_validations['max_length']):
+            'max_length' in validations and
+            len(input_values) > validations['max_length']):
         raise ApiValueError(
             "Invalid value for `%s`, length must be less than or equal to "
             "`%s`" % (
-                input_variable_path[0],
-                current_validations['max_length']
+                var_name,
+                validations['max_length']
             )
         )
 
     if (is_json_validation_enabled('minLength', configuration) and
-            'min_length' in current_validations and
-            len(input_values) < current_validations['min_length']):
+            'min_length' in validations and
+            len(input_values) < validations['min_length']):
         raise ApiValueError(
             "Invalid value for `%s`, length must be greater than or equal to "
             "`%s`" % (
-                input_variable_path[0],
-                current_validations['min_length']
+                var_name,
+                validations['min_length']
             )
         )
 
     if (is_json_validation_enabled('maxItems', configuration) and
-            'max_items' in current_validations and
-            len(input_values) > current_validations['max_items']):
+            'max_items' in validations and
+            len(input_values) > validations['max_items']):
         raise ApiValueError(
             "Invalid value for `%s`, number of items must be less than or "
             "equal to `%s`" % (
-                input_variable_path[0],
-                current_validations['max_items']
+                var_name,
+                validations['max_items']
             )
         )
 
     if (is_json_validation_enabled('minItems', configuration) and
-            'min_items' in current_validations and
-            len(input_values) < current_validations['min_items']):
+            'min_items' in validations and
+            len(input_values) < validations['min_items']):
         raise ValueError(
             "Invalid value for `%s`, number of items must be greater than or "
             "equal to `%s`" % (
-                input_variable_path[0],
-                current_validations['min_items']
+                var_name,
+                validations['min_items']
             )
         )
 
     items = ('exclusive_maximum', 'inclusive_maximum', 'exclusive_minimum',
              'inclusive_minimum')
-    if (any(item in current_validations for item in items)):
+    if (any(item in validations for item in items)):
         if isinstance(input_values, list):
             max_val = max(input_values)
             min_val = min(input_values)
@@ -778,55 +859,55 @@ def check_validations(
             min_val = input_values
 
     if (is_json_validation_enabled('exclusiveMaximum', configuration) and
-            'exclusive_maximum' in current_validations and
-            max_val >= current_validations['exclusive_maximum']):
+            'exclusive_maximum' in validations and
+            max_val >= validations['exclusive_maximum']):
         raise ApiValueError(
             "Invalid value for `%s`, must be a value less than `%s`" % (
-                input_variable_path[0],
-                current_validations['exclusive_maximum']
+                var_name,
+                validations['exclusive_maximum']
             )
         )
 
     if (is_json_validation_enabled('maximum', configuration) and
-            'inclusive_maximum' in current_validations and
-            max_val > current_validations['inclusive_maximum']):
+            'inclusive_maximum' in validations and
+            max_val > validations['inclusive_maximum']):
         raise ApiValueError(
             "Invalid value for `%s`, must be a value less than or equal to "
             "`%s`" % (
-                input_variable_path[0],
-                current_validations['inclusive_maximum']
+                var_name,
+                validations['inclusive_maximum']
             )
         )
 
     if (is_json_validation_enabled('exclusiveMinimum', configuration) and
-            'exclusive_minimum' in current_validations and
-            min_val <= current_validations['exclusive_minimum']):
+            'exclusive_minimum' in validations and
+            min_val <= validations['exclusive_minimum']):
         raise ApiValueError(
             "Invalid value for `%s`, must be a value greater than `%s`" %
             (
-                input_variable_path[0],
-                current_validations['exclusive_maximum']
+                var_name,
+                validations['exclusive_maximum']
             )
         )
 
     if (is_json_validation_enabled('minimum', configuration) and
-            'inclusive_minimum' in current_validations and
-            min_val < current_validations['inclusive_minimum']):
+            'inclusive_minimum' in validations and
+            min_val < validations['inclusive_minimum']):
         raise ApiValueError(
             "Invalid value for `%s`, must be a value greater than or equal "
             "to `%s`" % (
-                input_variable_path[0],
-                current_validations['inclusive_minimum']
+                var_name,
+                validations['inclusive_minimum']
             )
         )
-    flags = current_validations.get('regex', {}).get('flags', 0)
+    flags = validations.get('regex', {}).get('flags', 0)
     if (is_json_validation_enabled('pattern', configuration) and
-            'regex' in current_validations and
-            not re.search(current_validations['regex']['pattern'],
+            'regex' in validations and
+            not re.search(validations['regex']['pattern'],
                           input_values, flags=flags)):
         err_msg = r"Invalid value for `%s`, must match regular expression `%s`" % (
-                    input_variable_path[0],
-                    current_validations['regex']['pattern']
+                    var_name,
+                    validations['regex']['pattern']
                 )
         if flags != 0:
             # Don't print the regex flags if the flags are not
@@ -1155,10 +1236,11 @@ def deserialize_model(model_data, model_class, path_to_item, check_type,
         ApiKeyError
     """
 
-    kw_args = dict(_check_type=check_type,
-                   _path_to_item=path_to_item,
-                   _configuration=configuration,
-                   _spec_property_naming=spec_property_naming)
+    kw_args = dict(
+       _check_type=check_type,
+       _path_to_item=path_to_item,
+       _configuration=configuration,
+    )
 
     if issubclass(model_class, ModelSimple):
         return model_class(model_data, **kw_args)
@@ -1166,6 +1248,7 @@ def deserialize_model(model_data, model_class, path_to_item, check_type,
         return model_class(*model_data, **kw_args)
     if isinstance(model_data, dict):
         kw_args.update(model_data)
+        kw_args["_spec_property_naming"] = spec_property_naming
         return model_class(**kw_args)
     elif isinstance(model_data, PRIMITIVE_TYPES):
         return model_class(model_data, **kw_args)
@@ -1651,7 +1734,7 @@ def get_oneof_instance(cls, model_kwargs, constant_kwargs, model_arg=None):
                         model_arg,
                         (oneof_class,),
                         constant_kwargs['_path_to_item'],
-                        constant_kwargs['_spec_property_naming'],
+                        True,
                         constant_kwargs['_check_type'],
                         configuration=constant_kwargs['_configuration']
                     )
@@ -1846,3 +1929,128 @@ def validate_get_composed_info(constant_args, model_args, self):
       additional_properties_model_instances,
       unused_args
     ]
+
+inheritable_primitive_types = (int, float, str, date, datetime, list)
+
+
+def get_new_instance(self_class, cls, super_instance, *args, **kwargs):
+    if cls == self_class:
+        # we are making an instance of self, but instead of making self
+        # make a new class, new_cls
+        # which includes dynamic bases including self
+        # return an instance of that new class
+        new_cls = self_class._get_new_class(*args, **kwargs)
+        new_inst = new_cls.__new__(new_cls, *args, **kwargs)
+        return new_inst
+    if issubclass(cls, Enum):
+        # we are creating new instances of DynamicBaseClassesEnum, Enum based class
+        # this sets enum values when we create the DynamicBaseClassesEnum
+        new_instance_class = object
+        for base_cls in cls.__bases__:
+            if base_cls in inheritable_primitive_types:
+                new_instance_class = base_cls
+                break
+        inst = new_instance_class.__new__(cls)
+        inst._value_ = args[0]
+        return inst
+    elif issubclass(cls, inheritable_primitive_types):
+        _check_type = kwargs.get("_check_type", True)
+        _path_to_item = kwargs.get("_path_to_item", ("first positional arg",))
+        _configuration = kwargs.get("_configuration", None)
+        if len(args) > 1:
+            raise ApiTypeError(
+                "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
+                    args,
+                    cls.__name__,
+                ),
+                path_to_item=_path_to_item,
+                valid_classes=(cls,),
+            )
+
+        # we are creating new instances of inheritable primitive types
+        if issubclass(cls, list):
+            inst = super_instance.__new__(cls)
+            arg = validate_and_convert_types(
+                list(args)[0],
+                cls.openapi_type,
+                _path_to_item,
+                True,
+                _check_type,
+                configuration=_configuration
+            )
+            # TODO check validations
+            super(ModelSimple, inst).__init__(arg)
+        else:
+            arg = validate_and_convert_types(
+                args[0],
+                cls.openapi_type,
+                _path_to_item,
+                True,
+                _check_type,
+                configuration=_configuration
+            )
+            check_validations(
+                cls.validations,
+                _path_to_item,
+                arg,
+                _configuration
+            )
+            inst = super_instance.__new__(cls, args[0])
+        inst.value = args[0]
+        return inst
+    # we are creating new instances of DynamicBaseClasses, object based class
+    return super_instance.__new__(cls)
+
+
+def get_inheritance_chain_vars(cls, kwargs):
+    _required_interface_cls = kwargs.pop('_required_interface_cls', cls)
+    _inheritance_chain = kwargs.pop('_inheritance_chain', ())
+    inheritance_cycle = False
+    if cls in _inheritance_chain:
+        inheritance_cycle = True
+        return _required_interface_cls, _inheritance_chain, inheritance_cycle
+
+    _inheritance_chain = list(_inheritance_chain)
+    _inheritance_chain.append(cls)
+    _inheritance_chain = tuple(_inheritance_chain)
+    return _required_interface_cls, _inheritance_chain, inheritance_cycle
+
+
+def make_dynamic_class(*bases):
+    """
+    Returns a new DynamicBaseClasses class that is made with the subclasses bases
+    TODO: lru_cache this
+    Args:
+        bases (list): the base classes that DynamicBaseClasses inherits from
+    """
+    if issubclass(bases[-1], Enum):
+        # enum based classes
+        bases = list(bases)
+        source_enum = bases.pop()
+        assert issubclass(source_enum, Enum), "The last entry in bases must be a subclass of Enum"
+        source_enum_bases = source_enum.__bases__
+        assert (source_enum_bases[-1] is Enum), "The last entry in source_enum_bases must be Enum"
+        bases.extend(source_enum_bases)
+        # DynamicBaseClassesEnum cannot be used as a base class
+        class DynamicBaseClassesEnum(*bases):
+            for choice in source_enum:
+                # source_enum cannot be used as a base class, so copy its enum values into our new enum
+                locals()[choice.name] = choice.value
+        return DynamicBaseClassesEnum
+    # object based classes
+    class DynamicBaseClasses(*bases):
+        pass
+    return DynamicBaseClasses
+
+
+def mfg_new_class(cls, chosen_additional_classes, _inheritance_chain, _required_interface_cls, *args, **kwargs):
+    real_additional_classes = []
+    for chosen_cls in chosen_additional_classes:
+        if issubclass(chosen_cls, ModelComposed):
+            chosen_cls = chosen_cls._get_new_class(_inheritance_chain=_inheritance_chain, _required_interface_cls=_required_interface_cls, *args, **kwargs)
+        real_additional_classes.append(chosen_cls)
+    if any(issubclass(c, _required_interface_cls) for c in real_additional_classes) and cls is _required_interface_cls:
+        if len(real_additional_classes) == 1:
+            return real_additional_classes[0]
+        return make_dynamic_class(*real_additional_classes)
+    return make_dynamic_class(cls, *real_additional_classes)

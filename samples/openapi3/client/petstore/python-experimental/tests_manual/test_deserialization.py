@@ -327,4 +327,4 @@ class DeserializationTests(unittest.TestCase):
         number = self.deserialize(response,
             (number_with_validations.NumberWithValidations,), True)
         self.assertTrue(isinstance(number, number_with_validations.NumberWithValidations))
-        self.assertTrue(number.value == number_val)
+        self.assertEqual(number, number_val)

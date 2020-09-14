@@ -31,7 +31,7 @@ class TestNumberWithValidations(unittest.TestCase):
         valid_values = [10.0, 15.0, 20.0]
         for valid_value in valid_values:
             model = NumberWithValidations(valid_value)
-            assert model.value == valid_value
+            assert model == valid_value
 
         invalid_values = [9.0, 21.0]
         for invalid_value in invalid_values:

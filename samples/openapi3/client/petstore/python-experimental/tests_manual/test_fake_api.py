@@ -140,7 +140,7 @@ class TestFakeApi(unittest.TestCase):
             self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/array-of-enums', value_simple)
 
             assert isinstance(response, array_of_enums.ArrayOfEnums)
-            assert response.value == value
+            assert response == value
 
     def test_number_with_validations(self):
         """Test case for number_with_validations
@@ -161,7 +161,7 @@ class TestFakeApi(unittest.TestCase):
             self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/number', value)
 
             assert isinstance(response, number_with_validations.NumberWithValidations)
-            assert response.value == value
+            assert response == value
 
     def test_object_model_with_ref_props(self):
         """Test case for object_model_with_ref_props
@@ -250,7 +250,7 @@ class TestFakeApi(unittest.TestCase):
             self.assert_request_called_with(mock_method, 'http://petstore.swagger.io:80/v2/fake/refs/enum', value)
 
             assert isinstance(response, string_enum.StringEnum)
-            assert response.value == value
+            assert response == value
 
     def test_test_body_with_file_schema(self):
         """Test case for test_body_with_file_schema
