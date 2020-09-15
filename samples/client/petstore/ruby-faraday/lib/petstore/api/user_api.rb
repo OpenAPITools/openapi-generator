@@ -57,13 +57,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(user) 
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(user)
 
       # return_type
-      return_type = opts[:return_type] 
+      return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -117,13 +117,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(user) 
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(user)
 
       # return_type
-      return_type = opts[:return_type] 
+      return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -177,13 +177,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(user) 
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(user)
 
       # return_type
-      return_type = opts[:return_type] 
+      return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -237,13 +237,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] 
+      return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -297,13 +297,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] || 'User' 
+      return_type = opts[:debug_return_type] || 'User'
 
       # auth_names
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -365,13 +365,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] || 'String' 
+      return_type = opts[:debug_return_type] || 'String'
 
       # auth_names
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -417,13 +417,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] 
+      return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -485,13 +485,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(user) 
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(user)
 
       # return_type
-      return_type = opts[:return_type] 
+      return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :header_params => header_params,
