@@ -9,7 +9,12 @@
   ],
   "require": {
     "php": "^7.2",
+    {{#isPhpDiContainer}}
+    "php-di/slim-bridge": "^3.0.1",
+    {{/isPhpDiContainer}}
+    {{#isNoneContainer}}
     "slim/slim": "^4.5.0",
+    {{/isNoneContainer}}
     "dyorg/slim-token-authentication": "dev-slim4",
     "ybelenko/openapi-data-mocker": "^1.0",
     "ybelenko/openapi-data-mocker-server-middleware": "^1.0",
