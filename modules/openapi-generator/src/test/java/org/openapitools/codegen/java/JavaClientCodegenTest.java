@@ -96,7 +96,7 @@ public class JavaClientCodegenTest {
     @Test
     public void testParametersAreCorrectlyOrderedWhenUsingRetrofit() {
         JavaClientCodegen javaClientCodegen = new JavaClientCodegen();
-        javaClientCodegen.setLibrary(JavaClientCodegen.RETROFIT_2);
+        javaClientCodegen.setLibrary(JavaClientCodegen.RETROFIT_2_GSON);
 
         CodegenOperation codegenOperation = new CodegenOperation();
         CodegenParameter queryParamRequired = createQueryParam("queryParam1", true);
