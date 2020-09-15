@@ -774,6 +774,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-08-03 - [Criando Bibliotecas para APIs RESTful com OpenAPI, Swagger Editor e OpenAPI Generator](https://medium.com/@everisBrasil/criando-bibliotecas-para-apis-restful-com-openapi-swagger-editor-e-openapi-generator-75349a6420fd) by [everis Brasil (an NTT DATA Company)](https://medium.com/@everisBrasil)
 - 2020-08-19 - [マイクロサービスを連携してみよう](https://thinkit.co.jp/article/17704) by [岡井 裕矢(おかい ゆうや)](https://thinkit.co.jp/author/17588), [泉 勝(いずみ まさる)](https://thinkit.co.jp/author/17705) at [Think IT（シンクイット）](https://thinkit.co.jp/)
 - 2020-08-25 - [OpenAPI Generator と TypeScript で型安全にフロントエンド開発をしている話](https://tech.smarthr.jp/entry/2020/08/25/135631) at [SmartHR Tech Blog](https://tech.smarthr.jp/)
+- 2020-09-10 - [Introduction to OpenAPI with Instana](https://www.instana.com/blog/introduction-to-openapi-with-instana/) by [Cedric Ziel](https://www.instana.com/blog/author/cedricziel/) at [Instana Blog](https://www.instana.com/blog/)
 
 ## [6 - About Us](#table-of-contents)
 
