@@ -87,6 +87,7 @@ public class GoClientCodegen extends AbstractGoCodegen {
         usesOptionals = false;
 
         apiTemplateFiles.put("api.mustache", ".go");
+        modelTemplateFiles.put("model.mustache", ".go");
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
 
