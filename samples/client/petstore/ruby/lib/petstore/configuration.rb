@@ -338,7 +338,7 @@ module Petstore
       # go through variable and assign a value
       server[:variables].each do |name, variable|
         if variables.key?(name)
-          if (server[:variables][name][:enum_values].include? variables[name])
+          if (!server[:variables][name].key?(:enum_values) || server[:variables][name][:enum_values].include?(variables[name]))
             url.gsub! "{" + name.to_s + "}", variables[name]
           else
             fail ArgumentError, "The variable `#{name}` in the server URL has invalid value #{variables[name]}. Must be #{server[:variables][name][:enum_values]}."
