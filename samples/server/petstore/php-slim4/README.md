@@ -4,6 +4,7 @@
 * [Slim 4 Documentation](https://www.slimframework.com/docs/v4/)
 
 This server has been generated with [Slim PSR-7](https://github.com/slimphp/Slim-Psr7) implementation.
+[PHP-DI](https://php-di.org/doc/frameworks/slim.html) package used as default dependency container.
 
 ## Requirements
 

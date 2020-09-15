@@ -36,22 +36,20 @@ use Slim\Exception\HttpNotImplementedException;
  */
 abstract class AbstractPetApi
 {
-
     /**
-     * @var ContainerInterface|null Slim app container instance
+     * @var ContainerInterface Slim app container instance
      */
     protected $container;
 
     /**
      * Route Controller constructor receives container
      *
-     * @param ContainerInterface|null $container Slim app container instance
+     * @param ContainerInterface $container Slim app container instance
      */
-    public function __construct(ContainerInterface $container = null)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
     }
-
 
     /**
      * POST addPet
@@ -60,13 +58,14 @@ abstract class AbstractPetApi
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
-     * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function addPet(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
+    public function addPet(
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ) {
         $body = $request->getParsedBody();
         $message = "How about implementing addPet as a POST method in OpenAPIServer\Api\PetApi class?";
         throw new HttpNotImplementedException($request, $message);
@@ -78,16 +77,18 @@ abstract class AbstractPetApi
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
-     * @param array|null             $args     Path arguments
+     * @param int $petId Pet id to delete
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function deletePet(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
+    public function deletePet(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        $petId
+    ) {
         $headers = $request->getHeaders();
         $apiKey = $request->hasHeader('api_key') ? $headers['api_key'] : null;
-        $petId = $args['petId'];
         $message = "How about implementing deletePet as a DELETE method in OpenAPIServer\Api\PetApi class?";
         throw new HttpNotImplementedException($request, $message);
     }
@@ -100,13 +101,14 @@ abstract class AbstractPetApi
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
-     * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function findPetsByStatus(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
+    public function findPetsByStatus(
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ) {
         $queryParams = $request->getQueryParams();
         $status = (key_exists('status', $queryParams)) ? $queryParams['status'] : null;
         $message = "How about implementing findPetsByStatus as a GET method in OpenAPIServer\Api\PetApi class?";
@@ -121,13 +123,14 @@ abstract class AbstractPetApi
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
-     * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function findPetsByTags(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
+    public function findPetsByTags(
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ) {
         $queryParams = $request->getQueryParams();
         $tags = (key_exists('tags', $queryParams)) ? $queryParams['tags'] : null;
         $message = "How about implementing findPetsByTags as a GET method in OpenAPIServer\Api\PetApi class?";
@@ -142,14 +145,16 @@ abstract class AbstractPetApi
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
-     * @param array|null             $args     Path arguments
+     * @param int $petId ID of pet to return
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function getPetById(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
-        $petId = $args['petId'];
+    public function getPetById(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        $petId
+    ) {
         $message = "How about implementing getPetById as a GET method in OpenAPIServer\Api\PetApi class?";
         throw new HttpNotImplementedException($request, $message);
     }
@@ -161,13 +166,14 @@ abstract class AbstractPetApi
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
-     * @param array|null             $args     Path arguments
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function updatePet(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
+    public function updatePet(
+        ServerRequestInterface $request,
+        ResponseInterface $response
+    ) {
         $body = $request->getParsedBody();
         $message = "How about implementing updatePet as a PUT method in OpenAPIServer\Api\PetApi class?";
         throw new HttpNotImplementedException($request, $message);
@@ -179,14 +185,16 @@ abstract class AbstractPetApi
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
-     * @param array|null             $args     Path arguments
+     * @param int $petId ID of pet that needs to be updated
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function updatePetWithForm(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
-        $petId = $args['petId'];
+    public function updatePetWithForm(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        $petId
+    ) {
         $body = $request->getParsedBody();
         $name = (isset($body['name'])) ? $body['name'] : null;
         $status = (isset($body['status'])) ? $body['status'] : null;
@@ -201,14 +209,16 @@ abstract class AbstractPetApi
      *
      * @param ServerRequestInterface $request  Request
      * @param ResponseInterface      $response Response
-     * @param array|null             $args     Path arguments
+     * @param int $petId ID of pet to update
      *
      * @return ResponseInterface
      * @throws HttpNotImplementedException to force implementation class to override this method
      */
-    public function uploadFile(ServerRequestInterface $request, ResponseInterface $response, array $args)
-    {
-        $petId = $args['petId'];
+    public function uploadFile(
+        ServerRequestInterface $request,
+        ResponseInterface $response,
+        $petId
+    ) {
         $body = $request->getParsedBody();
         $additionalMetadata = (isset($body['additionalMetadata'])) ? $body['additionalMetadata'] : null;
         $file = (key_exists('file', $request->getUploadedFiles())) ? $request->getUploadedFiles()['file'] : null;
