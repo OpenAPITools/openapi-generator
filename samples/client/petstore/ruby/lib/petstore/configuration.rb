@@ -335,6 +335,8 @@ module Petstore
       server = servers[index]
       url = server[:url]
 
+      return url unless server.key? :variables
+
       # go through variable and assign a value
       server[:variables].each do |name, variable|
         if variables.key?(name)
