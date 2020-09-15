@@ -8,36 +8,47 @@
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self{{#hasRequired}}, value{{/hasRequired}}, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """{{classname}} - a model defined in OpenAPI
 
-{{#hasRequired}}
+        Note that value can be passed either in args or in kwargs, but not in both.
+
         Args:
             value ({{{dataType}}}):{{#description}} {{description}}.{{/description}}{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
-
-{{/hasRequired}}
         Keyword Args:
-{{^hasRequired}}
             value ({{{dataType}}}):{{#description}} {{description}}.{{/description}}{{#defaultValue}} defaults to {{{defaultValue}}}{{/defaultValue}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
-{{/hasRequired}}
 {{> python-experimental/model_templates/docstring_init_required_kwargs }}
         """
 
-{{^hasRequired}}
+        value = None
+        have_value = False
         if 'value' in kwargs:
             value = kwargs.pop('value')
+            have_value = True
         elif args:
             args = list(args)
             value = args.pop(0)
+            have_value = True
+{{#defaultValue}}
         else:
             value = {{{defaultValue}}}
-{{/hasRequired}}
+            have_value = True
+{{/defaultValue}}
+
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
         _path_to_item = kwargs.pop('_path_to_item', ())
         _configuration = kwargs.pop('_configuration', None)
         _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
 
+{{#hasRequired}}
+        if not have_value:
+            raise ApiTypeError(
+                "value is required, but not passed in args or kwargs and doesn't have default",
+                path_to_item=_path_to_item,
+                valid_classes=(self.__class__,),
+            )
+{{/hasRequired}}
         if args:
             raise ApiTypeError(
                 "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (

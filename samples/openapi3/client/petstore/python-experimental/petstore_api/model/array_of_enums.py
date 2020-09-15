@@ -99,13 +99,15 @@ class ArrayOfEnums(ModelSimple):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, value, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """ArrayOfEnums - a model defined in OpenAPI
+
+        Note that value can be passed either in args or in kwargs, but not in both.
 
         Args:
             value ([StringEnum]):  # noqa: E501
-
         Keyword Args:
+            value ([StringEnum]):  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -138,12 +140,28 @@ class ArrayOfEnums(ModelSimple):
                                 _visited_composed_classes = (Animal,)
         """
 
+        value = None
+        have_value = False
+        if 'value' in kwargs:
+            value = kwargs.pop('value')
+            have_value = True
+        elif args:
+            args = list(args)
+            value = args.pop(0)
+            have_value = True
+
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
         _path_to_item = kwargs.pop('_path_to_item', ())
         _configuration = kwargs.pop('_configuration', None)
         _visited_composed_classes = kwargs.pop('_visited_composed_classes', ())
 
+        if not have_value:
+            raise ApiTypeError(
+                "value is required, but not passed in args or kwargs and doesn't have default",
+                path_to_item=_path_to_item,
+                valid_classes=(self.__class__,),
+            )
         if args:
             raise ApiTypeError(
                 "Invalid positional arguments=%s passed to %s. Remove those invalid positional arguments." % (
