@@ -382,7 +382,6 @@ public class PythonClientExperimentalTest {
         Assert.assertEquals(noDefaultEumLengthOneModel.hasRequired, false);
     }
 
-<<<<<<< HEAD
     @Test
     public void testObjectModelWithRefedAdditionalPropertiesIsGenerated() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
@@ -401,44 +400,6 @@ public class PythonClientExperimentalTest {
         output.deleteOnExit();
     }
 
-    @Test(description = "tests unaliasing of free form object components")
-    public void unaliasingOfFreeFormObjectComponents() {
-        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7361.yaml");
-        final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
-        codegen.setOpenAPI(openAPI);
-
-        String modelName;
-        Schema refSchema;
-        Schema sc;
-        String ref;
-
-        // model is not generated
-        modelName = "FreeForm";
-        ref = "#/components/schemas/"+modelName;
-        refSchema = new Schema();
-        refSchema.set$ref(ref);
-        sc = codegen.unaliasSchema(refSchema, codegen.importMapping());
-        Assert.assertNull(sc.get$ref());
-
-        modelName = "FreeFormInterface";
-        ref = "#/components/schemas/"+modelName;
-        refSchema = new Schema();
-        refSchema.set$ref(ref);
-        sc = codegen.unaliasSchema(refSchema, codegen.importMapping());
-        // ref existence means model will be generated
-        Assert.assertEquals(sc.get$ref(), ref);
-
-        modelName = "FreeFormWithValidation";
-        ref = "#/components/schemas/"+modelName;
-        refSchema = new Schema();
-        refSchema.set$ref(ref);
-        sc = codegen.unaliasSchema(refSchema, codegen.importMapping());
-        // ref existence means model will be generated
-        Assert.assertEquals(sc.get$ref(), ref);
-    }
-
-=======
->>>>>>> Removes unneeded test
     @Test
     public void testFreeFormSchemas() throws Exception {
         File output = Files.createTempDirectory("test").toFile();
