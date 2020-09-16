@@ -27,7 +27,6 @@ case class {{classname}}(
 {{/isEnum}}
 
 {{#isEnum}}
-
 object {{classname}} extends Enumeration {
     type {{classname}} = {{classname}}.Value
 {{#allowableValues}}
@@ -37,7 +36,6 @@ object {{classname}} extends Enumeration {
 {{/allowableValues}}
 }
 {{/isEnum}}
-
 {{#hasEnums}}
 object {{classname}}Enums {
 
