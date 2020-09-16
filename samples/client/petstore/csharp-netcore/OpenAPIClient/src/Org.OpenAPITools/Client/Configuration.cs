@@ -437,7 +437,7 @@ namespace Org.OpenAPITools.Client
             // go through variable and assign a value
             foreach (KeyValuePair<string, string> variable in inputVariables)
             {
-                Dictionary<string, object> serverVariables = (Dictionary<string, object>)((Dictionary<string, object>)server["variables"])[variable.Key];
+                IReadOnlyDictionary<string, object> serverVariables = (IReadOnlyDictionary<string, object>)((IReadOnlyDictionary<string, object>)server["variables"])[variable.Key];
                 // do something with entry.Value or entry.Key
                 if (inputVariables.ContainsKey(variable.Key))
                 {
