@@ -49,11 +49,13 @@ namespace {{packageName}}.Client
                     string.Format("Error calling {0}: {1}", methodName, response.RawContent),
                     response.RawContent, response.Headers);
             }
-            {{^netStandard}}if (status == 0)
+            {{^netStandard}}
+            if (status == 0)
             {
                 return new ApiException(status,
                     string.Format("Error calling {0}: {1}", methodName, response.ErrorText), response.ErrorText);
-            }{{/netStandard}}
+            }
+            {{/netStandard}}
             return null;
         };
 
@@ -82,6 +84,14 @@ namespace {{packageName}}.Client
 
         private string _dateTimeFormat = ISO8601_DATETIME_FORMAT;
         private string _tempFolderPath = Path.GetTempPath();
+        {{#servers.0}}
+
+        /// <summary>
+        /// Gets or sets the servers defined in the OpenAPI spec.
+        /// </summary>
+        /// <value>The servers</value>
+        private IList<IReadOnlyDictionary<string, object>> _servers;
+        {{/servers.0}}
 
         #endregion Private Members
 
@@ -98,6 +108,48 @@ namespace {{packageName}}.Client
             DefaultHeaders = new {{^net35}}Concurrent{{/net35}}Dictionary<string, string>();
             ApiKey = new {{^net35}}Concurrent{{/net35}}Dictionary<string, string>();
             ApiKeyPrefix = new {{^net35}}Concurrent{{/net35}}Dictionary<string, string>();
+            {{#servers}}
+            {{#-first}}
+            Servers = new List<IReadOnlyDictionary<string, object>>()
+            {
+            {{/-first}}
+                {
+                    new Dictionary<string, object> {
+                        {"url", "{{{url}}}"},
+                        {"description", "{{{description}}}{{^description}}No description provided{{/description}}"},
+                        {{#variables}}
+                        {{#-first}}
+                        {
+                            "variables", new Dictionary<string, object> {
+                        {{/-first}}
+                                {
+                                    "{{{name}}}", new Dictionary<string, object> {
+                                        {"description", "{{{description}}}{{^description}}No description provided{{/description}}"},
+                                        {"default_value", "{{{defaultValue}}}"},
+                                        {{#enumValues}}
+                                        {{#-first}}
+                                        {
+                                            "enum_values", new List<string>() {
+                                        {{/-first}}
+                                                "{{{.}}}"{{^-last}},{{/-last}}
+                                        {{#-last}}
+                                            }
+                                        }
+                                        {{/-last}}
+                                        {{/enumValues}}
+                                    } 
+                                }{{^-last}},{{/-last}}
+                        {{#-last}}
+                            }
+                        }
+                        {{/-last}}
+                        {{/variables}}
+                    }
+                }{{^-last}},{{/-last}}
+            {{#-last}}
+            };
+            {{/-last}}
+            {{/servers}}
 
             // Setting Timeout has side effects (forces ApiClient creation).
             Timeout = 100000;
@@ -333,6 +385,67 @@ namespace {{packageName}}.Client
                 _apiKey = value;
             }
         }
+        {{#servers.0}}
+
+        /// <summary>
+        /// Gets or sets the servers.
+        /// </summary>
+        /// <value>The servers.</value>
+        public virtual IList<IReadOnlyDictionary<string, object>> Servers 
+        {
+            get { return _servers; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new InvalidOperationException("Servers may not be null.");
+                }
+                _servers = value;
+            }
+        }
+
+        /// <summary>
+        /// Returns URL based on server settings.
+        /// </summary>
+        /// <param name="index">Array index of the server settings.</param>
+        /// <param name="inputVariables">Dictoinary of variable and the corresponding value.</param>
+        /// <return>The server URL.</return>
+        public string GetServerUrl(int index, Dictionary<string, string> inputVariables)
+        {
+            if (index < 0 || index >= Servers.Count)
+            {
+                throw new InvalidOperationException($"Invalid index {index} when selecting the server. Must be less than {Servers.Count}.");
+            }
+
+            IReadOnlyDictionary<string, object> server = Servers[index];
+            string url = (string)server["url"];
+
+            // go through variable and assign a value
+            foreach (KeyValuePair<string, string> variable in inputVariables)
+            {
+                Dictionary<string, object> serverVariables = (Dictionary<string, object>)((Dictionary<string, object>)server["variables"])[variable.Key];
+                // do something with entry.Value or entry.Key
+                if (inputVariables.ContainsKey(variable.Key))
+                {
+                    if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
+                    {
+                        url = url.Replace("{" + variable.Key + "}", inputVariables[variable.Key]);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException($"The variable `{variable.Key}` in the server URL has invalid value #{inputVariables[variable.Key]}. Must be {(List<string>)serverVariables["enum_values"]}");
+                    }
+                }
+                else
+                {
+                    // use defualt value
+                    url = url.Replace("{" + variable.Key + "}", (string)serverVariables["default_value"]);
+                }
+            }
+
+            return url;
+        }
+        {{/servers.0}}
 
         #endregion Properties
 
