@@ -704,7 +704,7 @@
             </modules>
         </profile>
         <profile>
-            <id>java-client-retrofit2</id>
+            <id>java-client-retrofit2-jackson</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -712,7 +712,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/java/retrofit2</module>
+                <module>samples/client/petstore/java/retrofit2-jackson</module>
             </modules>
         </profile>
         <profile>
