@@ -259,7 +259,9 @@ class {{classname}}(object):
         {{#-first}}
         response_types_map={
         {{/-first}}
-            {{^isWildcard}}{{code}}: "{{dataType}}",{{/isWildcard}}
+            {{^isWildcard}}
+            {{code}}: "{{dataType}}",
+            {{/isWildcard}}
         {{#-last}}
         }
         {{/-last}}
