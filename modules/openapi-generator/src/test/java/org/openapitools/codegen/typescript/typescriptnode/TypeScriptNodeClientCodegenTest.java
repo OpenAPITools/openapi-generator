@@ -139,7 +139,7 @@ public class TypeScriptNodeClientCodegenTest {
     @Test(description = "correctly produces imports without import mapping")
     public void postProcessOperationsWithModelsTestWithoutImportMapping() {
         final String importName = "../model/pet";
-        Map<String, Object> operations = postProcessOperationsHelper(importName);
+        Map<String, Object> operations = createPostProcessOperationsMapWithImportName(importName);
 
         codegen.postProcessOperationsWithModels(operations, Collections.emptyList());
         List<Map<String, Object>> extractedImports = (List<Map<String, Object>>) operations.get("imports");
@@ -149,7 +149,7 @@ public class TypeScriptNodeClientCodegenTest {
     @Test(description = "correctly produces imports with import mapping")
     public void postProcessOperationsWithModelsTestWithImportMapping() {
         final String importName = "@namespace/dir/category";
-        Map<String, Object> operations = postProcessOperationsHelper(importName);
+        Map<String, Object> operations = createPostProcessOperationsMapWithImportName(importName);
 
         codegen.postProcessOperationsWithModels(operations, Collections.emptyList());
         List<Map<String, Object>> extractedImports = (List<Map<String, Object>>) operations.get("imports");
@@ -157,7 +157,7 @@ public class TypeScriptNodeClientCodegenTest {
         Assert.assertEquals(extractedImports.get(0).get("filename"), importName);
     }
 
-    private Map<String, Object> postProcessOperationsHelper(String importName) {
+    private Map<String, Object> createPostProcessOperationsMapWithImportName(String importName) {
         Map<String, Object> operations = new HashMap<String, Object>() {{
             put("operation", Collections.emptyList());
             put("classname", "Pet");
