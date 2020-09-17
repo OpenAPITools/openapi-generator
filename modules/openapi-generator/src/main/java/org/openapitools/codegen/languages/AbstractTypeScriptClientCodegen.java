@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
@@ -35,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -130,7 +133,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
                 "File",
                 "Error",
                 "Map",
-                "object"
+                "object",
+                "Set"
         ));
 
         languageGenericTypes = new HashSet<>(Collections.singletonList(
@@ -140,6 +144,8 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         instantiationTypes.put("array", "Array");
 
         typeMapping = new HashMap<String, String>();
+        typeMapping.put("Set", "Set");
+        typeMapping.put("set", "Set");
         typeMapping.put("Array", "Array");
         typeMapping.put("array", "Array");
         typeMapping.put("boolean", "boolean");
@@ -219,6 +225,47 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         if (additionalProperties.containsKey(NPM_NAME)) {
             this.setNpmName(additionalProperties.get(NPM_NAME).toString());
         }
+    }
+
+    @Override
+    public String toModelImport( String name){
+        if(isUnionType(name)){
+           LOGGER.warn("The import is a union type. Consider using the toModelImportMap method.");
+           return toModelImportMap(name).values().stream().collect(Collectors.joining("|"));
+        }
+        return super.toModelImport(name);
+    }
+
+    /**
+     * Maps the fully qualified model import to the initial given name. In case of union types the map will have multiple entries.
+     * For example for "classA | classB" the map will two entries have ["model.classA","classA"] and ["model.classB","classB"].
+     *
+     * @param name the name of the "Model"
+     * @return Map between the fully qualified model import and the initial given name.
+     */
+    @Override
+    public Map<String,String> toModelImportMap( String name){
+        if(isUnionType(name)){
+           String[] names = splitUnionType(name);
+           return toImportMap(names);
+        }
+        return toImportMap(name);
+    }
+
+    private boolean isUnionType(String name){
+        return name.contains("|");
+    }
+
+    private String[] splitUnionType(String name){
+        return  name.replace(" ","").split("\\|");
+    }
+
+    private Map<String,String> toImportMap(String... names){
+        Map<String,String> result = Maps.newHashMap();
+        for(String name: names){
+            result.put(toModelImport(name),name);
+        }
+        return result;
     }
 
     @Override
@@ -464,10 +511,19 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     @Override
     public String toDefaultValue(Schema p) {
         if (ModelUtils.isBooleanSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isDateSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isDateTimeSchema(p)) {
+            if (p.getDefault() != null) {
+                return p.getDefault().toString();
+            }
             return UNDEFINED_VALUE;
         } else if (ModelUtils.isNumberSchema(p) || ModelUtils.isIntegerSchema(p)) {
             if (p.getDefault() != null) {
@@ -634,13 +690,13 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             case original:
                 return name;
             case camelCase:
-                return camelize(name, true);
+                return camelize(underscore(name), true);
             case PascalCase:
-                return camelize(name);
+                return camelize(underscore(name));
             case snake_case:
                 return underscore(name);
             case UPPERCASE:
-                return name.toUpperCase(Locale.ROOT);
+                return underscore(name).toUpperCase(Locale.ROOT);
             default:
                 throw new IllegalArgumentException("Unsupported enum property naming: '" + name);
         }
@@ -837,7 +893,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
      */
     protected List<String> getTypesFromSchemas(List<Schema> schemas) {
         List<Schema> filteredSchemas = schemas.size() > 1
-            ? schemas.stream().filter(schema -> super.getSchemaType(schema) != "AnyType").collect(Collectors.toList())
+            ? schemas.stream().filter(schema -> !"AnyType".equals(super.getSchemaType(schema))).collect(Collectors.toList())
             : schemas;
 
         return filteredSchemas.stream().map(schema -> {

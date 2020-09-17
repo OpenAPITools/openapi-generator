@@ -1,4 +1,4 @@
-# triangle.Triangle
+# Triangle
 
 ## Properties
 Name | Type | Description | Notes

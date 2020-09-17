@@ -48,7 +48,9 @@ java -cp /path/totemplate-classpath-example-1.0-SNAPSHOT.jar:modules/openapi-gen
     -g html -o template-example -t templates/htmlDocs
 ```
 
-Note that our template directory is relative to the resource directory of the JAR defined on the classpath.
+**NOTE** Running your custom generator in the example above requires adding it to the classpath. This differs on [Windows](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/classpath.html) slightly from [unix](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/classpath.html).
+
+Take note that our template directory is relative to the resource directory of the JAR defined on the classpath.
 
 ### Retrieving Templates
 
@@ -157,7 +159,7 @@ index a4d0f9f..49b17c7 100644
 
 ```
 
-Next, we'll find the code which generates API methods. You'll see `{{#operations}}{{#operation}}` which is a mustache "loop" which executes the template logic if the model applied to the template has an `operations` array, and a non-null `operation` instance in that array. You can pass `-DdebugOpenAPI` when generating via CLI to inspect the full object model.
+Next, we'll find the code which generates API methods. You'll see `{{#operations}}{{#operation}}` which is a mustache "loop" which executes the template logic if the model applied to the template has an `operations` array, and a non-null `operation` instance in that array. You can pass `--global-property debugOpenAPI=true` when generating via CLI to inspect the full object model.
 
 Further down in `api.mustache`, find implementation of the method call, and add the `@Loggable` annotation. This template is easy because it has a single method implementation.
 
@@ -467,10 +469,12 @@ java $JAVA_OPTS -cp /your/path/build/libs/pebble-template-adapter-1.0-SNAPSHOT-a
     -e pebble \
     -o /tmp/pebble-example/out \
     -t /tmp/pebble-example/templates \
-    -Dmodels -DmodelDocs=false -DmodelTests=false -Dapis -DapiTests=false -DapiDocs=false
+    --global-property models,modelDocs,modelTests,apis,apiTests,apiDocs
 ```
 
-Notice how we've targeted our custom template engine adapter via `-e pebble`. If you don't include the SPI file under `META-INF/services`, you'll need to specify the exact classpath: `org.openapitools.examples.templating.PebbleTemplateAdapter`. Notice that the target class here matches the Kotlin class name. This is because of the `@file:JvmName` annotation.
+**NOTE** Running your custom generator requires adding it to the classpath. This differs on [Windows](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/classpath.html) slightly from [unix](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/classpath.html).
+
+In the above example, we've targeted our custom template engine adapter via `-e pebble`. If you don't include the SPI file under `META-INF/services`, you'll need to specify the exact classpath: `org.openapitools.examples.templating.PebbleTemplateAdapter`. Notice that the target class here matches the Kotlin class name. This is because of the `@file:JvmName` annotation.
 
 Congratulations on creating a custom templating engine adapter!
 
@@ -531,7 +535,7 @@ Examples for the following structures will be presented using the following spec
 
 ### Operations
 
-> Inspect operation structures passed to templates with system property `-DdebugOpenAPI`
+> Inspect operation structures passed to templates with system property `--global-property debugOpenAPI=true`
 >
 > Example:
 >
@@ -539,7 +543,7 @@ Examples for the following structures will be presented using the following spec
 > openapi-generator generate -g go \
 >     -o out \
 >     -i petstore-minimal.yaml \
->     -DdebugOpenAPI
+>     --global-property debugOpenAPI=true
 > ```
 >
 
@@ -563,7 +567,7 @@ Here, an Operation with tag `Pet` will generate two files: `SWGPetApi.h` and `SW
 
 ### Models
 
-> Inspect models passed to templates with system property `-DdebugModels`
+> Inspect models passed to templates with system property `--global-property debugModels=true`
 >
 > Execute:
 >
@@ -571,13 +575,13 @@ Here, an Operation with tag `Pet` will generate two files: `SWGPetApi.h` and `SW
 > openapi-generator generate -g go \
 >     -o out \
 >     -i petstore-minimal.yaml \
->     -DdebugModels
+>     --global-property debugModels=true
 > ```
 >
 
 Each model identified inside the generator will be passed into the `Models` data structure and will generate a new model file (or files) for each model.
 
-A `Pet` model with three properties will provide a _lot_ of information about the type and properties. The output from `-DdebugModels` is presented in truncated format here.
+A `Pet` model with three properties will provide a _lot_ of information about the type and properties. The output from `--global-property debugModels=true` is presented in truncated format here.
 
 ```json
 [ {
@@ -788,7 +792,7 @@ We expose the same properties in multiple sets because this allows us to conditi
 
 ### supportingFiles
 
-> Inspect supportingFiles passed to templates with system property `-DdebugSupportingFiles`
+> Inspect supportingFiles passed to templates with system property `--global-property debugSupportingFiles=true`
 >
 > Execute:
 >
@@ -796,7 +800,7 @@ We expose the same properties in multiple sets because this allows us to conditi
 > openapi-generator generate -g go \
 >     -o out \
 >     -i petstore-minimal.yaml \
->     -DdebugSupportingFiles
+>     --global-property debugSupportingFiles=true
 > ```
 >
 

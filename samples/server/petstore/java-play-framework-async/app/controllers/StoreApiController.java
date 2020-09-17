@@ -3,6 +3,7 @@ package controllers;
 import java.util.Map;
 import apimodels.Order;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
@@ -21,7 +22,7 @@ import java.util.concurrent.CompletionStage;
 import java.util.concurrent.CompletableFuture;
 
 import javax.validation.constraints.*;
-import play.Configuration;
+import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
@@ -30,10 +31,10 @@ public class StoreApiController extends Controller {
 
     private final StoreApiControllerImpInterface imp;
     private final ObjectMapper mapper;
-    private final Configuration configuration;
+    private final Config configuration;
 
     @Inject
-    private StoreApiController(Configuration configuration, StoreApiControllerImpInterface imp) {
+    private StoreApiController(Config configuration, StoreApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
         this.configuration = configuration;
@@ -41,16 +42,16 @@ public class StoreApiController extends Controller {
 
 
     @ApiAction
-    public CompletionStage<Result> deleteOrder(String orderId) throws Exception {
+    public CompletionStage<Result> deleteOrder(Http.Request request, String orderId) throws Exception {
         return CompletableFuture.supplyAsync(() -> {
-            imp.deleteOrder(orderId)
+            imp.deleteOrder(request, orderId);
             return ok();
         });
     }
 
     @ApiAction
-    public CompletionStage<Result> getInventory() throws Exception {
-        CompletionStage<Map<String, Integer>> stage = imp.getInventory().thenApply(obj -> { 
+    public CompletionStage<Result> getInventory(Http.Request request) throws Exception {
+        CompletionStage<Map<String, Integer>> stage = imp.getInventory(request).thenApply(obj -> { 
             return obj;
         });
         stage.thenApply(obj -> {
@@ -60,8 +61,8 @@ public class StoreApiController extends Controller {
     }
 
     @ApiAction
-    public CompletionStage<Result> getOrderById( @Min(1) @Max(5)Long orderId) throws Exception {
-        CompletionStage<Order> stage = imp.getOrderById(orderId).thenApply(obj -> { 
+    public CompletionStage<Result> getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
+        CompletionStage<Order> stage = imp.getOrderById(request, orderId).thenApply(obj -> { 
             if (configuration.getBoolean("useOutputBeanValidation")) {
                 OpenAPIUtils.validate(obj);
             }
@@ -74,8 +75,8 @@ public class StoreApiController extends Controller {
     }
 
     @ApiAction
-    public CompletionStage<Result> placeOrder() throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public CompletionStage<Result> placeOrder(Http.Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         Order body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), Order.class);
@@ -85,7 +86,7 @@ public class StoreApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        CompletionStage<Order> stage = imp.placeOrder(body).thenApply(obj -> { 
+        CompletionStage<Order> stage = imp.placeOrder(request, body).thenApply(obj -> { 
             if (configuration.getBoolean("useOutputBeanValidation")) {
                 OpenAPIUtils.validate(obj);
             }

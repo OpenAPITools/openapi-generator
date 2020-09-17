@@ -18,6 +18,11 @@ class UserLogin
     /**
      * Logs user into the system
      * @PHA\Get()
+     * @PHA\Attribute(name=PHAttribute\Transfer::class, options={
+     *     "type":\App\DTO\LoginUserQueryData::class,
+     *     "objectAttr":"queryData",
+     *     "source": PHAttribute\Transfer::SOURCE_GET
+     * })
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
      * @PHA\Producer(name=PHProducer\Transfer::class, mediaType="application/xml")
      * TODO check if producer is valid, if it has correct priority and if it can be moved to class annotation
@@ -31,6 +36,8 @@ class UserLogin
     public function loginUser(ServerRequestInterface $request): string
     {
         //TODO implement method
+        /** @var \App\DTO\LoginUserQueryData $queryData */
+        $queryData = $request->getAttribute("queryData");
         throw new PHException\HttpCode(501, "Not implemented");
     }
 }

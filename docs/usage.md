@@ -399,7 +399,7 @@ OPTIONS
 
         --log-to-stderr
             write all log messages (not just errors) to STDOUT. Useful for
-            piping the JSON output of debug options (e.g. `-DdebugOperations`)
+            piping the JSON output of debug options (e.g. `--global-property debugOperations=true`)
             to an external parser directly while testing a generator.
 
         --minimal-update
@@ -522,6 +522,12 @@ openapi-generator generate \
 
 > NOTE: mappings are applied to `DateTime`, as this is the representation of the primitive type. See [DefaultCodegen](https://github.com/OpenAPITools/openapi-generator/blob/7cee999543fcc00b7c1eb9f70f0456b707c7f9e2/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java#L1431).
 
+#### File Post-Processing
+
+The `--enable-post-process-file` option enables specific generators to invoke some external language-specific formatting script. Each filename is passed _individually_ to this external script, allowing for linting, formatting, or other custom clean-up.
+
+For more details, see [File Post-Processing](./file-post-processing.md).
+
 ### Target External Models
 
 Sometimes you don't want the codegen to make a model for you--you might want to just include one that already exists in your codebase.  Say you already have a `User` object and want to reuse that, which has a different model package from the other generated files:
@@ -596,7 +602,7 @@ openapi-generator generate -i petstore.yaml -g typescript-fetch -o out \
 The `batch` command allows you to move all CLI arguments supported by the `generate` command into a YAML or JSON file.
 
 *NOTE*: This command supports an additional `!include` property which may point to another "shared" file, the base path to which can be
-modified by `--includes-base-dir`.
+modified by `--includes-base-dir`. Starting with 5.0.0, the `!batch` command supports multiple `!include` properties, either sequential or nested. In order to support multiple `!include` properties in a JSON file, the property name can have a suffix, e.g. `!include1`, `!include2`, etc. The suffix have no meaning other than providing unique property names.
 
 ```bash
 openapi-generator help batch

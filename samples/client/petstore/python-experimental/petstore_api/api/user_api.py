@@ -10,13 +10,8 @@
 """
 
 
-from __future__ import absolute_import
-
 import re  # noqa: F401
 import sys  # noqa: F401
-
-# python 2 and python 3 compatibility library
-import six
 
 from petstore_api.api_client import ApiClient, Endpoint
 from petstore_api.model_utils import (  # noqa: F401
@@ -25,12 +20,10 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_and_convert_types
 )
-from petstore_api.model import user
+from petstore_api.model.user import User
 
 
 class UserApi(object):
@@ -60,7 +53,7 @@ class UserApi(object):
             >>> result = thread.get()
 
             Args:
-                body (user.User): Created user object
+                body (User): Created user object
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -78,9 +71,9 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -106,7 +99,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
             return self.call_with_http_info(**kwargs)
@@ -118,7 +111,7 @@ class UserApi(object):
                 'endpoint_path': '/user',
                 'operation_id': 'create_user',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -141,7 +134,7 @@ class UserApi(object):
                 },
                 'openapi_types': {
                     'body':
-                        (user.User,),
+                        (User,),
                 },
                 'attribute_map': {
                 },
@@ -173,7 +166,7 @@ class UserApi(object):
             >>> result = thread.get()
 
             Args:
-                body ([user.User]): List of user object
+                body ([User]): List of user object
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -191,9 +184,9 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -219,7 +212,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
             return self.call_with_http_info(**kwargs)
@@ -231,7 +224,7 @@ class UserApi(object):
                 'endpoint_path': '/user/createWithArray',
                 'operation_id': 'create_users_with_array_input',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -254,7 +247,7 @@ class UserApi(object):
                 },
                 'openapi_types': {
                     'body':
-                        ([user.User],),
+                        ([User],),
                 },
                 'attribute_map': {
                 },
@@ -286,7 +279,7 @@ class UserApi(object):
             >>> result = thread.get()
 
             Args:
-                body ([user.User]): List of user object
+                body ([User]): List of user object
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -304,9 +297,9 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -332,7 +325,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['body'] = \
                 body
             return self.call_with_http_info(**kwargs)
@@ -344,7 +337,7 @@ class UserApi(object):
                 'endpoint_path': '/user/createWithList',
                 'operation_id': 'create_users_with_list_input',
                 'http_method': 'POST',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -367,7 +360,7 @@ class UserApi(object):
                 },
                 'openapi_types': {
                     'body':
-                        ([user.User],),
+                        ([User],),
                 },
                 'attribute_map': {
                 },
@@ -418,9 +411,9 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -446,7 +439,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['username'] = \
                 username
             return self.call_with_http_info(**kwargs)
@@ -458,7 +451,7 @@ class UserApi(object):
                 'endpoint_path': '/user/{username}',
                 'operation_id': 'delete_user',
                 'http_method': 'DELETE',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -532,13 +525,13 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
-                user.User
+                User
                     If the method is called asynchronously, returns the request
                     thread.
             """
@@ -560,19 +553,19 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['username'] = \
                 username
             return self.call_with_http_info(**kwargs)
 
         self.get_user_by_name = Endpoint(
             settings={
-                'response_type': (user.User,),
+                'response_type': (User,),
                 'auth': [],
                 'endpoint_path': '/user/{username}',
                 'operation_id': 'get_user_by_name',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -651,9 +644,9 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -679,7 +672,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['username'] = \
                 username
             kwargs['password'] = \
@@ -693,7 +686,7 @@ class UserApi(object):
                 'endpoint_path': '/user/login',
                 'operation_id': 'login_user',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -773,9 +766,9 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -801,7 +794,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             return self.call_with_http_info(**kwargs)
 
         self.logout_user = Endpoint(
@@ -811,7 +804,7 @@ class UserApi(object):
                 'endpoint_path': '/user/logout',
                 'operation_id': 'logout_user',
                 'http_method': 'GET',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -863,7 +856,7 @@ class UserApi(object):
 
             Args:
                 username (str): name that need to be deleted
-                body (user.User): Updated user object
+                body (User): Updated user object
 
             Keyword Args:
                 _return_http_data_only (bool): response data without head status
@@ -881,9 +874,9 @@ class UserApi(object):
                 _check_return_type (bool): specifies if type checking
                     should be done one the data received from the server.
                     Default is True.
-                _host_index (int): specifies the index of the server
+                _host_index (int/None): specifies the index of the server
                     that we want to use.
-                    Default is 0.
+                    Default is read from the configuration.
                 async_req (bool): execute request asynchronously
 
             Returns:
@@ -909,7 +902,7 @@ class UserApi(object):
             kwargs['_check_return_type'] = kwargs.get(
                 '_check_return_type', True
             )
-            kwargs['_host_index'] = kwargs.get('_host_index', 0)
+            kwargs['_host_index'] = kwargs.get('_host_index')
             kwargs['username'] = \
                 username
             kwargs['body'] = \
@@ -923,7 +916,7 @@ class UserApi(object):
                 'endpoint_path': '/user/{username}',
                 'operation_id': 'update_user',
                 'http_method': 'PUT',
-                'servers': [],
+                'servers': None,
             },
             params_map={
                 'all': [
@@ -950,7 +943,7 @@ class UserApi(object):
                     'username':
                         (str,),
                     'body':
-                        (user.User,),
+                        (User,),
                 },
                 'attribute_map': {
                     'username': 'username',

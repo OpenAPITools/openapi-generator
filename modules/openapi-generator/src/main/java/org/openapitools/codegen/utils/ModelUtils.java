@@ -41,8 +41,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.io.FileUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URI;
+import java.net.URLDecoder;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -65,13 +67,15 @@ public class ModelUtils {
     // A vendor extension to track the value of the 'disallowAdditionalPropertiesIfNotPresent' CLI
     private static final String disallowAdditionalPropertiesIfNotPresent = "x-disallow-additional-properties-if-not-present";
 
+    private static final String freeFormExplicit = "x-is-free-form";
+
     private static ObjectMapper JSON_MAPPER, YAML_MAPPER;
 
     static {
         JSON_MAPPER = ObjectMapperFactory.createJson();
         YAML_MAPPER = ObjectMapperFactory.createYaml();
     }
-    
+
     public static void setDisallowAdditionalPropertiesIfNotPresent(boolean value) {
         GlobalSettings.setProperty(disallowAdditionalPropertiesIfNotPresent, Boolean.toString(value));
     }
@@ -86,6 +90,10 @@ public class ModelUtils {
 
     public static boolean isGenerateAliasAsModel() {
         return Boolean.parseBoolean(GlobalSettings.getProperty(generateAliasAsModelKey, "false"));
+    }
+
+    public static boolean isGenerateAliasAsModel(Schema schema) {
+        return isGenerateAliasAsModel() || (schema.getExtensions() != null && schema.getExtensions().getOrDefault("x-generate-alias-as-model", false).equals(true));
     }
 
     /**
@@ -382,6 +390,18 @@ public class ModelUtils {
 
         }
 
+        try {
+            ref = URLDecoder.decode(ref, "UTF-8");
+        } catch (UnsupportedEncodingException ignored) {
+        }
+
+        // see https://tools.ietf.org/html/rfc6901#section-3
+        // Because the characters '~' (%x7E) and '/' (%x2F) have special meanings in
+        // JSON Pointer, '~' needs to be encoded as '~0' and '/' needs to be encoded 
+        // as '~1' when these characters appear in a reference token.
+        // This reverses that encoding.
+        ref = ref.replace("~1", "/").replace("~0", "~");
+
         return ref;
     }
 
@@ -668,25 +688,23 @@ public class ModelUtils {
     }
 
     /**
-     * Check to see if the schema is a model with at least one property.
+     * Check to see if the schema is a model
      *
      * @param schema potentially containing a '$ref'
      * @return true if it's a model with at least one properties
      */
     public static boolean isModel(Schema schema) {
         if (schema == null) {
-            // TODO: Is this message necessary? A null schema is not a model, so the result is correct.
-            once(LOGGER).error("Schema cannot be null in isModel check");
             return false;
         }
 
-        // has at least one property
-        if (schema.getProperties() != null && !schema.getProperties().isEmpty()) {
+        // has properties
+        if (null != schema.getProperties()) {
             return true;
         }
 
-        // composed schema is a model
-        return schema instanceof ComposedSchema;
+        // composed schema is a model, consider very simple ObjectSchema a model
+        return schema instanceof ComposedSchema || schema instanceof ObjectSchema;
     }
 
     /**
@@ -741,6 +759,16 @@ public class ModelUtils {
             // no properties
             if ((schema.getProperties() == null || schema.getProperties().isEmpty())) {
                 Schema addlProps = getAdditionalProperties(openAPI, schema);
+
+                if (schema.getExtensions() != null && schema.getExtensions().containsKey(freeFormExplicit)) {
+                    // User has hard-coded vendor extension to handle free-form evaluation.
+                    boolean isFreeFormExplicit = Boolean.parseBoolean(String.valueOf(schema.getExtensions().get(freeFormExplicit)));
+                    if (!isFreeFormExplicit && addlProps != null && addlProps.getProperties() != null && !addlProps.getProperties().isEmpty()) {
+                        once(LOGGER).error(String.format(Locale.ROOT, "Potentially confusing usage of %s within model which defines additional properties", freeFormExplicit));
+                    }
+                    return isFreeFormExplicit;
+                }
+
                 // additionalProperties not defined
                 if (addlProps == null) {
                     return true;
@@ -753,7 +781,7 @@ public class ModelUtils {
                         }
                     } else if (addlProps instanceof Schema) {
                         // additionalProperties defined as {}
-                        if (addlProps.getType() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
+                        if (addlProps.getType() == null && addlProps.get$ref() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
                             return true;
                         }
                     }
@@ -1026,7 +1054,7 @@ public class ModelUtils {
         if (schema != null && StringUtils.isNotEmpty(schema.get$ref())) {
             String simpleRef = ModelUtils.getSimpleRef(schema.get$ref());
             if (importMappings.containsKey(simpleRef)) {
-                LOGGER.info("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, importMappings.get(simpleRef));
+                LOGGER.debug("Schema unaliasing of {} omitted because aliased class is to be mapped to {}", simpleRef, importMappings.get(simpleRef));
                 return schema;
             }
             Schema ref = allSchemas.get(simpleRef);
@@ -1037,7 +1065,7 @@ public class ModelUtils {
                 // top-level enum class
                 return schema;
             } else if (isArraySchema(ref)) {
-                if (isGenerateAliasAsModel()) {
+                if (isGenerateAliasAsModel(ref)) {
                     return schema; // generate a model extending array
                 } else {
                     return unaliasSchema(openAPI, allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
@@ -1049,7 +1077,7 @@ public class ModelUtils {
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) // has at least one property
                     return schema; // treat it as model
                 else {
-                    if (isGenerateAliasAsModel()) {
+                    if (isGenerateAliasAsModel(ref)) {
                         return schema; // generate a model extending map
                     } else {
                         // treat it as a typical map
@@ -1073,7 +1101,7 @@ public class ModelUtils {
 
     /**
      * Returns the additionalProperties Schema for the specified input schema.
-     * 
+     *
      * The additionalProperties keyword is used to control the handling of additional, undeclared
      * properties, that is, properties whose names are not listed in the properties keyword.
      * The additionalProperties keyword may be either a boolean or an object.
@@ -1081,7 +1109,7 @@ public class ModelUtils {
      * By default when the additionalProperties keyword is not specified in the input schema,
      * any additional properties are allowed. This is equivalent to setting additionalProperties
      * to the boolean value True or setting additionalProperties: {}
-     * 
+     *
      * @param openAPI the object that encapsulates the OAS document.
      * @param schema the input schema that may or may not have the additionalProperties keyword.
      * @return the Schema of the additionalProperties. The null value is returned if no additional
@@ -1137,7 +1165,7 @@ public class ModelUtils {
         }
         return null;
     }
-    
+
     public static Header getReferencedHeader(OpenAPI openAPI, Header header) {
         if (header != null && StringUtils.isNotEmpty(header.get$ref())) {
             String name = getSimpleRef(header.get$ref());
@@ -1474,12 +1502,12 @@ public class ModelUtils {
 
     /**
      * Parse and return a JsonNode representation of the input OAS document.
-     * 
+     *
      * @param location the URL of the OAS document.
      * @param auths the list of authorization values to access the remote URL.
-     * 
+     *
      * @throws java.lang.Exception if an error occurs while retrieving the OpenAPI document.
-     * 
+     *
      * @return A JsonNode representation of the input OAS document.
      */
     public static JsonNode readWithInfo(String location, List<AuthorizationValue> auths) throws Exception {
@@ -1507,14 +1535,14 @@ public class ModelUtils {
     /**
      * Parse the OAS document at the specified location, get the swagger or openapi version
      * as specified in the source document, and return the version.
-     * 
+     *
      * For OAS 2.0 documents, return the value of the 'swagger' attribute.
      * For OAS 3.x documents, return the value of the 'openapi' attribute.
-     * 
+     *
      * @param openAPI the object that encapsulates the OAS document.
      * @param location the URL of the OAS document.
      * @param auths the list of authorization values to access the remote URL.
-     * 
+     *
      * @return the version of the OpenAPI document.
      */
     public static SemVer getOpenApiVersion(OpenAPI openAPI, String location, List<AuthorizationValue> auths) {

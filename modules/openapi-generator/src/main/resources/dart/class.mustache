@@ -1,7 +1,7 @@
 class {{classname}} {
   {{#vars}}
   {{#description}}/* {{{description}}} */{{/description}}
-  {{{dataType}}} {{name}} = {{{defaultValue}}};
+  {{^defaultValue}}{{{dataType}}} {{name}} = null;{{/defaultValue}}{{#defaultValue}}{{{dataType}}} {{name}} = {{defaultValue}};{{/defaultValue}}
   {{#allowableValues}}
   {{#min}} // range from {{min}} to {{max}}{{/min}}//{{^min}}enum {{name}}Enum { {{#values}} {{.}}, {{/values}} };{{/min}}{
   {{/allowableValues}}
@@ -58,14 +58,24 @@ class {{classname}} {
     return {
     {{#vars}}
       {{#isDateTime}}
-      '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
+        '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
       {{/isDateTime}}
       {{#isDate}}
-      '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
+        '{{baseName}}': {{name}} == null ? '' : {{name}}.toUtc().toIso8601String(){{^-last}},{{/-last}}
       {{/isDate}}
       {{^isDateTime}}
       {{^isDate}}
-      '{{baseName}}': {{name}}{{^-last}},{{/-last}}
+        {{#complexType}}
+          {{#isListContainer}}
+            '{{baseName}}': {{name}} == null ? null : {{name}}.map((item) => item.toJson()).toList(){{^-last}},{{/-last}}
+          {{/isListContainer}}
+          {{^isListContainer}}
+            '{{baseName}}': {{name}} == null ? null : {{name}}.toJson(){{^-last}},{{/-last}}
+          {{/isListContainer}}
+        {{/complexType}}
+        {{^complexType}}
+          '{{baseName}}': {{name}}{{^-last}},{{/-last}}
+        {{/complexType}}
       {{/isDate}}
       {{/isDateTime}}
     {{/vars}}

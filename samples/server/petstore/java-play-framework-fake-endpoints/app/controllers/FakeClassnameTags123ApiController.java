@@ -2,6 +2,7 @@ package controllers;
 
 import apimodels.Client;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
@@ -17,7 +18,7 @@ import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
-import play.Configuration;
+import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
@@ -26,10 +27,10 @@ public class FakeClassnameTags123ApiController extends Controller {
 
     private final FakeClassnameTags123ApiControllerImpInterface imp;
     private final ObjectMapper mapper;
-    private final Configuration configuration;
+    private final Config configuration;
 
     @Inject
-    private FakeClassnameTags123ApiController(Configuration configuration, FakeClassnameTags123ApiControllerImpInterface imp) {
+    private FakeClassnameTags123ApiController(Config configuration, FakeClassnameTags123ApiControllerImpInterface imp) {
         this.imp = imp;
         mapper = new ObjectMapper();
         this.configuration = configuration;
@@ -37,8 +38,8 @@ public class FakeClassnameTags123ApiController extends Controller {
 
 
     @ApiAction
-    public Result testClassname() throws Exception {
-        JsonNode nodebody = request().body().asJson();
+    public Result testClassname(Http.Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
         Client body;
         if (nodebody != null) {
             body = mapper.readValue(nodebody.toString(), Client.class);
@@ -48,7 +49,7 @@ public class FakeClassnameTags123ApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        Client obj = imp.testClassname(body);
+        Client obj = imp.testClassname(request, body);
         if (configuration.getBoolean("useOutputBeanValidation")) {
             OpenAPIUtils.validate(obj);
         }

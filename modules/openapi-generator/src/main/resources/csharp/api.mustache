@@ -72,7 +72,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}/// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse{{#returnType}} ({{returnType}}){{/returnType}}</returns>
-        System.Threading.Tasks.Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}AsyncWithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken));
+        System.Threading.Tasks.Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken));
         {{/operation}}
         #endregion Asynchronous Operations
         {{/supportsAsync}}
@@ -251,7 +251,7 @@ namespace {{packageName}}.{{apiPackage}}
             if ({{paramName}} != null) localVarHeaderParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToString({{paramName}})); // header parameter
             {{/headerParams}}
             {{#formParams}}
-            if ({{paramName}} != null) {{#isFile}}localVarFileParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}localVarFormParams.Add("{{baseName}}", this.Configuration.ApiClient.{{#isPrimitiveType}}ParameterToString{{/isPrimitiveType}}{{^isPrimitiveType}}Serialize{{/isPrimitiveType}}({{paramName}})); // form parameter{{/isFile}}
+            if ({{paramName}} != null) {{#isFile}}localVarFileParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}localVarFormParams.Add("{{baseName}}", {{#vendorExtensions.x-is-json}}{{paramName}}.ToJson(){{/vendorExtensions.x-is-json}}{{^vendorExtensions.x-is-json}}this.Configuration.ApiClient.{{#isPrimitiveType}}ParameterToString{{/isPrimitiveType}}{{^isPrimitiveType}}Serialize{{/isPrimitiveType}}({{paramName}}){{/vendorExtensions.x-is-json}}); // form parameter{{/isFile}}
             {{/formParams}}
             {{#bodyParam}}
             if ({{paramName}} != null && {{paramName}}.GetType() != typeof(byte[]))
@@ -340,8 +340,8 @@ namespace {{packageName}}.{{apiPackage}}
         /// <returns>Task of {{#returnType}}{{returnType}}{{/returnType}}{{^returnType}}void{{/returnType}}</returns>
         {{#returnType}}public async System.Threading.Tasks.Task<{{{returnType}}}>{{/returnType}}{{^returnType}}public async System.Threading.Tasks.Task{{/returnType}} {{operationId}}Async ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken))
         {
-             {{#returnType}}ApiResponse<{{{returnType}}}> localVarResponse = await {{operationId}}AsyncWithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken);
-             return localVarResponse.Data;{{/returnType}}{{^returnType}}await {{operationId}}AsyncWithHttpInfo({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken);{{/returnType}}
+             {{#returnType}}ApiResponse<{{{returnType}}}> localVarResponse = await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken);
+             return localVarResponse.Data;{{/returnType}}{{^returnType}}await {{operationId}}WithHttpInfoAsync({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}cancellationToken);{{/returnType}}
 
         }
 
@@ -352,7 +352,7 @@ namespace {{packageName}}.{{apiPackage}}
         {{#allParams}}/// <param name="{{paramName}}">{{description}}{{^required}} (optional{{#defaultValue}}, default to {{.}}{{/defaultValue}}){{/required}}</param>
         {{/allParams}}/// <param name="cancellationToken">Cancellation Token to cancel request (optional) </param>
         /// <returns>Task of ApiResponse{{#returnType}} ({{returnType}}){{/returnType}}</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}AsyncWithHttpInfo ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken))
+        public async System.Threading.Tasks.Task<ApiResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Object{{/returnType}}>> {{operationId}}WithHttpInfoAsync ({{#allParams}}{{{dataType}}} {{paramName}}{{^required}}{{#optionalMethodArgument}} = default({{{dataType}}}){{/optionalMethodArgument}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{#allParams.0}}, {{/allParams.0}}CancellationToken cancellationToken = default(CancellationToken))
         {
             {{#allParams}}
             {{#required}}
@@ -398,7 +398,7 @@ namespace {{packageName}}.{{apiPackage}}
             if ({{paramName}} != null) localVarHeaderParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToString({{paramName}})); // header parameter
             {{/headerParams}}
             {{#formParams}}
-            if ({{paramName}} != null) {{#isFile}}localVarFileParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}localVarFormParams.Add("{{baseName}}", this.Configuration.ApiClient.{{#isPrimitiveType}}ParameterToString{{/isPrimitiveType}}{{^isPrimitiveType}}Serialize{{/isPrimitiveType}}({{paramName}})); // form parameter{{/isFile}}
+            if ({{paramName}} != null) {{#isFile}}localVarFileParams.Add("{{baseName}}", this.Configuration.ApiClient.ParameterToFile("{{baseName}}", {{paramName}}));{{/isFile}}{{^isFile}}localVarFormParams.Add("{{baseName}}", {{#vendorExtensions.x-is-json}}{{paramName}}.ToJson(){{/vendorExtensions.x-is-json}}{{^vendorExtensions.x-is-json}}this.Configuration.ApiClient.{{#isPrimitiveType}}ParameterToString{{/isPrimitiveType}}{{^isPrimitiveType}}Serialize{{/isPrimitiveType}}({{paramName}}){{/vendorExtensions.x-is-json}}); // form parameter{{/isFile}}
             {{/formParams}}
             {{#bodyParam}}
             if ({{paramName}} != null && {{paramName}}.GetType() != typeof(byte[]))

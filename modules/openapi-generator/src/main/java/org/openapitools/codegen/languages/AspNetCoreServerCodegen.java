@@ -62,7 +62,6 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     private String packageGuid = "{" + randomUUID().toString().toUpperCase(Locale.ROOT) + "}";
     private String userSecretsGuid = randomUUID().toString();
 
-    @SuppressWarnings("hiding")
     protected Logger LOGGER = LoggerFactory.getLogger(AspNetCoreServerCodegen.class);
 
     private boolean useSwashbuckle = true;
@@ -70,8 +69,8 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
     protected String serverHost = "0.0.0.0";
     protected CliOption swashbuckleVersion = new CliOption(SWASHBUCKLE_VERSION, "Swashbuckle version: 3.0.0, 4.0.0, 5.0.0");
     protected CliOption aspnetCoreVersion = new CliOption(ASPNET_CORE_VERSION, "ASP.NET Core version: 3.1, 3.0, 2.2, 2.1, 2.0 (deprecated)");
-    private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier can be empty, abstract");
-    private CliOption operationModifier = new CliOption(OPERATION_MODIFIER, "Operation Modifier can be virtual, abstract or partial");
+    private CliOption classModifier = new CliOption(CLASS_MODIFIER, "Class Modifier for controller classes: Empty string or abstract.");
+    private CliOption operationModifier = new CliOption(OPERATION_MODIFIER, "Operation Modifier can be virtual or abstract");
     private CliOption modelClassModifier = new CliOption(MODEL_CLASS_MODIFIER, "Model Class Modifier can be nothing or partial");
     private boolean generateBody = true;
     private CliOption buildTarget = new CliOption("buildTarget", "Target to build an application or library");
@@ -328,7 +327,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             newtonsoftVersion = (String) additionalProperties.get(NEWTONSOFT_VERSION);
         }
 
-        // CHeck for the modifiers etc.
+        // Check for the modifiers etc.
         // The order of the checks is important.
         setBuildTarget();
         setClassModifier();
@@ -337,7 +336,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         setUseSwashbuckle();
         setOperationIsAsync();
 
-        // CHeck for class modifier if not present set the default value.
+        // Check for class modifier if not present set the default value.
         additionalProperties.put(PROJECT_SDK, projectSdk);
 
         additionalProperties.put("dockerTag", packageName.toLowerCase(Locale.ROOT));
@@ -447,6 +446,7 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
         return escapeText(pattern);
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public String getNullableType(Schema p, String type) {
         if (languageSpecificPrimitives.contains(type)) {
@@ -544,7 +544,9 @@ public class AspNetCoreServerCodegen extends AbstractCSharpCodegen {
             compatibilityVersion = "Version_" + aspnetCoreVersion.getOptValue().replace(".", "_");
         }
         LOGGER.info("ASP.NET core version: " + aspnetCoreVersion.getOptValue());
-        embeddedTemplateDir = "aspnetcore/" + determineTemplateVersion(aspnetCoreVersion.getOptValue());
+        if(!additionalProperties.containsKey(CodegenConstants.TEMPLATE_DIR)){
+            templateDir = embeddedTemplateDir = "aspnetcore" + File.separator + determineTemplateVersion(aspnetCoreVersion.getOptValue());
+        }
         additionalProperties.put(COMPATIBILITY_VERSION, compatibilityVersion);
     }
 

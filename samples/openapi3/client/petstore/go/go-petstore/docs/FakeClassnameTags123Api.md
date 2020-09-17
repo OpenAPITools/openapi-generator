@@ -10,19 +10,51 @@ Method | HTTP request | Description
 
 ## TestClassname
 
-> Client TestClassname(ctx, client)
+> Client TestClassname(ctx).Client(client).Execute()
 
 To test class name in snake case
 
-To test class name in snake case
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    client := openapiclient.Client{Client: "Client_example"} // Client | client model
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeClassnameTags123Api.TestClassname(context.Background(), client).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeClassnameTags123Api.TestClassname``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `TestClassname`: Client
+    fmt.Fprintf(os.Stdout, "Response from `FakeClassnameTags123Api.TestClassname`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestClassnameRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**client** | [**Client**](Client.md)| client model | 
+ **client** | [**Client**](Client.md) | client model | 
 
 ### Return type
 

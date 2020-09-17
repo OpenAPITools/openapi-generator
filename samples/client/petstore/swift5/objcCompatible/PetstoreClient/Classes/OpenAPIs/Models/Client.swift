@@ -7,13 +7,11 @@
 
 import Foundation
 
-
-
-@objc public class Client: NSObject, Codable { 
+@objc public class Client: NSObject, Codable {
 
     public var client: String?
 
-    public init(client: String?) {
+    public init(client: String? = nil) {
         self.client = client
     }
 

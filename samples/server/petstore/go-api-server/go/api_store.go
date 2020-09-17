@@ -61,42 +61,47 @@ func (c *StoreApiController) Routes() Routes {
 func (c *StoreApiController) DeleteOrder(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
 	orderId := params["orderId"]
-	result, err := c.service.DeleteOrder(orderId)
+	result, err := c.service.DeleteOrder(r.Context(), orderId)
+	//If an error occured, encode the error with the status code
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
 	}
+	//If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
 	
-	EncodeJSONResponse(result, nil, w)
 }
 
 // GetInventory - Returns pet inventories by status
 func (c *StoreApiController) GetInventory(w http.ResponseWriter, r *http.Request) { 
-	result, err := c.service.GetInventory()
+	result, err := c.service.GetInventory(r.Context())
+	//If an error occured, encode the error with the status code
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
 	}
+	//If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
 	
-	EncodeJSONResponse(result, nil, w)
 }
 
 // GetOrderById - Find purchase order by ID
 func (c *StoreApiController) GetOrderById(w http.ResponseWriter, r *http.Request) { 
 	params := mux.Vars(r)
-	orderId, err := parseIntParameter(params["orderId"])
+	orderId, err := parseInt64Parameter(params["orderId"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	
-	result, err := c.service.GetOrderById(orderId)
+	result, err := c.service.GetOrderById(r.Context(), orderId)
+	//If an error occured, encode the error with the status code
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
 	}
+	//If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
 	
-	EncodeJSONResponse(result, nil, w)
 }
 
 // PlaceOrder - Place an order for a pet
@@ -107,11 +112,13 @@ func (c *StoreApiController) PlaceOrder(w http.ResponseWriter, r *http.Request) 
 		return
 	}
 	
-	result, err := c.service.PlaceOrder(*order)
+	result, err := c.service.PlaceOrder(r.Context(), *order)
+	//If an error occured, encode the error with the status code
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
 	}
+	//If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
 	
-	EncodeJSONResponse(result, nil, w)
 }

@@ -10,21 +10,14 @@
 """
 
 
-from __future__ import absolute_import
 import sys
 import unittest
 
 import petstore_api
-try:
-    from petstore_api.model import quadrilateral_interface
-except ImportError:
-    quadrilateral_interface = sys.modules[
-        'petstore_api.model.quadrilateral_interface']
-try:
-    from petstore_api.model import shape_interface
-except ImportError:
-    shape_interface = sys.modules[
-        'petstore_api.model.shape_interface']
+from petstore_api.model.quadrilateral_interface import QuadrilateralInterface
+from petstore_api.model.shape_interface import ShapeInterface
+globals()['QuadrilateralInterface'] = QuadrilateralInterface
+globals()['ShapeInterface'] = ShapeInterface
 from petstore_api.model.complex_quadrilateral import ComplexQuadrilateral
 
 

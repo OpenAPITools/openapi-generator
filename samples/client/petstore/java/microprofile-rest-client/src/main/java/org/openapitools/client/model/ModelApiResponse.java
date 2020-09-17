@@ -39,6 +39,7 @@ import javax.json.bind.annotation.JsonbProperty;
 /**
   * Describes the result of uploading an image resource
  **/
+
 public class ModelApiResponse  {
   
   private Integer code;
@@ -130,7 +131,7 @@ public class ModelApiResponse  {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

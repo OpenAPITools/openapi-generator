@@ -20,7 +20,7 @@ import javax.validation.constraints.*;
 @SuppressWarnings("RedundantThrows")
 public interface {{classname}}ControllerImpInterface {
 {{#operation}}
-    {{^returnType}}void{{/returnType}}{{#returnType}}{{#supportAsync}}CompletionStage<{{/supportAsync}}{{>returnTypesNoVoid}}{{#supportAsync}}>{{/supportAsync}}{{/returnType}} {{operationId}}({{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}};
+    {{^returnType}}void{{/returnType}}{{#returnType}}{{#supportAsync}}CompletionStage<{{/supportAsync}}{{>returnTypesNoVoid}}{{#supportAsync}}>{{/supportAsync}}{{/returnType}} {{operationId}}(Http.Request request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}};
 
 {{/operation}}
 }

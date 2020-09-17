@@ -10,7 +10,7 @@ Stubs out files for new generators
 Usage:
 $0 [options]
     Options:
-$(grep "[[:space:]].)\ #" $0 | tr -d "#" | sed -E 's/( \| \*)//' | sed -E 's/([a-z])\)/-\1/')
+$(grep "[[:space:]].)\ #" $0 | tr -d "#" | sed -E 's/( \| \*)//' | sed -E 's/([a-zA-Z])\)/-\1/')
 
 Examples:
   Create a server generator for ktor:
@@ -21,8 +21,7 @@ Examples:
     modules/openapi-generator/src/main/resources/kotlin-server/README.mustache
     modules/openapi-generator/src/main/resources/kotlin-server/model.mustache
     modules/openapi-generator/src/main/resources/kotlin-server/api.mustache
-    bin/windows/kotlin-server-petstore.bat
-    bin/kotlin-server-petstore.sh
+    bin/configs/kotlin-server-petstore-new.yaml
 
   Create a generic C# server generator:
   $0 -n csharp -s -t
@@ -31,8 +30,7 @@ Examples:
     modules/openapi-generator/src/main/resources/csharp-server/README.mustache
     modules/openapi-generator/src/main/resources/csharp-server/model.mustache
     modules/openapi-generator/src/main/resources/csharp-server/api.mustache
-    bin/windows/csharp-server-petstore.bat
-    bin/csharp-server-petstore.sh
+    bin/configs/csharp-server-petstore-new.yaml
     modules/openapi-generator/src/test/java/org/openapitools/codegen/csharp/CsharpServerCodegenTest.java
     modules/openapi-generator/src/test/java/org/openapitools/codegen/csharp/CsharpServerCodegenModelTest.java
     modules/openapi-generator/src/test/java/org/openapitools/codegen/csharp/CsharpServerCodegenOptionsTest.java
@@ -56,7 +54,7 @@ checkPreviousGenType() {
 }
 
 [ $# -eq 0 ] && usage
-while getopts ":hcsdtn:" arg; do
+while getopts ":hcsdtfHn:" arg; do
   case ${arg} in
     n) # Required. Specify generator name, should be kebab-cased.
       gen_name=${OPTARG}
@@ -73,7 +71,7 @@ while getopts ":hcsdtn:" arg; do
         checkPreviousGenType
         gen_type=documentation
         ;;
-    h) # Create a schema generator
+    H) # Create a schema generator
         checkPreviousGenType
         gen_type=schema
         ;;
@@ -181,8 +179,8 @@ public class ${lang_classname} extends DefaultCodegen implements CodegenConfig {
         modelTemplateFiles.put("model.mustache", ".zz");
         apiTemplateFiles.put("api.mustache", ".zz");
         embeddedTemplateDir = templateDir = "${gen_name_camel}-${gen_type}";
-        apiPackage = File.separator + "Apis";
-        modelPackage = File.separator + "Models";
+        apiPackage = "Apis";
+        modelPackage = "Models";
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
         // TODO: Fill this out.
     }
@@ -201,60 +199,16 @@ echo "Creating modules/openapi-generator/src/main/resources/${gen_name_camel}-${
 echo "Creating modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/api.mustache" && \
     touch "${root}/modules/openapi-generator/src/main/resources/${gen_name_camel}-${gen_type}/api.mustache"
 
-# Step 4: Create bash/batch scripts
-
-## Windows batch file
-echo "Creating bin/windows/${gen_name_camel}-${gen_type}-petstore.bat"
-cat > "${root}/bin/windows/${gen_name_camel}-${gen_type}-petstore.bat"<<EOF
-set executable=.\modules\openapi-generator-cli\target\openapi-generator-cli.jar
-
-If Not Exist %executable% (
-  mvn clean package
-)
-
-REM set JAVA_OPTS=%JAVA_OPTS% -Xmx1024M -DloggerPath=conf/log4j.properties
-set ags=generate  --artifact-id "${gen_name_camel}-petstore-${gen_type}" -i modules\openapi-generator\src\test\resources\2_0\petstore.yaml -g ${gen_name_camel} -o samples\\${gen_type}\petstore\\${gen_name_camel_pathwin}
-
-java %JAVA_OPTS% -jar %executable% %ags%
+# Step 4: Create generation config scripts
+echo "Creating bin/configs/${gen_name_camel}-${gen_type}-petstore-new.yaml"
+cat > "${root}/bin/configs/${gen_name_camel}-${gen_type}-petstore-new.yaml"<<EOF
+generatorName: ${gen_name_camel}
+outputDir: samples/${gen_type}/petstore/${gen_name_camel_path}
+inputSpec: modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+templateDir: modules/openapi-generator/src/main/resources/${gen_name_camel}
+additionalProperties:
+  hideGenerationTimestamp: "true"
 EOF
-
-## Bash file
-echo "Creating bin/${gen_name_camel}-${gen_type}-petstore.sh"
-cat > "${root}/bin/${gen_name_camel}-${gen_type}-petstore.sh"<<EOF
-#!/bin/sh
-
-SCRIPT="\$0"
-
-while [ -h "\$SCRIPT" ] ; do
-  ls=\$(ls -ld "\$SCRIPT")
-  link=\$(expr "\$ls" : '.*-> \(.*\)$')
-  if expr "\$link" : '/.*' > /dev/null; then
-    SCRIPT="\$link"
-  else
-    SCRIPT=\$(dirname "\$SCRIPT")/"\$link"
-  fi
-done
-
-if [ ! -d "\${APP_DIR}" ]; then
-  APP_DIR=\$(dirname "\$SCRIPT")/..
-  APP_DIR=\$(cd "\${APP_DIR}"; pwd)
-fi
-
-executable="./modules/openapi-generator-cli/target/openapi-generator-cli.jar"
-
-if [ ! -f "\$executable" ]
-then
-  mvn clean package
-fi
-
-# if you've executed sbt assembly previously it will use that instead.
-export JAVA_OPTS="\${JAVA_OPTS} -Xmx1024M -DloggerPath=conf/log4j.properties"
-ags="\$@ generate -i modules/openapi-generator/src/test/resources/2_0/petstore.yaml -g ${gen_name_camel} -o samples/${gen_type}/petstore/${gen_name_camel_path}"
-
-java \${JAVA_OPTS} -jar \${executable} \${ags}
-EOF
-
-chmod u+x "${root}/bin/${gen_name_camel}-${gen_type}-petstore.sh"
 
 # Step 5: (optional) Create OpenAPI Generator test files
 if [ "1" -eq "${tests}" ]; then

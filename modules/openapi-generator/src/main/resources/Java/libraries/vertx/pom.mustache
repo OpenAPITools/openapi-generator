@@ -257,11 +257,13 @@
             <artifactId>jackson-databind</artifactId>
             <version>${jackson-databind}</version>
         </dependency>
+        {{#openApiNullable}}
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
             <version>${jackson-databind-nullable-version}</version>
         </dependency>
+        {{/openApiNullable}}
         {{#joda}}
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>

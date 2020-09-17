@@ -40,6 +40,7 @@ import javax.json.bind.annotation.JsonbProperty;
 /**
   * An order for a pets from the pet store
  **/
+
 public class Order  {
   
   private Long id;
@@ -50,11 +51,11 @@ public class Order  {
 
   private Date shipDate;
 
-@JsonbTypeSerializer(StatusEnum.Serializer.class)
-@JsonbTypeDeserializer(StatusEnum.Deserializer.class)
-public enum StatusEnum {
+  @JsonbTypeSerializer(StatusEnum.Serializer.class)
+  @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
+  public enum StatusEnum {
 
-PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));	
+    PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERED(String.valueOf("delivered"));	
 
 
     String value;
@@ -90,7 +91,7 @@ PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERE
             generator.write(obj.value);
         }
     }
-}
+  }
 
  /**
    * Order Status
@@ -188,11 +189,8 @@ PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERE
    * @return status
   **/
   @JsonbProperty("status")
-  public String getStatus() {
-    if (status == null) {
-      return null;
-    }
-    return status.value();
+  public StatusEnum getStatus() {
+    return status;
   }
 
   /**
@@ -251,7 +249,7 @@ PLACED(String.valueOf("placed")), APPROVED(String.valueOf("approved")), DELIVERE
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

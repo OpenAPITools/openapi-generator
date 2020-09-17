@@ -24,6 +24,7 @@ import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.ComposedSchema;
 import io.swagger.v3.oas.models.media.Schema;
+import io.swagger.v3.oas.models.media.StringSchema;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.apache.commons.io.FilenameUtils;
@@ -37,11 +38,10 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import static org.openapitools.codegen.utils.StringUtils.*;
 
@@ -59,8 +59,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     public static final String SUPPORT_JAVA6 = "supportJava6";
     public static final String DISABLE_HTML_ESCAPING = "disableHtmlEscaping";
     public static final String BOOLEAN_GETTER_PREFIX = "booleanGetterPrefix";
+    public static final String IGNORE_ANYOF_IN_ENUM = "ignoreAnyOfInEnum";
     public static final String ADDITIONAL_MODEL_TYPE_ANNOTATIONS = "additionalModelTypeAnnotations";
     public static final String DISCRIMINATOR_CASE_SENSITIVE = "discriminatorCaseSensitive";
+    public static final String OPENAPI_NULLABLE = "openApiNullable";
 
     protected String dateLibrary = "threetenbp";
     protected boolean supportAsync = false;
@@ -95,11 +97,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected boolean supportJava6 = false;
     protected boolean disableHtmlEscaping = false;
     protected String booleanGetterPrefix = "get";
+    protected boolean ignoreAnyOfInEnum = false;
     protected String parentGroupId = "";
     protected String parentArtifactId = "";
     protected String parentVersion = "";
     protected boolean parentOverridden = false;
     protected List<String> additionalModelTypeAnnotations = new LinkedList<>();
+    protected boolean openApiNullable = true;
 
     public AbstractJavaCodegen() {
         super();
@@ -217,7 +221,9 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
         cliOptions.add(CliOption.newBoolean(DISABLE_HTML_ESCAPING, "Disable HTML escaping of JSON strings when using gson (needed to avoid problems with byte[] fields)", disableHtmlEscaping));
         cliOptions.add(CliOption.newString(BOOLEAN_GETTER_PREFIX, "Set booleanGetterPrefix").defaultValue(this.getBooleanGetterPrefix()));
+        cliOptions.add(CliOption.newBoolean(IGNORE_ANYOF_IN_ENUM, "Ignore anyOf keyword in enum", ignoreAnyOfInEnum));
         cliOptions.add(CliOption.newString(ADDITIONAL_MODEL_TYPE_ANNOTATIONS, "Additional annotations for model type(class level annotations)"));
+        cliOptions.add(CliOption.newBoolean(OPENAPI_NULLABLE, "Enable OpenAPI Jackson Nullable library", this.openApiNullable));
 
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_GROUP_ID, CodegenConstants.PARENT_GROUP_ID_DESC));
         cliOptions.add(CliOption.newString(CodegenConstants.PARENT_ARTIFACT_ID, CodegenConstants.PARENT_ARTIFACT_ID_DESC));
@@ -254,6 +260,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
             this.setBooleanGetterPrefix(additionalProperties.get(BOOLEAN_GETTER_PREFIX).toString());
         }
         additionalProperties.put(BOOLEAN_GETTER_PREFIX, booleanGetterPrefix);
+
+        if (additionalProperties.containsKey(IGNORE_ANYOF_IN_ENUM)) {
+            this.setIgnoreAnyOfInEnum(Boolean.valueOf(additionalProperties.get(IGNORE_ANYOF_IN_ENUM).toString()));
+        }
+        additionalProperties.put(IGNORE_ANYOF_IN_ENUM, ignoreAnyOfInEnum);
 
         if (additionalProperties.containsKey(ADDITIONAL_MODEL_TYPE_ANNOTATIONS)) {
             String additionalAnnotationsList = additionalProperties.get(ADDITIONAL_MODEL_TYPE_ANNOTATIONS).toString();
@@ -412,6 +423,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         additionalProperties.put(WITH_XML, withXml);
 
+        if (additionalProperties.containsKey(OPENAPI_NULLABLE)) {
+            this.setOpenApiNullable(Boolean.valueOf(additionalProperties.get(OPENAPI_NULLABLE).toString()));
+        }
+        additionalProperties.put(OPENAPI_NULLABLE, openApiNullable);
+
         if (additionalProperties.containsKey(CodegenConstants.PARENT_GROUP_ID)) {
             this.setParentGroupId((String) additionalProperties.get(CodegenConstants.PARENT_GROUP_ID));
         }
@@ -469,6 +485,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         importMapping.put("JsonProperty", "com.fasterxml.jackson.annotation.JsonProperty");
         importMapping.put("JsonSubTypes", "com.fasterxml.jackson.annotation.JsonSubTypes");
         importMapping.put("JsonTypeInfo", "com.fasterxml.jackson.annotation.JsonTypeInfo");
+        importMapping.put("JsonTypeName", "com.fasterxml.jackson.annotation.JsonTypeName");
         importMapping.put("JsonCreator", "com.fasterxml.jackson.annotation.JsonCreator");
         importMapping.put("JsonValue", "com.fasterxml.jackson.annotation.JsonValue");
         importMapping.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
@@ -756,16 +773,23 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        if (ModelUtils.isArraySchema(p)) {
-            Schema<?> items = getSchemaItems((ArraySchema) p);
-            return getSchemaType(p) + "<" + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items)) + ">";
-        } else if (ModelUtils.isMapSchema(p) && !ModelUtils.isComposedSchema(p)) {
+        Schema<?> schema = ModelUtils.unaliasSchema(this.openAPI, p);
+        Schema<?> target = ModelUtils.isGenerateAliasAsModel() ? p : schema;
+        if (ModelUtils.isArraySchema(target)) {
+            Schema<?> items = getSchemaItems((ArraySchema) schema);
+            return getSchemaType(target) + "<" + getTypeDeclaration(items) + ">";
+        } else if (ModelUtils.isMapSchema(target)) {
             // Note: ModelUtils.isMapSchema(p) returns true when p is a composed schema that also defines
             // additionalproperties: true
-            Schema<?> inner = getSchemaAdditionalProperties(p);
-            return getSchemaType(p) + "<String, " + getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, inner)) + ">";
+            Schema<?> inner = getAdditionalProperties(target);
+            if (inner == null) {
+                LOGGER.error("`{}` (map property) does not have a proper inner type defined. Default to type:string", p.getName());
+                inner = new StringSchema().description("TODO default missing map inner type to string");
+                p.setAdditionalProperties(inner);
+            }
+            return getSchemaType(target) + "<String, " + getTypeDeclaration(inner) + ">";
         }
-        return super.getTypeDeclaration(p);
+        return super.getTypeDeclaration(target);
     }
 
     @Override
@@ -797,7 +821,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             Schema<?> items = getSchemaItems((ArraySchema) schema);
 
-            String typeDeclaration = getTypeDeclaration(items);
+            String typeDeclaration = getTypeDeclaration(ModelUtils.unaliasSchema(this.openAPI, items));
             Object java8obj = additionalProperties.get("java8");
             if (java8obj != null) {
                 Boolean java8 = Boolean.valueOf(java8obj.toString());
@@ -808,6 +832,13 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
             return String.format(Locale.ROOT, pattern, typeDeclaration);
         } else if (ModelUtils.isMapSchema(schema) && !(schema instanceof ComposedSchema)) {
+            if (schema.getProperties() != null && schema.getProperties().size() > 0) {
+                // object is complex object with free-form additional properties
+                if (schema.getDefault() != null) {
+                    return super.toDefaultValue(schema);
+                }
+                return null;
+            }
             final String pattern;
             if (fullJavaUtil) {
                 pattern = "new java.util.HashMap<%s>()";
@@ -1148,6 +1179,28 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         }
         additionalProperties.put(CodegenConstants.ARTIFACT_VERSION, artifactVersion);
 
+        if (ignoreAnyOfInEnum) {
+            // Alter OpenAPI schemas ignore anyOf keyword if it consist of an enum. Example:
+            //     anyOf:
+            //     - type: string
+            //       enum:
+            //       - ENUM_A
+            //       - ENUM_B
+            Stream.concat(
+                    Stream.of(openAPI.getComponents().getSchemas()),
+                    openAPI.getComponents().getSchemas().values().stream()
+                            .filter(schema -> schema.getProperties() != null)
+                            .map(Schema::getProperties))
+                    .forEach(schemas -> schemas.replaceAll(
+                            (name, s) -> Stream.of(s)
+                                    .filter(schema -> schema instanceof ComposedSchema)
+                                    .map(schema -> (ComposedSchema) schema)
+                                    .filter(schema -> Objects.nonNull(schema.getAnyOf()))
+                                    .flatMap(schema -> schema.getAnyOf().stream())
+                                    .filter(schema -> Objects.nonNull(schema.getEnum()))
+                                    .findFirst()
+                                    .orElse((Schema) s)));
+        }
     }
 
     private static String getAccept(OpenAPI openAPI, Operation operation) {
@@ -1497,6 +1550,18 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public void setBooleanGetterPrefix(String booleanGetterPrefix) {
         this.booleanGetterPrefix = booleanGetterPrefix;
+    }
+
+    public void setIgnoreAnyOfInEnum(boolean ignoreAnyOfInEnum) {
+        this.ignoreAnyOfInEnum = ignoreAnyOfInEnum;
+    }
+
+    public boolean isOpenApiNullable() {
+        return openApiNullable;
+    }
+
+    public void setOpenApiNullable(final boolean openApiNullable) {
+        this.openApiNullable = openApiNullable;
     }
 
     @Override

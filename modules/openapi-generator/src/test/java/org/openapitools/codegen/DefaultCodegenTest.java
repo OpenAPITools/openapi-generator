@@ -33,7 +33,6 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
-import org.openapitools.codegen.languages.JavaClientCodegen;
 import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.templating.mustache.LowercaseLambda;
@@ -2162,4 +2161,109 @@ public class DefaultCodegenTest {
         Schema items = ((ArraySchema) openAPI.getComponents().getSchemas().get("CustomOneOfArraySchema")).getItems();
         Assert.assertEquals(items.getExtensions().get("x-one-of-name"), "CustomOneOfArraySchemaOneOf");
     }
+
+    @Test
+    public void testFormComposedSchema() {
+        OpenAPI openAPI = TestUtils.parseContent("openapi: 3.0.1\n" +
+            "info:\n" +
+            "  version: '1.0.0'\n" +
+            "  title: the title\n" +
+            "\n" +
+            "paths:\n" +
+            "  '/users/me':\n" +
+            "    post:\n" +
+            "      description: Change user password.\n" +
+            "      operationId: changeCurrentUserPassword\n" +
+            "      requestBody:\n" +
+            "        required: true\n" +
+            "        content:\n" +
+            "          multipart/form-data:\n" +
+            "            schema:\n" +
+            "              $ref: '#/components/schemas/ChangePasswordRequest'\n" +
+            "      responses:\n" +
+            "        '200':\n" +
+            "          description: Successful operation\n" +
+            "          content: {}\n" +
+            "\n" +
+            "components:\n" +
+            "  schemas:\n" +
+            "    CommonPasswordRequest:\n" +
+            "      type: object\n" +
+            "      required: [ password, passwordConfirmation ]\n" +
+            "      properties:\n" +
+            "        password:\n" +
+            "          type: string\n" +
+            "          format: password\n" +
+            "        passwordConfirmation:\n" +
+            "          type: string\n" +
+            "          format: password\n" +
+            "\n" +
+            "    ChangePasswordRequest:\n" +
+            "      type: object\n" +
+            "      allOf:\n" +
+            "        - $ref: '#/components/schemas/CommonPasswordRequest'\n" +
+            "        - type: object\n" +
+            "          required: [ oldPassword ]\n" +
+            "          properties:\n" +
+            "            oldPassword:\n" +
+            "              type: string\n" +
+            "              format: password\n");
+
+        final DefaultCodegen cg = new DefaultCodegen();
+        cg.setOpenAPI(openAPI);
+        cg.setUseOneOfInterfaces(true);
+        cg.preprocessOpenAPI(openAPI);
+
+        final PathItem path = openAPI.getPaths().get("/users/me");
+        final CodegenOperation operation = cg.fromOperation(
+            "/users/me",
+            "post",
+            path.getPost(),
+            path.getServers());
+        assertEquals(operation.formParams.size(), 3,
+            "The list of parameters should include inherited type");
+
+        final List<String> names = operation.formParams.stream()
+            .map(param -> param.paramName)
+            .collect(Collectors.toList());
+        assertTrue(names.contains("password"));
+        assertTrue(names.contains("passwordConfirmation"));
+        assertTrue(names.contains("oldPassword"));
+    }
+
+    @Test
+    public void inlineAllOfSchemaDoesNotThrowException() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue7262.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "UserTimeBase";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+
+        final Set<CodegenDiscriminator.MappedModel> expectedMappedModels = new HashSet<>(Arrays.asList(new CodegenDiscriminator.MappedModel("UserSleep", "UserSleep")));
+        final Set<CodegenDiscriminator.MappedModel> mappedModels = cm.getDiscriminator().getMappedModels();
+        assertEquals(mappedModels, expectedMappedModels);
+
+        modelName = "UserSleep";
+        sc = openAPI.getComponents().getSchemas().get(modelName);
+        cm = codegen.fromModel(modelName, sc);
+        final Set<String> expectedAllOf = new HashSet<>(Arrays.asList("UserTimeBase"));
+        assertEquals(cm.allOf, expectedAllOf);
+        assertEquals(openAPI.getComponents().getSchemas().size(), 2);
+        assertNull(cm.getDiscriminator());
+    }
+
+    @Test
+    public void arrayModelHasValidation() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue7356.yaml");
+        final DefaultCodegen codegen = new DefaultCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "ArrayWithValidations";
+        Schema sc = openAPI.getComponents().getSchemas().get(modelName);
+        CodegenModel cm = codegen.fromModel(modelName, sc);
+        assertEquals((int) cm.getMinItems(), 1);
+    }
+
 }

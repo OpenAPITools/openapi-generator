@@ -10,11 +10,9 @@
 """
 
 
-from __future__ import absolute_import
 import re  # noqa: F401
 import sys  # noqa: F401
 
-import six  # noqa: F401
 import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
@@ -28,21 +26,15 @@ from petstore_api.model_utils import (  # noqa: F401
     date,
     datetime,
     file_type,
-    int,
     none_type,
-    str,
     validate_get_composed_info,
 )
-try:
-    from petstore_api.model import child_cat_all_of
-except ImportError:
-    child_cat_all_of = sys.modules[
-        'petstore_api.model.child_cat_all_of']
-try:
-    from petstore_api.model import parent_pet
-except ImportError:
-    parent_pet = sys.modules[
-        'petstore_api.model.parent_pet']
+
+def lazy_import():
+    from petstore_api.model.child_cat_all_of import ChildCatAllOf
+    from petstore_api.model.parent_pet import ParentPet
+    globals()['ChildCatAllOf'] = ChildCatAllOf
+    globals()['ParentPet'] = ParentPet
 
 
 class ChildCat(ModelComposed):
@@ -82,13 +74,14 @@ class ChildCat(ModelComposed):
     @cached_property
     def openapi_types():
         """
-        This must be a class method so a model may have properties that are
-        of type self, this ensures that we don't create a cyclic import
+        This must be a method because a model may have properties that are
+        of type self, this must run after the class is loaded
 
         Returns
             openapi_types (dict): The key is attribute name
                 and the value is attribute type.
         """
+        lazy_import()
         return {
             'pet_type': (str,),  # noqa: E501
             'name': (str,),  # noqa: E501
@@ -121,7 +114,7 @@ class ChildCat(ModelComposed):
 
     @convert_js_args_to_python_args
     def __init__(self, pet_type, *args, **kwargs):  # noqa: E501
-        """child_cat.ChildCat - a model defined in OpenAPI
+        """ChildCat - a model defined in OpenAPI
 
         Args:
             pet_type (str):
@@ -210,7 +203,7 @@ class ChildCat(ModelComposed):
 
         for var_name, var_value in required_args.items():
             setattr(self, var_name, var_value)
-        for var_name, var_value in six.iteritems(kwargs):
+        for var_name, var_value in kwargs.items():
             if var_name in unused_args and \
                         self._configuration is not None and \
                         self._configuration.discard_unknown_keys and \
@@ -228,12 +221,13 @@ class ChildCat(ModelComposed):
         # code would be run when this module is imported, and these composed
         # classes don't exist yet because their module has not finished
         # loading
+        lazy_import()
         return {
           'anyOf': [
           ],
           'allOf': [
-              child_cat_all_of.ChildCatAllOf,
-              parent_pet.ParentPet,
+              ChildCatAllOf,
+              ParentPet,
           ],
           'oneOf': [
           ],

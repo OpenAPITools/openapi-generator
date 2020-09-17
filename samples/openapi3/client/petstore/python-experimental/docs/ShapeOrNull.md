@@ -1,4 +1,4 @@
-# shape_or_null.ShapeOrNull
+# ShapeOrNull
 
 The value may be a shape or the 'null' value. This is introduced in OAS schema >= 3.1.
 ## Properties

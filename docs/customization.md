@@ -3,6 +3,77 @@ id: customization
 title: Customization
 ---
 
+## User-defined Templates
+
+The most common scenario for user customization is to override the built-in templates with small modifications. That scenario's documentation is in our [templating](./templating.md) page, and differs from user-defined templates.
+
+Prior to release 5.0.0, whenever a user wanted to include templates which weren't built-in or weren't known to the generator at compile time, they'd need to follow the more involved approach of creating a custom generator as documented later in this document. Beginning in 5.0.0, a user may now provide additional supporting files and extensions to built-in templates via configuration. This feature requires using the external configuration file feature.
+
+Consider that you might want to add some static documentation such as `AUTHORS.md` and a custom tooling script. Rather than a single file for API definitions you also want an implementation file and a separate interface file for each.
+
+You might have an external configuration file named `config.yaml` which defines additional properties like this for a `kotlin` client generator:
+
+```yaml
+additionalProperties:
+  artifactId: kotlin-petstore-client
+  serializableModel: "true"
+  dateLibrary: java8
+```
+
+You would generate via CLI with the command:
+
+```shell script
+openapi-generator generate -g kotlin -i spec.yaml -o outdir -c config.yaml
+```
+
+To support the above scenario with custom templates, ensure that you're pointing to your custom template directory and add a `files` node with template file definitions to your config:
+
+```
+templateDir: my_custom_templates
+additionalProperties:
+  artifactId: kotlin-petstore-client
+  serializableModel: "true"
+  dateLibrary: java8
+files:
+  AUTHORS.md: {}
+  api_interfaces.mustache:
+    templateType: API
+    destinationFilename: Interface.kt
+  api.mustache:
+    templateType: API
+    destinationFilename: Impl.kt
+  other/check.mustache:
+    folder: scripts
+    destinationFilename: check.sh
+    templateType: SupportingFiles
+```
+
+The keys under the `files` node are your template filenames. These honor the same resolution order as all other templates.
+
+The above configuration will do the following:
+
+* Copy `my_custom_templates/AUTHORS.md` to the generated output directory without processing via the template engine (due to template file extension). The empty object definition following `AUTHORS.md` allows the tool to infer the target output filename in the root of the output directory.
+* Compile a user-provided `my_custom_templates/api_interfaces.mustache` following our usual API template compilation logic. That is, one file will be created per API; APIs are generated defined according to tags in your spec documentation. The destination filename of `Interface.kt` will act as a suffix for the filename. So, a tag of `Equipment` will output a corresponding `EquipmentInterface.kt`.
+* Because `api.mustache` is the same mustache filename as used in your target generator (`kotlin` in this example), we support the following:
+  - The destination filename provides a suffix for the generated output. APIs generate per tag in your specification. So, a tag of `Equipment` will output a corresponding `EquipmentImpl.kt`. This option will be used whether `api.mustache` targets a user customized template or a built-in template.
+  - The built-in template will be used if you haven't provided an customized template. The kotlin generator defines the suffix as simply `.kt`, so this scenario would modify only the generated file suffixes according to the previous bullet point.
+  - Your `api.mustache` will be used if it exists in your custom template directory. For generators with library options, such as `jvm-okhttp3` in the kotlin generator, your file must exist in the same relative location as the embedded template. For kotlin using the `jvm-okhttp3` library option, this file would need to be located at `my_custom_templates/libraries/jvm-okhttp/api.mustache`. See [templating](./templating.md) for more details.
+* Compile `my_custom_templates/other/check.mustache` with the supporting files bundle, and output to `scripts/check.sh` in your output directory. Note that we don't currently support setting file flags on output, so scripts such as these will either have to be sourced rather than executed, or have file flags set separately after generation (external to our tooling).
+
+The `templateType` option will default to `SupportingFiles`, so the option for `other/check.mustache` is redundant and provided to demonstrate the full template file configuration options. The available template types are:
+
+* API
+* APIDocs
+* APITests
+* Model
+* ModelDocs
+* ModelTests
+* SupportingFiles
+
+Excluding `SupportingFiles`, each of the above options may result in multiple files. API related types create a file per API. Model related types create a file for each model.
+
+Note that user-defined templates will merge with built-in template definitions. If a supporting file with the sample template file path exists, it will be replaced with the user-defined template, otherwise the user-defined template will be added to the list of template files to compile. If the generator's built-in template is `model_docs.mustache` and you define `model-docs.mustache`, this will result in duplicated model docs (if `destinationFilename` differs) or undefined behavior as whichever template compiles last will overwrite the previous model docs (if `destinationFilename` matches the extension or suffix in the generator's code).
+
 ## Custom Generator (and Template)
  
 <a id="creating-a-new-template"></a> If none of the built-in generators suit your needs and you need to do more than just modify the mustache templates to tweak generated code, you can create a brand new generator and its associated templates. OpenAPI Generator can help with this, using the `meta` command:
@@ -20,7 +91,12 @@ These names can be anything you like. If you are building a client for the white
 
 ### Use your new generator with the CLI
 
-To compile your library, enter the `out/generators/my-codegen` directory, run `mvn package` and execute the generator:
+To compile your library, enter the `out/generators/my-codegen` directory, run `mvn package`.
+
+**NOTE** Running your custom generator requires adding it to the classpath. This differs on [Windows](https://docs.oracle.com/javase/8/docs/technotes/tools/windows/classpath.html) slightly from [unix](https://docs.oracle.com/javase/8/docs/technotes/tools/unix/classpath.html).
+If you are running a Windows Subsystem for Linux or a shell such as gitbash, and have issues with the unix variant, try the Windows syntax below.
+ 
+Now, execute the generator:
 
 ```sh
 java -cp out/generators/my-codegen/target/my-codegen-openapi-generator-1.0.0.jar:modules/openapi-generator-cli/target/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
@@ -28,7 +104,7 @@ java -cp out/generators/my-codegen/target/my-codegen-openapi-generator-1.0.0.jar
 
 For Windows users, you will need to use `;` instead of `:` in the classpath, e.g.
 ```
-java -cp out/generators/my-codegen/target/my-codegen-openapi-generator-1.0.0.jar;modules/openapi-generator-cli/target/openapi-generator-cli.jar org.openapitools.codegen.OpenAPIGenerator
+java -cp "out/generators/my-codegen/target/my-codegen-openapi-generator-1.0.0.jar;modules/openapi-generator-cli/target/openapi-generator-cli.jar" org.openapitools.codegen.OpenAPIGenerator
 ```
 
 Note the `my-codegen` is an option for `-g` now, and you can use the usual arguments for generating your code:
@@ -42,7 +118,7 @@ java -cp out/codegens/customCodegen/target/my-codegen-openapi-generator-1.0.0.ja
 
 For Windows users:
 ```
-java -cp out/codegens/customCodegen/target/my-codegen-openapi-generator-1.0.0.jar;modules/openapi-generator-cli/target/openapi-generator-cli.jar \
+java -cp "out/codegens/customCodegen/target/my-codegen-openapi-generator-1.0.0.jar;modules/openapi-generator-cli/target/openapi-generator-cli.jar" \
   org.openapitools.codegen.OpenAPIGenerator generate -g my-codegen \
   -i https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml \
   -o ./out/myClient
@@ -93,49 +169,49 @@ If you publish your artifact to a distant maven repository, do not forget to add
 
 You may not want to generate *all* models in your project. Likewise, you may want just one or two apis to be written.  If that's the case, you can use system properties or [global properties](./global-properties.md) to control the output.
 
-The default is generate *everything* supported by the specific library.  Once you enable a feature, it will restrict the contents generated:
+The default is generate *everything* supported by the specific library. Once you enable a feature, it will restrict the contents generated:
 
 ```sh
 # generate only models
-java -Dmodels {opts}
+--global-property models
 
 # generate only apis
-java -Dapis {opts}
+--global-property apis
 
 # generate only supporting files
-java -DsupportingFiles
+--global-property supportingFiles
 
 # generate models and supporting files
-java -Dmodels -DsupportingFiles
+--global-property models,supportingFiles
 ```
 
 To control the specific files being generated, you can pass a CSV list of what you want:
 ```sh
 # generate the User and Pet models only
--Dmodels=User,Pet
+--global-property models="User,Pet"
 
 # generate the User model and the supportingFile `StringUtil.java`:
--Dmodels=User -DsupportingFiles=StringUtil.java
+--global-property models=User,supportingFiles=StringUtil.java
 ```
 
-To control generation of docs and tests for api and models, pass false to the option. For api, these options are  `-DapiTests=false` and `-DapiDocs=false`. For models, `-DmodelTests=false` and `-DmodelDocs=false`.
-These options default to true and don't limit the generation of the feature options listed above (like `-Dapi`):
+To control generation of docs and tests for api and models, pass false to the option. For api, these options are  `--global-property apiTests=false,apiDocs=false`. For models, `--global-property modelTests=false,modelDocs=false`.
+These options default to true and don't limit the generation of the feature options listed above (like `--global-property api`):
 
 ```sh
 # generate only models (with tests and documentation)
-java -Dmodels {opts}
+--global-property models
 
 # generate only models (with tests but no documentation)
-java -Dmodels -DmodelDocs=false {opts}
+--global-property models,modelDocs=false
 
 # generate only User and Pet models (no tests and no documentation)
-java -Dmodels=User,Pet -DmodelTests=false {opts}
+--global-property models="User,Pet",modelTests=false
 
 # generate only apis (without tests)
-java -Dapis -DapiTests=false {opts}
+--global-property apis,apiTests=false
 
 # generate only apis (modelTests option is ignored)
-java -Dapis -DmodelTests=false {opts}
+--global-property apis,modelTests=false
 ```
 
 When using selective generation, _only_ the templates needed for the specific generation will be used.
@@ -143,13 +219,7 @@ When using selective generation, _only_ the templates needed for the specific ge
 To skip models defined as the form parameters in "requestBody", please use `skipFormModel` (default to false) (this option is introduced at v3.2.2)
 
 ```sh
-java -DskipFormModel=true <path to jar> generate …
-```
-
-or
-
-```sh
-java <path to jar> generate --global-property skipFormModel=true …
+--global-property skipFormModel=true
 ```
 
 This option will be helpful to skip model generation due to the form parameter, which is defined differently in OAS3 as there's no form parameter in OAS3

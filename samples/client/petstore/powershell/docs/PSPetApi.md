@@ -77,8 +77,8 @@ $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$PetId = 987 # Int64 | Pet id to delete (default to null)
-$ApiKey = "ApiKey_example" # String |  (optional) (default to null)
+$PetId = 987 # Int64 | Pet id to delete
+$ApiKey = "ApiKey_example" # String |  (optional)
 
 # Deletes a pet
 try {
@@ -93,8 +93,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **PetId** | **Int64**| Pet id to delete | [default to null]
- **ApiKey** | **String**|  | [optional] [default to null]
+ **PetId** | **Int64**| Pet id to delete | 
+ **ApiKey** | **String**|  | [optional] 
 
 ### Return type
 
@@ -128,7 +128,7 @@ $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$Status = @("Status_example") # String[] | Status values that need to be considered for filter (default to null)
+$Status = @("Status_example") # String[] | Status values that need to be considered for filter
 
 # Finds Pets by status
 try {
@@ -143,7 +143,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Status** | [**String[]**](String.md)| Status values that need to be considered for filter | [default to null]
+ **Status** | [**String[]**](String.md)| Status values that need to be considered for filter | 
 
 ### Return type
 
@@ -177,7 +177,7 @@ $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$Tags = @("Inner_example") # String[] | Tags to filter by (default to null)
+$Tags = @("Inner_example") # String[] | Tags to filter by
 
 # Finds Pets by tags
 try {
@@ -192,7 +192,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **Tags** | [**String[]**](String.md)| Tags to filter by | [default to null]
+ **Tags** | [**String[]**](String.md)| Tags to filter by | 
 
 ### Return type
 
@@ -228,7 +228,7 @@ $Configuration["ApiKey"]["api_key"] = "YOUR_API_KEY"
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 #$Configuration["ApiKeyPrefix"]["api_key"] = "Bearer"
 
-$PetId = 987 # Int64 | ID of pet to return (default to null)
+$PetId = 987 # Int64 | ID of pet to return
 
 # Find pet by ID
 try {
@@ -243,7 +243,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **PetId** | **Int64**| ID of pet to return | [default to null]
+ **PetId** | **Int64**| ID of pet to return | 
 
 ### Return type
 
@@ -324,9 +324,9 @@ $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$PetId = 987 # Int64 | ID of pet that needs to be updated (default to null)
-$Name = "Name_example" # String | Updated name of the pet (optional) (default to null)
-$Status = "Status_example" # String | Updated status of the pet (optional) (default to null)
+$PetId = 987 # Int64 | ID of pet that needs to be updated
+$Name = "Name_example" # String | Updated name of the pet (optional)
+$Status = "Status_example" # String | Updated status of the pet (optional)
 
 # Updates a pet in the store with form data
 try {
@@ -341,9 +341,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **PetId** | **Int64**| ID of pet that needs to be updated | [default to null]
- **Name** | **String**| Updated name of the pet | [optional] [default to null]
- **Status** | **String**| Updated status of the pet | [optional] [default to null]
+ **PetId** | **Int64**| ID of pet that needs to be updated | 
+ **Name** | **String**| Updated name of the pet | [optional] 
+ **Status** | **String**| Updated status of the pet | [optional] 
 
 ### Return type
 
@@ -377,9 +377,9 @@ $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
-$PetId = 987 # Int64 | ID of pet to update (default to null)
-$AdditionalMetadata = "AdditionalMetadata_example" # String | Additional data to pass to server (optional) (default to null)
-$File = 987 # System.IO.FileInfo | file to upload (optional) (default to null)
+$PetId = 987 # Int64 | ID of pet to update
+$AdditionalMetadata = "AdditionalMetadata_example" # String | Additional data to pass to server (optional)
+$File = 987 # System.IO.FileInfo | file to upload (optional)
 
 # uploads an image
 try {
@@ -394,9 +394,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **PetId** | **Int64**| ID of pet to update | [default to null]
- **AdditionalMetadata** | **String**| Additional data to pass to server | [optional] [default to null]
- **File** | **System.IO.FileInfo****System.IO.FileInfo**| file to upload | [optional] [default to null]
+ **PetId** | **Int64**| ID of pet to update | 
+ **AdditionalMetadata** | **String**| Additional data to pass to server | [optional] 
+ **File** | **System.IO.FileInfo****System.IO.FileInfo**| file to upload | [optional] 
 
 ### Return type
 

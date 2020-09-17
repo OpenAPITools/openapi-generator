@@ -17,12 +17,7 @@
 
 package org.openapitools.codegen.languages;
 
-import org.openapitools.codegen.CliOption;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.CodegenOperation;
-import org.openapitools.codegen.CodegenParameter;
-import org.openapitools.codegen.CodegenType;
-import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,6 +78,8 @@ public class GoServerCodegen extends AbstractGoCodegen {
         optFeatureCORS.defaultValue(corsFeatureEnabled.toString());
         cliOptions.add(optFeatureCORS);
 
+        cliOptions.add(CliOption.newBoolean(CodegenConstants.ENUM_CLASS_PREFIX, CodegenConstants.ENUM_CLASS_PREFIX_DESC));
+
         /*
          * Models.  You can write model files using the modelTemplateFiles map.
          * if you want to create one template for file, you can do so here.
@@ -104,7 +101,7 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         /*
          * Service templates.  You can write services for each Api file with the apiTemplateFiles map.
-            These services are skeletons built to implement the logic of your api using the 
+            These services are skeletons built to implement the logic of your api using the
             expected parameters and response.
          */
         apiTemplateFiles.put(
@@ -139,8 +136,6 @@ public class GoServerCodegen extends AbstractGoCodegen {
     @Override
     public void processOpts() {
         super.processOpts();
-
-
         /*
          * Additional Properties.  These values can be passed to the templates and
          * are available in models, apis, and supporting files
@@ -166,13 +161,11 @@ public class GoServerCodegen extends AbstractGoCodegen {
 
         if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof Integer) {
             this.setServerPort((int) additionalProperties.get("serverPort"));
-        } else if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof String){
+        } else if (additionalProperties.containsKey("serverPort") && additionalProperties.get("serverPort") instanceof String) {
             try {
                 this.setServerPort(Integer.parseInt(additionalProperties.get("serverPort").toString()));
                 additionalProperties.put("serverPort", serverPort);
-            }
-            catch (NumberFormatException e)
-            {
+            } catch (NumberFormatException e) {
                 LOGGER.warn("serverPort is not a valid integer... defaulting to {}", serverPort);
                 additionalProperties.put("serverPort", serverPort);
             }
@@ -183,6 +176,13 @@ public class GoServerCodegen extends AbstractGoCodegen {
             this.setFeatureCORS(convertPropertyToBooleanAndWriteBack("featureCORS"));
         } else {
             additionalProperties.put("featureCORS", corsFeatureEnabled);
+        }
+
+        if (additionalProperties.containsKey(CodegenConstants.ENUM_CLASS_PREFIX)) {
+            setEnumClassPrefix(Boolean.parseBoolean(additionalProperties.get(CodegenConstants.ENUM_CLASS_PREFIX).toString()));
+            if (enumClassPrefix) {
+                additionalProperties.put(CodegenConstants.ENUM_CLASS_PREFIX, true);
+            }
         }
 
         modelPackage = packageName;
@@ -199,6 +199,8 @@ public class GoServerCodegen extends AbstractGoCodegen {
         supportingFiles.add(new SupportingFile("go.mod.mustache", "", "go.mod"));
         supportingFiles.add(new SupportingFile("routers.mustache", sourceFolder, "routers.go"));
         supportingFiles.add(new SupportingFile("logger.mustache", sourceFolder, "logger.go"));
+        supportingFiles.add(new SupportingFile("impl.mustache",sourceFolder, "impl.go"));
+        supportingFiles.add(new SupportingFile("helpers.mustache", sourceFolder, "helpers.go"));
         supportingFiles.add(new SupportingFile("api.mustache", sourceFolder, "api.go"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md")
                 .doNotOverwrite());

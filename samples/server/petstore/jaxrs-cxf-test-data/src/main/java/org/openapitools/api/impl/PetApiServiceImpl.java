@@ -40,7 +40,7 @@ public class PetApiServiceImpl implements PetApi {
     {
         try {
             File cacheFile = new File(System.getProperty("jaxrs.test.server.json",
-                    "/mnt/c/Users/philipp/Documents/dev/openapi-generator/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
+                    "/Users/par/git/openapi-generator/samples/server/petstore/jaxrs-cxf-test-data/src/main/resources/test-data.json"));
             cache = JsonCache.Factory.instance.get("test-data").load(cacheFile).child("/org.openapitools.api/PetApi");
         } catch (CacheException e) {
             e.printStackTrace();

@@ -55,13 +55,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(pet) 
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(pet)
 
       # return_type
-      return_type = opts[:return_type] 
+      return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:auth_names] || ['petstore_auth']
+      auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -116,13 +116,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] 
+      return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:auth_names] || ['petstore_auth']
+      auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -179,13 +179,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] || 'Array<Pet>' 
+      return_type = opts[:debug_return_type] || 'Array<Pet>'
 
       # auth_names
-      auth_names = opts[:auth_names] || ['petstore_auth']
+      auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -242,13 +242,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] || 'Array<Pet>' 
+      return_type = opts[:debug_return_type] || 'Array<Pet>'
 
       # auth_names
-      auth_names = opts[:auth_names] || ['petstore_auth']
+      auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -304,13 +304,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] || 'Pet' 
+      return_type = opts[:debug_return_type] || 'Pet'
 
       # auth_names
-      auth_names = opts[:auth_names] || ['api_key']
+      auth_names = opts[:debug_auth_names] || ['api_key']
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -364,13 +364,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(pet) 
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(pet)
 
       # return_type
-      return_type = opts[:return_type] 
+      return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:auth_names] || ['petstore_auth']
+      auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -430,13 +430,13 @@ module Petstore
       form_params['status'] = opts[:'status'] if !opts[:'status'].nil?
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] 
+      return_type = opts[:debug_return_type]
 
       # auth_names
-      auth_names = opts[:auth_names] || ['petstore_auth']
+      auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -498,13 +498,13 @@ module Petstore
       form_params['file'] = opts[:'file'] if !opts[:'file'].nil?
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] || 'ApiResponse' 
+      return_type = opts[:debug_return_type] || 'ApiResponse'
 
       # auth_names
-      auth_names = opts[:auth_names] || ['petstore_auth']
+      auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -570,13 +570,13 @@ module Petstore
       form_params['additionalMetadata'] = opts[:'additional_metadata'] if !opts[:'additional_metadata'].nil?
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] || 'ApiResponse' 
+      return_type = opts[:debug_return_type] || 'ApiResponse'
 
       # auth_names
-      auth_names = opts[:auth_names] || ['petstore_auth']
+      auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
         :header_params => header_params,

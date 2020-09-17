@@ -123,14 +123,14 @@
             <version>${springfox-version}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.joschi.jackson</groupId>
-            <artifactId>jackson-datatype-threetenbp</artifactId>
-            <version>${jackson-threetenbp-version}</version>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>${jackson-version}</version>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
-            <version>0.1.0</version>
+            <version>${jackson-databind-nullable-version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -152,7 +152,7 @@
         </dependency>
     </dependencies>
     <properties>
-        <java.version>1.7</java.version>
+        <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <jetty-version>9.2.15.v20160210</jetty-version>
@@ -164,5 +164,6 @@
         <jackson-threetenbp-version>2.8.4</jackson-threetenbp-version>
         <beanvalidation-version>1.1.0.Final</beanvalidation-version>
         <spring-version>4.3.20.RELEASE</spring-version>
+        <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
     </properties>
 </project>

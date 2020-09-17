@@ -32,6 +32,9 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 {{#useRxJava2}}
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 {{/useRxJava2}}
+{{#useRxJava3}}
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
+{{/useRxJava3}}
 {{#gson}}
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -45,7 +48,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 {{#nonPublicApi}}internal {{/nonPublicApi}}class ApiClient(
     private var baseUrl: String = defaultBasePath,
     private val okHttpClientBuilder: OkHttpClient.Builder? = null,
-    private val serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder
+    private val serializerBuilder: {{#gson}}Gson{{/gson}}{{#moshi}}Moshi.{{/moshi}}Builder = Serializer.{{#gson}}gson{{/gson}}{{#moshi}}moshi{{/moshi}}Builder,
+    private val okHttpClient : OkHttpClient? = null
 ) {
     private val apiAuthorizations = mutableMapOf<String, Interceptor>()
     var logger: ((String) -> Unit)? = null
@@ -62,7 +66,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
             {{/useRxJava}}
             {{#useRxJava2}}
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            {{/useRxJava2}}
+            {{/useRxJava2}}{{#useRxJava3}}
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            {{/useRxJava3}}
             {{#moshi}}
             .addConverterFactory(MoshiConverterFactory.create(serializerBuilder.build()))
             {{/moshi}}
@@ -281,7 +287,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
     }
 
     fun <S> createService(serviceClass: Class<S>): S {
-        return retrofitBuilder.client(clientBuilder.build()).build().create(serviceClass)
+        var usedClient: OkHttpClient? = null
+        this.okHttpClient?.let { usedClient = it } ?: run {usedClient = clientBuilder.build()}
+        return retrofitBuilder.client(usedClient).build().create(serviceClass)
     }
 
     private fun normalizeBaseUrl() {

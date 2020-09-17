@@ -1,4 +1,4 @@
-# model200_response.Model200Response
+# Model200Response
 
 Model for testing model name starting with number
 ## Properties

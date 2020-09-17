@@ -5,9 +5,11 @@ sidebar_label: go-gin-server
 
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
+|apiPath|Name of the folder that contains the Go source code| |go|
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
 |packageName|Go package name (convention: lowercase).| |openapi|
 |packageVersion|Go package version.| |1.0.0|
+|serverPort|The network port the generated server binds to| |8080|
 
 ## IMPORT MAPPING
 
@@ -102,6 +104,7 @@ sidebar_label: go-gin-server
 |BasePath|✗|ToolingExtension
 |Authorizations|✗|ToolingExtension
 |UserAgent|✗|ToolingExtension
+|MockServer|✗|ToolingExtension
 
 ### Data Type Feature
 | Name | Supported | Defined By |

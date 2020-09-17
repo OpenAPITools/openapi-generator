@@ -18,13 +18,19 @@ package org.openapitools.codegen.cmd;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.deser.BeanDeserializerModifier;
 import com.fasterxml.jackson.databind.deser.std.DelegatingDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.util.TokenBuffer;
+
 import io.airlift.airline.Arguments;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
@@ -268,35 +274,51 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
 
         @Override
         public Object deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
-            TreeNode node = p.readValueAsTree();
-            JsonNode include = (JsonNode) node.get(INCLUDE);
             ObjectMapper codec = (ObjectMapper) ctx.getParser().getCodec();
-
-            if (include != null) {
-                String ref = include.textValue();
-                if (ref != null) {
-                    File includeFile = scanDir != null ? new File(scanDir, ref) : new File(ref);
-                    if (includeFile.exists()) {
-                        // load the file into the tree node and continue parsing as normal
-                        ((ObjectNode) node).remove(INCLUDE);
-
-                        TreeNode includeNode;
-                        try (JsonParser includeParser = codec.getFactory().createParser(includeFile)) {
-                            includeNode = includeParser.readValueAsTree();
-                        }
-
-                        ObjectReader reader = codec.readerForUpdating(node);
-                        TreeNode updated = reader.readValue(includeNode.traverse());
-                        JsonParser updatedParser = updated.traverse();
-                        updatedParser.nextToken();
-                        return super.deserialize(updatedParser, ctx);
-                    }
-                }
-            }
-
-            JsonParser newParser = node.traverse();
+            TokenBuffer buffer = new TokenBuffer(p);
+            
+            recurse(buffer, p, codec, false);
+            
+            JsonParser newParser = buffer.asParser(codec);
             newParser.nextToken();
+            
             return super.deserialize(newParser, ctx);
+        }
+        
+        private void recurse(TokenBuffer buffer, JsonParser p, ObjectMapper codec, boolean skipOuterbraces) throws IOException {
+            boolean firstToken = true;
+            JsonToken token; 
+            
+            while ((token = p.nextToken()) != null) {
+                String name = p.currentName();
+                
+                if (skipOuterbraces && firstToken && JsonToken.START_OBJECT.equals(token)) {
+                    continue;
+                }
+                
+                if (skipOuterbraces && p.getParsingContext().inRoot() && JsonToken.END_OBJECT.equals(token)) {
+                    continue;
+                }
+                
+                if (JsonToken.VALUE_NULL.equals(token)) {
+                    continue;
+                }
+                
+                if (name != null && JsonToken.FIELD_NAME.equals(token) && name.startsWith(INCLUDE)) {
+                    p.nextToken();
+                    String fileName = p.getText();
+                    if (fileName != null) {
+                        File includeFile = scanDir != null ? new File(scanDir, fileName) : new File(fileName);
+                        if (includeFile.exists()) {
+                            recurse(buffer, codec.getFactory().createParser(includeFile), codec, true);
+                        }
+                    }
+                } else {
+                    buffer.copyCurrentEvent(p);
+                }
+                
+                firstToken = false;
+            }
         }
     }
 }

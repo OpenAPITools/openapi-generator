@@ -15,9 +15,13 @@ docs/AdditionalPropertiesClass.md
 docs/Animal.md
 docs/AnotherFakeApi.md
 docs/ApiResponse.md
+docs/Apple.md
+docs/AppleReq.md
 docs/ArrayOfArrayOfNumberOnly.md
 docs/ArrayOfNumberOnly.md
 docs/ArrayTest.md
+docs/Banana.md
+docs/BananaReq.md
 docs/Capitalization.md
 docs/Cat.md
 docs/CatAllOf.md
@@ -36,6 +40,9 @@ docs/File.md
 docs/FileSchemaTestClass.md
 docs/Foo.md
 docs/FormatTest.md
+docs/Fruit.md
+docs/FruitReq.md
+docs/GmFruit.md
 docs/HasOnlyReadOnly.md
 docs/HealthCheckResult.md
 docs/InlineObject.md
@@ -46,6 +53,7 @@ docs/InlineObject4.md
 docs/InlineObject5.md
 docs/InlineResponseDefault.md
 docs/List.md
+docs/Mammal.md
 docs/MapTest.md
 docs/MixedPropertiesAndAdditionalPropertiesClass.md
 docs/Model200Response.md
@@ -67,6 +75,8 @@ docs/StoreApi.md
 docs/Tag.md
 docs/User.md
 docs/UserApi.md
+docs/Whale.md
+docs/Zebra.md
 git_push.sh
 go.mod
 go.sum
@@ -75,9 +85,13 @@ model__special_model_name_.go
 model_additional_properties_class.go
 model_animal.go
 model_api_response.go
+model_apple.go
+model_apple_req.go
 model_array_of_array_of_number_only.go
 model_array_of_number_only.go
 model_array_test_.go
+model_banana.go
+model_banana_req.go
 model_capitalization.go
 model_cat.go
 model_cat_all_of.go
@@ -93,6 +107,9 @@ model_file.go
 model_file_schema_test_class.go
 model_foo.go
 model_format_test_.go
+model_fruit.go
+model_fruit_req.go
+model_gm_fruit.go
 model_has_only_read_only.go
 model_health_check_result.go
 model_inline_object.go
@@ -103,6 +120,7 @@ model_inline_object_4.go
 model_inline_object_5.go
 model_inline_response_default.go
 model_list.go
+model_mammal.go
 model_map_test_.go
 model_mixed_properties_and_additional_properties_class.go
 model_name.go
@@ -119,4 +137,8 @@ model_read_only_first.go
 model_return.go
 model_tag.go
 model_user.go
+model_whale.go
+model_zebra.go
 response.go
+signing.go
+utils.go

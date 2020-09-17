@@ -21,7 +21,7 @@ public class ApiClientTest {
     @Test
     public void testParseAndFormatDate() {
         // default date format
-        String dateStr = "2015-11-07T03:49:09.356Z";
+        String dateStr = "2015-11-07T03:49:09.356+00:00";
         assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07T03:49:09.356+00:00")));
         assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07T03:49:09.356Z")));
         assertEquals(dateStr, apiClient.formatDate(apiClient.parseDate("2015-11-07T05:49:09.356+02:00")));

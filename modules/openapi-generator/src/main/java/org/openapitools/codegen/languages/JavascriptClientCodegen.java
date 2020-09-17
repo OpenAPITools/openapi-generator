@@ -58,7 +58,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             new String[]{"git_push.sh.mustache", "git_push.sh"},
             new String[]{"README.mustache", "README.md"},
             new String[]{"mocha.opts", "mocha.opts"},
-            new String[]{"travis.yml", ".travis.yml"}
+            new String[]{"travis.yml", ".travis.yml"},
+            new String[]{"gitignore.mustache", ".gitignore"}
     };
 
     final String[][] JAVASCRIPT_ES6_SUPPORTING_FILES = new String[][]{
@@ -69,7 +70,8 @@ public class JavascriptClientCodegen extends DefaultCodegen implements CodegenCo
             new String[]{"README.mustache", "README.md"},
             new String[]{"mocha.opts", "mocha.opts"},
             new String[]{"travis.yml", ".travis.yml"},
-            new String[]{".babelrc.mustache", ".babelrc"}
+            new String[]{".babelrc.mustache", ".babelrc"},
+            new String[]{"gitignore.mustache", ".gitignore"}
     };
 
     protected String projectName;

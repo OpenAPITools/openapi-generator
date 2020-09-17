@@ -1,4 +1,4 @@
-# enum_arrays.EnumArrays
+# EnumArrays
 
 ## Properties
 Name | Type | Description | Notes

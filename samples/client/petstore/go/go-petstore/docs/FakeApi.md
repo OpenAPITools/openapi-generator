@@ -23,19 +23,49 @@ Method | HTTP request | Description
 
 ## CreateXmlItem
 
-> CreateXmlItem(ctx, xmlItem)
+> CreateXmlItem(ctx).XmlItem(xmlItem).Execute()
 
 creates an XmlItem
 
-this route creates an XmlItem
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    xmlItem := openapiclient.XmlItem{AttributeString: "AttributeString_example", AttributeNumber: 123, AttributeInteger: 123, AttributeBoolean: true, WrappedArray: []int32{123), NameString: "NameString_example", NameNumber: 123, NameInteger: 123, NameBoolean: true, NameArray: []int32{123), NameWrappedArray: []int32{123), PrefixString: "PrefixString_example", PrefixNumber: 123, PrefixInteger: 123, PrefixBoolean: true, PrefixArray: []int32{123), PrefixWrappedArray: []int32{123), NamespaceString: "NamespaceString_example", NamespaceNumber: 123, NamespaceInteger: 123, NamespaceBoolean: true, NamespaceArray: []int32{123), NamespaceWrappedArray: []int32{123), PrefixNsString: "PrefixNsString_example", PrefixNsNumber: 123, PrefixNsInteger: 123, PrefixNsBoolean: true, PrefixNsArray: []int32{123), PrefixNsWrappedArray: []int32{123)} // XmlItem | XmlItem Body
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.CreateXmlItem(context.Background(), xmlItem).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.CreateXmlItem``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateXmlItemRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**xmlItem** | [**XmlItem**](XmlItem.md)| XmlItem Body | 
+ **xmlItem** | [**XmlItem**](XmlItem.md) | XmlItem Body | 
 
 ### Return type
 
@@ -57,28 +87,51 @@ No authorization required
 
 ## FakeOuterBooleanSerialize
 
-> bool FakeOuterBooleanSerialize(ctx, optional)
+> bool FakeOuterBooleanSerialize(ctx).Body(body).Execute()
 
 
 
-Test serialization of outer boolean types
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := true // bool | Input boolean as post body (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.FakeOuterBooleanSerialize(context.Background(), ).Body(body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterBooleanSerialize``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `FakeOuterBooleanSerialize`: bool
+    fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterBooleanSerialize`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFakeOuterBooleanSerializeRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***FakeOuterBooleanSerializeOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a FakeOuterBooleanSerializeOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **optional.Bool**| Input boolean as post body | 
+ **body** | **bool** | Input boolean as post body | 
 
 ### Return type
 
@@ -100,28 +153,51 @@ No authorization required
 
 ## FakeOuterCompositeSerialize
 
-> OuterComposite FakeOuterCompositeSerialize(ctx, optional)
+> OuterComposite FakeOuterCompositeSerialize(ctx).Body(body).Execute()
 
 
 
-Test serialization of object with outer number type
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := openapiclient.OuterComposite{MyNumber: 123, MyString: "MyString_example", MyBoolean: false} // OuterComposite | Input composite as post body (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.FakeOuterCompositeSerialize(context.Background(), ).Body(body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterCompositeSerialize``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `FakeOuterCompositeSerialize`: OuterComposite
+    fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterCompositeSerialize`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFakeOuterCompositeSerializeRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***FakeOuterCompositeSerializeOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a FakeOuterCompositeSerializeOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | [**optional.Interface of OuterComposite**](OuterComposite.md)| Input composite as post body | 
+ **body** | [**OuterComposite**](OuterComposite.md) | Input composite as post body | 
 
 ### Return type
 
@@ -143,28 +219,51 @@ No authorization required
 
 ## FakeOuterNumberSerialize
 
-> float32 FakeOuterNumberSerialize(ctx, optional)
+> float32 FakeOuterNumberSerialize(ctx).Body(body).Execute()
 
 
 
-Test serialization of outer number types
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := 987 // float32 | Input number as post body (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.FakeOuterNumberSerialize(context.Background(), ).Body(body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterNumberSerialize``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `FakeOuterNumberSerialize`: float32
+    fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterNumberSerialize`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFakeOuterNumberSerializeRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***FakeOuterNumberSerializeOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a FakeOuterNumberSerializeOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **optional.Float32**| Input number as post body | 
+ **body** | **float32** | Input number as post body | 
 
 ### Return type
 
@@ -186,28 +285,51 @@ No authorization required
 
 ## FakeOuterStringSerialize
 
-> string FakeOuterStringSerialize(ctx, optional)
+> string FakeOuterStringSerialize(ctx).Body(body).Execute()
 
 
 
-Test serialization of outer string types
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := "body_example" // string | Input string as post body (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.FakeOuterStringSerialize(context.Background(), ).Body(body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.FakeOuterStringSerialize``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `FakeOuterStringSerialize`: string
+    fmt.Fprintf(os.Stdout, "Response from `FakeApi.FakeOuterStringSerialize`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiFakeOuterStringSerializeRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***FakeOuterStringSerializeOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a FakeOuterStringSerializeOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **body** | **optional.String**| Input string as post body | 
+ **body** | **string** | Input string as post body | 
 
 ### Return type
 
@@ -229,19 +351,49 @@ No authorization required
 
 ## TestBodyWithFileSchema
 
-> TestBodyWithFileSchema(ctx, body)
+> TestBodyWithFileSchema(ctx).Body(body).Execute()
 
 
 
-For this test, the body for this request much reference a schema named `File`.
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := openapiclient.FileSchemaTestClass{File: openapiclient.File{SourceURI: "SourceURI_example"}, Files: []File{openapiclient.File{SourceURI: "SourceURI_example"})} // FileSchemaTestClass | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestBodyWithFileSchema(context.Background(), body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestBodyWithFileSchema``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestBodyWithFileSchemaRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**FileSchemaTestClass**](FileSchemaTestClass.md)|  | 
+ **body** | [**FileSchemaTestClass**](FileSchemaTestClass.md) |  | 
 
 ### Return type
 
@@ -263,18 +415,49 @@ No authorization required
 
 ## TestBodyWithQueryParams
 
-> TestBodyWithQueryParams(ctx, query, body)
+> TestBodyWithQueryParams(ctx).Query(query).Body(body).Execute()
 
 
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    query := "query_example" // string | 
+    body := openapiclient.User{Id: int64(123), Username: "Username_example", FirstName: "FirstName_example", LastName: "LastName_example", Email: "Email_example", Password: "Password_example", Phone: "Phone_example", UserStatus: 123} // User | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestBodyWithQueryParams(context.Background(), query, body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestBodyWithQueryParams``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestBodyWithQueryParamsRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**query** | **string**|  | 
-**body** | [**User**](User.md)|  | 
+ **query** | **string** |  | 
+ **body** | [**User**](User.md) |  | 
 
 ### Return type
 
@@ -296,19 +479,51 @@ No authorization required
 
 ## TestClientModel
 
-> Client TestClientModel(ctx, body)
+> Client TestClientModel(ctx).Body(body).Execute()
 
 To test \"client\" model
 
-To test \"client\" model
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := openapiclient.Client{Client: "Client_example"} // Client | client model
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestClientModel(context.Background(), body).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestClientModel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `TestClientModel`: Client
+    fmt.Fprintf(os.Stdout, "Response from `FakeApi.TestClientModel`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestClientModelRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**body** | [**Client**](Client.md)| client model | 
+ **body** | [**Client**](Client.md) | client model | 
 
 ### Return type
 
@@ -330,45 +545,75 @@ No authorization required
 
 ## TestEndpointParameters
 
-> TestEndpointParameters(ctx, number, double, patternWithoutDelimiter, byte_, optional)
+> TestEndpointParameters(ctx).Number(number).Double(double).PatternWithoutDelimiter(patternWithoutDelimiter).Byte_(byte_).Integer(integer).Int32_(int32_).Int64_(int64_).Float(float).String_(string_).Binary(binary).Date(date).DateTime(dateTime).Password(password).Callback(callback).Execute()
 
 Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
-Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    number := 987 // float32 | None
+    double := 987 // float64 | None
+    patternWithoutDelimiter := "patternWithoutDelimiter_example" // string | None
+    byte_ := 987 // string | None
+    integer := 987 // int32 | None (optional)
+    int32_ := 987 // int32 | None (optional)
+    int64_ := 987 // int64 | None (optional)
+    float := 987 // float32 | None (optional)
+    string_ := "string__example" // string | None (optional)
+    binary := 987 // *os.File | None (optional)
+    date := Get-Date // string | None (optional)
+    dateTime := Get-Date // time.Time | None (optional)
+    password := "password_example" // string | None (optional)
+    callback := "callback_example" // string | None (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestEndpointParameters(context.Background(), number, double, patternWithoutDelimiter, byte_).Integer(integer).Int32_(int32_).Int64_(int64_).Float(float).String_(string_).Binary(binary).Date(date).DateTime(dateTime).Password(password).Callback(callback).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestEndpointParameters``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestEndpointParametersRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**number** | **float32**| None | 
-**double** | **float64**| None | 
-**patternWithoutDelimiter** | **string**| None | 
-**byte_** | **string**| None | 
- **optional** | ***TestEndpointParametersOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a TestEndpointParametersOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
-
-
- **integer** | **optional.Int32**| None | 
- **int32_** | **optional.Int32**| None | 
- **int64_** | **optional.Int64**| None | 
- **float** | **optional.Float32**| None | 
- **string_** | **optional.String**| None | 
- **binary** | **optional.Interface of *os.File****optional.*os.File**| None | 
- **date** | **optional.String**| None | 
- **dateTime** | **optional.Time**| None | 
- **password** | **optional.String**| None | 
- **callback** | **optional.String**| None | 
+ **number** | **float32** | None | 
+ **double** | **float64** | None | 
+ **patternWithoutDelimiter** | **string** | None | 
+ **byte_** | **string** | None | 
+ **integer** | **int32** | None | 
+ **int32_** | **int32** | None | 
+ **int64_** | **int64** | None | 
+ **float** | **float32** | None | 
+ **string_** | **string** | None | 
+ **binary** | ***os.File** | None | 
+ **date** | **string** | None | 
+ **dateTime** | **time.Time** | None | 
+ **password** | **string** | None | 
+ **callback** | **string** | None | 
 
 ### Return type
 
@@ -390,35 +635,63 @@ Name | Type | Description  | Notes
 
 ## TestEnumParameters
 
-> TestEnumParameters(ctx, optional)
+> TestEnumParameters(ctx).EnumHeaderStringArray(enumHeaderStringArray).EnumHeaderString(enumHeaderString).EnumQueryStringArray(enumQueryStringArray).EnumQueryString(enumQueryString).EnumQueryInteger(enumQueryInteger).EnumQueryDouble(enumQueryDouble).EnumFormStringArray(enumFormStringArray).EnumFormString(enumFormString).Execute()
 
 To test enum parameters
 
-To test enum parameters
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    enumHeaderStringArray := []string{"EnumHeaderStringArray_example"} // []string | Header parameter enum test (string array) (optional)
+    enumHeaderString := "enumHeaderString_example" // string | Header parameter enum test (string) (optional) (default to "-efg")
+    enumQueryStringArray := []string{"EnumQueryStringArray_example"} // []string | Query parameter enum test (string array) (optional)
+    enumQueryString := "enumQueryString_example" // string | Query parameter enum test (string) (optional) (default to "-efg")
+    enumQueryInteger := 987 // int32 | Query parameter enum test (double) (optional)
+    enumQueryDouble := 987 // float64 | Query parameter enum test (double) (optional)
+    enumFormStringArray := []string{"Inner_example"} // []string | Form parameter enum test (string array) (optional) (default to "$")
+    enumFormString := "enumFormString_example" // string | Form parameter enum test (string) (optional) (default to "-efg")
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestEnumParameters(context.Background(), ).EnumHeaderStringArray(enumHeaderStringArray).EnumHeaderString(enumHeaderString).EnumQueryStringArray(enumQueryStringArray).EnumQueryString(enumQueryString).EnumQueryInteger(enumQueryInteger).EnumQueryDouble(enumQueryDouble).EnumFormStringArray(enumFormStringArray).EnumFormString(enumFormString).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestEnumParameters``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestEnumParametersRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
- **optional** | ***TestEnumParametersOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a TestEnumParametersOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **enumHeaderStringArray** | [**optional.Interface of []string**](string.md)| Header parameter enum test (string array) | 
- **enumHeaderString** | **optional.String**| Header parameter enum test (string) | [default to -efg]
- **enumQueryStringArray** | [**optional.Interface of []string**](string.md)| Query parameter enum test (string array) | 
- **enumQueryString** | **optional.String**| Query parameter enum test (string) | [default to -efg]
- **enumQueryInteger** | **optional.Int32**| Query parameter enum test (double) | 
- **enumQueryDouble** | **optional.Float64**| Query parameter enum test (double) | 
- **enumFormStringArray** | [**optional.Interface of []string**](string.md)| Form parameter enum test (string array) | [default to $]
- **enumFormString** | **optional.String**| Form parameter enum test (string) | [default to -efg]
+ **enumHeaderStringArray** | [**[]string**](string.md) | Header parameter enum test (string array) | 
+ **enumHeaderString** | **string** | Header parameter enum test (string) | [default to &quot;-efg&quot;]
+ **enumQueryStringArray** | [**[]string**](string.md) | Query parameter enum test (string array) | 
+ **enumQueryString** | **string** | Query parameter enum test (string) | [default to &quot;-efg&quot;]
+ **enumQueryInteger** | **int32** | Query parameter enum test (double) | 
+ **enumQueryDouble** | **float64** | Query parameter enum test (double) | 
+ **enumFormStringArray** | [**[]string**](string.md) | Form parameter enum test (string array) | [default to &quot;$&quot;]
+ **enumFormString** | **string** | Form parameter enum test (string) | [default to &quot;-efg&quot;]
 
 ### Return type
 
@@ -440,36 +713,59 @@ No authorization required
 
 ## TestGroupParameters
 
-> TestGroupParameters(ctx, requiredStringGroup, requiredBooleanGroup, requiredInt64Group, optional)
+> TestGroupParameters(ctx).RequiredStringGroup(requiredStringGroup).RequiredBooleanGroup(requiredBooleanGroup).RequiredInt64Group(requiredInt64Group).StringGroup(stringGroup).BooleanGroup(booleanGroup).Int64Group(int64Group).Execute()
 
 Fake endpoint to test group parameters (optional)
 
-Fake endpoint to test group parameters (optional)
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    requiredStringGroup := 987 // int32 | Required String in group parameters
+    requiredBooleanGroup := true // bool | Required Boolean in group parameters
+    requiredInt64Group := 987 // int64 | Required Integer in group parameters
+    stringGroup := 987 // int32 | String in group parameters (optional)
+    booleanGroup := true // bool | Boolean in group parameters (optional)
+    int64Group := 987 // int64 | Integer in group parameters (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestGroupParameters(context.Background(), requiredStringGroup, requiredBooleanGroup, requiredInt64Group).StringGroup(stringGroup).BooleanGroup(booleanGroup).Int64Group(int64Group).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestGroupParameters``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestGroupParametersRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**requiredStringGroup** | **int32**| Required String in group parameters | 
-**requiredBooleanGroup** | **bool**| Required Boolean in group parameters | 
-**requiredInt64Group** | **int64**| Required Integer in group parameters | 
- **optional** | ***TestGroupParametersOpts** | optional parameters | nil if no parameters
-
-### Optional Parameters
-
-Optional parameters are passed through a pointer to a TestGroupParametersOpts struct
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
-
- **stringGroup** | **optional.Int32**| String in group parameters | 
- **booleanGroup** | **optional.Bool**| Boolean in group parameters | 
- **int64Group** | **optional.Int64**| Integer in group parameters | 
+ **requiredStringGroup** | **int32** | Required String in group parameters | 
+ **requiredBooleanGroup** | **bool** | Required Boolean in group parameters | 
+ **requiredInt64Group** | **int64** | Required Integer in group parameters | 
+ **stringGroup** | **int32** | String in group parameters | 
+ **booleanGroup** | **bool** | Boolean in group parameters | 
+ **int64Group** | **int64** | Integer in group parameters | 
 
 ### Return type
 
@@ -491,17 +787,47 @@ No authorization required
 
 ## TestInlineAdditionalProperties
 
-> TestInlineAdditionalProperties(ctx, param)
+> TestInlineAdditionalProperties(ctx).Param(param).Execute()
 
 test inline additionalProperties
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    param := map[string]string{ "Key" = "Value" } // map[string]string | request body
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestInlineAdditionalProperties(context.Background(), param).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestInlineAdditionalProperties``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestInlineAdditionalPropertiesRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**param** | [**map[string]string**](string.md)| request body | 
+ **param** | [**map[string]string**](string.md) | request body | 
 
 ### Return type
 
@@ -523,18 +849,49 @@ No authorization required
 
 ## TestJsonFormData
 
-> TestJsonFormData(ctx, param, param2)
+> TestJsonFormData(ctx).Param(param).Param2(param2).Execute()
 
 test json serialization of form data
 
-### Required Parameters
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    param := "param_example" // string | field1
+    param2 := "param2_example" // string | field2
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestJsonFormData(context.Background(), param, param2).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestJsonFormData``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestJsonFormDataRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**param** | **string**| field1 | 
-**param2** | **string**| field2 | 
+ **param** | **string** | field1 | 
+ **param2** | **string** | field2 | 
 
 ### Return type
 
@@ -556,23 +913,57 @@ No authorization required
 
 ## TestQueryParameterCollectionFormat
 
-> TestQueryParameterCollectionFormat(ctx, pipe, ioutil, http, url, context)
+> TestQueryParameterCollectionFormat(ctx).Pipe(pipe).Ioutil(ioutil).Http(http).Url(url).Context(context).Execute()
 
 
 
-To test the collection format in query parameters
 
-### Required Parameters
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    pipe := []string{"Inner_example"} // []string | 
+    ioutil := []string{"Inner_example"} // []string | 
+    http := []string{"Inner_example"} // []string | 
+    url := []string{"Inner_example"} // []string | 
+    context := []string{"Inner_example"} // []string | 
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.FakeApi.TestQueryParameterCollectionFormat(context.Background(), pipe, ioutil, http, url, context).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `FakeApi.TestQueryParameterCollectionFormat``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestQueryParameterCollectionFormatRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**pipe** | [**[]string**](string.md)|  | 
-**ioutil** | [**[]string**](string.md)|  | 
-**http** | [**[]string**](string.md)|  | 
-**url** | [**[]string**](string.md)|  | 
-**context** | [**[]string**](string.md)|  | 
+ **pipe** | [**[]string**](string.md) |  | 
+ **ioutil** | [**[]string**](string.md) |  | 
+ **http** | [**[]string**](string.md) |  | 
+ **url** | [**[]string**](string.md) |  | 
+ **context** | [**[]string**](string.md) |  | 
 
 ### Return type
 

@@ -13,24 +13,24 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class StoreApiControllerImp implements StoreApiControllerImpInterface {
     @Override
-    public void deleteOrder(String orderId)  {
+    public void deleteOrder(Http.Request request, String orderId)  {
         //Do your magic!!!
     }
 
     @Override
-    public Map<String, Integer> getInventory()  {
+    public Map<String, Integer> getInventory(Http.Request request)  {
         //Do your magic!!!
         return new HashMap<String, Integer>();
     }
 
     @Override
-    public Order getOrderById( @Min(1) @Max(5)Long orderId)  {
+    public Order getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId)  {
         //Do your magic!!!
         return new Order();
     }
 
     @Override
-    public Order placeOrder(Order body)  {
+    public Order placeOrder(Http.Request request, Order body)  {
         //Do your magic!!!
         return new Order();
     }

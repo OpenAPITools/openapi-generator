@@ -43,6 +43,7 @@ import javax.json.bind.annotation.JsonbProperty;
 /**
   * A pet for sale in the pet store
  **/
+
 public class Pet  {
   
   private Long id;
@@ -55,11 +56,11 @@ public class Pet  {
 
   private List<Tag> tags = null;
 
-@JsonbTypeSerializer(StatusEnum.Serializer.class)
-@JsonbTypeDeserializer(StatusEnum.Deserializer.class)
-public enum StatusEnum {
+  @JsonbTypeSerializer(StatusEnum.Serializer.class)
+  @JsonbTypeDeserializer(StatusEnum.Deserializer.class)
+  public enum StatusEnum {
 
-AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));	
+    AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD(String.valueOf("sold"));	
 
 
     String value;
@@ -95,7 +96,7 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
             generator.write(obj.value);
         }
     }
-}
+  }
 
  /**
    * pet status in the store
@@ -222,11 +223,8 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
    * @return status
   **/
   @JsonbProperty("status")
-  public String getStatus() {
-    if (status == null) {
-      return null;
-    }
-    return status.value();
+  public StatusEnum getStatus() {
+    return status;
   }
 
   /**
@@ -264,7 +262,7 @@ AVAILABLE(String.valueOf("available")), PENDING(String.valueOf("pending")), SOLD
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
