@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **Byte** | **byte[]** | None | 
 **Binary** | **System.IO.Stream** | None | [optional] 
 **Date** | **DateTime** | None | [optional] 
-**DateTime** | **DateTime** | None | [optional] [default to "2010-02-01T10:20:10.111110+01:00"]
+**DateTime** | **DateTime** | None | [optional] 
 **Password** | **string** | None | [optional] 
 **Callback** | **string** | None | [optional] 
 
