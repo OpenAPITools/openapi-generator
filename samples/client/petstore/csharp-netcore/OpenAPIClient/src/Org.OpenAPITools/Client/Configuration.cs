@@ -85,6 +85,10 @@ namespace Org.OpenAPITools.Client
         private string _dateTimeFormat = ISO8601_DATETIME_FORMAT;
         private string _tempFolderPath = Path.GetTempPath();
 
+        /// <summary>
+		/// HTTPSigning configuration
+		/// </summary>
+		private HTTPSigningConfiguration _HTTPSigningConfiguration = null;
         #endregion Private Members
 
         #region Constructors
@@ -336,6 +340,15 @@ namespace Org.OpenAPITools.Client
             }
         }
 
+        /// <summary>
+		/// Gets and Sets the HTTPSigningConfiuration
+		/// </summary>
+		public HTTPSigningConfiguration HTTPSigningConfiguration
+		{
+			get { return _HTTPSigningConfiguration; }
+			set { _HTTPSigningConfiguration = value; }
+		}
+
         #endregion Properties
 
         #region Methods
@@ -407,7 +420,8 @@ namespace Org.OpenAPITools.Client
                 Password = second.Password ?? first.Password,
                 AccessToken = second.AccessToken ?? first.AccessToken,
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
-                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat
+                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
+                HTTPSigningConfiguration = second.HTTPSigningConfiguration ?? first.HTTPSigningConfiguration
             };
             return config;
         }

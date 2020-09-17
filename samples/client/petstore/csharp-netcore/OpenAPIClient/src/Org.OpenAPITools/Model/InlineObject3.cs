@@ -53,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="_byte">None (required).</param>
         /// <param name="binary">None.</param>
         /// <param name="date">None.</param>
-        /// <param name="dateTime">None.</param>
+        /// <param name="dateTime">None (default to &quot;2010-02-01T10:20:10.111110+01:00&quot;).</param>
         /// <param name="password">None.</param>
         /// <param name="callback">None.</param>
         public InlineObject3(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), string patternWithoutDelimiter = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), string password = default(string), string callback = default(string))
