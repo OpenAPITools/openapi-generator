@@ -2298,7 +2298,6 @@ public class DefaultCodegen implements CodegenConfig {
             if (supportsInheritance || supportsMixins) {
                 m.allVars = new ArrayList<CodegenProperty>();
                 if (composed.getAllOf() != null) {
-                    int modelImplCnt = 0; // only one inline object allowed in a ComposedModel
                     int modelDiscriminators = 0; // only one discriminator allowed in a ComposedModel
                     for (Schema innerSchema : composed.getAllOf()) { // TODO need to work with anyOf, oneOf as well
                         if (m.discriminator == null && innerSchema.getDiscriminator() != null) {
@@ -2316,12 +2315,7 @@ public class DefaultCodegen implements CodegenConfig {
                             m.xmlName = innerSchema.getXml().getName();
                         }
                         if (modelDiscriminators > 1) {
-                            LOGGER.error("Allof composed schema is inheriting >1 discriminator. Only use one discriminator: {}", composed);
-                        }
-
-                        if (modelImplCnt++ > 1) {
-                            LOGGER.warn("More than one inline schema specified in allOf:. Only the first one is recognized. All others are ignored.");
-                            break; // only one schema with discriminator allowed in allOf
+                            once(LOGGER).error("Allof composed schema is inheriting >1 discriminator. Only use one discriminator: {}", composed);
                         }
                     }
                 }
