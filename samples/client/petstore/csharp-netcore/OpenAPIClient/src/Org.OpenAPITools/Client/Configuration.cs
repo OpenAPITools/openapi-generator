@@ -419,10 +419,21 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
+        /// Returns URL based on server settings without providing values
+        /// for the variables
+        /// </summary>
+        /// <param name="index">Array index of the server settings.</param>
+        /// <return>The server URL.</return>
+        public string GetServerUrl(int index)
+        {
+            return GetServerUrl(index, null);
+        }
+
+        /// <summary>
         /// Returns URL based on server settings.
         /// </summary>
         /// <param name="index">Array index of the server settings.</param>
-        /// <param name="inputVariables">Dictoinary of variable and the corresponding value.</param>
+        /// <param name="inputVariables">Dictionary of the variables and the corresponding values.</param>
         /// <return>The server URL.</return>
         public string GetServerUrl(int index, Dictionary<string, string> inputVariables)
         {
@@ -431,14 +442,20 @@ namespace Org.OpenAPITools.Client
                 throw new InvalidOperationException($"Invalid index {index} when selecting the server. Must be less than {Servers.Count}.");
             }
 
+            if (inputVariables == null)
+            {
+                inputVariables = new Dictionary<string, string>();
+            }
+
             IReadOnlyDictionary<string, object> server = Servers[index];
             string url = (string)server["url"];
 
             // go through variable and assign a value
-            foreach (KeyValuePair<string, string> variable in inputVariables)
+            foreach (KeyValuePair<string, object> variable in (IReadOnlyDictionary<string, object>)server["variables"])
             {
-                IReadOnlyDictionary<string, object> serverVariables = (IReadOnlyDictionary<string, object>)((IReadOnlyDictionary<string, object>)server["variables"])[variable.Key];
-                // do something with entry.Value or entry.Key
+
+                IReadOnlyDictionary<string, object> serverVariables = (IReadOnlyDictionary<string, object>)(variable.Value);
+                
                 if (inputVariables.ContainsKey(variable.Key))
                 {
                     if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
