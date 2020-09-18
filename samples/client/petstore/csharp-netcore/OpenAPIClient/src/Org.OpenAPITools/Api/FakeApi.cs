@@ -1171,6 +1171,21 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Data = pet;
 
             // authentication (http_signature_test) required
+            if(this.Configuration.HTTPSigningConfiguration != null)
+			{
+				var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/fake/http-signature-test", localVarRequestOptions);
+				foreach (var headerItem in HttpSigningHeaders)
+				{
+					if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+					{
+						localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+					}
+					else
+					{
+						localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+					}
+				}
+			}
 
             // make the HTTP request
 
