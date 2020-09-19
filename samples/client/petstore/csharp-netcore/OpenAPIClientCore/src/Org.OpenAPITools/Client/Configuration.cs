@@ -90,6 +90,12 @@ namespace Org.OpenAPITools.Client
         private string _tempFolderPath = Path.GetTempPath();
 
         /// <summary>
+        /// Gets or sets the servers defined in the OpenAPI spec.
+        /// </summary>
+        /// <value>The servers</value>
+        private IList<IReadOnlyDictionary<string, object>> _servers;
+
+        /// <summary>
 		/// HTTPSigning configuration
 		/// </summary>
 		private HTTPSigningConfiguration _HTTPSigningConfiguration = null;
@@ -108,6 +114,66 @@ namespace Org.OpenAPITools.Client
             DefaultHeaders = new ConcurrentDictionary<string, string>();
             ApiKey = new ConcurrentDictionary<string, string>();
             ApiKeyPrefix = new ConcurrentDictionary<string, string>();
+            Servers = new List<IReadOnlyDictionary<string, object>>()
+            {
+                {
+                    new Dictionary<string, object> {
+                        {"url", "http://{server}.swagger.io:{port}/v2"},
+                        {"description", "petstore server"},
+                        {
+                            "variables", new Dictionary<string, object> {
+                                {
+                                    "server", new Dictionary<string, object> {
+                                        {"description", "No description provided"},
+                                        {"default_value", "petstore"},
+                                        {
+                                            "enum_values", new List<string>() {
+                                                "petstore",
+                                                "qa-petstore",
+                                                "dev-petstore"
+                                            }
+                                        }
+                                    } 
+                                },
+                                {
+                                    "port", new Dictionary<string, object> {
+                                        {"description", "No description provided"},
+                                        {"default_value", "80"},
+                                        {
+                                            "enum_values", new List<string>() {
+                                                "80",
+                                                "8080"
+                                            }
+                                        }
+                                    } 
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    new Dictionary<string, object> {
+                        {"url", "https://localhost:8080/{version}"},
+                        {"description", "The local server"},
+                        {
+                            "variables", new Dictionary<string, object> {
+                                {
+                                    "version", new Dictionary<string, object> {
+                                        {"description", "No description provided"},
+                                        {"default_value", "v2"},
+                                        {
+                                            "enum_values", new List<string>() {
+                                                "v1",
+                                                "v2"
+                                            }
+                                        }
+                                    } 
+                                }
+                            }
+                        }
+                    }
+                }
+            };
 
             // Setting Timeout has side effects (forces ApiClient creation).
             Timeout = 100000;
@@ -342,6 +408,82 @@ namespace Org.OpenAPITools.Client
                 }
                 _apiKey = value;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets the servers.
+        /// </summary>
+        /// <value>The servers.</value>
+        public virtual IList<IReadOnlyDictionary<string, object>> Servers 
+        {
+            get { return _servers; }
+            set
+            {
+                if (value == null)
+                {
+                    throw new InvalidOperationException("Servers may not be null.");
+                }
+                _servers = value;
+            }
+        }
+
+        /// <summary>
+        /// Returns URL based on server settings without providing values
+        /// for the variables
+        /// </summary>
+        /// <param name="index">Array index of the server settings.</param>
+        /// <return>The server URL.</return>
+        public string GetServerUrl(int index)
+        {
+            return GetServerUrl(index, null);
+        }
+
+        /// <summary>
+        /// Returns URL based on server settings.
+        /// </summary>
+        /// <param name="index">Array index of the server settings.</param>
+        /// <param name="inputVariables">Dictionary of the variables and the corresponding values.</param>
+        /// <return>The server URL.</return>
+        public string GetServerUrl(int index, Dictionary<string, string> inputVariables)
+        {
+            if (index < 0 || index >= Servers.Count)
+            {
+                throw new InvalidOperationException($"Invalid index {index} when selecting the server. Must be less than {Servers.Count}.");
+            }
+
+            if (inputVariables == null)
+            {
+                inputVariables = new Dictionary<string, string>();
+            }
+
+            IReadOnlyDictionary<string, object> server = Servers[index];
+            string url = (string)server["url"];
+
+            // go through variable and assign a value
+            foreach (KeyValuePair<string, object> variable in (IReadOnlyDictionary<string, object>)server["variables"])
+            {
+
+                IReadOnlyDictionary<string, object> serverVariables = (IReadOnlyDictionary<string, object>)(variable.Value);
+                
+                if (inputVariables.ContainsKey(variable.Key))
+                {
+                    if (((List<string>)serverVariables["enum_values"]).Contains(inputVariables[variable.Key]))
+                    {
+                        url = url.Replace("{" + variable.Key + "}", inputVariables[variable.Key]);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException($"The variable `{variable.Key}` in the server URL has invalid value #{inputVariables[variable.Key]}. Must be {(List<string>)serverVariables["enum_values"]}");
+                    }
+                }
+                else
+                {
+                    // use defualt value
+                    url = url.Replace("{" + variable.Key + "}", (string)serverVariables["default_value"]);
+                }
+            }
+
+            return url;
         }
 
         /// <summary>
