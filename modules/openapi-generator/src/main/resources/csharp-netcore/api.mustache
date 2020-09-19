@@ -369,6 +369,23 @@ namespace {{packageName}}.{{apiPackage}}
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
             {{/isOAuth}}
+            {{#isHttpSignature}}
+            if(this.Configuration.HTTPSigningConfiguration != null)
+			{
+				var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "{{{httpMethod}}}", "{{{path}}}", localVarRequestOptions);
+				foreach (var headerItem in HttpSigningHeaders)
+				{
+					if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+					{
+						localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+					}
+					else
+					{
+						localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+					}
+				}
+			}
+            {{/isHttpSignature}}
             {{/authMethods}}
 
             // make the HTTP request
@@ -547,6 +564,23 @@ namespace {{packageName}}.{{apiPackage}}
                 localVarRequestOptions.HeaderParameters.Add("Authorization", "Bearer " + this.Configuration.AccessToken);
             }
             {{/isOAuth}}
+			{{#isHttpSignature}}
+            if(this.Configuration.HTTPSigningConfiguration != null)
+			{
+				var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "{{{httpMethod}}}", "{{{path}}}", localVarRequestOptions);
+				foreach (var headerItem in HttpSigningHeaders)
+				{
+					if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+					{
+						localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+					}
+					else
+					{
+						localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+					}
+				}
+			}
+            {{/isHttpSignature}}
             {{/authMethods}}
 
             // make the HTTP request
