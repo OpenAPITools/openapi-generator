@@ -1,10 +1,7 @@
 README.md
 pom.xml
-src/main/java/org/openapitools/vertxweb/server/ApiException.java
 src/main/java/org/openapitools/vertxweb/server/ApiResponse.java
 src/main/java/org/openapitools/vertxweb/server/HttpServerVerticle.java
-src/main/java/org/openapitools/vertxweb/server/MainVerticle.java
-src/main/java/org/openapitools/vertxweb/server/ParameterCast.java
 src/main/java/org/openapitools/vertxweb/server/api/PetApi.java
 src/main/java/org/openapitools/vertxweb/server/api/PetApiHandler.java
 src/main/java/org/openapitools/vertxweb/server/api/PetApiImpl.java

@@ -2,12 +2,12 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>{{groupId}}</groupId>
-    <artifactId>{{artifactId}}</artifactId>
-    <version>{{artifactVersion}}</version>
+    <groupId>org.openapitools</groupId>
+    <artifactId>java-vertx-web-server</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>{{appName}}</name>
+    <name>OpenAPI Petstore</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -22,7 +22,7 @@
         <slf4j.version>1.7.30</slf4j.version>
         <jackson.version>2.11.2</jackson.version>
 
-        <main.verticle>{{invokerPackage}}.HttpServerVerticle</main.verticle>
+        <main.verticle>org.openapitools.vertxweb.server.HttpServerVerticle</main.verticle>
     </properties>
 
     <!-- Vert.x BOM -->
