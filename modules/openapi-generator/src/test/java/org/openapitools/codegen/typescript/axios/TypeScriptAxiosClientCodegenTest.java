@@ -1,4 +1,4 @@
-package org.openapitools.codegen.typescript;
+package org.openapitools.codegen.typescript.axios;
 
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.languages.TypeScriptAxiosClientCodegen;
@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
 
-public class TypeScriptAxiosClientCodegenTestTest {
+public class TypeScriptAxiosClientCodegenTest {
 
     TypeScriptAxiosClientCodegen codegen = new TypeScriptAxiosClientCodegen();
 

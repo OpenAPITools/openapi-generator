@@ -90,6 +90,10 @@ namespace Org.OpenAPITools.Client
         /// <value>The servers</value>
         private IList<IReadOnlyDictionary<string, object>> _servers;
 
+        /// <summary>
+		/// HTTPSigning configuration
+		/// </summary>
+		private HTTPSigningConfiguration _HTTPSigningConfiguration = null;
         #endregion Private Members
 
         #region Constructors
@@ -477,6 +481,15 @@ namespace Org.OpenAPITools.Client
             return url;
         }
 
+        /// <summary>
+		/// Gets and Sets the HTTPSigningConfiuration
+		/// </summary>
+		public HTTPSigningConfiguration HTTPSigningConfiguration
+		{
+			get { return _HTTPSigningConfiguration; }
+			set { _HTTPSigningConfiguration = value; }
+		}
+
         #endregion Properties
 
         #region Methods
@@ -548,7 +561,8 @@ namespace Org.OpenAPITools.Client
                 Password = second.Password ?? first.Password,
                 AccessToken = second.AccessToken ?? first.AccessToken,
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
-                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat
+                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
+                HTTPSigningConfiguration = second.HTTPSigningConfiguration ?? first.HTTPSigningConfiguration
             };
             return config;
         }

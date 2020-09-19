@@ -73,6 +73,7 @@ src/Org.OpenAPITools/Client/ClientUtils.cs
 src/Org.OpenAPITools/Client/Configuration.cs
 src/Org.OpenAPITools/Client/ExceptionFactory.cs
 src/Org.OpenAPITools/Client/GlobalConfiguration.cs
+src/Org.OpenAPITools/Client/HTTPSigningConfiguration.cs
 src/Org.OpenAPITools/Client/HttpMethod.cs
 src/Org.OpenAPITools/Client/IApiAccessor.cs
 src/Org.OpenAPITools/Client/IAsynchronousClient.cs
