@@ -18,7 +18,7 @@ jobs:
       with:
         java-version: 11
     - name: Compile with Maven
-      run: mvn -B -q clean package jacoco:report
+      run: mvn -B -q clean install jacoco:report
     - name: Jacoco Aggregate
       run: mvn jacoco:report-aggregate
     - name: Publish to Sonar
