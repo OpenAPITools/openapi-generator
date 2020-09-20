@@ -96,9 +96,9 @@ namespace Org.OpenAPITools.Client
         private IList<IReadOnlyDictionary<string, object>> _servers;
 
         /// <summary>
-		/// HTTPSigning configuration
-		/// </summary>
-		private HTTPSigningConfiguration _HTTPSigningConfiguration = null;
+        /// HTTPSigning configuration
+        /// </summary>
+        private HTTPSigningConfiguration _HTTPSigningConfiguration = null;
         #endregion Private Members
 
         #region Constructors
@@ -487,13 +487,13 @@ namespace Org.OpenAPITools.Client
         }
 
         /// <summary>
-		/// Gets and Sets the HTTPSigningConfiuration
-		/// </summary>
-		public HTTPSigningConfiguration HTTPSigningConfiguration
-		{
-			get { return _HTTPSigningConfiguration; }
-			set { _HTTPSigningConfiguration = value; }
-		}
+        /// Gets and Sets the HTTPSigningConfiuration
+        /// </summary>
+        public HTTPSigningConfiguration HTTPSigningConfiguration
+        {
+            get { return _HTTPSigningConfiguration; }
+            set { _HTTPSigningConfiguration = value; }
+        }
 
         #endregion Properties
 
