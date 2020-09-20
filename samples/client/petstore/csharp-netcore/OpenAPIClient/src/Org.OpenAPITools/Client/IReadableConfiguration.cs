@@ -106,8 +106,8 @@ namespace Org.OpenAPITools.Client
         X509CertificateCollection ClientCertificates { get; }
 
         /// <summary>
-		/// Gets the HTTPSigning configuration
-		/// </summary>
-		HTTPSigningConfiguration HTTPSigningConfiguration { get; }
+        /// Gets the HTTPSigning configuration
+        /// </summary>
+        HTTPSigningConfiguration HTTPSigningConfiguration { get; }
     }
 }
