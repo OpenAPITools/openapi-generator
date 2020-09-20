@@ -68,6 +68,9 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
 
         // Override type mapping
         typeMapping.put("file", "FileUpload");
+        typeMapping.put("UUID", "String");
+        typeMapping.put("date", "String");
+        typeMapping.put("DateTime", "String");
     }
 
     public CodegenType getTag() {
@@ -158,14 +161,6 @@ public class JavaVertXWebServerCodegen extends AbstractJavaCodegen {
             }
         }
         return newObjs;
-    }
-
-    @Override
-    public void postProcessParameter(CodegenParameter parameter) {
-        super.postProcessParameter(parameter);
-        if (parameter.isUuid || parameter.isDate || parameter.isDateTime) {
-            parameter.dataType = "String";
-        }
     }
 
     @Override
