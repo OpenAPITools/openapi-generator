@@ -15,6 +15,7 @@
  */
 
 package org.openapitools.codegen.python;
+import org.openapitools.codegen.config.CodegenConfigurator;
 
 import com.google.common.collect.Sets;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -29,7 +30,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.PythonClientExperimentalCodegen;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.testng.Assert;
@@ -398,5 +398,36 @@ public class PythonClientExperimentalTest {
         TestUtils.ensureContainsFile(files, output, "openapi_client/model/a.py");
         TestUtils.ensureContainsFile(files, output, "openapi_client/model/b.py");
         output.deleteOnExit();
+    }
+
+    @Test
+    public void testFreeFormSchemas() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("python-experimental")
+                .setInputSpec("src/test/resources/3_0/issue_7361.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureContainsFile(files, output, "openapi_client/model/free_form_with_validation.py");
+        TestUtils.ensureContainsFile(files, output, "openapi_client/model/free_form_interface.py");
+        TestUtils.ensureDoesNotContainsFile(files, output, "openapi_client/model/free_form.py");
+        output.deleteOnExit();
+    }
+
+    @Test(description = "tests ObjectWithValidations")
+    public void testObjectWithValidations() {
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_7361.yaml");
+        final DefaultCodegen codegen = new PythonClientExperimentalCodegen();
+        codegen.setOpenAPI(openAPI);
+
+        String modelName = "FreeFormWithValidation";
+        Schema modelSchema = ModelUtils.getSchema(openAPI, modelName);
+        final CodegenModel model = codegen.fromModel(modelName, modelSchema);
+        Assert.assertEquals((int) model.getMinProperties(), 1);
     }
 }

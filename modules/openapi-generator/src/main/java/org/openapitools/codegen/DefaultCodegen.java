@@ -1971,7 +1971,7 @@ public class DefaultCodegen implements CodegenConfig {
         return "oneOf<" + String.join(",", names) + ">";
     }
 
-    protected Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings) {
+    public Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings) {
         return ModelUtils.unaliasSchema(this.openAPI, schema, usedImportMappings);
     }
 
@@ -2491,6 +2491,9 @@ public class DefaultCodegen implements CodegenConfig {
                 } else { // type is number and without format
                     m.isNumber = Boolean.TRUE;
                 }
+            } else if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+                addAdditionPropertiesToCodeGenModel(m, schema);
+                ModelUtils.syncValidationProperties(schema, m);
             }
 
             if (Boolean.TRUE.equals(schema.getNullable())) {
@@ -2814,7 +2817,7 @@ public class DefaultCodegen implements CodegenConfig {
         String currentSchemaName = thisSchemaName;
         while (true) {
             for (String childName : schemas.keySet()) {
-                if (childName == thisSchemaName) {
+                if (childName.equals(thisSchemaName)) {
                     continue;
                 }
                 Schema child = schemas.get(childName);

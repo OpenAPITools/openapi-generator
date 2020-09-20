@@ -223,7 +223,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
     }
 
     @Override
-    protected Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings) {
+    public Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings) {
         Map<String, Schema> allSchemas = ModelUtils.getSchemas(openAPI);
         if (allSchemas == null || allSchemas.isEmpty()) {
             // skip the warning as the spec can have no model defined
@@ -238,19 +238,6 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
                 return schema;
             }
             Schema ref = allSchemas.get(simpleRef);
-            Boolean hasValidation = (
-                    ref.getMaxItems() != null ||
-                    ref.getMinLength() != null ||
-                    ref.getMinItems() != null ||
-                    ref.getMultipleOf() != null ||
-                    ref.getPattern() != null ||
-                    ref.getMaxLength() != null ||
-                    ref.getMinimum() != null ||
-                    ref.getMaximum() != null ||
-                    ref.getExclusiveMaximum() != null ||
-                    ref.getExclusiveMinimum() != null ||
-                    ref.getUniqueItems() != null
-            );
             if (ref == null) {
                 once(LOGGER).warn("{} is not defined", schema.get$ref());
                 return schema;
@@ -281,11 +268,17 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             } else if (ModelUtils.isObjectSchema(ref)) { // model
                 if (ref.getProperties() != null && !ref.getProperties().isEmpty()) { // has at least one property
                     return schema;
-                } else { // free form object (type: object)
+                } else {
+                    // free form object (type: object)
+                    if (ModelUtils.hasValidation(ref)) {
+                        return schema;
+                    } else if (getAllOfDescendants(simpleRef, openAPI).size() > 0) {
+                        return schema;
+                    }
                     return unaliasSchema(allSchemas.get(ModelUtils.getSimpleRef(schema.get$ref())),
                             usedImportMappings);
                 }
-            } else if (hasValidation) {
+            } else if (ModelUtils.hasValidation(ref)) {
                 // non object non array non map schemas that have validations
                 // are returned so we can generate those schemas as models
                 // we do this to:

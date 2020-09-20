@@ -707,6 +707,24 @@ public class ModelUtils {
         return schema instanceof ComposedSchema || schema instanceof ObjectSchema;
     }
 
+    public static boolean hasValidation(Schema sc) {
+        return (
+                sc.getMaxItems() != null ||
+                        sc.getMinProperties() != null ||
+                        sc.getMaxProperties() != null ||
+                        sc.getMinLength() != null ||
+                        sc.getMinItems() != null ||
+                        sc.getMultipleOf() != null ||
+                        sc.getPattern() != null ||
+                        sc.getMaxLength() != null ||
+                        sc.getMinimum() != null ||
+                        sc.getMaximum() != null ||
+                        sc.getExclusiveMaximum() != null ||
+                        sc.getExclusiveMinimum() != null ||
+                        sc.getUniqueItems() != null
+        );
+    }
+
     /**
      * Check to see if the schema is a free form object.
      *

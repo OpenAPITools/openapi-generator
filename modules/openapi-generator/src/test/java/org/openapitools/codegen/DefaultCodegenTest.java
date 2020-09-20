@@ -33,6 +33,7 @@ import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.parser.core.models.ParseOptions;
 
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.templating.mustache.CamelCaseLambda;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.templating.mustache.LowercaseLambda;
@@ -44,6 +45,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -2266,4 +2268,22 @@ public class DefaultCodegenTest {
         assertEquals((int) cm.getMinItems(), 1);
     }
 
+    @Test
+    public void testFreeFormSchemas() throws Exception {
+        File output = Files.createTempDirectory("test").toFile();
+
+        final CodegenConfigurator configurator = new CodegenConfigurator()
+                .setGeneratorName("java")
+                .setInputSpec("src/test/resources/3_0/issue_7361.yaml")
+                .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
+
+        final ClientOptInput clientOptInput = configurator.toClientOptInput();
+        DefaultGenerator generator = new DefaultGenerator();
+        List<File> files = generator.opts(clientOptInput).generate();
+
+        TestUtils.ensureDoesNotContainsFile(files, output, "src/main/java/org/openapitools/client/model/FreeFormWithValidation.java");
+        TestUtils.ensureDoesNotContainsFile(files, output, "src/main/java/org/openapitools/client/model/FreeFormInterface.java");
+        TestUtils.ensureDoesNotContainsFile(files, output, "src/main/java/org/openapitools/client/model/FreeForm.java");
+        output.deleteOnExit();
+    }
 }
