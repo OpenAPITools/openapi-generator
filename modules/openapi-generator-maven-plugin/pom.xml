@@ -15,6 +15,7 @@
     <description>maven plugin to build modules from OpenAPI Generator</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.exclusions>**/src/main/java/org/openapitools/codegen/plugin/**/*</sonar.exclusions>
     </properties>
     <dependencies>
         <dependency>
