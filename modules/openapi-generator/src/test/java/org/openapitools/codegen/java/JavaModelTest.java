@@ -1331,8 +1331,8 @@ public class JavaModelTest {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec(inputSpec);
 
         final ClientOptInput opts = new ClientOptInput();
-        opts.setConfig(config);
-        opts.setOpenAPI(openAPI);
+        opts.config(config);
+        opts.openAPI(openAPI);
         new DefaultGenerator().opts(opts).generate();
 
         File orderFile = new File(output, "src/main/java/org/openapitools/client/api/DefaultApi.java");

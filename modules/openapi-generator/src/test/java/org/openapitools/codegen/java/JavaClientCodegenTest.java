@@ -485,8 +485,8 @@ public class JavaClientCodegenTest {
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
 
         final ClientOptInput clientOptInput = new ClientOptInput();
-        clientOptInput.setOpenAPI(openAPI);
-        clientOptInput.setConfig(new JavaClientCodegen());
+        clientOptInput.openAPI(openAPI);
+        clientOptInput.config(new JavaClientCodegen());
 
         defaultGenerator.opts(clientOptInput);
         final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");
@@ -541,8 +541,8 @@ public class JavaClientCodegenTest {
         final DefaultGenerator defaultGenerator = new DefaultGenerator();
 
         final ClientOptInput clientOptInput = new ClientOptInput();
-        clientOptInput.setOpenAPI(openAPI);
-        clientOptInput.setConfig(new JavaClientCodegen());
+        clientOptInput.openAPI(openAPI);
+        clientOptInput.config(new JavaClientCodegen());
 
         defaultGenerator.opts(clientOptInput);
         final List<CodegenOperation> codegenOperations = defaultGenerator.processPaths(openAPI.getPaths()).get("Pet");

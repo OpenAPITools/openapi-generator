@@ -345,10 +345,10 @@ public class DefaultGeneratorTest {
         openAPI.getPaths().addPathItem("path2/", new PathItem().get(new Operation().operationId("op2").addParametersItem(new QueryParameter().name("p1").schema(new StringSchema())).responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")))));
 
         ClientOptInput opts = new ClientOptInput();
-        opts.setOpenAPI(openAPI);
+        opts.openAPI(openAPI);
         CodegenConfig config = new DefaultCodegen();
         config.setStrictSpecBehavior(false);
-        opts.setConfig(config);
+        opts.config(config);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(opts);
@@ -372,8 +372,8 @@ public class DefaultGeneratorTest {
         openAPI.getPaths().addPathItem("/path4", new PathItem().addParametersItem(new QueryParameter().name("p1").schema(new StringSchema())).get(new Operation().operationId("op4").responses(new ApiResponses().addApiResponse("201", new ApiResponse().description("OK")))));
 
         ClientOptInput opts = new ClientOptInput();
-        opts.setOpenAPI(openAPI);
-        opts.setConfig(new DefaultCodegen());
+        opts.openAPI(openAPI);
+        opts.config(new DefaultCodegen());
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(opts);
@@ -395,10 +395,10 @@ public class DefaultGeneratorTest {
     public void testRefModelValidationProperties() {
         OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/refAliasedPrimitiveWithValidation.yml");
         ClientOptInput opts = new ClientOptInput();
-        opts.setOpenAPI(openAPI);
+        opts.openAPI(openAPI);
         DefaultCodegen config = new DefaultCodegen();
         config.setStrictSpecBehavior(false);
-        opts.setConfig(config);
+        opts.config(config);
 
         DefaultGenerator generator = new DefaultGenerator();
         generator.opts(opts);
