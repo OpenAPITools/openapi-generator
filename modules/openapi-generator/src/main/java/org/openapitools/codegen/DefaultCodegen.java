@@ -247,6 +247,9 @@ public class DefaultCodegen implements CodegenConfig {
     // make openapi available to all methods
     protected OpenAPI openAPI;
 
+    // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
+    private Map<String, Schema> modelNameToSchemaCache;
+
     public List<CliOption> cliOptions() {
         return cliOptions;
     }
@@ -448,6 +451,23 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return objs;
+    }
+
+    /**
+     * Return a map from model name to Schema for efficient lookup.
+     * 
+     * @return map from model name to Schema.
+     */
+    protected Map<String, Schema> getModelNameToSchemaCache() {
+        if (modelNameToSchemaCache == null) {
+            // Create a cache to efficiently lookup schema based on model name.
+            Map<String, Schema> m = new HashMap<String, Schema>();
+            ModelUtils.getSchemas(openAPI).forEach((key, schema) -> {
+                m.put(toModelName(key), schema);
+            });
+            modelNameToSchemaCache = Collections.unmodifiableMap(m);
+        }
+        return modelNameToSchemaCache;
     }
 
     /**
@@ -1293,14 +1313,13 @@ public class DefaultCodegen implements CodegenConfig {
      * @param name the variable name
      * @return the sanitized variable name
      */
-    public String toVarName(String name) {
+    public String toVarName(final String name) {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
             return escape(name, specialCharReplacements, null, null);
-        } else {
-            return name;
         }
+        return name;
     }
 
     /**
@@ -1318,6 +1337,7 @@ public class DefaultCodegen implements CodegenConfig {
             return escape(name, specialCharReplacements, null, null);
         }
         return name;
+
     }
 
     /**
@@ -2195,7 +2215,8 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Output the proper model name (capitalized).
+     * Converts the OpenAPI schema name to a model name suitable for the current code generator.
+     * May be overriden for each programming language.
      * In case the name belongs to the TypeSystem it won't be renamed.
      *
      * @param name the name of the model
@@ -2205,8 +2226,33 @@ public class DefaultCodegen implements CodegenConfig {
         return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
     }
 
+    private static class NamedSchema {
+        private NamedSchema(String name, Schema s) {
+            this.name = name;
+            this.schema = s;
+        }
+        private String name;
+        private Schema schema;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            NamedSchema that = (NamedSchema) o;
+            return Objects.equals(name, that.name) &&
+                    Objects.equals(schema, that.schema);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, schema);
+        }
+    }
+
+    Map<NamedSchema, CodegenProperty> schemaCodegenPropertyCache = new HashMap<NamedSchema, CodegenProperty>();
+
     /**
-     * Convert OAS Model object to Codegen Model object
+     * Convert OAS Model object to Codegen Model object.
      *
      * @param name   the name of the model
      * @param schema OAS Model object
@@ -2565,7 +2611,6 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
-
         return m;
     }
 
@@ -2984,7 +3029,13 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Convert OAS Property object to Codegen Property object
+     * Convert OAS Property object to Codegen Property object.
+     * 
+     * The return value is cached. An internal cache is looked up to determine
+     * if the CodegenProperty return value has already been instantiated for
+     * the (String name, Schema p) arguments.
+     * Any subsequent processing of the CodegenModel return value must be idempotent
+     * for a given (String name, Schema schema).
      *
      * @param name name of the property
      * @param p    OAS property schema
@@ -2996,7 +3047,12 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
         LOGGER.debug("debugging fromProperty for " + name + " : " + p);
-
+        NamedSchema ns = new NamedSchema(name, p);
+        CodegenProperty cpc = schemaCodegenPropertyCache.get(ns);
+        if (cpc != null) {
+            LOGGER.debug("Cached fromProperty for " + name + " : " + p.getName());
+            return cpc;
+        }
         // unalias schema
         p = unaliasSchema(p, importMapping);
 
@@ -3296,6 +3352,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         LOGGER.debug("debugging from property return: " + property);
+        schemaCodegenPropertyCache.put(ns, property);
         return property;
     }
 
@@ -4762,7 +4819,6 @@ public class DefaultCodegen implements CodegenConfig {
 
             final String key = entry.getKey();
             final Schema prop = entry.getValue();
-
             if (prop == null) {
                 LOGGER.warn("Please report the issue. There shouldn't be null property for " + key);
             } else {
@@ -6382,6 +6438,9 @@ public class DefaultCodegen implements CodegenConfig {
                 .featureSet(builder.build()).build();
     }
 
+    /**
+     * An map entry for cached sanitized names.
+     */
     private static class SanitizeNameOptions {
         public SanitizeNameOptions(String name, String removeCharRegEx, List<String> exceptions) {
             this.name = name;
@@ -6389,7 +6448,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (exceptions != null) {
                 this.exceptions = Collections.unmodifiableList(exceptions);
             } else {
-                this.exceptions = Collections.unmodifiableList(new ArrayList<>());
+                this.exceptions = Collections.emptyList();
             }
         }
 
