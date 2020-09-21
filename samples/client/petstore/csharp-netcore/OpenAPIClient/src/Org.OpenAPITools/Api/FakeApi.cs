@@ -43,28 +43,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of HealthCheckResult</returns>
         ApiResponse<HealthCheckResult> FakeHealthGetWithHttpInfo();
         /// <summary>
-        /// test http signature authentication
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <param name="query1">query parameter (optional)</param>
-        /// <param name="header1">header parameter (optional)</param>
-        /// <returns></returns>
-        void FakeHttpSignatureTest(Pet pet, string query1 = default(string), string header1 = default(string));
-
-        /// <summary>
-        /// test http signature authentication
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <param name="query1">query parameter (optional)</param>
-        /// <param name="header1">header parameter (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> FakeHttpSignatureTestWithHttpInfo(Pet pet, string query1 = default(string), string header1 = default(string));
-        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -149,6 +127,22 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of string</returns>
         ApiResponse<string> FakeOuterStringSerializeWithHttpInfo(string body = default(string));
         /// <summary>
+        /// Array of Enums
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>List&lt;OuterEnum&gt;</returns>
+        List<OuterEnum> GetArrayOfEnums();
+
+        /// <summary>
+        /// Array of Enums
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of List&lt;OuterEnum&gt;</returns>
+        ApiResponse<List<OuterEnum>> GetArrayOfEnumsWithHttpInfo();
+        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -228,7 +222,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns></returns>
@@ -252,7 +246,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
@@ -421,33 +415,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse (HealthCheckResult)</returns>
         System.Threading.Tasks.Task<ApiResponse<HealthCheckResult>> FakeHealthGetWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
-        /// test http signature authentication
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <param name="query1">query parameter (optional)</param>
-        /// <param name="header1">header parameter (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task FakeHttpSignatureTestAsync(Pet pet, string query1 = default(string), string header1 = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-
-        /// <summary>
-        /// test http signature authentication
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <param name="query1">query parameter (optional)</param>
-        /// <param name="header1">header parameter (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> FakeHttpSignatureTestWithHttpInfoAsync(Pet pet, string query1 = default(string), string header1 = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
-        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -540,6 +507,27 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse (string)</returns>
         System.Threading.Tasks.Task<ApiResponse<string>> FakeOuterStringSerializeWithHttpInfoAsync(string body = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
         /// <summary>
+        /// Array of Enums
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of List&lt;OuterEnum&gt;</returns>
+        System.Threading.Tasks.Task<List<OuterEnum>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+
+        /// <summary>
+        /// Array of Enums
+        /// </summary>
+        /// <remarks>
+        /// 
+        /// </remarks>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (List&lt;OuterEnum&gt;)</returns>
+        System.Threading.Tasks.Task<ApiResponse<List<OuterEnum>>> GetArrayOfEnumsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken));
+        /// <summary>
         /// 
         /// </summary>
         /// <remarks>
@@ -628,7 +616,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -653,7 +641,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -1023,177 +1011,6 @@ namespace Org.OpenAPITools.Api
             if (this.ExceptionFactory != null)
             {
                 Exception _exception = this.ExceptionFactory("FakeHealthGet", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// test http signature authentication 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <param name="query1">query parameter (optional)</param>
-        /// <param name="header1">header parameter (optional)</param>
-        /// <returns></returns>
-        public void FakeHttpSignatureTest(Pet pet, string query1 = default(string), string header1 = default(string))
-        {
-            FakeHttpSignatureTestWithHttpInfo(pet, query1, header1);
-        }
-
-        /// <summary>
-        /// test http signature authentication 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <param name="query1">query parameter (optional)</param>
-        /// <param name="header1">header parameter (optional)</param>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public Org.OpenAPITools.Client.ApiResponse<Object> FakeHttpSignatureTestWithHttpInfo(Pet pet, string query1 = default(string), string header1 = default(string))
-        {
-            // verify the required parameter 'pet' is set
-            if (pet == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pet' when calling FakeApi->FakeHttpSignatureTest");
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-                "application/json",
-                "application/xml"
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            if (query1 != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_1", query1));
-            }
-            if (header1 != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("header_1", Org.OpenAPITools.Client.ClientUtils.ParameterToString(header1)); // header parameter
-            }
-            localVarRequestOptions.Data = pet;
-
-            // authentication (http_signature_test) required
-            if (this.Configuration.HTTPSigningConfiguration != null)
-            {
-                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/fake/http-signature-test", localVarRequestOptions);
-                foreach (var headerItem in HttpSigningHeaders)
-                {
-                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
-                    {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
-                    }
-                    else
-                    {
-                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
-                    }
-                }
-            }
-
-            // make the HTTP request
-            var localVarResponse = this.Client.Get<Object>("/fake/http-signature-test", localVarRequestOptions, this.Configuration);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("FakeHttpSignatureTest", localVarResponse);
-                if (_exception != null) throw _exception;
-            }
-
-            return localVarResponse;
-        }
-
-        /// <summary>
-        /// test http signature authentication 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <param name="query1">query parameter (optional)</param>
-        /// <param name="header1">header parameter (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task FakeHttpSignatureTestAsync(Pet pet, string query1 = default(string), string header1 = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            await FakeHttpSignatureTestWithHttpInfoAsync(pet, query1, header1, cancellationToken).ConfigureAwait(false);
-        }
-
-        /// <summary>
-        /// test http signature authentication 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="pet">Pet object that needs to be added to the store</param>
-        /// <param name="query1">query parameter (optional)</param>
-        /// <param name="header1">header parameter (optional)</param>
-        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<Object>> FakeHttpSignatureTestWithHttpInfoAsync(Pet pet, string query1 = default(string), string header1 = default(string), System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
-        {
-            // verify the required parameter 'pet' is set
-            if (pet == null)
-                throw new Org.OpenAPITools.Client.ApiException(400, "Missing required parameter 'pet' when calling FakeApi->FakeHttpSignatureTest");
-
-
-            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
-
-            String[] _contentTypes = new String[] {
-                "application/json", 
-                "application/xml"
-            };
-
-            // to determine the Accept header
-            String[] _accepts = new String[] {
-            };
-
-
-            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
-            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
-
-            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
-            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
-
-            if (query1 != null)
-            {
-                localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("", "query_1", query1));
-            }
-            if (header1 != null)
-            {
-                localVarRequestOptions.HeaderParameters.Add("header_1", Org.OpenAPITools.Client.ClientUtils.ParameterToString(header1)); // header parameter
-            }
-            localVarRequestOptions.Data = pet;
-
-            // authentication (http_signature_test) required
-            if (this.Configuration.HTTPSigningConfiguration != null)
-            {
-                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/fake/http-signature-test", localVarRequestOptions);
-                foreach (var headerItem in HttpSigningHeaders)
-                {
-                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
-                    {
-                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
-                    }
-                    else
-                    {
-                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
-                    }
-                }
-            }
-
-            // make the HTTP request
-
-            var localVarResponse = await this.AsynchronousClient.GetAsync<Object>("/fake/http-signature-test", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
-
-            if (this.ExceptionFactory != null)
-            {
-                Exception _exception = this.ExceptionFactory("FakeHttpSignatureTest", localVarResponse);
                 if (_exception != null) throw _exception;
             }
 
@@ -1637,6 +1454,107 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
+        /// Array of Enums 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>List&lt;OuterEnum&gt;</returns>
+        public List<OuterEnum> GetArrayOfEnums()
+        {
+            Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>> localVarResponse = GetArrayOfEnumsWithHttpInfo();
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Array of Enums 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <returns>ApiResponse of List&lt;OuterEnum&gt;</returns>
+        public Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>> GetArrayOfEnumsWithHttpInfo()
+        {
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            String[] _contentTypes = new String[] {
+            };
+
+            // to determine the Accept header
+            String[] _accepts = new String[] {
+                "application/json"
+            };
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+
+
+            // make the HTTP request
+            var localVarResponse = this.Client.Get<List<OuterEnum>>("/fake/array-of-enums", localVarRequestOptions, this.Configuration);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetArrayOfEnums", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
+        /// Array of Enums 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of List&lt;OuterEnum&gt;</returns>
+        public async System.Threading.Tasks.Task<List<OuterEnum>> GetArrayOfEnumsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+            Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>> localVarResponse = await GetArrayOfEnumsWithHttpInfoAsync(cancellationToken).ConfigureAwait(false);
+            return localVarResponse.Data;
+        }
+
+        /// <summary>
+        /// Array of Enums 
+        /// </summary>
+        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
+        /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
+        /// <returns>Task of ApiResponse (List&lt;OuterEnum&gt;)</returns>
+        public async System.Threading.Tasks.Task<Org.OpenAPITools.Client.ApiResponse<List<OuterEnum>>> GetArrayOfEnumsWithHttpInfoAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken))
+        {
+
+            Org.OpenAPITools.Client.RequestOptions localVarRequestOptions = new Org.OpenAPITools.Client.RequestOptions();
+
+            String[] _contentTypes = new String[] {
+            };
+
+            // to determine the Accept header
+            String[] _accepts = new String[] {
+                "application/json"
+            };
+
+
+            var localVarContentType = Org.OpenAPITools.Client.ClientUtils.SelectHeaderContentType(_contentTypes);
+            if (localVarContentType != null) localVarRequestOptions.HeaderParameters.Add("Content-Type", localVarContentType);
+
+            var localVarAccept = Org.OpenAPITools.Client.ClientUtils.SelectHeaderAccept(_accepts);
+            if (localVarAccept != null) localVarRequestOptions.HeaderParameters.Add("Accept", localVarAccept);
+
+
+
+            // make the HTTP request
+
+            var localVarResponse = await this.AsynchronousClient.GetAsync<List<OuterEnum>>("/fake/array-of-enums", localVarRequestOptions, this.Configuration, cancellationToken).ConfigureAwait(false);
+
+            if (this.ExceptionFactory != null)
+            {
+                Exception _exception = this.ExceptionFactory("GetArrayOfEnums", localVarResponse);
+                if (_exception != null) throw _exception;
+            }
+
+            return localVarResponse;
+        }
+
+        /// <summary>
         ///  For this test, the body for this request much reference a schema named &#x60;File&#x60;.
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -2008,7 +1926,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns></returns>
@@ -2032,7 +1950,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <returns>ApiResponse of Object(void)</returns>
@@ -2141,7 +2059,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
@@ -2166,7 +2084,7 @@ namespace Org.OpenAPITools.Api
         /// <param name="_string">None (optional)</param>
         /// <param name="binary">None (optional)</param>
         /// <param name="date">None (optional)</param>
-        /// <param name="dateTime">None (optional)</param>
+        /// <param name="dateTime">None (optional, default to &quot;2010-02-01T10:20:10.111110+01:00&quot;)</param>
         /// <param name="password">None (optional)</param>
         /// <param name="callback">None (optional)</param>
         /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
