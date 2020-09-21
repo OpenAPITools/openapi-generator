@@ -776,7 +776,7 @@ public class DefaultGenerator implements Generator {
         bundle.put("scheme", URLPathUtils.getScheme(url, config));
         bundle.put("host", url.getHost());
         if (url.getPort() != 80 ) {
-            bundle.put("serverPort", url.getPort());
+            bundle.put("port", url.getPort());
         }
         bundle.put("contextPath", contextPath);
         bundle.put("apiInfo", apis);
