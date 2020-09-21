@@ -47,7 +47,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @RegisterRestClient
 @RegisterProvider(ApiExceptionMapper.class)
-@Path("/")
+@Path("/user")
 public interface UserApi  {
 
     /**
@@ -57,7 +57,7 @@ public interface UserApi  {
      *
      */
     @POST
-    @Path("/user")
+    
     public void createUser(User body) throws ApiException, ProcessingException;
 
     /**
@@ -65,7 +65,7 @@ public interface UserApi  {
      *
      */
     @POST
-    @Path("/user/createWithArray")
+    @Path("/createWithArray")
     public void createUsersWithArrayInput(List<User> body) throws ApiException, ProcessingException;
 
     /**
@@ -73,7 +73,7 @@ public interface UserApi  {
      *
      */
     @POST
-    @Path("/user/createWithList")
+    @Path("/createWithList")
     public void createUsersWithListInput(List<User> body) throws ApiException, ProcessingException;
 
     /**
@@ -83,7 +83,7 @@ public interface UserApi  {
      *
      */
     @DELETE
-    @Path("/user/{username}")
+    @Path("/{username}")
     public void deleteUser(@PathParam("username") String username) throws ApiException, ProcessingException;
 
     /**
@@ -91,7 +91,7 @@ public interface UserApi  {
      *
      */
     @GET
-    @Path("/user/{username}")
+    @Path("/{username}")
     @Produces({ "application/xml", "application/json" })
     public User getUserByName(@PathParam("username") String username) throws ApiException, ProcessingException;
 
@@ -100,7 +100,7 @@ public interface UserApi  {
      *
      */
     @GET
-    @Path("/user/login")
+    @Path("/login")
     @Produces({ "application/xml", "application/json" })
     public String loginUser(@QueryParam("username") String username, @QueryParam("password") String password) throws ApiException, ProcessingException;
 
@@ -109,7 +109,7 @@ public interface UserApi  {
      *
      */
     @GET
-    @Path("/user/logout")
+    @Path("/logout")
     public void logoutUser() throws ApiException, ProcessingException;
 
     /**
@@ -119,7 +119,7 @@ public interface UserApi  {
      *
      */
     @PUT
-    @Path("/user/{username}")
+    @Path("/{username}")
     public void updateUser(@PathParam("username") String username, User body) throws ApiException, ProcessingException;
 }
 
