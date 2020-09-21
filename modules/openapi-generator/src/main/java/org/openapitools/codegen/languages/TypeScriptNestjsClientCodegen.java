@@ -16,9 +16,7 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
@@ -27,7 +25,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-import java.util.regex.Pattern;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -94,7 +91,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -188,7 +185,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
         if (additionalProperties.containsKey(NPM_REPOSITORY)) {
             this.setNpmRepository(additionalProperties.get(NPM_REPOSITORY).toString());
         }
-        
+
         additionalProperties.put("tsVersion", ">=3.6.0. <4.0.0");
         //Files for building our lib
         supportingFiles.add(new SupportingFile("package.mustache", getIndexDirectory(), "package.json"));
@@ -223,7 +220,6 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
             return super.getTypeDeclaration(p);
         }
     }
-
 
     @Override
     public String getSchemaType(Schema p) {
@@ -334,7 +330,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     /**
      * Finds and returns a path parameter of an operation by its name
      *
-     * @param operation the operation
+     * @param operation     the operation
      * @param parameterName the name of the parameter
      * @return param
      */
@@ -381,7 +377,7 @@ public class TypeScriptNestjsClientCodegen extends AbstractTypeScriptClientCodeg
     }
 
     /**
-     * Parse imports 
+     * Parse imports
      */
     private Set<String> parseImports(CodegenModel cm) {
         Set<String> newImports = new HashSet<String>();

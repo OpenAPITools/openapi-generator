@@ -39,7 +39,7 @@ public class TypeScriptNestjsClientOptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
+    protected void verifyOptions() {
         verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.SORT_PARAMS_VALUE));
         verify(clientCodegen).setModelPropertyNaming(TypeScriptNestjsClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
         verify(clientCodegen).setSupportsES6(Boolean.valueOf(TypeScriptNestjsClientOptionsProvider.SUPPORTS_ES6_VALUE));
