@@ -90,7 +90,7 @@ module {{moduleName}}
 
     def initialize
       @scheme = '{{scheme}}'
-      @host = '{{host}}'
+      @host = '{{host}}{{#port}}:{{{.}}}{{/port}}'
       @base_path = '{{contextPath}}'
       @api_key = {}
       @api_key_prefix = {}
