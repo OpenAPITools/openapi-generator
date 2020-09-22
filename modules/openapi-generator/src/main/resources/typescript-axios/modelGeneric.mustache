@@ -30,6 +30,11 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 export enum {{enumName}} {
 {{#allowableValues}}
     {{#enumVars}}
+    {{#enumDescription}}
+    /**
+    * {{enumDescription}}
+    */
+    {{/enumDescription}}
     {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
     {{/enumVars}}
 {{/allowableValues}}
