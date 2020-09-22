@@ -1,0 +1,24 @@
+class {{classname}} {
+  dynamic instance;
+
+  // default constructor
+  {{classname}}({
+  });
+
+  @override
+  String toString() {
+    // TODO
+  }
+
+  {{classname}}.fromJson(Map<String, dynamic> json) {
+    // TODO
+    // loop through models/primitive types defined in {{#oneOf}} {{{.}}} {{/oneOf}}
+    // and make sure the payload `json` deserializes to one and only one schema defined in oneOf
+  }
+
+  Map<String, dynamic> toJson() {
+    // TOOD there should be a class member/property called "instance"
+    // which is dynamic type and it stores the actual instance of the schema defined in oneOf
+    // if oneOf is [Dog, Cat], then the instance can store either an instance of Dog or Cat
+  }
+}

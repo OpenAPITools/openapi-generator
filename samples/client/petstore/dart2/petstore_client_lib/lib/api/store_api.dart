@@ -185,12 +185,12 @@ class StoreApi {
   /// Place an order for a pet with HTTP info returned
   ///
   /// 
-  Future<Response> placeOrderWithHttpInfo(Order body) async {
-    Object postBody = body;
+  Future<Response> placeOrderWithHttpInfo(Order order) async {
+    Object postBody = order;
 
     // verify required params are set
-    if(body == null) {
-     throw ApiException(400, "Missing required param: body");
+    if(order == null) {
+     throw ApiException(400, "Missing required param: order");
     }
 
     // create path and map variables
@@ -201,7 +201,7 @@ class StoreApi {
     Map<String, String> headerParams = {};
     Map<String, String> formParams = {};
 
-    List<String> contentTypes = [];
+    List<String> contentTypes = ["application/json"];
 
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
@@ -228,11 +228,11 @@ class StoreApi {
 
   /// Place an order for a pet
   ///
-  ///Order body  (required):
+  ///Order order  (required):
   ///     order placed for purchasing the pet
   /// 
-  Future<Order> placeOrder(Order body) async {
-    Response response = await placeOrderWithHttpInfo(body);
+  Future<Order> placeOrder(Order order) async {
+    Response response = await placeOrderWithHttpInfo(order);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {

@@ -10,12 +10,12 @@ class PetApi {
   /// Add a new pet to the store with HTTP info returned
   ///
   /// 
-  Future addPetWithHttpInfo(Pet body) async {
-    Object postBody = body;
+  Future<Response> addPetWithHttpInfo(Pet pet) async {
+    Object postBody = pet;
 
     // verify required params are set
-    if(body == null) {
-     throw ApiException(400, "Missing required param: body");
+    if(pet == null) {
+     throw ApiException(400, "Missing required param: pet");
     }
 
     // create path and map variables
@@ -53,16 +53,17 @@ class PetApi {
 
   /// Add a new pet to the store
   ///
-  ///Pet body  (required):
+  ///Pet pet  (required):
   ///     Pet object that needs to be added to the store
   /// 
-  Future addPet(Pet body) async {
-    Response response = await addPetWithHttpInfo(body);
+  Future<Pet> addPet(Pet pet) async {
+    Response response = await addPetWithHttpInfo(pet);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
+      return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
     } else {
-      return;
+      return null;
     }
   }
 
@@ -313,12 +314,12 @@ class PetApi {
   /// Update an existing pet with HTTP info returned
   ///
   /// 
-  Future updatePetWithHttpInfo(Pet body) async {
-    Object postBody = body;
+  Future<Response> updatePetWithHttpInfo(Pet pet) async {
+    Object postBody = pet;
 
     // verify required params are set
-    if(body == null) {
-     throw ApiException(400, "Missing required param: body");
+    if(pet == null) {
+     throw ApiException(400, "Missing required param: pet");
     }
 
     // create path and map variables
@@ -356,16 +357,17 @@ class PetApi {
 
   /// Update an existing pet
   ///
-  ///Pet body  (required):
+  ///Pet pet  (required):
   ///     Pet object that needs to be added to the store
   /// 
-  Future updatePet(Pet body) async {
-    Response response = await updatePetWithHttpInfo(body);
+  Future<Pet> updatePet(Pet pet) async {
+    Response response = await updatePetWithHttpInfo(pet);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     } else if(response.body != null) {
+      return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
     } else {
-      return;
+      return null;
     }
   }
 

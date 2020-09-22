@@ -2,11 +2,18 @@ part of {{pubName}}.api;
 
 {{#models}}
 {{#model}}
+{{#oneOf}}
+{{#-first}}
+{{>class_oneof}}
+{{/-first}}
+{{/oneOf}}
+{{^oneOf}}
 {{#isEnum}}
 {{>enum}}
 {{/isEnum}}
 {{^isEnum}}
 {{>class}}
 {{/isEnum}}
+{{/oneOf}}
 {{/model}}
 {{/models}}

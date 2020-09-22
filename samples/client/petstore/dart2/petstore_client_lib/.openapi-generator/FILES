@@ -3,6 +3,9 @@
 README.md
 doc/ApiResponse.md
 doc/Category.md
+doc/InlineObject.md
+doc/InlineObject1.md
+doc/OneOfTest.md
 doc/Order.md
 doc/Pet.md
 doc/PetApi.md
@@ -25,6 +28,9 @@ lib/auth/http_bearer_auth.dart
 lib/auth/oauth.dart
 lib/model/api_response.dart
 lib/model/category.dart
+lib/model/inline_object.dart
+lib/model/inline_object1.dart
+lib/model/one_of_test.dart
 lib/model/order.dart
 lib/model/pet.dart
 lib/model/tag.dart
