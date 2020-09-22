@@ -1,15 +1,23 @@
 part of openapi.api;
 
 class OneOfTest {
-  dynamic instance;
+  /// Can be [Pet], [User], 
+  dynamic _instance;
 
   // default constructor
-  OneOfTest({
-  });
+  OneOfTest();
+
+  set instance(dynamic instance) {
+    if (!(false || instance is Pet || instance is User ))
+      throw ArgumentError("${instance.runtimeType} is not a valid type for OneOfTest");
+    _instance = instance;
+  }
+
+  dynamic get instance => _instance;
 
   @override
   String toString() {
-    // TODO
+    return _instance.toString();
   }
 
   OneOfTest.fromJson(Map<String, dynamic> json) {
@@ -19,9 +27,8 @@ class OneOfTest {
   }
 
   Map<String, dynamic> toJson() {
-    // TOOD there should be a class member/property called "instance"
-    // which is dynamic type and it stores the actual instance of the schema defined in oneOf
-    // if oneOf is [Dog, Cat], then the instance can store either an instance of Dog or Cat
+    // TODO primitives, lists, maps
+    return _instance.toJson();
   }
 }
 
