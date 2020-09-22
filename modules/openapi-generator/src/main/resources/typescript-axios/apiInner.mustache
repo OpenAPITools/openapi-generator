@@ -56,7 +56,7 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             const localVarRequestOptions = { method: '{{httpMethod}}', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;{{#vendorExtensions}}{{#hasFormParams}}
-            const localVarFormParams = new {{^multipartFormData}}URLSearchParams(){{/multipartFormData}}{{#multipartFormData}}(configuration?.formDataCtor || FormData)(){{/multipartFormData}};{{/hasFormParams}}{{/vendorExtensions}}
+            const localVarFormParams = new {{^multipartFormData}}URLSearchParams(){{/multipartFormData}}{{#multipartFormData}}((configuration && configuration.formDataCtor) || FormData)(){{/multipartFormData}};{{/hasFormParams}}{{/vendorExtensions}}
 
     {{#authMethods}}
             // authentication {{name}} required
