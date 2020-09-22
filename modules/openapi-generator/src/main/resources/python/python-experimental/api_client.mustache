@@ -750,11 +750,13 @@ class Endpoint(object):
     def __call__(self, *args, **kwargs):
         """ This method is invoked when endpoints are called
         Example:
-        pet_api = PetApi()
-        pet_api.add_pet  # this is an instance of the class Endpoint
-        pet_api.add_pet()  # this invokes pet_api.add_pet.__call__()
+{{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
+        api_instance = {{classname}}()
+        api_instance.{{operationId}}  # this is an instance of the class Endpoint
+        api_instance.{{operationId}}()  # this invokes api_instance.{{operationId}}.__call__()
         which then invokes the callable functions stored in that endpoint at
-        pet_api.add_pet.callable or self.callable in this class
+        api_instance.{{operationId}}.callable or self.callable in this class
+{{/-first}}{{/operation}}{{/operations}}{{/-first}}{{/apis}}{{/apiInfo}}
         """
         return self.callable(self, *args, **kwargs)
 
