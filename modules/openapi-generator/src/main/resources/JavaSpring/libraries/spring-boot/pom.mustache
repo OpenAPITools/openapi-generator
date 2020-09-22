@@ -11,6 +11,7 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         {{#useSpringfox}}
         <springfox-version>2.9.2</springfox-version>
+        <jackson-databind-version>2.11.2</jackson-databind-version>
         {{/useSpringfox}}
     </properties>
 {{#parentOverridden}}
@@ -198,5 +199,10 @@
             <artifactId>spring-boot-starter-hateoas</artifactId>
         </dependency>
 {{/hateoas}}
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind-version}</version>
+        </dependency>
     </dependencies>
 </project>
