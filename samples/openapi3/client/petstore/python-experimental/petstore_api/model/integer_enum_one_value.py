@@ -139,17 +139,13 @@ class IntegerEnumOneValue(ModelSimple):
         """
 
         value = None
-        have_value = False
         if 'value' in kwargs:
             value = kwargs.pop('value')
-            have_value = True
         elif args:
             args = list(args)
             value = args.pop(0)
-            have_value = True
         else:
             value = 0
-            have_value = True
 
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)
