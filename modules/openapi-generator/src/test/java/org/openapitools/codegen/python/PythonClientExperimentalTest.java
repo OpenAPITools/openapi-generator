@@ -375,7 +375,7 @@ public class PythonClientExperimentalTest {
 
         final CodegenModel hasDefaultModel = codegen.fromModel("hasDefaultModel", hasDefault);
         Assert.assertEquals(hasDefaultModel.defaultValue, "15.0");
-        Assert.assertEquals(hasDefaultModel.hasRequired, true);
+        Assert.assertEquals(hasDefaultModel.hasRequired, false);
 
         final CodegenModel noDefaultEumLengthOneModel = codegen.fromModel("noDefaultEumLengthOneModel", noDefaultEumLengthOne);
         Assert.assertEquals(noDefaultEumLengthOneModel.defaultValue, "15.0");
