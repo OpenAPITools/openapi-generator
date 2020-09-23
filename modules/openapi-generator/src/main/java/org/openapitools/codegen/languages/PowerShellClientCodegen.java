@@ -701,7 +701,6 @@ public class PowerShellClientCodegen extends DefaultCodegen implements CodegenCo
                         StringEscapeUtils.escapeJava(input)
                                 .replace("\\/", "/"))
                         .replaceAll("[\\t\\n\\r]", " ")
-                        .replace("\\", "\\\\")
                         .replace("\"", "\"\""));
 
     }
