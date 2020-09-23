@@ -17,7 +17,7 @@ sidebar_label: fsharp-giraffe-server
 |packageVersion|F# package version.| |1.0.0|
 |returnICollection|Return ICollection&lt;T&gt; instead of the concrete type.| |false|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
-|sourceFolder|source folder for generated code| |OpenAPI/src|
+|sourceFolder|source folder for generated code| |OpenAPI\src|
 |useCollection|Deserialize array types to Collection&lt;T&gt; instead of List&lt;T&gt;.| |false|
 |useDateTimeOffset|Use DateTimeOffset to model date-time properties| |false|
 |useSwashbuckle|Uses the Swashbuckle.AspNetCore NuGet package for documentation.| |false|
