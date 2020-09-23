@@ -20,7 +20,7 @@ repositories {
     jcenter()
 }
 sourceSets {
-    main.java.srcDirs = ['src/main\java']
+    main.java.srcDirs = ['src/main/java']
 }
 
 if(hasProperty('target') && target == 'android') {
