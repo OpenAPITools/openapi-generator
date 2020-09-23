@@ -12,7 +12,7 @@ sidebar_label: python
 |packageUrl|python package URL.| |null|
 |packageVersion|python package version.| |1.0.0|
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
-|setRecursionLimit|Set recursion limit. If not, using the system default value.| |null|
+|setRecursionLimit|Set recursion limit. If not set, use the system default value.| |null|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |useNose|use the nose test framework| |false|
 

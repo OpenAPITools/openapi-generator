@@ -185,7 +185,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(CliOption.newBoolean(USE_NOSE, "use the nose test framework").
                 defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(SET_RECURSION_LIMIT, "Set recursion limit. If not, using the system default value."));
+        cliOptions.add(new CliOption(SET_RECURSION_LIMIT, "Set recursion limit. If not set, use the system default value."));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "Asyncio-based client (python 3.5+)");
