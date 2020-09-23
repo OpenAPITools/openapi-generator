@@ -20,6 +20,8 @@ class Tag {
     if (json == null) return;
     id = json['id'];
     name = json['name'];
+    if (false)
+      throw ArgumentError("$json has not all required fields for Tag");
   }
 
   Map<String, dynamic> toJson() {

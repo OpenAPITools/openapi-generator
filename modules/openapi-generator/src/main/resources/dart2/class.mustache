@@ -108,6 +108,8 @@ class {{classname}} {
   {{/isDate}}
   {{/isDateTime}}
   {{/vars}}
+    if (false{{#vars}}{{#required}} || {{name}} == null{{/required}}{{/vars}})
+      throw ArgumentError("$json has not all required fields for {{classname}}");
   }
 
   Map<String, dynamic> toJson() {

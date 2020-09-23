@@ -6,7 +6,7 @@ class {{classname}} {
   {{classname}}();
 
   set instance(dynamic instance) {
-    if (!(false {{#oneOf}}|| instance is {{{.}}} {{/oneOf}}))
+    if (!(instance == null{{#oneOf}} || instance is {{{.}}}{{/oneOf}}))
       throw ArgumentError("${instance.runtimeType} is not a valid type for {{classname}}");
     _instance = instance;
   }

@@ -20,6 +20,8 @@ class InlineObject {
     if (json == null) return;
     name = json['name'];
     status = json['status'];
+    if (false)
+      throw ArgumentError("$json has not all required fields for InlineObject");
   }
 
   Map<String, dynamic> toJson() {

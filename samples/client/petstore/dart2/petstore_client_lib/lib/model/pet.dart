@@ -42,6 +42,8 @@ class Pet {
       null :
       Tag.listFromJson(json['tags']);
     status = PetStatusEnum.fromJson(json['status']);
+    if (false || name == null || photoUrls == null)
+      throw ArgumentError("$json has not all required fields for Pet");
   }
 
   Map<String, dynamic> toJson() {

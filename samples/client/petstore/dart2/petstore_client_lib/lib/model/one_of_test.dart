@@ -8,7 +8,7 @@ class OneOfTest {
   OneOfTest();
 
   set instance(dynamic instance) {
-    if (!(false || instance is Pet || instance is User ))
+    if (!(instance == null || instance is Pet || instance is User))
       throw ArgumentError("${instance.runtimeType} is not a valid type for OneOfTest");
     _instance = instance;
   }
