@@ -19,9 +19,14 @@ class {{classname}} {
   }
 
   {{classname}}.fromJson(Map<String, dynamic> json) {
-    // TODO
-    // loop through models/primitive types defined in {{#oneOf}} {{{.}}} {{/oneOf}}
-    // and make sure the payload `json` deserializes to one and only one schema defined in oneOf
+    if (json == null) return;
+    // TODO primitives, lists, maps
+    {{#oneOf}}
+    try {
+      _instance = {{{.}}}.fromJson(json);
+    } on ArgumentError {
+    }
+    {{/oneOf}}
   }
 
   Map<String, dynamic> toJson() {

@@ -21,9 +21,16 @@ class OneOfTest {
   }
 
   OneOfTest.fromJson(Map<String, dynamic> json) {
-    // TODO
-    // loop through models/primitive types defined in  Pet  User 
-    // and make sure the payload `json` deserializes to one and only one schema defined in oneOf
+    if (json == null) return;
+    // TODO primitives, lists, maps
+    try {
+      _instance = Pet.fromJson(json);
+    } on ArgumentError {
+    }
+    try {
+      _instance = User.fromJson(json);
+    } on ArgumentError {
+    }
   }
 
   Map<String, dynamic> toJson() {
