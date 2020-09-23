@@ -12,6 +12,7 @@ sidebar_label: python-experimental
 |packageUrl|python package URL.| |null|
 |packageVersion|python package version.| |1.0.0|
 |projectName|python project name in setup.py (e.g. petstore-api).| |null|
+|setRecursionLimit|Set recursion limit. If not, using the system default value.| |null|
 |useNose|use the nose test framework| |false|
 
 ## IMPORT MAPPING
