@@ -282,7 +282,7 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
         return f;
     });
 
-    private static final long MILLIS_PER_DAY = 24 * 60 * 60 * 1000;
+    private static final long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
 
     private static final long MIN_DATE;
 
@@ -551,10 +551,13 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             short inclusiveMax = (short) (var == null || !var.exclusiveMaximum ? 1 : 0);
             byte randomByte = (byte) (min + exclusiveMin + ((max + inclusiveMax - min - exclusiveMin) * Math.random()));
 
-            if (loadTestDataFromFile)
-                var.addTestData(randomByte);
-            else
+            if (loadTestDataFromFile) {
+                if (var != null) {
+                    var.addTestData(randomByte);
+                }
+            } else {
                 buffer.append(String.format(Locale.getDefault(), "(byte)%0#2x", randomByte));
+            }
         }
     }
 
@@ -568,10 +571,13 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             char inclusiveMax = (char) (var == null || !var.exclusiveMaximum ? 1 : 0);
             char randomChar = (char) (min + exclusiveMin + ((max + inclusiveMax - min - exclusiveMin) * Math.random()));
 
-            if (loadTestDataFromFile)
-                var.addTestData(randomChar);
-            else
+            if (loadTestDataFromFile) {
+                if (var != null) {
+                    var.addTestData(randomChar);
+                }
+            } else {
                 buffer.append(String.format(Locale.getDefault(), "'%c'", randomChar));
+            }
         }
     }
 
@@ -607,10 +613,10 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             BigDecimal exclusiveMinLong = new BigDecimal(var != null && var.exclusiveMinimum ? 1 : 0);
             BigDecimal inclusiveMaxLong = new BigDecimal(var == null || !var.exclusiveMaximum ? 1 : 0);
             long randomDateLong = minLong.add(exclusiveMinLong).add(maxLong.add(inclusiveMaxLong).subtract(minLong)
-                    .subtract(exclusiveMinLong).multiply(new BigDecimal(Math.random()))).longValue();
+                    .subtract(exclusiveMinLong).multiply(BigDecimal.valueOf(Math.random()))).longValue();
 
             // If it's just a date without a time, round downwards to the nearest day.
-            if ("date".equals(var.dataFormat))
+            if (var != null && "date".equals(var.dataFormat))
                 randomDateLong = (randomDateLong % MILLIS_PER_DAY) * MILLIS_PER_DAY;
 
             // NOTE: By default Jackson serializes Date as long milliseconds since epoch date, but that conflicts with
@@ -635,19 +641,20 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
     private void appendRandomDouble(StringBuilder buffer, CodegenOperation op, CodegenVariable var) {
         if (!appendRandomEnum(buffer, op, var)) {
             // NOTE: use BigDecimal to hold double values, to avoid numeric overflow.
-            BigDecimal min = new BigDecimal(
-                    var == null || var.minimum == null ? Long.MIN_VALUE : Double.parseDouble(var.minimum));
-            BigDecimal max = new BigDecimal(
-                    var == null || var.maximum == null ? Long.MAX_VALUE : Double.parseDouble(var.maximum));
+            BigDecimal min = BigDecimal.valueOf(var == null || var.minimum == null ? Long.MIN_VALUE : Double.parseDouble(var.minimum));
+            BigDecimal max = BigDecimal.valueOf(var == null || var.maximum == null ? Long.MAX_VALUE : Double.parseDouble(var.maximum));
             BigDecimal exclusiveMin = new BigDecimal(var != null && var.exclusiveMinimum ? 1 : 0);
             BigDecimal inclusiveMax = new BigDecimal(var == null || !var.exclusiveMaximum ? 1 : 0);
             BigDecimal randomBigDecimal = min.add(exclusiveMin).add(max.add(inclusiveMax).subtract(min)
                     .subtract(exclusiveMin).multiply(new BigDecimal(String.valueOf(Math.random()))));
 
-            if (loadTestDataFromFile)
-                var.addTestData(randomBigDecimal);
-            else
+            if (loadTestDataFromFile) {
+                if (var != null) {
+                    var.addTestData(randomBigDecimal);
+                }
+            } else {
                 buffer.append(randomBigDecimal.toString()).append('D');
+            }
         }
     }
 
@@ -704,10 +711,13 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             float randomFloat = (float) (min + exclusiveMin
                     + ((max + inclusiveMax - min - exclusiveMin) * Math.random()));
 
-            if (loadTestDataFromFile)
-                var.addTestData(randomFloat);
-            else
+            if (loadTestDataFromFile) {
+                if (var != null) {
+                    var.addTestData(randomFloat);
+                }
+            } else {
                 buffer.append(String.format(Locale.getDefault(), "%g", randomFloat)).append('F');
+            }
         }
     }
 
@@ -720,10 +730,13 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             long inclusiveMax = var == null || !var.exclusiveMaximum ? 1 : 0;
             int randomInt = (int) (min + exclusiveMin + ((max + inclusiveMax - min - exclusiveMin) * Math.random()));
 
-            if (loadTestDataFromFile)
-                var.addTestData(randomInt);
-            else
+            if (loadTestDataFromFile) {
+                if (var != null) {
+                    var.addTestData(randomInt);
+                }
+            } else {
                 buffer.append(randomInt);
+            }
         }
     }
 
@@ -737,13 +750,16 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             BigDecimal exclusiveMin = new BigDecimal(var != null && var.exclusiveMinimum ? 1 : 0);
             BigDecimal inclusiveMax = new BigDecimal(var == null || !var.exclusiveMaximum ? 1 : 0);
             long randomLong = min.add(exclusiveMin).add(
-                    max.add(inclusiveMax).subtract(min).subtract(exclusiveMin).multiply(new BigDecimal(Math.random())))
+                    max.add(inclusiveMax).subtract(min).subtract(exclusiveMin).multiply(BigDecimal.valueOf(Math.random())))
                     .longValue();
 
-            if (loadTestDataFromFile)
-                var.addTestData(randomLong);
-            else
+            if (loadTestDataFromFile) {
+                if (var != null) {
+                    var.addTestData(randomLong);
+                }
+            } else {
                 buffer.append(randomLong).append('L');
+            }
         }
     }
 
@@ -757,10 +773,13 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             short randomShort = (short) (min + exclusiveMin
                     + ((max + inclusiveMax - min - exclusiveMin) * Math.random()));
 
-            if (loadTestDataFromFile)
-                var.addTestData(randomShort);
-            else
+            if (loadTestDataFromFile) {
+                if (var != null) {
+                    var.addTestData(randomShort);
+                }
+            } else {
                 buffer.append(String.format(Locale.getDefault(), "(short)%d", randomShort));
+            }
         }
     }
 
@@ -769,7 +788,9 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             String randomString = generateRandomString(var);
 
             if (loadTestDataFromFile) {
-                var.addTestData(randomString);
+                if (var != null) {
+                    var.addTestData(randomString);
+                }
             } else {
                 buffer.append('"').append(randomString).append('"');
             }
@@ -1375,13 +1396,15 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
                         break;
                     }
                 }
-                supportingFiles.remove(supportingFile);
-                SupportingFile updated = new SupportingFile(
-                        supportingFile.getTemplateFile(),
-                        supportingFile.getFolder(),
-                        "ApplicationContext-" + invokerPackage + ".xml"
-                );
-                supportingFiles.add(updated);
+                if (supportingFile != null) {
+                    supportingFiles.remove(supportingFile);
+                    SupportingFile updated = new SupportingFile(
+                            supportingFile.getTemplateFile(),
+                            supportingFile.getFolder(),
+                            "ApplicationContext-" + invokerPackage + ".xml"
+                    );
+                    supportingFiles.add(updated);
+                }
             }
         }
     }

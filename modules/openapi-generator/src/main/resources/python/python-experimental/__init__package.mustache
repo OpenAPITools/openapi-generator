@@ -22,3 +22,7 @@ from {{packageName}}.exceptions import ApiTypeError
 from {{packageName}}.exceptions import ApiValueError
 from {{packageName}}.exceptions import ApiKeyError
 from {{packageName}}.exceptions import ApiException
+{{#recursionLimit}}
+
+__import__('sys').setrecursionlimit({{{.}}})
+{{/recursionLimit}}

@@ -66,6 +66,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"UserApi.create_user",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -126,6 +127,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"UserApi.create_users_with_array_input",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -186,6 +188,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"UserApi.create_users_with_list_input",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -246,6 +249,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"UserApi.delete_user",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -306,6 +310,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"UserApi.get_user_by_name",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -374,6 +379,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"UserApi.login_user",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -426,6 +432,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"UserApi.logout_user",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -494,6 +501,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"UserApi.update_user",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
