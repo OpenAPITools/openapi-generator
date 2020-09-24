@@ -35,6 +35,9 @@ sidebar_label: ruby
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
+|array|Array|
+|map|Hash|
+|set|Set|
 
 
 ## LANGUAGE PRIMITIVES

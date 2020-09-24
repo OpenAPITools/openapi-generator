@@ -34,6 +34,9 @@ sidebar_label: ruby-on-rails
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
+|array|Array|
+|map|Hash|
+|set|Set|
 
 
 ## LANGUAGE PRIMITIVES

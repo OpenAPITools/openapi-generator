@@ -55,13 +55,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(opts[:'array_alias']) 
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'array_alias'])
 
       # return_type
-      return_type = opts[:return_type] || 'Object' 
+      return_type = opts[:debug_return_type] || 'Object'
 
       # auth_names
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :header_params => header_params,
@@ -115,13 +115,13 @@ module Petstore
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(opts[:'map_alias']) 
+      post_body = opts[:debug_body] || @api_client.object_to_http_body(opts[:'map_alias'])
 
       # return_type
-      return_type = opts[:return_type] || 'Object' 
+      return_type = opts[:debug_return_type] || 'Object'
 
       # auth_names
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :header_params => header_params,
