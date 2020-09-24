@@ -690,6 +690,19 @@ public class SpringCodegenTest {
     }
 
     @Test
+    public void shouldEscapeReservedKeyWordsForRequestParameters_7506_Regression() throws Exception {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-boot");
+        codegen.setDelegatePattern(true);
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/issue7506.yaml");
+
+        final File multipartArrayApiDelegate = files.get("ExampleApi.java");
+        assertFileContains(multipartArrayApiDelegate.toPath(), "@RequestPart(value = \"super\", required = false) MultipartFile _super");
+        assertFileContains(multipartArrayApiDelegate.toPath(), "@RequestPart(value = \"package\", required = false) MultipartFile _package");
+    }
+
+    @Test
     public void doGeneratePathVariableForSimpleParam() throws IOException {
         File output = Files.createTempDirectory("test").toFile().getCanonicalFile();
         output.deleteOnExit();
