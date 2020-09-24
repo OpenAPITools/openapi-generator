@@ -99,8 +99,8 @@ class TestFakeApi(unittest.TestCase):
         assert endpoint.openapi_types['body'] == (bool,)
         assert endpoint.settings['response_type'] == (bool,)
 
-    def test_setrecursionlimit(self):
-        """Test case for setrecursionlimit
+    def test_recursionlimit(self):
+        """Test case for recursionlimit
 
         """
         assert sys.getrecursionlimit() == 1234

@@ -43,7 +43,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
     public static final String DEFAULT_LIBRARY = "urllib3";
     // nose is a python testing framework, we use pytest if USE_NOSE is unset
     public static final String USE_NOSE = "useNose";
-    public static final String SET_RECURSION_LIMIT = "setRecursionLimit";
+    public static final String RECURSION_LIMIT = "recursionLimit";
 
     protected String packageName = "openapi_client";
     protected String packageVersion = "1.0.0";
@@ -185,7 +185,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 .defaultValue(Boolean.FALSE.toString()));
         cliOptions.add(CliOption.newBoolean(USE_NOSE, "use the nose test framework").
                 defaultValue(Boolean.FALSE.toString()));
-        cliOptions.add(new CliOption(SET_RECURSION_LIMIT, "Set recursion limit. If not set, use the system default value."));
+        cliOptions.add(new CliOption(RECURSION_LIMIT, "Set the recursion limit. If not set, use the system default value."));
 
         supportedLibraries.put("urllib3", "urllib3-based client");
         supportedLibraries.put("asyncio", "Asyncio-based client (python 3.5+)");
@@ -256,11 +256,11 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         }
 
         // check to see if setRecursionLimit is set and whether it's an integer
-        if (additionalProperties.containsKey(SET_RECURSION_LIMIT)) {
+        if (additionalProperties.containsKey(RECURSION_LIMIT)) {
             try {
-                Integer.parseInt((String)additionalProperties.get(SET_RECURSION_LIMIT));
+                Integer.parseInt((String)additionalProperties.get(RECURSION_LIMIT));
             } catch(NumberFormatException | NullPointerException e) {
-                throw new IllegalArgumentException("setRecursionLimit must be an integer, e.g. 2000.");
+                throw new IllegalArgumentException("recursionLimit must be an integer, e.g. 2000.");
             }
         }
 

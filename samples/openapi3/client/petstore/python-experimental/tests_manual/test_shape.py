@@ -36,8 +36,8 @@ class TestShape(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_setrecursionlimit(self):
-        """Test case for setrecursionlimit
+    def test_recursionlimit(self):
+        """Test case for recursionlimit
 
         """
         assert sys.getrecursionlimit() == 1234
