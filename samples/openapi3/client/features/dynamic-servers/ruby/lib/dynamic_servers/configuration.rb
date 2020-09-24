@@ -1,7 +1,7 @@
 =begin
-#OpenAPI Petstore
+#OpenAPI Extension with dynamic servers
 
-#This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
+#This specification shows how to use dynamic servers.
 
 The version of the OpenAPI document: 1.0.0
 
@@ -10,7 +10,7 @@ OpenAPI Generator version: 5.0.0-SNAPSHOT
 
 =end
 
-module Petstore
+module DynamicServers
   class Configuration
     # Defines url scheme
     attr_accessor :scheme
@@ -98,28 +98,33 @@ module Petstore
     # @note Do NOT set it to false in production code, otherwise you would face multiple types of cryptographic attacks.
     #
     # @return [true, false]
-    attr_accessor :ssl_verify
+    attr_accessor :verify_ssl
 
     ### TLS/SSL setting
-    # Any `OpenSSL::SSL::` constant (see https://ruby-doc.org/stdlib-2.5.1/libdoc/openssl/rdoc/OpenSSL/SSL.html)
+    # Set this to false to skip verifying SSL host name
+    # Default to true.
     #
     # @note Do NOT set it to false in production code, otherwise you would face multiple types of cryptographic attacks.
     #
-    attr_accessor :ssl_verify_mode
+    # @return [true, false]
+    attr_accessor :verify_ssl_host
 
     ### TLS/SSL setting
     # Set this to customize the certificate file to verify the peer.
     #
     # @return [String] the path to the certificate file
-    attr_accessor :ssl_ca_file
+    #
+    # @see The `cainfo` option of Typhoeus, `--cert` option of libcurl. Related source code:
+    # https://github.com/typhoeus/typhoeus/blob/master/lib/typhoeus/easy_factory.rb#L145
+    attr_accessor :ssl_ca_cert
 
     ### TLS/SSL setting
     # Client certificate file (for client certificate)
-    attr_accessor :ssl_client_cert
+    attr_accessor :cert_file
 
     ### TLS/SSL setting
     # Client private key file (for client certificate)
-    attr_accessor :ssl_client_key
+    attr_accessor :key_file
 
     # Set this to customize parameters encoding of array parameter with multi collectionFormat.
     # Default to nil.
@@ -144,11 +149,11 @@ module Petstore
       @api_key_prefix = {}
       @timeout = 0
       @client_side_validation = true
-      @ssl_verify = true
-      @ssl_verify_mode = nil
-      @ssl_ca_file = nil
-      @ssl_client_cert = nil
-      @ssl_client_key = nil
+      @verify_ssl = true
+      @verify_ssl_host = true
+      @params_encoding = nil
+      @cert_file = nil
+      @key_file = nil
       @debugging = false
       @inject_format = false
       @force_ending_format = false
@@ -208,42 +213,6 @@ module Petstore
     # Returns Auth Settings hash for api client.
     def auth_settings
       {
-        'api_key' =>
-          {
-            type: 'api_key',
-            in: 'header',
-            key: 'api_key',
-            value: api_key_with_prefix('api_key')
-          },
-        'api_key_query' =>
-          {
-            type: 'api_key',
-            in: 'query',
-            key: 'api_key_query',
-            value: api_key_with_prefix('api_key_query')
-          },
-        'bearer_test' =>
-          {
-            type: 'bearer',
-            in: 'header',
-            format: 'JWT',
-            key: 'Authorization',
-            value: "Bearer #{access_token}"
-          },
-        'http_basic_test' =>
-          {
-            type: 'basic',
-            in: 'header',
-            key: 'Authorization',
-            value: basic_auth_token
-          },
-        'petstore_auth' =>
-          {
-            type: 'oauth2',
-            in: 'header',
-            key: 'Authorization',
-            value: "Bearer #{access_token}"
-          },
       }
     end
 
@@ -279,10 +248,11 @@ module Petstore
           variables: {
             version: {
                 description: "No description provided",
-                default_value: "v2",
+                default_value: "v1",
                 enum_values: [
                   "v1",
-                  "v2"
+                  "v2",
+                  "v3"
                 ]
               }
             }
@@ -292,24 +262,54 @@ module Petstore
 
     def operation_server_settings
       {
-        "PetApi.add_pet": [
+        "UsageApi.custom_server": [
           {
-          url: "http://petstore.swagger.io/v2",
+          url: "https://{server}.swagger.io:{port}/v2",
           description: "No description provided",
+          variables: {
+            server: {
+                description: "No description provided",
+                default_value: "custom-petstore",
+                enum_values: [
+                  "custom-petstore",
+                  "custom-qa-petstore",
+                  "custom-dev-petstore"
+                ]
+              },
+            port: {
+                description: "No description provided",
+                default_value: "8080",
+                enum_values: [
+                  "80",
+                  "8080"
+                ]
+              }
+            }
           },
           {
-          url: "http://path-server-test.petstore.local/v2",
-          description: "No description provided",
-          }
-        ],
-        "PetApi.update_pet": [
-          {
-          url: "http://petstore.swagger.io/v2",
-          description: "No description provided",
+          url: "https://localhost:8081/{version}",
+          description: "The local custom server",
+          variables: {
+            version: {
+                description: "No description provided",
+                default_value: "v2",
+                enum_values: [
+                  "v1",
+                  "v2",
+                  "v3"
+                ]
+              }
+            }
           },
           {
-          url: "http://path-server-test.petstore.local/v2",
-          description: "No description provided",
+          url: "https://third.example.com/{prefix}",
+          description: "The local custom server",
+          variables: {
+            prefix: {
+                description: "No description provided",
+                default_value: "custom",
+              }
+            }
           }
         ],
       }
