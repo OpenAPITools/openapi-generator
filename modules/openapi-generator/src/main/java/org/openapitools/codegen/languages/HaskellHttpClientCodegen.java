@@ -1274,9 +1274,11 @@ public class HaskellHttpClientCodegen extends DefaultCodegen implements CodegenC
                 if (dataType == null && cm.isArrayModel) { // isAlias + arrayModelType missing "datatype"
                     dataType = "[" + cm.arrayModelType + "]";
                 }
-                cm.vendorExtensions.put(VENDOR_EXTENSION_X_DATA_TYPE, dataType);
-                if (dataType.equals("Maybe A.Value")) {
-                    cm.vendorExtensions.put(VENDOR_EXTENSION_X_IS_MAYBE_VALUE, true);
+                if (dataType != null) {
+                    cm.vendorExtensions.put(VENDOR_EXTENSION_X_DATA_TYPE, dataType);
+                    if (dataType.equals("Maybe A.Value")) {
+                        cm.vendorExtensions.put(VENDOR_EXTENSION_X_IS_MAYBE_VALUE, true);
+                    }
                 }
             }
             for (CodegenProperty var : cm.vars) {
