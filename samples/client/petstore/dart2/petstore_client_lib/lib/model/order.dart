@@ -38,8 +38,6 @@ class Order {
       DateTime.parse(json['shipDate']);
     status = OrderStatusEnum.fromJson(json['status']);
     complete = json['complete'];
-    if (false)
-      throw ArgumentError("$json has not all required fields for Order");
   }
 
   Map<String, dynamic> toJson() {

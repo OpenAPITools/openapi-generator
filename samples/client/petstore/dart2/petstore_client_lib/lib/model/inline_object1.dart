@@ -22,8 +22,6 @@ class InlineObject1 {
     file = (json['file'] == null) ?
       null :
       File.fromJson(json['file']);
-    if (false)
-      throw ArgumentError("$json has not all required fields for InlineObject1");
   }
 
   Map<String, dynamic> toJson() {

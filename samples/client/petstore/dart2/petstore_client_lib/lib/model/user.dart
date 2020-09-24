@@ -44,8 +44,6 @@ class User {
     password = json['password'];
     phone = json['phone'];
     userStatus = json['userStatus'];
-    if (false)
-      throw ArgumentError("$json has not all required fields for User");
   }
 
   Map<String, dynamic> toJson() {

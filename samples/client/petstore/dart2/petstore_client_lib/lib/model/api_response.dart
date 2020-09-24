@@ -24,8 +24,6 @@ class ApiResponse {
     code = json['code'];
     type = json['type'];
     message = json['message'];
-    if (false)
-      throw ArgumentError("$json has not all required fields for ApiResponse");
   }
 
   Map<String, dynamic> toJson() {
