@@ -3603,7 +3603,10 @@ public class DefaultCodegen implements CodegenConfig {
             op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);
 
             // lookup discriminator
-            Schema schema = schemas.get(op.returnBaseType);
+            Schema schema = null;
+            if (schemas != null) {
+                schema = schemas.get(op.returnBaseType);
+            }
             if (schema != null) {
                 CodegenModel cmod = fromModel(op.returnBaseType, schema);
                 op.discriminator = cmod.discriminator;
