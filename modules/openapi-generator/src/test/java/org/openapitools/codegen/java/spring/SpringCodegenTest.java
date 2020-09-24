@@ -653,4 +653,17 @@ public class SpringCodegenTest {
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApi.java"), "Mono<DummyRequest>");
         assertFileNotContains(Paths.get(outputPath + "/src/main/java/org/openapitools/api/SomeApiDelegate.java"), "Mono<DummyRequest>");
     }
+
+    @Test
+    public void shouldEscapeReservedKeyWordsForRequestParameters_7506_Regression() throws Exception {
+        final SpringCodegen codegen = new SpringCodegen();
+        codegen.setLibrary("spring-boot");
+        codegen.setDelegatePattern(true);
+
+        final Map<String, File> files = generateFiles(codegen, "src/test/resources/3_0/issue7506.yaml");
+
+        final File multipartArrayApiDelegate = files.get("ExampleApi.java");
+        assertFileContains(multipartArrayApiDelegate.toPath(), "@RequestPart(value = \"super\", required = false) MultipartFile _super");
+        assertFileContains(multipartArrayApiDelegate.toPath(), "@RequestPart(value = \"package\", required = false) MultipartFile _package");
+    }
 }

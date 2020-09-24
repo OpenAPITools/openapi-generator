@@ -1,0 +1,26 @@
+openapi: 3.0.2
+info:
+  title: Example
+  description: Example
+  version: 1.0.0
+
+paths:
+  /example/api:
+    post:
+      summary: summary
+      operationId: description
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                super:
+                  type: string
+                  format: binary
+                package:
+                  type: string
+                  format: binary
+      responses:
+        200:
+          description: response
