@@ -2702,7 +2702,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (foundDisc != null) {
             return foundDisc;
         }
-        if (!!this.getLegacyDiscriminatorBehavior()) {
+
+        if (this.getLegacyDiscriminatorBehavior()) {
             return null;
         }
         Discriminator disc = new Discriminator();
@@ -2740,7 +2741,7 @@ public class DefaultCodegen implements CodegenConfig {
                     throw new RuntimeException("The oneOf schemas have conflicting discriminator property names. " +
                             "oneOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
                 }
-                if ((hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getOneOf().size() && discriminatorsPropNames.size() == 1) {
+                if (foundDisc != null && (hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getOneOf().size() && discriminatorsPropNames.size() == 1) {
                     disc.setPropertyName(foundDisc.getPropertyName());
                     disc.setMapping(foundDisc.getMapping());
                     return disc;
@@ -2769,7 +2770,7 @@ public class DefaultCodegen implements CodegenConfig {
                     throw new RuntimeException("The anyOf schemas have conflicting discriminator property names. " +
                         "anyOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
                 }
-                if ((hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getAnyOf().size() && discriminatorsPropNames.size() == 1) {
+                if (foundDisc != null && (hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getAnyOf().size() && discriminatorsPropNames.size() == 1) {
                     disc.setPropertyName(foundDisc.getPropertyName());
                     disc.setMapping(foundDisc.getMapping());
                     return disc;
@@ -2858,8 +2859,12 @@ public class DefaultCodegen implements CodegenConfig {
         List<MappedModel> descendentSchemas = new ArrayList();
         Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
         String currentSchemaName = thisSchemaName;
-        while (true) {
-            for (String childName : schemas.keySet()) {
+        Set<String> keys = schemas.keySet();
+
+        int count = 0;
+        // hack: avoid infinite loop on potential self-references in event our checks fail.
+        while (100000 > count++) {
+            for (String childName : keys) {
                 if (childName.equals(thisSchemaName)) {
                     continue;
                 }
@@ -2877,8 +2882,8 @@ public class DefaultCodegen implements CodegenConfig {
                                 continue;
                             }
                             String parentName = ModelUtils.getSimpleRef(ref);
-                            if (parentName.equals(currentSchemaName)) {
-                                if (queue.contains(childName) || descendentSchemas.contains(childName)) {
+                            if (parentName != null && parentName.equals(currentSchemaName)) {
+                                if (queue.contains(childName) || descendentSchemas.stream().anyMatch(i -> childName.equals(i.getMappingName()))) {
                                     throw new RuntimeException("Stack overflow hit when looking for " + thisSchemaName + " an infinite loop starting and ending at " + childName + " was seen");
                                 }
                                 queue.add(childName);
