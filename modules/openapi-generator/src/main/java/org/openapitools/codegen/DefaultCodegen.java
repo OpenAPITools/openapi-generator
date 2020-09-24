@@ -394,19 +394,17 @@ public class DefaultCodegen implements CodegenConfig {
         if (this.useOneOfInterfaces) {
             // First, add newly created oneOf interfaces
             for (CodegenModel cm : addOneOfInterfaces) {
-                Map<String, Object> modelValue = new HashMap<String, Object>() {{
-                    putAll(additionalProperties());
-                    put("model", cm);
-                }};
+                Map<String, Object> modelValue = new HashMap<>(additionalProperties());
+                modelValue.put("model", cm);
+
                 List<Object> modelsValue = Arrays.asList(modelValue);
                 List<Map<String, String>> importsValue = new ArrayList<Map<String, String>>();
-                Map<String, Object> objsValue = new HashMap<String, Object>() {{
-                    put("models", modelsValue);
-                    put("package", modelPackage());
-                    put("imports", importsValue);
-                    put("classname", cm.classname);
-                    putAll(additionalProperties);
-                }};
+                Map<String, Object> objsValue = new HashMap<>();
+                objsValue.put("models", modelsValue);
+                objsValue.put("package", modelPackage());
+                objsValue.put("imports", importsValue);
+                objsValue.put("classname", cm.classname);
+                objsValue.putAll(additionalProperties);
                 objs.put(cm.name, objsValue);
             }
 
