@@ -64,6 +64,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
+        :operation => :"PetApi.add_pet",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -125,6 +126,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
+        :operation => :"PetApi.delete_pet",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -188,6 +190,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
+        :operation => :"PetApi.find_pets_by_status",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -251,6 +254,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
+        :operation => :"PetApi.find_pets_by_tags",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -313,6 +317,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || ['api_key']
 
       new_options = opts.merge(
+        :operation => :"PetApi.get_pet_by_id",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -373,6 +378,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
+        :operation => :"PetApi.update_pet",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -439,6 +445,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
+        :operation => :"PetApi.update_pet_with_form",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -507,6 +514,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
+        :operation => :"PetApi.upload_file",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -579,6 +587,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || ['petstore_auth']
 
       new_options = opts.merge(
+        :operation => :"PetApi.upload_file_with_required_file",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,

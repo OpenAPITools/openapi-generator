@@ -58,6 +58,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"FakeApi.fake_health_get",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -124,6 +125,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || ['http_signature_test']
 
       new_options = opts.merge(
+        :operation => :"FakeApi.fake_http_signature_test",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -182,6 +184,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"FakeApi.fake_outer_boolean_serialize",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -240,6 +243,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"FakeApi.fake_outer_composite_serialize",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -298,6 +302,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"FakeApi.fake_outer_number_serialize",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -356,6 +361,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"FakeApi.fake_outer_string_serialize",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -416,6 +422,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"FakeApi.test_body_with_file_schema",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -481,6 +488,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"FakeApi.test_body_with_query_params",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -545,6 +553,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"FakeApi.test_client_model",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -713,6 +722,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || ['http_basic_test']
 
       new_options = opts.merge(
+        :operation => :"FakeApi.test_endpoint_parameters",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -825,6 +835,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"FakeApi.test_enum_parameters",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -909,6 +920,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || ['bearer_test']
 
       new_options = opts.merge(
+        :operation => :"FakeApi.test_group_parameters",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -969,6 +981,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"FakeApi.test_inline_additional_properties",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -1037,6 +1050,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"FakeApi.test_json_form_data",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -1124,6 +1138,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"FakeApi.test_query_parameter_collection_format",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,

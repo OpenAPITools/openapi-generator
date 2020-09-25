@@ -172,18 +172,20 @@ public class ModelUtils {
         childrenMap = tmpChildrenMap;
         List<String> unusedSchemas = new ArrayList<String>();
 
-        Map<String, Schema> schemas = getSchemas(openAPI);
-        unusedSchemas.addAll(schemas.keySet());
+        if (openAPI != null) {
+            Map<String, Schema> schemas = getSchemas(openAPI);
+            unusedSchemas.addAll(schemas.keySet());
 
-        visitOpenAPI(openAPI, (s, t) -> {
-            if (s.get$ref() != null) {
-                String ref = getSimpleRef(s.get$ref());
-                unusedSchemas.remove(ref);
-                if (childrenMap.containsKey(ref)) {
-                    unusedSchemas.removeAll(childrenMap.get(ref));
+            visitOpenAPI(openAPI, (s, t) -> {
+                if (s.get$ref() != null) {
+                    String ref = getSimpleRef(s.get$ref());
+                    unusedSchemas.remove(ref);
+                    if (childrenMap.containsKey(ref)) {
+                        unusedSchemas.removeAll(childrenMap.get(ref));
+                    }
                 }
-            }
-        });
+            });
+        }
         return unusedSchemas;
     }
 

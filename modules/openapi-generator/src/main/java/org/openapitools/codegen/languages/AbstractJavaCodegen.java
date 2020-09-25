@@ -85,7 +85,8 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
     protected String licenseUrl = "http://unlicense.org";
     protected String projectFolder = "src/main";
     protected String projectTestFolder = "src/test";
-    protected String sourceFolder = projectFolder + File.separator + "java";
+    // this must not be OS-specific
+    protected String sourceFolder = projectFolder + "/java";
     protected String testFolder = projectTestFolder + "/java";
     protected boolean fullJavaUtil;
     protected boolean discriminatorCaseSensitive = true; // True if the discriminator value lookup should be case-sensitive.
@@ -806,17 +807,11 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
         if (ModelUtils.isArraySchema(schema)) {
             final String pattern;
             if (ModelUtils.isSet(schema)) {
-                if (fullJavaUtil) {
-                    pattern = "new java.util.LinkedHashSet<%s>()";
-                } else {
-                    pattern = "new LinkedHashSet<%s>()";
-                }
+                String mapInstantiationType = instantiationTypes().getOrDefault("set", "LinkedHashSet");
+                pattern = "new " + mapInstantiationType + "<%s>()";
             } else {
-                if (fullJavaUtil) {
-                    pattern = "new java.util.ArrayList<%s>()";
-                } else {
-                    pattern = "new ArrayList<%s>()";
-                }
+                String arrInstantiationType = instantiationTypes().getOrDefault("array", "ArrayList");
+                pattern = "new " + arrInstantiationType + "<%s>()";
             }
 
             Schema<?> items = getSchemaItems((ArraySchema) schema);
@@ -839,12 +834,10 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
                 }
                 return null;
             }
-            final String pattern;
-            if (fullJavaUtil) {
-                pattern = "new java.util.HashMap<%s>()";
-            } else {
-                pattern = "new HashMap<%s>()";
-            }
+
+            String mapInstantiationType = instantiationTypes().getOrDefault("map", "HashMap");
+            final String pattern = "new " + mapInstantiationType + "<%s>()";
+
             if (getAdditionalProperties(schema) == null) {
                 return null;
             }

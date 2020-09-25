@@ -96,10 +96,12 @@ namespace {{packageName}}.Client
         /// </summary>
         /// <value>X509 Certificate collection.</value>
         X509CertificateCollection ClientCertificates { get; }
+        {{#hasHttpSignatureMethods}}
 
         /// <summary>
         /// Gets the HTTPSigning configuration
         /// </summary>
         HTTPSigningConfiguration HTTPSigningConfiguration { get; }
+        {{/hasHttpSignatureMethods}}
     }
 }
