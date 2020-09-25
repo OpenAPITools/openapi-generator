@@ -29,8 +29,8 @@ import android.os.Parcel;
 /**
  * HasOnlyReadOnly
  */
-
-public class HasOnlyReadOnly implements Parcelable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class HasOnlyReadOnly {
   public static final String SERIALIZED_NAME_BAR = "bar";
   @SerializedName(SERIALIZED_NAME_BAR)
   private String bar;
@@ -41,15 +41,20 @@ public class HasOnlyReadOnly implements Parcelable {
 
   public HasOnlyReadOnly() {
   }
+
    /**
    * Get bar
    * @return bar
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getBar() {
     return bar;
   }
+
+
+
 
    /**
    * Get foo
@@ -57,13 +62,16 @@ public class HasOnlyReadOnly implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getFoo() {
     return foo;
   }
 
 
+
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -95,7 +103,7 @@ public class HasOnlyReadOnly implements Parcelable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

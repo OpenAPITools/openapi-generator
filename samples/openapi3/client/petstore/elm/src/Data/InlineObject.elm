@@ -10,7 +10,7 @@
 -}
 
 
-module Data.InlineObject exposing (InlineObject, decoder, encode)
+module Data.InlineObject exposing (InlineObject, decoder, encode, encodeWithTag, toString)
 
 import Dict exposing (Dict)
 import Json.Decode as Decode exposing (Decoder)
@@ -33,11 +33,27 @@ decoder =
 
 
 encode : InlineObject -> Encode.Value
-encode model =
-    Encode.object
-        [ ( "name", Maybe.withDefault Encode.null (Maybe.map Encode.string model.name) )
-        , ( "status", Maybe.withDefault Encode.null (Maybe.map Encode.string model.status) )
+encode =
+    Encode.object << encodePairs
 
-        ]
+
+encodeWithTag : ( String, String ) -> InlineObject -> Encode.Value
+encodeWithTag (tagField, tag) model =
+    Encode.object <| encodePairs model ++ [ ( tagField, Encode.string tag ) ]
+
+
+encodePairs : InlineObject -> List (String, Encode.Value)
+encodePairs model =
+    [ ( "name", Maybe.withDefault Encode.null (Maybe.map Encode.string model.name) )
+    , ( "status", Maybe.withDefault Encode.null (Maybe.map Encode.string model.status) )
+    ]
+
+
+
+toString : InlineObject -> String
+toString =
+    Encode.encode 0 << encode
+
+
 
 

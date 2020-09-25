@@ -6,7 +6,6 @@ import 'dart:async';
 
 import 'package:openapi/model/pet.pb.dart';
 import 'package:openapi/model/api_response.pb.dart';
-import 'dart:typed_data';
 
 part 'pet_api.jretro.dart';
 

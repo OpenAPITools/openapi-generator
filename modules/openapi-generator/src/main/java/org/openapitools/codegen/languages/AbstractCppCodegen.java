@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,25 +19,37 @@ package org.openapitools.codegen.languages;
 
 import com.google.common.collect.ImmutableMap.Builder;
 import com.samskivert.mustache.Mustache.Lambda;
-
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenModel;
 import org.openapitools.codegen.CodegenProperty;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.templating.mustache.IndentedLambda;
+import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.URLPathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 abstract public class AbstractCppCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCppCodegen.class);
+
+    protected static final String RESERVED_WORD_PREFIX_OPTION = "reservedWordPrefix";
+    protected static final String RESERVED_WORD_PREFIX_DESC = "Prefix to prepend to reserved words in order to avoid conflicts";
+    protected String reservedWordPrefix = "r_";
+    protected static final String VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION = "variableNameFirstCharacterUppercase";
+    protected static final String VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC = "Make first character of variable name uppercase (eg. value -> Value)";
+    protected boolean variableNameFirstCharacterUppercase = true;
 
     public AbstractCppCodegen() {
         super();
@@ -135,6 +147,13 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
                         "xor",
                         "xor_eq")
         );
+
+        addOption(RESERVED_WORD_PREFIX_OPTION,
+                RESERVED_WORD_PREFIX_DESC,
+                this.reservedWordPrefix);
+        addOption(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION,
+                  VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_DESC,
+                  Boolean.toString(this.variableNameFirstCharacterUppercase));
     }
 
     @Override
@@ -150,7 +169,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public String toApiName(String type) {
-        return sanitizeName(modelNamePrefix + Character.toUpperCase(type.charAt(0)) + type.substring(1) + "Api");
+        return sanitizeName(modelNamePrefix + super.toApiName(type));
     }
 
     @Override
@@ -181,7 +200,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             return escapeReservedWord(name);
         }
 
-        if (name.length() > 1) {
+        if (variableNameFirstCharacterUppercase && name.length() > 1) {
             return sanitizeName(Character.toUpperCase(name.charAt(0)) + name.substring(1));
         }
 
@@ -200,7 +219,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         if (this.reservedWordsMappings().containsKey(name)) {
             return this.reservedWordsMappings().get(name);
         }
-        return sanitizeName("_" + name);
+        return sanitizeName(reservedWordPrefix + name);
     }
 
     @Override
@@ -221,6 +240,7 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
         return sanitizeName(super.toParamName(name));
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public CodegenProperty fromProperty(String name, Schema p) {
         CodegenProperty property = super.fromProperty(name, p);
@@ -259,6 +279,17 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
             LOGGER.info("Environment variable CPP_POST_PROCESS_FILE not defined so the C++ code may not be properly formatted. To define it, try 'export CPP_POST_PROCESS_FILE=\"/usr/local/bin/clang-format -i\"' (Linux/Mac)");
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
+
+        if (additionalProperties.containsKey(RESERVED_WORD_PREFIX_OPTION)) {
+            reservedWordPrefix = (String) additionalProperties.get(RESERVED_WORD_PREFIX_OPTION);
+        }
+
+        additionalProperties.put(RESERVED_WORD_PREFIX_OPTION, reservedWordPrefix);
+
+        if (additionalProperties.containsKey(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION))
+            variableNameFirstCharacterUppercase =
+                    convertPropertyToBooleanAndWriteBack(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION);
+        additionalProperties.put(VARIABLE_NAME_FIRST_CHARACTER_UPPERCASE_OPTION, variableNameFirstCharacterUppercase);
     }
 
     @Override
@@ -296,14 +327,76 @@ abstract public class AbstractCppCodegen extends DefaultCodegen implements Codeg
 
     @Override
     public void preprocessOpenAPI(OpenAPI openAPI) {
-        URL url = URLPathUtils.getServerURL(openAPI);
+        URL url = URLPathUtils.getServerURL(openAPI, serverVariableOverrides());
         String port = URLPathUtils.getPort(url, "");
         String host = url.getHost();
-        if(!port.isEmpty()) {
+        String scheme = url.getProtocol();
+
+        if (!port.isEmpty()) {
             this.additionalProperties.put("serverPort", port);
         }
-        if(!host.isEmpty()) {
+        if (!host.isEmpty()) {
             this.additionalProperties.put("serverHost", host);
         }
+        if (!scheme.isEmpty()) {
+            this.additionalProperties.put("scheme", scheme);
+        }
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        List<Object> models = (List<Object>) objs.get("models");
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+            // cannot handle inheritance from maps and arrays in C++
+            if((cm.isArrayModel || cm.isMapModel ) && (cm.parentModel == null)) {
+                cm.parent = null;
+            }
+        }
+        return postProcessModelsEnum(objs);
+    }
+
+    @Override
+    public Map<String, Object> postProcessAllModels(Map<String, Object> objs){
+        Map<String, Object> models = super.postProcessAllModels(objs);
+        for (final Entry<String, Object> model : models.entrySet()) {
+            CodegenModel mo = ModelUtils.getModelByName(model.getKey(), models);
+            addForwardDeclarations(mo, models);
+        }
+        return models;
+    }
+
+    private void addForwardDeclarations(CodegenModel parentModel, Map<String, Object> objs) {
+        List<String> forwardDeclarations = new ArrayList<String>();
+        if(!parentModel.hasVars) {
+            return;
+        }
+        for(CodegenProperty property : parentModel.vars){
+            if(!( (property.isContainer && property.mostInnerItems.isModel) || (property.isModel) ) ){
+                continue;
+            }
+            String childPropertyType = property.isContainer? property.mostInnerItems.baseType : property.baseType;
+            for(final Entry<String, Object> mo : objs.entrySet()) {
+                CodegenModel childModel = ModelUtils.getModelByName(mo.getKey(), objs);
+                if( !childPropertyType.equals(childModel.classname) || childPropertyType.equals(parentModel.classname) || !childModel.hasVars ){
+                    continue;
+                }
+                for(CodegenProperty p : childModel.vars) {
+                    if(((p.isModel && p.dataType.equals(parentModel.classname)) || (p.isContainer && p.mostInnerItems.baseType.equals(parentModel.classname)))) {
+                        String forwardDecl = "class " + childModel.classname + ";";
+                        if(!forwardDeclarations.contains(forwardDecl)) {
+                            forwardDeclarations.add(forwardDecl);
+                        }
+                    }
+                }
+            }
+        }
+        if(!forwardDeclarations.isEmpty()){
+            parentModel.vendorExtensions.put("x-has-forward-declarations", true);
+            parentModel.vendorExtensions.put("x-forward-declarations", forwardDeclarations);
+        }
+        return;
     }
 }

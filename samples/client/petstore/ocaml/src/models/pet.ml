@@ -14,7 +14,7 @@ type t = {
     tags: Tag.t list;
     (* pet status in the store *)
     status: Enums.pet_status option [@default None];
-} [@@deriving yojson, show ];;
+} [@@deriving yojson { strict = false }, show ];;
 
 (** A pet for sale in the pet store *)
 let create (name : string) (photo_urls : string list) : t = {

@@ -5,12 +5,12 @@ import model.User
 /**
   * Provides a default implementation for [[UserApi]].
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-03-26T16:21:58.590+08:00[Asia/Hong_Kong]")
+
 class UserApiImpl extends UserApi {
   /**
     * @inheritdoc
     */
-  override def createUser(body: User): Unit = {
+  override def createUser(user: User): Unit = {
     // TODO: Implement better logic
 
     
@@ -19,7 +19,7 @@ class UserApiImpl extends UserApi {
   /**
     * @inheritdoc
     */
-  override def createUsersWithArrayInput(body: List[User]): Unit = {
+  override def createUsersWithArrayInput(user: List[User]): Unit = {
     // TODO: Implement better logic
 
     
@@ -28,7 +28,7 @@ class UserApiImpl extends UserApi {
   /**
     * @inheritdoc
     */
-  override def createUsersWithListInput(body: List[User]): Unit = {
+  override def createUsersWithListInput(user: List[User]): Unit = {
     // TODO: Implement better logic
 
     
@@ -73,7 +73,7 @@ class UserApiImpl extends UserApi {
   /**
     * @inheritdoc
     */
-  override def updateUser(username: String, body: User): Unit = {
+  override def updateUser(username: String, user: User): Unit = {
     // TODO: Implement better logic
 
     

@@ -1,0 +1,125 @@
+import 'dart:async';
+import 'dart:io';
+import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:built_value/serializer.dart';
+
+{{#operations}}
+{{#modelImports}}import 'package:{{pubName}}/model/{{.}}.dart';
+{{/modelImports}}
+{{#fullImports}}import '{{.}}';
+{{/fullImports}}
+
+class {{classname}} {
+    final Dio _dio;
+    Serializers _serializers;
+
+    {{classname}}(this._dio, this._serializers);
+
+    {{#operation}}
+        /// {{summary}}
+        ///
+        /// {{notes}}
+        Future<Response{{#returnType}}<{{{returnType}}}>{{/returnType}}>{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}},{{/required}}{{/allParams}}CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+
+        String _path = "{{{path}}}"{{#pathParams}}.replaceAll("{" r'{{baseName}}' "}", {{{paramName}}}.toString()){{/pathParams}};
+
+        Map<String, dynamic> queryParams = {};
+        Map<String, String> headerParams = Map.from(headers ?? {});
+        dynamic bodyData;
+
+        {{#headerParams}}
+                headerParams[r'{{baseName}}'] = {{paramName}};
+        {{/headerParams}}
+        {{#queryParams}}
+                queryParams[r'{{baseName}}'] = {{paramName}};
+        {{/queryParams}}
+        queryParams.removeWhere((key, value) => value == null);
+        headerParams.removeWhere((key, value) => value == null);
+
+        List<String> contentTypes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}];
+
+        {{#hasFormParams}}
+        Map<String, dynamic> formData = {};
+        {{#formParams}}
+        {{#isMultipart}}
+            {{^isFile}}
+                if ({{paramName}} != null) {
+                    formData[r'{{baseName}}'] = parameterToString(_serializers, {{paramName}});
+                }
+            {{/isFile}}
+            {{#isFile}}
+                if ({{paramName}} != null) {
+                    formData[r'{{baseName}}'] = MultipartFile.fromBytes({{paramName}}, filename: r'{{baseName}}');
+                }
+            {{/isFile}}
+        {{/isMultipart}}
+        {{^isMultipart}}
+            formData['{{baseName}}'] = parameterToString(_serializers, {{paramName}});
+        {{/isMultipart}}
+        {{/formParams}}
+        bodyData = FormData.fromMap(formData);
+        {{/hasFormParams}}
+
+        {{#bodyParam}}
+            {{#isListContainer}}
+            final type = const FullType(BuiltList, const [const FullType({{baseType}})]);
+            var serializedBody = _serializers.serialize(BuiltList<{{baseType}}>.from({{paramName}}), specifiedType: type);
+            {{/isListContainer}}
+            {{^isListContainer}}
+            var serializedBody = _serializers.serialize({{paramName}});
+            {{/isListContainer}}
+            var json{{paramName}} = json.encode(serializedBody);
+            bodyData = json{{paramName}};
+        {{/bodyParam}}
+
+            return _dio.request(
+            _path,
+            queryParameters: queryParams,
+            data: bodyData,
+            options: Options(
+            method: '{{httpMethod}}'.toUpperCase(),
+            {{#isResponseFile}}
+            responseType: ResponseType.bytes,
+            {{/isResponseFile}}
+            headers: headerParams,
+            extra: {
+                'secure': [{{#authMethods}} {"type": "{{type}}", "name": "{{name}}"{{#isApiKey}}, "keyName": "{{keyParamName}}", "where": "{{#isKeyInQuery}}query{{/isKeyInQuery}}{{#isKeyInHeader}}header{{/isKeyInHeader}}"{{/isApiKey}} }{{#hasMore}}, {{/hasMore}}{{/authMethods}}],
+            },
+            contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
+            ),
+            cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
+            ){{#returnType}}.then((response) {
+
+        {{#isResponseFile}}
+            var data = response.data;
+        {{/isResponseFile}}
+        {{^isResponseFile}}
+            {{#isListContainer}}
+                final FullType type = const FullType(BuiltList, const [const FullType({{returnBaseType}})]);
+                BuiltList<{{returnBaseType}}> dataList = _serializers.deserialize(response.data is String ? jsonDecode(response.data) : response.data, specifiedType: type);
+                var data = dataList.toList();
+            {{/isListContainer}}
+            {{^isListContainer}}
+                var serializer = _serializers.serializerForType({{{returnType}}});
+                var data = _serializers.deserializeWith<{{{returnType}}}>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
+            {{/isListContainer}}
+        {{/isResponseFile}}
+
+            return Response<{{{returnType}}}>(
+                data: data,
+                headers: response.headers,
+                request: response.request,
+                redirects: response.redirects,
+                statusCode: response.statusCode,
+                statusMessage: response.statusMessage,
+                extra: response.extra,
+            );
+            }){{/returnType}};
+            }
+    {{/operation}}
+        }
+{{/operations}}

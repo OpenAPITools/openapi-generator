@@ -27,7 +27,7 @@ import java.io.IOException;
 /**
  * Tag
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Tag {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
@@ -37,7 +37,9 @@ public class Tag {
   @SerializedName(SERIALIZED_NAME_NAME)
   private String name;
 
+
   public Tag id(Long id) {
+    
     this.id = id;
     return this;
   }
@@ -48,15 +50,19 @@ public class Tag {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Long getId() {
     return id;
   }
+
 
   public void setId(Long id) {
     this.id = id;
   }
 
+
   public Tag name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -67,9 +73,11 @@ public class Tag {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getName() {
     return name;
   }
+
 
   public void setName(String name) {
     this.name = name;
@@ -77,7 +85,7 @@ public class Tag {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -109,7 +117,7 @@ public class Tag {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

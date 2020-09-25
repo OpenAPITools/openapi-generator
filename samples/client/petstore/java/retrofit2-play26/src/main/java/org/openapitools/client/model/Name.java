@@ -15,11 +15,14 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
@@ -27,21 +30,30 @@ import javax.validation.Valid;
  * Model for testing model name same as property name
  */
 @ApiModel(description = "Model for testing model name same as property name")
-
+@JsonPropertyOrder({
+  Name.JSON_PROPERTY_NAME,
+  Name.JSON_PROPERTY_SNAKE_CASE,
+  Name.JSON_PROPERTY_PROPERTY,
+  Name.JSON_PROPERTY_123NUMBER
+})
+@JsonTypeName("Name")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Name {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
   private Integer name;
 
-  @JsonProperty("snake_case")
+  public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
   private Integer snakeCase;
 
-  @JsonProperty("property")
+  public static final String JSON_PROPERTY_PROPERTY = "property";
   private String property;
 
-  @JsonProperty("123Number")
+  public static final String JSON_PROPERTY_123NUMBER = "123Number";
   private Integer _123number;
 
+
   public Name name(Integer name) {
+    
     this.name = name;
     return this;
   }
@@ -52,13 +64,18 @@ public class Name {
   **/
   @NotNull
   @ApiModelProperty(required = true, value = "")
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.ALWAYS)
+
   public Integer getName() {
     return name;
   }
 
+
   public void setName(Integer name) {
     this.name = name;
   }
+
 
    /**
    * Get snakeCase
@@ -66,11 +83,18 @@ public class Name {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Integer getSnakeCase() {
     return snakeCase;
   }
 
+
+
+
   public Name property(String property) {
+    
     this.property = property;
     return this;
   }
@@ -81,13 +105,18 @@ public class Name {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PROPERTY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public String getProperty() {
     return property;
   }
 
+
   public void setProperty(String property) {
     this.property = property;
   }
+
 
    /**
    * Get _123number
@@ -95,13 +124,18 @@ public class Name {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_123NUMBER)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Integer get123number() {
     return _123number;
   }
 
 
+
+
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -137,7 +171,7 @@ public class Name {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

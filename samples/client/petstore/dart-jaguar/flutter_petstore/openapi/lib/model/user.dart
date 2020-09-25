@@ -5,28 +5,28 @@ part 'user.jser.dart';
 
 class User {
   
-  @Alias('id')
+  @Alias('id', isNullable: false,  )
   final int id;
   
-  @Alias('username')
+  @Alias('username', isNullable: false,  )
   final String username;
   
-  @Alias('firstName')
+  @Alias('firstName', isNullable: false,  )
   final String firstName;
   
-  @Alias('lastName')
+  @Alias('lastName', isNullable: false,  )
   final String lastName;
   
-  @Alias('email')
+  @Alias('email', isNullable: false,  )
   final String email;
   
-  @Alias('password')
+  @Alias('password', isNullable: false,  )
   final String password;
   
-  @Alias('phone')
+  @Alias('phone', isNullable: false,  )
   final String phone;
    /* User Status */
-  @Alias('userStatus')
+  @Alias('userStatus', isNullable: false,  )
   final int userStatus;
   
 

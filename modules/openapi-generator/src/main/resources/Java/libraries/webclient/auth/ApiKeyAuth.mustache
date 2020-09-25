@@ -41,7 +41,7 @@ public class ApiKeyAuth implements Authentication {
     }
 
     @Override
-    public void applyToParams(MultiValueMap<String, String> queryParams, HttpHeaders headerParams) {
+    public void applyToParams(MultiValueMap<String, String> queryParams, HttpHeaders headerParams, MultiValueMap<String, String> cookieParams) {
         if (apiKey == null) {
             return;
         }
@@ -55,6 +55,8 @@ public class ApiKeyAuth implements Authentication {
             queryParams.add(paramName, value);
         } else if (location.equals("header")) {
             headerParams.add(paramName, value);
-       }
+        } else if (location.equals("cookie")) {
+            cookieParams.add(paramName, value);
+        }
     }
 }

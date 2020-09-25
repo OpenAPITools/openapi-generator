@@ -1,3 +1,5 @@
+import localVarRequest from 'request';
+
 export * from './apiResponse';
 export * from './category';
 export * from './order';
@@ -5,7 +7,18 @@ export * from './pet';
 export * from './tag';
 export * from './user';
 
-import localVarRequest = require('request');
+import * as fs from 'fs';
+
+export interface RequestDetailedFile {
+    value: Buffer;
+    options?: {
+        filename?: string;
+        contentType?: string;
+    }
+}
+
+export type RequestFile = string | Buffer | fs.ReadStream | RequestDetailedFile;
+
 
 import { ApiResponse } from './apiResponse';
 import { Category } from './category';
@@ -25,7 +38,7 @@ let primitives = [
                     "number",
                     "any"
                  ];
-                 
+
 let enumsMap: {[index: string]: any} = {
         "Order.StatusEnum": Order.StatusEnum,
         "Pet.StatusEnum": Pet.StatusEnum,
@@ -99,7 +112,7 @@ export class ObjectSerializer {
             if (!typeMap[type]) { // in case we dont know the type
                 return data;
             }
-            
+
             // Get the actual type of this object
             type = this.findCorrectType(data, type);
 
@@ -169,6 +182,19 @@ export class HttpBasicAuth implements Authentication {
     }
 }
 
+export class HttpBearerAuth implements Authentication {
+    public accessToken: string | (() => string) = '';
+
+    applyToRequest(requestOptions: localVarRequest.Options): void {
+        if (requestOptions && requestOptions.headers) {
+            const accessToken = typeof this.accessToken === 'function'
+                            ? this.accessToken()
+                            : this.accessToken;
+            requestOptions.headers["Authorization"] = "Bearer " + accessToken;
+        }
+    }
+}
+
 export class ApiKeyAuth implements Authentication {
     public apiKey: string = '';
 
@@ -180,6 +206,13 @@ export class ApiKeyAuth implements Authentication {
             (<any>requestOptions.qs)[this.paramName] = this.apiKey;
         } else if (this.location == "header" && requestOptions && requestOptions.headers) {
             requestOptions.headers[this.paramName] = this.apiKey;
+        } else if (this.location == 'cookie' && requestOptions && requestOptions.headers) {
+            if (requestOptions.headers['Cookie']) {
+                requestOptions.headers['Cookie'] += '; ' + this.paramName + '=' + encodeURIComponent(this.apiKey);
+            }
+            else {
+                requestOptions.headers['Cookie'] = this.paramName + '=' + encodeURIComponent(this.apiKey);
+            }
         }
     }
 }
@@ -202,3 +235,5 @@ export class VoidAuth implements Authentication {
         // Do nothing
     }
 }
+
+export type Interceptor = (requestOptions: localVarRequest.Options) => (Promise<void> | void);

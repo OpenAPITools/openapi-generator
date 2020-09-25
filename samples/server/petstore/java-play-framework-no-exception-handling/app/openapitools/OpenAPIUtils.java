@@ -98,6 +98,6 @@ public class OpenAPIUtils {
     }
 
     public static String formatDatetime(Date date) {
-    	return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX").format(date);
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ROOT).format(date);
     }
 }

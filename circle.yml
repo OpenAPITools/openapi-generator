@@ -8,7 +8,7 @@ jobs:
     #          SWAGGER_HOST=http://petstore.swagger.io
     #          SWAGGER_BASE_PATH=/v2
     machine:
-      docker_layer_caching: true
+      image: circleci/classic:latest
     working_directory: ~/OpenAPITools/openapi-generator
     parallelism: 3
     shell: /bin/bash --login
@@ -22,9 +22,9 @@ jobs:
     - restore_cache:
         keys:
         # Default branch if not
-        - source-v1-{{ .Branch }}-{{ .Revision }}
-        - source-v1-{{ .Branch }}-
-        - source-v1-
+        - source-v2-{{ .Branch }}-{{ .Revision }}
+        - source-v2-{{ .Branch }}-
+        - source-v2-
     # Machine Setup
     #   If you break your build into multiple jobs with workflows, you will probably want to do the parts of this that are relevant in each
     # The following `checkout` command checks out your code to your working directory. In 1.0 we did this implicitly. In 2.0 you can choose where in the course of a job your code should be checked out.
@@ -61,16 +61,16 @@ jobs:
 #    - run: docker pull openapitools/openapi-petstore
 #    - run: docker run -d -e OPENAPI_BASE_PATH=/v3 -e DISABLE_API_KEY=1 -e DISABLE_OAUTH=1 -p 80:8080 openapitools/openapi-petstore
     - run: docker pull swaggerapi/petstore
-    - run: docker run -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
+    - run: docker run --name petstore.swagger -d -e SWAGGER_HOST=http://petstore.swagger.io -e SWAGGER_BASE_PATH=/v2 -p 80:8080 swaggerapi/petstore
     - run: docker ps -a
     - run: sleep 30
     - run: cat /etc/hosts
     # Test
-    - run: mvn --quiet clean install
+    - run: mvn --no-snapshot-updates --quiet clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
     - run: ./CI/circle_parallel.sh 
     # Save dependency cache
     - save_cache:
-        key: source-v1-{{ .Branch }}-{{ .Revision }}
+        key: source-v2-{{ .Branch }}-{{ .Revision }}
         paths:
         # This is a broad list of cache paths to include many possible development environments
         # You can probably delete some of these entries
@@ -78,6 +78,7 @@ jobs:
         - ~/virtualenvs
         - ~/.m2
         - ~/.ivy2
+        - ~/.sbt
         - ~/.bundle
         - ~/.go_workspace
         - ~/.gradle

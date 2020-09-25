@@ -3,12 +3,14 @@ package controllers;
 import java.util.List;
 import apimodels.User;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
@@ -17,92 +19,92 @@ import openapitools.OpenAPIUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 
 import javax.validation.constraints.*;
-import play.Configuration;
+import com.typesafe.config.Config;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class UserApiController extends Controller {
 
     private final ObjectMapper mapper;
-    private final Configuration configuration;
+    private final Config configuration;
 
     @Inject
-    private UserApiController(Configuration configuration) {
+    private UserApiController(Config configuration) {
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
 
 
     @ApiAction
-    public Result createUser() throws Exception {
-        JsonNode nodeuser = request().body().asJson();
-        User user;
-        if (nodeuser != null) {
-            user = mapper.readValue(nodeuser.toString(), User.class);
+    public Result createUser(Http.Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
+        User body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), User.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(user);
+                OpenAPIUtils.validate(body);
             }
         } else {
-            throw new IllegalArgumentException("'User' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
         return ok();
     }
 
     @ApiAction
-    public Result createUsersWithArrayInput() throws Exception {
-        JsonNode nodeuser = request().body().asJson();
-        List<User> user;
-        if (nodeuser != null) {
-            user = mapper.readValue(nodeuser.toString(), new TypeReference<List<User>>(){});
+    public Result createUsersWithArrayInput(Http.Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
+        List<User> body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
-                for (User curItem : user) {
+                for (User curItem : body) {
                     OpenAPIUtils.validate(curItem);
                 }
             }
         } else {
-            throw new IllegalArgumentException("'User' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
         return ok();
     }
 
     @ApiAction
-    public Result createUsersWithListInput() throws Exception {
-        JsonNode nodeuser = request().body().asJson();
-        List<User> user;
-        if (nodeuser != null) {
-            user = mapper.readValue(nodeuser.toString(), new TypeReference<List<User>>(){});
+    public Result createUsersWithListInput(Http.Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
+        List<User> body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
             if (configuration.getBoolean("useInputBeanValidation")) {
-                for (User curItem : user) {
+                for (User curItem : body) {
                     OpenAPIUtils.validate(curItem);
                 }
             }
         } else {
-            throw new IllegalArgumentException("'User' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
         return ok();
     }
 
     @ApiAction
-    public Result deleteUser(String username) throws Exception {
+    public Result deleteUser(Http.Request request, String username) throws Exception {
         return ok();
     }
 
     @ApiAction
-    public Result getUserByName(String username) throws Exception {
+    public Result getUserByName(Http.Request request, String username) throws Exception {
         return ok();
     }
 
     @ApiAction
-    public Result loginUser() throws Exception {
-        String valueusername = request().getQueryString("username");
+    public Result loginUser(Http.Request request) throws Exception {
+        String valueusername = request.getQueryString("username");
         String username;
         if (valueusername != null) {
             username = valueusername;
         } else {
             throw new IllegalArgumentException("'username' parameter is required");
         }
-        String valuepassword = request().getQueryString("password");
+        String valuepassword = request.getQueryString("password");
         String password;
         if (valuepassword != null) {
             password = valuepassword;
@@ -113,21 +115,21 @@ public class UserApiController extends Controller {
     }
 
     @ApiAction
-    public Result logoutUser() throws Exception {
+    public Result logoutUser(Http.Request request) throws Exception {
         return ok();
     }
 
     @ApiAction
-    public Result updateUser(String username) throws Exception {
-        JsonNode nodeuser = request().body().asJson();
-        User user;
-        if (nodeuser != null) {
-            user = mapper.readValue(nodeuser.toString(), User.class);
+    public Result updateUser(Http.Request request, String username) throws Exception {
+        JsonNode nodebody = request.body().asJson();
+        User body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), User.class);
             if (configuration.getBoolean("useInputBeanValidation")) {
-                OpenAPIUtils.validate(user);
+                OpenAPIUtils.validate(body);
             }
         } else {
-            throw new IllegalArgumentException("'User' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
         return ok();
     }

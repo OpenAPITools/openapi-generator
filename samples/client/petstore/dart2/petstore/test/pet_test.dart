@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 import 'random_id.dart';
 
 void main() {
-  var petApi = new PetApi();
+  var petApi = PetApi();
 
   Pet makePet({
     int id = 1234,
@@ -25,16 +25,19 @@ void main() {
         ..id = 124321
         ..name = 'Jose'
     ];
-    return Pet()
-      ..id = id
-      ..category = category
-      ..tags = tags
-      ..name = name
-      ..status = status
+
+    return Pet(
+        id : id,
+        category: category,
+        name: name, //required field
+        tags: tags,
+        photoUrls: ['https://petstore.com/sample/photo1.jpg'] //required field
+    )
+      ..status = PetStatusEnum.fromJson(status)
       ..photoUrls = ['https://petstore.com/sample/photo1.jpg'];
   }
 
-  group('Pet API ', () {
+  group('Pet API with live client', () {
     test('adds a new pet and gets it by id', () async {
       var id = newId();
       await petApi.addPet(makePet(id: id));
@@ -78,12 +81,12 @@ void main() {
       var id1 = newId();
       var id2 = newId();
       var id3 = newId();
-      var status = 'available';
+      var status = PetStatusEnum.available_.value;
 
       return Future.wait([
         petApi.addPet(makePet(id: id1, status: status)),
         petApi.addPet(makePet(id: id2, status: status)),
-        petApi.addPet(makePet(id: id3, status: 'sold'))
+        petApi.addPet(makePet(id: id3, status: PetStatusEnum.sold_.value))
       ]).then((_) async {
         var pets = await petApi.findPetsByStatus([status]);
         var petIds = pets.map((pet) => pet.id).toList();
@@ -99,5 +102,5 @@ void main() {
       var file = new MultipartFile.fromBytes('file', [104, 101, 108, 108, 111]);
       await petApi.uploadFile(id, additionalMetadata: '', file: file);
     });
-  });
+  }, skip: 'e2e tests for CI');
 }

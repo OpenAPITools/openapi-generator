@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -28,9 +29,13 @@ import javax.validation.Valid;
 /**
  * AdditionalPropertiesNumber
  */
-
+@JsonPropertyOrder({
+  AdditionalPropertiesNumber.JSON_PROPERTY_NAME
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> implements Serializable {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   private String name;
 
   public AdditionalPropertiesNumber name(String name) {
@@ -55,7 +60,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -87,7 +92,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> impl
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

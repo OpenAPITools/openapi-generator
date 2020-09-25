@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="{{appName}} Config" xsi:noNamespaceSchemaLocation="phpcs.xsd">
+    <description>PHP_CodeSniffer config for {{appName}}</description>
+
+    <!-- Path to inspected files -->
+    <file>./</file>
+
+    <!-- Don't need to inspect installed packages -->
+    <exclude-pattern>./vendor</exclude-pattern>
+
+    <!-- <basepath>     A path to strip from the front of file paths inside reports -->
+    <arg name="basepath" value="."/>
+
+    <!-- colors              Use colors in output -->
+    <arg name="colors"/>
+
+    <!-- Do not print warnings -->
+    <!-- <arg name="warning-severity" value="0"/> -->
+
+    <!-- -p    Show progress of the run -->
+    <!-- -s    Show sniff codes in all reports -->
+    <arg value="ps"/>
+
+    <!-- Include the whole PSR12 standard -->
+    <rule ref="PSR12">
+        <!-- There is no way to wrap generated comments, just disable that rule for now -->
+        <exclude name="Generic.Files.LineLength.TooLong" />
+        <!-- Codegen generates variables with underscore on purpose -->
+        <exclude name="PSR2.Classes.PropertyDeclaration.Underscore" />
+    </rule>
+</ruleset>

@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 
 
-public class ModelApiResponse  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class ModelApiResponse  implements Serializable {
   
   private @Valid Integer code;
   private @Valid String type;
@@ -28,16 +28,17 @@ public class ModelApiResponse  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("code")
   public Integer getCode() {
     return code;
   }
+
   public void setCode(Integer code) {
     this.code = code;
-  }
-
-  /**
+  }/**
    **/
   public ModelApiResponse type(String type) {
     this.type = type;
@@ -45,16 +46,17 @@ public class ModelApiResponse  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("type")
   public String getType() {
     return type;
   }
+
   public void setType(String type) {
     this.type = type;
-  }
-
-  /**
+  }/**
    **/
   public ModelApiResponse message(String message) {
     this.message = message;
@@ -62,18 +64,20 @@ public class ModelApiResponse  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("message")
   public String getMessage() {
     return message;
   }
+
   public void setMessage(String message) {
     this.message = message;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -107,11 +111,13 @@ public class ModelApiResponse  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

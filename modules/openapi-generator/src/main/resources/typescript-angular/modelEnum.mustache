@@ -1,3 +1,13 @@
+{{#stringEnums}}
+export enum {{classname}} {
+{{#allowableValues}}
+{{#enumVars}}
+    {{name}} = {{{value}}}{{^-last}},{{/-last}}
+{{/enumVars}}
+{{/allowableValues}}
+};
+{{/stringEnums}}
+{{^stringEnums}}
 export type {{classname}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}};
 
 export const {{classname}} = {
@@ -7,3 +17,4 @@ export const {{classname}} = {
 {{/enumVars}}
 {{/allowableValues}}
 };
+{{/stringEnums}}

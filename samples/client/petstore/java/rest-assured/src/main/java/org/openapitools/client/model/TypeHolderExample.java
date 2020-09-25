@@ -26,11 +26,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * TypeHolderExample
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderExample {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -39,6 +42,10 @@ public class TypeHolderExample {
   public static final String SERIALIZED_NAME_NUMBER_ITEM = "number_item";
   @SerializedName(SERIALIZED_NAME_NUMBER_ITEM)
   private BigDecimal numberItem;
+
+  public static final String SERIALIZED_NAME_FLOAT_ITEM = "float_item";
+  @SerializedName(SERIALIZED_NAME_FLOAT_ITEM)
+  private Float floatItem;
 
   public static final String SERIALIZED_NAME_INTEGER_ITEM = "integer_item";
   @SerializedName(SERIALIZED_NAME_INTEGER_ITEM)
@@ -52,7 +59,9 @@ public class TypeHolderExample {
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
+
   public TypeHolderExample stringItem(String stringItem) {
+    
     this.stringItem = stringItem;
     return this;
   }
@@ -61,16 +70,21 @@ public class TypeHolderExample {
    * Get stringItem
    * @return stringItem
   **/
+  @NotNull
   @ApiModelProperty(example = "what", required = true, value = "")
+
   public String getStringItem() {
     return stringItem;
   }
+
 
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
 
+
   public TypeHolderExample numberItem(BigDecimal numberItem) {
+    
     this.numberItem = numberItem;
     return this;
   }
@@ -79,16 +93,45 @@ public class TypeHolderExample {
    * Get numberItem
    * @return numberItem
   **/
+  @NotNull
+  @Valid
   @ApiModelProperty(example = "1.234", required = true, value = "")
+
   public BigDecimal getNumberItem() {
     return numberItem;
   }
+
 
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
+
+  public TypeHolderExample floatItem(Float floatItem) {
+    
+    this.floatItem = floatItem;
+    return this;
+  }
+
+   /**
+   * Get floatItem
+   * @return floatItem
+  **/
+  @NotNull
+  @ApiModelProperty(example = "1.234", required = true, value = "")
+
+  public Float getFloatItem() {
+    return floatItem;
+  }
+
+
+  public void setFloatItem(Float floatItem) {
+    this.floatItem = floatItem;
+  }
+
+
   public TypeHolderExample integerItem(Integer integerItem) {
+    
     this.integerItem = integerItem;
     return this;
   }
@@ -97,16 +140,21 @@ public class TypeHolderExample {
    * Get integerItem
    * @return integerItem
   **/
+  @NotNull
   @ApiModelProperty(example = "-2", required = true, value = "")
+
   public Integer getIntegerItem() {
     return integerItem;
   }
+
 
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
 
+
   public TypeHolderExample boolItem(Boolean boolItem) {
+    
     this.boolItem = boolItem;
     return this;
   }
@@ -115,16 +163,21 @@ public class TypeHolderExample {
    * Get boolItem
    * @return boolItem
   **/
+  @NotNull
   @ApiModelProperty(example = "true", required = true, value = "")
+
   public Boolean isBoolItem() {
     return boolItem;
   }
+
 
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
+
   public TypeHolderExample arrayItem(List<Integer> arrayItem) {
+    
     this.arrayItem = arrayItem;
     return this;
   }
@@ -138,10 +191,13 @@ public class TypeHolderExample {
    * Get arrayItem
    * @return arrayItem
   **/
+  @NotNull
   @ApiModelProperty(example = "[0, 1, 2, 3]", required = true, value = "")
+
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
+
 
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
@@ -149,7 +205,7 @@ public class TypeHolderExample {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -159,6 +215,7 @@ public class TypeHolderExample {
     TypeHolderExample typeHolderExample = (TypeHolderExample) o;
     return Objects.equals(this.stringItem, typeHolderExample.stringItem) &&
         Objects.equals(this.numberItem, typeHolderExample.numberItem) &&
+        Objects.equals(this.floatItem, typeHolderExample.floatItem) &&
         Objects.equals(this.integerItem, typeHolderExample.integerItem) &&
         Objects.equals(this.boolItem, typeHolderExample.boolItem) &&
         Objects.equals(this.arrayItem, typeHolderExample.arrayItem);
@@ -166,7 +223,7 @@ public class TypeHolderExample {
 
   @Override
   public int hashCode() {
-    return Objects.hash(stringItem, numberItem, integerItem, boolItem, arrayItem);
+    return Objects.hash(stringItem, numberItem, floatItem, integerItem, boolItem, arrayItem);
   }
 
 
@@ -176,6 +233,7 @@ public class TypeHolderExample {
     sb.append("class TypeHolderExample {\n");
     sb.append("    stringItem: ").append(toIndentedString(stringItem)).append("\n");
     sb.append("    numberItem: ").append(toIndentedString(numberItem)).append("\n");
+    sb.append("    floatItem: ").append(toIndentedString(floatItem)).append("\n");
     sb.append("    integerItem: ").append(toIndentedString(integerItem)).append("\n");
     sb.append("    boolItem: ").append(toIndentedString(boolItem)).append("\n");
     sb.append("    arrayItem: ").append(toIndentedString(arrayItem)).append("\n");
@@ -187,7 +245,7 @@ public class TypeHolderExample {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

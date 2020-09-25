@@ -21,27 +21,40 @@ import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * TypeHolderDefault
  */
-
+@JsonPropertyOrder({
+  TypeHolderDefault.JSON_PROPERTY_STRING_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_NUMBER_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_INTEGER_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_BOOL_ITEM,
+  TypeHolderDefault.JSON_PROPERTY_ARRAY_ITEM
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class TypeHolderDefault   {
-  @JsonProperty("string_item")
+  public static final String JSON_PROPERTY_STRING_ITEM = "string_item";
+  @JsonProperty(JSON_PROPERTY_STRING_ITEM)
   private String stringItem = "what";
 
-  @JsonProperty("number_item")
+  public static final String JSON_PROPERTY_NUMBER_ITEM = "number_item";
+  @JsonProperty(JSON_PROPERTY_NUMBER_ITEM)
   private BigDecimal numberItem;
 
-  @JsonProperty("integer_item")
+  public static final String JSON_PROPERTY_INTEGER_ITEM = "integer_item";
+  @JsonProperty(JSON_PROPERTY_INTEGER_ITEM)
   private Integer integerItem;
 
-  @JsonProperty("bool_item")
+  public static final String JSON_PROPERTY_BOOL_ITEM = "bool_item";
+  @JsonProperty(JSON_PROPERTY_BOOL_ITEM)
   private Boolean boolItem = true;
 
-  @JsonProperty("array_item")
+  public static final String JSON_PROPERTY_ARRAY_ITEM = "array_item";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ITEM)
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
   public TypeHolderDefault stringItem(String stringItem) {
@@ -151,7 +164,7 @@ public class TypeHolderDefault   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -190,7 +203,7 @@ public class TypeHolderDefault   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

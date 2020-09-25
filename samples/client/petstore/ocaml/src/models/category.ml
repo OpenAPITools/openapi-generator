@@ -9,7 +9,7 @@
 type t = {
     id: int64 option [@default None];
     name: string option [@default None];
-} [@@deriving yojson, show ];;
+} [@@deriving yojson { strict = false }, show ];;
 
 (** A category for a pet *)
 let create () : t = {

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -26,18 +27,28 @@ import javax.validation.Valid;
  * Model for testing model name same as property name
  */
 @ApiModel(description = "Model for testing model name same as property name")
-
+@JsonPropertyOrder({
+  Name.JSON_PROPERTY_NAME,
+  Name.JSON_PROPERTY_SNAKE_CASE,
+  Name.JSON_PROPERTY_PROPERTY,
+  Name.JSON_PROPERTY_123NUMBER
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class Name  implements Serializable {
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   private Integer name;
 
-  @JsonProperty("snake_case")
+  public static final String JSON_PROPERTY_SNAKE_CASE = "snake_case";
+  @JsonProperty(JSON_PROPERTY_SNAKE_CASE)
   private Integer snakeCase;
 
-  @JsonProperty("property")
+  public static final String JSON_PROPERTY_PROPERTY = "property";
+  @JsonProperty(JSON_PROPERTY_PROPERTY)
   private String property;
 
-  @JsonProperty("123Number")
+  public static final String JSON_PROPERTY_123NUMBER = "123Number";
+  @JsonProperty(JSON_PROPERTY_123NUMBER)
   private Integer _123number;
 
   public Name name(Integer name) {
@@ -122,7 +133,7 @@ public class Name  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -159,7 +170,7 @@ public class Name  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

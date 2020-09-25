@@ -1,0 +1,23 @@
+{{>header}}
+import json
+import tables
+
+{{#imports}}import {{import}}
+{{/imports}}{{#models}}{{#model}}{{#vars}}{{#isEnum}}
+type {{{enumName}}}* {.pure.} = enum{{#allowableValues}}{{#enumVars}}
+  {{{name}}}{{/enumVars}}{{/allowableValues}}
+{{/isEnum}}{{/vars}}
+type {{{classname}}}* = object
+  ## {{{description}}}{{#vars}}
+  {{{name}}}*: {{#isEnum}}{{{enumName}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#description}} ## {{{description}}}{{/description}}{{/vars}}
+{{#vars}}{{#isEnum}}
+func `%`*(v: {{{enumName}}}): JsonNode =
+  let str = case v:{{#allowableValues}}{{#enumVars}}
+    of {{{enumName}}}.{{{name}}}: {{{value}}}{{/enumVars}}{{/allowableValues}}
+
+  JsonNode(kind: JString, str: str)
+
+func `$`*(v: {{{enumName}}}): string =
+  result = case v:{{#allowableValues}}{{#enumVars}}
+    of {{{enumName}}}.{{{name}}}: {{{value}}}{{/enumVars}}{{/allowableValues}}
+{{/isEnum}}{{/vars}}{{/model}}{{/models}}

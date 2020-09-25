@@ -1,0 +1,53 @@
+{
+  "namespace": "model",
+  "type": "record",
+  "doc": "An order for a pets from the pet store",
+  "name": "Order",
+  "fields": [
+    {
+      "name": "id",
+      "type": ["null", "long"],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "petId",
+      "type": ["null", "long"],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "quantity",
+      "type": ["null", "int"],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "shipDate",
+      "type": ["null", "string"],
+      "doc": "",
+      "default": null
+    },
+    {
+      "name": "status",
+      "type": ["null", {
+        "type": "enum",
+        "name": "Order_status",
+        "symbols": [
+          "placed",
+          "approved",
+          "delivered"
+        ]
+      }],
+      "doc": "Order Status",
+      "default": null
+    },
+    {
+      "name": "complete",
+      "type": ["null", "boolean"],
+      "doc": "",
+      "default": null
+    }
+  ]
+
+}

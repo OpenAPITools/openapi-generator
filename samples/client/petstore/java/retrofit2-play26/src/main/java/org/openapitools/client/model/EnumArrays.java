@@ -15,20 +15,28 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * EnumArrays
  */
-
+@JsonPropertyOrder({
+  EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
+  EnumArrays.JSON_PROPERTY_ARRAY_ENUM
+})
+@JsonTypeName("EnumArrays")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class EnumArrays {
   /**
    * Gets or Sets justSymbol
@@ -65,7 +73,7 @@ public class EnumArrays {
     }
   }
 
-  @JsonProperty("just_symbol")
+  public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
   private JustSymbolEnum justSymbol;
 
   /**
@@ -103,10 +111,12 @@ public class EnumArrays {
     }
   }
 
-  @JsonProperty("array_enum")
-  private List<ArrayEnumEnum> arrayEnum = new ArrayList<>();
+  public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
+  private List<ArrayEnumEnum> arrayEnum = null;
+
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
+    
     this.justSymbol = justSymbol;
     return this;
   }
@@ -117,15 +127,21 @@ public class EnumArrays {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public JustSymbolEnum getJustSymbol() {
     return justSymbol;
   }
+
 
   public void setJustSymbol(JustSymbolEnum justSymbol) {
     this.justSymbol = justSymbol;
   }
 
+
   public EnumArrays arrayEnum(List<ArrayEnumEnum> arrayEnum) {
+    
     this.arrayEnum = arrayEnum;
     return this;
   }
@@ -144,9 +160,13 @@ public class EnumArrays {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public List<ArrayEnumEnum> getArrayEnum() {
     return arrayEnum;
   }
+
 
   public void setArrayEnum(List<ArrayEnumEnum> arrayEnum) {
     this.arrayEnum = arrayEnum;
@@ -154,7 +174,7 @@ public class EnumArrays {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -186,7 +206,7 @@ public class EnumArrays {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -26,15 +27,23 @@ import javax.validation.Valid;
 /**
  * OuterComposite
  */
-
+@JsonPropertyOrder({
+  OuterComposite.JSON_PROPERTY_MY_NUMBER,
+  OuterComposite.JSON_PROPERTY_MY_STRING,
+  OuterComposite.JSON_PROPERTY_MY_BOOLEAN
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class OuterComposite  implements Serializable {
-  @JsonProperty("my_number")
+  public static final String JSON_PROPERTY_MY_NUMBER = "my_number";
+  @JsonProperty(JSON_PROPERTY_MY_NUMBER)
   private BigDecimal myNumber;
 
-  @JsonProperty("my_string")
+  public static final String JSON_PROPERTY_MY_STRING = "my_string";
+  @JsonProperty(JSON_PROPERTY_MY_STRING)
   private String myString;
 
-  @JsonProperty("my_boolean")
+  public static final String JSON_PROPERTY_MY_BOOLEAN = "my_boolean";
+  @JsonProperty(JSON_PROPERTY_MY_BOOLEAN)
   private Boolean myBoolean;
 
   public OuterComposite myNumber(BigDecimal myNumber) {
@@ -99,7 +108,7 @@ public class OuterComposite  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -134,7 +143,7 @@ public class OuterComposite  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

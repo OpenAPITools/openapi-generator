@@ -4,7 +4,8 @@ All URIs are relative to *http://petstore.swagger.io:80/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createXmlItem**](FakeApi.md#createXmlItem) | **POST** /fake/create_xml_item | creates an XmlItem
+[**fakeHealthGet**](FakeApi.md#fakeHealthGet) | **GET** /fake/health | Health check endpoint
+[**fakeHttpSignatureTest**](FakeApi.md#fakeHttpSignatureTest) | **GET** /fake/http-signature-test | test http signature authentication
 [**fakeOuterBooleanSerialize**](FakeApi.md#fakeOuterBooleanSerialize) | **POST** /fake/outer/boolean | 
 [**fakeOuterCompositeSerialize**](FakeApi.md#fakeOuterCompositeSerialize) | **POST** /fake/outer/composite | 
 [**fakeOuterNumberSerialize**](FakeApi.md#fakeOuterNumberSerialize) | **POST** /fake/outer/number | 
@@ -17,16 +18,15 @@ Method | HTTP request | Description
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
 
 
 
-## createXmlItem
+## fakeHealthGet
 
-> createXmlItem($xml_item)
+> \OpenAPI\Client\Model\HealthCheckResult fakeHealthGet()
 
-creates an XmlItem
-
-this route creates an XmlItem
+Health check endpoint
 
 ### Example
 
@@ -40,12 +40,67 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$xml_item = new \OpenAPI\Client\Model\XmlItem(); // \OpenAPI\Client\Model\XmlItem | XmlItem Body
 
 try {
-    $apiInstance->createXmlItem($xml_item);
+    $result = $apiInstance->fakeHealthGet();
+    print_r($result);
 } catch (Exception $e) {
-    echo 'Exception when calling FakeApi->createXmlItem: ', $e->getMessage(), PHP_EOL;
+    echo 'Exception when calling FakeApi->fakeHealthGet: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**\OpenAPI\Client\Model\HealthCheckResult**](../Model/HealthCheckResult.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
+
+
+## fakeHttpSignatureTest
+
+> fakeHttpSignatureTest($pet, $query_1, $header_1)
+
+test http signature authentication
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client(),
+    $config
+);
+$pet = new \OpenAPI\Client\Model\Pet(); // \OpenAPI\Client\Model\Pet | Pet object that needs to be added to the store
+$query_1 = 'query_1_example'; // string | query parameter
+$header_1 = 'header_1_example'; // string | header parameter
+
+try {
+    $apiInstance->fakeHttpSignatureTest($pet, $query_1, $header_1);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->fakeHttpSignatureTest: ', $e->getMessage(), PHP_EOL;
 }
 ?>
 ```
@@ -55,7 +110,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **xml_item** | [**\OpenAPI\Client\Model\XmlItem**](../Model/XmlItem.md)| XmlItem Body |
+ **pet** | [**\OpenAPI\Client\Model\Pet**](../Model/Pet.md)| Pet object that needs to be added to the store |
+ **query_1** | **string**| query parameter | [optional]
+ **header_1** | **string**| header parameter | [optional]
 
 ### Return type
 
@@ -63,11 +120,11 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[http_signature_test](../../README.md#http_signature_test)
 
 ### HTTP request headers
 
-- **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+- **Content-Type**: application/json, application/xml
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
@@ -123,7 +180,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
@@ -133,7 +190,7 @@ No authorization required
 
 ## fakeOuterCompositeSerialize
 
-> \OpenAPI\Client\Model\OuterComposite fakeOuterCompositeSerialize($body)
+> \OpenAPI\Client\Model\OuterComposite fakeOuterCompositeSerialize($outer_composite)
 
 
 
@@ -151,10 +208,10 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = new \OpenAPI\Client\Model\OuterComposite(); // \OpenAPI\Client\Model\OuterComposite | Input composite as post body
+$outer_composite = new \OpenAPI\Client\Model\OuterComposite(); // \OpenAPI\Client\Model\OuterComposite | Input composite as post body
 
 try {
-    $result = $apiInstance->fakeOuterCompositeSerialize($body);
+    $result = $apiInstance->fakeOuterCompositeSerialize($outer_composite);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->fakeOuterCompositeSerialize: ', $e->getMessage(), PHP_EOL;
@@ -167,7 +224,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\OpenAPI\Client\Model\OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
+ **outer_composite** | [**\OpenAPI\Client\Model\OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
 
 ### Return type
 
@@ -179,7 +236,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
@@ -235,7 +292,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
@@ -291,7 +348,7 @@ No authorization required
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: */*
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
@@ -301,7 +358,7 @@ No authorization required
 
 ## testBodyWithFileSchema
 
-> testBodyWithFileSchema($body)
+> testBodyWithFileSchema($file_schema_test_class)
 
 
 
@@ -319,10 +376,10 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = new \OpenAPI\Client\Model\FileSchemaTestClass(); // \OpenAPI\Client\Model\FileSchemaTestClass | 
+$file_schema_test_class = new \OpenAPI\Client\Model\FileSchemaTestClass(); // \OpenAPI\Client\Model\FileSchemaTestClass | 
 
 try {
-    $apiInstance->testBodyWithFileSchema($body);
+    $apiInstance->testBodyWithFileSchema($file_schema_test_class);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testBodyWithFileSchema: ', $e->getMessage(), PHP_EOL;
 }
@@ -334,7 +391,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\OpenAPI\Client\Model\FileSchemaTestClass**](../Model/FileSchemaTestClass.md)|  |
+ **file_schema_test_class** | [**\OpenAPI\Client\Model\FileSchemaTestClass**](../Model/FileSchemaTestClass.md)|  |
 
 ### Return type
 
@@ -356,7 +413,7 @@ No authorization required
 
 ## testBodyWithQueryParams
 
-> testBodyWithQueryParams($query, $body)
+> testBodyWithQueryParams($query, $user)
 
 
 
@@ -373,10 +430,10 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     new GuzzleHttp\Client()
 );
 $query = 'query_example'; // string | 
-$body = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User | 
+$user = new \OpenAPI\Client\Model\User(); // \OpenAPI\Client\Model\User | 
 
 try {
-    $apiInstance->testBodyWithQueryParams($query, $body);
+    $apiInstance->testBodyWithQueryParams($query, $user);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testBodyWithQueryParams: ', $e->getMessage(), PHP_EOL;
 }
@@ -389,7 +446,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **string**|  |
- **body** | [**\OpenAPI\Client\Model\User**](../Model/User.md)|  |
+ **user** | [**\OpenAPI\Client\Model\User**](../Model/User.md)|  |
 
 ### Return type
 
@@ -411,7 +468,7 @@ No authorization required
 
 ## testClientModel
 
-> \OpenAPI\Client\Model\Client testClientModel($body)
+> \OpenAPI\Client\Model\Client testClientModel($client)
 
 To test \"client\" model
 
@@ -429,10 +486,10 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$body = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
+$client = new \OpenAPI\Client\Model\Client(); // \OpenAPI\Client\Model\Client | client model
 
 try {
-    $result = $apiInstance->testClientModel($body);
+    $result = $apiInstance->testClientModel($client);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testClientModel: ', $e->getMessage(), PHP_EOL;
@@ -445,7 +502,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**\OpenAPI\Client\Model\Client**](../Model/Client.md)| client model |
+ **client** | [**\OpenAPI\Client\Model\Client**](../Model/Client.md)| client model |
 
 ### Return type
 
@@ -637,10 +694,15 @@ Fake endpoint to test group parameters (optional)
 require_once(__DIR__ . '/vendor/autoload.php');
 
 
+// Configure Bearer (JWT) authorization: bearer_test
+$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+
 $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
     // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client()
+    new GuzzleHttp\Client(),
+    $config
 );
 $associate_array['required_string_group'] = 56; // int | Required String in group parameters
 $associate_array['required_boolean_group'] = True; // bool | Required Boolean in group parameters
@@ -677,7 +739,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[bearer_test](../../README.md#bearer_test)
 
 ### HTTP request headers
 
@@ -691,7 +753,7 @@ No authorization required
 
 ## testInlineAdditionalProperties
 
-> testInlineAdditionalProperties($param)
+> testInlineAdditionalProperties($request_body)
 
 test inline additionalProperties
 
@@ -707,10 +769,10 @@ $apiInstance = new OpenAPI\Client\Api\FakeApi(
     // This is optional, `GuzzleHttp\Client` will be used as default.
     new GuzzleHttp\Client()
 );
-$param = array('key' => 'param_example'); // map[string,string] | request body
+$request_body = array('key' => 'request_body_example'); // map[string,string] | request body
 
 try {
-    $apiInstance->testInlineAdditionalProperties($param);
+    $apiInstance->testInlineAdditionalProperties($request_body);
 } catch (Exception $e) {
     echo 'Exception when calling FakeApi->testInlineAdditionalProperties: ', $e->getMessage(), PHP_EOL;
 }
@@ -722,7 +784,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **param** | [**map[string,string]**](../Model/string.md)| request body |
+ **request_body** | [**map[string,string]**](../Model/string.md)| request body |
 
 ### Return type
 
@@ -790,6 +852,69 @@ No authorization required
 ### HTTP request headers
 
 - **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
+
+
+## testQueryParameterCollectionFormat
+
+> testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context)
+
+
+
+To test the collection format in query parameters
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$pipe = array('pipe_example'); // string[] | 
+$ioutil = array('ioutil_example'); // string[] | 
+$http = array('http_example'); // string[] | 
+$url = array('url_example'); // string[] | 
+$context = array('context_example'); // string[] | 
+
+try {
+    $apiInstance->testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->testQueryParameterCollectionFormat: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**string[]**](../Model/string.md)|  |
+ **ioutil** | [**string[]**](../Model/string.md)|  |
+ **http** | [**string[]**](../Model/string.md)|  |
+ **url** | [**string[]**](../Model/string.md)|  |
+ **context** | [**string[]**](../Model/string.md)|  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)

@@ -230,7 +230,7 @@
           ]
         }
       },
-      "description": "Object which contains lots of different primitive Swagger types"
+      "description": "Object which contains lots of different primitive OpenAPI types"
     },
     "ErrorInfo": {
       "type": "object",

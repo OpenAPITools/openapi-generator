@@ -94,6 +94,12 @@ class FormatTest {
             if (data.hasOwnProperty('password')) {
                 obj['password'] = ApiClient.convertToType(data['password'], 'String');
             }
+            if (data.hasOwnProperty('pattern_with_digits')) {
+                obj['pattern_with_digits'] = ApiClient.convertToType(data['pattern_with_digits'], 'String');
+            }
+            if (data.hasOwnProperty('pattern_with_digits_and_delimiter')) {
+                obj['pattern_with_digits_and_delimiter'] = ApiClient.convertToType(data['pattern_with_digits_and_delimiter'], 'String');
+            }
         }
         return obj;
     }
@@ -165,6 +171,18 @@ FormatTest.prototype['uuid'] = undefined;
  * @member {String} password
  */
 FormatTest.prototype['password'] = undefined;
+
+/**
+ * A string that is a 10 digit number. Can have leading zeros.
+ * @member {String} pattern_with_digits
+ */
+FormatTest.prototype['pattern_with_digits'] = undefined;
+
+/**
+ * A string starting with 'image_' (case insensitive) and one to three digits following i.e. Image_01.
+ * @member {String} pattern_with_digits_and_delimiter
+ */
+FormatTest.prototype['pattern_with_digits_and_delimiter'] = undefined;
 
 
 

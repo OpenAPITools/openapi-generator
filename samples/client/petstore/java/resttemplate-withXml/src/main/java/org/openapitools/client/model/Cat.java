@@ -15,30 +15,46 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.client.model.Animal;
+import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.CatAllOf;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Cat
  */
+@JsonPropertyOrder({
+  Cat.JSON_PROPERTY_DECLAWED
+})
+@JsonTypeName("Cat")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.EXISTING_PROPERTY, property = "className", visible = true)
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
+})
 
 @XmlRootElement(name = "Cat")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Cat")
 public class Cat extends Animal {
-  @JsonProperty("declawed")
-  @JacksonXmlProperty(localName = "declawed")
+  public static final String JSON_PROPERTY_DECLAWED = "declawed";
   @XmlElement(name = "declawed")
   private Boolean declawed;
 
+
   public Cat declawed(Boolean declawed) {
+    
     this.declawed = declawed;
     return this;
   }
@@ -49,9 +65,14 @@ public class Cat extends Animal {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "declawed")
+
   public Boolean getDeclawed() {
     return declawed;
   }
+
 
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
@@ -59,7 +80,7 @@ public class Cat extends Animal {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -91,7 +112,7 @@ public class Cat extends Animal {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

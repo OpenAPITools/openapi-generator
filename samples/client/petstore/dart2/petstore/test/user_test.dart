@@ -19,7 +19,7 @@ void main() {
       ..userStatus = 0;
   }
 
-  group('User API ', () {
+  group('User API with live client', () {
     test('creates a user', () async {
       var id = newId();
       var username = 'Mally45';
@@ -76,5 +76,5 @@ void main() {
       var result = await userApi.loginUser(username, password);
       expect(result, contains('logged in user session:'));
     });
-  });
+  }, skip: 'e2e tests for CI');
 }

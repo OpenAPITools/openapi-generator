@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -25,12 +26,18 @@ import javax.validation.Valid;
 /**
  * ReadOnlyFirst
  */
-
+@JsonPropertyOrder({
+  ReadOnlyFirst.JSON_PROPERTY_BAR,
+  ReadOnlyFirst.JSON_PROPERTY_BAZ
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class ReadOnlyFirst  implements Serializable {
-  @JsonProperty("bar")
+  public static final String JSON_PROPERTY_BAR = "bar";
+  @JsonProperty(JSON_PROPERTY_BAR)
   private String bar;
 
-  @JsonProperty("baz")
+  public static final String JSON_PROPERTY_BAZ = "baz";
+  @JsonProperty(JSON_PROPERTY_BAZ)
   private String baz;
 
   public ReadOnlyFirst bar(String bar) {
@@ -75,7 +82,7 @@ public class ReadOnlyFirst  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -108,7 +115,7 @@ public class ReadOnlyFirst  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

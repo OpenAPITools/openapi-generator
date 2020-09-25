@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,14 +19,24 @@ package org.openapitools.codegen;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.models.ExternalDocumentation;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.*;
 
+/**
+ * CodegenModel represents a schema object in a OpenAPI document.
+ */
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
-public class CodegenModel {
+public class CodegenModel implements IJsonSchemaValidationProperties {
+    // The parent model name from the schemas. The parent is determined by inspecting the allOf, anyOf and
+    // oneOf attributes in the OAS. First codegen inspects 'allOf', then 'anyOf', then 'oneOf'.
+    // If there are multiple object references in the attribute ('allOf', 'anyOf', 'oneOf'), and one of the
+    // object is a discriminator, that object is set as the parent. If no discriminator is specified,
+    // codegen returns the first one in the list, i.e. there is no obvious parent in the OpenAPI specification.
+    // When possible, the mustache templates should use 'allParents' to handle multiple parents.
     public String parent, parentSchema;
     public List<String> interfaces;
+    // The list of parent model name from the schemas. In order of preference, the parent is obtained
+    // from the 'allOf' attribute, then 'anyOf', and finally 'oneOf'.
     public List<String> allParents;
 
     // References to parent and interface CodegenModels. Only set when code generator supports inheritance.
@@ -39,7 +49,15 @@ public class CodegenModel {
     public Set<String> oneOf = new TreeSet<String>();
     public Set<String> allOf = new TreeSet<String>();
 
-    public String name, classname, title, description, classVarName, modelJson, dataType, xmlPrefix, xmlNamespace, xmlName;
+    // The schema name as written in the OpenAPI document.
+    public String name;
+    // The language-specific name of the class that implements this schema.
+    // The name of the class is derived from the OpenAPI schema name with formatting rules applied.
+    // The classname is derived from the OpenAPI schema name, with sanitization and escaping rules applied. 
+    public String classname;
+    // The value of the 'title' attribute in the OpenAPI document.
+    public String title;
+    public String description, classVarName, modelJson, dataType, xmlPrefix, xmlNamespace, xmlName;
     public String classFilename; // store the class file name, mainly used for import
     public String unescapedDescription;
     public CodegenDiscriminator discriminator;
@@ -61,336 +79,115 @@ public class CodegenModel {
     public Set<String> allMandatory = new TreeSet<String>(); // with parent's required properties
 
     public Set<String> imports = new TreeSet<String>();
-    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel, hasChildren, isMapModel;
+    public boolean hasVars, emptyVars, hasMoreModels, hasEnums, isEnum;
+    /**
+     * Indicates the OAS schema specifies "nullable: true".
+     */
+    public boolean isNullable;
+    /**
+     * Indicates the type has at least one required property.
+     */
+    public boolean hasRequired;
+    /**
+     * Indicates the type has at least one optional property.
+     */
+    public boolean hasOptional;
+    public boolean isArrayModel;
+    public boolean hasChildren;
+    public boolean isMapModel;
+    /**
+     * Indicates the OAS schema specifies "deprecated: true".
+     */
+    public boolean isDeprecated;
     public boolean hasOnlyReadOnly = true; // true if all properties are read-only
     public ExternalDocumentation externalDocumentation;
 
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
 
-    //The type of the value from additional properties. Used in map like objects.
+    /**
+     * The type of the value for the additionalProperties keyword in the OAS document.
+     * Used in map like objects, including composed schemas.
+     * 
+     * In most programming languages, the additional (undeclared) properties are stored
+     * in a map data structure, such as HashMap in Java, map in golang, or a dict in Python.
+     * There are multiple ways to implement the additionalProperties keyword, depending
+     * on the programming language and mustache template.
+     * One way is to use class inheritance. For example in the generated Java code, the
+     * generated model class may extend from HashMap to store the additional properties.
+     * In that case 'CodegenModel.parent' is set to represent the class hierarchy.
+     * Another way is to use CodegenModel.additionalPropertiesType. A code generator
+     * such as Python does not use class inheritance to model additional properties.
+     *
+     * For example, in the OAS schema below, the schema has a declared 'id' property
+     * and additional, undeclared properties of type 'integer' are allowed.
+     * 
+     * type: object
+     * properties:
+     *   id:
+     *     type: integer
+     * additionalProperties:
+     *   type: integer
+     *
+     */
     public String additionalPropertiesType;
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("parent", parent)
-                .append("parentSchema", parentSchema)
-                .append("interfaces", interfaces)
-                .append("parentModel", parentModel)
-                .append("interfaceModels", interfaceModels)
-                .append("children", children)
-                .append("name", name)
-                .append("classname", classname)
-                .append("title", title)
-                .append("description", description)
-                .append("classVarName", classVarName)
-                .append("modelJson", modelJson)
-                .append("dataType", dataType)
-                .append("xmlPrefix", xmlPrefix)
-                .append("xmlNamespace", xmlNamespace)
-                .append("xmlName", xmlName)
-                .append("classFilename", classFilename)
-                .append("unescapedDescription", unescapedDescription)
-                .append("discriminator", discriminator)
-                .append("defaultValue", defaultValue)
-                .append("arrayModelType", arrayModelType)
-                .append("isAlias", isAlias)
-                .append("isString", isString)
-                .append("isNumeric", isNumeric)
-                .append("isInteger", isInteger)
-                .append("isLong", isLong)
-                .append("isNumber", isNumber)
-                .append("isFloat", isFloat)
-                .append("isDouble", isDouble)
-                .append("vars", vars)
-                .append("requiredVars", requiredVars)
-                .append("optionalVars", optionalVars)
-                .append("readOnlyVars", readOnlyVars)
-                .append("readWriteVars", readWriteVars)
-                .append("allVars", allVars)
-                .append("parentVars", parentVars)
-                .append("allowableValues", allowableValues)
-                .append("mandatory", mandatory)
-                .append("allMandatory", allMandatory)
-                .append("imports", imports)
-                .append("hasVars", hasVars)
-                .append("emptyVars", emptyVars)
-                .append("hasMoreModels", hasMoreModels)
-                .append("hasEnums", hasEnums)
-                .append("isEnum", isEnum)
-                .append("isNullable", isEnum)
-                .append("hasRequired", hasRequired)
-                .append("hasOptional", hasOptional)
-                .append("isArrayModel", isArrayModel)
-                .append("hasChildren", hasChildren)
-                .append("isMapModel", isMapModel)
-                .append("hasOnlyReadOnly", hasOnlyReadOnly)
-                .append("externalDocumentation", externalDocumentation)
-                .append("vendorExtensions", vendorExtensions)
-                .append("additionalPropertiesType", additionalPropertiesType)
-                .toString();
+    /**
+     * True if additionalProperties is set to true (boolean value)
+     */
+    public boolean isAdditionalPropertiesTrue;
+
+    private Integer maxProperties;
+    private Integer minProperties;
+    private boolean uniqueItems;
+    private Integer maxItems;
+    private Integer minItems;
+    private Integer maxLength;
+    private Integer minLength;
+    private boolean exclusiveMinimum;
+    private boolean exclusiveMaximum;
+    private String minimum;
+    private String maximum;
+    private String pattern;
+    private Number multipleOf;
+
+    public String getAdditionalPropertiesType() {
+        return additionalPropertiesType;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        CodegenModel that = (CodegenModel) o;
-
-        return Objects.equals(parent, that.parent) &&
-                Objects.equals(parentSchema, that.parentSchema) &&
-                Objects.equals(interfaces, that.interfaces) &&
-                Objects.equals(allParents, that.allParents) &&
-                Objects.equals(parentModel, that.parentModel) &&
-                Objects.equals(interfaceModels, that.interfaceModels) &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(classname, that.classname) &&
-                Objects.equals(title, that.title) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(classVarName, that.classVarName) &&
-                Objects.equals(modelJson, that.modelJson) &&
-                Objects.equals(dataType, that.dataType) &&
-                Objects.equals(xmlPrefix, that.xmlPrefix) &&
-                Objects.equals(xmlNamespace, that.xmlNamespace) &&
-                Objects.equals(xmlName, that.xmlName) &&
-                Objects.equals(classFilename, that.classFilename) &&
-                Objects.equals(unescapedDescription, that.unescapedDescription) &&
-                Objects.equals(discriminator, that.discriminator) &&
-                Objects.equals(defaultValue, that.defaultValue) &&
-                Objects.equals(vars, that.vars) &&
-                Objects.equals(requiredVars, that.requiredVars) &&
-                Objects.equals(optionalVars, that.optionalVars) &&
-                Objects.equals(allVars, that.allVars) &&
-                Objects.equals(allowableValues, that.allowableValues) &&
-                Objects.equals(mandatory, that.mandatory) &&
-                Objects.equals(allMandatory, that.allMandatory) &&
-                Objects.equals(imports, that.imports) &&
-                Objects.equals(hasVars, that.hasVars) &&
-                Objects.equals(emptyVars, that.emptyVars) &&
-                Objects.equals(hasMoreModels, that.hasMoreModels) &&
-                Objects.equals(hasEnums, that.hasEnums) &&
-                Objects.equals(isEnum, that.isEnum) &&
-                Objects.equals(externalDocumentation, that.externalDocumentation) &&
-                Objects.equals(hasOnlyReadOnly, that.hasOnlyReadOnly) &&
-                Objects.equals(hasChildren, that.hasChildren) &&
-                Objects.equals(parentVars, that.parentVars) &&
-                Objects.equals(vendorExtensions, that.vendorExtensions);
+    public void setAdditionalPropertiesType(String additionalPropertiesType) {
+        this.additionalPropertiesType = additionalPropertiesType;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(
-                parent,
-                parentSchema,
-                interfaces,
-                allParents,
-                parentModel,
-                interfaceModels,
-                name,
-                classname,
-                title,
-                description,
-                classVarName,
-                modelJson,
-                dataType,
-                xmlPrefix,
-                xmlNamespace,
-                xmlName,
-                classFilename,
-                unescapedDescription,
-                discriminator,
-                defaultValue,
-                vars,
-                requiredVars,
-                optionalVars,
-                allVars,
-                allowableValues,
-                mandatory,
-                allMandatory,
-                imports,
-                hasVars,
-                emptyVars,
-                hasMoreModels,
-                hasEnums,
-                isEnum,
-                externalDocumentation,
-                vendorExtensions,
-                hasOnlyReadOnly,
-                hasChildren,
-                parentVars);
+    public Set<String> getAllMandatory() {
+        return allMandatory;
     }
 
-    public String getParent() {
-        return parent;
-    }
-
-    public void setParent(String parent) {
-        this.parent = parent;
-    }
-
-    public String getParentSchema() {
-        return parentSchema;
-    }
-
-    public void setParentSchema(String parentSchema) {
-        this.parentSchema = parentSchema;
-    }
-
-    public List<String> getInterfaces() {
-        return interfaces;
+    public void setAllMandatory(Set<String> allMandatory) {
+        this.allMandatory = allMandatory;
     }
 
     public List<String> getAllParents() {
         return allParents;
     }
 
-    public void setInterfaces(List<String> interfaces) {
-        this.interfaces = interfaces;
-    }
-
     public void setAllParents(List<String> allParents) {
         this.allParents = allParents;
     }
 
-    public CodegenModel getParentModel() {
-        return parentModel;
+    public List<CodegenProperty> getAllVars() {
+        return allVars;
     }
 
-    public void setParentModel(CodegenModel parentModel) {
-        this.parentModel = parentModel;
+    public void setAllVars(List<CodegenProperty> allVars) {
+        this.allVars = allVars;
     }
 
-    public List<CodegenModel> getInterfaceModels() {
-        return interfaceModels;
+    public Map<String, Object> getAllowableValues() {
+        return allowableValues;
     }
 
-    public void setInterfaceModels(List<CodegenModel> interfaceModels) {
-        this.interfaceModels = interfaceModels;
-    }
-
-    public List<CodegenModel> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<CodegenModel> children) {
-        this.children = children;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getClassname() {
-        return classname;
-    }
-
-    public void setClassname(String classname) {
-        this.classname = classname;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getClassVarName() {
-        return classVarName;
-    }
-
-    public void setClassVarName(String classVarName) {
-        this.classVarName = classVarName;
-    }
-
-    public String getModelJson() {
-        return modelJson;
-    }
-
-    public void setModelJson(String modelJson) {
-        this.modelJson = modelJson;
-    }
-
-    public String getDataType() {
-        return dataType;
-    }
-
-    public void setDataType(String dataType) {
-        this.dataType = dataType;
-    }
-
-    public String getXmlPrefix() {
-        return xmlPrefix;
-    }
-
-    public void setXmlPrefix(String xmlPrefix) {
-        this.xmlPrefix = xmlPrefix;
-    }
-
-    public String getXmlNamespace() {
-        return xmlNamespace;
-    }
-
-    public void setXmlNamespace(String xmlNamespace) {
-        this.xmlNamespace = xmlNamespace;
-    }
-
-    public String getXmlName() {
-        return xmlName;
-    }
-
-    public void setXmlName(String xmlName) {
-        this.xmlName = xmlName;
-    }
-
-    public String getClassFilename() {
-        return classFilename;
-    }
-
-    public void setClassFilename(String classFilename) {
-        this.classFilename = classFilename;
-    }
-
-    public String getUnescapedDescription() {
-        return unescapedDescription;
-    }
-
-    public void setUnescapedDescription(String unescapedDescription) {
-        this.unescapedDescription = unescapedDescription;
-    }
-
-    public CodegenDiscriminator getDiscriminator() {
-        return discriminator;
-    }
-
-    public String getDiscriminatorName() {
-        return discriminator == null ? null : discriminator.getPropertyName();
-    }
-
-    public void setDiscriminator(CodegenDiscriminator discriminator) {
-        this.discriminator = discriminator;
-    }
-
-    public String getDefaultValue() {
-        return defaultValue;
-    }
-
-    public void setDefaultValue(String defaultValue) {
-        this.defaultValue = defaultValue;
+    public void setAllowableValues(Map<String, Object> allowableValues) {
+        this.allowableValues = allowableValues;
     }
 
     public String getArrayModelType() {
@@ -401,20 +198,186 @@ public class CodegenModel {
         this.arrayModelType = arrayModelType;
     }
 
-    public List<CodegenProperty> getVars() {
-        return vars;
+    public List<CodegenModel> getChildren() {
+        return children;
     }
 
-    public void setVars(List<CodegenProperty> vars) {
-        this.vars = vars;
+    public void setChildren(List<CodegenModel> children) {
+        this.children = children;
     }
 
-    public List<CodegenProperty> getRequiredVars() {
-        return requiredVars;
+    public String getClassFilename() {
+        return classFilename;
     }
 
-    public void setRequiredVars(List<CodegenProperty> requiredVars) {
-        this.requiredVars = requiredVars;
+    public void setClassFilename(String classFilename) {
+        this.classFilename = classFilename;
+    }
+
+    public String getClassVarName() {
+        return classVarName;
+    }
+
+    public void setClassVarName(String classVarName) {
+        this.classVarName = classVarName;
+    }
+
+    /**
+     * Return true if the classname property is sanitized, false if it is the same as the OpenAPI schema name.
+     * The OpenAPI schema name may be any valid JSON schema name, including non-ASCII characters.
+     * The name of the class may have to be sanitized with character escaping.
+     * 
+     * @return true if the classname property is sanitized
+     */
+    public boolean getIsClassnameSanitized() {
+        return !classname.equals(name);
+    }
+
+    public String getClassname() {
+        return classname;
+    }
+
+    public void setClassname(String classname) {
+        this.classname = classname;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
+     * Returns the discriminator for this schema object, or null if no discriminator has been specified.
+     * 
+     * The list of all possible schema discriminator mapping values is obtained
+     * from explicit discriminator mapping values in the OpenAPI document, and from
+     * inherited discriminators through oneOf, allOf, anyOf.
+     * For example, a discriminator may be defined in a 'Pet' schema as shown below.
+     * The Dog and Cat schemas inherit the discriminator through the allOf reference.
+     * In the 'Pet' schema, the supported discriminator mapping values for the
+     * 'objectType' properties are 'Dog' and 'Cat'.
+     * The allowed discriminator mapping value for the Dog schema is 'Dog'.
+     * The allowed discriminator mapping value for the Cat schema is 'Dog'.
+     * 
+     * Pet:
+     *   type: object
+     *   discriminator:
+     *     propertyName: objectType
+     *   required:
+     *     - objectType
+     *   properties:
+     *     objectType:
+     *     type: string
+     * Dog:
+     *   allOf:
+     *   - $ref: '#/components/schemas/Pet'
+     *   - type: object
+     *     properties:
+     *       p1:
+     *         type: string
+     * Cat:
+     *   allOf:
+     *   - $ref: '#/components/schemas/Pet'
+     *   - type: object
+     *     properties:
+     *       p2:
+     *         type: string
+     * 
+     * @return the discriminator.
+     */
+    public CodegenDiscriminator getDiscriminator() {
+        return discriminator;
+    }
+
+    public void setDiscriminator(CodegenDiscriminator discriminator) {
+        this.discriminator = discriminator;
+    }
+
+    /**
+     * Returns the name of the discriminator property for this schema in the OpenAPI document.
+     * In the OpenAPI document, the discriminator may be specified in the local schema or
+     * it may be inherited, such as through a 'allOf' schema which references another schema
+     * that has a discriminator, recursively.
+     * 
+     * @return the name of the discriminator property.
+     */
+    public String getDiscriminatorName() {
+        return discriminator == null ? null : discriminator.getPropertyName();
+    }
+
+    public ExternalDocumentation getExternalDocumentation() {
+        return externalDocumentation;
+    }
+
+    public void setExternalDocumentation(ExternalDocumentation externalDocumentation) {
+        this.externalDocumentation = externalDocumentation;
+    }
+
+    public Set<String> getImports() {
+        return imports;
+    }
+
+    public void setImports(Set<String> imports) {
+        this.imports = imports;
+    }
+
+    public List<CodegenModel> getInterfaceModels() {
+        return interfaceModels;
+    }
+
+    public void setInterfaceModels(List<CodegenModel> interfaceModels) {
+        this.interfaceModels = interfaceModels;
+    }
+
+    public List<String> getInterfaces() {
+        return interfaces;
+    }
+
+    public void setInterfaces(List<String> interfaces) {
+        this.interfaces = interfaces;
+    }
+
+    public Set<String> getMandatory() {
+        return mandatory;
+    }
+
+    public void setMandatory(Set<String> mandatory) {
+        this.mandatory = mandatory;
+    }
+
+    public String getModelJson() {
+        return modelJson;
+    }
+
+    public void setModelJson(String modelJson) {
+        this.modelJson = modelJson;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public List<CodegenProperty> getOptionalVars() {
@@ -423,6 +386,175 @@ public class CodegenModel {
 
     public void setOptionalVars(List<CodegenProperty> optionalVars) {
         this.optionalVars = optionalVars;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
+
+    public CodegenModel getParentModel() {
+        return parentModel;
+    }
+
+    public void setParentModel(CodegenModel parentModel) {
+        this.parentModel = parentModel;
+    }
+
+    public String getParentSchema() {
+        return parentSchema;
+    }
+
+    public void setParentSchema(String parentSchema) {
+        this.parentSchema = parentSchema;
+    }
+
+    public List<CodegenProperty> getParentVars() {
+        return parentVars;
+    }
+
+    public void setParentVars(List<CodegenProperty> parentVars) {
+        this.parentVars = parentVars;
+    }
+
+    @Override
+    public String getPattern() {
+        return pattern;
+    }
+
+    @Override
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
+    }
+
+    @Override
+    public String getMaximum() {
+        return maximum;
+    }
+
+    @Override
+    public void setMaximum(String maximum) {
+        this.maximum = maximum;
+    }
+
+    @Override
+    public String getMinimum() {
+        return minimum;
+    }
+
+    @Override
+    public void setMinimum(String minimum) {
+        this.minimum = minimum;
+    }
+
+    @Override
+    public boolean getExclusiveMaximum() {
+        return exclusiveMaximum;
+    }
+
+    @Override
+    public void setExclusiveMaximum(boolean exclusiveMaximum) {
+        this.exclusiveMaximum = exclusiveMaximum;
+    }
+
+    @Override
+    public boolean getExclusiveMinimum() {
+        return exclusiveMinimum;
+    }
+
+    @Override
+    public void setExclusiveMinimum(boolean exclusiveMinimum) {
+        this.exclusiveMinimum = exclusiveMinimum;
+    }
+
+    @Override
+    public Integer getMinLength() {
+        return minLength;
+    }
+
+    @Override
+    public void setMinLength(Integer minLength) {
+        this.minLength = minLength;
+    }
+
+    @Override
+    public Integer getMaxLength() {
+        return maxLength;
+    }
+
+    @Override
+    public void setMaxLength(Integer maxLength) {
+        this.maxLength = maxLength;
+    }
+
+    @Override
+    public Integer getMinItems() {
+        return minItems;
+    }
+
+    @Override
+    public void setMinItems(Integer minItems) {
+        this.minItems = minItems;
+    }
+
+    @Override
+    public Integer getMaxItems() {
+        return maxItems;
+    }
+
+    @Override
+    public void setMaxItems(Integer maxItems) {
+        this.maxItems = maxItems;
+    }
+
+    @Override
+    public boolean getUniqueItems() {
+        return uniqueItems;
+    }
+
+    @Override
+    public void setUniqueItems(boolean uniqueItems) {
+        this.uniqueItems = uniqueItems;
+    }
+
+    @Override
+    public Integer getMinProperties() {
+        return minProperties;
+    }
+
+    @Override
+    public void setMinProperties(Integer minProperties) {
+        this.minProperties = minProperties;
+    }
+
+    @Override
+    public Integer getMaxProperties() {
+        return maxProperties;
+    }
+
+    @Override
+    public void setMaxProperties(Integer maxProperties) {
+        this.maxProperties = maxProperties;
+    }
+
+    @Override
+    public Number getMultipleOf() {
+        return multipleOf;
+    }
+
+    @Override
+    public void setMultipleOf(Number multipleOf) {
+        this.multipleOf = multipleOf;
+    }
+
+    // indicates if the model component has validation on the root level schema
+    // this will be true when minItems or minProperties is set
+    public boolean hasValidation() {
+        boolean val = (maxItems != null || minItems != null || minProperties != null || maxProperties != null || minLength != null || maxLength != null || multipleOf != null || pattern != null || minimum != null || maximum != null || Boolean.TRUE.equals(uniqueItems) || Boolean.TRUE.equals(exclusiveMaximum) || Boolean.TRUE.equals(exclusiveMinimum));
+        return val;
     }
 
     public List<CodegenProperty> getReadOnlyVars() {
@@ -441,68 +573,36 @@ public class CodegenModel {
         this.readWriteVars = readWriteVars;
     }
 
-    public List<CodegenProperty> getAllVars() {
-        return allVars;
+    public List<CodegenProperty> getRequiredVars() {
+        return requiredVars;
     }
 
-    public void setAllVars(List<CodegenProperty> allVars) {
-        this.allVars = allVars;
+    public void setRequiredVars(List<CodegenProperty> requiredVars) {
+        this.requiredVars = requiredVars;
     }
 
-    public List<CodegenProperty> getParentVars() {
-        return parentVars;
+    public String getTitle() {
+        return title;
     }
 
-    public void setParentVars(List<CodegenProperty> parentVars) {
-        this.parentVars = parentVars;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public Map<String, Object> getAllowableValues() {
-        return allowableValues;
+    public String getUnescapedDescription() {
+        return unescapedDescription;
     }
 
-    public void setAllowableValues(Map<String, Object> allowableValues) {
-        this.allowableValues = allowableValues;
+    public void setUnescapedDescription(String unescapedDescription) {
+        this.unescapedDescription = unescapedDescription;
     }
 
-    public Set<String> getMandatory() {
-        return mandatory;
+    public List<CodegenProperty> getVars() {
+        return vars;
     }
 
-    public void setMandatory(Set<String> mandatory) {
-        this.mandatory = mandatory;
-    }
-
-    public Set<String> getAllMandatory() {
-        return allMandatory;
-    }
-
-    public void setAllMandatory(Set<String> allMandatory) {
-        this.allMandatory = allMandatory;
-    }
-
-    public Set<String> getImports() {
-        return imports;
-    }
-
-    public void setImports(Set<String> imports) {
-        this.imports = imports;
-    }
-
-    public boolean isEmptyVars() {
-        return emptyVars;
-    }
-
-    public void setEmptyVars(boolean emptyVars) {
-        this.emptyVars = emptyVars;
-    }
-
-    public ExternalDocumentation getExternalDocumentation() {
-        return externalDocumentation;
-    }
-
-    public void setExternalDocumentation(ExternalDocumentation externalDocumentation) {
-        this.externalDocumentation = externalDocumentation;
+    public void setVars(List<CodegenProperty> vars) {
+        this.vars = vars;
     }
 
     public Map<String, Object> getVendorExtensions() {
@@ -513,12 +613,224 @@ public class CodegenModel {
         this.vendorExtensions = vendorExtensions;
     }
 
-    public String getAdditionalPropertiesType() {
-        return additionalPropertiesType;
+    public String getXmlName() {
+        return xmlName;
     }
 
-    public void setAdditionalPropertiesType(String additionalPropertiesType) {
-        this.additionalPropertiesType = additionalPropertiesType;
+    public void setXmlName(String xmlName) {
+        this.xmlName = xmlName;
+    }
+
+    public String getXmlNamespace() {
+        return xmlNamespace;
+    }
+
+    public void setXmlNamespace(String xmlNamespace) {
+        this.xmlNamespace = xmlNamespace;
+    }
+
+    public String getXmlPrefix() {
+        return xmlPrefix;
+    }
+
+    public void setXmlPrefix(String xmlPrefix) {
+        this.xmlPrefix = xmlPrefix;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CodegenModel)) return false;
+        CodegenModel that = (CodegenModel) o;
+        return isAlias == that.isAlias &&
+                isString == that.isString &&
+                isInteger == that.isInteger &&
+                isLong == that.isLong &&
+                isNumber == that.isNumber &&
+                isNumeric == that.isNumeric &&
+                isFloat == that.isFloat &&
+                isDouble == that.isDouble &&
+                hasVars == that.hasVars &&
+                emptyVars == that.emptyVars &&
+                hasMoreModels == that.hasMoreModels &&
+                hasEnums == that.hasEnums &&
+                isEnum == that.isEnum &&
+                isNullable == that.isNullable &&
+                hasRequired == that.hasRequired &&
+                hasOptional == that.hasOptional &&
+                isArrayModel == that.isArrayModel &&
+                hasChildren == that.hasChildren &&
+                isMapModel == that.isMapModel &&
+                isDeprecated == that.isDeprecated &&
+                hasOnlyReadOnly == that.hasOnlyReadOnly &&
+                getUniqueItems() == that.getUniqueItems() &&
+                getExclusiveMinimum() == that.getExclusiveMinimum() &&
+                getExclusiveMaximum() == that.getExclusiveMaximum() &&
+                Objects.equals(parent, that.parent) &&
+                Objects.equals(parentSchema, that.parentSchema) &&
+                Objects.equals(interfaces, that.interfaces) &&
+                Objects.equals(allParents, that.allParents) &&
+                Objects.equals(parentModel, that.parentModel) &&
+                Objects.equals(interfaceModels, that.interfaceModels) &&
+                Objects.equals(children, that.children) &&
+                Objects.equals(anyOf, that.anyOf) &&
+                Objects.equals(oneOf, that.oneOf) &&
+                Objects.equals(allOf, that.allOf) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(classname, that.classname) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(classVarName, that.classVarName) &&
+                Objects.equals(modelJson, that.modelJson) &&
+                Objects.equals(dataType, that.dataType) &&
+                Objects.equals(xmlPrefix, that.xmlPrefix) &&
+                Objects.equals(xmlNamespace, that.xmlNamespace) &&
+                Objects.equals(xmlName, that.xmlName) &&
+                Objects.equals(classFilename, that.classFilename) &&
+                Objects.equals(unescapedDescription, that.unescapedDescription) &&
+                Objects.equals(discriminator, that.discriminator) &&
+                Objects.equals(defaultValue, that.defaultValue) &&
+                Objects.equals(arrayModelType, that.arrayModelType) &&
+                Objects.equals(vars, that.vars) &&
+                Objects.equals(allVars, that.allVars) &&
+                Objects.equals(requiredVars, that.requiredVars) &&
+                Objects.equals(optionalVars, that.optionalVars) &&
+                Objects.equals(readOnlyVars, that.readOnlyVars) &&
+                Objects.equals(readWriteVars, that.readWriteVars) &&
+                Objects.equals(parentVars, that.parentVars) &&
+                Objects.equals(allowableValues, that.allowableValues) &&
+                Objects.equals(mandatory, that.mandatory) &&
+                Objects.equals(allMandatory, that.allMandatory) &&
+                Objects.equals(imports, that.imports) &&
+                Objects.equals(externalDocumentation, that.externalDocumentation) &&
+                Objects.equals(vendorExtensions, that.vendorExtensions) &&
+                Objects.equals(additionalPropertiesType, that.additionalPropertiesType) &&
+                Objects.equals(getMaxProperties(), that.getMaxProperties()) &&
+                Objects.equals(getMinProperties(), that.getMinProperties()) &&
+                Objects.equals(getMaxItems(), that.getMaxItems()) &&
+                Objects.equals(getMinItems(), that.getMinItems()) &&
+                Objects.equals(getMaxLength(), that.getMaxLength()) &&
+                Objects.equals(getMinLength(), that.getMinLength()) &&
+                Objects.equals(getMinimum(), that.getMinimum()) &&
+                Objects.equals(getMaximum(), that.getMaximum()) &&
+                Objects.equals(getPattern(), that.getPattern()) &&
+                Objects.equals(getMultipleOf(), that.getMultipleOf());
+
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getParent(), getParentSchema(), getInterfaces(), getAllParents(), getParentModel(),
+                getInterfaceModels(), getChildren(), anyOf, oneOf, allOf, getName(), getClassname(), getTitle(),
+                getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
+                getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
+                getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
+                getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
+                getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
+                isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel,
+                hasChildren, isMapModel, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
+                getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
+                getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
+                getMaximum(), getPattern(), getMultipleOf());
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("CodegenModel{");
+        sb.append("parent='").append(parent).append('\'');
+        sb.append(", parentSchema='").append(parentSchema).append('\'');
+        sb.append(", interfaces=").append(interfaces);
+        sb.append(", allParents=").append(allParents);
+        sb.append(", parentModel=").append(parentModel);
+        sb.append(", interfaceModels=").append(interfaceModels);
+        sb.append(", children=").append(children);
+        sb.append(", anyOf=").append(anyOf);
+        sb.append(", oneOf=").append(oneOf);
+        sb.append(", allOf=").append(allOf);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", classname='").append(classname).append('\'');
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", description='").append(description).append('\'');
+        sb.append(", classVarName='").append(classVarName).append('\'');
+        sb.append(", modelJson='").append(modelJson).append('\'');
+        sb.append(", dataType='").append(dataType).append('\'');
+        sb.append(", xmlPrefix='").append(xmlPrefix).append('\'');
+        sb.append(", xmlNamespace='").append(xmlNamespace).append('\'');
+        sb.append(", xmlName='").append(xmlName).append('\'');
+        sb.append(", classFilename='").append(classFilename).append('\'');
+        sb.append(", unescapedDescription='").append(unescapedDescription).append('\'');
+        sb.append(", discriminator=").append(discriminator);
+        sb.append(", defaultValue='").append(defaultValue).append('\'');
+        sb.append(", arrayModelType='").append(arrayModelType).append('\'');
+        sb.append(", isAlias=").append(isAlias);
+        sb.append(", isString=").append(isString);
+        sb.append(", isInteger=").append(isInteger);
+        sb.append(", isLong=").append(isLong);
+        sb.append(", isNumber=").append(isNumber);
+        sb.append(", isNumeric=").append(isNumeric);
+        sb.append(", isFloat=").append(isFloat);
+        sb.append(", isDouble=").append(isDouble);
+        sb.append(", vars=").append(vars);
+        sb.append(", allVars=").append(allVars);
+        sb.append(", requiredVars=").append(requiredVars);
+        sb.append(", optionalVars=").append(optionalVars);
+        sb.append(", readOnlyVars=").append(readOnlyVars);
+        sb.append(", readWriteVars=").append(readWriteVars);
+        sb.append(", parentVars=").append(parentVars);
+        sb.append(", allowableValues=").append(allowableValues);
+        sb.append(", mandatory=").append(mandatory);
+        sb.append(", allMandatory=").append(allMandatory);
+        sb.append(", imports=").append(imports);
+        sb.append(", hasVars=").append(hasVars);
+        sb.append(", emptyVars=").append(emptyVars);
+        sb.append(", hasMoreModels=").append(hasMoreModels);
+        sb.append(", hasEnums=").append(hasEnums);
+        sb.append(", isEnum=").append(isEnum);
+        sb.append(", isNullable=").append(isNullable);
+        sb.append(", hasRequired=").append(hasRequired);
+        sb.append(", hasOptional=").append(hasOptional);
+        sb.append(", isArrayModel=").append(isArrayModel);
+        sb.append(", hasChildren=").append(hasChildren);
+        sb.append(", isMapModel=").append(isMapModel);
+        sb.append(", isDeprecated=").append(isDeprecated);
+        sb.append(", hasOnlyReadOnly=").append(hasOnlyReadOnly);
+        sb.append(", externalDocumentation=").append(externalDocumentation);
+        sb.append(", vendorExtensions=").append(vendorExtensions);
+        sb.append(", additionalPropertiesType='").append(additionalPropertiesType).append('\'');
+        sb.append(", maxProperties=").append(maxProperties);
+        sb.append(", minProperties=").append(minProperties);
+        sb.append(", uniqueItems=").append(uniqueItems);
+        sb.append(", maxItems=").append(maxItems);
+        sb.append(", minItems=").append(minItems);
+        sb.append(", maxLength=").append(maxLength);
+        sb.append(", minLength=").append(minLength);
+        sb.append(", exclusiveMinimum=").append(exclusiveMinimum);
+        sb.append(", exclusiveMaximum=").append(exclusiveMaximum);
+        sb.append(", minimum='").append(minimum).append('\'');
+        sb.append(", maximum='").append(maximum).append('\'');
+        sb.append(", pattern='").append(pattern).append('\'');
+        sb.append(", multipleOf='").append(multipleOf).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
+
+    public void addDiscriminatorMappedModelsImports(){
+        if (discriminator == null || discriminator.getMappedModels() == null) {
+            return;
+        }
+        for (CodegenDiscriminator.MappedModel mm : discriminator.getMappedModels()) {
+            if (!"".equals(mm.getModelName())) {
+                imports.add(mm.getModelName());
+            }
+        }
+    }
+
+    public boolean isEmptyVars() {
+        return emptyVars;
+    }
+
+    public void setEmptyVars(boolean emptyVars) {
+        this.emptyVars = emptyVars;
     }
 
     /**

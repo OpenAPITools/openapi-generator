@@ -15,28 +15,40 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.OffsetDateTime;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * Order
  */
-
+@JsonPropertyOrder({
+  Order.JSON_PROPERTY_ID,
+  Order.JSON_PROPERTY_PET_ID,
+  Order.JSON_PROPERTY_QUANTITY,
+  Order.JSON_PROPERTY_SHIP_DATE,
+  Order.JSON_PROPERTY_STATUS,
+  Order.JSON_PROPERTY_COMPLETE
+})
+@JsonTypeName("Order")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Order {
-  @JsonProperty("id")
+  public static final String JSON_PROPERTY_ID = "id";
   private Long id;
 
-  @JsonProperty("petId")
+  public static final String JSON_PROPERTY_PET_ID = "petId";
   private Long petId;
 
-  @JsonProperty("quantity")
+  public static final String JSON_PROPERTY_QUANTITY = "quantity";
   private Integer quantity;
 
-  @JsonProperty("shipDate")
+  public static final String JSON_PROPERTY_SHIP_DATE = "shipDate";
   private OffsetDateTime shipDate;
 
   /**
@@ -76,13 +88,15 @@ public class Order {
     }
   }
 
-  @JsonProperty("status")
+  public static final String JSON_PROPERTY_STATUS = "status";
   private StatusEnum status;
 
-  @JsonProperty("complete")
+  public static final String JSON_PROPERTY_COMPLETE = "complete";
   private Boolean complete = false;
 
+
   public Order id(Long id) {
+    
     this.id = id;
     return this;
   }
@@ -93,15 +107,21 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Long getId() {
     return id;
   }
+
 
   public void setId(Long id) {
     this.id = id;
   }
 
+
   public Order petId(Long petId) {
+    
     this.petId = petId;
     return this;
   }
@@ -112,15 +132,21 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_PET_ID)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Long getPetId() {
     return petId;
   }
+
 
   public void setPetId(Long petId) {
     this.petId = petId;
   }
 
+
   public Order quantity(Integer quantity) {
+    
     this.quantity = quantity;
     return this;
   }
@@ -131,15 +157,21 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_QUANTITY)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Integer getQuantity() {
     return quantity;
   }
+
 
   public void setQuantity(Integer quantity) {
     this.quantity = quantity;
   }
 
+
   public Order shipDate(OffsetDateTime shipDate) {
+    
     this.shipDate = shipDate;
     return this;
   }
@@ -150,15 +182,21 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_SHIP_DATE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public OffsetDateTime getShipDate() {
     return shipDate;
   }
+
 
   public void setShipDate(OffsetDateTime shipDate) {
     this.shipDate = shipDate;
   }
 
+
   public Order status(StatusEnum status) {
+    
     this.status = status;
     return this;
   }
@@ -169,15 +207,21 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "Order Status")
+  @JsonProperty(JSON_PROPERTY_STATUS)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public StatusEnum getStatus() {
     return status;
   }
+
 
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
 
+
   public Order complete(Boolean complete) {
+    
     this.complete = complete;
     return this;
   }
@@ -188,9 +232,13 @@ public class Order {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_COMPLETE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public Boolean getComplete() {
     return complete;
   }
+
 
   public void setComplete(Boolean complete) {
     this.complete = complete;
@@ -198,7 +246,7 @@ public class Order {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -238,7 +286,7 @@ public class Order {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

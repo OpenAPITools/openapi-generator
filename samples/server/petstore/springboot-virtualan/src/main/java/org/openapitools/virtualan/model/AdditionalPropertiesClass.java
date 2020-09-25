@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
 /**
  * AdditionalPropertiesClass
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class AdditionalPropertiesClass   {
   @JsonProperty("map_string")
   @Valid
@@ -51,13 +51,13 @@ public class AdditionalPropertiesClass   {
   private Map<String, Map<String, Object>> mapMapAnytype = null;
 
   @JsonProperty("anytype_1")
-  private Object anytype1 = null;
+  private Object anytype1;
 
   @JsonProperty("anytype_2")
-  private Object anytype2 = null;
+  private Object anytype2;
 
   @JsonProperty("anytype_3")
-  private Object anytype3 = null;
+  private Object anytype3;
 
   public AdditionalPropertiesClass mapString(Map<String, String> mapString) {
     this.mapString = mapString;
@@ -299,7 +299,6 @@ public class AdditionalPropertiesClass   {
   */
   @ApiModelProperty(value = "")
 
-  @Valid
 
   public Object getAnytype1() {
     return anytype1;
@@ -320,7 +319,6 @@ public class AdditionalPropertiesClass   {
   */
   @ApiModelProperty(value = "")
 
-  @Valid
 
   public Object getAnytype2() {
     return anytype2;
@@ -341,7 +339,6 @@ public class AdditionalPropertiesClass   {
   */
   @ApiModelProperty(value = "")
 
-  @Valid
 
   public Object getAnytype3() {
     return anytype3;
@@ -353,7 +350,7 @@ public class AdditionalPropertiesClass   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -403,7 +400,7 @@ public class AdditionalPropertiesClass   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -55,38 +55,38 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets SmallCamel
         /// </summary>
-        [DataMember(Name="smallCamel", EmitDefaultValue=false)]
+        [DataMember(Name="smallCamel", EmitDefaultValue=true)]
         public string SmallCamel { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalCamel
         /// </summary>
-        [DataMember(Name="CapitalCamel", EmitDefaultValue=false)]
+        [DataMember(Name="CapitalCamel", EmitDefaultValue=true)]
         public string CapitalCamel { get; set; }
 
         /// <summary>
         /// Gets or Sets SmallSnake
         /// </summary>
-        [DataMember(Name="small_Snake", EmitDefaultValue=false)]
+        [DataMember(Name="small_Snake", EmitDefaultValue=true)]
         public string SmallSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets CapitalSnake
         /// </summary>
-        [DataMember(Name="Capital_Snake", EmitDefaultValue=false)]
+        [DataMember(Name="Capital_Snake", EmitDefaultValue=true)]
         public string CapitalSnake { get; set; }
 
         /// <summary>
         /// Gets or Sets SCAETHFlowPoints
         /// </summary>
-        [DataMember(Name="SCA_ETH_Flow_Points", EmitDefaultValue=false)]
+        [DataMember(Name="SCA_ETH_Flow_Points", EmitDefaultValue=true)]
         public string SCAETHFlowPoints { get; set; }
 
         /// <summary>
         /// Name of the pet 
         /// </summary>
         /// <value>Name of the pet </value>
-        [DataMember(Name="ATT_NAME", EmitDefaultValue=false)]
+        [DataMember(Name="ATT_NAME", EmitDefaultValue=true)]
         public string ATT_NAME { get; set; }
 
         /// <summary>

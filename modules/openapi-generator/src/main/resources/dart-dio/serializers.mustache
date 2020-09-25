@@ -1,0 +1,33 @@
+library serializers;
+
+import 'package:built_value/iso_8601_date_time_serializer.dart';
+import 'package:built_value/serializer.dart';
+import 'package:built_collection/built_collection.dart';
+import 'package:built_value/json_object.dart';
+import 'package:built_value/standard_json_plugin.dart';
+{{#timeMachine}}import 'package:time_machine/time_machine.dart';
+import 'package:{{pubName}}/local_date_serializer.dart';{{/timeMachine}}
+{{#models}}{{#model}}import 'package:{{pubName}}/model/{{classFilename}}.dart';
+{{/model}}{{/models}}
+
+part 'serializers.g.dart';
+
+@SerializersFor(const [
+{{#models}}{{#model}}{{classname}},
+{{/model}}{{/models}}
+])
+
+//allow all models to be serialized within a list
+Serializers serializers = (_$serializers.toBuilder()
+{{#models}}{{#model}}..addBuilderFactory(
+const FullType(BuiltList, const [const FullType({{classname}})]),
+() => new ListBuilder<{{classname}}>())
+{{/model}}{{/models}}
+..add(Iso8601DateTimeSerializer())
+).build();
+
+Serializers standardSerializers =
+(serializers.toBuilder()
+{{#timeMachine}}..add(OffsetDateSerializer())
+..add(OffsetDateTimeSerializer())
+{{/timeMachine}}..addPlugin(StandardJsonPlugin())).build();

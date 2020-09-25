@@ -1,0 +1,15 @@
+{{#description}}
+    /* {{{description}}} */
+{{/description}}
+    {{^multiplatform}}
+    {{#moshi}}
+    @Json(name = "{{{vendorExtensions.x-base-name-literal}}}")
+    {{/moshi}}
+    {{#gson}}
+    @get:SerializedName("{{{vendorExtensions.x-base-name-literal}}}")
+    {{/gson}}
+    {{#jackson}}
+    @get:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
+    {{/jackson}}
+    {{/multiplatform}}
+    {{#multiplatform}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}") {{/multiplatform}}{{>modelMutable}} {{{name}}}: {{#isEnum}}{{#isListContainer}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{classname}}.{{{nameInCamelCase}}}>{{/isListContainer}}{{^isListContainer}}{{classname}}.{{{nameInCamelCase}}}{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}?

@@ -1,0 +1,34 @@
+    ### TLS/SSL setting
+    # Set this to false to skip verifying SSL certificate when calling API from https server.
+    # Default to true.
+    #
+    # @note Do NOT set it to false in production code, otherwise you would face multiple types of cryptographic attacks.
+    #
+    # @return [true, false]
+    attr_accessor :verify_ssl
+
+    ### TLS/SSL setting
+    # Set this to false to skip verifying SSL host name
+    # Default to true.
+    #
+    # @note Do NOT set it to false in production code, otherwise you would face multiple types of cryptographic attacks.
+    #
+    # @return [true, false]
+    attr_accessor :verify_ssl_host
+
+    ### TLS/SSL setting
+    # Set this to customize the certificate file to verify the peer.
+    #
+    # @return [String] the path to the certificate file
+    #
+    # @see The `cainfo` option of Typhoeus, `--cert` option of libcurl. Related source code:
+    # https://github.com/typhoeus/typhoeus/blob/master/lib/typhoeus/easy_factory.rb#L145
+    attr_accessor :ssl_ca_cert
+
+    ### TLS/SSL setting
+    # Client certificate file (for client certificate)
+    attr_accessor :cert_file
+
+    ### TLS/SSL setting
+    # Client private key file (for client certificate)
+    attr_accessor :key_file

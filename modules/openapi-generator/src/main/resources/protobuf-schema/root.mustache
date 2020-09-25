@@ -1,0 +1,22 @@
+{{>partial_header}}
+syntax = "proto3";
+
+package {{{packageName}}};
+
+{{#vendorExtensions.x-grpc-options}}
+option {{{.}}};
+{{/vendorExtensions.x-grpc-options}}
+
+// Models
+{{#models}}
+{{#model}}
+import public "{{modelPackage}}/{{classFilename}}.proto";
+{{/model}}
+{{/models}}
+
+// APIs
+{{#apiInfo}}
+{{#apis}}
+import public "{{apiPackage}}/{{classFilename}}.proto";
+{{/apis}}
+{{/apiInfo}}

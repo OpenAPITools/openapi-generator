@@ -9,6 +9,8 @@ import play.libs.ws.WSClient;
 import play.libs.ws.WSRequest;
 import play.libs.ws.WSResponse;
 import play.libs.ws.WSRequestFilter;
+import play.libs.ws.WSCookie;
+import play.libs.ws.WSCookieBuilder;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -32,6 +34,9 @@ public class Play26CallFactory implements okhttp3.Call.Factory {
     /** Extra headers to add to request */
     private Map<String, String> extraHeaders = new HashMap<>();
 
+    /** Extra cookies to add to request */
+    private Map<String, String> extraCookies = new HashMap<>();
+
     /** Extra query parameters to add to request */
     private List<Pair> extraQueryParams = new ArrayList<>();
 
@@ -51,10 +56,12 @@ public class Play26CallFactory implements okhttp3.Call.Factory {
     }
 
     public Play26CallFactory(WSClient wsClient, Map<String, String> extraHeaders,
+        Map<String, String> extraCookies,
         List<Pair> extraQueryParams) {
         this.wsClient = wsClient;
 
         this.extraHeaders.putAll(extraHeaders);
+        this.extraCookies.putAll(extraCookies);
         this.extraQueryParams.addAll(extraQueryParams);
     }
 
@@ -69,6 +76,9 @@ public class Play26CallFactory implements okhttp3.Call.Factory {
         Request.Builder rb = request.newBuilder();
         for (Map.Entry<String, String> header : this.extraHeaders.entrySet()) {
             rb.addHeader(header.getKey(), header.getValue());
+        }
+        for (Map.Entry<String, String> cookie : this.extraCookies.entrySet()) {
+            rb.addHeader("Cookie", String.format("%s=%s", cookie.getKey(), cookie.getValue()));
         }
 
         // add extra query params
@@ -160,6 +170,7 @@ public class Play26CallFactory implements okhttp3.Call.Factory {
                     wsRequest.addQueryParameter(queryParam, url.queryParameter(queryParam));
                 });
                 addHeaders(wsRequest);
+                addCookies(wsRequest);
                 if (request.body() != null) {
                     addBody(wsRequest);
                 }
@@ -178,6 +189,32 @@ public class Play26CallFactory implements okhttp3.Call.Factory {
                     wsRequest.setHeader(entry.getKey(), value);
                 }
             }
+        }
+
+        private void addCookies(WSRequest wsRequest) {
+            for (final WSCookie cookie : getCookies()) {
+                wsRequest.addCookie(cookie);
+            }
+        }
+
+        List<WSCookie> getCookies() {
+            final List<WSCookie> cookies = new ArrayList<>();
+            for (final String cookieString : request.headers("Cookie")) {
+                for (String cookie : cookieString.split(";")) {
+                    cookie = cookie.trim();
+                    final String[] nameAndValue = cookie.split("=");
+                    if (nameAndValue.length != 2) {
+                        continue;
+                    }
+                    cookies.add(
+                        new WSCookieBuilder()
+                            .setName(nameAndValue[0])
+                            .setValue(nameAndValue[1])
+                            .build()
+                    );
+                }
+            }
+            return cookies;
         }
 
         private void addBody(WSRequest wsRequest) throws IOException {
@@ -219,6 +256,9 @@ public class Play26CallFactory implements okhttp3.Call.Factory {
                 for (String value : entry.getValue()) {
                     builder.addHeader(entry.getKey(), value);
                 }
+            }
+            for (final WSCookie cookie : r.getCookies()) {
+                builder.addHeader("Cookie", String.format("%s=%s", cookie.getName(), cookie.getValue()));
             }
 
             builder.message(r.getStatusText());

@@ -25,7 +25,7 @@ import org.wso2.msf4j.formparam.FileInfo;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public class FakeApiServiceImpl extends FakeApiService {
     @Override
     public Response createXmlItem(XmlItem xmlItem
@@ -128,6 +128,16 @@ public class FakeApiServiceImpl extends FakeApiService {
     @Override
     public Response testJsonFormData(String param
 , String param2
+ ) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response testQueryParameterCollectionFormat(List<String> pipe
+, List<String> ioutil
+, List<String> http
+, List<String> url
+, List<String> context
  ) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

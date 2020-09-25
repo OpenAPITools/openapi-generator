@@ -45,10 +45,10 @@ For more information, see <https://developer.salesforce.com/docs/atlas.en-us.daa
 1. Clone the repo from GitHub
 
     ```bash
-    git clone git@github.com:{{gitUserId}}/{{gitRepoId}}.git
+    git clone git@{{gitHost}}:{{gitUserId}}/{{gitRepoId}}.git
     ```
 
-    Or, [download](https://github.com/{{gitUserId}}/{{gitRepoId}}/archive/master.zip) the repo as a ZIP and extract it to `{{gitRepoId}}`
+    Or, [download](https://{{gitHost}}/{{gitUserId}}/{{gitRepoId}}/archive/master.zip) the repo as a ZIP and extract it to `{{gitRepoId}}`
 {{/gitUserId}}{{/gitRepoId}}
 
 2. Set the `SF_USERNAME` and `SF_PASSWORD` environment variables to your Salesforce username and password. Alternatively, they may be set in `build.properties`. Environment variables will override the values in `build.properties` if set. `SF_SESSIONID` may also be set instead of `SF_USERNAME` and `SF_PASSWORD` (more info in `build.properties`)

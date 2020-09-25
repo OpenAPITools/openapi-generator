@@ -20,28 +20,36 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
+from petstore_api.api import store_api
 from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
 
-# create an instance of the API class
-api_instance = petstore_api.StoreApi()
-order_id = 'order_id_example' # str | ID of the order that needs to be deleted
 
-try:
-    # Delete purchase order by ID
-    api_instance.delete_order(order_id)
-except ApiException as e:
-    print("Exception when calling StoreApi->delete_order: %s\n" % e)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = store_api.StoreApi(api_client)
+    order_id = "order_id_example" # str | ID of the order that needs to be deleted
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Delete purchase order by ID
+        api_instance.delete_order(order_id)
+    except petstore_api.ApiException as e:
+        print("Exception when calling StoreApi->delete_order: %s\n" % e)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **str**| ID of the order that needs to be deleted | 
+ **order_id** | **str**| ID of the order that needs to be deleted |
 
 ### Return type
 
@@ -65,7 +73,7 @@ No authorization required
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **get_inventory**
-> dict(str, int) get_inventory()
+> {str: (int,)} get_inventory()
 
 Returns pet inventories by status
 
@@ -75,26 +83,39 @@ Returns a map of status codes to quantities
 
 * Api Key Authentication (api_key):
 ```python
-from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
+from petstore_api.api import store_api
 from pprint import pprint
-configuration = petstore_api.Configuration()
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
 # Configure API key authorization: api_key
 configuration.api_key['api_key'] = 'YOUR_API_KEY'
+
 # Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
 # configuration.api_key_prefix['api_key'] = 'Bearer'
 
-# create an instance of the API class
-api_instance = petstore_api.StoreApi(petstore_api.ApiClient(configuration))
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = store_api.StoreApi(api_client)
 
-try:
-    # Returns pet inventories by status
-    api_response = api_instance.get_inventory()
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling StoreApi->get_inventory: %s\n" % e)
+    # example, this endpoint has no required or optional parameters
+    try:
+        # Returns pet inventories by status
+        api_response = api_instance.get_inventory()
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling StoreApi->get_inventory: %s\n" % e)
 ```
 
 ### Parameters
@@ -102,7 +123,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-**dict(str, int)**
+**{str: (int,)}**
 
 ### Authorization
 
@@ -130,29 +151,38 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
+from petstore_api.api import store_api
+from petstore_api.model.order import Order
 from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
 
-# create an instance of the API class
-api_instance = petstore_api.StoreApi()
-order_id = 56 # int | ID of pet that needs to be fetched
 
-try:
-    # Find purchase order by ID
-    api_response = api_instance.get_order_by_id(order_id)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling StoreApi->get_order_by_id: %s\n" % e)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = store_api.StoreApi(api_client)
+    order_id = 1 # int | ID of pet that needs to be fetched
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Find purchase order by ID
+        api_response = api_instance.get_order_by_id(order_id)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling StoreApi->get_order_by_id: %s\n" % e)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **order_id** | **int**| ID of pet that needs to be fetched | 
+ **order_id** | **int**| ID of pet that needs to be fetched |
 
 ### Return type
 
@@ -184,29 +214,45 @@ Place an order for a pet
 ### Example
 
 ```python
-from __future__ import print_function
 import time
 import petstore_api
-from petstore_api.rest import ApiException
+from petstore_api.api import store_api
+from petstore_api.model.order import Order
 from pprint import pprint
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
 
-# create an instance of the API class
-api_instance = petstore_api.StoreApi()
-body = petstore_api.Order() # Order | order placed for purchasing the pet
 
-try:
-    # Place an order for a pet
-    api_response = api_instance.place_order(body)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling StoreApi->place_order: %s\n" % e)
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient() as api_client:
+    # Create an instance of the API class
+    api_instance = store_api.StoreApi(api_client)
+    body = Order(
+        id=1,
+        pet_id=1,
+        quantity=1,
+        ship_date=dateutil_parser('1970-01-01T00:00:00.00Z'),
+        status="placed",
+        complete=False,
+    ) # Order | order placed for purchasing the pet
+
+    # example passing only required values which don't have defaults set
+    try:
+        # Place an order for a pet
+        api_response = api_instance.place_order(body)
+        pprint(api_response)
+    except petstore_api.ApiException as e:
+        print("Exception when calling StoreApi->place_order: %s\n" % e)
 ```
 
 ### Parameters
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Order**](Order.md)| order placed for purchasing the pet | 
+ **body** | [**Order**](Order.md)| order placed for purchasing the pet |
 
 ### Return type
 

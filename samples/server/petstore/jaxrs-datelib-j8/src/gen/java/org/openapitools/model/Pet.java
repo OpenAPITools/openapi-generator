@@ -20,9 +20,12 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.model.Category;
 import org.openapitools.model.Tag;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -30,21 +33,34 @@ import javax.validation.Valid;
 /**
  * Pet
  */
-
+@JsonPropertyOrder({
+  Pet.JSON_PROPERTY_ID,
+  Pet.JSON_PROPERTY_CATEGORY,
+  Pet.JSON_PROPERTY_NAME,
+  Pet.JSON_PROPERTY_PHOTO_URLS,
+  Pet.JSON_PROPERTY_TAGS,
+  Pet.JSON_PROPERTY_STATUS
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class Pet  implements Serializable {
-  @JsonProperty("id")
+  public static final String JSON_PROPERTY_ID = "id";
+  @JsonProperty(JSON_PROPERTY_ID)
   private Long id;
 
-  @JsonProperty("category")
-  private Category category = null;
+  public static final String JSON_PROPERTY_CATEGORY = "category";
+  @JsonProperty(JSON_PROPERTY_CATEGORY)
+  private Category category;
 
-  @JsonProperty("name")
+  public static final String JSON_PROPERTY_NAME = "name";
+  @JsonProperty(JSON_PROPERTY_NAME)
   private String name;
 
-  @JsonProperty("photoUrls")
-  private List<String> photoUrls = new ArrayList<>();
+  public static final String JSON_PROPERTY_PHOTO_URLS = "photoUrls";
+  @JsonProperty(JSON_PROPERTY_PHOTO_URLS)
+  private Set<String> photoUrls = new LinkedHashSet<>();
 
-  @JsonProperty("tags")
+  public static final String JSON_PROPERTY_TAGS = "tags";
+  @JsonProperty(JSON_PROPERTY_TAGS)
   private List<Tag> tags = null;
 
   /**
@@ -80,7 +96,8 @@ public class Pet  implements Serializable {
     }
   }
 
-  @JsonProperty("status")
+  public static final String JSON_PROPERTY_STATUS = "status";
+  @JsonProperty(JSON_PROPERTY_STATUS)
   private StatusEnum status;
 
   public Pet id(Long id) {
@@ -143,7 +160,7 @@ public class Pet  implements Serializable {
     this.name = name;
   }
 
-  public Pet photoUrls(List<String> photoUrls) {
+  public Pet photoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
@@ -160,11 +177,11 @@ public class Pet  implements Serializable {
   @JsonProperty("photoUrls")
   @ApiModelProperty(required = true, value = "")
   @NotNull 
-  public List<String> getPhotoUrls() {
+  public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
-  public void setPhotoUrls(List<String> photoUrls) {
+  public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
@@ -218,7 +235,7 @@ public class Pet  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -259,7 +276,7 @@ public class Pet  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

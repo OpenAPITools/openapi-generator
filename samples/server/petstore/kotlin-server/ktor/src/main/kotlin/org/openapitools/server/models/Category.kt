@@ -12,6 +12,7 @@
 package org.openapitools.server.models
 
 
+import java.io.Serializable
 /**
  * A category for a pet
  * @param id 
@@ -20,7 +21,10 @@ package org.openapitools.server.models
 data class Category (
     val id: kotlin.Long? = null,
     val name: kotlin.String? = null
-) {
-
+) : Serializable 
+{
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
 }
 

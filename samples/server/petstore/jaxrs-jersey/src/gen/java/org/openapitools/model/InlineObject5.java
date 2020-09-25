@@ -19,18 +19,25 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.File;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * InlineObject5
  */
-
+@JsonPropertyOrder({
+  InlineObject5.JSON_PROPERTY_ADDITIONAL_METADATA,
+  InlineObject5.JSON_PROPERTY_REQUIRED_FILE
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class InlineObject5   {
-  @JsonProperty("additionalMetadata")
+  public static final String JSON_PROPERTY_ADDITIONAL_METADATA = "additionalMetadata";
+  @JsonProperty(JSON_PROPERTY_ADDITIONAL_METADATA)
   private String additionalMetadata;
 
-  @JsonProperty("requiredFile")
+  public static final String JSON_PROPERTY_REQUIRED_FILE = "requiredFile";
+  @JsonProperty(JSON_PROPERTY_REQUIRED_FILE)
   private File requiredFile;
 
   public InlineObject5 additionalMetadata(String additionalMetadata) {
@@ -75,7 +82,7 @@ public class InlineObject5   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -108,7 +115,7 @@ public class InlineObject5   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

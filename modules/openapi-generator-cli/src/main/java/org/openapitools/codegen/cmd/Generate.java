@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,13 +18,7 @@
 package org.openapitools.codegen.cmd;
 
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyAdditionalPropertiesKvpList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyImportMappingsKvpList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyInstantiationTypesKvpList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyLanguageSpecificPrimitivesCsvList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyReservedWordsMappingsKvpList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applySystemPropertiesKvpList;
-import static org.openapitools.codegen.config.CodegenConfiguratorUtils.applyTypeMappingsKvpList;
+import static org.openapitools.codegen.config.CodegenConfiguratorUtils.*;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.spi.FilterAttachable;
@@ -34,22 +28,19 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
-import org.openapitools.codegen.ClientOptInput;
-import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultGenerator;
-import org.openapitools.codegen.GeneratorNotFoundException;
+
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.*;
 import org.openapitools.codegen.config.CodegenConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * User: lanwen Date: 24.03.15 Time: 20:22
- */
-
+@SuppressWarnings({"java:S106"})
 @Command(name = "generate", description = "Generate code with the specified generator.")
-public class Generate implements Runnable {
+public class Generate extends OpenApiGeneratorCommand {
 
-    // private static final Logger LOGGER = LoggerFactory.getLogger(Generate.class);
+    CodegenConfigurator configurator;
+    Generator generator;
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
     private Boolean verbose;
@@ -62,8 +53,8 @@ public class Generate implements Runnable {
             description = "where to write the generated files (current dir by default)")
     private String output = "";
 
-    @Option(name = {"-i", "--input-spec"}, title = "spec file", required = true,
-            description = "location of the OpenAPI spec, as URL or file (required)")
+    @Option(name = {"-i", "--input-spec"}, title = "spec file",
+            description = "location of the OpenAPI spec, as URL or file (required if not loaded via config using -c)")
     private String spec;
 
     @Option(name = {"-t", "--template-dir"}, title = "template directory",
@@ -71,7 +62,7 @@ public class Generate implements Runnable {
     private String templateDir;
 
     @Option(name = {"-e", "--engine"}, title = "templating engine",
-        description = "templating engine: \"mustache\" (default) or \"handlebars\" (beta)")
+            description = "templating engine: \"mustache\" (default) or \"handlebars\" (beta)")
     private String templatingEngine;
 
     @Option(
@@ -82,19 +73,19 @@ public class Generate implements Runnable {
     private String auth;
 
     @Option(
-            name = {"-D"},
-            title = "system properties",
-            description = "sets specified system properties in "
+            name = {"--global-property"},
+            title = "global properties",
+            description = "sets specified global properties (previously called 'system properties') in "
                     + "the format of name=value,name=value (or multiple options, each with name=value)")
-    private List<String> systemProperties = new ArrayList<>();
+    private List<String> globalProperties = new ArrayList<>();
 
     @Option(
             name = {"-c", "--config"},
             title = "configuration file",
-            description = "Path to configuration file configuration file. It can be json or yaml."
-                    + "If file is json, the content should have the format {\"optionKey\":\"optionValue\", \"optionKey1\":\"optionValue1\"...}."
-                    + "If file is yaml, the content should have the format optionKey: optionValue"
-                    + "Supported options can be different for each language. Run config-help -g {generator name} command for language specific config options.")
+            description = "Path to configuration file. It can be JSON or YAML. "
+                    + "If file is JSON, the content should have the format {\"optionKey\":\"optionValue\", \"optionKey1\":\"optionValue1\"...}. "
+                    + "If file is YAML, the content should have the format optionKey: optionValue. "
+                    + "Supported options can be different for each language. Run config-help -g {generator name} command for language-specific config options.")
     private String configFile;
 
     @Option(name = {"-s", "--skip-overwrite"}, title = "skip overwrite",
@@ -102,6 +93,9 @@ public class Generate implements Runnable {
                     + "overwritten during the generation.")
     private Boolean skipOverwrite;
 
+    @Option(name = { "--dry-run" }, title = "Dry run",
+            description = "Try things out and report on potential changes (without actually making changes).")
+    private Boolean isDryRun;
 
     @Option(name = {"--package-name"}, title = "package name",
             description = CodegenConstants.PACKAGE_NAME_DESC)
@@ -114,6 +108,10 @@ public class Generate implements Runnable {
     @Option(name = {"--model-package"}, title = "model package",
             description = CodegenConstants.MODEL_PACKAGE_DESC)
     private String modelPackage;
+
+    @Option(name = {"--api-name-suffix"}, title = "api name suffix",
+            description = CodegenConstants.API_NAME_SUFFIX_DESC)
+    private String apiNameSuffix;
 
     @Option(name = {"--model-name-prefix"}, title = "model name prefix",
             description = CodegenConstants.MODEL_NAME_PREFIX_DESC)
@@ -160,6 +158,12 @@ public class Generate implements Runnable {
                     + " You can also have multiple occurrences of this option.")
     private List<String> importMappings = new ArrayList<>();
 
+    @Option(
+            name = {"--server-variables"},
+            title = "server variables",
+            description = "sets server variables overrides for spec documents which support variable templating of servers.")
+    private List<String> serverVariableOverrides = new ArrayList<>();
+
     @Option(name = {"--invoker-package"}, title = "invoker package",
             description = CodegenConstants.INVOKER_PACKAGE_DESC)
     private String invokerPackage;
@@ -177,6 +181,10 @@ public class Generate implements Runnable {
 
     @Option(name = {"--library"}, title = "library", description = CodegenConstants.LIBRARY_DESC)
     private String library;
+
+    @Option(name = {"--git-host"}, title = "git host",
+            description = CodegenConstants.GIT_HOST_DESC)
+    private String gitHost;
 
     @Option(name = {"--git-user-id"}, title = "git user id",
             description = CodegenConstants.GIT_USER_ID_DESC)
@@ -223,14 +231,17 @@ public class Generate implements Runnable {
     @Option(name = {"--log-to-stderr"},
             title = "Log to STDERR",
             description = "write all log messages (not just errors) to STDOUT."
-                    + " Useful for piping the JSON output of debug options (e.g. `-DdebugOperations`) to an external parser directly while testing a generator.")
+                    + " Useful for piping the JSON output of debug options (e.g. `--global-property debugOperations`) to an external parser directly while testing a generator.")
     private Boolean logToStderr;
 
-    @Option(name = {"--enable-post-process-file"}, title = "enable post-process file", description = CodegenConstants.ENABLE_POST_PROCESS_FILE)
+    @Option(name = {"--enable-post-process-file"}, title = "enable post-processing of files (in generators supporting it)", description = CodegenConstants.ENABLE_POST_PROCESS_FILE_DESC)
     private Boolean enablePostProcessFile;
 
     @Option(name = {"--generate-alias-as-model"}, title = "generate alias (array, map) as model", description = CodegenConstants.GENERATE_ALIAS_AS_MODEL_DESC)
     private Boolean generateAliasAsModel;
+
+    @Option(name = {"--legacy-discriminator-behavior"}, title = "Support legacy logic for evaluating discriminators", description = CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR_DESC)
+    private Boolean legacyDiscriminatorBehavior;
 
     @Option(name = {"--minimal-update"},
         title = "Minimal update",
@@ -238,7 +249,7 @@ public class Generate implements Runnable {
     private Boolean minimalUpdate;
 
     @Override
-    public void run() {
+    public void execute() {
         if (logToStderr != null) {
             LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
             Stream.of(Logger.ROOT_LOGGER_NAME, "io.swagger", "org.openapitools")
@@ -249,13 +260,22 @@ public class Generate implements Runnable {
                     .ifPresent(FilterAttachable::clearAllFilters);
         }
 
-        // attempt to read from config file
-        CodegenConfigurator configurator = CodegenConfigurator.fromFile(configFile);
-
-        // if a config file wasn't specified or we were unable to read it
+        // this initial check allows for field-level package private injection (for unit testing)
         if (configurator == null) {
-            // createa a fresh configurator
-            configurator = new CodegenConfigurator();
+            if (configFile != null && configFile.length() > 0) {
+                // attempt to load from configFile
+                configurator = CodegenConfigurator.fromFile(configFile);
+            } else if (StringUtils.isEmpty(spec)) {
+                // if user doesn't pass configFile and does not pass spec, we can fail immediately because one of these two is required to run.
+                System.err.println("[error] Required option '-i' is missing");
+                System.exit(1);
+            }
+
+            // if a config file wasn't specified, or we were unable to read it
+            if (configurator == null) {
+                // create a fresh configurator
+                configurator = new CodegenConfigurator();
+            }
         }
 
         // now override with any specified parameters
@@ -280,11 +300,9 @@ public class Generate implements Runnable {
             configurator.setInputSpec(spec);
         }
 
+        // Generator name should not be validated here, as it's validated in toClientOptInput
         if (isNotEmpty(generatorName)) {
             configurator.setGeneratorName(generatorName);
-        } else {
-            System.err.println("[error] A generator name (--generator-name / -g) is required.");
-            System.exit(1);
         }
 
         if (isNotEmpty(output)) {
@@ -315,6 +333,10 @@ public class Generate implements Runnable {
             configurator.setModelPackage(modelPackage);
         }
 
+        if (isNotEmpty(apiNameSuffix)) {
+            configurator.setApiNameSuffix(apiNameSuffix);
+        }
+
         if (isNotEmpty(modelNamePrefix)) {
             configurator.setModelNamePrefix(modelNamePrefix);
         }
@@ -341,6 +363,10 @@ public class Generate implements Runnable {
 
         if (isNotEmpty(library)) {
             configurator.setLibrary(library);
+        }
+
+        if (isNotEmpty(gitHost)) {
+            configurator.setGitHost(gitHost);
         }
 
         if (isNotEmpty(gitUserId)) {
@@ -383,9 +409,8 @@ public class Generate implements Runnable {
             configurator.setStrictSpecBehavior(strictSpecBehavior);
         }
 
-        if (systemProperties != null && !systemProperties.isEmpty()) {
-            System.err.println("[DEPRECATED] -D arguments after 'generate' are application arguments and not Java System Properties, please consider changing to -p, or apply your options to JAVA_OPTS, or move the -D arguments before the jar option.");
-            applySystemPropertiesKvpList(systemProperties, configurator);
+        if (globalProperties != null && !globalProperties.isEmpty()) {
+            applyGlobalPropertiesKvpList(globalProperties, configurator);
         }
         applyInstantiationTypesKvpList(instantiationTypes, configurator);
         applyImportMappingsKvpList(importMappings, configurator);
@@ -393,10 +418,18 @@ public class Generate implements Runnable {
         applyAdditionalPropertiesKvpList(additionalProperties, configurator);
         applyLanguageSpecificPrimitivesCsvList(languageSpecificPrimitives, configurator);
         applyReservedWordsMappingsKvpList(reservedWordsMappings, configurator);
+        applyServerVariablesKvpList(serverVariableOverrides, configurator);
 
         try {
             final ClientOptInput clientOptInput = configurator.toClientOptInput();
-            new DefaultGenerator().opts(clientOptInput).generate();
+
+            // this null check allows us to inject for unit testing.
+            if (generator == null) {
+                generator = new DefaultGenerator(isDryRun);
+            }
+
+            generator.opts(clientOptInput);
+            generator.generate();
         } catch (GeneratorNotFoundException e) {
             System.err.println(e.getMessage());
             System.err.println("[error] Check the spelling of the generator's name and try again.");

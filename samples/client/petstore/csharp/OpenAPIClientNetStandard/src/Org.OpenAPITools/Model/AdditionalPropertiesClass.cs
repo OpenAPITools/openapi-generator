@@ -42,7 +42,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="anytype1">anytype1.</param>
         /// <param name="anytype2">anytype2.</param>
         /// <param name="anytype3">anytype3.</param>
-        public AdditionalPropertiesClass(Dictionary<string, string> mapString = default(Dictionary<string, string>), Dictionary<string, decimal?> mapNumber = default(Dictionary<string, decimal?>), Dictionary<string, int?> mapInteger = default(Dictionary<string, int?>), Dictionary<string, bool?> mapBoolean = default(Dictionary<string, bool?>), Dictionary<string, List<int?>> mapArrayInteger = default(Dictionary<string, List<int?>>), Dictionary<string, List<Object>> mapArrayAnytype = default(Dictionary<string, List<Object>>), Dictionary<string, Dictionary<string, string>> mapMapString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, Dictionary<string, Object>> mapMapAnytype = default(Dictionary<string, Dictionary<string, Object>>), Object anytype1 = default(Object), Object anytype2 = default(Object), Object anytype3 = default(Object))
+        public AdditionalPropertiesClass(Dictionary<string, string> mapString = default(Dictionary<string, string>), Dictionary<string, decimal> mapNumber = default(Dictionary<string, decimal>), Dictionary<string, int> mapInteger = default(Dictionary<string, int>), Dictionary<string, bool> mapBoolean = default(Dictionary<string, bool>), Dictionary<string, List<int>> mapArrayInteger = default(Dictionary<string, List<int>>), Dictionary<string, List<Object>> mapArrayAnytype = default(Dictionary<string, List<Object>>), Dictionary<string, Dictionary<string, string>> mapMapString = default(Dictionary<string, Dictionary<string, string>>), Dictionary<string, Dictionary<string, Object>> mapMapAnytype = default(Dictionary<string, Dictionary<string, Object>>), Object anytype1 = default(Object), Object anytype2 = default(Object), Object anytype3 = default(Object))
         {
             this.MapString = mapString;
             this.MapNumber = mapNumber;
@@ -67,25 +67,25 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets MapNumber
         /// </summary>
         [DataMember(Name="map_number", EmitDefaultValue=false)]
-        public Dictionary<string, decimal?> MapNumber { get; set; }
+        public Dictionary<string, decimal> MapNumber { get; set; }
 
         /// <summary>
         /// Gets or Sets MapInteger
         /// </summary>
         [DataMember(Name="map_integer", EmitDefaultValue=false)]
-        public Dictionary<string, int?> MapInteger { get; set; }
+        public Dictionary<string, int> MapInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets MapBoolean
         /// </summary>
         [DataMember(Name="map_boolean", EmitDefaultValue=false)]
-        public Dictionary<string, bool?> MapBoolean { get; set; }
+        public Dictionary<string, bool> MapBoolean { get; set; }
 
         /// <summary>
         /// Gets or Sets MapArrayInteger
         /// </summary>
         [DataMember(Name="map_array_integer", EmitDefaultValue=false)]
-        public Dictionary<string, List<int?>> MapArrayInteger { get; set; }
+        public Dictionary<string, List<int>> MapArrayInteger { get; set; }
 
         /// <summary>
         /// Gets or Sets MapArrayAnytype

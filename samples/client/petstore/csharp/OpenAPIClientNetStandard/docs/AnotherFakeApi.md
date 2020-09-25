@@ -19,7 +19,7 @@ To test special tags and operation ID starting with number
 ### Example
 
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -29,9 +29,10 @@ namespace Example
 {
     public class Call123TestSpecialTagsExample
     {
-        public void main()
+        public static void Main()
         {
-            var apiInstance = new AnotherFakeApi();
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
+            var apiInstance = new AnotherFakeApi(Configuration.Default);
             var body = new ModelClient(); // ModelClient | client model
 
             try
@@ -40,9 +41,11 @@ namespace Example
                 ModelClient result = apiInstance.Call123TestSpecialTags(body);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AnotherFakeApi.Call123TestSpecialTags: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -68,6 +71,11 @@ No authorization required
 
 - **Content-Type**: application/json
 - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)

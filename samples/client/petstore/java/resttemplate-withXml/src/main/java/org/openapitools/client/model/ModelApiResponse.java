@@ -15,38 +15,46 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * ModelApiResponse
  */
-
+@JsonPropertyOrder({
+  ModelApiResponse.JSON_PROPERTY_CODE,
+  ModelApiResponse.JSON_PROPERTY_TYPE,
+  ModelApiResponse.JSON_PROPERTY_MESSAGE
+})
+@JsonTypeName("ApiResponse")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "ModelApiResponse")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "ModelApiResponse")
 public class ModelApiResponse {
-  @JsonProperty("code")
-  @JacksonXmlProperty(localName = "code")
+  public static final String JSON_PROPERTY_CODE = "code";
   @XmlElement(name = "code")
   private Integer code;
 
-  @JsonProperty("type")
-  @JacksonXmlProperty(localName = "type")
+  public static final String JSON_PROPERTY_TYPE = "type";
   @XmlElement(name = "type")
   private String type;
 
-  @JsonProperty("message")
-  @JacksonXmlProperty(localName = "message")
+  public static final String JSON_PROPERTY_MESSAGE = "message";
   @XmlElement(name = "message")
   private String message;
 
+
   public ModelApiResponse code(Integer code) {
+    
     this.code = code;
     return this;
   }
@@ -57,15 +65,22 @@ public class ModelApiResponse {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_CODE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "code")
+
   public Integer getCode() {
     return code;
   }
+
 
   public void setCode(Integer code) {
     this.code = code;
   }
 
+
   public ModelApiResponse type(String type) {
+    
     this.type = type;
     return this;
   }
@@ -76,15 +91,22 @@ public class ModelApiResponse {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_TYPE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "type")
+
   public String getType() {
     return type;
   }
+
 
   public void setType(String type) {
     this.type = type;
   }
 
+
   public ModelApiResponse message(String message) {
+    
     this.message = message;
     return this;
   }
@@ -95,9 +117,14 @@ public class ModelApiResponse {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_MESSAGE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "message")
+
   public String getMessage() {
     return message;
   }
+
 
   public void setMessage(String message) {
     this.message = message;
@@ -105,7 +132,7 @@ public class ModelApiResponse {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -139,7 +166,7 @@ public class ModelApiResponse {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

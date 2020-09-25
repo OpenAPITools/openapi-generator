@@ -15,31 +15,39 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * AdditionalPropertiesNumber
  */
-
+@JsonPropertyOrder({
+  AdditionalPropertiesNumber.JSON_PROPERTY_NAME
+})
+@JsonTypeName("AdditionalPropertiesNumber")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "AdditionalPropertiesNumber")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "AdditionalPropertiesNumber")
 public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
-  @JsonProperty("name")
-  @JacksonXmlProperty(localName = "name")
+  public static final String JSON_PROPERTY_NAME = "name";
   @XmlElement(name = "name")
   private String name;
 
+
   public AdditionalPropertiesNumber name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -50,9 +58,14 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_NAME)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "name")
+
   public String getName() {
     return name;
   }
+
 
   public void setName(String name) {
     this.name = name;
@@ -60,7 +73,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -92,7 +105,7 @@ public class AdditionalPropertiesNumber extends HashMap<String, BigDecimal> {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

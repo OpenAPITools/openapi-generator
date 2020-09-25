@@ -4,11 +4,11 @@ All URIs are relative to */v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**123Test@$%SpecialTags**](AnotherFakeApi.md#123Test@$%SpecialTags) | **PATCH** /another-fake/dummy | To test special tags
+[**call123TestSpecialTags**](AnotherFakeApi.md#call123TestSpecialTags) | **PATCH** /another-fake/dummy | To test special tags
 
 
 
-## 123Test@$%SpecialTags
+## call123TestSpecialTags
 
 To test special tags
 
@@ -17,7 +17,7 @@ To test special tags and operation ID starting with number
 ### Example
 
 ```bash
-petstore-cli 123Test@$%SpecialTags
+petstore-cli call123TestSpecialTags
 ```
 
 ### Parameters
@@ -25,7 +25,7 @@ petstore-cli 123Test@$%SpecialTags
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**Client**](Client.md) | client model |
+ **client** | [**Client**](Client.md) | client model |
 
 ### Return type
 

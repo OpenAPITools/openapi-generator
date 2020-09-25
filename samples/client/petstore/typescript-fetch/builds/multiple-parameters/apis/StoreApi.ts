@@ -1,4 +1,5 @@
-// tslint:disable
+/* tslint:disable */
+/* eslint-disable */
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -32,7 +33,7 @@ export interface PlaceOrderRequest {
 }
 
 /**
- * no description
+ * 
  */
 export class StoreApi extends runtime.BaseAPI {
 
@@ -45,7 +46,7 @@ export class StoreApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling deleteOrder.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -59,10 +60,10 @@ export class StoreApi extends runtime.BaseAPI {
         return new runtime.VoidApiResponse(response);
     }
 
-   /**
-    * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-    * Delete purchase order by ID
-    */
+    /**
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+     * Delete purchase order by ID
+     */
     async deleteOrder(orderId: string): Promise<void> {
         await this.deleteOrderRaw({ orderId: orderId });
     }
@@ -72,7 +73,7 @@ export class StoreApi extends runtime.BaseAPI {
      * Returns pet inventories by status
      */
     async getInventoryRaw(): Promise<runtime.ApiResponse<{ [key: string]: number; }>> {
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -90,10 +91,10 @@ export class StoreApi extends runtime.BaseAPI {
         return new runtime.JSONApiResponse<any>(response);
     }
 
-   /**
-    * Returns a map of status codes to quantities
-    * Returns pet inventories by status
-    */
+    /**
+     * Returns a map of status codes to quantities
+     * Returns pet inventories by status
+     */
     async getInventory(): Promise<{ [key: string]: number; }> {
         const response = await this.getInventoryRaw();
         return await response.value();
@@ -108,7 +109,7 @@ export class StoreApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('orderId','Required parameter requestParameters.orderId was null or undefined when calling getOrderById.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -122,10 +123,10 @@ export class StoreApi extends runtime.BaseAPI {
         return new runtime.JSONApiResponse(response, (jsonValue) => OrderFromJSON(jsonValue));
     }
 
-   /**
-    * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
-    * Find purchase order by ID
-    */
+    /**
+     * For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+     * Find purchase order by ID
+     */
     async getOrderById(orderId: number): Promise<Order> {
         const response = await this.getOrderByIdRaw({ orderId: orderId });
         return await response.value();
@@ -139,7 +140,7 @@ export class StoreApi extends runtime.BaseAPI {
             throw new runtime.RequiredError('body','Required parameter requestParameters.body was null or undefined when calling placeOrder.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -156,9 +157,9 @@ export class StoreApi extends runtime.BaseAPI {
         return new runtime.JSONApiResponse(response, (jsonValue) => OrderFromJSON(jsonValue));
     }
 
-   /**
-    * Place an order for a pet
-    */
+    /**
+     * Place an order for a pet
+     */
     async placeOrder(body: Order): Promise<Order> {
         const response = await this.placeOrderRaw({ body: body });
         return await response.value();

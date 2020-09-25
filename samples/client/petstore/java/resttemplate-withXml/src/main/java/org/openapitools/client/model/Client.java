@@ -15,28 +15,36 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * Client
  */
-
+@JsonPropertyOrder({
+  Client.JSON_PROPERTY_CLIENT
+})
+@JsonTypeName("Client")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "Client")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "Client")
 public class Client {
-  @JsonProperty("client")
-  @JacksonXmlProperty(localName = "client")
+  public static final String JSON_PROPERTY_CLIENT = "client";
   @XmlElement(name = "client")
   private String client;
 
+
   public Client client(String client) {
+    
     this.client = client;
     return this;
   }
@@ -47,9 +55,14 @@ public class Client {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_CLIENT)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "client")
+
   public String getClient() {
     return client;
   }
+
 
   public void setClient(String client) {
     this.client = client;
@@ -57,7 +70,7 @@ public class Client {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -87,7 +100,7 @@ public class Client {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

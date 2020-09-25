@@ -31,19 +31,21 @@ import android.os.Parcel;
 /**
  * FileSchemaTestClass
  */
-
-public class FileSchemaTestClass implements Parcelable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class FileSchemaTestClass {
   public static final String SERIALIZED_NAME_FILE = "file";
   @SerializedName(SERIALIZED_NAME_FILE)
-  private java.io.File file = null;
+  private java.io.File file;
 
   public static final String SERIALIZED_NAME_FILES = "files";
   @SerializedName(SERIALIZED_NAME_FILES)
-  private List<java.io.File> files = new ArrayList<java.io.File>();
+  private List<java.io.File> files = null;
 
   public FileSchemaTestClass() {
   }
+
   public FileSchemaTestClass file(java.io.File file) {
+    
     this.file = file;
     return this;
   }
@@ -54,15 +56,19 @@ public class FileSchemaTestClass implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public java.io.File getFile() {
     return file;
   }
+
 
   public void setFile(java.io.File file) {
     this.file = file;
   }
 
+
   public FileSchemaTestClass files(List<java.io.File> files) {
+    
     this.files = files;
     return this;
   }
@@ -81,9 +87,11 @@ public class FileSchemaTestClass implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public List<java.io.File> getFiles() {
     return files;
   }
+
 
   public void setFiles(List<java.io.File> files) {
     this.files = files;
@@ -91,7 +99,7 @@ public class FileSchemaTestClass implements Parcelable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -123,7 +131,7 @@ public class FileSchemaTestClass implements Parcelable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

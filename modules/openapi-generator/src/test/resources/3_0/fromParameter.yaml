@@ -1,0 +1,35 @@
+openapi: 3.0.0
+servers:
+  - url: 'localhost:8080'
+info:
+  version: 1.0.0
+  title: OpenAPI Petstore
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /set_style:
+    get:
+      operationId: setStyle
+      parameters:
+        - in: query
+          name: setStyleQuery
+          style: form
+          schema:
+            type: object
+            properties:
+              setStyleQueryParam:
+                type: string
+  /set_should_explode:
+    get:
+      operationId: setShouldExplode
+      parameters:
+        - in: query
+          name: setShouldExplodeQuery
+          style: form
+          explode: true
+          schema:
+            type: object
+            properties:
+              setShouldExplodeQueryParam:
+                type: string

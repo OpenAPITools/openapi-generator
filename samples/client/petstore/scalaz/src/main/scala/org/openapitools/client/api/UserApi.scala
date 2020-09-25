@@ -21,6 +21,8 @@ import scalaz.concurrent.Task
 
 import HelperCodecs._
 
+import org.openapitools.client.api.User
+
 object UserApi {
 
   val client = PooledHttp1Client()

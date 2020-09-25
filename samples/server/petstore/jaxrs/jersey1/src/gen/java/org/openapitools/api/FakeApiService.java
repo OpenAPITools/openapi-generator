@@ -27,7 +27,7 @@ import com.sun.jersey.multipart.FormDataParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.validation.constraints.*;
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public abstract class FakeApiService {
       public abstract Response createXmlItem(XmlItem xmlItem,SecurityContext securityContext)
       throws NotFoundException;
@@ -54,6 +54,8 @@ public abstract class FakeApiService {
       public abstract Response testInlineAdditionalProperties(Map<String, String> param,SecurityContext securityContext)
       throws NotFoundException;
       public abstract Response testJsonFormData(String param,String param2,SecurityContext securityContext)
+      throws NotFoundException;
+      public abstract Response testQueryParameterCollectionFormat( @NotNull List<String> pipe, @NotNull List<String> ioutil, @NotNull List<String> http, @NotNull List<String> url, @NotNull List<String> context,SecurityContext securityContext)
       throws NotFoundException;
       public abstract Response uploadFileWithRequiredFile(Long petId,InputStream requiredFileInputStream, FormDataContentDisposition requiredFileDetail,String additionalMetadata,SecurityContext securityContext)
       throws NotFoundException;

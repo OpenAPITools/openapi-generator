@@ -6,6 +6,7 @@ import {{invokerPackage}}.ApiClient;
 {{/imports}}
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.api.client.http.EmptyContent;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpContent;
 import com.google.api.client.http.InputStreamContent;
@@ -57,7 +58,7 @@ public class {{classname}} {
     **/
     public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#allParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) throws IOException {
         {{#returnType}}HttpResponse response = {{/returnType}}{{operationId}}ForHttpResponse({{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{#returnType}}
-        TypeReference typeRef = new TypeReference<{{{returnType}}}>() {};
+        TypeReference<{{{returnType}}}> typeRef = new TypeReference<{{{returnType}}}>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);{{/returnType}}
     }
 
@@ -76,7 +77,7 @@ public class {{classname}} {
     **/
     public {{#returnType}}{{{returnType}}} {{/returnType}}{{^returnType}}void {{/returnType}}{{operationId}}({{#bodyParam}}{{^required}}{{{dataType}}} {{paramName}}, {{/required}}{{/bodyParam}}{{#requiredParams}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}Map<String, Object> params) throws IOException {
         {{#returnType}}HttpResponse response = {{/returnType}}{{operationId}}ForHttpResponse({{#bodyParam}}{{^required}}{{paramName}}, {{/required}}{{/bodyParam}}{{#requiredParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/requiredParams}}{{#hasRequiredParams}}, {{/hasRequiredParams}}params);{{#returnType}}
-        TypeReference typeRef = new TypeReference<{{{returnType}}}>() {};
+        TypeReference<{{{returnType}}}> typeRef = new TypeReference<{{{returnType}}}>() {};
         return apiClient.getObjectMapper().readValue(response.getContent(), typeRef);{{/returnType}}
     }
 
@@ -104,10 +105,10 @@ public class {{classname}} {
             }
         }{{/queryParams}}{{/hasQueryParams}}
 
-        String url = uriBuilder{{#hasPathParams}}.buildFromMap(uriVariables).toString();{{/hasPathParams}}{{^hasPathParams}}.build().toString();{{/hasPathParams}}
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder{{#hasPathParams}}.buildFromMap(uriVariables).toString();{{/hasPathParams}}{{^hasPathParams}}.build().toString();{{/hasPathParams}}
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
-        HttpContent content = {{#isBodyAllowed}}apiClient.new JacksonJsonHttpContent({{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}){{/isBodyAllowed}}{{^isBodyAllowed}}null{{/isBodyAllowed}};
+        HttpContent content = {{#isBodyAllowed}}{{#bodyParam}}apiClient.new JacksonJsonHttpContent({{paramName}}){{/bodyParam}}{{^bodyParam}}new EmptyContent(){{/bodyParam}}{{/isBodyAllowed}}{{^isBodyAllowed}}null{{/isBodyAllowed}};
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.{{httpMethod}}, genericUrl, content).execute();
     }{{#bodyParam}}
 
@@ -135,8 +136,8 @@ public class {{classname}} {
                   }
               }{{/queryParams}}{{/hasQueryParams}}
 
-              String url = uriBuilder{{#hasPathParams}}.buildFromMap(uriVariables).toString();{{/hasPathParams}}{{^hasPathParams}}.build().toString();{{/hasPathParams}}
-              GenericUrl genericUrl = new GenericUrl(url);
+              String localVarUrl = uriBuilder{{#hasPathParams}}.buildFromMap(uriVariables).toString();{{/hasPathParams}}{{^hasPathParams}}.build().toString();{{/hasPathParams}}
+              GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
               HttpContent content = {{#bodyParam}}{{paramName}} == null ?
                 apiClient.new JacksonJsonHttpContent(null) :
@@ -176,10 +177,10 @@ public class {{classname}} {
             }
         }
 
-        String url = uriBuilder{{#hasPathParams}}.buildFromMap(uriVariables).toString();{{/hasPathParams}}{{^hasPathParams}}.build().toString();{{/hasPathParams}}
-        GenericUrl genericUrl = new GenericUrl(url);
+        String localVarUrl = uriBuilder{{#hasPathParams}}.buildFromMap(uriVariables).toString();{{/hasPathParams}}{{^hasPathParams}}.build().toString();{{/hasPathParams}}
+        GenericUrl genericUrl = new GenericUrl(localVarUrl);
 
-        HttpContent content = {{#isBodyAllowed}}apiClient.new JacksonJsonHttpContent({{#bodyParam}}{{paramName}}{{/bodyParam}}{{^bodyParam}}null{{/bodyParam}}){{/isBodyAllowed}}{{^isBodyAllowed}}null{{/isBodyAllowed}};
+        HttpContent content = {{#isBodyAllowed}}{{#bodyParam}}apiClient.new JacksonJsonHttpContent({{paramName}}){{/bodyParam}}{{^bodyParam}}new EmptyContent(){{/bodyParam}}{{/isBodyAllowed}}{{^isBodyAllowed}}null{{/isBodyAllowed}};
         return apiClient.getHttpRequestFactory().buildRequest(HttpMethods.{{httpMethod}}, genericUrl, content).execute();
     }
 

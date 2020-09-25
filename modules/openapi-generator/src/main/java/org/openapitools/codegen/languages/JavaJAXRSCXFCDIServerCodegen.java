@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -53,8 +53,6 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
 
         // Updated template directory
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf-cdi";
-
-        cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations",useBeanValidation));
     }
 
     @Override
@@ -75,18 +73,19 @@ public class JavaJAXRSCXFCDIServerCodegen extends JavaJAXRSSpecServerCodegen imp
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
-        // writeOptional means these files are only written if they don't already exist
-
         // POM
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
+            .doNotOverwrite());
 
         // RestApplication into src/main/java
-        writeOptional(outputFolder, new SupportingFile("RestApplication.mustache",
-                (implFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java"));
+        supportingFiles.add(new SupportingFile("RestApplication.mustache",
+                (implFolder + '/' + invokerPackage).replace(".", "/"), "RestApplication.java")
+            .doNotOverwrite());
 
         // Make CDI work in containers with implicit archive scanning disabled
-        writeOptional(outputFolder, new SupportingFile("beans.mustache",
-                "src/main/webapp/WEB-INF", "beans.xml"));
+        supportingFiles.add(new SupportingFile("beans.mustache",
+                "src/main/webapp/WEB-INF", "beans.xml")
+            .doNotOverwrite());
     }
 
     @Override

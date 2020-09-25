@@ -13,6 +13,9 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
      * {{{description}}}
      * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
      * @memberof {{classname}}
+    {{#deprecated}}
+     * @deprecated
+    {{/deprecated}}
      */
     {{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{#isNullable}} | null{{/isNullable}}{{/isEnum}};
 {{/vars}}
@@ -27,6 +30,11 @@ export interface {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 export enum {{enumName}} {
 {{#allowableValues}}
     {{#enumVars}}
+    {{#enumDescription}}
+    /**
+    * {{enumDescription}}
+    */
+    {{/enumDescription}}
     {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
     {{/enumVars}}
 {{/allowableValues}}

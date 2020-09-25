@@ -63,14 +63,16 @@ public:
     /// </summary>
     std::string getName() const;
     void setName(std::string const& value);
-        /// <summary>
+    /// <summary>
     /// 
     /// </summary>
     std::vector<std::string>& getPhotoUrls();
-        /// <summary>
+    void setPhotoUrls(std::vector<std::string> const& value);
+    /// <summary>
     /// 
     /// </summary>
     std::vector<Tag>& getTags();
+    void setTags(std::vector<Tag> const& value);
     bool tagsIsSet() const;
     void unsetTags();
     /// <summary>

@@ -40,8 +40,8 @@ class StoreApi(basePath: kotlin.String = "http://petstore.swagger.io/v2") : ApiC
 
         return when (response.responseType) {
             ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
+            ResponseType.Informational -> throw UnsupportedOperationException("Client does not support Informational reponses.")
+            ResponseType.Redirection -> throw UnsupportedOperationException("Client does not support Rediration responses.")
             ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
             ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
             else -> throw kotlin.IllegalStateException("Undefined ResponseType.")

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -95,6 +95,35 @@ public class InlineModelResolverTest {
         assertTrue(user.getProperties().get("address") instanceof Schema);
 
         Schema address = openapi.getComponents().getSchemas().get("UserAddressTitle");
+        assertNotNull(address);
+        assertNotNull(address.getProperties().get("city"));
+        assertNotNull(address.getProperties().get("street"));
+    }
+
+    @Test
+    public void resolveInlineModelTestWithTitleWithSpaces() {
+        OpenAPI openapi = new OpenAPI();
+        openapi.setComponents(new Components());
+        openapi.getComponents().addSchemas("User", new ObjectSchema()
+                .name("user")
+                .description("a common user")
+                .addProperties("name", new StringSchema())
+                .addProperties("address", new ObjectSchema()
+                        .title("User Address Title")
+                        .readOnly(false)
+                        .description("description")
+                        .name("name")
+                        .addProperties("street", new StringSchema())
+                        .addProperties("city", new StringSchema())));
+
+        new InlineModelResolver().flatten(openapi);
+
+        Schema user = openapi.getComponents().getSchemas().get("User");
+
+        assertNotNull(user);
+        assertTrue(user.getProperties().get("address") instanceof Schema);
+
+        Schema address = openapi.getComponents().getSchemas().get("User_Address_Title");
         assertNotNull(address);
         assertNotNull(address.getProperties().get("city"));
         assertNotNull(address.getProperties().get("street"));
@@ -235,6 +264,23 @@ public class InlineModelResolverTest {
     }
 
     @Test
+    public void testInlineResponseModelType() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/6150_model_json_inline.yaml");
+        new InlineModelResolver().flatten(openAPI);
+        
+        Schema InlineResponse200 = openAPI.getComponents().getSchemas().get("inline_response_200");
+        assertEquals("object", InlineResponse200.getType());
+        assertEquals("unknown", InlineResponse200.getFormat());
+        Schema FooBarObject = openAPI.getComponents().getSchemas().get("FooBarObject");
+        assertEquals("object", FooBarObject.getType());
+        assertEquals("date-time", FooBarObject.getFormat());
+        Schema Animal = openAPI.getComponents().getSchemas().get("Animal");
+        assertEquals("object", Animal.getType());
+        Schema Dog = openAPI.getComponents().getSchemas().get("Dog");
+        assertNull(Dog.getType());
+    }
+
+    @Test
     public void testInlineResponseModelWithTitle() {
         OpenAPI openapi = new OpenAPI();
         openapi.setComponents(new Components());
@@ -284,7 +330,7 @@ public class InlineModelResolverTest {
         assertNotNull(openAPI.getComponents());
         assertNotNull(openAPI.getComponents().getRequestBodies());
     }
-    
+
     @Test
     public void resolveInlineArraySchemaWithTitle() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
@@ -300,7 +346,7 @@ public class InlineModelResolverTest {
         assertTrue(user.getProperties().get("street") instanceof StringSchema);
         assertTrue(user.getProperties().get("city") instanceof StringSchema);
     }
-    
+
     @Test
     public void resolveInlineRequestBody() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
@@ -739,6 +785,109 @@ public class InlineModelResolverTest {
         checkComposedChildren(openAPI, schema.getOneOf(), "oneOf");
     }
 
+
+    @Test
+    public void inheritanceWithInlineDiscriminator() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/regression_6905.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        assertTrue(openAPI.getComponents().getSchemas().get("PartyType") instanceof StringSchema);
+        assertTrue(openAPI.getComponents().getSchemas().get("CustomerType") instanceof StringSchema);
+        assertTrue(openAPI.getComponents().getSchemas().get("Entity") instanceof ObjectSchema);
+
+        assertTrue(openAPI.getComponents().getSchemas().get("Party") instanceof ComposedSchema);
+        assertTrue(openAPI.getComponents().getSchemas().get("Contact") instanceof ComposedSchema);
+        assertTrue(openAPI.getComponents().getSchemas().get("Customer") instanceof ComposedSchema);
+        assertTrue(openAPI.getComponents().getSchemas().get("Person") instanceof ComposedSchema);
+        assertTrue(openAPI.getComponents().getSchemas().get("Organization") instanceof ComposedSchema);
+
+        assertTrue(openAPI.getComponents().getSchemas().get("ApiError") instanceof ObjectSchema);
+
+        assertFalse(openAPI.getComponents().getSchemas().get("Party_allOf") instanceof ComposedSchema);
+        assertFalse(openAPI.getComponents().getSchemas().get("Contact_allOf") instanceof ComposedSchema);
+        assertFalse(openAPI.getComponents().getSchemas().get("Customer_allOf") instanceof ComposedSchema);
+        assertFalse(openAPI.getComponents().getSchemas().get("Person_allOf") instanceof ComposedSchema);
+        assertFalse(openAPI.getComponents().getSchemas().get("Organization_allOf") instanceof ComposedSchema);
+
+        // Party
+        ComposedSchema party = (ComposedSchema) openAPI.getComponents().getSchemas().get("Party");
+        List<Schema> partySchemas = party.getAllOf();
+        Schema entity = ModelUtils.getReferencedSchema(openAPI, partySchemas.get(0));
+        Schema partyAllOf = ModelUtils.getReferencedSchema(openAPI, partySchemas.get(1));
+
+        assertEquals(partySchemas.get(0).get$ref(), "#/components/schemas/Entity");
+        assertEquals(partySchemas.get(1).get$ref(), "#/components/schemas/Party_allOf");
+
+        assertNull(party.getDiscriminator());
+        assertNull(entity.getDiscriminator());
+        assertNotNull(partyAllOf.getDiscriminator());
+        assertEquals(partyAllOf.getDiscriminator().getPropertyName(), "party_type");
+        assertEquals(partyAllOf.getRequired().get(0), "party_type");
+
+
+        // Contact
+        ComposedSchema contact = (ComposedSchema) openAPI.getComponents().getSchemas().get("Contact");
+        Schema contactAllOf = ModelUtils.getReferencedSchema(openAPI, contact.getAllOf().get(1));
+
+        assertEquals(contact.getExtensions().get("x-discriminator-value"), "contact");
+        assertEquals(contact.getAllOf().get(0).get$ref(), "#/components/schemas/Party");
+        assertEquals(contact.getAllOf().get(1).get$ref(), "#/components/schemas/Contact_allOf");
+        assertNull(contactAllOf.getDiscriminator());
+
+
+        // Customer
+        ComposedSchema customer = (ComposedSchema) openAPI.getComponents().getSchemas().get("Customer");
+        List<Schema> customerSchemas = customer.getAllOf();
+        Schema customerAllOf = ModelUtils.getReferencedSchema(openAPI, customerSchemas.get(1));
+
+        assertEquals(customerSchemas.get(0).get$ref(), "#/components/schemas/Party");
+        assertNull(customer.getDiscriminator());
+        assertEquals(customer.getExtensions().get("x-discriminator-value"), "customer");
+
+        // Discriminators are not defined at this level in the schema doc
+        assertNull(customerSchemas.get(0).getDiscriminator());
+        assertEquals(customerSchemas.get(1).get$ref(), "#/components/schemas/Customer_allOf");
+        assertNull(customerSchemas.get(1).getDiscriminator());
+
+        // Customer -> Party where Customer defines it's own discriminator
+        assertNotNull(customerAllOf.getDiscriminator());
+        assertEquals(customerAllOf.getDiscriminator().getPropertyName(), "customer_type");
+        assertEquals(customerAllOf.getRequired().get(0), "customer_type");
+
+
+        // Person
+        ComposedSchema person = (ComposedSchema) openAPI.getComponents().getSchemas().get("Person");
+        List<Schema> personSchemas = person.getAllOf();
+        Schema personAllOf = ModelUtils.getReferencedSchema(openAPI, personSchemas.get(1));
+
+        // Discriminators are not defined at this level in the schema doc
+        assertEquals(personSchemas.get(0).get$ref(), "#/components/schemas/Customer");
+        assertNull(personSchemas.get(0).getDiscriminator());
+        assertEquals(personSchemas.get(1).get$ref(), "#/components/schemas/Person_allOf");
+        assertNull(personSchemas.get(1).getDiscriminator());
+
+        // Person -> Customer -> Party, so discriminator is not at this level
+        assertNull(person.getDiscriminator());
+        assertEquals(person.getExtensions().get("x-discriminator-value"), "person");
+        assertNull(personAllOf.getDiscriminator());
+
+
+        // Organization
+        ComposedSchema organization = (ComposedSchema) openAPI.getComponents().getSchemas().get("Organization");
+        List<Schema> organizationSchemas = organization.getAllOf();
+        Schema organizationAllOf = ModelUtils.getReferencedSchema(openAPI, organizationSchemas.get(1));
+
+        // Discriminators are not defined at this level in the schema doc
+        assertEquals(organizationSchemas.get(0).get$ref(), "#/components/schemas/Customer");
+        assertNull(organizationSchemas.get(0).getDiscriminator());
+        assertEquals(organizationSchemas.get(1).get$ref(), "#/components/schemas/Organization_allOf");
+        assertNull(organizationSchemas.get(1).getDiscriminator());
+
+        // Organization -> Customer -> Party, so discriminator is not at this level
+        assertNull(organizationAllOf.getDiscriminator());
+        assertEquals(organization.getExtensions().get("x-discriminator-value"), "organization");
+    }
+
     @Test
     public void arbitraryObjectModelWithArrayInlineWithTitle() {
         OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
@@ -803,5 +952,48 @@ public class InlineModelResolverTest {
                 .get("nullable_request_body_property");
         Schema nullableRequestBodySchema = ModelUtils.getReferencedSchema(openAPI, nullableRequestBodyReference);
         assertTrue(nullableRequestBodySchema.getNullable());
+    }
+
+    @Test
+    public void callbacks() {
+        OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/inline_model_resolver.yaml");
+        new InlineModelResolver().flatten(openAPI);
+
+        RequestBody callbackRequestBodyReference = openAPI
+                .getPaths()
+                .get("/callback")
+                .getPost()
+                .getCallbacks()
+                .get("webhook")
+                .get("{$request.body#/callbackUri}")
+                .getPost()
+                .getRequestBody();
+        assertNotNull(callbackRequestBodyReference.get$ref());
+
+        RequestBody resolvedCallbackRequestBody = openAPI
+                .getComponents()
+                .getRequestBodies()
+                .get(ModelUtils.getSimpleRef(callbackRequestBodyReference.get$ref()));
+
+        Schema callbackRequestSchemaReference = resolvedCallbackRequestBody
+                .getContent()
+                .get("application/json")
+                .getSchema();
+        assertNotNull(callbackRequestSchemaReference.get$ref());
+
+        Schema resolvedCallbackSchema = openAPI
+                .getComponents()
+                .getSchemas()
+                .get(ModelUtils.getSimpleRef(callbackRequestSchemaReference.get$ref()));
+
+        Map properties = resolvedCallbackSchema.getProperties();
+        assertTrue(properties.get("notificationId") instanceof StringSchema);
+        assertTrue(properties.get("action") instanceof StringSchema);
+        assertTrue(properties.get("data") instanceof StringSchema);
+    }
+
+    @Test
+    public void regresssion_6905() {
+
     }
 }

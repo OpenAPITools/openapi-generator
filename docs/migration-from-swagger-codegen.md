@@ -3,7 +3,7 @@ id: swagger-codegen-migration
 title: Migrating from Swagger Codegen
 ---
 
-OpenAPI Generator is a fork of `swagger-codegen` between version `2.3.1` and `2.4.0`.
+OpenAPI Generator is a fork of `swagger-codegen` between version `2.3.1` and `2.4.0`. For the reasons behind the fork, please refer to the [Q&A](https://github.com/OpenAPITools/openapi-generator/blob/master/docs/qna.md).
 This community-driven version called "OpenAPI Generator" provides similar functionalities and can be used as drop-in replacement.
 This guide explains the major differences in order to help you with the migration.
 
@@ -22,6 +22,7 @@ This guide explains the major differences in order to help you with the migratio
   - [New fully qualified name for the classes](#new-fully-qualified-name-for-the-classes)
   - [Body parameter name](#body-parameter-name)
   - [Default basePath](#default-basepath)
+  - [Nullable](#nullable)
 
 ## New docker images
 
@@ -250,3 +251,7 @@ If your API client is using named parameters in the function call (e.g. Perl req
 ## Default basePath
 
 The default `basePath` has been changed from `https://localhost` to `http://localhost` (http without s)
+
+## Nullable
+
+OpenAPI spec v3 has better support for `nullable`. If you're still using OpenAPI/Swagger spec v2, please use `x-nullable: true` instead.

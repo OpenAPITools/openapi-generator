@@ -1,0 +1,1 @@
+{{^isEnum}}{{^isContainer}}{{#isPrimitiveType}}"{{dataType}}"{{/isPrimitiveType}}{{#isModel}}"{{package}}.{{dataType}}"{{/isModel}}{{#isFile}}"{{package}}.{{dataType}}"{{/isFile}}{{/isContainer}}{{#isContainer}}{{>typeArray}}{{/isContainer}}{{/isEnum}}{{#isEnum}}{{>typeEnum}}{{/isEnum}}

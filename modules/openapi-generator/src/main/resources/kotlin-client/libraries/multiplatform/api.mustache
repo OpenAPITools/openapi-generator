@@ -1,0 +1,125 @@
+{{>licenseInfo}}
+package {{apiPackage}}
+
+{{#imports}}import {{import}}
+{{/imports}}
+
+import {{packageName}}.infrastructure.*
+import io.ktor.client.request.forms.formData
+import kotlinx.serialization.UnstableDefault
+import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.features.json.serializer.KotlinxSerializer
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
+import io.ktor.http.ParametersBuilder
+import kotlinx.serialization.*
+import kotlinx.serialization.internal.StringDescriptor
+
+{{#operations}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}} @UseExperimental(UnstableDefault::class) constructor(
+    baseUrl: kotlin.String = "{{{basePath}}}",
+    httpClientEngine: HttpClientEngine? = null,
+    serializer: KotlinxSerializer
+) : ApiClient(baseUrl, httpClientEngine, serializer) {
+
+    @UseExperimental(UnstableDefault::class)
+    constructor(
+        baseUrl: kotlin.String = "{{{basePath}}}",
+        httpClientEngine: HttpClientEngine? = null,
+        jsonConfiguration: JsonConfiguration = JsonConfiguration.Default
+    ) : this(baseUrl, httpClientEngine, KotlinxSerializer(Json(jsonConfiguration)))
+
+    {{#operation}}
+    /**
+     * {{summary}}
+     * {{notes}}
+    {{#allParams}} * @param {{{paramName}}} {{description}} {{^required}}(optional{{#defaultValue}}, default to {{{.}}}{{/defaultValue}}){{/required}}
+    {{/allParams}} * @return {{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}
+     */
+    {{#returnType}}
+    @Suppress("UNCHECKED_CAST")
+    {{/returnType}}
+    suspend fun {{operationId}}({{#allParams}}{{{paramName}}}: {{{dataType}}}{{^required}}?{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}): HttpResponse<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}Unit{{/returnType}}> {
+
+        val localVariableAuthNames = listOf<String>({{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}})
+
+        val localVariableBody = {{#hasBodyParam}}{{#bodyParam}}{{#isListContainer}}{{operationIdCamelCase}}Request({{{paramName}}}{{^isList}}.asList(){{/isList}}){{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}{{operationIdCamelCase}}Request({{{paramName}}}){{/isMapContainer}}{{^isMapContainer}}{{{paramName}}}{{/isMapContainer}}{{/isListContainer}}{{/bodyParam}}{{/hasBodyParam}}
+            {{^hasBodyParam}}
+            {{#hasFormParams}}
+            {{#isMultipart}}
+            formData {
+                {{#formParams}}
+                {{{paramName}}}?.apply { append("{{{baseName}}}", {{{paramName}}}) }
+                {{/formParams}}
+            }
+            {{/isMultipart}}
+            {{^isMultipart}}
+            ParametersBuilder().also {
+                {{#formParams}}
+                {{{paramName}}}?.apply { it.append("{{{baseName}}}", {{{paramName}}}.toString()) }
+                {{/formParams}}
+            }.build()
+            {{/isMultipart}}
+            {{/hasFormParams}}
+            {{^hasFormParams}}
+            io.ktor.client.utils.EmptyContent
+            {{/hasFormParams}}
+            {{/hasBodyParam}}
+
+        val localVariableQuery = mutableMapOf<String, List<String>>()
+        {{#queryParams}}
+        {{{paramName}}}?.apply { localVariableQuery["{{baseName}}"] = {{#isContainer}}toMultiValue(this, "{{collectionFormat}}"){{/isContainer}}{{^isContainer}}listOf("${{{paramName}}}"){{/isContainer}} }
+        {{/queryParams}}
+
+        val localVariableHeaders = mutableMapOf<String, String>()
+        {{#headerParams}}
+        {{{paramName}}}?.apply { localVariableHeaders["{{baseName}}"] = {{#isContainer}}this.joinToString(separator = collectionDelimiter("{{collectionFormat}}")){{/isContainer}}{{^isContainer}}this.toString(){{/isContainer}} }
+        {{/headerParams}}
+
+        val localVariableConfig = RequestConfig(
+            RequestMethod.{{httpMethod}},
+            "{{path}}"{{#pathParams}}.replace("{" + "{{baseName}}" + "}", "${{{paramName}}}"){{/pathParams}},
+            query = localVariableQuery,
+            headers = localVariableHeaders
+        )
+
+        return {{#hasBodyParam}}jsonRequest{{/hasBodyParam}}{{^hasBodyParam}}{{#hasFormParams}}{{#isMultipart}}multipartFormRequest{{/isMultipart}}{{^isMultipart}}urlEncodedFormRequest{{/isMultipart}}{{/hasFormParams}}{{^hasFormParams}}request{{/hasFormParams}}{{/hasBodyParam}}(
+            localVariableConfig,
+            localVariableBody,
+            localVariableAuthNames
+        ).{{#isListContainer}}wrap<{{operationIdCamelCase}}Response>().map { value{{^isList}}.toTypedArray(){{/isList}} }{{/isListContainer}}{{^isListContainer}}{{#isMapContainer}}wrap<{{operationIdCamelCase}}Response>().map { value }{{/isMapContainer}}{{^isMapContainer}}wrap(){{/isMapContainer}}{{/isListContainer}}
+    }
+
+{{#hasBodyParam}}
+{{#bodyParam}}
+{{#isListContainer}}{{>serial_wrapper_request_list}}{{/isListContainer}}{{#isMapContainer}}{{>serial_wrapper_request_map}}{{/isMapContainer}}
+{{/bodyParam}}
+{{/hasBodyParam}}
+{{#isListContainer}}
+{{>serial_wrapper_response_list}}
+{{/isListContainer}}
+{{#isMapContainer}}
+{{>serial_wrapper_response_map}}
+{{/isMapContainer}}
+
+    {{/operation}}
+
+    {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
+        internal fun setMappers(serializer: KotlinxSerializer) {
+            {{#operation}}
+            {{#hasBodyParam}}
+            {{#bodyParam}}
+            {{#isListContainer}}serializer.setMapper({{operationIdCamelCase}}Request::class, {{operationIdCamelCase}}Request.serializer()){{/isListContainer}}{{#isMapContainer}}serializer.setMapper({{operationIdCamelCase}}Request::class, {{operationIdCamelCase}}Request.serializer()){{/isMapContainer}}
+            {{/bodyParam}}
+            {{/hasBodyParam}}
+            {{#isListContainer}}
+            serializer.setMapper({{operationIdCamelCase}}Response::class, {{operationIdCamelCase}}Response.serializer())
+            {{/isListContainer}}
+            {{#isMapContainer}}
+            serializer.setMapper({{operationIdCamelCase}}Response::class, {{operationIdCamelCase}}Response.serializer())
+            {{/isMapContainer}}
+            {{/operation}}
+        }
+    }
+}
+{{/operations}}

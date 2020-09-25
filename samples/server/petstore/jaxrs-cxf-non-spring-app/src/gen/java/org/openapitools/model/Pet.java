@@ -29,7 +29,7 @@ public class Pet  {
 
   @ApiModelProperty(value = "")
   @Valid
-  private Category category = null;
+  private Category category;
 
   @ApiModelProperty(example = "doggie", required = true, value = "")
   private String name;
@@ -221,7 +221,7 @@ public enum StatusEnum {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private static String toIndentedString(java.lang.Object o) {
+  private static String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

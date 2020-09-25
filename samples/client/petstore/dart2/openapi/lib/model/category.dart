@@ -14,16 +14,8 @@ class Category {
 
   Category.fromJson(Map<String, dynamic> json) {
     if (json == null) return;
-    if (json['id'] == null) {
-      id = null;
-    } else {
-          id = json['id'];
-    }
-    if (json['name'] == null) {
-      name = null;
-    } else {
-          name = json['name'];
-    }
+    id = json['id'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -36,15 +28,26 @@ class Category {
   }
 
   static List<Category> listFromJson(List<dynamic> json) {
-    return json == null ? new List<Category>() : json.map((value) => new Category.fromJson(value)).toList();
+    return json == null ? List<Category>() : json.map((value) => Category.fromJson(value)).toList();
   }
 
   static Map<String, Category> mapFromJson(Map<String, dynamic> json) {
-    var map = new Map<String, Category>();
+    var map = Map<String, Category>();
     if (json != null && json.isNotEmpty) {
-      json.forEach((String key, dynamic value) => map[key] = new Category.fromJson(value));
+      json.forEach((String key, dynamic value) => map[key] = Category.fromJson(value));
     }
     return map;
+  }
+
+  // maps a json object with a list of Category-objects as value to a dart map
+  static Map<String, List<Category>> mapListFromJson(Map<String, dynamic> json) {
+    var map = Map<String, List<Category>>();
+     if (json != null && json.isNotEmpty) {
+       json.forEach((String key, dynamic value) {
+         map[key] = Category.listFromJson(value);
+       });
+     }
+     return map;
   }
 }
 

@@ -1,6 +1,6 @@
 export class Configuration {
-    apiKey: string;
-    username: string;
-    password: string;
-    accessToken: string | (() => string);
+    apiKey: string | undefined;
+    username: string | undefined;
+    password: string | undefined;
+    accessToken: string | (() => string) | undefined;
 }

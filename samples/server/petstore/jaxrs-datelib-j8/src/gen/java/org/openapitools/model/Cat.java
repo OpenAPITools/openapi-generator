@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.Animal;
 import org.openapitools.model.CatAllOf;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -27,9 +28,13 @@ import javax.validation.Valid;
 /**
  * Cat
  */
-
+@JsonPropertyOrder({
+  Cat.JSON_PROPERTY_DECLAWED
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class Cat extends Animal implements Serializable {
-  @JsonProperty("declawed")
+  public static final String JSON_PROPERTY_DECLAWED = "declawed";
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
   private Boolean declawed;
 
   public Cat declawed(Boolean declawed) {
@@ -54,7 +59,7 @@ public class Cat extends Animal implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -86,7 +91,7 @@ public class Cat extends Animal implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

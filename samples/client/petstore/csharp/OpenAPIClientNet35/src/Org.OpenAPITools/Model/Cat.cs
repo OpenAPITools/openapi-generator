@@ -39,7 +39,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="Cat" /> class.
         /// </summary>
         /// <param name="declawed">declawed.</param>
-        public Cat(bool? declawed = default(bool?), string className = default(string), string color = "red") : base(className, color)
+        public Cat(bool declawed = default(bool), string className = default(string), string color = "red") : base(className, color)
         {
             this.Declawed = declawed;
         }
@@ -48,7 +48,7 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets Declawed
         /// </summary>
         [DataMember(Name="declawed", EmitDefaultValue=false)]
-        public bool? Declawed { get; set; }
+        public bool Declawed { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

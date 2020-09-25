@@ -18,10 +18,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
 @JsonSubTypes({
   @JsonSubTypes.Type(value = Dog.class, name = "Dog"),
   @JsonSubTypes.Type(value = Cat.class, name = "Cat"),
+  @JsonSubTypes.Type(value = BigCat.class, name = "BigCat"),
 })
 
 
-public class Animal  implements Serializable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJAXRSSpecServerCodegen")public class Animal  implements Serializable {
   
   private @Valid String className;
   private @Valid String color = "red";
@@ -34,17 +35,18 @@ public class Animal  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(required = true, value = "")
   @JsonProperty("className")
   @NotNull
   public String getClassName() {
     return className;
   }
+
   public void setClassName(String className) {
     this.className = className;
-  }
-
-  /**
+  }/**
    **/
   public Animal color(String color) {
     this.color = color;
@@ -52,18 +54,20 @@ public class Animal  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("color")
   public String getColor() {
     return color;
   }
+
   public void setColor(String color) {
     this.color = color;
   }
 
-
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -95,11 +99,13 @@ public class Animal  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

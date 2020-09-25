@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,7 +19,6 @@ package org.openapitools.codegen.config;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.CodegenConstants;
-import org.openapitools.codegen.DefaultGenerator;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -66,7 +65,7 @@ public class CodegenConfiguratorTest {
                 .addImportMapping("one", "two")
                 .addInstantiationType("three", "four")
                 .addLanguageSpecificPrimitive("five")
-                .addSystemProperty("six", "seven")
+                .addGlobalProperty("six", "seven")
                 .addTypeMapping("eight", "nine")
                 .setApiPackage("test-api")
                 .setArtifactId("test-artifactId")
@@ -74,8 +73,10 @@ public class CodegenConfiguratorTest {
                 .setAuth("test-auth")
                 .setGitRepoId("git")
                 .setGitUserId("user")
+                .setGitHost("test.com")
                 .setGroupId("group")
                 .setHttpUserAgent("agent")
+                .setApiNameSuffix("api-suffix")
                 .setModelNamePrefix("model-prefix")
                 .setModelNameSuffix("model-suffix")
                 .setModelPackage("model-package")
@@ -99,6 +100,7 @@ public class CodegenConfiguratorTest {
         want(props, CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, false);
         want(props, CodegenConstants.ENSURE_UNIQUE_PARAMS, true);
         want(props, CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, true);
+        want(props, CodegenConstants.API_NAME_SUFFIX, "api-suffix");
         want(props, CodegenConstants.MODEL_NAME_PREFIX, "model-prefix");
         want(props, CodegenConstants.MODEL_NAME_SUFFIX, "model-suffix");
         want(props, CodegenConstants.REMOVE_OPERATION_ID_PREFIX, false);
@@ -108,6 +110,7 @@ public class CodegenConfiguratorTest {
         want(props, CodegenConstants.TEMPLATE_DIR, templateDir);
         want(props, CodegenConstants.GIT_REPO_ID, "git");
         want(props, CodegenConstants.GIT_USER_ID, "user");
+        want(props, CodegenConstants.GIT_HOST, "test.com");
         want(props, CodegenConstants.GROUP_ID, "group");
         want(props, CodegenConstants.ARTIFACT_ID, "test-artifactId");
         want(props, CodegenConstants.ARTIFACT_VERSION, "test-artifactVersion");

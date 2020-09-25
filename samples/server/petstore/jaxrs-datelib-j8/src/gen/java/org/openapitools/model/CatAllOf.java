@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -25,9 +26,13 @@ import javax.validation.Valid;
 /**
  * CatAllOf
  */
-
+@JsonPropertyOrder({
+  CatAllOf.JSON_PROPERTY_DECLAWED
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class CatAllOf  implements Serializable {
-  @JsonProperty("declawed")
+  public static final String JSON_PROPERTY_DECLAWED = "declawed";
+  @JsonProperty(JSON_PROPERTY_DECLAWED)
   private Boolean declawed;
 
   public CatAllOf declawed(Boolean declawed) {
@@ -52,7 +57,7 @@ public class CatAllOf  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -83,7 +88,7 @@ public class CatAllOf  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -1,6 +1,5 @@
-part '{{classFilename}}.jser.dart';
 
-@Entity()
+{{#jsonFormat}}
 class {{classname}} {
   /// The underlying value of this enum member.
   final {{dataType}} value;
@@ -12,27 +11,27 @@ class {{classname}} {
       {{#description}}
   /// {{description}}
       {{/description}}
-  static const {{classname}} {{{name}}}} = const {{classname}}._internal({{{value}}});
+  static const {{classname}} {{{name}}} = const {{classname}}._internal({{{value}}});
     {{/enumVars}}
   {{/allowableValues}}
 }
 
-class {{classname}}TypeTransformer extends TypeTransformer<{{classname}}> {
+class {{classname}}FieldProcessor implements FieldProcessor<{{classname}}, {{dataType}}> {
+    const {{classname}}FieldProcessor();
 
-  @override
-  dynamic encode({{classname}} data) {
-    return data.value;
-  }
-
-  @override
-  {{classname}} decode(dynamic data) {
-    switch (data) {
-      {{#allowableValues}}
-        {{#enumVars}}
-      case {{{value}}}: return {{classname}}.{{{name}}}};
-        {{/enumVars}}
-      {{/allowableValues}}
-      default: throw('Unknown enum value to decode: $data');
+    {{classname}} deserialize({{dataType}} data) {
+        switch (data) {
+        {{#allowableValues}}
+            {{#enumVars}}
+            case {{{value}}}: return {{classname}}.{{{name}}};
+            {{/enumVars}}
+        {{/allowableValues}}
+            default: throw('Unknown enum value to decode: $data');
+        }
     }
-  }
+
+    {{dataType}} serialize({{classname}} item) {
+        return item.value;
+    }
 }
+{{/jsonFormat}}

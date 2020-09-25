@@ -62,7 +62,7 @@ class {{baseName}}Api implements {{classname}}
     /**
      * Implementation of {{classname}}#{{operationId}}
      */
-    public function {{operationId}}({{#allParams}}{{#vendorExtensions.x-parameterType}}{{vendorExtensions.x-parameterType}} {{/vendorExtensions.x-parameterType}}${{paramName}}{{^required}} = {{#defaultValue}}'{{{.}}}'{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+    public function {{operationId}}({{#allParams}}{{#vendorExtensions.x-parameter-type}}{{vendorExtensions.x-parameter-type}} {{/vendorExtensions.x-parameter-type}}${{paramName}}{{^required}} = {{#defaultValue}}'{{{.}}}'{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
     {
         // Implement the operation ...
     }

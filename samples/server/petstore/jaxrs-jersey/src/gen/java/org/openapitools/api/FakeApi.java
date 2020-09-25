@@ -16,6 +16,7 @@ import org.openapitools.model.HealthCheckResult;
 import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.OuterComposite;
+import org.openapitools.model.Pet;
 import org.openapitools.model.User;
 
 import java.util.Map;
@@ -39,7 +40,7 @@ import javax.validation.Valid;
 
 
 @io.swagger.annotations.Api(description = "the fake API")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class FakeApi  {
    private final FakeApiService delegate;
 
@@ -75,6 +76,22 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.fakeHealthGet(securityContext);
     }
+    @GET
+    @Path("/http-signature-test")
+    @Consumes({ "application/json", "application/xml" })
+    
+    @io.swagger.annotations.ApiOperation(value = "test http signature authentication", notes = "", response = Void.class, authorizations = {
+        @io.swagger.annotations.Authorization(value = "http_signature_test")
+    }, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "The instance started successfully", response = Void.class) })
+    public Response fakeHttpSignatureTest(@ApiParam(value = "Pet object that needs to be added to the store", required = true) @NotNull @Valid  Pet pet
+,@ApiParam(value = "query parameter") @QueryParam("query_1")  String query1
+,@ApiParam(value = "header parameter" )@HeaderParam("header_1") String header1
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.fakeHttpSignatureTest(pet, query1, header1, securityContext);
+    }
     @POST
     @Path("/outer/boolean")
     @Consumes({ "application/json" })
@@ -82,7 +99,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer boolean types", response = Boolean.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output boolean", response = Boolean.class) })
-    public Response fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body" ) Boolean body
+    public Response fakeOuterBooleanSerialize(@ApiParam(value = "Input boolean as post body")  Boolean body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterBooleanSerialize(body, securityContext);
@@ -94,7 +111,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of object with outer number type", response = OuterComposite.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output composite", response = OuterComposite.class) })
-    public Response fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body" ) @Valid OuterComposite outerComposite
+    public Response fakeOuterCompositeSerialize(@ApiParam(value = "Input composite as post body") @Valid  OuterComposite outerComposite
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterCompositeSerialize(outerComposite, securityContext);
@@ -106,7 +123,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer number types", response = BigDecimal.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output number", response = BigDecimal.class) })
-    public Response fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body" ) BigDecimal body
+    public Response fakeOuterNumberSerialize(@ApiParam(value = "Input number as post body")  BigDecimal body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterNumberSerialize(body, securityContext);
@@ -118,7 +135,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "Test serialization of outer string types", response = String.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Output string", response = String.class) })
-    public Response fakeOuterStringSerialize(@ApiParam(value = "Input string as post body" ) String body
+    public Response fakeOuterStringSerialize(@ApiParam(value = "Input string as post body")  String body
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.fakeOuterStringSerialize(body, securityContext);
@@ -130,7 +147,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "For this test, the body for this request much reference a schema named `File`.", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class) })
-    public Response testBodyWithFileSchema(@ApiParam(value = "" ,required=true) @NotNull @Valid FileSchemaTestClass fileSchemaTestClass
+    public Response testBodyWithFileSchema(@ApiParam(value = "", required = true) @NotNull @Valid  FileSchemaTestClass fileSchemaTestClass
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithFileSchema(fileSchemaTestClass, securityContext);
@@ -142,8 +159,8 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class) })
-    public Response testBodyWithQueryParams(@ApiParam(value = "",required=true)@QueryParam("query") String query
-,@ApiParam(value = "" ,required=true) @NotNull @Valid User user
+    public Response testBodyWithQueryParams(@ApiParam(value = "", required = true) @QueryParam("query") @NotNull  String query
+,@ApiParam(value = "", required = true) @NotNull @Valid  User user
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testBodyWithQueryParams(query, user, securityContext);
@@ -155,7 +172,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "To test \"client\" model", notes = "To test \"client\" model", response = Client.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Client.class) })
-    public Response testClientModel(@ApiParam(value = "client model" ,required=true) @NotNull @Valid Client client
+    public Response testClientModel(@ApiParam(value = "client model", required = true) @NotNull @Valid  Client client
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testClientModel(client, securityContext);
@@ -202,10 +219,10 @@ public class FakeApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Not found", response = Void.class) })
     public Response testEnumParameters(@ApiParam(value = "Header parameter enum test (string array)" , allowableValues=">, $", defaultValue="new ArrayList<String>()")@HeaderParam("enum_header_string_array") List<String> enumHeaderStringArray
 ,@ApiParam(value = "Header parameter enum test (string)" , allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")@HeaderParam("enum_header_string") String enumHeaderString
-,@ApiParam(value = "Query parameter enum test (string array)")@QueryParam("enum_query_string_array") List<String> enumQueryStringArray
-,@ApiParam(value = "Query parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg") @DefaultValue("-efg")@QueryParam("enum_query_string") String enumQueryString
-,@ApiParam(value = "Query parameter enum test (double)", allowableValues="1, -2")@QueryParam("enum_query_integer") Integer enumQueryInteger
-,@ApiParam(value = "Query parameter enum test (double)", allowableValues="1.1, -1.2")@QueryParam("enum_query_double") Double enumQueryDouble
+,@ApiParam(value = "Query parameter enum test (string array)") @QueryParam("enum_query_string_array") @Valid  List<String> enumQueryStringArray
+,@ApiParam(value = "Query parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue = "-efg") @DefaultValue("-efg") @QueryParam("enum_query_string")  String enumQueryString
+,@ApiParam(value = "Query parameter enum test (double)", allowableValues="1, -2") @QueryParam("enum_query_integer")  Integer enumQueryInteger
+,@ApiParam(value = "Query parameter enum test (double)", allowableValues="1.1, -1.2") @QueryParam("enum_query_double")  Double enumQueryDouble
 ,@ApiParam(value = "Form parameter enum test (string array)", allowableValues=">, $", defaultValue="$")  @DefaultValue("$") @FormParam("enum_form_string_array")  List<String> enumFormStringArray
 ,@ApiParam(value = "Form parameter enum test (string)", allowableValues="_abc, -efg, (xyz)", defaultValue="-efg")  @DefaultValue("-efg") @FormParam("enum_form_string")  String enumFormString
 ,@Context SecurityContext securityContext)
@@ -221,12 +238,12 @@ public class FakeApi  {
     }, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 400, message = "Someting wrong", response = Void.class) })
-    public Response testGroupParameters(@ApiParam(value = "Required String in group parameters",required=true)@QueryParam("required_string_group") Integer requiredStringGroup
+    public Response testGroupParameters(@ApiParam(value = "Required String in group parameters", required = true) @QueryParam("required_string_group") @NotNull  Integer requiredStringGroup
 ,@ApiParam(value = "Required Boolean in group parameters" ,required=true)@HeaderParam("required_boolean_group") Boolean requiredBooleanGroup
-,@ApiParam(value = "Required Integer in group parameters",required=true)@QueryParam("required_int64_group") Long requiredInt64Group
-,@ApiParam(value = "String in group parameters")@QueryParam("string_group") Integer stringGroup
+,@ApiParam(value = "Required Integer in group parameters", required = true) @QueryParam("required_int64_group") @NotNull  Long requiredInt64Group
+,@ApiParam(value = "String in group parameters") @QueryParam("string_group")  Integer stringGroup
 ,@ApiParam(value = "Boolean in group parameters" )@HeaderParam("boolean_group") Boolean booleanGroup
-,@ApiParam(value = "Integer in group parameters")@QueryParam("int64_group") Long int64Group
+,@ApiParam(value = "Integer in group parameters") @QueryParam("int64_group")  Long int64Group
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testGroupParameters(requiredStringGroup, requiredBooleanGroup, requiredInt64Group, stringGroup, booleanGroup, int64Group, securityContext);
@@ -238,7 +255,7 @@ public class FakeApi  {
     @io.swagger.annotations.ApiOperation(value = "test inline additionalProperties", notes = "", response = Void.class, tags={ "fake", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = Void.class) })
-    public Response testInlineAdditionalProperties(@ApiParam(value = "request body" ,required=true) @NotNull @Valid Map<String, String> requestBody
+    public Response testInlineAdditionalProperties(@ApiParam(value = "request body", required = true) @NotNull @Valid  Map<String, String> requestBody
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.testInlineAdditionalProperties(requestBody, securityContext);
@@ -256,6 +273,22 @@ public class FakeApi  {
     throws NotFoundException {
         return delegate.testJsonFormData(param, param2, securityContext);
     }
+    @PUT
+    @Path("/test-query-paramters")
+    
+    
+    @io.swagger.annotations.ApiOperation(value = "", notes = "To test the collection format in query parameters", response = Void.class, tags={ "fake", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Success", response = Void.class) })
+    public Response testQueryParameterCollectionFormat(@ApiParam(value = "", required = true) @QueryParam("pipe") @NotNull @Valid  List<String> pipe
+,@ApiParam(value = "", required = true) @QueryParam("ioutil") @NotNull @Valid  List<String> ioutil
+,@ApiParam(value = "", required = true) @QueryParam("http") @NotNull @Valid  List<String> http
+,@ApiParam(value = "", required = true) @QueryParam("url") @NotNull @Valid  List<String> url
+,@ApiParam(value = "", required = true) @QueryParam("context") @NotNull @Valid  List<String> context
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.testQueryParameterCollectionFormat(pipe, ioutil, http, url, context, securityContext);
+    }
     @POST
     @Path("/{petId}/uploadImageWithRequiredFile")
     @Consumes({ "multipart/form-data" })
@@ -268,7 +301,7 @@ public class FakeApi  {
     }, tags={ "pet", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
-    public Response uploadFileWithRequiredFile(@ApiParam(value = "ID of pet to update",required=true) @PathParam("petId") Long petId
+    public Response uploadFileWithRequiredFile(@ApiParam(value = "ID of pet to update", required = true) @PathParam("petId") @NotNull  Long petId
 ,
             @FormDataParam("requiredFile") InputStream requiredFileInputStream,
             @FormDataParam("requiredFile") FormDataContentDisposition requiredFileDetail

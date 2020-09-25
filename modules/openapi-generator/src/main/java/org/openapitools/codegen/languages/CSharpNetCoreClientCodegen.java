@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,7 +21,9 @@ import com.samskivert.mustache.Mustache;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
+import org.openapitools.codegen.utils.ProcessUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +57,11 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             FrameworkStrategy.NETSTANDARD_1_5,
             FrameworkStrategy.NETSTANDARD_1_6,
             FrameworkStrategy.NETSTANDARD_2_0,
-            FrameworkStrategy.NETCOREAPP_2_0
+            FrameworkStrategy.NETSTANDARD_2_1,
+            FrameworkStrategy.NETCOREAPP_2_0,
+            FrameworkStrategy.NETCOREAPP_2_1,
+            FrameworkStrategy.NETCOREAPP_3_0,
+            FrameworkStrategy.NETCOREAPP_3_1
     );
     private static FrameworkStrategy defaultFramework = FrameworkStrategy.NETSTANDARD_2_0;
     protected final Map<String, String> frameworks;
@@ -65,7 +71,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     protected String modelDocPath = "docs/";
 
     // Defines TargetFrameworkVersion in csproj files
-    protected String targetFramework = defaultFramework.dotNetFrameworkVersion;
+    protected String targetFramework = defaultFramework.name;
+    protected String testTargetFramework = defaultFramework.testTargetFramework;
 
     // Defines nuget identifiers for target framework
     protected String targetFrameworkNuget = targetFramework;
@@ -78,8 +85,38 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // By default, generated code is considered public
     protected boolean nonPublicApi = Boolean.FALSE;
 
+    protected boolean caseInsensitiveResponseHeaders = Boolean.FALSE;
+    protected String releaseNote = "Minor update";
+    protected String licenseId;
+    protected String packageTags;
+
     public CSharpNetCoreClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features
+                .includeDocumentationFeatures(DocumentationFeature.Readme)
+                .securityFeatures(EnumSet.of(
+                        SecurityFeature.OAuth2_Implicit,
+                        SecurityFeature.BasicAuth,
+                        SecurityFeature.ApiKey
+                ))
+                .excludeGlobalFeatures(
+                        GlobalFeature.XMLStructureDefinitions,
+                        GlobalFeature.Callbacks,
+                        GlobalFeature.LinkObjects,
+                        GlobalFeature.ParameterStyling
+                )
+                .includeSchemaSupportFeatures(
+                        SchemaSupportFeature.Polymorphism
+                )
+                .includeParameterFeatures(
+                        ParameterFeature.Cookie
+                )
+                .includeClientModificationFeatures(
+                        ClientModificationFeature.BasePath,
+                        ClientModificationFeature.UserAgent
+                )
+        );
 
         // mapped non-nullable type without ?
         typeMapping = new HashMap<String, String>();
@@ -92,6 +129,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("long", "long");
         typeMapping.put("double", "double");
         typeMapping.put("number", "decimal");
+        typeMapping.put("BigDecimal", "decimal");
         typeMapping.put("DateTime", "DateTime");
         typeMapping.put("date", "DateTime");
         typeMapping.put("file", "System.IO.Stream");
@@ -101,6 +139,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         typeMapping.put("object", "Object");
         typeMapping.put("UUID", "Guid");
         typeMapping.put("URI", "string");
+        typeMapping.put("AnyType", "Object");
 
         setSupportNullable(Boolean.TRUE);
         hideGenerationTimestamp = Boolean.TRUE;
@@ -133,6 +172,18 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         addOption(CodegenConstants.INTERFACE_PREFIX,
                 CodegenConstants.INTERFACE_PREFIX_DESC,
                 interfacePrefix);
+
+        addOption(CodegenConstants.LICENSE_ID,
+                CodegenConstants.LICENSE_ID_DESC,
+                this.licenseId);
+
+        addOption(CodegenConstants.RELEASE_NOTE,
+                CodegenConstants.RELEASE_NOTE_DESC,
+                this.releaseNote);
+
+        addOption(CodegenConstants.PACKAGE_TAGS,
+                CodegenConstants.PACKAGE_TAGS_DESC,
+                this.packageTags);
 
         CliOption framework = new CliOption(
                 CodegenConstants.DOTNET_FRAMEWORK,
@@ -182,6 +233,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 CodegenConstants.OPTIONAL_ASSEMBLY_INFO_DESC,
                 this.optionalAssemblyInfoFlag);
 
+        addSwitch(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES,
+                CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES_DESC,
+                this.optionalEmitDefaultValuesFlag);
+
         addSwitch(CodegenConstants.OPTIONAL_PROJECT_FILE,
                 CodegenConstants.OPTIONAL_PROJECT_FILE_DESC,
                 this.optionalProjectFileFlag);
@@ -205,6 +260,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         addSwitch(CodegenConstants.VALIDATABLE,
                 CodegenConstants.VALIDATABLE_DESC,
                 this.validatable);
+
+        addSwitch(CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS,
+                CodegenConstants.CASE_INSENSITIVE_RESPONSE_HEADERS_DESC,
+                this.caseInsensitiveResponseHeaders);
 
         regexModifiers = new HashMap<>();
         regexModifiers.put('i', "IgnoreCase");
@@ -241,7 +300,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                 }
 
                 for (final CodegenProperty property : codegenModel.readWriteVars) {
-                    if (property.defaultValue == null && property.baseName.equals(parentCodegenModel.discriminator.getPropertyName())) {
+                    if (property.defaultValue == null && parentCodegenModel.discriminator != null && property.name.equals(parentCodegenModel.discriminator.getPropertyName())) {
                         property.defaultValue = "\"" + name + "\"";
                     }
                 }
@@ -284,8 +343,6 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     public String getHelp() {
         return "Generates a C# client library (.NET Standard, .NET Core).";
     }
-
-//    private void syncStringProperty(Map<String, Object> properties, String key)
 
     public String getModelPropertyNaming() {
         return this.modelPropertyNaming;
@@ -363,6 +420,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     @Override
     public void postProcessModelProperty(CodegenModel model, CodegenProperty property) {
         postProcessPattern(property.pattern, property.vendorExtensions);
+        postProcessEmitDefaultValue(property.vendorExtensions);
+
         super.postProcessModelProperty(model, property);
     }
 
@@ -396,11 +455,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     @Override
     public void postProcessParameter(CodegenParameter parameter) {
         postProcessPattern(parameter.pattern, parameter.vendorExtensions);
+        postProcessEmitDefaultValue(parameter.vendorExtensions);
         super.postProcessParameter(parameter);
-
-        if (!parameter.required && nullableType.contains(parameter.dataType)) { //optional
-            parameter.dataType = parameter.dataType + "?";
-        }
     }
 
     /*
@@ -419,7 +475,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
                         + "/pattern/modifiers convention. " + pattern + " is not valid.");
             }
 
-            String regex = pattern.substring(1, i).replace("'", "\'");
+            String regex = pattern.substring(1, i).replace("'", "\'").replace("\"", "\"\"");
             List<String> modifiers = new ArrayList<String>();
 
             // perl requires an explicit modifier to be culture specific and .NET is the reverse.
@@ -437,6 +493,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             vendorExtensions.put("x-regex", regex);
             vendorExtensions.put("x-modifiers", modifiers);
         }
+    }
+
+    public void postProcessEmitDefaultValue(Map<String, Object> vendorExtensions) {
+        vendorExtensions.put("x-emit-default-value", optionalEmitDefaultValuesFlag);
     }
 
     @Override
@@ -458,6 +518,13 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
          *     if (additionalProperties.containsKey(prop)) convertPropertyToBooleanAndWriteBack(prop);
          */
 
+        if (additionalProperties.containsKey(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES)) {
+            setOptionalEmitDefaultValuesFlag(convertPropertyToBooleanAndWriteBack(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES));
+        } else {
+            additionalProperties.put(CodegenConstants.OPTIONAL_EMIT_DEFAULT_VALUES, optionalEmitDefaultValuesFlag);
+        }
+
+
         if (additionalProperties.containsKey(CodegenConstants.MODEL_PROPERTY_NAMING)) {
             setModelPropertyNaming((String) additionalProperties.get(CodegenConstants.MODEL_PROPERTY_NAMING));
         }
@@ -470,7 +537,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         }
         clientPackage = "Client";
 
-        String framework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.dotNetFrameworkVersion);
+        String framework = (String) additionalProperties.getOrDefault(CodegenConstants.DOTNET_FRAMEWORK, defaultFramework.name);
         FrameworkStrategy strategy = defaultFramework;
         for (FrameworkStrategy frameworkStrategy : frameworkStrategies) {
             if (framework.equals(frameworkStrategy.name)) {
@@ -481,7 +548,8 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         strategy.configureAdditionalProperties(additionalProperties);
 
         setTargetFrameworkNuget(strategy.getNugetFrameworkIdentifier());
-        setTargetFramework(strategy.dotNetFrameworkVersion);
+        setTargetFramework(strategy.name);
+        setTestTargetFramework(strategy.testTargetFramework);
 
         if (strategy != FrameworkStrategy.NETSTANDARD_2_0) {
             LOGGER.warn("If using built-in templates-RestSharp only supports netstandard 2.0 or later.");
@@ -489,7 +557,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
         setSupportsAsync(Boolean.TRUE);
         setNetStandard(strategy.isNetStandard);
-        setNetCoreProjectFileFlag(!strategy.isNetStandard);
+
+        if (!strategy.isNetStandard) {
+            setNetCoreProjectFileFlag(true);
+        }
 
         if (additionalProperties.containsKey(CodegenConstants.GENERATE_PROPERTY_CHANGED)) {
             LOGGER.warn(CodegenConstants.GENERATE_PROPERTY_CHANGED + " is not supported in the .NET Standard generator.");
@@ -505,14 +576,13 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         syncStringProperty(additionalProperties, CodegenConstants.MODEL_PACKAGE, this::setModelPackage, modelPackage);
         syncStringProperty(additionalProperties, CodegenConstants.OPTIONAL_PROJECT_GUID, this::setPackageGuid, packageGuid);
         syncStringProperty(additionalProperties, "targetFrameworkNuget", this::setTargetFrameworkNuget, this.targetFrameworkNuget);
+        syncStringProperty(additionalProperties, "testTargetFramework", this::setTestTargetFramework, this.testTargetFramework);
 
         syncBooleanProperty(additionalProperties, "netStandard", this::setNetStandard, this.netStandard);
 
         syncBooleanProperty(additionalProperties, CodegenConstants.VALIDATABLE, this::setValidatable, this.validatable);
         syncBooleanProperty(additionalProperties, CodegenConstants.SUPPORTS_ASYNC, this::setSupportsAsync, this.supportsAsync);
-        syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_PROJECT_FILE, this::setOptionalProjectFileFlag, optionalProjectFileFlag);
         syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_METHOD_ARGUMENT, this::setOptionalMethodArgumentFlag, optionalMethodArgumentFlag);
-        syncBooleanProperty(additionalProperties, CodegenConstants.OPTIONAL_ASSEMBLY_INFO, this::setOptionalAssemblyInfoFlag, optionalAssemblyInfoFlag);
         syncBooleanProperty(additionalProperties, CodegenConstants.NON_PUBLIC_API, this::setNonPublicApi, isNonPublicApi());
 
         final String testPackageName = testPackageName();
@@ -541,14 +611,16 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("OpenAPIDateConverter.mustache", clientPackageDir, "OpenAPIDateConverter.cs"));
         supportingFiles.add(new SupportingFile("ClientUtils.mustache", clientPackageDir, "ClientUtils.cs"));
         supportingFiles.add(new SupportingFile("HttpMethod.mustache", clientPackageDir, "HttpMethod.cs"));
-        supportingFiles.add(new SupportingFile("IAsynchronousClient.mustache", clientPackageDir, "IAsynchronousClient.cs"));
+        if (ProcessUtils.hasHttpSignatureMethods(openAPI)) {
+            supportingFiles.add(new SupportingFile("HTTPSigningConfiguration.mustache", clientPackageDir, "HTTPSigningConfiguration.cs"));
+        }
+        if (supportsAsync) {
+            supportingFiles.add(new SupportingFile("IAsynchronousClient.mustache", clientPackageDir, "IAsynchronousClient.cs"));
+        }
         supportingFiles.add(new SupportingFile("ISynchronousClient.mustache", clientPackageDir, "ISynchronousClient.cs"));
         supportingFiles.add(new SupportingFile("RequestOptions.mustache", clientPackageDir, "RequestOptions.cs"));
         supportingFiles.add(new SupportingFile("Multimap.mustache", clientPackageDir, "Multimap.cs"));
-
-        if (Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
-            supportingFiles.add(new SupportingFile("project.json.mustache", packageFolder + File.separator, "project.json"));
-        }
+        supportingFiles.add(new SupportingFile("RetryConfiguration.mustache", clientPackageDir, "RetryConfiguration.cs"));
 
         supportingFiles.add(new SupportingFile("IReadableConfiguration.mustache",
                 clientPackageDir, "IReadableConfiguration.cs"));
@@ -565,31 +637,14 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
-        if (optionalAssemblyInfoFlag && Boolean.FALSE.equals(this.netCoreProjectFileFlag)) {
-            supportingFiles.add(new SupportingFile("AssemblyInfo.mustache", packageFolder + File.separator + "Properties", "AssemblyInfo.cs"));
+        supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
+        supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
+
+        if (Boolean.FALSE.equals(excludeTests.get())) {
+            supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
         }
 
-        if (optionalProjectFileFlag) {
-            supportingFiles.add(new SupportingFile("Solution.mustache", "", packageName + ".sln"));
-
-            if (Boolean.TRUE.equals(this.netCoreProjectFileFlag)) {
-                supportingFiles.add(new SupportingFile("netcore_project.mustache", packageFolder, packageName + ".csproj"));
-            } else {
-                supportingFiles.add(new SupportingFile("Project.mustache", packageFolder, packageName + ".csproj"));
-                if (Boolean.FALSE.equals(this.netStandard)) {
-                    supportingFiles.add(new SupportingFile("nuspec.mustache", packageFolder, packageName + ".nuspec"));
-                }
-            }
-
-            if (Boolean.FALSE.equals(excludeTests.get())) {
-                // NOTE: This exists here rather than previous excludeTests block because the test project is considered an optional project file.
-                if (Boolean.TRUE.equals(this.netCoreProjectFileFlag)) {
-                    supportingFiles.add(new SupportingFile("netcore_testproject.mustache", testPackageFolder, testPackageName + ".csproj"));
-                } else {
-                    supportingFiles.add(new SupportingFile("TestProject.mustache", testPackageFolder, testPackageName + ".csproj"));
-                }
-            }
-        }
+        supportingFiles.add(new SupportingFile("appveyor.mustache", "", "appveyor.yml"));
 
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
@@ -601,6 +656,10 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
 
     public void setOptionalAssemblyInfoFlag(boolean flag) {
         this.optionalAssemblyInfoFlag = flag;
+    }
+
+    public void setOptionalEmitDefaultValuesFlag(boolean flag){
+        this.optionalEmitDefaultValuesFlag = flag;
     }
 
     public void setOptionalProjectFileFlag(boolean flag) {
@@ -632,12 +691,32 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
         LOGGER.info("Generating code for .NET Framework " + this.targetFramework);
     }
 
+    public void setTestTargetFramework(String testTargetFramework) {
+        this.testTargetFramework = testTargetFramework;
+    }
+
     public void setTargetFrameworkNuget(String targetFrameworkNuget) {
         this.targetFrameworkNuget = targetFrameworkNuget;
     }
 
     public void setValidatable(boolean validatable) {
         this.validatable = validatable;
+    }
+
+    public void setCaseInsensitiveResponseHeaders(final Boolean caseInsensitiveResponseHeaders) {
+        this.caseInsensitiveResponseHeaders = caseInsensitiveResponseHeaders;
+    }
+
+    public void setLicenseId(String licenseId) {
+        this.licenseId = licenseId;
+    }
+
+    public void setReleaseNote(String releaseNote) {
+        this.releaseNote = releaseNote;
+    }
+
+    public void setPackageTags(String packageTags) {
+        this.packageTags = packageTags;
     }
 
     @Override
@@ -768,39 +847,46 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     // https://docs.microsoft.com/en-us/dotnet/standard/net-standard
     @SuppressWarnings("Duplicates")
     private static abstract class FrameworkStrategy {
-        static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3 compatible", "v4.6.1") {
+        static FrameworkStrategy NETSTANDARD_1_3 = new FrameworkStrategy("netstandard1.3", ".NET Standard 1.3 compatible", "netcoreapp2.0") {
         };
-        static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4 compatible", "v4.6.1") {
+        static FrameworkStrategy NETSTANDARD_1_4 = new FrameworkStrategy("netstandard1.4", ".NET Standard 1.4 compatible", "netcoreapp2.0") {
         };
-        static FrameworkStrategy NETSTANDARD_1_5 = new FrameworkStrategy("netstandard1.5", ".NET Standard 1.5 compatible", "v4.6.1") {
+        static FrameworkStrategy NETSTANDARD_1_5 = new FrameworkStrategy("netstandard1.5", ".NET Standard 1.5 compatible", "netcoreapp2.0") {
         };
-        static FrameworkStrategy NETSTANDARD_1_6 = new FrameworkStrategy("netstandard1.6", ".NET Standard 1.6 compatible", "v4.6.1") {
+        static FrameworkStrategy NETSTANDARD_1_6 = new FrameworkStrategy("netstandard1.6", ".NET Standard 1.6 compatible", "netcoreapp2.0") {
         };
-        static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0 compatible", "v4.6.1") {
+        static FrameworkStrategy NETSTANDARD_2_0 = new FrameworkStrategy("netstandard2.0", ".NET Standard 2.0 compatible", "netcoreapp2.0") {
         };
-        static FrameworkStrategy NETCOREAPP_2_0 = new FrameworkStrategy("netcoreapp2.0", ".NET Core 2.0 compatible", "v4.6.1", Boolean.FALSE) {
-
+        static FrameworkStrategy NETSTANDARD_2_1 = new FrameworkStrategy("netstandard2.1", ".NET Standard 2.1 compatible", "netcoreapp3.0") {
+        };
+        static FrameworkStrategy NETCOREAPP_2_0 = new FrameworkStrategy("netcoreapp2.0", ".NET Core 2.0 compatible", "netcoreapp2.0", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NETCOREAPP_2_1 = new FrameworkStrategy("netcoreapp2.1", ".NET Core 2.1 compatible", "netcoreapp2.1", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NETCOREAPP_3_0 = new FrameworkStrategy("netcoreapp3.0", ".NET Core 3.0 compatible", "netcoreapp3.0", Boolean.FALSE) {
+        };
+        static FrameworkStrategy NETCOREAPP_3_1 = new FrameworkStrategy("netcoreapp3.1", ".NET Core 3.1 compatible", "netcoreapp3.1", Boolean.FALSE) {
         };
         protected String name;
         protected String description;
-        protected String dotNetFrameworkVersion;
+        protected String testTargetFramework;
         private Boolean isNetStandard = Boolean.TRUE;
 
-        FrameworkStrategy(String name, String description, String dotNetFrameworkVersion) {
+        FrameworkStrategy(String name, String description, String testTargetFramework) {
             this.name = name;
             this.description = description;
-            this.dotNetFrameworkVersion = dotNetFrameworkVersion;
+            this.testTargetFramework = testTargetFramework;
         }
 
-        FrameworkStrategy(String name, String description, String dotNetFrameworkVersion, Boolean isNetStandard) {
+        FrameworkStrategy(String name, String description, String testTargetFramework, Boolean isNetStandard) {
             this.name = name;
             this.description = description;
-            this.dotNetFrameworkVersion = dotNetFrameworkVersion;
+            this.testTargetFramework = testTargetFramework;
             this.isNetStandard = isNetStandard;
         }
 
         protected void configureAdditionalProperties(final Map<String, Object> properties) {
-            properties.putIfAbsent(CodegenConstants.DOTNET_FRAMEWORK, this.dotNetFrameworkVersion);
+            properties.putIfAbsent(CodegenConstants.DOTNET_FRAMEWORK, this.name);
 
             // not intended to be user-settable
             properties.put(TARGET_FRAMEWORK_IDENTIFIER, this.getTargetFrameworkIdentifier());
@@ -838,7 +924,7 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
     @Override
     public String toInstantiationType(Schema schema) {
         if (ModelUtils.isMapSchema(schema)) {
-            Schema additionalProperties = ModelUtils.getAdditionalProperties(schema);
+            Schema additionalProperties = getAdditionalProperties(schema);
             String inner = getSchemaType(additionalProperties);
             if (ModelUtils.isMapSchema(additionalProperties)) {
                 inner = toInstantiationType(additionalProperties);

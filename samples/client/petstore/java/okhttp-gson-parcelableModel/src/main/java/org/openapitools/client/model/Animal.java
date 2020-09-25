@@ -23,18 +23,20 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import org.openapitools.client.model.BigCat;
+import org.openapitools.client.model.Cat;
+import org.openapitools.client.model.Dog;
 import android.os.Parcelable;
 import android.os.Parcel;
 
 /**
  * Animal
  */
-
-
-public class Animal implements Parcelable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class Animal {
   public static final String SERIALIZED_NAME_CLASS_NAME = "className";
   @SerializedName(SERIALIZED_NAME_CLASS_NAME)
-  private String className;
+  protected String className;
 
   public static final String SERIALIZED_NAME_COLOR = "color";
   @SerializedName(SERIALIZED_NAME_COLOR)
@@ -43,7 +45,9 @@ public class Animal implements Parcelable {
   public Animal() {
     this.className = this.getClass().getSimpleName();
   }
+
   public Animal className(String className) {
+    
     this.className = className;
     return this;
   }
@@ -53,15 +57,19 @@ public class Animal implements Parcelable {
    * @return className
   **/
   @ApiModelProperty(required = true, value = "")
+
   public String getClassName() {
     return className;
   }
+
 
   public void setClassName(String className) {
     this.className = className;
   }
 
+
   public Animal color(String color) {
+    
     this.color = color;
     return this;
   }
@@ -72,9 +80,11 @@ public class Animal implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getColor() {
     return color;
   }
+
 
   public void setColor(String color) {
     this.color = color;
@@ -82,7 +92,7 @@ public class Animal implements Parcelable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -114,7 +124,7 @@ public class Animal implements Parcelable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

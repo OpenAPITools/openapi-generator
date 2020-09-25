@@ -1,0 +1,141 @@
+import { exists, mapValues } from '../runtime';
+{{#hasImports}}
+import {
+    {{#imports}}
+    {{{.}}},
+    {{.}}FromJSON,
+    {{.}}ToJSON,
+    {{/imports}}
+} from './';
+
+{{/hasImports}}
+/**
+ * {{{description}}}
+ * @export
+ * @interface {{classname}}
+ */
+export interface {{classname}} {{#allParents.0}}extends{{#allParents}} {{{.}}}{{^-last}},{{/-last}}{{/allParents}}{{/allParents.0}} {
+{{#additionalPropertiesType}}
+    [key: string]: {{{additionalPropertiesType}}}{{#hasVars}} | any{{/hasVars}};
+{{/additionalPropertiesType}}
+{{#vars}}
+    /**
+     * {{{description}}}
+     * @type {{=<% %>=}}{<%&datatype%>}<%={{ }}=%>
+     * @memberof {{classname}}
+     */
+    {{#isReadOnly}}readonly {{/isReadOnly}}{{name}}{{^required}}?{{/required}}: {{#isEnum}}{{{datatypeWithEnum}}}{{/isEnum}}{{^isEnum}}{{{datatype}}}{{/isEnum}};
+{{/vars}}
+}
+
+export function {{classname}}FromJSON(json: any): {{classname}} {
+    {{#hasVars}}
+    return {
+        {{#allParents}}
+        ...{{.}}FromJSON(json),
+        {{/allParents}}
+        {{#additionalPropertiesType}}
+            ...json,
+        {{/additionalPropertiesType}}
+        {{#vars}}
+        {{#isPrimitiveType}}
+        {{#isDate}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}new Date(json['{{baseName}}']),
+        {{/isDate}}
+        {{#isDateTime}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}new Date(json['{{baseName}}']),
+        {{/isDateTime}}
+        {{^isDate}}
+        {{^isDateTime}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}json['{{baseName}}'],
+        {{/isDateTime}}
+        {{/isDate}}
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{#isListContainer}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}(json['{{baseName}}'] as Array<any>).map({{#items}}{{datatype}}{{/items}}FromJSON),
+        {{/isListContainer}}
+        {{#isMapContainer}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}mapValues(json['{{baseName}}'], {{#items}}{{datatype}}{{/items}}FromJSON),
+        {{/isMapContainer}}
+        {{^isListContainer}}
+        {{^isMapContainer}}
+        {{^isFreeFormObject}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}{{datatype}}FromJSON(json['{{baseName}}']),
+        {{/isFreeFormObject}}
+        {{#isFreeFormObject}}
+        '{{name}}': {{^required}}!exists(json, '{{baseName}}') ? undefined : {{/required}}json['{{baseName}}'],
+        {{/isFreeFormObject}}
+        {{/isMapContainer}}
+        {{/isListContainer}}
+        {{/isPrimitiveType}}
+        {{/vars}}
+    };
+    {{/hasVars}}
+    {{^hasVars}}
+    return json;
+    {{/hasVars}}
+}
+
+export function {{classname}}ToJSON(value?: {{classname}}): any {
+    {{#hasVars}}
+    if (value === undefined) {
+        return undefined;
+    }
+    return {
+        {{#allParents}}
+        ...{{.}}ToJSON(value),
+        {{/allParents}}
+        {{#additionalPropertiesType}}
+            ...value,
+        {{/additionalPropertiesType}}
+        {{#vars}}
+        {{^isReadOnly}}
+        {{#isPrimitiveType}}
+        '{{baseName}}': {{#isDate}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString().substr(0,10){{/isDate}}{{#isDateTime}}{{^required}}value.{{name}} === undefined ? undefined : {{/required}}value.{{name}}.toISOString(){{/isDateTime}}{{^isDate}}{{^isDateTime}}value.{{name}}{{/isDateTime}}{{/isDate}},
+        {{/isPrimitiveType}}
+        {{^isPrimitiveType}}
+        {{#isListContainer}}
+        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}(value.{{name}} as Array<any>).map({{#items}}{{datatype}}{{/items}}ToJSON),
+        {{/isListContainer}}
+        {{#isMapContainer}}
+        '{{baseName}}': {{^required}}value.{{name}} === undefined ? undefined : {{/required}}mapValues(value.{{name}}, {{#items}}{{datatype}}{{/items}}ToJSON),
+        {{/isMapContainer}}
+        {{^isListContainer}}
+        {{^isMapContainer}}
+        {{^isFreeFormObject}}
+        '{{baseName}}': {{datatype}}ToJSON(value.{{name}}),
+        {{/isFreeFormObject}}
+        {{#isFreeFormObject}}
+        '{{baseName}}': value.{{name}},
+        {{/isFreeFormObject}}
+        {{/isMapContainer}}
+        {{/isListContainer}}        
+        {{/isPrimitiveType}}
+        {{/isReadOnly}}
+        {{/vars}}
+    };
+    {{/hasVars}}
+    {{^hasVars}}
+    return value;
+    {{/hasVars}}
+}
+
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+/**
+* @export
+* @enum {string}
+*/
+export enum {{classname}}{{enumName}} {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{name}}} = {{{value}}}{{^-last}},{{/-last}}
+    {{/enumVars}}
+{{/allowableValues}}
+}
+{{/isEnum}}
+{{/vars}}
+
+{{/hasEnums}}

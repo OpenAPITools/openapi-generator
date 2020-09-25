@@ -14,7 +14,7 @@ type t = {
     (* Order Status *)
     status: Enums.status option [@default None];
     complete: bool option [@default None];
-} [@@deriving yojson, show ];;
+} [@@deriving yojson { strict = false }, show ];;
 
 (** An order for a pets from the pet store *)
 let create () : t = {

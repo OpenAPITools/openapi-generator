@@ -11,19 +11,19 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 
-import { map } from "rxjs/operators";
-import IHttpClient from "../IHttpClient";
-import { inject, injectable } from "inversify";
-import { IAPIConfiguration } from "../IAPIConfiguration";
-import { Headers } from "../Headers";
-import HttpResponse from "../HttpResponse";
+import { map } from 'rxjs/operators';
+import IHttpClient from '../IHttpClient';
+import { inject, injectable } from 'inversify';
+import { IAPIConfiguration } from '../IAPIConfiguration';
+import { Headers } from '../Headers';
+import HttpResponse from '../HttpResponse';
 
-import { ApiResponse } from "../model/apiResponse";
-import { Pet } from "../model/pet";
+import { ApiResponse } from '../model/apiResponse';
+import { Pet } from '../model/pet';
 
-import { COLLECTION_FORMATS }  from "../variables";
+import { COLLECTION_FORMATS }  from '../variables';
 
 
 
@@ -31,8 +31,8 @@ import { COLLECTION_FORMATS }  from "../variables";
 export class PetService {
     private basePath: string = 'http://petstore.swagger.io/v2';
 
-    constructor(@inject("IApiHttpClient") private httpClient: IHttpClient,
-        @inject("IAPIConfiguration") private APIConfiguration: IAPIConfiguration ) {
+    constructor(@inject('IApiHttpClient') private httpClient: IHttpClient,
+        @inject('IAPIConfiguration') private APIConfiguration: IAPIConfiguration ) {
         if(this.APIConfiguration.basePath)
             this.basePath = this.APIConfiguration.basePath;
     }
@@ -46,7 +46,7 @@ export class PetService {
     public addPet(body: Pet, observe?: 'body', headers?: Headers): Observable<any>;
     public addPet(body: Pet, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
     public addPet(body: Pet, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!body){
+        if (body === null || body === undefined){
             throw new Error('Required parameter body was null or undefined when calling addPet.');
         }
 
@@ -61,9 +61,9 @@ export class PetService {
         headers['Content-Type'] = 'application/json';
 
         const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/pet`, body , headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <any>(httpResponse.response))
                );
         }
         return response;
@@ -80,7 +80,7 @@ export class PetService {
     public deletePet(petId: number, apiKey?: string, observe?: 'body', headers?: Headers): Observable<any>;
     public deletePet(petId: number, apiKey?: string, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
     public deletePet(petId: number, apiKey?: string, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!petId){
+        if (petId === null || petId === undefined){
             throw new Error('Required parameter petId was null or undefined when calling deletePet.');
         }
 
@@ -98,9 +98,9 @@ export class PetService {
         headers['Accept'] = 'application/json';
 
         const response: Observable<HttpResponse<any>> = this.httpClient.delete(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <any>(httpResponse.response))
                );
         }
         return response;
@@ -116,13 +116,13 @@ export class PetService {
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, observe?: 'body', headers?: Headers): Observable<Array<Pet>>;
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, observe?: 'response', headers?: Headers): Observable<HttpResponse<Array<Pet>>>;
     public findPetsByStatus(status: Array<'available' | 'pending' | 'sold'>, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!status){
+        if (status === null || status === undefined){
             throw new Error('Required parameter status was null or undefined when calling findPetsByStatus.');
         }
 
         let queryParameters: string[] = [];
         if (status) {
-            queryParameters.push("status="+encodeURIComponent(status.join(COLLECTION_FORMATS['csv'])));
+            queryParameters.push('status='+encodeURIComponent(status.join(COLLECTION_FORMATS['csv'])));
         }
 
         // authentication (petstore_auth) required
@@ -132,12 +132,12 @@ export class PetService {
                 : this.APIConfiguration.accessToken;
             headers['Authorization'] = 'Bearer ' + accessToken;
         }
-        headers['Accept'] = 'application/xml';
+        headers['Accept'] = 'application/xml, application/json';
 
         const response: Observable<HttpResponse<Array<Pet>>> = this.httpClient.get(`${this.basePath}/pet/findByStatus?${queryParameters.join('&')}`, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <Array<Pet>>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <Array<Pet>>(httpResponse.response))
                );
         }
         return response;
@@ -153,13 +153,13 @@ export class PetService {
     public findPetsByTags(tags: Array<string>, observe?: 'body', headers?: Headers): Observable<Array<Pet>>;
     public findPetsByTags(tags: Array<string>, observe?: 'response', headers?: Headers): Observable<HttpResponse<Array<Pet>>>;
     public findPetsByTags(tags: Array<string>, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!tags){
+        if (tags === null || tags === undefined){
             throw new Error('Required parameter tags was null or undefined when calling findPetsByTags.');
         }
 
         let queryParameters: string[] = [];
         if (tags) {
-            queryParameters.push("tags="+encodeURIComponent(tags.join(COLLECTION_FORMATS['csv'])));
+            queryParameters.push('tags='+encodeURIComponent(tags.join(COLLECTION_FORMATS['csv'])));
         }
 
         // authentication (petstore_auth) required
@@ -169,12 +169,12 @@ export class PetService {
                 : this.APIConfiguration.accessToken;
             headers['Authorization'] = 'Bearer ' + accessToken;
         }
-        headers['Accept'] = 'application/xml';
+        headers['Accept'] = 'application/xml, application/json';
 
         const response: Observable<HttpResponse<Array<Pet>>> = this.httpClient.get(`${this.basePath}/pet/findByTags?${queryParameters.join('&')}`, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <Array<Pet>>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <Array<Pet>>(httpResponse.response))
                );
         }
         return response;
@@ -190,20 +190,20 @@ export class PetService {
     public getPetById(petId: number, observe?: 'body', headers?: Headers): Observable<Pet>;
     public getPetById(petId: number, observe?: 'response', headers?: Headers): Observable<HttpResponse<Pet>>;
     public getPetById(petId: number, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!petId){
+        if (petId === null || petId === undefined){
             throw new Error('Required parameter petId was null or undefined when calling getPetById.');
         }
 
         // authentication (api_key) required
-        if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys["api_key"]) {
-            headers['api_key'] = this.APIConfiguration.apiKeys["api_key"];
+        if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys['api_key']) {
+            headers['api_key'] = this.APIConfiguration.apiKeys['api_key'];
         }
-        headers['Accept'] = 'application/xml';
+        headers['Accept'] = 'application/xml, application/json';
 
         const response: Observable<HttpResponse<Pet>> = this.httpClient.get(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <Pet>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <Pet>(httpResponse.response))
                );
         }
         return response;
@@ -219,7 +219,7 @@ export class PetService {
     public updatePet(body: Pet, observe?: 'body', headers?: Headers): Observable<any>;
     public updatePet(body: Pet, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
     public updatePet(body: Pet, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!body){
+        if (body === null || body === undefined){
             throw new Error('Required parameter body was null or undefined when calling updatePet.');
         }
 
@@ -234,9 +234,9 @@ export class PetService {
         headers['Content-Type'] = 'application/json';
 
         const response: Observable<HttpResponse<any>> = this.httpClient.put(`${this.basePath}/pet`, body , headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <any>(httpResponse.response))
                );
         }
         return response;
@@ -254,7 +254,7 @@ export class PetService {
     public updatePetWithForm(petId: number, name?: string, status?: string, observe?: 'body', headers?: Headers): Observable<any>;
     public updatePetWithForm(petId: number, name?: string, status?: string, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
     public updatePetWithForm(petId: number, name?: string, status?: string, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!petId){
+        if (petId === null || petId === undefined){
             throw new Error('Required parameter petId was null or undefined when calling updatePetWithForm.');
         }
 
@@ -276,10 +276,10 @@ export class PetService {
             formData.append('status', <any>status);
         }
 
-        const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, body, headers);
-        if (observe == 'body') {
+        const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/pet/${encodeURIComponent(String(petId))}`, formData, headers);
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <any>(httpResponse.response))
                );
         }
         return response;
@@ -297,7 +297,7 @@ export class PetService {
     public uploadFile(petId: number, additionalMetadata?: string, file?: Blob, observe?: 'body', headers?: Headers): Observable<ApiResponse>;
     public uploadFile(petId: number, additionalMetadata?: string, file?: Blob, observe?: 'response', headers?: Headers): Observable<HttpResponse<ApiResponse>>;
     public uploadFile(petId: number, additionalMetadata?: string, file?: Blob, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!petId){
+        if (petId === null || petId === undefined){
             throw new Error('Required parameter petId was null or undefined when calling uploadFile.');
         }
 
@@ -311,7 +311,7 @@ export class PetService {
         headers['Accept'] = 'application/json';
 
         let formData: FormData = new FormData();
-        headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+        headers['Content-Type'] = 'multipart/form-data';
         if (additionalMetadata !== undefined) {
             formData.append('additionalMetadata', <any>additionalMetadata);
         }
@@ -319,10 +319,10 @@ export class PetService {
             formData.append('file', <any>file);
         }
 
-        const response: Observable<HttpResponse<ApiResponse>> = this.httpClient.post(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`, body, headers);
-        if (observe == 'body') {
+        const response: Observable<HttpResponse<ApiResponse>> = this.httpClient.post(`${this.basePath}/pet/${encodeURIComponent(String(petId))}/uploadImage`, formData, headers);
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <ApiResponse>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <ApiResponse>(httpResponse.response))
                );
         }
         return response;

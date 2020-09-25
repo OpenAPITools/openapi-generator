@@ -23,11 +23,14 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * ModelApiResponse
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class ModelApiResponse {
   public static final String SERIALIZED_NAME_CODE = "code";
   @SerializedName(SERIALIZED_NAME_CODE)
@@ -41,7 +44,9 @@ public class ModelApiResponse {
   @SerializedName(SERIALIZED_NAME_MESSAGE)
   private String message;
 
+
   public ModelApiResponse code(Integer code) {
+    
     this.code = code;
     return this;
   }
@@ -52,15 +57,19 @@ public class ModelApiResponse {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Integer getCode() {
     return code;
   }
+
 
   public void setCode(Integer code) {
     this.code = code;
   }
 
+
   public ModelApiResponse type(String type) {
+    
     this.type = type;
     return this;
   }
@@ -71,15 +80,19 @@ public class ModelApiResponse {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getType() {
     return type;
   }
+
 
   public void setType(String type) {
     this.type = type;
   }
 
+
   public ModelApiResponse message(String message) {
+    
     this.message = message;
     return this;
   }
@@ -90,9 +103,11 @@ public class ModelApiResponse {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getMessage() {
     return message;
   }
+
 
   public void setMessage(String message) {
     this.message = message;
@@ -100,7 +115,7 @@ public class ModelApiResponse {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -134,7 +149,7 @@ public class ModelApiResponse {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

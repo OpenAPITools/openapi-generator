@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.openapitools.model.OuterEnum;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -27,7 +28,14 @@ import javax.validation.Valid;
 /**
  * EnumTest
  */
-
+@JsonPropertyOrder({
+  EnumTest.JSON_PROPERTY_ENUM_STRING,
+  EnumTest.JSON_PROPERTY_ENUM_STRING_REQUIRED,
+  EnumTest.JSON_PROPERTY_ENUM_INTEGER,
+  EnumTest.JSON_PROPERTY_ENUM_NUMBER,
+  EnumTest.JSON_PROPERTY_OUTER_ENUM
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class EnumTest  implements Serializable {
   /**
    * Gets or Sets enumString
@@ -62,7 +70,8 @@ public class EnumTest  implements Serializable {
     }
   }
 
-  @JsonProperty("enum_string")
+  public static final String JSON_PROPERTY_ENUM_STRING = "enum_string";
+  @JsonProperty(JSON_PROPERTY_ENUM_STRING)
   private EnumStringEnum enumString;
 
   /**
@@ -98,7 +107,8 @@ public class EnumTest  implements Serializable {
     }
   }
 
-  @JsonProperty("enum_string_required")
+  public static final String JSON_PROPERTY_ENUM_STRING_REQUIRED = "enum_string_required";
+  @JsonProperty(JSON_PROPERTY_ENUM_STRING_REQUIRED)
   private EnumStringRequiredEnum enumStringRequired;
 
   /**
@@ -132,7 +142,8 @@ public class EnumTest  implements Serializable {
     }
   }
 
-  @JsonProperty("enum_integer")
+  public static final String JSON_PROPERTY_ENUM_INTEGER = "enum_integer";
+  @JsonProperty(JSON_PROPERTY_ENUM_INTEGER)
   private EnumIntegerEnum enumInteger;
 
   /**
@@ -166,10 +177,12 @@ public class EnumTest  implements Serializable {
     }
   }
 
-  @JsonProperty("enum_number")
+  public static final String JSON_PROPERTY_ENUM_NUMBER = "enum_number";
+  @JsonProperty(JSON_PROPERTY_ENUM_NUMBER)
   private EnumNumberEnum enumNumber;
 
-  @JsonProperty("outerEnum")
+  public static final String JSON_PROPERTY_OUTER_ENUM = "outerEnum";
+  @JsonProperty(JSON_PROPERTY_OUTER_ENUM)
   private OuterEnum outerEnum;
 
   public EnumTest enumString(EnumStringEnum enumString) {
@@ -274,7 +287,7 @@ public class EnumTest  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -313,7 +326,7 @@ public class EnumTest  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

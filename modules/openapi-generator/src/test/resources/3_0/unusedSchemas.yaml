@@ -352,6 +352,17 @@ paths:
       responses:
         '200':
           description: OK
+  /some/p30:
+    post:
+      operationId: op27
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Parent30"
+      responses:
+        '200':
+          description: OK
 components:
   schemas:
     UnusedObj1:
@@ -641,6 +652,56 @@ components:
           type: string
         r2:
           type: string
+    Parent29:
+      type: object
+      required:
+      - childType
+      properties:
+        childType:
+          type: string
+      discriminator:
+        propertyName: childType
+    AChild29:
+      allOf:
+      - $ref: '#/components/schemas/Parent29'
+      - type: object
+        properties:
+          name:
+            type: string
+    BChild29:
+      allOf:
+      - $ref: '#/components/schemas/Parent29'
+      - type: object
+        properties:
+          firstName:
+            type: string
+          lastName:
+            type: string
+    Parent30:
+      type: object
+      required:
+      - childType
+      properties:
+        childType:
+          type: string
+      discriminator:
+        propertyName: childType
+    AChild30:
+      allOf:
+      - $ref: '#/components/schemas/Parent30'
+      - type: object
+        properties:
+          name:
+            type: string
+    BChild30:
+      allOf:
+      - $ref: '#/components/schemas/Parent30'
+      - type: object
+        properties:
+          firstName:
+            type: string
+          lastName:
+            type: string
     SomeObjShared:
       type: object
       properties:

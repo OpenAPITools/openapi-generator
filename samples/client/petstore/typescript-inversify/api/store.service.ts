@@ -11,18 +11,18 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 
-import { map } from "rxjs/operators";
-import IHttpClient from "../IHttpClient";
-import { inject, injectable } from "inversify";
-import { IAPIConfiguration } from "../IAPIConfiguration";
-import { Headers } from "../Headers";
-import HttpResponse from "../HttpResponse";
+import { map } from 'rxjs/operators';
+import IHttpClient from '../IHttpClient';
+import { inject, injectable } from 'inversify';
+import { IAPIConfiguration } from '../IAPIConfiguration';
+import { Headers } from '../Headers';
+import HttpResponse from '../HttpResponse';
 
-import { Order } from "../model/order";
+import { Order } from '../model/order';
 
-import { COLLECTION_FORMATS }  from "../variables";
+import { COLLECTION_FORMATS }  from '../variables';
 
 
 
@@ -30,8 +30,8 @@ import { COLLECTION_FORMATS }  from "../variables";
 export class StoreService {
     private basePath: string = 'http://petstore.swagger.io/v2';
 
-    constructor(@inject("IApiHttpClient") private httpClient: IHttpClient,
-        @inject("IAPIConfiguration") private APIConfiguration: IAPIConfiguration ) {
+    constructor(@inject('IApiHttpClient') private httpClient: IHttpClient,
+        @inject('IAPIConfiguration') private APIConfiguration: IAPIConfiguration ) {
         if(this.APIConfiguration.basePath)
             this.basePath = this.APIConfiguration.basePath;
     }
@@ -45,16 +45,16 @@ export class StoreService {
     public deleteOrder(orderId: string, observe?: 'body', headers?: Headers): Observable<any>;
     public deleteOrder(orderId: string, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
     public deleteOrder(orderId: string, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!orderId){
+        if (orderId === null || orderId === undefined){
             throw new Error('Required parameter orderId was null or undefined when calling deleteOrder.');
         }
 
         headers['Accept'] = 'application/json';
 
         const response: Observable<HttpResponse<any>> = this.httpClient.delete(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <any>(httpResponse.response))
                );
         }
         return response;
@@ -70,15 +70,15 @@ export class StoreService {
     public getInventory(observe?: 'response', headers?: Headers): Observable<HttpResponse<{ [key: string]: number; }>>;
     public getInventory(observe: any = 'body', headers: Headers = {}): Observable<any> {
         // authentication (api_key) required
-        if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys["api_key"]) {
-            headers['api_key'] = this.APIConfiguration.apiKeys["api_key"];
+        if (this.APIConfiguration.apiKeys && this.APIConfiguration.apiKeys['api_key']) {
+            headers['api_key'] = this.APIConfiguration.apiKeys['api_key'];
         }
         headers['Accept'] = 'application/json';
 
         const response: Observable<HttpResponse<{ [key: string]: number; }>> = this.httpClient.get(`${this.basePath}/store/inventory`, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <{ [key: string]: number; }>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <{ [key: string]: number; }>(httpResponse.response))
                );
         }
         return response;
@@ -94,16 +94,16 @@ export class StoreService {
     public getOrderById(orderId: number, observe?: 'body', headers?: Headers): Observable<Order>;
     public getOrderById(orderId: number, observe?: 'response', headers?: Headers): Observable<HttpResponse<Order>>;
     public getOrderById(orderId: number, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!orderId){
+        if (orderId === null || orderId === undefined){
             throw new Error('Required parameter orderId was null or undefined when calling getOrderById.');
         }
 
-        headers['Accept'] = 'application/xml';
+        headers['Accept'] = 'application/xml, application/json';
 
         const response: Observable<HttpResponse<Order>> = this.httpClient.get(`${this.basePath}/store/order/${encodeURIComponent(String(orderId))}`, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <Order>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <Order>(httpResponse.response))
                );
         }
         return response;
@@ -119,17 +119,17 @@ export class StoreService {
     public placeOrder(body: Order, observe?: 'body', headers?: Headers): Observable<Order>;
     public placeOrder(body: Order, observe?: 'response', headers?: Headers): Observable<HttpResponse<Order>>;
     public placeOrder(body: Order, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!body){
+        if (body === null || body === undefined){
             throw new Error('Required parameter body was null or undefined when calling placeOrder.');
         }
 
-        headers['Accept'] = 'application/xml';
+        headers['Accept'] = 'application/xml, application/json';
         headers['Content-Type'] = 'application/json';
 
         const response: Observable<HttpResponse<Order>> = this.httpClient.post(`${this.basePath}/store/order`, body , headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <Order>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <Order>(httpResponse.response))
                );
         }
         return response;

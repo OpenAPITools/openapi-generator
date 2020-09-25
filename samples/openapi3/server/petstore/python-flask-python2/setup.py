@@ -14,10 +14,10 @@ VERSION = "1.0.0"
 # http://pypi.python.org/pypi/setuptools
 
 REQUIRES = [
-    "connexion==2.0.0",
-    "swagger-ui-bundle==0.0.2",
-    "python_dateutil==2.6.0",
-    "typing==3.5.2.2"
+    "connexion>=2.0.2",
+    "swagger-ui-bundle>=0.0.2",
+    "python_dateutil>=2.6.0",
+    "typing>=3.5.2.2"
 ]
 
 setup(

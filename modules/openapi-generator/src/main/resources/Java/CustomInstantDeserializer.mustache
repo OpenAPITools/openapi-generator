@@ -5,12 +5,12 @@ import com.fasterxml.jackson.core.JsonTokenId;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.datatype.threetenbp.DateTimeUtils;
 import com.fasterxml.jackson.datatype.threetenbp.DecimalUtils;
 import com.fasterxml.jackson.datatype.threetenbp.deser.ThreeTenDateTimeDeserializerBase;
 import com.fasterxml.jackson.datatype.threetenbp.function.BiFunction;
 import com.fasterxml.jackson.datatype.threetenbp.function.Function;
 import org.threeten.bp.DateTimeException;
+import org.threeten.bp.DateTimeUtils;
 import org.threeten.bp.Instant;
 import org.threeten.bp.OffsetDateTime;
 import org.threeten.bp.ZoneId;
@@ -205,7 +205,7 @@ public class CustomInstantDeserializer<T extends Temporal>
 
   private ZoneId getZone(DeserializationContext context) {
     // Instants are always in UTC, so don't waste compute cycles
-    return (_valueClass == Instant.class) ? null : DateTimeUtils.timeZoneToZoneId(context.getTimeZone());
+    return (_valueClass == Instant.class) ? null : DateTimeUtils.toZoneId(context.getTimeZone());
   }
 
   private static class FromIntegerArguments {

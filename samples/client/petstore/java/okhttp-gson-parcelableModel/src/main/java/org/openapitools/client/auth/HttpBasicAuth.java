@@ -43,7 +43,7 @@ public class HttpBasicAuth implements Authentication {
     }
 
     @Override
-    public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams) {
+    public void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams) {
         if (username == null && password == null) {
             return;
         }

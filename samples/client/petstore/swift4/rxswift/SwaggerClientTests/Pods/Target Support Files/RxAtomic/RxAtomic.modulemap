@@ -1,6 +1,0 @@
-framework module RxAtomic {
-  umbrella header "RxAtomic-umbrella.h"
-
-  export *
-  module * { export * }
-}

@@ -12,11 +12,12 @@ Method | HTTP request | Description
 [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
 
 
 <a name="createXmlItem"></a>
@@ -355,9 +356,9 @@ No authorization required
 # **testEndpointParameters**
 > testEndpointParameters(number, _double, patternWithoutDelimiter, _byte, integer, int32, int64, _float, string, binary, date, dateTime, password, paramCallback)
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트 
+Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
 ### Example
 ```java
@@ -586,5 +587,55 @@ No authorization required
 ### HTTP request headers
 
  - **Content-Type**: application/x-www-form-urlencoded
+ - **Accept**: Not defined
+
+<a name="testQueryParameterCollectionFormat"></a>
+# **testQueryParameterCollectionFormat**
+> testQueryParameterCollectionFormat(pipe, ioutil, http, url, context)
+
+
+
+To test the collection format in query parameters
+
+### Example
+```java
+// Import classes:
+//import org.openapitools.client.ApiClient;
+//import io.restassured.builder.RequestSpecBuilder;
+//import io.restassured.filter.log.ErrorLoggingFilter;
+
+FakeApi api = ApiClient.api(ApiClient.Config.apiConfig().withReqSpecSupplier(
+                () -> new RequestSpecBuilder()
+                        .setBaseUri("http://petstore.swagger.io:80/v2"))).fake();
+
+api.testQueryParameterCollectionFormat()
+    .pipeQuery(pipe)
+    .ioutilQuery(ioutil)
+    .httpQuery(http)
+    .urlQuery(url)
+    .contextQuery(context).execute(r -> r.prettyPeek());
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**List&lt;String&gt;**](String.md)|  | [default to new ArrayList&lt;String&gt;()]
+ **ioutil** | [**List&lt;String&gt;**](String.md)|  | [default to new ArrayList&lt;String&gt;()]
+ **http** | [**List&lt;String&gt;**](String.md)|  | [default to new ArrayList&lt;String&gt;()]
+ **url** | [**List&lt;String&gt;**](String.md)|  | [default to new ArrayList&lt;String&gt;()]
+ **context** | [**List&lt;String&gt;**](String.md)|  | [default to new ArrayList&lt;String&gt;()]
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: Not defined
 

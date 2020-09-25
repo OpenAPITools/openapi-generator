@@ -1,0 +1,179 @@
+package {{package}}
+
+import io.vertx.core.Vertx
+import io.vertx.core.eventbus.Message
+import io.vertx.core.json.JsonObject
+import io.vertx.ext.web.api.OperationRequest
+import io.vertx.ext.web.api.OperationResponse
+import io.vertx.ext.web.api.generator.ApiHandlerUtils
+import io.vertx.serviceproxy.ProxyHandler
+import io.vertx.serviceproxy.ServiceException
+import io.vertx.serviceproxy.ServiceExceptionMessageCodec
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import io.vertx.kotlin.coroutines.dispatcher
+import io.vertx.core.json.Json
+import io.vertx.core.json.JsonArray
+import com.google.gson.reflect.TypeToken
+import com.google.gson.Gson
+{{#imports}}import {{import}}
+{{/imports}}
+
+class {{classname}}VertxProxyHandler(private val vertx: Vertx, private val service: {{classname}}, topLevel: Boolean, private val timeoutSeconds: Long) : ProxyHandler() {
+    private val timerID: Long
+    private var lastAccessed: Long = 0
+    init {
+        try {
+            this.vertx.eventBus().registerDefaultCodec(ServiceException::class.java,
+            ServiceExceptionMessageCodec())
+        } catch (ex: IllegalStateException) {}
+
+        if (timeoutSeconds != (-1).toLong() && !topLevel) {
+            var period = timeoutSeconds * 1000 / 2
+            if (period > 10000) {
+                period = 10000
+            }
+            this.timerID = vertx.setPeriodic(period) { this.checkTimedOut(it) }
+        } else {
+            this.timerID = -1
+        }
+        accessed()
+    }
+    private fun checkTimedOut(id: Long) {
+        val now = System.nanoTime()
+        if (now - lastAccessed > timeoutSeconds * 1000000000) {
+            close()
+        }
+    }
+
+    override fun close() {
+        if (timerID != (-1).toLong()) {
+            vertx.cancelTimer(timerID)
+        }
+        super.close()
+    }
+
+    private fun accessed() {
+        this.lastAccessed = System.nanoTime()
+    }
+    override fun handle(msg: Message<JsonObject>) {
+        try {
+            val json = msg.body()
+            val action = msg.headers().get("action") ?: throw IllegalStateException("action not specified")
+            accessed()
+            val contextSerialized = json.getJsonObject("context") ?: throw IllegalStateException("Received action $action without OperationRequest \"context\"")
+            val context = OperationRequest(contextSerialized)
+            when (action) {
+        {{#operations}}{{#operation}}
+                "{{#vendorExtensions}}{{operationId}}{{/vendorExtensions}}" -> {
+                {{#hasParams}}
+                    val params = context.params
+                {{#allParams}}
+                    {{#isListContainer}}
+                    val {{paramName}}Param = ApiHandlerUtils.searchJsonArrayInJson(params,"{{#isBodyParam}}body{{/isBodyParam}}{{^isBodyParam}}{{baseName}}{{/isBodyParam}}")
+                        {{#required}}
+                    if({{paramName}}Param == null){
+                         throw IllegalArgumentException("{{paramName}} is required")
+                    }
+                    val {{paramName}}:{{{dataType}}} = Gson().fromJson({{paramName}}Param.encode()
+                            , object : TypeToken<kotlin.collections.List<{{{baseType}}}>>(){}.type)
+                        {{/required}}
+                        {{^required}}
+                    val {{paramName}}:{{{dataType}}}? = if({{paramName}}Param == null) {{#defaultValue}}{{defaultValue}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}
+                            else Gson().fromJson({{paramName}}Param.encode(),
+                            , object : TypeToken<kotlin.collections.List<{{{baseType}}}>>(){}.type)
+                        {{/required}}
+                    {{/isListContainer}}
+                    {{^isListContainer}}
+                        {{#isFile}}
+                    val {{paramName}}Param = context.extra.getJsonArray("files")
+                            {{#required}}
+                    if ({{paramName}}Param == null) {
+                         throw IllegalArgumentException("{{paramName}} is required")
+                    }
+                    val {{paramName}} = {{paramName}}Param.map{ java.io.File(it as String) }
+                            {{/required}}
+                            {{^required}}
+                    val {{paramName}} = {{paramName}}Param?.map{ java.io.File(it as String) }
+                            {{/required}}
+                        {{/isFile}}
+                        {{#isPrimitiveType}}
+                            {{#isString}}
+                    val {{paramName}} = ApiHandlerUtils.searchStringInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                            {{/isString}}
+                            {{#isDate}}
+                    val {{paramName}} = java.time.LocalDate.parse(ApiHandlerUtils.searchStringInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}"))
+                            {{/isDate}}
+                            {{#isDateTime}}
+                    val {{paramName}} = java.time.LocalDateTime.parse(ApiHandlerUtils.searchStringInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}"))
+                            {{/isDateTime}}
+                            {{#isEmail}}
+                    val {{paramName}} = ApiHandlerUtils.searchStringInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                            {{/isEmail}}
+                            {{#isUuid}}
+                    val {{paramName}} = ApiHandlerUtils.searchStringInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                            {{/isUuid}}
+                            {{#isNumber}}
+                    val {{paramName}} = ApiHandlerUtils.searchDoubleInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                            {{/isNumber}}
+                            {{#isLong}}
+                    val {{paramName}} = ApiHandlerUtils.searchLongInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                            {{/isLong}}
+                            {{#isInteger}}
+                    val {{paramName}} = ApiHandlerUtils.searchIntegerInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                            {{/isInteger}}
+                            {{#isFloat}}
+                    val {{paramName}} = ApiHandlerUtils.searchDoubleInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")?.toFloat()
+                            {{/isFloat}}
+                            {{#isDouble}}
+                    val {{paramName}} = ApiHandlerUtils.searchDoubleInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                            {{/isDouble}}
+                            {{#isBoolean}}
+                    val {{paramName}} = ApiHandlerUtils.searchStringInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")?.toBoolean()
+                            {{/isBoolean}}
+                            {{#isFreeFormObject}}
+                    val {{paramName}} = ApiHandlerUtils.searchJsonObjectInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                            {{/isFreeFormObject}}
+                            {{#required}}
+                    if({{paramName}} == null){
+                        throw IllegalArgumentException("{{paramName}} is required")
+                    }
+                            {{/required}}
+                        {{/isPrimitiveType}}
+                        {{^isPrimitiveType}}
+                    val {{paramName}}Param = ApiHandlerUtils.searchJsonObjectInJson(params,"{{^isBodyParam}}{{baseName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}")
+                            {{#required}}
+                    if ({{paramName}}Param == null) {
+                        throw IllegalArgumentException("{{paramName}} is required")
+                    }
+                    val {{paramName}} = Gson().fromJson({{paramName}}Param.encode(), {{{dataType}}}::class.java)
+                            {{/required}}
+                            {{^required}}
+                    val {{paramName}} = if({{paramName}}Param ==null) null else Gson().fromJson({{paramName}}Param.encode(), {{{dataType}}}::class.java)
+                            {{/required}}
+                        {{/isPrimitiveType}}
+                    {{/isListContainer}}
+                {{/allParams}}
+                    GlobalScope.launch(vertx.dispatcher()){
+                        val result = service.{{operationId}}({{#hasParams}}{{#allParams}}{{paramName}},{{/allParams}}{{/hasParams}}context)
+                    {{#isListContainer}}
+                        val payload = JsonArray(Json.encode(result.payload)).toBuffer()
+                    {{/isListContainer}}
+                    {{^isListContainer}}
+                        val payload = JsonObject(Json.encode(result.payload)).toBuffer()
+                    {{/isListContainer}}
+                        val res = OperationResponse(result.statusCode,result.statusMessage,payload,result.headers)
+                        msg.reply(res.toJson())
+                    }.invokeOnCompletion{
+                        it?.let{ throw it }
+                    }
+                {{/hasParams}}
+                }
+        {{/operation}}{{/operations}}
+            }
+        }catch (t: Throwable) {
+            msg.reply(ServiceException(500, t.message))
+            throw t
+        }
+    }
+}

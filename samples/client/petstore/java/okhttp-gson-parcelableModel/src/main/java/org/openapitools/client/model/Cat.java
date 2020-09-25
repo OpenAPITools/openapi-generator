@@ -24,6 +24,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import org.openapitools.client.model.Animal;
+import org.openapitools.client.model.BigCat;
 import org.openapitools.client.model.CatAllOf;
 import android.os.Parcelable;
 import android.os.Parcel;
@@ -31,16 +32,19 @@ import android.os.Parcel;
 /**
  * Cat
  */
-
-public class Cat extends Animal implements Parcelable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class Cat extends Animal {
   public static final String SERIALIZED_NAME_DECLAWED = "declawed";
   @SerializedName(SERIALIZED_NAME_DECLAWED)
   private Boolean declawed;
 
   public Cat() {
     super();
+    this.className = this.getClass().getSimpleName();
   }
+
   public Cat declawed(Boolean declawed) {
+    
     this.declawed = declawed;
     return this;
   }
@@ -51,9 +55,11 @@ public class Cat extends Animal implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Boolean getDeclawed() {
     return declawed;
   }
+
 
   public void setDeclawed(Boolean declawed) {
     this.declawed = declawed;
@@ -61,7 +67,7 @@ public class Cat extends Animal implements Parcelable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -93,7 +99,7 @@ public class Cat extends Animal implements Parcelable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

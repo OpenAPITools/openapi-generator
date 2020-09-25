@@ -21,13 +21,18 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 /**
  * InlineObject2
  */
-
+@JsonPropertyOrder({
+  InlineObject2.JSON_PROPERTY_ENUM_FORM_STRING_ARRAY,
+  InlineObject2.JSON_PROPERTY_ENUM_FORM_STRING
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class InlineObject2   {
   /**
    * Gets or Sets enumFormStringArray
@@ -60,7 +65,8 @@ public class InlineObject2   {
     }
   }
 
-  @JsonProperty("enum_form_string_array")
+  public static final String JSON_PROPERTY_ENUM_FORM_STRING_ARRAY = "enum_form_string_array";
+  @JsonProperty(JSON_PROPERTY_ENUM_FORM_STRING_ARRAY)
   private List<EnumFormStringArrayEnum> enumFormStringArray = null;
 
   /**
@@ -96,7 +102,8 @@ public class InlineObject2   {
     }
   }
 
-  @JsonProperty("enum_form_string")
+  public static final String JSON_PROPERTY_ENUM_FORM_STRING = "enum_form_string";
+  @JsonProperty(JSON_PROPERTY_ENUM_FORM_STRING)
   private EnumFormStringEnum enumFormString = EnumFormStringEnum._EFG;
 
   public InlineObject2 enumFormStringArray(List<EnumFormStringArrayEnum> enumFormStringArray) {
@@ -149,7 +156,7 @@ public class InlineObject2   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -182,7 +189,7 @@ public class InlineObject2   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

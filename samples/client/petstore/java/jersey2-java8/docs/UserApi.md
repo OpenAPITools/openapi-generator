@@ -30,7 +30,7 @@ This can only be done by the logged in user.
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {
@@ -92,7 +92,7 @@ Creates list of users with given input array
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {
@@ -101,7 +101,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        List<User> body = Arrays.asList(null); // List<User> | List of user object
+        List<User> body = Arrays.asList(); // List<User> | List of user object
         try {
             apiInstance.createUsersWithArrayInput(body);
         } catch (ApiException e) {
@@ -154,7 +154,7 @@ Creates list of users with given input array
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {
@@ -163,7 +163,7 @@ public class Example {
         defaultClient.setBasePath("http://petstore.swagger.io:80/v2");
 
         UserApi apiInstance = new UserApi(defaultClient);
-        List<User> body = Arrays.asList(null); // List<User> | List of user object
+        List<User> body = Arrays.asList(); // List<User> | List of user object
         try {
             apiInstance.createUsersWithListInput(body);
         } catch (ApiException e) {
@@ -218,7 +218,7 @@ This can only be done by the logged in user.
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {
@@ -281,7 +281,7 @@ Get user by user name
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {
@@ -346,7 +346,7 @@ Logs user into the system
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {
@@ -412,7 +412,7 @@ Logs out current logged in user session
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {
@@ -472,7 +472,7 @@ This can only be done by the logged in user.
 import org.openapitools.client.ApiClient;
 import org.openapitools.client.ApiException;
 import org.openapitools.client.Configuration;
-import org.openapitools.client.models.*;
+import org.openapitools.client.model.*;
 import org.openapitools.client.api.UserApi;
 
 public class Example {

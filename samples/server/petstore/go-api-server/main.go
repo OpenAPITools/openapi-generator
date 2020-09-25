@@ -13,20 +13,22 @@ import (
 	"log"
 	"net/http"
 
-	// WARNING!
-	// Change this to a fully-qualified import path
-	// once you place this file into your project.
-	// For example,
-	//
-	//    sw "github.com/myname/myrepo/"
-	//
-	sw "./"
+	petstoreserver "github.com/GIT_USER_ID/GIT_REPO_ID/go"
 )
 
 func main() {
 	log.Printf("Server started")
 
-	router := sw.NewRouter()
+	PetApiService := petstoreserver.NewPetApiService()
+	PetApiController := petstoreserver.NewPetApiController(PetApiService)
+
+	StoreApiService := petstoreserver.NewStoreApiService()
+	StoreApiController := petstoreserver.NewStoreApiController(StoreApiService)
+
+	UserApiService := petstoreserver.NewUserApiService()
+	UserApiController := petstoreserver.NewUserApiController(UserApiService)
+
+	router := petstoreserver.NewRouter(PetApiController, StoreApiController, UserApiController)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 }

@@ -1,0 +1,2101 @@
+= OpenAPI Petstore
+team@openapitools.org
+1.0.0
+:toc: left
+:numbered:
+:toclevels: 3
+:source-highlighter: highlightjs
+:keywords: openapi, rest, OpenAPI Petstore 
+:specDir: modules/openapi-generator/src/main/resources/asciidoc-documentation
+:snippetDir: .
+:generator-template: v1 2019-12-20
+:info-url: https://openapi-generator.tech
+:app-name: OpenAPI Petstore
+
+[abstract]
+.Abstract
+This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+
+
+// markup not found, no include::{specDir}intro.adoc[opts=optional]
+
+
+== Access
+
+
+* *APIKey* KeyParamName:     _api_key_,     KeyInQuery: _false_, KeyInHeader: _true_
+* *OAuth*  AuthorizationUrl: _http://petstore.swagger.io/api/oauth/dialog_, TokenUrl:   __ 
+
+
+
+== Endpoints
+
+
+[.Pet]
+=== Pet
+
+
+[.addPet]
+==== addPet
+    
+`POST /pet`
+
+Add a new pet to the store
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}pet/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| Pet 
+| Pet object that needs to be added to the store <<Pet>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<Pet>>
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<Pet>>
+
+
+| 405
+| Invalid input
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}pet/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}pet/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :pet/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}pet/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.deletePet]
+==== deletePet
+    
+`DELETE /pet/{petId}`
+
+Deletes a pet
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}pet/\{petId\}/DELETE/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| petId 
+| Pet id to delete  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+====== Header Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| api_key 
+|   
+| - 
+| null 
+|  
+
+|===         
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 400
+| Invalid pet value
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}pet/\{petId\}/DELETE/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}pet/\{petId\}/DELETE/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :pet/{petId}/DELETE/DELETE.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}pet/\{petId\}/DELETE/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.findPetsByStatus]
+==== findPetsByStatus
+    
+`GET /pet/findByStatus`
+
+Finds Pets by status
+
+===== Description 
+
+Multiple status values can be provided with comma separated strings
+
+
+// markup not found, no include::{specDir}pet/findByStatus/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| status 
+| Status values that need to be considered for filter <<String>> 
+| X 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+array[<<Pet>>]
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+| List[<<Pet>>] 
+
+
+| 400
+| Invalid status value
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}pet/findByStatus/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}pet/findByStatus/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :pet/findByStatus/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}pet/findByStatus/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.findPetsByTags]
+==== findPetsByTags
+    
+`GET /pet/findByTags`
+
+Finds Pets by tags
+
+===== Description 
+
+Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+
+
+// markup not found, no include::{specDir}pet/findByTags/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| tags 
+| Tags to filter by <<String>> 
+| X 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+array[<<Pet>>]
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+| List[<<Pet>>] 
+
+
+| 400
+| Invalid tag value
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}pet/findByTags/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}pet/findByTags/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :pet/findByTags/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}pet/findByTags/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getPetById]
+==== getPetById
+    
+`GET /pet/{petId}`
+
+Find pet by ID
+
+===== Description 
+
+Returns a single pet
+
+
+// markup not found, no include::{specDir}pet/\{petId\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| petId 
+| ID of pet to return  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<Pet>>
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<Pet>>
+
+
+| 400
+| Invalid ID supplied
+|  <<>>
+
+
+| 404
+| Pet not found
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}pet/\{petId\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}pet/\{petId\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :pet/{petId}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}pet/\{petId\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.updatePet]
+==== updatePet
+    
+`PUT /pet`
+
+Update an existing pet
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}pet/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| Pet 
+| Pet object that needs to be added to the store <<Pet>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<Pet>>
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<Pet>>
+
+
+| 400
+| Invalid ID supplied
+|  <<>>
+
+
+| 404
+| Pet not found
+|  <<>>
+
+
+| 405
+| Validation exception
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}pet/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}pet/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :pet/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}pet/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.updatePetWithForm]
+==== updatePetWithForm
+    
+`POST /pet/{petId}`
+
+Updates a pet in the store with form data
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}pet/\{petId\}/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| petId 
+| ID of pet that needs to be updated  
+| X 
+| null 
+|  
+
+|===         
+
+
+====== Form Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| name 
+| Updated name of the pet <<string>> 
+| - 
+| null 
+|  
+
+| status 
+| Updated status of the pet <<string>> 
+| - 
+| null 
+|  
+
+|===         
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 405
+| Invalid input
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}pet/\{petId\}/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}pet/\{petId\}/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :pet/{petId}/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}pet/\{petId\}/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.uploadFile]
+==== uploadFile
+    
+`POST /pet/{petId}/uploadImage`
+
+uploads an image
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}pet/\{petId\}/uploadImage/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| petId 
+| ID of pet to update  
+| X 
+| null 
+|  
+
+|===         
+
+
+====== Form Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| additionalMetadata 
+| Additional data to pass to server <<string>> 
+| - 
+| null 
+|  
+
+| file 
+| file to upload <<file>> 
+| - 
+| null 
+|  
+
+|===         
+
+
+
+
+===== Return Type
+
+<<ApiResponse>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<ApiResponse>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}pet/\{petId\}/uploadImage/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}pet/\{petId\}/uploadImage/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :pet/{petId}/uploadImage/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}pet/\{petId\}/uploadImage/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.Store]
+=== Store
+
+
+[.deleteOrder]
+==== deleteOrder
+    
+`DELETE /store/order/{orderId}`
+
+Delete purchase order by ID
+
+===== Description 
+
+For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+
+
+// markup not found, no include::{specDir}store/order/\{orderId\}/DELETE/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| orderId 
+| ID of the order that needs to be deleted  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 400
+| Invalid ID supplied
+|  <<>>
+
+
+| 404
+| Order not found
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}store/order/\{orderId\}/DELETE/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}store/order/\{orderId\}/DELETE/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :store/order/{orderId}/DELETE/DELETE.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}store/order/\{orderId\}/DELETE/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getInventory]
+==== getInventory
+    
+`GET /store/inventory`
+
+Returns pet inventories by status
+
+===== Description 
+
+Returns a map of status codes to quantities
+
+
+// markup not found, no include::{specDir}store/inventory/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+
+<<Map>>
+
+
+===== Content Type
+
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+| Map[<<integer>>] 
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}store/inventory/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}store/inventory/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :store/inventory/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}store/inventory/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getOrderById]
+==== getOrderById
+    
+`GET /store/order/{orderId}`
+
+Find purchase order by ID
+
+===== Description 
+
+For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+
+
+// markup not found, no include::{specDir}store/order/\{orderId\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| orderId 
+| ID of pet that needs to be fetched  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<Order>>
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<Order>>
+
+
+| 400
+| Invalid ID supplied
+|  <<>>
+
+
+| 404
+| Order not found
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}store/order/\{orderId\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}store/order/\{orderId\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :store/order/{orderId}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}store/order/\{orderId\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.placeOrder]
+==== placeOrder
+    
+`POST /store/order`
+
+Place an order for a pet
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}store/order/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| Order 
+| order placed for purchasing the pet <<Order>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+<<Order>>
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<Order>>
+
+
+| 400
+| Invalid Order
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}store/order/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}store/order/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :store/order/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}store/order/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.User]
+=== User
+
+
+[.createUser]
+==== createUser
+    
+`POST /user`
+
+Create user
+
+===== Description 
+
+This can only be done by the logged in user.
+
+
+// markup not found, no include::{specDir}user/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| User 
+| Created user object <<User>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| successful operation
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}user/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}user/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :user/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}user/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.createUsersWithArrayInput]
+==== createUsersWithArrayInput
+    
+`POST /user/createWithArray`
+
+Creates list of users with given input array
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}user/createWithArray/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| User 
+| List of user object <<User>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| successful operation
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}user/createWithArray/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}user/createWithArray/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :user/createWithArray/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}user/createWithArray/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.createUsersWithListInput]
+==== createUsersWithListInput
+    
+`POST /user/createWithList`
+
+Creates list of users with given input array
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}user/createWithList/POST/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| User 
+| List of user object <<User>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| successful operation
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}user/createWithList/POST/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}user/createWithList/POST/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :user/createWithList/POST/POST.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}user/createWithList/POST/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.deleteUser]
+==== deleteUser
+    
+`DELETE /user/{username}`
+
+Delete user
+
+===== Description 
+
+This can only be done by the logged in user.
+
+
+// markup not found, no include::{specDir}user/\{username\}/DELETE/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| username 
+| The name that needs to be deleted  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 400
+| Invalid username supplied
+|  <<>>
+
+
+| 404
+| User not found
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}user/\{username\}/DELETE/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}user/\{username\}/DELETE/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :user/{username}/DELETE/DELETE.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}user/\{username\}/DELETE/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.getUserByName]
+==== getUserByName
+    
+`GET /user/{username}`
+
+Get user by user name
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}user/\{username\}/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| username 
+| The name that needs to be fetched. Use user1 for testing.  
+| X 
+| null 
+|  
+
+|===         
+
+
+
+
+
+
+===== Return Type
+
+<<User>>
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<User>>
+
+
+| 400
+| Invalid username supplied
+|  <<>>
+
+
+| 404
+| User not found
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}user/\{username\}/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}user/\{username\}/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :user/{username}/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}user/\{username\}/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.loginUser]
+==== loginUser
+    
+`GET /user/login`
+
+Logs user into the system
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}user/login/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+====== Query Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| username 
+| The user name for login  
+| X 
+| null 
+| /^[a-zA-Z0-9]+[a-zA-Z0-9\\.\\-_]*[a-zA-Z0-9]+$/ 
+
+| password 
+| The password for login in clear text  
+| X 
+| null 
+|  
+
+|===         
+
+
+===== Return Type
+
+
+<<String>>
+
+
+===== Content Type
+
+* application/xml
+* application/json
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 200
+| successful operation
+|  <<String>>
+
+
+| 400
+| Invalid username/password supplied
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}user/login/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}user/login/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :user/login/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}user/login/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.logoutUser]
+==== logoutUser
+    
+`GET /user/logout`
+
+Logs out current logged in user session
+
+===== Description 
+
+
+
+
+// markup not found, no include::{specDir}user/logout/GET/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 0
+| successful operation
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}user/logout/GET/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}user/logout/GET/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :user/logout/GET/GET.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}user/logout/GET/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[.updateUser]
+==== updateUser
+    
+`PUT /user/{username}`
+
+Updated user
+
+===== Description 
+
+This can only be done by the logged in user.
+
+
+// markup not found, no include::{specDir}user/\{username\}/PUT/spec.adoc[opts=optional]
+
+
+
+===== Parameters
+
+====== Path Parameters
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| username 
+| name that need to be deleted  
+| X 
+| null 
+|  
+
+|===         
+
+====== Body Parameter
+
+[cols="2,3,1,1,1"]
+|===         
+|Name| Description| Required| Default| Pattern
+
+| User 
+| Updated user object <<User>> 
+| X 
+|  
+|  
+
+|===         
+
+
+
+
+
+===== Return Type
+
+
+
+-
+
+
+===== Responses
+
+.http response codes
+[cols="2,3,1"]
+|===         
+| Code | Message | Datatype 
+
+
+| 400
+| Invalid user supplied
+|  <<>>
+
+
+| 404
+| User not found
+|  <<>>
+
+|===         
+
+===== Samples
+
+
+// markup not found, no include::{snippetDir}user/\{username\}/PUT/http-request.adoc[opts=optional]
+
+
+// markup not found, no include::{snippetDir}user/\{username\}/PUT/http-response.adoc[opts=optional]
+
+
+
+// file not found, no * wiremock data link :user/{username}/PUT/PUT.json[]
+
+
+ifdef::internal-generation[]
+===== Implementation
+
+// markup not found, no include::{specDir}user/\{username\}/PUT/implementation.adoc[opts=optional]
+
+
+endif::internal-generation[]
+
+
+[#models]
+== Models
+
+
+[#ApiResponse]
+=== _ApiResponse_ An uploaded response
+
+Describes the result of uploading an image resource
+
+[.fields-ApiResponse]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| code 
+|  
+| Integer  
+| 
+| int32 
+
+| type 
+|  
+| String  
+| 
+|  
+
+| message 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#Category]
+=== _Category_ Pet category
+
+A category for a pet
+
+[.fields-Category]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
+
+| name 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#InlineObject]
+=== _InlineObject_ 
+
+
+
+[.fields-InlineObject]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| name 
+|  
+| String  
+| Updated name of the pet
+|  
+
+| status 
+|  
+| String  
+| Updated status of the pet
+|  
+
+|===
+
+
+[#InlineObject1]
+=== _InlineObject1_ 
+
+
+
+[.fields-InlineObject1]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| additionalMetadata 
+|  
+| String  
+| Additional data to pass to server
+|  
+
+| file 
+|  
+| File  
+| file to upload
+| binary 
+
+|===
+
+
+[#Order]
+=== _Order_ Pet Order
+
+An order for a pets from the pet store
+
+[.fields-Order]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
+
+| petId 
+|  
+| Long  
+| 
+| int64 
+
+| quantity 
+|  
+| Integer  
+| 
+| int32 
+
+| shipDate 
+|  
+| Date  
+| 
+| date-time 
+
+| status 
+|  
+| String  
+| Order Status
+|  _Enum:_ placed, approved, delivered, 
+
+| complete 
+|  
+| Boolean  
+| 
+|  
+
+|===
+
+
+[#Pet]
+=== _Pet_ a Pet
+
+A pet for sale in the pet store
+
+[.fields-Pet]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
+
+| category 
+|  
+| Category  
+| 
+|  
+
+| name 
+| X 
+| String  
+| 
+|  
+
+| photoUrls 
+| X 
+| List  of <<string>> 
+| 
+|  
+
+| tags 
+|  
+| List  of <<Tag>> 
+| 
+|  
+
+| status 
+|  
+| String  
+| pet status in the store
+|  _Enum:_ available, pending, sold, 
+
+|===
+
+
+[#Tag]
+=== _Tag_ Pet Tag
+
+A tag for a pet
+
+[.fields-Tag]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
+
+| name 
+|  
+| String  
+| 
+|  
+
+|===
+
+
+[#User]
+=== _User_ a User
+
+A User who is purchasing from the pet store
+
+[.fields-User]
+[cols="2,1,2,4,1"]
+|===         
+| Field Name| Required| Type| Description| Format
+
+| id 
+|  
+| Long  
+| 
+| int64 
+
+| username 
+|  
+| String  
+| 
+|  
+
+| firstName 
+|  
+| String  
+| 
+|  
+
+| lastName 
+|  
+| String  
+| 
+|  
+
+| email 
+|  
+| String  
+| 
+|  
+
+| password 
+|  
+| String  
+| 
+|  
+
+| phone 
+|  
+| String  
+| 
+|  
+
+| userStatus 
+|  
+| Integer  
+| User Status
+| int32 
+
+|===
+
+

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -26,9 +27,13 @@ import javax.validation.Valid;
  * Model for testing reserved words
  */
 @ApiModel(description = "Model for testing reserved words")
-
+@JsonPropertyOrder({
+  ModelReturn.JSON_PROPERTY_RETURN
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class ModelReturn  implements Serializable {
-  @JsonProperty("return")
+  public static final String JSON_PROPERTY_RETURN = "return";
+  @JsonProperty(JSON_PROPERTY_RETURN)
   private Integer _return;
 
   public ModelReturn _return(Integer _return) {
@@ -53,7 +58,7 @@ public class ModelReturn  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -84,7 +89,7 @@ public class ModelReturn  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -1,6 +1,6 @@
 library openapi.api;
 
-import 'package:http/io_client.dart';
+import 'package:http/http.dart' as http;
 import 'package:jaguar_serializer/jaguar_serializer.dart';
 import 'package:jaguar_serializer_protobuf/proto_repo.dart';
 import 'package:jaguar_retrofit/jaguar_retrofit.dart';
@@ -57,7 +57,7 @@ class Openapi {
     * Add custom global interceptors, put overrideInterceptors to true to set your interceptors only (auth interceptors will not be added)
     */
     Openapi({List<Interceptor> interceptors, bool overrideInterceptors = false, String baseUrl, this.timeout = const Duration(minutes: 2)}) {
-        _baseRoute = Route(baseUrl ?? basePath).withClient(globalClient ?? IOClient());
+        _baseRoute = Route(baseUrl ?? basePath).withClient(globalClient ?? http.Client());
         if(interceptors == null) {
             this.interceptors = _defaultInterceptors;
         }

@@ -23,11 +23,14 @@ import com.google.gson.stream.JsonWriter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * Capitalization
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class Capitalization {
   public static final String SERIALIZED_NAME_SMALL_CAMEL = "smallCamel";
   @SerializedName(SERIALIZED_NAME_SMALL_CAMEL)
@@ -53,7 +56,9 @@ public class Capitalization {
   @SerializedName(SERIALIZED_NAME_A_T_T_N_A_M_E)
   private String ATT_NAME;
 
+
   public Capitalization smallCamel(String smallCamel) {
+    
     this.smallCamel = smallCamel;
     return this;
   }
@@ -64,15 +69,19 @@ public class Capitalization {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getSmallCamel() {
     return smallCamel;
   }
+
 
   public void setSmallCamel(String smallCamel) {
     this.smallCamel = smallCamel;
   }
 
+
   public Capitalization capitalCamel(String capitalCamel) {
+    
     this.capitalCamel = capitalCamel;
     return this;
   }
@@ -83,15 +92,19 @@ public class Capitalization {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getCapitalCamel() {
     return capitalCamel;
   }
+
 
   public void setCapitalCamel(String capitalCamel) {
     this.capitalCamel = capitalCamel;
   }
 
+
   public Capitalization smallSnake(String smallSnake) {
+    
     this.smallSnake = smallSnake;
     return this;
   }
@@ -102,15 +115,19 @@ public class Capitalization {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getSmallSnake() {
     return smallSnake;
   }
+
 
   public void setSmallSnake(String smallSnake) {
     this.smallSnake = smallSnake;
   }
 
+
   public Capitalization capitalSnake(String capitalSnake) {
+    
     this.capitalSnake = capitalSnake;
     return this;
   }
@@ -121,15 +138,19 @@ public class Capitalization {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getCapitalSnake() {
     return capitalSnake;
   }
+
 
   public void setCapitalSnake(String capitalSnake) {
     this.capitalSnake = capitalSnake;
   }
 
+
   public Capitalization scAETHFlowPoints(String scAETHFlowPoints) {
+    
     this.scAETHFlowPoints = scAETHFlowPoints;
     return this;
   }
@@ -140,15 +161,19 @@ public class Capitalization {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getScAETHFlowPoints() {
     return scAETHFlowPoints;
   }
+
 
   public void setScAETHFlowPoints(String scAETHFlowPoints) {
     this.scAETHFlowPoints = scAETHFlowPoints;
   }
 
+
   public Capitalization ATT_NAME(String ATT_NAME) {
+    
     this.ATT_NAME = ATT_NAME;
     return this;
   }
@@ -159,9 +184,11 @@ public class Capitalization {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "Name of the pet ")
+
   public String getATTNAME() {
     return ATT_NAME;
   }
+
 
   public void setATTNAME(String ATT_NAME) {
     this.ATT_NAME = ATT_NAME;
@@ -169,7 +196,7 @@ public class Capitalization {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -209,7 +236,7 @@ public class Capitalization {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

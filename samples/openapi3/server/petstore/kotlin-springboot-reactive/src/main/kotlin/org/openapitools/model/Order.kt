@@ -21,32 +21,32 @@ import io.swagger.annotations.ApiModelProperty
  * @param status Order Status
  * @param complete 
  */
-data class Order (
+data class Order(
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("id") val id: Long? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("id") val id: kotlin.Long? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("petId") val petId: Long? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("petId") val petId: kotlin.Long? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("quantity") val quantity: Int? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("quantity") val quantity: kotlin.Int? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("shipDate") val shipDate: java.time.OffsetDateTime? = null,
 
-        @ApiModelProperty(example = "null", value = "Order Status")
-        @JsonProperty("status") val status: Order.Status? = null,
+    @ApiModelProperty(example = "null", value = "Order Status")
+    @field:JsonProperty("status") val status: Order.Status? = null,
 
-        @ApiModelProperty(example = "null", value = "")
-        @JsonProperty("complete") val complete: Boolean? = null
+    @ApiModelProperty(example = "null", value = "")
+    @field:JsonProperty("complete") val complete: kotlin.Boolean? = null
 ) {
 
     /**
     * Order Status
     * Values: placed,approved,delivered
     */
-    enum class Status(val value: String) {
+    enum class Status(val value: kotlin.String) {
     
         @JsonProperty("placed") placed("placed"),
     

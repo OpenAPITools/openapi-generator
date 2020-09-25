@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Uuid** | **Guid?** |  | [optional] 
-**DateTime** | **DateTime?** |  | [optional] 
+**Uuid** | **Guid** |  | [optional] 
+**DateTime** | **DateTime** |  | [optional] 
 **Map** | [**Dictionary&lt;string, Animal&gt;**](Animal.md) |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models)

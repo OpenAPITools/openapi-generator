@@ -3,12 +3,14 @@ package controllers;
 import java.util.List;
 import apimodels.User;
 
+import com.typesafe.config.Config;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Http;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.inject.Inject;
@@ -19,7 +21,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 import openapitools.OpenAPIUtils.ApiAction;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class UserApiController extends Controller {
 
     private final UserApiControllerImpInterface imp;
@@ -33,94 +35,94 @@ public class UserApiController extends Controller {
 
 
     @ApiAction
-    public Result createUser() throws Exception {
-        JsonNode nodeuser = request().body().asJson();
-        User user;
-        if (nodeuser != null) {
-            user = mapper.readValue(nodeuser.toString(), User.class);
+    public Result createUser(Http.Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
+        User body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), User.class);
         } else {
-            throw new IllegalArgumentException("'User' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.createUser(user);
+        imp.createUser(request, body);
         return ok();
     }
 
     @ApiAction
-    public Result createUsersWithArrayInput() throws Exception {
-        JsonNode nodeuser = request().body().asJson();
-        List<User> user;
-        if (nodeuser != null) {
-            user = mapper.readValue(nodeuser.toString(), new TypeReference<List<User>>(){});
+    public Result createUsersWithArrayInput(Http.Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
+        List<User> body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
         } else {
-            throw new IllegalArgumentException("'User' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.createUsersWithArrayInput(user);
+        imp.createUsersWithArrayInput(request, body);
         return ok();
     }
 
     @ApiAction
-    public Result createUsersWithListInput() throws Exception {
-        JsonNode nodeuser = request().body().asJson();
-        List<User> user;
-        if (nodeuser != null) {
-            user = mapper.readValue(nodeuser.toString(), new TypeReference<List<User>>(){});
+    public Result createUsersWithListInput(Http.Request request) throws Exception {
+        JsonNode nodebody = request.body().asJson();
+        List<User> body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), new TypeReference<List<User>>(){});
         } else {
-            throw new IllegalArgumentException("'User' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.createUsersWithListInput(user);
+        imp.createUsersWithListInput(request, body);
         return ok();
     }
 
     @ApiAction
-    public Result deleteUser(String username) throws Exception {
-        imp.deleteUser(username);
+    public Result deleteUser(Http.Request request, String username) throws Exception {
+        imp.deleteUser(request, username);
         return ok();
     }
 
     @ApiAction
-    public Result getUserByName(String username) throws Exception {
-        User obj = imp.getUserByName(username);
+    public Result getUserByName(Http.Request request, String username) throws Exception {
+        User obj = imp.getUserByName(request, username);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
     }
 
     @ApiAction
-    public Result loginUser() throws Exception {
-        String valueusername = request().getQueryString("username");
+    public Result loginUser(Http.Request request) throws Exception {
+        String valueusername = request.getQueryString("username");
         String username;
         if (valueusername != null) {
             username = valueusername;
         } else {
             throw new IllegalArgumentException("'username' parameter is required");
         }
-        String valuepassword = request().getQueryString("password");
+        String valuepassword = request.getQueryString("password");
         String password;
         if (valuepassword != null) {
             password = valuepassword;
         } else {
             throw new IllegalArgumentException("'password' parameter is required");
         }
-        String obj = imp.loginUser(username, password);
+        String obj = imp.loginUser(request, username, password);
         JsonNode result = mapper.valueToTree(obj);
         return ok(result);
     }
 
     @ApiAction
-    public Result logoutUser() throws Exception {
-        imp.logoutUser();
+    public Result logoutUser(Http.Request request) throws Exception {
+        imp.logoutUser(request);
         return ok();
     }
 
     @ApiAction
-    public Result updateUser(String username) throws Exception {
-        JsonNode nodeuser = request().body().asJson();
-        User user;
-        if (nodeuser != null) {
-            user = mapper.readValue(nodeuser.toString(), User.class);
+    public Result updateUser(Http.Request request, String username) throws Exception {
+        JsonNode nodebody = request.body().asJson();
+        User body;
+        if (nodebody != null) {
+            body = mapper.readValue(nodebody.toString(), User.class);
         } else {
-            throw new IllegalArgumentException("'User' parameter is required");
+            throw new IllegalArgumentException("'body' parameter is required");
         }
-        imp.updateUser(username, user);
+        imp.updateUser(request, username, body);
         return ok();
     }
 }

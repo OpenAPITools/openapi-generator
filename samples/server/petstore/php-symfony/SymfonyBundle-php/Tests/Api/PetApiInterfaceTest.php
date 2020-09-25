@@ -1,7 +1,7 @@
 <?php
 /**
  * PetApiInterfaceTest
- * PHP version 5
+ * PHP version 7.1.3
  *
  * @category Class
  * @package  OpenAPI\Server\Tests\Api
@@ -85,7 +85,7 @@ class PetApiInterfaceTest extends WebTestCase
 
         $path = '/pet';
 
-        $crawler = $client->request('POST', $path);
+        $crawler = $client->request('POST', $path, [], [], ['CONTENT_TYPE' => 'application/json']);
     }
 
     /**
@@ -166,7 +166,7 @@ class PetApiInterfaceTest extends WebTestCase
 
         $path = '/pet';
 
-        $crawler = $client->request('PUT', $path);
+        $crawler = $client->request('PUT', $path, [], [], ['CONTENT_TYPE' => 'application/json']);
     }
 
     /**

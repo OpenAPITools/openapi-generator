@@ -62,7 +62,6 @@
                             <executable>pub</executable>
                             <arguments>
                                 <argument>run</argument>
-                                <argument>build_runner</argument>
                                 <argument>test</argument>
                             </arguments>
                         </configuration>

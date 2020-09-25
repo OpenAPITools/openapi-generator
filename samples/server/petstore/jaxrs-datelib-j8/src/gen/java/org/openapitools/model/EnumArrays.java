@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -28,7 +29,11 @@ import javax.validation.Valid;
 /**
  * EnumArrays
  */
-
+@JsonPropertyOrder({
+  EnumArrays.JSON_PROPERTY_JUST_SYMBOL,
+  EnumArrays.JSON_PROPERTY_ARRAY_ENUM
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class EnumArrays  implements Serializable {
   /**
    * Gets or Sets justSymbol
@@ -61,7 +66,8 @@ public class EnumArrays  implements Serializable {
     }
   }
 
-  @JsonProperty("just_symbol")
+  public static final String JSON_PROPERTY_JUST_SYMBOL = "just_symbol";
+  @JsonProperty(JSON_PROPERTY_JUST_SYMBOL)
   private JustSymbolEnum justSymbol;
 
   /**
@@ -95,7 +101,8 @@ public class EnumArrays  implements Serializable {
     }
   }
 
-  @JsonProperty("array_enum")
+  public static final String JSON_PROPERTY_ARRAY_ENUM = "array_enum";
+  @JsonProperty(JSON_PROPERTY_ARRAY_ENUM)
   private List<ArrayEnumEnum> arrayEnum = null;
 
   public EnumArrays justSymbol(JustSymbolEnum justSymbol) {
@@ -148,7 +155,7 @@ public class EnumArrays  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -181,7 +188,7 @@ public class EnumArrays  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -175,6 +175,13 @@ __PACKAGE__->method_documentation({
         format => '',
         read_only => '',
             },
+    'float_item' => {
+        datatype => 'double',
+        base_name => 'float_item',
+        description => '',
+        format => '',
+        read_only => '',
+            },
     'integer_item' => {
         datatype => 'int',
         base_name => 'integer_item',
@@ -201,6 +208,7 @@ __PACKAGE__->method_documentation({
 __PACKAGE__->openapi_types( {
     'string_item' => 'string',
     'number_item' => 'double',
+    'float_item' => 'double',
     'integer_item' => 'int',
     'bool_item' => 'boolean',
     'array_item' => 'ARRAY[int]'
@@ -209,6 +217,7 @@ __PACKAGE__->openapi_types( {
 __PACKAGE__->attribute_map( {
     'string_item' => 'string_item',
     'number_item' => 'number_item',
+    'float_item' => 'float_item',
     'integer_item' => 'integer_item',
     'bool_item' => 'bool_item',
     'array_item' => 'array_item'

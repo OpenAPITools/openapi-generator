@@ -1,43 +1,20 @@
 {{>partial_header}}
 package {{packageName}}
+
 {{#models}}
-{{#imports}}
-{{#-first}}
 import (
-{{/-first}}
+	"encoding/json"
+{{#imports}}
 	"{{import}}"
-{{#-last}}
-)
-{{/-last}}
 {{/imports}}
+)
+
 {{#model}}
 {{#isEnum}}
-{{#description}}
-// {{{classname}}} : {{{description}}}
-{{/description}}
-type {{{classname}}} {{^format}}{{dataType}}{{/format}}{{#format}}{{{format}}}{{/format}}
-
-// List of {{{name}}}
-const (
-	{{#allowableValues}}
-	{{#enumVars}}
-	{{^-first}}
-	{{/-first}}
-	{{name}} {{{classname}}} = "{{{value}}}"
-	{{/enumVars}}
-	{{/allowableValues}}
-){{/isEnum}}{{^isEnum}}{{#description}}
-// {{{description}}}{{/description}}
-type {{classname}} struct {
-{{#vars}}
-{{^-first}}
-{{/-first}}
-{{#description}}
-	// {{{description}}}
-{{/description}}
-	{{name}} {{#isNullable}}*{{/isNullable}}{{{dataType}}} `json:"{{baseName}}{{^required}},omitempty{{/required}}"{{#withXml}} xml:"{{baseName}}{{#isXmlAttribute}},attr{{/isXmlAttribute}}"{{/withXml}}{{#vendorExtensions.x-go-custom-tag}} {{{.}}}{{/vendorExtensions.x-go-custom-tag}}`
-{{/vars}}
-}
+{{>model_enum}}
+{{/isEnum}}
+{{^isEnum}}
+{{#oneOf}}{{#-first}}{{>model_oneof}}{{/-first}}{{/oneOf}}{{^oneOf}}{{#anyOf}}{{#-first}}{{>model_anyof}}{{/-first}}{{/anyOf}}{{^anyOf}}{{>model_simple}}{{/anyOf}}{{/oneOf}}
 {{/isEnum}}
 {{/model}}
 {{/models}}

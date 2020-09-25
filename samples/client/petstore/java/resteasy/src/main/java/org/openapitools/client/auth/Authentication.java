@@ -24,6 +24,7 @@ public interface Authentication {
      *
      * @param queryParams List of query parameters
      * @param headerParams Map of header parameters
+     * @param cookieParams Map of cookie parameters
      */
-    void applyToParams(List<Pair> queryParams, Map<String, String> headerParams);
+    void applyToParams(List<Pair> queryParams, Map<String, String> headerParams, Map<String, String> cookieParams);
 }

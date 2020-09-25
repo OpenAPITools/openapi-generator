@@ -174,14 +174,14 @@ export default class StoreApi {
 
     /**
      * Place an order for a pet
-     * @param {module:model/Order} body order placed for purchasing the pet
+     * @param {module:model/Order} order order placed for purchasing the pet
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with an object containing data of type {@link module:model/Order} and HTTP response
      */
-    placeOrderWithHttpInfo(body) {
-      let postBody = body;
-      // verify the required parameter 'body' is set
-      if (body === undefined || body === null) {
-        throw new Error("Missing the required parameter 'body' when calling placeOrder");
+    placeOrderWithHttpInfo(order) {
+      let postBody = order;
+      // verify the required parameter 'order' is set
+      if (order === undefined || order === null) {
+        throw new Error("Missing the required parameter 'order' when calling placeOrder");
       }
 
       let pathParams = {
@@ -194,7 +194,7 @@ export default class StoreApi {
       };
 
       let authNames = [];
-      let contentTypes = [];
+      let contentTypes = ['application/json'];
       let accepts = ['application/xml', 'application/json'];
       let returnType = Order;
       return this.apiClient.callApi(
@@ -206,11 +206,11 @@ export default class StoreApi {
 
     /**
      * Place an order for a pet
-     * @param {module:model/Order} body order placed for purchasing the pet
+     * @param {module:model/Order} order order placed for purchasing the pet
      * @return {Promise} a {@link https://www.promisejs.org/|Promise}, with data of type {@link module:model/Order}
      */
-    placeOrder(body) {
-      return this.placeOrderWithHttpInfo(body)
+    placeOrder(order) {
+      return this.placeOrderWithHttpInfo(order)
         .then(function(response_and_data) {
           return response_and_data.data;
         });

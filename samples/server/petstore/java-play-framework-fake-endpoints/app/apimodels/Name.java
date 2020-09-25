@@ -8,20 +8,20 @@ import javax.validation.constraints.*;
 /**
  * Model for testing model name same as property name
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 @SuppressWarnings({"UnusedReturnValue", "WeakerAccess"})
 public class Name   {
   @JsonProperty("name")
-  private Integer name = null;
+  private Integer name;
 
   @JsonProperty("snake_case")
-  private Integer snakeCase = null;
+  private Integer snakeCase;
 
   @JsonProperty("property")
-  private String property = null;
+  private String property;
 
   @JsonProperty("123Number")
-  private Integer _123number = null;
+  private Integer _123number;
 
   public Name name(Integer name) {
     this.name = name;
@@ -94,7 +94,7 @@ public class Name   {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -131,7 +131,7 @@ public class Name   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

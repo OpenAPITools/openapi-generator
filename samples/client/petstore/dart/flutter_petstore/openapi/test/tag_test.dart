@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 // tests for Tag
 void main() {
-  var instance = new Tag();
+  var instance = Tag();
 
   group('test Tag', () {
     // int id (default value: null)

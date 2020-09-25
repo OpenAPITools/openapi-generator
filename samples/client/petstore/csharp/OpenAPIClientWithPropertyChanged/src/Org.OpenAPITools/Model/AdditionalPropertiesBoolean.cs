@@ -31,7 +31,7 @@ namespace Org.OpenAPITools.Model
     /// </summary>
     [DataContract]
     [ImplementPropertyChanged]
-    public partial class AdditionalPropertiesBoolean : Dictionary<String, bool?>,  IEquatable<AdditionalPropertiesBoolean>, IValidatableObject
+    public partial class AdditionalPropertiesBoolean : Dictionary<String, bool>,  IEquatable<AdditionalPropertiesBoolean>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AdditionalPropertiesBoolean" /> class.
@@ -45,7 +45,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
-        [DataMember(Name="name", EmitDefaultValue=false)]
+        [DataMember(Name="name", EmitDefaultValue=true)]
         public string Name { get; set; }
 
         /// <summary>

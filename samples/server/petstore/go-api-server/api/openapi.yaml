@@ -1,9 +1,10 @@
 openapi: 3.0.0
 info:
-  description: This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
+  description: This is a sample server Petstore server. For this sample, you can use
+    the api key `special-key` to test the authorization filters.
   license:
     name: Apache-2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: OpenAPI Petstore
   version: 1.0.0
 externalDocs:
@@ -25,7 +26,16 @@ paths:
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:
-        405:
+        "200":
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          description: successful operation
+        "405":
           description: Invalid input
       security:
       - petstore_auth:
@@ -34,17 +44,25 @@ paths:
       summary: Add a new pet to the store
       tags:
       - pet
-      x-codegen-request-body-name: body
     put:
       operationId: updatePet
       requestBody:
         $ref: '#/components/requestBodies/Pet'
       responses:
-        400:
+        "200":
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pet'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+          description: successful operation
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Pet not found
-        405:
+        "405":
           description: Validation exception
       security:
       - petstore_auth:
@@ -53,7 +71,6 @@ paths:
       summary: Update an existing pet
       tags:
       - pet
-      x-codegen-request-body-name: body
   /pet/findByStatus:
     get:
       description: Multiple status values can be provided with comma separated strings
@@ -75,7 +92,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -88,11 +105,10 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           description: Invalid status value
       security:
       - petstore_auth:
-        - write:pets
         - read:pets
       summary: Finds Pets by status
       tags:
@@ -100,7 +116,8 @@ paths:
   /pet/findByTags:
     get:
       deprecated: true
-      description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+      description: Multiple tags can be provided with comma separated strings. Use
+        tag1, tag2, tag3 for testing.
       operationId: findPetsByTags
       parameters:
       - description: Tags to filter by
@@ -114,7 +131,7 @@ paths:
           type: array
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -127,11 +144,10 @@ paths:
                   $ref: '#/components/schemas/Pet'
                 type: array
           description: successful operation
-        400:
+        "400":
           description: Invalid tag value
       security:
       - petstore_auth:
-        - write:pets
         - read:pets
       summary: Finds Pets by tags
       tags:
@@ -157,7 +173,7 @@ paths:
           type: integer
         style: simple
       responses:
-        400:
+        "400":
           description: Invalid pet value
       security:
       - petstore_auth:
@@ -180,7 +196,7 @@ paths:
           type: integer
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -189,9 +205,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Pet'
           description: successful operation
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Pet not found
       security:
       - api_key: []
@@ -224,7 +240,7 @@ paths:
                   type: string
               type: object
       responses:
-        405:
+        "405":
           description: Invalid input
       security:
       - petstore_auth:
@@ -261,7 +277,7 @@ paths:
                   type: string
               type: object
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -279,7 +295,7 @@ paths:
       description: Returns a map of status codes to quantities
       operationId: getInventory
       responses:
-        200:
+        "200":
           content:
             application/json:
               schema:
@@ -304,7 +320,7 @@ paths:
         description: order placed for purchasing the pet
         required: true
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -313,15 +329,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           description: Invalid Order
       summary: Place an order for a pet
       tags:
       - store
-      x-codegen-request-body-name: body
   /store/order/{orderId}:
     delete:
-      description: For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+      description: For valid response try integer IDs with value < 1000. Anything
+        above 1000 or nonintegers will generate API errors
       operationId: deleteOrder
       parameters:
       - description: ID of the order that needs to be deleted
@@ -333,15 +349,16 @@ paths:
           type: string
         style: simple
       responses:
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Order not found
       summary: Delete purchase order by ID
       tags:
       - store
     get:
-      description: For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+      description: For valid response try integer IDs with value <= 5 or > 10. Other
+        values will generated exceptions
       operationId: getOrderById
       parameters:
       - description: ID of pet that needs to be fetched
@@ -356,7 +373,7 @@ paths:
           type: integer
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -365,9 +382,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/Order'
           description: successful operation
-        400:
+        "400":
           description: Invalid ID supplied
-        404:
+        "404":
           description: Order not found
       summary: Find purchase order by ID
       tags:
@@ -386,10 +403,11 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+      - api_key: []
       summary: Create user
       tags:
       - user
-      x-codegen-request-body-name: body
   /user/createWithArray:
     post:
       operationId: createUsersWithArrayInput
@@ -398,10 +416,11 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+      - api_key: []
       summary: Creates list of users with given input array
       tags:
       - user
-      x-codegen-request-body-name: body
   /user/createWithList:
     post:
       operationId: createUsersWithListInput
@@ -410,10 +429,11 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+      - api_key: []
       summary: Creates list of users with given input array
       tags:
       - user
-      x-codegen-request-body-name: body
   /user/login:
     get:
       operationId: loginUser
@@ -424,6 +444,7 @@ paths:
         name: username
         required: true
         schema:
+          pattern: ^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$
           type: string
         style: form
       - description: The password for login in clear text
@@ -435,7 +456,7 @@ paths:
           type: string
         style: form
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -445,6 +466,14 @@ paths:
                 type: string
           description: successful operation
           headers:
+            Set-Cookie:
+              description: Cookie authentication key for use with the `api_key` apiKey
+                authentication.
+              explode: false
+              schema:
+                example: AUTH_KEY=abcde12345; Path=/; HttpOnly
+                type: string
+              style: simple
             X-Rate-Limit:
               description: calls per hour allowed by the user
               explode: false
@@ -459,7 +488,7 @@ paths:
                 format: date-time
                 type: string
               style: simple
-        400:
+        "400":
           description: Invalid username/password supplied
       summary: Logs user into the system
       tags:
@@ -470,6 +499,8 @@ paths:
       responses:
         default:
           description: successful operation
+      security:
+      - api_key: []
       summary: Logs out current logged in user session
       tags:
       - user
@@ -487,10 +518,12 @@ paths:
           type: string
         style: simple
       responses:
-        400:
+        "400":
           description: Invalid username supplied
-        404:
+        "404":
           description: User not found
+      security:
+      - api_key: []
       summary: Delete user
       tags:
       - user
@@ -506,7 +539,7 @@ paths:
           type: string
         style: simple
       responses:
-        200:
+        "200":
           content:
             application/xml:
               schema:
@@ -515,9 +548,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: successful operation
-        400:
+        "400":
           description: Invalid username supplied
-        404:
+        "404":
           description: User not found
       summary: Get user by user name
       tags:
@@ -542,14 +575,15 @@ paths:
         description: Updated user object
         required: true
       responses:
-        400:
+        "400":
           description: Invalid user supplied
-        404:
+        "404":
           description: User not found
+      security:
+      - api_key: []
       summary: Updated user
       tags:
       - user
-      x-codegen-request-body-name: body
 components:
   requestBodies:
     UserArray:
@@ -628,6 +662,7 @@ components:
           format: int64
           type: integer
         name:
+          pattern: ^[a-zA-Z0-9]+[a-zA-Z0-9\.\-_]*[a-zA-Z0-9]+$
           type: string
       title: Pet category
       type: object

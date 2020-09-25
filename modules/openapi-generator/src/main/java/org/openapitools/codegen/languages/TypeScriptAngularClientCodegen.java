@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,10 +17,9 @@
 
 package org.openapitools.codegen.languages;
 
-import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.openapitools.codegen.utils.SemVer;
 import org.slf4j.Logger;
@@ -28,7 +27,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
-import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.openapitools.codegen.utils.StringUtils.*;
@@ -36,33 +36,52 @@ import static org.openapitools.codegen.utils.StringUtils.*;
 public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(TypeScriptAngularClientCodegen.class);
 
+    private static String CLASS_NAME_PREFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String CLASS_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9]*$";
     private static String FILE_NAME_SUFFIX_PATTERN = "^[a-zA-Z0-9.-]*$";
 
+    public static enum QUERY_PARAM_OBJECT_FORMAT_TYPE {dot, json, key};
+
+    private static final String DEFAULT_IMPORT_PREFIX = "./";
+
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
+    public static final String USE_SINGLE_REQUEST_PARAMETER = "useSingleRequestParameter";
     public static final String TAGGED_UNIONS = "taggedUnions";
     public static final String NG_VERSION = "ngVersion";
     public static final String PROVIDED_IN_ROOT = "providedInRoot";
+    public static final String ENFORCE_GENERIC_MODULE_WITH_PROVIDERS = "enforceGenericModuleWithProviders";
+    public static final String API_MODULE_PREFIX = "apiModulePrefix";
     public static final String SERVICE_SUFFIX = "serviceSuffix";
     public static final String SERVICE_FILE_SUFFIX = "serviceFileSuffix";
     public static final String MODEL_SUFFIX = "modelSuffix";
     public static final String MODEL_FILE_SUFFIX = "modelFileSuffix";
     public static final String FILE_NAMING = "fileNaming";
+    public static final String STRING_ENUMS = "stringEnums";
+    public static final String STRING_ENUMS_DESC = "Generate string enums instead of objects for enum values.";
+    public static final String QUERY_PARAM_OBJECT_FORMAT = "queryParamObjectFormat";
 
-    protected String ngVersion = "7.0.0";
+    protected String ngVersion = "10.0.0";
     protected String npmRepository = null;
+    private boolean useSingleRequestParameter = false;
     protected String serviceSuffix = "Service";
     protected String serviceFileSuffix = ".service";
     protected String modelSuffix = "";
     protected String modelFileSuffix = "";
     protected String fileNaming = "camelCase";
+    protected Boolean stringEnums = false;
+    protected QUERY_PARAM_OBJECT_FORMAT_TYPE queryParamObjectFormat = QUERY_PARAM_OBJECT_FORMAT_TYPE.dot;
 
     private boolean taggedUnions = false;
 
     public TypeScriptAngularClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+
         this.outputFolder = "generated-code/typescript-angular";
+
+        supportsMultipleInheritance = true;
 
         embeddedTemplateDir = templateDir = "typescript-angular";
         modelTemplateFiles.put("model.mustache", ".ts");
@@ -77,23 +96,29 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(CliOption.newBoolean(WITH_INTERFACES,
                 "Setting this property to true will generate interfaces next to the default class implementations.",
                 false));
+        this.cliOptions.add(CliOption.newBoolean(USE_SINGLE_REQUEST_PARAMETER,
+                "Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.",
+                false));
         this.cliOptions.add(CliOption.newBoolean(TAGGED_UNIONS,
                 "Use discriminators to create tagged unions instead of extending interfaces.",
                 this.taggedUnions));
         this.cliOptions.add(CliOption.newBoolean(PROVIDED_IN_ROOT,
                 "Use this property to provide Injectables in root (it is only valid in angular version greater or equal to 6.0.0).",
                 false));
-        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular.").defaultValue(this.ngVersion));
+        this.cliOptions.add(new CliOption(NG_VERSION, "The version of Angular. (At least 6.0.0)").defaultValue(this.ngVersion));
+        this.cliOptions.add(new CliOption(API_MODULE_PREFIX, "The prefix of the generated ApiModule."));
         this.cliOptions.add(new CliOption(SERVICE_SUFFIX, "The suffix of the generated service.").defaultValue(this.serviceSuffix));
         this.cliOptions.add(new CliOption(SERVICE_FILE_SUFFIX, "The suffix of the file of the generated service (service<suffix>.ts).").defaultValue(this.serviceFileSuffix));
         this.cliOptions.add(new CliOption(MODEL_SUFFIX, "The suffix of the generated model."));
         this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
+        this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
+        this.cliOptions.add(new CliOption(QUERY_PARAM_OBJECT_FORMAT, "The format for query param objects: 'dot', 'json', 'key'.").defaultValue(this.queryParamObjectFormat.name()));
     }
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
-        codegenModel.additionalPropertiesType = getTypeDeclaration(ModelUtils.getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getTypeDeclaration(getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -104,7 +129,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String getHelp() {
-        return "Generates a TypeScript Angular (2.x - 7.x) client library.";
+        return "Generates a TypeScript Angular (6.x - 10.x) client library.";
     }
 
     @Override
@@ -137,35 +162,53 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             addNpmPackageGeneration(ngVersion);
         }
 
+        if (additionalProperties.containsKey(STRING_ENUMS)) {
+            setStringEnums(Boolean.valueOf(additionalProperties.get(STRING_ENUMS).toString()));
+            additionalProperties.put("stringEnums", getStringEnums());
+            if (getStringEnums()) {
+                classEnumSeparator = "";
+            }
+        }
+
         if (additionalProperties.containsKey(WITH_INTERFACES)) {
             boolean withInterfaces = Boolean.parseBoolean(additionalProperties.get(WITH_INTERFACES).toString());
             if (withInterfaces) {
                 apiTemplateFiles.put("apiInterface.mustache", "Interface.ts");
             }
         }
+        
+        if (additionalProperties.containsKey(USE_SINGLE_REQUEST_PARAMETER)) {
+            this.setUseSingleRequestParameter(convertPropertyToBoolean(USE_SINGLE_REQUEST_PARAMETER));
+        }
+        writePropertyBack(USE_SINGLE_REQUEST_PARAMETER, getUseSingleRequestParameter());
 
         if (additionalProperties.containsKey(TAGGED_UNIONS)) {
             taggedUnions = Boolean.parseBoolean(additionalProperties.get(TAGGED_UNIONS).toString());
         }
 
-        if (ngVersion.atLeast("6.0.0")) {
-            if (!additionalProperties.containsKey(PROVIDED_IN_ROOT)) {
-                additionalProperties.put(PROVIDED_IN_ROOT, true);
-            } else {
-                additionalProperties.put(PROVIDED_IN_ROOT, Boolean.valueOf(
-                        (String) additionalProperties.get(PROVIDED_IN_ROOT)));
-            }
+        if (!additionalProperties.containsKey(PROVIDED_IN_ROOT)) {
+            additionalProperties.put(PROVIDED_IN_ROOT, true);
         } else {
-            additionalProperties.put(PROVIDED_IN_ROOT, false);
+            additionalProperties.put(PROVIDED_IN_ROOT, Boolean.parseBoolean(
+                additionalProperties.get(PROVIDED_IN_ROOT).toString()
+            ));
+        }
+
+        if (ngVersion.atLeast("9.0.0")) {                
+            additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, true);
+        } else {
+            additionalProperties.put(ENFORCE_GENERIC_MODULE_WITH_PROVIDERS, false);
         }
 
         additionalProperties.put(NG_VERSION, ngVersion);
-        additionalProperties.put("injectionToken", ngVersion.atLeast("4.0.0") ? "InjectionToken" : "OpaqueToken");
-        additionalProperties.put("injectionTokenTyped", ngVersion.atLeast("4.0.0"));
-        additionalProperties.put("useHttpClient", ngVersion.atLeast("4.3.0"));
-        additionalProperties.put("useRxJS6", ngVersion.atLeast("6.0.0"));
-        if (!ngVersion.atLeast("4.3.0")) {
-            supportingFiles.add(new SupportingFile("rxjs-operators.mustache", getIndexDirectory(), "rxjs-operators.ts"));
+
+        if (additionalProperties.containsKey(API_MODULE_PREFIX)) {
+            String apiModulePrefix = additionalProperties.get(API_MODULE_PREFIX).toString();
+            validateClassPrefixArgument("ApiModule", apiModulePrefix);
+
+            additionalProperties.put("apiModuleClassName", apiModulePrefix + "ApiModule");
+        } else {
+            additionalProperties.put("apiModuleClassName", "ApiModule");
         }
         if (additionalProperties.containsKey(SERVICE_SUFFIX)) {
             serviceSuffix = additionalProperties.get(SERVICE_SUFFIX).toString();
@@ -186,6 +229,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         if (additionalProperties.containsKey(FILE_NAMING)) {
             this.setFileNaming(additionalProperties.get(FILE_NAMING).toString());
         }
+
+        if (additionalProperties.containsKey(QUERY_PARAM_OBJECT_FORMAT)) {
+            setQueryParamObjectFormat((String) additionalProperties.get(QUERY_PARAM_OBJECT_FORMAT));
+        }
+        additionalProperties.put("isQueryParamObjectFormatDot", getQueryParamObjectFormatDot());
+        additionalProperties.put("isQueryParamObjectFormatJson", getQueryParamObjectFormatJson());
+        additionalProperties.put("isQueryParamObjectFormatKey", getQueryParamObjectFormatKey());
+
     }
 
     private void addNpmPackageGeneration(SemVer ngVersion) {
@@ -195,71 +246,64 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         }
 
         // Set the typescript version compatible to the Angular version
-        if (ngVersion.atLeast("7.0.0")) {
-            // Angular v7 requires typescript ">=3.1.1 <3.2.0"
+        if (ngVersion.atLeast("10.0.0")) {
+            additionalProperties.put("tsVersion", ">=3.9.2 <4.0.0");
+        } else if (ngVersion.atLeast("9.0.0")) {
+            additionalProperties.put("tsVersion", ">=3.6.0 <3.8.0");
+        } else if (ngVersion.atLeast("8.0.0")) {
+            additionalProperties.put("tsVersion", ">=3.4.0 <3.6.0");
+        } else if (ngVersion.atLeast("7.0.0")) {
             additionalProperties.put("tsVersion", ">=3.1.1 <3.2.0");
-        } else if (ngVersion.atLeast("6.0.0")) {
-            additionalProperties.put("tsVersion", ">=2.7.2 and <2.10.0");
-        } else if (ngVersion.atLeast("5.0.0")) {
-            additionalProperties.put("tsVersion", ">=2.1.5 <2.7.0");
         } else {
-            // Angular v2-v4 requires typescript ">=2.1.5 <2.8"
-            additionalProperties.put("tsVersion", ">=2.1.5 <2.8.0");
+            // Angular v6 requires typescript ">=2.7.2 and <2.10.0"
+            additionalProperties.put("tsVersion", ">=2.7.2 and <2.10.0");
         }
 
         // Set the rxJS version compatible to the Angular version
-        if (ngVersion.atLeast("7.0.0")) {
+        if (ngVersion.atLeast("10.0.0")) {
+            additionalProperties.put("rxjsVersion", "6.6.0");
+        } else if (ngVersion.atLeast("9.0.0")) {
+            additionalProperties.put("rxjsVersion", "6.5.3");
+        } else if (ngVersion.atLeast("8.0.0")) {
+            additionalProperties.put("rxjsVersion", "6.5.0");
+        } else if (ngVersion.atLeast("7.0.0")) {
             additionalProperties.put("rxjsVersion", "6.3.0");
-        } else if (ngVersion.atLeast("6.0.0")) {
+        } else {
+            // Angular v6
             additionalProperties.put("rxjsVersion", "6.1.0");
-        } else {
-            // Angular prior to v6
-            additionalProperties.put("rxjsVersion", "5.4.0");
         }
 
-        if (!ngVersion.atLeast("4.3.0")) {
-            supportingFiles.add(new SupportingFile("rxjs-operators.mustache", getIndexDirectory(), "rxjs-operators.ts"));
-        }
-
-        // for Angular 2 AOT support we will use good-old ngc,
-        // Angular Package format wasn't invented at this time and building was much more easier
-        if (!ngVersion.atLeast("4.0.0")) {
-            LOGGER.warn("Please update your legacy Angular " + ngVersion + " project to benefit from 'Angular Package Format' support.");
-            additionalProperties.put("useNgPackagr", false);
-        } else {
-            additionalProperties.put("useNgPackagr", true);
-            supportingFiles.add(new SupportingFile("ng-package.mustache", getIndexDirectory(), "ng-package.json"));
-        }
-
-        // Libraries generated with v1.x of ng-packagr will ship with AoT metadata in v3, which is intended for Angular v4.
-        // Libraries generated with v2.x of ng-packagr will ship with AoT metadata in v4, which is intended for Angular v5 (and Angular v6).
-        additionalProperties.put("useOldNgPackagr", !ngVersion.atLeast("5.0.0"));
+        supportingFiles.add(new SupportingFile("ng-package.mustache", getIndexDirectory(), "ng-package.json"));
 
         // Specific ng-packagr configuration
-        if (ngVersion.atLeast("7.0.0")) {
+        if (ngVersion.atLeast("10.0.0")) {
+            additionalProperties.put("ngPackagrVersion", "10.0.3");
+            additionalProperties.put("tsickleVersion", "0.39.1");
+        } else if (ngVersion.atLeast("9.0.0")) {
+            additionalProperties.put("ngPackagrVersion", "9.0.1");
+            additionalProperties.put("tsickleVersion", "0.38.0");
+        } else if (ngVersion.atLeast("8.0.0")) {
+            additionalProperties.put("ngPackagrVersion", "5.4.0");
+            additionalProperties.put("tsickleVersion", "0.35.0");
+        } else if (ngVersion.atLeast("7.0.0")) {
             // compatible versions with typescript version
             additionalProperties.put("ngPackagrVersion", "5.1.0");
             additionalProperties.put("tsickleVersion", "0.34.0");
-        } else if (ngVersion.atLeast("6.0.0")) {
+        } else {
+            // angular v6
             // compatible versions with typescript version
             additionalProperties.put("ngPackagrVersion", "3.0.6");
             additionalProperties.put("tsickleVersion", "0.32.1");
-        } else if (ngVersion.atLeast("5.0.0")) {
-            // compatible versions with typescript version
-            additionalProperties.put("ngPackagrVersion", "2.4.5");
-            additionalProperties.put("tsickleVersion", "0.27.5");
-        } else {
-            // Angular versions prior to v5
-            additionalProperties.put("ngPackagrVersion", "1.6.0");
         }
 
         // set zone.js version
-        if (ngVersion.atLeast("5.0.0")) {
-            // compatible versions to Angular 5+
-            additionalProperties.put("zonejsVersion", "0.8.26");
+        if (ngVersion.atLeast("9.0.0")) {
+            additionalProperties.put("zonejsVersion", "0.10.2");
+        } else if (ngVersion.atLeast("8.0.0")) {
+            additionalProperties.put("zonejsVersion", "0.9.1");
         } else {
-            // Angular versions prior to v5
-            additionalProperties.put("zonejsVersion", "0.7.6");
+            // compatible versions to Angular 6+
+            additionalProperties.put("zonejsVersion", "0.8.26");
         }
 
         //Files for building our lib
@@ -272,11 +316,31 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         return indexPackage.replace('.', File.separatorChar);
     }
 
+    public void setStringEnums(boolean value) {
+        stringEnums = value;
+    }
+
+    public Boolean getStringEnums() {
+        return stringEnums;
+    }
+
+    public boolean getQueryParamObjectFormatDot() {
+        return QUERY_PARAM_OBJECT_FORMAT_TYPE.dot.equals(queryParamObjectFormat);
+    }
+
+    public boolean getQueryParamObjectFormatJson() {
+        return QUERY_PARAM_OBJECT_FORMAT_TYPE.json.equals(queryParamObjectFormat);
+    }
+
+    public boolean getQueryParamObjectFormatKey() {
+        return QUERY_PARAM_OBJECT_FORMAT_TYPE.key.equals(queryParamObjectFormat);
+    }
+
     @Override
     public boolean isDataTypeFile(final String dataType) {
         return dataType != null && dataType.equals("Blob");
     }
-
+ 
     @Override
     public String getTypeDeclaration(Schema p) {
         if (ModelUtils.isFileSchema(p)) {
@@ -287,34 +351,11 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
 
-    @Override
-    public String getSchemaType(Schema p) {
-        String openAPIType = super.getSchemaType(p);
-        if (isLanguagePrimitive(openAPIType) || isLanguageGenericType(openAPIType)) {
-            return openAPIType;
-        }
-        applyLocalTypeMapping(openAPIType);
-        return openAPIType;
-    }
-
     private String applyLocalTypeMapping(String type) {
         if (typeMapping.containsKey(type)) {
             type = typeMapping.get(type);
         }
         return type;
-    }
-
-    private boolean isLanguagePrimitive(String type) {
-        return languageSpecificPrimitives.contains(type);
-    }
-
-    private boolean isLanguageGenericType(String type) {
-        for (String genericType : languageGenericTypes) {
-            if (type.startsWith(genericType + "<")) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
@@ -331,38 +372,13 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         objs.put("apiFilename", getApiFilenameFromClassname(objs.get("classname").toString()));
 
         List<CodegenOperation> ops = (List<CodegenOperation>) objs.get("operation");
+        boolean hasSomeFormParams = false;
         for (CodegenOperation op : ops) {
-            if ((boolean) additionalProperties.get("useHttpClient")) {
-                op.httpMethod = op.httpMethod.toLowerCase(Locale.ENGLISH);
-            } else {
-                // Convert httpMethod to Angular's RequestMethod enum
-                // https://angular.io/docs/ts/latest/api/http/index/RequestMethod-enum.html
-                switch (op.httpMethod) {
-                    case "GET":
-                        op.httpMethod = "RequestMethod.Get";
-                        break;
-                    case "POST":
-                        op.httpMethod = "RequestMethod.Post";
-                        break;
-                    case "PUT":
-                        op.httpMethod = "RequestMethod.Put";
-                        break;
-                    case "DELETE":
-                        op.httpMethod = "RequestMethod.Delete";
-                        break;
-                    case "OPTIONS":
-                        op.httpMethod = "RequestMethod.Options";
-                        break;
-                    case "HEAD":
-                        op.httpMethod = "RequestMethod.Head";
-                        break;
-                    case "PATCH":
-                        op.httpMethod = "RequestMethod.Patch";
-                        break;
-                    default:
-                        throw new RuntimeException("Unknown HTTP Method " + op.httpMethod + " not allowed");
-                }
+            if (op.getHasFormParams()) {
+                hasSomeFormParams = true;
             }
+            op.httpMethod = op.httpMethod.toLowerCase(Locale.ENGLISH);
+
 
             // Prep a string buffer where we're going to set up our new version of the string.
             StringBuilder pathBuffer = new StringBuilder();
@@ -385,7 +401,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
                         // Add the more complicated component instead of just the brace.
                         CodegenParameter parameter = findPathParameterByName(op, parameterName.toString());
-                        pathBuffer.append(toVarName(parameterName.toString()));
+                        pathBuffer.append(toParamName(parameterName.toString()));
                         if (parameter != null && parameter.isDateTime) {
                             pathBuffer.append(".toISOString()");
                         }
@@ -407,9 +423,12 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             op.path = pathBuffer.toString();
         }
 
+        operations.put("hasSomeFormParams", hasSomeFormParams);
+
         // Add additional filename information for model imports in the services
         List<Map<String, Object>> imports = (List<Map<String, Object>>) operations.get("imports");
         for (Map<String, Object> im : imports) {
+            // This property is not used in the templates any more, subject for removal
             im.put("filename", im.get("import"));
             im.put("classname", im.get("classname"));
         }
@@ -467,7 +486,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     }
 
     /**
-     * Parse imports 
+     * Parse imports
      */
     private Set<String> parseImports(CodegenModel cm) {
         Set<String> newImports = new HashSet<String>();
@@ -518,17 +537,26 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toApiImport(String name) {
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
         return apiPackage() + "/" + toApiFilename(name);
     }
 
     @Override
     public String toModelFilename(String name) {
-        return this.convertUsingFileNamingConvention(this.sanitizeName(name)) + modelFileSuffix;
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+        return DEFAULT_IMPORT_PREFIX + this.convertUsingFileNamingConvention(this.sanitizeName(name)) + modelFileSuffix;
     }
 
     @Override
     public String toModelImport(String name) {
-        return modelPackage() + "/" + toModelFilename(name);
+        if (importMapping.containsKey(name)) {
+            return importMapping.get(name);
+        }
+        return modelPackage() + "/" + toModelFilename(name).substring(DEFAULT_IMPORT_PREFIX.length());
     }
 
     public String getNpmRepository() {
@@ -539,6 +567,14 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.npmRepository = npmRepository;
     }
 
+    private boolean getUseSingleRequestParameter() {
+        return useSingleRequestParameter;
+    }
+
+    private void setUseSingleRequestParameter(boolean useSingleRequestParameter) {
+        this.useSingleRequestParameter = useSingleRequestParameter;
+    }
+
     private String getApiFilenameFromClassname(String classname) {
         String name = classname.substring(0, classname.length() - serviceSuffix.length());
         return toApiFilename(name);
@@ -546,11 +582,8 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
 
     @Override
     public String toModelName(String name) {
-        String modelName = super.toModelName(name);
-        if (modelSuffix.length() == 0 || modelName.endsWith(modelSuffix)) {
-            return modelName;
-        }
-        return modelName + modelSuffix;
+        name = addSuffix(name, modelSuffix);
+        return super.toModelName(name);
     }
 
     public String removeModelPrefixSuffix(String name) {
@@ -592,11 +625,44 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
      * @param argument The name of the argument being validated. This is only used for displaying an error message.
      * @param value    The value that is being validated.
      */
+    private void validateClassPrefixArgument(String argument, String value) {
+        if (!value.matches(CLASS_NAME_PREFIX_PATTERN)) {
+            throw new IllegalArgumentException(
+                    String.format(Locale.ROOT, "%s class prefix only allows alphanumeric characters.", argument)
+            );
+        }
+    }
+
+    /**
+     * Validates that the given string value only contains alpha numeric characters.
+     * Throws an IllegalArgumentException, if the string contains any other characters.
+     *
+     * @param argument The name of the argument being validated. This is only used for displaying an error message.
+     * @param value    The value that is being validated.
+     */
     private void validateClassSuffixArgument(String argument, String value) {
         if (!value.matches(CLASS_NAME_SUFFIX_PATTERN)) {
             throw new IllegalArgumentException(
                     String.format(Locale.ROOT, "%s class suffix only allows alphanumeric characters.", argument)
             );
+        }
+    }
+
+    /**
+     * Set the query param object format.
+     *
+     * @param format the query param object format to use
+     */
+    public void setQueryParamObjectFormat(String format) {
+        try {
+            queryParamObjectFormat = QUERY_PARAM_OBJECT_FORMAT_TYPE.valueOf(format);
+        } catch (IllegalArgumentException e) {
+            String values = Stream.of(QUERY_PARAM_OBJECT_FORMAT_TYPE.values())
+                    .map(value -> "'" + value.name() + "'")
+                    .collect(Collectors.joining(", "));
+
+            String msg = String.format(Locale.ROOT, "Invalid query param object format '%s'. Must be one of %s.", format, values);
+            throw new IllegalArgumentException(msg);
         }
     }
 

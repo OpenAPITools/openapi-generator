@@ -19,7 +19,7 @@ To test class name in snake case
 ### Example
 
 ```csharp
-using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -29,14 +29,15 @@ namespace Example
 {
     public class TestClassnameExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "http://petstore.swagger.io:80/v2";
             // Configure API key authorization: api_key_query
             Configuration.Default.AddApiKey("api_key_query", "YOUR_API_KEY");
             // Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
             // Configuration.Default.AddApiKeyPrefix("api_key_query", "Bearer");
 
-            var apiInstance = new FakeClassnameTags123Api();
+            var apiInstance = new FakeClassnameTags123Api(Configuration.Default);
             var body = new ModelClient(); // ModelClient | client model
 
             try
@@ -45,9 +46,11 @@ namespace Example
                 ModelClient result = apiInstance.TestClassname(body);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling FakeClassnameTags123Api.TestClassname: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -73,6 +76,11 @@ Name | Type | Description  | Notes
 
 - **Content-Type**: application/json
 - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | successful operation |  -  |
 
 [[Back to top]](#)
 [[Back to API list]](../README.md#documentation-for-api-endpoints)

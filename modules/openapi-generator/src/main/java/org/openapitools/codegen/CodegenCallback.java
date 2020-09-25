@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -44,6 +44,7 @@ public class CodegenCallback {
         public int hashCode() {
             return Objects.hash(expression, hasMore, requests, vendorExtensions);
         }
+
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
@@ -64,10 +65,12 @@ public class CodegenCallback {
         return Objects.equals(that.name, name) && Objects.equals(that.hasMore, hasMore) &&
                 Objects.equals(that.urls, urls) && Objects.equals(that.vendorExtensions, vendorExtensions);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(name, hasMore, urls, vendorExtensions);
     }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -77,4 +80,6 @@ public class CodegenCallback {
         sb.append("}");
         return sb.toString();
     }
+
+
 }

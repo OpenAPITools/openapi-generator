@@ -1,0 +1,76 @@
+# {{packageName}} - Kotlin Server library for {{appName}}
+
+## Requires
+
+* Kotlin 1.3.10
+* Maven 3.3
+
+## Build
+
+```
+mvn clean package
+```
+
+This runs all tests and packages the library.
+
+## Features/Implementation Notes
+
+* Supports JSON inputs/outputs and Form inputs.
+* Supports collection formats for query parameters: csv, tsv, ssv, pipes.
+* Some Kotlin and Java types are fully qualified to avoid conflicts with types defined in OpenAPI definitions.
+
+{{#generateApiDocs}}
+    <a name="documentation-for-api-endpoints"></a>
+    ## Documentation for API Endpoints
+
+    All URIs are relative to *{{{basePath}}}*
+
+    Class | Method | HTTP request | Description
+    ------------ | ------------- | ------------- | -------------
+    {{#apiInfo}}{{#apis}}{{#operations}}{{#operation}}*{{classname}}* | [**{{operationId}}**]({{apiDocPath}}{{classname}}.md#{{operationIdLowerCase}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{{summary}}}{{/summary}}
+    {{/operation}}{{/operations}}{{/apis}}{{/apiInfo}}
+{{/generateApiDocs}}
+
+{{#generateModelDocs}}
+    <a name="documentation-for-models"></a>
+    ## Documentation for Models
+
+    {{#modelPackage}}
+        {{#models}}{{#model}} - [{{{modelPackage}}}.{{{classname}}}]({{modelDocPath}}{{{classname}}}.md)
+        {{/model}}{{/models}}
+    {{/modelPackage}}
+    {{^modelPackage}}
+        No model defined in this package
+    {{/modelPackage}}
+{{/generateModelDocs}}
+
+<a name="documentation-for-authorization"></a>{{! TODO: optional documentation for authorization? }}
+## Documentation for Authorization
+
+{{^authMethods}}
+    All endpoints do not require authorization.
+{{/authMethods}}
+{{#authMethods}}
+    {{#last}}
+        Authentication schemes defined for the API:
+    {{/last}}
+{{/authMethods}}
+{{#authMethods}}
+    <a name="{{name}}"></a>
+    ### {{name}}
+
+    {{#isApiKey}}- **Type**: API key
+    - **API key parameter name**: {{keyParamName}}
+    - **Location**: {{#isKeyInQuery}}URL query string{{/isKeyInQuery}}{{#isKeyInHeader}}HTTP header{{/isKeyInHeader}}
+    {{/isApiKey}}
+    {{#isBasic}}- **Type**: HTTP basic authentication
+    {{/isBasic}}
+    {{#isOAuth}}- **Type**: OAuth
+    - **Flow**: {{flow}}
+    - **Authorization URL**: {{authorizationUrl}}
+    - **Scopes**: {{^scopes}}N/A{{/scopes}}
+    {{#scopes}}  - {{scope}}: {{description}}
+    {{/scopes}}
+    {{/isOAuth}}
+
+{{/authMethods}}

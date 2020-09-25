@@ -15,37 +15,46 @@ package org.openapitools.client.model;
 
 import java.util.Objects;
 import java.util.Arrays;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.fasterxml.jackson.dataformat.xml.annotation.*;
 import javax.xml.bind.annotation.*;
 
 /**
  * FileSchemaTestClass
  */
-
+@JsonPropertyOrder({
+  FileSchemaTestClass.JSON_PROPERTY_FILE,
+  FileSchemaTestClass.JSON_PROPERTY_FILES
+})
+@JsonTypeName("FileSchemaTestClass")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 @XmlRootElement(name = "FileSchemaTestClass")
 @XmlAccessorType(XmlAccessType.FIELD)
 @JacksonXmlRootElement(localName = "FileSchemaTestClass")
 public class FileSchemaTestClass {
-  @JsonProperty("file")
-  @JacksonXmlProperty(localName = "file")
+  public static final String JSON_PROPERTY_FILE = "file";
   @XmlElement(name = "file")
-  private java.io.File file = null;
+  private java.io.File file;
 
-  @JsonProperty("files")
+  public static final String JSON_PROPERTY_FILES = "files";
   // Is a container wrapped=false
   // items.name=files items.baseName=files items.xmlName= items.xmlNamespace=
   // items.example= items.type=java.io.File
   @XmlElement(name = "files")
-  private List<java.io.File> files = new ArrayList<java.io.File>();
+  private List<java.io.File> files = null;
+
 
   public FileSchemaTestClass file(java.io.File file) {
+    
     this.file = file;
     return this;
   }
@@ -56,15 +65,22 @@ public class FileSchemaTestClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_FILE)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+  @JacksonXmlProperty(localName = "file")
+
   public java.io.File getFile() {
     return file;
   }
+
 
   public void setFile(java.io.File file) {
     this.file = file;
   }
 
+
   public FileSchemaTestClass files(List<java.io.File> files) {
+    
     this.files = files;
     return this;
   }
@@ -83,9 +99,13 @@ public class FileSchemaTestClass {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+  @JsonProperty(JSON_PROPERTY_FILES)
+  @JsonInclude(value = JsonInclude.Include.USE_DEFAULTS)
+
   public List<java.io.File> getFiles() {
     return files;
   }
+
 
   public void setFiles(List<java.io.File> files) {
     this.files = files;
@@ -93,7 +113,7 @@ public class FileSchemaTestClass {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -125,7 +145,7 @@ public class FileSchemaTestClass {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

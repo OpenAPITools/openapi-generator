@@ -26,11 +26,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.*;
+import javax.validation.Valid;
+import org.hibernate.validator.constraints.*;
 
 /**
  * TypeHolderDefault
  */
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
 public class TypeHolderDefault {
   public static final String SERIALIZED_NAME_STRING_ITEM = "string_item";
   @SerializedName(SERIALIZED_NAME_STRING_ITEM)
@@ -52,7 +55,9 @@ public class TypeHolderDefault {
   @SerializedName(SERIALIZED_NAME_ARRAY_ITEM)
   private List<Integer> arrayItem = new ArrayList<Integer>();
 
+
   public TypeHolderDefault stringItem(String stringItem) {
+    
     this.stringItem = stringItem;
     return this;
   }
@@ -61,16 +66,21 @@ public class TypeHolderDefault {
    * Get stringItem
    * @return stringItem
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "")
+
   public String getStringItem() {
     return stringItem;
   }
+
 
   public void setStringItem(String stringItem) {
     this.stringItem = stringItem;
   }
 
+
   public TypeHolderDefault numberItem(BigDecimal numberItem) {
+    
     this.numberItem = numberItem;
     return this;
   }
@@ -79,16 +89,22 @@ public class TypeHolderDefault {
    * Get numberItem
    * @return numberItem
   **/
+  @NotNull
+  @Valid
   @ApiModelProperty(required = true, value = "")
+
   public BigDecimal getNumberItem() {
     return numberItem;
   }
+
 
   public void setNumberItem(BigDecimal numberItem) {
     this.numberItem = numberItem;
   }
 
+
   public TypeHolderDefault integerItem(Integer integerItem) {
+    
     this.integerItem = integerItem;
     return this;
   }
@@ -97,16 +113,21 @@ public class TypeHolderDefault {
    * Get integerItem
    * @return integerItem
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "")
+
   public Integer getIntegerItem() {
     return integerItem;
   }
+
 
   public void setIntegerItem(Integer integerItem) {
     this.integerItem = integerItem;
   }
 
+
   public TypeHolderDefault boolItem(Boolean boolItem) {
+    
     this.boolItem = boolItem;
     return this;
   }
@@ -115,16 +136,21 @@ public class TypeHolderDefault {
    * Get boolItem
    * @return boolItem
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "")
+
   public Boolean isBoolItem() {
     return boolItem;
   }
+
 
   public void setBoolItem(Boolean boolItem) {
     this.boolItem = boolItem;
   }
 
+
   public TypeHolderDefault arrayItem(List<Integer> arrayItem) {
+    
     this.arrayItem = arrayItem;
     return this;
   }
@@ -138,10 +164,13 @@ public class TypeHolderDefault {
    * Get arrayItem
    * @return arrayItem
   **/
+  @NotNull
   @ApiModelProperty(required = true, value = "")
+
   public List<Integer> getArrayItem() {
     return arrayItem;
   }
+
 
   public void setArrayItem(List<Integer> arrayItem) {
     this.arrayItem = arrayItem;
@@ -149,7 +178,7 @@ public class TypeHolderDefault {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -187,7 +216,7 @@ public class TypeHolderDefault {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

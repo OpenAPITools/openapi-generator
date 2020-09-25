@@ -36,7 +36,6 @@ namespace Example
     {
         public void main()
         {
-            
             var apiInstance = new UserApi();
             var body = new User(); // User | Created user object
 
@@ -95,7 +94,6 @@ namespace Example
     {
         public void main()
         {
-            
             var apiInstance = new UserApi();
             var body = new List<User>(); // List<User> | List of user object
 
@@ -117,7 +115,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List<User>**](List.md)| List of user object | 
+ **body** | [**List<User>**](User.md)| List of user object | 
 
 ### Return type
 
@@ -154,7 +152,6 @@ namespace Example
     {
         public void main()
         {
-            
             var apiInstance = new UserApi();
             var body = new List<User>(); // List<User> | List of user object
 
@@ -176,7 +173,7 @@ namespace Example
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List<User>**](List.md)| List of user object | 
+ **body** | [**List<User>**](User.md)| List of user object | 
 
 ### Return type
 
@@ -215,7 +212,6 @@ namespace Example
     {
         public void main()
         {
-            
             var apiInstance = new UserApi();
             var username = username_example;  // string | The name that needs to be deleted
 
@@ -274,7 +270,6 @@ namespace Example
     {
         public void main()
         {
-            
             var apiInstance = new UserApi();
             var username = username_example;  // string | The name that needs to be fetched. Use user1 for testing.
 
@@ -334,7 +329,6 @@ namespace Example
     {
         public void main()
         {
-            
             var apiInstance = new UserApi();
             var username = username_example;  // string | The user name for login
             var password = password_example;  // string | The password for login in clear text
@@ -396,7 +390,6 @@ namespace Example
     {
         public void main()
         {
-            
             var apiInstance = new UserApi();
 
             try
@@ -453,7 +446,6 @@ namespace Example
     {
         public void main()
         {
-            
             var apiInstance = new UserApi();
             var username = username_example;  // string | name that need to be deleted
             var body = new User(); // User | Updated user object

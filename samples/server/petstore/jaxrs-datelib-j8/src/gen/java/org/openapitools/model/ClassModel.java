@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -26,9 +27,13 @@ import javax.validation.Valid;
  * Model for testing model with \&quot;_class\&quot; property
  */
 @ApiModel(description = "Model for testing model with \"_class\" property")
-
+@JsonPropertyOrder({
+  ClassModel.JSON_PROPERTY_PROPERTY_CLASS
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class ClassModel  implements Serializable {
-  @JsonProperty("_class")
+  public static final String JSON_PROPERTY_PROPERTY_CLASS = "_class";
+  @JsonProperty(JSON_PROPERTY_PROPERTY_CLASS)
   private String propertyClass;
 
   public ClassModel propertyClass(String propertyClass) {
@@ -53,7 +58,7 @@ public class ClassModel  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -84,7 +89,7 @@ public class ClassModel  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

@@ -29,15 +29,17 @@ import android.os.Parcel;
 /**
  * SpecialModelName
  */
-
-public class SpecialModelName implements Parcelable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class SpecialModelName {
   public static final String SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME = "$special[property.name]";
   @SerializedName(SERIALIZED_NAME_$_SPECIAL_PROPERTY_NAME)
   private Long $specialPropertyName;
 
   public SpecialModelName() {
   }
+
   public SpecialModelName $specialPropertyName(Long $specialPropertyName) {
+    
     this.$specialPropertyName = $specialPropertyName;
     return this;
   }
@@ -48,9 +50,11 @@ public class SpecialModelName implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
+
 
   public void set$SpecialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
@@ -58,7 +62,7 @@ public class SpecialModelName implements Parcelable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -88,7 +92,7 @@ public class SpecialModelName implements Parcelable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

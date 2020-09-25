@@ -1,0 +1,41 @@
+{{>licenseInfo}}
+#ifndef {{prefix}}_HTTP_FILE_ELEMENT_H
+#define {{prefix}}_HTTP_FILE_ELEMENT_H
+
+#include <QJsonValue>
+#include <QMetaType>
+#include <QString>
+
+{{#cppNamespaceDeclarations}}
+namespace {{this}} {
+{{/cppNamespaceDeclarations}}
+
+class {{prefix}}HttpFileElement {
+
+public:
+    QString variable_name;
+    QString local_filename;
+    QString request_filename;
+    QString mime_type;
+    void setMimeType(const QString &mime);
+    void setFileName(const QString &name);
+    void setVariableName(const QString &name);
+    void setRequestFileName(const QString &name);
+    bool isSet() const;
+    bool fromStringValue(const QString &instr);
+    bool fromJsonValue(const QJsonValue &jval);
+    bool fromByteArray(const QByteArray &bytes);
+    bool saveToFile(const QString &variable_name, const QString &local_filename, const QString &request_filename, const QString &mime, const QByteArray &bytes);
+    QString asJson() const;
+    QJsonValue asJsonValue() const;
+    QByteArray asByteArray() const;
+    QByteArray loadFromFile(const QString &variable_name, const QString &local_filename, const QString &request_filename, const QString &mime);
+};
+
+{{#cppNamespaceDeclarations}}
+} // namespace {{this}}
+{{/cppNamespaceDeclarations}}
+
+Q_DECLARE_METATYPE({{#cppNamespaceDeclarations}}{{this}}::{{/cppNamespaceDeclarations}}{{prefix}}HttpFileElement)
+
+#endif // {{prefix}}_HTTP_FILE_ELEMENT_H

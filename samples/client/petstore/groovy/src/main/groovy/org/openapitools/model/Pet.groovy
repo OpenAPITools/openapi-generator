@@ -13,7 +13,7 @@ class Pet {
     
     Long id
     
-    Category category = null
+    Category category
     
     String name
     

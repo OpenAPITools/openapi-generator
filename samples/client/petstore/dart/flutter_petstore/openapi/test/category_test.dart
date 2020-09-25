@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 // tests for Category
 void main() {
-  var instance = new Category();
+  var instance = Category();
 
   group('test Category', () {
     // int id (default value: null)

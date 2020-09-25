@@ -1,34 +1,19 @@
-#ifndef PETAPITESTS_H
-#define PETAPITESTS_H
+#pragma once
 
-#include <QtTest/QtTest>
-#include <QTimer>
+#include "../client/PFXPetApi.h"
 
-#include "../client/OAIPetApi.h"
+using namespace test_namespace;
 
-using namespace OpenAPI;
+class PetApiTests : public QObject {
+    Q_OBJECT
 
-class PetApiTests: public QObject {
-Q_OBJECT
-public:
-    PetApiTests();
-    virtual ~PetApiTests();
-
-    static void runTests();
-
-private:
-    OAIPetApi* getApi();
-    OAIPet createRandomPet();
-
-signals:
-    void quit();
-    bool success();
+    PFXPet createRandomPet();
 
 private slots:
     void findPetsByStatusTest();
     void createAndGetPetTest();
+    /*
     void updatePetTest();
     void updatePetWithFormTest();
+    */
 };
-
-#endif // PETAPITESTS_H

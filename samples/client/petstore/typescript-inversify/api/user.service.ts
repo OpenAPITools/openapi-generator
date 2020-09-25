@@ -11,18 +11,18 @@
  */
 /* tslint:disable:no-unused-variable member-ordering */
 
-import { Observable } from "rxjs/Observable";
+import { Observable } from 'rxjs/Observable';
 
-import { map } from "rxjs/operators";
-import IHttpClient from "../IHttpClient";
-import { inject, injectable } from "inversify";
-import { IAPIConfiguration } from "../IAPIConfiguration";
-import { Headers } from "../Headers";
-import HttpResponse from "../HttpResponse";
+import { map } from 'rxjs/operators';
+import IHttpClient from '../IHttpClient';
+import { inject, injectable } from 'inversify';
+import { IAPIConfiguration } from '../IAPIConfiguration';
+import { Headers } from '../Headers';
+import HttpResponse from '../HttpResponse';
 
-import { User } from "../model/user";
+import { User } from '../model/user';
 
-import { COLLECTION_FORMATS }  from "../variables";
+import { COLLECTION_FORMATS }  from '../variables';
 
 
 
@@ -30,8 +30,8 @@ import { COLLECTION_FORMATS }  from "../variables";
 export class UserService {
     private basePath: string = 'http://petstore.swagger.io/v2';
 
-    constructor(@inject("IApiHttpClient") private httpClient: IHttpClient,
-        @inject("IAPIConfiguration") private APIConfiguration: IAPIConfiguration ) {
+    constructor(@inject('IApiHttpClient') private httpClient: IHttpClient,
+        @inject('IAPIConfiguration') private APIConfiguration: IAPIConfiguration ) {
         if(this.APIConfiguration.basePath)
             this.basePath = this.APIConfiguration.basePath;
     }
@@ -45,7 +45,7 @@ export class UserService {
     public createUser(body: User, observe?: 'body', headers?: Headers): Observable<any>;
     public createUser(body: User, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
     public createUser(body: User, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!body){
+        if (body === null || body === undefined){
             throw new Error('Required parameter body was null or undefined when calling createUser.');
         }
 
@@ -53,9 +53,9 @@ export class UserService {
         headers['Content-Type'] = 'application/json';
 
         const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/user`, body , headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <any>(httpResponse.response))
                );
         }
         return response;
@@ -71,7 +71,7 @@ export class UserService {
     public createUsersWithArrayInput(body: Array<User>, observe?: 'body', headers?: Headers): Observable<any>;
     public createUsersWithArrayInput(body: Array<User>, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
     public createUsersWithArrayInput(body: Array<User>, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!body){
+        if (body === null || body === undefined){
             throw new Error('Required parameter body was null or undefined when calling createUsersWithArrayInput.');
         }
 
@@ -79,9 +79,9 @@ export class UserService {
         headers['Content-Type'] = 'application/json';
 
         const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/user/createWithArray`, body , headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <any>(httpResponse.response))
                );
         }
         return response;
@@ -97,7 +97,7 @@ export class UserService {
     public createUsersWithListInput(body: Array<User>, observe?: 'body', headers?: Headers): Observable<any>;
     public createUsersWithListInput(body: Array<User>, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
     public createUsersWithListInput(body: Array<User>, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!body){
+        if (body === null || body === undefined){
             throw new Error('Required parameter body was null or undefined when calling createUsersWithListInput.');
         }
 
@@ -105,9 +105,9 @@ export class UserService {
         headers['Content-Type'] = 'application/json';
 
         const response: Observable<HttpResponse<any>> = this.httpClient.post(`${this.basePath}/user/createWithList`, body , headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <any>(httpResponse.response))
                );
         }
         return response;
@@ -123,16 +123,16 @@ export class UserService {
     public deleteUser(username: string, observe?: 'body', headers?: Headers): Observable<any>;
     public deleteUser(username: string, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
     public deleteUser(username: string, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!username){
+        if (username === null || username === undefined){
             throw new Error('Required parameter username was null or undefined when calling deleteUser.');
         }
 
         headers['Accept'] = 'application/json';
 
         const response: Observable<HttpResponse<any>> = this.httpClient.delete(`${this.basePath}/user/${encodeURIComponent(String(username))}`, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <any>(httpResponse.response))
                );
         }
         return response;
@@ -148,16 +148,16 @@ export class UserService {
     public getUserByName(username: string, observe?: 'body', headers?: Headers): Observable<User>;
     public getUserByName(username: string, observe?: 'response', headers?: Headers): Observable<HttpResponse<User>>;
     public getUserByName(username: string, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!username){
+        if (username === null || username === undefined){
             throw new Error('Required parameter username was null or undefined when calling getUserByName.');
         }
 
-        headers['Accept'] = 'application/xml';
+        headers['Accept'] = 'application/xml, application/json';
 
         const response: Observable<HttpResponse<User>> = this.httpClient.get(`${this.basePath}/user/${encodeURIComponent(String(username))}`, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <User>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <User>(httpResponse.response))
                );
         }
         return response;
@@ -174,28 +174,28 @@ export class UserService {
     public loginUser(username: string, password: string, observe?: 'body', headers?: Headers): Observable<string>;
     public loginUser(username: string, password: string, observe?: 'response', headers?: Headers): Observable<HttpResponse<string>>;
     public loginUser(username: string, password: string, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!username){
+        if (username === null || username === undefined){
             throw new Error('Required parameter username was null or undefined when calling loginUser.');
         }
 
-        if (!password){
+        if (password === null || password === undefined){
             throw new Error('Required parameter password was null or undefined when calling loginUser.');
         }
 
         let queryParameters: string[] = [];
         if (username !== undefined) {
-            queryParameters.push("username="+encodeURIComponent(String(username)));
+            queryParameters.push('username='+encodeURIComponent(String(username)));
         }
         if (password !== undefined) {
-            queryParameters.push("password="+encodeURIComponent(String(password)));
+            queryParameters.push('password='+encodeURIComponent(String(password)));
         }
 
-        headers['Accept'] = 'application/xml';
+        headers['Accept'] = 'application/xml, application/json';
 
         const response: Observable<HttpResponse<string>> = this.httpClient.get(`${this.basePath}/user/login?${queryParameters.join('&')}`, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <string>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <string>(httpResponse.response))
                );
         }
         return response;
@@ -213,9 +213,9 @@ export class UserService {
         headers['Accept'] = 'application/json';
 
         const response: Observable<HttpResponse<any>> = this.httpClient.get(`${this.basePath}/user/logout`, headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <any>(httpResponse.response))
                );
         }
         return response;
@@ -232,11 +232,11 @@ export class UserService {
     public updateUser(username: string, body: User, observe?: 'body', headers?: Headers): Observable<any>;
     public updateUser(username: string, body: User, observe?: 'response', headers?: Headers): Observable<HttpResponse<any>>;
     public updateUser(username: string, body: User, observe: any = 'body', headers: Headers = {}): Observable<any> {
-        if (!username){
+        if (username === null || username === undefined){
             throw new Error('Required parameter username was null or undefined when calling updateUser.');
         }
 
-        if (!body){
+        if (body === null || body === undefined){
             throw new Error('Required parameter body was null or undefined when calling updateUser.');
         }
 
@@ -244,9 +244,9 @@ export class UserService {
         headers['Content-Type'] = 'application/json';
 
         const response: Observable<HttpResponse<any>> = this.httpClient.put(`${this.basePath}/user/${encodeURIComponent(String(username))}`, body , headers);
-        if (observe == 'body') {
+        if (observe === 'body') {
                return response.pipe(
-                   map(httpResponse => <any>(httpResponse.response))
+                   map((httpResponse: HttpResponse) => <any>(httpResponse.response))
                );
         }
         return response;

@@ -10,6 +10,7 @@ import java.util.TimeZone;
 
 import org.junit.*;
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 
 public class ApiClientTest {
@@ -329,24 +330,18 @@ public class ApiClientTest {
         assertEquals("sun.gif", apiClient.sanitizeFilename(".\\sun.gif"));
     }
 
-
     @Test
-    public void testInterceptorCleanupWithNewClient() {
+    public void testNewHttpClient() {
         OkHttpClient oldClient = apiClient.getHttpClient();
-        assertEquals(1, oldClient.networkInterceptors().size());
-
-        OkHttpClient newClient = new OkHttpClient();
-        apiClient.setHttpClient(newClient);
-        assertEquals(1, apiClient.getHttpClient().networkInterceptors().size());
-        apiClient.setHttpClient(newClient);
-        assertEquals(1, apiClient.getHttpClient().networkInterceptors().size());
+        apiClient.setHttpClient(oldClient.newBuilder().build());
+        assertThat(apiClient.getHttpClient(), is(not(oldClient)));
     }
 
-    @Test
-    public void testInterceptorCleanupWithSameClient() {
-        OkHttpClient oldClient = apiClient.getHttpClient();
-        assertEquals(1, oldClient.networkInterceptors().size());
-        apiClient.setHttpClient(oldClient);
-        assertEquals(1, apiClient.getHttpClient().networkInterceptors().size());
+    /**
+     * Tests the invariant that the HttpClient for the ApiClient must never be null
+     */
+    @Test(expected = NullPointerException.class)
+    public void testNullHttpClient() {
+        apiClient.setHttpClient(null);
     }
 }

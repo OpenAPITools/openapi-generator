@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.io.Serializable;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -29,9 +30,16 @@ import javax.validation.Valid;
 /**
  * MapTest
  */
-
+@JsonPropertyOrder({
+  MapTest.JSON_PROPERTY_MAP_MAP_OF_STRING,
+  MapTest.JSON_PROPERTY_MAP_OF_ENUM_STRING,
+  MapTest.JSON_PROPERTY_DIRECT_MAP,
+  MapTest.JSON_PROPERTY_INDIRECT_MAP
+})
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class MapTest  implements Serializable {
-  @JsonProperty("map_map_of_string")
+  public static final String JSON_PROPERTY_MAP_MAP_OF_STRING = "map_map_of_string";
+  @JsonProperty(JSON_PROPERTY_MAP_MAP_OF_STRING)
   private Map<String, Map<String, String>> mapMapOfString = null;
 
   /**
@@ -65,13 +73,16 @@ public class MapTest  implements Serializable {
     }
   }
 
-  @JsonProperty("map_of_enum_string")
+  public static final String JSON_PROPERTY_MAP_OF_ENUM_STRING = "map_of_enum_string";
+  @JsonProperty(JSON_PROPERTY_MAP_OF_ENUM_STRING)
   private Map<String, InnerEnum> mapOfEnumString = null;
 
-  @JsonProperty("direct_map")
+  public static final String JSON_PROPERTY_DIRECT_MAP = "direct_map";
+  @JsonProperty(JSON_PROPERTY_DIRECT_MAP)
   private Map<String, Boolean> directMap = null;
 
-  @JsonProperty("indirect_map")
+  public static final String JSON_PROPERTY_INDIRECT_MAP = "indirect_map";
+  @JsonProperty(JSON_PROPERTY_INDIRECT_MAP)
   private Map<String, Boolean> indirectMap = null;
 
   public MapTest mapMapOfString(Map<String, Map<String, String>> mapMapOfString) {
@@ -188,7 +199,7 @@ public class MapTest  implements Serializable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -225,7 +236,7 @@ public class MapTest  implements Serializable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }

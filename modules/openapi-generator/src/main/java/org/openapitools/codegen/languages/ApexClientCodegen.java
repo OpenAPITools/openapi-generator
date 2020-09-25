@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,7 +18,6 @@
 package org.openapitools.codegen.languages;
 
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
@@ -239,7 +238,7 @@ public class ApexClientCodegen extends AbstractApexCodegen {
             Long def = (Long) p.getDefault();
             out = def == null ? out : def.toString() + "L";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             String s = inner == null ? "Object" : getTypeDeclaration(inner);
             out = String.format(Locale.ROOT, "new Map<String, %s>()", s);
         } else if (ModelUtils.isStringSchema(p)) {
@@ -315,7 +314,8 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         supportingFiles.add(new SupportingFile("git_push.sh.mustache", "", "git_push.sh"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
 
-        writeOptional(outputFolder, new SupportingFile("README_ant.mustache", "README.md"));
+        supportingFiles.add(new SupportingFile("README_ant.mustache", "README.md")
+            .doNotOverwrite());
 
     }
 
@@ -324,7 +324,8 @@ public class ApexClientCodegen extends AbstractApexCodegen {
         supportingFiles.add(new SupportingFile("sfdx-project-scratch-def.json", sfdxConfigPath, "project-scratch-def.json"));
         supportingFiles.add(new SupportingFile("sfdx-project.json.mustache", "sfdx-project.json"));
 
-        writeOptional(outputFolder, new SupportingFile("README_sfdx.mustache", "README.md"));
+        supportingFiles.add(new SupportingFile("README_sfdx.mustache", "README.md")
+            .doNotOverwrite());
 
     }
 

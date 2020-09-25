@@ -43,9 +43,9 @@
 {{/emitJSDoc}}{{=< >=}}    this.authentications = {
 <#authMethods>
 <#isBasic>
-<^isBasicBearer>
+<#isBasicBasic>
       '<name>': {type: 'basic'}<^-last>,</-last>
-</isBasicBearer>
+</isBasicBasic>
 <#isBasicBearer>
       '<name>': {type: 'bearer'}<^-last>,</-last><#bearerFormat> // <&.></bearerFormat>
 </isBasicBearer>
@@ -119,7 +119,26 @@
     if (param instanceof Date) {
       return param.toJSON();
     }
+    if (this.canBeJsonified(param)) {
+      return JSON.stringify(param);
+    }
     return param.toString();
+  };
+
+{{#emitJSDoc}}  /**
+    * Returns a boolean indicating if the parameter could be JSON.stringified
+    * @param param The actual parameter
+    * @returns {Boolean} Flag indicating if <code>param</code> can be JSON.stringified
+    */
+{{/emitJSDoc}}  exports.prototype.canBeJsonified = function(str) {
+    if (typeof str !== 'string' && typeof str !== 'object') return false;
+    try {
+      const type = str.toString();
+      return type === '[object Object]'
+          || type === '[object Array]';
+    } catch (err) {
+      return false;
+    }
   };
 
 {{#emitJSDoc}}
@@ -459,8 +478,6 @@
       if(contentType != 'multipart/form-data') {
         request.type(contentType);
       }
-    } else if (!request.header['Content-Type']) {
-      request.type('application/json');
     }
 
     if (contentType === 'application/x-www-form-urlencoded') {
@@ -478,6 +495,9 @@
         }
       }
     } else if (bodyParam !== null && bodyParam !== undefined) {
+      if (!request.header['Content-Type']) {
+          request.type('application/json');
+      }
       request.send(bodyParam);
     }
 
@@ -540,12 +560,15 @@
 {{/usePromises}}  };
 
 {{#emitJSDoc}}  /**
-   * Parses an ISO-8601 string representation of a date value.
+   * Parses an ISO-8601 string representation or epoch representation of a date value.
    * @param {String} str The date value as a string.
    * @returns {Date} The parsed date object.
    */
 {{/emitJSDoc}}  exports.parseDate = function(str) {
-    return new Date(str.replace(/T/i, ' '));
+    if (isNaN(str)) {
+      return new Date(str.replace(/T/i, ' '));
+    }
+    return new Date(+str);
   };
 
 {{#emitJSDoc}}  /**

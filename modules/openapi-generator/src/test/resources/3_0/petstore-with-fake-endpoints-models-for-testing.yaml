@@ -8,7 +8,7 @@ info:
   title: OpenAPI Petstore
   license:
     name: Apache-2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 tags:
   - name: pet
     description: Everything about your Pets
@@ -989,6 +989,57 @@ paths:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
+  /fake/test-query-paramters:
+    put:
+      tags:
+        - fake
+      description: To test the collection format in query parameters
+      operationId: testQueryParameterCollectionFormat
+      parameters:
+        - name: pipe
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+        - name: ioutil
+          in: query
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: http
+          in: query
+          required: true
+          style: spaceDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: url
+          in: query
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: context
+          in: query
+          required: true
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: Success
   '/fake/{petId}/uploadImageWithRequiredFile':
     post:
       tags:
@@ -1042,6 +1093,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
+  /fake/http-signature-test:
+    get:
+      tags:
+        - fake
+      summary: test http signature authentication
+      operationId: fake-http-signature-test
+      parameters:
+        - name: query_1 
+          in: query
+          description: query parameter
+          required: optional 
+          schema:
+            type: string
+        - name: header_1 
+          in: header 
+          description: header parameter
+          required: optional 
+          schema:
+            type: string
+      security:
+        - http_signature_test: []
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        200:
+          description: The instance started successfully
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1117,6 +1194,9 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    http_signature_test:
+      type: http
+      scheme: signature 
   schemas:
     Foo:
       type: object

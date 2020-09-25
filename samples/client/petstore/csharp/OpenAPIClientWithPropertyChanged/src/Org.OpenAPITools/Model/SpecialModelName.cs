@@ -37,7 +37,7 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="SpecialModelName" /> class.
         /// </summary>
         /// <param name="specialPropertyName">specialPropertyName.</param>
-        public SpecialModelName(long? specialPropertyName = default(long?))
+        public SpecialModelName(long specialPropertyName = default(long))
         {
             this.SpecialPropertyName = specialPropertyName;
         }
@@ -45,8 +45,8 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets SpecialPropertyName
         /// </summary>
-        [DataMember(Name="$special[property.name]", EmitDefaultValue=false)]
-        public long? SpecialPropertyName { get; set; }
+        [DataMember(Name="$special[property.name]", EmitDefaultValue=true)]
+        public long SpecialPropertyName { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object

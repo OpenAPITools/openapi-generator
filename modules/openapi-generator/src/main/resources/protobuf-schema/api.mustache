@@ -1,0 +1,46 @@
+{{>partial_header}}
+syntax = "proto3";
+
+package {{{packageName}}};
+
+import "google/protobuf/empty.proto";
+{{#imports}}
+{{#import}}
+import public "{{{modelPackage}}}/{{{.}}}.proto";
+{{/import}}
+{{/imports}}
+
+service {{classname}} {
+{{#operations}}
+{{#operation}}
+  {{#description}}
+  // {{{.}}}
+  {{/description}}
+  rpc {{operationId}} ({{#hasParams}}{{operationId}}Request{{/hasParams}}{{^hasParams}}google.protobuf.Empty{{/hasParams}}) returns ({{#vendorExtensions.x-grpc-response}}{{.}}{{/vendorExtensions.x-grpc-response}}{{^vendorExtensions.x-grpc-response}}{{operationId}}Response{{/vendorExtensions.x-grpc-response}});
+
+{{/operation}}
+{{/operations}}
+}
+
+{{#operations}}
+{{#operation}}
+{{#hasParams}}
+message {{operationId}}Request {
+  {{#allParams}}
+  {{#description}}
+  // {{{.}}}
+  {{/description}}
+  {{#vendorExtensions.x-protobuf-type}}{{.}} {{/vendorExtensions.x-protobuf-type}}{{vendorExtensions.x-protobuf-data-type}} {{paramName}} = {{vendorExtensions.x-protobuf-index}};
+  {{/allParams}}
+
+}
+
+{{/hasParams}}
+{{^vendorExtensions.x-grpc-response}}
+message {{operationId}}Response {
+  {{{vendorExtensions.x-grpc-response-type}}} data = 1;
+}
+
+{{/vendorExtensions.x-grpc-response}}
+{{/operation}}
+{{/operations}}

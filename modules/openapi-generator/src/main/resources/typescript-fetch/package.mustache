@@ -5,12 +5,12 @@
   "author": "OpenAPI-Generator",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
-  "scripts" : {
-    "build": "tsc --outDir dist/",
+  "scripts": {
+    "build": "tsc",
     "prepare": "npm run build"
   },
   "devDependencies": {
-    "typescript": "^2.4"
+    "typescript": "^{{#typescriptThreePlus}}3.6{{/typescriptThreePlus}}{{^typescriptThreePlus}}2.4{{/typescriptThreePlus}}"
   }{{#npmRepository}},{{/npmRepository}}
 {{#npmRepository}}
   "publishConfig": {

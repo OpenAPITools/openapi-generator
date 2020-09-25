@@ -1,0 +1,1416 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "time@work rest api",
+        "description": "internal rest api, used by time@work angular client",
+        "contact": {
+            "name": "man@home",
+            "url": "https://gitlab.com/spare-time-demos/timeatwork",
+            "email": "man.at.home@do-not-use-this-mail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "https://www.apache.org/licenses/LICENSE-2.0.txt"
+        },
+        "version": "0.1"
+    },
+    "externalDocs": {
+        "description": "specs",
+        "url": "https://gitlab.com/spare-time-demos/timeatwork/tree/master/docs/src/main/docs/features"
+    },
+    "servers": [
+        {
+            "url": "http://localhost",
+            "description": "Generated server url"
+        }
+    ],
+    "tags": [
+        {
+            "name": "ui-admin",
+            "description": "ui: admin and team lead api calls"
+        },
+        {
+            "name": "ui-user",
+            "description": "ui: user api calls"
+        },
+        {
+            "name": "security",
+            "description": "login"
+        },
+        {
+            "name": "admin",
+            "description": "admin api, internal use"
+        }
+    ],
+    "paths": {
+        "/rest/admin/info": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "(dummy) application info endpoint.",
+                "operationId": "info",
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/admin/job/usersync": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "start background job: usersync",
+                "operationId": "startuserSync",
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/authentication": {
+            "post": {
+                "tags": [
+                    "security"
+                ],
+                "summary": "login with username and password, getting an jwt token on successful.",
+                "operationId": "login",
+                "requestBody": {
+                    "content": {
+                        "*/*": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthenticationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthenticationResult"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/project/": {
+            "get": {
+                "tags": [
+                    "ui-admin"
+                ],
+                "summary": "retrieving all visible projects for current user.",
+                "operationId": "getProjects",
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CProject"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "ui-admin"
+                ],
+                "summary": "create a new project.",
+                "operationId": "createProject",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CProject"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "default response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CProject"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/project/{projectId}": {
+            "get": {
+                "tags": [
+                    "ui-admin"
+                ],
+                "summary": "retrieving a specific visible projects for current user.",
+                "operationId": "getProject",
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "description": "unique project id to find",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "0185"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CProject"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "ui-admin"
+                ],
+                "summary": "change an existing project.",
+                "operationId": "changeProject",
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "description": "unique project id to change",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "0815"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CProject"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CProject"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/project/{projectId}/task": {
+            "get": {
+                "tags": [
+                    "ui-admin"
+                ],
+                "summary": "retrieving tasks for a specific project.",
+                "operationId": "getProjectTasks",
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "description": "project id to find tasks for",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "0815"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CTask"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "ui-admin"
+                ],
+                "summary": "create a new task for an existing project",
+                "operationId": "createTaskForProject",
+                "parameters": [
+                    {
+                        "name": "projectId",
+                        "in": "path",
+                        "description": "project id for task to change",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        },
+                        "example": "0815"
+                    }
+                ],
+                "requestBody": {
+                    "description": "new task data",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CTask"
+                            }
+                        }
+                    },
+                    "required": false
+                },
+                "responses": {
+                    "201": {
+                        "description": "task created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CTask"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "not authorized as project lead or admin",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CTask"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "project not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ResponseStatusException"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/task/{taskId}/assignment": {
+            "get": {
+                "tags": [
+                    "ui-admin"
+                ],
+                "summary": "retrieving team member assignments for a specific task.",
+                "operationId": "getTaskAssignments",
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CTaskAssignment"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "ui-admin"
+                ],
+                "summary": "add a new assignment to an existing task.",
+                "operationId": "createAssignment",
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CTaskAssignment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "default response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CTaskAssignment"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/task/{taskId}": {
+            "get": {
+                "tags": [
+                    "ui-admin"
+                ],
+                "summary": "retrieving a specific task.",
+                "operationId": "getTask",
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CTask"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "ui-admin"
+                ],
+                "summary": "change an existing task.",
+                "operationId": "changeTask",
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CTask"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Task"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "ui-admin"
+                ],
+                "summary": "delete an existing task.",
+                "operationId": "deleteTask",
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/task/{taskId}/assignment/{assignmentId}": {
+            "put": {
+                "tags": [
+                    "ui-admin"
+                ],
+                "summary": "change from/until of given assignment",
+                "operationId": "changeAssignment",
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "assignmentId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CTaskAssignment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CTaskAssignment"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "ui-admin"
+                ],
+                "summary": "delete an existing assignment from task",
+                "operationId": "deleteAssignment",
+                "parameters": [
+                    {
+                        "name": "taskId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    },
+                    {
+                        "name": "assignmentId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "integer",
+                                    "format": "int64"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/teammember": {
+            "get": {
+                "tags": [
+                    "ui-admin",
+                    "ui-user"
+                ],
+                "summary": "retrieving all known users.",
+                "operationId": "getTeamMembers",
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CTeamMember"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/rest/workweek/{from-iso-date-string}": {
+            "get": {
+                "tags": [
+                    "ui-user"
+                ],
+                "summary": "retrieving work week for given week, date format: /rest/workweek/YYYY-MM-DD.",
+                "operationId": "getWorkWeek",
+                "parameters": [
+                    {
+                        "name": "from-iso-date-string",
+                        "in": "path",
+                        "description": "date, start of week, format YYYY-MM-DD",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "2019-03-11"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/WorkWeek"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "ui-user"
+                ],
+                "summary": "update work done for given week",
+                "operationId": "updateWorkWeek",
+                "parameters": [
+                    {
+                        "name": "from-iso-date-string",
+                        "in": "path",
+                        "description": "date, start of week, format YYYY-MM-DD",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "2019-03-11"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/WorkWeek"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "default response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AuthenticationRequest": {
+                "type": "object",
+                "properties": {
+                    "userName": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "AuthenticationResult": {
+                "type": "object",
+                "properties": {
+                    "ok": {
+                        "type": "boolean"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "token": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CProject": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "active": {
+                        "type": "boolean"
+                    },
+                    "projectLeads": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CTeamMember"
+                        }
+                    }
+                }
+            },
+            "CTeamMember": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "userId": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CTask": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ResponseStatusException": {
+                "type": "object",
+                "properties": {
+                    "mostSpecificCause": {
+                        "type": "object",
+                        "properties": {
+                            "stackTrace": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "classLoaderName": {
+                                            "type": "string"
+                                        },
+                                        "moduleName": {
+                                            "type": "string"
+                                        },
+                                        "moduleVersion": {
+                                            "type": "string"
+                                        },
+                                        "methodName": {
+                                            "type": "string"
+                                        },
+                                        "fileName": {
+                                            "type": "string"
+                                        },
+                                        "lineNumber": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        "className": {
+                                            "type": "string"
+                                        },
+                                        "nativeMethod": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            },
+                            "message": {
+                                "type": "string"
+                            },
+                            "suppressed": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "stackTrace": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "classLoaderName": {
+                                                        "type": "string"
+                                                    },
+                                                    "moduleName": {
+                                                        "type": "string"
+                                                    },
+                                                    "moduleVersion": {
+                                                        "type": "string"
+                                                    },
+                                                    "methodName": {
+                                                        "type": "string"
+                                                    },
+                                                    "fileName": {
+                                                        "type": "string"
+                                                    },
+                                                    "lineNumber": {
+                                                        "type": "integer",
+                                                        "format": "int32"
+                                                    },
+                                                    "className": {
+                                                        "type": "string"
+                                                    },
+                                                    "nativeMethod": {
+                                                        "type": "boolean"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "localizedMessage": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "localizedMessage": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "stackTrace": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "classLoaderName": {
+                                    "type": "string"
+                                },
+                                "moduleName": {
+                                    "type": "string"
+                                },
+                                "moduleVersion": {
+                                    "type": "string"
+                                },
+                                "methodName": {
+                                    "type": "string"
+                                },
+                                "fileName": {
+                                    "type": "string"
+                                },
+                                "lineNumber": {
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "className": {
+                                    "type": "string"
+                                },
+                                "nativeMethod": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "100 CONTINUE",
+                            "101 SWITCHING_PROTOCOLS",
+                            "102 PROCESSING",
+                            "103 CHECKPOINT",
+                            "200 OK",
+                            "201 CREATED",
+                            "202 ACCEPTED",
+                            "203 NON_AUTHORITATIVE_INFORMATION",
+                            "204 NO_CONTENT",
+                            "205 RESET_CONTENT",
+                            "206 PARTIAL_CONTENT",
+                            "207 MULTI_STATUS",
+                            "208 ALREADY_REPORTED",
+                            "226 IM_USED",
+                            "300 MULTIPLE_CHOICES",
+                            "301 MOVED_PERMANENTLY",
+                            "302 FOUND",
+                            "302 MOVED_TEMPORARILY",
+                            "303 SEE_OTHER",
+                            "304 NOT_MODIFIED",
+                            "305 USE_PROXY",
+                            "307 TEMPORARY_REDIRECT",
+                            "308 PERMANENT_REDIRECT",
+                            "400 BAD_REQUEST",
+                            "401 UNAUTHORIZED",
+                            "402 PAYMENT_REQUIRED",
+                            "403 FORBIDDEN",
+                            "404 NOT_FOUND",
+                            "405 METHOD_NOT_ALLOWED",
+                            "406 NOT_ACCEPTABLE",
+                            "407 PROXY_AUTHENTICATION_REQUIRED",
+                            "408 REQUEST_TIMEOUT",
+                            "409 CONFLICT",
+                            "410 GONE",
+                            "411 LENGTH_REQUIRED",
+                            "412 PRECONDITION_FAILED",
+                            "413 PAYLOAD_TOO_LARGE",
+                            "413 REQUEST_ENTITY_TOO_LARGE",
+                            "414 URI_TOO_LONG",
+                            "414 REQUEST_URI_TOO_LONG",
+                            "415 UNSUPPORTED_MEDIA_TYPE",
+                            "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+                            "417 EXPECTATION_FAILED",
+                            "418 I_AM_A_TEAPOT",
+                            "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+                            "420 METHOD_FAILURE",
+                            "421 DESTINATION_LOCKED",
+                            "422 UNPROCESSABLE_ENTITY",
+                            "423 LOCKED",
+                            "424 FAILED_DEPENDENCY",
+                            "425 TOO_EARLY",
+                            "426 UPGRADE_REQUIRED",
+                            "428 PRECONDITION_REQUIRED",
+                            "429 TOO_MANY_REQUESTS",
+                            "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+                            "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+                            "500 INTERNAL_SERVER_ERROR",
+                            "501 NOT_IMPLEMENTED",
+                            "502 BAD_GATEWAY",
+                            "503 SERVICE_UNAVAILABLE",
+                            "504 GATEWAY_TIMEOUT",
+                            "505 HTTP_VERSION_NOT_SUPPORTED",
+                            "506 VARIANT_ALSO_NEGOTIATES",
+                            "507 INSUFFICIENT_STORAGE",
+                            "508 LOOP_DETECTED",
+                            "509 BANDWIDTH_LIMIT_EXCEEDED",
+                            "510 NOT_EXTENDED",
+                            "511 NETWORK_AUTHENTICATION_REQUIRED"
+                        ]
+                    },
+                    "reason": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "rootCause": {
+                        "type": "object",
+                        "properties": {
+                            "cause": {
+                                "type": "object",
+                                "properties": {
+                                    "stackTrace": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "classLoaderName": {
+                                                    "type": "string"
+                                                },
+                                                "moduleName": {
+                                                    "type": "string"
+                                                },
+                                                "moduleVersion": {
+                                                    "type": "string"
+                                                },
+                                                "methodName": {
+                                                    "type": "string"
+                                                },
+                                                "fileName": {
+                                                    "type": "string"
+                                                },
+                                                "lineNumber": {
+                                                    "type": "integer",
+                                                    "format": "int32"
+                                                },
+                                                "className": {
+                                                    "type": "string"
+                                                },
+                                                "nativeMethod": {
+                                                    "type": "boolean"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "message": {
+                                        "type": "string"
+                                    },
+                                    "suppressed": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object",
+                                            "properties": {
+                                                "stackTrace": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object",
+                                                        "properties": {
+                                                            "classLoaderName": {
+                                                                "type": "string"
+                                                            },
+                                                            "moduleName": {
+                                                                "type": "string"
+                                                            },
+                                                            "moduleVersion": {
+                                                                "type": "string"
+                                                            },
+                                                            "methodName": {
+                                                                "type": "string"
+                                                            },
+                                                            "fileName": {
+                                                                "type": "string"
+                                                            },
+                                                            "lineNumber": {
+                                                                "type": "integer",
+                                                                "format": "int32"
+                                                            },
+                                                            "className": {
+                                                                "type": "string"
+                                                            },
+                                                            "nativeMethod": {
+                                                                "type": "boolean"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "message": {
+                                                    "type": "string"
+                                                },
+                                                "localizedMessage": {
+                                                    "type": "string"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "localizedMessage": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "stackTrace": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "classLoaderName": {
+                                            "type": "string"
+                                        },
+                                        "moduleName": {
+                                            "type": "string"
+                                        },
+                                        "moduleVersion": {
+                                            "type": "string"
+                                        },
+                                        "methodName": {
+                                            "type": "string"
+                                        },
+                                        "fileName": {
+                                            "type": "string"
+                                        },
+                                        "lineNumber": {
+                                            "type": "integer",
+                                            "format": "int32"
+                                        },
+                                        "className": {
+                                            "type": "string"
+                                        },
+                                        "nativeMethod": {
+                                            "type": "boolean"
+                                        }
+                                    }
+                                }
+                            },
+                            "message": {
+                                "type": "string"
+                            },
+                            "suppressed": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "stackTrace": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "classLoaderName": {
+                                                        "type": "string"
+                                                    },
+                                                    "moduleName": {
+                                                        "type": "string"
+                                                    },
+                                                    "moduleVersion": {
+                                                        "type": "string"
+                                                    },
+                                                    "methodName": {
+                                                        "type": "string"
+                                                    },
+                                                    "fileName": {
+                                                        "type": "string"
+                                                    },
+                                                    "lineNumber": {
+                                                        "type": "integer",
+                                                        "format": "int32"
+                                                    },
+                                                    "className": {
+                                                        "type": "string"
+                                                    },
+                                                    "nativeMethod": {
+                                                        "type": "boolean"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "localizedMessage": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "localizedMessage": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "suppressed": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "stackTrace": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "classLoaderName": {
+                                                "type": "string"
+                                            },
+                                            "moduleName": {
+                                                "type": "string"
+                                            },
+                                            "moduleVersion": {
+                                                "type": "string"
+                                            },
+                                            "methodName": {
+                                                "type": "string"
+                                            },
+                                            "fileName": {
+                                                "type": "string"
+                                            },
+                                            "lineNumber": {
+                                                "type": "integer",
+                                                "format": "int32"
+                                            },
+                                            "className": {
+                                                "type": "string"
+                                            },
+                                            "nativeMethod": {
+                                                "type": "boolean"
+                                            }
+                                        }
+                                    }
+                                },
+                                "message": {
+                                    "type": "string"
+                                },
+                                "localizedMessage": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "localizedMessage": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CTaskAssignment": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "task": {
+                        "$ref": "#/components/schemas/CTask"
+                    },
+                    "teamMember": {
+                        "$ref": "#/components/schemas/CTeamMember"
+                    },
+                    "from": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "until": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                }
+            },
+            "Project": {
+                "required": [
+                    "active",
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "unique project id.",
+                        "format": "int64",
+                        "example": 815
+                    },
+                    "name": {
+                        "maxLength": 100,
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "unique descriptive name",
+                        "example": "my unique project name"
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "description": "is project active for administration by project lead.",
+                        "example": true
+                    },
+                    "projectLeads": {
+                        "type": "array",
+                        "description": "project leads (administrator)",
+                        "items": {
+                            "$ref": "#/components/schemas/TeamMember"
+                        }
+                    }
+                },
+                "description": "tracked project."
+            },
+            "Task": {
+                "required": [
+                    "name",
+                    "project",
+                    "state"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "name": {
+                        "maxLength": 100,
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "unique descriptive name",
+                        "example": "first task: do something"
+                    },
+                    "state": {
+                        "type": "string",
+                        "enum": [
+                            "PLANNED",
+                            "ACTIVE",
+                            "DONE"
+                        ]
+                    },
+                    "project": {
+                        "$ref": "#/components/schemas/Project"
+                    }
+                },
+                "description": "a project task to be worked on."
+            },
+            "TeamMember": {
+                "required": [
+                    "name",
+                    "userId"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "description": "unique internal member id",
+                        "format": "int64",
+                        "example": 4712
+                    },
+                    "name": {
+                        "maxLength": 100,
+                        "type": "string",
+                        "description": "unique descriptive name",
+                        "example": "Tom Teammember"
+                    },
+                    "userId": {
+                        "maxLength": 100,
+                        "type": "string",
+                        "description": "unique descriptive name",
+                        "example": "tlead1"
+                    }
+                },
+                "description": "a team member, could be project lead or an member with assigned tasks."
+            },
+            "TaskWeek": {
+                "type": "object",
+                "properties": {
+                    "taskId": {
+                        "type": "integer",
+                        "description": "task unique id",
+                        "format": "int64"
+                    },
+                    "taskName": {
+                        "type": "string"
+                    },
+                    "workHours": {
+                        "type": "array",
+                        "description": "7 days array of working hours",
+                        "items": {
+                            "$ref": "#/components/schemas/WorkHoursAssigned"
+                        }
+                    }
+                },
+                "description": "one week of working hours for a given task."
+            },
+            "WorkHoursAssigned": {
+                "type": "object",
+                "properties": {
+                    "workHours": {
+                        "type": "integer",
+                        "description": "working hours done for given task on this day",
+                        "format": "int32"
+                    },
+                    "readOnly": {
+                        "type": "boolean",
+                        "description": "current user is able to  change values for this day and task."
+                    }
+                },
+                "description": "7 days array of working hours"
+            },
+            "WorkWeek": {
+                "type": "object",
+                "properties": {
+                    "from": {
+                        "type": "string",
+                        "description": "start of week",
+                        "format": "date",
+                        "example": "2019-01-02"
+                    },
+                    "until": {
+                        "type": "string",
+                        "description": "last day of week",
+                        "format": "date",
+                        "example": "2019-01-08"
+                    },
+                    "taskWeeks": {
+                        "type": "array",
+                        "description": "list of tasks for this week",
+                        "items": {
+                            "$ref": "#/components/schemas/TaskWeek"
+                        }
+                    }
+                },
+                "description": "week, holds all work and working assignments."
+            }
+        },
+        "securitySchemes": {
+            "Authentication": {
+                "type": "apiKey",
+                "description": "auth with jwt bearer token in 'Authentication' header of proctected requests.",
+                "name": "Authentication",
+                "in": "header"
+            }
+        }
+    }
+}

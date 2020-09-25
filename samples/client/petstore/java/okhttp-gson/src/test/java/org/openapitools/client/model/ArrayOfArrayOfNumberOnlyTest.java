@@ -53,6 +53,7 @@ public class ArrayOfArrayOfNumberOnlyTest {
         List<BigDecimal> arrayArrayNumber = new ArrayList<BigDecimal>();
         arrayArrayNumber.add(b1);
         arrayArrayNumber.add(b2);
+        model.setArrayArrayNumber(new ArrayList<List<BigDecimal>>());
         model.getArrayArrayNumber().add(arrayArrayNumber);
 
         // create another instance for comparison
@@ -62,6 +63,7 @@ public class ArrayOfArrayOfNumberOnlyTest {
         List<BigDecimal> arrayArrayNumber2 = new ArrayList<BigDecimal>();
         arrayArrayNumber2.add(b1);
         arrayArrayNumber2.add(b2);
+        model2.setArrayArrayNumber(new ArrayList<List<BigDecimal>>());
         model2.getArrayArrayNumber().add(arrayArrayNumber2);
 
         Assert.assertTrue(model2.equals(model));

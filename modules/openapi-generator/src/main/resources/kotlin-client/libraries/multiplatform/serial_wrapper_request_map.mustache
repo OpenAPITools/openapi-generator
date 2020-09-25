@@ -1,0 +1,10 @@
+    @Serializable
+    private class {{operationIdCamelCase}}Request(val value: Map<kotlin.String, {{#bodyParam}}{{baseType}}{{/bodyParam}}>) {
+        @Serializer({{operationIdCamelCase}}Request::class)
+        {{#nonPublicApi}}internal {{/nonPublicApi}}companion object : KSerializer<{{operationIdCamelCase}}Request> {
+            private val serializer: KSerializer<Map<kotlin.String, {{#bodyParam}}{{baseType}}{{/bodyParam}}>> = (kotlin.String.serializer() to {{#bodyParam}}{{baseType}}{{/bodyParam}}.serializer()).map
+                override val descriptor = StringDescriptor.withName("{{operationIdCamelCase}}Request")
+                override fun serialize(encoder: Encoder, obj: {{operationIdCamelCase}}Request) = serializer.serialize(encoder, obj.value)
+                override fun deserialize(decoder: Decoder) = {{operationIdCamelCase}}Request(serializer.deserialize(decoder))
+        }
+    }

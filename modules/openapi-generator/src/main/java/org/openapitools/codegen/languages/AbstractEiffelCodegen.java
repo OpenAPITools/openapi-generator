@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -236,14 +237,13 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
 
         if (Character.isUpperCase(firstChar)) {
             // First char is already uppercase, just use paramName.
-            parameter.vendorExtensions.put("x-exportParamName", parameter.paramName);
-
+            parameter.vendorExtensions.put("x-export-param-name", parameter.paramName);
         }
 
         // It's a lowercase first char, let's convert it to uppercase
         StringBuilder sb = new StringBuilder(parameter.paramName);
         sb.setCharAt(0, Character.toUpperCase(firstChar));
-        parameter.vendorExtensions.put("x-exportParamName", sb.toString());
+        parameter.vendorExtensions.put("x-export-param-name", sb.toString());
     }
 
     @Override
@@ -276,7 +276,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
             Schema inner = ap.getItems();
             return "LIST [" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
 
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         }
@@ -477,7 +477,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
         // Because the child models extend the parents, the enums will be available via the parent.
 
         // Only bother with reconciliation if the parent model has enums.
-        if (!parentCodegenModel.hasEnums) {
+        if (parentCodegenModel == null || !parentCodegenModel.hasEnums) {
             return codegenModel;
         }
 
@@ -544,7 +544,7 @@ public abstract class AbstractEiffelCodegen extends DefaultCodegen implements Co
     @Override
     public String toInstantiationType(Schema p) {
         if (ModelUtils.isMapSchema(p)) {
-            Schema additionalProperties2 = ModelUtils.getAdditionalProperties(p);
+            Schema additionalProperties2 = getAdditionalProperties(p);
             String type = additionalProperties2.getType();
             if (null == type) {
                 LOGGER.error("No Type defined for Additional Schema " + additionalProperties2 + "\n" //

@@ -24,7 +24,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import org.openapitools.client.model.Category;
 import org.openapitools.client.model.Tag;
 import android.os.Parcelable;
@@ -33,15 +35,15 @@ import android.os.Parcel;
 /**
  * Pet
  */
-
-public class Pet implements Parcelable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class Pet {
   public static final String SERIALIZED_NAME_ID = "id";
   @SerializedName(SERIALIZED_NAME_ID)
   private Long id;
 
   public static final String SERIALIZED_NAME_CATEGORY = "category";
   @SerializedName(SERIALIZED_NAME_CATEGORY)
-  private Category category = null;
+  private Category category;
 
   public static final String SERIALIZED_NAME_NAME = "name";
   @SerializedName(SERIALIZED_NAME_NAME)
@@ -49,11 +51,11 @@ public class Pet implements Parcelable {
 
   public static final String SERIALIZED_NAME_PHOTO_URLS = "photoUrls";
   @SerializedName(SERIALIZED_NAME_PHOTO_URLS)
-  private List<String> photoUrls = new ArrayList<String>();
+  private Set<String> photoUrls = new LinkedHashSet<String>();
 
   public static final String SERIALIZED_NAME_TAGS = "tags";
   @SerializedName(SERIALIZED_NAME_TAGS)
-  private List<Tag> tags = new ArrayList<Tag>();
+  private List<Tag> tags = null;
 
   /**
    * pet status in the store
@@ -98,7 +100,7 @@ public class Pet implements Parcelable {
 
       @Override
       public StatusEnum read(final JsonReader jsonReader) throws IOException {
-        String value = jsonReader.nextString();
+        String value =  jsonReader.nextString();
         return StatusEnum.fromValue(value);
       }
     }
@@ -110,7 +112,9 @@ public class Pet implements Parcelable {
 
   public Pet() {
   }
+
   public Pet id(Long id) {
+    
     this.id = id;
     return this;
   }
@@ -121,15 +125,19 @@ public class Pet implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Long getId() {
     return id;
   }
+
 
   public void setId(Long id) {
     this.id = id;
   }
 
+
   public Pet category(Category category) {
+    
     this.category = category;
     return this;
   }
@@ -140,15 +148,19 @@ public class Pet implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Category getCategory() {
     return category;
   }
+
 
   public void setCategory(Category category) {
     this.category = category;
   }
 
+
   public Pet name(String name) {
+    
     this.name = name;
     return this;
   }
@@ -158,15 +170,19 @@ public class Pet implements Parcelable {
    * @return name
   **/
   @ApiModelProperty(example = "doggie", required = true, value = "")
+
   public String getName() {
     return name;
   }
+
 
   public void setName(String name) {
     this.name = name;
   }
 
-  public Pet photoUrls(List<String> photoUrls) {
+
+  public Pet photoUrls(Set<String> photoUrls) {
+    
     this.photoUrls = photoUrls;
     return this;
   }
@@ -181,15 +197,19 @@ public class Pet implements Parcelable {
    * @return photoUrls
   **/
   @ApiModelProperty(required = true, value = "")
-  public List<String> getPhotoUrls() {
+
+  public Set<String> getPhotoUrls() {
     return photoUrls;
   }
 
-  public void setPhotoUrls(List<String> photoUrls) {
+
+  public void setPhotoUrls(Set<String> photoUrls) {
     this.photoUrls = photoUrls;
   }
 
+
   public Pet tags(List<Tag> tags) {
+    
     this.tags = tags;
     return this;
   }
@@ -208,15 +228,19 @@ public class Pet implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public List<Tag> getTags() {
     return tags;
   }
+
 
   public void setTags(List<Tag> tags) {
     this.tags = tags;
   }
 
+
   public Pet status(StatusEnum status) {
+    
     this.status = status;
     return this;
   }
@@ -227,9 +251,11 @@ public class Pet implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "pet status in the store")
+
   public StatusEnum getStatus() {
     return status;
   }
+
 
   public void setStatus(StatusEnum status) {
     this.status = status;
@@ -237,7 +263,7 @@ public class Pet implements Parcelable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -277,7 +303,7 @@ public class Pet implements Parcelable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
@@ -298,7 +324,7 @@ public class Pet implements Parcelable {
     id = (Long)in.readValue(null);
     category = (Category)in.readValue(Category.class.getClassLoader());
     name = (String)in.readValue(null);
-    photoUrls = (List<String>)in.readValue(null);
+    photoUrls = (Set<String>)in.readValue(null);
     tags = (List<Tag>)in.readValue(Tag.class.getClassLoader());
     status = (StatusEnum)in.readValue(null);
   }

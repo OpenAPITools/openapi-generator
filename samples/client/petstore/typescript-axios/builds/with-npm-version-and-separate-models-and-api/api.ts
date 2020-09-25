@@ -1,5 +1,5 @@
-// tslint:disable
-/// <reference path="./custom.d.ts" />
+/* tslint:disable */
+/* eslint-disable */
 /**
  * OpenAPI Petstore
  * This is a sample server Petstore server. For this sample, you can use the api key `special-key` to test the authorization filters.
@@ -14,7 +14,7 @@
 
 
 
-export * from './api.another.level/pet-api';
-export * from './api.another.level/store-api';
-export * from './api.another.level/user-api';
+export * from './api/another/level/pet-api';
+export * from './api/another/level/store-api';
+export * from './api/another/level/user-api';
 

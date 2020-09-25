@@ -3,6 +3,9 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 {{/parcelizeModels}}
+{{#serializableModel}}
+import java.io.Serializable
+{{/serializableModel}}
 /**
  * {{{description}}}
 {{#vars}}
@@ -18,16 +21,32 @@ data class {{classname}} (
 {{/-last}}{{/requiredVars}}{{#hasRequired}}{{#hasOptional}},
 {{/hasOptional}}{{/hasRequired}}{{#optionalVars}}{{>data_class_opt_var}}{{^-last}},
 {{/-last}}{{/optionalVars}}
-){{#parcelizeModels}} : Parcelable{{/parcelizeModels}} {
-{{#hasEnums}}{{#vars}}{{#isEnum}}
+) {{^serializableModel}}{{#parcelizeModels}} : Parcelable{{/parcelizeModels}}{{/serializableModel}}{{^parcelizeModels}}{{#serializableModel}}: Serializable {{/serializableModel}}{{/parcelizeModels}}{{#parcelizeModels}}{{#serializableModel}} : Parcelable, Serializable {{/serializableModel}}{{/parcelizeModels}}
+{{#vendorExtensions.x-has-data-class-body}}
+{
+{{/vendorExtensions.x-has-data-class-body}}
+{{#serializableModel}}
+	companion object {
+		private const val serialVersionUID: Long = 123
+	}
+{{/serializableModel}}
+{{#hasEnums}}
+	{{#vars}}
+    {{#isEnum}}
     /**
     * {{{description}}}
     * Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
     */
     enum class {{nameInCamelCase}}(val value: {{dataType}}){
-    {{#allowableValues}}{{#enumVars}}
+    {{#allowableValues}}
+    {{#enumVars}}
         {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
-    {{/enumVars}}{{/allowableValues}}
+    {{/enumVars}}
+    {{/allowableValues}}
     }
-{{/isEnum}}{{/vars}}{{/hasEnums}}
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
+{{#vendorExtensions.x-has-data-class-body}}
 }
+{{/vendorExtensions.x-has-data-class-body}}

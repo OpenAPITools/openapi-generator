@@ -53,6 +53,6 @@
     "title": "OpenAPI Sample App",
     "description": "This is a sample server Petstore server. For this sample,\n    you can use the api key \"special-key\" to test the authorization filters",
     "license": "Apache 2.0",
-    "licenseUrl": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    "licenseUrl": "https://www.apache.org/licenses/LICENSE-2.0.html"
   }
 }

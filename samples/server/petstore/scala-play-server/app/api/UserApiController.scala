@@ -6,7 +6,7 @@ import play.api.libs.json._
 import play.api.mvc._
 import model.User
 
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2019-03-26T16:21:58.590+08:00[Asia/Hong_Kong]")
+
 @Singleton
 class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extends AbstractController(cc) {
   /**
@@ -14,10 +14,10 @@ class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extend
     */
   def createUser(): Action[AnyContent] = Action { request =>
     def executeApi(): Unit = {
-      val body = request.body.asJson.map(_.as[User]).getOrElse {
-        throw new OpenApiExceptions.MissingRequiredParameterException("body", "body")
+      val user = request.body.asJson.map(_.as[User]).getOrElse {
+        throw new OpenApiExceptions.MissingRequiredParameterException("body", "user")
       }
-      api.createUser(body)
+      api.createUser(user)
     }
 
     executeApi()
@@ -29,10 +29,10 @@ class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extend
     */
   def createUsersWithArrayInput(): Action[AnyContent] = Action { request =>
     def executeApi(): Unit = {
-      val body = request.body.asJson.map(_.as[List[User]]).getOrElse {
-        throw new OpenApiExceptions.MissingRequiredParameterException("body", "body")
+      val user = request.body.asJson.map(_.as[List[User]]).getOrElse {
+        throw new OpenApiExceptions.MissingRequiredParameterException("body", "user")
       }
-      api.createUsersWithArrayInput(body)
+      api.createUsersWithArrayInput(user)
     }
 
     executeApi()
@@ -44,10 +44,10 @@ class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extend
     */
   def createUsersWithListInput(): Action[AnyContent] = Action { request =>
     def executeApi(): Unit = {
-      val body = request.body.asJson.map(_.as[List[User]]).getOrElse {
-        throw new OpenApiExceptions.MissingRequiredParameterException("body", "body")
+      val user = request.body.asJson.map(_.as[List[User]]).getOrElse {
+        throw new OpenApiExceptions.MissingRequiredParameterException("body", "user")
       }
-      api.createUsersWithListInput(body)
+      api.createUsersWithListInput(user)
     }
 
     executeApi()
@@ -120,10 +120,10 @@ class UserApiController @Inject()(cc: ControllerComponents, api: UserApi) extend
     */
   def updateUser(username: String): Action[AnyContent] = Action { request =>
     def executeApi(): Unit = {
-      val body = request.body.asJson.map(_.as[User]).getOrElse {
-        throw new OpenApiExceptions.MissingRequiredParameterException("body", "body")
+      val user = request.body.asJson.map(_.as[User]).getOrElse {
+        throw new OpenApiExceptions.MissingRequiredParameterException("body", "user")
       }
-      api.updateUser(username, body)
+      api.updateUser(username, user)
     }
 
     executeApi()

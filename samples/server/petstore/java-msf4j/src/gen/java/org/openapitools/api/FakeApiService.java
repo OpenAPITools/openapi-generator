@@ -25,7 +25,7 @@ import java.io.InputStream;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaMSF4JServerCodegen")
 public abstract class FakeApiService {
     public abstract Response createXmlItem(XmlItem xmlItem
  ) throws NotFoundException;
@@ -79,6 +79,12 @@ public abstract class FakeApiService {
  ) throws NotFoundException;
     public abstract Response testJsonFormData(String param
  ,String param2
+ ) throws NotFoundException;
+    public abstract Response testQueryParameterCollectionFormat(List<String> pipe
+ ,List<String> ioutil
+ ,List<String> http
+ ,List<String> url
+ ,List<String> context
  ) throws NotFoundException;
     public abstract Response uploadFileWithRequiredFile(Long petId
  ,InputStream requiredFileInputStream, FileInfo requiredFileDetail

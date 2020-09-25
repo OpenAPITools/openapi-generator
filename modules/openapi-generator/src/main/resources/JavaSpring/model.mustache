@@ -3,7 +3,9 @@ package {{package}};
 import java.util.Objects;
 {{#imports}}import {{import}};
 {{/imports}}
+{{#openApiNullable}}
 import org.openapitools.jackson.nullable.JsonNullable;
+{{/openApiNullable}}
 {{#serializableModel}}
 import java.io.Serializable;
 {{/serializableModel}}
@@ -25,7 +27,7 @@ import javax.xml.bind.annotation.*;
 {{/withXml}}
 {{^parent}}
 {{#hateoas}}
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.RepresentationModel;
 {{/hateoas}}
 {{/parent}}
 

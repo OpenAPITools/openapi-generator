@@ -1,0 +1,13 @@
+{{#isPathParam}}
+{{^isListContainer}}
+{{#isModel}}
+        {{{dataType}}} {{paramName}} = requestParameters.pathParameter("{{baseName}}") != null ? DatabindCodec.mapper().convertValue(requestParameters.pathParameter("{{baseName}}").get(), new TypeReference<{{{dataType}}}>(){}) : null;
+{{/isModel}}
+{{^isModel}}
+        {{{dataType}}} {{paramName}} = requestParameters.pathParameter("{{baseName}}") != null ? requestParameters.pathParameter("{{baseName}}").get{{dataType}}() : null;
+{{/isModel}}
+{{/isListContainer}}
+{{#isListContainer}}
+        {{{dataType}}} {{paramName}} = requestParameters.pathParameter("{{baseName}}") != null ? DatabindCodec.mapper().convertValue(requestParameters.pathParameter("{{baseName}}").get(), new TypeReference<{{{dataType}}}>(){}) : null;
+{{/isListContainer}}
+{{/isPathParam}}

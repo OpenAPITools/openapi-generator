@@ -30,8 +30,8 @@ import android.os.Parcel;
 /**
  * OuterComposite
  */
-
-public class OuterComposite implements Parcelable {
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen")
+public class OuterComposite {
   public static final String SERIALIZED_NAME_MY_NUMBER = "my_number";
   @SerializedName(SERIALIZED_NAME_MY_NUMBER)
   private BigDecimal myNumber;
@@ -46,7 +46,9 @@ public class OuterComposite implements Parcelable {
 
   public OuterComposite() {
   }
+
   public OuterComposite myNumber(BigDecimal myNumber) {
+    
     this.myNumber = myNumber;
     return this;
   }
@@ -57,15 +59,19 @@ public class OuterComposite implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public BigDecimal getMyNumber() {
     return myNumber;
   }
+
 
   public void setMyNumber(BigDecimal myNumber) {
     this.myNumber = myNumber;
   }
 
+
   public OuterComposite myString(String myString) {
+    
     this.myString = myString;
     return this;
   }
@@ -76,15 +82,19 @@ public class OuterComposite implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public String getMyString() {
     return myString;
   }
+
 
   public void setMyString(String myString) {
     this.myString = myString;
   }
 
+
   public OuterComposite myBoolean(Boolean myBoolean) {
+    
     this.myBoolean = myBoolean;
     return this;
   }
@@ -95,9 +105,11 @@ public class OuterComposite implements Parcelable {
   **/
   @javax.annotation.Nullable
   @ApiModelProperty(value = "")
+
   public Boolean getMyBoolean() {
     return myBoolean;
   }
+
 
   public void setMyBoolean(Boolean myBoolean) {
     this.myBoolean = myBoolean;
@@ -105,7 +117,7 @@ public class OuterComposite implements Parcelable {
 
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -139,7 +151,7 @@ public class OuterComposite implements Parcelable {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
