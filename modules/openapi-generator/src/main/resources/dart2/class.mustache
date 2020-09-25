@@ -108,8 +108,10 @@ class {{classname}} {
   {{/isDate}}
   {{/isDateTime}}
     {{#required}}
+        {{^isNullable}}
     if ({{name}} == null)
       throw ArgumentError("$json has no {{name}} field which is required for {{classname}}");
+        {{/isNullable}}
     {{/required}}
   {{/vars}}
   }
