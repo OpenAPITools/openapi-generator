@@ -103,29 +103,34 @@
     });
 
     function findNode(id, currentNode) {
-        return (Object.keys(currentNode)[0] === id) ? currentNode : findNodeInChildren(id, currentNode);
-    }
+        var currentChild,
+            result;
 
-    function findNodeInChildren(id, currentNode) {
-        for (let prop in currentNode) {
-            if (currentNode.hasOwnProperty(prop)) {
-                let currentChild = currentNode[prop];
-                if (id === prop) {
-                    return currentChild;
-                } else {
-                    // Search in the current child
-                    if (typeof (currentChild) === 'object') {
-                        let result = findNode(id, currentChild);
-                        if (result !== false) {
-                            return result;
+        if ( Object.keys(currentNode)[0] == id) {
+            return currentNode;
+        } else {
+            // Use a for loop instead of forEach to avoid nested functions
+            // Otherwise "return" will not work properly
+            for(var propt in currentNode){
+                if (currentNode.hasOwnProperty(propt)) {
+                    currentChild = currentNode[propt]
+                    if (id == propt) {
+                        return currentChild;
+                    } else {
+                        // Search in the current child
+                        if (typeof(currentChild) === 'object') {
+                            result = findNode(id, currentChild);
+                            if (result != false) {
+                                return result;
+                            }
                         }
                     }
                 }
             }
+            // The node has not been found and we have no more options
+           return false;
         }
-        return false;
     }
-
   </script>
   <style type="text/css">
     {{>fonts}}
@@ -447,7 +452,7 @@
                                         var schemaWrapper = {{{jsonSchema}}};
                                         var schema = findNode('schema',schemaWrapper).schema;
                                         if (!schema) {
-                                            schema = schemaWrapper.schema;
+                                          schema = schemaWrapper.schema;
                                         }
                                         if (schema.$ref != null) {
                                           schema = defsParser.$refs.get(schema.$ref);
