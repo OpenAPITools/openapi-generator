@@ -93,13 +93,13 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
 
         {{/minLength}}
         {{#maximum}}
-        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMaximum}}-ge{{/exclusiveMaximum}}{{^exclusiveMaximum}}-gt{{/exclusiveMaximum}} {{{maximum}}}) {
+        if ({{^required}}${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMaximum}}-ge{{/exclusiveMaximum}}{{^exclusiveMaximum}}-gt{{/exclusiveMaximum}} {{{maximum}}}) {
           throw "invalid value for '{{{name}}}', must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}."
         }
 
         {{/maximum}}
         {{#minimum}}
-        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMinimum}}-le{{/exclusiveMinimum}}{{^exclusiveMinimum}}-lt{{/exclusiveMinimum}} {{{minimum}}}) {
+        if ({{^required}}${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMinimum}}-le{{/exclusiveMinimum}}{{^exclusiveMinimum}}-lt{{/exclusiveMinimum}} {{{minimum}}}) {
           throw "invalid value for '{{{name}}}', must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}."
         }
 
@@ -153,13 +153,13 @@ function Initialize-{{{apiNamePrefix}}}{{{classname}}} {
 
         {{/minLength}}
         {{#maximum}}
-        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMaximum}}-ge{{/exclusiveMaximum}}{{^exclusiveMaximum}}-gt{{/exclusiveMaximum}} {{{maximum}}}) {
+        if ({{^required}}${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMaximum}}-ge{{/exclusiveMaximum}}{{^exclusiveMaximum}}-gt{{/exclusiveMaximum}} {{{maximum}}}) {
           throw "invalid value for '{{{name}}}', must be smaller than {{^exclusiveMaximum}}or equal to {{/exclusiveMaximum}}{{{maximum}}}."
         }
 
         {{/maximum}}
         {{#minimum}}
-        if ({{^required}}!${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMinimum}}-le{{/exclusiveMinimum}}{{^exclusiveMinimum}}-lt{{/exclusiveMinimum}} {{{minimum}}}) {
+        if ({{^required}}${{{name}}} -and {{/required}}${{{name}}} {{#exclusiveMinimum}}-le{{/exclusiveMinimum}}{{^exclusiveMinimum}}-lt{{/exclusiveMinimum}} {{{minimum}}}) {
           throw "invalid value for '{{{name}}}', must be greater than {{^exclusiveMinimum}}or equal to {{/exclusiveMinimum}}{{{minimum}}}."
         }
 

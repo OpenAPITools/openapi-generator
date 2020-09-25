@@ -83,7 +83,9 @@ public class RubyClientCodegen extends AbstractRubyCodegen {
                         GlobalFeature.XMLStructureDefinitions,
                         GlobalFeature.Callbacks,
                         GlobalFeature.LinkObjects,
-                        GlobalFeature.ParameterStyling
+                        GlobalFeature.ParameterStyling,
+                        GlobalFeature.ParameterizedServer,
+                        GlobalFeature.MultiServer
                 )
                 .includeSchemaSupportFeatures(
                         SchemaSupportFeature.Polymorphism

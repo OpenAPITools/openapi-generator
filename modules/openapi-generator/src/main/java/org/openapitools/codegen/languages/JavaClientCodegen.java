@@ -818,11 +818,11 @@ public class JavaClientCodegen extends AbstractJavaCodegen
                 }
 
                 if (addImports) {
-                    Map<String, String> imports2Classnames = new HashMap<String, String>() {{
-                        put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
-                        put("NoSuchElementException", "java.util.NoSuchElementException");
-                        put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
-                    }};
+                    Map<String, String> imports2Classnames = new HashMap<>();
+                    imports2Classnames.put("JsonNullable", "org.openapitools.jackson.nullable.JsonNullable");
+                    imports2Classnames.put("NoSuchElementException", "java.util.NoSuchElementException");
+                    imports2Classnames.put("JsonIgnore", "com.fasterxml.jackson.annotation.JsonIgnore");
+
                     for (Map.Entry<String, String> entry : imports2Classnames.entrySet()) {
                         cm.imports.add(entry.getKey());
                         Map<String, String> importsItem = new HashMap<String, String>();
@@ -976,9 +976,9 @@ public class JavaClientCodegen extends AbstractJavaCodegen
     @Override
     public void addImportsToOneOfInterface(List<Map<String, String>> imports) {
         for (String i : Arrays.asList("JsonSubTypes", "JsonTypeInfo")) {
-            Map<String, String> oneImport = new HashMap<String, String>() {{
-                put("import", importMapping.get(i));
-            }};
+            Map<String, String> oneImport = new HashMap<>();
+            oneImport.put("import", importMapping.get(i));
+
             if (!imports.contains(oneImport)) {
                 imports.add(oneImport);
             }
