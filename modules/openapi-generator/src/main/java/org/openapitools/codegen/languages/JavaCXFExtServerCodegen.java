@@ -623,14 +623,16 @@ public class JavaCXFExtServerCodegen extends JavaCXFServerCodegen implements CXF
             // the OpenAPI 2.0/3.0 specs, which mandates the ISO-8601 full-date or date-time formats. Accordingly, date
             // and date-time fields are annotated with @JsonFormat to specify the appropriate ISO format.
             if (loadTestDataFromFile) {
-                Date randomDate = new Date(randomDateLong);
-                switch (var.dataFormat) {
-                    case "date":
-                        var.addTestData(ISO8601_DATE_FORMAT.get().format(randomDate));
-                        break;
-                    case "date-time":
-                        var.addTestData(ISO8601_DATETIME_FORMAT.get().format(randomDate));
-                        break;
+                if (var != null) {
+                    Date randomDate = new Date(randomDateLong);
+                    switch (var.dataFormat) {
+                        case "date":
+                            var.addTestData(ISO8601_DATE_FORMAT.get().format(randomDate));
+                            break;
+                        case "date-time":
+                            var.addTestData(ISO8601_DATETIME_FORMAT.get().format(randomDate));
+                            break;
+                    }
                 }
             } else {
                 buffer.append("new Date(").append(randomDateLong).append(')');
