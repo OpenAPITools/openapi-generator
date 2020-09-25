@@ -64,6 +64,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"UsageApi.array",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -124,6 +125,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"UsageApi.map",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
