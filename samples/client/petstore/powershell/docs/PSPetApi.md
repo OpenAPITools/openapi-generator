@@ -29,6 +29,7 @@ $Configuration = Get-PSPetstoreConfiguration
 # Configure OAuth2 access token for authorization: petstore_auth
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 
+
 $Pet = (Initialize-Pet-Id 123 -Category (Initialize-Category-Id 123 -Name "Name_example") -Name "Name_example" -PhotoUrls @("PhotoUrls_example") -Tags @((Initialize-Tag-Id 123 -Name "Name_example")) -Status "Status_example") # Pet | Pet object that needs to be added to the store
 
 # Add a new pet to the store
