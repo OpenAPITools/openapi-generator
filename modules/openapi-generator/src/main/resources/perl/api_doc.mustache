@@ -29,10 +29,10 @@ use {{moduleName}}::{{classname}};
 my $api_instance = {{moduleName}}::{{classname}}->new(
 {{#hasAuthMethods}}{{#authMethods}}{{#isBasic}}
     # Configure HTTP basic authorization: {{{name}}}
-    {{^isBasicBearer}}
+    {{#isBasicBasic}}
     username => 'YOUR_USERNAME',
     password => 'YOUR_PASSWORD',
-    {{/isBasicBearer}}
+    {{/isBasicBasic}}
     {{#isBasicBearer}}
     # Configure bearer access token for authorization: {{{name}}}
     access_token => 'YOUR_BEARER_TOKEN',

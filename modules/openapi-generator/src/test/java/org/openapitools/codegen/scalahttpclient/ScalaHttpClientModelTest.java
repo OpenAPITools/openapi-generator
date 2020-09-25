@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -144,7 +144,7 @@ public class ScalaHttpClientModelTest {
         Assert.assertEquals(property1.setter, "setChildren");
         Assert.assertEquals(property1.dataType, "Set[Children]");
         Assert.assertEquals(property1.name, "children");
-        Assert.assertEquals(property1.defaultValue, "Set[Children].empty ");
+        Assert.assertEquals(property1.defaultValue, "Set.empty[Children] ");
         Assert.assertEquals(property1.baseType, "Set");
         Assert.assertEquals(property1.containerType, "set");
         Assert.assertFalse(property1.required);

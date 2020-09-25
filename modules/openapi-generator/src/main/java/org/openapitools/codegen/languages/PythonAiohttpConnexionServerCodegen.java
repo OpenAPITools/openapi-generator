@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,13 +22,13 @@ import org.slf4j.LoggerFactory;
 
 import java.util.EnumSet;
 
-public class PythonAiohttpConnexionServerCodegen extends PythonAbstractConnexionServerCodegen {
+public class PythonAiohttpConnexionServerCodegen extends AbstractPythonConnexionServerCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonAiohttpConnexionServerCodegen.class);
 
     public PythonAiohttpConnexionServerCodegen() {
         super("python-aiohttp", true);
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -49,7 +49,7 @@ public class PythonAiohttpConnexionServerCodegen extends PythonAbstractConnexion
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         testPackage = "tests";
         embeddedTemplateDir = templateDir = "python-aiohttp";
@@ -71,6 +71,7 @@ public class PythonAiohttpConnexionServerCodegen extends PythonAbstractConnexion
         supportingFiles.add(new SupportingFile("conftest.mustache", testPackage, "conftest.py"));
         supportingFiles.add(new SupportingFile("__init__test.mustache", testPackage, "__init__.py"));
         supportingFiles.add(new SupportingFile("__init__main.mustache", packagePath(), "__init__.py"));
+        supportingFiles.add(new SupportingFile("setup.mustache", "", "setup.py"));
         supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
     }

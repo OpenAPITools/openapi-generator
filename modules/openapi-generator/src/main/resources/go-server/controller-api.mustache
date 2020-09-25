@@ -41,32 +41,49 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 	{{/hasFormParams}}{{#hasPathParams}}
 	params := mux.Vars(r){{/hasPathParams}}{{#hasQueryParams}}
 	query := r.URL.Query(){{/hasQueryParams}}{{#allParams}}{{#isPathParam}}{{#isLong}}
-	{{paramName}}, err := parseIntParameter(params["{{paramName}}"])
+	{{paramName}}, err := parseInt64Parameter(params["{{paramName}}"])
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}{{/isLong}}{{#isInteger}}
+	{{paramName}}, err := parseInt32Parameter(params["{{paramName}}"])
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	{{/isLong}}{{^isLong}}
-	{{paramName}} := params["{{paramName}}"]{{/isLong}}{{/isPathParam}}{{#isQueryParam}}{{#isLong}}
-	{{paramName}}, err := parseIntParameter(query.Get("{{paramName}}"))
+	{{/isInteger}}{{^isLong}}{{^isInteger}}
+	{{paramName}} := params["{{paramName}}"]{{/isInteger}}{{/isLong}}{{/isPathParam}}{{#isQueryParam}}{{#isLong}}
+	{{paramName}}, err := parseInt64Parameter(query.Get("{{paramName}}"))
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	{{/isLong}}{{^isLong}}
-	{{paramName}} := {{#isListContainer}}strings.Split({{/isListContainer}}query.Get("{{paramName}}"){{#isListContainer}}, ","){{/isListContainer}}{{/isLong}}{{/isQueryParam}}{{#isFormParam}}{{#isFile}}
+	{{/isLong}}{{#isInteger}}
+	{{paramName}}, err := parseInt32Parameter(query.Get("{{paramName}}"))
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	{{/isInteger}}{{^isLong}}{{^isInteger}}
+	{{paramName}} := {{#isListContainer}}strings.Split({{/isListContainer}}query.Get("{{paramName}}"){{#isListContainer}}, ","){{/isListContainer}}{{/isInteger}}{{/isLong}}{{/isQueryParam}}{{#isFormParam}}{{#isFile}}
 	{{paramName}}, err := ReadFormFileToTempFile(r, "{{paramName}}")
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
 	{{/isFile}}{{#isLong}}
-	{{paramName}}, err := parseIntParameter( r.FormValue("{{paramName}}"))
+	{{paramName}}, err := parseInt64Parameter( r.FormValue("{{paramName}}"))
 	if err != nil {
 		w.WriteHeader(500)
 		return
 	}
-	{{/isLong}}{{^isFile}}{{^isLong}}
+	{{/isLong}}{{#isInteger}}
+	{{paramName}}, err := parseInt32Parameter( r.FormValue("{{paramName}}"))
+	if err != nil {
+		w.WriteHeader(500)
+		return
+	}
+	{{/isInteger}}{{^isFile}}{{^isLong}}
 	{{paramName}} := r.FormValue("{{paramName}}"){{/isLong}}{{/isFile}}{{/isFormParam}}{{#isHeaderParam}}
 	{{paramName}} := r.Header.Get("{{paramName}}"){{/isHeaderParam}}{{#isBodyParam}}
 	{{paramName}} := &{{dataType}}{}
@@ -75,11 +92,13 @@ func (c *{{classname}}Controller) {{nickname}}(w http.ResponseWriter, r *http.Re
 		return
 	}
 	{{/isBodyParam}}{{/allParams}}
-	result, err := c.service.{{nickname}}({{#allParams}}{{#isBodyParam}}*{{/isBodyParam}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}})
+	result, err := c.service.{{nickname}}(r.Context(){{#allParams}}, {{#isBodyParam}}*{{/isBodyParam}}{{paramName}}{{/allParams}})
+	//If an error occured, encode the error with the status code
 	if err != nil {
-		w.WriteHeader(500)
+		EncodeJSONResponse(err.Error(), &result.Code, w)
 		return
 	}
+	//If no error, encode the body and the result code
+	EncodeJSONResponse(result.Body, &result.Code, w)
 	
-	EncodeJSONResponse(result, nil, w)
 }{{/operation}}{{/operations}}

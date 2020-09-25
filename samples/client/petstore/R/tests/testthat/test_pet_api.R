@@ -7,9 +7,9 @@ api.instance <- PetApi$new()
 
 test_that("AddPet", {
   # tests for AddPet
+  # base path: http://petstore.swagger.io/v2
   # Add a new pet to the store
-  # @param body Pet object that needs to be added to the store
-  # @param [Hash] opts the optional parameters
+  # @param body Pet Pet object that needs to be added to the store
   # @return [Void]
 
   # uncomment below to test the operation
@@ -18,10 +18,10 @@ test_that("AddPet", {
 
 test_that("DeletePet", {
   # tests for DeletePet
+  # base path: http://petstore.swagger.io/v2
   # Deletes a pet
-  # @param pet.id Pet id to delete
-  # @param [Hash] opts the optional parameters
-  # @option opts [character] :api.key 
+  # @param pet.id integer Pet id to delete
+  # @param api.key character  (optional)
   # @return [Void]
 
   # uncomment below to test the operation
@@ -30,11 +30,11 @@ test_that("DeletePet", {
 
 test_that("FindPetsByStatus", {
   # tests for FindPetsByStatus
+  # base path: http://petstore.swagger.io/v2
   # Finds Pets by status
   # Multiple status values can be provided with comma separated strings
-  # @param status Status values that need to be considered for filter
-  # @param [Hash] opts the optional parameters
-  # @return [Pet]
+  # @param status array[character] Status values that need to be considered for filter
+  # @return [array[Pet]]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")
@@ -42,11 +42,11 @@ test_that("FindPetsByStatus", {
 
 test_that("FindPetsByTags", {
   # tests for FindPetsByTags
+  # base path: http://petstore.swagger.io/v2
   # Finds Pets by tags
   # Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-  # @param tags Tags to filter by
-  # @param [Hash] opts the optional parameters
-  # @return [Pet]
+  # @param tags array[character] Tags to filter by
+  # @return [array[Pet]]
 
   # uncomment below to test the operation
   #expect_equal(result, "EXPECTED_RESULT")
@@ -54,10 +54,10 @@ test_that("FindPetsByTags", {
 
 test_that("GetPetById", {
   # tests for GetPetById
+  # base path: http://petstore.swagger.io/v2
   # Find pet by ID
   # Returns a single pet
-  # @param pet.id ID of pet to return
-  # @param [Hash] opts the optional parameters
+  # @param pet.id integer ID of pet to return
   # @return [Pet]
 
   # uncomment below to test the operation
@@ -66,9 +66,9 @@ test_that("GetPetById", {
 
 test_that("UpdatePet", {
   # tests for UpdatePet
+  # base path: http://petstore.swagger.io/v2
   # Update an existing pet
-  # @param body Pet object that needs to be added to the store
-  # @param [Hash] opts the optional parameters
+  # @param body Pet Pet object that needs to be added to the store
   # @return [Void]
 
   # uncomment below to test the operation
@@ -77,11 +77,11 @@ test_that("UpdatePet", {
 
 test_that("UpdatePetWithForm", {
   # tests for UpdatePetWithForm
+  # base path: http://petstore.swagger.io/v2
   # Updates a pet in the store with form data
-  # @param pet.id ID of pet that needs to be updated
-  # @param [Hash] opts the optional parameters
-  # @option opts [character] :name Updated name of the pet
-  # @option opts [character] :status Updated status of the pet
+  # @param pet.id integer ID of pet that needs to be updated
+  # @param name character Updated name of the pet (optional)
+  # @param status character Updated status of the pet (optional)
   # @return [Void]
 
   # uncomment below to test the operation
@@ -90,11 +90,11 @@ test_that("UpdatePetWithForm", {
 
 test_that("UploadFile", {
   # tests for UploadFile
+  # base path: http://petstore.swagger.io/v2
   # uploads an image
-  # @param pet.id ID of pet to update
-  # @param [Hash] opts the optional parameters
-  # @option opts [character] :additional.metadata Additional data to pass to server
-  # @option opts [data.frame] :file file to upload
+  # @param pet.id integer ID of pet to update
+  # @param additional.metadata character Additional data to pass to server (optional)
+  # @param file data.frame file to upload (optional)
   # @return [ModelApiResponse]
 
   # uncomment below to test the operation

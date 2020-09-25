@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.EnumSet;
 
-public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServerCodegen {
+public class PythonBluePlanetServerCodegen extends AbstractPythonConnexionServerCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonBluePlanetServerCodegen.class);
 
     protected String modelDocPath = "";
@@ -33,7 +33,7 @@ public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServer
     public PythonBluePlanetServerCodegen() {
         super("python-blueplanet", true);
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.of(
@@ -54,7 +54,7 @@ public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServer
                 .excludeParameterFeatures(
                         ParameterFeature.Cookie
                 )
-                .build();
+        );
 
         testPackage = "tests";
         embeddedTemplateDir = templateDir = "python-blueplanet";
@@ -236,7 +236,8 @@ public class PythonBluePlanetServerCodegen extends PythonAbstractConnexionServer
 
     @Override
     public String modelDocFileFolder() {
-        return (outputFolder + File.separator + modelDocPath).replace('.', File.separatorChar);
+        // character replaces should _only_ occur on paths we define. Don't replace on outputFolder (which is supplied by the user and should always be considered correct)
+        return outputFolder + File.separator + modelDocPath.replace('.', File.separatorChar);
     }
 
     @Override

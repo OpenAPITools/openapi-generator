@@ -7,11 +7,16 @@
 
 import Foundation
 
-public struct SpecialModelName: Codable {
+@objc public class SpecialModelName: NSObject, Codable {
 
     public var specialPropertyName: Int64?
+    public var specialPropertyNameNum: NSNumber? {
+        get {
+            return specialPropertyName as NSNumber?
+        }
+    }
 
-    public init(specialPropertyName: Int64?) {
+    public init(specialPropertyName: Int64? = nil) {
         self.specialPropertyName = specialPropertyName
     }
 

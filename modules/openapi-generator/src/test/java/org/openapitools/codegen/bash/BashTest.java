@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,7 +34,7 @@ public class BashTest {
     public void petstoreOperationTest() {
 
         final OpenAPI openAPI
-            = TestUtils.parseSpec("src/test/resources/2_0/petstore-bash.json");
+            = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-bash.json");
         final DefaultCodegen codegen = new BashClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Operation findPetsByStatusOperation
@@ -63,7 +63,7 @@ public class BashTest {
     public void petstoreParameterExampleTest() {
 
         final OpenAPI openAPI
-            = TestUtils.parseSpec("src/test/resources/2_0/petstore-bash.json");
+            = TestUtils.parseFlattenSpec("src/test/resources/2_0/petstore-bash.json");
         final DefaultCodegen codegen = new BashClientCodegen();
         codegen.setOpenAPI(openAPI);
         final Operation addPetOperation

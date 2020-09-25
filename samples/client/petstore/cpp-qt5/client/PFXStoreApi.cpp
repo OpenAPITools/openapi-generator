@@ -22,7 +22,10 @@ PFXStoreApi::PFXStoreApi(const QString &scheme, const QString &host, int port, c
       _host(host),
       _port(port),
       _basePath(basePath),
-      _timeOut(timeOut) {}
+      _timeOut(timeOut),
+      _manager(nullptr),
+      isResponseCompressionEnabled(false),
+      isRequestCompressionEnabled(false) {}
 
 PFXStoreApi::~PFXStoreApi() {
 }
@@ -51,8 +54,24 @@ void PFXStoreApi::setWorkingDirectory(const QString &path) {
     _workingDirectory = path;
 }
 
+void PFXStoreApi::setNetworkAccessManager(QNetworkAccessManager* manager) {
+    _manager = manager;  
+}
+
 void PFXStoreApi::addHeaders(const QString &key, const QString &value) {
     defaultHeaders.insert(key, value);
+}
+
+void PFXStoreApi::enableRequestCompression() {
+    isRequestCompressionEnabled = true;
+}
+
+void PFXStoreApi::enableResponseCompression() {
+    isResponseCompressionEnabled = true;
+}
+
+void PFXStoreApi::abortRequests(){
+    emit abortRequestsSignal();
 }
 
 void PFXStoreApi::deleteOrder(const QString &order_id) {
@@ -66,7 +85,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     order_idPathParam.append("orderId").append("}");
     fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "DELETE");
@@ -74,7 +93,7 @@ void PFXStoreApi::deleteOrder(const QString &order_id) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::deleteOrderCallback);
-
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -87,6 +106,7 @@ void PFXStoreApi::deleteOrderCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     worker->deleteLater();
 
@@ -107,7 +127,7 @@ void PFXStoreApi::getInventory() {
                            .arg(_basePath)
                            .arg("/store/inventory");
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "GET");
@@ -115,7 +135,7 @@ void PFXStoreApi::getInventory() {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getInventoryCallback);
-
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -128,6 +148,7 @@ void PFXStoreApi::getInventoryCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     QMap<QString, qint32> output;
     QString json(worker->response);
@@ -161,7 +182,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     order_idPathParam.append("orderId").append("}");
     fullPath.replace(order_idPathParam, QUrl::toPercentEncoding(::test_namespace::toStringValue(order_id)));
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "GET");
@@ -169,7 +190,7 @@ void PFXStoreApi::getOrderById(const qint64 &order_id) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::getOrderByIdCallback);
-
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -182,6 +203,7 @@ void PFXStoreApi::getOrderByIdCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     PFXOrder output(QString(worker->response));
     worker->deleteLater();
@@ -203,7 +225,7 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
                            .arg(_basePath)
                            .arg("/store/order");
 
-    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this);
+    PFXHttpRequestWorker *worker = new PFXHttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
     worker->setWorkingDirectory(_workingDirectory);
     PFXHttpRequestInput input(fullPath, "POST");
@@ -214,7 +236,7 @@ void PFXStoreApi::placeOrder(const PFXOrder &body) {
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &PFXHttpRequestWorker::on_execution_finished, this, &PFXStoreApi::placeOrderCallback);
-
+    connect(this, &PFXStoreApi::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -227,6 +249,7 @@ void PFXStoreApi::placeOrderCallback(PFXHttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     PFXOrder output(QString(worker->response));
     worker->deleteLater();

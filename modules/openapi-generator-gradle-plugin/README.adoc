@@ -9,7 +9,6 @@ These map almost fully 1:1 with the options you'd pass to the CLI or Maven plugi
 
 Tasks are listed under the "OpenAPI Tools" tasks heading.
 
-
 .OpenAPI Tools Tasks
 |===
 |task name |description
@@ -38,6 +37,59 @@ compileJava.dependsOn tasks.openApiGenerate
 ```
 ====
 
+All extensions can be rewritten as tasks. Where you can have only a single extension defined in your gradle file, you may have multiple tasks.
+
+.One Extension, multiple tasks
+[source,groovy]
+----
+// Validating a single specification
+openApiValidate {
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+}
+
+// Define a task for validating one specification
+task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+}
+
+// Define a task for validating another specification
+task validateBadSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    inputSpec = "$rootDir/petstore-v3.0-invalid.yaml".toString()
+}
+
+// Define a task for batch validations
+task validateSpecs(dependsOn: ['validateGoodSpec', 'validateBadSpec'])
+----
+
+[NOTE]
+====
+The tasks support Gradle Up-To-Date checking and Gradle Cache. Enable caching globally by setting `org.gradle.caching=true` in the `gradle.settings`
+file or by passing the command line property `--build-cache` when executing on the command line.
+
+Disable up-to-date checks and caching by setting the following property when using the extension:
+
+.Disable caching for extension
+[source,groovy]
+----
+tasks.withType(org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    outputs.upToDateWhen { false }
+    outputs.cacheIf { false }
+}
+----
+Disable up-to-date checks and caching for a custom task:
+
+.Disable caching for custom task
+[source,groovy]
+----
+task validateGoodSpec(type: org.openapitools.generator.gradle.plugin.tasks.ValidateTask){
+    outputs.upToDateWhen { false }
+    outputs.cacheIf { false }
+
+    inputSpec = "$rootDir/petstore-v3.0.yaml".toString()
+}
+----
+====
+
 == Plugin Setup
 
 //# RELEASE_VERSION
@@ -45,7 +97,7 @@ compileJava.dependsOn tasks.openApiGenerate
 [source,group]
 ----
 plugins {
-  id "org.openapi.generator" version "4.2.3-SNAPSHOT"
+  id "org.openapi.generator" version "4.3.1"
 }
 ----
 
@@ -56,12 +108,12 @@ Using https://docs.gradle.org/current/userguide/plugins.html#sec:old_plugin_appl
 buildscript {
   repositories {
     mavenLocal()
-    mavenCentral()
+    maven { url "https://repo1.maven.org/maven2" }
     // or, via Gradle Plugin Portal:
     // url "https://plugins.gradle.org/m2/"
   }
   dependencies {
-    classpath "org.openapitools:openapi-generator-gradle-plugin:4.2.0"
+    classpath "org.openapitools:openapi-generator-gradle-plugin:4.3.1"
   }
 }
 
@@ -112,10 +164,10 @@ apply plugin: 'org.openapi.generator'
 |None
 |Adds authorization headers when fetching the OpenAPI definitions remotely. Pass in a URL-encoded string of name:header with a comma separating multiple values.
 
-|systemProperties
+|globalProperties
 |Map(String,String)
 |None
-|Sets specified system properties.
+|Sets specified global properties.
 
 |configFile
 |String
@@ -225,7 +277,7 @@ apply plugin: 'org.openapi.generator'
 |httpUserAgent
 |String
 |None
-|HTTP user agent, e.g. codegen_csharp_api_client. Generator default is 'OpenAPI-Generator/{packageVersion}}/{language}', but may be generator-specific.
+|HTTP user agent, e.g. codegen_csharp_api_client. Generator default is 'OpenAPI-Generator/{packageVersion}/{language}', but may be generator-specific.
 
 |reservedWordsMappings
 |Map(String,String)
@@ -307,6 +359,10 @@ apply plugin: 'org.openapi.generator'
 |false
 |To generate alias (array, list, map) as model. When false, top-level objects defined as array, list, or map will result in those definitions generated as top-level Array-of-items, List-of-items, Map-of-items definitions. When true, A model representation either containing or extending the array,list,map (depending on specific generator implementation) will be generated.
 
+|engine
+|String
+|mustache
+|Templating engine: "mustache" (default) or "handlebars" (beta)
 |===
 
 [NOTE]
@@ -319,12 +375,12 @@ For more control over generation of individual files, configure an ignore file a
 
 [NOTE]
 ====
-When configuring `systemProperties` in order to perform selective generation you can disable generation of some parts by providing `"false"` value:
+When configuring `globalProperties` in order to perform selective generation you can disable generation of some parts by providing `"false"` value:
 [source,groovy]
 ----
 openApiGenerate {
     // other settings omitted
-    systemProperties = [
+    globalProperties = [
         modelDocs: "false",
         apis: "false"
     ]
@@ -335,7 +391,7 @@ When enabling generation of only specific parts you either have to provide CSV l
 ----
 openApiGenerate {
     // other settings omitted
-    systemProperties = [
+    globalProperties = [
         apis: "",
         models: "User,Pet"
     ]
@@ -353,6 +409,11 @@ openApiGenerate {
 |String
 |None
 |The input specification to validate. Supports all formats supported by the Parser.
+
+|recommend
+|Boolean
+|true
+|Whether or not to offer recommendations related to the validated specification document.
 
 |===
 
@@ -498,6 +559,7 @@ BUILD SUCCESSFUL in 0s
 ----
 openApiValidate {
    inputSpec = "/src/openapi-generator/modules/openapi-generator/src/test/resources/3_0/petstore.yaml"
+   recommend = true
 }
 ----
 
@@ -576,7 +638,7 @@ task buildKotlinClient(type: org.openapitools.generator.gradle.plugin.tasks.Gene
     configOptions = [
             dateLibrary: "java8"
     ]
-    systemProperties = [
+    globalProperties = [
             modelDocs: "false"
     ]
 }
@@ -626,7 +688,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath('org.openapitools:openapi-generator-gradle-plugin:4.2.0') {
+        classpath('org.openapitools:openapi-generator-gradle-plugin:4.2.3') {
             exclude group: 'com.google.guava'
         }
     }

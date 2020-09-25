@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ScalaGatlingCodegen extends AbstractScalaCodegen implements CodegenConfig {
@@ -81,7 +82,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
         // Although the generator supports authorization, it's done via manual header modification and it's done
         // globally. This means it doesn't _technically_ support auth per OpenAPI Spec (which would allow, for example, a different API key per operation),
         // so it's not listed here as supported.
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML, WireFormatFeature.Custom))
                 .securityFeatures(EnumSet.noneOf(SecurityFeature.class))
@@ -100,7 +101,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
         sourceFolder = "src" + File.separator + "gatling" + File.separator + "scala";
 
@@ -312,7 +313,11 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
                             operation.setVendorExtension("x-gatling-body-feeder", operation.getOperationId() + "BodyFeeder");
                             operation.setVendorExtension("x-gatling-body-feeder-params", StringUtils.join(sessionBodyVars, ","));
                             try {
-                                FileUtils.writeStringToFile(new File(outputFolder + File.separator + dataFolder + File.separator + operation.getOperationId() + "-" + "bodyParams.csv"), StringUtils.join(bodyFeederParams, ","));
+                                FileUtils.writeStringToFile(
+                                    new File(outputFolder + File.separator + dataFolder + File.separator + operation.getOperationId() + "-" + "bodyParams.csv"),
+                                    StringUtils.join(bodyFeederParams, ","),
+                                    StandardCharsets.UTF_8
+                                );
                             } catch (IOException ioe) {
                                 LOGGER.error("Could not create feeder file for operationId" + operation.getOperationId(), ioe);
                             }
@@ -358,7 +363,11 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
             operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) + "-params", vendorList);
             operation.addExtension("x-gatling-" + parameterType.toLowerCase(Locale.ROOT) + "-feeder", operation.getOperationId() + parameterType.toUpperCase(Locale.ROOT) + "Feeder");
             try {
-                FileUtils.writeStringToFile(new File(outputFolder + File.separator + dataFolder + File.separator + operation.getOperationId() + "-" + parameterType.toLowerCase(Locale.ROOT) + "Params.csv"), StringUtils.join(parameterNames, ","));
+                FileUtils.writeStringToFile(
+                    new File(outputFolder + File.separator + dataFolder + File.separator + operation.getOperationId() + "-" + parameterType.toLowerCase(Locale.ROOT) + "Params.csv"),
+                    StringUtils.join(parameterNames, ","),
+                    StandardCharsets.UTF_8
+                );
             } catch (IOException ioe) {
                 LOGGER.error("Could not create feeder file for operationId" + operation.getOperationId(), ioe);
             }
@@ -378,7 +387,7 @@ public class ScalaGatlingCodegen extends AbstractScalaCodegen implements Codegen
             Schema inner = ap.getItems();
             return getSchemaType(p) + "[" + getTypeDeclaration(inner) + "]";
         } else if (ModelUtils.isMapSchema(p)) {
-            Schema inner = ModelUtils.getAdditionalProperties(p);
+            Schema inner = getAdditionalProperties(p);
             return getSchemaType(p) + "[String, " + getTypeDeclaration(inner) + "]";
         }
         return super.getTypeDeclaration(p);

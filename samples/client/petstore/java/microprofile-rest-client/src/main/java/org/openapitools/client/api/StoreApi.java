@@ -13,7 +13,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -47,7 +47,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @RegisterRestClient
 @RegisterProvider(ApiExceptionMapper.class)
-@Path("/")
+@Path("/store")
 public interface StoreApi  {
 
     /**
@@ -57,7 +57,7 @@ public interface StoreApi  {
      *
      */
     @DELETE
-    @Path("/store/order/{orderId}")
+    @Path("/order/{orderId}")
     public void deleteOrder(@PathParam("orderId") String orderId) throws ApiException, ProcessingException;
 
     /**
@@ -67,7 +67,7 @@ public interface StoreApi  {
      *
      */
     @GET
-    @Path("/store/inventory")
+    @Path("/inventory")
     @Produces({ "application/json" })
     public Map<String, Integer> getInventory() throws ApiException, ProcessingException;
 
@@ -78,7 +78,7 @@ public interface StoreApi  {
      *
      */
     @GET
-    @Path("/store/order/{orderId}")
+    @Path("/order/{orderId}")
     @Produces({ "application/xml", "application/json" })
     public Order getOrderById(@PathParam("orderId") Long orderId) throws ApiException, ProcessingException;
 
@@ -87,7 +87,7 @@ public interface StoreApi  {
      *
      */
     @POST
-    @Path("/store/order")
+    @Path("/order")
     @Produces({ "application/xml", "application/json" })
     public Order placeOrder(Order body) throws ApiException, ProcessingException;
 }

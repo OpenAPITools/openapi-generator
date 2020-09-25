@@ -30,7 +30,8 @@ from petstore_api.exceptions import (
     ApiValueError,
     ApiTypeError,
 )
-
+from petstore_api.api.pet_api import PetApi
+from petstore_api.model import pet
 from .util import id_gen
 
 import urllib3
@@ -73,19 +74,21 @@ class PetApiTests(unittest.TestCase):
     def setUp(self):
         config = Configuration()
         config.host = HOST
+        config.access_token = 'ACCESS_TOKEN'
         self.api_client = petstore_api.ApiClient(config)
-        self.pet_api = petstore_api.PetApi(self.api_client)
+        self.pet_api = PetApi(self.api_client)
         self.setUpModels()
         self.setUpFiles()
 
     def setUpModels(self):
-        self.category = petstore_api.Category()
+        from petstore_api.model import category, tag
+        self.category = category.Category()
         self.category.id = id_gen()
         self.category.name = "dog"
-        self.tag = petstore_api.Tag()
+        self.tag = tag.Tag()
         self.tag.id = id_gen()
         self.tag.name = "python-pet-tag"
-        self.pet = petstore_api.Pet(name="hello kity", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
+        self.pet = pet.Pet(name="hello kity", photo_urls=["http://foo.bar.com/1", "http://foo.bar.com/2"])
         self.pet.id = id_gen()
         self.pet.status = "sold"
         self.pet.category = self.category
@@ -115,6 +118,31 @@ class PetApiTests(unittest.TestCase):
         resp.close()
         resp.release_conn()
 
+    def test_config(self):
+        config = Configuration(host=HOST)
+        self.assertIsNotNone(config.get_host_settings())
+        self.assertEqual(config.get_basic_auth_token(),
+                          urllib3.util.make_headers(basic_auth=":").get('authorization'))
+        # No authentication scheme has been configured at this point, so auth_settings()
+        # should return an empty list.
+        self.assertEqual(len(config.auth_settings()), 0)
+        # Configure OAuth2 access token and verify the auth_settings have OAuth2 parameters.
+        config.access_token = 'MY-ACCESS_TOKEN'
+        self.assertEqual(len(config.auth_settings()), 1)
+        self.assertIn("petstore_auth", config.auth_settings().keys())
+        config.username = "user"
+        config.password = "password"
+        self.assertEqual(
+            config.get_basic_auth_token(),
+            urllib3.util.make_headers(basic_auth="user:password").get('authorization'))
+        self.assertEqual(len(config.auth_settings()), 2)
+        self.assertIn("petstore_auth", config.auth_settings().keys())
+        self.assertIn("http_basic_test", config.auth_settings().keys())
+        config.username = None
+        config.password = None
+        self.assertEqual(len(config.auth_settings()), 1)
+        self.assertIn("petstore_auth", config.auth_settings().keys())
+
     def test_timeout(self):
         mock_pool = MockPoolManager(self)
         self.api_client.rest_client.pool_manager = mock_pool
@@ -122,13 +150,13 @@ class PetApiTests(unittest.TestCase):
         mock_pool.expect_request('POST', 'http://localhost/v2/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
-                                          'Authorization': 'Bearer ',
+                                          'Authorization': 'Bearer ACCESS_TOKEN',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(total=5))
         mock_pool.expect_request('POST', 'http://localhost/v2/pet',
                                  body=json.dumps(self.api_client.sanitize_for_serialization(self.pet)),
                                  headers={'Content-Type': 'application/json',
-                                          'Authorization': 'Bearer ',
+                                          'Authorization': 'Bearer ACCESS_TOKEN',
                                           'User-Agent': 'OpenAPI-Generator/1.0.0/python'},
                                  preload_content=True, timeout=TimeoutWithEqual(connect=1, read=2))
 
@@ -136,8 +164,8 @@ class PetApiTests(unittest.TestCase):
         self.pet_api.add_pet(self.pet, _request_timeout=(1, 2))
 
     def test_separate_default_client_instances(self):
-        pet_api = petstore_api.PetApi()
-        pet_api2 = petstore_api.PetApi()
+        pet_api = PetApi()
+        pet_api2 = PetApi()
         self.assertNotEqual(pet_api.api_client, pet_api2.api_client)
 
         pet_api.api_client.user_agent = 'api client 3'
@@ -146,8 +174,8 @@ class PetApiTests(unittest.TestCase):
         self.assertNotEqual(pet_api.api_client.user_agent, pet_api2.api_client.user_agent)
 
     def test_separate_default_config_instances(self):
-        pet_api = petstore_api.PetApi()
-        pet_api2 = petstore_api.PetApi()
+        pet_api = PetApi()
+        pet_api2 = PetApi()
         self.assertNotEqual(pet_api.api_client.configuration, pet_api2.api_client.configuration)
 
         pet_api.api_client.configuration.host = 'somehost'
@@ -161,7 +189,7 @@ class PetApiTests(unittest.TestCase):
 
         thread = self.pet_api.get_pet_by_id(self.pet.id, async_req=True)
         result = thread.get()
-        self.assertIsInstance(result, petstore_api.Pet)
+        self.assertIsInstance(result, pet.Pet)
 
     def test_async_with_result(self):
         self.pet_api.add_pet(self.pet, async_req=False)
@@ -172,7 +200,7 @@ class PetApiTests(unittest.TestCase):
         response = thread.get()
         response2 = thread2.get()
 
-        self.assertEquals(response.id, self.pet.id)
+        self.assertEqual(response.id, self.pet.id)
         self.assertIsNotNone(response2.id, self.pet.id)
 
     def test_async_with_http_info(self):
@@ -182,8 +210,8 @@ class PetApiTests(unittest.TestCase):
                                             _return_http_data_only=False)
         data, status, headers = thread.get()
 
-        self.assertIsInstance(data, petstore_api.Pet)
-        self.assertEquals(status, 200)
+        self.assertIsInstance(data, pet.Pet)
+        self.assertEqual(status, 200)
 
     def test_async_exception(self):
         self.pet_api.add_pet(self.pet)
@@ -303,7 +331,7 @@ class PetApiTests(unittest.TestCase):
         http_response = HTTPResponse(
             status=200,
             reason='OK',
-            data=json.dumps(api_respponse),
+            data=json.dumps(api_respponse).encode('utf-8'),
             getheaders=get_headers,
             getheader=get_header
         )
@@ -325,7 +353,7 @@ class PetApiTests(unittest.TestCase):
                         'Accept': 'application/json',
                         'Content-Type': 'multipart/form-data',
                         'User-Agent': 'OpenAPI-Generator/1.0.0/python',
-                        'Authorization': 'Bearer '
+                        'Authorization': 'Bearer ACCESS_TOKEN'
                     },
                     post_params=[
                         ('files', ('1px_pic1.png', b'\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x00\x00\x00\x00:~\x9bU\x00\x00\x00\nIDATx\x9cc\xfa\x0f\x00\x01\x05\x01\x02\xcf\xa0.\xcd\x00\x00\x00\x00IEND\xaeB`\x82', 'image/png')),

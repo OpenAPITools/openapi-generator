@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,17 +17,17 @@
 
 package org.openapitools.codegen.scalahttpclient;
 
-import mockit.Expectations;
-import mockit.Tested;
 import org.openapitools.codegen.AbstractOptionsTest;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.languages.ScalaHttpClientCodegen;
 import org.openapitools.codegen.options.ScalaHttpClientOptionsProvider;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
 public class ScalaHttpClientOptionsTest extends AbstractOptionsTest {
 
-    @Tested
-    private ScalaHttpClientCodegen clientCodegen;
+    private ScalaHttpClientCodegen clientCodegen = mock(ScalaHttpClientCodegen.class, mockSettings);
 
     public ScalaHttpClientOptionsTest() {
         super(new ScalaHttpClientOptionsProvider());
@@ -40,20 +40,13 @@ public class ScalaHttpClientOptionsTest extends AbstractOptionsTest {
 
     @SuppressWarnings("unused")
     @Override
-    protected void setExpectations() {
-        new Expectations(clientCodegen) {{
-            clientCodegen.setModelPackage(ScalaHttpClientOptionsProvider.MODEL_PACKAGE_VALUE);
-            times = 1;
-            clientCodegen.setApiPackage(ScalaHttpClientOptionsProvider.API_PACKAGE_VALUE);
-            times = 1;
-            clientCodegen.setSortParamsByRequiredFlag(Boolean.valueOf(ScalaHttpClientOptionsProvider.SORT_PARAMS_VALUE));
-            times = 1;
-            clientCodegen.setModelPropertyNaming(ScalaHttpClientOptionsProvider.MODEL_PROPERTY_NAMING);
-            times = 1;
-            clientCodegen.setSourceFolder(ScalaHttpClientOptionsProvider.SOURCE_FOLDER_VALUE);
-            times = 1;
-            clientCodegen.setPrependFormOrBodyParameters(Boolean.valueOf(ScalaHttpClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
-            times = 1;
-        }};
+    protected void verifyOptions() {
+        verify(clientCodegen).setModelPackage(ScalaHttpClientOptionsProvider.MODEL_PACKAGE_VALUE);
+        verify(clientCodegen).setApiPackage(ScalaHttpClientOptionsProvider.API_PACKAGE_VALUE);
+        verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(ScalaHttpClientOptionsProvider.SORT_PARAMS_VALUE));
+        verify(clientCodegen).setModelPropertyNaming(ScalaHttpClientOptionsProvider.MODEL_PROPERTY_NAMING);
+        verify(clientCodegen).setSourceFolder(ScalaHttpClientOptionsProvider.SOURCE_FOLDER_VALUE);
+        verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(ScalaHttpClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
+        verify(clientCodegen).setDateLibrary(ScalaHttpClientOptionsProvider.DATE_LIBRARY,false);
     }
 }

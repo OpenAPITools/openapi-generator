@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,13 +24,17 @@ import io.swagger.v3.oas.models.media.*;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.utils.ProcessUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.*;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DartJaguarClientCodegen extends DartClientCodegen {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DartJaguarClientCodegen.class);
     private static final String NULLABLE_FIELDS = "nullableFields";
     private static final String SERIALIZATION_FORMAT = "serialization";
     private static final String IS_FORMAT_JSON = "jsonFormat";
@@ -58,7 +62,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     public DartJaguarClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .securityFeatures(EnumSet.of(
                         SecurityFeature.OAuth2_Implicit,
@@ -80,7 +84,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
         browserClient = false;
         outputFolder = "generated-code/dart-jaguar";
@@ -128,13 +132,21 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
+    public String toDefaultValue(Schema schema) {
+        if (ModelUtils.isMapSchema(schema)) {
             return "const {}";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (ModelUtils.isArraySchema(schema)) {
             return "const []";
         }
-        return super.toDefaultValue(p);
+
+        if (schema.getDefault() != null) {
+            if (ModelUtils.isStringSchema(schema)) {
+                return "\"" + schema.getDefault().toString().replaceAll("\"", "\\\"") + "\"";
+            }
+            return schema.getDefault().toString();
+        } else {
+            return "null";
+        }
     }
 
     @Override
@@ -220,6 +232,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
         objs = super.postProcessModels(objs);
         List<Object> models = (List<Object>) objs.get("models");
         ProcessUtils.addIndexToProperties(models, 1);
+
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             Set<String> modelImports = new HashSet<>();
@@ -240,7 +253,8 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             }
 
             cm.imports = modelImports;
-            cm.vendorExtensions.put("hasVars", cm.vars.size() > 0);
+            boolean hasVars = cm.vars.size() > 0;
+            cm.vendorExtensions.put("x-has-vars", hasVars);
         }
         return objs;
     }
@@ -248,12 +262,12 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         objs = super.postProcessOperationsWithModels(objs, allModels);
+
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) operations.get("operation");
 
         Set<String> modelImports = new HashSet<>();
         Set<String> fullImports = new HashSet<>();
-
         for (CodegenOperation op : operationList) {
             op.httpMethod = StringUtils.capitalize(op.httpMethod.toLowerCase(Locale.ROOT));
             boolean isJson = true; //default to JSON
@@ -292,10 +306,11 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
                 }
             }
 
-            op.vendorExtensions.put("isJson", isJson);
-            op.vendorExtensions.put("isProto", isProto);
-            op.vendorExtensions.put("isForm", isForm);
-            op.vendorExtensions.put("isMultipart", isMultipart);
+            op.vendorExtensions.put("x-is-form", isForm);
+            op.vendorExtensions.put("x-is-json", isJson);
+            op.vendorExtensions.put("x-is-proto", isProto);
+            op.vendorExtensions.put("x-is-multipart", isMultipart);
+
 
             Set<String> imports = new HashSet<>();
             for (String item : op.imports) {

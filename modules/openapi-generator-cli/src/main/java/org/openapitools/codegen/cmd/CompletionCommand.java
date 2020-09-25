@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -36,8 +36,9 @@ import java.util.concurrent.Callable;
 import static com.google.common.collect.Lists.newArrayList;
 import static io.airlift.airline.ParserUtil.createInstance;
 
+@SuppressWarnings({"java:S106"})
 @Command(name = "completion", description = "Complete commands (for using in tooling such as Bash Completions).", hidden = true)
-public class CompletionCommand
+public class CompletionCommand extends OpenApiGeneratorCommand
         implements Runnable, Callable<Void> {
     private static final Map<Context, Class<? extends Suggester>> BUILTIN_SUGGESTERS = ImmutableMap.<Context, Class<? extends Suggester>>builder()
             .put(Context.GLOBAL, GlobalSuggester.class)
@@ -95,7 +96,7 @@ public class CompletionCommand
     }
 
     @Override
-    public void run() {
+    void execute() {
         System.out.println(Joiner.on("\n").join(generateSuggestions()));
     }
 }

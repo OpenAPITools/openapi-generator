@@ -27,10 +27,10 @@ Method | HTTP request | Description
 require '{{{gemName}}}'
 {{#hasAuthMethods}}
 # setup authorization
-{{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}{{^isBasicBearer}}
+{{{moduleName}}}.configure do |config|{{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
   # Configure HTTP basic authorization: {{{name}}}
   config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'{{/isBasicBearer}}{{#isBasicBearer}}
+  config.password = 'YOUR PASSWORD'{{/isBasicBasic}}{{#isBasicBearer}}
   # Configure Bearer authorization{{#bearerFormat}} ({{{.}}}){{/bearerFormat}}: {{{name}}}
   config.access_token = 'YOUR_BEARER_TOKEN'{{/isBasicBearer}}{{/isBasic}}{{#isApiKey}}
   # Configure API key authorization: {{{name}}}

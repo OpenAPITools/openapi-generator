@@ -34,7 +34,7 @@ using namespace {{modelNamespace}};
 class {{declspec}} ApiClient
 {
 public:
-    ApiClient( std::shared_ptr<ApiConfiguration> configuration = nullptr );
+    ApiClient( std::shared_ptr<const ApiConfiguration> configuration = nullptr );
     virtual ~ApiClient();
 
     typedef std::function<void(web::http::status_code, const web::http::http_headers&)> ResponseHandlerType;
@@ -42,8 +42,8 @@ public:
     const ResponseHandlerType& getResponseHandler() const;
     void setResponseHandler(const ResponseHandlerType& responseHandler);
 
-    std::shared_ptr<ApiConfiguration> getConfiguration() const;
-    void setConfiguration(std::shared_ptr<ApiConfiguration> configuration);
+    std::shared_ptr<const ApiConfiguration> getConfiguration() const;
+    void setConfiguration(std::shared_ptr<const ApiConfiguration> configuration);
 
     static utility::string_t parameterToString(utility::string_t value);
     static utility::string_t parameterToString(int32_t value);
@@ -70,7 +70,7 @@ public:
 protected:
 
     ResponseHandlerType m_ResponseHandler;
-    std::shared_ptr<ApiConfiguration> m_Configuration;
+    std::shared_ptr<const ApiConfiguration> m_Configuration;
 };
 
 template<class T>

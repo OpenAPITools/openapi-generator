@@ -1,0 +1,44 @@
+openapi: "3.0.1"
+info:
+  version: 0.0.1
+  title: broken API
+paths:
+  /test:
+    put:
+      summary: No description
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MyParameter'
+      responses:
+        200:
+          description: "OK"
+components:
+  schemas:
+    MyParameter:
+      type: object
+      properties:
+        text_field:
+          $ref: '#/components/schemas/MyParameterTextField'
+    MyParameterTextField:
+      $ref: '#/components/schemas/TypeAliasToString'
+    TypeAliasToString:
+      type: string
+      minLength: 1
+      maxLength: 50
+    BaseModel:
+      type: object
+      discriminator: className
+      required:
+        - className
+      properties:
+        className:
+          type: string
+    ComposedModel:
+      allOf:
+        - $ref: '#/components/schemas/BaseModel'
+        - type: object
+          properties:
+            testProperty:
+              type: string

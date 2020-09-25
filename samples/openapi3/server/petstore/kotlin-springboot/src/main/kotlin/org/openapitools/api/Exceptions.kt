@@ -17,13 +17,13 @@ class DefaultExceptionHandler {
 
     @ExceptionHandler(value = [ApiException::class])
     fun onApiException(ex: ApiException, response: HttpServletResponse): Unit =
-            response.sendError(ex.code, ex.message)
+        response.sendError(ex.code, ex.message)
 
     @ExceptionHandler(value = [NotImplementedError::class])
     fun onNotImplemented(ex: NotImplementedError, response: HttpServletResponse): Unit =
-            response.sendError(HttpStatus.NOT_IMPLEMENTED.value())
+        response.sendError(HttpStatus.NOT_IMPLEMENTED.value())
 
     @ExceptionHandler(value = [ConstraintViolationException::class])
     fun onConstraintViolation(ex: ConstraintViolationException, response: HttpServletResponse): Unit =
-            response.sendError(HttpStatus.BAD_REQUEST.value(), ex.constraintViolations.joinToString(", ") { it.message })
+        response.sendError(HttpStatus.BAD_REQUEST.value(), ex.constraintViolations.joinToString(", ") { it.message })
 }

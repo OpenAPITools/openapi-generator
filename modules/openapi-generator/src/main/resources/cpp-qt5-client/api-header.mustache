@@ -8,6 +8,7 @@
 {{/imports}}
 
 #include <QObject>
+#include <QNetworkAccessManager>
 
 {{#cppNamespaceDeclarations}}
 namespace {{this}} {
@@ -26,7 +27,11 @@ public:
     void setBasePath(const QString &basePath);
     void setTimeOut(const int timeOut);
     void setWorkingDirectory(const QString &path);
+    void setNetworkAccessManager(QNetworkAccessManager* manager);
     void addHeaders(const QString &key, const QString &value);
+    void enableRequestCompression();
+    void enableResponseCompression();
+    void abortRequests();
 {{#operations}}{{#operation}}
     void {{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}});{{/operation}}{{/operations}}
 
@@ -36,7 +41,10 @@ private:
     QString _basePath;
     int _timeOut;
     QString _workingDirectory;
+    QNetworkAccessManager* _manager;
     QMap<QString, QString> defaultHeaders;
+    bool isResponseCompressionEnabled;
+    bool isRequestCompressionEnabled;
 {{#operations}}{{#operation}}
     void {{nickname}}Callback({{prefix}}HttpRequestWorker *worker);{{/operation}}{{/operations}}
 
@@ -49,6 +57,8 @@ signals:
     void {{nickname}}SignalE({{#returnType}}{{{returnType}}} summary, {{/returnType}}QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
 {{#operations}}{{#operation}}
     void {{nickname}}SignalEFull({{prefix}}HttpRequestWorker *worker, QNetworkReply::NetworkError error_type, QString error_str);{{/operation}}{{/operations}}
+
+    void abortRequestsSignal(); 
 };
 
 {{#cppNamespaceDeclarations}}

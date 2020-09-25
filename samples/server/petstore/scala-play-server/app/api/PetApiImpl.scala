@@ -7,15 +7,15 @@ import play.api.libs.Files.TemporaryFile
 /**
   * Provides a default implementation for [[PetApi]].
   */
-@javax.annotation.Generated(value = Array("org.openapitools.codegen.languages.ScalaPlayFrameworkServerCodegen"), date = "2020-01-04T23:10:22.106-05:00[America/New_York]")
+
 class PetApiImpl extends PetApi {
   /**
     * @inheritdoc
     */
-  override def addPet(body: Pet): Unit = {
+  override def addPet(pet: Pet): Pet = {
     // TODO: Implement better logic
 
-    
+    Pet(None, None, "", List.empty[String], None, None)
   }
 
   /**
@@ -57,10 +57,10 @@ class PetApiImpl extends PetApi {
   /**
     * @inheritdoc
     */
-  override def updatePet(body: Pet): Unit = {
+  override def updatePet(pet: Pet): Pet = {
     // TODO: Implement better logic
 
-    
+    Pet(None, None, "", List.empty[String], None, None)
   }
 
   /**

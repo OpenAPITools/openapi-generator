@@ -13,6 +13,7 @@ package org.openapitools.client.models
 
 
 import com.google.gson.annotations.SerializedName
+
 /**
  * A User who is purchasing from the pet store
  * @param id 
@@ -43,7 +44,5 @@ data class User (
     /* User Status */
     @SerializedName("userStatus")
     val userStatus: kotlin.Int? = null
-) 
-
-
+)
 

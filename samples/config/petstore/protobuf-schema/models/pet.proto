@@ -28,10 +28,12 @@ message Pet {
   repeated Tag tags = 5;
 
   // pet status in the store
-  enum status {
+  enum StatusEnum {
     AVAILABLE = 0;
     PENDING = 1;
     SOLD = 2;
   }
+
+  StatusEnum status = 6;
 
 }

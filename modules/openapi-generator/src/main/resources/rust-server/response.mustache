@@ -1,0 +1,60 @@
+#[derive(Debug, PartialEq)]
+{{#vendorExtensions.x-must-use-response}}
+#[must_use]
+{{/vendorExtensions.x-must-use-response}}
+pub enum {{{operationId}}}Response {
+{{#responses}}
+  {{#message}}
+    /// {{{message}}}{{/message}}
+    {{#vendorExtensions}}
+    {{{x-response-id}}}
+    {{/vendorExtensions}}
+    {{^dataType}}
+      {{#hasHeaders}}
+    {
+      {{/hasHeaders}}
+    {{/dataType}}
+    {{#dataType}}
+      {{^hasHeaders}}
+        {{#vendorExtensions}}
+          {{#x-produces-plain-text}}
+    (String)
+          {{/x-produces-plain-text}}
+          {{^x-produces-plain-text}}
+    ({{{dataType}}})
+          {{/x-produces-plain-text}}
+        {{/vendorExtensions}}
+      {{/hasHeaders}}
+      {{#hasHeaders}}
+    {
+        {{#vendorExtensions}}
+          {{#x-produces-plain-text}}
+        body: String,
+            {{/x-produces-plain-text}}
+            {{^x-produces-plain-text}}
+        body: {{{dataType}}},
+            {{/x-produces-plain-text}}
+          {{/vendorExtensions}}
+      {{/hasHeaders}}
+    {{/dataType}}
+    {{#headers}}
+        {{{name}}}:
+      {{^required}}
+        Option<
+      {{/required}}
+        {{{datatype}}}
+      {{^required}}
+        >
+      {{/required}}
+        {{^-last}}
+        ,
+        {{/-last}}
+      {{#-last}}
+    }
+      {{/-last}}
+    {{/headers}}
+    {{^-last}}
+    ,
+    {{/-last}}
+{{/responses}}
+}

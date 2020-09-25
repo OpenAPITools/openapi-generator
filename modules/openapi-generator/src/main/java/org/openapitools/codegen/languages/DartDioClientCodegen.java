@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,6 +40,7 @@ import java.util.Set;
 
 import io.swagger.v3.oas.models.media.Schema;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -88,6 +89,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
 
         typeMapping.put("file", "Uint8List");
         typeMapping.put("binary", "Uint8List");
+        typeMapping.put("AnyType", "Object");
 
         importMapping.put("BuiltList", "package:built_collection/built_collection.dart");
         importMapping.put("BuiltMap", "package:built_collection/built_collection.dart");
@@ -128,19 +130,27 @@ public class DartDioClientCodegen extends DartClientCodegen {
     }
 
     @Override
-    public String toDefaultValue(Schema p) {
-        if (ModelUtils.isMapSchema(p)) {
+    public String toDefaultValue(Schema schema) {
+        if (ModelUtils.isMapSchema(schema)) {
             return "const {}";
-        } else if (ModelUtils.isArraySchema(p)) {
+        } else if (ModelUtils.isArraySchema(schema)) {
             return "const []";
         }
-        return super.toDefaultValue(p);
+
+        if (schema.getDefault() != null) {
+            if (ModelUtils.isStringSchema(schema)) {
+                return "\"" + schema.getDefault().toString().replaceAll("\"", "\\\"") + "\"";
+            }
+            return schema.getDefault().toString();
+        } else {
+            return "null";
+        }
     }
 
     @Override
     protected void addAdditionPropertiesToCodeGenModel(CodegenModel codegenModel, Schema schema) {
         //super.addAdditionPropertiesToCodeGenModel(codegenModel, schema);
-        codegenModel.additionalPropertiesType = getSchemaType(ModelUtils.getAdditionalProperties(schema));
+        codegenModel.additionalPropertiesType = getSchemaType(getAdditionalProperties(schema));
         addImport(codegenModel, codegenModel.additionalPropertiesType);
     }
 
@@ -239,19 +249,23 @@ public class DartDioClientCodegen extends DartClientCodegen {
         supportingFiles.add(new SupportingFile("gitignore.mustache", "", ".gitignore"));
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
 
+        final String authFolder = libFolder + File.separator + "auth";
+        supportingFiles.add(new SupportingFile("auth/api_key_auth.mustache", authFolder, "api_key_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/basic_auth.mustache", authFolder, "basic_auth.dart"));
+        supportingFiles.add(new SupportingFile("auth/oauth.mustache", authFolder, "oauth.dart"));
+        supportingFiles.add(new SupportingFile("auth/auth.mustache", authFolder, "auth.dart"));
+
         if ("core".equals(dateLibrary)) {
             additionalProperties.put("core", "true");
             typeMapping.put("Date", "DateTime");
             typeMapping.put("date", "DateTime");
-            importMapping.put("DateTime", "DateTime");
-            importMapping.put("OffsetDateTime", "DateTime");
         } else if ("timemachine".equals(dateLibrary)) {
             additionalProperties.put("timeMachine", "true");
-            typeMapping.put("date", "LocalDate");
-            typeMapping.put("Date", "LocalDate");
+            typeMapping.put("date", "OffsetDate");
+            typeMapping.put("Date", "OffsetDate");
             typeMapping.put("DateTime", "OffsetDateTime");
             typeMapping.put("datetime", "OffsetDateTime");
-            importMapping.put("LocalDate", "package:time_machine/time_machine.dart");
+            importMapping.put("OffsetDate", "package:time_machine/time_machine.dart");
             importMapping.put("OffsetDateTime", "package:time_machine/time_machine.dart");
             supportingFiles.add(new SupportingFile("local_date_serializer.mustache", libFolder, "local_date_serializer.dart"));
 
@@ -263,6 +277,7 @@ public class DartDioClientCodegen extends DartClientCodegen {
         objs = super.postProcessModels(objs);
         List<Object> models = (List<Object>) objs.get("models");
         ProcessUtils.addIndexToProperties(models, 1);
+
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             Set<String> modelImports = new HashSet<>();
@@ -278,7 +293,8 @@ public class DartDioClientCodegen extends DartClientCodegen {
             }
 
             cm.imports = modelImports;
-            cm.vendorExtensions.put("hasVars", cm.vars.size() > 0);
+            boolean hasVars =  cm.vars.size() > 0;
+            cm.vendorExtensions.put("x-has-vars", hasVars);
         }
         return objs;
     }
@@ -344,9 +360,9 @@ public class DartDioClientCodegen extends DartClientCodegen {
                 }
             }
 
-            op.vendorExtensions.put("isJson", isJson);
-            op.vendorExtensions.put("isForm", isForm);
-            op.vendorExtensions.put("isMultipart", isMultipart);
+            op.vendorExtensions.put("x-is-json", isJson);
+            op.vendorExtensions.put("x-is-form", isForm);
+            op.vendorExtensions.put("x-is-multipart", isMultipart);
 
             if (op.getHasFormParams()) {
                 fullImports.add("package:" + pubName + "/api_util.dart");

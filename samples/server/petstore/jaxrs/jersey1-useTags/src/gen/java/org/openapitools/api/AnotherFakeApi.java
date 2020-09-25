@@ -25,16 +25,16 @@ import javax.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("/AnotherFake")
+@Path("/another-fake/dummy")
 
 
 @io.swagger.annotations.Api(description = "the AnotherFake API")
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaJerseyServerCodegen")
 public class AnotherFakeApi  {
    private final AnotherFakeApiService delegate = AnotherFakeApiServiceFactory.getAnotherFakeApi();
 
     @PATCH
-    @Path("/another-fake/dummy")
+    
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?" })

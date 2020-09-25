@@ -7,11 +7,11 @@ abstract class Tag implements Built<Tag, TagBuilder> {
 
     
         @nullable
-    @BuiltValueField(wireName: 'id')
+    @BuiltValueField(wireName: r'id')
     int get id;
     
         @nullable
-    @BuiltValueField(wireName: 'name')
+    @BuiltValueField(wireName: r'name')
     String get name;
 
     // Boilerplate code needed to wire-up generated code
@@ -19,6 +19,5 @@ abstract class Tag implements Built<Tag, TagBuilder> {
 
     factory Tag([updates(TagBuilder b)]) = _$Tag;
     static Serializer<Tag> get serializer => _$tagSerializer;
-
 }
 

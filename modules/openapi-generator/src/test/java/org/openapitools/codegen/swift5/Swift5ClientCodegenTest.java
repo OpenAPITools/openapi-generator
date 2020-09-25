@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,9 +22,20 @@ import io.swagger.v3.oas.models.Operation;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.DefaultCodegen;
 import org.openapitools.codegen.TestUtils;
+import org.openapitools.codegen.*;
+import org.openapitools.codegen.config.CodegenConfigurator;
 import org.openapitools.codegen.languages.Swift5ClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class Swift5ClientCodegenTest {
@@ -92,7 +103,7 @@ public class Swift5ClientCodegenTest {
     public void binaryDataTest() {
         // TODO update json file
 
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/binaryDataTest.json");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/binaryDataTest.json");
         final DefaultCodegen codegen = new Swift5ClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/binaryResponse";
@@ -107,7 +118,7 @@ public class Swift5ClientCodegenTest {
 
     @Test(description = "returns Date when response format is date", enabled = true)
     public void dateTest() {
-        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/2_0/datePropertyTest.json");
+        final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/2_0/datePropertyTest.json");
         final DefaultCodegen codegen = new Swift5ClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/tests/dateResponse";
@@ -117,6 +128,38 @@ public class Swift5ClientCodegenTest {
         Assert.assertEquals(op.returnType, "Date");
         Assert.assertEquals(op.bodyParam.dataType, "Date");
     }
+
+    @Test(description = "Bug example code generation", enabled = true)
+    public void crashSwift5ExampleCodeGenerationStackOverflowTest() throws IOException {
+        //final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/bugs/Swift5CodeGenerationStackOverflow#2966.yaml");
+        Path target = Files.createTempDirectory("test");
+        File output = target.toFile();
+        try {
+            final CodegenConfigurator configurator = new CodegenConfigurator()
+                    .setGeneratorName("swift5")
+                    .setValidateSpec(false)
+                    .setInputSpec("src/test/resources/bugs/Swift5CodeGenerationStackOverflow#2966.yaml")
+                    .setEnablePostProcessFile(true)
+                    .setOutputDir(target.toAbsolutePath().toString());
+
+            final ClientOptInput clientOptInput = configurator.toClientOptInput();
+            DefaultGenerator generator = new DefaultGenerator(false);
+
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODELS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_TESTS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.MODEL_DOCS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.APIS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.SUPPORTING_FILES, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.API_DOCS, "true");
+            generator.setGeneratorPropertyDefault(CodegenConstants.ENABLE_POST_PROCESS_FILE, "true");
+
+            List<File> files = generator.opts(clientOptInput).generate();
+            Assert.assertTrue(files.size() > 0, "No files generated");
+        } finally {
+           output.delete();
+        }
+    }
+
 
     @Test(enabled = true)
     public void testDefaultPodAuthors() throws Exception {

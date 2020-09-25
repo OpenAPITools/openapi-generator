@@ -62,11 +62,11 @@ Configure {{name}}:
     ApiClient.apiKeyPrefix["{{keyParamName}}"] = ""
 {{/isApiKey}}
 {{#isBasic}}
-{{^isBasicBearer}}
+{{#isBasicBasic}}
 Configure {{name}}:
     ApiClient.username = ""
     ApiClient.password = ""
-{{/isBasicBearer}}
+{{/isBasicBasic}}
 {{#isBasicBearer}}
 Configure {{name}}:
     ApiClient.accessToken = ""

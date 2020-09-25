@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -53,6 +53,18 @@ public abstract class Validated {
      */
     public static Validated invalid(ValidationRule rule, String message) {
         return new Invalid(rule, message);
+    }
+    /**
+     * Creates an instance of an {@link Invalid} validation state.
+     *
+     * @param rule The rule which was evaluated.
+     * @param message The message to display to a user.
+     * @param details Additional contextual details related to the invalid state.
+     *
+     * @return A {@link Validated} instance representing an invalid state according to the rule.
+     */
+    public static Validated invalid(ValidationRule rule, String message, String details) {
+        return new Invalid(rule, message, details);
     }
 
     /**

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,6 +20,8 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.openapitools.codegen.meta.features.*;
 import org.openapitools.codegen.utils.ModelUtils;
 import org.slf4j.Logger;
@@ -46,7 +48,9 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
     public FlashClientCodegen() {
         super();
 
-        featureSet = getFeatureSet().modify()
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata).stability(Stability.DEPRECATED).build();
+
+        modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
                 .wireFormatFeatures(EnumSet.of(WireFormatFeature.JSON, WireFormatFeature.XML))
                 .securityFeatures(EnumSet.of(
@@ -67,7 +71,7 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
                 .includeClientModificationFeatures(
                         ClientModificationFeature.BasePath
                 )
-                .build();
+        );
 
         modelPackage = "org.openapitools.client.model";
         apiPackage = "org.openapitools.client.api";
@@ -201,12 +205,12 @@ public class FlashClientCodegen extends DefaultCodegen implements CodegenConfig 
 
     @Override
     public String getName() {
-        return "flash";
+        return "flash-deprecated";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Flash (ActionScript) client library (beta).";
+        return "Generates a Flash (ActionScript) client library (beta). IMPORTANT: this generator has been deprecated in v5.x";
     }
 
     @Override

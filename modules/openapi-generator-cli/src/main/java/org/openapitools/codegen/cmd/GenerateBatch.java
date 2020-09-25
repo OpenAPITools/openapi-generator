@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,16 +18,24 @@ package org.openapitools.codegen.cmd;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.LoggerContext;
+
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.core.TreeNode;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.deser.BeanDeserializerModifier;
 import com.fasterxml.jackson.databind.deser.std.DelegatingDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.util.TokenBuffer;
+
 import io.airlift.airline.Arguments;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
 import org.openapitools.codegen.DefaultGenerator;
@@ -39,6 +47,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -47,13 +56,15 @@ import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-@SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection"})
+@SuppressWarnings({"unused", "MismatchedQueryAndUpdateOfCollection", "java:S106"})
 @Command(name = "batch", description = "Generate code in batch via external configs.", hidden = true)
-public class GenerateBatch implements Runnable {
-
+public class GenerateBatch extends OpenApiGeneratorCommand {
+    private static AtomicInteger failures = new AtomicInteger(0);
+    private static AtomicInteger successes = new AtomicInteger(0);
     private static final Logger LOGGER = LoggerFactory.getLogger(GenerateBatch.class);
 
     @Option(name = {"-v", "--verbose"}, description = "verbose mode")
@@ -67,6 +78,9 @@ public class GenerateBatch implements Runnable {
 
     @Option(name = {"--fail-fast"}, description = "fail fast on any errors")
     private Boolean failFast;
+
+    @Option(name = {"--clean"}, description = "clean output of previously written files before generation")
+    private Boolean clean;
 
     @Option(name = {"--timeout"}, description = "execution timeout (minutes)")
     private Integer timeout;
@@ -89,7 +103,7 @@ public class GenerateBatch implements Runnable {
      * @see Thread#run()
      */
     @Override
-    public void run() {
+    public void execute() {
         if (configs.size() < 1) {
             LOGGER.error("No configuration file inputs specified");
             System.exit(1);
@@ -123,9 +137,142 @@ public class GenerateBatch implements Runnable {
             }
         }
 
-
         LOGGER.info(String.format(Locale.ROOT, "Batch generation using up to %d threads.\nIncludes: %s\nRoot: %s", numThreads, includesDir.getAbsolutePath(), rootDir.toAbsolutePath().toString()));
 
+        // Create a module which loads our config files, but supports a special "!include" key which can point to an existing config file.
+        // This allows us to create a sort of meta-config which holds configs which are otherwise required at CLI time (via generate task).
+        // That is, this allows us to create a wrapper config for generatorName, inputSpec, outputDir, etc.
+        SimpleModule module = getCustomDeserializationModel(includesDir);
+        List<CodegenConfigurator> configurators = configs.stream().map(config -> CodegenConfigurator.fromFile(config, module)).collect(Collectors.toList());
+
+        // it doesn't make sense to interleave INFO level logs, so limit these to only ERROR.
+        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+        Stream.of(Logger.ROOT_LOGGER_NAME, "io.swagger", "org.openapitools")
+                .map(lc::getLogger)
+                .forEach(logger -> logger.setLevel(Level.ERROR));
+
+        ExecutorService executor = Executors.newFixedThreadPool(numThreads);
+
+        // Execute each configurator on a separate pooled thread.
+        configurators.forEach(configurator -> {
+            GenerationRunner runner = new GenerationRunner(configurator, rootDir, Boolean.TRUE.equals(failFast), Boolean.TRUE.equals(clean));
+            executor.execute(runner);
+        });
+
+        executor.shutdown();
+
+        try {
+            // Allow the batch job to terminate, never running for more than 30 minutes (defaulted to max 10 minutes)
+            if (timeout == null) timeout = 10;
+            int awaitFor = Math.min(Math.max(timeout, 1), 30);
+
+            executor.awaitTermination(awaitFor, TimeUnit.MINUTES);
+
+            int failCount = failures.intValue();
+            if (failCount > 0) {
+                System.err.println(String.format(Locale.ROOT, "[FAIL] Completed with %d failures, %d successes", failCount, successes.intValue()));
+                System.exit(1);
+            } else {
+                System.out.println(String.format(Locale.ROOT, "[SUCCESS] Batch generation finished %d generators successfully.", successes.intValue()));
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            // re-interrupt
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private static class GenerationRunner implements Runnable {
+        private final CodegenConfigurator configurator;
+        private final Path rootDir;
+        private final boolean exitOnError;
+        private final boolean clean;
+
+        private GenerationRunner(CodegenConfigurator configurator, Path rootDir, boolean failFast, boolean clean) {
+            this.configurator = configurator;
+            this.rootDir = rootDir;
+            this.exitOnError = failFast;
+            this.clean = clean;
+        }
+
+        /**
+         * When an object implementing interface <code>Runnable</code> is used
+         * to create a thread, starting the thread causes the object's
+         * <code>run</code> method to be called in that separately executing
+         * thread.
+         * <p>
+         * The general contract of the method <code>run</code> is that it may
+         * take any action whatsoever.
+         *
+         * @see Thread#run()
+         */
+        @Override
+        public void run() {
+            String name = null;
+            try {
+                GlobalSettings.reset();
+
+                ClientOptInput opts = configurator.toClientOptInput();
+                CodegenConfig config = opts.getConfig();
+                name = config.getName();
+                
+                Path target = Paths.get(config.getOutputDir());
+                Path updated = rootDir.resolve(target);
+                config.setOutputDir(updated.toString());
+
+                if (this.clean) {
+                    cleanPreviousFiles(name, updated);
+                }
+
+                System.out.printf(Locale.ROOT, "[%s] Generating %s (outputs to %s)…%n", Thread.currentThread().getName(), name, updated.toString());
+
+                DefaultGenerator defaultGenerator = new DefaultGenerator();
+                defaultGenerator.opts(opts);
+
+                defaultGenerator.generate();
+
+                System.out.printf(Locale.ROOT, "[%s] Finished generating %s…%n", Thread.currentThread().getName(), name);
+                successes.incrementAndGet();
+            } catch (Throwable e) {
+                failures.incrementAndGet();
+                String failedOn = name;
+                if (StringUtils.isEmpty(failedOn)) {
+                    failedOn = "unspecified";
+                }
+                System.err.printf(Locale.ROOT, "[%s] Generation failed for %s: (%s) %s%n", Thread.currentThread().getName(), failedOn, e.getClass().getSimpleName(), e.getMessage());
+                e.printStackTrace(System.err);
+                if (exitOnError) {
+                    System.exit(1);
+                }
+            } finally {
+                GlobalSettings.reset();
+            }
+        }
+
+        private void cleanPreviousFiles(final String name, Path outDir) throws IOException {
+            System.out.printf(Locale.ROOT, "[%s] Cleaning previous contents for %s in %s…%n", Thread.currentThread().getName(), name, outDir.toString());
+            Path filesMeta = Paths.get(outDir.toAbsolutePath().toString(), ".openapi-generator", "FILES");
+            if (filesMeta.toFile().exists()) {
+                FileUtils.readLines(filesMeta.toFile(), StandardCharsets.UTF_8).forEach(relativePath -> {
+                    if (!StringUtils.startsWith(relativePath, ".")) {
+                        Path file = outDir.resolve(relativePath).toAbsolutePath();
+                        // hack: disallow directory traversal outside of output directory. we don't want to delete wrong files.
+                        if (file.toString().startsWith(outDir.toAbsolutePath().toString())) {
+                            try {
+                                Files.delete(file);
+                            } catch (Throwable e) {
+                                System.out.printf(Locale.ROOT, "[%s] Generator %s failed to clean file %s…%n", Thread.currentThread().getName(), name, file);
+                            }
+                        }
+                    } else {
+                        System.out.printf(Locale.ROOT, "[%s] Generator %s skip cleaning special filename %s…%n", Thread.currentThread().getName(), name, relativePath);
+                    }
+                });
+            }
+        }
+    }
+
+    static SimpleModule getCustomDeserializationModel(final File includesDir) {
         // Create a module which loads our config files, but supports a special "!include" key which can point to an existing config file.
         // This allows us to create a sort of meta-config which holds configs which are otherwise required at CLI time (via generate task).
         // That is, this allows us to create a wrapper config for generatorName, inputSpec, outputDir, etc.
@@ -144,87 +291,7 @@ public class GenerateBatch implements Runnable {
             }
         });
 
-        List<CodegenConfigurator> configurators = configs.stream().map(config -> CodegenConfigurator.fromFile(config, module)).collect(Collectors.toList());
-
-        // it doesn't make sense to interleave INFO level logs, so limit these to only ERROR.
-        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-        Stream.of(Logger.ROOT_LOGGER_NAME, "io.swagger", "org.openapitools")
-                .map(lc::getLogger)
-                .forEach(logger -> logger.setLevel(Level.ERROR));
-
-        ExecutorService executor = Executors.newFixedThreadPool(numThreads);
-
-        // Execute each configurator on a separate pooled thread.
-        configurators.forEach(configurator -> executor.execute(new GenerationRunner(configurator, rootDir, Boolean.TRUE.equals(failFast))));
-
-        executor.shutdown();
-
-        try {
-            // Allow the batch job to terminate, never running for more than 30 minutes (defaulted to max 10 minutes)
-            if (timeout == null) timeout = 10;
-            int awaitFor = Math.min(Math.max(timeout, 1), 30);
-
-            executor.awaitTermination(awaitFor, TimeUnit.MINUTES);
-
-            System.out.println("COMPLETE.");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private static class GenerationRunner implements Runnable {
-        private final CodegenConfigurator configurator;
-        private final Path rootDir;
-        private final boolean exitOnError;
-
-        private GenerationRunner(CodegenConfigurator configurator, Path rootDir, boolean failFast) {
-            this.configurator = configurator;
-            this.rootDir = rootDir;
-            this.exitOnError = failFast;
-        }
-
-        /**
-         * When an object implementing interface <code>Runnable</code> is used
-         * to create a thread, starting the thread causes the object's
-         * <code>run</code> method to be called in that separately executing
-         * thread.
-         * <p>
-         * The general contract of the method <code>run</code> is that it may
-         * take any action whatsoever.
-         *
-         * @see Thread#run()
-         */
-        @Override
-        public void run() {
-            try {
-                GlobalSettings.reset();
-
-                ClientOptInput opts = configurator.toClientOptInput();
-                CodegenConfig config = opts.getConfig();
-                String name = config.getName();
-                
-                Path target = Paths.get(config.getOutputDir());
-                Path updated = rootDir.resolve(target);
-                config.setOutputDir(updated.toString());
-
-                System.out.printf(Locale.ROOT, "[%s] Generating %s (outputs to %s)…%n", Thread.currentThread().getName(), name, updated.toString());
-
-                DefaultGenerator defaultGenerator = new DefaultGenerator();
-                defaultGenerator.opts(opts);
-
-                defaultGenerator.generate();
-
-                System.out.printf(Locale.ROOT, "[%s] Finished generating %s…%n", Thread.currentThread().getName(), name);
-            } catch (Throwable e) {
-                System.err.printf(Locale.ROOT, "[%s] Generation failed: (%s) %s%n", Thread.currentThread().getName(), e.getClass().getSimpleName(), e.getMessage());
-                e.printStackTrace(System.err);
-                if (exitOnError) {
-                    System.exit(1);
-                }
-            } finally {
-                GlobalSettings.reset();
-            }
-        }
+        return module;
     }
 
     static class DynamicSettingsRefSupport extends DelegatingDeserializer {
@@ -243,33 +310,51 @@ public class GenerateBatch implements Runnable {
 
         @Override
         public Object deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
-            TreeNode node = p.readValueAsTree();
-            JsonNode include = (JsonNode) node.get(INCLUDE);
             ObjectMapper codec = (ObjectMapper) ctx.getParser().getCodec();
-
-            if (include != null) {
-                String ref = include.textValue();
-                if (ref != null) {
-                    File includeFile = scanDir != null ? new File(scanDir, ref) : new File(ref);
-                    if (includeFile.exists()) {
-                        // load the file into the tree node and continue parsing as normal
-                        ((ObjectNode) node).remove(INCLUDE);
-
-                        JsonParser includeParser = codec.getFactory().createParser(includeFile);
-                        TreeNode includeNode = includeParser.readValueAsTree();
-
-                        ObjectReader reader = codec.readerForUpdating(node);
-                        TreeNode updated = reader.readValue(includeFile);
-                        JsonParser updatedParser = updated.traverse();
-                        updatedParser.nextToken();
-                        return super.deserialize(updatedParser, ctx);
-                    }
-                }
-            }
-
-            JsonParser newParser = node.traverse();
+            TokenBuffer buffer = new TokenBuffer(p);
+            
+            recurse(buffer, p, codec, false);
+            
+            JsonParser newParser = buffer.asParser(codec);
             newParser.nextToken();
+            
             return super.deserialize(newParser, ctx);
+        }
+        
+        private void recurse(TokenBuffer buffer, JsonParser p, ObjectMapper codec, boolean skipOuterbraces) throws IOException {
+            boolean firstToken = true;
+            JsonToken token; 
+            
+            while ((token = p.nextToken()) != null) {
+                String name = p.currentName();
+                
+                if (skipOuterbraces && firstToken && JsonToken.START_OBJECT.equals(token)) {
+                    continue;
+                }
+                
+                if (skipOuterbraces && p.getParsingContext().inRoot() && JsonToken.END_OBJECT.equals(token)) {
+                    continue;
+                }
+                
+                if (JsonToken.VALUE_NULL.equals(token)) {
+                    continue;
+                }
+                
+                if (name != null && JsonToken.FIELD_NAME.equals(token) && name.startsWith(INCLUDE)) {
+                    p.nextToken();
+                    String fileName = p.getText();
+                    if (fileName != null) {
+                        File includeFile = scanDir != null ? new File(scanDir, fileName) : new File(fileName);
+                        if (includeFile.exists()) {
+                            recurse(buffer, codec.getFactory().createParser(includeFile), codec, true);
+                        }
+                    }
+                } else {
+                    buffer.copyCurrentEvent(p);
+                }
+                
+                firstToken = false;
+            }
         }
     }
 }

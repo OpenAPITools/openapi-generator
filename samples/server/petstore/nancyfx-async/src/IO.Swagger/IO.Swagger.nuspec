@@ -9,6 +9,6 @@
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>NancyFx IO.Swagger API</description>
         <copyright>http://swagger.io/terms/</copyright>
-        <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
+        <licenseUrl>https://www.apache.org/licenses/LICENSE-2.0.html</licenseUrl>
     </metadata>
 </package>

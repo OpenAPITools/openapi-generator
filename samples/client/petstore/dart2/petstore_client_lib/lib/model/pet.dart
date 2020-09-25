@@ -2,19 +2,26 @@ part of openapi.api;
 
 class Pet {
   
-  int id = null;
+  int id;
   
-  Category category = null;
+  Category category;
   
-  String name = null;
+  String name;
   
-  List<String> photoUrls = [];
+  List<String> photoUrls = const [];
   
-  List<Tag> tags = [];
-  /* pet status in the store */
-  String status = null;
-  //enum statusEnum {  available,  pending,  sold,  };{
-  Pet();
+  List<Tag> tags = const [];
+  /// pet status in the store
+  PetStatusEnum status;
+
+  Pet({
+    this.id,
+    this.category,
+    @required this.name,
+    @required this.photoUrls,
+    this.tags = const [],
+    this.status,
+  });
 
   @override
   String toString() {
@@ -34,11 +41,11 @@ class Pet {
     tags = (json['tags'] == null) ?
       null :
       Tag.listFromJson(json['tags']);
-    status = json['status'];
+    status = PetStatusEnum.fromJson(json['status']);
   }
 
   Map<String, dynamic> toJson() {
-    Map <String, dynamic> json = {};
+    Map<String, dynamic> json = {};
     if (id != null)
       json['id'] = id;
     if (category != null)
@@ -50,7 +57,7 @@ class Pet {
     if (tags != null)
       json['tags'] = tags;
     if (status != null)
-      json['status'] = status;
+      json['status'] = status.value;
     return json;
   }
 
@@ -59,7 +66,7 @@ class Pet {
   }
 
   static Map<String, Pet> mapFromJson(Map<String, dynamic> json) {
-    var map = Map<String, Pet>();
+    final map = Map<String, Pet>();
     if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic value) => map[key] = Pet.fromJson(value));
     }
@@ -68,13 +75,68 @@ class Pet {
 
   // maps a json object with a list of Pet-objects as value to a dart map
   static Map<String, List<Pet>> mapListFromJson(Map<String, dynamic> json) {
-    var map = Map<String, List<Pet>>();
-     if (json != null && json.isNotEmpty) {
-       json.forEach((String key, dynamic value) {
-         map[key] = Pet.listFromJson(value);
-       });
-     }
-     return map;
+    final map = Map<String, List<Pet>>();
+    if (json != null && json.isNotEmpty) {
+      json.forEach((String key, dynamic value) {
+        map[key] = Pet.listFromJson(value);
+      });
+    }
+    return map;
   }
 }
+class PetStatusEnum {
+  /// The underlying value of this enum member.
+  final String value;
+
+  const PetStatusEnum._internal(this.value);
+
+  /// pet status in the store
+  static const PetStatusEnum available_ = PetStatusEnum._internal("available");
+  /// pet status in the store
+  static const PetStatusEnum pending_ = PetStatusEnum._internal("pending");
+  /// pet status in the store
+  static const PetStatusEnum sold_ = PetStatusEnum._internal("sold");
+
+  static List<PetStatusEnum> get values => const [
+        available_,
+        pending_,
+        sold_,
+      ];
+
+  String toJson () {
+    return value;
+  }
+
+  @override
+  String toString () {
+    return value;
+  }
+
+  static PetStatusEnum fromJson(String value) {
+    return PetStatusEnumTypeTransformer().decode(value);
+  }
+
+  static List<PetStatusEnum> listFromJson(List<dynamic> json) {
+    return json == null
+      ? List<PetStatusEnum>()
+      : json.map((value) => PetStatusEnum.fromJson(value)).toList();
+  }
+}
+
+class PetStatusEnumTypeTransformer {
+
+  dynamic encode(PetStatusEnum data) {
+    return data.value;
+  }
+
+  PetStatusEnum decode(dynamic data) {
+    switch (data) {
+      case "available": return PetStatusEnum.available_;
+      case "pending": return PetStatusEnum.pending_;
+      case "sold": return PetStatusEnum.sold_;
+      default: return null;
+    }
+  }
+}
+
 

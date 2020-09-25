@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct TypeHolderDefault: Codable {
+@objc public class TypeHolderDefault: NSObject, Codable {
 
     public var stringItem: String = "what"
     public var numberItem: Double

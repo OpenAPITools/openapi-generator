@@ -7,12 +7,12 @@
 
 import Foundation
 
-public struct AdditionalPropertiesClass: Codable {
+@objc public class AdditionalPropertiesClass: NSObject, Codable {
 
     public var mapString: [String: String]?
     public var mapMapString: [String: [String: String]]?
 
-    public init(mapString: [String: String]?, mapMapString: [String: [String: String]]?) {
+    public init(mapString: [String: String]? = nil, mapMapString: [String: [String: String]]? = nil) {
         self.mapString = mapString
         self.mapMapString = mapMapString
     }

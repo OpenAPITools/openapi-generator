@@ -1,7 +1,7 @@
 <?php
 /**
  * {{classname}}
- * PHP version 5
+ * PHP version 7.2
  *
  * @category Class
  * @package  {{invokerPackage}}
@@ -473,15 +473,33 @@ use {{invokerPackage}}\ObjectSerializer;
 
         {{#queryParams}}
         // query params
-        {{#collectionFormat}}
-        if (is_array(${{paramName}})) {
-            ${{paramName}} = ObjectSerializer::serializeCollection(${{paramName}}, '{{collectionFormat}}', true);
-        }
-        {{/collectionFormat}}
+        {{#isExplode}}
         if (${{paramName}} !== null) {
-            $queryParams['{{baseName}}'] = ObjectSerializer::toQueryValue(${{paramName}});
+        {{#style}}
+            if('form' === '{{style}}' && is_array(${{paramName}})) {
+                foreach(${{paramName}} as $key => $value) {
+                    $queryParams[$key] = $value;
+                }
+            }
+            else {
+                $queryParams['{{baseName}}'] = ${{paramName}};
+            }
+        {{/style}}
+        {{^style}}
+            $queryParams['{{baseName}}'] = ${{paramName}};
+        {{/style}}
         }
+        {{/isExplode}}
+        {{^isExplode}}
+        if (is_array(${{paramName}})) {
+            ${{paramName}} = ObjectSerializer::serializeCollection(${{paramName}}, '{{#style}}{{style}}{{/style}}{{^style}}{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}{{/style}}', true);
+        }
+        if (${{paramName}} !== null) {
+            $queryParams['{{baseName}}'] = ${{paramName}};
+        }
+        {{/isExplode}}
         {{/queryParams}}
+
         {{#headerParams}}
         // header params
         {{#collectionFormat}}
@@ -515,7 +533,14 @@ use {{invokerPackage}}\ObjectSerializer;
         if (${{paramName}} !== null) {
             {{#isFile}}
             $multipart = true;
-            $formParams['{{baseName}}'] = \GuzzleHttp\Psr7\try_fopen(ObjectSerializer::toFormValue(${{paramName}}), 'rb');
+            $formParams['{{baseName}}'] = [];
+            $paramFiles = is_array(${{paramName}}) ? ${{paramName}} : [${{paramName}}];
+            foreach ($paramFiles as $paramFile) {
+                $formParams['{{baseName}}'][] = \GuzzleHttp\Psr7\try_fopen(
+                    ObjectSerializer::toFormValue($paramFile),
+                    'rb'
+                );
+            }
             {{/isFile}}
             {{^isFile}}
             $formParams['{{baseName}}'] = ObjectSerializer::toFormValue(${{paramName}});
@@ -553,10 +578,13 @@ use {{invokerPackage}}\ObjectSerializer;
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
-                    $multipartContents[] = [
-                        'name' => $formParamName,
-                        'contents' => $formParamValue
-                    ];
+                    $formParamValueItems = is_array($formParamValue) ? $formParamValue : [$formParamValue];
+                    foreach ($formParamValueItems as $formParamValueItem) {
+                        $multipartContents[] = [
+                            'name' => $formParamName,
+                            'contents' => $formParamValueItem
+                        ];
+                    }
                 }
                 // for HTTP post (form)
                 $httpBody = new MultipartStream($multipartContents);
@@ -579,12 +607,12 @@ use {{invokerPackage}}\ObjectSerializer;
         }
         {{/isApiKey}}
         {{#isBasic}}
-        {{^isBasicBearer}}
+        {{#isBasicBasic}}
         // this endpoint requires HTTP basic authentication
         if (!empty($this->config->getUsername()) || !(empty($this->config->getPassword()))) {
             $headers['Authorization'] = 'Basic ' . base64_encode($this->config->getUsername() . ":" . $this->config->getPassword());
         }
-        {{/isBasicBearer}}
+        {{/isBasicBasic}}
         {{#isBasicBearer}}
         // this endpoint requires Bearer{{#bearerFormat}} ({{{.}}}){{/bearerFormat}} authentication (access token)
         if ($this->config->getAccessToken() !== null) {

@@ -46,25 +46,33 @@ Please follow the [installation procedure](#installation--usage) and then run th
 
 ```python
 from __future__ import print_function
+
 import time
 import petstore_api
 from petstore_api.rest import ApiException
 from pprint import pprint
 
+# Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
+# See configuration.py for a list of all supported configuration parameters.
+configuration = petstore_api.Configuration(
+    host = "http://petstore.swagger.io:80/v2"
+)
 
-# Defining host is optional and default to http://petstore.swagger.io:80/v2
-configuration.host = "http://petstore.swagger.io:80/v2"
-# Create an instance of the API class
-api_instance = petstore_api.AnotherFakeApi(petstore_api.ApiClient(configuration))
-body = petstore_api.Client() # Client | client model
 
-try:
-    # To test special tags
-    api_response = api_instance.call_123_test_special_tags(body)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
 
+# Enter a context with an instance of the API client
+with petstore_api.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = petstore_api.AnotherFakeApi(api_client)
+    body = petstore_api.Client() # Client | client model
+
+    try:
+        # To test special tags
+        api_response = api_instance.call_123_test_special_tags(body)
+        pprint(api_response)
+    except ApiException as e:
+        print("Exception when calling AnotherFakeApi->call_123_test_special_tags: %s\n" % e)
+    
 ```
 
 ## Documentation for API Endpoints

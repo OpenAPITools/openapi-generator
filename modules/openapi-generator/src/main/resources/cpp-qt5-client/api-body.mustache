@@ -14,7 +14,10 @@ namespace {{this}} {
       _host(host),
       _port(port),
       _basePath(basePath),
-      _timeOut(timeOut) {}
+      _timeOut(timeOut),
+      _manager(nullptr),
+      isResponseCompressionEnabled(false),
+      isRequestCompressionEnabled(false) {}
 
 {{classname}}::~{{classname}}() {
 }
@@ -43,8 +46,24 @@ void {{classname}}::setWorkingDirectory(const QString &path) {
     _workingDirectory = path;
 }
 
+void {{classname}}::setNetworkAccessManager(QNetworkAccessManager* manager) {
+    _manager = manager;  
+}
+
 void {{classname}}::addHeaders(const QString &key, const QString &value) {
     defaultHeaders.insert(key, value);
+}
+
+void {{classname}}::enableRequestCompression() {
+    isRequestCompressionEnabled = true;
+}
+
+void {{classname}}::enableResponseCompression() {
+    isResponseCompressionEnabled = true;
+}
+
+void {{classname}}::abortRequests(){
+    emit abortRequestsSignal();
 }
 
 {{#operations}}
@@ -106,9 +125,11 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
         }
     }
 {{/collectionFormat}}{{/queryParams}}
-    {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker(this);
+    {{prefix}}HttpRequestWorker *worker = new {{prefix}}HttpRequestWorker(this, _manager);
     worker->setTimeOut(_timeOut);
-    worker->setWorkingDirectory(_workingDirectory);
+    worker->setWorkingDirectory(_workingDirectory);{{#contentCompression}}
+    worker->setResponseCompressionEnabled(isResponseCompressionEnabled);
+    worker->setRequestCompressionEnabled(isRequestCompressionEnabled);{{/contentCompression}}
     {{prefix}}HttpRequestInput input(fullPath, "{{httpMethod}}");
 {{#formParams}}{{^isFile}}
     input.add_var("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));{{/isFile}}{{#isFile}}
@@ -123,15 +144,15 @@ void {{classname}}::{{nickname}}({{#allParams}}const {{{dataType}}} &{{paramName
     QByteArray output = {{paramName}}.asByteArray();{{/isFile}}
     input.request_body.append(output);
 {{/isContainer}}{{/bodyParams}}{{#headerParams}}
-    if ({{paramName}} != nullptr) {
-        input.headers.insert("{{baseName}}", {{paramName}});
+    if (!::{{cppNamespace}}::toStringValue({{paramName}}).isEmpty()) {
+        input.headers.insert("{{baseName}}", ::{{cppNamespace}}::toStringValue({{paramName}}));
     }
 {{/headerParams}}
 
     foreach (QString key, this->defaultHeaders.keys()) { input.headers.insert(key, this->defaultHeaders.value(key)); }
 
     connect(worker, &{{prefix}}HttpRequestWorker::on_execution_finished, this, &{{classname}}::{{nickname}}Callback);
-
+    connect(this, &{{classname}}::abortRequestsSignal, worker, &QObject::deleteLater); 
     worker->execute(&input);
 }
 
@@ -144,6 +165,7 @@ void {{classname}}::{{nickname}}Callback({{prefix}}HttpRequestWorker *worker) {
         msg = QString("Success! %1 bytes").arg(worker->response.length());
     } else {
         msg = "Error: " + worker->error_str;
+        error_str = QString("%1, %2").arg(worker->error_str).arg(QString(worker->response));
     }
     {{#returnType}}
     {{#isListContainer}}

@@ -35,5 +35,7 @@ public class StringUtilsTest {
         Assert.assertEquals(dashize("abcd"), "abcd");
         Assert.assertEquals(dashize("some-value"), "some-value");
         Assert.assertEquals(dashize("some_value"), "some-value");
+        Assert.assertEquals(dashize("Foo_Response__links"), "foo-response-links");
+        Assert.assertEquals(dashize("Foo Response _links"), "foo-response-links");
     }
 }

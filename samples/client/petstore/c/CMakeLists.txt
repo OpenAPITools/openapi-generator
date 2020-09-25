@@ -23,6 +23,7 @@ set(SRCS
     src/apiKey.c
     src/apiClient.c
     external/cJSON.c
+    model/object.c
     model/api_response.c
     model/category.c
     model/order.c
@@ -40,6 +41,7 @@ set(HDRS
     include/list.h
     include/keyValuePair.h
     external/cJSON.h
+    model/object.h
     model/api_response.h
     model/category.h
     model/order.h

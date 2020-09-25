@@ -17,7 +17,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import javax.servlet.ServletContext;
 
-
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 @Configuration
 @EnableSwagger2
 public class OpenAPIDocumentationConfig {
@@ -27,7 +27,7 @@ public class OpenAPIDocumentationConfig {
             .title("OpenAPI Petstore")
             .description("This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\")
             .license("Apache-2.0")
-            .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
+            .licenseUrl("https://www.apache.org/licenses/LICENSE-2.0.html")
             .termsOfServiceUrl("")
             .version("1.0.0")
             .contact(new Contact("","", ""))
@@ -40,8 +40,9 @@ public class OpenAPIDocumentationConfig {
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("org.openapitools.api"))
                     .build()
-                .directModelSubstitute(org.threeten.bp.LocalDate.class, java.sql.Date.class)
-                .directModelSubstitute(org.threeten.bp.OffsetDateTime.class, java.util.Date.class)
+                .pathProvider(new BasePathAwareRelativePathProvider(servletContext, basePath))
+                .directModelSubstitute(java.time.LocalDate.class, java.sql.Date.class)
+                .directModelSubstitute(java.time.OffsetDateTime.class, java.util.Date.class)
                 .apiInfo(apiInfo());
     }
 

@@ -9,7 +9,7 @@
  */
 /**
  * @license Apache-2.0
- * http://www.apache.org/licenses/LICENSE-2.0.html
+ * https://www.apache.org/licenses/LICENSE-2.0.html
  */
 
 goog.provide('API.Client.UserApi');

@@ -6,14 +6,6 @@
 -- --------------------------------------------------------
 
 --
--- Table structure for table `$special[model.name]` generated from model 'DollarspecialLeft_Square_BracketmodelPeriodnameRight_Square_Bracket'
---
-
-CREATE TABLE IF NOT EXISTS `$special[model.name]` (
-  `$special[property.name]` BIGINT DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
 -- Table structure for table `200_response` generated from model '200Underscoreresponse'
 -- Model for testing model name starting with number
 --
@@ -24,77 +16,12 @@ CREATE TABLE IF NOT EXISTS `200_response` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Model for testing model name starting with number';
 
 --
--- Table structure for table `AdditionalPropertiesAnyType` generated from model 'AdditionalPropertiesAnyType'
---
-
-CREATE TABLE IF NOT EXISTS `AdditionalPropertiesAnyType` (
-  `name` TEXT DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `AdditionalPropertiesArray` generated from model 'AdditionalPropertiesArray'
---
-
-CREATE TABLE IF NOT EXISTS `AdditionalPropertiesArray` (
-  `name` TEXT DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `AdditionalPropertiesBoolean` generated from model 'AdditionalPropertiesBoolean'
---
-
-CREATE TABLE IF NOT EXISTS `AdditionalPropertiesBoolean` (
-  `name` TEXT DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
 -- Table structure for table `AdditionalPropertiesClass` generated from model 'AdditionalPropertiesClass'
 --
 
 CREATE TABLE IF NOT EXISTS `AdditionalPropertiesClass` (
-  `map_string` JSON DEFAULT NULL,
-  `map_number` JSON DEFAULT NULL,
-  `map_integer` JSON DEFAULT NULL,
-  `map_boolean` JSON DEFAULT NULL,
-  `map_array_integer` JSON DEFAULT NULL,
-  `map_array_anytype` JSON DEFAULT NULL,
-  `map_map_string` JSON DEFAULT NULL,
-  `map_map_anytype` JSON DEFAULT NULL,
-  `anytype_1` JSON DEFAULT NULL,
-  `anytype_2` JSON DEFAULT NULL,
-  `anytype_3` JSON DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `AdditionalPropertiesInteger` generated from model 'AdditionalPropertiesInteger'
---
-
-CREATE TABLE IF NOT EXISTS `AdditionalPropertiesInteger` (
-  `name` TEXT DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `AdditionalPropertiesNumber` generated from model 'AdditionalPropertiesNumber'
---
-
-CREATE TABLE IF NOT EXISTS `AdditionalPropertiesNumber` (
-  `name` TEXT DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `AdditionalPropertiesObject` generated from model 'AdditionalPropertiesObject'
---
-
-CREATE TABLE IF NOT EXISTS `AdditionalPropertiesObject` (
-  `name` TEXT DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `AdditionalPropertiesString` generated from model 'AdditionalPropertiesString'
---
-
-CREATE TABLE IF NOT EXISTS `AdditionalPropertiesString` (
-  `name` TEXT DEFAULT NULL
+  `map_property` JSON DEFAULT NULL,
+  `map_of_map_property` JSON DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -140,25 +67,6 @@ CREATE TABLE IF NOT EXISTS `ArrayTest` (
   `array_of_string` JSON DEFAULT NULL,
   `array_array_of_integer` JSON DEFAULT NULL,
   `array_array_of_model` JSON DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `BigCat` generated from model 'BigCat'
---
-
-CREATE TABLE IF NOT EXISTS `BigCat` (
-  `className` TEXT NOT NULL,
-  `color` TEXT,
-  `declawed` TINYINT(1) DEFAULT NULL,
-  `kind` ENUM('lions', 'tigers', 'leopards', 'jaguars') DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `BigCat_allOf` generated from model 'BigCatUnderscoreallOf'
---
-
-CREATE TABLE IF NOT EXISTS `BigCat_allOf` (
-  `kind` ENUM('lions', 'tigers', 'leopards', 'jaguars') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -254,7 +162,10 @@ CREATE TABLE IF NOT EXISTS `Enum_Test` (
   `enum_string_required` ENUM('UPPER', 'lower', '') NOT NULL,
   `enum_integer` ENUM('1', '-1') DEFAULT NULL,
   `enum_number` ENUM('1.1', '-1.2') DEFAULT NULL,
-  `outerEnum` TEXT DEFAULT NULL
+  `outerEnum` TEXT DEFAULT NULL,
+  `outerEnumInteger` TEXT DEFAULT NULL,
+  `outerEnumDefaultValue` TEXT DEFAULT NULL,
+  `outerEnumIntegerDefaultValue` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -276,6 +187,14 @@ CREATE TABLE IF NOT EXISTS `FileSchemaTestClass` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `Foo` generated from model 'Foo'
+--
+
+CREATE TABLE IF NOT EXISTS `Foo` (
+  `bar` TEXT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `format_test` generated from model 'formatUnderscoretest'
 --
 
@@ -293,7 +212,8 @@ CREATE TABLE IF NOT EXISTS `format_test` (
   `dateTime` DATETIME DEFAULT NULL,
   `uuid` TEXT DEFAULT NULL,
   `password` VARCHAR(64) NOT NULL,
-  `BigDecimal` DECIMAL(20, 9) DEFAULT NULL
+  `pattern_with_digits` TEXT DEFAULT NULL COMMENT 'A string that is a 10 digit number. Can have leading zeros.',
+  `pattern_with_digits_and_delimiter` TEXT DEFAULT NULL COMMENT 'A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01.'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -303,6 +223,89 @@ CREATE TABLE IF NOT EXISTS `format_test` (
 CREATE TABLE IF NOT EXISTS `hasOnlyReadOnly` (
   `bar` TEXT DEFAULT NULL,
   `foo` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `HealthCheckResult` generated from model 'HealthCheckResult'
+-- Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
+--
+
+CREATE TABLE IF NOT EXISTS `HealthCheckResult` (
+  `NullableMessage` TEXT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.';
+
+--
+-- Table structure for table `inline_object` generated from model 'inlineUnderscoreobject'
+--
+
+CREATE TABLE IF NOT EXISTS `inline_object` (
+  `name` TEXT DEFAULT NULL COMMENT 'Updated name of the pet',
+  `status` TEXT DEFAULT NULL COMMENT 'Updated status of the pet'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `inline_object_1` generated from model 'inlineUnderscoreobjectUnderscore1'
+--
+
+CREATE TABLE IF NOT EXISTS `inline_object_1` (
+  `additionalMetadata` TEXT DEFAULT NULL COMMENT 'Additional data to pass to server',
+  `file` MEDIUMBLOB DEFAULT NULL COMMENT 'file to upload'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `inline_object_2` generated from model 'inlineUnderscoreobjectUnderscore2'
+--
+
+CREATE TABLE IF NOT EXISTS `inline_object_2` (
+  `enum_form_string_array` JSON DEFAULT NULL COMMENT 'Form parameter enum test (string array)',
+  `enum_form_string` ENUM('_abc', '-efg', '(xyz)') DEFAULT '-efg' COMMENT 'Form parameter enum test (string)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `inline_object_3` generated from model 'inlineUnderscoreobjectUnderscore3'
+--
+
+CREATE TABLE IF NOT EXISTS `inline_object_3` (
+  `integer` TINYINT UNSIGNED DEFAULT NULL COMMENT 'None',
+  `int32` TINYINT UNSIGNED DEFAULT NULL COMMENT 'None',
+  `int64` BIGINT DEFAULT NULL COMMENT 'None',
+  `number` DECIMAL(20, 9) UNSIGNED NOT NULL COMMENT 'None',
+  `float` DECIMAL(20, 9) DEFAULT NULL COMMENT 'None',
+  `double` DECIMAL(20, 9) UNSIGNED NOT NULL COMMENT 'None',
+  `string` TEXT DEFAULT NULL COMMENT 'None',
+  `pattern_without_delimiter` TEXT NOT NULL COMMENT 'None',
+  `byte` MEDIUMBLOB NOT NULL COMMENT 'None',
+  `binary` MEDIUMBLOB DEFAULT NULL COMMENT 'None',
+  `date` DATE DEFAULT NULL COMMENT 'None',
+  `dateTime` DATETIME DEFAULT NULL COMMENT 'None',
+  `password` VARCHAR(64) DEFAULT NULL COMMENT 'None',
+  `callback` TEXT DEFAULT NULL COMMENT 'None'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `inline_object_4` generated from model 'inlineUnderscoreobjectUnderscore4'
+--
+
+CREATE TABLE IF NOT EXISTS `inline_object_4` (
+  `param` TEXT NOT NULL COMMENT 'field1',
+  `param2` TEXT NOT NULL COMMENT 'field2'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `inline_object_5` generated from model 'inlineUnderscoreobjectUnderscore5'
+--
+
+CREATE TABLE IF NOT EXISTS `inline_object_5` (
+  `additionalMetadata` TEXT DEFAULT NULL COMMENT 'Additional data to pass to server',
+  `requiredFile` MEDIUMBLOB NOT NULL COMMENT 'file to upload'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `inline_response_default` generated from model 'inlineUnderscoreresponseUnderscoredefault'
+--
+
+CREATE TABLE IF NOT EXISTS `inline_response_default` (
+  `string` TEXT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -345,6 +348,25 @@ CREATE TABLE IF NOT EXISTS `Name` (
   `property` TEXT DEFAULT NULL,
   `123Number` INT DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Model for testing model name same as property name';
+
+--
+-- Table structure for table `NullableClass` generated from model 'NullableClass'
+--
+
+CREATE TABLE IF NOT EXISTS `NullableClass` (
+  `integer_prop` INT DEFAULT NULL,
+  `number_prop` DECIMAL(20, 9) DEFAULT NULL,
+  `boolean_prop` TINYINT(1) DEFAULT NULL,
+  `string_prop` TEXT DEFAULT NULL,
+  `date_prop` DATE DEFAULT NULL,
+  `datetime_prop` DATETIME DEFAULT NULL,
+  `array_nullable_prop` JSON DEFAULT NULL,
+  `array_and_items_nullable_prop` JSON DEFAULT NULL,
+  `array_items_nullable` JSON DEFAULT NULL,
+  `object_nullable_prop` JSON DEFAULT NULL,
+  `object_and_items_nullable_prop` JSON DEFAULT NULL,
+  `object_items_nullable` JSON DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Table structure for table `NumberOnly` generated from model 'NumberOnly'
@@ -409,37 +431,20 @@ CREATE TABLE IF NOT EXISTS `Return` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Model for testing reserved words';
 
 --
+-- Table structure for table `_special_model.name_` generated from model 'UnderscorespecialUnderscoremodelPeriodnameUnderscore'
+--
+
+CREATE TABLE IF NOT EXISTS `_special_model.name_` (
+  `$special[property.name]` BIGINT DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
 -- Table structure for table `Tag` generated from model 'Tag'
 --
 
 CREATE TABLE IF NOT EXISTS `Tag` (
   `id` BIGINT DEFAULT NULL,
   `name` TEXT DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `TypeHolderDefault` generated from model 'TypeHolderDefault'
---
-
-CREATE TABLE IF NOT EXISTS `TypeHolderDefault` (
-  `string_item` TEXT NOT NULL,
-  `number_item` DECIMAL(20, 9) NOT NULL,
-  `integer_item` INT NOT NULL,
-  `bool_item` TINYINT(1) NOT NULL,
-  `array_item` JSON NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Table structure for table `TypeHolderExample` generated from model 'TypeHolderExample'
---
-
-CREATE TABLE IF NOT EXISTS `TypeHolderExample` (
-  `string_item` TEXT NOT NULL,
-  `number_item` DECIMAL(20, 9) NOT NULL,
-  `float_item` DECIMAL(20, 9) NOT NULL,
-  `integer_item` INT NOT NULL,
-  `bool_item` TINYINT(1) NOT NULL,
-  `array_item` JSON NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -457,39 +462,111 @@ CREATE TABLE IF NOT EXISTS `User` (
   `userStatus` INT DEFAULT NULL COMMENT 'User Status'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
 --
--- Table structure for table `XmlItem` generated from model 'XmlItem'
+-- OAuth2 framework tables
+-- Thanks to https://github.com/dsquier/oauth2-server-php-mysql repo
 --
 
-CREATE TABLE IF NOT EXISTS `XmlItem` (
-  `attribute_string` TEXT DEFAULT NULL,
-  `attribute_number` DECIMAL(20, 9) DEFAULT NULL,
-  `attribute_integer` INT DEFAULT NULL,
-  `attribute_boolean` TINYINT(1) DEFAULT NULL,
-  `wrapped_array` JSON DEFAULT NULL,
-  `name_string` TEXT DEFAULT NULL,
-  `name_number` DECIMAL(20, 9) DEFAULT NULL,
-  `name_integer` INT DEFAULT NULL,
-  `name_boolean` TINYINT(1) DEFAULT NULL,
-  `name_array` JSON DEFAULT NULL,
-  `name_wrapped_array` JSON DEFAULT NULL,
-  `prefix_string` TEXT DEFAULT NULL,
-  `prefix_number` DECIMAL(20, 9) DEFAULT NULL,
-  `prefix_integer` INT DEFAULT NULL,
-  `prefix_boolean` TINYINT(1) DEFAULT NULL,
-  `prefix_array` JSON DEFAULT NULL,
-  `prefix_wrapped_array` JSON DEFAULT NULL,
-  `namespace_string` TEXT DEFAULT NULL,
-  `namespace_number` DECIMAL(20, 9) DEFAULT NULL,
-  `namespace_integer` INT DEFAULT NULL,
-  `namespace_boolean` TINYINT(1) DEFAULT NULL,
-  `namespace_array` JSON DEFAULT NULL,
-  `namespace_wrapped_array` JSON DEFAULT NULL,
-  `prefix_ns_string` TEXT DEFAULT NULL,
-  `prefix_ns_number` DECIMAL(20, 9) DEFAULT NULL,
-  `prefix_ns_integer` INT DEFAULT NULL,
-  `prefix_ns_boolean` TINYINT(1) DEFAULT NULL,
-  `prefix_ns_array` JSON DEFAULT NULL,
-  `prefix_ns_wrapped_array` JSON DEFAULT NULL
+--
+-- Table structure for table `oauth_clients`
+--
+CREATE TABLE IF NOT EXISTS `oauth_clients` (
+  `client_id`            VARCHAR(80)    NOT NULL,
+  `client_secret`        VARCHAR(80)    DEFAULT NULL,
+  `redirect_uri`         VARCHAR(2000)  DEFAULT NULL,
+  `grant_types`          VARCHAR(80)    DEFAULT NULL,
+  `scope`                VARCHAR(4000)  DEFAULT NULL,
+  `user_id`              VARCHAR(80)    DEFAULT NULL,
+  PRIMARY KEY (`client_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Table structure for table `oauth_access_tokens`
+--
+CREATE TABLE IF NOT EXISTS `oauth_access_tokens` (
+  `access_token`         VARCHAR(40)    NOT NULL,
+  `client_id`            VARCHAR(80)    DEFAULT NULL,
+  `user_id`              VARCHAR(80)    DEFAULT NULL,
+  `expires`              TIMESTAMP      NOT NULL,
+  `scope`                VARCHAR(4000)  DEFAULT NULL,
+  PRIMARY KEY (`access_token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `oauth_authorization_codes`
+--
+CREATE TABLE IF NOT EXISTS `oauth_authorization_codes` (
+  `authorization_code`  VARCHAR(40)    NOT NULL,
+  `client_id`           VARCHAR(80)    DEFAULT NULL,
+  `user_id`             VARCHAR(80)    DEFAULT NULL,
+  `redirect_uri`        VARCHAR(2000)  NOT NULL,
+  `expires`             TIMESTAMP      NOT NULL,
+  `scope`               VARCHAR(4000)  DEFAULT NULL,
+  `id_token`            VARCHAR(1000)  DEFAULT NULL,
+  PRIMARY KEY (`authorization_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `oauth_refresh_tokens`
+--
+CREATE TABLE IF NOT EXISTS `oauth_refresh_tokens` (
+  `refresh_token`       VARCHAR(40)    NOT NULL,
+  `client_id`           VARCHAR(80)    DEFAULT NULL,
+  `user_id`             VARCHAR(80)    DEFAULT NULL,
+  `expires`             TIMESTAMP      on update CURRENT_TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `scope`               VARCHAR(4000)  DEFAULT NULL,
+  PRIMARY KEY (`refresh_token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `oauth_users`
+--
+CREATE TABLE IF NOT EXISTS `oauth_users` (
+  `username`            VARCHAR(80)    DEFAULT NULL,
+  `password`            VARCHAR(255)   DEFAULT NULL,
+  `first_name`          VARCHAR(80)    DEFAULT NULL,
+  `last_name`           VARCHAR(80)    DEFAULT NULL,
+  `email`               VARCHAR(2000)  DEFAULT NULL,
+  `email_verified`      TINYINT(1)     DEFAULT NULL,
+  `scope`               VARCHAR(4000)  DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `oauth_scopes`
+--
+CREATE TABLE IF NOT EXISTS `oauth_scopes` (
+  `scope`               VARCHAR(80)  NOT NULL,
+  `is_default`          TINYINT(1)   DEFAULT NULL,
+  PRIMARY KEY (`scope`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `oauth_jwt`
+--
+CREATE TABLE IF NOT EXISTS `oauth_jwt` (
+  `client_id`           VARCHAR(80)    NOT NULL,
+  `subject`             VARCHAR(80)    DEFAULT NULL,
+  `public_key`          VARCHAR(2000)  NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `oauth_jti`
+--
+CREATE TABLE IF NOT EXISTS `oauth_jti` (
+  `issuer`              VARCHAR(80)    NOT NULL,
+  `subject`             VARCHAR(80)    DEFAULT NULL,
+  `audiance`            VARCHAR(80)    DEFAULT NULL,
+  `expires`             TIMESTAMP      NOT NULL,
+  `jti`                 VARCHAR(2000)  NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `oauth_public_keys`
+--
+CREATE TABLE IF NOT EXISTS `oauth_public_keys` (
+  `client_id`            VARCHAR(80)    DEFAULT NULL,
+  `public_key`           VARCHAR(2000)  DEFAULT NULL,
+  `private_key`          VARCHAR(2000)  DEFAULT NULL,
+  `encryption_algorithm` VARCHAR(100)   DEFAULT 'RS256'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;

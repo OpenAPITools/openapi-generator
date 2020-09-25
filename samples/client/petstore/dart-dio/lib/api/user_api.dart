@@ -16,9 +16,9 @@ class UserApi {
         /// Create user
         ///
         /// This can only be done by the logged in user.
-        Future<Response>createUser(User body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>createUser(User body,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
-            String path = "/user";
+        String _path = "/user";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -35,23 +35,28 @@ class UserApi {
             bodyData = jsonbody;
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         /// Creates list of users with given input array
         ///
         /// 
-        Future<Response>createUsersWithArrayInput(List<User> body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>createUsersWithArrayInput(List<User> body,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
-            String path = "/user/createWithArray";
+        String _path = "/user/createWithArray";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -69,23 +74,28 @@ class UserApi {
             bodyData = jsonbody;
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         /// Creates list of users with given input array
         ///
         /// 
-        Future<Response>createUsersWithListInput(List<User> body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>createUsersWithListInput(List<User> body,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
-            String path = "/user/createWithList";
+        String _path = "/user/createWithList";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -103,23 +113,28 @@ class UserApi {
             bodyData = jsonbody;
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
             method: 'post'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         /// Delete user
         ///
         /// This can only be done by the logged in user.
-        Future<Response>deleteUser(String username,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>deleteUser(String username,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
-            String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
+        String _path = "/user/{username}".replaceAll("{" r'username' "}", username.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -133,23 +148,28 @@ class UserApi {
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
             method: 'delete'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         /// Get user by user name
         ///
         /// 
-        Future<Response<User>>getUserByName(String username,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response<User>>getUserByName(String username,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
-            String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
+        String _path = "/user/{username}".replaceAll("{" r'username' "}", username.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -163,19 +183,24 @@ class UserApi {
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-        var serializer = _serializers.serializerForType(User);
-        var data = _serializers.deserializeWith<User>(serializer, response.data);
+                var serializer = _serializers.serializerForType(User);
+                var data = _serializers.deserializeWith<User>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
             return Response<User>(
                 data: data,
@@ -191,16 +216,16 @@ class UserApi {
         /// Logs user into the system
         ///
         /// 
-        Future<Response<String>>loginUser(String username,String password,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response<String>>loginUser(String username,String password,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
-            String path = "/user/login";
+        String _path = "/user/login";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
-                queryParams["username"] = username;
-                queryParams["password"] = password;
+                queryParams[r'username'] = username;
+                queryParams[r'password'] = password;
         queryParams.removeWhere((key, value) => value == null);
         headerParams.removeWhere((key, value) => value == null);
 
@@ -209,19 +234,24 @@ class UserApi {
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             ).then((response) {
 
-        var serializer = _serializers.serializerForType(String);
-        var data = _serializers.deserializeWith<String>(serializer, response.data);
+                var serializer = _serializers.serializerForType(String);
+                var data = _serializers.deserializeWith<String>(serializer, response.data is String ? jsonDecode(response.data) : response.data);
 
             return Response<String>(
                 data: data,
@@ -237,9 +267,9 @@ class UserApi {
         /// Logs out current logged in user session
         ///
         /// 
-        Future<Response>logoutUser({ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>logoutUser({ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
-            String path = "/user/logout";
+        String _path = "/user/logout";
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -253,23 +283,28 @@ class UserApi {
 
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
             method: 'get'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         /// Updated user
         ///
         /// This can only be done by the logged in user.
-        Future<Response>updateUser(String username,User body,{ CancelToken cancelToken, Map<String, String> headers,}) async {
+        Future<Response>updateUser(String username,User body,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
-            String path = "/user/{username}".replaceAll("{" + "username" + "}", username.toString());
+        String _path = "/user/{username}".replaceAll("{" r'username' "}", username.toString());
 
         Map<String, dynamic> queryParams = {};
         Map<String, String> headerParams = Map.from(headers ?? {});
@@ -286,15 +321,20 @@ class UserApi {
             bodyData = jsonbody;
 
             return _dio.request(
-            path,
+            _path,
             queryParameters: queryParams,
             data: bodyData,
             options: Options(
             method: 'put'.toUpperCase(),
             headers: headerParams,
+            extra: {
+                'secure': [],
+            },
             contentType: contentTypes.isNotEmpty ? contentTypes[0] : "application/json",
             ),
             cancelToken: cancelToken,
+            onSendProgress: onSendProgress,
+            onReceiveProgress: onReceiveProgress,
             );
             }
         }

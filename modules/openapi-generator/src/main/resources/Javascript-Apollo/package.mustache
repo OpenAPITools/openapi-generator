@@ -1,0 +1,29 @@
+{
+  "name": "{{{projectName}}}",
+  "version": "{{{projectVersion}}}",
+  "description": "{{{projectDescription}}}",
+  "license": "{{licenseName}}",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha --require @babel/register --recursive"
+  },
+  "browser": {
+    "fs": false
+  },
+{{#npmRepository}}
+  "publishConfig":{
+    "registry":"{{npmRepository}}"
+  },
+{{/npmRepository}}
+  "dependencies": {
+    "apollo-datasource-rest": "^0.7.0"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "mocha": "^5.2.0",
+    "sinon": "^7.2.0"
+  },
+  "files": [
+    "src"
+  ]
+}

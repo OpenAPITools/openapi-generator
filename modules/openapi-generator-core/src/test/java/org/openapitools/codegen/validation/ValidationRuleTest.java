@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,13 +33,13 @@ public class ValidationRuleTest {
         }
     }
 
-    private static boolean checkName(Sample input) {
-        return input.getName() != null && input.getName().length() > 7;
+    private static ValidationRule.Result checkName(Sample input) {
+        return (input.getName() != null && input.getName().length() > 7) ? ValidationRule.Pass.empty() : ValidationRule.Fail.empty();
     }
 
-    private static boolean checkPattern(Sample input) {
+    private static ValidationRule.Result checkPattern(Sample input) {
         String pattern = "^[A-Z][a-z]*$";
-        return input.getName() != null && input.getName().matches(pattern);
+        return (input.getName() != null && input.getName().matches(pattern))  ? ValidationRule.Pass.empty() : ValidationRule.Fail.empty();
     }
 
     @Test
@@ -49,10 +49,10 @@ public class ValidationRuleTest {
         Sample seven = new Sample("1234567");
         Sample eight = new Sample("12345678");
         ValidationRule result = ValidationRule.error("test", ValidationRuleTest::checkName);
-        assertFalse(result.evaluate(nil));
-        assertFalse(result.evaluate(six));
-        assertFalse(result.evaluate(seven));
-        assertTrue(result.evaluate(eight));
+        assertFalse(result.evaluate(nil).passed());
+        assertFalse(result.evaluate(six).passed());
+        assertFalse(result.evaluate(seven).passed());
+        assertTrue(result.evaluate(eight).passed());
     }
 
     @Test
@@ -61,8 +61,8 @@ public class ValidationRuleTest {
         Sample lowercase = new Sample("jim");
         Sample titlecase = new Sample("Jim");
         ValidationRule result = ValidationRule.error("test", i -> checkPattern((Sample)i));
-        assertFalse(result.evaluate(nil));
-        assertFalse(result.evaluate(lowercase));
-        assertTrue(result.evaluate(titlecase));
+        assertFalse(result.evaluate(nil).passed());
+        assertFalse(result.evaluate(lowercase).passed());
+        assertTrue(result.evaluate(titlecase).passed());
     }
 }
