@@ -1,4 +1,5 @@
-library {{pubName}}.api;
+{{>header}}
+library {{{pubName}}}.api;
 
 import 'dart:async';
 import 'dart:convert';
@@ -15,9 +16,13 @@ part 'auth/oauth.dart';
 part 'auth/http_basic_auth.dart';
 part 'auth/http_bearer_auth.dart';
 
-{{#apiInfo}}{{#apis}}part 'api/{{classFilename}}.dart';
+{{#apiInfo}}{{#apis}}part 'api/{{{classFilename}}}.dart';
 {{/apis}}{{/apiInfo}}
-{{#models}}{{#model}}part 'model/{{classFilename}}.dart';
+{{#models}}{{#model}}part 'model/{{{classFilename}}}.dart';
 {{/model}}{{/models}}
+const _delimiters = {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
+final _dateFormatter = DateFormat('yyyy-MM-dd');
+final _regList = RegExp(r'^List<(.*)>$');
+final _regMap = RegExp(r'^Map<String,(.*)>$');
 
 ApiClient defaultApiClient = ApiClient();
