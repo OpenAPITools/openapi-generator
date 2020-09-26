@@ -2,8 +2,9 @@ package {{packageName}}.auth
 
 import {{packageName}}.infrastructure.Queries
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}class HttpBearerAuth(private val scheme: String?) : Authentication {
-    var bearerToken: String? = null
+@Suppress("MemberVisibilityCanBePrivate")
+public class HttpBearerAuth(public val scheme: String?) : Authentication {
+    public var bearerToken: String? = null
 
     override fun apply(queries: Queries, headers: MutableMap<String, String?>) {
         val token: String = bearerToken ?: return

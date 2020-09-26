@@ -1,4 +1,6 @@
 {{>licenseInfo}}
+@file:Suppress("UnusedImport")
+
 package {{apiPackage}}
 
 {{#imports}}import {{import}}
@@ -16,7 +18,6 @@ import io.ktor.http.ParametersBuilder
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.builtins.list
 import kotlinx.serialization.builtins.serializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
@@ -24,8 +25,16 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
 {{#operations}}
-class {{classname}} : ApiClientBase {
-    constructor(
+@Suppress(
+    "unused",
+    "RemoveRedundantQualifierName",
+    "RemoveExplicitTypeArguments",
+    "RemoveRedundantCallsOfConversionMethods",
+    "DuplicatedCode",
+    "UnnecessaryVariable",
+)
+public class {{classname}} : ApiClientBase {
+    public constructor(
         baseUrl: String = "{{{basePath}}}",
         httpClientEngine: HttpClientEngine? = null,
         json: Json = Json {}
@@ -47,7 +56,7 @@ class {{classname}} : ApiClientBase {
     {{#returnType}}
     @Suppress("UNCHECKED_CAST")
     {{/returnType}}
-    suspend fun {{operationId}}(
+    public suspend fun {{operationId}}(
         {{#allParams}}
         {{{paramName}}}: {{{dataType}}}{{^required}}? = null{{/required}}{{#hasMore}},{{/hasMore}}
         {{/allParams}}

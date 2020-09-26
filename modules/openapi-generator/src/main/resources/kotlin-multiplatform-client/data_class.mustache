@@ -9,11 +9,13 @@ import kotlinx.serialization.Serializable
  * @param {{{name}}} {{{description}}}
 {{/allVars}}
  */
+{{!TODO: Improve this?}}
+@Suppress("ArrayInDataClass")
 @Serializable
 {{#isDeprecated}}
 @Deprecated(message = "This schema is deprecated.")
 {{/isDeprecated}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}{{#discriminator}}interface{{/discriminator}}{{^discriminator}}data class{{/discriminator}} {{classname}}{{^discriminator}}(
+public {{#discriminator}}interface{{/discriminator}}{{^discriminator}}data class{{/discriminator}} {{classname}}{{^discriminator}}(
 {{#allVars}}
 {{#required}}{{>data_class_req_var}}{{/required}}{{^required}}{{>data_class_opt_var}}{{/required}}{{^-last}},{{/-last}}
 {{/allVars}}

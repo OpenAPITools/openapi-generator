@@ -2,9 +2,10 @@ package {{packageName}}.auth
 
 import {{packageName}}.infrastructure.Queries
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}class ApiKeyAuth(private val location: String, val paramName: String) : Authentication {
-    var apiKey: String? = null
-    var apiKeyPrefix: String? = null
+@Suppress("MemberVisibilityCanBePrivate")
+public class ApiKeyAuth(public val location: String, public val paramName: String) : Authentication {
+    public var apiKey: String? = null
+    public var apiKeyPrefix: String? = null
 
     override fun apply(queries: Queries, headers: MutableMap<String, String?>) {
             val key: String = apiKey ?: return

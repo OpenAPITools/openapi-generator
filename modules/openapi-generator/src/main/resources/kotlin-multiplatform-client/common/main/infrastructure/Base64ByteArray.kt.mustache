@@ -4,13 +4,15 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
+@Suppress("unused")
 @Serializable(with = Base64ByteArray.Companion::class)
-{{#nonPublicApi}}internal {{/nonPublicApi}}class Base64ByteArray(val value: ByteArray) {
-    companion object : KSerializer<Base64ByteArray> {
-        override val descriptor = PrimitiveSerialDescriptor("Base64ByteArray", PrimitiveKind.STRING)
+public class Base64ByteArray(public val value: ByteArray) {
+    public companion object : KSerializer<Base64ByteArray> {
+        override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("Base64ByteArray", PrimitiveKind.STRING)
         override fun serialize(encoder: Encoder, value: Base64ByteArray): Unit =
             encoder.encodeString(value.value.encodeBase64())
 

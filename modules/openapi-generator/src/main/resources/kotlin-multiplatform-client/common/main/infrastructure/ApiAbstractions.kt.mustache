@@ -1,6 +1,6 @@
 package {{packageName}}.infrastructure
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}fun collectionDelimiter(collectionFormat: String) = when(collectionFormat) {
+internal fun collectionDelimiter(collectionFormat: String) = when(collectionFormat) {
     "csv" -> ","
     "tsv" -> "\t"
     "pipe" -> "|"
@@ -8,31 +8,32 @@ package {{packageName}}.infrastructure
     else -> ""
 }
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}sealed class QueryParam {
-    data class Single(val value: String) : QueryParam()
-    data class Multi(val values: Iterable<String>) : QueryParam()
+public sealed class QueryParam {
+    public data class Single(val value: String) : QueryParam()
+    public data class Multi(val values: Iterable<String>) : QueryParam()
 }
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}class Queries(val queries: MutableMap<String, QueryParam> = mutableMapOf()) {
-    constructor(queries: MutableMap<String, QueryParam> = mutableMapOf(), config: Queries.() -> Unit): this(queries) {
+@Suppress("MemberVisibilityCanBePrivate", "unused")
+public class Queries(public val queries: MutableMap<String, QueryParam> = mutableMapOf()) {
+    public constructor(queries: MutableMap<String, QueryParam> = mutableMapOf(), config: Queries.() -> Unit): this(queries) {
         config(this)
     }
 
     // Single
-    fun add(name: String, value: String?) {
+    public fun add(name: String, value: String?) {
         if (value != null) {
             queries[name] = QueryParam.Single(value)
         }
     }
 
-    fun add(name: String, value: Any?) {
+    public fun add(name: String, value: Any?) {
         if (value != null) {
             queries[name] = QueryParam.Single(value.toString())
         }
     }
 
     // For Iterables
-    fun addMulti(name: String, values: Iterable<*>, collectionFormat: String) {
+    public fun addMulti(name: String, values: Iterable<*>, collectionFormat: String) {
         val transformed = values.filterNotNull().map { it.toString() }
         queries[name] = when (collectionFormat) {
             "multi" -> QueryParam.Multi(transformed)
@@ -41,10 +42,10 @@ package {{packageName}}.infrastructure
     }
 
     // For Arrays
-    fun addMulti(name: String, values: kotlin.Array<*>, collectionFormat: String) =
+    public fun addMulti(name: String, values: Array<*>, collectionFormat: String): Unit =
         addMulti(name, values.asIterable(), collectionFormat)
 
     // For Maps
-    fun addMap(values: Map<String, *>) =
+    public fun addMap(values: Map<String, *>): Unit =
         queries.putAll(values.filterValues { it != null }.mapValues { QueryParam.Single(it.value.toString()) })
 }

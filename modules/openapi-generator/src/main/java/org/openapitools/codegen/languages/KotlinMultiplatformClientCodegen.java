@@ -395,6 +395,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
 
         // Multiplatform import mapping
         importMapping.put("BigDecimal", "kotlin.Double");
+        importMapping.put("String", "kotlin.String");
         importMapping.put("UUID", "kotlin.String");
         importMapping.put("URI", "kotlin.String");
         importMapping.put("InputProvider", "io.ktor.client.request.forms.InputProvider");
@@ -404,10 +405,10 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
 
         switch (dateLibrary) {
             case STRING: {
-                typeMapping.put("date-time", "kotlin.String");
-                typeMapping.put("date", "kotlin.String");
-                typeMapping.put("Date", "kotlin.String");
-                typeMapping.put("DateTime", "kotlin.String");
+                typeMapping.put("date-time", "String");
+                typeMapping.put("date", "String");
+                typeMapping.put("Date", "String");
+                typeMapping.put("DateTime", "String");
                 importMapping.put("Timestamp", "kotlin.String");
                 importMapping.put("LocalDateTime", "kotlin.String");
                 importMapping.put("LocalDate", "kotlin.String");

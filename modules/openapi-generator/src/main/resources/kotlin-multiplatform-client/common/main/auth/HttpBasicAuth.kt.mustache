@@ -3,9 +3,9 @@ package {{packageName}}.auth
 import {{packageName}}.infrastructure.Queries
 import {{packageName}}.infrastructure.toBase64
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}class HttpBasicAuth : Authentication {
-    var username: String? = null
-    var password: String? = null
+public class HttpBasicAuth : Authentication {
+    public var username: String? = null
+    public var password: String? = null
 
     override fun apply(queries: Queries, headers: MutableMap<String, String?>) {
         if (username == null && password == null) return

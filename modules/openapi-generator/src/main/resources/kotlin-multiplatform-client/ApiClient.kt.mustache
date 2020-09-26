@@ -10,8 +10,8 @@ import {{packageName}}.apis.*
 import {{packageName}}.infrastructure.ApiClientBase
 
 {{! TODO: Remove when backticks problems are resolved }}
-@Suppress("RemoveRedundantBackticks")
-class ApiClient(
+@Suppress("RemoveRedundantBackticks", "MemberVisibilityCanBePrivate", "unused")
+public class ApiClient(
     baseUrl: String = "{{{basePath}}}",
     httpClientEngine: HttpClientEngine? = null,
     json: Json = Json {}
@@ -32,11 +32,11 @@ class ApiClient(
     {{! TODO: Remove backticks when conflicts are resolved }}
     {{#apiInfo}}
     {{#apis}}
-    val `{{{classVarName}}}` by lazy { {{{classFilename}}}(baseUrl, client, serializer) }
+    public val `{{{classVarName}}}`: {{{classFilename}}} by lazy { {{{classFilename}}}(baseUrl, client, serializer) }
     {{/apis}}
     {{/apiInfo}}
 
-    val allClients: Set<ApiClientBase> by lazy {
+    public val allClients: Set<ApiClientBase> by lazy {
         setOf(
             {{#apiInfo}}
             {{#apis}}
@@ -46,12 +46,13 @@ class ApiClient(
         )
     }
 
+    {{! TODO: Make less generic }}
     /**
      * Set the username for the first HTTP basic authentication for all apis.
      *
      * @param username Username
      */
-    fun setUsername(username: String) {
+    public fun setUsername(username: String) {
         for (client in allClients) {
             client.setUsername(username)
         }
@@ -62,7 +63,7 @@ class ApiClient(
      *
      * @param password Password
      */
-    fun setPassword(password: String) {
+    public fun setPassword(password: String) {
         for (client in allClients) {
             client.setPassword(password)
         }
@@ -74,7 +75,7 @@ class ApiClient(
      * @param apiKey API key
      * @param paramName The name of the API key parameter, or null or set the first key.
      */
-    fun setApiKey(apiKey: String, paramName: String? = null) {
+    public fun setApiKey(apiKey: String, paramName: String? = null) {
         for (client in allClients) {
             client.setApiKey(apiKey, paramName)
         }
@@ -86,7 +87,7 @@ class ApiClient(
      * @param apiKeyPrefix API key prefix
      * @param paramName The name of the API key parameter, or null or set the first key.
      */
-    fun setApiKeyPrefix(apiKeyPrefix: String, paramName: String? = null) {
+    public fun setApiKeyPrefix(apiKeyPrefix: String, paramName: String? = null) {
         for (client in allClients) {
             client.setApiKeyPrefix(apiKeyPrefix, paramName)
         }
@@ -97,7 +98,7 @@ class ApiClient(
      *
      * @param accessToken Access token
      */
-    fun setAccessToken(accessToken: String) {
+    public fun setAccessToken(accessToken: String) {
         for (client in allClients) {
             client.setAccessToken(accessToken)
         }
@@ -108,7 +109,7 @@ class ApiClient(
      *
      * @param bearerToken The bearer token.
      */
-    fun setBearerToken(bearerToken: String) {
+    public fun setBearerToken(bearerToken: String) {
         for (client in allClients) {
             client.setBearerToken(bearerToken)
         }

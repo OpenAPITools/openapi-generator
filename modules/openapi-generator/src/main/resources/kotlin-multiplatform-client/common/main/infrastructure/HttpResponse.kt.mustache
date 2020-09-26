@@ -6,14 +6,15 @@ import io.ktor.http.Headers
 import io.ktor.http.isSuccess
 import io.ktor.client.statement.HttpResponse as KtorHttpResponse
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}open class HttpResponse<T : Any>(val response: KtorHttpResponse, val provider: BodyProvider<T>) {
-    val status: Int = response.status.value
-    val success: Boolean = response.status.isSuccess()
-    val headers: Map<String, List<String>> = response.headers.mapEntries()
-    suspend fun body(): T = provider.body(response)
-    suspend fun <V : Any> typedBody(type: TypeInfo): V = provider.typedBody(response, type)
+@Suppress("unused")
+public open class HttpResponse<T : Any> internal constructor(public val response: KtorHttpResponse, internal val provider: BodyProvider<T>) {
+    public val status: Int = response.status.value
+    public val success: Boolean = response.status.isSuccess()
+    public val headers: Map<String, List<String>> = response.headers.mapEntries()
+    public suspend fun body(): T = provider.body(response)
+    public suspend fun <V : Any> typedBody(type: TypeInfo): V = provider.typedBody(response, type)
 
-    {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
+    public companion object {
         private fun Headers.mapEntries(): Map<String, List<String>> {
             val result = mutableMapOf<String, List<String>>()
             entries().forEach { result[it.key] = it.value }
@@ -22,12 +23,12 @@ import io.ktor.client.statement.HttpResponse as KtorHttpResponse
     }
 }
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}interface BodyProvider<T : Any> {
+internal interface BodyProvider<T : Any> {
     suspend fun body(response: KtorHttpResponse): T
     suspend fun <V : Any> typedBody(response: KtorHttpResponse, type: TypeInfo): V
 }
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}class TypedBodyProvider<T : Any>(private val type: TypeInfo) : BodyProvider<T> {
+internal class TypedBodyProvider<T : Any>(private val type: TypeInfo) : BodyProvider<T> {
     @Suppress("UNCHECKED_CAST")
     override suspend fun body(response: KtorHttpResponse): T =
         response.call.receive(type) as T
@@ -37,7 +38,7 @@ import io.ktor.client.statement.HttpResponse as KtorHttpResponse
         response.call.receive(type) as V
 }
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}class MappedBodyProvider<S : Any, T : Any>(private val provider: BodyProvider<S>, private val block: S.() -> T) :
+internal class MappedBodyProvider<S : Any, T : Any>(private val provider: BodyProvider<S>, private val block: S.() -> T) :
     BodyProvider<T> {
     override suspend fun body(response: KtorHttpResponse): T =
         block(provider.body(response))
@@ -46,8 +47,8 @@ import io.ktor.client.statement.HttpResponse as KtorHttpResponse
         provider.typedBody(response, type)
 }
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}inline fun <reified T : Any> KtorHttpResponse.wrap(): HttpResponse<T> =
+internal inline fun <reified T : Any> KtorHttpResponse.wrap(): HttpResponse<T> =
         HttpResponse(this, TypedBodyProvider(typeInfo<T>()))
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}fun <T : Any, V : Any> HttpResponse<T>.map(block: T.() -> V): HttpResponse<V> =
+internal fun <T : Any, V : Any> HttpResponse<T>.map(block: T.() -> V): HttpResponse<V> =
         HttpResponse(response, MappedBodyProvider(provider, block))
