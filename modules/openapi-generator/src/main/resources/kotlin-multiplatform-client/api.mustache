@@ -5,8 +5,10 @@ package {{apiPackage}}
 {{/imports}}
 
 import {{packageName}}.infrastructure.*
+import io.ktor.client.HttpClient
 import io.ktor.client.request.forms.formData
 import io.ktor.client.engine.HttpClientEngine
+import io.ktor.client.features.json.serializer.KotlinxSerializer
 import io.ktor.client.request.forms.FormPart
 import io.ktor.client.utils.EmptyContent
 import kotlinx.serialization.json.Json
@@ -22,11 +24,19 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
 {{#operations}}
-{{#nonPublicApi}}internal {{/nonPublicApi}}class {{classname}} constructor(
-    baseUrl: kotlin.String = "{{{basePath}}}",
-    httpClientEngine: HttpClientEngine? = null,
-    json: Json = Json {},
-) : ApiClientBase(baseUrl, httpClientEngine, json) {
+class {{classname}} : ApiClientBase {
+    constructor(
+        baseUrl: String = "{{{basePath}}}",
+        httpClientEngine: HttpClientEngine? = null,
+        json: Json = Json {}
+    ) : super(baseUrl, httpClientEngine, json)
+
+    internal constructor(baseUrl: String, client: HttpClient, serializer: KotlinxSerializer) : super(
+        baseUrl,
+        client,
+        serializer
+    )
+
     {{#operation}}
     /**
      * {{summary}}

@@ -353,13 +353,12 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
             supportingFiles.add(new SupportingFile(wrapperSrc + File.separator + "gradle-wrapper.jar", wrapperDest, "gradle-wrapper.jar"));
         }
 
-        final String srcDir = sourceFolder + File.separator + packageName;
+        final String srcDir = sourceFolder + File.separator + packageName.replace(".", File.separator);
 
         // Infra
-        final String dest = srcDir.replace(".", File.separator);
-        final String infraDest = (srcDir + File.separator + "infrastructure").replace(".", File.separator);
+        final String infraDest = srcDir + File.separator + "infrastructure";
         final String infraSrc = "common/main/infrastructure/";
-        supportingFiles.add(new SupportingFile("ApiClient.kt.mustache", dest, "ApiClient.kt"));
+        supportingFiles.add(new SupportingFile("ApiClient.kt.mustache", srcDir, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "ApiClientBase.kt.mustache", infraDest, "ApiClientBase.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "ApiAbstractions.kt.mustache", infraDest, "ApiAbstractions.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "RequestConfig.kt.mustache", infraDest, "RequestConfig.kt"));
@@ -373,7 +372,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         }
 
         // Auth
-        final String authDest = (srcDir + File.separator + "auth").replace(".", File.separator);
+        final String authDest = srcDir + File.separator + "auth";
         final String authSrc = "common/main/auth/";
         supportingFiles.add(new SupportingFile(authSrc + "ApiKeyAuth.kt.mustache", authDest, "ApiKeyAuth.kt"));
         supportingFiles.add(new SupportingFile(authSrc + "Authentication.kt.mustache", authDest, "Authentication.kt"));

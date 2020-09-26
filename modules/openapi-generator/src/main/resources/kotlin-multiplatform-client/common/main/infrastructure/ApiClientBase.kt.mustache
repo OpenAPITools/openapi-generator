@@ -19,32 +19,44 @@ import kotlinx.serialization.json.Json
 
 import {{packageName}}.auth.*
 
-{{#nonPublicApi}}internal {{/nonPublicApi}}open class ApiClientBase(
-        private val baseUrl: String,
-        httpClientEngine: HttpClientEngine?,
-        json: Json = Json {}
-) {
-    private val serializer = KotlinxSerializer(json)
+open class ApiClientBase {
+    private val baseUrl: String
+    private val serializer: KotlinxSerializer
+    private val client: HttpClient
+    {{#hasAuthMethods}}
+    private val authentications: Map<String, Authentication> by lazy {
+        mapOf({{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
+            "{{name}}" to HttpBasicAuth(){{/isBasicBasic}}{{^isBasicBasic}}
+            "{{name}}" to HttpBearerAuth("{{scheme}}"){{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
+            "{{name}}" to ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}
+            "{{name}}" to OAuth(){{/isOAuth}}{{#hasMore}}, {{/hasMore}}{{/authMethods}}
+        )
+    }
+    {{/hasAuthMethods}}
 
-    private val client: HttpClient by lazy {
+    internal constructor(baseUrl: String, httpClientEngine: HttpClientEngine?, json: Json = Json {}) {
+        this.baseUrl = baseUrl
+        this.serializer = KotlinxSerializer(json)
         val jsonConfig: JsonFeature.Config.() -> Unit = { this.serializer = this@ApiClientBase.serializer }
         val clientConfig: (HttpClientConfig<*>) -> Unit = { it.install(JsonFeature, jsonConfig) }
-        httpClientEngine?.let { HttpClient(it, clientConfig) } ?: HttpClient(clientConfig)
+        client = if (httpClientEngine == null) {
+            HttpClient(clientConfig)
+        } else {
+            HttpClient(httpClientEngine, clientConfig)
+        }
     }
-    {{#hasAuthMethods}}
-    private val authentications: Map<String, Authentication> = mapOf({{#authMethods}}{{#isBasic}}{{#isBasicBasic}}
-                "{{name}}" to HttpBasicAuth(){{/isBasicBasic}}{{^isBasicBasic}}
-                "{{name}}" to HttpBearerAuth("{{scheme}}"){{/isBasicBasic}}{{/isBasic}}{{#isApiKey}}
-                "{{name}}" to ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}"){{/isApiKey}}{{#isOAuth}}
-                "{{name}}" to OAuth(){{/isOAuth}}{{#hasMore}}, {{/hasMore}}{{/authMethods}}
-        )
-    {{/hasAuthMethods}}
+
+    internal constructor(baseUrl: String, client: HttpClient, serializer: KotlinxSerializer) {
+        this.baseUrl = baseUrl
+        this.serializer = serializer
+        this.client = client
+    }
 
     {{^hasAuthMethods}}
     private val authentications: Map<String, Authentication> = mapOf()
     {{/hasAuthMethods}}
 
-    {{#nonPublicApi}}internal {{/nonPublicApi}}companion object {
+    companion object {
         protected val UNSAFE_HEADERS = listOf(HttpHeaders.ContentType)
     }
 
