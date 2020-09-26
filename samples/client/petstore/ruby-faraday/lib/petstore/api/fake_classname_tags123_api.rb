@@ -68,6 +68,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || ['api_key_query']
 
       new_options = opts.merge(
+        :operation => :"FakeClassnameTags123Api.test_classname",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,

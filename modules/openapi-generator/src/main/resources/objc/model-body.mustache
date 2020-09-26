@@ -27,9 +27,19 @@
     if(discriminatedClassName == nil ){
          return [super initWithDictionary:dict error:err];
     }
-    Class class = NSClassFromString([@"{{classPrefix}}" stringByAppendingString:discriminatedClassName]);
-    if(!class) {
-        class = NSClassFromString([@"{{classPrefix}}" stringByAppendingString:[discriminatedClassName capitalizedString]]);
+
+    Class class = nil;
+{{#discriminator.mappedModels}}
+    if ([discriminatedClassName isEqualToString:@"{{^vendorExtensions.x-discriminator-value}}{{mappingName}}{{/vendorExtensions.x-discriminator-value}}{{#vendorExtensions.x-discriminator-value}}{{{vendorExtensions.x-discriminator-value}}}{{/vendorExtensions.x-discriminator-value}}"]) {
+        class = NSClassFromString(@"{{modelName}}");
+    }
+    else
+{{/discriminator.mappedModels}}
+    {
+        class = NSClassFromString([@"{{classPrefix}}" stringByAppendingString:discriminatedClassName]);
+        if(!class) {
+            class = NSClassFromString([@"{{classPrefix}}" stringByAppendingString:[discriminatedClassName capitalizedString]]);
+        }
     }
     if([self class ] == class) {
         return [super initWithDictionary:dict error:err];

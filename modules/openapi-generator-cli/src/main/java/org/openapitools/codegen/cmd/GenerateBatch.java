@@ -34,6 +34,7 @@ import com.fasterxml.jackson.databind.util.TokenBuffer;
 import io.airlift.airline.Arguments;
 import io.airlift.airline.Command;
 import io.airlift.airline.Option;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.ClientOptInput;
 import org.openapitools.codegen.CodegenConfig;
@@ -46,6 +47,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -76,6 +78,9 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
 
     @Option(name = {"--fail-fast"}, description = "fail fast on any errors")
     private Boolean failFast;
+
+    @Option(name = {"--clean"}, description = "clean output of previously written files before generation")
+    private Boolean clean;
 
     @Option(name = {"--timeout"}, description = "execution timeout (minutes)")
     private Integer timeout;
@@ -149,7 +154,10 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
         ExecutorService executor = Executors.newFixedThreadPool(numThreads);
 
         // Execute each configurator on a separate pooled thread.
-        configurators.forEach(configurator -> executor.execute(new GenerationRunner(configurator, rootDir, Boolean.TRUE.equals(failFast))));
+        configurators.forEach(configurator -> {
+            GenerationRunner runner = new GenerationRunner(configurator, rootDir, Boolean.TRUE.equals(failFast), Boolean.TRUE.equals(clean));
+            executor.execute(runner);
+        });
 
         executor.shutdown();
 
@@ -178,11 +186,13 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
         private final CodegenConfigurator configurator;
         private final Path rootDir;
         private final boolean exitOnError;
+        private final boolean clean;
 
-        private GenerationRunner(CodegenConfigurator configurator, Path rootDir, boolean failFast) {
+        private GenerationRunner(CodegenConfigurator configurator, Path rootDir, boolean failFast, boolean clean) {
             this.configurator = configurator;
             this.rootDir = rootDir;
             this.exitOnError = failFast;
+            this.clean = clean;
         }
 
         /**
@@ -198,7 +208,7 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
          */
         @Override
         public void run() {
-            String name = "";
+            String name = null;
             try {
                 GlobalSettings.reset();
 
@@ -209,6 +219,10 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
                 Path target = Paths.get(config.getOutputDir());
                 Path updated = rootDir.resolve(target);
                 config.setOutputDir(updated.toString());
+
+                if (this.clean) {
+                    cleanPreviousFiles(name, updated);
+                }
 
                 System.out.printf(Locale.ROOT, "[%s] Generating %s (outputs to %s)…%n", Thread.currentThread().getName(), name, updated.toString());
 
@@ -232,6 +246,28 @@ public class GenerateBatch extends OpenApiGeneratorCommand {
                 }
             } finally {
                 GlobalSettings.reset();
+            }
+        }
+
+        private void cleanPreviousFiles(final String name, Path outDir) throws IOException {
+            System.out.printf(Locale.ROOT, "[%s] Cleaning previous contents for %s in %s…%n", Thread.currentThread().getName(), name, outDir.toString());
+            Path filesMeta = Paths.get(outDir.toAbsolutePath().toString(), ".openapi-generator", "FILES");
+            if (filesMeta.toFile().exists()) {
+                FileUtils.readLines(filesMeta.toFile(), StandardCharsets.UTF_8).forEach(relativePath -> {
+                    if (!StringUtils.startsWith(relativePath, ".")) {
+                        Path file = outDir.resolve(relativePath).toAbsolutePath();
+                        // hack: disallow directory traversal outside of output directory. we don't want to delete wrong files.
+                        if (file.toString().startsWith(outDir.toAbsolutePath().toString())) {
+                            try {
+                                Files.delete(file);
+                            } catch (Throwable e) {
+                                System.out.printf(Locale.ROOT, "[%s] Generator %s failed to clean file %s…%n", Thread.currentThread().getName(), name, file);
+                            }
+                        }
+                    } else {
+                        System.out.printf(Locale.ROOT, "[%s] Generator %s skip cleaning special filename %s…%n", Thread.currentThread().getName(), name, relativePath);
+                    }
+                });
             }
         }
     }

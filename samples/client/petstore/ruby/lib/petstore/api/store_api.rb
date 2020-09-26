@@ -64,6 +64,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"StoreApi.delete_order",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -120,6 +121,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || ['api_key']
 
       new_options = opts.merge(
+        :operation => :"StoreApi.get_inventory",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -190,6 +192,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"StoreApi.get_order_by_id",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,
@@ -252,6 +255,7 @@ module Petstore
       auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
+        :operation => :"StoreApi.place_order",
         :header_params => header_params,
         :query_params => query_params,
         :form_params => form_params,

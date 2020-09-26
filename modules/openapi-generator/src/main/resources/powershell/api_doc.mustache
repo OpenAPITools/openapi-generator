@@ -43,6 +43,18 @@ $Configuration["ApiKey"]["{{{keyParamName}}}"] = "YOUR_API_KEY"
 # Configure OAuth2 access token for authorization: {{{name}}}
 $Configuration["AccessToken"] = "YOUR_ACCESS_TOKEN";
 {{/isOAuth}}
+
+{{#isHttpSignature}}
+# Configure HttpSignature for authorization :{{name}}
+$httpSigningParams = @{
+    KeyId = "xxxxxx1776876789ac747/xxxxxxx564612d31a62c01/xxxxxxxa1d7564612d31a66ee8"
+    KeyFilePath = "C:\SecretKey.txt"
+    HttpSigningHeader = @("(request-target)","Host","Date","Digest")
+    HashAlgorithm = "sha256"
+}
+Set-{{{packageName}}}ConfigurationHttpSigning @httpSigningParams
+
+{{/isHttpSignature}}
 {{/authMethods}}
 
 {{/hasAuthMethods}}
@@ -54,7 +66,7 @@ ${{paramName}} = {{{vendorExtensions.x-powershell-example}}} # {{{dataType}}} | 
 # {{{.}}}
 {{/summary}}
 try {
-    {{#returnType}}{{returnType}} $Result = {{/returnType}}{{{vendorExtensions.x-powershell-method-name}}}{{#allParams}} -{{paramName}} ${{paramName}}{{/allParams}}
+     $Result = {{{vendorExtensions.x-powershell-method-name}}}{{#allParams}} -{{paramName}} ${{paramName}}{{/allParams}}
 } catch {
     Write-Host ("Exception occured when calling {{{vendorExtensions.x-powershell-method-name}}}: {0}" -f ($_.ErrorDetails | ConvertFrom-Json))
     Write-Host ("Response headers: {0}" -f ($_.Exception.Response.Headers | ConvertTo-Json))
@@ -69,7 +81,7 @@ Name | Type | Description  | Notes
 {{/allParams}}
 
 ### Return type
-
+# cmdlet returns PSCustomObject, the return object contains the properties of below type
 {{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
 
 ### Authorization

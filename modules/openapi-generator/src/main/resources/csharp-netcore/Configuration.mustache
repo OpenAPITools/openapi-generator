@@ -92,11 +92,13 @@ namespace {{packageName}}.Client
         /// <value>The servers</value>
         private IList<IReadOnlyDictionary<string, object>> _servers;
         {{/servers.0}}
+        {{#hasHttpSignatureMethods}}
 
         /// <summary>
         /// HTTPSigning configuration
         /// </summary>
         private HTTPSigningConfiguration _HTTPSigningConfiguration = null;
+        {{/hasHttpSignatureMethods}}
         #endregion Private Members
 
         #region Constructors
@@ -467,6 +469,7 @@ namespace {{packageName}}.Client
             return url;
         }
         {{/servers.0}}
+        {{#hasHttpSignatureMethods}}
 
         /// <summary>
         /// Gets and Sets the HTTPSigningConfiuration
@@ -476,6 +479,7 @@ namespace {{packageName}}.Client
             get { return _HTTPSigningConfiguration; }
             set { _HTTPSigningConfiguration = value; }
         }
+        {{/hasHttpSignatureMethods}}
 
         #endregion Properties
 
@@ -553,9 +557,11 @@ namespace {{packageName}}.Client
                 Username = second.Username ?? first.Username,
                 Password = second.Password ?? first.Password,
                 AccessToken = second.AccessToken ?? first.AccessToken,
+                {{#hasHttpSignatureMethods}}
+                HTTPSigningConfiguration = second.HTTPSigningConfiguration ?? first.HTTPSigningConfiguration,
+                {{/hasHttpSignatureMethods}}
                 TempFolderPath = second.TempFolderPath ?? first.TempFolderPath,
-                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat,
-                HTTPSigningConfiguration = second.HTTPSigningConfiguration ?? first.HTTPSigningConfiguration
+                DateTimeFormat = second.DateTimeFormat ?? first.DateTimeFormat
             };
             return config;
         }
