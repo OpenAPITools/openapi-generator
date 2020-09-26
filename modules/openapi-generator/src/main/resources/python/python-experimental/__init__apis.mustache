@@ -1,3 +1,6 @@
+{{#apiInfo}}
+{{#apis}}
+{{#-first}}
 # coding: utf-8
 
 # flake8: noqa
@@ -7,7 +10,7 @@
 # raise a `RecursionError`.
 # In order to avoid this, import only the API that you directly need like:
 #
-#   from {{packagename}}.api.pet_api import PetApi
+#   from {{packagename}}.api.{{classVarName}} import {{classname}}
 #
 # or import this package, but before doing it, use:
 #
@@ -15,8 +18,7 @@
 #   sys.setrecursionlimit(n)
 
 # Import APIs into API package:
-{{#apiInfo}}
-{{#apis}}
+{{/-first}}
 from {{apiPackage}}.{{classVarName}} import {{classname}}
 {{/apis}}
 {{/apiInfo}}

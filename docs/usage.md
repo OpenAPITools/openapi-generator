@@ -602,7 +602,7 @@ openapi-generator generate -i petstore.yaml -g typescript-fetch -o out \
 The `batch` command allows you to move all CLI arguments supported by the `generate` command into a YAML or JSON file.
 
 *NOTE*: This command supports an additional `!include` property which may point to another "shared" file, the base path to which can be
-modified by `--includes-base-dir`.
+modified by `--includes-base-dir`. Starting with 5.0.0, the `!batch` command supports multiple `!include` properties, either sequential or nested. In order to support multiple `!include` properties in a JSON file, the property name can have a suffix, e.g. `!include1`, `!include2`, etc. The suffix have no meaning other than providing unique property names.
 
 ```bash
 openapi-generator help batch

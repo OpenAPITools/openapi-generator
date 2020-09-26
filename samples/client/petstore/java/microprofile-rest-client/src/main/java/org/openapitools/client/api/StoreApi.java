@@ -47,7 +47,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @RegisterRestClient
 @RegisterProvider(ApiExceptionMapper.class)
-@Path("/")
+@Path("/store")
 public interface StoreApi  {
 
     /**
@@ -57,7 +57,7 @@ public interface StoreApi  {
      *
      */
     @DELETE
-    @Path("/store/order/{orderId}")
+    @Path("/order/{orderId}")
     public void deleteOrder(@PathParam("orderId") String orderId) throws ApiException, ProcessingException;
 
     /**
@@ -67,7 +67,7 @@ public interface StoreApi  {
      *
      */
     @GET
-    @Path("/store/inventory")
+    @Path("/inventory")
     @Produces({ "application/json" })
     public Map<String, Integer> getInventory() throws ApiException, ProcessingException;
 
@@ -78,7 +78,7 @@ public interface StoreApi  {
      *
      */
     @GET
-    @Path("/store/order/{orderId}")
+    @Path("/order/{orderId}")
     @Produces({ "application/xml", "application/json" })
     public Order getOrderById(@PathParam("orderId") Long orderId) throws ApiException, ProcessingException;
 
@@ -87,7 +87,7 @@ public interface StoreApi  {
      *
      */
     @POST
-    @Path("/store/order")
+    @Path("/order")
     @Produces({ "application/xml", "application/json" })
     public Order placeOrder(Order body) throws ApiException, ProcessingException;
 }

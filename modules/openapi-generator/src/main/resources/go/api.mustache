@@ -18,25 +18,25 @@ var (
 {{#generateInterfaces}}
 
 type {{classname}} interface {
-  {{#operation}}
+	{{#operation}}
 
-  /*
-   * {{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
-  {{#notes}}
-   * {{{unescapedNotes}}}
-  {{/notes}}
-   * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
-   * @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
-   * @return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
-   */
-  {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
+	/*
+	 * {{operationId}}{{#summary}} {{{.}}}{{/summary}}{{^summary}} Method for {{operationId}}{{/summary}}
+	{{#notes}}
+	 * {{{unescapedNotes}}}
+	{{/notes}}
+	 * @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().{{#pathParams}}
+	 * @param {{paramName}}{{#description}} {{{.}}}{{/description}}{{/pathParams}}
+	 * @return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
+	 */
+	{{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
 
-  /*
-   * {{nickname}}Execute executes the request{{#returnType}}
-   * @return {{{.}}}{{/returnType}}
-   */
-  {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error)
-  {{/operation}}
+	/*
+	 * {{nickname}}Execute executes the request{{#returnType}}
+	 * @return {{{.}}}{{/returnType}}
+	 */
+	{{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error)
+	{{/operation}}
 }
 {{/generateInterfaces}}
 
@@ -103,7 +103,7 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 	}
 
 	localVarPath := localBasePath + "{{{path}}}"{{#pathParams}}
-	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", _neturl.PathEscape(parameterToString(r.{{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")) , -1){{/pathParams}}
+	localVarPath = strings.Replace(localVarPath, "{"+"{{baseName}}"+"}", _neturl.PathEscape(parameterToString(r.{{paramName}}, "{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}")), -1){{/pathParams}}
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}

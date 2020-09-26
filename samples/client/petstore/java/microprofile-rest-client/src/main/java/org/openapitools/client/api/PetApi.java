@@ -49,7 +49,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 
 @RegisterRestClient
 @RegisterProvider(ApiExceptionMapper.class)
-@Path("/")
+@Path("/pet")
 public interface PetApi  {
 
     /**
@@ -57,7 +57,7 @@ public interface PetApi  {
      *
      */
     @POST
-    @Path("/pet")
+    
     @Consumes({ "application/json", "application/xml" })
     public void addPet(Pet body) throws ApiException, ProcessingException;
 
@@ -66,7 +66,7 @@ public interface PetApi  {
      *
      */
     @DELETE
-    @Path("/pet/{petId}")
+    @Path("/{petId}")
     public void deletePet(@PathParam("petId") Long petId, @HeaderParam("api_key")  String apiKey) throws ApiException, ProcessingException;
 
     /**
@@ -76,7 +76,7 @@ public interface PetApi  {
      *
      */
     @GET
-    @Path("/pet/findByStatus")
+    @Path("/findByStatus")
     @Produces({ "application/xml", "application/json" })
     public List<Pet> findPetsByStatus(@QueryParam("status") List<String> status) throws ApiException, ProcessingException;
 
@@ -87,7 +87,7 @@ public interface PetApi  {
      *
      */
     @GET
-    @Path("/pet/findByTags")
+    @Path("/findByTags")
     @Produces({ "application/xml", "application/json" })
     public List<Pet> findPetsByTags(@QueryParam("tags") List<String> tags) throws ApiException, ProcessingException;
 
@@ -98,7 +98,7 @@ public interface PetApi  {
      *
      */
     @GET
-    @Path("/pet/{petId}")
+    @Path("/{petId}")
     @Produces({ "application/xml", "application/json" })
     public Pet getPetById(@PathParam("petId") Long petId) throws ApiException, ProcessingException;
 
@@ -107,7 +107,7 @@ public interface PetApi  {
      *
      */
     @PUT
-    @Path("/pet")
+    
     @Consumes({ "application/json", "application/xml" })
     public void updatePet(Pet body) throws ApiException, ProcessingException;
 
@@ -116,7 +116,7 @@ public interface PetApi  {
      *
      */
     @POST
-    @Path("/pet/{petId}")
+    @Path("/{petId}")
     @Consumes({ "application/x-www-form-urlencoded" })
     public void updatePetWithForm(@PathParam("petId") Long petId, @Multipart(value = "name", required = false)  String name, @Multipart(value = "status", required = false)  String status) throws ApiException, ProcessingException;
 
@@ -125,7 +125,7 @@ public interface PetApi  {
      *
      */
     @POST
-    @Path("/pet/{petId}/uploadImage")
+    @Path("/{petId}/uploadImage")
     @Consumes({ "multipart/form-data" })
     @Produces({ "application/json" })
     public ModelApiResponse uploadFile(@PathParam("petId") Long petId, @Multipart(value = "additionalMetadata", required = false)  String additionalMetadata,  @Multipart(value = "file" , required = false) Attachment fileDetail) throws ApiException, ProcessingException;

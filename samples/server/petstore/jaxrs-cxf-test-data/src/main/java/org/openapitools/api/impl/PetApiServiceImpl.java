@@ -8,6 +8,7 @@ import java.util.Map;
 import org.openapitools.model.ModelApiResponse;
 import org.openapitools.model.Pet;
 import java.util.Set;
+import org.openapitools.model.Tag;
 
 import java.io.InputStream;
 import java.io.OutputStream;

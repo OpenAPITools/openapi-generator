@@ -12,7 +12,7 @@ GET     /api                        {{apiPackage}}.ApiDocController.api
 #Functions for {{{baseName}}} API
 {{#operations}}
 {{#operation}}
-{{httpMethod}}     {{{contextPath}}}{{{path}}}                     {{apiPackage}}.{{classname}}Controller.{{operationId}}({{#pathParams}}{{paramName}}: {{#isUuid}}java.util.UUID{{/isUuid}}{{^isUuid}}{{{dataType}}}{{/isUuid}}{{#hasMore}}, {{/hasMore}}{{/pathParams}})
+{{httpMethod}}     {{{contextPath}}}{{{path}}}                     {{apiPackage}}.{{classname}}Controller.{{operationId}}(request: Request{{#hasPathParams}}, {{/hasPathParams}}{{#pathParams}}{{paramName}}: {{#isUuid}}java.util.UUID{{/isUuid}}{{^isUuid}}{{{dataType}}}{{/isUuid}}{{#hasMore}}, {{/hasMore}}{{/pathParams}})
 {{/operation}}
 {{/operations}}
 {{/apis}}

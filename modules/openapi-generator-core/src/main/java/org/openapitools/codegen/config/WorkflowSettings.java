@@ -442,7 +442,7 @@ public class WorkflowSettings {
                 // check to see if the folder exists
                 if (f.exists() && f.isDirectory()) {
                     uri = f.toURI();
-                    this.templateDir =  Paths.get(uri).toAbsolutePath().toString();
+                    this.templateDir =  Paths.get(uri).toAbsolutePath().normalize().toString();
                 } else {
                     URL url = this.getClass().getClassLoader().getResource(templateDir);
                     if (url != null) {

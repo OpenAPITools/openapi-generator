@@ -21,6 +21,18 @@ module Petstore
     # Defines url base path
     attr_accessor :base_path
 
+    # Define server configuration index
+    attr_accessor :server_index
+
+    # Define server operation configuration index
+    attr_accessor :server_operation_index
+
+    # Default server variables
+    attr_accessor :server_variables
+
+    # Default server operation variables
+    attr_accessor :server_operation_variables
+
     # Defines API keys used with API Key authentications.
     #
     # @return [Hash] key: parameter name, value: parameter value (API key)
@@ -129,6 +141,10 @@ module Petstore
       @scheme = 'http'
       @host = 'petstore.swagger.io'
       @base_path = '/v2'
+      @server_index = 0
+      @server_operation_index = {}
+      @server_variables = {}
+      @server_operation_variables = {}
       @api_key = {}
       @api_key_prefix = {}
       @timeout = 0
@@ -171,8 +187,12 @@ module Petstore
       @base_path = '' if @base_path == '/'
     end
 
-    def base_url
-      "#{scheme}://#{[host, base_path].join('/').gsub(/\/+/, '/')}".sub(/\/+\z/, '')
+    # Returns base URL for specified operation based on server settings
+    def base_url(operation = nil)
+      index = server_operation_index.fetch(operation, server_index)
+      return "#{scheme}://#{[host, base_path].join('/').gsub(/\/+/, '/')}".sub(/\/+\z/, '') if index == nil
+
+      server_url(index, server_operation_variables.fetch(operation, server_variables), operation_server_settings[operation])
     end
 
     # Gets API key (with prefix if set).
@@ -275,12 +295,37 @@ module Petstore
       ]
     end
 
+    def operation_server_settings
+      {
+        "PetApi.add_pet": [
+          {
+          url: "http://petstore.swagger.io/v2",
+          description: "No description provided",
+          },
+          {
+          url: "http://path-server-test.petstore.local/v2",
+          description: "No description provided",
+          }
+        ],
+        "PetApi.update_pet": [
+          {
+          url: "http://petstore.swagger.io/v2",
+          description: "No description provided",
+          },
+          {
+          url: "http://path-server-test.petstore.local/v2",
+          description: "No description provided",
+          }
+        ],
+      }
+    end
+
     # Returns URL based on server settings
     #
     # @param index array index of the server settings
     # @param variables hash of variable and the corresponding value
-    def server_url(index, variables = {})
-      servers = server_settings
+    def server_url(index, variables = {}, servers = nil)
+      servers = server_settings if servers == nil
 
       # check array index out of bound
       if (index < 0 || index >= servers.size)
@@ -290,10 +335,12 @@ module Petstore
       server = servers[index]
       url = server[:url]
 
+      return url unless server.key? :variables
+
       # go through variable and assign a value
       server[:variables].each do |name, variable|
         if variables.key?(name)
-          if (server[:variables][name][:enum_values].include? variables[name])
+          if (!server[:variables][name].key?(:enum_values) || server[:variables][name][:enum_values].include?(variables[name]))
             url.gsub! "{" + name.to_s + "}", variables[name]
           else
             fail ArgumentError, "The variable `#{name}` in the server URL has invalid value #{variables[name]}. Must be #{server[:variables][name][:enum_values]}."

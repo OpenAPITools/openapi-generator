@@ -148,6 +148,7 @@ public class JavaModelEnumTest {
 
         final ComposedSchema composedSchema = new ComposedSchema()
                 .addAllOfItem(new Schema().$ref(parentModel.getName()));
+        composedSchema.setName("sample");
 
         final JavaClientCodegen codegen = new JavaClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPI();

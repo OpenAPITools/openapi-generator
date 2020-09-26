@@ -26,7 +26,7 @@ import javax.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("/another-fake")
+@Path("/another-fake/dummy")
 
 
 @io.swagger.annotations.Api(description = "the another-fake API")
@@ -56,7 +56,7 @@ public class AnotherFakeApi  {
    }
 
     @PATCH
-    @Path("/dummy")
+    
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "To test special tags", notes = "To test special tags and operation ID starting with number", response = Client.class, tags={ "$another-fake?", })

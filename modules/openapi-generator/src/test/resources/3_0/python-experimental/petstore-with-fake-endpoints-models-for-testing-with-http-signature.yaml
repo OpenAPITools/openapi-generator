@@ -2246,3 +2246,11 @@ components:
       default: '2010-01-01T10:10:10.000111+01:00'
       example: '2010-01-01T10:10:10.000111+01:00'
       format: date-time
+    ObjectInterface:
+      type: object
+    ObjectWithValidations:
+      type: object
+      minProperties: 1
+    SomeObject:
+      allOf:
+        - $ref: '#/components/schemas/ObjectInterface'

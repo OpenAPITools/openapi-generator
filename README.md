@@ -771,9 +771,13 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - 2020-07-20 - [Datadog API client libraries now available for Java and Go](https://www.datadoghq.com/blog/java-go-libraries/) by Jordan Obey at [Datadog Blog](https://www.datadoghq.com/blog)
 - 2020-07-23 - [Generate Client SDK for .NET Core using Open Api](https://dev.to/no0law1/generate-client-sdk-for-net-core-using-open-api-2dgh) by [Nuno Reis](https://dev.to/no0law1)
 - 2020-07-26 - [Dartのhttp_interceptorライブラリを使うと配列のクエリパラメータが消えてしまう件の応急処置](https://qiita.com/gyamoto/items/eeeff81b6770487319ed) by [@gyamoto](https://qiita.com/gyamoto)
+- 2020-08-01 - [Generate Angular ReactiveForms from Swagger/OpenAPI](https://dev.to/martinmcwhorter/generate-angular-reactiveforms-from-swagger-openapi-35h9) by [Martin McWhorter](https://dev.to/martinmcwhorter)
 - 2020-08-03 - [Criando Bibliotecas para APIs RESTful com OpenAPI, Swagger Editor e OpenAPI Generator](https://medium.com/@everisBrasil/criando-bibliotecas-para-apis-restful-com-openapi-swagger-editor-e-openapi-generator-75349a6420fd) by [everis Brasil (an NTT DATA Company)](https://medium.com/@everisBrasil)
 - 2020-08-19 - [マイクロサービスを連携してみよう](https://thinkit.co.jp/article/17704) by [岡井 裕矢(おかい ゆうや)](https://thinkit.co.jp/author/17588), [泉 勝(いずみ まさる)](https://thinkit.co.jp/author/17705) at [Think IT（シンクイット）](https://thinkit.co.jp/)
 - 2020-08-25 - [OpenAPI Generator と TypeScript で型安全にフロントエンド開発をしている話](https://tech.smarthr.jp/entry/2020/08/25/135631) at [SmartHR Tech Blog](https://tech.smarthr.jp/)
+- 2020-09-10 - [Introduction to OpenAPI with Instana](https://www.instana.com/blog/introduction-to-openapi-with-instana/) by [Cedric Ziel](https://www.instana.com/blog/author/cedricziel/) at [Instana Blog](https://www.instana.com/blog/)
+- 2020-09-17 - [Generate PowerShellSDK using openapi-generator](https://medium.com/@ghufz.learn/generate-powershellsdk-using-openapi-generator-33b700891e33) by [Ghufran Zahidi](https://medium.com/@ghufz.learn)
+- 2020-09-24 - [How to automate API code generation (OpenAPI/Swagger) and boost productivity - Tutorial with React Native featuring TypeScript](https://medium.com/@sceleski/how-to-automate-api-code-generation-openapi-swagger-and-boost-productivity-1176a0056d8a) by [Sanjin Celeski](https://medium.com/@sceleski)
 
 ## [6 - About Us](#table-of-contents)
 

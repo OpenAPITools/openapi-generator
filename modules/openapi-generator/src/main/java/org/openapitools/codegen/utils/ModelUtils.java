@@ -172,18 +172,20 @@ public class ModelUtils {
         childrenMap = tmpChildrenMap;
         List<String> unusedSchemas = new ArrayList<String>();
 
-        Map<String, Schema> schemas = getSchemas(openAPI);
-        unusedSchemas.addAll(schemas.keySet());
+        if (openAPI != null) {
+            Map<String, Schema> schemas = getSchemas(openAPI);
+            unusedSchemas.addAll(schemas.keySet());
 
-        visitOpenAPI(openAPI, (s, t) -> {
-            if (s.get$ref() != null) {
-                String ref = getSimpleRef(s.get$ref());
-                unusedSchemas.remove(ref);
-                if (childrenMap.containsKey(ref)) {
-                    unusedSchemas.removeAll(childrenMap.get(ref));
+            visitOpenAPI(openAPI, (s, t) -> {
+                if (s.get$ref() != null) {
+                    String ref = getSimpleRef(s.get$ref());
+                    unusedSchemas.remove(ref);
+                    if (childrenMap.containsKey(ref)) {
+                        unusedSchemas.removeAll(childrenMap.get(ref));
+                    }
                 }
-            }
-        });
+            });
+        }
         return unusedSchemas;
     }
 
@@ -707,6 +709,24 @@ public class ModelUtils {
         return schema instanceof ComposedSchema || schema instanceof ObjectSchema;
     }
 
+    public static boolean hasValidation(Schema sc) {
+        return (
+                sc.getMaxItems() != null ||
+                        sc.getMinProperties() != null ||
+                        sc.getMaxProperties() != null ||
+                        sc.getMinLength() != null ||
+                        sc.getMinItems() != null ||
+                        sc.getMultipleOf() != null ||
+                        sc.getPattern() != null ||
+                        sc.getMaxLength() != null ||
+                        sc.getMinimum() != null ||
+                        sc.getMaximum() != null ||
+                        sc.getExclusiveMaximum() != null ||
+                        sc.getExclusiveMinimum() != null ||
+                        sc.getUniqueItems() != null
+        );
+    }
+
     /**
      * Check to see if the schema is a free form object.
      *
@@ -781,7 +801,7 @@ public class ModelUtils {
                         }
                     } else if (addlProps instanceof Schema) {
                         // additionalProperties defined as {}
-                        if (addlProps.getType() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
+                        if (addlProps.getType() == null && addlProps.get$ref() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
                             return true;
                         }
                     }
@@ -1036,7 +1056,7 @@ public class ModelUtils {
     /**
      * Get the actual schema from aliases. If the provided schema is not an alias, the schema itself will be returned.
      *
-     * @param openAPI        specification being checked
+     * @param openAPI        OpenAPI document containing the schemas.
      * @param schema         schema (alias or direct reference)
      * @param importMappings mappings of external types to be omitted by unaliasing
      * @return actual schema

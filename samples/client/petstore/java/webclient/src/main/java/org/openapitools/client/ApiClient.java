@@ -136,8 +136,8 @@ public class ApiClient extends JavaTimeFormatter {
     }
 
     /**
-    * Build the RestTemplate used to make HTTP requests.
-    * @return RestTemplate
+    * Build the WebClient used to make HTTP requests.
+    * @return WebClient
     */
     public static WebClient buildWebClient(ObjectMapper mapper) {
         ExchangeStrategies strategies = ExchangeStrategies
