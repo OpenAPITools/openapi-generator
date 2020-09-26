@@ -53,14 +53,14 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -98,14 +98,14 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -141,14 +141,14 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
 
 
     
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
@@ -185,14 +185,14 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
     
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
-            const query = new URLSearchParams(localVarUrlObj.search);
+            const queryParameters = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
+                queryParameters.set(key, localVarQueryParameter[key]);
             }
             for (const key in options.query) {
-                query.set(key, options.query[key]);
+                queryParameters.set(key, options.query[key]);
             }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';

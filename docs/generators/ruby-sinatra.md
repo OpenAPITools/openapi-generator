@@ -33,6 +33,9 @@ sidebar_label: ruby-sinatra
 
 | Type/Alias | Instantiated By |
 | ---------- | --------------- |
+|array|Array|
+|map|Hash|
+|set|Set|
 
 
 ## LANGUAGE PRIMITIVES
