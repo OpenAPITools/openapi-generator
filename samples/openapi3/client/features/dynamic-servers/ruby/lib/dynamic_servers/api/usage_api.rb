@@ -51,13 +51,13 @@ module DynamicServers
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] || 'Object' 
+      return_type = opts[:debug_return_type] || 'Object'
 
       # auth_names
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"UsageApi.custom_server",
@@ -108,13 +108,13 @@ module DynamicServers
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:debug_body]
 
       # return_type
-      return_type = opts[:return_type] || 'Object' 
+      return_type = opts[:debug_return_type] || 'Object'
 
       # auth_names
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:debug_auth_names] || []
 
       new_options = opts.merge(
         :operation => :"UsageApi.default_server",
