@@ -356,9 +356,10 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         final String srcDir = sourceFolder + File.separator + packageName;
 
         // Infra
+        final String dest = srcDir.replace(".", File.separator);
         final String infraDest = (srcDir + File.separator + "infrastructure").replace(".", File.separator);
         final String infraSrc = "common/main/infrastructure/";
-        supportingFiles.add(new SupportingFile("ApiClient.kt.mustache", "", "ApiClient.kt"));
+        supportingFiles.add(new SupportingFile("ApiClient.kt.mustache", dest, "ApiClient.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "ApiClientBase.kt.mustache", infraDest, "ApiClientBase.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "ApiAbstractions.kt.mustache", infraDest, "ApiAbstractions.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "RequestConfig.kt.mustache", infraDest, "RequestConfig.kt"));
