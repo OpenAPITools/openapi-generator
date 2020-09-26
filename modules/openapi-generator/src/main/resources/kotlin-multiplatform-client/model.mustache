@@ -1,6 +1,12 @@
 {{>licenseInfo}}
+@file:UseSerializers(InstantSerializer::class, LocalDateTimeSerializer::class, LocalDateSerializer::class)
+
 package {{modelPackage}}
 
+import kotlinx.serialization.UseSerializers
+import {{packageName}}.infrastructure.LocalDateTimeSerializer
+import {{packageName}}.infrastructure.InstantSerializer
+import {{packageName}}.infrastructure.LocalDateSerializer
 {{#imports}}import {{import}}
 {{/imports}}
 

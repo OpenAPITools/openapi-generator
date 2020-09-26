@@ -1,6 +1,5 @@
 package org.openapitools.codegen.languages;
 
-import org.apache.commons.lang3.StringUtils;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.CodegenConstants.ENUM_PROPERTY_NAMING_TYPE;
 import org.openapitools.codegen.meta.features.*;
@@ -31,6 +30,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         public static final String KTOR_VERSION = "ktorVersion";
         public static final String GRADLE_VERSION = "gradleVersion";
         public static final String ANDROID_GRADLE_VERSION = "androidGradleVersion";
+        public static final String KOTLINX_DATETIME_VERSION = "kotlinxDatetimeVersion";
 
         // Platforms specific options
         public static final String JVM_ASYNC = "jvmAsync";
@@ -45,10 +45,11 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
 
         public static final class Defaults {
             // Versions
-            public static final String KOTLIN_VERSION = "1.4.0";
+            public static final String KOTLIN_VERSION = "1.4.10";
             public static final String KTOR_VERSION = "1.4.0";
             public static final String GRADLE_VERSION = "6.6.1";
             public static final String ANDROID_GRADLE_VERSION = "4.0.1";
+            public static final String KOTLINX_DATETIME_VERSION = "0.1.0";
 
             // Platforms specific options
             // Default choices: https://www.jetbrains.com/lp/devecosystem-2020/kotlin/
@@ -66,7 +67,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
             public static final boolean JS_NODE = false;
 
             // Other options
-            public static final DateLibrary DATE_LIBRARY = DateLibrary.INTEGRATED;
+            public static final DateLibrary DATE_LIBRARY = DateLibrary.STRING;
             public static final boolean SUBPROJECT = false;
         }
 
@@ -98,7 +99,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
 
         public enum DateLibrary {
             STRING("string"),
-            INTEGRATED("integrated");
+            KOTLINX("kotlinx");
 
             public final String value;
 
@@ -247,8 +248,8 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
 
         CliOption dateLibrary = new CliOption(Options.DATE_LIBRARY, "Option. Date library to use");
         Map<String, String> dateOptions = new HashMap<>();
-        dateOptions.put(Options.DateLibrary.INTEGRATED.value, "Custom Date objects that may be converted into platform specific types via helpers from the `actual` objects");
-        dateOptions.put(Options.DateLibrary.STRING.value, "String");
+        dateOptions.put(Options.DateLibrary.KOTLINX.value, "Kotlinx multi-platform datetime library (experimental)");
+        dateOptions.put(Options.DateLibrary.STRING.value, "String returns dates and times as string");
         dateLibrary.setEnum(dateOptions);
         dateLibrary.setDefault(Options.Defaults.DATE_LIBRARY.value);
         cliOptions.add(dateLibrary);
@@ -315,6 +316,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         String ktorVersion = stringOption(Options.KTOR_VERSION, Options.Defaults.KTOR_VERSION);
         String gradleVersion = stringOption(Options.GRADLE_VERSION, Options.Defaults.GRADLE_VERSION);
         String androidGradleVersion = stringOption(Options.ANDROID_GRADLE_VERSION, Options.Defaults.ANDROID_GRADLE_VERSION);
+        String kotlinxDatetimeVersion = stringOption(Options.KOTLINX_DATETIME_VERSION, Options.Defaults.KOTLINX_DATETIME_VERSION);
 
         Options.DateLibrary dateLibrary = Options.DateLibrary.fromName(stringOption(Options.DATE_LIBRARY, Options.Defaults.DATE_LIBRARY.value));
         setDateLibrary(dateLibrary);
@@ -365,6 +367,9 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         supportingFiles.add(new SupportingFile(infraSrc + "Bytes.kt.mustache", infraDest, "Bytes.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "HttpResponse.kt.mustache", infraDest, "HttpResponse.kt"));
         supportingFiles.add(new SupportingFile(infraSrc + "OctetByteArray.kt.mustache", infraDest, "OctetByteArray.kt"));
+        if (dateLibrary == Options.DateLibrary.KOTLINX) {
+            supportingFiles.add(new SupportingFile(infraSrc + "dateTime.kt.mustache", infraDest, "dateTime.kt"));
+        }
 
         // Auth
         final String authDest = (srcDir + File.separator + "auth").replace(".", File.separator);
@@ -377,6 +382,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
 
         // Multiplatform default includes
         defaultIncludes.add("io.ktor.client.request.forms.InputProvider");
+        defaultIncludes.add("io.ktor.client.statement.HttpResponse");
         defaultIncludes.add(packageName + ".infrastructure.Base64ByteArray");
         defaultIncludes.add(packageName + ".infrastructure.OctetByteArray");
 
@@ -392,7 +398,7 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         importMapping.put("UUID", "kotlin.String");
         importMapping.put("URI", "kotlin.String");
         importMapping.put("InputProvider", "io.ktor.client.request.forms.InputProvider");
-        importMapping.put("File", packageName + ".infrastructure.OctetByteArray");
+        importMapping.put("File", "io.ktor.client.statement.HttpResponse");
         importMapping.put("Base64ByteArray", packageName + ".infrastructure.Base64ByteArray");
         importMapping.put("OctetByteArray", packageName + ".infrastructure.OctetByteArray");
 
@@ -407,16 +413,18 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
                 importMapping.put("LocalDate", "kotlin.String");
                 importMapping.put("LocalTime", "kotlin.String");
             }
-            case INTEGRATED: {
-                // TODO: Add impl
-                typeMapping.put("date-time", "kotlin.String");
-                typeMapping.put("date", "kotlin.String");
-                typeMapping.put("Date", "kotlin.String");
-                typeMapping.put("DateTime", "kotlin.String");
-                importMapping.put("Timestamp", "kotlin.String");
-                importMapping.put("LocalDateTime", "kotlin.String");
-                importMapping.put("LocalDate", "kotlin.String");
+            case KOTLINX: {
+                typeMapping.put("date-time", "LocalDateTime");
+                typeMapping.put("date", "LocalDate");
+                typeMapping.put("Date", "LocalDate");
+                typeMapping.put("DateTime", "LocalDateTime");
+                importMapping.put("Timestamp", "kotlinx.datetime.Instant");
+                importMapping.put("LocalDateTime", "kotlinx.datetime.LocalDateTime");
+                importMapping.put("LocalDate", "kotlinx.datetime.LocalDate");
                 importMapping.put("LocalTime", "kotlin.String");
+                defaultIncludes.add("kotlinx.datetime.Instant");
+                defaultIncludes.add("kotlinx.datetime.LocalDateTime");
+                defaultIncludes.add("kotlinx.datetime.LocalDate");
             }
         }
     }
@@ -514,11 +522,11 @@ public class KotlinMultiplatformClientCodegen extends AbstractKotlinCodegen {
         switch (dateLibrary) {
             case STRING: {
                 additionalProperties.put("dateLibraryString", true);
-                additionalProperties.put("dateLibraryIntegrated", false);
+                additionalProperties.put("dateLibraryKotlinx", false);
                 break;
             }
-            case INTEGRATED: {
-                additionalProperties.put("dateLibraryIntegrated", true);
+            case KOTLINX: {
+                additionalProperties.put("dateLibraryKotlinx", true);
                 additionalProperties.put("dateLibraryString", false);
                 break;
             }

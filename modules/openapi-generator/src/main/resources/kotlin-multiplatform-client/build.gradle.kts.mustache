@@ -11,9 +11,13 @@ group = "{{groupId}}"
 version = "{{artifactVersion}}"
 
 val ktorVersion = "{{ktorVersion}}"
+val kotlinxDatetimeVersion = "{{kotlinxDatetimeVersion}}"
 
 repositories {
     jcenter()
+    {{#dateLibraryKotlinx}}
+    maven(url = "https://kotlin.bintray.com/kotlinx/")
+    {{/dateLibraryKotlinx}}
 }
 
 kotlin {
@@ -67,6 +71,7 @@ kotlin {
                 api("io.ktor:ktor-client-core:$ktorVersion")
                 api("io.ktor:ktor-client-json:$ktorVersion")
                 api("io.ktor:ktor-client-serialization:$ktorVersion")
+                api("org.jetbrains.kotlinx:kotlinx-datetime:$kotlinxDatetimeVersion")
             }
         }
 
