@@ -23,7 +23,7 @@ import io.swagger.v3.oas.models.media.StringSchema;
 import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenOperation;
 import org.openapitools.codegen.TestUtils;
-import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.languages.PythonLegacyClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -34,7 +34,7 @@ public class PythonClientCodegenTest {
 
     @Test
     public void testInitialConfigValues() throws Exception {
-        final PythonClientCodegen codegen = new PythonClientCodegen();
+        final PythonLegacyClientCodegen codegen = new PythonLegacyClientCodegen();
         codegen.processOpts();
 
         Assert.assertEquals(codegen.additionalProperties().get(CodegenConstants.HIDE_GENERATION_TIMESTAMP), Boolean.TRUE);
@@ -43,7 +43,7 @@ public class PythonClientCodegenTest {
 
     @Test
     public void testSettersForConfigValues() throws Exception {
-        final PythonClientCodegen codegen = new PythonClientCodegen();
+        final PythonLegacyClientCodegen codegen = new PythonLegacyClientCodegen();
         codegen.setHideGenerationTimestamp(false);
         codegen.processOpts();
 
@@ -53,7 +53,7 @@ public class PythonClientCodegenTest {
 
     @Test
     public void testAdditionalPropertiesPutForConfigValues() throws Exception {
-        final PythonClientCodegen codegen = new PythonClientCodegen();
+        final PythonLegacyClientCodegen codegen = new PythonLegacyClientCodegen();
         codegen.additionalProperties().put(CodegenConstants.HIDE_GENERATION_TIMESTAMP, false);
         codegen.processOpts();
 
@@ -74,7 +74,7 @@ public class PythonClientCodegenTest {
     @Test(description = "test regex patterns")
     public void testRegularExpressionOpenAPISchemaVersion3() {
         final OpenAPI openAPI = TestUtils.parseFlattenSpec("src/test/resources/3_0/issue_1517.yaml");
-        final PythonClientCodegen codegen = new PythonClientCodegen();
+        final PythonLegacyClientCodegen codegen = new PythonLegacyClientCodegen();
         codegen.setOpenAPI(openAPI);
         final String path = "/ping";
         final Operation p = openAPI.getPaths().get(path).getGet();
@@ -95,7 +95,7 @@ public class PythonClientCodegenTest {
 
     @Test(description = "test single quotes escape")
     public void testSingleQuotes() {
-        final PythonClientCodegen codegen = new PythonClientCodegen();
+        final PythonLegacyClientCodegen codegen = new PythonLegacyClientCodegen();
         StringSchema schema = new StringSchema();
         schema.setDefault("Text containing 'single' quote");
         String defaultValue = codegen.toDefaultValue(schema);

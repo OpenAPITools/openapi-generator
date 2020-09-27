@@ -36,8 +36,8 @@ import java.util.regex.Pattern;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
-public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientCodegen.class);
+public class PythonLegacyClientCodegen extends DefaultCodegen implements CodegenConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PythonLegacyClientCodegen.class);
 
     public static final String PACKAGE_URL = "packageUrl";
     public static final String DEFAULT_LIBRARY = "urllib3";
@@ -57,7 +57,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     private String testFolder;
 
-    public PythonClientCodegen() {
+    public PythonLegacyClientCodegen() {
         super();
 
         modifyFeatureSet(features -> features
@@ -90,7 +90,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         supportsInheritance = true;
         modelPackage = "models";
         apiPackage = "api";
-        outputFolder = "generated-code" + File.separatorChar + "python";
+        outputFolder = "generated-code" + File.separatorChar + "python-legacy";
 
         modelTemplateFiles.put("model.mustache", ".py");
         apiTemplateFiles.put("api.mustache", ".py");
@@ -98,7 +98,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         modelTestTemplateFiles.put("model_test.mustache", ".py");
         apiTestTemplateFiles.put("api_test.mustache", ".py");
 
-        embeddedTemplateDir = templateDir = "python";
+        embeddedTemplateDir = templateDir = "python-legacy";
 
         modelDocTemplateFiles.put("model_doc.mustache", ".md");
         apiDocTemplateFiles.put("api_doc.mustache", ".md");
@@ -395,12 +395,12 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
 
     @Override
     public String getName() {
-        return "python";
+        return "python-legacy";
     }
 
     @Override
     public String getHelp() {
-        return "Generates a Python client library.";
+        return "Generates a Python client library (both Python 2.x, 3.x are supported). IMPORTANT: this generator has been deprecated. Please migrate to `python` client generator (Python 3.x only) instead.";
     }
 
     @Override

@@ -23,7 +23,7 @@ import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.media.*;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import org.openapitools.codegen.*;
-import org.openapitools.codegen.languages.PythonClientCodegen;
+import org.openapitools.codegen.languages.PythonLegacyClientCodegen;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -33,7 +33,7 @@ public class PythonTest {
     @Test(description = "convert a python model with dots")
     public void modelTest() {
         final OpenAPI openAPI= TestUtils.parseFlattenSpec("src/test/resources/2_0/v1beta3.json");
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
         codegen.setOpenAPI(openAPI);
 
         codegen.setOpenAPI(openAPI);
@@ -64,7 +64,7 @@ public class PythonTest {
                 .addProperties("createdAt", new DateTimeSchema())
                 .addRequiredItem("id")
                 .addRequiredItem("name");
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", schema);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", schema);
@@ -112,7 +112,7 @@ public class PythonTest {
                 .addProperties("urls", new ArraySchema()
                         .items(new StringSchema()))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -152,7 +152,7 @@ public class PythonTest {
                 .addProperties("translations", new MapSchema()
                         .additionalProperties(new StringSchema()))
                 .addRequiredItem("id");
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -178,7 +178,7 @@ public class PythonTest {
         final Schema model = new Schema()
                 .description("a sample model")
                 .addProperties("children", new Schema().$ref("#/definitions/Children"));
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -203,7 +203,7 @@ public class PythonTest {
                 .description("a sample model")
                 .addProperties("children", new ArraySchema()
                         .items(new Schema().$ref("#/definitions/Children")));
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -230,7 +230,7 @@ public class PythonTest {
                 .description("a sample model")
                 .addProperties("children", new MapSchema()
                         .additionalProperties(new Schema().$ref("#/definitions/Children")));
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -260,7 +260,7 @@ public class PythonTest {
                 //.description()
                 .items(new Schema().$ref("#/definitions/Children"))
                 .description("an array model");
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);
@@ -280,7 +280,7 @@ public class PythonTest {
         final Schema model = new Schema()
                 .description("a map model")
                 .additionalProperties(new Schema().$ref("#/definitions/Children"));
-        final DefaultCodegen codegen = new PythonClientCodegen();
+        final DefaultCodegen codegen = new PythonLegacyClientCodegen();
         OpenAPI openAPI = TestUtils.createOpenAPIWithOneSchema("sample", model);
         codegen.setOpenAPI(openAPI);
         final CodegenModel cm = codegen.fromModel("sample", model);

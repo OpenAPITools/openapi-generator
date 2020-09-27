@@ -46,7 +46,7 @@ import java.util.regex.Matcher;
 
 import static org.openapitools.codegen.utils.OnceLogger.once;
 
-public class PythonClientExperimentalCodegen extends PythonClientCodegen {
+public class PythonClientExperimentalCodegen extends PythonLegacyClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(PythonClientExperimentalCodegen.class);
     // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
     private Map<String, Schema> modelNameToSchemaCache;
@@ -176,7 +176,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             generateSourceCodeOnly = Boolean.valueOf(additionalProperties.get(CodegenConstants.SOURCECODEONLY_GENERATION).toString());
         }
 
-        // remove what PythonClientCodegen did
+        // remove what PythonLegacyClientCodegen did
         String readmePath = "README.md";
         String readmeTemplate = "README.mustache";
         if (generateSourceCodeOnly) {

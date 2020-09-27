@@ -1029,7 +1029,7 @@
             </modules>
         </profile>
         <profile>
-            <id>python-client</id>
+            <id>python-legacy</id>
             <activation>
                 <property>
                     <name>env</name>
@@ -1037,7 +1037,7 @@
                 </property>
             </activation>
             <modules>
-                <module>samples/client/petstore/python</module>
+                <module>samples/client/petstore/python-legacy</module>
             </modules>
         </profile>
         <profile>
@@ -1201,11 +1201,11 @@
                 <module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <!--<module>samples/client/petstore/javascript-apollo</module>-->
                 <module>samples/client/petstore/javascript-flowtyped</module>
-                <module>samples/client/petstore/python</module>
+                <module>samples/client/petstore/python-legacy</module>
                 <module>samples/client/petstore/python-experimental</module>
                 <module>samples/client/petstore/python-asyncio</module>
                 <module>samples/client/petstore/python-tornado</module>
-                <module>samples/openapi3/client/petstore/python</module>
+                <module>samples/openapi3/client/petstore/python-legacy</module>
                 <module>samples/openapi3/client/petstore/python-experimental</module>
                 <module>samples/openapi3/client/petstore/typescript/builds/default</module>
                 <module>samples/openapi3/client/petstore/typescript/tests/default</module>
