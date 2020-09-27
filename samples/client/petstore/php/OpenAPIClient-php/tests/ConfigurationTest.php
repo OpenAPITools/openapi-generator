@@ -15,7 +15,7 @@ class ConfigurationTest extends TestCase
         $config = new Configuration();
         $servers = $config->getHostSettings();
 
-        $this->assertCount(2, $servers);
+        $this->assertCount(3, $servers);
         $this->assertSame("http://{server}.swagger.io:{port}/v2", $servers[0]["url"]);
         $this->assertSame("petstore", $servers[0]["variables"]["server"]["default_value"]);
         $this->assertSame("80", $servers[0]["variables"]["port"]["default_value"]);
