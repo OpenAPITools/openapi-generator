@@ -49,11 +49,11 @@ class ConfigurationTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Invalid index 2 when selecting the host. Must be less than 2');
         $config = new Configuration();
-        $url = $config->getHostFromSettings(2);
+        $url = $config->getHostFromSettings(5);
     }
 
     /**
-     * Test host settings with invalid vaues
+     * Test host settings with invalid values
      */
     public function testHostUrlWithInvalidValues()
     {
