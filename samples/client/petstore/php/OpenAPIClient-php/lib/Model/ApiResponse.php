@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class ApiResponse implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -66,6 +69,8 @@ class ApiResponse implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'code' => 'int32',
@@ -187,9 +192,9 @@ class ApiResponse implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['code'] = isset($data['code']) ? $data['code'] : null;
-        $this->container['type'] = isset($data['type']) ? $data['type'] : null;
-        $this->container['message'] = isset($data['message']) ? $data['message'] : null;
+        $this->container['code'] = $data['code'] ?? null;
+        $this->container['type'] = $data['type'] ?? null;
+        $this->container['message'] = $data['message'] ?? null;
     }
 
     /**
@@ -231,7 +236,7 @@ class ApiResponse implements ModelInterface, ArrayAccess
      *
      * @param int|null $code code
      *
-     * @return $this
+     * @return self
      */
     public function setCode($code)
     {
@@ -255,7 +260,7 @@ class ApiResponse implements ModelInterface, ArrayAccess
      *
      * @param string|null $type type
      *
-     * @return $this
+     * @return self
      */
     public function setType($type)
     {
@@ -279,7 +284,7 @@ class ApiResponse implements ModelInterface, ArrayAccess
      *
      * @param string|null $message message
      *
-     * @return $this
+     * @return self
      */
     public function setMessage($message)
     {
@@ -304,18 +309,18 @@ class ApiResponse implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */
