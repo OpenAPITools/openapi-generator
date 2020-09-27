@@ -234,6 +234,8 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         this.setLegacyDiscriminatorBehavior(false);
 
         super.processOpts();
+        modelPackage = packageName + "." + modelPackage;
+        apiPackage = packageName + "." + apiPackage;
         modelPackage = packageName + "." + "model";
 
         if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
@@ -345,11 +347,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         } else {
             supportingFiles.add(new SupportingFile("rest.mustache", packagePath(), "rest.py"));
         }
-
-        modelPackage = packageName + "." + modelPackage;
-        apiPackage = packageName + "." + apiPackage;
-
-        // ------------------------------------------------------------------------------------
 
         // Generate the 'signing.py' module, but only if the 'HTTP signature' security scheme is specified in the OAS.
         Map<String, SecurityScheme> securitySchemeMap = openAPI != null ?

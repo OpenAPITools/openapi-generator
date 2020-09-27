@@ -387,7 +387,7 @@ public class PythonClientTest {
         File output = Files.createTempDirectory("test").toFile();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("python-legacy")
+                .setGeneratorName("python")
                 .setInputSpec("src/test/resources/3_0/issue_7372.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
@@ -405,7 +405,7 @@ public class PythonClientTest {
         File output = Files.createTempDirectory("test").toFile();
 
         final CodegenConfigurator configurator = new CodegenConfigurator()
-                .setGeneratorName("python-legacy")
+                .setGeneratorName("python")
                 .setInputSpec("src/test/resources/3_0/issue_7361.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 
