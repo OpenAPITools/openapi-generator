@@ -1,5 +1,0 @@
-{
-    "artifactId": "springboot-spring-pageable-withoutj8",
-    "library": "spring-boot",
-	"java8": false 
-}

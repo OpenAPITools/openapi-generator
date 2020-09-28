@@ -1,6 +1,0 @@
-{
-    "artifactId": "springboot-spring-pageable-delegatePattern-without-j8",
-    "library": "spring-boot",
-    "delegatePattern": true,
-	"java8": false
-}
