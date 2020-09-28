@@ -1,3 +1,11 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.0
+
+// ignore_for_file: unused_element
+// ignore_for_file: always_put_required_named_parameters_first
+
 library openapi.api;
 
 import 'dart:async';
@@ -26,5 +34,9 @@ part 'model/pet.dart';
 part 'model/tag.dart';
 part 'model/user.dart';
 
+const _delimiters = {'csv': ',', 'ssv': ' ', 'tsv': '\t', 'pipes': '|'};
+final _dateFormatter = DateFormat('yyyy-MM-dd');
+final _regList = RegExp(r'^List<(.*)>$');
+final _regMap = RegExp(r'^Map<String,(.*)>$');
 
 ApiClient defaultApiClient = ApiClient();

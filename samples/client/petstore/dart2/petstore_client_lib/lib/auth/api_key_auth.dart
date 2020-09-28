@@ -1,24 +1,25 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.0
+
+// ignore_for_file: unused_element
+// ignore_for_file: always_put_required_named_parameters_first
+
 part of openapi.api;
 
 class ApiKeyAuth implements Authentication {
+  ApiKeyAuth(this.location, this.paramName);
 
   final String location;
   final String paramName;
-  String _apiKey;
+
   String apiKeyPrefix;
-
-  set apiKey(String key) => _apiKey = key;
-
-  ApiKeyAuth(this.location, this.paramName);
+  String apiKey;
 
   @override
   void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
-    String value;
-    if (apiKeyPrefix != null) {
-      value = '$apiKeyPrefix $_apiKey';
-    } else {
-      value = _apiKey;
-    }
+    final value = apiKeyPrefix == null ? apiKey : '$apiKeyPrefix $apiKey';
 
     if (location == 'query' && value != null) {
       queryParams.add(QueryParam(paramName, value));

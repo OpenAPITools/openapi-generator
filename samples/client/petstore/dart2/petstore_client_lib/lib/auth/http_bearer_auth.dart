@@ -1,25 +1,33 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.0
+
+// ignore_for_file: unused_element
+// ignore_for_file: always_put_required_named_parameters_first
+
 part of openapi.api;
 
 class HttpBearerAuth implements Authentication {
-  dynamic _accessToken;
+  HttpBearerAuth();
 
-  HttpBearerAuth() { }
+  dynamic _accessToken;
 
   @override
   void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
     if (_accessToken is String) {
-      headerParams["Authorization"] = "Bearer " + _accessToken;
+      headerParams['Authorization'] = 'Bearer ' + _accessToken;
     } else if (_accessToken is String Function()){
-      headerParams["Authorization"] = "Bearer " + _accessToken();
+      headerParams['Authorization'] = 'Bearer ' + _accessToken();
     } else {
       throw ArgumentError('Type of Bearer accessToken should be String or String Function().');
     }
   }
 
   void setAccessToken(dynamic accessToken) {
-    if (!((accessToken is String) | (accessToken is String Function()))){
-      throw ArgumentError('Type of Bearer accessToken should be String or String Function().');
-    } 
+    if (!((accessToken is String) | (accessToken is String Function()))) {
+      throw ArgumentError('Type of Bearer accessToken should be a String or a String Function().');
+    }
     this._accessToken = accessToken;
   }
 }

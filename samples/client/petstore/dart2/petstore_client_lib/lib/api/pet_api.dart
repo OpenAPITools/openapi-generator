@@ -1,11 +1,18 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.0
+
+// ignore_for_file: unused_element
+// ignore_for_file: always_put_required_named_parameters_first
+
 part of openapi.api;
 
 
-
 class PetApi {
-  final ApiClient apiClient;
-
   PetApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+
+  final ApiClient apiClient;
 
   /// Add a new pet to the store with HTTP info returned
   ///
@@ -34,8 +41,9 @@ class PetApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -57,13 +65,13 @@ class PetApi {
   ///     Pet object that needs to be added to the store
   /// 
   Future addPet(Pet body) async {
-    Response response = await addPetWithHttpInfo(body);
+    final response = await addPetWithHttpInfo(body);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if(response.body != null) {
+    }
+    return;
   }
 
   /// Deletes a pet with HTTP info returned
@@ -94,8 +102,9 @@ class PetApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -119,13 +128,13 @@ class PetApi {
   ///    
   /// 
   Future deletePet(int petId, { String apiKey }) async {
-    Response response = await deletePetWithHttpInfo(petId,  apiKey: apiKey );
+    final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey );
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if(response.body != null) {
+    }
+    return;
   }
 
   /// Finds Pets by status with HTTP info returned
@@ -156,8 +165,9 @@ class PetApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -175,18 +185,20 @@ class PetApi {
 
   /// Finds Pets by status
   ///
-  ///List&lt;String&gt; status  (required):
+  ///List<String> status  (required):
   ///     Status values that need to be considered for filter
   /// Multiple status values can be provided with comma separated strings
   Future<List<Pet>> findPetsByStatus(List<String> status) async {
-    Response response = await findPetsByStatusWithHttpInfo(status);
+    final response = await findPetsByStatusWithHttpInfo(status);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List).map((item) => item as Pet).toList();
-    } else {
-      return null;
     }
+    if(response.body != null) {
+      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
+        .map((item) => item as Pet)
+        .toList(growable: false);
+    }
+    return null;
   }
 
   /// Finds Pets by tags with HTTP info returned
@@ -217,8 +229,9 @@ class PetApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -236,18 +249,20 @@ class PetApi {
 
   /// Finds Pets by tags
   ///
-  ///List&lt;String&gt; tags  (required):
+  ///List<String> tags  (required):
   ///     Tags to filter by
   /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
   Future<List<Pet>> findPetsByTags(List<String> tags) async {
-    Response response = await findPetsByTagsWithHttpInfo(tags);
+    final response = await findPetsByTagsWithHttpInfo(tags);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List).map((item) => item as Pet).toList();
-    } else {
-      return null;
     }
+    if(response.body != null) {
+      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
+        .map((item) => item as Pet)
+        .toList(growable: false);
+    }
+    return null;
   }
 
   /// Find pet by ID with HTTP info returned
@@ -277,8 +292,9 @@ class PetApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -300,14 +316,14 @@ class PetApi {
   ///     ID of pet to return
   /// Returns a single pet
   Future<Pet> getPetById(int petId) async {
-    Response response = await getPetByIdWithHttpInfo(petId);
+    final response = await getPetByIdWithHttpInfo(petId);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
-    } else {
-      return null;
     }
+    if(response.body != null) {
+      return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
+    }
+    return null;
   }
 
   /// Update an existing pet with HTTP info returned
@@ -337,8 +353,9 @@ class PetApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -360,13 +377,13 @@ class PetApi {
   ///     Pet object that needs to be added to the store
   /// 
   Future updatePet(Pet body) async {
-    Response response = await updatePetWithHttpInfo(body);
+    final response = await updatePetWithHttpInfo(body);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if(response.body != null) {
+    }
+    return;
   }
 
   /// Updates a pet in the store with form data with HTTP info returned
@@ -404,14 +421,17 @@ class PetApi {
         hasFields = true;
         mp.fields['status'] = parameterToString(status);
       }
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
-      if (name != null)
+      if (name != null) {
         formParams['name'] = parameterToString(name);
-      if (status != null)
+      }
+      if (status != null) {
         formParams['status'] = parameterToString(status);
+      }
     }
 
     var response = await apiClient.invokeAPI(path,
@@ -435,13 +455,13 @@ class PetApi {
   ///     Updated status of the pet
   /// 
   Future updatePetWithForm(int petId, { String name, String status }) async {
-    Response response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status );
+    final response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status );
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if(response.body != null) {
+    }
+    return;
   }
 
   /// uploads an image with HTTP info returned
@@ -480,12 +500,14 @@ class PetApi {
         mp.fields['file'] = file.field;
         mp.files.add(file);
       }
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
-      if (additionalMetadata != null)
+      if (additionalMetadata != null) {
         formParams['additionalMetadata'] = parameterToString(additionalMetadata);
+      }
     }
 
     var response = await apiClient.invokeAPI(path,
@@ -509,14 +531,13 @@ class PetApi {
   ///     file to upload
   /// 
   Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file }) async {
-    Response response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file );
+    final response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file );
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
-    } else {
-      return null;
     }
+    if(response.body != null) {
+      return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
+    }
+    return null;
   }
-
 }

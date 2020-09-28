@@ -1,16 +1,20 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.0
+
+// ignore_for_file: unused_element
+// ignore_for_file: always_put_required_named_parameters_first
+
 part of openapi.api;
 
 class HttpBasicAuth implements Authentication {
-
-  String _username;
-  String _password;
+  String username;
+  String password;
 
   @override
   void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
-    String str = (_username == null ? "" : _username) + ":" + (_password == null ? "" : _password);
-    headerParams["Authorization"] = "Basic " + base64.encode(utf8.encode(str));
+    final str = (username == null ? '' : username) + ':' + (password == null ? '' : password);
+    headerParams['Authorization'] = 'Basic ' + base64.encode(utf8.encode(str));
   }
-
-  set username(String username) => _username = username;
-  set password(String password) => _password = password;
 }

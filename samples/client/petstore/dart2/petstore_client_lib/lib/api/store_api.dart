@@ -1,15 +1,22 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.0
+
+// ignore_for_file: unused_element
+// ignore_for_file: always_put_required_named_parameters_first
+
 part of openapi.api;
 
 
-
 class StoreApi {
-  final ApiClient apiClient;
-
   StoreApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+
+  final ApiClient apiClient;
 
   /// Delete purchase order by ID with HTTP info returned
   ///
-  /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+  /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
   Future deleteOrderWithHttpInfo(String orderId) async {
     Object postBody;
 
@@ -34,8 +41,9 @@ class StoreApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -55,15 +63,15 @@ class StoreApi {
   ///
   ///String orderId  (required):
   ///     ID of the order that needs to be deleted
-  /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
+  /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
   Future deleteOrder(String orderId) async {
-    Response response = await deleteOrderWithHttpInfo(orderId);
+    final response = await deleteOrderWithHttpInfo(orderId);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if(response.body != null) {
+    }
+    return;
   }
 
   /// Returns pet inventories by status with HTTP info returned
@@ -90,8 +98,9 @@ class StoreApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -111,20 +120,20 @@ class StoreApi {
   ///
   /// Returns a map of status codes to quantities
   Future<Map<String, int>> getInventory() async {
-    Response response = await getInventoryWithHttpInfo();
+    final response = await getInventoryWithHttpInfo();
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
+    }
+    if(response.body != null) {
       return Map<String, int>.from(apiClient.deserialize(_decodeBodyBytes(response), 'Map<String, int>'));
           ;
-    } else {
-      return null;
     }
+    return null;
   }
 
   /// Find purchase order by ID with HTTP info returned
   ///
-  /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+  /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
   Future<Response> getOrderByIdWithHttpInfo(int orderId) async {
     Object postBody;
 
@@ -149,8 +158,9 @@ class StoreApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -170,16 +180,16 @@ class StoreApi {
   ///
   ///int orderId  (required):
   ///     ID of pet that needs to be fetched
-  /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
+  /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
   Future<Order> getOrderById(int orderId) async {
-    Response response = await getOrderByIdWithHttpInfo(orderId);
+    final response = await getOrderByIdWithHttpInfo(orderId);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
-    } else {
-      return null;
     }
+    if(response.body != null) {
+      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
+    }
+    return null;
   }
 
   /// Place an order for a pet with HTTP info returned
@@ -209,8 +219,9 @@ class StoreApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -232,14 +243,13 @@ class StoreApi {
   ///     order placed for purchasing the pet
   /// 
   Future<Order> placeOrder(Order body) async {
-    Response response = await placeOrderWithHttpInfo(body);
+    final response = await placeOrderWithHttpInfo(body);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
-    } else {
-      return null;
     }
+    if(response.body != null) {
+      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
+    }
+    return null;
   }
-
 }

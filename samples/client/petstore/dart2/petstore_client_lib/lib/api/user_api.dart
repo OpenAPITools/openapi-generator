@@ -1,11 +1,18 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.0
+
+// ignore_for_file: unused_element
+// ignore_for_file: always_put_required_named_parameters_first
+
 part of openapi.api;
 
 
-
 class UserApi {
-  final ApiClient apiClient;
-
   UserApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+
+  final ApiClient apiClient;
 
   /// Create user with HTTP info returned
   ///
@@ -34,8 +41,9 @@ class UserApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -57,13 +65,13 @@ class UserApi {
   ///     Created user object
   /// This can only be done by the logged in user.
   Future createUser(User body) async {
-    Response response = await createUserWithHttpInfo(body);
+    final response = await createUserWithHttpInfo(body);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if(response.body != null) {
+    }
+    return;
   }
 
   /// Creates list of users with given input array with HTTP info returned
@@ -93,8 +101,9 @@ class UserApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -112,17 +121,17 @@ class UserApi {
 
   /// Creates list of users with given input array
   ///
-  ///List&lt;User&gt; body  (required):
+  ///List<User> body  (required):
   ///     List of user object
   /// 
   Future createUsersWithArrayInput(List<User> body) async {
-    Response response = await createUsersWithArrayInputWithHttpInfo(body);
+    final response = await createUsersWithArrayInputWithHttpInfo(body);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if(response.body != null) {
+    }
+    return;
   }
 
   /// Creates list of users with given input array with HTTP info returned
@@ -152,8 +161,9 @@ class UserApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -171,17 +181,17 @@ class UserApi {
 
   /// Creates list of users with given input array
   ///
-  ///List&lt;User&gt; body  (required):
+  ///List<User> body  (required):
   ///     List of user object
   /// 
   Future createUsersWithListInput(List<User> body) async {
-    Response response = await createUsersWithListInputWithHttpInfo(body);
+    final response = await createUsersWithListInputWithHttpInfo(body);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if(response.body != null) {
+    }
+    return;
   }
 
   /// Delete user with HTTP info returned
@@ -211,8 +221,9 @@ class UserApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -234,13 +245,13 @@ class UserApi {
   ///     The name that needs to be deleted
   /// This can only be done by the logged in user.
   Future deleteUser(String username) async {
-    Response response = await deleteUserWithHttpInfo(username);
+    final response = await deleteUserWithHttpInfo(username);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if(response.body != null) {
+    }
+    return;
   }
 
   /// Get user by user name with HTTP info returned
@@ -270,8 +281,9 @@ class UserApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -293,14 +305,14 @@ class UserApi {
   ///     The name that needs to be fetched. Use user1 for testing.
   /// 
   Future<User> getUserByName(String username) async {
-    Response response = await getUserByNameWithHttpInfo(username);
+    final response = await getUserByNameWithHttpInfo(username);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
-    } else {
-      return null;
     }
+    if(response.body != null) {
+      return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
+    }
+    return null;
   }
 
   /// Logs user into the system with HTTP info returned
@@ -335,8 +347,9 @@ class UserApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -360,14 +373,14 @@ class UserApi {
   ///     The password for login in clear text
   /// 
   Future<String> loginUser(String username, String password) async {
-    Response response = await loginUserWithHttpInfo(username, password);
+    final response = await loginUserWithHttpInfo(username, password);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
-    } else {
-      return null;
     }
+    if(response.body != null) {
+      return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
+    }
+    return null;
   }
 
   /// Logs out current logged in user session with HTTP info returned
@@ -394,8 +407,9 @@ class UserApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -415,13 +429,13 @@ class UserApi {
   ///
   /// 
   Future logoutUser() async {
-    Response response = await logoutUserWithHttpInfo();
+    final response = await logoutUserWithHttpInfo();
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if(response.body != null) {
+    }
+    return;
   }
 
   /// Updated user with HTTP info returned
@@ -454,8 +468,9 @@ class UserApi {
     if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if(hasFields) {
         postBody = mp;
+      }
     }
     else {
     }
@@ -479,13 +494,12 @@ class UserApi {
   ///     Updated user object
   /// This can only be done by the logged in user.
   Future updateUser(String username, User body) async {
-    Response response = await updateUserWithHttpInfo(username, body);
+    final response = await updateUserWithHttpInfo(username, body);
     if(response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if(response.body != null) {
+    }
+    return;
   }
-
 }
