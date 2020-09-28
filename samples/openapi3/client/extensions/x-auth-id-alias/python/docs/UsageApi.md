@@ -24,7 +24,7 @@ Use any API key
 ```python
 import time
 import x_auth_id_alias
-from x_auth_id_alias.api import usage_api
+from openapi_client.api import usage_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -100,7 +100,7 @@ Use both API keys
 ```python
 import time
 import x_auth_id_alias
-from x_auth_id_alias.api import usage_api
+from openapi_client.api import usage_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -175,7 +175,7 @@ Use API key in header
 ```python
 import time
 import x_auth_id_alias
-from x_auth_id_alias.api import usage_api
+from openapi_client.api import usage_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -244,7 +244,7 @@ Use API key in query
 ```python
 import time
 import x_auth_id_alias
-from x_auth_id_alias.api import usage_api
+from openapi_client.api import usage_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.

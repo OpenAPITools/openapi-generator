@@ -17,8 +17,8 @@ Method | HTTP request | Description
 ```python
 import time
 import petstore_api
-from petstore_api.api import default_api
-from petstore_api.openapi_client.model.inline_response_default import InlineResponseDefault
+from openapi_client.api import default_api
+from openapi_client.model.inline_response_default import InlineResponseDefault
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.

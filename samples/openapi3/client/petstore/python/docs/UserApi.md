@@ -26,8 +26,8 @@ This can only be done by the logged in user.
 ```python
 import time
 import petstore_api
-from petstore_api.api import user_api
-from petstore_api.openapi_client.model.user import User
+from openapi_client.api import user_api
+from openapi_client.model.user import User
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -99,8 +99,8 @@ Creates list of users with given input array
 ```python
 import time
 import petstore_api
-from petstore_api.api import user_api
-from petstore_api.openapi_client.model.user import User
+from openapi_client.api import user_api
+from openapi_client.model.user import User
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -174,8 +174,8 @@ Creates list of users with given input array
 ```python
 import time
 import petstore_api
-from petstore_api.api import user_api
-from petstore_api.openapi_client.model.user import User
+from openapi_client.api import user_api
+from openapi_client.model.user import User
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -251,7 +251,7 @@ This can only be done by the logged in user.
 ```python
 import time
 import petstore_api
-from petstore_api.api import user_api
+from openapi_client.api import user_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -311,8 +311,8 @@ Get user by user name
 ```python
 import time
 import petstore_api
-from petstore_api.api import user_api
-from petstore_api.openapi_client.model.user import User
+from openapi_client.api import user_api
+from openapi_client.model.user import User
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -374,7 +374,7 @@ Logs user into the system
 ```python
 import time
 import petstore_api
-from petstore_api.api import user_api
+from openapi_client.api import user_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -437,7 +437,7 @@ Logs out current logged in user session
 ```python
 import time
 import petstore_api
-from petstore_api.api import user_api
+from openapi_client.api import user_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -494,8 +494,8 @@ This can only be done by the logged in user.
 ```python
 import time
 import petstore_api
-from petstore_api.api import user_api
-from petstore_api.openapi_client.model.user import User
+from openapi_client.api import user_api
+from openapi_client.model.user import User
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.

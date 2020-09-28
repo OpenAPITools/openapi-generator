@@ -20,7 +20,7 @@ Use custom server
 ```python
 import time
 import dynamic_servers
-from dynamic_servers.api import usage_api
+from openapi_client.api import usage_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -78,7 +78,7 @@ Use default server
 ```python
 import time
 import dynamic_servers
-from dynamic_servers.api import usage_api
+from openapi_client.api import usage_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.

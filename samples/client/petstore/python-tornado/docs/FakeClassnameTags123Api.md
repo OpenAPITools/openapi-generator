@@ -20,8 +20,8 @@ To test class name in snake case
 ```python
 import time
 import petstore_api
-from petstore_api.api import fake_classname_tags_123_api
-from petstore_api.openapi_client.model.client import Client
+from openapi_client.api import fake_classname_tags_123_api
+from openapi_client.model.client import Client
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.

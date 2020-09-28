@@ -4,14 +4,14 @@
 README.md
 docs/UsageApi.md
 dynamic_servers/__init__.py
-dynamic_servers/api/__init__.py
-dynamic_servers/api/usage_api.py
 dynamic_servers/api_client.py
 dynamic_servers/configuration.py
 dynamic_servers/exceptions.py
+dynamic_servers/openapi_client.api/__init__.py
 dynamic_servers/openapi_client.model/__init__.py
 dynamic_servers/rest.py
 git_push.sh
+openapi_client/api/usage_api.py
 requirements.txt
 setup.cfg
 setup.py

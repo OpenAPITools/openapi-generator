@@ -26,8 +26,8 @@ Add a new pet to the store
 ```python
 import time
 import petstore_api
-from petstore_api.api import pet_api
-from petstore_api.openapi_client.model.pet import Pet
+from openapi_client.api import pet_api
+from openapi_client.model.pet import Pet
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -116,7 +116,7 @@ Deletes a pet
 ```python
 import time
 import petstore_api
-from petstore_api.api import pet_api
+from openapi_client.api import pet_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -199,8 +199,8 @@ Multiple status values can be provided with comma separated strings
 ```python
 import time
 import petstore_api
-from petstore_api.api import pet_api
-from petstore_api.openapi_client.model.pet import Pet
+from openapi_client.api import pet_api
+from openapi_client.model.pet import Pet
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -276,8 +276,8 @@ Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3
 ```python
 import time
 import petstore_api
-from petstore_api.api import pet_api
-from petstore_api.openapi_client.model.pet import Pet
+from openapi_client.api import pet_api
+from openapi_client.model.pet import Pet
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -353,8 +353,8 @@ Returns a single pet
 ```python
 import time
 import petstore_api
-from petstore_api.api import pet_api
-from petstore_api.openapi_client.model.pet import Pet
+from openapi_client.api import pet_api
+from openapi_client.model.pet import Pet
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -427,8 +427,8 @@ Update an existing pet
 ```python
 import time
 import petstore_api
-from petstore_api.api import pet_api
-from petstore_api.openapi_client.model.pet import Pet
+from openapi_client.api import pet_api
+from openapi_client.model.pet import Pet
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -519,7 +519,7 @@ Updates a pet in the store with form data
 ```python
 import time
 import petstore_api
-from petstore_api.api import pet_api
+from openapi_client.api import pet_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -601,8 +601,8 @@ uploads an image
 ```python
 import time
 import petstore_api
-from petstore_api.api import pet_api
-from petstore_api.openapi_client.model.api_response import ApiResponse
+from openapi_client.api import pet_api
+from openapi_client.model.api_response import ApiResponse
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -688,8 +688,8 @@ uploads an image (required)
 ```python
 import time
 import petstore_api
-from petstore_api.api import pet_api
-from petstore_api.openapi_client.model.api_response import ApiResponse
+from openapi_client.api import pet_api
+from openapi_client.model.api_response import ApiResponse
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
