@@ -47,9 +47,9 @@ class ConfigurationTest extends TestCase
     public function testInvalidIndex()
     {
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Invalid index 2 when selecting the host. Must be less than 2');
+        $this->expectExceptionMessage('Invalid index 3 when selecting the host. Must be less than 3');
         $config = new Configuration();
-        $url = $config->getHostFromSettings(5);
+        $url = $config->getHostFromSettings(3);
     }
 
     /**
