@@ -56,9 +56,9 @@ class {{{classname}}}{{{enumName}}} {
 }
 
 class {{{classname}}}{{{enumName}}}TypeTransformer {
-  const {{{classname}}}TypeTransformer._();
+  const {{{classname}}}{{{enumName}}}TypeTransformer._();
 
-  factory {{{classname}}}TypeTransformer() => _instance ??= {{{classname}}}TypeTransformer._();
+  factory {{{classname}}}{{{enumName}}}TypeTransformer() => _instance ??= {{{classname}}}{{{enumName}}}TypeTransformer._();
 
   {{{dataType}}} encode({{{classname}}}{{{enumName}}} data) => data.value;
 
@@ -86,5 +86,5 @@ class {{{classname}}}{{{enumName}}}TypeTransformer {
   }
 
   /// Singleton [{{{classname}}}{{{enumName}}}TypeTransformer] instance.
-  static {{{classname}}}TypeTransformer _instance;
+  static {{{classname}}}{{{enumName}}}TypeTransformer _instance;
 }
