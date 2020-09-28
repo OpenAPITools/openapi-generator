@@ -6,7 +6,7 @@ class {{classname}} {
   {{/isEnum}}
   {{#isEnum}}
   {{#allowableValues}}
-  {{#min}} // range from {{min}} to {{max}}{{/min}}{{classname}}{{{enumName}}} {{name}}{{#required}} = {{{defaultValue}}}{{/required}}{{^required}}{{/required}};
+  {{#min}} // range from {{min}} to {{max}}{{/min}}{{classname}}{{{enumName}}} {{name}}{{#required}} = {{classname}}{{{enumName}}}._internal({{{defaultValue}}}){{/required}}{{^required}}{{/required}};
   {{/allowableValues}}
   {{/isEnum}}
   {{/vars}}
