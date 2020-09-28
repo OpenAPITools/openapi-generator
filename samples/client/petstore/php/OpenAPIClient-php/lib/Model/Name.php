@@ -40,10 +40,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class Name implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -68,6 +71,8 @@ class Name implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'name' => 'int32',
@@ -193,10 +198,10 @@ class Name implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
-        $this->container['snake_case'] = isset($data['snake_case']) ? $data['snake_case'] : null;
-        $this->container['property'] = isset($data['property']) ? $data['property'] : null;
-        $this->container['_123_number'] = isset($data['_123_number']) ? $data['_123_number'] : null;
+        $this->container['name'] = $data['name'] ?? null;
+        $this->container['snake_case'] = $data['snake_case'] ?? null;
+        $this->container['property'] = $data['property'] ?? null;
+        $this->container['_123_number'] = $data['_123_number'] ?? null;
     }
 
     /**
@@ -241,7 +246,7 @@ class Name implements ModelInterface, ArrayAccess
      *
      * @param int $name name
      *
-     * @return $this
+     * @return self
      */
     public function setName($name)
     {
@@ -265,7 +270,7 @@ class Name implements ModelInterface, ArrayAccess
      *
      * @param int|null $snake_case snake_case
      *
-     * @return $this
+     * @return self
      */
     public function setSnakeCase($snake_case)
     {
@@ -289,7 +294,7 @@ class Name implements ModelInterface, ArrayAccess
      *
      * @param string|null $property property
      *
-     * @return $this
+     * @return self
      */
     public function setProperty($property)
     {
@@ -313,7 +318,7 @@ class Name implements ModelInterface, ArrayAccess
      *
      * @param int|null $_123_number _123_number
      *
-     * @return $this
+     * @return self
      */
     public function set123Number($_123_number)
     {
@@ -338,18 +343,18 @@ class Name implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */

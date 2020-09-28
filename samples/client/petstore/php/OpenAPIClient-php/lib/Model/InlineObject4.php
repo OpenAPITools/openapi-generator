@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class InlineObject4 implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -65,6 +68,8 @@ class InlineObject4 implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'param' => null,
@@ -182,8 +187,8 @@ class InlineObject4 implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['param'] = isset($data['param']) ? $data['param'] : null;
-        $this->container['param2'] = isset($data['param2']) ? $data['param2'] : null;
+        $this->container['param'] = $data['param'] ?? null;
+        $this->container['param2'] = $data['param2'] ?? null;
     }
 
     /**
@@ -231,7 +236,7 @@ class InlineObject4 implements ModelInterface, ArrayAccess
      *
      * @param string $param field1
      *
-     * @return $this
+     * @return self
      */
     public function setParam($param)
     {
@@ -255,7 +260,7 @@ class InlineObject4 implements ModelInterface, ArrayAccess
      *
      * @param string $param2 field2
      *
-     * @return $this
+     * @return self
      */
     public function setParam2($param2)
     {
@@ -280,18 +285,18 @@ class InlineObject4 implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */

@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class NullableClass implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -75,6 +78,8 @@ class NullableClass implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'integer_prop' => null,
@@ -232,18 +237,18 @@ class NullableClass implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['integer_prop'] = isset($data['integer_prop']) ? $data['integer_prop'] : null;
-        $this->container['number_prop'] = isset($data['number_prop']) ? $data['number_prop'] : null;
-        $this->container['boolean_prop'] = isset($data['boolean_prop']) ? $data['boolean_prop'] : null;
-        $this->container['string_prop'] = isset($data['string_prop']) ? $data['string_prop'] : null;
-        $this->container['date_prop'] = isset($data['date_prop']) ? $data['date_prop'] : null;
-        $this->container['datetime_prop'] = isset($data['datetime_prop']) ? $data['datetime_prop'] : null;
-        $this->container['array_nullable_prop'] = isset($data['array_nullable_prop']) ? $data['array_nullable_prop'] : null;
-        $this->container['array_and_items_nullable_prop'] = isset($data['array_and_items_nullable_prop']) ? $data['array_and_items_nullable_prop'] : null;
-        $this->container['array_items_nullable'] = isset($data['array_items_nullable']) ? $data['array_items_nullable'] : null;
-        $this->container['object_nullable_prop'] = isset($data['object_nullable_prop']) ? $data['object_nullable_prop'] : null;
-        $this->container['object_and_items_nullable_prop'] = isset($data['object_and_items_nullable_prop']) ? $data['object_and_items_nullable_prop'] : null;
-        $this->container['object_items_nullable'] = isset($data['object_items_nullable']) ? $data['object_items_nullable'] : null;
+        $this->container['integer_prop'] = $data['integer_prop'] ?? null;
+        $this->container['number_prop'] = $data['number_prop'] ?? null;
+        $this->container['boolean_prop'] = $data['boolean_prop'] ?? null;
+        $this->container['string_prop'] = $data['string_prop'] ?? null;
+        $this->container['date_prop'] = $data['date_prop'] ?? null;
+        $this->container['datetime_prop'] = $data['datetime_prop'] ?? null;
+        $this->container['array_nullable_prop'] = $data['array_nullable_prop'] ?? null;
+        $this->container['array_and_items_nullable_prop'] = $data['array_and_items_nullable_prop'] ?? null;
+        $this->container['array_items_nullable'] = $data['array_items_nullable'] ?? null;
+        $this->container['object_nullable_prop'] = $data['object_nullable_prop'] ?? null;
+        $this->container['object_and_items_nullable_prop'] = $data['object_and_items_nullable_prop'] ?? null;
+        $this->container['object_items_nullable'] = $data['object_items_nullable'] ?? null;
     }
 
     /**
@@ -285,7 +290,7 @@ class NullableClass implements ModelInterface, ArrayAccess
      *
      * @param int|null $integer_prop integer_prop
      *
-     * @return $this
+     * @return self
      */
     public function setIntegerProp($integer_prop)
     {
@@ -309,7 +314,7 @@ class NullableClass implements ModelInterface, ArrayAccess
      *
      * @param float|null $number_prop number_prop
      *
-     * @return $this
+     * @return self
      */
     public function setNumberProp($number_prop)
     {
@@ -333,7 +338,7 @@ class NullableClass implements ModelInterface, ArrayAccess
      *
      * @param bool|null $boolean_prop boolean_prop
      *
-     * @return $this
+     * @return self
      */
     public function setBooleanProp($boolean_prop)
     {
@@ -357,7 +362,7 @@ class NullableClass implements ModelInterface, ArrayAccess
      *
      * @param string|null $string_prop string_prop
      *
-     * @return $this
+     * @return self
      */
     public function setStringProp($string_prop)
     {
@@ -381,7 +386,7 @@ class NullableClass implements ModelInterface, ArrayAccess
      *
      * @param \DateTime|null $date_prop date_prop
      *
-     * @return $this
+     * @return self
      */
     public function setDateProp($date_prop)
     {
@@ -405,7 +410,7 @@ class NullableClass implements ModelInterface, ArrayAccess
      *
      * @param \DateTime|null $datetime_prop datetime_prop
      *
-     * @return $this
+     * @return self
      */
     public function setDatetimeProp($datetime_prop)
     {
@@ -429,7 +434,7 @@ class NullableClass implements ModelInterface, ArrayAccess
      *
      * @param object[]|null $array_nullable_prop array_nullable_prop
      *
-     * @return $this
+     * @return self
      */
     public function setArrayNullableProp($array_nullable_prop)
     {
@@ -453,7 +458,7 @@ class NullableClass implements ModelInterface, ArrayAccess
      *
      * @param object[]|null $array_and_items_nullable_prop array_and_items_nullable_prop
      *
-     * @return $this
+     * @return self
      */
     public function setArrayAndItemsNullableProp($array_and_items_nullable_prop)
     {
@@ -477,7 +482,7 @@ class NullableClass implements ModelInterface, ArrayAccess
      *
      * @param object[]|null $array_items_nullable array_items_nullable
      *
-     * @return $this
+     * @return self
      */
     public function setArrayItemsNullable($array_items_nullable)
     {
@@ -501,7 +506,7 @@ class NullableClass implements ModelInterface, ArrayAccess
      *
      * @param map[string,object]|null $object_nullable_prop object_nullable_prop
      *
-     * @return $this
+     * @return self
      */
     public function setObjectNullableProp($object_nullable_prop)
     {
@@ -525,7 +530,7 @@ class NullableClass implements ModelInterface, ArrayAccess
      *
      * @param map[string,object]|null $object_and_items_nullable_prop object_and_items_nullable_prop
      *
-     * @return $this
+     * @return self
      */
     public function setObjectAndItemsNullableProp($object_and_items_nullable_prop)
     {
@@ -549,7 +554,7 @@ class NullableClass implements ModelInterface, ArrayAccess
      *
      * @param map[string,object]|null $object_items_nullable object_items_nullable
      *
-     * @return $this
+     * @return self
      */
     public function setObjectItemsNullable($object_items_nullable)
     {
@@ -574,18 +579,18 @@ class NullableClass implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */

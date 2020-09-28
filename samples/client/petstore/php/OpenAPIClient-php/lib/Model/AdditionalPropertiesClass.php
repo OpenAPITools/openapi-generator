@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -65,6 +68,8 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'map_property' => null,
@@ -182,8 +187,8 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['map_property'] = isset($data['map_property']) ? $data['map_property'] : null;
-        $this->container['map_of_map_property'] = isset($data['map_of_map_property']) ? $data['map_of_map_property'] : null;
+        $this->container['map_property'] = $data['map_property'] ?? null;
+        $this->container['map_of_map_property'] = $data['map_of_map_property'] ?? null;
     }
 
     /**
@@ -225,7 +230,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      *
      * @param map[string,string]|null $map_property map_property
      *
-     * @return $this
+     * @return self
      */
     public function setMapProperty($map_property)
     {
@@ -249,7 +254,7 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      *
      * @param map[string,map[string,string]]|null $map_of_map_property map_of_map_property
      *
-     * @return $this
+     * @return self
      */
     public function setMapOfMapProperty($map_of_map_property)
     {
@@ -274,18 +279,18 @@ class AdditionalPropertiesClass implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */
