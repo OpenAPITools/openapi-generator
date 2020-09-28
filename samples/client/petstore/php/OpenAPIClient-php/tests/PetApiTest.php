@@ -122,6 +122,7 @@ class PetApiTest extends TestCase
 
         $this->assertSame(get_class($response[0]), Pet::class); // verify the object is Pet
         foreach ($response as $pet) {
+            var_dump($pet);
             $this->assertSame($pet['status'], 'available');
         }
 
