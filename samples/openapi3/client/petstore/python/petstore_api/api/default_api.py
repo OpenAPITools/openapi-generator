@@ -23,7 +23,7 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_and_convert_types
 )
-from petstore_api.openapi_client.model.inline_response_default import InlineResponseDefault
+from petstore_api.model.inline_response_default import InlineResponseDefault
 
 
 class DefaultApi(object):

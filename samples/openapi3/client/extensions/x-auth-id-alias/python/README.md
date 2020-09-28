@@ -49,7 +49,7 @@ Please follow the [installation procedure](#installation--usage) and then run th
 import time
 import x_auth_id_alias
 from pprint import pprint
-from openapi_client.api import usage_api
+from x_auth_id_alias.api import usage_api
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
 configuration = x_auth_id_alias.Configuration(

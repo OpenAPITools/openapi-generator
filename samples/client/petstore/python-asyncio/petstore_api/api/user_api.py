@@ -23,7 +23,7 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_and_convert_types
 )
-from petstore_api.openapi_client.model.user import User
+from petstore_api.model.user import User
 
 
 class UserApi(object):

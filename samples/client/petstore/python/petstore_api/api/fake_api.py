@@ -23,14 +23,14 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_and_convert_types
 )
-from petstore_api.openapi_client.model.animal_farm import AnimalFarm
-from petstore_api.openapi_client.model.client import Client
-from petstore_api.openapi_client.model.file_schema_test_class import FileSchemaTestClass
-from petstore_api.openapi_client.model.number_with_validations import NumberWithValidations
-from petstore_api.openapi_client.model.object_model_with_ref_props import ObjectModelWithRefProps
-from petstore_api.openapi_client.model.string_enum import StringEnum
-from petstore_api.openapi_client.model.user import User
-from petstore_api.openapi_client.model.xml_item import XmlItem
+from petstore_api.model.animal_farm import AnimalFarm
+from petstore_api.model.client import Client
+from petstore_api.model.file_schema_test_class import FileSchemaTestClass
+from petstore_api.model.number_with_validations import NumberWithValidations
+from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
+from petstore_api.model.string_enum import StringEnum
+from petstore_api.model.user import User
+from petstore_api.model.xml_item import XmlItem
 
 
 class FakeApi(object):

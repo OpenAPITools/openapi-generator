@@ -22,7 +22,7 @@ For valid response try integer IDs with value < 1000. Anything above 1000 or non
 ```python
 import time
 import petstore_api
-from openapi_client.api import store_api
+from petstore_api.api import store_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -85,7 +85,7 @@ Returns a map of status codes to quantities
 ```python
 import time
 import petstore_api
-from openapi_client.api import store_api
+from petstore_api.api import store_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -153,8 +153,8 @@ For valid response try integer IDs with value <= 5 or > 10. Other values will ge
 ```python
 import time
 import petstore_api
-from openapi_client.api import store_api
-from openapi_client.model.order import Order
+from petstore_api.api import store_api
+from petstore_api.model.order import Order
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -216,8 +216,8 @@ Place an order for a pet
 ```python
 import time
 import petstore_api
-from openapi_client.api import store_api
-from openapi_client.model.order import Order
+from petstore_api.api import store_api
+from petstore_api.model.order import Order
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.

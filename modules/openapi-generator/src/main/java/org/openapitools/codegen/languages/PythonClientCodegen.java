@@ -234,9 +234,6 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
         this.setLegacyDiscriminatorBehavior(false);
 
         super.processOpts();
-        modelPackage = packageName + "." + modelPackage;
-        apiPackage = packageName + "." + apiPackage;
-        modelPackage = packageName + "." + "model";
 
         if (StringUtils.isEmpty(System.getenv("PYTHON_POST_PROCESS_FILE"))) {
             LOGGER.info("Environment variable PYTHON_POST_PROCESS_FILE not defined so the Python code may not be properly formatted. To define it, try 'export PYTHON_POST_PROCESS_FILE=\"/usr/local/bin/yapf -i\"' (Linux/Mac)");
@@ -301,6 +298,10 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
                 throw new IllegalArgumentException("recursionLimit must be an integer, e.g. 2000.");
             }
         }
+
+        modelPackage = packageName + "." + modelPackage;
+        apiPackage = packageName + "." + apiPackage;
+        modelPackage = packageName + "." + "model";
 
         if (!generateSourceCodeOnly) {
             supportingFiles.add(new SupportingFile("tox.mustache", "", "tox.ini"));

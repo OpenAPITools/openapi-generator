@@ -19,8 +19,8 @@ To test special tags and operation ID starting with number
 ```python
 import time
 import petstore_api
-from openapi_client.api import another_fake_api
-from openapi_client.model.client import Client
+from petstore_api.api import another_fake_api
+from petstore_api.model.client import Client
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.

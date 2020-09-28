@@ -23,8 +23,8 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_and_convert_types
 )
-from petstore_api.openapi_client.model.api_response import ApiResponse
-from petstore_api.openapi_client.model.pet import Pet
+from petstore_api.model.api_response import ApiResponse
+from petstore_api.model.pet import Pet
 
 
 class PetApi(object):

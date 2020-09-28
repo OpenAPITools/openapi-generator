@@ -34,8 +34,8 @@ Test serialization of ArrayModel
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
-from openapi_client.model.animal_farm import AnimalFarm
+from petstore_api.api import fake_api
+from petstore_api.model.animal_farm import AnimalFarm
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -99,7 +99,7 @@ Test serialization of outer boolean types
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -161,8 +161,8 @@ this route creates an XmlItem
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
-from openapi_client.model.xml_item import XmlItem
+from petstore_api.api import fake_api
+from petstore_api.model.xml_item import XmlItem
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -271,8 +271,8 @@ Test serialization of outer number types
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
-from openapi_client.model.number_with_validations import NumberWithValidations
+from petstore_api.api import fake_api
+from petstore_api.model.number_with_validations import NumberWithValidations
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -334,8 +334,8 @@ Test serialization of object with $refed properties
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
-from openapi_client.model.object_model_with_ref_props import ObjectModelWithRefProps
+from petstore_api.api import fake_api
+from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -401,7 +401,7 @@ Test serialization of outer string types
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -463,8 +463,8 @@ Test serialization of outer enum
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
-from openapi_client.model.string_enum import StringEnum
+from petstore_api.api import fake_api
+from petstore_api.model.string_enum import StringEnum
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -526,8 +526,8 @@ For this test, the body for this request much reference a schema named `File`.
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
-from openapi_client.model.file_schema_test_class import FileSchemaTestClass
+from petstore_api.api import fake_api
+from petstore_api.model.file_schema_test_class import FileSchemaTestClass
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -594,8 +594,8 @@ No authorization required
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
-from openapi_client.model.user import User
+from petstore_api.api import fake_api
+from petstore_api.model.user import User
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -666,8 +666,8 @@ To test \"client\" model
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
-from openapi_client.model.client import Client
+from petstore_api.api import fake_api
+from petstore_api.model.client import Client
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -731,7 +731,7 @@ This route has required values with enums of 1
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -795,7 +795,7 @@ Fake endpoint for testing various parameters  假端點  偽のエンドポイ�
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -901,7 +901,7 @@ To test enum parameters
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -982,7 +982,7 @@ Fake endpoint to test group parameters (optional)
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1059,7 +1059,7 @@ test inline additionalProperties
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
@@ -1120,7 +1120,7 @@ test json serialization of form data
 ```python
 import time
 import petstore_api
-from openapi_client.api import fake_api
+from petstore_api.api import fake_api
 from pprint import pprint
 # Defining the host is optional and defaults to http://petstore.swagger.io:80/v2
 # See configuration.py for a list of all supported configuration parameters.
