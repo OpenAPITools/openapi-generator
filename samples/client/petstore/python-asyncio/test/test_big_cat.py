@@ -13,11 +13,11 @@
 from __future__ import absolute_import
 
 import unittest
+import datetime
 
 import petstore_api
 from petstore_api.models.big_cat import BigCat  # noqa: E501
 from petstore_api.rest import ApiException
-
 
 class TestBigCat(unittest.TestCase):
     """BigCat unit test stubs"""
@@ -28,11 +28,24 @@ class TestBigCat(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def make_instance(self, include_optional):
+        """Test BigCat
+            include_option is a boolean, when False only required
+            params are included, when True both required and
+            optional params are included """
+        # model = petstore_api.models.big_cat.BigCat()  # noqa: E501
+        if include_optional :
+            return BigCat(
+                kind = 'lions'
+            )
+        else :
+            return BigCat(
+        )
+
     def testBigCat(self):
         """Test BigCat"""
-        # FIXME: construct object with mandatory attributes with example values
-        # model = petstore_api.models.big_cat.BigCat()  # noqa: E501
-        pass
+        inst_req_only = self.make_instance(include_optional=False)
+        inst_req_and_optional = self.make_instance(include_optional=True)
 
 
 if __name__ == '__main__':
