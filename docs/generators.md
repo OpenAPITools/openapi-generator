@@ -49,7 +49,7 @@ The following generators are available:
 * [php](generators/php.md)  
 * [powershell (beta)](generators/powershell.md)  
 * [python](generators/python.md)  
-* [python-experimental (experimental)](generators/python-experimental.md)  
+* [python-legacy](generators/python-legacy.md)  
 * [r](generators/r.md)  
 * [ruby](generators/ruby.md)  
 * [rust](generators/rust.md)  
