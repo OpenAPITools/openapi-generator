@@ -16,12 +16,12 @@ class StoreApi {
         /// Delete purchase order by ID
         ///
         /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
-        Future<Response>deleteOrder(String orderId,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+        Future<Response>deleteOrder(String orderId,{ CancelToken cancelToken, Map<String, dynamic> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/store/order/{orderId}".replaceAll("{" r'orderId' "}", orderId.toString());
 
         Map<String, dynamic> queryParams = {};
-        Map<String, String> headerParams = Map.from(headers ?? {});
+        Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -51,12 +51,12 @@ class StoreApi {
         /// Returns pet inventories by status
         ///
         /// Returns a map of status codes to quantities
-        Future<Response<Map<String, int>>>getInventory({ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+        Future<Response<Map<String, int>>>getInventory({ CancelToken cancelToken, Map<String, dynamic> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/store/inventory";
 
         Map<String, dynamic> queryParams = {};
-        Map<String, String> headerParams = Map.from(headers ?? {});
+        Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -100,12 +100,12 @@ class StoreApi {
         /// Find purchase order by ID
         ///
         /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
-        Future<Response<Order>>getOrderById(int orderId,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+        Future<Response<Order>>getOrderById(int orderId,{ CancelToken cancelToken, Map<String, dynamic> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/store/order/{orderId}".replaceAll("{" r'orderId' "}", orderId.toString());
 
         Map<String, dynamic> queryParams = {};
-        Map<String, String> headerParams = Map.from(headers ?? {});
+        Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
@@ -149,12 +149,12 @@ class StoreApi {
         /// Place an order for a pet
         ///
         /// 
-        Future<Response<Order>>placeOrder(Order body,{ CancelToken cancelToken, Map<String, String> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
+        Future<Response<Order>>placeOrder(Order body,{ CancelToken cancelToken, Map<String, dynamic> headers, ProgressCallback onSendProgress, ProgressCallback onReceiveProgress,}) async {
 
         String _path = "/store/order";
 
         Map<String, dynamic> queryParams = {};
-        Map<String, String> headerParams = Map.from(headers ?? {});
+        Map<String, dynamic> headerParams = Map.from(headers ?? {});
         dynamic bodyData;
 
         queryParams.removeWhere((key, value) => value == null);
