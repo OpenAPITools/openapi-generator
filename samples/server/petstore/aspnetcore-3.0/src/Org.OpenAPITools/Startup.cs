@@ -77,7 +77,7 @@ namespace Org.OpenAPITools
             services
                 .AddSwaggerGen(c =>
                 {
-                    c.OpenApiDoc("1.0.0", new OpenApiInfo
+                    c.SwaggerDoc("1.0.0", new OpenApiInfo
                     {
                         Title = "OpenAPI Petstore",
                         Description = "OpenAPI Petstore (ASP.NET Core 3.0)",
@@ -133,6 +133,8 @@ namespace Org.OpenAPITools
                 })
                 .UseSwaggerUI(c =>
                 {
+                    // set route prefix to openapi, e.g. http://localhost:8080/openapi/index.html
+                    c.RoutePrefix = "openapi";
                     //TODO: Either use the SwaggerGen generated OpenAPI contract (generated from C# classes)
                     c.SwaggerEndpoint("/openapi/1.0.0/openapi.json", "OpenAPI Petstore");
 
