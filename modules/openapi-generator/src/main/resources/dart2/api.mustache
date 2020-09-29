@@ -55,13 +55,13 @@ class {{{classname}}} {
       {{^isFile}}
       if ({{{paramName}}} != null) {
         hasFields = true;
-        mp.fields['{{{baseName}}}'] = parameterToString({{{paramName}}});
+        mp.fields["{{{baseName}}}"] = parameterToString({{{paramName}}});
       }
       {{/isFile}}
       {{#isFile}}
       if ({{{paramName}}} != null) {
         hasFields = true;
-        mp.fields['{{{baseName}}}'] = {{{paramName}}}.field;
+        mp.fields["{{{baseName}}}"] = {{{paramName}}}.field;
         mp.files.add({{{paramName}}});
       }
       {{/isFile}}
@@ -69,26 +69,26 @@ class {{{classname}}} {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
       {{#formParams}}
       {{^isFile}}
       if ({{{paramName}}} != null) {
-        formParams['{{{baseName}}}'] = parameterToString({{{paramName}}});
+        formParams["{{{baseName}}}"] = parameterToString({{{paramName}}});
       }
       {{/isFile}}
       {{/formParams}}
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             '{{{httpMethod}}}',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "{{{httpMethod}}}",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// {{{summary}}}
@@ -106,7 +106,7 @@ class {{{classname}}} {
     if(response.body != null) {
       {{#isListContainer}}
         {{#returnType}}
-      return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List)
+      return (apiClient.deserialize(_decodeBodyBytes(response), "{{{returnType}}}") as List)
         .map((item) => item as {{{returnBaseType}}})
         .toList(growable: false);
         {{/returnType}}
@@ -114,12 +114,12 @@ class {{{classname}}} {
       {{^isListContainer}}
         {{#isMapContainer}}
           {{#returnType}}
-      return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
+      return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), "{{{returnType}}}"));
           {{/returnType}};
         {{/isMapContainer}}
         {{^isMapContainer}}
           {{#returnType}}
-      return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
+      return apiClient.deserialize(_decodeBodyBytes(response), "{{{returnType}}}") as {{{returnType}}};
           {{/returnType}}
         {{/isMapContainer}}
       {{/isListContainer}}

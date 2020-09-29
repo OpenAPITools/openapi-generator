@@ -1,6 +1,6 @@
 {{>header}}
-import 'package:{{{pubName}}}/api.dart';
-import 'package:test/test.dart';
+import "package:{{{pubName}}}/api.dart";
+import "package:test/test.dart";
 
 {{#operations}}
 
@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 void main() {
   var instance = {{{classname}}}();
 
-  group('tests for {{{classname}}}', () {
+  group("tests for {{{classname}}}", () {
     {{#operation}}
     {{#summary}}
     // {{{.}}}
@@ -19,7 +19,7 @@ void main() {
     //
     {{/notes}}
     //{{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{operationId}}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async 
-    test('test {{{operationId}}}', () async {
+    test("test {{{operationId}}}", () async {
       // TODO
     });
 
