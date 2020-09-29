@@ -131,22 +131,20 @@ class {{{classname}}} {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-
 {{#vars}}
-  {{#required}}
-    {{>to_json}}
-  {{/required}}
-  {{^required}}
-    {{#isNullable}}
     if ({{{name}}} != null) {
-      {{>to_json}}
+  {{#isDateTime}}
+      json[{{{classname}}}Strings.{{{name}}}_] = {{{name}}}.toUtc().toIso8601String();
+  {{/isDateTime}}
+  {{#isDate}}
+      json[{{{classname}}}Strings.{{{name}}}_] = _dateFormatter.format({{{name}}}.toUtc());
+  {{/isDate}}
+  {{^isDateTime}}
+    {{^isDate}}
+      json[{{{classname}}}Strings.{{{name}}}_] = {{{name}}};
+    {{/isDate}}
+  {{/isDateTime}}
     }
-
-    {{/isNullable}}
-    {{^isNullable}}
-    {{>to_json}}
-    {{/isNullable}}
-  {{/required}}
 {{/vars}}
     return json;
   }
