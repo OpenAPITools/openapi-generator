@@ -1,3 +1,14 @@
+/// [String] values for all enums defined in [{{{classname}}}].
+abstract class {{{classname}}}Strings {
+  const {{{classname}}}Strings._();
+
+  {{#allowableValues}}
+  {{#enumVars}}
+  static const {{{name}}} = {{{value}}};
+  {{/enumVars}}
+  {{/allowableValues}}
+}
+
 {{#description}}/// {{{description}}}{{/description}}
 class {{{classname}}} {
   /// Instantiate a new enum with the provided [value].
@@ -22,7 +33,7 @@ class {{{classname}}} {
 
   {{#allowableValues}}
     {{#enumVars}}
-  static const {{{classname}}} {{{name}}} = {{{classname}}}._({{{value}}});
+  static const {{{name}}} = {{{classname}}}._({{{classname}}}Strings.{{{name}}});
     {{/enumVars}}
   {{/allowableValues}}
 
@@ -38,12 +49,14 @@ class {{{classname}}} {
   static {{{classname}}} fromJson({{{dataType}}} value) =>
     {{{classname}}}TypeTransformer().decode(value);
 
-  static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool growable}) =>
-    json == null
-      ? <{{{classname}}}>[]
+  static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable}) =>
+    json == null || json.isEmpty
+      ? true == emptyIsNull ? null : <{{{classname}}}>[]
       : json.map((value) => {{{classname}}}.fromJson(value)).toList(growable: true == growable);
 }
 
+/// Transformation class that can [encode] an instance of [{{{classname}}}] to {{{dataType}}},
+/// and [decode] dynamic data back to [{{{classname}}}].
 class {{{classname}}}TypeTransformer {
   const {{{classname}}}TypeTransformer._();
 
@@ -63,7 +76,7 @@ class {{{classname}}}TypeTransformer {
     switch (data) {
       {{#allowableValues}}
         {{#enumVars}}
-      case {{{value}}}:
+      case {{{classname}}}Strings.{{{name}}}:
         return {{{classname}}}.{{{name}}};
         {{/enumVars}}
       {{/allowableValues}}

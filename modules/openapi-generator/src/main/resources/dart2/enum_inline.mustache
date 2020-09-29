@@ -1,3 +1,14 @@
+/// [String] values for all enums defined in [{{{classname}}}].
+abstract class {{{classname}}}Strings {
+  const {{{classname}}}Strings._();
+
+  {{#allowableValues}}
+  {{#enumVars}}
+  static const {{{name}}} = {{{value}}};
+  {{/enumVars}}
+  {{/allowableValues}}
+}
+
 {{#description}}/// {{{description}}}{{/description}}
 class {{{classname}}}{{{enumName}}} {
   /// Instantiate a new enum with the provided [value].
@@ -20,9 +31,12 @@ class {{{classname}}}{{{enumName}}} {
 
   {{{dataType}}} toJson() => value;
 
+  /// Possible [String] values for all enums defined in [{{{classname}}}].
+  static const strings = {{{classname}}}{{{enumName}}}Strings._();
+
   {{#allowableValues}}
     {{#enumVars}}
-  static const {{{classname}}}{{{enumName}}} {{{name}}} = {{{classname}}}{{{enumName}}}._({{{value}}});
+  static const {{{name}}} = {{{classname}}}{{{enumName}}}._({{{classname}}}{{{enumName}}}Strings.{{{name}}});
     {{/enumVars}}
   {{/allowableValues}}
 
@@ -38,14 +52,16 @@ class {{{classname}}}{{{enumName}}} {
   static {{{classname}}}{{{enumName}}} fromJson({{{dataType}}} value) =>
     {{{classname}}}{{{enumName}}}TypeTransformer().decode(value);
 
-  static List<{{{classname}}}{{{enumName}}}> listFromJson(List<dynamic> json, {bool growable}) =>
-    json == null
-      ? <{{{classname}}}{{{enumName}}}>[]
+  static List<{{{classname}}}{{{enumName}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable}) =>
+    json == null || json.isEmpty
+      ? true == emptyIsNull ? null : <{{{classname}}}{{{enumName}}}>[]
       : json
           .map((value) => {{{classname}}}{{{enumName}}}.fromJson(value))
           .toList(growable: true == growable);
 }
 
+/// Transformation class that can [encode] an instance of [{{{classname}}}{{{enumName}}}] to {{{dataType}}},
+/// and [decode] dynamic data back to [{{{classname}}}{{{enumName}}}].
 class {{{classname}}}{{{enumName}}}TypeTransformer {
   const {{{classname}}}{{{enumName}}}TypeTransformer._();
 
@@ -65,7 +81,7 @@ class {{{classname}}}{{{enumName}}}TypeTransformer {
     switch (data) {
       {{#allowableValues}}
         {{#enumVars}}
-      case {{{value}}}:
+      case {{{classname}}}{{{enumName}}}Strings.{{{name}}}:
         return {{{classname}}}{{{enumName}}}.{{{name}}};
         {{/enumVars}}
       {{/allowableValues}}
