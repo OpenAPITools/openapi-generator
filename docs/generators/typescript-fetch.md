@@ -23,6 +23,7 @@ sidebar_label: typescript-fetch
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |supportsES6|Generate code that conforms to ES6.| |false|
 |typescriptThreePlus|Setting this property to true will generate TypeScript 3.6+ compatible code.| |false|
+|sagasAndRecords|Setting this property to true will generate additional files for working with redux-saga and immmutablejs.| |false|
 |useSingleRequestParameter|Setting this property to true will generate functions with a single argument containing all API endpoint parameters instead of one argument per parameter.| |true|
 |withInterfaces|Setting this property to true will generate interfaces next to the default class implementations.| |false|
 
