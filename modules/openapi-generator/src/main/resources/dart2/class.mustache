@@ -1,14 +1,14 @@
 class {{{classname}}} {
   {{{classname}}}({
   {{#vars}}
-    {{#required}}@required {{/required}}this.{{{name}}},
+    {{#isNullable}}{{#required}}@required {{/required}}this.{{{name}}},{{/isNullable}}{{^isNullable}}{{#defaultValue}}this.{{{name}}} = {{#isContainer}}const {{/isContainer}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#required}}@required {{/required}}this.{{{name}}}{{/defaultValue}},{{/isNullable}}
   {{/vars}}
   });
 
   {{#vars}}
   {{#description}}/// {{{description}}}{{/description}}
   {{^isEnum}}
-  {{^defaultValue}}{{{dataType}}} {{{name}}};{{/defaultValue}}{{#defaultValue}}{{{dataType}}} {{{name}}} = {{{defaultValue}}};{{/defaultValue}}
+  {{{dataType}}} {{{name}}};
   {{/isEnum}}
   {{#isEnum}}
   {{#allowableValues}}
@@ -17,6 +17,18 @@ class {{{classname}}} {
   {{/isEnum}}
 
   {{/vars}}
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
+  {{#vars}}
+     other.{{{name}}} == {{{name}}}{{^-last}} &&{{/-last}}{{#-last}};{{/-last}}
+  {{/vars}}
+
+  @override
+  int get hashCode => 0 +
+  {{#vars}}
+    {{#isNullable}}({{{name}}}?.hashCode ?? 0){{/isNullable}}{{^isNullable}}{{{name}}}.hashCode{{/isNullable}}{{^-last}} +{{/-last}}{{#-last}};{{/-last}}
+  {{/vars}}
+
   @override
   String toString() => '{{{classname}}}[{{#vars}}{{{name}}}=${{{name}}}, {{/vars}}]';
 
@@ -110,27 +122,23 @@ class {{{classname}}} {
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
-    {{#vars}}
-        {{^isNullable}}
-    if ({{{name}}} != null)
-        {{/isNullable}}
-        {{#isDateTime}}
-      json['{{{baseName}}}'] = {{{name}}} == null ? null : {{{name}}}.toUtc().toIso8601String();
-      {{/isDateTime}}
-      {{#isDate}}
-      json['{{{baseName}}}'] = {{{name}}} == null ? null : _dateFormatter.format({{{name}}}.toUtc());
-      {{/isDate}}
-      {{^isDateTime}}
-      {{^isDate}}
-      {{^isEnum}}
-      json['{{{baseName}}}'] = {{{name}}};
-      {{/isEnum}}
-      {{#isEnum}}
-      json['{{{baseName}}}'] = {{{name}}}.value;
-      {{/isEnum}}
-      {{/isDate}}
-      {{/isDateTime}}
-    {{/vars}}
+
+{{#vars}}
+  {{#required}}
+    {{>to_json}}
+  {{/required}}
+  {{^required}}
+    {{#isNullable}}
+    if ({{{name}}} != null) {
+      {{>to_json}}
+    }
+
+    {{/isNullable}}
+    {{^isNullable}}
+    {{>to_json}}
+    {{/isNullable}}
+  {{/required}}
+{{/vars}}
     return json;
   }
 
