@@ -49,7 +49,10 @@ namespace Org.OpenAPITools.Test
         [Fact]
         public void SpecialPropertyNameTest()
         {
-            // TODO unit test for the property 'SpecialPropertyName'
+            SpecialModelName s = new SpecialModelName();
+            s.SpecialPropertyName = 123l;
+            Assert.Equal("{\"$special[property.name]\":123}", JsonConvert.SerializeObject(s));
+            Assert.Equal("{\"$special[property.name]\":123}", s.ToJson());
         }
 
     }
