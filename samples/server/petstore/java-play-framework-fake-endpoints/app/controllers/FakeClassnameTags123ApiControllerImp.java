@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class FakeClassnameTags123ApiControllerImp implements FakeClassnameTags123ApiControllerImpInterface {
     @Override
-    public Client testClassname(Client body) throws Exception {
+    public Client testClassname(Http.Request request, Client body) throws Exception {
         //Do your magic!!!
         return new Client();
     }

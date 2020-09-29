@@ -76,7 +76,9 @@ from petstore_api.model.nullable_class import NullableClass
 from petstore_api.model.nullable_shape import NullableShape
 from petstore_api.model.number_only import NumberOnly
 from petstore_api.model.number_with_validations import NumberWithValidations
+from petstore_api.model.object_interface import ObjectInterface
 from petstore_api.model.object_model_with_ref_props import ObjectModelWithRefProps
+from petstore_api.model.object_with_validations import ObjectWithValidations
 from petstore_api.model.order import Order
 from petstore_api.model.parent_pet import ParentPet
 from petstore_api.model.pet import Pet
@@ -89,6 +91,7 @@ from petstore_api.model.shape import Shape
 from petstore_api.model.shape_interface import ShapeInterface
 from petstore_api.model.shape_or_null import ShapeOrNull
 from petstore_api.model.simple_quadrilateral import SimpleQuadrilateral
+from petstore_api.model.some_object import SomeObject
 from petstore_api.model.special_model_name import SpecialModelName
 from petstore_api.model.string_boolean_map import StringBooleanMap
 from petstore_api.model.string_enum import StringEnum

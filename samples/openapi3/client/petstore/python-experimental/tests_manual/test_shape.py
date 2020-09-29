@@ -36,6 +36,12 @@ class TestShape(unittest.TestCase):
     def tearDown(self):
         pass
 
+    def test_recursionlimit(self):
+        """Test case for recursionlimit
+
+        """
+        assert sys.getrecursionlimit() == 1234
+
     def testShape(self):
         """Test Shape"""
         from petstore_api.model import complex_quadrilateral
@@ -43,6 +49,7 @@ class TestShape(unittest.TestCase):
         from petstore_api.model import equilateral_triangle
         from petstore_api.model import isosceles_triangle
         from petstore_api.model import scalene_triangle
+
         tri = triangle.Triangle(
             shape_type="Triangle",
             triangle_type="EquilateralTriangle"

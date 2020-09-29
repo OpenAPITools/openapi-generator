@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class ArrayOfNumberOnly implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -64,6 +67,8 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'array_number' => null
@@ -177,7 +182,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['array_number'] = isset($data['array_number']) ? $data['array_number'] : null;
+        $this->container['array_number'] = $data['array_number'] ?? null;
     }
 
     /**
@@ -219,7 +224,7 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess
      *
      * @param float[]|null $array_number array_number
      *
-     * @return $this
+     * @return self
      */
     public function setArrayNumber($array_number)
     {
@@ -244,18 +249,18 @@ class ArrayOfNumberOnly implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */

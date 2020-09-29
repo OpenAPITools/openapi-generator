@@ -42,27 +42,27 @@ public class AbstractJavaCodegenTest {
 
     @Test
     public void toEnumVarNameShouldNotShortenUnderScore() throws Exception {
-        Assert.assertEquals("UNDERSCORE", fakeJavaCodegen.toEnumVarName("_", "String"));
-        Assert.assertEquals("__", fakeJavaCodegen.toEnumVarName("__", "String"));
-        Assert.assertEquals("__", fakeJavaCodegen.toEnumVarName("_,.", "String"));
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName("_", "String"), "UNDERSCORE");
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName("__", "String"), "__");
+        Assert.assertEquals(fakeJavaCodegen.toEnumVarName("_,.", "String"), "__");
     }
 
     @Test
     public void toVarNameShouldAvoidOverloadingGetClassMethod() throws Exception {
-        Assert.assertEquals("propertyClass", fakeJavaCodegen.toVarName("class"));
-        Assert.assertEquals("propertyClass", fakeJavaCodegen.toVarName("_class"));
-        Assert.assertEquals("propertyClass", fakeJavaCodegen.toVarName("__class"));
+        Assert.assertEquals(fakeJavaCodegen.toVarName("class"), "propertyClass");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("_class"), "propertyClass");
+        Assert.assertEquals(fakeJavaCodegen.toVarName("__class"), "propertyClass");
     }
 
     @Test
     public void toModelNameShouldUseProvidedMapping() throws Exception {
         fakeJavaCodegen.importMapping().put("json_myclass", "com.test.MyClass");
-        Assert.assertEquals("com.test.MyClass", fakeJavaCodegen.toModelName("json_myclass"));
+        Assert.assertEquals(fakeJavaCodegen.toModelName("json_myclass"), "com.test.MyClass");
     }
 
     @Test
     public void toModelNameUsesPascalCase() throws Exception {
-        Assert.assertEquals("JsonAnotherclass", fakeJavaCodegen.toModelName("json_anotherclass"));
+        Assert.assertEquals(fakeJavaCodegen.toModelName("json_anotherclass"), "JsonAnotherclass");
     }
 
     @Test
@@ -416,6 +416,34 @@ public class AbstractJavaCodegenTest {
         Schema<?> schema = createObjectSchemaWithMinItems();
         String defaultValue = codegen.toDefaultValue(schema);
         Assert.assertNull(defaultValue);
+
+        // Create an alias to an array schema
+        Schema<?> nestedArraySchema = new ArraySchema().items(new IntegerSchema().format("int32"));
+        codegen.setOpenAPI(new OpenAPI().components(new Components().addSchemas("NestedArray", nestedArraySchema)));
+
+        // Create an array schema with item type set to the array alias
+        schema = new ArraySchema().items(new Schema().$ref("#/components/schemas/NestedArray"));
+
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new ArrayList<List<Integer>>()");
+
+        ModelUtils.setGenerateAliasAsModel(true);
+        defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new ArrayList<NestedArray>()");
+
+        // Create a map schema with additionalProperties type set to array alias
+        schema = new MapSchema().additionalProperties(new Schema().$ref("#/components/schemas/NestedArray"));
+
+        ModelUtils.setGenerateAliasAsModel(false);
+        defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new HashMap<String, List<Integer>>()");
+
+        ModelUtils.setGenerateAliasAsModel(true);
+        defaultValue = codegen.toDefaultValue(schema);
+        Assert.assertEquals(defaultValue, "new HashMap<String, NestedArray>()");
+        
+        // Test default value for date format
         DateSchema dateSchema = new DateSchema();
         LocalDate defaultLocalDate = LocalDate.of(2019,2,15);
         Date date = Date.from(defaultLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -572,6 +600,20 @@ public class AbstractJavaCodegenTest {
 
         String defaultValue = codegen.toDefaultValue(schema);
         Assert.assertEquals(defaultValue, "new HashMap<String, ComplexModel>()", "Expected string-ref map aliased model to default to new HashMap<String, ComplexModel>()");
+    }
+
+    @Test
+    public void srcMainFolderShouldNotBeOperatingSystemSpecificPaths() {
+        // it's not responsibility of the generator to fix OS-specific paths. This is left to template manager.
+        // This path must be non-OS-specific for expectations in source outputs (e.g. gradle build files)
+        Assert.assertEquals(fakeJavaCodegen.getSourceFolder(), "src/main/java");
+    }
+
+    @Test
+    public void srcTestFolderShouldNotBeOperatingSystemSpecificPaths() {
+        // it's not responsibility of the generator to fix OS-specific paths. This is left to template manager.
+        // This path must be non-OS-specific for expectations in source outputs (e.g. gradle build files)
+        Assert.assertEquals(fakeJavaCodegen.getTestFolder(), "src/test/java");
     }
 
     private static Schema<?> createObjectSchemaWithMinItems() {

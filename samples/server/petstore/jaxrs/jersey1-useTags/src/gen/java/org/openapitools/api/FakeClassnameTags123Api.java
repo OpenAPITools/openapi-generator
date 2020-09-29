@@ -25,7 +25,7 @@ import javax.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("/FakeClassnameTags123")
+@Path("/fake_classname_test")
 
 
 @io.swagger.annotations.Api(description = "the FakeClassnameTags123 API")
@@ -34,7 +34,7 @@ public class FakeClassnameTags123Api  {
    private final FakeClassnameTags123ApiService delegate = FakeClassnameTags123ApiServiceFactory.getFakeClassnameTags123Api();
 
     @PATCH
-    @Path("/fake_classname_test")
+    
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "To test class name in snake case", notes = "To test class name in snake case", response = Client.class, authorizations = {

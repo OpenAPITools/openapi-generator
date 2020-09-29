@@ -247,6 +247,9 @@ public class DefaultCodegen implements CodegenConfig {
     // make openapi available to all methods
     protected OpenAPI openAPI;
 
+    // A cache to efficiently lookup a Schema instance based on the return value of `toModelName()`.
+    private Map<String, Schema> modelNameToSchemaCache;
+
     public List<CliOption> cliOptions() {
         return cliOptions;
     }
@@ -391,19 +394,17 @@ public class DefaultCodegen implements CodegenConfig {
         if (this.useOneOfInterfaces) {
             // First, add newly created oneOf interfaces
             for (CodegenModel cm : addOneOfInterfaces) {
-                Map<String, Object> modelValue = new HashMap<String, Object>() {{
-                    putAll(additionalProperties());
-                    put("model", cm);
-                }};
+                Map<String, Object> modelValue = new HashMap<>(additionalProperties());
+                modelValue.put("model", cm);
+
                 List<Object> modelsValue = Arrays.asList(modelValue);
                 List<Map<String, String>> importsValue = new ArrayList<Map<String, String>>();
-                Map<String, Object> objsValue = new HashMap<String, Object>() {{
-                    put("models", modelsValue);
-                    put("package", modelPackage());
-                    put("imports", importsValue);
-                    put("classname", cm.classname);
-                    putAll(additionalProperties);
-                }};
+                Map<String, Object> objsValue = new HashMap<>();
+                objsValue.put("models", modelsValue);
+                objsValue.put("package", modelPackage());
+                objsValue.put("imports", importsValue);
+                objsValue.put("classname", cm.classname);
+                objsValue.putAll(additionalProperties);
                 objs.put(cm.name, objsValue);
             }
 
@@ -448,6 +449,23 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         return objs;
+    }
+
+    /**
+     * Return a map from model name to Schema for efficient lookup.
+     * 
+     * @return map from model name to Schema.
+     */
+    protected Map<String, Schema> getModelNameToSchemaCache() {
+        if (modelNameToSchemaCache == null) {
+            // Create a cache to efficiently lookup schema based on model name.
+            Map<String, Schema> m = new HashMap<String, Schema>();
+            ModelUtils.getSchemas(openAPI).forEach((key, schema) -> {
+                m.put(toModelName(key), schema);
+            });
+            modelNameToSchemaCache = Collections.unmodifiableMap(m);
+        }
+        return modelNameToSchemaCache;
     }
 
     /**
@@ -1293,14 +1311,13 @@ public class DefaultCodegen implements CodegenConfig {
      * @param name the variable name
      * @return the sanitized variable name
      */
-    public String toVarName(String name) {
+    public String toVarName(final String name) {
         if (reservedWords.contains(name)) {
             return escapeReservedWord(name);
         } else if (((CharSequence) name).chars().anyMatch(character -> specialCharReplacements.keySet().contains("" + ((char) character)))) {
             return escape(name, specialCharReplacements, null, null);
-        } else {
-            return name;
         }
+        return name;
     }
 
     /**
@@ -1318,6 +1335,7 @@ public class DefaultCodegen implements CodegenConfig {
             return escape(name, specialCharReplacements, null, null);
         }
         return name;
+
     }
 
     /**
@@ -1558,6 +1576,7 @@ public class DefaultCodegen implements CodegenConfig {
         specialCharReplacements.put("<=", "Less_Than_Or_Equal_To");
         specialCharReplacements.put(">=", "Greater_Than_Or_Equal_To");
         specialCharReplacements.put("!=", "Not_Equal");
+        specialCharReplacements.put("~=", "Tilde_Equal");
     }
 
     /**
@@ -1971,7 +1990,7 @@ public class DefaultCodegen implements CodegenConfig {
         return "oneOf<" + String.join(",", names) + ">";
     }
 
-    protected Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings) {
+    public Schema unaliasSchema(Schema schema, Map<String, String> usedImportMappings) {
         return ModelUtils.unaliasSchema(this.openAPI, schema, usedImportMappings);
     }
 
@@ -2195,7 +2214,8 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Output the proper model name (capitalized).
+     * Converts the OpenAPI schema name to a model name suitable for the current code generator.
+     * May be overriden for each programming language.
      * In case the name belongs to the TypeSystem it won't be renamed.
      *
      * @param name the name of the model
@@ -2205,8 +2225,33 @@ public class DefaultCodegen implements CodegenConfig {
         return camelize(modelNamePrefix + "_" + name + "_" + modelNameSuffix);
     }
 
+    private static class NamedSchema {
+        private NamedSchema(String name, Schema s) {
+            this.name = name;
+            this.schema = s;
+        }
+        private String name;
+        private Schema schema;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            NamedSchema that = (NamedSchema) o;
+            return Objects.equals(name, that.name) &&
+                    Objects.equals(schema, that.schema);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(name, schema);
+        }
+    }
+
+    Map<NamedSchema, CodegenProperty> schemaCodegenPropertyCache = new HashMap<NamedSchema, CodegenProperty>();
+
     /**
-     * Convert OAS Model object to Codegen Model object
+     * Convert OAS Model object to Codegen Model object.
      *
      * @param name   the name of the model
      * @param schema OAS Model object
@@ -2272,6 +2317,7 @@ public class DefaultCodegen implements CodegenConfig {
             m.isArrayModel = true;
             m.arrayModelType = fromProperty(name, schema).complexType;
             addParentContainer(m, name, schema);
+            ModelUtils.syncValidationProperties(schema, m);
         } else if (schema instanceof ComposedSchema) {
             final ComposedSchema composed = (ComposedSchema) schema;
             Map<String, Schema> properties = new LinkedHashMap<String, Schema>();
@@ -2490,6 +2536,9 @@ public class DefaultCodegen implements CodegenConfig {
                 } else { // type is number and without format
                     m.isNumber = Boolean.TRUE;
                 }
+            } else if (ModelUtils.isFreeFormObject(openAPI, schema)) {
+                addAdditionPropertiesToCodeGenModel(m, schema);
+                ModelUtils.syncValidationProperties(schema, m);
             }
 
             if (Boolean.TRUE.equals(schema.getNullable())) {
@@ -2561,7 +2610,6 @@ public class DefaultCodegen implements CodegenConfig {
                 postProcessModelProperty(m, prop);
             }
         }
-
         return m;
     }
 
@@ -2655,7 +2703,8 @@ public class DefaultCodegen implements CodegenConfig {
         if (foundDisc != null) {
             return foundDisc;
         }
-        if (!!this.getLegacyDiscriminatorBehavior()) {
+
+        if (this.getLegacyDiscriminatorBehavior()) {
             return null;
         }
         Discriminator disc = new Discriminator();
@@ -2693,7 +2742,7 @@ public class DefaultCodegen implements CodegenConfig {
                     throw new RuntimeException("The oneOf schemas have conflicting discriminator property names. " +
                             "oneOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
                 }
-                if ((hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getOneOf().size() && discriminatorsPropNames.size() == 1) {
+                if (foundDisc != null && (hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getOneOf().size() && discriminatorsPropNames.size() == 1) {
                     disc.setPropertyName(foundDisc.getPropertyName());
                     disc.setMapping(foundDisc.getMapping());
                     return disc;
@@ -2722,7 +2771,7 @@ public class DefaultCodegen implements CodegenConfig {
                     throw new RuntimeException("The anyOf schemas have conflicting discriminator property names. " +
                         "anyOf schemas must have the same property name, but found " + String.join(", ", discriminatorsPropNames));
                 }
-                if ((hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getAnyOf().size() && discriminatorsPropNames.size() == 1) {
+                if (foundDisc != null && (hasDiscriminatorCnt + hasNullTypeCnt) == composedSchema.getAnyOf().size() && discriminatorsPropNames.size() == 1) {
                     disc.setPropertyName(foundDisc.getPropertyName());
                     disc.setMapping(foundDisc.getMapping());
                     return disc;
@@ -2811,9 +2860,13 @@ public class DefaultCodegen implements CodegenConfig {
         List<MappedModel> descendentSchemas = new ArrayList();
         Map<String, Schema> schemas = ModelUtils.getSchemas(openAPI);
         String currentSchemaName = thisSchemaName;
-        while (true) {
-            for (String childName : schemas.keySet()) {
-                if (childName == thisSchemaName) {
+        Set<String> keys = schemas.keySet();
+
+        int count = 0;
+        // hack: avoid infinite loop on potential self-references in event our checks fail.
+        while (100000 > count++) {
+            for (String childName : keys) {
+                if (childName.equals(thisSchemaName)) {
                     continue;
                 }
                 Schema child = schemas.get(childName);
@@ -2826,13 +2879,12 @@ public class DefaultCodegen implements CodegenConfig {
                             if (ref == null) {
                                 // for schemas with no ref, it is not possible to build the discriminator map
                                 // because ref is how we get the model name
-                                // we only hit this use case for a schema with inline composed schemas, and one of those
-                                // schemas also has inline composed schemas
-                                throw new RuntimeException("Invalid inline schema defined in allOf in '" + childName + "'. Per the OpenApi spec, for this case when a composed schema defines a discriminator, the allOf schemas must use $ref. Change this inline definition to a $ref definition");
+                                // we hit this use case when an allOf composed schema contains an inline schema
+                                continue;
                             }
                             String parentName = ModelUtils.getSimpleRef(ref);
-                            if (parentName.equals(currentSchemaName)) {
-                                if (queue.contains(childName) || descendentSchemas.contains(childName)) {
+                            if (parentName != null && parentName.equals(currentSchemaName)) {
+                                if (queue.contains(childName) || descendentSchemas.stream().anyMatch(i -> childName.equals(i.getMappingName()))) {
                                     throw new RuntimeException("Stack overflow hit when looking for " + thisSchemaName + " an infinite loop starting and ending at " + childName + " was seen");
                                 }
                                 queue.add(childName);
@@ -2981,7 +3033,13 @@ public class DefaultCodegen implements CodegenConfig {
     }
 
     /**
-     * Convert OAS Property object to Codegen Property object
+     * Convert OAS Property object to Codegen Property object.
+     * 
+     * The return value is cached. An internal cache is looked up to determine
+     * if the CodegenProperty return value has already been instantiated for
+     * the (String name, Schema p) arguments.
+     * Any subsequent processing of the CodegenModel return value must be idempotent
+     * for a given (String name, Schema schema).
      *
      * @param name name of the property
      * @param p    OAS property schema
@@ -2993,7 +3051,12 @@ public class DefaultCodegen implements CodegenConfig {
             return null;
         }
         LOGGER.debug("debugging fromProperty for " + name + " : " + p);
-
+        NamedSchema ns = new NamedSchema(name, p);
+        CodegenProperty cpc = schemaCodegenPropertyCache.get(ns);
+        if (cpc != null) {
+            LOGGER.debug("Cached fromProperty for " + name + " : " + p.getName());
+            return cpc;
+        }
         // unalias schema
         p = unaliasSchema(p, importMapping);
 
@@ -3293,6 +3356,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
 
         LOGGER.debug("debugging from property return: " + property);
+        schemaCodegenPropertyCache.put(ns, property);
         return property;
     }
 
@@ -3540,7 +3604,10 @@ public class DefaultCodegen implements CodegenConfig {
             op.hasReference = schemas != null && schemas.containsKey(op.returnBaseType);
 
             // lookup discriminator
-            Schema schema = schemas.get(op.returnBaseType);
+            Schema schema = null;
+            if (schemas != null) {
+                schema = schemas.get(op.returnBaseType);
+            }
             if (schema != null) {
                 CodegenModel cmod = fromModel(op.returnBaseType, schema);
                 op.discriminator = cmod.discriminator;
@@ -4759,7 +4826,6 @@ public class DefaultCodegen implements CodegenConfig {
 
             final String key = entry.getKey();
             final Schema prop = entry.getValue();
-
             if (prop == null) {
                 LOGGER.warn("Please report the issue. There shouldn't be null property for " + key);
             } else {
@@ -6379,6 +6445,9 @@ public class DefaultCodegen implements CodegenConfig {
                 .featureSet(builder.build()).build();
     }
 
+    /**
+     * An map entry for cached sanitized names.
+     */
     private static class SanitizeNameOptions {
         public SanitizeNameOptions(String name, String removeCharRegEx, List<String> exceptions) {
             this.name = name;
@@ -6386,7 +6455,7 @@ public class DefaultCodegen implements CodegenConfig {
             if (exceptions != null) {
                 this.exceptions = Collections.unmodifiableList(exceptions);
             } else {
-                this.exceptions = Collections.unmodifiableList(new ArrayList<>());
+                this.exceptions = Collections.emptyList();
             }
         }
 

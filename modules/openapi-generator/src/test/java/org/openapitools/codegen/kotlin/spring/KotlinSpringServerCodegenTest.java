@@ -177,7 +177,7 @@ public class KotlinSpringServerCodegenTest {
         Assert.assertEquals(codegen.apiTemplateFiles().get("apiInterface.mustache"), ".kt");
         Assert.assertEquals(codegen.apiTemplateFiles().get("apiInterface.mustache"), ".kt");
 
-        Assert.assertTrue(codegen.supportingFiles().stream().anyMatch(supportingFile -> supportingFile.templateFile.equals("apiUtil.mustache")));
+        Assert.assertTrue(codegen.supportingFiles().stream().anyMatch(supportingFile -> supportingFile.getTemplateFile().equals("apiUtil.mustache")));
     }
 
     @Test(description = "test delegate with tags")

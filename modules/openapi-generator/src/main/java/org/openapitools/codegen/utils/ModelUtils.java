@@ -41,8 +41,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.io.FileUtils;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URI;
+import java.net.URLDecoder;
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
@@ -73,7 +75,7 @@ public class ModelUtils {
         JSON_MAPPER = ObjectMapperFactory.createJson();
         YAML_MAPPER = ObjectMapperFactory.createYaml();
     }
-    
+
     public static void setDisallowAdditionalPropertiesIfNotPresent(boolean value) {
         GlobalSettings.setProperty(disallowAdditionalPropertiesIfNotPresent, Boolean.toString(value));
     }
@@ -170,18 +172,20 @@ public class ModelUtils {
         childrenMap = tmpChildrenMap;
         List<String> unusedSchemas = new ArrayList<String>();
 
-        Map<String, Schema> schemas = getSchemas(openAPI);
-        unusedSchemas.addAll(schemas.keySet());
+        if (openAPI != null) {
+            Map<String, Schema> schemas = getSchemas(openAPI);
+            unusedSchemas.addAll(schemas.keySet());
 
-        visitOpenAPI(openAPI, (s, t) -> {
-            if (s.get$ref() != null) {
-                String ref = getSimpleRef(s.get$ref());
-                unusedSchemas.remove(ref);
-                if (childrenMap.containsKey(ref)) {
-                    unusedSchemas.removeAll(childrenMap.get(ref));
+            visitOpenAPI(openAPI, (s, t) -> {
+                if (s.get$ref() != null) {
+                    String ref = getSimpleRef(s.get$ref());
+                    unusedSchemas.remove(ref);
+                    if (childrenMap.containsKey(ref)) {
+                        unusedSchemas.removeAll(childrenMap.get(ref));
+                    }
                 }
-            }
-        });
+            });
+        }
         return unusedSchemas;
     }
 
@@ -387,6 +391,18 @@ public class ModelUtils {
             return null;
 
         }
+
+        try {
+            ref = URLDecoder.decode(ref, "UTF-8");
+        } catch (UnsupportedEncodingException ignored) {
+        }
+
+        // see https://tools.ietf.org/html/rfc6901#section-3
+        // Because the characters '~' (%x7E) and '/' (%x2F) have special meanings in
+        // JSON Pointer, '~' needs to be encoded as '~0' and '/' needs to be encoded 
+        // as '~1' when these characters appear in a reference token.
+        // This reverses that encoding.
+        ref = ref.replace("~1", "/").replace("~0", "~");
 
         return ref;
     }
@@ -693,6 +709,24 @@ public class ModelUtils {
         return schema instanceof ComposedSchema || schema instanceof ObjectSchema;
     }
 
+    public static boolean hasValidation(Schema sc) {
+        return (
+                sc.getMaxItems() != null ||
+                        sc.getMinProperties() != null ||
+                        sc.getMaxProperties() != null ||
+                        sc.getMinLength() != null ||
+                        sc.getMinItems() != null ||
+                        sc.getMultipleOf() != null ||
+                        sc.getPattern() != null ||
+                        sc.getMaxLength() != null ||
+                        sc.getMinimum() != null ||
+                        sc.getMaximum() != null ||
+                        sc.getExclusiveMaximum() != null ||
+                        sc.getExclusiveMinimum() != null ||
+                        sc.getUniqueItems() != null
+        );
+    }
+
     /**
      * Check to see if the schema is a free form object.
      *
@@ -767,7 +801,7 @@ public class ModelUtils {
                         }
                     } else if (addlProps instanceof Schema) {
                         // additionalProperties defined as {}
-                        if (addlProps.getType() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
+                        if (addlProps.getType() == null && addlProps.get$ref() == null && (addlProps.getProperties() == null || addlProps.getProperties().isEmpty())) {
                             return true;
                         }
                     }
@@ -1022,7 +1056,7 @@ public class ModelUtils {
     /**
      * Get the actual schema from aliases. If the provided schema is not an alias, the schema itself will be returned.
      *
-     * @param openAPI        specification being checked
+     * @param openAPI        OpenAPI document containing the schemas.
      * @param schema         schema (alias or direct reference)
      * @param importMappings mappings of external types to be omitted by unaliasing
      * @return actual schema
@@ -1087,7 +1121,7 @@ public class ModelUtils {
 
     /**
      * Returns the additionalProperties Schema for the specified input schema.
-     * 
+     *
      * The additionalProperties keyword is used to control the handling of additional, undeclared
      * properties, that is, properties whose names are not listed in the properties keyword.
      * The additionalProperties keyword may be either a boolean or an object.
@@ -1095,7 +1129,7 @@ public class ModelUtils {
      * By default when the additionalProperties keyword is not specified in the input schema,
      * any additional properties are allowed. This is equivalent to setting additionalProperties
      * to the boolean value True or setting additionalProperties: {}
-     * 
+     *
      * @param openAPI the object that encapsulates the OAS document.
      * @param schema the input schema that may or may not have the additionalProperties keyword.
      * @return the Schema of the additionalProperties. The null value is returned if no additional
@@ -1151,7 +1185,7 @@ public class ModelUtils {
         }
         return null;
     }
-    
+
     public static Header getReferencedHeader(OpenAPI openAPI, Header header) {
         if (header != null && StringUtils.isNotEmpty(header.get$ref())) {
             String name = getSimpleRef(header.get$ref());
@@ -1488,12 +1522,12 @@ public class ModelUtils {
 
     /**
      * Parse and return a JsonNode representation of the input OAS document.
-     * 
+     *
      * @param location the URL of the OAS document.
      * @param auths the list of authorization values to access the remote URL.
-     * 
+     *
      * @throws java.lang.Exception if an error occurs while retrieving the OpenAPI document.
-     * 
+     *
      * @return A JsonNode representation of the input OAS document.
      */
     public static JsonNode readWithInfo(String location, List<AuthorizationValue> auths) throws Exception {
@@ -1521,14 +1555,14 @@ public class ModelUtils {
     /**
      * Parse the OAS document at the specified location, get the swagger or openapi version
      * as specified in the source document, and return the version.
-     * 
+     *
      * For OAS 2.0 documents, return the value of the 'swagger' attribute.
      * For OAS 3.x documents, return the value of the 'openapi' attribute.
-     * 
+     *
      * @param openAPI the object that encapsulates the OAS document.
      * @param location the URL of the OAS document.
      * @param auths the list of authorization values to access the remote URL.
-     * 
+     *
      * @return the version of the OpenAPI document.
      */
     public static SemVer getOpenApiVersion(OpenAPI openAPI, String location, List<AuthorizationValue> auths) {

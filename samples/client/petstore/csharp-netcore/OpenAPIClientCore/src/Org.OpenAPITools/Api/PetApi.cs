@@ -604,6 +604,21 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Data = pet;
 
             // authentication (http_signature_test) required
+            if (this.Configuration.HTTPSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "POST", "/pet", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
+                }
+            }
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -670,6 +685,21 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Data = pet;
 
             // authentication (http_signature_test) required
+            if (this.Configuration.HTTPSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "POST", "/pet", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
+                }
+            }
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -861,6 +891,21 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status));
 
             // authentication (http_signature_test) required
+            if (this.Configuration.HTTPSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByStatus", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
+                }
+            }
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -928,6 +973,21 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "status", status));
 
             // authentication (http_signature_test) required
+            if (this.Configuration.HTTPSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByStatus", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
+                }
+            }
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -992,6 +1052,21 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags));
 
             // authentication (http_signature_test) required
+            if (this.Configuration.HTTPSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByTags", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
+                }
+            }
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -1059,6 +1134,21 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.QueryParameters.Add(Org.OpenAPITools.Client.ClientUtils.ParameterToMultiMap("csv", "tags", tags));
 
             // authentication (http_signature_test) required
+            if (this.Configuration.HTTPSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "GET", "/pet/findByTags", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
+                }
+            }
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -1241,6 +1331,21 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Data = pet;
 
             // authentication (http_signature_test) required
+            if (this.Configuration.HTTPSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "PUT", "/pet", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
+                }
+            }
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))
@@ -1307,6 +1412,21 @@ namespace Org.OpenAPITools.Api
             localVarRequestOptions.Data = pet;
 
             // authentication (http_signature_test) required
+            if (this.Configuration.HTTPSigningConfiguration != null)
+            {
+                var HttpSigningHeaders = this.Configuration.HTTPSigningConfiguration.GetHttpSignedHeader(this.Configuration.BasePath, "PUT", "/pet", localVarRequestOptions);
+                foreach (var headerItem in HttpSigningHeaders)
+                {
+                    if (localVarRequestOptions.HeaderParameters.ContainsKey(headerItem.Key))
+                    {
+                        localVarRequestOptions.HeaderParameters[headerItem.Key] = new List<string>() { headerItem.Value };
+                    }
+                    else
+                    {
+                        localVarRequestOptions.HeaderParameters.Add(headerItem.Key, headerItem.Value);
+                    }
+                }
+            }
             // authentication (petstore_auth) required
             // oauth required
             if (!String.IsNullOrEmpty(this.Configuration.AccessToken))

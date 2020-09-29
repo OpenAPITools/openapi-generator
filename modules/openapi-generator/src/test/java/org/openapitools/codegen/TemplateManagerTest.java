@@ -47,6 +47,15 @@ public class TemplateManagerTest {
         assertEquals(manager.getFullTemplateContents("simple.mustache"), "{{name}} and {{age}}");
     }
 
+    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Template location must be constrained to template directory\\.")
+    public void loadTemplateContentsThrowsForEscapingTemplates(){
+        TemplateManagerOptions opts = new TemplateManagerOptions(false,false);
+        TemplateManager manager = new TemplateManager(opts, mustacheEngineAdapter, new TemplatePathLocator[]{ locator });
+
+        manager.getFullTemplateContents("../simple.mustache");
+        fail("Expected an exception that did not occur");
+    }
+
     @Test
     public void readTemplate(){
         TemplateManagerOptions opts = new TemplateManagerOptions(false,false);
@@ -71,6 +80,15 @@ public class TemplateManagerTest {
         assertTrue(manager.getTemplateReader("templating/templates/simple.mustache") instanceof InputStreamReader);
     }
 
+    @Test(expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = "Template location must be constrained to template directory\\.")
+    public void getTemplateReaderThrowsForEscapingTemplates(){
+        TemplateManagerOptions opts = new TemplateManagerOptions(false,false);
+        TemplateManager manager = new TemplateManager(opts, mustacheEngineAdapter, new TemplatePathLocator[]{ locator });
+
+        manager.getTemplateReader("../templating/templates/simple.mustache");
+        fail("Expected an exception that did not occur");
+    }
+
     @Test
     public void writeViaMustacheAdapter() throws IOException {
         TemplateManagerOptions opts = new TemplateManagerOptions(false,false);
@@ -86,6 +104,28 @@ public class TemplateManagerTest {
             File written = manager.write(data, "simple.mustache", output);
 
             assertEquals(Files.readAllLines(written.toPath()).get(0), "Teddy and 3");
+        } finally {
+            target.toFile().delete();
+        }
+    }
+
+    @Test
+    public void writeUsingMustacheAdapterSkipsNonMustache() throws IOException {
+        TemplateManagerOptions opts = new TemplateManagerOptions(false,false);
+        TemplateManager manager = new TemplateManager(opts, mustacheEngineAdapter, new TemplatePathLocator[]{ locator });
+        Map<String, Object> data = new HashMap<>();
+        data.put("this", "this");
+        data.put("that", "1234");
+
+        Path target = Files.createTempDirectory("test-templatemanager");
+        try {
+            File output = new File(target.toFile(), ".gitignore");
+            File written = manager.write(data, ".gitignore", output);
+            assertEquals(Files.readAllLines(written.toPath()).get(0), "# Should not escape {{this}} or that: {{{that}}}");
+
+            output = new File(target.toFile(), "README.md");
+            written = manager.write(data, "README.md", output);
+            assertEquals(Files.readAllLines(written.toPath()).get(0), "This should not escape `{{this}}` or `{{{that}}}` or `{{name}} counts{{#each numbers}} {{.}}{{/each}}`");
         } finally {
             target.toFile().delete();
         }
@@ -182,6 +222,28 @@ public class TemplateManagerTest {
             File written = manager.write(data, "numbers.handlebars", output);
 
             assertEquals(Files.readAllLines(written.toPath()).get(0), "Jack counts 1 2 3 4 5");
+        } finally {
+            target.toFile().delete();
+        }
+    }
+
+    @Test
+    public void writeUsingHandlebarsAdapterSkipsNonHandlebars() throws IOException {
+        TemplateManagerOptions opts = new TemplateManagerOptions(false,false);
+        TemplateManager manager = new TemplateManager(opts, handlebarsEngineAdapter, new TemplatePathLocator[]{ locator });
+        Map<String, Object> data = new HashMap<>();
+        data.put("this", "this");
+        data.put("that", "1234");
+
+        Path target = Files.createTempDirectory("test-templatemanager");
+        try {
+            File output = new File(target.toFile(), ".gitignore");
+            File written = manager.write(data, ".gitignore", output);
+            assertEquals(Files.readAllLines(written.toPath()).get(0), "# Should not escape {{this}} or that: {{{that}}}");
+
+            output = new File(target.toFile(), "README.md");
+            written = manager.write(data, "README.md", output);
+            assertEquals(Files.readAllLines(written.toPath()).get(0), "This should not escape `{{this}}` or `{{{that}}}` or `{{name}} counts{{#each numbers}} {{.}}{{/each}}`");
         } finally {
             target.toFile().delete();
         }

@@ -16,6 +16,8 @@
 
 package org.openapitools.codegen.languages;
 
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.parameters.Parameter;
 import io.swagger.v3.oas.models.servers.Server;
@@ -269,25 +271,23 @@ public class ScalaAkkaHttpServerCodegen extends AbstractScalaCodegen implements 
         return baseObjs;
     }
 
-    private static Set<String> primitiveParamTypes = new HashSet<String>() {{
-        addAll(Arrays.asList(
-                "Int",
-                "Long",
-                "Float",
-                "Double",
-                "Boolean",
-                "String"
-        ));
-    }};
+    private static final Set<String> primitiveParamTypes = ImmutableSet.of(
+            "Int",
+            "Long",
+            "Float",
+            "Double",
+            "Boolean",
+            "String"
+    );
 
-    private static Map<String, String> pathTypeToMatcher = new HashMap<String, String>() {{
-        put("Int", "IntNumber");
-        put("Long", "LongNumber");
-        put("Float", "FloatNumber");
-        put("Double", "DoubleNumber");
-        put("Boolean", "Boolean");
-        put("String", "Segment");
-    }};
+    private static final Map<String, String> pathTypeToMatcher = ImmutableMap.<String,String>builder()
+        .put("Int", "IntNumber")
+        .put("Long", "LongNumber")
+        .put("Float", "FloatNumber")
+        .put("Double", "DoubleNumber")
+        .put("Boolean", "Boolean")
+        .put("String", "Segment")
+    .build();
 
     protected static void addPathMatcher(CodegenOperation codegenOperation) {
         LinkedList<String> allPaths = new LinkedList<>(Arrays.asList(codegenOperation.path.split("/")));

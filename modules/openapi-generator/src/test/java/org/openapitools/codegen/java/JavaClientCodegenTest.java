@@ -608,6 +608,7 @@ public class JavaClientCodegenTest {
                 .setLibrary(JavaClientCodegen.RESTEASY)
                 .setAdditionalProperties(properties)
                 .setImportMappings(importMappings)
+                .setGenerateAliasAsModel(true)
                 .setInputSpec("src/test/resources/3_0/type-alias.yaml")
                 .setOutputDir(output.getAbsolutePath().replace("\\", "/"));
 

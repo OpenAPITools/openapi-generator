@@ -35,7 +35,10 @@ namespace Org.OpenAPITools.Model
         /// Initializes a new instance of the <see cref="InlineObject3" /> class.
         /// </summary>
         [JsonConstructorAttribute]
-        protected InlineObject3() { }
+        protected InlineObject3()
+        {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
         /// <summary>
         /// Initializes a new instance of the <see cref="InlineObject3" /> class.
         /// </summary>
@@ -50,7 +53,7 @@ namespace Org.OpenAPITools.Model
         /// <param name="_byte">None (required).</param>
         /// <param name="binary">None.</param>
         /// <param name="date">None.</param>
-        /// <param name="dateTime">None.</param>
+        /// <param name="dateTime">None (default to &quot;2010-02-01T10:20:10.111110+01:00&quot;).</param>
         /// <param name="password">None.</param>
         /// <param name="callback">None.</param>
         public InlineObject3(int integer = default(int), int int32 = default(int), long int64 = default(long), decimal number = default(decimal), float _float = default(float), double _double = default(double), string _string = default(string), string patternWithoutDelimiter = default(string), byte[] _byte = default(byte[]), System.IO.Stream binary = default(System.IO.Stream), DateTime date = default(DateTime), DateTime dateTime = default(DateTime), string password = default(string), string callback = default(string))
@@ -71,6 +74,7 @@ namespace Org.OpenAPITools.Model
             this.DateTime = dateTime;
             this.Password = password;
             this.Callback = callback;
+            this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
@@ -173,6 +177,12 @@ namespace Org.OpenAPITools.Model
         public string Callback { get; set; }
 
         /// <summary>
+        /// Gets or Sets additional properties
+        /// </summary>
+        [JsonExtensionData]
+        public IDictionary<string, object> AdditionalProperties { get; set; }
+
+        /// <summary>
         /// Returns the string presentation of the object
         /// </summary>
         /// <returns>String presentation of the object</returns>
@@ -194,6 +204,7 @@ namespace Org.OpenAPITools.Model
             sb.Append("  DateTime: ").Append(DateTime).Append("\n");
             sb.Append("  Password: ").Append(Password).Append("\n");
             sb.Append("  Callback: ").Append(Callback).Append("\n");
+            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -258,6 +269,8 @@ namespace Org.OpenAPITools.Model
                     hashCode = hashCode * 59 + this.Password.GetHashCode();
                 if (this.Callback != null)
                     hashCode = hashCode * 59 + this.Callback.GetHashCode();
+                if (this.AdditionalProperties != null)
+                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
                 return hashCode;
             }
         }

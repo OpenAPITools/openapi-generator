@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class SpecialModelName implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -64,6 +67,8 @@ class SpecialModelName implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'special_property_name' => 'int64'
@@ -177,7 +182,7 @@ class SpecialModelName implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['special_property_name'] = isset($data['special_property_name']) ? $data['special_property_name'] : null;
+        $this->container['special_property_name'] = $data['special_property_name'] ?? null;
     }
 
     /**
@@ -219,7 +224,7 @@ class SpecialModelName implements ModelInterface, ArrayAccess
      *
      * @param int|null $special_property_name special_property_name
      *
-     * @return $this
+     * @return self
      */
     public function setSpecialPropertyName($special_property_name)
     {
@@ -244,18 +249,18 @@ class SpecialModelName implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */

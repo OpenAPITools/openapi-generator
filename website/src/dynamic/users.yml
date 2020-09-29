@@ -390,7 +390,7 @@
   pinned: false
 -
   caption: Vonage
-  image: "img/companies/vonage.jpg"
+  image: "img/companies/vonage.png"
   infoLink: "https://vonage.com"
   pinned: false
 -
@@ -399,7 +399,7 @@
   infoLink: "https://vouchery.io"
   pinned: false
 -
-  caption: wbt-solutions UG
+  caption: wbt-solutions
   image: "img/companies/wbt_solutions.png"
   infoLink: "https://www.wbt-solutions.de/"
   pinned: false

@@ -29,7 +29,7 @@ The following generators are available:
 * [erlang-proper](generators/erlang-proper.md)  
 * [flash-deprecated (deprecated)](generators/flash-deprecated.md)  
 * [go](generators/go.md)  
-* [go-experimental (experimental)](generators/go-experimental.md)  
+* [go-deprecated (deprecated)](generators/go-deprecated.md)  
 * [groovy](generators/groovy.md)  
 * [haskell-http-client](generators/haskell-http-client.md)  
 * [java](generators/java.md)  

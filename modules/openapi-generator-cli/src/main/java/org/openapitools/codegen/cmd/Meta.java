@@ -144,8 +144,8 @@ public class Meta extends OpenApiGeneratorCommand {
         return support -> {
             try {
                 File destinationFolder =
-                        new File(new File(targetDir.getAbsolutePath()), support.folder);
-                File outputFile = new File(destinationFolder, support.destinationFilename);
+                        new File(new File(targetDir.getAbsolutePath()), support.getFolder());
+                File outputFile = new File(destinationFolder, support.getDestinationFilename());
 
                 TemplateManager templateProcessor = new TemplateManager(
                         new TemplateManagerOptions(false, false),
@@ -153,13 +153,13 @@ public class Meta extends OpenApiGeneratorCommand {
                         new TemplatePathLocator[]{ new CommonTemplateContentLocator("codegen") }
                 );
 
-                String template = templateProcessor.readTemplate(new File(TEMPLATE_DIR_CLASSPATH, support.templateFile).getPath());
+                String template = templateProcessor.readTemplate(new File(TEMPLATE_DIR_CLASSPATH, support.getTemplateFile()).getPath());
 
                 String formatted = template;
 
                 Mustache.TemplateLoader loader = name -> templateProcessor.getTemplateReader(name.concat(MUSTACHE_EXTENSION));
 
-                if (support.templateFile.endsWith(MUSTACHE_EXTENSION)) {
+                if (support.getTemplateFile().endsWith(MUSTACHE_EXTENSION)) {
                     LOGGER.info("writing file to {}", outputFile.getAbsolutePath());
                     formatted =
                             Mustache.compiler().withLoader(loader).defaultValue("")

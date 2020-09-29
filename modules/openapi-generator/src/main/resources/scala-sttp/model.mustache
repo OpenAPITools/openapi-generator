@@ -15,6 +15,7 @@ import {{import}}
 {{{description}}}
 {{/javadocRenderer}}
 {{/description}}
+{{^isEnum}}
 case class {{classname}}(
   {{#vars}}
   {{#description}}
@@ -23,7 +24,18 @@ case class {{classname}}(
   {{{name}}}: {{^required}}Option[{{/required}}{{^isEnum}}{{dataType}}{{/isEnum}}{{#isEnum}}{{classname}}Enums.{{datatypeWithEnum}}{{/isEnum}}{{^required}}] = None{{/required}}{{#hasMore}},{{/hasMore}}
   {{/vars}}
 )
+{{/isEnum}}
 
+{{#isEnum}}
+object {{classname}} extends Enumeration {
+    type {{classname}} = {{classname}}.Value
+{{#allowableValues}}
+    {{#values}}
+    val {{#fnEnumEntry}}{{.}}{{/fnEnumEntry}} = Value("{{.}}")
+    {{/values}}
+{{/allowableValues}}
+}
+{{/isEnum}}
 {{#hasEnums}}
 object {{classname}}Enums {
 

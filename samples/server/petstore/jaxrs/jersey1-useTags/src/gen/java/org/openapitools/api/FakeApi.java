@@ -33,7 +33,7 @@ import javax.ws.rs.*;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
-@Path("/Fake")
+@Path("/fake")
 
 
 @io.swagger.annotations.Api(description = "the Fake API")
