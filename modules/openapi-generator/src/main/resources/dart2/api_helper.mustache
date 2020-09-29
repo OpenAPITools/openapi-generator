@@ -11,20 +11,18 @@ Iterable<QueryParam> _convertParametersForCollectionFormat(
   // preconditions
   if (name != null && !name.isEmpty && value != null) {
     if (value is List) {
-      List values = value as List;
-
       // get the collection format, default: csv
       collectionFormat = (collectionFormat == null || collectionFormat.isEmpty)
         ? "csv"
         : collectionFormat;
 
       if (collectionFormat == "multi") {
-        return values.map((v) => QueryParam(name, parameterToString(v)));
+        return value.map((v) => QueryParam(name, parameterToString(v)));
       }
 
       final delimiter = _delimiters[collectionFormat] ?? ",";
 
-      params.add(QueryParam(name, values.map((v) => parameterToString(v)).join(delimiter)));
+      params.add(QueryParam(name, value.map((v) => parameterToString(v)).join(delimiter)));
     } else {
       params.add(QueryParam(name, parameterToString(value)));
     }
