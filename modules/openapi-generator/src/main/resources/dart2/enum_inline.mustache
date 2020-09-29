@@ -31,6 +31,8 @@ class {{{classname}}}{{{enumName}}} {
 
   {{{dataType}}} toJson() => value;
 
+  String _toString(String prefix) => "$prefix$value";
+
   /// Possible [String] values for all enums defined in [{{{classname}}}].
   static const strings = {{{classname}}}{{{enumName}}}Strings._();
 

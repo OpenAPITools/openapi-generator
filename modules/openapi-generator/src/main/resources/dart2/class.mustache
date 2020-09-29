@@ -39,22 +39,7 @@ class {{{classname}}} {
   {{/vars}}
 
   @override
-  String toString() {
-    final sb = StringBuffer();
-
-    sb.write("{{{classname}}}=[");
-
-{{#vars}}
-    sb.write("\n  ");
-    sb.write({{{classname}}}Strings.{{{name}}}_);
-    sb.write({{{name}}});
-    {{^-last}}sb.write(",");{{/-last}}
-
-{{/vars}}
-    sb.write("\n]");
-
-    return sb.toString();
-  }
+  String toString() => _toString('');
 
   {{{classname}}}.fromJson(Map<String, dynamic> json) {
     if (json == null) {
@@ -164,6 +149,34 @@ class {{{classname}}} {
   {{/required}}
 {{/vars}}
     return json;
+  }
+
+  String _toString(String prefix) {
+    final sb = StringBuffer();
+
+    sb.write("{{{classname}}}=[");
+
+{{#vars}}
+    sb.write("\n$prefix  ");
+    sb.write({{{classname}}}Strings.{{{name}}}_);
+    sb.write("=");
+  {{#complexType}}
+    {{^isContainer}}
+    sb.write({{{name}}}._toString("$prefix  "));
+    {{/isContainer}}
+    {{#isContainer}}
+    sb.write({{{name}}});
+    {{/isContainer}}
+  {{/complexType}}
+  {{^complexType}}
+    sb.write({{{name}}});
+  {{/complexType}}
+  {{^-last}}sb.write(",");{{/-last}}
+
+{{/vars}}
+    sb.write("\n$prefix]");
+
+    return sb.toString();
   }
 
   static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable}) =>

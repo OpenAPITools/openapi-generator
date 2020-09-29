@@ -27,9 +27,11 @@ class {{{classname}}} {
   int get hashCode => toString().hashCode;
 
   @override
-  String toString() => value.toString();
+  String toString() => _toString('');
 
   {{{dataType}}} toJson() => value;
+
+  String _toString(String prefix) => "$prefix$value";
 
   {{#allowableValues}}
     {{#enumVars}}
