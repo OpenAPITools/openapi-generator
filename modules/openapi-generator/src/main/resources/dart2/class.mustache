@@ -39,7 +39,7 @@ class {{{classname}}} {
   {{/vars}}
 
   @override
-  String toString() => _toString('');
+  String toString() => _toString("");
 
   {{{classname}}}.fromJson(Map<String, dynamic> json) {
     if (json == null) {
@@ -162,7 +162,7 @@ class {{{classname}}} {
     sb.write("=");
   {{#complexType}}
     {{^isContainer}}
-    sb.write({{{name}}}._toString("$prefix  "));
+    sb.write({{{name}}} == null ? "null" : {{{name}}}._toString("$prefix  "));
     {{/isContainer}}
     {{#isContainer}}
     sb.write({{{name}}});
