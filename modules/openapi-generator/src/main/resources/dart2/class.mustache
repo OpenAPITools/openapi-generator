@@ -159,7 +159,7 @@ class {{{classname}}} {
 {{#vars}}
     sb.write("\n$prefix  ");
     sb.write({{{classname}}}Strings.{{{name}}}_);
-    sb.write("=");
+    sb.write(": ");
   {{#complexType}}
     {{^isContainer}}
     sb.write({{{name}}} == null ? "null" : {{{name}}}._toString("$prefix  "));
