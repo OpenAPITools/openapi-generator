@@ -23,10 +23,7 @@ from petstore_api.model_utils import (  # noqa: F401
     convert_js_args_to_python_args,
     date,
     datetime,
-    get_inheritance_chain_vars,
-    get_new_instance,
     file_type,
-    mfg_new_class,
     none_type,
     validate_get_composed_info,
 )
