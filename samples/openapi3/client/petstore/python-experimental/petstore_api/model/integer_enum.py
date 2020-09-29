@@ -105,7 +105,8 @@ class IntegerEnum(ModelSimple):
         Note that value can be passed either in args or in kwargs, but not in both.
 
         Args:
-            value (int):, must be one of [0, 1, 2, ]  # noqa: E501
+            args[0] (int):, must be one of [0, 1, 2, ]  # noqa: E501
+
         Keyword Args:
             value (int):, must be one of [0, 1, 2, ]  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
@@ -140,7 +141,6 @@ class IntegerEnum(ModelSimple):
                                 _visited_composed_classes = (Animal,)
         """
 
-        value = None
         if 'value' in kwargs:
             value = kwargs.pop('value')
         elif args:

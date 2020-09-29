@@ -14,13 +14,13 @@
         Note that value can be passed either in args or in kwargs, but not in both.
 
         Args:
-            value ({{{dataType}}}):{{#description}} {{description}}.{{/description}}{{#defaultValue}} if omitted the server will use the default value of {{{defaultValue}}}{{/defaultValue}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
+            args[0] ({{{dataType}}}):{{#description}} {{description}}.{{/description}}{{#defaultValue}} if omitted defaults to {{{defaultValue}}}{{/defaultValue}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
+
         Keyword Args:
-            value ({{{dataType}}}):{{#description}} {{description}}.{{/description}}{{#defaultValue}} defaults to {{{defaultValue}}}{{/defaultValue}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
+            value ({{{dataType}}}):{{#description}} {{description}}.{{/description}}{{#defaultValue}} if omitted defaults to {{{defaultValue}}}{{/defaultValue}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
 {{> python-experimental/model_templates/docstring_init_required_kwargs }}
         """
 
-        value = None
         if 'value' in kwargs:
             value = kwargs.pop('value')
         elif args:
@@ -31,14 +31,12 @@
             value = {{{defaultValue}}}
 {{/defaultValue}}
 {{^defaultValue}}
-{{#hasRequired}}
         else:
             raise ApiTypeError(
                 "value is required, but not passed in args or kwargs and doesn't have default",
                 path_to_item=_path_to_item,
                 valid_classes=(self.__class__,),
             )
-{{/hasRequired}}
 {{/defaultValue}}
 
         _check_type = kwargs.pop('_check_type', True)

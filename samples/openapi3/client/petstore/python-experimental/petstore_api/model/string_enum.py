@@ -111,9 +111,10 @@ lines''',
         Note that value can be passed either in args or in kwargs, but not in both.
 
         Args:
-            value (str):, must be one of ["placed", "approved", "delivered", "single quoted", '''multiple
+            args[0] (str):, must be one of ["placed", "approved", "delivered", "single quoted", '''multiple
 lines''', '''double quote 
  with newline''', ]  # noqa: E501
+
         Keyword Args:
             value (str):, must be one of ["placed", "approved", "delivered", "single quoted", '''multiple
 lines''', '''double quote 
@@ -150,7 +151,6 @@ lines''', '''double quote
                                 _visited_composed_classes = (Animal,)
         """
 
-        value = None
         if 'value' in kwargs:
             value = kwargs.pop('value')
         elif args:

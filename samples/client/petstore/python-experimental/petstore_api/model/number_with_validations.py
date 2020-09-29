@@ -104,7 +104,8 @@ class NumberWithValidations(ModelSimple):
         Note that value can be passed either in args or in kwargs, but not in both.
 
         Args:
-            value (float):  # noqa: E501
+            args[0] (float):  # noqa: E501
+
         Keyword Args:
             value (float):  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
@@ -139,7 +140,6 @@ class NumberWithValidations(ModelSimple):
                                 _visited_composed_classes = (Animal,)
         """
 
-        value = None
         if 'value' in kwargs:
             value = kwargs.pop('value')
         elif args:
