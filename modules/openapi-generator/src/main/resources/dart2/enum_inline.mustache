@@ -27,14 +27,11 @@ class {{{classname}}}{{{enumName}}} {
   int get hashCode => toString().hashCode;
 
   @override
-  String toString() => value.toString();
+  String toString() => {{#isString}}value{{/isString}}{{^isString}}value.toString(){{/isString}};
 
-  {{{dataType}}} toJson() => value;
+  {{{dataType}}} toJson() => {{#isString}}toString(){{/isString}}{{^isString}}value{{/isString}};
 
-  String _toString(String prefix) => "$prefix$value";
-
-  /// Possible [String] values for all enums defined in [{{{classname}}}].
-  static const strings = {{{classname}}}{{{enumName}}}Strings._();
+  String _toString(String _) => toString();
 
   {{#allowableValues}}
     {{#enumVars}}
