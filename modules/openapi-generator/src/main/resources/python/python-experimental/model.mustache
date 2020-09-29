@@ -7,13 +7,35 @@ import sys  # noqa: F401
 
 import nulltype  # noqa: F401
 
+{{#models}}
+{{#model}}
 from {{packageName}}.model_utils import (  # noqa: F401
     ApiTypeError,
+{{#isEnum}}
     Enum,
+{{/isEnum}}
+{{#interfaces}}
+{{#-first}}
     ModelComposed,
+{{/-first}}
+{{/interfaces}}
+{{^interfaces}}
+{{^isAlias}}
     ModelNormal,
+{{/isAlias}}
+{{#isArrayModel}}
     ModelSimple,
+{{/isArrayModel}}
+{{#isEnum}}
+    ModelSimple,
+{{/isEnum}}
+{{#isAlias}}
+    ModelSimple,
+{{/isAlias}}
+{{/interfaces}}
+{{#isNullable}}
     NoneEnum,
+{{/isNullable}}
     cached_property,
     change_keys_js_to_python,
     convert_js_args_to_python_args,
@@ -26,11 +48,9 @@ from {{packageName}}.model_utils import (  # noqa: F401
     none_type,
     validate_get_composed_info,
 )
-{{#models}}
-{{#model}}
+
 {{#imports}}
 {{#-first}}
-
 def lazy_import():
 {{/-first}}
     {{{.}}}

@@ -17,9 +17,6 @@ import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
-    Enum,
-    ModelComposed,
-    ModelNormal,
     ModelSimple,
     NoneEnum,
     cached_property,
@@ -34,6 +31,7 @@ from petstore_api.model_utils import (  # noqa: F401
     none_type,
     validate_get_composed_info,
 )
+
 
 
 class NullableString(ModelSimple):
