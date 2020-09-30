@@ -17,13 +17,13 @@ open class FakeAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterBooleanSerialize(body: Bool? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Bool, Error> {
-        return Future<Bool, Error>.init { promisse in
+        return Future<Bool, Error>.init { promise in
             fakeOuterBooleanSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -55,13 +55,13 @@ open class FakeAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterCompositeSerialize(body: OuterComposite? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<OuterComposite, Error> {
-        return Future<OuterComposite, Error>.init { promisse in
+        return Future<OuterComposite, Error>.init { promise in
             fakeOuterCompositeSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -93,13 +93,13 @@ open class FakeAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterNumberSerialize(body: Double? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Double, Error> {
-        return Future<Double, Error>.init { promisse in
+        return Future<Double, Error>.init { promise in
             fakeOuterNumberSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -131,13 +131,13 @@ open class FakeAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func fakeOuterStringSerialize(body: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<String, Error> {
-        return Future<String, Error>.init { promisse in
+        return Future<String, Error>.init { promise in
             fakeOuterStringSerializeWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -169,13 +169,13 @@ open class FakeAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testBodyWithFileSchema(body: FileSchemaTestClass, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promisse in
+        return Future<Void, Error>.init { promise in
             testBodyWithFileSchemaWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
-                    promisse(.success(()))
+                    promise(.success(()))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -208,13 +208,13 @@ open class FakeAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testBodyWithQueryParams(query: String, body: User, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promisse in
+        return Future<Void, Error>.init { promise in
             testBodyWithQueryParamsWithRequestBuilder(query: query, body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
-                    promisse(.success(()))
+                    promise(.success(()))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -250,13 +250,13 @@ open class FakeAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testClientModel(body: Client, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Client, Error> {
-        return Future<Client, Error>.init { promisse in
+        return Future<Client, Error>.init { promise in
             testClientModelWithRequestBuilder(body: body).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case let .success(response):
-                    promisse(.success(response.body!))
+                    promise(.success(response.body!))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -303,13 +303,13 @@ open class FakeAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testEndpointParameters(number: Double, double: Double, patternWithoutDelimiter: String, byte: Data, integer: Int? = nil, int32: Int? = nil, int64: Int64? = nil, float: Float? = nil, string: String? = nil, binary: URL? = nil, date: Date? = nil, dateTime: Date? = nil, password: String? = nil, callback: String? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promisse in
+        return Future<Void, Error>.init { promise in
             testEndpointParametersWithRequestBuilder(number: number, double: double, patternWithoutDelimiter: patternWithoutDelimiter, byte: byte, integer: integer, int32: int32, int64: int64, float: float, string: string, binary: binary, date: date, dateTime: dateTime, password: password, callback: callback).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
-                    promisse(.success(()))
+                    promise(.success(()))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -451,13 +451,13 @@ open class FakeAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testEnumParameters(enumHeaderStringArray: [String]? = nil, enumHeaderString: EnumHeaderString_testEnumParameters? = nil, enumQueryStringArray: [String]? = nil, enumQueryString: EnumQueryString_testEnumParameters? = nil, enumQueryInteger: EnumQueryInteger_testEnumParameters? = nil, enumQueryDouble: EnumQueryDouble_testEnumParameters? = nil, enumFormStringArray: [String]? = nil, enumFormString: EnumFormString_testEnumParameters? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promisse in
+        return Future<Void, Error>.init { promise in
             testEnumParametersWithRequestBuilder(enumHeaderStringArray: enumHeaderStringArray, enumHeaderString: enumHeaderString, enumQueryStringArray: enumQueryStringArray, enumQueryString: enumQueryString, enumQueryInteger: enumQueryInteger, enumQueryDouble: enumQueryDouble, enumFormStringArray: enumFormStringArray, enumFormString: enumFormString).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
-                    promisse(.success(()))
+                    promise(.success(()))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -520,13 +520,13 @@ open class FakeAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testGroupParameters(requiredStringGroup: Int, requiredBooleanGroup: Bool, requiredInt64Group: Int64, stringGroup: Int? = nil, booleanGroup: Bool? = nil, int64Group: Int64? = nil, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promisse in
+        return Future<Void, Error>.init { promise in
             testGroupParametersWithRequestBuilder(requiredStringGroup: requiredStringGroup, requiredBooleanGroup: requiredBooleanGroup, requiredInt64Group: requiredInt64Group, stringGroup: stringGroup, booleanGroup: booleanGroup, int64Group: int64Group).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
-                    promisse(.success(()))
+                    promise(.success(()))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -576,13 +576,13 @@ open class FakeAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testInlineAdditionalProperties(param: [String: String], apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promisse in
+        return Future<Void, Error>.init { promise in
             testInlineAdditionalPropertiesWithRequestBuilder(param: param).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
-                    promisse(.success(()))
+                    promise(.success(()))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()
@@ -616,13 +616,13 @@ open class FakeAPI {
      */
     @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open class func testJsonFormData(param: String, param2: String, apiResponseQueue: DispatchQueue = PetstoreClientAPI.apiResponseQueue) -> AnyPublisher<Void, Error> {
-        return Future<Void, Error>.init { promisse in
+        return Future<Void, Error>.init { promise in
             testJsonFormDataWithRequestBuilder(param: param, param2: param2).execute(apiResponseQueue) { result -> Void in
                 switch result {
                 case .success:
-                    promisse(.success(()))
+                    promise(.success(()))
                 case let .failure(error):
-                    promisse(.failure(error))
+                    promise(.failure(error))
                 }
             }
         }.eraseToAnyPublisher()

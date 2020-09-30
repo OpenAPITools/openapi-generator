@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -66,6 +69,8 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'uuid' => 'uuid',
@@ -187,9 +192,9 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      */
     public function __construct(array $data = null)
     {
-        $this->container['uuid'] = isset($data['uuid']) ? $data['uuid'] : null;
-        $this->container['date_time'] = isset($data['date_time']) ? $data['date_time'] : null;
-        $this->container['map'] = isset($data['map']) ? $data['map'] : null;
+        $this->container['uuid'] = $data['uuid'] ?? null;
+        $this->container['date_time'] = $data['date_time'] ?? null;
+        $this->container['map'] = $data['map'] ?? null;
     }
 
     /**
@@ -231,7 +236,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      *
      * @param string|null $uuid uuid
      *
-     * @return $this
+     * @return self
      */
     public function setUuid($uuid)
     {
@@ -255,7 +260,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      *
      * @param \DateTime|null $date_time date_time
      *
-     * @return $this
+     * @return self
      */
     public function setDateTime($date_time)
     {
@@ -279,7 +284,7 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      *
      * @param map[string,\OpenAPI\Client\Model\Animal]|null $map map
      *
-     * @return $this
+     * @return self
      */
     public function setMap($map)
     {
@@ -304,18 +309,18 @@ class MixedPropertiesAndAdditionalPropertiesClass implements ModelInterface, Arr
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */

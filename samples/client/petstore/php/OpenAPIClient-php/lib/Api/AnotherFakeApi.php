@@ -90,17 +90,17 @@ class AnotherFakeApi
     /**
      * Set the host index
      *
-     * @param  int Host index (required)
+     * @param int $hostIndex Host index (required)
      */
-    public function setHostIndex($host_index)
+    public function setHostIndex($hostIndex)
     {
-        $this->hostIndex = $host_index;
+        $this->hostIndex = $hostIndex;
     }
 
     /**
      * Get the host index
      *
-     * @return Host index
+     * @return int Host index
      */
     public function getHostIndex()
     {

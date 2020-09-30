@@ -11,6 +11,7 @@ import { HttpFile } from '../http/http{{extensionForDeno}}';
 * {{{description}}}
 */
 {{/description}}
+{{^isEnum}}
 export class {{classname}} {{#parent}}extends {{{parent}}} {{/parent}}{
 {{#vars}}
 {{#description}}
@@ -75,5 +76,9 @@ export type {{classname}}{{enumName}} ={{#allowableValues}}{{#values}} "{{.}}" {
 {{/vars}}
 
 {{/hasEnums}}
+{{/isEnum}}
+{{#isEnum}}
+export type {{classname}} ={{#allowableValues}}{{#values}} "{{.}}" {{^-last}}|{{/-last}}{{/values}}{{/allowableValues}};
+{{/isEnum}}
 {{/model}}
 {{/models}}

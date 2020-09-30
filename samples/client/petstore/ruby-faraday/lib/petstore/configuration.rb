@@ -286,6 +286,10 @@ module Petstore
                 ]
               }
             }
+        },
+        {
+          url: "https://127.0.0.1/no_varaible",
+          description: "The local server without variables",
         }
       ]
     end

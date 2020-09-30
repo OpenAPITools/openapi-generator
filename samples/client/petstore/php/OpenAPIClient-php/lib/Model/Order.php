@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class Order implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -69,6 +72,8 @@ class Order implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'id' => 'int64',
@@ -219,12 +224,12 @@ class Order implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
-        $this->container['pet_id'] = isset($data['pet_id']) ? $data['pet_id'] : null;
-        $this->container['quantity'] = isset($data['quantity']) ? $data['quantity'] : null;
-        $this->container['ship_date'] = isset($data['ship_date']) ? $data['ship_date'] : null;
-        $this->container['status'] = isset($data['status']) ? $data['status'] : null;
-        $this->container['complete'] = isset($data['complete']) ? $data['complete'] : false;
+        $this->container['id'] = $data['id'] ?? null;
+        $this->container['pet_id'] = $data['pet_id'] ?? null;
+        $this->container['quantity'] = $data['quantity'] ?? null;
+        $this->container['ship_date'] = $data['ship_date'] ?? null;
+        $this->container['status'] = $data['status'] ?? null;
+        $this->container['complete'] = $data['complete'] ?? false;
     }
 
     /**
@@ -274,7 +279,7 @@ class Order implements ModelInterface, ArrayAccess
      *
      * @param int|null $id id
      *
-     * @return $this
+     * @return self
      */
     public function setId($id)
     {
@@ -298,7 +303,7 @@ class Order implements ModelInterface, ArrayAccess
      *
      * @param int|null $pet_id pet_id
      *
-     * @return $this
+     * @return self
      */
     public function setPetId($pet_id)
     {
@@ -322,7 +327,7 @@ class Order implements ModelInterface, ArrayAccess
      *
      * @param int|null $quantity quantity
      *
-     * @return $this
+     * @return self
      */
     public function setQuantity($quantity)
     {
@@ -346,7 +351,7 @@ class Order implements ModelInterface, ArrayAccess
      *
      * @param \DateTime|null $ship_date ship_date
      *
-     * @return $this
+     * @return self
      */
     public function setShipDate($ship_date)
     {
@@ -370,7 +375,7 @@ class Order implements ModelInterface, ArrayAccess
      *
      * @param string|null $status Order Status
      *
-     * @return $this
+     * @return self
      */
     public function setStatus($status)
     {
@@ -403,7 +408,7 @@ class Order implements ModelInterface, ArrayAccess
      *
      * @param bool|null $complete complete
      *
-     * @return $this
+     * @return self
      */
     public function setComplete($complete)
     {
@@ -428,18 +433,18 @@ class Order implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */

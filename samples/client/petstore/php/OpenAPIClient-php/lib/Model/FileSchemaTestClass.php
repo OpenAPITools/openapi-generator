@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class FileSchemaTestClass implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -65,6 +68,8 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'file' => null,
@@ -182,8 +187,8 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['file'] = isset($data['file']) ? $data['file'] : null;
-        $this->container['files'] = isset($data['files']) ? $data['files'] : null;
+        $this->container['file'] = $data['file'] ?? null;
+        $this->container['files'] = $data['files'] ?? null;
     }
 
     /**
@@ -225,7 +230,7 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess
      *
      * @param \OpenAPI\Client\Model\File|null $file file
      *
-     * @return $this
+     * @return self
      */
     public function setFile($file)
     {
@@ -249,7 +254,7 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess
      *
      * @param \OpenAPI\Client\Model\File[]|null $files files
      *
-     * @return $this
+     * @return self
      */
     public function setFiles($files)
     {
@@ -274,18 +279,18 @@ class FileSchemaTestClass implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */

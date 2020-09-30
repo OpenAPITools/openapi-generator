@@ -167,6 +167,12 @@ namespace Org.OpenAPITools.Client
                             }
                         }
                     }
+                },
+                {
+                    new Dictionary<string, object> {
+                        {"url", "https://127.0.0.1/no_variable"},
+                        {"description", "The local server without variables"},
+                    }
                 }
             };
 

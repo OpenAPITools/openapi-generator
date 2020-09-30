@@ -87,11 +87,11 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
         
         originalRequest.httpMethod = method.rawValue
         
-        buildHeaders().forEach { key, value in
+        headers.forEach { key, value in
             originalRequest.setValue(value, forHTTPHeaderField: key)
         }
         
-        headers.forEach { key, value in
+        buildHeaders().forEach { key, value in
             originalRequest.setValue(value, forHTTPHeaderField: key)
         }
         
@@ -244,8 +244,11 @@ private var urlSessionStore = SynchronizedDictionary<String, URLSession>()
     }
 
     {{#nonPublicApi}}internal{{/nonPublicApi}}{{^nonPublicApi}}open{{/nonPublicApi}} func buildHeaders() -> [String: String] {
-        var httpHeaders = {{projectName}}API.customHeaders
+        var httpHeaders: [String : String] = [:]
         for (key, value) in self.headers {
+            httpHeaders[key] = value
+        }
+        for (key, value) in {{projectName}}API.customHeaders {
             httpHeaders[key] = value
         }
         return httpHeaders
