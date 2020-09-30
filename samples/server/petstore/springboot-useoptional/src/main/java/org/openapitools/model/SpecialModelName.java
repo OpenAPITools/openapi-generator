@@ -14,6 +14,7 @@ import javax.validation.constraints.*;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class SpecialModelName   {
+
   @JsonProperty("$special[property.name]")
   private Long $specialPropertyName;
 

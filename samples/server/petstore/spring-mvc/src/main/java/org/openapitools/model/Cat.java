@@ -18,6 +18,7 @@ import javax.validation.constraints.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class Cat extends Animal  {
+
   @JsonProperty("declawed")
   private Boolean declawed;
 

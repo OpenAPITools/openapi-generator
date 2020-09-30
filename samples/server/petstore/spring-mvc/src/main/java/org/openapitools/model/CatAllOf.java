@@ -16,6 +16,7 @@ import javax.validation.constraints.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class CatAllOf   {
+
   @JsonProperty("declawed")
   private Boolean declawed;
 

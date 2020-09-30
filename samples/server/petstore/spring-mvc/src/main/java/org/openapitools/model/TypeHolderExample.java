@@ -19,20 +19,26 @@ import javax.validation.constraints.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class TypeHolderExample   {
+
   @JsonProperty("string_item")
   private String stringItem;
+
 
   @JsonProperty("number_item")
   private BigDecimal numberItem;
 
+
   @JsonProperty("float_item")
   private Float floatItem;
+
 
   @JsonProperty("integer_item")
   private Integer integerItem;
 
+
   @JsonProperty("bool_item")
   private Boolean boolItem;
+
 
   @JsonProperty("array_item")
   @Valid

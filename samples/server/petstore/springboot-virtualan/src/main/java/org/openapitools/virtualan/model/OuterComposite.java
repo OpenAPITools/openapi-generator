@@ -15,11 +15,14 @@ import javax.validation.constraints.*;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class OuterComposite   {
+
   @JsonProperty("my_number")
   private BigDecimal myNumber;
 
+
   @JsonProperty("my_string")
   private String myString;
+
 
   @JsonProperty("my_boolean")
   private Boolean myBoolean;

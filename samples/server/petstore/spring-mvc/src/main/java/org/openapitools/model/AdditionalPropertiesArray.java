@@ -19,6 +19,7 @@ import javax.validation.constraints.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class AdditionalPropertiesArray extends HashMap<String, List>  {
+
   @JsonProperty("name")
   private String name;
 

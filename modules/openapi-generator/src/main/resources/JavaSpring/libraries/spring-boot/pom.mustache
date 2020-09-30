@@ -82,6 +82,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web{{#reactive}}flux{{/reactive}}</artifactId>
         </dependency>
+        {{#useSpringJpa}}
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        {{/useSpringJpa}}
         {{#useSpringfox}}
         <!--SpringFox dependencies -->
         <dependency>

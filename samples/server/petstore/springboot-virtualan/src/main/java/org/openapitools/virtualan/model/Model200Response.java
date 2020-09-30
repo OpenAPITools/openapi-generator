@@ -15,8 +15,10 @@ import javax.validation.constraints.*;
 @ApiModel(description = "Model for testing model name starting with number")
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Model200Response   {
+
   @JsonProperty("name")
   private Integer name;
+
 
   @JsonProperty("class")
   private String propertyClass;

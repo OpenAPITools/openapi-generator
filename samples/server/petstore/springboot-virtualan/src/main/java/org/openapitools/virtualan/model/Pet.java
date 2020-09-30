@@ -21,18 +21,23 @@ import javax.validation.constraints.*;
  */
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.SpringCodegen")
 public class Pet   {
+
   @JsonProperty("id")
   private Long id;
+
 
   @JsonProperty("category")
   private Category category;
 
+
   @JsonProperty("name")
   private String name;
+
 
   @JsonProperty("photoUrls")
   @Valid
   private Set<String> photoUrls = new LinkedHashSet<>();
+
 
   @JsonProperty("tags")
   @Valid
@@ -75,6 +80,7 @@ public class Pet   {
     }
   }
 
+    
   @JsonProperty("status")
   private StatusEnum status;
 

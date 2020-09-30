@@ -17,6 +17,7 @@ import javax.validation.constraints.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class ClassModel   {
+
   @JsonProperty("_class")
   private String propertyClass;
 

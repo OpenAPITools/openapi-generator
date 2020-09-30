@@ -18,14 +18,18 @@ import javax.validation.constraints.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class Order   {
+
   @JsonProperty("id")
   private Long id;
+
 
   @JsonProperty("petId")
   private Long petId;
 
+
   @JsonProperty("quantity")
   private Integer quantity;
+
 
   @JsonProperty("shipDate")
   @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
@@ -68,8 +72,10 @@ public class Order   {
     }
   }
 
+    
   @JsonProperty("status")
   private StatusEnum status;
+
 
   @JsonProperty("complete")
   private Boolean complete = false;

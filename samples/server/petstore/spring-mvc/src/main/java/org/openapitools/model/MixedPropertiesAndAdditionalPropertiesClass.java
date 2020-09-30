@@ -22,12 +22,15 @@ import javax.validation.constraints.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class MixedPropertiesAndAdditionalPropertiesClass   {
+
   @JsonProperty("uuid")
   private UUID uuid;
+
 
   @JsonProperty("dateTime")
   @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE_TIME)
   private OffsetDateTime dateTime;
+
 
   @JsonProperty("map")
   @Valid

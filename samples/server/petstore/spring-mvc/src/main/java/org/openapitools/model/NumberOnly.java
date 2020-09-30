@@ -17,6 +17,7 @@ import javax.validation.constraints.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class NumberOnly   {
+
   @JsonProperty("JustNumber")
   private BigDecimal justNumber;
 

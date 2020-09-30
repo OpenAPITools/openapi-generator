@@ -16,6 +16,7 @@ import javax.validation.constraints.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class SpecialModelName   {
+
   @JsonProperty("$special[property.name]")
   private Long $specialPropertyName;
 

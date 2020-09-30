@@ -17,8 +17,10 @@ import javax.validation.constraints.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class Model200Response   {
+
   @JsonProperty("name")
   private Integer name;
+
 
   @JsonProperty("class")
   private String propertyClass;

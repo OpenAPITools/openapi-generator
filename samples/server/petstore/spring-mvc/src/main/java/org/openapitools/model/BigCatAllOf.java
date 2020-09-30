@@ -56,6 +56,7 @@ public class BigCatAllOf   {
     }
   }
 
+    
   @JsonProperty("kind")
   private KindEnum kind;
 

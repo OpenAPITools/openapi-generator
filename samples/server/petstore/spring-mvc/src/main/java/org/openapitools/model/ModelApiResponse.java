@@ -16,11 +16,14 @@ import javax.validation.constraints.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class ModelApiResponse   {
+
   @JsonProperty("code")
   private Integer code;
 
+
   @JsonProperty("type")
   private String type;
+
 
   @JsonProperty("message")
   private String message;

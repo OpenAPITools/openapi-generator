@@ -104,6 +104,9 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
 
+    public boolean isJpaEntity = false;
+    public Set<String> additionalAnnotations = new TreeSet<String>();
+
     /**
      * The type of the value for the additionalProperties keyword in the OAS document.
      * Used in map like objects, including composed schemas.
@@ -156,6 +159,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
 
     public void setAdditionalPropertiesType(String additionalPropertiesType) {
         this.additionalPropertiesType = additionalPropertiesType;
+    }
+
+    public Set<String> getAdditionalAnnotations() {
+        return additionalAnnotations;
+    }
+
+    public void setAdditionalAnnotations(Set<String> additionalAnnotations) {
+        this.additionalAnnotations = additionalAnnotations;
     }
 
     public Set<String> getAllMandatory() {
@@ -663,6 +674,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 isMapModel == that.isMapModel &&
                 isDeprecated == that.isDeprecated &&
                 hasOnlyReadOnly == that.hasOnlyReadOnly &&
+                isJpaEntity == that.isJpaEntity &&
                 getUniqueItems() == that.getUniqueItems() &&
                 getExclusiveMinimum() == that.getExclusiveMinimum() &&
                 getExclusiveMaximum() == that.getExclusiveMaximum() &&
@@ -705,6 +717,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(externalDocumentation, that.externalDocumentation) &&
                 Objects.equals(vendorExtensions, that.vendorExtensions) &&
                 Objects.equals(additionalPropertiesType, that.additionalPropertiesType) &&
+                Objects.equals(getAdditionalAnnotations(), that.getAdditionalAnnotations()) &&
                 Objects.equals(getMaxProperties(), that.getMaxProperties()) &&
                 Objects.equals(getMinProperties(), that.getMinProperties()) &&
                 Objects.equals(getMaxItems(), that.getMaxItems()) &&
@@ -724,14 +737,14 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getInterfaceModels(), getChildren(), anyOf, oneOf, allOf, getName(), getClassname(), getTitle(),
                 getDescription(), getClassVarName(), getModelJson(), getDataType(), getXmlPrefix(), getXmlNamespace(),
                 getXmlName(), getClassFilename(), getUnescapedDescription(), getDiscriminator(), getDefaultValue(),
-                getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble,
+                getArrayModelType(), isAlias, isString, isInteger, isLong, isNumber, isNumeric, isFloat, isDouble, isJpaEntity,
                 getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel,
                 hasChildren, isMapModel, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
-                getMaximum(), getPattern(), getMultipleOf());
+                getMaximum(), getPattern(), getMultipleOf(), getAdditionalAnnotations());
     }
 
     @Override
@@ -810,6 +823,8 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", maximum='").append(maximum).append('\'');
         sb.append(", pattern='").append(pattern).append('\'');
         sb.append(", multipleOf='").append(multipleOf).append('\'');
+        sb.append(", isJpaEntity=").append(isJpaEntity);
+        sb.append(", additionalAnnotations=").append(additionalAnnotations);
         sb.append('}');
         return sb.toString();
     }

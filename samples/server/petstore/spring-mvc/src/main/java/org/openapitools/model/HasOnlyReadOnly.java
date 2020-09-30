@@ -16,8 +16,10 @@ import javax.validation.constraints.*;
 @com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
 
 public class HasOnlyReadOnly   {
+
   @JsonProperty("bar")
   private String bar;
+
 
   @JsonProperty("foo")
   private String foo;
