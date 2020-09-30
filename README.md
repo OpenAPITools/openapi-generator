@@ -634,6 +634,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [RepreZen API Studio](https://www.reprezen.com/swagger-openapi-code-generation-api-first-microservices-enterprise-development)
 - [REST United](https://restunited.com)
 - [Robotinfra](https://www.robotinfra.com)
+- [SmartHR](https://smarthr.co.jp/)
 - [Sony Interactive Entertainment](https://www.sie.com/en/index.html)
 - [Splitit](https://www.splitit.com/)
 - [Stingray](http://www.stingray.com)
