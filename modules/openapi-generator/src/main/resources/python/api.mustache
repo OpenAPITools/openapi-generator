@@ -257,10 +257,10 @@ class {{classname}}(object):
         {{#returnType}}
         {{#responses}}
         {{#-first}}
-        response_types_map={
+        response_types_map = {
         {{/-first}}
             {{^isWildcard}}
-            {{code}}: "{{dataType}}",
+            {{code}}: {{#dataType}}"{{dataType}}"{{/dataType}}{{^dataType}}None{{/dataType}},
             {{/isWildcard}}
         {{#-last}}
         }
@@ -268,7 +268,7 @@ class {{classname}}(object):
         {{/responses}}
         {{/returnType}}
         {{^returnType}}
-        response_types_map={}
+        response_types_map = {}
         {{/returnType}}
 
         return self.api_client.call_api(
