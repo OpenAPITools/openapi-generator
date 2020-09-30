@@ -274,6 +274,11 @@
   infoLink: "https://www.nokia.com/"
   pinned: false
 -
+  caption: "PLAID, Inc."
+  image: "img/companies/plaidcojp.jpg"
+  infoLink: "https://plaid.co.jp/"
+  pinned: false
+-
   caption: Options Clearing Corporation (OCC)
   image: "img/companies/occ.jpg"
   infoLink: "https://www.theocc.com/"
