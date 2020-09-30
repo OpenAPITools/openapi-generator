@@ -97,6 +97,40 @@ class SpecialModelName(object):
 
         return result
 
+    def to_json_dict(self):
+        """Returns the model properties as a dict"""
+        result = {}
+
+        def get_value(val):
+            if hasattr(val, "to_json_dict"):
+                return val.to_json_dict()
+            elif hasattr(val, "to_dict"):
+                return val.to_dict()
+            else:
+                return val
+
+        for attr, _ in six.iteritems(self.openapi_types):
+            value = getattr(self, attr)
+            key = self.attribute_map.get(attr, attr)
+            if isinstance(value, list):
+                result[key] = list(map(
+                    lambda x: get_value(x),
+                    value
+                ))
+            elif hasattr(value, "to_json_dict"):
+                result[key] = value.to_json_dict()
+            elif hasattr(value, "to_dict"):
+                result[key] = value.to_dict()
+            elif isinstance(value, dict):
+                result[key] = dict(map(
+                    lambda item: (item[0], get_value(item[1])),
+                    value.items()
+                ))
+            else:
+                result[key] = value
+
+        return result
+
     def to_str(self):
         """Returns the string representation of the model"""
         return pprint.pformat(self.to_dict())
