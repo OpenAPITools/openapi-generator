@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class InlineObject3 implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -77,6 +80,8 @@ class InlineObject3 implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'integer' => null,
@@ -242,20 +247,20 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['integer'] = isset($data['integer']) ? $data['integer'] : null;
-        $this->container['int32'] = isset($data['int32']) ? $data['int32'] : null;
-        $this->container['int64'] = isset($data['int64']) ? $data['int64'] : null;
-        $this->container['number'] = isset($data['number']) ? $data['number'] : null;
-        $this->container['float'] = isset($data['float']) ? $data['float'] : null;
-        $this->container['double'] = isset($data['double']) ? $data['double'] : null;
-        $this->container['string'] = isset($data['string']) ? $data['string'] : null;
-        $this->container['pattern_without_delimiter'] = isset($data['pattern_without_delimiter']) ? $data['pattern_without_delimiter'] : null;
-        $this->container['byte'] = isset($data['byte']) ? $data['byte'] : null;
-        $this->container['binary'] = isset($data['binary']) ? $data['binary'] : null;
-        $this->container['date'] = isset($data['date']) ? $data['date'] : null;
-        $this->container['date_time'] = isset($data['date_time']) ? $data['date_time'] : null;
-        $this->container['password'] = isset($data['password']) ? $data['password'] : null;
-        $this->container['callback'] = isset($data['callback']) ? $data['callback'] : null;
+        $this->container['integer'] = $data['integer'] ?? null;
+        $this->container['int32'] = $data['int32'] ?? null;
+        $this->container['int64'] = $data['int64'] ?? null;
+        $this->container['number'] = $data['number'] ?? null;
+        $this->container['float'] = $data['float'] ?? null;
+        $this->container['double'] = $data['double'] ?? null;
+        $this->container['string'] = $data['string'] ?? null;
+        $this->container['pattern_without_delimiter'] = $data['pattern_without_delimiter'] ?? null;
+        $this->container['byte'] = $data['byte'] ?? null;
+        $this->container['binary'] = $data['binary'] ?? null;
+        $this->container['date'] = $data['date'] ?? null;
+        $this->container['date_time'] = $data['date_time'] ?? null;
+        $this->container['password'] = $data['password'] ?? null;
+        $this->container['callback'] = $data['callback'] ?? null;
     }
 
     /**
@@ -361,7 +366,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      *
      * @param int|null $integer None
      *
-     * @return $this
+     * @return self
      */
     public function setInteger($integer)
     {
@@ -393,7 +398,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      *
      * @param int|null $int32 None
      *
-     * @return $this
+     * @return self
      */
     public function setInt32($int32)
     {
@@ -425,7 +430,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      *
      * @param int|null $int64 None
      *
-     * @return $this
+     * @return self
      */
     public function setInt64($int64)
     {
@@ -449,7 +454,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      *
      * @param float $number None
      *
-     * @return $this
+     * @return self
      */
     public function setNumber($number)
     {
@@ -481,7 +486,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      *
      * @param float|null $float None
      *
-     * @return $this
+     * @return self
      */
     public function setFloat($float)
     {
@@ -510,7 +515,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      *
      * @param double $double None
      *
-     * @return $this
+     * @return self
      */
     public function setDouble($double)
     {
@@ -542,7 +547,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      *
      * @param string|null $string None
      *
-     * @return $this
+     * @return self
      */
     public function setString($string)
     {
@@ -571,7 +576,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      *
      * @param string $pattern_without_delimiter None
      *
-     * @return $this
+     * @return self
      */
     public function setPatternWithoutDelimiter($pattern_without_delimiter)
     {
@@ -600,7 +605,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      *
      * @param string $byte None
      *
-     * @return $this
+     * @return self
      */
     public function setByte($byte)
     {
@@ -624,7 +629,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      *
      * @param \SplFileObject|null $binary None
      *
-     * @return $this
+     * @return self
      */
     public function setBinary($binary)
     {
@@ -648,7 +653,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      *
      * @param \DateTime|null $date None
      *
-     * @return $this
+     * @return self
      */
     public function setDate($date)
     {
@@ -672,7 +677,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      *
      * @param \DateTime|null $date_time None
      *
-     * @return $this
+     * @return self
      */
     public function setDateTime($date_time)
     {
@@ -696,7 +701,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      *
      * @param string|null $password None
      *
-     * @return $this
+     * @return self
      */
     public function setPassword($password)
     {
@@ -727,7 +732,7 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      *
      * @param string|null $callback None
      *
-     * @return $this
+     * @return self
      */
     public function setCallback($callback)
     {
@@ -752,18 +757,18 @@ class InlineObject3 implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */

@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class User implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -71,6 +74,8 @@ class User implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'id' => 'int64',
@@ -212,14 +217,14 @@ class User implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['id'] = isset($data['id']) ? $data['id'] : null;
-        $this->container['username'] = isset($data['username']) ? $data['username'] : null;
-        $this->container['first_name'] = isset($data['first_name']) ? $data['first_name'] : null;
-        $this->container['last_name'] = isset($data['last_name']) ? $data['last_name'] : null;
-        $this->container['email'] = isset($data['email']) ? $data['email'] : null;
-        $this->container['password'] = isset($data['password']) ? $data['password'] : null;
-        $this->container['phone'] = isset($data['phone']) ? $data['phone'] : null;
-        $this->container['user_status'] = isset($data['user_status']) ? $data['user_status'] : null;
+        $this->container['id'] = $data['id'] ?? null;
+        $this->container['username'] = $data['username'] ?? null;
+        $this->container['first_name'] = $data['first_name'] ?? null;
+        $this->container['last_name'] = $data['last_name'] ?? null;
+        $this->container['email'] = $data['email'] ?? null;
+        $this->container['password'] = $data['password'] ?? null;
+        $this->container['phone'] = $data['phone'] ?? null;
+        $this->container['user_status'] = $data['user_status'] ?? null;
     }
 
     /**
@@ -261,7 +266,7 @@ class User implements ModelInterface, ArrayAccess
      *
      * @param int|null $id id
      *
-     * @return $this
+     * @return self
      */
     public function setId($id)
     {
@@ -285,7 +290,7 @@ class User implements ModelInterface, ArrayAccess
      *
      * @param string|null $username username
      *
-     * @return $this
+     * @return self
      */
     public function setUsername($username)
     {
@@ -309,7 +314,7 @@ class User implements ModelInterface, ArrayAccess
      *
      * @param string|null $first_name first_name
      *
-     * @return $this
+     * @return self
      */
     public function setFirstName($first_name)
     {
@@ -333,7 +338,7 @@ class User implements ModelInterface, ArrayAccess
      *
      * @param string|null $last_name last_name
      *
-     * @return $this
+     * @return self
      */
     public function setLastName($last_name)
     {
@@ -357,7 +362,7 @@ class User implements ModelInterface, ArrayAccess
      *
      * @param string|null $email email
      *
-     * @return $this
+     * @return self
      */
     public function setEmail($email)
     {
@@ -381,7 +386,7 @@ class User implements ModelInterface, ArrayAccess
      *
      * @param string|null $password password
      *
-     * @return $this
+     * @return self
      */
     public function setPassword($password)
     {
@@ -405,7 +410,7 @@ class User implements ModelInterface, ArrayAccess
      *
      * @param string|null $phone phone
      *
-     * @return $this
+     * @return self
      */
     public function setPhone($phone)
     {
@@ -429,7 +434,7 @@ class User implements ModelInterface, ArrayAccess
      *
      * @param int|null $user_status User Status
      *
-     * @return $this
+     * @return self
      */
     public function setUserStatus($user_status)
     {
@@ -454,18 +459,18 @@ class User implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */

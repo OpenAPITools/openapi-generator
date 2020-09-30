@@ -116,6 +116,11 @@ public class ApiClient extends JavaTimeFormatter {
           )
         ));
       }}
+    ),
+    new ServerConfiguration(
+      "https://127.0.0.1/no_variable",
+      "The local server without variables",
+      new HashMap<String, ServerVariable>()
     )
   ));
   protected Integer serverIndex = 0;

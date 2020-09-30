@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class InlineResponseDefault implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -64,6 +67,8 @@ class InlineResponseDefault implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'string' => null
@@ -177,7 +182,7 @@ class InlineResponseDefault implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['string'] = isset($data['string']) ? $data['string'] : null;
+        $this->container['string'] = $data['string'] ?? null;
     }
 
     /**
@@ -219,7 +224,7 @@ class InlineResponseDefault implements ModelInterface, ArrayAccess
      *
      * @param \OpenAPI\Client\Model\Foo|null $string string
      *
-     * @return $this
+     * @return self
      */
     public function setString($string)
     {
@@ -244,18 +249,18 @@ class InlineResponseDefault implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */

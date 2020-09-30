@@ -141,6 +141,10 @@ func NewConfiguration() *Configuration {
 					},
 				},
 			},
+			{
+				URL: "https://127.0.0.1/no_variable",
+				Description: "The local server without variables",
+			},
 		},
 		OperationServers: map[string]ServerConfigurations{
 			"PetApiService.AddPet": {

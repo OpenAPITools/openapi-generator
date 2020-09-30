@@ -39,10 +39,13 @@ use \OpenAPI\Client\ObjectSerializer;
  * @package  OpenAPI\Client
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
+ * @implements \ArrayAccess<TKey, TValue>
+ * @template TKey int|null
+ * @template TValue mixed|null  
  */
 class Capitalization implements ModelInterface, ArrayAccess
 {
-    const DISCRIMINATOR = null;
+    public const DISCRIMINATOR = null;
 
     /**
       * The original name of the model.
@@ -69,6 +72,8 @@ class Capitalization implements ModelInterface, ArrayAccess
       * Array of property to format mappings. Used for (de)serialization
       *
       * @var string[]
+      * @phpstan-var array<string, string|null>
+      * @psalm-var array<string, string|null>
       */
     protected static $openAPIFormats = [
         'small_camel' => null,
@@ -202,12 +207,12 @@ class Capitalization implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['small_camel'] = isset($data['small_camel']) ? $data['small_camel'] : null;
-        $this->container['capital_camel'] = isset($data['capital_camel']) ? $data['capital_camel'] : null;
-        $this->container['small_snake'] = isset($data['small_snake']) ? $data['small_snake'] : null;
-        $this->container['capital_snake'] = isset($data['capital_snake']) ? $data['capital_snake'] : null;
-        $this->container['sca_eth_flow_points'] = isset($data['sca_eth_flow_points']) ? $data['sca_eth_flow_points'] : null;
-        $this->container['att_name'] = isset($data['att_name']) ? $data['att_name'] : null;
+        $this->container['small_camel'] = $data['small_camel'] ?? null;
+        $this->container['capital_camel'] = $data['capital_camel'] ?? null;
+        $this->container['small_snake'] = $data['small_snake'] ?? null;
+        $this->container['capital_snake'] = $data['capital_snake'] ?? null;
+        $this->container['sca_eth_flow_points'] = $data['sca_eth_flow_points'] ?? null;
+        $this->container['att_name'] = $data['att_name'] ?? null;
     }
 
     /**
@@ -249,7 +254,7 @@ class Capitalization implements ModelInterface, ArrayAccess
      *
      * @param string|null $small_camel small_camel
      *
-     * @return $this
+     * @return self
      */
     public function setSmallCamel($small_camel)
     {
@@ -273,7 +278,7 @@ class Capitalization implements ModelInterface, ArrayAccess
      *
      * @param string|null $capital_camel capital_camel
      *
-     * @return $this
+     * @return self
      */
     public function setCapitalCamel($capital_camel)
     {
@@ -297,7 +302,7 @@ class Capitalization implements ModelInterface, ArrayAccess
      *
      * @param string|null $small_snake small_snake
      *
-     * @return $this
+     * @return self
      */
     public function setSmallSnake($small_snake)
     {
@@ -321,7 +326,7 @@ class Capitalization implements ModelInterface, ArrayAccess
      *
      * @param string|null $capital_snake capital_snake
      *
-     * @return $this
+     * @return self
      */
     public function setCapitalSnake($capital_snake)
     {
@@ -345,7 +350,7 @@ class Capitalization implements ModelInterface, ArrayAccess
      *
      * @param string|null $sca_eth_flow_points sca_eth_flow_points
      *
-     * @return $this
+     * @return self
      */
     public function setScaEthFlowPoints($sca_eth_flow_points)
     {
@@ -369,7 +374,7 @@ class Capitalization implements ModelInterface, ArrayAccess
      *
      * @param string|null $att_name Name of the pet
      *
-     * @return $this
+     * @return self
      */
     public function setAttName($att_name)
     {
@@ -394,18 +399,18 @@ class Capitalization implements ModelInterface, ArrayAccess
      *
      * @param integer $offset Offset
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ? $this->container[$offset] : null;
+        return isset($this->container[$offset]) ?? null;
     }
 
     /**
      * Sets value based on offset.
      *
-     * @param integer $offset Offset
-     * @param mixed   $value  Value to be set
+     * @param int|null $offset Offset
+     * @param mixed    $value  Value to be set
      *
      * @return void
      */
