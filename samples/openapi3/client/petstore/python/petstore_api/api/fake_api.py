@@ -137,7 +137,7 @@ class FakeApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "HealthCheckResult",
         }
 
@@ -284,7 +284,7 @@ class FakeApi(object):
         # Authentication setting
         auth_settings = ['http_signature_test']  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/http-signature-test', 'GET',
@@ -417,7 +417,7 @@ class FakeApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "bool",
         }
 
@@ -552,7 +552,7 @@ class FakeApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "OuterComposite",
         }
 
@@ -687,7 +687,7 @@ class FakeApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "float",
         }
 
@@ -822,7 +822,7 @@ class FakeApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "str",
         }
 
@@ -957,7 +957,7 @@ class FakeApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/body-with-file-schema', 'PUT',
@@ -1099,7 +1099,7 @@ class FakeApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/body-with-query-params', 'PUT',
@@ -1236,7 +1236,7 @@ class FakeApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "Client",
         }
 
@@ -1502,7 +1502,7 @@ class FakeApi(object):
         # Authentication setting
         auth_settings = ['http_basic_test']  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake', 'POST',
@@ -1683,7 +1683,7 @@ class FakeApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake', 'GET',
@@ -1855,7 +1855,7 @@ class FakeApi(object):
         # Authentication setting
         auth_settings = ['bearer_test']  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake', 'DELETE',
@@ -1986,7 +1986,7 @@ class FakeApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/inline-additionalProperties', 'POST',
@@ -2128,7 +2128,7 @@ class FakeApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/jsonFormData', 'GET',
@@ -2306,7 +2306,7 @@ class FakeApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/fake/test-query-paramters', 'PUT',

@@ -154,7 +154,7 @@ class FakeClassnameTags123Api(object):
         # Authentication setting
         auth_settings = ['api_key_query']  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "Client",
         }
 

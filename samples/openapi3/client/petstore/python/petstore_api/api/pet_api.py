@@ -161,7 +161,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/pet', 'POST',
@@ -296,7 +296,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/pet/{petId}', 'DELETE',
@@ -430,9 +430,9 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "list[Pet]",
-            400: "",
+            400: None,
         }
 
         return self.api_client.call_api(
@@ -567,9 +567,9 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "list[Pet]",
-            400: "",
+            400: None,
         }
 
         return self.api_client.call_api(
@@ -703,10 +703,10 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['api_key']  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "Pet",
-            400: "",
-            404: "",
+            400: None,
+            404: None,
         }
 
         return self.api_client.call_api(
@@ -851,7 +851,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/pet', 'PUT',
@@ -997,7 +997,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/pet/{petId}', 'POST',
@@ -1146,7 +1146,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "ApiResponse",
         }
 
@@ -1301,7 +1301,7 @@ class PetApi(object):
         # Authentication setting
         auth_settings = ['petstore_auth']  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "ApiResponse",
         }
 

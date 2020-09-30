@@ -137,7 +137,7 @@ class DefaultApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
         }
 
         return self.api_client.call_api(

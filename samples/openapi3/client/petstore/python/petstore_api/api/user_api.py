@@ -150,7 +150,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/user', 'POST',
@@ -281,7 +281,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/user/createWithArray', 'POST',
@@ -412,7 +412,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/user/createWithList', 'POST',
@@ -541,7 +541,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/user/{username}', 'DELETE',
@@ -672,10 +672,10 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "User",
-            400: "",
-            404: "",
+            400: None,
+            404: None,
         }
 
         return self.api_client.call_api(
@@ -818,9 +818,9 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "str",
-            400: "",
+            400: None,
         }
 
         return self.api_client.call_api(
@@ -937,7 +937,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/user/logout', 'GET',
@@ -1081,7 +1081,7 @@ class UserApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/user/{username}', 'PUT',

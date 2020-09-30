@@ -146,7 +146,7 @@ class StoreApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={}
+        response_types_map = {}
 
         return self.api_client.call_api(
             '/store/order/{order_id}', 'DELETE',
@@ -268,7 +268,7 @@ class StoreApi(object):
         # Authentication setting
         auth_settings = ['api_key']  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "dict(str, int)",
         }
 
@@ -407,10 +407,10 @@ class StoreApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "Order",
-            400: "",
-            404: "",
+            400: None,
+            404: None,
         }
 
         return self.api_client.call_api(
@@ -542,9 +542,9 @@ class StoreApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "Order",
-            400: "",
+            400: None,
         }
 
         return self.api_client.call_api(

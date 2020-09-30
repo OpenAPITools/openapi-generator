@@ -154,7 +154,7 @@ class AnotherFakeApi(object):
         # Authentication setting
         auth_settings = []  # noqa: E501
         
-        response_types_map={
+        response_types_map = {
             200: "Client",
         }
 
