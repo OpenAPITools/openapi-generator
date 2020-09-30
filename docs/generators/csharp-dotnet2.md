@@ -3,6 +3,8 @@ title: Config Options for csharp-dotnet2
 sidebar_label: csharp-dotnet2
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |clientPackage|C# client package name (convention: Camel.Case).| |Org.OpenAPITools.Client|
