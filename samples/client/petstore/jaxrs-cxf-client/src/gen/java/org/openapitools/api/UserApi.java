@@ -34,6 +34,7 @@ public interface UserApi  {
      *
      */
     @POST
+    
     @ApiOperation(value = "Create user", tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation") })
