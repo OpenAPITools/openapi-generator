@@ -3,8 +3,10 @@
 //
 // @dart=2.0
 
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
+// ignore_for_file: prefer_single_quotes
 
 part of openapi.api;
 
@@ -16,10 +18,10 @@ class QueryParam {
 }
 
 class ApiClient {
-  ApiClient({this.basePath = 'http://petstore.swagger.io/v2'}) {
+  ApiClient({this.basePath = "http://petstore.swagger.io/v2"}) {
     // Setup authentications (key: authentication name, value: authentication).
-    _authentications['api_key'] = ApiKeyAuth('header', 'api_key');
-    _authentications['petstore_auth'] = OAuth();
+    _authentications["api_key"] = ApiKeyAuth("header", "api_key");
+    _authentications["petstore_auth"] = OAuth();
   }
 
   String basePath;
@@ -34,22 +36,22 @@ class ApiClient {
 
   dynamic deserialize(String json, String targetType, {bool growable}) {
     // Remove all spaces.  Necessary for reg expressions as well.
-    targetType = targetType.replaceAll(' ', '');
+    targetType = targetType.replaceAll(" ", "");
 
-    return targetType == 'String'
+    return targetType == "String"
       ? json
       : _deserialize(jsonDecode(json), targetType, growable: true == growable);
   }
 
-  String serialize(Object obj) => obj == null ? '' : json.encode(obj);
+  String serialize(Object obj) => obj == null ? "" : json.encode(obj);
 
   T getAuthentication<T extends Authentication>(String name) {
     final authentication = _authentications[name];
     return authentication is T ? authentication : null;
   }
 
-  // We don't use a Map<String, String> for queryParams.
-  // If collectionFormat is 'multi' a key might appear multiple times.
+  // We don"t use a Map<String, String> for queryParams.
+  // If collectionFormat is "multi" a key might appear multiple times.
   Future<Response> invokeAPI(String path,
                              String method,
                              Iterable<QueryParam> queryParams,
@@ -65,14 +67,14 @@ class ApiClient {
 
     final ps = queryParams
       .where((p) => p.value != null)
-      .map((p) => '${p.name}=${Uri.encodeQueryComponent(p.value)}');
+      .map((p) => "${p.name}=${Uri.encodeQueryComponent(p.value)}");
 
-    final queryString = ps.isNotEmpty ? '?' + ps.join('&') : '';
+    final queryString = ps.isNotEmpty ? "?" + ps.join("&") : "";
 
-    final url = '$basePath$path$queryString';
+    final url = "$basePath$path$queryString";
 
     if (nullableContentType != null) {
-      headerParams['Content-Type'] = nullableContentType;
+      headerParams["Content-Type"] = nullableContentType;
     }
 
     if(body is MultipartRequest) {
@@ -85,48 +87,48 @@ class ApiClient {
       return Response.fromStream(response);
     }
 
-    final msgBody = nullableContentType == 'application/x-www-form-urlencoded'
+    final msgBody = nullableContentType == "application/x-www-form-urlencoded"
       ? formParams
       : serialize(body);
     final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
 
     switch(method) {
-      case 'POST': return client.post(url, headers: nullableHeaderParams, body: msgBody);
-      case 'PUT': return client.put(url, headers: nullableHeaderParams, body: msgBody);
-      case 'DELETE': return client.delete(url, headers: nullableHeaderParams);
-      case 'PATCH': return client.patch(url, headers: nullableHeaderParams, body: msgBody);
-      case 'HEAD': return client.head(url, headers: nullableHeaderParams);
-      case 'GET': return client.get(url, headers: nullableHeaderParams);
+      case "POST": return client.post(url, headers: nullableHeaderParams, body: msgBody);
+      case "PUT": return client.put(url, headers: nullableHeaderParams, body: msgBody);
+      case "DELETE": return client.delete(url, headers: nullableHeaderParams);
+      case "PATCH": return client.patch(url, headers: nullableHeaderParams, body: msgBody);
+      case "HEAD": return client.head(url, headers: nullableHeaderParams);
+      case "GET": return client.get(url, headers: nullableHeaderParams);
     }
 
-    throw ApiException(400, 'Invalid HTTP method: $method');
+    throw ApiException(400, "Invalid HTTP method: $method");
   }
 
   dynamic _deserialize(dynamic value, String targetType, {bool growable}) {
     try {
       switch (targetType) {
-        case 'String':
-          return '$value';
-        case 'int':
-          return value is int ? value : int.parse('$value');
-        case 'bool':
+        case "String":
+          return "$value";
+        case "int":
+          return value is int ? value : int.parse("$value");
+        case "bool":
           if (value is bool) return value;
-          final valueString = '$value'.toLowerCase();
-          return valueString == 'true' || valueString == '1';
+          final valueString = "$value".toLowerCase();
+          return valueString == "true" || valueString == "1";
           break;
-        case 'double':
-          return value is double ? value : double.parse('$value');
-        case 'ApiResponse':
+        case "double":
+          return value is double ? value : double.parse("$value");
+        case "ApiResponse":
           return ApiResponse.fromJson(value);
-        case 'Category':
+        case "Category":
           return Category.fromJson(value);
-        case 'Order':
+        case "Order":
           return Order.fromJson(value);
-        case 'Pet':
+        case "Pet":
           return Pet.fromJson(value);
-        case 'Tag':
+        case "Tag":
           return Tag.fromJson(value);
-        case 'User':
+        case "User":
           return User.fromJson(value);
         default:
           Match match;
@@ -146,9 +148,9 @@ class ApiClient {
           break;
       }
     } on Exception catch (e, stack) {
-      throw ApiException.withInner(500, 'Exception during deserialization.', e, stack);
+      throw ApiException.withInner(500, "Exception during deserialization.", e, stack);
     }
-    throw ApiException(500, 'Could not find a suitable class for deserialization');
+    throw ApiException(500, "Could not find a suitable class for deserialization");
   }
 
   /// Update query and header parameters based on authentication settings.
@@ -161,7 +163,7 @@ class ApiClient {
     authNames.forEach((authName) {
       final auth = _authentications[authName];
       if (auth == null) {
-        throw ArgumentError('Authentication undefined: $authName');
+        throw ArgumentError("Authentication undefined: $authName");
       }
       auth.applyToParams(queryParams, headerParams);
     });

@@ -3,8 +3,10 @@
 //
 // @dart=2.0
 
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
+// ignore_for_file: prefer_single_quotes
 
 part of openapi.api;
 
@@ -44,19 +46,19 @@ class UserApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "POST",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Create user
@@ -104,19 +106,19 @@ class UserApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "POST",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Creates list of users with given input array
@@ -164,19 +166,19 @@ class UserApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "POST",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Creates list of users with given input array
@@ -224,19 +226,19 @@ class UserApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'DELETE',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "DELETE",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Delete user
@@ -284,19 +286,19 @@ class UserApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "GET",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Get user by user name
@@ -310,7 +312,7 @@ class UserApi {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
+      return apiClient.deserialize(_decodeBodyBytes(response), "User") as User;
     }
     return null;
   }
@@ -350,19 +352,19 @@ class UserApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "GET",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Logs user into the system
@@ -378,7 +380,7 @@ class UserApi {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
+      return apiClient.deserialize(_decodeBodyBytes(response), "String") as String;
     }
     return null;
   }
@@ -410,19 +412,19 @@ class UserApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "GET",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Logs out current logged in user session
@@ -471,19 +473,19 @@ class UserApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'PUT',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "PUT",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Updated user

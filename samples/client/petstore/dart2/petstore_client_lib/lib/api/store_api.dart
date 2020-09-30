@@ -3,8 +3,10 @@
 //
 // @dart=2.0
 
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
+// ignore_for_file: prefer_single_quotes
 
 part of openapi.api;
 
@@ -44,19 +46,19 @@ class StoreApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'DELETE',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "DELETE",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Delete purchase order by ID
@@ -101,19 +103,19 @@ class StoreApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "GET",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Returns pet inventories by status
@@ -125,7 +127,7 @@ class StoreApi {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     if(response.body != null) {
-      return Map<String, int>.from(apiClient.deserialize(_decodeBodyBytes(response), 'Map<String, int>'));
+      return Map<String, int>.from(apiClient.deserialize(_decodeBodyBytes(response), "Map<String, int>"));
           ;
     }
     return null;
@@ -161,19 +163,19 @@ class StoreApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "GET",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Find purchase order by ID
@@ -187,7 +189,7 @@ class StoreApi {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
+      return apiClient.deserialize(_decodeBodyBytes(response), "Order") as Order;
     }
     return null;
   }
@@ -222,19 +224,19 @@ class StoreApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "POST",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Place an order for a pet
@@ -248,7 +250,7 @@ class StoreApi {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
+      return apiClient.deserialize(_decodeBodyBytes(response), "Order") as Order;
     }
     return null;
   }

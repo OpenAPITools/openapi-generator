@@ -3,8 +3,10 @@
 //
 // @dart=2.0
 
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
+// ignore_for_file: prefer_single_quotes
 
 part of openapi.api;
 
@@ -19,13 +21,13 @@ class ApiException implements Exception {
   StackTrace stackTrace;
 
   String toString() {
-    if (message == null) return 'ApiException';
+    if (message == null) return "ApiException";
 
     if (innerException == null) {
-      return 'ApiException $code: $message';
+      return "ApiException $code: $message";
     }
 
-    return 'ApiException $code: $message (Inner exception: $innerException)\n\n' +
+    return "ApiException $code: $message (Inner exception: $innerException)\n\n" +
         stackTrace.toString();
   }
 }

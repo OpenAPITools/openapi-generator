@@ -3,8 +3,10 @@
 //
 // @dart=2.0
 
-// ignore_for_file: unused_element
+// ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
+// ignore_for_file: prefer_single_quotes
 
 part of openapi.api;
 
@@ -44,19 +46,19 @@ class PetApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "POST",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Add a new pet to the store
@@ -105,19 +107,19 @@ class PetApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'DELETE',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "DELETE",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Deletes a pet
@@ -168,19 +170,19 @@ class PetApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "GET",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Finds Pets by status
@@ -194,7 +196,7 @@ class PetApi {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     if(response.body != null) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
+      return (apiClient.deserialize(_decodeBodyBytes(response), "List<Pet>") as List)
         .map((item) => item as Pet)
         .toList(growable: false);
     }
@@ -232,19 +234,19 @@ class PetApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "GET",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Finds Pets by tags
@@ -258,7 +260,7 @@ class PetApi {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     if(response.body != null) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List)
+      return (apiClient.deserialize(_decodeBodyBytes(response), "List<Pet>") as List)
         .map((item) => item as Pet)
         .toList(growable: false);
     }
@@ -295,19 +297,19 @@ class PetApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "GET",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Find pet by ID
@@ -321,7 +323,7 @@ class PetApi {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
+      return apiClient.deserialize(_decodeBodyBytes(response), "Pet") as Pet;
     }
     return null;
   }
@@ -356,19 +358,19 @@ class PetApi {
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'PUT',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "PUT",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Update an existing pet
@@ -415,34 +417,34 @@ class PetApi {
       MultipartRequest mp = MultipartRequest(null, null);
       if (name != null) {
         hasFields = true;
-        mp.fields['name'] = parameterToString(name);
+        mp.fields["name"] = parameterToString(name);
       }
       if (status != null) {
         hasFields = true;
-        mp.fields['status'] = parameterToString(status);
+        mp.fields["status"] = parameterToString(status);
       }
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
       if (name != null) {
-        formParams['name'] = parameterToString(name);
+        formParams["name"] = parameterToString(name);
       }
       if (status != null) {
-        formParams['status'] = parameterToString(status);
+        formParams["status"] = parameterToString(status);
       }
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "POST",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Updates a pet in the store with form data
@@ -493,32 +495,32 @@ class PetApi {
       MultipartRequest mp = MultipartRequest(null, null);
       if (additionalMetadata != null) {
         hasFields = true;
-        mp.fields['additionalMetadata'] = parameterToString(additionalMetadata);
+        mp.fields["additionalMetadata"] = parameterToString(additionalMetadata);
       }
       if (file != null) {
         hasFields = true;
-        mp.fields['file'] = file.field;
+        mp.fields["file"] = file.field;
         mp.files.add(file);
       }
       if(hasFields) {
         postBody = mp;
       }
-    }
-    else {
+    } else {
       if (additionalMetadata != null) {
-        formParams['additionalMetadata'] = parameterToString(additionalMetadata);
+        formParams["additionalMetadata"] = parameterToString(additionalMetadata);
       }
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "POST",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// uploads an image
@@ -536,7 +538,7 @@ class PetApi {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
+      return apiClient.deserialize(_decodeBodyBytes(response), "ApiResponse") as ApiResponse;
     }
     return null;
   }
