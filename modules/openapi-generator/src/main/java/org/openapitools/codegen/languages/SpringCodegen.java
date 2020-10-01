@@ -444,9 +444,9 @@ public class SpringCodegen extends AbstractJavaCodegen
             if (this.async) {
                 additionalProperties.put(RESPONSE_WRAPPER, "CompletableFuture");
             }
-            if (this.reactive) {
-                additionalProperties.put(RESPONSE_WRAPPER, "Mono");
-            }
+//            if (this.reactive) {
+//                additionalProperties.put(RESPONSE_WRAPPER, "Mono");
+//            }
         } else if (this.async) {
             additionalProperties.put(RESPONSE_WRAPPER, "Callable");
         }
