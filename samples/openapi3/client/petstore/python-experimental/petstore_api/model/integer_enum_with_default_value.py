@@ -99,13 +99,16 @@ class IntegerEnumWithDefaultValue(ModelSimple):
     ])
 
     @convert_js_args_to_python_args
-    def __init__(self, value, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         """IntegerEnumWithDefaultValue - a model defined in OpenAPI
 
+        Note that value can be passed either in args or in kwargs, but not in both.
+
         Args:
-            value (int): if omitted the server will use the default value of 0, must be one of [0, 1, 2, ]  # noqa: E501
+            args[0] (int): if omitted defaults to 0, must be one of [0, 1, 2, ]  # noqa: E501
 
         Keyword Args:
+            value (int): if omitted defaults to 0, must be one of [0, 1, 2, ]  # noqa: E501
             _check_type (bool): if True, values for parameters in openapi_types
                                 will be type checked and a TypeError will be
                                 raised if the wrong type is input.
@@ -137,6 +140,14 @@ class IntegerEnumWithDefaultValue(ModelSimple):
                                 through its discriminator because we passed in
                                 _visited_composed_classes = (Animal,)
         """
+
+        if 'value' in kwargs:
+            value = kwargs.pop('value')
+        elif args:
+            args = list(args)
+            value = args.pop(0)
+        else:
+            value = 0
 
         _check_type = kwargs.pop('_check_type', True)
         _spec_property_naming = kwargs.pop('_spec_property_naming', False)

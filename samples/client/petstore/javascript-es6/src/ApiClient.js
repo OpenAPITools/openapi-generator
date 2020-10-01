@@ -302,7 +302,10 @@ class ApiClient {
                     break;
                 case 'bearer':
                     if (auth.accessToken) {
-                        request.set({'Authorization': 'Bearer ' + auth.accessToken});
+                        var localVarBearerToken = typeof auth.accessToken === 'function'
+                          ? auth.accessToken()
+                          : auth.accessToken
+                        request.set({'Authorization': 'Bearer ' + localVarBearerToken});
                     }
 
                     break;

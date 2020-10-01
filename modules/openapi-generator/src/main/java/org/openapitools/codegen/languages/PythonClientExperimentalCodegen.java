@@ -713,11 +713,11 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
         // 1. no default exists
         //      schema does not contain default
         //      cm.defaultValue unset, cm.hasRequired = true
-        // 2. server has a default
+        // 2. spec has a default
         //      schema contains default
-        //      cm.defaultValue set, cm.hasRequired = true
+        //      cm.defaultValue set, cm.hasRequired = false
         //      different value here to differentiate between use case 3 below
-        //      This defaultValue is used in the client docs only and is not sent to the server
+        //      This defaultValue is used when a consumer (client or server) lacks the input argument, defaultValue will be used
         // 3. only one value is allowed in an enum
         //      schema does not contain default
         //      cm.defaultValue set, cm.hasRequired = false
@@ -728,7 +728,7 @@ public class PythonClientExperimentalCodegen extends PythonClientCodegen {
             cm.hasRequired = true;
         } else if (sc.getDefault() != null) {
             cm.defaultValue = defaultValue;
-            cm.hasRequired = true;
+            cm.hasRequired = false;
         } else if (defaultValue != null && cm.defaultValue == null) {
             cm.defaultValue = defaultValue;
             cm.hasRequired = false;
