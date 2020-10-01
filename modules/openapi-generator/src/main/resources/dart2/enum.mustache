@@ -1,27 +1,21 @@
-/// [String] values for all enums defined in [{{{classname}}}].
-abstract class {{{classname}}}Strings {
-  const {{{classname}}}Strings._();
-
-  {{#allowableValues}}
-  {{#enumVars}}
-  static const {{{name}}} = {{{value}}};
-  {{/enumVars}}
-  {{/allowableValues}}
-}
-
 {{#description}}/// {{{description}}}{{/description}}
 class {{{classname}}} {
   /// Instantiate a new enum with the provided [value].
   const {{{classname}}}._(this.value);
 
   /// The underlying value of this enum member.
+  {{#isEnum}}
+  final String value;
+  {{/isEnum}}
+  {{^isEnum}}
   final {{{dataType}}} value;
+  {{/isEnum}}
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is {{{classname}}} && other.value == value ||
-      other is {{{dataType}}} && other == value;
+      other is {{#isEnum}}String{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} && other == value;
 
   @override
   int get hashCode => toString().hashCode;
@@ -29,13 +23,11 @@ class {{{classname}}} {
   @override
   String toString() => {{#isString}}value{{/isString}}{{^isString}}value.toString(){{/isString}};
 
-  {{{dataType}}} toJson() => {{#isString}}toString(){{/isString}}{{^isString}}value{{/isString}};
-
-  String _toString(String _) => toString();
+  {{#isEnum}}String{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} toJson() => value;
 
   {{#allowableValues}}
     {{#enumVars}}
-  static const {{{name}}} = {{{classname}}}._({{{classname}}}Strings.{{{name}}});
+  static const {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}} = {{{classname}}}._({{{value}}});
     {{/enumVars}}
   {{/allowableValues}}
 
@@ -43,7 +35,7 @@ class {{{classname}}} {
   static const values = <{{{classname}}}>[
   {{#allowableValues}}
     {{#enumVars}}
-    {{{name}}},
+    {{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}},
     {{/enumVars}}
   {{/allowableValues}}
   ];
@@ -51,10 +43,12 @@ class {{{classname}}} {
   static {{{classname}}} fromJson({{{dataType}}} value) =>
     {{{classname}}}TypeTransformer().decode(value);
 
-  static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable}) =>
+  static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <{{{classname}}}>[]
-      : json.map((value) => {{{classname}}}.fromJson(value)).toList(growable: true == growable);
+      : json
+          .map((value) => {{{classname}}}.fromJson(value))
+          .toList(growable: true == growable);
 }
 
 /// Transformation class that can [encode] an instance of [{{{classname}}}] to {{{dataType}}},
@@ -64,7 +58,7 @@ class {{{classname}}}TypeTransformer {
 
   factory {{{classname}}}TypeTransformer() => _instance ??= {{{classname}}}TypeTransformer._();
 
-  {{{dataType}}} encode({{{classname}}} data) => data.value;
+  {{#isEnum}}String{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} encode({{{classname}}} data) => data.value;
 
   /// Decodes a [dynamic value][data] to a {{{classname}}}.
   ///
@@ -78,8 +72,7 @@ class {{{classname}}}TypeTransformer {
     switch (data) {
       {{#allowableValues}}
         {{#enumVars}}
-      case {{{classname}}}Strings.{{{name}}}:
-        return {{{classname}}}.{{{name}}};
+      case {{{value}}}: return {{{classname}}}.{{#lambda.lowercase}}{{{name}}}{{/lambda.lowercase}};
         {{/enumVars}}
       {{/allowableValues}}
       default:

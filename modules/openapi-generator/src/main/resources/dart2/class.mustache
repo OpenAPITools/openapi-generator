@@ -1,12 +1,3 @@
-/// [String] values for all properties defined in [{{{classname}}}].
-abstract class {{{classname}}}Strings {
-  const {{{classname}}}Strings._();
-
-{{#vars}}
-  static const {{{name}}}_ = "{{{baseName}}}";
-{{/vars}}
-}
-
 class {{{classname}}} {
   {{{classname}}}({
   {{#vars}}
@@ -20,9 +11,19 @@ class {{{classname}}} {
   {{{dataType}}} {{{name}}};
   {{/isEnum}}
   {{#isEnum}}
-  {{#allowableValues}}
+    {{#isContainer}}
+      {{#isListContainer}}
+  List<{{{classname}}}{{{enumName}}}> {{{name}}};
+      {{/isListContainer}}
+      {{#isMapContainer}}
+  Map<String, dynamic> {{{name}}};
+      {{/isMapContainer}}
+    {{/isContainer}}
+    {{^isContainer}}
+      {{#allowableValues}}
   {{#min}} // range from {{{min}}} to {{{max}}}{{/min}}{{{classname}}}{{{enumName}}} {{{name}}}{{#required}} = {{{classname}}}{{{enumName}}}._({{{defaultValue}}}){{/required}}{{^required}}{{/required}};
-  {{/allowableValues}}
+      {{/allowableValues}}
+    {{/isContainer}}
   {{/isEnum}}
 
   {{/vars}}
@@ -39,7 +40,34 @@ class {{{classname}}} {
   {{/vars}}
 
   @override
-  String toString() => _toString("");
+  String toString() {
+    final sb = StringBuffer();
+
+    sb.write("{{{classname}}}={");
+
+{{#vars}}
+    sb.write("{{{name}}}");
+    sb.write("=");
+  {{#complexType}}
+    {{^isContainer}}
+    sb.write({{{name}}} == null ? "(null)" : {{{name}}}.toString());
+    {{/isContainer}}
+    {{#isContainer}}
+    sb.write({{{name}}});
+    {{/isContainer}}
+  {{/complexType}}
+  {{^complexType}}
+    sb.write({{{name}}});
+  {{/complexType}}
+  {{^-last}}
+    sb.write(",");
+  {{/-last}}
+
+{{/vars}}
+    sb.write("}");
+
+    return sb.toString();
+  }
 
   {{{classname}}}.fromJson(Map<String, dynamic> json) {
     if (json == null) {
@@ -47,78 +75,87 @@ class {{{classname}}} {
     }
   {{#vars}}
   {{#isDateTime}}
-    {{{name}}} = json[{{{classname}}}Strings.{{{name}}}_] == null ?
+    {{{name}}} = json["{{{baseName}}}"] == null ?
       null :
-      DateTime.parse(json[{{{classname}}}Strings.{{{name}}}_]);
+      DateTime.parse(json["{{{baseName}}}"]);
   {{/isDateTime}}
   {{#isDate}}
-    {{{name}}} = json[{{{classname}}}Strings.{{{name}}}_] == null ?
+    {{{name}}} = json["{{{baseName}}}"] == null ?
       null :
-      DateTime.parse(json[{{{classname}}}Strings.{{{name}}}_]);
+      DateTime.parse(json["{{{baseName}}}"]);
   {{/isDate}}
   {{^isDateTime}}
   {{^isDate}}
     {{#complexType}}
       {{#isListContainer}}
     {{#items.isListContainer}}
-    {{{name}}} = json[{{{classname}}}Strings.{{{name}}}_] == null ?
-      null :
-      (json[{{{classname}}}Strings.{{{name}}}_] as List).map(
-        (e) => e == null ? null :
+    {{{name}}} = json["{{{baseName}}}"] == null
+      ? null
+      : (json["{{{baseName}}}"] as List).map(
       {{#items.complexType}}
-          {{items.complexType}}.listFromJson(json[{{{classname}}}Strings.{{{name}}}_])
+          {{items.complexType}}.listFromJson(json["{{{baseName}}}"])
       {{/items.complexType}}
       {{^items.complexType}}
-          (e as List).cast<{{items.items.dataType}}>()
+          (e) => e == null ? null : (e as List).cast<{{items.items.dataType}}>()
       {{/items.complexType}}
-      ).toList();
+        ).toList(growable: false);
     {{/items.isListContainer}}
     {{^items.isListContainer}}
-    {{{name}}} = {{{complexType}}}.listFromJson(json[{{{classname}}}Strings.{{{name}}}_]);
+    {{{name}}} = {{{complexType}}}.listFromJson(json["{{{baseName}}}"]);
     {{/items.isListContainer}}
       {{/isListContainer}}
       {{^isListContainer}}
       {{#isMapContainer}}
       {{#items.isListContainer}}
-    {{{name}}} = json[{{{classname}}}Strings.{{{name}}}_] == null ?
-      null :
-      {{items.complexType}}.mapListFromJson(json[{{{classname}}}Strings.{{{name}}}_]);
+    {{{name}}} = json["{{{baseName}}}"] == null
+      ? null
+      {{#items.complexType}}
+      : {{items.complexType}}.mapListFromJson(json["{{{baseName}}}"]);
+      {{/items.complexType}}
+      {{^items.complexType}}
+      : (json["{{{baseName}}}"] as Map).cast<String, List>();
+      {{/items.complexType}}
       {{/items.isListContainer}}
       {{^items.isListContainer}}
-    {{{name}}} = json[{{{classname}}}Strings.{{{name}}}_] == null ?
-      null :
-      {{{complexType}}}.mapFromJson(json[{{{classname}}}Strings.{{{name}}}_]);
+    {{{name}}} = json["{{{baseName}}}"] == null
+      ? null
+      : {{{complexType}}}.mapFromJson(json["{{{baseName}}}"]);
       {{/items.isListContainer}}
       {{/isMapContainer}}
       {{^isMapContainer}}
-    {{{name}}} = {{{complexType}}}.fromJson(json[{{{classname}}}Strings.{{{name}}}_]);
+    {{{name}}} = {{{complexType}}}.fromJson(json["{{{baseName}}}"]);
       {{/isMapContainer}}
       {{/isListContainer}}
     {{/complexType}}
     {{^complexType}}
       {{#isListContainer}}
-    {{{name}}} = json[{{{classname}}}Strings.{{{name}}}_] == null ?
-      null :
-      (json[{{{classname}}}Strings.{{{name}}}_] as List).cast<{{{items.datatype}}}>();
+      {{#isEnum}}
+    {{{name}}} = {{{classname}}}{{{items.datatypeWithEnum}}}.listFromJson(json["{{{baseName}}}"]);
+      {{/isEnum}}
+      {{^isEnum}}
+    {{{name}}} = json["{{{baseName}}}"] == null
+      ? null
+      : (json["{{{baseName}}}"] as List).cast<{{{items.datatype}}}>();
+      {{/isEnum}}
       {{/isListContainer}}
       {{^isListContainer}}
         {{#isMapContainer}}
-    {{{name}}} = json[{{{classname}}}Strings.{{{name}}}_] == null ?
+    {{{name}}} = json["{{{baseName}}}"] == null ?
       null :
-      (json[{{{classname}}}Strings.{{{name}}}_] as Map).cast<String, {{{items.datatype}}}>();
+      (json["{{{baseName}}}"] as Map).cast<String, {{{items.datatype}}}>();
         {{/isMapContainer}}
         {{^isMapContainer}}
           {{#isNumber}}
-    {{{name}}} = json[{{{classname}}}Strings.{{{name}}}_] == null ?
+    {{{name}}} = json["{{{baseName}}}"] == null ?
       null :
-      json[{{{classname}}}Strings.{{{name}}}_].toDouble();
+      json["{{{baseName}}}"].toDouble();
           {{/isNumber}}
           {{^isNumber}}
     {{^isEnum}}
-    {{{name}}} = json[{{{classname}}}Strings.{{{name}}}_];
+    {{{name}}} = json["{{{baseName}}}"];
     {{/isEnum}}
     {{#isEnum}}
-    {{{name}}} = {{{classname}}}{{{enumName}}}.fromJson(json[{{{classname}}}Strings.{{{name}}}_]);
+    {{{name}}} = {{{classname}}}{{{enumName}}}.fromJson(json["{{{baseName}}}"]);
     {{/isEnum}}
           {{/isNumber}}
         {{/isMapContainer}}
@@ -134,14 +171,14 @@ class {{{classname}}} {
 {{#vars}}
     if ({{{name}}} != null) {
   {{#isDateTime}}
-      json[{{{classname}}}Strings.{{{name}}}_] = {{{name}}}.toUtc().toIso8601String();
+      json["{{{baseName}}}"] = {{{name}}}.toUtc().toIso8601String();
   {{/isDateTime}}
   {{#isDate}}
-      json[{{{classname}}}Strings.{{{name}}}_] = _dateFormatter.format({{{name}}}.toUtc());
+      json["{{{baseName}}}"] = _dateFormatter.format({{{name}}}.toUtc());
   {{/isDate}}
   {{^isDateTime}}
     {{^isDate}}
-      json[{{{classname}}}Strings.{{{name}}}_] = {{{name}}};
+      json["{{{baseName}}}"] = {{{name}}};
     {{/isDate}}
   {{/isDateTime}}
     }
@@ -149,35 +186,7 @@ class {{{classname}}} {
     return json;
   }
 
-  String _toString(String prefix) {
-    final sb = StringBuffer();
-
-    sb.write("{{{classname}}}=[");
-
-{{#vars}}
-    sb.write("\n$prefix  ");
-    sb.write({{{classname}}}Strings.{{{name}}}_);
-    sb.write(": ");
-  {{#complexType}}
-    {{^isContainer}}
-    sb.write({{{name}}} == null ? "null" : {{{name}}}._toString("$prefix  "));
-    {{/isContainer}}
-    {{#isContainer}}
-    sb.write({{{name}}});
-    {{/isContainer}}
-  {{/complexType}}
-  {{^complexType}}
-    sb.write({{{name}}});
-  {{/complexType}}
-  {{^-last}}sb.write(",");{{/-last}}
-
-{{/vars}}
-    sb.write("\n$prefix]");
-
-    return sb.toString();
-  }
-
-  static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable}) =>
+  static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <{{{classname}}}>[]
       : json.map((v) => {{{classname}}}.fromJson(v)).toList(growable: true == growable);
@@ -191,7 +200,7 @@ class {{{classname}}} {
   }
 
   // maps a json object with a list of {{{classname}}}-objects as value to a dart map
-  static Map<String, List<{{{classname}}}>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable}) {
+  static Map<String, List<{{{classname}}}>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<{{{classname}}}>>{};
     if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic v) {
