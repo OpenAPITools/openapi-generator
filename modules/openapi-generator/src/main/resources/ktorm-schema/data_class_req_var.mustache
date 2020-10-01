@@ -1,0 +1,18 @@
+{{#description}}
+    /* {{{description}}} */
+{{/description}}
+    {{^multiplatform}}
+    {{#moshi}}
+    @Json(name = "{{{vendorExtensions.x-base-name-literal}}}")
+    {{/moshi}}
+    {{#gson}}
+    @SerializedName("{{{vendorExtensions.x-base-name-literal}}}")
+    {{/gson}}
+    {{#jackson}}
+    @field:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
+    {{/jackson}}
+    {{/multiplatform}}
+    {{#deprecated}}
+    @Deprecated(message = "This property is deprecated.")
+    {{/deprecated}}
+    {{#multiplatform}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}") @Required {{/multiplatform}}{{#isInherited}}override {{/isInherited}}{{>modelMutable}} {{{name}}}: {{#isEnum}}{{#isListContainer}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{classname}}.{{{nameInCamelCase}}}>{{/isListContainer}}{{^isListContainer}}{{classname}}.{{{nameInCamelCase}}}{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}?{{/isNullable}}

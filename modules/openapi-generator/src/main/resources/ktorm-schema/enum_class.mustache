@@ -1,0 +1,61 @@
+{{^multiplatform}}
+{{#gson}}
+import com.google.gson.annotations.SerializedName
+{{/gson}}
+{{#moshi}}
+import com.squareup.moshi.Json
+{{/moshi}}
+{{#jackson}}
+import com.fasterxml.jackson.annotation.JsonProperty
+{{/jackson}}
+{{/multiplatform}}
+{{#multiplatform}}
+import kotlinx.serialization.*
+import kotlinx.serialization.internal.CommonEnumSerializer
+{{/multiplatform}}
+
+/**
+* {{{description}}}
+* Values: {{#allowableValues}}{{#enumVars}}{{&name}}{{^-last}},{{/-last}}{{/enumVars}}{{/allowableValues}}
+*/
+{{#multiplatform}}@Serializable(with = {{classname}}.Serializer::class){{/multiplatform}}
+{{#nonPublicApi}}internal {{/nonPublicApi}}enum class {{classname}}(val value: {{{dataType}}}){
+
+{{#allowableValues}}{{#enumVars}}
+    {{^multiplatform}}
+    {{#moshi}}
+    @Json(name = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+    {{/moshi}}
+    {{#gson}}
+    @SerializedName(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+    {{/gson}}
+    {{#jackson}}
+    @JsonProperty(value = {{^isString}}"{{/isString}}{{{value}}}{{^isString}}"{{/isString}})
+    {{/jackson}}
+    {{/multiplatform}}
+    {{#isListContainer}}
+    {{#isList}}
+    {{&name}}(listOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{/isList}}
+    {{^isList}}
+    {{&name}}(arrayOf({{{value}}})){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{/isList}}
+    {{/isListContainer}}
+    {{^isListContainer}}
+    {{&name}}({{{value}}}){{^-last}},{{/-last}}{{#-last}};{{/-last}}
+    {{/isListContainer}}
+
+{{/enumVars}}{{/allowableValues}}
+
+    /**
+    This override toString avoids using the enum var name and uses the actual api value instead.
+    In cases the var name and value are different, the client would send incorrect enums to the server.
+    **/
+    override fun toString(): String {
+        return value{{^isString}}.toString(){{/isString}}
+    }
+
+{{#multiplatform}}
+    {{#nonPublicApi}}internal {{/nonPublicApi}}object Serializer : CommonEnumSerializer<{{classname}}>("{{classname}}", values(), values().map { it.value.toString() }.toTypedArray())
+{{/multiplatform}}
+}
