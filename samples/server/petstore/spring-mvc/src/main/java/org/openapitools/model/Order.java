@@ -34,6 +34,9 @@ public class Order   {
   /**
    * Order Status
    */
+  @com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
   public enum StatusEnum {
     PLACED("placed"),
     

@@ -18,6 +18,7 @@ public class EnumTest   {
   /**
    * Gets or Sets enumString
    */
+  
   public enum EnumStringEnum {
     UPPER("UPPER"),
     
@@ -58,6 +59,7 @@ public class EnumTest   {
   /**
    * Gets or Sets enumStringRequired
    */
+  
   public enum EnumStringRequiredEnum {
     UPPER("UPPER"),
     
@@ -98,6 +100,7 @@ public class EnumTest   {
   /**
    * Gets or Sets enumInteger
    */
+  
   public enum EnumIntegerEnum {
     NUMBER_1(1),
     
@@ -136,6 +139,7 @@ public class EnumTest   {
   /**
    * Gets or Sets enumNumber
    */
+  
   public enum EnumNumberEnum {
     NUMBER_1_DOT_1(1.1),
     

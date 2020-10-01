@@ -18,6 +18,7 @@ public class BigCatAllOf   {
   /**
    * Gets or Sets kind
    */
+  
   public enum KindEnum {
     LIONS("lions"),
     

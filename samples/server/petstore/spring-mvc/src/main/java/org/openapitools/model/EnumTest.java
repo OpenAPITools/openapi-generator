@@ -21,6 +21,9 @@ public class EnumTest   {
   /**
    * Gets or Sets enumString
    */
+  @com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
   public enum EnumStringEnum {
     UPPER("UPPER"),
     
@@ -61,6 +64,9 @@ public class EnumTest   {
   /**
    * Gets or Sets enumStringRequired
    */
+  @com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
   public enum EnumStringRequiredEnum {
     UPPER("UPPER"),
     
@@ -101,6 +107,9 @@ public class EnumTest   {
   /**
    * Gets or Sets enumInteger
    */
+  @com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
   public enum EnumIntegerEnum {
     NUMBER_1(1),
     
@@ -139,6 +148,9 @@ public class EnumTest   {
   /**
    * Gets or Sets enumNumber
    */
+  @com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
   public enum EnumNumberEnum {
     NUMBER_1_DOT_1(1.1),
     

@@ -43,6 +43,9 @@ public class Pet   {
   /**
    * pet status in the store
    */
+  @com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
   public enum StatusEnum {
     AVAILABLE("available"),
     

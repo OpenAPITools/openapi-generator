@@ -22,6 +22,9 @@ public class EnumArrays   {
   /**
    * Gets or Sets justSymbol
    */
+  @com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
   public enum JustSymbolEnum {
     GREATER_THAN_OR_EQUAL_TO(">="),
     
@@ -60,6 +63,9 @@ public class EnumArrays   {
   /**
    * Gets or Sets arrayEnum
    */
+  @com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
   public enum ArrayEnumEnum {
     FISH("fish"),
     

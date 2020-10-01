@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 /**
  * Gets or Sets OuterEnum
  */
+
 public enum OuterEnum {
   
   PLACED("placed"),

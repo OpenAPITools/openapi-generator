@@ -27,6 +27,9 @@ public class MapTest   {
   /**
    * Gets or Sets inner
    */
+  @com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
   public enum InnerEnum {
     UPPER("UPPER"),
     

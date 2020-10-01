@@ -32,6 +32,7 @@ public class Order   {
   /**
    * Order Status
    */
+  
   public enum StatusEnum {
     PLACED("placed"),
     

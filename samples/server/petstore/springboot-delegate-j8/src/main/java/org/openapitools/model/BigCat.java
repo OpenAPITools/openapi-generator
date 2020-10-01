@@ -20,6 +20,7 @@ public class BigCat extends Cat  {
   /**
    * Gets or Sets kind
    */
+  
   public enum KindEnum {
     LIONS("lions"),
     

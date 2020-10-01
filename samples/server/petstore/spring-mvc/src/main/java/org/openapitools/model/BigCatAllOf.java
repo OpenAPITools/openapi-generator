@@ -20,6 +20,9 @@ public class BigCatAllOf   {
   /**
    * Gets or Sets kind
    */
+  @com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
   public enum KindEnum {
     LIONS("lions"),
     

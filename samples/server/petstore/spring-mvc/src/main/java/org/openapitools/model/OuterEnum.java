@@ -11,6 +11,9 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 /**
  * Gets or Sets OuterEnum
  */
+@com.fasterxml.jackson.annotation.JsonFilter(value = "filter-name")
+@com.fasterxml.jackson.annotation.JsonIgnoreProperties(value = "id")
+
 public enum OuterEnum {
   
   PLACED("placed"),

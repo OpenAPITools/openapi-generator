@@ -24,6 +24,7 @@ public class MapTest   {
   /**
    * Gets or Sets inner
    */
+  
   public enum InnerEnum {
     UPPER("UPPER"),
     

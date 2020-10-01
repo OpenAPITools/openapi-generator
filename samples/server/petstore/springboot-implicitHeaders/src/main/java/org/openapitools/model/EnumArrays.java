@@ -20,6 +20,7 @@ public class EnumArrays   {
   /**
    * Gets or Sets justSymbol
    */
+  
   public enum JustSymbolEnum {
     GREATER_THAN_OR_EQUAL_TO(">="),
     
@@ -58,6 +59,7 @@ public class EnumArrays   {
   /**
    * Gets or Sets arrayEnum
    */
+  
   public enum ArrayEnumEnum {
     FISH("fish"),
     
