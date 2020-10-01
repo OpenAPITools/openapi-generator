@@ -17,26 +17,44 @@
 
 package org.openapitools.codegen.languages;
 
-import com.google.common.collect.Sets;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.Schema;
-
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.openapitools.codegen.*;
-import org.openapitools.codegen.meta.features.*;
-import org.openapitools.codegen.utils.ModelUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.openapitools.codegen.utils.StringUtils.camelize;
+import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import static org.openapitools.codegen.utils.StringUtils.camelize;
-import static org.openapitools.codegen.utils.StringUtils.underscore;
+import com.google.common.collect.Sets;
+
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.openapitools.codegen.CliOption;
+import org.openapitools.codegen.CodegenConfig;
+import org.openapitools.codegen.CodegenConstants;
+import org.openapitools.codegen.CodegenModel;
+import org.openapitools.codegen.CodegenProperty;
+import org.openapitools.codegen.CodegenType;
+import org.openapitools.codegen.DefaultCodegen;
+import org.openapitools.codegen.SupportingFile;
+import org.openapitools.codegen.meta.features.ClientModificationFeature;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.openapitools.codegen.meta.features.GlobalFeature;
+import org.openapitools.codegen.meta.features.ParameterFeature;
+import org.openapitools.codegen.meta.features.SchemaSupportFeature;
+import org.openapitools.codegen.meta.features.SecurityFeature;
+import org.openapitools.codegen.utils.ModelUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.swagger.v3.oas.models.media.ArraySchema;
+import io.swagger.v3.oas.models.media.Schema;
 
 public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartClientCodegen.class);
@@ -49,7 +67,6 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PUB_AUTHOR_EMAIL = "pubAuthorEmail";
     public static final String PUB_HOMEPAGE = "pubHomepage";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
-    public static final String SUPPORT_DART2 = "supportDart2";
 
     protected boolean browserClient = true;
     protected String pubName = "openapi";
@@ -163,7 +180,6 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         cliOptions.add(new CliOption(PUB_HOMEPAGE, "Homepage in generated pubspec"));
         cliOptions.add(new CliOption(USE_ENUM_EXTENSION, "Allow the 'x-enum-values' extension for enums"));
         cliOptions.add(new CliOption(CodegenConstants.SOURCE_FOLDER, "Source folder for generated code"));
-        cliOptions.add(CliOption.newBoolean(SUPPORT_DART2, "Support Dart 2.x (Dart 1.x support has been deprecated)").defaultValue(Boolean.TRUE.toString()));
     }
 
     @Override
@@ -178,7 +194,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getHelp() {
-        return "Generates a Dart (1.x (deprecated) or 2.x) client library.";
+        return "Generates a Dart client library.";
     }
 
     protected void defaultProcessOpts() {
@@ -258,18 +274,9 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         additionalProperties.put("apiDocPath", apiDocPath);
         additionalProperties.put("modelDocPath", modelDocPath);
 
-        final Object isSupportDart2 = additionalProperties.get(SUPPORT_DART2);
-        if (Boolean.FALSE.equals(isSupportDart2) || (isSupportDart2 instanceof String && !Boolean.parseBoolean((String) isSupportDart2))) {
-            // dart 1.x
-            LOGGER.info("Dart version: 1.x");
-            supportingFiles.add(new SupportingFile("analysis_options.mustache", "", ".analysis_options"));
-        } else {
-            // dart 2.x
-            LOGGER.info("Dart version: 2.x");
-            // check to not overwrite a custom templateDir
-            if (templateDir == null) {
-                embeddedTemplateDir = templateDir = "dart2";
-            }
+        // check to not overwrite a custom templateDir
+        if (templateDir == null) {
+            embeddedTemplateDir = templateDir = "dart2";
         }
 
         final String libFolder = sourceFolder + File.separator + "lib";
