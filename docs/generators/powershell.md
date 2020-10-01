@@ -3,6 +3,8 @@ title: Config Options for powershell
 sidebar_label: powershell
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |apiNamePrefix|Prefix that will be appended to all PS objects. Default: empty string. e.g. Pet =&gt; PSPet.| |null|

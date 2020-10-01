@@ -7,6 +7,7 @@ module.exports = {
       'online',
       'usage',
       'globals',
+      'configuration',
       'file-post-processing'
     ],
     'Extending': [

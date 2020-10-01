@@ -3,6 +3,8 @@ title: Config Options for graphql-nodejs-express-server
 sidebar_label: graphql-nodejs-express-server
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |hideGenerationTimestamp|Hides the generation timestamp when files are generated.| |true|
