@@ -10,14 +10,6 @@
 
 part of openapi.api;
 
-/// [String] values for all properties defined in [Tag].
-abstract class TagStrings {
-  const TagStrings._();
-
-  static const id_ = "id";
-  static const name_ = "name";
-}
-
 class Tag {
   Tag({
     this.id,
@@ -41,50 +33,45 @@ class Tag {
     name.hashCode;
 
   @override
-  String toString() => _toString("");
+  String toString() {
+    final sb = StringBuffer();
+
+    sb.write("Tag={");
+
+    sb.write("id");
+    sb.write("=");
+    sb.write(id);
+    sb.write(",");
+
+    sb.write("name");
+    sb.write("=");
+    sb.write(name);
+
+    sb.write("}");
+
+    return sb.toString();
+  }
 
   Tag.fromJson(Map<String, dynamic> json) {
     if (json == null) {
       return;
     }
-    id = json[TagStrings.id_];
-    name = json[TagStrings.name_];
+    id = json["id"];
+    name = json["name"];
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (id != null) {
-      json[TagStrings.id_] = id;
+      json["id"] = id;
     }
     if (name != null) {
-      json[TagStrings.name_] = name;
+      json["name"] = name;
     }
     return json;
   }
 
-  String _toString(String prefix) {
-    final sb = StringBuffer();
-
-    sb.write("Tag=[");
-
-    sb.write("\n$prefix  ");
-    sb.write(TagStrings.id_);
-    sb.write(": ");
-    sb.write(id);
-  sb.write(",");
-
-    sb.write("\n$prefix  ");
-    sb.write(TagStrings.name_);
-    sb.write(": ");
-    sb.write(name);
-  
-
-    sb.write("\n$prefix]");
-
-    return sb.toString();
-  }
-
-  static List<Tag> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable}) =>
+  static List<Tag> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Tag>[]
       : json.map((v) => Tag.fromJson(v)).toList(growable: true == growable);
@@ -98,7 +85,7 @@ class Tag {
   }
 
   // maps a json object with a list of Tag-objects as value to a dart map
-  static Map<String, List<Tag>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable}) {
+  static Map<String, List<Tag>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Tag>>{};
     if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic v) {

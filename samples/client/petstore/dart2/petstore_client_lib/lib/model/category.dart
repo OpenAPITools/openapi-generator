@@ -10,14 +10,6 @@
 
 part of openapi.api;
 
-/// [String] values for all properties defined in [Category].
-abstract class CategoryStrings {
-  const CategoryStrings._();
-
-  static const id_ = "id";
-  static const name_ = "name";
-}
-
 class Category {
   Category({
     this.id,
@@ -41,50 +33,45 @@ class Category {
     name.hashCode;
 
   @override
-  String toString() => _toString("");
+  String toString() {
+    final sb = StringBuffer();
+
+    sb.write("Category={");
+
+    sb.write("id");
+    sb.write("=");
+    sb.write(id);
+    sb.write(",");
+
+    sb.write("name");
+    sb.write("=");
+    sb.write(name);
+
+    sb.write("}");
+
+    return sb.toString();
+  }
 
   Category.fromJson(Map<String, dynamic> json) {
     if (json == null) {
       return;
     }
-    id = json[CategoryStrings.id_];
-    name = json[CategoryStrings.name_];
+    id = json["id"];
+    name = json["name"];
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (id != null) {
-      json[CategoryStrings.id_] = id;
+      json["id"] = id;
     }
     if (name != null) {
-      json[CategoryStrings.name_] = name;
+      json["name"] = name;
     }
     return json;
   }
 
-  String _toString(String prefix) {
-    final sb = StringBuffer();
-
-    sb.write("Category=[");
-
-    sb.write("\n$prefix  ");
-    sb.write(CategoryStrings.id_);
-    sb.write(": ");
-    sb.write(id);
-  sb.write(",");
-
-    sb.write("\n$prefix  ");
-    sb.write(CategoryStrings.name_);
-    sb.write(": ");
-    sb.write(name);
-  
-
-    sb.write("\n$prefix]");
-
-    return sb.toString();
-  }
-
-  static List<Category> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable}) =>
+  static List<Category> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Category>[]
       : json.map((v) => Category.fromJson(v)).toList(growable: true == growable);
@@ -98,7 +85,7 @@ class Category {
   }
 
   // maps a json object with a list of Category-objects as value to a dart map
-  static Map<String, List<Category>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable}) {
+  static Map<String, List<Category>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Category>>{};
     if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic v) {

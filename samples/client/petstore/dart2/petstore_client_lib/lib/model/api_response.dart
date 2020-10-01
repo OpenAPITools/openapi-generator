@@ -10,15 +10,6 @@
 
 part of openapi.api;
 
-/// [String] values for all properties defined in [ApiResponse].
-abstract class ApiResponseStrings {
-  const ApiResponseStrings._();
-
-  static const code_ = "code";
-  static const type_ = "type";
-  static const message_ = "message";
-}
-
 class ApiResponse {
   ApiResponse({
     this.code,
@@ -48,60 +39,54 @@ class ApiResponse {
     message.hashCode;
 
   @override
-  String toString() => _toString("");
+  String toString() {
+    final sb = StringBuffer();
+
+    sb.write("ApiResponse={");
+
+    sb.write("code");
+    sb.write("=");
+    sb.write(code);
+    sb.write(",");
+
+    sb.write("type");
+    sb.write("=");
+    sb.write(type);
+    sb.write(",");
+
+    sb.write("message");
+    sb.write("=");
+    sb.write(message);
+
+    sb.write("}");
+
+    return sb.toString();
+  }
 
   ApiResponse.fromJson(Map<String, dynamic> json) {
     if (json == null) {
       return;
     }
-    code = json[ApiResponseStrings.code_];
-    type = json[ApiResponseStrings.type_];
-    message = json[ApiResponseStrings.message_];
+    code = json["code"];
+    type = json["type"];
+    message = json["message"];
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (code != null) {
-      json[ApiResponseStrings.code_] = code;
+      json["code"] = code;
     }
     if (type != null) {
-      json[ApiResponseStrings.type_] = type;
+      json["type"] = type;
     }
     if (message != null) {
-      json[ApiResponseStrings.message_] = message;
+      json["message"] = message;
     }
     return json;
   }
 
-  String _toString(String prefix) {
-    final sb = StringBuffer();
-
-    sb.write("ApiResponse=[");
-
-    sb.write("\n$prefix  ");
-    sb.write(ApiResponseStrings.code_);
-    sb.write(": ");
-    sb.write(code);
-  sb.write(",");
-
-    sb.write("\n$prefix  ");
-    sb.write(ApiResponseStrings.type_);
-    sb.write(": ");
-    sb.write(type);
-  sb.write(",");
-
-    sb.write("\n$prefix  ");
-    sb.write(ApiResponseStrings.message_);
-    sb.write(": ");
-    sb.write(message);
-  
-
-    sb.write("\n$prefix]");
-
-    return sb.toString();
-  }
-
-  static List<ApiResponse> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable}) =>
+  static List<ApiResponse> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <ApiResponse>[]
       : json.map((v) => ApiResponse.fromJson(v)).toList(growable: true == growable);
@@ -115,7 +100,7 @@ class ApiResponse {
   }
 
   // maps a json object with a list of ApiResponse-objects as value to a dart map
-  static Map<String, List<ApiResponse>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable}) {
+  static Map<String, List<ApiResponse>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<ApiResponse>>{};
     if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic v) {

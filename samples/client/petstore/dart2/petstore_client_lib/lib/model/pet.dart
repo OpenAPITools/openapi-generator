@@ -10,25 +10,13 @@
 
 part of openapi.api;
 
-/// [String] values for all properties defined in [Pet].
-abstract class PetStrings {
-  const PetStrings._();
-
-  static const id_ = "id";
-  static const category_ = "category";
-  static const name_ = "name";
-  static const photoUrls_ = "photoUrls";
-  static const tags_ = "tags";
-  static const status_ = "status";
-}
-
 class Pet {
   Pet({
     this.id,
     this.category,
     @required this.name,
-    this.photoUrls = const const [],
-    this.tags = const const [],
+    this.photoUrls = const [],
+    this.tags = const [],
     this.status,
   });
 
@@ -69,92 +57,83 @@ class Pet {
     status.hashCode;
 
   @override
-  String toString() => _toString("");
+  String toString() {
+    final sb = StringBuffer();
+
+    sb.write("Pet={");
+
+    sb.write("id");
+    sb.write("=");
+    sb.write(id);
+    sb.write(",");
+
+    sb.write("category");
+    sb.write("=");
+    sb.write(category == null ? "(null)" : category.toString());
+    sb.write(",");
+
+    sb.write("name");
+    sb.write("=");
+    sb.write(name);
+    sb.write(",");
+
+    sb.write("photoUrls");
+    sb.write("=");
+    sb.write(photoUrls);
+    sb.write(",");
+
+    sb.write("tags");
+    sb.write("=");
+    sb.write(tags);
+    sb.write(",");
+
+    sb.write("status");
+    sb.write("=");
+    sb.write(status);
+
+    sb.write("}");
+
+    return sb.toString();
+  }
 
   Pet.fromJson(Map<String, dynamic> json) {
     if (json == null) {
       return;
     }
-    id = json[PetStrings.id_];
-    category = Category.fromJson(json[PetStrings.category_]);
-    name = json[PetStrings.name_];
-    photoUrls = json[PetStrings.photoUrls_] == null ?
-      null :
-      (json[PetStrings.photoUrls_] as List).cast<String>();
-    tags = Tag.listFromJson(json[PetStrings.tags_]);
-    status = PetStatusEnum.fromJson(json[PetStrings.status_]);
+    id = json["id"];
+    category = Category.fromJson(json["category"]);
+    name = json["name"];
+    photoUrls = json["photoUrls"] == null
+      ? null
+      : (json["photoUrls"] as List).cast<String>();
+    tags = Tag.listFromJson(json["tags"]);
+    status = PetStatusEnum.fromJson(json["status"]);
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (id != null) {
-      json[PetStrings.id_] = id;
+      json["id"] = id;
     }
     if (category != null) {
-      json[PetStrings.category_] = category;
+      json["category"] = category;
     }
     if (name != null) {
-      json[PetStrings.name_] = name;
+      json["name"] = name;
     }
     if (photoUrls != null) {
-      json[PetStrings.photoUrls_] = photoUrls;
+      json["photoUrls"] = photoUrls;
     }
     if (tags != null) {
-      json[PetStrings.tags_] = tags;
+      json["tags"] = tags;
     }
     if (status != null) {
-      json[PetStrings.status_] = status;
+      json["status"] = status;
     }
     return json;
   }
 
-  String _toString(String prefix) {
-    final sb = StringBuffer();
-
-    sb.write("Pet=[");
-
-    sb.write("\n$prefix  ");
-    sb.write(PetStrings.id_);
-    sb.write(": ");
-    sb.write(id);
-  sb.write(",");
-
-    sb.write("\n$prefix  ");
-    sb.write(PetStrings.category_);
-    sb.write(": ");
-    sb.write(category == null ? "null" : category._toString("$prefix  "));
-  sb.write(",");
-
-    sb.write("\n$prefix  ");
-    sb.write(PetStrings.name_);
-    sb.write(": ");
-    sb.write(name);
-  sb.write(",");
-
-    sb.write("\n$prefix  ");
-    sb.write(PetStrings.photoUrls_);
-    sb.write(": ");
-    sb.write(photoUrls);
-  sb.write(",");
-
-    sb.write("\n$prefix  ");
-    sb.write(PetStrings.tags_);
-    sb.write(": ");
-    sb.write(tags);
-  sb.write(",");
-
-    sb.write("\n$prefix  ");
-    sb.write(PetStrings.status_);
-    sb.write(": ");
-    sb.write(status);
-  
-
-    sb.write("\n$prefix]");
-
-    return sb.toString();
-  }
-
-  static List<Pet> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable}) =>
+  static List<Pet> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <Pet>[]
       : json.map((v) => Pet.fromJson(v)).toList(growable: true == growable);
@@ -168,7 +147,7 @@ class Pet {
   }
 
   // maps a json object with a list of Pet-objects as value to a dart map
-  static Map<String, List<Pet>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable}) {
+  static Map<String, List<Pet>> mapListFromJson(Map<String, dynamic> json, {bool emptyIsNull, bool growable,}) {
     final map = <String, List<Pet>>{};
     if (json != null && json.isNotEmpty) {
       json.forEach((String key, dynamic v) {
@@ -177,15 +156,6 @@ class Pet {
     }
     return map;
   }
-}
-
-/// [String] values for all enums defined in [Pet].
-abstract class PetStrings {
-  const PetStrings._();
-
-  static const available_ = "available";
-  static const pending_ = "pending";
-  static const sold_ = "sold";
 }
 
 /// pet status in the store
@@ -208,13 +178,11 @@ class PetStatusEnum {
   @override
   String toString() => value;
 
-  String toJson() => toString();
+  String toJson() => value;
 
-  String _toString(String _) => toString();
-
-  static const available_ = PetStatusEnum._(PetStatusEnumStrings.available_);
-  static const pending_ = PetStatusEnum._(PetStatusEnumStrings.pending_);
-  static const sold_ = PetStatusEnum._(PetStatusEnumStrings.sold_);
+  static const available_ = PetStatusEnum._("available");
+  static const pending_ = PetStatusEnum._("pending");
+  static const sold_ = PetStatusEnum._("sold");
 
   /// List of all possible values in this [enum][PetStatusEnum].
   static const values = <PetStatusEnum>[
@@ -226,7 +194,7 @@ class PetStatusEnum {
   static PetStatusEnum fromJson(String value) =>
     PetStatusEnumTypeTransformer().decode(value);
 
-  static List<PetStatusEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable}) =>
+  static List<PetStatusEnum> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
       ? true == emptyIsNull ? null : <PetStatusEnum>[]
       : json
@@ -253,12 +221,9 @@ class PetStatusEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   PetStatusEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case PetStatusEnumStrings.available_:
-        return PetStatusEnum.available_;
-      case PetStatusEnumStrings.pending_:
-        return PetStatusEnum.pending_;
-      case PetStatusEnumStrings.sold_:
-        return PetStatusEnum.sold_;
+      case "available": return PetStatusEnum.available_;
+      case "pending": return PetStatusEnum.pending_;
+      case "sold": return PetStatusEnum.sold_;
       default:
         if (false == allowNull) {
           throw ArgumentError("Unknown enum value to decode: $data");
