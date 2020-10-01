@@ -622,11 +622,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     }
 
     @Override
-    public String toEnumDefaultValue(String value, String datatype) {
-        return datatype + "_" + value;
-    }
-
-    @Override
     public String toEnumVarName(String name, String datatype) {
         if (name.length() == 0) {
             return getNameUsingEnumPropertyNaming("empty");

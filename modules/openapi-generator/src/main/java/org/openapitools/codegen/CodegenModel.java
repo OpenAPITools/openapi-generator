@@ -95,6 +95,12 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     public boolean isArrayModel;
     public boolean hasChildren;
     public boolean isMapModel;
+
+    /**
+     * Is a model containing an "id" property marked as isUniqueId; field populated only by typescript fetch for now.
+     */
+    public boolean isEntity;
+
     /**
      * Indicates the OAS schema specifies "deprecated: true".
      */
@@ -661,6 +667,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 isArrayModel == that.isArrayModel &&
                 hasChildren == that.hasChildren &&
                 isMapModel == that.isMapModel &&
+                isEntity == that.isEntity &&
                 isDeprecated == that.isDeprecated &&
                 hasOnlyReadOnly == that.hasOnlyReadOnly &&
                 getUniqueItems() == that.getUniqueItems() &&
@@ -728,7 +735,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 getVars(), getAllVars(), getRequiredVars(), getOptionalVars(), getReadOnlyVars(), getReadWriteVars(),
                 getParentVars(), getAllowableValues(), getMandatory(), getAllMandatory(), getImports(), hasVars,
                 isEmptyVars(), hasMoreModels, hasEnums, isEnum, isNullable, hasRequired, hasOptional, isArrayModel,
-                hasChildren, isMapModel, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
+                hasChildren, isMapModel, isEntity, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
                 getMaximum(), getPattern(), getMultipleOf());
@@ -792,6 +799,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", isArrayModel=").append(isArrayModel);
         sb.append(", hasChildren=").append(hasChildren);
         sb.append(", isMapModel=").append(isMapModel);
+        sb.append(", isEntity=").append(isEntity);
         sb.append(", isDeprecated=").append(isDeprecated);
         sb.append(", hasOnlyReadOnly=").append(hasOnlyReadOnly);
         sb.append(", externalDocumentation=").append(externalDocumentation);

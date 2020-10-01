@@ -28,11 +28,14 @@ import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.TreeSet;
 import java.util.List;
 import java.util.Map;
 
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
+    private static final String X_IS_UNIQUE_ID = "x-isUniqueId";
+    private static final String X_ENTITY_ID = "x-entityId";
 
     public static final String NPM_REPOSITORY = "npmRepository";
     public static final String WITH_INTERFACES = "withInterfaces";
@@ -183,16 +186,38 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     public Map<String, Object> postProcessModels(Map<String, Object> objs) {
         List<Object> models = (List<Object>) postProcessModelsEnum(objs).get("models");
 
-        // process enum in models
+        // process enum and custom properties in models
         for (Object _mo : models) {
             Map<String, Object> mo = (Map<String, Object>) _mo;
             CodegenModel cm = (CodegenModel) mo.get("model");
             cm.imports = new TreeSet(cm.imports);
-            // name enum with model name, e.g. StatusEnum => Pet.StatusEnum
             for (CodegenProperty var : cm.vars) {
+                // name enum with model name, e.g. StatusEnum => PetStatusEnum
                 if (Boolean.TRUE.equals(var.isEnum)) {
                     // behaviour for enum names is specific for Typescript Fetch, not using namespaces
                     var.datatypeWithEnum = var.datatypeWithEnum.replace(var.enumName, cm.classname + var.enumName);
+
+					// need to post-process defaultValue, was computed with previous var.datatypeWithEnum
+                    if (var.defaultValue != null && !var.defaultValue.equals("undefined")) {
+                        int dotPos = var.defaultValue.indexOf(".");
+                        if (dotPos != -1) {
+                            var.defaultValue = var.datatypeWithEnum + var.defaultValue.substring(dotPos);
+                        }
+                    }
+                }
+
+                var.isUniqueId = Boolean.TRUE.equals(var.vendorExtensions.get(X_IS_UNIQUE_ID));
+                if (var.isUniqueId && cm.vendorExtensions.get(X_ENTITY_ID).equals(var.name)) {
+                    cm.isEntity = true;
+                }
+
+                if (this.getSagasAndRecords()) {
+                    if (var.dataType.lastIndexOf("Array<", 0) == 0) {
+                        var.dataTypeAlternate = var.dataType.replace("Array<", "List<");
+                        var.defaultValue = var.dataTypeAlternate + "()";
+                    } else if (var.defaultValue == null || var.defaultValue.equals("undefined")) {
+                        this.autoSetDefaultValueForProperty(var);
+                    }
                 }
             }
             if (cm.parent != null) {
@@ -220,6 +245,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     public Map<String, Object> postProcessAllModels(Map<String, Object> objs) {
+        List<CodegenModel> allModels = new ArrayList<CodegenModel>();
+        List<String> entityModelClassnames = new ArrayList<String>();
+
         Map<String, Object> result = super.postProcessAllModels(objs);
         for (Map.Entry<String, Object> entry : result.entrySet()) {
             Map<String, Object> inner = (Map<String, Object>) entry.getValue();
@@ -227,9 +255,35 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             for (Map<String, Object> model : models) {
                 CodegenModel codegenModel = (CodegenModel) model.get("model");
                 model.put("hasImports", codegenModel.imports.size() > 0);
+
+                allModels.add(codegenModel);
+                if (codegenModel.isEntity) {
+                    entityModelClassnames.add(codegenModel.classname);
+                }
+            }
+        }
+
+        for (CodegenModel entityModel : allModels) {
+            for (CodegenProperty var : entityModel.vars) {
+                if (var.isModel && entityModelClassnames.indexOf(var.dataType) != -1) {
+                    var.isEntity = true;
+                }
             }
         }
         return result;
+    }
+
+    private void autoSetDefaultValueForProperty(CodegenProperty property) {
+        if (property.isUniqueId) {
+            property.defaultValue = "-1";
+        } else if (property.isEnum) {
+            property.defaultValue = "'" + property._enum.get(0) + "'";
+            updateCodegenPropertyEnum(property);
+        } else if (property.dataType.equalsIgnoreCase("string")) {
+            property.defaultValue = "\"\"";
+        } else if (property.dataType.equalsIgnoreCase("integer")){
+            property.defaultValue = "0";
+        }
     }
 
     private void addNpmPackageGeneration() {
@@ -318,7 +372,7 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         Map<String, Object> _operations = (Map<String, Object>) operations.get("operations");
         List<CodegenOperation> operationList = (List<CodegenOperation>) _operations.get("operation");
         for (CodegenOperation op : operationList) {
-            if("object".equals(op.returnType)) {
+            if ("object".equals(op.returnType)) {
                 op.isMapContainer = true;
                 op.returnSimpleType = false;
             }
