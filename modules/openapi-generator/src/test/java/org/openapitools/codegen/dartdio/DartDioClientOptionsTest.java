@@ -41,7 +41,6 @@ public class DartDioClientOptionsTest extends AbstractOptionsTest {
     @Override
     protected void verifyOptions() {
         verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(DartDioClientOptionsProvider.SORT_PARAMS_VALUE));
-        verify(clientCodegen).setBrowserClient(Boolean.parseBoolean(DartDioClientOptionsProvider.BROWSER_CLIENT_VALUE));
         verify(clientCodegen).setPubName(DartDioClientOptionsProvider.PUB_NAME_VALUE);
         verify(clientCodegen).setPubVersion(DartDioClientOptionsProvider.PUB_VERSION_VALUE);
         verify(clientCodegen).setPubDescription(DartDioClientOptionsProvider.PUB_DESCRIPTION_VALUE);
