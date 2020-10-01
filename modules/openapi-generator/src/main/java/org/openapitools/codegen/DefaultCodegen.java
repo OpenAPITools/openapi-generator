@@ -1694,7 +1694,7 @@ public class DefaultCodegen implements CodegenConfig {
         } else if (Boolean.TRUE.equals(codegenParameter.isBoolean)) {
             codegenParameter.example = "true";
         } else if (Boolean.TRUE.equals(codegenParameter.isLong)) {
-            codegenParameter.example = "7•89";
+            codegenParameter.example = "789";
         } else if (Boolean.TRUE.equals(codegenParameter.isInteger)) {
             codegenParameter.example = "56";
         } else if (Boolean.TRUE.equals(codegenParameter.isFloat)) {
