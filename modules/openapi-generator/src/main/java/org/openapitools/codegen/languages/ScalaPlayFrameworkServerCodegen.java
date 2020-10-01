@@ -48,7 +48,7 @@ public class ScalaPlayFrameworkServerCodegen extends AbstractScalaCodegen implem
     public static final String ROUTES_FILE_NAME = "routesFileName";
     public static final String BASE_PACKAGE = "basePackage";
 
-    static Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
+    static final Logger LOGGER = LoggerFactory.getLogger(ScalaPlayFrameworkServerCodegen.class);
 
     protected boolean skipStubs = false;
     protected boolean supportAsync = false;
