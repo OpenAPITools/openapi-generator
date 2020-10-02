@@ -53,8 +53,7 @@
                             <!-- target to generate java client code -->
                             <generatorName>java</generatorName>
 
-                            <!-- hint: if you want to generate java server code, e.g. based on Spring Boot,
-                                 you can use the following target: <generatorName>spring</generatorName> -->
+                            <templateDirectory>${project.basedir}/templates</templateDirectory>
 
                             <!-- pass any necessary config options -->
                             <configOptions>
