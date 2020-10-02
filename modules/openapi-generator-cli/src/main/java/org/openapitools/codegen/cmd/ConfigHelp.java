@@ -158,6 +158,9 @@ public class ConfigHelp extends OpenApiGeneratorCommand {
             sb.append("title: Config Options for ").append(generatorName).append(newline);
             sb.append("sidebar_label: ").append(generatorName).append(newline);
             sb.append("---").append(newline);
+            sb.append(newline);
+            sb.append("These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.");
+            sb.append(newline);
         } else {
             sb.append(newline);
             sb.append("## CONFIG OPTIONS");
