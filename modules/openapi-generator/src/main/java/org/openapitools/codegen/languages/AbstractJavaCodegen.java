@@ -108,23 +108,7 @@ public abstract class AbstractJavaCodegen extends DefaultCodegen implements Code
 
     public AbstractJavaCodegen() {
         super();
-        super.importMapping.put("BigDecimal", "java.math.BigDecimal");
-        super.importMapping.put("UUID", "java.util.UUID");
-        super.importMapping.put("URI", "java.net.URI");
-        super.importMapping.put("File", "java.io.File");
-        super.importMapping.put("Date", "java.util.Date");
-        super.importMapping.put("Timestamp", "java.sql.Timestamp");
-        super.importMapping.put("Map", "java.util.Map");
-        super.importMapping.put("HashMap", "java.util.HashMap");
-        super.importMapping.put("Array", "java.util.List");
-        super.importMapping.put("ArrayList", "java.util.ArrayList");
-        super.importMapping.put("List", "java.util.*");
-        super.importMapping.put("Set", "java.util.*");
-        super.importMapping.put("LinkedHashSet", "java.util.LinkedHashSet");
-        super.importMapping.put("DateTime", "org.joda.time.*");
-        super.importMapping.put("LocalDateTime", "org.joda.time.*");
-        super.importMapping.put("LocalDate", "org.joda.time.*");
-        super.importMapping.put("LocalTime", "org.joda.time.*");
+        super.loadJVMSpecificImportMappers();
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
