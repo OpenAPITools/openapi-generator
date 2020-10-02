@@ -58,15 +58,16 @@ class ApiClient {
 
   // We don"t use a Map<String, String> for queryParams.
   // If collectionFormat is "multi" a key might appear multiple times.
-  Future<Response> invokeAPI(String path,
-                             String method,
-                             Iterable<QueryParam> queryParams,
-                             Object body,
-                             Map<String, String> headerParams,
-                             Map<String, String> formParams,
-                             String nullableContentType,
-                             List<String> authNames) async {
-
+  Future<Response> invokeAPI(
+    String path,
+    String method,
+    Iterable<QueryParam> queryParams,
+    Object body,
+    Map<String, String> headerParams,
+    Map<String, String> formParams,
+    String nullableContentType,
+    List<String> authNames,
+  ) async {
     _updateParamsForAuth(authNames, queryParams, headerParams);
 
     headerParams.addAll(_defaultHeaderMap);
