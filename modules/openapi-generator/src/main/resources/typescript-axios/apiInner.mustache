@@ -203,7 +203,8 @@ export const {{classname}}AxiosParamCreator = function (configuration?: Configur
             localVarRequestOptions.data = localVarFormParams{{#vendorExtensions}}{{^multipartFormData}}.toString(){{/multipartFormData}}{{/vendorExtensions}};
     {{/hasFormParams}}
     {{#bodyParam}}
-            const needsSerialization = (typeof {{paramName}} !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const contentType = localVarRequestOptions.headers['Content-Type'];
+            const needsSerialization = (typeof {{paramName}} !== "string") && (contentType.match(JSON_MIME_PATTERN) || contentType.match(JSON_VENDOR_MIME_PATTERN));
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify({{paramName}} !== undefined ? {{paramName}} : {}) : ({{paramName}} || "");
     {{/bodyParam}}
 

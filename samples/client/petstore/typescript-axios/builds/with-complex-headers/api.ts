@@ -17,7 +17,7 @@ import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
+import { BASE_PATH, COLLECTION_FORMATS, JSON_MIME_PATTERN, JSON_VENDOR_MIME_PATTERN, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
  * Describes the result of uploading an image resource
@@ -348,7 +348,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof pet !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const contentType = localVarRequestOptions.headers['Content-Type'];
+            const needsSerialization = (typeof pet !== "string") && (contentType.match(JSON_MIME_PATTERN) || contentType.match(JSON_VENDOR_MIME_PATTERN));
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(pet !== undefined ? pet : {}) : (pet || "");
 
             return {
@@ -621,7 +622,8 @@ export const PetApiAxiosParamCreator = function (configuration?: Configuration) 
             localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof pet !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const contentType = localVarRequestOptions.headers['Content-Type'];
+            const needsSerialization = (typeof pet !== "string") && (contentType.match(JSON_MIME_PATTERN) || contentType.match(JSON_VENDOR_MIME_PATTERN));
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(pet !== undefined ? pet : {}) : (pet || "");
 
             return {
@@ -1275,7 +1277,8 @@ export const StoreApiAxiosParamCreator = function (configuration?: Configuration
             localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof order !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const contentType = localVarRequestOptions.headers['Content-Type'];
+            const needsSerialization = (typeof order !== "string") && (contentType.match(JSON_MIME_PATTERN) || contentType.match(JSON_VENDOR_MIME_PATTERN));
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(order !== undefined ? order : {}) : (order || "");
 
             return {
@@ -1498,7 +1501,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof user !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const contentType = localVarRequestOptions.headers['Content-Type'];
+            const needsSerialization = (typeof user !== "string") && (contentType.match(JSON_MIME_PATTERN) || contentType.match(JSON_VENDOR_MIME_PATTERN));
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(user !== undefined ? user : {}) : (user || "");
 
             return {
@@ -1544,7 +1548,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof user !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const contentType = localVarRequestOptions.headers['Content-Type'];
+            const needsSerialization = (typeof user !== "string") && (contentType.match(JSON_MIME_PATTERN) || contentType.match(JSON_VENDOR_MIME_PATTERN));
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(user !== undefined ? user : {}) : (user || "");
 
             return {
@@ -1590,7 +1595,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof user !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const contentType = localVarRequestOptions.headers['Content-Type'];
+            const needsSerialization = (typeof user !== "string") && (contentType.match(JSON_MIME_PATTERN) || contentType.match(JSON_VENDOR_MIME_PATTERN));
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(user !== undefined ? user : {}) : (user || "");
 
             return {
@@ -1820,7 +1826,8 @@ export const UserApiAxiosParamCreator = function (configuration?: Configuration)
             localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof user !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            const contentType = localVarRequestOptions.headers['Content-Type'];
+            const needsSerialization = (typeof user !== "string") && (contentType.match(JSON_MIME_PATTERN) || contentType.match(JSON_VENDOR_MIME_PATTERN));
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(user !== undefined ? user : {}) : (user || "");
 
             return {

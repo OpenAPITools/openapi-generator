@@ -34,6 +34,18 @@ export const COLLECTION_FORMATS = {
 /**
  *
  * @export
+ */
+export const JSON_MIME_PATTERN = new RegExp('application\\/json(;.*)?', 'i');
+
+/**
+ *
+ * @export
+ */
+export const JSON_VENDOR_MIME_PATTERN = new RegExp('application\\/vnd.(.*)+json(;.*)?', 'i');
+
+/**
+ *
+ * @export
  * @interface RequestArgs
  */
 export interface RequestArgs {
