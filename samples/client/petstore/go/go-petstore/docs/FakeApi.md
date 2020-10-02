@@ -42,7 +42,7 @@ import (
 )
 
 func main() {
-    xmlItem := *openapiclient.NewXmlItemWithDefaults() // XmlItem | XmlItem Body
+    xmlItem := *openapiclient.NewXmlItem() // XmlItem | XmlItem Body
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -172,7 +172,7 @@ import (
 )
 
 func main() {
-    body := *openapiclient.NewOuterCompositeWithDefaults() // OuterComposite | Input composite as post body (optional)
+    body := *openapiclient.NewOuterComposite() // OuterComposite | Input composite as post body (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -370,7 +370,7 @@ import (
 )
 
 func main() {
-    body := *openapiclient.NewFileSchemaTestClassWithDefaults() // FileSchemaTestClass | 
+    body := *openapiclient.NewFileSchemaTestClass() // FileSchemaTestClass | 
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -433,7 +433,7 @@ import (
 
 func main() {
     query := "query_example" // string | 
-    body := *openapiclient.NewUserWithDefaults() // User | 
+    body := *openapiclient.NewUser() // User | 
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -498,7 +498,7 @@ import (
 )
 
 func main() {
-    body := *openapiclient.NewClientWithDefaults() // Client | client model
+    body := *openapiclient.NewClient() // Client | client model
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)

@@ -565,6 +565,10 @@ public class GoClientCodegen extends AbstractGoCodegen {
             processedModelMap.put(model, 1);
         }
 
-        return "*" + goImportAlias + ".New" + codegenModel.name + "WithDefaults()";
+        List<String> propertyExamples = new ArrayList<>();
+        for (CodegenProperty codegenProperty : codegenModel.requiredVars) {
+            propertyExamples.add(constructExampleCode(codegenProperty, modelMaps, processedModelMap));
+        }
+        return "*" + goImportAlias + ".New" + codegenModel.name + "(" + StringUtils.join(propertyExamples, ", ") + ")";
     }
 }

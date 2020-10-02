@@ -167,7 +167,7 @@ import (
 )
 
 func main() {
-    outerComposite := *openapiclient.NewOuterCompositeWithDefaults() // OuterComposite | Input composite as post body (optional)
+    outerComposite := *openapiclient.NewOuterComposite() // OuterComposite | Input composite as post body (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -365,7 +365,7 @@ import (
 )
 
 func main() {
-    fileSchemaTestClass := *openapiclient.NewFileSchemaTestClassWithDefaults() // FileSchemaTestClass | 
+    fileSchemaTestClass := *openapiclient.NewFileSchemaTestClass() // FileSchemaTestClass | 
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -428,7 +428,7 @@ import (
 
 func main() {
     query := "query_example" // string | 
-    user := *openapiclient.NewUserWithDefaults() // User | 
+    user := *openapiclient.NewUser() // User | 
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -493,7 +493,7 @@ import (
 )
 
 func main() {
-    client := *openapiclient.NewClientWithDefaults() // Client | client model
+    client := *openapiclient.NewClient() // Client | client model
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)

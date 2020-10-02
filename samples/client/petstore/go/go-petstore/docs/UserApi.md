@@ -36,7 +36,7 @@ import (
 )
 
 func main() {
-    body := *openapiclient.NewUserWithDefaults() // User | Created user object
+    body := *openapiclient.NewUser() // User | Created user object
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -98,7 +98,7 @@ import (
 )
 
 func main() {
-    body := []User{*openapiclient.NewUserWithDefaults()} // []User | List of user object
+    body := []User{*openapiclient.NewUser()} // []User | List of user object
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)

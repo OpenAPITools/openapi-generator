@@ -229,7 +229,7 @@ import (
 )
 
 func main() {
-    order := *openapiclient.NewOrderWithDefaults() // Order | order placed for purchasing the pet
+    order := *openapiclient.NewOrder() // Order | order placed for purchasing the pet
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
