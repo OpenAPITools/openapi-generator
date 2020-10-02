@@ -642,6 +642,7 @@ Here are some companies/projects (alphabetical order) using OpenAPI Generator in
 - [Suva](https://www.suva.ch/)
 - [Telstra](https://dev.telstra.com)
 - [TravelTime platform](https://www.traveltimeplatform.com/)
+- [TribalScale](https://www.tribalscale.com)
 - [TUI InfoTec GmbH](http://www.tui-infotec.com/)
 - [unblu inc.](https://www.unblu.com/)
 - [Veamly](https://www.veamly.com/)
