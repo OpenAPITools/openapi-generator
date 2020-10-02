@@ -165,6 +165,19 @@ namespace Org.OpenAPITools.Client
     {
         private readonly String _baseUrl;
 
+        public JsonSerializerSettings SerializerSettings { get; set; } = new JsonSerializerSettings
+        {
+            // OpenAPI generated types generally hide default constructors.
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy
+                {
+                    OverrideSpecifiedNames = true
+                }
+            }
+        };
+
         /// <summary>
         /// Allows for extending request processing for <see cref="ApiClient"/> generated code.
         /// </summary>
@@ -263,7 +276,7 @@ namespace Org.OpenAPITools.Client
             RestRequest request = new RestRequest(Method(method))
             {
                 Resource = path,
-                JsonSerializer = new CustomJsonCodec(configuration)
+                JsonSerializer = new CustomJsonCodec(SerializerSettings, configuration)
             };
 
             if (options.PathParameters != null)
@@ -411,7 +424,7 @@ namespace Org.OpenAPITools.Client
             }
             else
             {
-                var customDeserializer = new CustomJsonCodec(configuration);
+                var customDeserializer = new CustomJsonCodec(SerializerSettings, configuration);
                 client.AddHandler("application/json", () => customDeserializer);
                 client.AddHandler("text/json", () => customDeserializer);
                 client.AddHandler("text/x-json", () => customDeserializer);
@@ -440,7 +453,7 @@ namespace Org.OpenAPITools.Client
             InterceptRequest(req);
 
             IRestResponse<T> response;
-            if (RetryConfiguration.RetryPolicy != null)	
+            if (RetryConfiguration.RetryPolicy != null)
             {
                 var policy = RetryConfiguration.RetryPolicy;
                 var policyResult = policy.ExecuteAndCapture(() => client.Execute(req));
@@ -517,7 +530,7 @@ namespace Org.OpenAPITools.Client
             }
             else
             {
-                var customDeserializer = new CustomJsonCodec(configuration);
+                var customDeserializer = new CustomJsonCodec(SerializerSettings, configuration);
                 client.AddHandler("application/json", () => customDeserializer);
                 client.AddHandler("text/json", () => customDeserializer);
                 client.AddHandler("text/x-json", () => customDeserializer);
