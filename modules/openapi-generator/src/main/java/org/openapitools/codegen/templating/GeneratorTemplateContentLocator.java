@@ -6,6 +6,7 @@ import org.openapitools.codegen.TemplateManager;
 import org.openapitools.codegen.api.TemplatePathLocator;
 
 import java.io.File;
+import java.nio.file.Paths;
 
 /**
  * Locates templates according to {@link CodegenConfig} settings.
@@ -23,7 +24,7 @@ public class GeneratorTemplateContentLocator implements TemplatePathLocator {
     }
 
     private String buildLibraryFilePath(String dir, String library, String file) {
-        return dir + File.separator + "libraries" + File.separator + library + File.separator + file;
+        return Paths.get(dir, "libraries", library, file).normalize().toString();
     }
 
     /**
@@ -60,14 +61,14 @@ public class GeneratorTemplateContentLocator implements TemplatePathLocator {
         if (StringUtils.isNotEmpty(library)) {
             //look for the file in the library subfolder of the supplied template
             final String libTemplateFile = buildLibraryFilePath(config.templateDir(), library, relativeTemplateFile);
-            if (new File(libTemplateFile).exists() || this.getClass().getClassLoader().getResource(libTemplateFile) != null) {
+            if (new File(libTemplateFile).exists()) {
                 return libTemplateFile;
             }
         }
 
         //check the supplied template main folder for the file
         final String template = config.templateDir() + File.separator + relativeTemplateFile;
-        if (new File(template).exists() || this.getClass().getClassLoader().getResource(template) != null) {
+        if (new File(template).exists()) {
             return template;
         }
 
