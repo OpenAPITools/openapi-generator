@@ -99,7 +99,7 @@ class ApiClient {
       : serialize(body);
     final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
 
-    switch(method) {
+    switch(method.toUpperCase()) {
       case "POST": return client.post(url, headers: nullableHeaderParams, body: msgBody);
       case "PUT": return client.put(url, headers: nullableHeaderParams, body: msgBody);
       case "DELETE": return client.delete(url, headers: nullableHeaderParams);
