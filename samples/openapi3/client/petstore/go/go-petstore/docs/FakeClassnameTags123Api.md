@@ -29,7 +29,7 @@ import (
 )
 
 func main() {
-    client := openapiclient.Client{Client: "Client_example"} // Client | client model
+    client := *openapiclient.NewClientWithDefaults() // Client | client model
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
