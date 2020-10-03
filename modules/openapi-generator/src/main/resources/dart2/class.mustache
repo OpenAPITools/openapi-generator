@@ -40,34 +40,7 @@ class {{{classname}}} {
   {{/vars}}
 
   @override
-  String toString() {
-    final sb = StringBuffer();
-
-    sb.write("{{{classname}}}={");
-
-{{#vars}}
-    sb.write("{{{name}}}");
-    sb.write("=");
-  {{#complexType}}
-    {{^isContainer}}
-    sb.write({{{name}}} == null ? "(null)" : {{{name}}}.toString());
-    {{/isContainer}}
-    {{#isContainer}}
-    sb.write({{{name}}});
-    {{/isContainer}}
-  {{/complexType}}
-  {{^complexType}}
-    sb.write({{{name}}});
-  {{/complexType}}
-  {{^-last}}
-    sb.write(",");
-  {{/-last}}
-
-{{/vars}}
-    sb.write("}");
-
-    return sb.toString();
-  }
+  String toString() => '{{{classname}}}[{{#vars}}{{{name}}}=${{{name}}}{{^-last}}, {{/-last}}{{/vars}}]';
 
   {{{classname}}}.fromJson(Map<String, dynamic> json) {
     if (json == null) {
