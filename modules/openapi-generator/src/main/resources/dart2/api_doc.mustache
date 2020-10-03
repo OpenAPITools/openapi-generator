@@ -1,16 +1,16 @@
-# {{pubName}}.api.{{classname}}{{#description}}
-{{description}}{{/description}}
+# {{{pubName}}}.api.{{{classname}}}{{#description}}
+{{{description}}}{{/description}}
 
 ## Load the API package
 ```dart
-import 'package:{{pubName}}/api.dart';
+import 'package:{{{pubName}}}/api.dart';
 ```
 
 All URIs are relative to *{{basePath}}*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-{{#operations}}{{#operation}}[**{{operationId}}**]({{classname}}.md#{{operationId}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
+{{#operations}}{{#operation}}[**{{{operationId}}}**]({{{classname}}}.md#{{{operationId}}}) | **{{httpMethod}}** {{path}} | {{#summary}}{{summary}}{{/summary}}
 {{/operation}}{{/operations}}
 
 {{#operations}}
@@ -24,7 +24,7 @@ Method | HTTP request | Description
 
 ### Example 
 ```dart
-import 'package:{{pubName}}/api.dart';
+import 'package:{{{pubName}}}/api.dart';
 {{#hasAuthMethods}}
 {{#authMethods}}
 {{#isBasic}}
@@ -55,7 +55,7 @@ import 'package:{{pubName}}/api.dart';
 {{/authMethods}}
 {{/hasAuthMethods}}
 
-var api_instance = {{classname}}();
+var api_instance = {{{classname}}}();
 {{#allParams}}
 var {{paramName}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{dataType}}(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
@@ -66,7 +66,7 @@ try {
     print(result);
     {{/returnType}}
 } catch (e) {
-    print("Exception when calling {{classname}}->{{operationId}}: $e\n");
+    print("Exception when calling {{{classname}}}->{{{operationId}}}: $e\n");
 }
 ```
 
@@ -74,12 +74,12 @@ try {
 {{^allParams}}This endpoint does not need any parameter.{{/allParams}}{{#allParams}}{{#-last}}
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------{{/-last}}{{/allParams}}
-{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{baseType}}.md){{/isPrimitiveType}}| {{description}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{defaultValue}}]{{/defaultValue}}
+{{#allParams}} **{{paramName}}** | {{#isPrimitiveType}}**{{dataType}}**{{/isPrimitiveType}}{{^isPrimitiveType}}[**{{dataType}}**]({{baseType}}.md){{/isPrimitiveType}}| {{{description}}} | {{^required}}[optional] {{/required}}{{#defaultValue}}[default to {{{defaultValue}}}]{{/defaultValue}}
 {{/allParams}}
 
 ### Return type
 
-{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{returnBaseType}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
+{{#returnType}}{{#returnTypeIsPrimitive}}**{{{returnType}}}**{{/returnTypeIsPrimitive}}{{^returnTypeIsPrimitive}}[**{{{returnType}}}**]({{{returnBaseType}}}.md){{/returnTypeIsPrimitive}}{{/returnType}}{{^returnType}}void (empty response body){{/returnType}}
 
 ### Authorization
 

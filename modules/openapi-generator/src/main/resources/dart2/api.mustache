@@ -1,31 +1,30 @@
-part of {{pubName}}.api;
-
+{{>header}}
+{{>part_of}}
 {{#operations}}
 
+class {{{classname}}} {
+  {{{classname}}}([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
 
-class {{classname}} {
   final ApiClient apiClient;
-
-  {{classname}}([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
-
   {{#operation}}
-  /// {{summary}} with HTTP info returned
+
+  /// {{{summary}}} with HTTP info returned
   ///
-  /// {{notes}}
-  {{#returnType}}Future<Response> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
-    Object postBody{{#bodyParam}} = {{paramName}}{{/bodyParam}};
+  /// {{{notes}}}
+  {{#returnType}}Future<Response> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+    Object postBody{{#bodyParam}} = {{{paramName}}}{{/bodyParam}};
 
     // verify required params are set
     {{#allParams}}
       {{#required}}
-    if({{paramName}} == null) {
-     throw ApiException(400, "Missing required param: {{paramName}}");
+    if ({{{paramName}}} == null) {
+     throw ApiException(400, "Missing required param: {{{paramName}}}");
     }
       {{/required}}
     {{/allParams}}
 
     // create path and map variables
-    String path = "{{{path}}}".replaceAll("{format}","json"){{#pathParams}}.replaceAll("{" + "{{baseName}}" + "}", {{{paramName}}}.toString()){{/pathParams}};
+    String path = "{{{path}}}".replaceAll("{format}","json"){{#pathParams}}.replaceAll("{" + "{{{baseName}}}" + "}", {{{paramName}}}.toString()){{/pathParams}};
 
     // query params
     List<QueryParam> queryParams = [];
@@ -33,97 +32,100 @@ class {{classname}} {
     Map<String, String> formParams = {};
     {{#queryParams}}
     {{^required}}
-    if({{paramName}} != null) {
+    if ({{{paramName}}} != null) {
     {{/required}}
-      queryParams.addAll(_convertParametersForCollectionFormat("{{collectionFormat}}", "{{baseName}}", {{paramName}}));
+      queryParams.addAll(_convertParametersForCollectionFormat("{{{collectionFormat}}}", "{{{baseName}}}", {{{paramName}}}));
     {{^required}}
     }
     {{/required}}
     {{/queryParams}}
     {{#headerParams}}
-    headerParams["{{baseName}}"] = {{paramName}};
+    headerParams["{{{baseName}}}"] = {{{paramName}}};
     {{/headerParams}}
 
     List<String> contentTypes = [{{#consumes}}"{{{mediaType}}}"{{#hasMore}},{{/hasMore}}{{/consumes}}];
 
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    List<String> authNames = [{{#authMethods}}"{{name}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
+    List<String> authNames = [{{#authMethods}}"{{{name}}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       {{#formParams}}
       {{^isFile}}
-      if ({{paramName}} != null) {
+      if ({{{paramName}}} != null) {
         hasFields = true;
-        mp.fields['{{baseName}}'] = parameterToString({{paramName}});
+        mp.fields["{{{baseName}}}"] = parameterToString({{{paramName}}});
       }
       {{/isFile}}
       {{#isFile}}
-      if ({{paramName}} != null) {
+      if ({{{paramName}}} != null) {
         hasFields = true;
-        mp.fields['{{baseName}}'] = {{paramName}}.field;
-        mp.files.add({{paramName}});
+        mp.fields["{{{baseName}}}"] = {{{paramName}}}.field;
+        mp.files.add({{{paramName}}});
       }
       {{/isFile}}
       {{/formParams}}
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
       {{#formParams}}
       {{^isFile}}
-      if ({{paramName}} != null)
-        formParams['{{baseName}}'] = parameterToString({{paramName}});
+      if ({{{paramName}}} != null) {
+        formParams["{{{baseName}}}"] = parameterToString({{{paramName}}});
+      }
       {{/isFile}}
       {{/formParams}}
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             '{{httpMethod}}',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "{{{httpMethod}}}",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
-  /// {{summary}}
+  /// {{{summary}}}
   ///
   {{#allParams}}
-  ///{{dataType}} {{paramName}} {{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}:
+  ///{{{dataType}}} {{{paramName}}} {{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}:
   ///    {{#description}} {{{description}}}{{/description}}
   {{/allParams}}
-  /// {{notes}}
-  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{nickname}}({{#allParams}}{{#required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
-    Response response = await {{nickname}}WithHttpInfo({{#allParams}}{{#required}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{paramName}}: {{paramName}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
-    if(response.statusCode >= 400) {
+  /// {{{notes}}}
+  {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
+    final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
+    }
+    if (response.body != null) {
       {{#isListContainer}}
         {{#returnType}}
-      return (apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as List).map((item) => item as {{returnBaseType}}).toList();
+      return (apiClient.deserialize(_decodeBodyBytes(response), "{{{returnType}}}") as List)
+        .map((item) => item as {{{returnBaseType}}})
+        .toList(growable: false);
         {{/returnType}}
       {{/isListContainer}}
       {{^isListContainer}}
         {{#isMapContainer}}
           {{#returnType}}
-      return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}'));
-          {{/returnType}};
+      return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), "{{{returnType}}}"));
+          {{/returnType}}
         {{/isMapContainer}}
         {{^isMapContainer}}
           {{#returnType}}
-      return apiClient.deserialize(_decodeBodyBytes(response), '{{{returnType}}}') as {{{returnType}}};
+      return apiClient.deserialize(_decodeBodyBytes(response), "{{{returnType}}}") as {{{returnType}}};
           {{/returnType}}
         {{/isMapContainer}}
       {{/isListContainer}}
-    } else {
-      return{{#returnType}} null{{/returnType}};
     }
+    return{{#returnType}} null{{/returnType}};
   }
-
   {{/operation}}
 }
 {{/operations}}
