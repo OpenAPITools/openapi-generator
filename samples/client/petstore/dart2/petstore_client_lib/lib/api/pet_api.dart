@@ -1,11 +1,20 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.0
+
+// ignore_for_file: unused_element, unused_import
+// ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
+// ignore_for_file: prefer_single_quotes
+
 part of openapi.api;
 
 
-
 class PetApi {
-  final ApiClient apiClient;
-
   PetApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+
+  final ApiClient apiClient;
 
   /// Add a new pet to the store with HTTP info returned
   ///
@@ -14,7 +23,7 @@ class PetApi {
     Object postBody = body;
 
     // verify required params are set
-    if(body == null) {
+    if (body == null) {
      throw ApiException(400, "Missing required param: body");
     }
 
@@ -31,24 +40,25 @@ class PetApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "POST",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Add a new pet to the store
@@ -57,13 +67,13 @@ class PetApi {
   ///     Pet object that needs to be added to the store
   /// 
   Future addPet(Pet body) async {
-    Response response = await addPetWithHttpInfo(body);
-    if(response.statusCode >= 400) {
+    final response = await addPetWithHttpInfo(body);
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if (response.body != null) {
+    }
+    return;
   }
 
   /// Deletes a pet with HTTP info returned
@@ -73,7 +83,7 @@ class PetApi {
     Object postBody;
 
     // verify required params are set
-    if(petId == null) {
+    if (petId == null) {
      throw ApiException(400, "Missing required param: petId");
     }
 
@@ -91,24 +101,25 @@ class PetApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'DELETE',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "DELETE",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Deletes a pet
@@ -119,13 +130,13 @@ class PetApi {
   ///    
   /// 
   Future deletePet(int petId, { String apiKey }) async {
-    Response response = await deletePetWithHttpInfo(petId,  apiKey: apiKey );
-    if(response.statusCode >= 400) {
+    final response = await deletePetWithHttpInfo(petId,  apiKey: apiKey );
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if (response.body != null) {
+    }
+    return;
   }
 
   /// Finds Pets by status with HTTP info returned
@@ -135,7 +146,7 @@ class PetApi {
     Object postBody;
 
     // verify required params are set
-    if(status == null) {
+    if (status == null) {
      throw ApiException(400, "Missing required param: status");
     }
 
@@ -153,40 +164,43 @@ class PetApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "GET",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Finds Pets by status
   ///
-  ///List&lt;String&gt; status  (required):
+  ///List<String> status  (required):
   ///     Status values that need to be considered for filter
   /// Multiple status values can be provided with comma separated strings
   Future<List<Pet>> findPetsByStatus(List<String> status) async {
-    Response response = await findPetsByStatusWithHttpInfo(status);
-    if(response.statusCode >= 400) {
+    final response = await findPetsByStatusWithHttpInfo(status);
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List).map((item) => item as Pet).toList();
-    } else {
-      return null;
     }
+    if (response.body != null) {
+      return (apiClient.deserialize(_decodeBodyBytes(response), "List<Pet>") as List)
+        .map((item) => item as Pet)
+        .toList(growable: false);
+    }
+    return null;
   }
 
   /// Finds Pets by tags with HTTP info returned
@@ -196,7 +210,7 @@ class PetApi {
     Object postBody;
 
     // verify required params are set
-    if(tags == null) {
+    if (tags == null) {
      throw ApiException(400, "Missing required param: tags");
     }
 
@@ -214,40 +228,43 @@ class PetApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "GET",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Finds Pets by tags
   ///
-  ///List&lt;String&gt; tags  (required):
+  ///List<String> tags  (required):
   ///     Tags to filter by
   /// Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
   Future<List<Pet>> findPetsByTags(List<String> tags) async {
-    Response response = await findPetsByTagsWithHttpInfo(tags);
-    if(response.statusCode >= 400) {
+    final response = await findPetsByTagsWithHttpInfo(tags);
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return (apiClient.deserialize(_decodeBodyBytes(response), 'List<Pet>') as List).map((item) => item as Pet).toList();
-    } else {
-      return null;
     }
+    if (response.body != null) {
+      return (apiClient.deserialize(_decodeBodyBytes(response), "List<Pet>") as List)
+        .map((item) => item as Pet)
+        .toList(growable: false);
+    }
+    return null;
   }
 
   /// Find pet by ID with HTTP info returned
@@ -257,7 +274,7 @@ class PetApi {
     Object postBody;
 
     // verify required params are set
-    if(petId == null) {
+    if (petId == null) {
      throw ApiException(400, "Missing required param: petId");
     }
 
@@ -274,24 +291,25 @@ class PetApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = ["api_key"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "GET",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Find pet by ID
@@ -300,14 +318,14 @@ class PetApi {
   ///     ID of pet to return
   /// Returns a single pet
   Future<Pet> getPetById(int petId) async {
-    Response response = await getPetByIdWithHttpInfo(petId);
-    if(response.statusCode >= 400) {
+    final response = await getPetByIdWithHttpInfo(petId);
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'Pet') as Pet;
-    } else {
-      return null;
     }
+    if (response.body != null) {
+      return apiClient.deserialize(_decodeBodyBytes(response), "Pet") as Pet;
+    }
+    return null;
   }
 
   /// Update an existing pet with HTTP info returned
@@ -317,7 +335,7 @@ class PetApi {
     Object postBody = body;
 
     // verify required params are set
-    if(body == null) {
+    if (body == null) {
      throw ApiException(400, "Missing required param: body");
     }
 
@@ -334,24 +352,25 @@ class PetApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'PUT',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "PUT",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Update an existing pet
@@ -360,13 +379,13 @@ class PetApi {
   ///     Pet object that needs to be added to the store
   /// 
   Future updatePet(Pet body) async {
-    Response response = await updatePetWithHttpInfo(body);
-    if(response.statusCode >= 400) {
+    final response = await updatePetWithHttpInfo(body);
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if (response.body != null) {
+    }
+    return;
   }
 
   /// Updates a pet in the store with form data with HTTP info returned
@@ -376,7 +395,7 @@ class PetApi {
     Object postBody;
 
     // verify required params are set
-    if(petId == null) {
+    if (petId == null) {
      throw ApiException(400, "Missing required param: petId");
     }
 
@@ -393,36 +412,39 @@ class PetApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if (name != null) {
         hasFields = true;
-        mp.fields['name'] = parameterToString(name);
+        mp.fields["name"] = parameterToString(name);
       }
       if (status != null) {
         hasFields = true;
-        mp.fields['status'] = parameterToString(status);
+        mp.fields["status"] = parameterToString(status);
       }
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
-      if (name != null)
-        formParams['name'] = parameterToString(name);
-      if (status != null)
-        formParams['status'] = parameterToString(status);
+      }
+    } else {
+      if (name != null) {
+        formParams["name"] = parameterToString(name);
+      }
+      if (status != null) {
+        formParams["status"] = parameterToString(status);
+      }
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "POST",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Updates a pet in the store with form data
@@ -435,13 +457,13 @@ class PetApi {
   ///     Updated status of the pet
   /// 
   Future updatePetWithForm(int petId, { String name, String status }) async {
-    Response response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status );
-    if(response.statusCode >= 400) {
+    final response = await updatePetWithFormWithHttpInfo(petId,  name: name, status: status );
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if (response.body != null) {
+    }
+    return;
   }
 
   /// uploads an image with HTTP info returned
@@ -451,7 +473,7 @@ class PetApi {
     Object postBody;
 
     // verify required params are set
-    if(petId == null) {
+    if (petId == null) {
      throw ApiException(400, "Missing required param: petId");
     }
 
@@ -468,35 +490,37 @@ class PetApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = ["petstore_auth"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       if (additionalMetadata != null) {
         hasFields = true;
-        mp.fields['additionalMetadata'] = parameterToString(additionalMetadata);
+        mp.fields["additionalMetadata"] = parameterToString(additionalMetadata);
       }
       if (file != null) {
         hasFields = true;
-        mp.fields['file'] = file.field;
+        mp.fields["file"] = file.field;
         mp.files.add(file);
       }
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
-      if (additionalMetadata != null)
-        formParams['additionalMetadata'] = parameterToString(additionalMetadata);
+      }
+    } else {
+      if (additionalMetadata != null) {
+        formParams["additionalMetadata"] = parameterToString(additionalMetadata);
+      }
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "POST",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// uploads an image
@@ -509,14 +533,13 @@ class PetApi {
   ///     file to upload
   /// 
   Future<ApiResponse> uploadFile(int petId, { String additionalMetadata, MultipartFile file }) async {
-    Response response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file );
-    if(response.statusCode >= 400) {
+    final response = await uploadFileWithHttpInfo(petId,  additionalMetadata: additionalMetadata, file: file );
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'ApiResponse') as ApiResponse;
-    } else {
-      return null;
     }
+    if (response.body != null) {
+      return apiClient.deserialize(_decodeBodyBytes(response), "ApiResponse") as ApiResponse;
+    }
+    return null;
   }
-
 }

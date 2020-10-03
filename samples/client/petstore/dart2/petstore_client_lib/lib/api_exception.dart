@@ -1,14 +1,24 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.0
+
+// ignore_for_file: unused_element, unused_import
+// ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
+// ignore_for_file: prefer_single_quotes
+
 part of openapi.api;
 
 class ApiException implements Exception {
+  ApiException(this.code, this.message);
+
+  ApiException.withInner(this.code, this.message, this.innerException, this.stackTrace);
+
   int code = 0;
   String message;
   Exception innerException;
   StackTrace stackTrace;
-
-  ApiException(this.code, this.message);
-
-  ApiException.withInner(this.code, this.message, this.innerException, this.stackTrace);
 
   String toString() {
     if (message == null) return "ApiException";

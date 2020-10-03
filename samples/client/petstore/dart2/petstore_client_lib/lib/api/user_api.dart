@@ -1,11 +1,20 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.0
+
+// ignore_for_file: unused_element, unused_import
+// ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
+// ignore_for_file: prefer_single_quotes
+
 part of openapi.api;
 
 
-
 class UserApi {
-  final ApiClient apiClient;
-
   UserApi([ApiClient apiClient]) : apiClient = apiClient ?? defaultApiClient;
+
+  final ApiClient apiClient;
 
   /// Create user with HTTP info returned
   ///
@@ -14,7 +23,7 @@ class UserApi {
     Object postBody = body;
 
     // verify required params are set
-    if(body == null) {
+    if (body == null) {
      throw ApiException(400, "Missing required param: body");
     }
 
@@ -31,24 +40,25 @@ class UserApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "POST",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Create user
@@ -57,13 +67,13 @@ class UserApi {
   ///     Created user object
   /// This can only be done by the logged in user.
   Future createUser(User body) async {
-    Response response = await createUserWithHttpInfo(body);
-    if(response.statusCode >= 400) {
+    final response = await createUserWithHttpInfo(body);
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if (response.body != null) {
+    }
+    return;
   }
 
   /// Creates list of users with given input array with HTTP info returned
@@ -73,7 +83,7 @@ class UserApi {
     Object postBody = body;
 
     // verify required params are set
-    if(body == null) {
+    if (body == null) {
      throw ApiException(400, "Missing required param: body");
     }
 
@@ -90,39 +100,40 @@ class UserApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "POST",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Creates list of users with given input array
   ///
-  ///List&lt;User&gt; body  (required):
+  ///List<User> body  (required):
   ///     List of user object
   /// 
   Future createUsersWithArrayInput(List<User> body) async {
-    Response response = await createUsersWithArrayInputWithHttpInfo(body);
-    if(response.statusCode >= 400) {
+    final response = await createUsersWithArrayInputWithHttpInfo(body);
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if (response.body != null) {
+    }
+    return;
   }
 
   /// Creates list of users with given input array with HTTP info returned
@@ -132,7 +143,7 @@ class UserApi {
     Object postBody = body;
 
     // verify required params are set
-    if(body == null) {
+    if (body == null) {
      throw ApiException(400, "Missing required param: body");
     }
 
@@ -149,39 +160,40 @@ class UserApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "POST",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Creates list of users with given input array
   ///
-  ///List&lt;User&gt; body  (required):
+  ///List<User> body  (required):
   ///     List of user object
   /// 
   Future createUsersWithListInput(List<User> body) async {
-    Response response = await createUsersWithListInputWithHttpInfo(body);
-    if(response.statusCode >= 400) {
+    final response = await createUsersWithListInputWithHttpInfo(body);
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if (response.body != null) {
+    }
+    return;
   }
 
   /// Delete user with HTTP info returned
@@ -191,7 +203,7 @@ class UserApi {
     Object postBody;
 
     // verify required params are set
-    if(username == null) {
+    if (username == null) {
      throw ApiException(400, "Missing required param: username");
     }
 
@@ -208,24 +220,25 @@ class UserApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'DELETE',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "DELETE",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Delete user
@@ -234,13 +247,13 @@ class UserApi {
   ///     The name that needs to be deleted
   /// This can only be done by the logged in user.
   Future deleteUser(String username) async {
-    Response response = await deleteUserWithHttpInfo(username);
-    if(response.statusCode >= 400) {
+    final response = await deleteUserWithHttpInfo(username);
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if (response.body != null) {
+    }
+    return;
   }
 
   /// Get user by user name with HTTP info returned
@@ -250,7 +263,7 @@ class UserApi {
     Object postBody;
 
     // verify required params are set
-    if(username == null) {
+    if (username == null) {
      throw ApiException(400, "Missing required param: username");
     }
 
@@ -267,24 +280,25 @@ class UserApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "GET",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Get user by user name
@@ -293,14 +307,14 @@ class UserApi {
   ///     The name that needs to be fetched. Use user1 for testing.
   /// 
   Future<User> getUserByName(String username) async {
-    Response response = await getUserByNameWithHttpInfo(username);
-    if(response.statusCode >= 400) {
+    final response = await getUserByNameWithHttpInfo(username);
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
-    } else {
-      return null;
     }
+    if (response.body != null) {
+      return apiClient.deserialize(_decodeBodyBytes(response), "User") as User;
+    }
+    return null;
   }
 
   /// Logs user into the system with HTTP info returned
@@ -310,10 +324,10 @@ class UserApi {
     Object postBody;
 
     // verify required params are set
-    if(username == null) {
+    if (username == null) {
      throw ApiException(400, "Missing required param: username");
     }
-    if(password == null) {
+    if (password == null) {
      throw ApiException(400, "Missing required param: password");
     }
 
@@ -332,24 +346,25 @@ class UserApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "GET",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Logs user into the system
@@ -360,14 +375,14 @@ class UserApi {
   ///     The password for login in clear text
   /// 
   Future<String> loginUser(String username, String password) async {
-    Response response = await loginUserWithHttpInfo(username, password);
-    if(response.statusCode >= 400) {
+    final response = await loginUserWithHttpInfo(username, password);
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
-    } else {
-      return null;
     }
+    if (response.body != null) {
+      return apiClient.deserialize(_decodeBodyBytes(response), "String") as String;
+    }
+    return null;
   }
 
   /// Logs out current logged in user session with HTTP info returned
@@ -391,37 +406,38 @@ class UserApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "GET",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Logs out current logged in user session
   ///
   /// 
   Future logoutUser() async {
-    Response response = await logoutUserWithHttpInfo();
-    if(response.statusCode >= 400) {
+    final response = await logoutUserWithHttpInfo();
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if (response.body != null) {
+    }
+    return;
   }
 
   /// Updated user with HTTP info returned
@@ -431,10 +447,10 @@ class UserApi {
     Object postBody = body;
 
     // verify required params are set
-    if(username == null) {
+    if (username == null) {
      throw ApiException(400, "Missing required param: username");
     }
-    if(body == null) {
+    if (body == null) {
      throw ApiException(400, "Missing required param: body");
     }
 
@@ -451,24 +467,25 @@ class UserApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
+      if (hasFields) {
         postBody = mp;
-    }
-    else {
+      }
+    } else {
     }
 
-    var response = await apiClient.invokeAPI(path,
-                                             'PUT',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
-    return response;
+    return await apiClient.invokeAPI(
+      path,
+      "PUT",
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      nullableContentType,
+      authNames,
+    );
   }
 
   /// Updated user
@@ -479,13 +496,12 @@ class UserApi {
   ///     Updated user object
   /// This can only be done by the logged in user.
   Future updateUser(String username, User body) async {
-    Response response = await updateUserWithHttpInfo(username, body);
-    if(response.statusCode >= 400) {
+    final response = await updateUserWithHttpInfo(username, body);
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-    } else {
-      return;
     }
+    if (response.body != null) {
+    }
+    return;
   }
-
 }
