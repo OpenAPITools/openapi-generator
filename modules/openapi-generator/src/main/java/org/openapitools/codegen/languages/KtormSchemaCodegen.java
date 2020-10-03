@@ -18,6 +18,8 @@ package org.openapitools.codegen.languages;
 
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.meta.features.*;
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -46,6 +48,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     protected String columnNamePrefix = "_", columnNameSuffix = "";
     protected String identifierNamingConvention = "original";
     
+    protected Map<String, String> sqlTypeMapping = new HashMap<String, String>();
+
     // https://ktorm.liuwj.me/api-docs/me.liuwj.ktorm.schema/index.html
     protected class SqlType {
         protected static final String Blob = "blob";
@@ -65,6 +69,10 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
     public KtormSchemaCodegen() {
         super();
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.BETA)
+                .build();
 
         modifyFeatureSet(features -> features
                 .includeDocumentationFeatures(DocumentationFeature.Readme)
@@ -118,37 +126,58 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         );
 
         typeMapping = new HashMap<String, String>();
-        typeMapping.put("array", SqlType.Blob);
-        typeMapping.put("set", SqlType.Blob);
-        typeMapping.put("map", SqlType.Blob);
-        typeMapping.put("List", SqlType.Blob);
-        typeMapping.put("boolean", SqlType.Boolean);
-        typeMapping.put("string", SqlType.Text);
-        typeMapping.put("int", SqlType.Int);
-        typeMapping.put("byte", SqlType.Int);
-        typeMapping.put("float", SqlType.Float);
-        typeMapping.put("number", SqlType.Double);
-        typeMapping.put("date", SqlType.Date);
-        typeMapping.put("time", SqlType.Date);
-        typeMapping.put("Date", SqlType.Date);
-        typeMapping.put("Time", SqlType.Date);
-        typeMapping.put("datetime", SqlType.Date);
-        typeMapping.put("DateTime", SqlType.Date);
-        typeMapping.put("long", SqlType.Int);
-        typeMapping.put("short", SqlType.Int);
-        typeMapping.put("char", SqlType.Text);
-        typeMapping.put("double", SqlType.Double);
-        typeMapping.put("real", SqlType.Double);
-        typeMapping.put("object", SqlType.Blob);
-        typeMapping.put("integer", SqlType.Int);
-        typeMapping.put("ByteArray", SqlType.Blob);
-        typeMapping.put("binary", SqlType.Blob);
-        typeMapping.put("file", SqlType.Blob);
-        typeMapping.put("UUID", SqlType.Text);
-        typeMapping.put("URI", SqlType.Text);
-        typeMapping.put("decimal", SqlType.Decimal);
-        typeMapping.put("BigDecimal", SqlType.Decimal);
-        typeMapping.put("AnyType", SqlType.Blob);
+        typeMapping.put("string", "kotlin.String");
+        typeMapping.put("boolean", "kotlin.Boolean");
+        typeMapping.put("integer", "kotlin.Int");
+        typeMapping.put("float", "kotlin.Float");
+        typeMapping.put("long", "kotlin.Long");
+        typeMapping.put("double", "kotlin.Double");
+        typeMapping.put("ByteArray", "kotlin.ByteArray");
+        typeMapping.put("number", "java.math.BigDecimal");
+        typeMapping.put("date-time", "java.time.LocalDateTime");
+        typeMapping.put("date", "java.time.LocalDate");
+        typeMapping.put("file", "java.io.File");
+        typeMapping.put("array", "kotlin.Array");
+        typeMapping.put("list", "kotlin.collections.List");
+        typeMapping.put("set", "kotlin.collections.Set");
+        typeMapping.put("map", "kotlin.collections.Map");
+        typeMapping.put("object", "kotlin.Any");
+        typeMapping.put("binary", "kotlin.ByteArray");
+        typeMapping.put("Date", "java.time.LocalDate");
+        typeMapping.put("DateTime", "java.time.LocalDateTime");
+        //missing on baseclass
+        typeMapping.put("byte", "kotlin.Byte");
+        typeMapping.put("short", "kotlin.Short");
+        typeMapping.put("char", "kotlin.String");
+        typeMapping.put("real", "kotlin.Double");
+        typeMapping.put("UUID", "java.util.UUID"); //be explict
+        typeMapping.put("URI", "java.net.URI"); //be explict
+        typeMapping.put("decimal", "java.math.BigDecimal");
+        typeMapping.put("BigDecimal", "java.math.BigDecimal");
+        typeMapping.put("AnyType", "kotlin.Any");
+        typeMapping.put("password", "kotlin.String"); //nice to have
+
+        //mappings between kotlin and ktor
+        sqlTypeMapping.put("kotlin.String", SqlType.Text);
+        sqlTypeMapping.put("kotlin.Boolean", SqlType.Boolean);
+        sqlTypeMapping.put("kotlin.Byte", SqlType.Int);
+        sqlTypeMapping.put("kotlin.Short", SqlType.Int);
+        sqlTypeMapping.put("kotlin.Int", SqlType.Int);
+        sqlTypeMapping.put("kotlin.Long", SqlType.Int);
+        sqlTypeMapping.put("kotlin.Float", SqlType.Float);
+        sqlTypeMapping.put("kotlin.Double", SqlType.Double);
+        sqlTypeMapping.put("kotlin.ByteArray", SqlType.Blob);
+        sqlTypeMapping.put("kotlin.Array", SqlType.Blob);
+        sqlTypeMapping.put("kotlin.collections.List", SqlType.Blob);
+        sqlTypeMapping.put("kotlin.collections.Set", SqlType.Blob);
+        sqlTypeMapping.put("kotlin.collections.Map", SqlType.Blob);
+        sqlTypeMapping.put("kotlin.Any", SqlType.Blob);
+        sqlTypeMapping.put("java.io.File", SqlType.Blob);
+        sqlTypeMapping.put("java.math.BigDecimal", SqlType.Decimal);
+        sqlTypeMapping.put("java.time.LocalDateTime", SqlType.Date);
+        sqlTypeMapping.put("java.time.LocalDate", SqlType.Date);        
+        sqlTypeMapping.put("java.util.UUID", SqlType.Text);
+        sqlTypeMapping.put("java.net.URI", SqlType.Text);
 
         artifactId = "ktorm";
         artifactVersion = "1.0.0";
@@ -163,6 +192,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         // cliOptions default redefinition need to be updated
         updateOption(CodegenConstants.ARTIFACT_ID, artifactId);
         updateOption(CodegenConstants.PACKAGE_NAME, packageName);
+        removeOption(CodegenConstants.API_SUFFIX);
 
         // we don't clear clioptions from Kotlin
         // cliOptions.clear();
@@ -189,7 +219,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     }
 
     public String getHelp() {
-        return "Generates a kotlin-ktorm schema.";
+        return "Generates a kotlin-ktorm schema (beta)";
     }
 
     @Override
@@ -214,6 +244,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         additionalProperties.put("modelSrcPath", "./" + toSrcPath(modelPackage));
 
         supportingFiles.add(new SupportingFile("README.mustache", "", "README.md"));
+        supportingFiles.add(new SupportingFile("build.gradle.mustache", "", "build.gradle"));
+        supportingFiles.add(new SupportingFile("settings.gradle.mustache", "", "settings.gradle"));
         supportingFiles.add(new SupportingFile("ktorm_schema.mustache", "", "ktorm_schema.sql"));
     }
 
@@ -269,6 +301,9 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         String baseName = property.getBaseName();
         String colName = toColumnName(baseName);
         String description = property.getDescription();
+        String dataType = property.getDataType();
+        String dataFormat = property.getDataFormat();
+        String actualType = toColumnType(dataType, dataFormat);
 
         if (vendorExtensions.containsKey(VENDOR_EXTENSION_SCHEMA)) {
             // user already specified schema values
@@ -284,7 +319,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             description = (description == null || description.isEmpty()) ? commentExtra : description + ". " + commentExtra;
         }
 
-        switch (property.getDataType().toLowerCase(Locale.ROOT)) {
+        switch (actualType) {
             case SqlType.Boolean:
                 processBooleanTypeProperty(model, property, description, ktormSchema);
                 break;
@@ -351,8 +386,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
         ktormSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
-        columnDefinition.put("colType", dataType);
-        columnDefinition.put("colSqlType", actualType);
+        columnDefinition.put("colType", actualType);
+        columnDefinition.put("colKotlinType", dataType);
         columnDefinition.put("colUnsigned", unsigned);
         columnDefinition.put("colMinimum", actualMin);
         columnDefinition.put("colMaximum", actualMax);
@@ -394,8 +429,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         
         ktormSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
-        columnDefinition.put("colType", dataType);
-        columnDefinition.put("colSqlType", actualType);
+        columnDefinition.put("colType", actualType);
+        columnDefinition.put("colKotlinType", dataType);
         columnDefinition.put("colMinimum", actualMin);
         columnDefinition.put("colMaximum", actualMax);
 
@@ -421,8 +456,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
         ktormSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
-        columnDefinition.put("colType", dataType);
-        columnDefinition.put("colSqlType", actualType);
+        columnDefinition.put("colType", actualType);
+        columnDefinition.put("colKotlinType", dataType);
 
         processTypeArgs(dataType, dataFormat, 0, 1, columnDefinition);
         processNullAndDefault(model, property, description, columnDefinition);
@@ -454,8 +489,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
         ktormSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
-        columnDefinition.put("colType", dataType);
-        columnDefinition.put("colSqlType", actualType);
+        columnDefinition.put("colType", actualType);
+        columnDefinition.put("colKotlinType", dataType);
         if (actualMin != 0) {
             columnDefinition.put("colMinimum", actualMin);
         }
@@ -485,8 +520,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
         ktormSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
-        columnDefinition.put("colType", dataType);
-        columnDefinition.put("colSqlType", actualType);
+        columnDefinition.put("colType", actualType);
+        columnDefinition.put("colKotlinType", dataType);
 
         processTypeArgs(dataType, dataFormat, null, null, columnDefinition);
         processNullAndDefault(model, property, description, columnDefinition);
@@ -510,8 +545,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
         ktormSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
-        columnDefinition.put("colType", dataType);
-        columnDefinition.put("colSqlType", actualType);
+        columnDefinition.put("colType", actualType);
+        columnDefinition.put("colKotlinType", dataType);
 
         processTypeArgs(dataType, dataFormat, null, null, columnDefinition);
         processNullAndDefault(model, property, description, columnDefinition);
@@ -537,8 +572,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
 
         ktormSchema.put("columnDefinition", columnDefinition);
         columnDefinition.put("colName", colName);
-        columnDefinition.put("colType", dataType);
-        columnDefinition.put("colSqlType", actualType);
+        columnDefinition.put("colType", actualType);
+        columnDefinition.put("colKotlinType", dataType);
 
         processTypeArgs(dataType, dataFormat, null, null, columnDefinition);
         processNullAndDefault(model, property, description, columnDefinition);
@@ -568,7 +603,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         a.put("isBlob", args.isBlob);
         a.put("isJson", args.isJson);
         a.put("isNull", args.isNull);
-        columnDefinition.put("colSqlTypeArgs", a);
+        columnDefinition.put("colTypeArgs", a);
     }
 
     /**
@@ -582,14 +617,15 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
     public void processNullAndDefault(CodegenModel model, CodegenProperty property, String description, Map<String, Object> columnDefinition) {
         String baseName = property.getBaseName();
         Boolean required = property.getRequired();
-        String dataType = (String) columnDefinition.get("colDataType");
+        String dataType = property.getDataType();
+        String dataFormat = property.getDataFormat();
         String defaultValue = property.getDefaultValue();
         if (Boolean.TRUE.equals(required)) {
             columnDefinition.put("colNotNull", true);
         } else {
             columnDefinition.put("colNotNull", false);
             try {
-                columnDefinition.put("colDefault", toColumnTypeDefault(defaultValue, dataType));
+                columnDefinition.put("colDefault", toColumnTypeDefault(defaultValue, dataType, dataFormat));
             } catch (RuntimeException exception) {
                 LOGGER.warn("Property '" + baseName + "' of model '" + model.getName() + "' mapped to data type which doesn't support default value");
                 columnDefinition.put("colDefault", null);
@@ -623,7 +659,8 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @return generated codegen type
      */    
     private String toColumnType(String dataType, String dataFormat) {
-        switch (dataType.toLowerCase(Locale.ROOT)) {
+        String sqlType = sqlTypeMapping.getOrDefault(dataType, "").toLowerCase(Locale.ROOT);
+        switch (sqlType) {
             case SqlType.Boolean:
             case SqlType.Int:
             case SqlType.Long:
@@ -648,13 +685,13 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * Generates codegen type argument mapping between ktor and sqlite
      * Ref: http://www.sqlite.org/draft/datatype3.html
      *
-     * @param dataType type name
+     * @param dataType   type name
      * @param dataFormat type format
      * @return generated codegen type
      */    
     private void toColumnTypeArgs(String dataType, String dataFormat, Object min, Object max, SqlTypeArgs args) {
-        String sType = dataType.toLowerCase(Locale.ROOT);
-        switch (sType) {
+        String sqlType = sqlTypeMapping.getOrDefault(dataType, "").toLowerCase(Locale.ROOT);
+        switch (sqlType) {
             case SqlType.Boolean:
             case SqlType.Int:
             case SqlType.Long:
@@ -670,7 +707,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             case SqlType.Json:
             default:
         }
-        switch (sType) {
+        switch (sqlType) {
             case SqlType.Boolean:
             case SqlType.Int:
             case SqlType.Long:
@@ -686,7 +723,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             case SqlType.Json:
             default:
         }        
-        switch (sType) {
+        switch (sqlType) {
             case SqlType.Boolean:
                 args.isBoolean = true;
                 break;
@@ -725,11 +762,12 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * Ref: http://www.sqlite.org/draft/lang_createtable.html, sec3.2
      *
      * @param defaultValue  value
-     * @param dataType data type
+     * @param dataType      type name
+     * @param dataFormat    type format
      * @return generated codegen default
      */
-    public HashMap<String, Object> toColumnTypeDefault(String defaultValue, String dataType) {
-        String sqlType = dataType.toLowerCase(Locale.ROOT);
+    public HashMap<String, Object> toColumnTypeDefault(String defaultValue, String dataType, String dataFormat) {
+        String sqlType = sqlTypeMapping.getOrDefault(dataType, "").toLowerCase(Locale.ROOT);
         String sqlDefault = "";
         if (defaultValue == null || defaultValue.toUpperCase(Locale.ROOT).equals("NULL")) {
             sqlType = "null";
