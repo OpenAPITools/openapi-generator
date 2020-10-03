@@ -101,12 +101,12 @@ class ApiClient {
 
     try {
       switch(method.toUpperCase()) {
-        case "POST": return client.post(url, headers: nullableHeaderParams, body: msgBody);
-        case "PUT": return client.put(url, headers: nullableHeaderParams, body: msgBody);
-        case "DELETE": return client.delete(url, headers: nullableHeaderParams);
-        case "PATCH": return client.patch(url, headers: nullableHeaderParams, body: msgBody);
-        case "HEAD": return client.head(url, headers: nullableHeaderParams);
-        case "GET": return client.get(url, headers: nullableHeaderParams);
+        case "POST": return await client.post(url, headers: nullableHeaderParams, body: msgBody);
+        case "PUT": return await client.put(url, headers: nullableHeaderParams, body: msgBody);
+        case "DELETE": return await client.delete(url, headers: nullableHeaderParams);
+        case "PATCH": return await client.patch(url, headers: nullableHeaderParams, body: msgBody);
+        case "HEAD": return await client.head(url, headers: nullableHeaderParams);
+        case "GET": return await client.get(url, headers: nullableHeaderParams);
       }
     } on SocketException catch (e, trace) {
       throw ApiException.withInner(400, 'Socket operation failed: $method $path', e, trace);
