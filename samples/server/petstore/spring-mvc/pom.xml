@@ -150,6 +150,16 @@
             <version>${beanvalidation-version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>2.0.11.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-databind-version}</version>
+        </dependency>
     </dependencies>
     <properties>
         <java.version>1.8</java.version>
@@ -165,5 +175,6 @@
         <beanvalidation-version>1.1.0.Final</beanvalidation-version>
         <spring-version>4.3.20.RELEASE</spring-version>
         <jackson-databind-nullable-version>0.2.1</jackson-databind-nullable-version>
+        <jackson-databind-version>2.9.8</jackson-databind-version>
     </properties>
 </project>
