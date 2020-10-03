@@ -48,34 +48,34 @@ TODO
 Please follow the [installation procedure](#installation--usage) and then run the following:
 
 ```dart
-import 'package:{{pubName}}/api.dart';
+import "package:{{pubName}}/api.dart";
 {{#apiInfo}}{{#apis}}{{#-first}}{{#operations}}{{#operation}}{{#-first}}
 {{#hasAuthMethods}}
 {{#authMethods}}
 {{#isBasic}}
 {{#isBasicBasic}}
 // TODO Configure HTTP basic authorization: {{{name}}}
-//defaultApiClient.getAuthentication<HttpBasicAuth>('{{{name}}}').username = 'YOUR_USERNAME'
-//defaultApiClient.getAuthentication<HttpBasicAuth>('{{{name}}}').password = 'YOUR_PASSWORD';
+//defaultApiClient.getAuthentication<HttpBasicAuth>("{{{name}}}").username = "YOUR_USERNAME"
+//defaultApiClient.getAuthentication<HttpBasicAuth>("{{{name}}}").password = "YOUR_PASSWORD";
 {{/isBasicBasic}}
 {{#isBasicBearer}}
 // TODO Configure HTTP Bearer authorization: {{{name}}}
 // Case 1. Use String Token
-//defaultApiClient.getAuthentication<HttpBearerAuth>('{{{name}}}').setAccessToken('YOUR_ACCESS_TOKEN');
+//defaultApiClient.getAuthentication<HttpBearerAuth>("{{{name}}}").setAccessToken("YOUR_ACCESS_TOKEN");
 // Case 2. Use Function which generate token.
 // String yourTokenGeneratorFunction() { ... }
-//defaultApiClient.getAuthentication<HttpBearerAuth>('{{{name}}}').setAccessToken(yourTokenGeneratorFunction);
+//defaultApiClient.getAuthentication<HttpBearerAuth>("{{{name}}}").setAccessToken(yourTokenGeneratorFunction);
 {{/isBasicBearer}}
 {{/isBasic}}
 {{#isApiKey}}
 // TODO Configure API key authorization: {{{name}}}
-//defaultApiClient.getAuthentication<ApiKeyAuth>('{{{name}}}').apiKey = 'YOUR_API_KEY';
+//defaultApiClient.getAuthentication<ApiKeyAuth>("{{{name}}}").apiKey = "YOUR_API_KEY";
 // uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('{{{name}}}').apiKeyPrefix = 'Bearer';
+//defaultApiClient.getAuthentication<ApiKeyAuth>("{{{name}}}").apiKeyPrefix = "Bearer";
 {{/isApiKey}}
 {{#isOAuth}}
 // TODO Configure OAuth2 access token for authorization: {{{name}}}
-//defaultApiClient.getAuthentication<OAuth>('{{{name}}}').accessToken = 'YOUR_ACCESS_TOKEN';
+//defaultApiClient.getAuthentication<OAuth>("{{{name}}}").accessToken = "YOUR_ACCESS_TOKEN";
 {{/isOAuth}}
 {{/authMethods}}
 {{/hasAuthMethods}}

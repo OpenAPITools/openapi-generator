@@ -12,8 +12,7 @@ class {{{classname}}}{{{enumName}}} {
   {{/isEnum}}
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
+  bool operator ==(Object other) => identical(this, other) ||
       other is {{{classname}}}{{{enumName}}} && other.value == value ||
       other is {{#isEnum}}String{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}} && other == value;
 
@@ -76,7 +75,7 @@ class {{{classname}}}{{{enumName}}}TypeTransformer {
         {{/enumVars}}
       {{/allowableValues}}
       default:
-        if (false == allowNull) {
+        if (allowNull == false) {
           throw ArgumentError("Unknown enum value to decode: $data");
         }
     }
