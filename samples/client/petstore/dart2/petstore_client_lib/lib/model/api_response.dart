@@ -39,7 +39,7 @@ class ApiResponse {
     message.hashCode;
 
   @override
-  String toString() => 'ApiResponse[code=$code, type=$type, message=$message]';
+  String toString() => "ApiResponse[code=$code, type=$type, message=$message]";
 
   ApiResponse.fromJson(Map<String, dynamic> json) {
     if (json == null) {

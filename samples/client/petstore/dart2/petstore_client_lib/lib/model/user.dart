@@ -69,7 +69,7 @@ class User {
     userStatus.hashCode;
 
   @override
-  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
+  String toString() => "User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]";
 
   User.fromJson(Map<String, dynamic> json) {
     if (json == null) {

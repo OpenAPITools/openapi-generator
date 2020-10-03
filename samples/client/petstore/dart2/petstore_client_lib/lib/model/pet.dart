@@ -57,7 +57,7 @@ class Pet {
     status.hashCode;
 
   @override
-  String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
+  String toString() => "Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]";
 
   Pet.fromJson(Map<String, dynamic> json) {
     if (json == null) {
@@ -130,8 +130,7 @@ class PetStatusEnum {
   final String value;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
+  bool operator ==(Object other) => identical(this, other) ||
       other is PetStatusEnum && other.value == value ||
       other is String && other == value;
 
@@ -188,7 +187,7 @@ class PetStatusEnumTypeTransformer {
       case "pending": return PetStatusEnum.pending_;
       case "sold": return PetStatusEnum.sold_;
       default:
-        if (false == allowNull) {
+        if (allowNull == false) {
           throw ArgumentError("Unknown enum value to decode: $data");
         }
     }

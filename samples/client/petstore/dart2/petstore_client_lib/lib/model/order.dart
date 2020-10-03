@@ -57,7 +57,7 @@ class Order {
     complete.hashCode;
 
   @override
-  String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
+  String toString() => "Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]";
 
   Order.fromJson(Map<String, dynamic> json) {
     if (json == null) {
@@ -130,8 +130,7 @@ class OrderStatusEnum {
   final String value;
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
+  bool operator ==(Object other) => identical(this, other) ||
       other is OrderStatusEnum && other.value == value ||
       other is String && other == value;
 
@@ -188,7 +187,7 @@ class OrderStatusEnumTypeTransformer {
       case "approved": return OrderStatusEnum.approved_;
       case "delivered": return OrderStatusEnum.delivered_;
       default:
-        if (false == allowNull) {
+        if (allowNull == false) {
           throw ArgumentError("Unknown enum value to decode: $data");
         }
     }

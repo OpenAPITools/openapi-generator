@@ -94,7 +94,7 @@ class ApiClient {
     final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
 
     try {
-      switch(method.toUpperCase()) {
+      switch(method) {
         case "POST": return await client.post(url, headers: nullableHeaderParams, body: msgBody);
         case "PUT": return await client.put(url, headers: nullableHeaderParams, body: msgBody);
         case "DELETE": return await client.delete(url, headers: nullableHeaderParams);
@@ -103,13 +103,13 @@ class ApiClient {
         case "GET": return await client.get(url, headers: nullableHeaderParams);
       }
     } on SocketException catch (e, trace) {
-      throw ApiException.withInner(400, 'Socket operation failed: $method $path', e, trace);
+      throw ApiException.withInner(400, "Socket operation failed: $method $path", e, trace);
     } on TlsException catch (e, trace) {
-      throw ApiException.withInner(400, 'TLS/SSL communication failed: $method $path', e, trace);
+      throw ApiException.withInner(400, "TLS/SSL communication failed: $method $path", e, trace);
     } on IOException catch (e, trace) {
-      throw ApiException.withInner(400, 'I/O operation failed: $method $path', e, trace);
+      throw ApiException.withInner(400, "I/O operation failed: $method $path", e, trace);
     } on Exception catch (e, trace) {
-      throw ApiException.withInner(400, 'Exception occurred: $method $path', e, trace);
+      throw ApiException.withInner(400, "Exception occurred: $method $path", e, trace);
     }
 
     throw ApiException(400, "Invalid HTTP operation: $method $path");

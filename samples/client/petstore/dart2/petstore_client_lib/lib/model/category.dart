@@ -33,7 +33,7 @@ class Category {
     name.hashCode;
 
   @override
-  String toString() => 'Category[id=$id, name=$name]';
+  String toString() => "Category[id=$id, name=$name]";
 
   Category.fromJson(Map<String, dynamic> json) {
     if (json == null) {

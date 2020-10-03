@@ -37,10 +37,10 @@ TODO
 Please follow the [installation procedure](#installation--usage) and then run the following:
 
 ```dart
-import 'package:openapi/api.dart';
+import "package:openapi/api.dart";
 
 // TODO Configure OAuth2 access token for authorization: petstore_auth
-//defaultApiClient.getAuthentication<OAuth>('petstore_auth').accessToken = 'YOUR_ACCESS_TOKEN';
+//defaultApiClient.getAuthentication<OAuth>("petstore_auth").accessToken = "YOUR_ACCESS_TOKEN";
 
 var api_instance = PetApi();
 var body = Pet(); // Pet | Pet object that needs to be added to the store
