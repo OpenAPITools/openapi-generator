@@ -57,44 +57,7 @@ class Order {
     complete.hashCode;
 
   @override
-  String toString() {
-    final sb = StringBuffer();
-
-    sb.write("Order={");
-
-    sb.write("id");
-    sb.write("=");
-    sb.write(id);
-    sb.write(",");
-
-    sb.write("petId");
-    sb.write("=");
-    sb.write(petId);
-    sb.write(",");
-
-    sb.write("quantity");
-    sb.write("=");
-    sb.write(quantity);
-    sb.write(",");
-
-    sb.write("shipDate");
-    sb.write("=");
-    sb.write(shipDate == null ? "(null)" : shipDate.toString());
-    sb.write(",");
-
-    sb.write("status");
-    sb.write("=");
-    sb.write(status);
-    sb.write(",");
-
-    sb.write("complete");
-    sb.write("=");
-    sb.write(complete);
-
-    sb.write("}");
-
-    return sb.toString();
-  }
+  String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
 
   Order.fromJson(Map<String, dynamic> json) {
     if (json == null) {

@@ -33,24 +33,7 @@ class Tag {
     name.hashCode;
 
   @override
-  String toString() {
-    final sb = StringBuffer();
-
-    sb.write("Tag={");
-
-    sb.write("id");
-    sb.write("=");
-    sb.write(id);
-    sb.write(",");
-
-    sb.write("name");
-    sb.write("=");
-    sb.write(name);
-
-    sb.write("}");
-
-    return sb.toString();
-  }
+  String toString() => 'Tag[id=$id, name=$name]';
 
   Tag.fromJson(Map<String, dynamic> json) {
     if (json == null) {

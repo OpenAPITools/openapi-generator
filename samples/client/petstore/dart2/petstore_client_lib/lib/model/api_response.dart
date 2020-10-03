@@ -39,29 +39,7 @@ class ApiResponse {
     message.hashCode;
 
   @override
-  String toString() {
-    final sb = StringBuffer();
-
-    sb.write("ApiResponse={");
-
-    sb.write("code");
-    sb.write("=");
-    sb.write(code);
-    sb.write(",");
-
-    sb.write("type");
-    sb.write("=");
-    sb.write(type);
-    sb.write(",");
-
-    sb.write("message");
-    sb.write("=");
-    sb.write(message);
-
-    sb.write("}");
-
-    return sb.toString();
-  }
+  String toString() => 'ApiResponse[code=$code, type=$type, message=$message]';
 
   ApiResponse.fromJson(Map<String, dynamic> json) {
     if (json == null) {

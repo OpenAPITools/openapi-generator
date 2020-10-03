@@ -106,8 +106,8 @@ class ApiClient {
       throw ApiException.withInner(400, 'Socket operation failed: $method $path', e, trace);
     } on IOException catch (e, trace) {
       throw ApiException.withInner(400, 'I/O operation failed: $method $path', e, trace);
-    } on Exception catch (e, t) {
-      throw ApiException.withInner(400, 'Exception occurred: $method $path', e, t);
+    } on Exception catch (e, trace) {
+      throw ApiException.withInner(400, 'Exception occurred: $method $path', e, trace);
     }
 
     throw ApiException(400, "Invalid HTTP operation: $method $path");

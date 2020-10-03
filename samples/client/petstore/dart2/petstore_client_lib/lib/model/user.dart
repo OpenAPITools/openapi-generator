@@ -69,54 +69,7 @@ class User {
     userStatus.hashCode;
 
   @override
-  String toString() {
-    final sb = StringBuffer();
-
-    sb.write("User={");
-
-    sb.write("id");
-    sb.write("=");
-    sb.write(id);
-    sb.write(",");
-
-    sb.write("username");
-    sb.write("=");
-    sb.write(username);
-    sb.write(",");
-
-    sb.write("firstName");
-    sb.write("=");
-    sb.write(firstName);
-    sb.write(",");
-
-    sb.write("lastName");
-    sb.write("=");
-    sb.write(lastName);
-    sb.write(",");
-
-    sb.write("email");
-    sb.write("=");
-    sb.write(email);
-    sb.write(",");
-
-    sb.write("password");
-    sb.write("=");
-    sb.write(password);
-    sb.write(",");
-
-    sb.write("phone");
-    sb.write("=");
-    sb.write(phone);
-    sb.write(",");
-
-    sb.write("userStatus");
-    sb.write("=");
-    sb.write(userStatus);
-
-    sb.write("}");
-
-    return sb.toString();
-  }
+  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
 
   User.fromJson(Map<String, dynamic> json) {
     if (json == null) {

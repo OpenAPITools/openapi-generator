@@ -57,44 +57,7 @@ class Pet {
     status.hashCode;
 
   @override
-  String toString() {
-    final sb = StringBuffer();
-
-    sb.write("Pet={");
-
-    sb.write("id");
-    sb.write("=");
-    sb.write(id);
-    sb.write(",");
-
-    sb.write("category");
-    sb.write("=");
-    sb.write(category == null ? "(null)" : category.toString());
-    sb.write(",");
-
-    sb.write("name");
-    sb.write("=");
-    sb.write(name);
-    sb.write(",");
-
-    sb.write("photoUrls");
-    sb.write("=");
-    sb.write(photoUrls);
-    sb.write(",");
-
-    sb.write("tags");
-    sb.write("=");
-    sb.write(tags);
-    sb.write(",");
-
-    sb.write("status");
-    sb.write("=");
-    sb.write(status);
-
-    sb.write("}");
-
-    return sb.toString();
-  }
+  String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
 
   Pet.fromJson(Map<String, dynamic> json) {
     if (json == null) {
