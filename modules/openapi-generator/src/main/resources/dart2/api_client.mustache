@@ -56,7 +56,7 @@ class ApiClient {
     return authentication is T ? authentication : null;
   }
 
-  // We don"t use a Map<String, String> for queryParams.
+  // We don’t use a Map<String, String> for queryParams.
   // If collectionFormat is "multi" a key might appear multiple times.
   Future<Response> invokeAPI(
     String path,
