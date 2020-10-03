@@ -50,7 +50,7 @@ class ApiClient {
     return authentication is T ? authentication : null;
   }
 
-  // We don"t use a Map<String, String> for queryParams.
+  // We don’t use a Map<String, String> for queryParams.
   // If collectionFormat is "multi" a key might appear multiple times.
   Future<Response> invokeAPI(
     String path,
@@ -93,16 +93,24 @@ class ApiClient {
       : serialize(body);
     final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
 
-    switch(method.toUpperCase()) {
-      case "POST": return client.post(url, headers: nullableHeaderParams, body: msgBody);
-      case "PUT": return client.put(url, headers: nullableHeaderParams, body: msgBody);
-      case "DELETE": return client.delete(url, headers: nullableHeaderParams);
-      case "PATCH": return client.patch(url, headers: nullableHeaderParams, body: msgBody);
-      case "HEAD": return client.head(url, headers: nullableHeaderParams);
-      case "GET": return client.get(url, headers: nullableHeaderParams);
+    try {
+      switch(method.toUpperCase()) {
+        case "POST": return client.post(url, headers: nullableHeaderParams, body: msgBody);
+        case "PUT": return client.put(url, headers: nullableHeaderParams, body: msgBody);
+        case "DELETE": return client.delete(url, headers: nullableHeaderParams);
+        case "PATCH": return client.patch(url, headers: nullableHeaderParams, body: msgBody);
+        case "HEAD": return client.head(url, headers: nullableHeaderParams);
+        case "GET": return client.get(url, headers: nullableHeaderParams);
+      }
+    } on SocketException catch (e, trace) {
+      throw ApiException.withInner(400, 'Socket operation failed: $method $path', e, trace);
+    } on IOException catch (e, trace) {
+      throw ApiException.withInner(400, 'I/O operation failed: $method $path', e, trace);
+    } on Exception catch (e, t) {
+      throw ApiException.withInner(400, 'Exception occurred: $method $path', e, t);
     }
 
-    throw ApiException(400, "Invalid HTTP method: $method");
+    throw ApiException(400, "Invalid HTTP operation: $method $path");
   }
 
   dynamic _deserialize(dynamic value, String targetType, {bool growable}) {

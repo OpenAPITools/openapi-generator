@@ -12,6 +12,8 @@ library openapi.api;
 
 import "dart:async";
 import "dart:convert";
+import "dart:io";
+
 import "package:http/http.dart";
 import "package:intl/intl.dart";
 import "package:meta/meta.dart";
