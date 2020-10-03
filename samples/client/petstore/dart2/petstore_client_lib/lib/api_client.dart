@@ -52,15 +52,16 @@ class ApiClient {
 
   // We don"t use a Map<String, String> for queryParams.
   // If collectionFormat is "multi" a key might appear multiple times.
-  Future<Response> invokeAPI(String path,
-                             String method,
-                             Iterable<QueryParam> queryParams,
-                             Object body,
-                             Map<String, String> headerParams,
-                             Map<String, String> formParams,
-                             String nullableContentType,
-                             List<String> authNames) async {
-
+  Future<Response> invokeAPI(
+    String path,
+    String method,
+    Iterable<QueryParam> queryParams,
+    Object body,
+    Map<String, String> headerParams,
+    Map<String, String> formParams,
+    String nullableContentType,
+    List<String> authNames,
+  ) async {
     _updateParamsForAuth(authNames, queryParams, headerParams);
 
     headerParams.addAll(_defaultHeaderMap);
@@ -77,7 +78,7 @@ class ApiClient {
       headerParams["Content-Type"] = nullableContentType;
     }
 
-    if(body is MultipartRequest) {
+    if (body is MultipartRequest) {
       var request = MultipartRequest(method, Uri.parse(url));
       request.fields.addAll(body.fields);
       request.files.addAll(body.files);
@@ -92,7 +93,7 @@ class ApiClient {
       : serialize(body);
     final nullableHeaderParams = headerParams.isEmpty ? null : headerParams;
 
-    switch(method) {
+    switch(method.toUpperCase()) {
       case "POST": return client.post(url, headers: nullableHeaderParams, body: msgBody);
       case "PUT": return client.put(url, headers: nullableHeaderParams, body: msgBody);
       case "DELETE": return client.delete(url, headers: nullableHeaderParams);

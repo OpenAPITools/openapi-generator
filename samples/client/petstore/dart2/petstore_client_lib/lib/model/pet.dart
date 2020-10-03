@@ -15,8 +15,8 @@ class Pet {
     this.id,
     this.category,
     @required this.name,
-    this.photoUrls = const [],
-    this.tags = const [],
+    this.photoUrls = const const [],
+    this.tags = const const [],
     this.status,
   });
 

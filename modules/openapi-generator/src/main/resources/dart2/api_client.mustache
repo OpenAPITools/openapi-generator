@@ -84,7 +84,7 @@ class ApiClient {
       headerParams["Content-Type"] = nullableContentType;
     }
 
-    if(body is MultipartRequest) {
+    if (body is MultipartRequest) {
       var request = MultipartRequest(method, Uri.parse(url));
       request.fields.addAll(body.fields);
       request.files.addAll(body.files);

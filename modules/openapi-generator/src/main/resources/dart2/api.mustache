@@ -17,7 +17,7 @@ class {{{classname}}} {
     // verify required params are set
     {{#allParams}}
       {{#required}}
-    if({{{paramName}}} == null) {
+    if ({{{paramName}}} == null) {
      throw ApiException(400, "Missing required param: {{{paramName}}}");
     }
       {{/required}}
@@ -32,7 +32,7 @@ class {{{classname}}} {
     Map<String, String> formParams = {};
     {{#queryParams}}
     {{^required}}
-    if({{{paramName}}} != null) {
+    if ({{{paramName}}} != null) {
     {{/required}}
       queryParams.addAll(_convertParametersForCollectionFormat("{{{collectionFormat}}}", "{{{baseName}}}", {{{paramName}}}));
     {{^required}}
@@ -48,7 +48,7 @@ class {{{classname}}} {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [{{#authMethods}}"{{{name}}}"{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
       {{#formParams}}
@@ -66,7 +66,7 @@ class {{{classname}}} {
       }
       {{/isFile}}
       {{/formParams}}
-      if(hasFields) {
+      if (hasFields) {
         postBody = mp;
       }
     } else {
@@ -100,10 +100,10 @@ class {{{classname}}} {
   /// {{{notes}}}
   {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
-    if(response.statusCode >= 400) {
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if(response.body != null) {
+    if (response.body != null) {
       {{#isListContainer}}
         {{#returnType}}
       return (apiClient.deserialize(_decodeBodyBytes(response), "{{{returnType}}}") as List)

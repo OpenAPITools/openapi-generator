@@ -23,7 +23,7 @@ class StoreApi {
     Object postBody;
 
     // verify required params are set
-    if(orderId == null) {
+    if (orderId == null) {
      throw ApiException(400, "Missing required param: orderId");
     }
 
@@ -40,10 +40,10 @@ class StoreApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields) {
+      if (hasFields) {
         postBody = mp;
       }
     } else {
@@ -68,10 +68,10 @@ class StoreApi {
   /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
   Future deleteOrder(String orderId) async {
     final response = await deleteOrderWithHttpInfo(orderId);
-    if(response.statusCode >= 400) {
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if(response.body != null) {
+    if (response.body != null) {
     }
     return;
   }
@@ -97,10 +97,10 @@ class StoreApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = ["api_key"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields) {
+      if (hasFields) {
         postBody = mp;
       }
     } else {
@@ -123,12 +123,11 @@ class StoreApi {
   /// Returns a map of status codes to quantities
   Future<Map<String, int>> getInventory() async {
     final response = await getInventoryWithHttpInfo();
-    if(response.statusCode >= 400) {
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if(response.body != null) {
+    if (response.body != null) {
       return Map<String, int>.from(apiClient.deserialize(_decodeBodyBytes(response), "Map<String, int>"));
-          ;
     }
     return null;
   }
@@ -140,7 +139,7 @@ class StoreApi {
     Object postBody;
 
     // verify required params are set
-    if(orderId == null) {
+    if (orderId == null) {
      throw ApiException(400, "Missing required param: orderId");
     }
 
@@ -157,10 +156,10 @@ class StoreApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields) {
+      if (hasFields) {
         postBody = mp;
       }
     } else {
@@ -185,10 +184,10 @@ class StoreApi {
   /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
   Future<Order> getOrderById(int orderId) async {
     final response = await getOrderByIdWithHttpInfo(orderId);
-    if(response.statusCode >= 400) {
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if(response.body != null) {
+    if (response.body != null) {
       return apiClient.deserialize(_decodeBodyBytes(response), "Order") as Order;
     }
     return null;
@@ -201,7 +200,7 @@ class StoreApi {
     Object postBody = body;
 
     // verify required params are set
-    if(body == null) {
+    if (body == null) {
      throw ApiException(400, "Missing required param: body");
     }
 
@@ -218,10 +217,10 @@ class StoreApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields) {
+      if (hasFields) {
         postBody = mp;
       }
     } else {
@@ -246,10 +245,10 @@ class StoreApi {
   /// 
   Future<Order> placeOrder(Order body) async {
     final response = await placeOrderWithHttpInfo(body);
-    if(response.statusCode >= 400) {
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
-    if(response.body != null) {
+    if (response.body != null) {
       return apiClient.deserialize(_decodeBodyBytes(response), "Order") as Order;
     }
     return null;

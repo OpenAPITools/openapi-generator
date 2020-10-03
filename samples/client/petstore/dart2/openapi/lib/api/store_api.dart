@@ -1,7 +1,5 @@
 part of openapi.api;
 
-
-
 class StoreApi {
   final ApiClient apiClient;
 
@@ -14,12 +12,14 @@ class StoreApi {
     Object postBody;
 
     // verify required params are set
-    if(orderId == null) {
-     throw ApiException(400, "Missing required param: orderId");
+    if (orderId == null) {
+      throw ApiException(400, "Missing required param: orderId");
     }
 
     // create path and map variables
-    String path = "/store/order/{orderId}".replaceAll("{format}","json").replaceAll("{" + "orderId" + "}", orderId.toString());
+    String path = "/store/order/{orderId}"
+        .replaceAll("{format}", "json")
+        .replaceAll("{" + "orderId" + "}", orderId.toString());
 
     // query params
     List<QueryParam> queryParams = [];
@@ -31,23 +31,14 @@ class StoreApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-    }
+      if (hasFields) postBody = mp;
+    } else {}
 
-    var response = await apiClient.invokeAPI(path,
-                                             'DELETE',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
+    var response = await apiClient.invokeAPI(path, 'DELETE', queryParams, postBody, headerParams,
+        formParams, nullableContentType, authNames);
     return response;
   }
 
@@ -56,9 +47,9 @@ class StoreApi {
   /// For valid response try integer IDs with value &lt; 1000. Anything above 1000 or nonintegers will generate API errors
   Future deleteOrder(String orderId) async {
     Response response = await deleteOrderWithHttpInfo(orderId);
-    if(response.statusCode >= 400) {
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
+    } else if (response.body != null) {
     } else {
       return;
     }
@@ -73,7 +64,7 @@ class StoreApi {
     // verify required params are set
 
     // create path and map variables
-    String path = "/store/inventory".replaceAll("{format}","json");
+    String path = "/store/inventory".replaceAll("{format}", "json");
 
     // query params
     List<QueryParam> queryParams = [];
@@ -85,23 +76,14 @@ class StoreApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = ["api_key"];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-    }
+      if (hasFields) postBody = mp;
+    } else {}
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
+    var response = await apiClient.invokeAPI(path, 'GET', queryParams, postBody, headerParams,
+        formParams, nullableContentType, authNames);
     return response;
   }
 
@@ -110,11 +92,11 @@ class StoreApi {
   /// Returns a map of status codes to quantities
   Future<Map<String, int>> getInventory() async {
     Response response = await getInventoryWithHttpInfo();
-    if(response.statusCode >= 400) {
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
-      return Map<String, int>.from(apiClient.deserialize(_decodeBodyBytes(response), 'Map<String, int>'));
-          ;
+    } else if (response.body != null) {
+      return Map<String, int>.from(
+          apiClient.deserialize(_decodeBodyBytes(response), 'Map<String, int>'));
     } else {
       return null;
     }
@@ -127,12 +109,14 @@ class StoreApi {
     Object postBody;
 
     // verify required params are set
-    if(orderId == null) {
-     throw ApiException(400, "Missing required param: orderId");
+    if (orderId == null) {
+      throw ApiException(400, "Missing required param: orderId");
     }
 
     // create path and map variables
-    String path = "/store/order/{orderId}".replaceAll("{format}","json").replaceAll("{" + "orderId" + "}", orderId.toString());
+    String path = "/store/order/{orderId}"
+        .replaceAll("{format}", "json")
+        .replaceAll("{" + "orderId" + "}", orderId.toString());
 
     // query params
     List<QueryParam> queryParams = [];
@@ -144,23 +128,14 @@ class StoreApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-    }
+      if (hasFields) postBody = mp;
+    } else {}
 
-    var response = await apiClient.invokeAPI(path,
-                                             'GET',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
+    var response = await apiClient.invokeAPI(path, 'GET', queryParams, postBody, headerParams,
+        formParams, nullableContentType, authNames);
     return response;
   }
 
@@ -169,9 +144,9 @@ class StoreApi {
   /// For valid response try integer IDs with value &lt;&#x3D; 5 or &gt; 10. Other values will generated exceptions
   Future<Order> getOrderById(int orderId) async {
     Response response = await getOrderByIdWithHttpInfo(orderId);
-    if(response.statusCode >= 400) {
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
+    } else if (response.body != null) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
     } else {
       return null;
@@ -180,17 +155,17 @@ class StoreApi {
 
   /// Place an order for a pet with HTTP info returned
   ///
-  /// 
+  ///
   Future<Response> placeOrderWithHttpInfo(Order body) async {
     Object postBody = body;
 
     // verify required params are set
-    if(body == null) {
-     throw ApiException(400, "Missing required param: body");
+    if (body == null) {
+      throw ApiException(400, "Missing required param: body");
     }
 
     // create path and map variables
-    String path = "/store/order".replaceAll("{format}","json");
+    String path = "/store/order".replaceAll("{format}", "json");
 
     // query params
     List<QueryParam> queryParams = [];
@@ -202,38 +177,28 @@ class StoreApi {
     String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     List<String> authNames = [];
 
-    if(nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
       bool hasFields = false;
       MultipartRequest mp = MultipartRequest(null, null);
-      if(hasFields)
-        postBody = mp;
-    }
-    else {
-    }
+      if (hasFields) postBody = mp;
+    } else {}
 
-    var response = await apiClient.invokeAPI(path,
-                                             'POST',
-                                             queryParams,
-                                             postBody,
-                                             headerParams,
-                                             formParams,
-                                             nullableContentType,
-                                             authNames);
+    var response = await apiClient.invokeAPI(path, 'POST', queryParams, postBody, headerParams,
+        formParams, nullableContentType, authNames);
     return response;
   }
 
   /// Place an order for a pet
   ///
-  /// 
+  ///
   Future<Order> placeOrder(Order body) async {
     Response response = await placeOrderWithHttpInfo(body);
-    if(response.statusCode >= 400) {
+    if (response.statusCode >= 400) {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
-    } else if(response.body != null) {
+    } else if (response.body != null) {
       return apiClient.deserialize(_decodeBodyBytes(response), 'Order') as Order;
     } else {
       return null;
     }
   }
-
 }
