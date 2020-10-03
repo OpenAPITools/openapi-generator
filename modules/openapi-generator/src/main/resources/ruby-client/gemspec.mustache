@@ -16,16 +16,11 @@ Gem::Specification.new do |s|
   s.homepage    = "{{gemHomepage}}{{^gemHomepage}}https://openapi-generator.tech{{/gemHomepage}}"
   s.summary     = "{{gemSummary}}{{^gemSummary}}{{{appName}}} Ruby Gem{{/gemSummary}}"
   s.description = "{{gemDescription}}{{^gemDescription}}{{{appDescription}}}{{^appDescription}}{{{appName}}} Ruby Gem{{/appDescription}}{{/gemDescription}}"
-  {{#gemLicense}}
-  s.license     = '{{{gemLicense}}}'
-  {{/gemLicense}}
-  {{^gemLicense}}
-  s.license     = "Unlicense"
-  {{/gemLicense}}
-  s.required_ruby_version = "{{{gemRequiredRubyVersion}}}{{^gemRequiredRubyVersion}}>= 1.9{{/gemRequiredRubyVersion}}"
+  s.license     = "{{{gemLicense}}}{{^gemLicense}}Unlicense{{/gemLicense}}"
+  s.required_ruby_version = "{{{gemRequiredRubyVersion}}}{{^gemRequiredRubyVersion}}>= 2.4{{/gemRequiredRubyVersion}}"
 
   {{#isFaraday}}
-  s.add_runtime_dependency 'faraday', '>= 0.14.0'
+  s.add_runtime_dependency 'faraday', '~> 1.0', '>= 1.0.1'
   {{/isFaraday}}
   {{^isFaraday}}
   s.add_runtime_dependency 'typhoeus', '~> 1.0', '>= 1.0.1'

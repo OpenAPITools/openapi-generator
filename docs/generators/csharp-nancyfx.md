@@ -3,6 +3,8 @@ title: Config Options for csharp-nancyfx
 sidebar_label: csharp-nancyfx
 ---
 
+These options may be applied as additional-properties (cli) or configOptions (plugins). Refer to [configuration docs](https://openapi-generator.tech/docs/configuration) for more details.
+
 | Option | Description | Values | Default |
 | ------ | ----------- | ------ | ------- |
 |asyncServer|Set to true to enable the generation of async routes/endpoints.| |false|

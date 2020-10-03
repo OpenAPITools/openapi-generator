@@ -283,7 +283,7 @@ class Tag implements ModelInterface, ArrayAccess
      */
     public function offsetGet($offset)
     {
-        return isset($this->container[$offset]) ?? null;
+        return $this->container[$offset] ?? null;
     }
 
     /**
