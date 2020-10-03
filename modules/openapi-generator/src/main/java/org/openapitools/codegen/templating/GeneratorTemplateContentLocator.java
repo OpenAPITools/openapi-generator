@@ -35,6 +35,10 @@ public class GeneratorTemplateContentLocator implements TemplatePathLocator {
      * @return true if file is an embedded resource, false if it does not exist
      */
     public boolean embeddedTemplateExists(String name) {
+        return classpathTemplateExists(name);
+    }
+
+    private boolean classpathTemplateExists(String name) {
         return this.getClass().getClassLoader().getResource(TemplateManager.getCPResourcePath(name)) != null;
     }
 
@@ -61,20 +65,25 @@ public class GeneratorTemplateContentLocator implements TemplatePathLocator {
         if (StringUtils.isNotEmpty(library)) {
             //look for the file in the library subfolder of the supplied template
             final String libTemplateFile = buildLibraryFilePath(config.templateDir(), library, relativeTemplateFile);
-            if (new File(libTemplateFile).exists()) {
+            // looks for user-defined file or classpath
+            // supports template dir which refers to local file system or custom path in classpath as defined by templateDir
+            if (new File(libTemplateFile).exists() || classpathTemplateExists(libTemplateFile)) {
                 return libTemplateFile;
             }
         }
 
         //check the supplied template main folder for the file
         final String template = config.templateDir() + File.separator + relativeTemplateFile;
-        if (new File(template).exists()) {
+        // looks for user-defined file or classpath
+        // supports template dir which refers to local file system or custom path in classpath as defined by templateDir
+        if (new File(template).exists() || classpathTemplateExists(template)) {
             return template;
         }
 
         //try the embedded template library folder next
         if (StringUtils.isNotEmpty(library)) {
             final String embeddedLibTemplateFile = buildLibraryFilePath(config.embeddedTemplateDir(), library, relativeTemplateFile);
+            // *only* looks for those files in classpath as defined by embeddedTemplateDir
             if (embeddedTemplateExists(embeddedLibTemplateFile)) {
                 // Fall back to the template file embedded/packaged in the JAR file library folder...
                 return embeddedLibTemplateFile;
@@ -83,6 +92,7 @@ public class GeneratorTemplateContentLocator implements TemplatePathLocator {
 
         // Fall back to the template file for generator root directory embedded/packaged in the JAR file...
         String loc = config.embeddedTemplateDir() + File.separator + relativeTemplateFile;
+        // *only* looks for those files in classpath as defined by embeddedTemplateDir
         if (embeddedTemplateExists(loc)) {
             return loc;
         }
