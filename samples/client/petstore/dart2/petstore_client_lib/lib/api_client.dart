@@ -104,6 +104,8 @@ class ApiClient {
       }
     } on SocketException catch (e, trace) {
       throw ApiException.withInner(400, 'Socket operation failed: $method $path', e, trace);
+    } on TlsException catch (e, trace) {
+      throw ApiException.withInner(400, 'TLS/SSL communication failed: $method $path', e, trace);
     } on IOException catch (e, trace) {
       throw ApiException.withInner(400, 'I/O operation failed: $method $path', e, trace);
     } on Exception catch (e, trace) {
