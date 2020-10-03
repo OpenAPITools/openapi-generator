@@ -115,7 +115,7 @@ class {{{classname}}} {
         {{#isMapContainer}}
           {{#returnType}}
       return {{{returnType}}}.from(apiClient.deserialize(_decodeBodyBytes(response), "{{{returnType}}}"));
-          {{/returnType}};
+          {{/returnType}}
         {{/isMapContainer}}
         {{^isMapContainer}}
           {{#returnType}}
