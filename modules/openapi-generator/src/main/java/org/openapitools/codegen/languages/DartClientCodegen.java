@@ -192,7 +192,7 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
 
     @Override
     public String getHelp() {
-        return "Generates a Dart client library.";
+        return "Generates a Dart 2.x client library.";
     }
 
     protected void defaultProcessOpts() {
