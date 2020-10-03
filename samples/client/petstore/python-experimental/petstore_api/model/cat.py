@@ -18,8 +18,6 @@ import nulltype  # noqa: F401
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
     ModelComposed,
-    ModelNormal,
-    ModelSimple,
     cached_property,
     change_keys_js_to_python,
     convert_js_args_to_python_args,

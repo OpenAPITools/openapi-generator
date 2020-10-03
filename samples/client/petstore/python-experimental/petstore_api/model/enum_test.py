@@ -17,9 +17,7 @@ import nulltype  # noqa: F401
 
 from petstore_api.model_utils import (  # noqa: F401
     ApiTypeError,
-    ModelComposed,
     ModelNormal,
-    ModelSimple,
     cached_property,
     change_keys_js_to_python,
     convert_js_args_to_python_args,
@@ -71,12 +69,12 @@ class EnumTest(ModelNormal):
             'EMPTY': "",
         },
         ('enum_integer',): {
-            '1': 1,
-            '-1': -1,
+            'POSITIVE_1': 1,
+            'NEGATIVE_1': -1,
         },
         ('enum_number',): {
-            '1.1': 1.1,
-            '-1.2': -1.2,
+            'POSITIVE_1_PT_1': 1.1,
+            'NEGATIVE_1_PT_2': -1.2,
         },
     }
 

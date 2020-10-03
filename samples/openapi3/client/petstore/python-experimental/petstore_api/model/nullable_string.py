@@ -98,3 +98,11 @@ class NullableString(ModelSimple):
         """
         return (str, none_type, NoneEnum)
 
+    def __new__(cls, *args, **kwargs):
+        """NullableString - a model defined in OpenAPI
+
+        Args:
+            arg (str):  # noqa: E501
+        """
+        return get_new_instance(NullableString, cls, super(), *args, **kwargs)
+

@@ -118,11 +118,28 @@ class {{classname}}(ModelSimple{{^isEnum}}{{^isNullable}}, {{#isInteger}}int{{/i
         """
         if not args:
             args = ({{{defaultValue}}},)
-        {{#isNullable}}
+{{#isNullable}}
         return get_new_instance({{classname}}, cls, super(), *args, **kwargs)
-        {{/isNullable}}
-        {{^isNullable}}
+{{/isNullable}}
+{{^isNullable}}
         return super().__new__(cls, *args, **kwargs)
-        {{/isNullable}}
+{{/isNullable}}
+{{/defaultValue}}
+{{/isEnum}}
+{{^isEnum}}
+{{^defaultValue}}
+{{#isNullable}}
+
+    def __new__(cls, *args, **kwargs):
+        """{{classname}} - a model defined in OpenAPI
+{{#description}}
+        {{description}}
+{{/description}}
+
+        Args:
+            arg ({{{dataType}}}):{{#defaultValue}} defaults to {{{defaultValue}}}{{/defaultValue}}{{#allowableValues}}, must be one of [{{#enumVars}}{{{value}}}, {{/enumVars}}]{{/allowableValues}}  # noqa: E501
+        """
+        return get_new_instance({{classname}}, cls, super(), *args, **kwargs)
+{{/isNullable}}
 {{/defaultValue}}
 {{/isEnum}}
