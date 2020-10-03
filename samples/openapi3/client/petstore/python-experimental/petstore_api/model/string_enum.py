@@ -77,29 +77,6 @@ lines'''
         # this must be a method, otherwise it will be set as an enum member
         return True
 
-    @classmethod
-    def _get_new_class(cls, *args, **kwargs):
-        """
-        We return dynamic classes of different bases depending upon the inputs
-        Returns:
-            new_cls (type): the new dynamic class that we have built
-        """
-        _required_interface_cls, _inheritance_chain, inheritance_cycle = get_inheritance_chain_vars(cls, kwargs)
-        if inheritance_cycle:
-            return cls
-
-        # validation logic
-        chosen_additional_classes = []
-        arg = args[0]
-        if arg is None:
-            # type(None) and bool cannot be subclassed so we must use Enums
-            # to store None, True, and False
-            chosen_additional_classes = [NoneEnum]
-        else:
-            chosen_additional_classes = [str]
-
-        return mfg_new_class(cls, chosen_additional_classes, _inheritance_chain, _required_interface_cls, *args, **kwargs)
-
     @cached_property
     def openapi_type():
         """
@@ -109,5 +86,5 @@ lines'''
         Returns
             openapi_type (tuple): the accepted types
         """
-        return (str, none_type)
+        return (str, none_type, NoneEnum)
 

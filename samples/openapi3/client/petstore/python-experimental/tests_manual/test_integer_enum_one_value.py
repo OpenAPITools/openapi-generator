@@ -34,10 +34,9 @@ class TestIntegerEnumOneValue(unittest.TestCase):
         model = IntegerEnumOneValue(0)
         assert model == 0, "We can also pass in the value as a positional arg"
 
-        # one can't pass the value with the value keyword
-        with self.assertRaises(petstore_api.ApiTypeError):
-            IntegerEnumOneValue(value=0)
-
+        # one can pass the value with the value keyword, this is standard Enum behavior
+        model = IntegerEnumOneValue(value=0)
+        assert model == 0, "We can also pass in the value as a keyword arg"
 
 if __name__ == '__main__':
     unittest.main()

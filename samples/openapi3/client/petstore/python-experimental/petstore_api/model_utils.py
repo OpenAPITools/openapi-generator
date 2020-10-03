@@ -28,6 +28,7 @@ from petstore_api.exceptions import (
 )
 from petstore_api.enums import (
     Enum,
+    EnumWithDefault,
     NoneEnum,
 )
 
@@ -114,7 +115,7 @@ class ModelSimple(OpenApiModel):
     swagger/openapi
 
     Use Cases:
-    1. Enums with None or boolean, or other values
+    1. Enums with None, boolean, or other values
     - the boolean or none values will be in the allowed_values + __new__ will be called
     2. Primitive type nullable, not enum
     - get_new_instance will be called to mfg a class. This makes it so none instances are still of a class type
@@ -184,6 +185,21 @@ class ModelSimple(OpenApiModel):
             else:
                 inst = super().__new__(cls, arg)
         return inst
+
+    @classmethod
+    def _missing_(cls, value):
+        """
+        method that raises an ApiValueError when a value is not present in an enum
+        """
+        allowed_values = [item.value for item in list(cls)]
+        raise ApiValueError(
+            "Invalid value for %s %s, must be a subset of [%s]" %
+            (
+                cls.__name__,
+                value,
+                ", ".join(map(str, allowed_values))
+            )
+        )
 
     def __init__(self, *args, **kwargs):
         """a model defined in OpenAPI
@@ -2023,6 +2039,7 @@ def make_dynamic_class(*bases):
     Args:
         bases (list): the base classes that DynamicBaseClasses inherits from
     """
+    print(bases)
     if issubclass(bases[-1], Enum):
         # enum based classes
         bases = list(bases)
@@ -2047,8 +2064,10 @@ def mfg_new_class(cls, chosen_additional_classes, _inheritance_chain, _required_
     real_additional_classes = []
     for chosen_cls in chosen_additional_classes:
         if issubclass(chosen_cls, ModelComposed):
+            # create dynamic classes for composed schemas and include them in our final class
             chosen_cls = chosen_cls._get_new_class(_inheritance_chain=_inheritance_chain, _required_interface_cls=_required_interface_cls, *args, **kwargs)
         real_additional_classes.append(chosen_cls)
+    print(_required_interface_cls)
     if any(issubclass(c, _required_interface_cls) for c in real_additional_classes) and cls is _required_interface_cls:
         if len(real_additional_classes) == 1:
             return real_additional_classes[0]

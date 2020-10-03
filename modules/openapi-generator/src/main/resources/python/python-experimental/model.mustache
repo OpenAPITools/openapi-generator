@@ -12,7 +12,12 @@ import nulltype  # noqa: F401
 from {{packageName}}.model_utils import (  # noqa: F401
     ApiTypeError,
 {{#isEnum}}
+{{^defaultValue}}
     Enum,
+{{/defaultValue}}
+{{#defaultValue}}
+    EnumWithDefault,
+{{/defaultValue}}
 {{/isEnum}}
 {{#interfaces}}
 {{#-first}}

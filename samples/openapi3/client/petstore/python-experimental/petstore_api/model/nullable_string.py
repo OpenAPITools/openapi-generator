@@ -81,8 +81,6 @@ class NullableString(ModelSimple):
         chosen_additional_classes = []
         arg = args[0]
         if arg is None:
-            # type(None) and bool cannot be subclassed so we must use Enums
-            # to store None, True, and False
             chosen_additional_classes = [NoneEnum]
         else:
             chosen_additional_classes = [str]
@@ -98,13 +96,5 @@ class NullableString(ModelSimple):
         Returns
             openapi_type (tuple): the accepted types
         """
-        return (str, none_type)
-
-    def __new__(cls, *args, **kwargs):
-        """NullableString - a model defined in OpenAPI
-
-        Args:
-            arg (str):  # noqa: E501
-        """
-        return get_new_instance(NullableString, cls, super(), *args, **kwargs)
+        return (str, none_type, NoneEnum)
 

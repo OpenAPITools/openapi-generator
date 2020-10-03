@@ -203,7 +203,7 @@ class EnumMeta(CallFixer):
         """
         return True
 
-    def __call__(cls, value, names=None, *, module=None, qualname=None, type=None, start=1):
+    def __call__(cls, value, names=None, *, module=None, qualname=None, type=None, start=1, **kwargs):
         """Either returns an existing member, or creates a new enum class.
 
         This method is used both when an enum class is given a value to match
@@ -583,6 +583,24 @@ class Enum(metaclass=EnumMeta):
     def value(self):
         """The value of the Enum member."""
         return self._value_
+
+
+class EnumMetaWithDefault(EnumMeta):
+    default = object()
+
+    def __call__(cls, value=default, *args, **kwargs):
+        if value is EnumMetaWithDefault.default:
+            # Use the first value
+            return next(iter(cls))
+        return super().__call__(value, *args, **kwargs)
+
+
+class EnumWithDefault(Enum, metaclass=EnumMetaWithDefault):
+    """
+    The first enum value will be used as the default value if an enum is
+    instantiated without passing a value in
+    """
+    pass
 
 
 class NoneEnum(Enum):

@@ -29,7 +29,8 @@ class TestStringEnum(unittest.TestCase):
     def testStringEnum(self):
         """Test StringEnum"""
         inst = StringEnum(None)
-        self.assertIsNone(inst)
+        assert isinstance(inst, StringEnum)
+        assert inst.value is None
 
         inst = StringEnum('approved')
         assert isinstance(inst, StringEnum)
@@ -38,15 +39,13 @@ class TestStringEnum(unittest.TestCase):
             StringEnum('garbage')
 
         # make sure that we can access its allowed_values
-        assert StringEnum.allowed_values[('value',)] == {
-            'None': None,
-            'PLACED': "placed",
-            'APPROVED': "approved",
-            'DELIVERED': "delivered",
-            'DOUBLE_QUOTE_WITH_NEWLINE': "double quote \n with newline",
-            'MULTIPLE_LINES': "multiple\nlines",
-            'SINGLE_QUOTED': "single quoted"
-        }
+        assert StringEnum.NONE.value == None
+        assert StringEnum.PLACED.value == "placed"
+        assert StringEnum.APPROVED.value == "approved"
+        assert StringEnum.DELIVERED.value == "delivered"
+        assert StringEnum.DOUBLE_QUOTE_WITH_NEWLINE.value == "double quote \n with newline"
+        assert StringEnum.MULTIPLE_LINES.value == "multiple\nlines"
+        assert StringEnum.SINGLE_QUOTED.value == "single quoted"
 
 
 if __name__ == '__main__':

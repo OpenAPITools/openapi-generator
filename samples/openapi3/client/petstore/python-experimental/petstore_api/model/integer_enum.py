@@ -70,7 +70,6 @@ class IntegerEnum(ModelSimple, int, Enum):
         # this must be a method, otherwise it will be set as an enum member
         return False
 
-
     @cached_property
     def openapi_type():
         """
