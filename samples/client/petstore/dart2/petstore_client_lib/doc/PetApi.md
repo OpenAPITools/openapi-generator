@@ -133,7 +133,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**List&lt;String&gt;**](String.md)| Status values that need to be considered for filter | [default to const []]
+ **status** | [**List<String>**](String.md)| Status values that need to be considered for filter | [default to const []]
 
 ### Return type
 
@@ -178,7 +178,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**List&lt;String&gt;**](String.md)| Tags to filter by | [default to const []]
+ **tags** | [**List<String>**](String.md)| Tags to filter by | [default to const []]
 
 ### Return type
 

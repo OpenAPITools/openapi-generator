@@ -71,7 +71,7 @@ Creates list of users with given input array
 import "package:openapi/api.dart";
 
 var api_instance = UserApi();
-var body = [List&lt;User&gt;()]; // List<User> | List of user object
+var body = [List<User>()]; // List<User> | List of user object
 
 try { 
     api_instance.createUsersWithArrayInput(body);
@@ -84,7 +84,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
+ **body** | [**List<User>**](User.md)| List of user object | 
 
 ### Return type
 
@@ -111,7 +111,7 @@ Creates list of users with given input array
 import "package:openapi/api.dart";
 
 var api_instance = UserApi();
-var body = [List&lt;User&gt;()]; // List<User> | List of user object
+var body = [List<User>()]; // List<User> | List of user object
 
 try { 
     api_instance.createUsersWithListInput(body);
@@ -124,7 +124,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**List&lt;User&gt;**](User.md)| List of user object | 
+ **body** | [**List<User>**](User.md)| List of user object | 
 
 ### Return type
 
