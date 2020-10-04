@@ -173,6 +173,13 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
             additionalProperties.put(IS_FORMAT_PROTO, false);
         }
 
+        if (additionalProperties.containsKey(PUB_LIBRARY)) {
+            this.setPubLibrary((String) additionalProperties.get(PUB_LIBRARY));
+        } else {
+            //not set, use to be passed to template
+            additionalProperties.put(PUB_LIBRARY, pubLibrary);
+        }
+
         if (additionalProperties.containsKey(PUB_NAME)) {
             this.setPubName((String) additionalProperties.get(PUB_NAME));
         } else {
