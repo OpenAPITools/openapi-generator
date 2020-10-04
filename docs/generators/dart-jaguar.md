@@ -22,7 +22,6 @@ sidebar_label: dart-jaguar
 |sortModelPropertiesByRequiredFlag|Sort model properties to place required parameters before optional parameters.| |true|
 |sortParamsByRequiredFlag|Sort method arguments to place required parameters before optional parameters.| |true|
 |sourceFolder|Source folder for generated code| |null|
-|supportDart2|Support Dart 2.x (Dart 1.x support has been deprecated)| |true|
 |useEnumExtension|Allow the 'x-enum-values' extension for enums| |null|
 
 ## IMPORT MAPPING
