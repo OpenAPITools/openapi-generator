@@ -179,13 +179,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
             LOGGER.info("NOTE: To enable file post-processing, 'enablePostProcessFile' must be set to `true` (--enable-post-process-file for CLI).");
         }
 
-        if (additionalProperties.containsKey(BROWSER_CLIENT)) {
-            this.setBrowserClient(convertPropertyToBooleanAndWriteBack(BROWSER_CLIENT));
-        } else {
-            //not set, use to be passed to template
-            additionalProperties.put(BROWSER_CLIENT, browserClient);
-        }
-
         if (additionalProperties.containsKey(NULLABLE_FIELDS)) {
             this.setNullableFields(convertPropertyToBooleanAndWriteBack(NULLABLE_FIELDS));
         } else {

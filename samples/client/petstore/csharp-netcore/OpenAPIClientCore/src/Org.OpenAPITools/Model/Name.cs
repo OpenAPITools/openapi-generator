@@ -50,7 +50,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets _Name
         /// </summary>
-        [DataMember(Name = "name", EmitDefaultValue = false)]
+        [DataMember(Name = "name", IsRequired = true, EmitDefaultValue = false)]
         public int _Name { get; set; }
 
         /// <summary>

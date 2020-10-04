@@ -55,7 +55,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets Cultivar
         /// </summary>
-        [DataMember(Name = "cultivar", EmitDefaultValue = false)]
+        [DataMember(Name = "cultivar", IsRequired = true, EmitDefaultValue = false)]
         public string Cultivar { get; set; }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets LengthCm
         /// </summary>
-        [DataMember(Name = "lengthCm", EmitDefaultValue = false)]
+        [DataMember(Name = "lengthCm", IsRequired = true, EmitDefaultValue = false)]
         public decimal LengthCm { get; set; }
 
         /// <summary>
