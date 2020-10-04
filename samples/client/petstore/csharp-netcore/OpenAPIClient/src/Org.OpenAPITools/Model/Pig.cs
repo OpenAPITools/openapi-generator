@@ -30,39 +30,44 @@ namespace Org.OpenAPITools.Model
     /// Pig
     /// </summary>
     [DataContract(Name = "Pig")]
-    [JsonConverter(typeof(JsonSubtypes), "ClassName")]
     public partial class Pig : IEquatable<Pig>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        protected Pig()
+        public Pig()
         {
-            this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
-        /// <param name="className">className (required).</param>
-        public Pig(string className = default(string))
+        public Pig(Object actualInstance)
         {
-            // to ensure "className" is required (not null)
-            this.ClassName = className ?? throw new ArgumentNullException("className is a required property for Pig and cannot be null");
-            this.AdditionalProperties = new Dictionary<string, object>();
+            if (actualInstance == null)
+            {
+                return;
+            }
+
+            if (actualInstance.GetType() == typeof(BasquePig))
+            {
+                 this.ActualInstance = actualInstance;
+                 return;
+            }
+
+            if (actualInstance.GetType() == typeof(DanishPig))
+            {
+                 this.ActualInstance = actualInstance;
+                 return;
+            }
+
+            throw new ArgumentException("Invalid instance found. Must be the following types: BasquePig DanishPig");
         }
 
         /// <summary>
-        /// Gets or Sets ClassName
+        /// Gets or Sets ActualInstance
         /// </summary>
-        [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
-        public string ClassName { get; set; }
-
-        /// <summary>
-        /// Gets or Sets additional properties
-        /// </summary>
-        [JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperties { get; set; }
+        public Object ActualInstance { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -72,8 +77,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Pig {\n");
-            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -84,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return JsonConvert.SerializeObject(this.ActualInstance);
         }
 
         /// <summary>
@@ -116,10 +120,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ClassName != null)
-                    hashCode = hashCode * 59 + this.ClassName.GetHashCode();
-                if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
                 return hashCode;
             }
         }
@@ -130,16 +132,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }

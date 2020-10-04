@@ -34,41 +34,39 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
-        /// <param name="color">color.</param>
-        /// <param name="cultivar">cultivar.</param>
-        /// <param name="origin">origin.</param>
-        /// <param name="lengthCm">lengthCm.</param>
-        public Fruit(string color = default(string), string cultivar = default(string), string origin = default(string), decimal lengthCm = default(decimal))
+        public Fruit()
         {
-            this.Color = color;
-            this.Cultivar = cultivar;
-            this.Origin = origin;
-            this.LengthCm = lengthCm;
         }
 
         /// <summary>
-        /// Gets or Sets Color
+        /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
-        [DataMember(Name = "color", EmitDefaultValue = false)]
-        public string Color { get; set; }
+        public Fruit(Object actualInstance)
+        {
+            if (actualInstance == null)
+            {
+                return;
+            }
+
+            if (actualInstance.GetType() == typeof(Apple))
+            {
+                 this.ActualInstance = actualInstance;
+                 return;
+            }
+
+            if (actualInstance.GetType() == typeof(Banana))
+            {
+                 this.ActualInstance = actualInstance;
+                 return;
+            }
+
+            throw new ArgumentException("Invalid instance found. Must be the following types: Apple Banana");
+        }
 
         /// <summary>
-        /// Gets or Sets Cultivar
+        /// Gets or Sets ActualInstance
         /// </summary>
-        [DataMember(Name = "cultivar", EmitDefaultValue = false)]
-        public string Cultivar { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Origin
-        /// </summary>
-        [DataMember(Name = "origin", EmitDefaultValue = false)]
-        public string Origin { get; set; }
-
-        /// <summary>
-        /// Gets or Sets LengthCm
-        /// </summary>
-        [DataMember(Name = "lengthCm", EmitDefaultValue = false)]
-        public decimal LengthCm { get; set; }
+        public Object ActualInstance { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -78,10 +76,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Fruit {\n");
-            sb.Append("  Color: ").Append(Color).Append("\n");
-            sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
-            sb.Append("  Origin: ").Append(Origin).Append("\n");
-            sb.Append("  LengthCm: ").Append(LengthCm).Append("\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -92,7 +87,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return JsonConvert.SerializeObject(this.ActualInstance);
         }
 
         /// <summary>
@@ -124,13 +119,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Color != null)
-                    hashCode = hashCode * 59 + this.Color.GetHashCode();
-                if (this.Cultivar != null)
-                    hashCode = hashCode * 59 + this.Cultivar.GetHashCode();
-                if (this.Origin != null)
-                    hashCode = hashCode * 59 + this.Origin.GetHashCode();
-                hashCode = hashCode * 59 + this.LengthCm.GetHashCode();
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
                 return hashCode;
             }
         }
@@ -142,20 +132,6 @@ namespace Org.OpenAPITools.Model
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
-            // Cultivar (string) pattern
-            Regex regexCultivar = new Regex(@"^[a-zA-Z\\s]*$", RegexOptions.CultureInvariant);
-            if (false == regexCultivar.Match(this.Cultivar).Success)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Cultivar, must match a pattern of " + regexCultivar, new [] { "Cultivar" });
-            }
-
-            // Origin (string) pattern
-            Regex regexOrigin = new Regex(@"^[A-Z\\s]*$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-            if (false == regexOrigin.Match(this.Origin).Success)
-            {
-                yield return new System.ComponentModel.DataAnnotations.ValidationResult("Invalid value for Origin, must match a pattern of " + regexOrigin, new [] { "Origin" });
-            }
-
             yield break;
         }
     }

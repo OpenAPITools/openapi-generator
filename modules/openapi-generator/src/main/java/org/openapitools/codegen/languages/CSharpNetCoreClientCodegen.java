@@ -938,4 +938,31 @@ public class CSharpNetCoreClientCodegen extends AbstractCSharpCodegen {
             return null;
         }
     }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Map<String, Object> postProcessModels(Map<String, Object> objs) {
+        objs = super.postProcessModels(objs);
+        List<Object> models = (List<Object>) objs.get("models");
+
+        // add implements for serializable/parcelable to all models
+        for (Object _mo : models) {
+            Map<String, Object> mo = (Map<String, Object>) _mo;
+            CodegenModel cm = (CodegenModel) mo.get("model");
+
+            if (cm.oneOf != null && !cm.oneOf.isEmpty() && cm.oneOf.contains("ModelNull")) {
+                // if oneOf contains "null" type
+                cm.isNullable = true;
+                cm.oneOf.remove("ModelNull");
+            }
+
+            if (cm.anyOf != null && !cm.anyOf.isEmpty() && cm.anyOf.contains("ModelNull")) {
+                // if anyOf contains "null" type
+                cm.isNullable = true;
+                cm.anyOf.remove("ModelNull");
+            }
+        }
+
+        return objs;
+    }
 }

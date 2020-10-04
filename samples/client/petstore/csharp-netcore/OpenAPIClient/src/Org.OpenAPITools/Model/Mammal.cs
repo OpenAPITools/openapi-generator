@@ -30,88 +30,50 @@ namespace Org.OpenAPITools.Model
     /// Mammal
     /// </summary>
     [DataContract(Name = "mammal")]
-    [JsonConverter(typeof(JsonSubtypes), "ClassName")]
     public partial class Mammal : IEquatable<Mammal>, IValidatableObject
     {
         /// <summary>
-        /// Defines Type
+        /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
-        public enum TypeEnum
+        public Mammal()
         {
-            /// <summary>
-            /// Enum Plains for value: plains
-            /// </summary>
-            [EnumMember(Value = "plains")]
-            Plains = 1,
-
-            /// <summary>
-            /// Enum Mountain for value: mountain
-            /// </summary>
-            [EnumMember(Value = "mountain")]
-            Mountain = 2,
-
-            /// <summary>
-            /// Enum Grevys for value: grevys
-            /// </summary>
-            [EnumMember(Value = "grevys")]
-            Grevys = 3
-
         }
 
-        /// <summary>
-        /// Gets or Sets Type
-        /// </summary>
-        [DataMember(Name = "type", EmitDefaultValue = false)]
-        public TypeEnum? Type { get; set; }
         /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        protected Mammal()
+        public Mammal(Object actualInstance)
         {
-            this.AdditionalProperties = new Dictionary<string, object>();
+            if (actualInstance == null)
+            {
+                return;
+            }
+
+            if (actualInstance.GetType() == typeof(Pig))
+            {
+                 this.ActualInstance = actualInstance;
+                 return;
+            }
+
+            if (actualInstance.GetType() == typeof(Whale))
+            {
+                 this.ActualInstance = actualInstance;
+                 return;
+            }
+
+            if (actualInstance.GetType() == typeof(Zebra))
+            {
+                 this.ActualInstance = actualInstance;
+                 return;
+            }
+
+            throw new ArgumentException("Invalid instance found. Must be the following types: Pig Whale Zebra");
         }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Mammal" /> class.
-        /// </summary>
-        /// <param name="hasBaleen">hasBaleen.</param>
-        /// <param name="hasTeeth">hasTeeth.</param>
-        /// <param name="className">className (required).</param>
-        /// <param name="type">type.</param>
-        public Mammal(bool hasBaleen = default(bool), bool hasTeeth = default(bool), string className = default(string), TypeEnum? type = default(TypeEnum?))
-        {
-            // to ensure "className" is required (not null)
-            this.ClassName = className ?? throw new ArgumentNullException("className is a required property for Mammal and cannot be null");
-            this.HasBaleen = hasBaleen;
-            this.HasTeeth = hasTeeth;
-            this.Type = type;
-            this.AdditionalProperties = new Dictionary<string, object>();
-        }
 
         /// <summary>
-        /// Gets or Sets HasBaleen
+        /// Gets or Sets ActualInstance
         /// </summary>
-        [DataMember(Name = "hasBaleen", EmitDefaultValue = false)]
-        public bool HasBaleen { get; set; }
-
-        /// <summary>
-        /// Gets or Sets HasTeeth
-        /// </summary>
-        [DataMember(Name = "hasTeeth", EmitDefaultValue = false)]
-        public bool HasTeeth { get; set; }
-
-        /// <summary>
-        /// Gets or Sets ClassName
-        /// </summary>
-        [DataMember(Name = "className", IsRequired = true, EmitDefaultValue = false)]
-        public string ClassName { get; set; }
-
-        /// <summary>
-        /// Gets or Sets additional properties
-        /// </summary>
-        [JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperties { get; set; }
+        public Object ActualInstance { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -121,11 +83,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Mammal {\n");
-            sb.Append("  HasBaleen: ").Append(HasBaleen).Append("\n");
-            sb.Append("  HasTeeth: ").Append(HasTeeth).Append("\n");
-            sb.Append("  ClassName: ").Append(ClassName).Append("\n");
-            sb.Append("  Type: ").Append(Type).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -136,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return JsonConvert.SerializeObject(this.ActualInstance);
         }
 
         /// <summary>
@@ -168,13 +126,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                hashCode = hashCode * 59 + this.HasBaleen.GetHashCode();
-                hashCode = hashCode * 59 + this.HasTeeth.GetHashCode();
-                if (this.ClassName != null)
-                    hashCode = hashCode * 59 + this.ClassName.GetHashCode();
-                hashCode = hashCode * 59 + this.Type.GetHashCode();
-                if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
                 return hashCode;
             }
         }
@@ -185,16 +138,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }

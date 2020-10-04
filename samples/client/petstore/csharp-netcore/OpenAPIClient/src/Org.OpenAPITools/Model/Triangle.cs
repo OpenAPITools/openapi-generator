@@ -30,48 +30,50 @@ namespace Org.OpenAPITools.Model
     /// Triangle
     /// </summary>
     [DataContract(Name = "Triangle")]
-    [JsonConverter(typeof(JsonSubtypes), "TriangleType")]
     public partial class Triangle : IEquatable<Triangle>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        protected Triangle()
+        public Triangle()
         {
-            this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
-        /// <param name="shapeType">shapeType (required).</param>
-        /// <param name="triangleType">triangleType (required).</param>
-        public Triangle(string shapeType = default(string), string triangleType = default(string))
+        public Triangle(Object actualInstance)
         {
-            // to ensure "shapeType" is required (not null)
-            this.ShapeType = shapeType ?? throw new ArgumentNullException("shapeType is a required property for Triangle and cannot be null");
-            // to ensure "triangleType" is required (not null)
-            this.TriangleType = triangleType ?? throw new ArgumentNullException("triangleType is a required property for Triangle and cannot be null");
-            this.AdditionalProperties = new Dictionary<string, object>();
+            if (actualInstance == null)
+            {
+                return;
+            }
+
+            if (actualInstance.GetType() == typeof(EquilateralTriangle))
+            {
+                 this.ActualInstance = actualInstance;
+                 return;
+            }
+
+            if (actualInstance.GetType() == typeof(IsoscelesTriangle))
+            {
+                 this.ActualInstance = actualInstance;
+                 return;
+            }
+
+            if (actualInstance.GetType() == typeof(ScaleneTriangle))
+            {
+                 this.ActualInstance = actualInstance;
+                 return;
+            }
+
+            throw new ArgumentException("Invalid instance found. Must be the following types: EquilateralTriangle IsoscelesTriangle ScaleneTriangle");
         }
 
         /// <summary>
-        /// Gets or Sets ShapeType
+        /// Gets or Sets ActualInstance
         /// </summary>
-        [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
-        public string ShapeType { get; set; }
-
-        /// <summary>
-        /// Gets or Sets TriangleType
-        /// </summary>
-        [DataMember(Name = "triangleType", IsRequired = true, EmitDefaultValue = false)]
-        public string TriangleType { get; set; }
-
-        /// <summary>
-        /// Gets or Sets additional properties
-        /// </summary>
-        [JsonExtensionData]
-        public IDictionary<string, object> AdditionalProperties { get; set; }
+        public Object ActualInstance { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -81,9 +83,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Triangle {\n");
-            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
-            sb.Append("  TriangleType: ").Append(TriangleType).Append("\n");
-            sb.Append("  AdditionalProperties: ").Append(AdditionalProperties).Append("\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -94,7 +94,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return JsonConvert.SerializeObject(this.ActualInstance);
         }
 
         /// <summary>
@@ -126,12 +126,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ShapeType != null)
-                    hashCode = hashCode * 59 + this.ShapeType.GetHashCode();
-                if (this.TriangleType != null)
-                    hashCode = hashCode * 59 + this.TriangleType.GetHashCode();
-                if (this.AdditionalProperties != null)
-                    hashCode = hashCode * 59 + this.AdditionalProperties.GetHashCode();
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
                 return hashCode;
             }
         }
@@ -142,16 +138,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }

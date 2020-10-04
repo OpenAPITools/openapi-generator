@@ -34,47 +34,39 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        protected FruitReq() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FruitReq" /> class.
-        /// </summary>
-        /// <param name="cultivar">cultivar (required).</param>
-        /// <param name="mealy">mealy.</param>
-        /// <param name="lengthCm">lengthCm (required).</param>
-        /// <param name="sweet">sweet.</param>
-        public FruitReq(string cultivar = default(string), bool mealy = default(bool), decimal lengthCm = default(decimal), bool sweet = default(bool))
+        public FruitReq()
         {
-            // to ensure "cultivar" is required (not null)
-            this.Cultivar = cultivar ?? throw new ArgumentNullException("cultivar is a required property for FruitReq and cannot be null");
-            this.LengthCm = lengthCm;
-            this.Mealy = mealy;
-            this.Sweet = sweet;
         }
 
         /// <summary>
-        /// Gets or Sets Cultivar
+        /// Initializes a new instance of the <see cref="FruitReq" /> class.
         /// </summary>
-        [DataMember(Name = "cultivar", IsRequired = true, EmitDefaultValue = false)]
-        public string Cultivar { get; set; }
+        public FruitReq(Object actualInstance)
+        {
+            if (actualInstance == null)
+            {
+                return;
+            }
+
+            if (actualInstance.GetType() == typeof(AppleReq))
+            {
+                 this.ActualInstance = actualInstance;
+                 return;
+            }
+
+            if (actualInstance.GetType() == typeof(BananaReq))
+            {
+                 this.ActualInstance = actualInstance;
+                 return;
+            }
+
+            throw new ArgumentException("Invalid instance found. Must be the following types: AppleReq BananaReq");
+        }
 
         /// <summary>
-        /// Gets or Sets Mealy
+        /// Gets or Sets ActualInstance
         /// </summary>
-        [DataMember(Name = "mealy", EmitDefaultValue = false)]
-        public bool Mealy { get; set; }
-
-        /// <summary>
-        /// Gets or Sets LengthCm
-        /// </summary>
-        [DataMember(Name = "lengthCm", IsRequired = true, EmitDefaultValue = false)]
-        public decimal LengthCm { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Sweet
-        /// </summary>
-        [DataMember(Name = "sweet", EmitDefaultValue = false)]
-        public bool Sweet { get; set; }
+        public Object ActualInstance { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -84,10 +76,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class FruitReq {\n");
-            sb.Append("  Cultivar: ").Append(Cultivar).Append("\n");
-            sb.Append("  Mealy: ").Append(Mealy).Append("\n");
-            sb.Append("  LengthCm: ").Append(LengthCm).Append("\n");
-            sb.Append("  Sweet: ").Append(Sweet).Append("\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -98,7 +87,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return JsonConvert.SerializeObject(this.ActualInstance);
         }
 
         /// <summary>
@@ -130,11 +119,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.Cultivar != null)
-                    hashCode = hashCode * 59 + this.Cultivar.GetHashCode();
-                hashCode = hashCode * 59 + this.Mealy.GetHashCode();
-                hashCode = hashCode * 59 + this.LengthCm.GetHashCode();
-                hashCode = hashCode * 59 + this.Sweet.GetHashCode();
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
                 return hashCode;
             }
         }

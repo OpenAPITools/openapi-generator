@@ -30,39 +30,44 @@ namespace Org.OpenAPITools.Model
     /// Shape
     /// </summary>
     [DataContract(Name = "Shape")]
-    [JsonConverter(typeof(JsonSubtypes), "ShapeType")]
     public partial class Shape : IEquatable<Shape>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
-        [JsonConstructorAttribute]
-        protected Shape() { }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Shape" /> class.
-        /// </summary>
-        /// <param name="shapeType">shapeType (required).</param>
-        /// <param name="quadrilateralType">quadrilateralType (required).</param>
-        /// <param name="triangleType">triangleType (required).</param>
-        public Shape(string shapeType = default(string), string quadrilateralType = default(string), string triangleType = default(string))
+        public Shape()
         {
-            // to ensure "shapeType" is required (not null)
-            this.ShapeType = shapeType ?? throw new ArgumentNullException("shapeType is a required property for Shape and cannot be null");
-            // to ensure "quadrilateralType" is required (not null)
-            this.QuadrilateralType = quadrilateralType ?? throw new ArgumentNullException("quadrilateralType is a required property for Shape and cannot be null");
         }
 
         /// <summary>
-        /// Gets or Sets ShapeType
+        /// Initializes a new instance of the <see cref="Shape" /> class.
         /// </summary>
-        [DataMember(Name = "shapeType", IsRequired = true, EmitDefaultValue = false)]
-        public string ShapeType { get; set; }
+        public Shape(Object actualInstance)
+        {
+            if (actualInstance == null)
+            {
+                return;
+            }
+
+            if (actualInstance.GetType() == typeof(Quadrilateral))
+            {
+                 this.ActualInstance = actualInstance;
+                 return;
+            }
+
+            if (actualInstance.GetType() == typeof(Triangle))
+            {
+                 this.ActualInstance = actualInstance;
+                 return;
+            }
+
+            throw new ArgumentException("Invalid instance found. Must be the following types: Quadrilateral Triangle");
+        }
 
         /// <summary>
-        /// Gets or Sets QuadrilateralType
+        /// Gets or Sets ActualInstance
         /// </summary>
-        [DataMember(Name = "quadrilateralType", IsRequired = true, EmitDefaultValue = false)]
-        public string QuadrilateralType { get; set; }
+        public Object ActualInstance { get; set; }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -72,8 +77,7 @@ namespace Org.OpenAPITools.Model
         {
             var sb = new StringBuilder();
             sb.Append("class Shape {\n");
-            sb.Append("  ShapeType: ").Append(ShapeType).Append("\n");
-            sb.Append("  QuadrilateralType: ").Append(QuadrilateralType).Append("\n");
+            sb.Append("  ActualInstance: ").Append(this.ActualInstance).Append("\n");
             sb.Append("}\n");
             return sb.ToString();
         }
@@ -84,7 +88,7 @@ namespace Org.OpenAPITools.Model
         /// <returns>JSON string presentation of the object</returns>
         public virtual string ToJson()
         {
-            return JsonConvert.SerializeObject(this, Formatting.Indented);
+            return JsonConvert.SerializeObject(this.ActualInstance);
         }
 
         /// <summary>
@@ -116,10 +120,8 @@ namespace Org.OpenAPITools.Model
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 41;
-                if (this.ShapeType != null)
-                    hashCode = hashCode * 59 + this.ShapeType.GetHashCode();
-                if (this.QuadrilateralType != null)
-                    hashCode = hashCode * 59 + this.QuadrilateralType.GetHashCode();
+                if (this.ActualInstance != null)
+                    hashCode = hashCode * 59 + this.ActualInstance.GetHashCode();
                 return hashCode;
             }
         }
@@ -130,16 +132,6 @@ namespace Org.OpenAPITools.Model
         /// <param name="validationContext">Validation context</param>
         /// <returns>Validation Result</returns>
         IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            return this.BaseValidate(validationContext);
-        }
-
-        /// <summary>
-        /// To validate all properties of the instance
-        /// </summary>
-        /// <param name="validationContext">Validation context</param>
-        /// <returns>Validation Result</returns>
-        protected IEnumerable<System.ComponentModel.DataAnnotations.ValidationResult> BaseValidate(ValidationContext validationContext)
         {
             yield break;
         }
