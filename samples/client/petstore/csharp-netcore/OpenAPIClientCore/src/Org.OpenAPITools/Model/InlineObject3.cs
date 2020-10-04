@@ -98,7 +98,7 @@ namespace Org.OpenAPITools.Model
         /// None
         /// </summary>
         /// <value>None</value>
-        [DataMember(Name = "number", EmitDefaultValue = false)]
+        [DataMember(Name = "number", IsRequired = true, EmitDefaultValue = false)]
         public decimal Number { get; set; }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Org.OpenAPITools.Model
         /// None
         /// </summary>
         /// <value>None</value>
-        [DataMember(Name = "double", EmitDefaultValue = false)]
+        [DataMember(Name = "double", IsRequired = true, EmitDefaultValue = false)]
         public double Double { get; set; }
 
         /// <summary>
@@ -126,14 +126,14 @@ namespace Org.OpenAPITools.Model
         /// None
         /// </summary>
         /// <value>None</value>
-        [DataMember(Name = "pattern_without_delimiter", EmitDefaultValue = false)]
+        [DataMember(Name = "pattern_without_delimiter", IsRequired = true, EmitDefaultValue = false)]
         public string PatternWithoutDelimiter { get; set; }
 
         /// <summary>
         /// None
         /// </summary>
         /// <value>None</value>
-        [DataMember(Name = "byte", EmitDefaultValue = false)]
+        [DataMember(Name = "byte", IsRequired = true, EmitDefaultValue = false)]
         public byte[] Byte { get; set; }
 
         /// <summary>

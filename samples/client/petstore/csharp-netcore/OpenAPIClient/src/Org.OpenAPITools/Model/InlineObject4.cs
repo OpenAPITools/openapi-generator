@@ -57,14 +57,14 @@ namespace Org.OpenAPITools.Model
         /// field1
         /// </summary>
         /// <value>field1</value>
-        [DataMember(Name = "param", EmitDefaultValue = false)]
+        [DataMember(Name = "param", IsRequired = true, EmitDefaultValue = false)]
         public string Param { get; set; }
 
         /// <summary>
         /// field2
         /// </summary>
         /// <value>field2</value>
-        [DataMember(Name = "param2", EmitDefaultValue = false)]
+        [DataMember(Name = "param2", IsRequired = true, EmitDefaultValue = false)]
         public string Param2 { get; set; }
 
         /// <summary>
