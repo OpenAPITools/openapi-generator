@@ -6,7 +6,6 @@
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
 // ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
-// ignore_for_file: prefer_single_quotes
 
 part of openapi.api;
 
@@ -20,29 +19,27 @@ class UserApi {
   ///
   /// This can only be done by the logged in user.
   Future createUserWithHttpInfo(User body) async {
-    Object postBody = body;
-
-    // verify required params are set
+    // Verify required params are set.
     if (body == null) {
-     throw ApiException(400, "Missing required param: body");
+     throw ApiException(400, 'Missing required param: body');
     }
 
-    // create path and map variables
-    String path = "/user".replaceAll("{format}","json");
+    final path = '/user'.replaceAll('{format}', 'json');
 
-    // query params
-    List<QueryParam> queryParams = [];
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
+    Object postBody = body;
 
-    List<String> contentTypes = [];
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    List<String> authNames = [];
 
-    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      final mp = MultipartRequest(null, null);
       if (hasFields) {
         postBody = mp;
       }
@@ -51,7 +48,7 @@ class UserApi {
 
     return await apiClient.invokeAPI(
       path,
-      "POST",
+      'POST',
       queryParams,
       postBody,
       headerParams,
@@ -80,29 +77,27 @@ class UserApi {
   ///
   /// 
   Future createUsersWithArrayInputWithHttpInfo(List<User> body) async {
-    Object postBody = body;
-
-    // verify required params are set
+    // Verify required params are set.
     if (body == null) {
-     throw ApiException(400, "Missing required param: body");
+     throw ApiException(400, 'Missing required param: body');
     }
 
-    // create path and map variables
-    String path = "/user/createWithArray".replaceAll("{format}","json");
+    final path = '/user/createWithArray'.replaceAll('{format}', 'json');
 
-    // query params
-    List<QueryParam> queryParams = [];
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
+    Object postBody = body;
 
-    List<String> contentTypes = [];
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    List<String> authNames = [];
 
-    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      final mp = MultipartRequest(null, null);
       if (hasFields) {
         postBody = mp;
       }
@@ -111,7 +106,7 @@ class UserApi {
 
     return await apiClient.invokeAPI(
       path,
-      "POST",
+      'POST',
       queryParams,
       postBody,
       headerParams,
@@ -140,29 +135,27 @@ class UserApi {
   ///
   /// 
   Future createUsersWithListInputWithHttpInfo(List<User> body) async {
-    Object postBody = body;
-
-    // verify required params are set
+    // Verify required params are set.
     if (body == null) {
-     throw ApiException(400, "Missing required param: body");
+     throw ApiException(400, 'Missing required param: body');
     }
 
-    // create path and map variables
-    String path = "/user/createWithList".replaceAll("{format}","json");
+    final path = '/user/createWithList'.replaceAll('{format}', 'json');
 
-    // query params
-    List<QueryParam> queryParams = [];
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
+    Object postBody = body;
 
-    List<String> contentTypes = [];
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    List<String> authNames = [];
 
-    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      final mp = MultipartRequest(null, null);
       if (hasFields) {
         postBody = mp;
       }
@@ -171,7 +164,7 @@ class UserApi {
 
     return await apiClient.invokeAPI(
       path,
-      "POST",
+      'POST',
       queryParams,
       postBody,
       headerParams,
@@ -200,29 +193,27 @@ class UserApi {
   ///
   /// This can only be done by the logged in user.
   Future deleteUserWithHttpInfo(String username) async {
-    Object postBody;
-
-    // verify required params are set
+    // Verify required params are set.
     if (username == null) {
-     throw ApiException(400, "Missing required param: username");
+     throw ApiException(400, 'Missing required param: username');
     }
 
-    // create path and map variables
-    String path = "/user/{username}".replaceAll("{format}","json").replaceAll("{" + "username" + "}", username.toString());
+    final path = '/user/{username}'.replaceAll('{format}', 'json').replaceAll('{' + 'username' + '}', username.toString());
 
-    // query params
-    List<QueryParam> queryParams = [];
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
+    Object postBody;
 
-    List<String> contentTypes = [];
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    List<String> authNames = [];
 
-    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      final mp = MultipartRequest(null, null);
       if (hasFields) {
         postBody = mp;
       }
@@ -231,7 +222,7 @@ class UserApi {
 
     return await apiClient.invokeAPI(
       path,
-      "DELETE",
+      'DELETE',
       queryParams,
       postBody,
       headerParams,
@@ -260,29 +251,27 @@ class UserApi {
   ///
   /// 
   Future<Response> getUserByNameWithHttpInfo(String username) async {
-    Object postBody;
-
-    // verify required params are set
+    // Verify required params are set.
     if (username == null) {
-     throw ApiException(400, "Missing required param: username");
+     throw ApiException(400, 'Missing required param: username');
     }
 
-    // create path and map variables
-    String path = "/user/{username}".replaceAll("{format}","json").replaceAll("{" + "username" + "}", username.toString());
+    final path = '/user/{username}'.replaceAll('{format}', 'json').replaceAll('{' + 'username' + '}', username.toString());
 
-    // query params
-    List<QueryParam> queryParams = [];
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
+    Object postBody;
 
-    List<String> contentTypes = [];
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    List<String> authNames = [];
 
-    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      final mp = MultipartRequest(null, null);
       if (hasFields) {
         postBody = mp;
       }
@@ -291,7 +280,7 @@ class UserApi {
 
     return await apiClient.invokeAPI(
       path,
-      "GET",
+      'GET',
       queryParams,
       postBody,
       headerParams,
@@ -312,7 +301,7 @@ class UserApi {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     if (response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), "User") as User;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'User') as User;
     }
     return null;
   }
@@ -321,34 +310,32 @@ class UserApi {
   ///
   /// 
   Future<Response> loginUserWithHttpInfo(String username, String password) async {
-    Object postBody;
-
-    // verify required params are set
+    // Verify required params are set.
     if (username == null) {
-     throw ApiException(400, "Missing required param: username");
+     throw ApiException(400, 'Missing required param: username');
     }
     if (password == null) {
-     throw ApiException(400, "Missing required param: password");
+     throw ApiException(400, 'Missing required param: password');
     }
 
-    // create path and map variables
-    String path = "/user/login".replaceAll("{format}","json");
+    final path = '/user/login'.replaceAll('{format}', 'json');
 
-    // query params
-    List<QueryParam> queryParams = [];
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
-      queryParams.addAll(_convertParametersForCollectionFormat("", "username", username));
-      queryParams.addAll(_convertParametersForCollectionFormat("", "password", password));
+    Object postBody;
 
-    List<String> contentTypes = [];
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    List<String> authNames = [];
+      queryParams.addAll(_convertParametersForCollectionFormat('', 'username', username));
+      queryParams.addAll(_convertParametersForCollectionFormat('', 'password', password));
 
-    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      final mp = MultipartRequest(null, null);
       if (hasFields) {
         postBody = mp;
       }
@@ -357,7 +344,7 @@ class UserApi {
 
     return await apiClient.invokeAPI(
       path,
-      "GET",
+      'GET',
       queryParams,
       postBody,
       headerParams,
@@ -380,7 +367,7 @@ class UserApi {
       throw ApiException(response.statusCode, _decodeBodyBytes(response));
     }
     if (response.body != null) {
-      return apiClient.deserialize(_decodeBodyBytes(response), "String") as String;
+      return apiClient.deserialize(_decodeBodyBytes(response), 'String') as String;
     }
     return null;
   }
@@ -389,26 +376,24 @@ class UserApi {
   ///
   /// 
   Future logoutUserWithHttpInfo() async {
+    // Verify required params are set.
+
+    final path = '/user/logout'.replaceAll('{format}', 'json');
+
     Object postBody;
 
-    // verify required params are set
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
 
-    // create path and map variables
-    String path = "/user/logout".replaceAll("{format}","json");
 
-    // query params
-    List<QueryParam> queryParams = [];
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
 
-    List<String> contentTypes = [];
-
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    List<String> authNames = [];
-
-    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      final mp = MultipartRequest(null, null);
       if (hasFields) {
         postBody = mp;
       }
@@ -417,7 +402,7 @@ class UserApi {
 
     return await apiClient.invokeAPI(
       path,
-      "GET",
+      'GET',
       queryParams,
       postBody,
       headerParams,
@@ -444,32 +429,30 @@ class UserApi {
   ///
   /// This can only be done by the logged in user.
   Future updateUserWithHttpInfo(String username, User body) async {
-    Object postBody = body;
-
-    // verify required params are set
+    // Verify required params are set.
     if (username == null) {
-     throw ApiException(400, "Missing required param: username");
+     throw ApiException(400, 'Missing required param: username');
     }
     if (body == null) {
-     throw ApiException(400, "Missing required param: body");
+     throw ApiException(400, 'Missing required param: body');
     }
 
-    // create path and map variables
-    String path = "/user/{username}".replaceAll("{format}","json").replaceAll("{" + "username" + "}", username.toString());
+    final path = '/user/{username}'.replaceAll('{format}', 'json').replaceAll('{' + 'username' + '}', username.toString());
 
-    // query params
-    List<QueryParam> queryParams = [];
-    Map<String, String> headerParams = {};
-    Map<String, String> formParams = {};
+    Object postBody = body;
 
-    List<String> contentTypes = [];
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
 
-    String nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
-    List<String> authNames = [];
 
-    if (nullableContentType != null && nullableContentType.startsWith("multipart/form-data")) {
+    final contentTypes = <String>[];
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
+    final authNames = <String>[];
+
+    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
       bool hasFields = false;
-      MultipartRequest mp = MultipartRequest(null, null);
+      final mp = MultipartRequest(null, null);
       if (hasFields) {
         postBody = mp;
       }
@@ -478,7 +461,7 @@ class UserApi {
 
     return await apiClient.invokeAPI(
       path,
-      "PUT",
+      'PUT',
       queryParams,
       postBody,
       headerParams,

@@ -6,7 +6,6 @@
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
 // ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
-// ignore_for_file: prefer_single_quotes
 
 part of openapi.api;
 
@@ -33,23 +32,23 @@ class Category {
     name.hashCode;
 
   @override
-  String toString() => "Category[id=$id, name=$name]";
+  String toString() => 'Category[id=$id, name=$name]';
 
   Category.fromJson(Map<String, dynamic> json) {
     if (json == null) {
       return;
     }
-    id = json["id"];
-    name = json["name"];
+    id = json['id'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (id != null) {
-      json["id"] = id;
+      json['id'] = id;
     }
     if (name != null) {
-      json["name"] = name;
+      json['name'] = name;
     }
     return json;
   }

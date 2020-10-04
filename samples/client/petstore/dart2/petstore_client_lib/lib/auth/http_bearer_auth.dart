@@ -6,7 +6,6 @@
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
 // ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
-// ignore_for_file: prefer_single_quotes
 
 part of openapi.api;
 
@@ -21,7 +20,7 @@ class HttpBearerAuth implements Authentication {
 
   set accessToken(dynamic accessToken) {
     if (accessToken is! String && accessToken is! HttpBearerAuthProvider) {
-      throw ArgumentError("Type of Bearer accessToken should be a String or a String Function().");
+      throw ArgumentError('Type of Bearer accessToken should be a String or a String Function().');
     }
     this._accessToken = accessToken;
   }
@@ -29,11 +28,11 @@ class HttpBearerAuth implements Authentication {
   @override
   void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
     if (_accessToken is String) {
-      headerParams["Authorization"] = "Bearer $_accessToken";
+      headerParams['Authorization'] = 'Bearer $_accessToken';
     } else if (_accessToken is HttpBearerAuthProvider) {
-      headerParams["Authorization"] = "Bearer ${_accessToken()}";
+      headerParams['Authorization'] = 'Bearer ${_accessToken()}';
     } else {
-      throw ArgumentError("Type of Bearer accessToken should be a String or a String Function().");
+      throw ArgumentError('Type of Bearer accessToken should be a String or a String Function().');
     }
   }
 }

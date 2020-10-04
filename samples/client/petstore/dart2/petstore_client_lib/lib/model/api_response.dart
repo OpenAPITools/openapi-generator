@@ -6,7 +6,6 @@
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
 // ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
-// ignore_for_file: prefer_single_quotes
 
 part of openapi.api;
 
@@ -39,27 +38,27 @@ class ApiResponse {
     message.hashCode;
 
   @override
-  String toString() => "ApiResponse[code=$code, type=$type, message=$message]";
+  String toString() => 'ApiResponse[code=$code, type=$type, message=$message]';
 
   ApiResponse.fromJson(Map<String, dynamic> json) {
     if (json == null) {
       return;
     }
-    code = json["code"];
-    type = json["type"];
-    message = json["message"];
+    code = json['code'];
+    type = json['type'];
+    message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (code != null) {
-      json["code"] = code;
+      json['code'] = code;
     }
     if (type != null) {
-      json["type"] = type;
+      json['type'] = type;
     }
     if (message != null) {
-      json["message"] = message;
+      json['message'] = message;
     }
     return json;
   }

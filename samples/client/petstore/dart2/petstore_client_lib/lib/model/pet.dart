@@ -6,7 +6,6 @@
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
 // ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
-// ignore_for_file: prefer_single_quotes
 
 part of openapi.api;
 
@@ -15,8 +14,8 @@ class Pet {
     this.id,
     this.category,
     @required this.name,
-    this.photoUrls = const const [],
-    this.tags = const const [],
+    this.photoUrls = const [],
+    this.tags = const [],
     this.status,
   });
 
@@ -57,41 +56,41 @@ class Pet {
     status.hashCode;
 
   @override
-  String toString() => "Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]";
+  String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
 
   Pet.fromJson(Map<String, dynamic> json) {
     if (json == null) {
       return;
     }
-    id = json["id"];
-    category = Category.fromJson(json["category"]);
-    name = json["name"];
-    photoUrls = json["photoUrls"] == null
+    id = json['id'];
+    category = Category.fromJson(json['category']);
+    name = json['name'];
+    photoUrls = json['photoUrls'] == null
       ? null
-      : (json["photoUrls"] as List).cast<String>();
-    tags = Tag.listFromJson(json["tags"]);
-    status = PetStatusEnum.fromJson(json["status"]);
+      : (json['photoUrls'] as List).cast<String>();
+    tags = Tag.listFromJson(json['tags']);
+    status = PetStatusEnum.fromJson(json['status']);
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (id != null) {
-      json["id"] = id;
+      json['id'] = id;
     }
     if (category != null) {
-      json["category"] = category;
+      json['category'] = category;
     }
     if (name != null) {
-      json["name"] = name;
+      json['name'] = name;
     }
     if (photoUrls != null) {
-      json["photoUrls"] = photoUrls;
+      json['photoUrls'] = photoUrls;
     }
     if (tags != null) {
-      json["tags"] = tags;
+      json['tags'] = tags;
     }
     if (status != null) {
-      json["status"] = status;
+      json['status'] = status;
     }
     return json;
   }
@@ -188,7 +187,7 @@ class PetStatusEnumTypeTransformer {
       case "sold": return PetStatusEnum.sold_;
       default:
         if (allowNull == false) {
-          throw ArgumentError("Unknown enum value to decode: $data");
+          throw ArgumentError('Unknown enum value to decode: $data');
         }
     }
     return null;

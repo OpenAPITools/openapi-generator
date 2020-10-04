@@ -6,7 +6,6 @@
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
 // ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
-// ignore_for_file: prefer_single_quotes
 
 part of openapi.api;
 
@@ -69,47 +68,47 @@ class User {
     userStatus.hashCode;
 
   @override
-  String toString() => "User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]";
+  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
 
   User.fromJson(Map<String, dynamic> json) {
     if (json == null) {
       return;
     }
-    id = json["id"];
-    username = json["username"];
-    firstName = json["firstName"];
-    lastName = json["lastName"];
-    email = json["email"];
-    password = json["password"];
-    phone = json["phone"];
-    userStatus = json["userStatus"];
+    id = json['id'];
+    username = json['username'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    email = json['email'];
+    password = json['password'];
+    phone = json['phone'];
+    userStatus = json['userStatus'];
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (id != null) {
-      json["id"] = id;
+      json['id'] = id;
     }
     if (username != null) {
-      json["username"] = username;
+      json['username'] = username;
     }
     if (firstName != null) {
-      json["firstName"] = firstName;
+      json['firstName'] = firstName;
     }
     if (lastName != null) {
-      json["lastName"] = lastName;
+      json['lastName'] = lastName;
     }
     if (email != null) {
-      json["email"] = email;
+      json['email'] = email;
     }
     if (password != null) {
-      json["password"] = password;
+      json['password'] = password;
     }
     if (phone != null) {
-      json["phone"] = phone;
+      json['phone'] = phone;
     }
     if (userStatus != null) {
-      json["userStatus"] = userStatus;
+      json['userStatus'] = userStatus;
     }
     return json;
   }

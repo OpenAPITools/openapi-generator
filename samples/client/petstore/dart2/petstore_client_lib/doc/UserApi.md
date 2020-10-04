@@ -2,7 +2,7 @@
 
 ## Load the API package
 ```dart
-import "package:openapi/api.dart";
+import 'package:openapi/api.dart';
 ```
 
 All URIs are relative to *http://petstore.swagger.io/v2*
@@ -28,7 +28,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```dart
-import "package:openapi/api.dart";
+import 'package:openapi/api.dart';
 
 var api_instance = UserApi();
 var body = User(); // User | Created user object
@@ -36,7 +36,7 @@ var body = User(); // User | Created user object
 try { 
     api_instance.createUser(body);
 } catch (e) {
-    print("Exception when calling UserApi->createUser: $e\n");
+    print('Exception when calling UserApi->createUser: $e\n');
 }
 ```
 
@@ -68,7 +68,7 @@ Creates list of users with given input array
 
 ### Example 
 ```dart
-import "package:openapi/api.dart";
+import 'package:openapi/api.dart';
 
 var api_instance = UserApi();
 var body = [List<User>()]; // List<User> | List of user object
@@ -76,7 +76,7 @@ var body = [List<User>()]; // List<User> | List of user object
 try { 
     api_instance.createUsersWithArrayInput(body);
 } catch (e) {
-    print("Exception when calling UserApi->createUsersWithArrayInput: $e\n");
+    print('Exception when calling UserApi->createUsersWithArrayInput: $e\n');
 }
 ```
 
@@ -108,7 +108,7 @@ Creates list of users with given input array
 
 ### Example 
 ```dart
-import "package:openapi/api.dart";
+import 'package:openapi/api.dart';
 
 var api_instance = UserApi();
 var body = [List<User>()]; // List<User> | List of user object
@@ -116,7 +116,7 @@ var body = [List<User>()]; // List<User> | List of user object
 try { 
     api_instance.createUsersWithListInput(body);
 } catch (e) {
-    print("Exception when calling UserApi->createUsersWithListInput: $e\n");
+    print('Exception when calling UserApi->createUsersWithListInput: $e\n');
 }
 ```
 
@@ -150,7 +150,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```dart
-import "package:openapi/api.dart";
+import 'package:openapi/api.dart';
 
 var api_instance = UserApi();
 var username = username_example; // String | The name that needs to be deleted
@@ -158,7 +158,7 @@ var username = username_example; // String | The name that needs to be deleted
 try { 
     api_instance.deleteUser(username);
 } catch (e) {
-    print("Exception when calling UserApi->deleteUser: $e\n");
+    print('Exception when calling UserApi->deleteUser: $e\n');
 }
 ```
 
@@ -190,7 +190,7 @@ Get user by user name
 
 ### Example 
 ```dart
-import "package:openapi/api.dart";
+import 'package:openapi/api.dart';
 
 var api_instance = UserApi();
 var username = username_example; // String | The name that needs to be fetched. Use user1 for testing.
@@ -199,7 +199,7 @@ try {
     var result = api_instance.getUserByName(username);
     print(result);
 } catch (e) {
-    print("Exception when calling UserApi->getUserByName: $e\n");
+    print('Exception when calling UserApi->getUserByName: $e\n');
 }
 ```
 
@@ -231,7 +231,7 @@ Logs user into the system
 
 ### Example 
 ```dart
-import "package:openapi/api.dart";
+import 'package:openapi/api.dart';
 
 var api_instance = UserApi();
 var username = username_example; // String | The user name for login
@@ -241,7 +241,7 @@ try {
     var result = api_instance.loginUser(username, password);
     print(result);
 } catch (e) {
-    print("Exception when calling UserApi->loginUser: $e\n");
+    print('Exception when calling UserApi->loginUser: $e\n');
 }
 ```
 
@@ -274,14 +274,14 @@ Logs out current logged in user session
 
 ### Example 
 ```dart
-import "package:openapi/api.dart";
+import 'package:openapi/api.dart';
 
 var api_instance = UserApi();
 
 try { 
     api_instance.logoutUser();
 } catch (e) {
-    print("Exception when calling UserApi->logoutUser: $e\n");
+    print('Exception when calling UserApi->logoutUser: $e\n');
 }
 ```
 
@@ -312,7 +312,7 @@ This can only be done by the logged in user.
 
 ### Example 
 ```dart
-import "package:openapi/api.dart";
+import 'package:openapi/api.dart';
 
 var api_instance = UserApi();
 var username = username_example; // String | name that need to be deleted
@@ -321,7 +321,7 @@ var body = User(); // User | Updated user object
 try { 
     api_instance.updateUser(username, body);
 } catch (e) {
-    print("Exception when calling UserApi->updateUser: $e\n");
+    print('Exception when calling UserApi->updateUser: $e\n');
 }
 ```
 

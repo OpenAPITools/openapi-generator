@@ -6,7 +6,6 @@
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
 // ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
-// ignore_for_file: prefer_single_quotes
 
 part of openapi.api;
 
@@ -21,16 +20,16 @@ class ApiKeyAuth implements Authentication {
 
   @override
   void applyToParams(List<QueryParam> queryParams, Map<String, String> headerParams) {
-    final value = apiKeyPrefix == null ? apiKey : "$apiKeyPrefix $apiKey";
+    final value = apiKeyPrefix == null ? apiKey : '$apiKeyPrefix $apiKey';
 
-    if (location == "query" && value != null) {
+    if (location == 'query' && value != null) {
       queryParams.add(QueryParam(paramName, value));
-    } else if (location == "header" && value != null) {
+    } else if (location == 'header' && value != null) {
       headerParams[paramName] = value;
-    } else if (location == "cookie" && value != null) {
-      headerParams.update("Cookie", (String existingCookie) {
-        return "$existingCookie; $paramName=$value";
-      }, ifAbsent: () => "$paramName=$value");
+    } else if (location == 'cookie' && value != null) {
+      headerParams.update('Cookie', (String existingCookie) {
+        return '$existingCookie; $paramName=$value';
+      }, ifAbsent: () => '$paramName=$value');
     }
   }
 }

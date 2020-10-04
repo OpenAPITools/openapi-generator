@@ -6,7 +6,6 @@
 // ignore_for_file: unused_element, unused_import
 // ignore_for_file: always_put_required_named_parameters_first
 // ignore_for_file: avoid_init_to_null, lines_longer_than_80_chars
-// ignore_for_file: prefer_single_quotes
 
 part of openapi.api;
 
@@ -57,41 +56,41 @@ class Order {
     complete.hashCode;
 
   @override
-  String toString() => "Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]";
+  String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
 
   Order.fromJson(Map<String, dynamic> json) {
     if (json == null) {
       return;
     }
-    id = json["id"];
-    petId = json["petId"];
-    quantity = json["quantity"];
-    shipDate = json["shipDate"] == null ?
+    id = json['id'];
+    petId = json['petId'];
+    quantity = json['quantity'];
+    shipDate = json['shipDate'] == null ?
       null :
-      DateTime.parse(json["shipDate"]);
-    status = OrderStatusEnum.fromJson(json["status"]);
-    complete = json["complete"];
+      DateTime.parse(json['shipDate']);
+    status = OrderStatusEnum.fromJson(json['status']);
+    complete = json['complete'];
   }
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
     if (id != null) {
-      json["id"] = id;
+      json['id'] = id;
     }
     if (petId != null) {
-      json["petId"] = petId;
+      json['petId'] = petId;
     }
     if (quantity != null) {
-      json["quantity"] = quantity;
+      json['quantity'] = quantity;
     }
     if (shipDate != null) {
-      json["shipDate"] = shipDate.toUtc().toIso8601String();
+      json['shipDate'] = shipDate.toUtc().toIso8601String();
     }
     if (status != null) {
-      json["status"] = status;
+      json['status'] = status;
     }
     if (complete != null) {
-      json["complete"] = complete;
+      json['complete'] = complete;
     }
     return json;
   }
@@ -188,7 +187,7 @@ class OrderStatusEnumTypeTransformer {
       case "delivered": return OrderStatusEnum.delivered_;
       default:
         if (allowNull == false) {
-          throw ArgumentError("Unknown enum value to decode: $data");
+          throw ArgumentError('Unknown enum value to decode: $data');
         }
     }
     return null;
