@@ -40,7 +40,6 @@ import java.util.Set;
 
 import io.swagger.v3.oas.models.media.Schema;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
@@ -48,10 +47,10 @@ public class DartDioClientCodegen extends DartClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartDioClientCodegen.class);
 
     public static final String NULLABLE_FIELDS = "nullableFields";
-    private static final String IS_FORMAT_JSON = "jsonFormat";
-    private static final String CLIENT_NAME = "clientName";
     public static final String DATE_LIBRARY = "dateLibrary";
 
+    private static final String IS_FORMAT_JSON = "jsonFormat";
+    private static final String CLIENT_NAME = "clientName";
     private static Set<String> modelToIgnore = new HashSet<>();
 
     static {
@@ -63,14 +62,11 @@ public class DartDioClientCodegen extends DartClientCodegen {
         modelToIgnore.add("uint8list");
     }
 
-    private static final String SERIALIZATION_JSON = "json";
-
     private boolean nullableFields = true;
     private String dateLibrary = "core";
 
     public DartDioClientCodegen() {
         super();
-        browserClient = false;
         outputFolder = "generated-code/dart-dio";
         embeddedTemplateDir = "dart-dio";
         this.setTemplateDir(embeddedTemplateDir);
@@ -122,11 +118,6 @@ public class DartDioClientCodegen extends DartClientCodegen {
     @Override
     public String getHelp() {
         return "Generates a Dart Dio client library.";
-    }
-
-    @Override
-    public void setBrowserClient(boolean browserClient) {
-        super.browserClient = browserClient;
     }
 
     @Override
