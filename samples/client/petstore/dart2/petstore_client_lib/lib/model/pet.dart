@@ -141,9 +141,9 @@ class PetStatusEnum {
 
   String toJson() => value;
 
-  static const available_ = PetStatusEnum._("available");
-  static const pending_ = PetStatusEnum._("pending");
-  static const sold_ = PetStatusEnum._("sold");
+  static const available_ = PetStatusEnum._('available');
+  static const pending_ = PetStatusEnum._('pending');
+  static const sold_ = PetStatusEnum._('sold');
 
   /// List of all possible values in this [enum][PetStatusEnum].
   static const values = <PetStatusEnum>[
@@ -182,9 +182,9 @@ class PetStatusEnumTypeTransformer {
   /// and users are still using an old app with the old code.
   PetStatusEnum decode(dynamic data, {bool allowNull}) {
     switch (data) {
-      case "available": return PetStatusEnum.available_;
-      case "pending": return PetStatusEnum.pending_;
-      case "sold": return PetStatusEnum.sold_;
+      case 'available': return PetStatusEnum.available_;
+      case 'pending': return PetStatusEnum.pending_;
+      case 'sold': return PetStatusEnum.sold_;
       default:
         if (allowNull == false) {
           throw ArgumentError('Unknown enum value to decode: $data');
