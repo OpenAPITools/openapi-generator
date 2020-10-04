@@ -43,10 +43,13 @@ class {{{classname}}} {
     {{/headerParams}}
 
     final contentTypes = <String>[{{#consumes}}'{{{mediaType}}}'{{#hasMore}}, {{/hasMore}}{{/consumes}}];
-    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0].toLowerCase() : null;
+    final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[{{#authMethods}}'{{{name}}}'{{#hasMore}}, {{/hasMore}}{{/authMethods}}];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       {{#formParams}}
