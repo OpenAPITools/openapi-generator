@@ -37,7 +37,10 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (hasFields) {
@@ -96,7 +99,10 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (hasFields) {
@@ -157,7 +163,10 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (hasFields) {
@@ -219,7 +228,10 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (hasFields) {
@@ -280,7 +292,10 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['api_key'];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (hasFields) {
@@ -339,7 +354,10 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (hasFields) {
@@ -397,7 +415,10 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (name != null) {
@@ -473,7 +494,10 @@ class PetApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>['petstore_auth'];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (additionalMetadata != null) {

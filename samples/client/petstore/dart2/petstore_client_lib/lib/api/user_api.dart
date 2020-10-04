@@ -37,7 +37,10 @@ class UserApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (hasFields) {
@@ -95,7 +98,10 @@ class UserApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (hasFields) {
@@ -153,7 +159,10 @@ class UserApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (hasFields) {
@@ -211,7 +220,10 @@ class UserApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (hasFields) {
@@ -269,7 +281,10 @@ class UserApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (hasFields) {
@@ -333,7 +348,10 @@ class UserApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (hasFields) {
@@ -391,7 +409,10 @@ class UserApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (hasFields) {
@@ -450,7 +471,10 @@ class UserApi {
     final nullableContentType = contentTypes.isNotEmpty ? contentTypes[0] : null;
     final authNames = <String>[];
 
-    if (nullableContentType != null && nullableContentType.startsWith('multipart/form-data')) {
+    if (
+      nullableContentType != null &&
+      nullableContentType.toLowerCase().startsWith('multipart/form-data')
+    ) {
       bool hasFields = false;
       final mp = MultipartRequest(null, null);
       if (hasFields) {
