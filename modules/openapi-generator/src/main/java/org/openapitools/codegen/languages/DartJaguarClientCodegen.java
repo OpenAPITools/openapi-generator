@@ -141,7 +141,7 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
 
         if (schema.getDefault() != null) {
             if (ModelUtils.isStringSchema(schema)) {
-                return "\"" + schema.getDefault().toString().replaceAll("\"", "\\\"") + "\"";
+                return "'" + schema.getDefault().toString().replaceAll("'", "\\'") + "'";
             }
             return schema.getDefault().toString();
         } else {

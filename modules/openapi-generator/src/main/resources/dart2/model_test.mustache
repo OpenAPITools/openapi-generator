@@ -1,7 +1,7 @@
 {{#models}}
 {{#model}}
-import "package:{{{pubName}}}/api.dart";
-import "package:test/test.dart";
+import 'package:{{{pubName}}}/api.dart';
+import 'package:test/test.dart';
 
 // tests for {{{classname}}}
 void main() {
@@ -9,13 +9,13 @@ void main() {
   var instance = {{{classname}}}();
   {{/isEnum}}
 
-  group("test {{{classname}}}", () {
+  group('test {{{classname}}}', () {
     {{#vars}}
     {{#description}}
     // {{{description}}}
     {{/description}}
     // {{{dataType}}} {{{name}}}{{#defaultValue}} (default value: {{{.}}}){{/defaultValue}}
-    test("to test the property `{{{name}}}`", () async {
+    test('to test the property `{{{name}}}`', () async {
       // TODO
     });
 

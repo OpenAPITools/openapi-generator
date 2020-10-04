@@ -1,7 +1,7 @@
 class {{{classname}}} {
   {{{classname}}}({
   {{#vars}}
-    {{#isNullable}}{{#required}}@required {{/required}}this.{{{name}}},{{/isNullable}}{{^isNullable}}{{#defaultValue}}this.{{{name}}} = {{#isContainer}}const {{/isContainer}}{{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#required}}@required {{/required}}this.{{{name}}}{{/defaultValue}},{{/isNullable}}
+    {{#isNullable}}{{#required}}@required {{/required}}this.{{{name}}},{{/isNullable}}{{^isNullable}}{{#defaultValue}}this.{{{name}}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#required}}@required {{/required}}this.{{{name}}}{{/defaultValue}},{{/isNullable}}
   {{/vars}}
   });
 
@@ -40,7 +40,7 @@ class {{{classname}}} {
   {{/vars}}
 
   @override
-  String toString() => "{{{classname}}}[{{#vars}}{{{name}}}=${{{name}}}{{^-last}}, {{/-last}}{{/vars}}]";
+  String toString() => '{{{classname}}}[{{#vars}}{{{name}}}=${{{name}}}{{^-last}}, {{/-last}}{{/vars}}]';
 
   {{{classname}}}.fromJson(Map<String, dynamic> json) {
     if (json == null) {
@@ -48,25 +48,25 @@ class {{{classname}}} {
     }
   {{#vars}}
   {{#isDateTime}}
-    {{{name}}} = json["{{{baseName}}}"] == null ?
+    {{{name}}} = json['{{{baseName}}}'] == null ?
       null :
-      DateTime.parse(json["{{{baseName}}}"]);
+      DateTime.parse(json['{{{baseName}}}']);
   {{/isDateTime}}
   {{#isDate}}
-    {{{name}}} = json["{{{baseName}}}"] == null ?
+    {{{name}}} = json['{{{baseName}}}'] == null ?
       null :
-      DateTime.parse(json["{{{baseName}}}"]);
+      DateTime.parse(json['{{{baseName}}}']);
   {{/isDate}}
   {{^isDateTime}}
   {{^isDate}}
     {{#complexType}}
       {{#isListContainer}}
     {{#items.isListContainer}}
-    {{{name}}} = json["{{{baseName}}}"] == null
+    {{{name}}} = json['{{{baseName}}}'] == null
       ? null
-      : (json["{{{baseName}}}"] as List).map(
+      : (json['{{{baseName}}}'] as List).map(
       {{#items.complexType}}
-          {{items.complexType}}.listFromJson(json["{{{baseName}}}"])
+          {{items.complexType}}.listFromJson(json['{{{baseName}}}'])
       {{/items.complexType}}
       {{^items.complexType}}
           (e) => e == null ? null : (e as List).cast<{{items.items.dataType}}>()
@@ -74,61 +74,61 @@ class {{{classname}}} {
         ).toList(growable: false);
     {{/items.isListContainer}}
     {{^items.isListContainer}}
-    {{{name}}} = {{{complexType}}}.listFromJson(json["{{{baseName}}}"]);
+    {{{name}}} = {{{complexType}}}.listFromJson(json['{{{baseName}}}']);
     {{/items.isListContainer}}
       {{/isListContainer}}
       {{^isListContainer}}
       {{#isMapContainer}}
       {{#items.isListContainer}}
-    {{{name}}} = json["{{{baseName}}}"] == null
+    {{{name}}} = json['{{{baseName}}}'] == null
       ? null
       {{#items.complexType}}
-      : {{items.complexType}}.mapListFromJson(json["{{{baseName}}}"]);
+      : {{items.complexType}}.mapListFromJson(json['{{{baseName}}}']);
       {{/items.complexType}}
       {{^items.complexType}}
-      : (json["{{{baseName}}}"] as Map).cast<String, List>();
+      : (json['{{{baseName}}}'] as Map).cast<String, List>();
       {{/items.complexType}}
       {{/items.isListContainer}}
       {{^items.isListContainer}}
-    {{{name}}} = json["{{{baseName}}}"] == null
+    {{{name}}} = json['{{{baseName}}}'] == null
       ? null
-      : {{{complexType}}}.mapFromJson(json["{{{baseName}}}"]);
+      : {{{complexType}}}.mapFromJson(json['{{{baseName}}}']);
       {{/items.isListContainer}}
       {{/isMapContainer}}
       {{^isMapContainer}}
-    {{{name}}} = {{{complexType}}}.fromJson(json["{{{baseName}}}"]);
+    {{{name}}} = {{{complexType}}}.fromJson(json['{{{baseName}}}']);
       {{/isMapContainer}}
       {{/isListContainer}}
     {{/complexType}}
     {{^complexType}}
       {{#isListContainer}}
       {{#isEnum}}
-    {{{name}}} = {{{classname}}}{{{items.datatypeWithEnum}}}.listFromJson(json["{{{baseName}}}"]);
+    {{{name}}} = {{{classname}}}{{{items.datatypeWithEnum}}}.listFromJson(json['{{{baseName}}}']);
       {{/isEnum}}
       {{^isEnum}}
-    {{{name}}} = json["{{{baseName}}}"] == null
+    {{{name}}} = json['{{{baseName}}}'] == null
       ? null
-      : (json["{{{baseName}}}"] as List).cast<{{{items.datatype}}}>();
+      : (json['{{{baseName}}}'] as List).cast<{{{items.datatype}}}>();
       {{/isEnum}}
       {{/isListContainer}}
       {{^isListContainer}}
         {{#isMapContainer}}
-    {{{name}}} = json["{{{baseName}}}"] == null ?
+    {{{name}}} = json['{{{baseName}}}'] == null ?
       null :
-      (json["{{{baseName}}}"] as Map).cast<String, {{{items.datatype}}}>();
+      (json['{{{baseName}}}'] as Map).cast<String, {{{items.datatype}}}>();
         {{/isMapContainer}}
         {{^isMapContainer}}
           {{#isNumber}}
-    {{{name}}} = json["{{{baseName}}}"] == null ?
+    {{{name}}} = json['{{{baseName}}}'] == null ?
       null :
-      json["{{{baseName}}}"].toDouble();
+      json['{{{baseName}}}'].toDouble();
           {{/isNumber}}
           {{^isNumber}}
     {{^isEnum}}
-    {{{name}}} = json["{{{baseName}}}"];
+    {{{name}}} = json['{{{baseName}}}'];
     {{/isEnum}}
     {{#isEnum}}
-    {{{name}}} = {{{classname}}}{{{enumName}}}.fromJson(json["{{{baseName}}}"]);
+    {{{name}}} = {{{classname}}}{{{enumName}}}.fromJson(json['{{{baseName}}}']);
     {{/isEnum}}
           {{/isNumber}}
         {{/isMapContainer}}
@@ -144,14 +144,14 @@ class {{{classname}}} {
 {{#vars}}
     if ({{{name}}} != null) {
   {{#isDateTime}}
-      json["{{{baseName}}}"] = {{{name}}}.toUtc().toIso8601String();
+      json['{{{baseName}}}'] = {{{name}}}.toUtc().toIso8601String();
   {{/isDateTime}}
   {{#isDate}}
-      json["{{{baseName}}}"] = _dateFormatter.format({{{name}}}.toUtc());
+      json['{{{baseName}}}'] = _dateFormatter.format({{{name}}}.toUtc());
   {{/isDate}}
   {{^isDateTime}}
     {{^isDate}}
-      json["{{{baseName}}}"] = {{{name}}};
+      json['{{{baseName}}}'] = {{{name}}};
     {{/isDate}}
   {{/isDateTime}}
     }

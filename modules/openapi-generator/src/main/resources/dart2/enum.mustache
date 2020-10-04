@@ -76,7 +76,7 @@ class {{{classname}}}TypeTransformer {
       {{/allowableValues}}
       default:
         if (allowNull == false) {
-          throw ArgumentError("Unknown enum value to decode: $data");
+          throw ArgumentError('Unknown enum value to decode: $data');
         }
     }
     return null;
