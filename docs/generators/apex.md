@@ -64,6 +64,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>begin</li>
 <li>bigdecimal</li>
 <li>blob</li>
+<li>boolean</li>
 <li>break</li>
 <li>bulk</li>
 <li>by</li>
@@ -77,7 +78,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>commit</li>
 <li>const</li>
 <li>continue</li>
-<li>convertcurrency</li>
 <li>currency</li>
 <li>date</li>
 <li>datetime</li>
@@ -86,6 +86,7 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>delete</li>
 <li>desc</li>
 <li>do</li>
+<li>double</li>
 <li>else</li>
 <li>end</li>
 <li>enum</li>
@@ -99,7 +100,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>float</li>
 <li>for</li>
 <li>from</li>
-<li>future</li>
 <li>global</li>
 <li>goto</li>
 <li>group</li>
@@ -113,13 +113,10 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>insert</li>
 <li>instanceof</li>
 <li>int</li>
+<li>integer</li>
 <li>interface</li>
 <li>into</li>
 <li>join</li>
-<li>last_90_days</li>
-<li>last_month</li>
-<li>last_n_days</li>
-<li>last_week</li>
 <li>like</li>
 <li>limit</li>
 <li>list</li>
@@ -128,10 +125,6 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>map</li>
 <li>merge</li>
 <li>new</li>
-<li>next_90_days</li>
-<li>next_month</li>
-<li>next_n_days</li>
-<li>next_week</li>
 <li>not</li>
 <li>null</li>
 <li>nulls</li>
@@ -150,16 +143,14 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>public</li>
 <li>retrieve</li>
 <li>return</li>
-<li>returning</li>
 <li>rollback</li>
-<li>savepoint</li>
-<li>search</li>
 <li>select</li>
 <li>set</li>
 <li>short</li>
+<li>sobject</li>
 <li>sort</li>
-<li>stat</li>
 <li>static</li>
+<li>string</li>
 <li>super</li>
 <li>switch</li>
 <li>synchronized</li>
@@ -167,28 +158,22 @@ These options may be applied as additional-properties (cli) or configOptions (pl
 <li>testmethod</li>
 <li>then</li>
 <li>this</li>
-<li>this_month</li>
-<li>this_week</li>
 <li>throw</li>
 <li>time</li>
-<li>today</li>
-<li>tolabel</li>
-<li>tomorrow</li>
 <li>transaction</li>
 <li>trigger</li>
 <li>true</li>
 <li>try</li>
-<li>type</li>
 <li>undelete</li>
 <li>update</li>
 <li>upsert</li>
 <li>using</li>
 <li>virtual</li>
+<li>void</li>
 <li>webservice</li>
 <li>when</li>
 <li>where</li>
 <li>while</li>
-<li>yesterday</li>
 </ul>
 
 ## FEATURE SET
