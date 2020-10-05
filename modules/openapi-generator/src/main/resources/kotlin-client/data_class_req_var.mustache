@@ -12,10 +12,10 @@
     @field:JsonProperty("{{{vendorExtensions.x-base-name-literal}}}")
     {{/jackson}}
     {{#kotlin_serialization}}
-    {{^isEnum}}{{^isPrimitiveType}}@ContextualSerialization {{/isPrimitiveType}}{{/isEnum}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}")
+    {{^isEnum}}{{^isPrimitiveType}}@Contextual {{/isPrimitiveType}}{{/isEnum}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}")
     {{/kotlin_serialization}}
     {{/multiplatform}}
     {{#deprecated}}
     @Deprecated(message = "This property is deprecated.")
     {{/deprecated}}
-    {{#multiplatform}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}") @Required {{/multiplatform}}{{#isInherited}}override {{/isInherited}}{{>modelMutable}} {{{name}}}: {{#isEnum}}{{#isListContainer}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{#kotlin_serialization}}{{^isPrimitiveType}}@ContextualSerialization {{/isPrimitiveType}}{{/kotlin_serialization}}{{classname}}.{{{nameInCamelCase}}}>{{/isListContainer}}{{^isListContainer}}{{classname}}.{{{nameInCamelCase}}}{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}?{{/isNullable}}
+    {{#multiplatform}}@SerialName(value = "{{{vendorExtensions.x-base-name-literal}}}") @Required {{/multiplatform}}{{#isInherited}}override {{/isInherited}}{{>modelMutable}} {{{name}}}: {{#isEnum}}{{#isListContainer}}{{#isList}}kotlin.collections.List{{/isList}}{{^isList}}kotlin.Array{{/isList}}<{{#kotlin_serialization}}{{^isPrimitiveType}}@Contextual {{/isPrimitiveType}}{{/kotlin_serialization}}{{classname}}.{{{nameInCamelCase}}}>{{/isListContainer}}{{^isListContainer}}{{classname}}.{{{nameInCamelCase}}}{{/isListContainer}}{{/isEnum}}{{^isEnum}}{{{dataType}}}{{/isEnum}}{{#isNullable}}?{{/isNullable}}

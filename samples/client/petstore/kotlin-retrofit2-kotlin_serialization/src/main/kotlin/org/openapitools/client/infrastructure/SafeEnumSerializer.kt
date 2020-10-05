@@ -1,12 +1,12 @@
 package org.openapitools.client.infrastructure
 
-import kotlinx.serialization.Decoder
-import kotlinx.serialization.Encoder
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializer
-import kotlinx.serialization.SerialDescriptor
-import kotlinx.serialization.PrimitiveDescriptor
-import kotlinx.serialization.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.enumMembers
 import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
 import kotlin.reflect.KClass
@@ -25,7 +25,7 @@ open class SafeEnumAdapter<E>(
 ) : KSerializer<E> where  E : Enum<E>, E : SafeEnum {
     private val declaredValues = enumKClass.enumMembers().associateBy { it.serialName }
 
-    override val descriptor: SerialDescriptor = PrimitiveDescriptor("SafeEnum", PrimitiveKind.STRING)
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("SafeEnum", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: E) {
         encoder.encodeString(value.serialName)

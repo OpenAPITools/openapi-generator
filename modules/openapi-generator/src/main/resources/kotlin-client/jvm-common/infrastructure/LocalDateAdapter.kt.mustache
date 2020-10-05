@@ -12,13 +12,13 @@ import com.google.gson.stream.JsonToken.NULL
 import java.io.IOException
 {{/gson}}
 {{#kotlin_serialization}}
-import kotlinx.serialization.Decoder
-import kotlinx.serialization.Encoder
 import kotlinx.serialization.KSerializer
-import kotlinx.serialization.PrimitiveDescriptor
 import kotlinx.serialization.Serializer
-import kotlinx.serialization.PrimitiveKind
-import kotlinx.serialization.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.SerialDescriptor
 {{/kotlin_serialization}}
 {{^threetenbp}}
 import java.time.LocalDate
@@ -73,7 +73,7 @@ import org.threeten.bp.format.DateTimeFormatter
 {{#kotlin_serialization}}
 @Serializer(forClass = LocalDate::class)
 object LocalDateAdapter : KSerializer<LocalDate> {
-    override val descriptor: SerialDescriptor = PrimitiveDescriptor("LocalDate", PrimitiveKind.STRING)
+    override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("LocalDate", PrimitiveKind.STRING)
 
     override fun serialize(encoder: Encoder, value: LocalDate) {
         encoder.encodeString(DateTimeFormatter.ISO_LOCAL_DATE.format(value))

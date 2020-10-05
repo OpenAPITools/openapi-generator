@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 {{#kotlin_serialization}}
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
-import kotlinx.serialization.ContextualSerialization
+import kotlinx.serialization.Contextual
 {{#useSafeEnum}}
 import org.openapitools.client.infrastructure.SafeEnum
 import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
@@ -34,7 +34,7 @@ import kotlinx.android.parcel.Parcelize
 {{#multiplatform}}
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
-import kotlinx.serialization.ContextualSerialization
+import kotlinx.serialization.Contextual
 import kotlinx.serialization.Required
 {{/multiplatform}}
 {{#serializableModel}}

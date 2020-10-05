@@ -14,7 +14,7 @@ package org.openapitools.client.models
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
-import kotlinx.serialization.ContextualSerialization
+import kotlinx.serialization.Contextual
 import org.openapitools.client.infrastructure.SafeEnum
 import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
 import org.openapitools.client.infrastructure.SafeEnumAdapter
@@ -36,7 +36,7 @@ data class Order (
     val petId: kotlin.Long? = null,
     @SerialName(value = "quantity")
     val quantity: kotlin.Int? = null,
-    @ContextualSerialization @SerialName(value = "shipDate")
+    @Contextual @SerialName(value = "shipDate")
     val shipDate: java.time.OffsetDateTime? = null,
     /* Order Status */
     @SerialName(value = "status")

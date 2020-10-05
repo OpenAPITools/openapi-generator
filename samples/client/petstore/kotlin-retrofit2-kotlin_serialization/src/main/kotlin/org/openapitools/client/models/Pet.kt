@@ -16,7 +16,7 @@ import org.openapitools.client.models.Tag
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
-import kotlinx.serialization.ContextualSerialization
+import kotlinx.serialization.Contextual
 import org.openapitools.client.infrastructure.SafeEnum
 import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
 import org.openapitools.client.infrastructure.SafeEnumAdapter
@@ -38,9 +38,9 @@ data class Pet (
     val photoUrls: kotlin.collections.List<kotlin.String>,
     @SerialName(value = "id")
     val id: kotlin.Long? = null,
-    @ContextualSerialization @SerialName(value = "category")
+    @Contextual @SerialName(value = "category")
     val category: Category? = null,
-    @ContextualSerialization @SerialName(value = "tags")
+    @Contextual @SerialName(value = "tags")
     val tags: kotlin.collections.List<Tag>? = null,
     /* pet status in the store */
     @SerialName(value = "status")
