@@ -29,20 +29,26 @@ namespace Org.OpenAPITools.Model
     /// Fruit
     /// </summary>
     [DataContract(Name = "fruit")]
-    public partial class Fruit : IEquatable<Fruit>, IValidatableObject
+    public partial class Fruit : AbstractOpenAPISchema, IEquatable<Fruit>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
         public Fruit()
         {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Fruit" /> class.
         /// </summary>
+        /// <param name="actualInstance">The actual instance.</param>
         public Fruit(Object actualInstance)
         {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+
             if (actualInstance == null)
             {
                 return;
@@ -66,7 +72,50 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ActualInstance
         /// </summary>
-        public Object ActualInstance { get; set; }
+        public override Object ActualInstance
+        {
+            get
+            {
+                return ActualInstance;
+            }
+            set
+            {
+
+                if (value.GetType() == typeof(Apple))
+                {
+                     this.ActualInstance = value;
+                     return;
+                }
+
+                if (value.GetType() == typeof(Banana))
+                {
+                     this.ActualInstance = value;
+                     return;
+                }
+
+                throw new ArgumentException("Invalid instance found. Must be the following types: Apple Banana");
+            }
+        }
+
+        /// <summary>
+        /// Get the actual instance of `Apple`. If the actual instanct is not `Apple`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of Apple</returns>
+        public Apple GetApple()
+        {
+            return (Apple)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `Banana`. If the actual instanct is not `Banana`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of Banana</returns>
+        public Banana GetBanana()
+        {
+            return (Banana)this.ActualInstance;
+        }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -88,6 +137,53 @@ namespace Org.OpenAPITools.Model
         public virtual string ToJson()
         {
             return JsonConvert.SerializeObject(this.ActualInstance);
+        }
+
+        /// <summary>
+        /// Converts the JSON string into the object
+        /// </summary>
+        /// <param name="jsonString">JSON string</param>
+        public virtual void FromJson(string jsonString)
+        {
+            int match = 0;
+            List<string> matchedTypes = new List<string>();
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<Apple>(jsonString);
+                matchedTypes.Add("Apple");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<Banana>(jsonString);
+                matchedTypes.Add("Banana");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            if (match == 0)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
+            }
+            else if (match > 1)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
+            }
+            
+            // deserialization is considered successful at this point if no exception has been thrown.
         }
 
         /// <summary>

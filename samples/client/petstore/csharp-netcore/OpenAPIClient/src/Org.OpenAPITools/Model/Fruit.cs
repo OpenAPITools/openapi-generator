@@ -1,4 +1,4 @@
-﻿/*
+/*
  * OpenAPI Petstore
  *
  * This spec is mainly for testing Petstore server and contains fake endpoints, models. Please do not use this for any other purpose. Special characters: \" \\
@@ -158,7 +158,7 @@ namespace Org.OpenAPITools.Model
             {
                 // deserialization failed, try the next one
                 // uncomment the line below for troubleshooting
-                Console.WriteLine(exception.ToString());
+                //Console.WriteLine(exception.ToString());
             }
 
             try
