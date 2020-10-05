@@ -406,7 +406,7 @@ use {{invokerPackage}}\ObjectSerializer;
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function {{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
+    public function {{operationId}}Request({{^vendorExtensions.x-group-parameters}}{{#allParams}}${{paramName}}{{^required}} = {{#defaultValue}}{{{.}}}{{/defaultValue}}{{^defaultValue}}null{{/defaultValue}}{{/required}}{{#hasMore}}, {{/hasMore}}{{/allParams}}{{/vendorExtensions.x-group-parameters}}{{#vendorExtensions.x-group-parameters}}$associative_array{{/vendorExtensions.x-group-parameters}})
     {
         {{#vendorExtensions.x-group-parameters}}
         // unbox the parameters from the associative array
