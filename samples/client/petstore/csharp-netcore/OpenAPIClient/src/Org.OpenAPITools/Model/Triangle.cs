@@ -30,20 +30,26 @@ namespace Org.OpenAPITools.Model
     /// Triangle
     /// </summary>
     [DataContract(Name = "Triangle")]
-    public partial class Triangle : IEquatable<Triangle>, IValidatableObject
+    public partial class Triangle : AbstractOpenAPISchema, IEquatable<Triangle>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
         public Triangle()
         {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Triangle" /> class.
         /// </summary>
+        /// <param name="actualInstance">The actual instance.</param>
         public Triangle(Object actualInstance)
         {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+
             if (actualInstance == null)
             {
                 return;
@@ -73,7 +79,66 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ActualInstance
         /// </summary>
-        public Object ActualInstance { get; set; }
+        public override Object ActualInstance
+        {
+            get
+            {
+                return ActualInstance;
+            }
+            set
+            {
+
+                if (value.GetType() == typeof(EquilateralTriangle))
+                {
+                     this.ActualInstance = value;
+                     return;
+                }
+
+                if (value.GetType() == typeof(IsoscelesTriangle))
+                {
+                     this.ActualInstance = value;
+                     return;
+                }
+
+                if (value.GetType() == typeof(ScaleneTriangle))
+                {
+                     this.ActualInstance = value;
+                     return;
+                }
+
+                throw new ArgumentException("Invalid instance found. Must be the following types: EquilateralTriangle IsoscelesTriangle ScaleneTriangle");
+            }
+        }
+
+        /// <summary>
+        /// Get the actual instance of `EquilateralTriangle`. If the actual instanct is not `EquilateralTriangle`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of EquilateralTriangle</returns>
+        public EquilateralTriangle GetEquilateralTriangle()
+        {
+            return (EquilateralTriangle)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `IsoscelesTriangle`. If the actual instanct is not `IsoscelesTriangle`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of IsoscelesTriangle</returns>
+        public IsoscelesTriangle GetIsoscelesTriangle()
+        {
+            return (IsoscelesTriangle)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `ScaleneTriangle`. If the actual instanct is not `ScaleneTriangle`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of ScaleneTriangle</returns>
+        public ScaleneTriangle GetScaleneTriangle()
+        {
+            return (ScaleneTriangle)this.ActualInstance;
+        }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -95,6 +160,66 @@ namespace Org.OpenAPITools.Model
         public virtual string ToJson()
         {
             return JsonConvert.SerializeObject(this.ActualInstance);
+        }
+
+        /// <summary>
+        /// Converts the JSON string into the object
+        /// </summary>
+        /// <param name="jsonString">JSON string</param>
+        public virtual void FromJson(string jsonString)
+        {
+            int match = 0;
+            List<string> matchedTypes = new List<string>();
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<EquilateralTriangle>(jsonString);
+                matchedTypes.Add("EquilateralTriangle");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<IsoscelesTriangle>(jsonString);
+                matchedTypes.Add("IsoscelesTriangle");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<ScaleneTriangle>(jsonString);
+                matchedTypes.Add("ScaleneTriangle");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            if (match == 0)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
+            }
+            else if (match > 1)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
+            }
+            
+            // deserialization is considered successful at this point if no exception has been thrown.
         }
 
         /// <summary>

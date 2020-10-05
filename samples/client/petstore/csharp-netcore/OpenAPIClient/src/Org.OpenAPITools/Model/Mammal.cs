@@ -30,20 +30,26 @@ namespace Org.OpenAPITools.Model
     /// Mammal
     /// </summary>
     [DataContract(Name = "mammal")]
-    public partial class Mammal : IEquatable<Mammal>, IValidatableObject
+    public partial class Mammal : AbstractOpenAPISchema, IEquatable<Mammal>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
         public Mammal()
         {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Mammal" /> class.
         /// </summary>
+        /// <param name="actualInstance">The actual instance.</param>
         public Mammal(Object actualInstance)
         {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+
             if (actualInstance == null)
             {
                 return;
@@ -73,7 +79,66 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ActualInstance
         /// </summary>
-        public Object ActualInstance { get; set; }
+        public override Object ActualInstance
+        {
+            get
+            {
+                return ActualInstance;
+            }
+            set
+            {
+
+                if (value.GetType() == typeof(Pig))
+                {
+                     this.ActualInstance = value;
+                     return;
+                }
+
+                if (value.GetType() == typeof(Whale))
+                {
+                     this.ActualInstance = value;
+                     return;
+                }
+
+                if (value.GetType() == typeof(Zebra))
+                {
+                     this.ActualInstance = value;
+                     return;
+                }
+
+                throw new ArgumentException("Invalid instance found. Must be the following types: Pig Whale Zebra");
+            }
+        }
+
+        /// <summary>
+        /// Get the actual instance of `Pig`. If the actual instanct is not `Pig`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of Pig</returns>
+        public Pig GetPig()
+        {
+            return (Pig)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `Whale`. If the actual instanct is not `Whale`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of Whale</returns>
+        public Whale GetWhale()
+        {
+            return (Whale)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `Zebra`. If the actual instanct is not `Zebra`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of Zebra</returns>
+        public Zebra GetZebra()
+        {
+            return (Zebra)this.ActualInstance;
+        }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -95,6 +160,66 @@ namespace Org.OpenAPITools.Model
         public virtual string ToJson()
         {
             return JsonConvert.SerializeObject(this.ActualInstance);
+        }
+
+        /// <summary>
+        /// Converts the JSON string into the object
+        /// </summary>
+        /// <param name="jsonString">JSON string</param>
+        public virtual void FromJson(string jsonString)
+        {
+            int match = 0;
+            List<string> matchedTypes = new List<string>();
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<Pig>(jsonString);
+                matchedTypes.Add("Pig");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<Whale>(jsonString);
+                matchedTypes.Add("Whale");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<Zebra>(jsonString);
+                matchedTypes.Add("Zebra");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            if (match == 0)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
+            }
+            else if (match > 1)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
+            }
+            
+            // deserialization is considered successful at this point if no exception has been thrown.
         }
 
         /// <summary>

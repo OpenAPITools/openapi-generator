@@ -30,20 +30,26 @@ namespace Org.OpenAPITools.Model
     /// Quadrilateral
     /// </summary>
     [DataContract(Name = "Quadrilateral")]
-    public partial class Quadrilateral : IEquatable<Quadrilateral>, IValidatableObject
+    public partial class Quadrilateral : AbstractOpenAPISchema, IEquatable<Quadrilateral>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
         /// </summary>
         public Quadrilateral()
         {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
         /// </summary>
+        /// <param name="actualInstance">The actual instance.</param>
         public Quadrilateral(Object actualInstance)
         {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+
             if (actualInstance == null)
             {
                 return;
@@ -67,7 +73,50 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ActualInstance
         /// </summary>
-        public Object ActualInstance { get; set; }
+        public override Object ActualInstance
+        {
+            get
+            {
+                return ActualInstance;
+            }
+            set
+            {
+
+                if (value.GetType() == typeof(ComplexQuadrilateral))
+                {
+                     this.ActualInstance = value;
+                     return;
+                }
+
+                if (value.GetType() == typeof(SimpleQuadrilateral))
+                {
+                     this.ActualInstance = value;
+                     return;
+                }
+
+                throw new ArgumentException("Invalid instance found. Must be the following types: ComplexQuadrilateral SimpleQuadrilateral");
+            }
+        }
+
+        /// <summary>
+        /// Get the actual instance of `ComplexQuadrilateral`. If the actual instanct is not `ComplexQuadrilateral`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of ComplexQuadrilateral</returns>
+        public ComplexQuadrilateral GetComplexQuadrilateral()
+        {
+            return (ComplexQuadrilateral)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `SimpleQuadrilateral`. If the actual instanct is not `SimpleQuadrilateral`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of SimpleQuadrilateral</returns>
+        public SimpleQuadrilateral GetSimpleQuadrilateral()
+        {
+            return (SimpleQuadrilateral)this.ActualInstance;
+        }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -89,6 +138,53 @@ namespace Org.OpenAPITools.Model
         public virtual string ToJson()
         {
             return JsonConvert.SerializeObject(this.ActualInstance);
+        }
+
+        /// <summary>
+        /// Converts the JSON string into the object
+        /// </summary>
+        /// <param name="jsonString">JSON string</param>
+        public virtual void FromJson(string jsonString)
+        {
+            int match = 0;
+            List<string> matchedTypes = new List<string>();
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<ComplexQuadrilateral>(jsonString);
+                matchedTypes.Add("ComplexQuadrilateral");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<SimpleQuadrilateral>(jsonString);
+                matchedTypes.Add("SimpleQuadrilateral");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            if (match == 0)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
+            }
+            else if (match > 1)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
+            }
+            
+            // deserialization is considered successful at this point if no exception has been thrown.
         }
 
         /// <summary>

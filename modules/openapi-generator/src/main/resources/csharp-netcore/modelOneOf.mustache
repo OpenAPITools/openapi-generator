@@ -2,20 +2,26 @@
     /// {{#description}}{{.}}{{/description}}{{^description}}{{classname}}{{/description}}
     /// </summary>
     [DataContract(Name = "{{{name}}}")]
-    {{>visibility}} partial class {{classname}} : {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
+    {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
         public {{classname}}()
         {
+            this.IsNullable = {{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}};
+            this.SchemaType= "oneOf";
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
+        /// <param name="actualInstance">The actual instance.</param>
         public {{classname}}(Object actualInstance)
         {
+            this.IsNullable = {{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}};
+            this.SchemaType= "oneOf";
+
             if (actualInstance == null)
             {
                 return;
@@ -35,10 +41,38 @@
         /// <summary>
         /// Gets or Sets ActualInstance
         /// </summary>
-        {{#description}}
-        /// <value>The actual Instance</value>
-        {{/description}}
-        public Object ActualInstance { get; set; }
+        public override Object ActualInstance
+        {
+            get
+            {
+                return ActualInstance;
+            }
+            set
+            {
+                {{#oneOf}}
+
+                if (value.GetType() == typeof({{{.}}}))
+                {
+                     this.ActualInstance = value;
+                     return;
+                }
+                {{/oneOf}}
+
+                throw new ArgumentException("Invalid instance found. Must be the following types:{{#oneOf}} {{{.}}}{{/oneOf}}");
+            }
+        }
+        {{#oneOf}}
+
+        /// <summary>
+        /// Get the actual instance of `{{{.}}}`. If the actual instanct is not `{{{.}}}`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of {{{.}}}</returns>
+        public {{{.}}} Get{{{.}}}()
+        {
+            return ({{{.}}})this.ActualInstance;
+        }
+        {{/oneOf}}
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -60,6 +94,42 @@
         public virtual string ToJson()
         {
             return JsonConvert.SerializeObject(this.ActualInstance);
+        }
+
+        /// <summary>
+        /// Converts the JSON string into the object
+        /// </summary>
+        /// <param name="jsonString">JSON string</param>
+        public virtual void FromJson(string jsonString)
+        {
+            int match = 0;
+            List<string> matchedTypes = new List<string>();
+            {{#oneOf}}
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<{{{.}}}>(jsonString);
+                matchedTypes.Add("{{{.}}}");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+            {{/oneOf}}
+
+            if (match == 0)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
+            }
+            else if (match > 1)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
+            }
+            
+            // deserialization is considered successful at this point if no exception has been thrown.
         }
 
         /// <summary>

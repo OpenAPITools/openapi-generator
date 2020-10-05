@@ -30,20 +30,26 @@ namespace Org.OpenAPITools.Model
     /// Pig
     /// </summary>
     [DataContract(Name = "Pig")]
-    public partial class Pig : IEquatable<Pig>, IValidatableObject
+    public partial class Pig : AbstractOpenAPISchema, IEquatable<Pig>, IValidatableObject
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
         public Pig()
         {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Pig" /> class.
         /// </summary>
+        /// <param name="actualInstance">The actual instance.</param>
         public Pig(Object actualInstance)
         {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+
             if (actualInstance == null)
             {
                 return;
@@ -67,7 +73,50 @@ namespace Org.OpenAPITools.Model
         /// <summary>
         /// Gets or Sets ActualInstance
         /// </summary>
-        public Object ActualInstance { get; set; }
+        public override Object ActualInstance
+        {
+            get
+            {
+                return ActualInstance;
+            }
+            set
+            {
+
+                if (value.GetType() == typeof(BasquePig))
+                {
+                     this.ActualInstance = value;
+                     return;
+                }
+
+                if (value.GetType() == typeof(DanishPig))
+                {
+                     this.ActualInstance = value;
+                     return;
+                }
+
+                throw new ArgumentException("Invalid instance found. Must be the following types: BasquePig DanishPig");
+            }
+        }
+
+        /// <summary>
+        /// Get the actual instance of `BasquePig`. If the actual instanct is not `BasquePig`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of BasquePig</returns>
+        public BasquePig GetBasquePig()
+        {
+            return (BasquePig)this.ActualInstance;
+        }
+
+        /// <summary>
+        /// Get the actual instance of `DanishPig`. If the actual instanct is not `DanishPig`,
+        /// the InvalidClassException will be thrown
+        /// </summary>
+        /// <returns>An instance of DanishPig</returns>
+        public DanishPig GetDanishPig()
+        {
+            return (DanishPig)this.ActualInstance;
+        }
 
         /// <summary>
         /// Returns the string presentation of the object
@@ -89,6 +138,53 @@ namespace Org.OpenAPITools.Model
         public virtual string ToJson()
         {
             return JsonConvert.SerializeObject(this.ActualInstance);
+        }
+
+        /// <summary>
+        /// Converts the JSON string into the object
+        /// </summary>
+        /// <param name="jsonString">JSON string</param>
+        public virtual void FromJson(string jsonString)
+        {
+            int match = 0;
+            List<string> matchedTypes = new List<string>();
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<BasquePig>(jsonString);
+                matchedTypes.Add("BasquePig");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            try
+            {
+                this.ActualInstance = JsonConvert.DeserializeObject<DanishPig>(jsonString);
+                matchedTypes.Add("DanishPig");
+                match++;
+            }
+            catch (Exception exception)
+            {
+                // deserialization failed, try the next one
+                // uncomment the line below for troubleshooting
+                //Console.WriteLine(exception.ToString());
+            }
+
+            if (match == 0)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` cannot be deserialized into any schema defined.");
+            }
+            else if (match > 1)
+            {
+                throw new InvalidDataException("The JSON string `" + jsonString + "` incorrectly matches more than one schema (should be exactly one match): " + matchedTypes);
+            }
+            
+            // deserialization is considered successful at this point if no exception has been thrown.
         }
 
         /// <summary>
