@@ -38,17 +38,17 @@ public class StoreApiController extends Controller {
 
     @ApiAction
     public Result deleteOrder(Http.Request request, String orderId) throws Exception {
-        return ok();
+        return imp.deleteOrderHttp(request, orderId);
     }
 
     @ApiAction
     public Result getInventory(Http.Request request) throws Exception {
-        return ok();
+        return imp.getInventoryHttp(request);
     }
 
     @ApiAction
     public Result getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
-        return ok();
+        return imp.getOrderByIdHttp(request, orderId);
     }
 
     @ApiAction
@@ -63,6 +63,6 @@ public class StoreApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return ok();
+        return imp.placeOrderHttp(request, body);
     }
 }

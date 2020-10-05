@@ -43,35 +43,17 @@ public class StoreApiController extends Controller {
 
     @ApiAction
     public CompletionStage<Result> deleteOrder(Http.Request request, String orderId) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
-            imp.deleteOrder(request, orderId);
-            return ok();
-        });
+        return CompletableFuture.supplyAsync(() -> imp.deleteOrderHttp(request, orderId));
     }
 
     @ApiAction
     public CompletionStage<Result> getInventory(Http.Request request) throws Exception {
-        CompletionStage<Map<String, Integer>> stage = imp.getInventory(request).thenApply(obj -> { 
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        return CompletableFuture.supplyAsync(() -> imp.getInventoryHttp(request));
     }
 
     @ApiAction
     public CompletionStage<Result> getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
-        CompletionStage<Order> stage = imp.getOrderById(request, orderId).thenApply(obj -> { 
-            if (configuration.getBoolean("useOutputBeanValidation")) {
-                OpenAPIUtils.validate(obj);
-            }
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        return CompletableFuture.supplyAsync(() -> imp.getOrderByIdHttp(request, orderId));
     }
 
     @ApiAction
@@ -86,15 +68,6 @@ public class StoreApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        CompletionStage<Order> stage = imp.placeOrder(request, body).thenApply(obj -> { 
-            if (configuration.getBoolean("useOutputBeanValidation")) {
-                OpenAPIUtils.validate(obj);
-            }
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        return CompletableFuture.supplyAsync(() -> imp.placeOrderHttp(request, body));
     }
 }

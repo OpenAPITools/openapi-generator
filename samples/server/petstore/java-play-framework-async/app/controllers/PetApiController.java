@@ -54,10 +54,7 @@ public class PetApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.addPet(request, body);
-            return ok();
-        });
+        return CompletableFuture.supplyAsync(() -> imp.addPetHttp(request, body));
     }
 
     @ApiAction
@@ -69,10 +66,7 @@ public class PetApiController extends Controller {
         } else {
             apiKey = null;
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.deletePet(request, petId, apiKey);
-            return ok();
-        });
+        return CompletableFuture.supplyAsync(() -> imp.deletePetHttp(request, petId, apiKey));
     }
 
     @ApiAction
@@ -89,18 +83,7 @@ public class PetApiController extends Controller {
                 status.add(curParam);
             }
         }
-        CompletionStage<List<Pet>> stage = imp.findPetsByStatus(request, status).thenApply(obj -> { 
-            if (configuration.getBoolean("useOutputBeanValidation")) {
-                for (Pet curItem : obj) {
-                    OpenAPIUtils.validate(curItem);
-                }
-            }
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        return CompletableFuture.supplyAsync(() -> imp.findPetsByStatusHttp(request, status));
     }
 
     @ApiAction
@@ -117,32 +100,12 @@ public class PetApiController extends Controller {
                 tags.add(curParam);
             }
         }
-        CompletionStage<List<Pet>> stage = imp.findPetsByTags(request, tags).thenApply(obj -> { 
-            if (configuration.getBoolean("useOutputBeanValidation")) {
-                for (Pet curItem : obj) {
-                    OpenAPIUtils.validate(curItem);
-                }
-            }
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        return CompletableFuture.supplyAsync(() -> imp.findPetsByTagsHttp(request, tags));
     }
 
     @ApiAction
     public CompletionStage<Result> getPetById(Http.Request request, Long petId) throws Exception {
-        CompletionStage<Pet> stage = imp.getPetById(request, petId).thenApply(obj -> { 
-            if (configuration.getBoolean("useOutputBeanValidation")) {
-                OpenAPIUtils.validate(obj);
-            }
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        return CompletableFuture.supplyAsync(() -> imp.getPetByIdHttp(request, petId));
     }
 
     @ApiAction
@@ -157,10 +120,7 @@ public class PetApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.updatePet(request, body);
-            return ok();
-        });
+        return CompletableFuture.supplyAsync(() -> imp.updatePetHttp(request, body));
     }
 
     @ApiAction
@@ -179,10 +139,7 @@ public class PetApiController extends Controller {
         } else {
             status = null;
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.updatePetWithForm(request, petId, name, status);
-            return ok();
-        });
+        return CompletableFuture.supplyAsync(() -> imp.updatePetWithFormHttp(request, petId, name, status));
     }
 
     @ApiAction
@@ -195,15 +152,6 @@ public class PetApiController extends Controller {
             additionalMetadata = null;
         }
         Http.MultipartFormData.FilePart file = request.body().asMultipartFormData().getFile("file");
-        CompletionStage<ModelApiResponse> stage = imp.uploadFile(request, petId, additionalMetadata, file).thenApply(obj -> { 
-            if (configuration.getBoolean("useOutputBeanValidation")) {
-                OpenAPIUtils.validate(obj);
-            }
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        return CompletableFuture.supplyAsync(() -> imp.uploadFileHttp(request, petId, additionalMetadata, file));
     }
 }

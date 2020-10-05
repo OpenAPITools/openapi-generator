@@ -49,7 +49,7 @@ public class PetApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return ok();
+        return imp.addPetHttp(request, body);
     }
 
     @ApiAction
@@ -61,7 +61,7 @@ public class PetApiController extends Controller {
         } else {
             apiKey = null;
         }
-        return ok();
+        return imp.deletePetHttp(request, petId, apiKey);
     }
 
     @ApiAction
@@ -78,7 +78,7 @@ public class PetApiController extends Controller {
                 status.add(curParam);
             }
         }
-        return ok();
+        return imp.findPetsByStatusHttp(request, status);
     }
 
     @ApiAction
@@ -95,12 +95,12 @@ public class PetApiController extends Controller {
                 tags.add(curParam);
             }
         }
-        return ok();
+        return imp.findPetsByTagsHttp(request, tags);
     }
 
     @ApiAction
     public Result getPetById(Http.Request request, Long petId) throws Exception {
-        return ok();
+        return imp.getPetByIdHttp(request, petId);
     }
 
     @ApiAction
@@ -115,7 +115,7 @@ public class PetApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return ok();
+        return imp.updatePetHttp(request, body);
     }
 
     @ApiAction
@@ -134,7 +134,7 @@ public class PetApiController extends Controller {
         } else {
             status = null;
         }
-        return ok();
+        return imp.updatePetWithFormHttp(request, petId, name, status);
     }
 
     @ApiAction
@@ -147,6 +147,6 @@ public class PetApiController extends Controller {
             additionalMetadata = null;
         }
         Http.MultipartFormData.FilePart file = request.body().asMultipartFormData().getFile("file");
-        return ok();
+        return imp.uploadFileHttp(request, petId, additionalMetadata, file);
     }
 }

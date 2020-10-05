@@ -53,10 +53,7 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.createUser(request, body);
-            return ok();
-        });
+        return CompletableFuture.supplyAsync(() -> imp.createUserHttp(request, body));
     }
 
     @ApiAction
@@ -73,10 +70,7 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.createUsersWithArrayInput(request, body);
-            return ok();
-        });
+        return CompletableFuture.supplyAsync(() -> imp.createUsersWithArrayInputHttp(request, body));
     }
 
     @ApiAction
@@ -93,32 +87,17 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.createUsersWithListInput(request, body);
-            return ok();
-        });
+        return CompletableFuture.supplyAsync(() -> imp.createUsersWithListInputHttp(request, body));
     }
 
     @ApiAction
     public CompletionStage<Result> deleteUser(Http.Request request, String username) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
-            imp.deleteUser(request, username);
-            return ok();
-        });
+        return CompletableFuture.supplyAsync(() -> imp.deleteUserHttp(request, username));
     }
 
     @ApiAction
     public CompletionStage<Result> getUserByName(Http.Request request, String username) throws Exception {
-        CompletionStage<User> stage = imp.getUserByName(request, username).thenApply(obj -> { 
-            if (configuration.getBoolean("useOutputBeanValidation")) {
-                OpenAPIUtils.validate(obj);
-            }
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        return CompletableFuture.supplyAsync(() -> imp.getUserByNameHttp(request, username));
     }
 
     @ApiAction
@@ -137,21 +116,12 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'password' parameter is required");
         }
-        CompletionStage<String> stage = imp.loginUser(request, username, password).thenApply(obj -> { 
-            return obj;
-        });
-        stage.thenApply(obj -> {
-            JsonNode result = mapper.valueToTree(obj);
-            return ok(result);
-        });
+        return CompletableFuture.supplyAsync(() -> imp.loginUserHttp(request, username, password));
     }
 
     @ApiAction
     public CompletionStage<Result> logoutUser(Http.Request request) throws Exception {
-        return CompletableFuture.supplyAsync(() -> {
-            imp.logoutUser(request);
-            return ok();
-        });
+        return CompletableFuture.supplyAsync(() -> imp.logoutUserHttp(request));
     }
 
     @ApiAction
@@ -166,9 +136,6 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return CompletableFuture.supplyAsync(() -> {
-            imp.updateUser(request, username, body);
-            return ok();
-        });
+        return CompletableFuture.supplyAsync(() -> imp.updateUserHttp(request, username, body));
     }
 }

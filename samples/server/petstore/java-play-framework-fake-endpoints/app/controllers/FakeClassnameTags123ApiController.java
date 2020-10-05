@@ -49,11 +49,6 @@ public class FakeClassnameTags123ApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        Client obj = imp.testClassname(request, body);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.testClassnameHttp(request, body);
     }
 }

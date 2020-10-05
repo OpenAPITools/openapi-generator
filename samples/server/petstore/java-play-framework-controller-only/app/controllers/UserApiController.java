@@ -48,7 +48,7 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return ok();
+        return imp.createUserHttp(request, body);
     }
 
     @ApiAction
@@ -65,7 +65,7 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return ok();
+        return imp.createUsersWithArrayInputHttp(request, body);
     }
 
     @ApiAction
@@ -82,17 +82,17 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return ok();
+        return imp.createUsersWithListInputHttp(request, body);
     }
 
     @ApiAction
     public Result deleteUser(Http.Request request, String username) throws Exception {
-        return ok();
+        return imp.deleteUserHttp(request, username);
     }
 
     @ApiAction
     public Result getUserByName(Http.Request request, String username) throws Exception {
-        return ok();
+        return imp.getUserByNameHttp(request, username);
     }
 
     @ApiAction
@@ -111,12 +111,12 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'password' parameter is required");
         }
-        return ok();
+        return imp.loginUserHttp(request, username, password);
     }
 
     @ApiAction
     public Result logoutUser(Http.Request request) throws Exception {
-        return ok();
+        return imp.logoutUserHttp(request);
     }
 
     @ApiAction
@@ -131,6 +131,6 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return ok();
+        return imp.updateUserHttp(request, username, body);
     }
 }

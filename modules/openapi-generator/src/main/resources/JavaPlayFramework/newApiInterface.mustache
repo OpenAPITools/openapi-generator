@@ -20,6 +20,84 @@ import javax.validation.constraints.*;
 @SuppressWarnings("RedundantThrows")
 public interface {{classname}}ControllerImpInterface {
 {{#operation}}
+    default {{#supportAsync}}CompletionStage<{{/supportAsync}}Result{{#supportAsync}}>{{/supportAsync}} {{operationId}}Http(Http.Request request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}} {
+        {{^controllerOnly}}
+        {{^returnType}}
+        {{#supportAsync}}
+        return CompletableFuture.supplyAsync(() -> {
+        {{/supportAsync}}
+        {{/returnType}}
+        {{#returnType}}{{#supportAsync}}CompletionStage<{{>returnTypesNoVoid}}> stage = {{/supportAsync}}{{^supportAsync}}{{>returnTypesNoVoid}} obj = {{/supportAsync}}{{/returnType}}{{^returnType}}{{#supportAsync}}    {{/supportAsync}}{{/returnType}}{{operationId}}(request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{paramName}}{{#hasMore}}, {{/hasMore}}{{/allParams}}){{#returnType}}{{#supportAsync}}.thenApply(obj -> { {{/supportAsync}}{{/returnType}}{{^supportAsync}};{{/supportAsync}}{{#supportAsync}}{{^returnType}};{{/returnType}}{{/supportAsync}}
+        {{#returnType}}
+        {{^isResponseFile}}
+        {{^returnTypeIsPrimitive}}
+        {{#useBeanValidation}}
+        {{^supportAsync}}
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            {{#isListContainer}}
+            for ({{{returnType}}} curItem : obj) {
+                OpenAPIUtils.validate(curItem);
+            }
+            {{/isListContainer}}
+            {{#isMapContainer}}
+            for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
+                OpenAPIUtils.validate(entry.getValue());
+            }
+            {{/isMapContainer}}
+            {{^returnContainer}}
+                OpenAPIUtils.validate(obj);
+            {{/returnContainer}}
+        }
+        {{/supportAsync}}
+        {{#supportAsync}}
+        if (configuration.getBoolean("useOutputBeanValidation")) {
+            {{#isListContainer}}
+            for ({{{returnType}}} curItem : obj) {
+                OpenAPIUtils.validate(curItem);
+            }
+            {{/isListContainer}}
+            {{#isMapContainer}}
+            for (Map.Entry<String, {{{returnType}}}> entry : obj.entrySet()) {
+                OpenAPIUtils.validate(entry.getValue());
+            }
+            {{/isMapContainer}}
+            {{^returnContainer}}
+            OpenAPIUtils.validate(obj);
+            {{/returnContainer}}
+        }
+        {{/supportAsync}}
+        {{/useBeanValidation}}
+        {{/returnTypeIsPrimitive}}
+        {{/isResponseFile}}
+        {{#supportAsync}}
+            return obj;
+        });
+        {{/supportAsync}}
+        {{/returnType}}
+        {{#returnType}}
+        {{#supportAsync}}
+            stage.thenApply(obj -> {
+        {{/supportAsync}}
+        {{^isResponseFile}}
+        {{#supportAsync}}    {{/supportAsync}}JsonNode result = mapper.valueToTree(obj);
+        {{#supportAsync}}    {{/supportAsync}}return ok(result);
+        {{/isResponseFile}}
+        {{#isResponseFile}}
+        {{#supportAsync}}    {{/supportAsync}}return ok(obj);
+        {{/isResponseFile}}
+        {{/returnType}}
+        {{^returnType}}
+        {{#supportAsync}}    {{/supportAsync}}return ok();
+        {{/returnType}}
+        {{#supportAsync}}
+        });
+        {{/supportAsync}}
+        {{/controllerOnly}}
+        {{#controllerOnly}}
+        return ok();
+        {{/controllerOnly}}
+    }
+
     {{^returnType}}void{{/returnType}}{{#returnType}}{{#supportAsync}}CompletionStage<{{/supportAsync}}{{>returnTypesNoVoid}}{{#supportAsync}}>{{/supportAsync}}{{/returnType}} {{operationId}}(Http.Request request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}};
 
 {{/operation}}

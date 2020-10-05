@@ -49,11 +49,6 @@ public class AnotherFakeApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        Client obj = imp.call123testSpecialTags(request, body);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-            OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+        return imp.call123testSpecialTagsHttp(request, body);
     }
 }
