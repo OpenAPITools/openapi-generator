@@ -28,10 +28,7 @@ import org.openapitools.codegen.templating.mustache.IndentedLambda;
 import org.openapitools.codegen.utils.ModelUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.TreeSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodegen {
     private static final String X_IS_UNIQUE_ID = "x-isUniqueId";
@@ -153,7 +150,9 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         if (additionalProperties.containsKey(SAGAS_AND_RECORDS)) {
             this.setSagasAndRecords(convertPropertyToBoolean(SAGAS_AND_RECORDS));
             if (this.getSagasAndRecords()) {
-                this.apiTemplateFiles.put("sagas.mustache", "_saga.ts");
+                apiTemplateFiles.put("sagas.mustache", "Sagas.ts");
+                modelTemplateFiles.put("records.mustache", "Record.ts");
+                supportingFiles.add(new SupportingFile("runtimeSagasAndRecords.mustache", sourceDir, "runtimeSagasAndRecords.ts"));
             }
         }
     }
@@ -211,11 +210,25 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
                     cm.isEntity = true;
                 }
 
+                var.itemsDataType = var.isListContainer ? var.items.dataType : null;
+                var.itemsAreModels = var.isListContainer && var.items.isModel;
+
                 if (this.getSagasAndRecords()) {
-                    if (var.dataType.lastIndexOf("Array<", 0) == 0) {
+                    var.dataTypeAlternate = var.dataType;
+                    if (var.isListContainer) {
                         var.dataTypeAlternate = var.dataType.replace("Array<", "List<");
-                        var.defaultValue = var.dataTypeAlternate + "()";
-                    } else if (var.defaultValue == null || var.defaultValue.equals("undefined")) {
+                        if (var.items.isModel) {
+                            var.itemsDataType = var.items.dataType + "Record";
+                            var.dataTypeAlternate = var.dataTypeAlternate.replace(var.items.dataType, var.itemsDataType);
+                        }
+                    } else if (var.isEnum) {
+                        var.dataTypeAlternate = var.datatypeWithEnum;
+                    } else if (var.isModel) {
+                        var.dataTypeAlternate = var.dataType + "Record";
+                    } else if (var.isUniqueId) {
+                        var.dataTypeAlternate = "string";
+                    }
+                    if (var.defaultValue == null || var.defaultValue.equals("undefined")) {
                         this.autoSetDefaultValueForProperty(var);
                     }
                 }
@@ -263,26 +276,43 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             }
         }
 
-        for (CodegenModel entityModel : allModels) {
-            for (CodegenProperty var : entityModel.vars) {
+        for (CodegenModel rootModel : allModels) {
+            for (String curImport : rootModel.imports) {
+                boolean isModelImport = false;
+                for (CodegenModel model : allModels) {
+                    if (model.classname.equals(curImport) && !model.isEnum) {
+                        isModelImport = true;
+                        break;
+                    }
+                }
+                if (isModelImport) {
+                    rootModel.modelImports.add(curImport);
+                }
+            }
+
+            for (CodegenProperty var : rootModel.vars) {
                 if (var.isModel && entityModelClassnames.indexOf(var.dataType) != -1) {
                     var.isEntity = true;
+                } else if (var.itemsAreModels && entityModelClassnames.indexOf(var.items.dataType) != -1) {
+                    var.itemsAreEntities = true;
                 }
             }
         }
         return result;
     }
 
-    private void autoSetDefaultValueForProperty(CodegenProperty property) {
-        if (property.isUniqueId) {
-            property.defaultValue = "-1";
-        } else if (property.isEnum) {
-            property.defaultValue = "'" + property._enum.get(0) + "'";
-            updateCodegenPropertyEnum(property);
-        } else if (property.dataType.equalsIgnoreCase("string")) {
-            property.defaultValue = "\"\"";
-        } else if (property.dataType.equalsIgnoreCase("integer")){
-            property.defaultValue = "0";
+    private void autoSetDefaultValueForProperty(CodegenProperty var) {
+        if (var.isListContainer || var.isModel) {
+            var.defaultValue = var.dataTypeAlternate + "()";
+        } else if (var.isUniqueId) {
+            var.defaultValue = "\"-1\"";
+        } else if (var.isEnum) {
+            var.defaultValue = "'" + var._enum.get(0) + "'";
+            updateCodegenPropertyEnum(var);
+        } else if (var.dataType.equalsIgnoreCase("string")) {
+            var.defaultValue = "\"\"";
+        } else if (var.dataType.equalsIgnoreCase("integer")){
+            var.defaultValue = "0";
         }
     }
 
@@ -320,6 +350,15 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         this.addOperationPrefixParameterInterfacesInformation(operations);
         this.escapeOperationIds(operations);
         return operations;
+    }
+
+    @Override
+    public Map<String, Object> postProcessSupportingFileData(Map<String, Object> objs) {
+        Map<String, Object> parentObjs = super.postProcessSupportingFileData(objs);
+
+        parentObjs.put("useSagaAndRecords", this.getSagasAndRecords());
+
+        return parentObjs;
     }
 
     private void escapeOperationIds(Map<String, Object> operations) {
@@ -430,4 +469,5 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
     private void setPrefixParameterInterfaces(boolean prefixParameterInterfaces) {
         this.prefixParameterInterfaces = prefixParameterInterfaces;
     }
+
 }

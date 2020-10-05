@@ -39,7 +39,8 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
      */
     public String dataType;
     /**
-     * Alternative version of the language-specific data type when generator needs a different output in some templates. For example this is used by typescript fetch generator to output either Array (javascript) or List (immutablejs)
+     * Alternative version of the language-specific data type when generator needs a different output in some templates.
+     * For example this is used by typescript fetch generator to output either Array (javascript) or List (immutablejs)
      */
     public String dataTypeAlternate;
     public String datatypeWithEnum;
@@ -114,7 +115,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean hasMoreNonReadOnly; // for model constructor, true if next property is not readonly
     public boolean isPrimitiveType;
     public boolean isModel;
-
     /**
      * Is a model containing an "id" property marked as isUniqueId; field populated only by typescript fetch for now.
      */
@@ -147,7 +147,6 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public boolean isUuid;
     public boolean isUri;
     public boolean isEmail;
-
     /**
      * The type is a free-form object, i.e. it is a map of string to values with no declared properties.
      * A OAS free-form schema may include the 'additionalProperties' attribute, which puts a constraint
@@ -174,6 +173,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     // If 'additionalProperties' is set to a type or refers to a type, 'items' provides the type information for
     // the undeclared properties. 
     public CodegenProperty items;
+    public String itemsDataType; // if isContainer == true, this is the dataType of the items else it is null. Used by typescript fetch only for now.
+    public boolean itemsAreModels; // true if items of container are 'isModel == true'
+    public boolean itemsAreEntities; // true if items of container are 'isEntity == true'
     public CodegenProperty mostInnerItems;
     public Map<String, Object> vendorExtensions = new HashMap<String, Object>();
     public boolean hasValidation; // true if pattern, maximum, etc are set (only used in the mustache template)
@@ -637,6 +639,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
         sb.append(", description='").append(description).append('\'');
         sb.append(", dataType='").append(dataType).append('\'');
         sb.append(", dataTypeAlternate='").append(dataTypeAlternate).append('\'');
+        sb.append(", itemsDataType='").append(itemsDataType).append('\'');
+        sb.append(", itemsAreModels='").append(itemsAreModels).append('\'');
+        sb.append(", itemsAreEntities='").append(itemsAreEntities).append('\'');
         sb.append(", datatypeWithEnum='").append(datatypeWithEnum).append('\'');
         sb.append(", dataFormat='").append(dataFormat).append('\'');
         sb.append(", name='").append(name).append('\'');
@@ -774,6 +779,9 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
                 Objects.equals(description, that.description) &&
                 Objects.equals(dataType, that.dataType) &&
                 Objects.equals(dataTypeAlternate, that.dataTypeAlternate) &&
+                Objects.equals(itemsDataType, that.itemsDataType) &&
+                Objects.equals(itemsAreModels, that.itemsAreModels) &&
+                Objects.equals(itemsAreEntities, that.itemsAreEntities) &&
                 Objects.equals(datatypeWithEnum, that.datatypeWithEnum) &&
                 Objects.equals(dataFormat, that.dataFormat) &&
                 Objects.equals(name, that.name) &&
@@ -813,7 +821,7 @@ public class CodegenProperty implements Cloneable, IJsonSchemaValidationProperti
     public int hashCode() {
 
         return Objects.hash(openApiType, baseName, complexType, getter, setter, description,
-                dataType, dataTypeAlternate, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
+                dataType, dataTypeAlternate, itemsDataType, itemsAreModels, itemsAreEntities, datatypeWithEnum, dataFormat, name, min, max, defaultValue,
                 defaultValueWithParam, baseType, containerType, title, unescapedDescription,
                 maxLength, minLength, pattern, example, jsonSchema, minimum, maximum,
                 exclusiveMinimum, exclusiveMaximum, hasMore, required, deprecated, secondaryParam,

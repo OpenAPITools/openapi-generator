@@ -1,0 +1,15 @@
+{{#models}}
+{{#model}}
+{{#isEnum}}
+// Can be deleted, file unused... (Enum do not need to be converted to Records and can be used directly.)
+{{/isEnum}}
+{{^isEnum}}
+{{^oneOf}}
+/* tslint:disable */
+/* eslint-disable */
+{{>licenseInfo}}
+{{>recordGeneric}}
+{{/oneOf}}
+{{/isEnum}}
+{{/model}}
+{{/models}}

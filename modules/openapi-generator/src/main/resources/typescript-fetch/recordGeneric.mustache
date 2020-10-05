@@ -1,0 +1,109 @@
+import {ApiRecordUtils, knownRecordFactories} from "../runtimeSagasAndRecords";
+import {List, Record, RecordOf} from 'immutable';
+import {Schema, schema, NormalizedSchema} from "normalizr";
+
+import { {{classname}} } from './';
+
+{{#hasEnums}}
+{{#vars}}
+{{#isEnum}}
+import { {{classname}}{{enumName}} } from "./";
+{{/isEnum}}
+{{/vars}}
+{{/hasEnums}}
+
+{{#hasImports}}
+import {
+    {{#imports}}
+    {{{.}}},
+    {{/imports}}
+{{#modelImports}}
+    {{.}}Record,
+    {{#lambda.camelcase}}{{.}}{{/lambda.camelcase}}RecordUtils,
+{{/modelImports}}
+} from './';
+{{/hasImports}}
+
+export const {{classname}}RecordProps = {
+	recType: "{{classname}}Record" as "{{classname}}Record",
+{{#vars}}
+    {{#isListContainer}}
+    {{#itemsAreModels}}
+    {{name}}: ({{{itemsDataType}}}(), {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}}),
+    {{/itemsAreModels}}
+    {{^itemsAreModels}}
+    {{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}},
+    {{/itemsAreModels}}
+    {{/isListContainer}}
+    {{#isModel}}
+    {{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}({{{defaultValue}}}, null as {{{dataTypeAlternate}}} | null){{/required}},
+    {{/isModel}}
+    {{^isContainer}}
+    {{^isModel}}
+    {{name}}: {{#required}}{{{defaultValue}}}{{/required}}{{^required}}null as {{{dataTypeAlternate}}} | null{{/required}},
+    {{/isModel}}
+    {{/isContainer}}
+{{/vars}}
+};
+
+export type {{classname}}RecordPropsType = typeof {{classname}}RecordProps;
+export const {{classname}}Record = Record({{classname}}RecordProps, {{classname}}RecordProps.recType);
+export type {{classname}}Record = RecordOf<{{classname}}RecordPropsType>;
+
+knownRecordFactories.set({{classname}}RecordProps.recType, {{classname}}Record);
+
+{{#isEntity}}
+export const {{classname}}RecordEntityProps = {
+	...{{classname}}RecordProps,
+	recType: "{{classname}}RecordEntity" as "{{classname}}RecordEntity",
+{{#vars}}
+    {{#isEntity}}
+    {{name}}: {{#required}}"-1"{{/required}}{{^required}}null as string | null{{/required}},
+    {{/isEntity}}
+    {{#itemsAreEntities}}
+    {{name}}: {{#required}}List<string>(){{/required}}{{^required}}null as List<string> | null{{/required}},
+    {{/itemsAreEntities}}
+{{/vars}}
+};
+
+export type {{classname}}RecordEntityPropsType = typeof {{classname}}RecordEntityProps;
+export const {{classname}}RecordEntity = Record({{classname}}RecordEntityProps, {{classname}}RecordEntityProps.recType);
+export type {{classname}}RecordEntity = RecordOf<{{classname}}RecordEntityPropsType>;
+
+knownRecordFactories.set({{classname}}RecordEntityProps.recType, {{classname}}RecordEntity);
+{{/isEntity}}
+
+class {{classname}}RecordUtils extends ApiRecordUtils<{{classname}}, {{classname}}Record> {
+	public normalize(apiObject: {{classname}}, asEntity?: boolean): {{classname}} {
+		(apiObject as any).recType = {{#isEntity}}asEntity ? "{{classname}}RecordEntity" : {{/isEntity}}"{{classname}}Record";
+{{#vars}}
+        {{#isUniqueId}}
+        {{^required}}if (apiObject.{{name}}) { {{/required}}(apiObject as any).{{name}} = apiObject.{{name}}.toString();{{^required}} } {{/required}}
+        {{/isUniqueId}}
+        {{#isModel}}
+        {{^required}}if (apiObject.{{name}}) { {{/required}}{{#lambda.camelcase}}{{dataTypeAlternate}}{{/lambda.camelcase}}Utils.normalize(apiObject.{{name}});{{^required}} } {{/required}}
+        {{/isModel}}
+        {{#itemsAreModels}}
+        {{^required}}if (apiObject.{{name}}) { {{/required}}{{#lambda.camelcase}}{{itemsDataType}}{{/lambda.camelcase}}Utils.normalizeArray(apiObject.{{name}});{{^required}} } {{/required}}
+        {{/itemsAreModels}}
+{{/vars}}
+		return apiObject;
+	}
+{{#isEntity}}
+
+	public getSchema(): Schema {
+	    return new schema.Entity("{{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}", {
+{{#vars}}
+            {{#isEntity}}
+            {{#lambda.camelcase}}{{name}}{{/lambda.camelcase}}: {{#lambda.camelcase}}{{dataTypeAlternate}}{{/lambda.camelcase}}Utils.getSchema(),
+            {{/isEntity}}
+            {{#itemsAreEntities}}
+            {{#lambda.camelcase}}{{name}}{{/lambda.camelcase}}: [{{#lambda.camelcase}}{{itemsDataType}}{{/lambda.camelcase}}Utils.getSchema()],
+            {{/itemsAreEntities}}
+{{/vars}}
+		});
+	}
+{{/isEntity}}
+}
+
+export const {{#lambda.camelcase}}{{classname}}{{/lambda.camelcase}}RecordUtils = new {{classname}}RecordUtils();

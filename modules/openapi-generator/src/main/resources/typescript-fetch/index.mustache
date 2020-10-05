@@ -1,4 +1,7 @@
 export * from './runtime';
+{{#useSagaAndRecords}}
+export * from './runtimeSagasAndRecords';
+{{/useSagaAndRecords}}
 {{#apiInfo}}
 {{#apis.0}}
 export * from './apis';
