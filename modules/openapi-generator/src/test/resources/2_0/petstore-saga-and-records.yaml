@@ -600,12 +600,12 @@ definitions:
     title: Pet category
     description: A category for a pet
     type: object
-#    x-entityId: "id"
+    x-entityId: "id"
     properties:
       id:
         type: integer
         format: int64
-#        x-isUniqueId: true
+        x-isUniqueId: true
       name:
         type: string
     xml:
@@ -661,16 +661,16 @@ definitions:
       - photoUrls
       - tags
       - status
-#    x-entityId: "id"
+    x-entityId: "id"
     properties:
       id:
         type: integer
         format: int64
-#        x-isUniqueId: true
+        x-isUniqueId: true
       friendId:
         type: integer
         format: int64
- #       x-isUniqueId: true
+        x-isUniqueId: true
       category:
         $ref: '#/definitions/Category'
       optionalCategory:
