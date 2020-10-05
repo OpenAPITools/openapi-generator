@@ -25,7 +25,6 @@ import openapitools.OpenAPIUtils.ApiAction;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class UserApiController extends Controller {
-
     private final ObjectMapper mapper;
     private final Config configuration;
 
@@ -34,7 +33,6 @@ public class UserApiController extends Controller {
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
-
 
     @ApiAction
     public Result createUser(Http.Request request) throws Exception {
@@ -48,7 +46,7 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return imp.createUserHttp(request, body);
+        return ok();
     }
 
     @ApiAction
@@ -65,7 +63,7 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return imp.createUsersWithArrayInputHttp(request, body);
+        return ok();
     }
 
     @ApiAction
@@ -82,17 +80,17 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return imp.createUsersWithListInputHttp(request, body);
+        return ok();
     }
 
     @ApiAction
     public Result deleteUser(Http.Request request, String username) throws Exception {
-        return imp.deleteUserHttp(request, username);
+        return ok();
     }
 
     @ApiAction
     public Result getUserByName(Http.Request request, String username) throws Exception {
-        return imp.getUserByNameHttp(request, username);
+        return ok();
     }
 
     @ApiAction
@@ -111,12 +109,12 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'password' parameter is required");
         }
-        return imp.loginUserHttp(request, username, password);
+        return ok();
     }
 
     @ApiAction
     public Result logoutUser(Http.Request request) throws Exception {
-        return imp.logoutUserHttp(request);
+        return ok();
     }
 
     @ApiAction
@@ -131,6 +129,7 @@ public class UserApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return imp.updateUserHttp(request, username, body);
+        return ok();
     }
+
 }

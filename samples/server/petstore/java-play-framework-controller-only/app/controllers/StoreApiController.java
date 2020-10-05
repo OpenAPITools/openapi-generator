@@ -25,7 +25,6 @@ import openapitools.OpenAPIUtils.ApiAction;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class StoreApiController extends Controller {
-
     private final ObjectMapper mapper;
     private final Config configuration;
 
@@ -35,20 +34,19 @@ public class StoreApiController extends Controller {
         this.configuration = configuration;
     }
 
-
     @ApiAction
     public Result deleteOrder(Http.Request request, String orderId) throws Exception {
-        return imp.deleteOrderHttp(request, orderId);
+        return ok();
     }
 
     @ApiAction
     public Result getInventory(Http.Request request) throws Exception {
-        return imp.getInventoryHttp(request);
+        return ok();
     }
 
     @ApiAction
     public Result getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) throws Exception {
-        return imp.getOrderByIdHttp(request, orderId);
+        return ok();
     }
 
     @ApiAction
@@ -63,6 +61,7 @@ public class StoreApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return imp.placeOrderHttp(request, body);
+        return ok();
     }
+
 }

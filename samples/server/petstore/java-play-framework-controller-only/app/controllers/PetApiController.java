@@ -26,7 +26,6 @@ import openapitools.OpenAPIUtils.ApiAction;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiController extends Controller {
-
     private final ObjectMapper mapper;
     private final Config configuration;
 
@@ -35,7 +34,6 @@ public class PetApiController extends Controller {
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
-
 
     @ApiAction
     public Result addPet(Http.Request request) throws Exception {
@@ -49,7 +47,7 @@ public class PetApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return imp.addPetHttp(request, body);
+        return ok();
     }
 
     @ApiAction
@@ -61,7 +59,7 @@ public class PetApiController extends Controller {
         } else {
             apiKey = null;
         }
-        return imp.deletePetHttp(request, petId, apiKey);
+        return ok();
     }
 
     @ApiAction
@@ -78,7 +76,7 @@ public class PetApiController extends Controller {
                 status.add(curParam);
             }
         }
-        return imp.findPetsByStatusHttp(request, status);
+        return ok();
     }
 
     @ApiAction
@@ -95,12 +93,12 @@ public class PetApiController extends Controller {
                 tags.add(curParam);
             }
         }
-        return imp.findPetsByTagsHttp(request, tags);
+        return ok();
     }
 
     @ApiAction
     public Result getPetById(Http.Request request, Long petId) throws Exception {
-        return imp.getPetByIdHttp(request, petId);
+        return ok();
     }
 
     @ApiAction
@@ -115,7 +113,7 @@ public class PetApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return imp.updatePetHttp(request, body);
+        return ok();
     }
 
     @ApiAction
@@ -134,7 +132,7 @@ public class PetApiController extends Controller {
         } else {
             status = null;
         }
-        return imp.updatePetWithFormHttp(request, petId, name, status);
+        return ok();
     }
 
     @ApiAction
@@ -147,6 +145,7 @@ public class PetApiController extends Controller {
             additionalMetadata = null;
         }
         Http.MultipartFormData.FilePart file = request.body().asMultipartFormData().getFile("file");
-        return imp.uploadFileHttp(request, petId, additionalMetadata, file);
+        return ok();
     }
+
 }

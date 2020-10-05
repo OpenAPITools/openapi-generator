@@ -18,7 +18,7 @@ import javax.validation.constraints.*;
 {{/useBeanValidation}}
 {{>generatedAnnotation}}
 {{#operations}}
-public class {{classname}}ControllerImp {{#useInterfaces}}implements {{classname}}ControllerImpInterface{{/useInterfaces}} {
+public class {{classname}}ControllerImp {{#useInterfaces}}extends {{classname}}ControllerImpInterface{{/useInterfaces}} {
 {{#operation}}
     {{#useInterfaces}}@Override{{/useInterfaces}}
     public {{^returnType}}void{{/returnType}}{{#returnType}}{{#supportAsync}}CompletionStage<{{/supportAsync}}{{>returnTypesNoVoid}}{{#supportAsync}}>{{/supportAsync}}{{/returnType}} {{operationId}}(Http.Request request{{#hasParams}}, {{/hasParams}}{{#allParams}}{{>pathParams}}{{>queryParams}}{{>bodyParams}}{{>formParams}}{{>headerParams}}{{#hasMore}}, {{/hasMore}}{{/allParams}}) {{#handleExceptions}}throws Exception{{/handleExceptions}} {

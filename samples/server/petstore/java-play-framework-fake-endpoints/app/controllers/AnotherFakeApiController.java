@@ -24,7 +24,6 @@ import openapitools.OpenAPIUtils.ApiAction;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class AnotherFakeApiController extends Controller {
-
     private final AnotherFakeApiControllerImpInterface imp;
     private final ObjectMapper mapper;
     private final Config configuration;
@@ -35,7 +34,6 @@ public class AnotherFakeApiController extends Controller {
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
-
 
     @ApiAction
     public Result call123testSpecialTags(Http.Request request) throws Exception {
@@ -51,4 +49,5 @@ public class AnotherFakeApiController extends Controller {
         }
         return imp.call123testSpecialTagsHttp(request, body);
     }
+
 }

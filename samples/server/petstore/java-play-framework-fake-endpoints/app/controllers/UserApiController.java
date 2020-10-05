@@ -25,7 +25,6 @@ import openapitools.OpenAPIUtils.ApiAction;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class UserApiController extends Controller {
-
     private final UserApiControllerImpInterface imp;
     private final ObjectMapper mapper;
     private final Config configuration;
@@ -36,7 +35,6 @@ public class UserApiController extends Controller {
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
-
 
     @ApiAction
     public Result createUser(Http.Request request) throws Exception {
@@ -135,4 +133,5 @@ public class UserApiController extends Controller {
         }
         return imp.updateUserHttp(request, username, body);
     }
+
 }

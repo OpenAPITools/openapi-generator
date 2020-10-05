@@ -29,7 +29,6 @@ import openapitools.OpenAPIUtils.ApiAction;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiController extends Controller {
-
     private final PetApiControllerImpInterface imp;
     private final ObjectMapper mapper;
     private final Config configuration;
@@ -40,7 +39,6 @@ public class PetApiController extends Controller {
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
-
 
     @ApiAction
     public CompletionStage<Result> addPet(Http.Request request) throws Exception {
@@ -54,7 +52,7 @@ public class PetApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return CompletableFuture.supplyAsync(() -> imp.addPetHttp(request, body));
+        return imp.addPetHttp(request, body);
     }
 
     @ApiAction
@@ -66,7 +64,7 @@ public class PetApiController extends Controller {
         } else {
             apiKey = null;
         }
-        return CompletableFuture.supplyAsync(() -> imp.deletePetHttp(request, petId, apiKey));
+        return imp.deletePetHttp(request, petId, apiKey);
     }
 
     @ApiAction
@@ -83,7 +81,7 @@ public class PetApiController extends Controller {
                 status.add(curParam);
             }
         }
-        return CompletableFuture.supplyAsync(() -> imp.findPetsByStatusHttp(request, status));
+        return imp.findPetsByStatusHttp(request, status);
     }
 
     @ApiAction
@@ -100,12 +98,12 @@ public class PetApiController extends Controller {
                 tags.add(curParam);
             }
         }
-        return CompletableFuture.supplyAsync(() -> imp.findPetsByTagsHttp(request, tags));
+        return imp.findPetsByTagsHttp(request, tags);
     }
 
     @ApiAction
     public CompletionStage<Result> getPetById(Http.Request request, Long petId) throws Exception {
-        return CompletableFuture.supplyAsync(() -> imp.getPetByIdHttp(request, petId));
+        return imp.getPetByIdHttp(request, petId);
     }
 
     @ApiAction
@@ -120,7 +118,7 @@ public class PetApiController extends Controller {
         } else {
             throw new IllegalArgumentException("'body' parameter is required");
         }
-        return CompletableFuture.supplyAsync(() -> imp.updatePetHttp(request, body));
+        return imp.updatePetHttp(request, body);
     }
 
     @ApiAction
@@ -139,7 +137,7 @@ public class PetApiController extends Controller {
         } else {
             status = null;
         }
-        return CompletableFuture.supplyAsync(() -> imp.updatePetWithFormHttp(request, petId, name, status));
+        return imp.updatePetWithFormHttp(request, petId, name, status);
     }
 
     @ApiAction
@@ -152,6 +150,7 @@ public class PetApiController extends Controller {
             additionalMetadata = null;
         }
         Http.MultipartFormData.FilePart file = request.body().asMultipartFormData().getFile("file");
-        return CompletableFuture.supplyAsync(() -> imp.uploadFileHttp(request, petId, additionalMetadata, file));
+        return imp.uploadFileHttp(request, petId, additionalMetadata, file);
     }
+
 }

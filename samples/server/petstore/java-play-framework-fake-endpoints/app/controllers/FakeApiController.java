@@ -33,7 +33,6 @@ import openapitools.OpenAPIUtils.ApiAction;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class FakeApiController extends Controller {
-
     private final FakeApiControllerImpInterface imp;
     private final ObjectMapper mapper;
     private final Config configuration;
@@ -44,7 +43,6 @@ public class FakeApiController extends Controller {
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
-
 
     @ApiAction
     public Result createXmlItem(Http.Request request) throws Exception {
@@ -484,4 +482,5 @@ public class FakeApiController extends Controller {
         }
         return imp.testQueryParameterCollectionFormatHttp(request, pipe, ioutil, http, url, context);
     }
+
 }

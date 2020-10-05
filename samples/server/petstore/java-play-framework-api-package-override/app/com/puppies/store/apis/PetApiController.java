@@ -26,7 +26,6 @@ import openapitools.OpenAPIUtils.ApiAction;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class PetApiController extends Controller {
-
     private final PetApiControllerImpInterface imp;
     private final ObjectMapper mapper;
     private final Config configuration;
@@ -37,7 +36,6 @@ public class PetApiController extends Controller {
         mapper = new ObjectMapper();
         this.configuration = configuration;
     }
-
 
     @ApiAction
     public Result addPet(Http.Request request) throws Exception {
@@ -151,4 +149,5 @@ public class PetApiController extends Controller {
         Http.MultipartFormData.FilePart file = request.body().asMultipartFormData().getFile("file");
         return imp.uploadFileHttp(request, petId, additionalMetadata, file);
     }
+
 }

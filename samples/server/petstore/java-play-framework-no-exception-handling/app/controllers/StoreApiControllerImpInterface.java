@@ -3,50 +3,67 @@ package controllers;
 import java.util.Map;
 import apimodels.Order;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.typesafe.config.Config;
+import play.mvc.Controller;
 import play.mvc.Http;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import play.mvc.Result;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import openapitools.OpenAPIUtils;
+import static play.mvc.Results.ok;
 
 import javax.validation.constraints.*;
 
+@Singleton
 @SuppressWarnings("RedundantThrows")
-public interface StoreApiControllerImpInterface {
-    default Result deleteOrderHttp(Http.Request request, String orderId)  {
+public abstract class StoreApiControllerImpInterface {
+    @Inject private Config configuration;
+    private ObjectMapper mapper = new ObjectMapper();
+
+    Result deleteOrderHttp(Http.Request request, String orderId)  {
         deleteOrder(request, orderId);
-        return ok();
+return ok();
+
     }
 
-    void deleteOrder(Http.Request request, String orderId) ;
+    abstract void deleteOrder(Http.Request request, String orderId) ;
 
-    default Result getInventoryHttp(Http.Request request)  {
+    Result getInventoryHttp(Http.Request request)  {
         Map<String, Integer> obj = getInventory(request);
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+JsonNode result = mapper.valueToTree(obj);
+return ok(result);
+
     }
 
-    Map<String, Integer> getInventory(Http.Request request) ;
+    abstract Map<String, Integer> getInventory(Http.Request request) ;
 
-    default Result getOrderByIdHttp(Http.Request request,  @Min(1) @Max(5)Long orderId)  {
+    Result getOrderByIdHttp(Http.Request request,  @Min(1) @Max(5)Long orderId)  {
         Order obj = getOrderById(request, orderId);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-                OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+    if (configuration.getBoolean("useOutputBeanValidation")) {
+            OpenAPIUtils.validate(obj);
+    }
+JsonNode result = mapper.valueToTree(obj);
+return ok(result);
+
     }
 
-    Order getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) ;
+    abstract Order getOrderById(Http.Request request,  @Min(1) @Max(5)Long orderId) ;
 
-    default Result placeOrderHttp(Http.Request request, Order body)  {
+    Result placeOrderHttp(Http.Request request, Order body)  {
         Order obj = placeOrder(request, body);
-        if (configuration.getBoolean("useOutputBeanValidation")) {
-                OpenAPIUtils.validate(obj);
-        }
-        JsonNode result = mapper.valueToTree(obj);
-        return ok(result);
+    if (configuration.getBoolean("useOutputBeanValidation")) {
+            OpenAPIUtils.validate(obj);
+    }
+JsonNode result = mapper.valueToTree(obj);
+return ok(result);
+
     }
 
-    Order placeOrder(Http.Request request, Order body) ;
+    abstract Order placeOrder(Http.Request request, Order body) ;
 
 }

@@ -23,7 +23,6 @@ import openapitools.OpenAPIUtils.ApiAction;
 
 @javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaPlayFrameworkCodegen")
 public class StoreApiController extends Controller {
-
     private final StoreApiControllerImpInterface imp;
     private final ObjectMapper mapper;
 
@@ -32,7 +31,6 @@ public class StoreApiController extends Controller {
         this.imp = imp;
         mapper = new ObjectMapper();
     }
-
 
     @ApiAction
     public Result deleteOrder(Http.Request request, String orderId) throws Exception {
@@ -60,4 +58,5 @@ public class StoreApiController extends Controller {
         }
         return imp.placeOrderHttp(request, body);
     }
+
 }
