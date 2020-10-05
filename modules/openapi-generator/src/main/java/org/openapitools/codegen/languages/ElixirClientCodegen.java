@@ -594,12 +594,12 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
             this.isDefinedDefault = (this.code.equals("0") || this.code.equals("default"));
         }
 
-        public String codeMappingKey(){
-            if(this.isDefinedDefault) {
+        public String codeMappingKey() {
+            if (this.isDefinedDefault) {
                 return ":default";
             }
 
-            if(code.matches("^\\d{3}$")){
+            if (code.matches("^\\d{3}$")) {
                 return code;
             }
 
@@ -742,7 +742,7 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 sb.append(".t");
             } else {
                 if (returnContainer.equals("array") ||
-                    returnContainer.equals("set")) {
+                        returnContainer.equals("set")) {
                     sb.append("list(");
                     if (!returnTypeIsPrimitive) {
                         sb.append(moduleName);
@@ -808,6 +808,23 @@ public class ElixirClientCodegen extends DefaultCodegen implements CodegenConfig
                 sb.append(property.baseType);
                 sb.append(".t");
             }
+        }
+
+        private boolean getRequiresHttpcWorkaround() {
+            // Only POST/PATCH/PUT are affected from the httpc bug
+            if (!(this.httpMethod.equals("POST") || this.httpMethod.equals("PATCH") || this.httpMethod.equals("PUT"))) {
+                return false;
+            }
+
+            // If theres something required for the body, the workaround is not required
+            for (CodegenParameter requiredParam : this.requiredParams) {
+                if (requiredParam.isBodyParam || requiredParam.isFormParam) {
+                    return false;
+                }
+            }
+
+            // In case there is nothing for the body, the operation requires the workaround
+            return true;
         }
     }
 
