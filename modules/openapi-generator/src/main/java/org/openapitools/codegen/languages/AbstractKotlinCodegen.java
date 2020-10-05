@@ -836,8 +836,8 @@ public abstract class AbstractKotlinCodegen extends DefaultCodegen implements Co
     @Override
     public String toVarName(String name) {
         // sanitize name
-        name = sanitizeKotlinSpecificNames(name);
         name = sanitizeName(name, "\\W-[\\$]");
+        name = sanitizeKotlinSpecificNames(name);
 
         if (name.toLowerCase(Locale.ROOT).matches("^_*class$")) {
             return "propertyClass";
