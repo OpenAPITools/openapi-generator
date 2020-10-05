@@ -30,11 +30,11 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.*;
 
-import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.underscore;
 
 public class DartJaguarClientCodegen extends DartClientCodegen {
     private static final Logger LOGGER = LoggerFactory.getLogger(DartJaguarClientCodegen.class);
+
     private static final String NULLABLE_FIELDS = "nullableFields";
     private static final String SERIALIZATION_FORMAT = "serialization";
     private static final String IS_FORMAT_JSON = "jsonFormat";
@@ -86,7 +86,6 @@ public class DartJaguarClientCodegen extends DartClientCodegen {
                 )
         );
 
-        browserClient = false;
         outputFolder = "generated-code/dart-jaguar";
         embeddedTemplateDir = templateDir = "dart-jaguar";
 
