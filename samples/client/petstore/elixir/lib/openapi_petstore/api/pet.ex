@@ -207,6 +207,7 @@ defmodule OpenapiPetstore.Api.Pet do
     |> method(:post)
     |> url("/pet/#{pet_id}")
     |> add_optional_params(optional_params, opts)
+    |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
@@ -239,6 +240,7 @@ defmodule OpenapiPetstore.Api.Pet do
     |> method(:post)
     |> url("/pet/#{pet_id}/uploadImage")
     |> add_optional_params(optional_params, opts)
+    |> ensure_body()
     |> Enum.into([])
     |> (&Connection.request(connection, &1)).()
     |> evaluate_response([
