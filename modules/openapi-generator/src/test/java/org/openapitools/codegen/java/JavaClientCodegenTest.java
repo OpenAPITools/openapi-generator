@@ -34,6 +34,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Predicate;
@@ -1070,7 +1071,7 @@ public class JavaClientCodegenTest {
 
     private CodegenOperation getByOperationId(List<CodegenOperation> codegenOperations, String operationId) {
         return getByCriteria(codegenOperations, (co) -> co.operationId.equals(operationId))
-                .orElseThrow(() -> new IllegalStateException(String.format("Operation with id [%s] does not exist", operationId)));
+                .orElseThrow(() -> new IllegalStateException(String.format(Locale.ROOT, "Operation with id [%s] does not exist", operationId)));
     }
 
     private Optional<CodegenOperation> getByCriteria(List<CodegenOperation> codegenOperations, Predicate<CodegenOperation> filter){
