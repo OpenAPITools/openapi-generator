@@ -59,17 +59,16 @@ class Pet {
   String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
 
   Pet.fromJson(Map<String, dynamic> json) {
-    if (json == null) {
-      return;
+    if (json != null) {
+      id = json['id'];
+      category = Category.fromJson(json['category']);
+      name = json['name'];
+      photoUrls = json['photoUrls'] == null
+        ? null
+        : (json['photoUrls'] as List).cast<String>();
+      tags = Tag.listFromJson(json['tags']);
+      status = PetStatusEnum.fromJson(json['status']);
     }
-    id = json['id'];
-    category = Category.fromJson(json['category']);
-    name = json['name'];
-    photoUrls = json['photoUrls'] == null
-      ? null
-      : (json['photoUrls'] as List).cast<String>();
-    tags = Tag.listFromJson(json['tags']);
-    status = PetStatusEnum.fromJson(json['status']);
   }
 
   Map<String, dynamic> toJson() {

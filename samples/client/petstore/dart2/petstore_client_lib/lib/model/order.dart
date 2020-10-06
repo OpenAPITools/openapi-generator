@@ -59,17 +59,16 @@ class Order {
   String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
 
   Order.fromJson(Map<String, dynamic> json) {
-    if (json == null) {
-      return;
+    if (json != null) {
+      id = json['id'];
+      petId = json['petId'];
+      quantity = json['quantity'];
+      shipDate = json['shipDate'] == null
+        ? null
+        : DateTime.parse(json['shipDate']);
+      status = OrderStatusEnum.fromJson(json['status']);
+      complete = json['complete'];
     }
-    id = json['id'];
-    petId = json['petId'];
-    quantity = json['quantity'];
-    shipDate = json['shipDate'] == null ?
-      null :
-      DateTime.parse(json['shipDate']);
-    status = OrderStatusEnum.fromJson(json['status']);
-    complete = json['complete'];
   }
 
   Map<String, dynamic> toJson() {

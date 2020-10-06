@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 // tests for {{{classname}}}
 void main() {
   {{^isEnum}}
-  var instance = {{{classname}}}();
+  final instance = {{{classname}}}();
   {{/isEnum}}
 
   group('test {{{classname}}}', () {

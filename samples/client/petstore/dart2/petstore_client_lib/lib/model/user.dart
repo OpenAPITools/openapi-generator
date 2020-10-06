@@ -71,17 +71,16 @@ class User {
   String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
 
   User.fromJson(Map<String, dynamic> json) {
-    if (json == null) {
-      return;
+    if (json != null) {
+      id = json['id'];
+      username = json['username'];
+      firstName = json['firstName'];
+      lastName = json['lastName'];
+      email = json['email'];
+      password = json['password'];
+      phone = json['phone'];
+      userStatus = json['userStatus'];
     }
-    id = json['id'];
-    username = json['username'];
-    firstName = json['firstName'];
-    lastName = json['lastName'];
-    email = json['email'];
-    password = json['password'];
-    phone = json['phone'];
-    userStatus = json['userStatus'];
   }
 
   Map<String, dynamic> toJson() {

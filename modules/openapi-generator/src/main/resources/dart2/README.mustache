@@ -80,13 +80,13 @@ import 'package:{{{pubName}}}/api.dart';
 {{/authMethods}}
 {{/hasAuthMethods}}
 
-var api_instance = {{{classname}}}();
+final api_instance = {{{classname}}}();
 {{#allParams}}
-var {{{paramName}}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{{dataType}}}(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}; // {{{dataType}}} | {{{description}}}
+final {{{paramName}}} = {{#isListContainer}}[{{/isListContainer}}{{#isBodyParam}}{{{dataType}}}(){{/isBodyParam}}{{^isBodyParam}}{{{example}}}{{/isBodyParam}}{{#isListContainer}}]{{/isListContainer}}; // {{{dataType}}} | {{{description}}}
 {{/allParams}}
 
 try {
-    {{#returnType}}var result = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
+    {{#returnType}}final result = {{/returnType}}api_instance.{{{operationId}}}({{#allParams}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/allParams}});
     {{#returnType}}
     print(result);
     {{/returnType}}

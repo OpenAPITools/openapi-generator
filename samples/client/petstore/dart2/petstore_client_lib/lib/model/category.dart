@@ -35,11 +35,10 @@ class Category {
   String toString() => 'Category[id=$id, name=$name]';
 
   Category.fromJson(Map<String, dynamic> json) {
-    if (json == null) {
-      return;
+    if (json != null) {
+      id = json['id'];
+      name = json['name'];
     }
-    id = json['id'];
-    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {

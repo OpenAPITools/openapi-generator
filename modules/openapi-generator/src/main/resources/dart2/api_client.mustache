@@ -30,8 +30,8 @@ class ApiClient {
   {{/hasAuthMethods}}
   }
 
-  String basePath;
-  var client = Client();
+  final String basePath;
+  final client = Client();
 
   final _defaultHeaderMap = <String, String>{};
   final _authentications = <String, Authentication>{};
@@ -85,12 +85,12 @@ class ApiClient {
     }
 
     if (body is MultipartRequest) {
-      var request = MultipartRequest(method, Uri.parse(url));
+      final request = MultipartRequest(method, Uri.parse(url));
       request.fields.addAll(body.fields);
       request.files.addAll(body.files);
       request.headers.addAll(body.headers);
       request.headers.addAll(headerParams);
-      var response = await client.send(request);
+      final response = await client.send(request);
       return Response.fromStream(response);
     }
 
@@ -151,13 +151,13 @@ class ApiClient {
         default:
           Match match;
           if (value is List && (match = _regList.firstMatch(targetType)) != null) {
-            var newTargetType = match[1];
+            final newTargetType = match[1];
             return value
               .map((v) => _deserialize(v, newTargetType, growable: growable))
               .toList(growable: true == growable);
           }
           if (value is Map && (match = _regMap.firstMatch(targetType)) != null) {
-            var newTargetType = match[1];
+            final newTargetType = match[1];
             return Map.fromIterables(
               value.keys,
               value.values.map((v) => _deserialize(v, newTargetType, growable: growable)),

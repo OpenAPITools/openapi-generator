@@ -41,12 +41,11 @@ class ApiResponse {
   String toString() => 'ApiResponse[code=$code, type=$type, message=$message]';
 
   ApiResponse.fromJson(Map<String, dynamic> json) {
-    if (json == null) {
-      return;
+    if (json != null) {
+      code = json['code'];
+      type = json['type'];
+      message = json['message'];
     }
-    code = json['code'];
-    type = json['type'];
-    message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
