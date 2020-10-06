@@ -7,7 +7,6 @@ import kotlinx.serialization.Serializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
-import kotlinx.serialization.enumMembers
 import org.openapitools.client.infrastructure.SafeEnum.Companion.UNKNOWN_VALUE
 import kotlin.reflect.KClass
 
@@ -23,7 +22,7 @@ interface SafeEnum {
 open class SafeEnumAdapter<E>(
     private val enumKClass: KClass<E>
 ) : KSerializer<E> where  E : Enum<E>, E : SafeEnum {
-    private val declaredValues = enumKClass.enumMembers().associateBy { it.serialName }
+    private val declaredValues = enumKClass.java.enumConstants!!.associateBy { it.serialName }
 
     override val descriptor: SerialDescriptor = PrimitiveSerialDescriptor("SafeEnum", PrimitiveKind.STRING)
 
@@ -36,12 +35,12 @@ open class SafeEnumAdapter<E>(
             ?: declaredValues[UNKNOWN_VALUE]
             ?: throw IllegalStateException(
                 """Cannot find enum with serialName='$value', add following default 'UNKNOWN_VALUE' enum to have backward compatibility:
-                            |
-                            |@Serializable(with = ${enumKClass.simpleName}Adapter::class)
-                            |enum class ${enumKClass.simpleName}(override val value: String) : SerializableEnum {
-                            |   ${enumKClass.enumMembers().joinToString("\n   ") { "${it.name}(\"${it.serialName}\")," }}
-                            |   UNKNOWN_VALUE(UNKNOWN_VALUE); <--- HERE
-                            |}""".trimMargin()
+                |
+                |@Serializable(with = ${enumKClass.simpleName}Adapter::class)
+                |enum class ${enumKClass.simpleName}(override val value: String) : SerializableEnum {
+                |   ${enumKClass.java.enumConstants!!.joinToString("\n   ") { "${it.name}(\"${it.serialName}\")," }}
+                |   UNKNOWN_VALUE(UNKNOWN_VALUE); <--- HERE
+                |}""".trimMargin()
             )
     }
 }
