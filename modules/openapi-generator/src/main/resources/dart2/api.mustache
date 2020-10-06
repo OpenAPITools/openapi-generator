@@ -8,9 +8,11 @@ class {{{classname}}} {
   final ApiClient apiClient;
   {{#operation}}
 
-  /// {{{summary}}} with HTTP info returned
+  /// {{{summary}}} with HTTP info returned.
+  {{#notes}}
   ///
-  /// {{{notes}}}
+  /// {{{notes}}}.
+  {{/notes}}
   {{#returnType}}Future<Response> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     // Verify required params are set.
     {{#allParams}}
@@ -92,13 +94,19 @@ class {{{classname}}} {
     );
   }
 
-  /// {{{summary}}}
-  ///
+  /// {{{summary}}}.
   {{#allParams}}
-  ///{{{dataType}}} {{{paramName}}} {{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}:
-  ///    {{#description}} {{{description}}}{{/description}}
+  ///
+  /// Parameters:
+  /// * {{{dataType}}} {{{paramName}}} {{#required}} (required){{/required}}{{#optional}}(optional){{/optional}}:
+    {{#description}}
+  ///   {{{description}}}
+    {{/description}}
   {{/allParams}}
-  /// {{{notes}}}
+  {{#notes}}
+  ///
+  /// {{{notes}}}.
+  {{/notes}}
   {{#returnType}}Future<{{{returnType}}}> {{/returnType}}{{^returnType}}Future {{/returnType}}{{{nickname}}}({{#allParams}}{{#required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}}{ {{#allParams}}{{^required}}{{{dataType}}} {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} }{{/hasOptionalParams}}) async {
     final response = await {{{nickname}}}WithHttpInfo({{#allParams}}{{#required}}{{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}}{{#hasOptionalParams}} {{#allParams}}{{^required}}{{{paramName}}}: {{{paramName}}}{{#hasMore}}, {{/hasMore}}{{/required}}{{/allParams}} {{/hasOptionalParams}});
     if (response.statusCode >= 400) {

@@ -10,6 +10,7 @@
 part of openapi.api;
 
 class Category {
+  /// Returns a new [Category] instance.
   Category({
     this.id,
     this.name,
@@ -18,22 +19,10 @@ class Category {
   
   int id;
 
-  
-  String name;
-
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Category &&
-     other.id == id &&
-     other.name == name;
-
-  @override
-  int get hashCode =>
-    id.hashCode +
-    name.hashCode;
-
-  @override
-  String toString() => 'Category[id=$id, name=$name]';
-
+  /// Returns a new [Category] instance.
+  ///
+  /// If [json] [Map] is non-null, its keys and values are mapped to
+  /// [Category]'s properties.
   Category.fromJson(Map<String, dynamic> json) {
     if (json != null) {
       id = json['id'];
@@ -51,6 +40,47 @@ class Category {
     }
     return json;
   }
+
+  @override
+  String toString() => 'Category[id=$id, name=$name]';
+
+  
+  String name;
+
+  /// Returns a new [Category] instance.
+  ///
+  /// If [json] [Map] is non-null, its keys and values are mapped to
+  /// [Category]'s properties.
+  Category.fromJson(Map<String, dynamic> json) {
+    if (json != null) {
+      id = json['id'];
+      name = json['name'];
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (id != null) {
+      json['id'] = id;
+    }
+    if (name != null) {
+      json['name'] = name;
+    }
+    return json;
+  }
+
+  @override
+  String toString() => 'Category[id=$id, name=$name]';
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is Category &&
+     other.id == id &&
+     other.name == name;
+
+  @override
+  int get hashCode =>
+    id.hashCode +
+    name.hashCode;
 
   static List<Category> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

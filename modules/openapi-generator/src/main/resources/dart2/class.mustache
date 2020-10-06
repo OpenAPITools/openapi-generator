@@ -1,4 +1,5 @@
 class {{{classname}}} {
+  /// Returns a new [{{{classname}}}] instance.
   {{{classname}}}({
   {{#vars}}
     {{#isNullable}}{{#required}}@required {{/required}}this.{{{name}}},{{/isNullable}}{{^isNullable}}{{#defaultValue}}this.{{{name}}} = {{{defaultValue}}}{{/defaultValue}}{{^defaultValue}}{{#required}}@required {{/required}}this.{{{name}}}{{/defaultValue}},{{/isNullable}}
@@ -26,22 +27,10 @@ class {{{classname}}} {
     {{/isContainer}}
   {{/isEnum}}
 
-  {{/vars}}
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
-  {{#vars}}
-     other.{{{name}}} == {{{name}}}{{^-last}} &&{{/-last}}{{#-last}};{{/-last}}
-  {{/vars}}
-
-  @override
-  int get hashCode =>
-  {{#vars}}
-    {{#isNullable}}({{{name}}}?.hashCode ?? 0){{/isNullable}}{{^isNullable}}{{{name}}}.hashCode{{/isNullable}}{{^-last}} +{{/-last}}{{#-last}};{{/-last}}
-  {{/vars}}
-
-  @override
-  String toString() => '{{{classname}}}[{{#vars}}{{{name}}}=${{{name}}}{{^-last}}, {{/-last}}{{/vars}}]';
-
+  /// Returns a new [{{{classname}}}] instance.
+  ///
+  /// If [json] [Map] is non-null, its keys and values are mapped to
+  /// [{{{classname}}}]'s properties.
   {{{classname}}}.fromJson(Map<String, dynamic> json) {
     if (json != null) {
   {{#vars}}
@@ -185,6 +174,22 @@ class {{{classname}}} {
 {{/vars}}
     return json;
   }
+
+  @override
+  String toString() => '{{{classname}}}[{{#vars}}{{{name}}}=${{{name}}}{{^-last}}, {{/-last}}{{/vars}}]';
+
+  {{/vars}}
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
+  {{#vars}}
+     other.{{{name}}} == {{{name}}}{{^-last}} &&{{/-last}}{{#-last}};{{/-last}}
+  {{/vars}}
+
+  @override
+  int get hashCode =>
+  {{#vars}}
+    {{#isNullable}}({{{name}}}?.hashCode ?? 0){{/isNullable}}{{^isNullable}}{{{name}}}.hashCode{{/isNullable}}{{^-last}} +{{/-last}}{{#-last}};{{/-last}}
+  {{/vars}}
 
   static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

@@ -10,6 +10,7 @@
 part of openapi.api;
 
 class Pet {
+  /// Returns a new [Pet] instance.
   Pet({
     this.id,
     this.category,
@@ -22,42 +23,10 @@ class Pet {
   
   int id;
 
-  
-  Category category;
-
-  
-  String name;
-
-  
-  List<String> photoUrls;
-
-  
-  List<Tag> tags;
-
-  /// pet status in the store
-  PetStatusEnum status;
-
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Pet &&
-     other.id == id &&
-     other.category == category &&
-     other.name == name &&
-     other.photoUrls == photoUrls &&
-     other.tags == tags &&
-     other.status == status;
-
-  @override
-  int get hashCode =>
-    id.hashCode +
-    category.hashCode +
-    name.hashCode +
-    photoUrls.hashCode +
-    tags.hashCode +
-    status.hashCode;
-
-  @override
-  String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
-
+  /// Returns a new [Pet] instance.
+  ///
+  /// If [json] [Map] is non-null, its keys and values are mapped to
+  /// [Pet]'s properties.
   Pet.fromJson(Map<String, dynamic> json) {
     if (json != null) {
       id = json['id'];
@@ -93,6 +62,257 @@ class Pet {
     }
     return json;
   }
+
+  @override
+  String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
+
+  
+  Category category;
+
+  /// Returns a new [Pet] instance.
+  ///
+  /// If [json] [Map] is non-null, its keys and values are mapped to
+  /// [Pet]'s properties.
+  Pet.fromJson(Map<String, dynamic> json) {
+    if (json != null) {
+      id = json['id'];
+      category = Category.fromJson(json['category']);
+      name = json['name'];
+      photoUrls = json['photoUrls'] == null
+        ? null
+        : (json['photoUrls'] as List).cast<String>();
+      tags = Tag.listFromJson(json['tags']);
+      status = PetStatusEnum.fromJson(json['status']);
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (id != null) {
+      json['id'] = id;
+    }
+    if (category != null) {
+      json['category'] = category;
+    }
+    if (name != null) {
+      json['name'] = name;
+    }
+    if (photoUrls != null) {
+      json['photoUrls'] = photoUrls;
+    }
+    if (tags != null) {
+      json['tags'] = tags;
+    }
+    if (status != null) {
+      json['status'] = status;
+    }
+    return json;
+  }
+
+  @override
+  String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
+
+  
+  String name;
+
+  /// Returns a new [Pet] instance.
+  ///
+  /// If [json] [Map] is non-null, its keys and values are mapped to
+  /// [Pet]'s properties.
+  Pet.fromJson(Map<String, dynamic> json) {
+    if (json != null) {
+      id = json['id'];
+      category = Category.fromJson(json['category']);
+      name = json['name'];
+      photoUrls = json['photoUrls'] == null
+        ? null
+        : (json['photoUrls'] as List).cast<String>();
+      tags = Tag.listFromJson(json['tags']);
+      status = PetStatusEnum.fromJson(json['status']);
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (id != null) {
+      json['id'] = id;
+    }
+    if (category != null) {
+      json['category'] = category;
+    }
+    if (name != null) {
+      json['name'] = name;
+    }
+    if (photoUrls != null) {
+      json['photoUrls'] = photoUrls;
+    }
+    if (tags != null) {
+      json['tags'] = tags;
+    }
+    if (status != null) {
+      json['status'] = status;
+    }
+    return json;
+  }
+
+  @override
+  String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
+
+  
+  List<String> photoUrls;
+
+  /// Returns a new [Pet] instance.
+  ///
+  /// If [json] [Map] is non-null, its keys and values are mapped to
+  /// [Pet]'s properties.
+  Pet.fromJson(Map<String, dynamic> json) {
+    if (json != null) {
+      id = json['id'];
+      category = Category.fromJson(json['category']);
+      name = json['name'];
+      photoUrls = json['photoUrls'] == null
+        ? null
+        : (json['photoUrls'] as List).cast<String>();
+      tags = Tag.listFromJson(json['tags']);
+      status = PetStatusEnum.fromJson(json['status']);
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (id != null) {
+      json['id'] = id;
+    }
+    if (category != null) {
+      json['category'] = category;
+    }
+    if (name != null) {
+      json['name'] = name;
+    }
+    if (photoUrls != null) {
+      json['photoUrls'] = photoUrls;
+    }
+    if (tags != null) {
+      json['tags'] = tags;
+    }
+    if (status != null) {
+      json['status'] = status;
+    }
+    return json;
+  }
+
+  @override
+  String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
+
+  
+  List<Tag> tags;
+
+  /// Returns a new [Pet] instance.
+  ///
+  /// If [json] [Map] is non-null, its keys and values are mapped to
+  /// [Pet]'s properties.
+  Pet.fromJson(Map<String, dynamic> json) {
+    if (json != null) {
+      id = json['id'];
+      category = Category.fromJson(json['category']);
+      name = json['name'];
+      photoUrls = json['photoUrls'] == null
+        ? null
+        : (json['photoUrls'] as List).cast<String>();
+      tags = Tag.listFromJson(json['tags']);
+      status = PetStatusEnum.fromJson(json['status']);
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (id != null) {
+      json['id'] = id;
+    }
+    if (category != null) {
+      json['category'] = category;
+    }
+    if (name != null) {
+      json['name'] = name;
+    }
+    if (photoUrls != null) {
+      json['photoUrls'] = photoUrls;
+    }
+    if (tags != null) {
+      json['tags'] = tags;
+    }
+    if (status != null) {
+      json['status'] = status;
+    }
+    return json;
+  }
+
+  @override
+  String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
+
+  /// pet status in the store
+  PetStatusEnum status;
+
+  /// Returns a new [Pet] instance.
+  ///
+  /// If [json] [Map] is non-null, its keys and values are mapped to
+  /// [Pet]'s properties.
+  Pet.fromJson(Map<String, dynamic> json) {
+    if (json != null) {
+      id = json['id'];
+      category = Category.fromJson(json['category']);
+      name = json['name'];
+      photoUrls = json['photoUrls'] == null
+        ? null
+        : (json['photoUrls'] as List).cast<String>();
+      tags = Tag.listFromJson(json['tags']);
+      status = PetStatusEnum.fromJson(json['status']);
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (id != null) {
+      json['id'] = id;
+    }
+    if (category != null) {
+      json['category'] = category;
+    }
+    if (name != null) {
+      json['name'] = name;
+    }
+    if (photoUrls != null) {
+      json['photoUrls'] = photoUrls;
+    }
+    if (tags != null) {
+      json['tags'] = tags;
+    }
+    if (status != null) {
+      json['status'] = status;
+    }
+    return json;
+  }
+
+  @override
+  String toString() => 'Pet[id=$id, category=$category, name=$name, photoUrls=$photoUrls, tags=$tags, status=$status]';
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is Pet &&
+     other.id == id &&
+     other.category == category &&
+     other.name == name &&
+     other.photoUrls == photoUrls &&
+     other.tags == tags &&
+     other.status == status;
+
+  @override
+  int get hashCode =>
+    id.hashCode +
+    category.hashCode +
+    name.hashCode +
+    photoUrls.hashCode +
+    tags.hashCode +
+    status.hashCode;
 
   static List<Pet> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

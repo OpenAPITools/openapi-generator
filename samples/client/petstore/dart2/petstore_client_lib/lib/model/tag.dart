@@ -10,6 +10,7 @@
 part of openapi.api;
 
 class Tag {
+  /// Returns a new [Tag] instance.
   Tag({
     this.id,
     this.name,
@@ -18,22 +19,10 @@ class Tag {
   
   int id;
 
-  
-  String name;
-
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is Tag &&
-     other.id == id &&
-     other.name == name;
-
-  @override
-  int get hashCode =>
-    id.hashCode +
-    name.hashCode;
-
-  @override
-  String toString() => 'Tag[id=$id, name=$name]';
-
+  /// Returns a new [Tag] instance.
+  ///
+  /// If [json] [Map] is non-null, its keys and values are mapped to
+  /// [Tag]'s properties.
   Tag.fromJson(Map<String, dynamic> json) {
     if (json != null) {
       id = json['id'];
@@ -51,6 +40,47 @@ class Tag {
     }
     return json;
   }
+
+  @override
+  String toString() => 'Tag[id=$id, name=$name]';
+
+  
+  String name;
+
+  /// Returns a new [Tag] instance.
+  ///
+  /// If [json] [Map] is non-null, its keys and values are mapped to
+  /// [Tag]'s properties.
+  Tag.fromJson(Map<String, dynamic> json) {
+    if (json != null) {
+      id = json['id'];
+      name = json['name'];
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (id != null) {
+      json['id'] = id;
+    }
+    if (name != null) {
+      json['name'] = name;
+    }
+    return json;
+  }
+
+  @override
+  String toString() => 'Tag[id=$id, name=$name]';
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is Tag &&
+     other.id == id &&
+     other.name == name;
+
+  @override
+  int get hashCode =>
+    id.hashCode +
+    name.hashCode;
 
   static List<Tag> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
