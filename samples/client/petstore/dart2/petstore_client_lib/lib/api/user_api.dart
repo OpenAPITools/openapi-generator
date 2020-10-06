@@ -15,9 +15,16 @@ class UserApi {
 
   final ApiClient apiClient;
 
-  /// Create user with HTTP info returned.
+  /// Create user
   ///
-  /// This can only be done by the logged in user..
+  /// This can only be done by the logged in user.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [User] body (required):
+  ///   Created user object
   Future createUserWithHttpInfo(User body) async {
     // Verify required params are set.
     if (body == null) {
@@ -61,13 +68,14 @@ class UserApi {
     );
   }
 
-  /// Create user.
+  /// Create user
+  ///
+  /// This can only be done by the logged in user.
   ///
   /// Parameters:
-  /// * User body  (required):
-  ///   Created user object
   ///
-  /// This can only be done by the logged in user..
+  /// * [User] body (required):
+  ///   Created user object
   Future createUser(User body) async {
     final response = await createUserWithHttpInfo(body);
     if (response.statusCode >= 400) {
@@ -78,7 +86,14 @@ class UserApi {
     return;
   }
 
-  /// Creates list of users with given input array with HTTP info returned.
+  /// Creates list of users with given input array
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [List<User>] body (required):
+  ///   List of user object
   Future createUsersWithArrayInputWithHttpInfo(List<User> body) async {
     // Verify required params are set.
     if (body == null) {
@@ -122,10 +137,11 @@ class UserApi {
     );
   }
 
-  /// Creates list of users with given input array.
+  /// Creates list of users with given input array
   ///
   /// Parameters:
-  /// * List<User> body  (required):
+  ///
+  /// * [List<User>] body (required):
   ///   List of user object
   Future createUsersWithArrayInput(List<User> body) async {
     final response = await createUsersWithArrayInputWithHttpInfo(body);
@@ -137,7 +153,14 @@ class UserApi {
     return;
   }
 
-  /// Creates list of users with given input array with HTTP info returned.
+  /// Creates list of users with given input array
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [List<User>] body (required):
+  ///   List of user object
   Future createUsersWithListInputWithHttpInfo(List<User> body) async {
     // Verify required params are set.
     if (body == null) {
@@ -181,10 +204,11 @@ class UserApi {
     );
   }
 
-  /// Creates list of users with given input array.
+  /// Creates list of users with given input array
   ///
   /// Parameters:
-  /// * List<User> body  (required):
+  ///
+  /// * [List<User>] body (required):
   ///   List of user object
   Future createUsersWithListInput(List<User> body) async {
     final response = await createUsersWithListInputWithHttpInfo(body);
@@ -196,9 +220,16 @@ class UserApi {
     return;
   }
 
-  /// Delete user with HTTP info returned.
+  /// Delete user
   ///
-  /// This can only be done by the logged in user..
+  /// This can only be done by the logged in user.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] username (required):
+  ///   The name that needs to be deleted
   Future deleteUserWithHttpInfo(String username) async {
     // Verify required params are set.
     if (username == null) {
@@ -242,13 +273,14 @@ class UserApi {
     );
   }
 
-  /// Delete user.
+  /// Delete user
+  ///
+  /// This can only be done by the logged in user.
   ///
   /// Parameters:
-  /// * String username  (required):
-  ///   The name that needs to be deleted
   ///
-  /// This can only be done by the logged in user..
+  /// * [String] username (required):
+  ///   The name that needs to be deleted
   Future deleteUser(String username) async {
     final response = await deleteUserWithHttpInfo(username);
     if (response.statusCode >= 400) {
@@ -259,7 +291,14 @@ class UserApi {
     return;
   }
 
-  /// Get user by user name with HTTP info returned.
+  /// Get user by user name
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] username (required):
+  ///   The name that needs to be fetched. Use user1 for testing.
   Future<Response> getUserByNameWithHttpInfo(String username) async {
     // Verify required params are set.
     if (username == null) {
@@ -303,10 +342,11 @@ class UserApi {
     );
   }
 
-  /// Get user by user name.
+  /// Get user by user name
   ///
   /// Parameters:
-  /// * String username  (required):
+  ///
+  /// * [String] username (required):
   ///   The name that needs to be fetched. Use user1 for testing.
   Future<User> getUserByName(String username) async {
     final response = await getUserByNameWithHttpInfo(username);
@@ -319,7 +359,17 @@ class UserApi {
     return null;
   }
 
-  /// Logs user into the system with HTTP info returned.
+  /// Logs user into the system
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] username (required):
+  ///   The user name for login
+  ///
+  /// * [String] password (required):
+  ///   The password for login in clear text
   Future<Response> loginUserWithHttpInfo(String username, String password) async {
     // Verify required params are set.
     if (username == null) {
@@ -368,14 +418,14 @@ class UserApi {
     );
   }
 
-  /// Logs user into the system.
+  /// Logs user into the system
   ///
   /// Parameters:
-  /// * String username  (required):
+  ///
+  /// * [String] username (required):
   ///   The user name for login
   ///
-  /// Parameters:
-  /// * String password  (required):
+  /// * [String] password (required):
   ///   The password for login in clear text
   Future<String> loginUser(String username, String password) async {
     final response = await loginUserWithHttpInfo(username, password);
@@ -388,7 +438,9 @@ class UserApi {
     return null;
   }
 
-  /// Logs out current logged in user session with HTTP info returned.
+  /// Logs out current logged in user session
+  ///
+  /// Note: This method returns the HTTP [Response].
   Future logoutUserWithHttpInfo() async {
     // Verify required params are set.
 
@@ -429,7 +481,7 @@ class UserApi {
     );
   }
 
-  /// Logs out current logged in user session.
+  /// Logs out current logged in user session
   Future logoutUser() async {
     final response = await logoutUserWithHttpInfo();
     if (response.statusCode >= 400) {
@@ -440,9 +492,19 @@ class UserApi {
     return;
   }
 
-  /// Updated user with HTTP info returned.
+  /// Updated user
   ///
-  /// This can only be done by the logged in user..
+  /// This can only be done by the logged in user.
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] username (required):
+  ///   name that need to be deleted
+  ///
+  /// * [User] body (required):
+  ///   Updated user object
   Future updateUserWithHttpInfo(String username, User body) async {
     // Verify required params are set.
     if (username == null) {
@@ -489,17 +551,17 @@ class UserApi {
     );
   }
 
-  /// Updated user.
+  /// Updated user
+  ///
+  /// This can only be done by the logged in user.
   ///
   /// Parameters:
-  /// * String username  (required):
+  ///
+  /// * [String] username (required):
   ///   name that need to be deleted
   ///
-  /// Parameters:
-  /// * User body  (required):
+  /// * [User] body (required):
   ///   Updated user object
-  ///
-  /// This can only be done by the logged in user..
   Future updateUser(String username, User body) async {
     final response = await updateUserWithHttpInfo(username, body);
     if (response.statusCode >= 400) {

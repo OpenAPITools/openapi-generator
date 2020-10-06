@@ -15,9 +15,16 @@ class StoreApi {
 
   final ApiClient apiClient;
 
-  /// Delete purchase order by ID with HTTP info returned.
+  /// Delete purchase order by ID
   ///
-  /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors.
+  /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [String] orderId (required):
+  ///   ID of the order that needs to be deleted
   Future deleteOrderWithHttpInfo(String orderId) async {
     // Verify required params are set.
     if (orderId == null) {
@@ -61,13 +68,14 @@ class StoreApi {
     );
   }
 
-  /// Delete purchase order by ID.
+  /// Delete purchase order by ID
+  ///
+  /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
   ///
   /// Parameters:
-  /// * String orderId  (required):
-  ///   ID of the order that needs to be deleted
   ///
-  /// For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors.
+  /// * [String] orderId (required):
+  ///   ID of the order that needs to be deleted
   Future deleteOrder(String orderId) async {
     final response = await deleteOrderWithHttpInfo(orderId);
     if (response.statusCode >= 400) {
@@ -78,9 +86,11 @@ class StoreApi {
     return;
   }
 
-  /// Returns pet inventories by status with HTTP info returned.
+  /// Returns pet inventories by status
   ///
-  /// Returns a map of status codes to quantities.
+  /// Returns a map of status codes to quantities
+  ///
+  /// Note: This method returns the HTTP [Response].
   Future<Response> getInventoryWithHttpInfo() async {
     // Verify required params are set.
 
@@ -121,9 +131,9 @@ class StoreApi {
     );
   }
 
-  /// Returns pet inventories by status.
+  /// Returns pet inventories by status
   ///
-  /// Returns a map of status codes to quantities.
+  /// Returns a map of status codes to quantities
   Future<Map<String, int>> getInventory() async {
     final response = await getInventoryWithHttpInfo();
     if (response.statusCode >= 400) {
@@ -135,9 +145,16 @@ class StoreApi {
     return null;
   }
 
-  /// Find purchase order by ID with HTTP info returned.
+  /// Find purchase order by ID
   ///
-  /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions.
+  /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [int] orderId (required):
+  ///   ID of pet that needs to be fetched
   Future<Response> getOrderByIdWithHttpInfo(int orderId) async {
     // Verify required params are set.
     if (orderId == null) {
@@ -181,13 +198,14 @@ class StoreApi {
     );
   }
 
-  /// Find purchase order by ID.
+  /// Find purchase order by ID
+  ///
+  /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions
   ///
   /// Parameters:
-  /// * int orderId  (required):
-  ///   ID of pet that needs to be fetched
   ///
-  /// For valid response try integer IDs with value <= 5 or > 10. Other values will generated exceptions.
+  /// * [int] orderId (required):
+  ///   ID of pet that needs to be fetched
   Future<Order> getOrderById(int orderId) async {
     final response = await getOrderByIdWithHttpInfo(orderId);
     if (response.statusCode >= 400) {
@@ -199,7 +217,14 @@ class StoreApi {
     return null;
   }
 
-  /// Place an order for a pet with HTTP info returned.
+  /// Place an order for a pet
+  ///
+  /// Note: This method returns the HTTP [Response].
+  ///
+  /// Parameters:
+  ///
+  /// * [Order] body (required):
+  ///   order placed for purchasing the pet
   Future<Response> placeOrderWithHttpInfo(Order body) async {
     // Verify required params are set.
     if (body == null) {
@@ -243,10 +268,11 @@ class StoreApi {
     );
   }
 
-  /// Place an order for a pet.
+  /// Place an order for a pet
   ///
   /// Parameters:
-  /// * Order body  (required):
+  ///
+  /// * [Order] body (required):
   ///   order placed for purchasing the pet
   Future<Order> placeOrder(Order body) async {
     final response = await placeOrderWithHttpInfo(body);
