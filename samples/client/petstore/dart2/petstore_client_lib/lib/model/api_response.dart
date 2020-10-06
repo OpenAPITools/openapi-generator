@@ -17,13 +17,8 @@ class ApiResponse {
     this.message,
   });
 
-  
-  int code;
-
-  /// Returns a new [ApiResponse] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [ApiResponse]'s properties.
+  /// Returns a new [ApiResponse] instance and optionally import its values from
+  /// [json] if it's non-null.
   ApiResponse.fromJson(Map<String, dynamic> json) {
     if (json != null) {
       code = json['code'];
@@ -32,86 +27,14 @@ class ApiResponse {
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (code != null) {
-      json['code'] = code;
-    }
-    if (type != null) {
-      json['type'] = type;
-    }
-    if (message != null) {
-      json['message'] = message;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'ApiResponse[code=$code, type=$type, message=$message]';
+  
+  int code;
 
   
   String type;
 
-  /// Returns a new [ApiResponse] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [ApiResponse]'s properties.
-  ApiResponse.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      code = json['code'];
-      type = json['type'];
-      message = json['message'];
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (code != null) {
-      json['code'] = code;
-    }
-    if (type != null) {
-      json['type'] = type;
-    }
-    if (message != null) {
-      json['message'] = message;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'ApiResponse[code=$code, type=$type, message=$message]';
-
   
   String message;
-
-  /// Returns a new [ApiResponse] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [ApiResponse]'s properties.
-  ApiResponse.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      code = json['code'];
-      type = json['type'];
-      message = json['message'];
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (code != null) {
-      json['code'] = code;
-    }
-    if (type != null) {
-      json['type'] = type;
-    }
-    if (message != null) {
-      json['message'] = message;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'ApiResponse[code=$code, type=$type, message=$message]';
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is ApiResponse &&
@@ -124,6 +47,23 @@ class ApiResponse {
     code.hashCode +
     type.hashCode +
     message.hashCode;
+
+  @override
+  String toString() => 'ApiResponse[code=$code, type=$type, message=$message]';
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (code != null) {
+      json['code'] = code;
+    }
+    if (type != null) {
+      json['type'] = type;
+    }
+    if (message != null) {
+      json['message'] = message;
+    }
+    return json;
+  }
 
   static List<ApiResponse> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

@@ -6,31 +6,8 @@ class {{{classname}}} {
   {{/vars}}
   });
 
-  {{#vars}}
-  {{#description}}/// {{{description}}}{{/description}}
-  {{^isEnum}}
-  {{{dataType}}} {{{name}}};
-  {{/isEnum}}
-  {{#isEnum}}
-    {{#isContainer}}
-      {{#isListContainer}}
-  List<{{{classname}}}{{{enumName}}}> {{{name}}};
-      {{/isListContainer}}
-      {{#isMapContainer}}
-  Map<String, dynamic> {{{name}}};
-      {{/isMapContainer}}
-    {{/isContainer}}
-    {{^isContainer}}
-      {{#allowableValues}}
-  {{#min}} // range from {{{min}}} to {{{max}}}{{/min}}{{{classname}}}{{{enumName}}} {{{name}}}{{#required}} = {{{classname}}}{{{enumName}}}._({{{defaultValue}}}){{/required}}{{^required}}{{/required}};
-      {{/allowableValues}}
-    {{/isContainer}}
-  {{/isEnum}}
-
-  /// Returns a new [{{{classname}}}] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [{{{classname}}}]'s properties.
+  /// Returns a new [{{{classname}}}] instance and optionally import its values from
+  /// [json] if it's non-null.
   {{{classname}}}.fromJson(Map<String, dynamic> json) {
     if (json != null) {
   {{#vars}}
@@ -141,6 +118,43 @@ class {{{classname}}} {
     }
   }
 
+  {{#vars}}
+  {{#description}}/// {{{description}}}{{/description}}
+  {{^isEnum}}
+  {{{dataType}}} {{{name}}};
+  {{/isEnum}}
+  {{#isEnum}}
+    {{#isContainer}}
+      {{#isListContainer}}
+  List<{{{classname}}}{{{enumName}}}> {{{name}}};
+      {{/isListContainer}}
+      {{#isMapContainer}}
+  Map<String, dynamic> {{{name}}};
+      {{/isMapContainer}}
+    {{/isContainer}}
+    {{^isContainer}}
+      {{#allowableValues}}
+  {{#min}} // range from {{{min}}} to {{{max}}}{{/min}}{{{classname}}}{{{enumName}}} {{{name}}}{{#required}} = {{{classname}}}{{{enumName}}}._({{{defaultValue}}}){{/required}}{{^required}}{{/required}};
+      {{/allowableValues}}
+    {{/isContainer}}
+  {{/isEnum}}
+
+  {{/vars}}
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
+  {{#vars}}
+     other.{{{name}}} == {{{name}}}{{^-last}} &&{{/-last}}{{#-last}};{{/-last}}
+  {{/vars}}
+
+  @override
+  int get hashCode =>
+  {{#vars}}
+    {{#isNullable}}({{{name}}}?.hashCode ?? 0){{/isNullable}}{{^isNullable}}{{{name}}}.hashCode{{/isNullable}}{{^-last}} +{{/-last}}{{#-last}};{{/-last}}
+  {{/vars}}
+
+  @override
+  String toString() => '{{{classname}}}[{{#vars}}{{{name}}}=${{{name}}}{{^-last}}, {{/-last}}{{/vars}}]';
+
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
 {{#vars}}
@@ -174,22 +188,6 @@ class {{{classname}}} {
 {{/vars}}
     return json;
   }
-
-  @override
-  String toString() => '{{{classname}}}[{{#vars}}{{{name}}}=${{{name}}}{{^-last}}, {{/-last}}{{/vars}}]';
-
-  {{/vars}}
-  @override
-  bool operator ==(Object other) => identical(this, other) || other is {{{classname}}} &&
-  {{#vars}}
-     other.{{{name}}} == {{{name}}}{{^-last}} &&{{/-last}}{{#-last}};{{/-last}}
-  {{/vars}}
-
-  @override
-  int get hashCode =>
-  {{#vars}}
-    {{#isNullable}}({{{name}}}?.hashCode ?? 0){{/isNullable}}{{^isNullable}}{{{name}}}.hashCode{{/isNullable}}{{^-last}} +{{/-last}}{{#-last}};{{/-last}}
-  {{/vars}}
 
   static List<{{{classname}}}> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

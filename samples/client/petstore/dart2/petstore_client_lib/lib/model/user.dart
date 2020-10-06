@@ -22,13 +22,8 @@ class User {
     this.userStatus,
   });
 
-  
-  int id;
-
-  /// Returns a new [User] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [User]'s properties.
+  /// Returns a new [User] instance and optionally import its values from
+  /// [json] if it's non-null.
   User.fromJson(Map<String, dynamic> json) {
     if (json != null) {
       id = json['id'];
@@ -42,401 +37,29 @@ class User {
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json['id'] = id;
-    }
-    if (username != null) {
-      json['username'] = username;
-    }
-    if (firstName != null) {
-      json['firstName'] = firstName;
-    }
-    if (lastName != null) {
-      json['lastName'] = lastName;
-    }
-    if (email != null) {
-      json['email'] = email;
-    }
-    if (password != null) {
-      json['password'] = password;
-    }
-    if (phone != null) {
-      json['phone'] = phone;
-    }
-    if (userStatus != null) {
-      json['userStatus'] = userStatus;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
+  
+  int id;
 
   
   String username;
 
-  /// Returns a new [User] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [User]'s properties.
-  User.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      username = json['username'];
-      firstName = json['firstName'];
-      lastName = json['lastName'];
-      email = json['email'];
-      password = json['password'];
-      phone = json['phone'];
-      userStatus = json['userStatus'];
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json['id'] = id;
-    }
-    if (username != null) {
-      json['username'] = username;
-    }
-    if (firstName != null) {
-      json['firstName'] = firstName;
-    }
-    if (lastName != null) {
-      json['lastName'] = lastName;
-    }
-    if (email != null) {
-      json['email'] = email;
-    }
-    if (password != null) {
-      json['password'] = password;
-    }
-    if (phone != null) {
-      json['phone'] = phone;
-    }
-    if (userStatus != null) {
-      json['userStatus'] = userStatus;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
-
   
   String firstName;
-
-  /// Returns a new [User] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [User]'s properties.
-  User.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      username = json['username'];
-      firstName = json['firstName'];
-      lastName = json['lastName'];
-      email = json['email'];
-      password = json['password'];
-      phone = json['phone'];
-      userStatus = json['userStatus'];
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json['id'] = id;
-    }
-    if (username != null) {
-      json['username'] = username;
-    }
-    if (firstName != null) {
-      json['firstName'] = firstName;
-    }
-    if (lastName != null) {
-      json['lastName'] = lastName;
-    }
-    if (email != null) {
-      json['email'] = email;
-    }
-    if (password != null) {
-      json['password'] = password;
-    }
-    if (phone != null) {
-      json['phone'] = phone;
-    }
-    if (userStatus != null) {
-      json['userStatus'] = userStatus;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
 
   
   String lastName;
 
-  /// Returns a new [User] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [User]'s properties.
-  User.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      username = json['username'];
-      firstName = json['firstName'];
-      lastName = json['lastName'];
-      email = json['email'];
-      password = json['password'];
-      phone = json['phone'];
-      userStatus = json['userStatus'];
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json['id'] = id;
-    }
-    if (username != null) {
-      json['username'] = username;
-    }
-    if (firstName != null) {
-      json['firstName'] = firstName;
-    }
-    if (lastName != null) {
-      json['lastName'] = lastName;
-    }
-    if (email != null) {
-      json['email'] = email;
-    }
-    if (password != null) {
-      json['password'] = password;
-    }
-    if (phone != null) {
-      json['phone'] = phone;
-    }
-    if (userStatus != null) {
-      json['userStatus'] = userStatus;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
-
   
   String email;
-
-  /// Returns a new [User] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [User]'s properties.
-  User.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      username = json['username'];
-      firstName = json['firstName'];
-      lastName = json['lastName'];
-      email = json['email'];
-      password = json['password'];
-      phone = json['phone'];
-      userStatus = json['userStatus'];
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json['id'] = id;
-    }
-    if (username != null) {
-      json['username'] = username;
-    }
-    if (firstName != null) {
-      json['firstName'] = firstName;
-    }
-    if (lastName != null) {
-      json['lastName'] = lastName;
-    }
-    if (email != null) {
-      json['email'] = email;
-    }
-    if (password != null) {
-      json['password'] = password;
-    }
-    if (phone != null) {
-      json['phone'] = phone;
-    }
-    if (userStatus != null) {
-      json['userStatus'] = userStatus;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
 
   
   String password;
 
-  /// Returns a new [User] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [User]'s properties.
-  User.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      username = json['username'];
-      firstName = json['firstName'];
-      lastName = json['lastName'];
-      email = json['email'];
-      password = json['password'];
-      phone = json['phone'];
-      userStatus = json['userStatus'];
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json['id'] = id;
-    }
-    if (username != null) {
-      json['username'] = username;
-    }
-    if (firstName != null) {
-      json['firstName'] = firstName;
-    }
-    if (lastName != null) {
-      json['lastName'] = lastName;
-    }
-    if (email != null) {
-      json['email'] = email;
-    }
-    if (password != null) {
-      json['password'] = password;
-    }
-    if (phone != null) {
-      json['phone'] = phone;
-    }
-    if (userStatus != null) {
-      json['userStatus'] = userStatus;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
-
   
   String phone;
 
-  /// Returns a new [User] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [User]'s properties.
-  User.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      username = json['username'];
-      firstName = json['firstName'];
-      lastName = json['lastName'];
-      email = json['email'];
-      password = json['password'];
-      phone = json['phone'];
-      userStatus = json['userStatus'];
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json['id'] = id;
-    }
-    if (username != null) {
-      json['username'] = username;
-    }
-    if (firstName != null) {
-      json['firstName'] = firstName;
-    }
-    if (lastName != null) {
-      json['lastName'] = lastName;
-    }
-    if (email != null) {
-      json['email'] = email;
-    }
-    if (password != null) {
-      json['password'] = password;
-    }
-    if (phone != null) {
-      json['phone'] = phone;
-    }
-    if (userStatus != null) {
-      json['userStatus'] = userStatus;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
-
   /// User Status
   int userStatus;
-
-  /// Returns a new [User] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [User]'s properties.
-  User.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      username = json['username'];
-      firstName = json['firstName'];
-      lastName = json['lastName'];
-      email = json['email'];
-      password = json['password'];
-      phone = json['phone'];
-      userStatus = json['userStatus'];
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json['id'] = id;
-    }
-    if (username != null) {
-      json['username'] = username;
-    }
-    if (firstName != null) {
-      json['firstName'] = firstName;
-    }
-    if (lastName != null) {
-      json['lastName'] = lastName;
-    }
-    if (email != null) {
-      json['email'] = email;
-    }
-    if (password != null) {
-      json['password'] = password;
-    }
-    if (phone != null) {
-      json['phone'] = phone;
-    }
-    if (userStatus != null) {
-      json['userStatus'] = userStatus;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is User &&
@@ -459,6 +82,38 @@ class User {
     password.hashCode +
     phone.hashCode +
     userStatus.hashCode;
+
+  @override
+  String toString() => 'User[id=$id, username=$username, firstName=$firstName, lastName=$lastName, email=$email, password=$password, phone=$phone, userStatus=$userStatus]';
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (id != null) {
+      json['id'] = id;
+    }
+    if (username != null) {
+      json['username'] = username;
+    }
+    if (firstName != null) {
+      json['firstName'] = firstName;
+    }
+    if (lastName != null) {
+      json['lastName'] = lastName;
+    }
+    if (email != null) {
+      json['email'] = email;
+    }
+    if (password != null) {
+      json['password'] = password;
+    }
+    if (phone != null) {
+      json['phone'] = phone;
+    }
+    if (userStatus != null) {
+      json['userStatus'] = userStatus;
+    }
+    return json;
+  }
 
   static List<User> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty

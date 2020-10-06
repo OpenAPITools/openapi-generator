@@ -20,13 +20,8 @@ class Order {
     this.complete = false,
   });
 
-  
-  int id;
-
-  /// Returns a new [Order] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [Order]'s properties.
+  /// Returns a new [Order] instance and optionally import its values from
+  /// [json] if it's non-null.
   Order.fromJson(Map<String, dynamic> json) {
     if (json != null) {
       id = json['id'];
@@ -40,261 +35,23 @@ class Order {
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json['id'] = id;
-    }
-    if (petId != null) {
-      json['petId'] = petId;
-    }
-    if (quantity != null) {
-      json['quantity'] = quantity;
-    }
-    if (shipDate != null) {
-      json['shipDate'] = shipDate.toUtc().toIso8601String();
-    }
-    if (status != null) {
-      json['status'] = status;
-    }
-    if (complete != null) {
-      json['complete'] = complete;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
+  
+  int id;
 
   
   int petId;
 
-  /// Returns a new [Order] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [Order]'s properties.
-  Order.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      petId = json['petId'];
-      quantity = json['quantity'];
-      shipDate = json['shipDate'] == null
-        ? null
-        : DateTime.parse(json['shipDate']);
-      status = OrderStatusEnum.fromJson(json['status']);
-      complete = json['complete'];
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json['id'] = id;
-    }
-    if (petId != null) {
-      json['petId'] = petId;
-    }
-    if (quantity != null) {
-      json['quantity'] = quantity;
-    }
-    if (shipDate != null) {
-      json['shipDate'] = shipDate.toUtc().toIso8601String();
-    }
-    if (status != null) {
-      json['status'] = status;
-    }
-    if (complete != null) {
-      json['complete'] = complete;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
-
   
   int quantity;
-
-  /// Returns a new [Order] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [Order]'s properties.
-  Order.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      petId = json['petId'];
-      quantity = json['quantity'];
-      shipDate = json['shipDate'] == null
-        ? null
-        : DateTime.parse(json['shipDate']);
-      status = OrderStatusEnum.fromJson(json['status']);
-      complete = json['complete'];
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json['id'] = id;
-    }
-    if (petId != null) {
-      json['petId'] = petId;
-    }
-    if (quantity != null) {
-      json['quantity'] = quantity;
-    }
-    if (shipDate != null) {
-      json['shipDate'] = shipDate.toUtc().toIso8601String();
-    }
-    if (status != null) {
-      json['status'] = status;
-    }
-    if (complete != null) {
-      json['complete'] = complete;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
 
   
   DateTime shipDate;
 
-  /// Returns a new [Order] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [Order]'s properties.
-  Order.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      petId = json['petId'];
-      quantity = json['quantity'];
-      shipDate = json['shipDate'] == null
-        ? null
-        : DateTime.parse(json['shipDate']);
-      status = OrderStatusEnum.fromJson(json['status']);
-      complete = json['complete'];
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json['id'] = id;
-    }
-    if (petId != null) {
-      json['petId'] = petId;
-    }
-    if (quantity != null) {
-      json['quantity'] = quantity;
-    }
-    if (shipDate != null) {
-      json['shipDate'] = shipDate.toUtc().toIso8601String();
-    }
-    if (status != null) {
-      json['status'] = status;
-    }
-    if (complete != null) {
-      json['complete'] = complete;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
-
   /// Order Status
   OrderStatusEnum status;
 
-  /// Returns a new [Order] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [Order]'s properties.
-  Order.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      petId = json['petId'];
-      quantity = json['quantity'];
-      shipDate = json['shipDate'] == null
-        ? null
-        : DateTime.parse(json['shipDate']);
-      status = OrderStatusEnum.fromJson(json['status']);
-      complete = json['complete'];
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json['id'] = id;
-    }
-    if (petId != null) {
-      json['petId'] = petId;
-    }
-    if (quantity != null) {
-      json['quantity'] = quantity;
-    }
-    if (shipDate != null) {
-      json['shipDate'] = shipDate.toUtc().toIso8601String();
-    }
-    if (status != null) {
-      json['status'] = status;
-    }
-    if (complete != null) {
-      json['complete'] = complete;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
-
   
   bool complete;
-
-  /// Returns a new [Order] instance.
-  ///
-  /// If [json] [Map] is non-null, its keys and values are mapped to
-  /// [Order]'s properties.
-  Order.fromJson(Map<String, dynamic> json) {
-    if (json != null) {
-      id = json['id'];
-      petId = json['petId'];
-      quantity = json['quantity'];
-      shipDate = json['shipDate'] == null
-        ? null
-        : DateTime.parse(json['shipDate']);
-      status = OrderStatusEnum.fromJson(json['status']);
-      complete = json['complete'];
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final json = <String, dynamic>{};
-    if (id != null) {
-      json['id'] = id;
-    }
-    if (petId != null) {
-      json['petId'] = petId;
-    }
-    if (quantity != null) {
-      json['quantity'] = quantity;
-    }
-    if (shipDate != null) {
-      json['shipDate'] = shipDate.toUtc().toIso8601String();
-    }
-    if (status != null) {
-      json['status'] = status;
-    }
-    if (complete != null) {
-      json['complete'] = complete;
-    }
-    return json;
-  }
-
-  @override
-  String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Order &&
@@ -313,6 +70,32 @@ class Order {
     shipDate.hashCode +
     status.hashCode +
     complete.hashCode;
+
+  @override
+  String toString() => 'Order[id=$id, petId=$petId, quantity=$quantity, shipDate=$shipDate, status=$status, complete=$complete]';
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+    if (id != null) {
+      json['id'] = id;
+    }
+    if (petId != null) {
+      json['petId'] = petId;
+    }
+    if (quantity != null) {
+      json['quantity'] = quantity;
+    }
+    if (shipDate != null) {
+      json['shipDate'] = shipDate.toUtc().toIso8601String();
+    }
+    if (status != null) {
+      json['status'] = status;
+    }
+    if (complete != null) {
+      json['complete'] = complete;
+    }
+    return json;
+  }
 
   static List<Order> listFromJson(List<dynamic> json, {bool emptyIsNull, bool growable,}) =>
     json == null || json.isEmpty
