@@ -2,12 +2,12 @@ group 'org.openapitools'
 version '1.0.0'
 
 wrapper {
-    gradleVersion = '4.9'
+    gradleVersion = '6.7-rc-3'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
-    ext.kotlin_version = '1.3.72'
+    ext.kotlin_version = '1.4.10'
     ext.retrofitVersion = '2.6.2'
 
     repositories {
@@ -32,12 +32,12 @@ test {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
+    compile "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0-RC2"
     compile "org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.0"
     compile "com.squareup.okhttp3:logging-interceptor:4.4.0"
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile "com.squareup.okhttp3:logging-interceptor:4.4.0"
-    compile "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.5.0"
+    compile "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.7.0"
     compile "com.squareup.retrofit2:converter-scalars:$retrofitVersion"
     testCompile "io.kotlintest:kotlintest-runner-junit5:3.1.0"
 }
