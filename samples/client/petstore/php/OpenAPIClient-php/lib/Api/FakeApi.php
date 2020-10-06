@@ -292,7 +292,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function fakeHealthGetRequest()
+    public function fakeHealthGetRequest()
     {
 
         $resourcePath = '/fake/health';
@@ -516,7 +516,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function fakeHttpSignatureTestRequest($pet, $query_1 = null, $header_1 = null)
+    public function fakeHttpSignatureTestRequest($pet, $query_1 = null, $header_1 = null)
     {
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
@@ -798,7 +798,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function fakeOuterBooleanSerializeRequest($body = null)
+    public function fakeOuterBooleanSerializeRequest($body = null)
     {
 
         $resourcePath = '/fake/outer/boolean';
@@ -1059,7 +1059,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function fakeOuterCompositeSerializeRequest($outer_composite = null)
+    public function fakeOuterCompositeSerializeRequest($outer_composite = null)
     {
 
         $resourcePath = '/fake/outer/composite';
@@ -1320,7 +1320,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function fakeOuterNumberSerializeRequest($body = null)
+    public function fakeOuterNumberSerializeRequest($body = null)
     {
 
         $resourcePath = '/fake/outer/number';
@@ -1581,7 +1581,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function fakeOuterStringSerializeRequest($body = null)
+    public function fakeOuterStringSerializeRequest($body = null)
     {
 
         $resourcePath = '/fake/outer/string';
@@ -1794,7 +1794,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testBodyWithFileSchemaRequest($file_schema_test_class)
+    public function testBodyWithFileSchemaRequest($file_schema_test_class)
     {
         // verify the required parameter 'file_schema_test_class' is set
         if ($file_schema_test_class === null || (is_array($file_schema_test_class) && count($file_schema_test_class) === 0)) {
@@ -2018,7 +2018,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testBodyWithQueryParamsRequest($query, $user)
+    public function testBodyWithQueryParamsRequest($query, $user)
     {
         // verify the required parameter 'query' is set
         if ($query === null || (is_array($query) && count($query) === 0)) {
@@ -2306,7 +2306,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testClientModelRequest($client)
+    public function testClientModelRequest($client)
     {
         // verify the required parameter 'client' is set
         if ($client === null || (is_array($client) && count($client) === 0)) {
@@ -2594,7 +2594,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
+    public function testEndpointParametersRequest($number, $double, $pattern_without_delimiter, $byte, $integer = null, $int32 = null, $int64 = null, $float = null, $string = null, $binary = null, $date = null, $date_time = null, $password = null, $callback = null)
     {
         // verify the required parameter 'number' is set
         if ($number === null || (is_array($number) && count($number) === 0)) {
@@ -2982,7 +2982,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testEnumParametersRequest($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
+    public function testEnumParametersRequest($enum_header_string_array = null, $enum_header_string = '-efg', $enum_query_string_array = null, $enum_query_string = '-efg', $enum_query_integer = null, $enum_query_double = null, $enum_form_string_array = '$', $enum_form_string = '-efg')
     {
 
         $resourcePath = '/fake';
@@ -3294,7 +3294,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testGroupParametersRequest($associative_array)
+    public function testGroupParametersRequest($associative_array)
     {
         // unbox the parameters from the associative array
         $required_string_group = array_key_exists('required_string_group', $associative_array) ? $associative_array['required_string_group'] : null;
@@ -3590,7 +3590,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testInlineAdditionalPropertiesRequest($request_body)
+    public function testInlineAdditionalPropertiesRequest($request_body)
     {
         // verify the required parameter 'request_body' is set
         if ($request_body === null || (is_array($request_body) && count($request_body) === 0)) {
@@ -3818,7 +3818,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testJsonFormDataRequest($param, $param2)
+    public function testJsonFormDataRequest($param, $param2)
     {
         // verify the required parameter 'param' is set
         if ($param === null || (is_array($param) && count($param) === 0)) {
@@ -4068,7 +4068,7 @@ class FakeApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function testQueryParameterCollectionFormatRequest($pipe, $ioutil, $http, $url, $context)
+    public function testQueryParameterCollectionFormatRequest($pipe, $ioutil, $http, $url, $context)
     {
         // verify the required parameter 'pipe' is set
         if ($pipe === null || (is_array($pipe) && count($pipe) === 0)) {

@@ -269,7 +269,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function addPetRequest($pet)
+    public function addPetRequest($pet)
     {
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
@@ -507,7 +507,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function deletePetRequest($pet_id, $api_key = null)
+    public function deletePetRequest($pet_id, $api_key = null)
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
@@ -791,7 +791,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function findPetsByStatusRequest($status)
+    public function findPetsByStatusRequest($status)
     {
         // verify the required parameter 'status' is set
         if ($status === null || (is_array($status) && count($status) === 0)) {
@@ -1070,7 +1070,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function findPetsByTagsRequest($tags)
+    public function findPetsByTagsRequest($tags)
     {
         // verify the required parameter 'tags' is set
         if ($tags === null || (is_array($tags) && count($tags) === 0)) {
@@ -1349,7 +1349,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function getPetByIdRequest($pet_id)
+    public function getPetByIdRequest($pet_id)
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
@@ -1602,7 +1602,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function updatePetRequest($pet)
+    public function updatePetRequest($pet)
     {
         // verify the required parameter 'pet' is set
         if ($pet === null || (is_array($pet) && count($pet) === 0)) {
@@ -1845,7 +1845,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function updatePetWithFormRequest($pet_id, $name = null, $status = null)
+    public function updatePetWithFormRequest($pet_id, $name = null, $status = null)
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
@@ -2143,7 +2143,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function uploadFileRequest($pet_id, $additional_metadata = null, $file = null)
+    public function uploadFileRequest($pet_id, $additional_metadata = null, $file = null)
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {
@@ -2449,7 +2449,7 @@ class PetApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata = null)
+    public function uploadFileWithRequiredFileRequest($pet_id, $required_file, $additional_metadata = null)
     {
         // verify the required parameter 'pet_id' is set
         if ($pet_id === null || (is_array($pet_id) && count($pet_id) === 0)) {

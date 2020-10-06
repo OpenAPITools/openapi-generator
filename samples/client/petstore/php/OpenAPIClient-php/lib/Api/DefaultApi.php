@@ -288,7 +288,7 @@ class DefaultApi
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    protected function fooGetRequest()
+    public function fooGetRequest()
     {
 
         $resourcePath = '/foo';
