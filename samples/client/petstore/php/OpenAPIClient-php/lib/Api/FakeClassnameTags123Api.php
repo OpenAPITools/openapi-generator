@@ -335,8 +335,7 @@ class FakeClassnameTags123Api
             } else {
                 $httpBody = $client;
             }
-        } else
-        if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {

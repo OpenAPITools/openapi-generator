@@ -567,9 +567,11 @@ use {{invokerPackage}}\ObjectSerializer;
             } else {
                 $httpBody = ${{paramName}};
             }
-        } else
+        } elseif (count($formParams) > 0) {
         {{/bodyParams}}
+        {{^bodyParams}}
         if (count($formParams) > 0) {
+        {{/bodyParams}}
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {

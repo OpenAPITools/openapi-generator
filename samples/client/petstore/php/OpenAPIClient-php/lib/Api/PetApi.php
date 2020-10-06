@@ -307,8 +307,7 @@ class PetApi
             } else {
                 $httpBody = $pet;
             }
-        } else
-        if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1599,8 +1598,7 @@ class PetApi
             } else {
                 $httpBody = $pet;
             }
-        } else
-        if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {

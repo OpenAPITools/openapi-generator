@@ -560,8 +560,7 @@ class FakeApi
             } else {
                 $httpBody = $pet;
             }
-        } else
-        if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -816,8 +815,7 @@ class FakeApi
             } else {
                 $httpBody = $body;
             }
-        } else
-        if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1072,8 +1070,7 @@ class FakeApi
             } else {
                 $httpBody = $outer_composite;
             }
-        } else
-        if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1328,8 +1325,7 @@ class FakeApi
             } else {
                 $httpBody = $body;
             }
-        } else
-        if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1584,8 +1580,7 @@ class FakeApi
             } else {
                 $httpBody = $body;
             }
-        } else
-        if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -1798,8 +1793,7 @@ class FakeApi
             } else {
                 $httpBody = $file_schema_test_class;
             }
-        } else
-        if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -2034,8 +2028,7 @@ class FakeApi
             } else {
                 $httpBody = $user;
             }
-        } else
-        if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -2300,8 +2293,7 @@ class FakeApi
             } else {
                 $httpBody = $client;
             }
-        } else
-        if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
@@ -3552,8 +3544,7 @@ class FakeApi
             } else {
                 $httpBody = $request_body;
             }
-        } else
-        if (count($formParams) > 0) {
+        } elseif (count($formParams) > 0) {
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {
