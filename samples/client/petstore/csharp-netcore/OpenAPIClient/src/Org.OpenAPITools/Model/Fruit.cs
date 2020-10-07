@@ -134,7 +134,7 @@ namespace Org.OpenAPITools.Model
         /// Returns the JSON string presentation of the object
         /// </summary>
         /// <returns>JSON string presentation of the object</returns>
-        public virtual string ToJson()
+        public override string ToJson()
         {
             return JsonConvert.SerializeObject(this.ActualInstance);
         }
@@ -143,7 +143,7 @@ namespace Org.OpenAPITools.Model
         /// Converts the JSON string into the object
         /// </summary>
         /// <param name="jsonString">JSON string</param>
-        public virtual void FromJson(string jsonString)
+        public override void FromJson(string jsonString)
         {
             int match = 0;
             List<string> matchedTypes = new List<string>();

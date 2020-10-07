@@ -125,7 +125,17 @@ namespace Org.OpenAPITools.Client
             // at this point, it must be a model (json)
             try
             {
-                return JsonConvert.DeserializeObject(response.Content, type, _serializerSettings);
+                if (type.IsInstanceOfType(typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema)))
+                {
+                    // the response is an oneOf/anyOf schema
+                    Org.OpenAPITools.Model.AbstractOpenAPISchema instance = (Org.OpenAPITools.Model.AbstractOpenAPISchema)Activator.CreateInstance(type);
+                    instance.FromJson(response.Content);
+                    return instance;
+                }
+                else
+                {
+                    return JsonConvert.DeserializeObject(response.Content, type, _serializerSettings);
+                }
             }
             catch (Exception e)
             {

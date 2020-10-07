@@ -31,5 +31,15 @@ namespace Org.OpenAPITools.Model
         /// Gets or Sets the schema type, which can be either `oneOf` or `anyOf`
         /// </summary>
         public string SchemaType { get; protected set; }
+
+        /// <summary>
+        /// Converts the instance into JSON string.
+        /// </summary>
+        public abstract string ToJson();
+
+        /// <summary>
+        /// Converts the JSON string into the instance
+        /// </summary>
+        public abstract void FromJson(string jsonString);
     }
 }
