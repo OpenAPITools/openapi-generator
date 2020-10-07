@@ -33,42 +33,31 @@ namespace Org.OpenAPITools.Model
     public partial class Shape : AbstractOpenAPISchema, IEquatable<Shape>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Shape" /> class.
+        /// Initializes a new instance of the <see cref="Shape" /> class
+        /// with the <see cref="Quadrilateral" /> class
         /// </summary>
-        public Shape()
+        /// <param name="actualInstance">An instance of Quadrilateral.</param>
+        public Shape(Quadrilateral actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Shape" /> class.
+        /// Initializes a new instance of the <see cref="Shape" /> class
+        /// with the <see cref="Triangle" /> class
         /// </summary>
-        /// <param name="actualInstance">The actual instance.</param>
-        public Shape(Object actualInstance)
+        /// <param name="actualInstance">An instance of Triangle.</param>
+        public Shape(Triangle actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
-
-            if (actualInstance == null)
-            {
-                return;
-            }
-
-            if (actualInstance.GetType() == typeof(Quadrilateral))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            if (actualInstance.GetType() == typeof(Triangle))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            throw new ArgumentException("Invalid instance found. Must be the following types: Quadrilateral Triangle");
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
+
+
+        private Object _actualInstance;
 
         /// <summary>
         /// Gets or Sets ActualInstance
@@ -77,24 +66,22 @@ namespace Org.OpenAPITools.Model
         {
             get
             {
-                return ActualInstance;
+                return _actualInstance;
             }
             set
             {
-
                 if (value.GetType() == typeof(Quadrilateral))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                if (value.GetType() == typeof(Triangle))
+                else if (value.GetType() == typeof(Triangle))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                throw new ArgumentException("Invalid instance found. Must be the following types: Quadrilateral Triangle");
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types: Quadrilateral, Triangle");
+                }
             }
         }
 

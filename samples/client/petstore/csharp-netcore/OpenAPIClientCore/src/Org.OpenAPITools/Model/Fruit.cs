@@ -32,42 +32,31 @@ namespace Org.OpenAPITools.Model
     public partial class Fruit : AbstractOpenAPISchema, IEquatable<Fruit>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Fruit" /> class.
+        /// Initializes a new instance of the <see cref="Fruit" /> class
+        /// with the <see cref="Apple" /> class
         /// </summary>
-        public Fruit()
+        /// <param name="actualInstance">An instance of Apple.</param>
+        public Fruit(Apple actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Fruit" /> class.
+        /// Initializes a new instance of the <see cref="Fruit" /> class
+        /// with the <see cref="Banana" /> class
         /// </summary>
-        /// <param name="actualInstance">The actual instance.</param>
-        public Fruit(Object actualInstance)
+        /// <param name="actualInstance">An instance of Banana.</param>
+        public Fruit(Banana actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
-
-            if (actualInstance == null)
-            {
-                return;
-            }
-
-            if (actualInstance.GetType() == typeof(Apple))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            if (actualInstance.GetType() == typeof(Banana))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            throw new ArgumentException("Invalid instance found. Must be the following types: Apple Banana");
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
+
+
+        private Object _actualInstance;
 
         /// <summary>
         /// Gets or Sets ActualInstance
@@ -76,24 +65,22 @@ namespace Org.OpenAPITools.Model
         {
             get
             {
-                return ActualInstance;
+                return _actualInstance;
             }
             set
             {
-
                 if (value.GetType() == typeof(Apple))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                if (value.GetType() == typeof(Banana))
+                else if (value.GetType() == typeof(Banana))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                throw new ArgumentException("Invalid instance found. Must be the following types: Apple Banana");
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types: Apple, Banana");
+                }
             }
         }
 

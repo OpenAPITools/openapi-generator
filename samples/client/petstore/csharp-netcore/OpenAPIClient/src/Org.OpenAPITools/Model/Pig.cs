@@ -33,42 +33,31 @@ namespace Org.OpenAPITools.Model
     public partial class Pig : AbstractOpenAPISchema, IEquatable<Pig>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Pig" /> class.
+        /// Initializes a new instance of the <see cref="Pig" /> class
+        /// with the <see cref="BasquePig" /> class
         /// </summary>
-        public Pig()
+        /// <param name="actualInstance">An instance of BasquePig.</param>
+        public Pig(BasquePig actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Pig" /> class.
+        /// Initializes a new instance of the <see cref="Pig" /> class
+        /// with the <see cref="DanishPig" /> class
         /// </summary>
-        /// <param name="actualInstance">The actual instance.</param>
-        public Pig(Object actualInstance)
+        /// <param name="actualInstance">An instance of DanishPig.</param>
+        public Pig(DanishPig actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
-
-            if (actualInstance == null)
-            {
-                return;
-            }
-
-            if (actualInstance.GetType() == typeof(BasquePig))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            if (actualInstance.GetType() == typeof(DanishPig))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            throw new ArgumentException("Invalid instance found. Must be the following types: BasquePig DanishPig");
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
+
+
+        private Object _actualInstance;
 
         /// <summary>
         /// Gets or Sets ActualInstance
@@ -77,24 +66,22 @@ namespace Org.OpenAPITools.Model
         {
             get
             {
-                return ActualInstance;
+                return _actualInstance;
             }
             set
             {
-
                 if (value.GetType() == typeof(BasquePig))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                if (value.GetType() == typeof(DanishPig))
+                else if (value.GetType() == typeof(DanishPig))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                throw new ArgumentException("Invalid instance found. Must be the following types: BasquePig DanishPig");
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types: BasquePig, DanishPig");
+                }
             }
         }
 

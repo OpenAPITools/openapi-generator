@@ -4,39 +4,33 @@
     [DataContract(Name = "{{{name}}}")]
     {{>visibility}} partial class {{classname}} : AbstractOpenAPISchema, {{#parent}}{{{parent}}}, {{/parent}}IEquatable<{{classname}}>{{#validatable}}, IValidatableObject{{/validatable}}
     {
+        {{#isNullable}}
         /// <summary>
         /// Initializes a new instance of the <see cref="{{classname}}" /> class.
         /// </summary>
         public {{classname}}()
         {
-            this.IsNullable = {{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}};
+            this.IsNullable = true;
             this.SchemaType= "oneOf";
         }
 
+        {{/isNullable}}
+        {{#oneOf}}
         /// <summary>
-        /// Initializes a new instance of the <see cref="{{classname}}" /> class.
+        /// Initializes a new instance of the <see cref="{{classname}}" /> class
+        /// with the <see cref="{{{.}}}" /> class
         /// </summary>
-        /// <param name="actualInstance">The actual instance.</param>
-        public {{classname}}(Object actualInstance)
+        /// <param name="actualInstance">An instance of {{{.}}}.</param>
+        public {{classname}}({{{.}}} actualInstance)
         {
             this.IsNullable = {{#isNullable}}true{{/isNullable}}{{^isNullable}}false{{/isNullable}};
             this.SchemaType= "oneOf";
-
-            if (actualInstance == null)
-            {
-                return;
-            }
-            {{#oneOf}}
-
-            if (actualInstance.GetType() == typeof({{{.}}}))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-            {{/oneOf}}
-
-            throw new ArgumentException("Invalid instance found. Must be the following types:{{#oneOf}} {{{.}}}{{/oneOf}}");
+            this.ActualInstance = actualInstance{{^isNullable}} ?? throw new ArgumentException("Invalid instance found. Must not be null."){{/isNullable}};
         }
+
+        {{/oneOf}}
+
+        private Object _actualInstance;
 
         /// <summary>
         /// Gets or Sets ActualInstance
@@ -45,20 +39,20 @@
         {
             get
             {
-                return ActualInstance;
+                return _actualInstance;
             }
             set
             {
                 {{#oneOf}}
-
-                if (value.GetType() == typeof({{{.}}}))
+                {{^-first}}else {{/-first}}if (value.GetType() == typeof({{{.}}}))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
                 {{/oneOf}}
-
-                throw new ArgumentException("Invalid instance found. Must be the following types:{{#oneOf}} {{{.}}}{{/oneOf}}");
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types:{{#oneOf}} {{{.}}}{{^-last}},{{/-last}}{{/oneOf}}");
+                }
             }
         }
         {{#oneOf}}

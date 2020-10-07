@@ -42,33 +42,31 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NullableShape" /> class.
+        /// Initializes a new instance of the <see cref="NullableShape" /> class
+        /// with the <see cref="Quadrilateral" /> class
         /// </summary>
-        /// <param name="actualInstance">The actual instance.</param>
-        public NullableShape(Object actualInstance)
+        /// <param name="actualInstance">An instance of Quadrilateral.</param>
+        public NullableShape(Quadrilateral actualInstance)
         {
             this.IsNullable = true;
             this.SchemaType= "oneOf";
-
-            if (actualInstance == null)
-            {
-                return;
-            }
-
-            if (actualInstance.GetType() == typeof(Quadrilateral))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            if (actualInstance.GetType() == typeof(Triangle))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            throw new ArgumentException("Invalid instance found. Must be the following types: Quadrilateral Triangle");
+            this.ActualInstance = actualInstance;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NullableShape" /> class
+        /// with the <see cref="Triangle" /> class
+        /// </summary>
+        /// <param name="actualInstance">An instance of Triangle.</param>
+        public NullableShape(Triangle actualInstance)
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance;
+        }
+
+
+        private Object _actualInstance;
 
         /// <summary>
         /// Gets or Sets ActualInstance
@@ -77,24 +75,22 @@ namespace Org.OpenAPITools.Model
         {
             get
             {
-                return ActualInstance;
+                return _actualInstance;
             }
             set
             {
-
                 if (value.GetType() == typeof(Quadrilateral))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                if (value.GetType() == typeof(Triangle))
+                else if (value.GetType() == typeof(Triangle))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                throw new ArgumentException("Invalid instance found. Must be the following types: Quadrilateral Triangle");
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types: Quadrilateral, Triangle");
+                }
             }
         }
 

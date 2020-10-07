@@ -33,48 +33,43 @@ namespace Org.OpenAPITools.Model
     public partial class Mammal : AbstractOpenAPISchema, IEquatable<Mammal>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Mammal" /> class.
+        /// Initializes a new instance of the <see cref="Mammal" /> class
+        /// with the <see cref="Pig" /> class
         /// </summary>
-        public Mammal()
+        /// <param name="actualInstance">An instance of Pig.</param>
+        public Mammal(Pig actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Mammal" /> class.
+        /// Initializes a new instance of the <see cref="Mammal" /> class
+        /// with the <see cref="Whale" /> class
         /// </summary>
-        /// <param name="actualInstance">The actual instance.</param>
-        public Mammal(Object actualInstance)
+        /// <param name="actualInstance">An instance of Whale.</param>
+        public Mammal(Whale actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
-
-            if (actualInstance == null)
-            {
-                return;
-            }
-
-            if (actualInstance.GetType() == typeof(Pig))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            if (actualInstance.GetType() == typeof(Whale))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            if (actualInstance.GetType() == typeof(Zebra))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            throw new ArgumentException("Invalid instance found. Must be the following types: Pig Whale Zebra");
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Mammal" /> class
+        /// with the <see cref="Zebra" /> class
+        /// </summary>
+        /// <param name="actualInstance">An instance of Zebra.</param>
+        public Mammal(Zebra actualInstance)
+        {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+        }
+
+
+        private Object _actualInstance;
 
         /// <summary>
         /// Gets or Sets ActualInstance
@@ -83,30 +78,26 @@ namespace Org.OpenAPITools.Model
         {
             get
             {
-                return ActualInstance;
+                return _actualInstance;
             }
             set
             {
-
                 if (value.GetType() == typeof(Pig))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                if (value.GetType() == typeof(Whale))
+                else if (value.GetType() == typeof(Whale))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                if (value.GetType() == typeof(Zebra))
+                else if (value.GetType() == typeof(Zebra))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                throw new ArgumentException("Invalid instance found. Must be the following types: Pig Whale Zebra");
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types: Pig, Whale, Zebra");
+                }
             }
         }
 

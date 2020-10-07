@@ -41,33 +41,31 @@ namespace Org.OpenAPITools.Model
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="FruitReq" /> class.
+        /// Initializes a new instance of the <see cref="FruitReq" /> class
+        /// with the <see cref="AppleReq" /> class
         /// </summary>
-        /// <param name="actualInstance">The actual instance.</param>
-        public FruitReq(Object actualInstance)
+        /// <param name="actualInstance">An instance of AppleReq.</param>
+        public FruitReq(AppleReq actualInstance)
         {
             this.IsNullable = true;
             this.SchemaType= "oneOf";
-
-            if (actualInstance == null)
-            {
-                return;
-            }
-
-            if (actualInstance.GetType() == typeof(AppleReq))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            if (actualInstance.GetType() == typeof(BananaReq))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            throw new ArgumentException("Invalid instance found. Must be the following types: AppleReq BananaReq");
+            this.ActualInstance = actualInstance;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FruitReq" /> class
+        /// with the <see cref="BananaReq" /> class
+        /// </summary>
+        /// <param name="actualInstance">An instance of BananaReq.</param>
+        public FruitReq(BananaReq actualInstance)
+        {
+            this.IsNullable = true;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance;
+        }
+
+
+        private Object _actualInstance;
 
         /// <summary>
         /// Gets or Sets ActualInstance
@@ -76,24 +74,22 @@ namespace Org.OpenAPITools.Model
         {
             get
             {
-                return ActualInstance;
+                return _actualInstance;
             }
             set
             {
-
                 if (value.GetType() == typeof(AppleReq))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                if (value.GetType() == typeof(BananaReq))
+                else if (value.GetType() == typeof(BananaReq))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                throw new ArgumentException("Invalid instance found. Must be the following types: AppleReq BananaReq");
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types: AppleReq, BananaReq");
+                }
             }
         }
 

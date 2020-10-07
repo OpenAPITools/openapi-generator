@@ -30,5 +30,42 @@ namespace Org.OpenAPITools.Test
         {
             // TODO
         }
+
+        /// <summary>
+        /// Test Fruit
+        /// </summary>
+        [Fact]
+        public void testFruit()
+        {
+            Apple a = new Apple();
+            a.Origin = "Japan";
+
+            Banana b = new Banana();
+            b.LengthCm = 13;
+
+            Tag t = new Tag();
+            t.Id = 12;
+            t.Name = "Something";
+
+            Fruit f1 = new Fruit(a);
+            Fruit f2 = new Fruit(a);
+
+            f1.ActualInstance = b;
+            f2.ActualInstance = a;
+
+            Assert.Equal(13, f1.GetBanana().LengthCm);
+            Assert.Equal("Japan", f2.GetApple().Origin);
+
+            Assert.Throws<System.ArgumentException>(() => f1.ActualInstance = t);
+
+            Assert.Equal("{\"lengthCm\":13.0}", f1.ToJson());
+            Assert.Equal("{\"origin\":\"Japan\"}", f2.ToJson());
+
+            // due to matching additonal properties
+            Assert.Throws<System.IO.InvalidDataException>(() => f1.FromJson("{\"lengthCm\":98}"));
+
+            // due to matching additonal properties
+            Assert.Throws<System.IO.InvalidDataException>(() => f2.FromJson("{\"origin\":\"Japan\"}"));
+        }
     }
 }

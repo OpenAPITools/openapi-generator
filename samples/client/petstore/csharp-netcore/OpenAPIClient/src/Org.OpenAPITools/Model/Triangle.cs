@@ -33,48 +33,43 @@ namespace Org.OpenAPITools.Model
     public partial class Triangle : AbstractOpenAPISchema, IEquatable<Triangle>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Triangle" /> class.
+        /// Initializes a new instance of the <see cref="Triangle" /> class
+        /// with the <see cref="EquilateralTriangle" /> class
         /// </summary>
-        public Triangle()
+        /// <param name="actualInstance">An instance of EquilateralTriangle.</param>
+        public Triangle(EquilateralTriangle actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Triangle" /> class.
+        /// Initializes a new instance of the <see cref="Triangle" /> class
+        /// with the <see cref="IsoscelesTriangle" /> class
         /// </summary>
-        /// <param name="actualInstance">The actual instance.</param>
-        public Triangle(Object actualInstance)
+        /// <param name="actualInstance">An instance of IsoscelesTriangle.</param>
+        public Triangle(IsoscelesTriangle actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
-
-            if (actualInstance == null)
-            {
-                return;
-            }
-
-            if (actualInstance.GetType() == typeof(EquilateralTriangle))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            if (actualInstance.GetType() == typeof(IsoscelesTriangle))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            if (actualInstance.GetType() == typeof(ScaleneTriangle))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            throw new ArgumentException("Invalid instance found. Must be the following types: EquilateralTriangle IsoscelesTriangle ScaleneTriangle");
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Triangle" /> class
+        /// with the <see cref="ScaleneTriangle" /> class
+        /// </summary>
+        /// <param name="actualInstance">An instance of ScaleneTriangle.</param>
+        public Triangle(ScaleneTriangle actualInstance)
+        {
+            this.IsNullable = false;
+            this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
+        }
+
+
+        private Object _actualInstance;
 
         /// <summary>
         /// Gets or Sets ActualInstance
@@ -83,30 +78,26 @@ namespace Org.OpenAPITools.Model
         {
             get
             {
-                return ActualInstance;
+                return _actualInstance;
             }
             set
             {
-
                 if (value.GetType() == typeof(EquilateralTriangle))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                if (value.GetType() == typeof(IsoscelesTriangle))
+                else if (value.GetType() == typeof(IsoscelesTriangle))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                if (value.GetType() == typeof(ScaleneTriangle))
+                else if (value.GetType() == typeof(ScaleneTriangle))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                throw new ArgumentException("Invalid instance found. Must be the following types: EquilateralTriangle IsoscelesTriangle ScaleneTriangle");
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types: EquilateralTriangle, IsoscelesTriangle, ScaleneTriangle");
+                }
             }
         }
 

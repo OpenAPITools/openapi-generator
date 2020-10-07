@@ -33,42 +33,31 @@ namespace Org.OpenAPITools.Model
     public partial class Quadrilateral : AbstractOpenAPISchema, IEquatable<Quadrilateral>, IValidatableObject
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
+        /// Initializes a new instance of the <see cref="Quadrilateral" /> class
+        /// with the <see cref="ComplexQuadrilateral" /> class
         /// </summary>
-        public Quadrilateral()
+        /// <param name="actualInstance">An instance of ComplexQuadrilateral.</param>
+        public Quadrilateral(ComplexQuadrilateral actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Quadrilateral" /> class.
+        /// Initializes a new instance of the <see cref="Quadrilateral" /> class
+        /// with the <see cref="SimpleQuadrilateral" /> class
         /// </summary>
-        /// <param name="actualInstance">The actual instance.</param>
-        public Quadrilateral(Object actualInstance)
+        /// <param name="actualInstance">An instance of SimpleQuadrilateral.</param>
+        public Quadrilateral(SimpleQuadrilateral actualInstance)
         {
             this.IsNullable = false;
             this.SchemaType= "oneOf";
-
-            if (actualInstance == null)
-            {
-                return;
-            }
-
-            if (actualInstance.GetType() == typeof(ComplexQuadrilateral))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            if (actualInstance.GetType() == typeof(SimpleQuadrilateral))
-            {
-                 this.ActualInstance = actualInstance;
-                 return;
-            }
-
-            throw new ArgumentException("Invalid instance found. Must be the following types: ComplexQuadrilateral SimpleQuadrilateral");
+            this.ActualInstance = actualInstance ?? throw new ArgumentException("Invalid instance found. Must not be null.");
         }
+
+
+        private Object _actualInstance;
 
         /// <summary>
         /// Gets or Sets ActualInstance
@@ -77,24 +66,22 @@ namespace Org.OpenAPITools.Model
         {
             get
             {
-                return ActualInstance;
+                return _actualInstance;
             }
             set
             {
-
                 if (value.GetType() == typeof(ComplexQuadrilateral))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                if (value.GetType() == typeof(SimpleQuadrilateral))
+                else if (value.GetType() == typeof(SimpleQuadrilateral))
                 {
-                     this.ActualInstance = value;
-                     return;
+                    this._actualInstance = value;
                 }
-
-                throw new ArgumentException("Invalid instance found. Must be the following types: ComplexQuadrilateral SimpleQuadrilateral");
+                else
+                {
+                    throw new ArgumentException("Invalid instance found. Must be the following types: ComplexQuadrilateral, SimpleQuadrilateral");
+                }
             }
         }
 
