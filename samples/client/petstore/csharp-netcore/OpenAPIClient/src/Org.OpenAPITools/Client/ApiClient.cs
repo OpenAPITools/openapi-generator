@@ -64,8 +64,15 @@ namespace Org.OpenAPITools.Client
 
         public string Serialize(object obj)
         {
-            var result = JsonConvert.SerializeObject(obj, _serializerSettings);
-            return result;
+            if (obj != null && obj.GetType().IsInstanceOfType(typeof(Org.OpenAPITools.Model.AbstractOpenAPISchema)))
+            {
+                // the object to be serialized is an oneOf/anyOf schema
+                return ((Org.OpenAPITools.Model.AbstractOpenAPISchema)obj).ToJson();
+            }
+            else
+            {
+                return JsonConvert.SerializeObject(obj, _serializerSettings);
+            }
         }
 
         public T Deserialize<T>(IRestResponse response)
