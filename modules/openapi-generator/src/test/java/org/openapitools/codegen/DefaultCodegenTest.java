@@ -2339,7 +2339,6 @@ public class DefaultCodegenTest {
         assertEquals(co.pathParams.get(0).getItems().getMaximum(), "7");
         assertEquals(co.bodyParams.get(0).getItems().getMaximum(), "7");
         assertEquals(co.responses.get(0).getItems().getMaximum(), "7");
-        // TODO add isModel as a property also
     }
 
 }

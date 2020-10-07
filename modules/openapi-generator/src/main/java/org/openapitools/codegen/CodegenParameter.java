@@ -487,5 +487,13 @@ public class CodegenParameter implements IJsonSchemaValidationProperties {
     public void setItems(CodegenProperty items) {
         this.items = items;
     }
+
+    @Override
+    public boolean getIsModel() { return isModel; }
+
+    @Override
+    public void setIsModel(boolean isModel)  {
+        this.isModel = isModel;
+    }
 }
 

@@ -56,4 +56,8 @@ public interface IJsonSchemaValidationProperties {
     CodegenProperty getItems();
 
     void setItems(CodegenProperty items);
+
+    boolean getIsModel();
+
+    void setIsModel(boolean isModel);
 }

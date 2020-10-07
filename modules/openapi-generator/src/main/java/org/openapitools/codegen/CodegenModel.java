@@ -150,6 +150,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
     private String pattern;
     private Number multipleOf;
     private CodegenProperty items;
+    private boolean isModel;
 
     public String getAdditionalPropertiesType() {
         return additionalPropertiesType;
@@ -561,6 +562,13 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         this.items = items;
     }
 
+    @Override
+    public boolean getIsModel() { return isModel; }
+
+    @Override
+    public void setIsModel(boolean isModel)  {
+        this.isModel = isModel;
+    }
 
     // indicates if the model component has validation on the root level schema
     // this will be true when minItems or minProperties is set

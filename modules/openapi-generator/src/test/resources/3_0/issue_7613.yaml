@@ -48,22 +48,18 @@ paths:
           schema:
             type: array
             items:
-              type: array
-              items:
-                type: integer
-                format: int64
-                maximum: 7
+              type: integer
+              format: int64
+              maximum: 7
       requestBody:
         content:
           application/json:
             schema:
               type: array
               items:
-                type: array
-                items:
-                  type: integer
-                  format: int64
-                  maximum: 7
+                type: integer
+                format: int64
+                maximum: 7
         required: true
       responses:
         200:
