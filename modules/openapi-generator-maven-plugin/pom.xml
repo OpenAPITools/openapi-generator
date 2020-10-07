@@ -60,6 +60,23 @@
 <!--             <version>4.12</version> -->
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.maven.shared</groupId>
+            <artifactId>maven-verifier</artifactId>
+            <version>1.7.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugin-testing</groupId>
+            <artifactId>maven-plugin-testing-harness</artifactId>
+            <version>3.3.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.plexus</groupId>
+            <artifactId>plexus-utils</artifactId>
+            <version>3.3.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <pluginManagement>
@@ -105,10 +122,29 @@
                     <configFile>${project.basedir}${file.separator}${project.parent.relativePath}${file.separator}eclipse-formatter.xml</configFile>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-invoker-plugin</artifactId>
+                <version>3.2.1</version>
+                <configuration>
+                    <postBuildHookScript>verify</postBuildHookScript>
+                    <showVersion>true</showVersion>
+                    <streamLogs>true</streamLogs>
+                    <noLog>false</noLog>
+                    <showErrors>true</showErrors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>integration-test</id>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <profiles>
-
         <profile>
             <id>static-analysis</id>
             <build>
