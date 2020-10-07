@@ -69,11 +69,9 @@ paths:
               schema:
                 type: array
                 items:
-                  type: array
-                  items:
-                    type: integer
-                    format: int64
-                    maximum: 7
+                  type: integer
+                  format: int64
+                  maximum: 7
 components:
   schemas:
     ArrayWithValidationsInItems:
