@@ -40,7 +40,7 @@ public interface PetApi {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
-         },tags={ "pet", })
+         }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input") })
     @PostMapping(
@@ -61,7 +61,7 @@ public interface PetApi {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
-         },tags={ "pet", })
+         }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid pet value") })
     @DeleteMapping(
@@ -82,7 +82,7 @@ public interface PetApi {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
-         },tags={ "pet", })
+         }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid status value") })
@@ -106,7 +106,7 @@ public interface PetApi {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
-         },tags={ "pet", })
+         }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class, responseContainer = "List"),
         @ApiResponse(code = 400, message = "Invalid tag value") })
@@ -129,7 +129,7 @@ public interface PetApi {
     @ApiOperation(value = "Find pet by ID", nickname = "getPetById", notes = "Returns a single pet", response = Pet.class, authorizations = {
         
         @Authorization(value = "api_key")
-         },tags={ "pet", })
+         }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Pet.class),
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
@@ -153,7 +153,7 @@ public interface PetApi {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
-         },tags={ "pet", })
+         }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 400, message = "Invalid ID supplied"),
         @ApiResponse(code = 404, message = "Pet not found"),
@@ -177,7 +177,7 @@ public interface PetApi {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
-         },tags={ "pet", })
+         }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 405, message = "Invalid input") })
     @PostMapping(
@@ -199,7 +199,7 @@ public interface PetApi {
         @Authorization(value = "petstore_auth", scopes = {
             @AuthorizationScope(scope = "write:pets", description = "modify pets in your account"),
             @AuthorizationScope(scope = "read:pets", description = "read your pets") })
-         },tags={ "pet", })
+         }, tags={ "pet", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = ModelApiResponse.class) })
     @PostMapping(

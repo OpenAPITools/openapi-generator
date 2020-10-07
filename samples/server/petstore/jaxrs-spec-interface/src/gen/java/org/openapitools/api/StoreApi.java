@@ -30,8 +30,9 @@ import javax.validation.Valid;
     @Path("/inventory")
     @Produces({ "application/json" })
     @ApiOperation(value = "Returns pet inventories by status", notes = "Returns a map of status codes to quantities", authorizations = {
+        
         @Authorization(value = "api_key")
-    }, tags={ "store",  })
+         }, tags={ "store",  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "successful operation", response = Map.class, responseContainer = "Map") })
     Map<String, Integer> getInventory();
