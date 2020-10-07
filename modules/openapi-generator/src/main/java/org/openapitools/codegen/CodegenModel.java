@@ -735,6 +735,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 Objects.equals(getMaximum(), that.getMaximum()) &&
                 Objects.equals(getPattern(), that.getPattern()) &&
                 Objects.equals(getItems(), that.getItems()) &&
+                Objects.equals(getIsModel(), that.getIsModel()) &&
                 Objects.equals(getMultipleOf(), that.getMultipleOf());
     }
 
@@ -751,7 +752,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
                 hasChildren, isMapModel, isDeprecated, hasOnlyReadOnly, getExternalDocumentation(), getVendorExtensions(),
                 getAdditionalPropertiesType(), getMaxProperties(), getMinProperties(), getUniqueItems(), getMaxItems(),
                 getMinItems(), getMaxLength(), getMinLength(), getExclusiveMinimum(), getExclusiveMaximum(), getMinimum(),
-                getMaximum(), getPattern(), getMultipleOf(), getItems());
+                getMaximum(), getPattern(), getMultipleOf(), getItems(), getIsModel());
     }
 
     @Override
@@ -831,6 +832,7 @@ public class CodegenModel implements IJsonSchemaValidationProperties {
         sb.append(", pattern='").append(pattern).append('\'');
         sb.append(", multipleOf='").append(multipleOf).append('\'');
         sb.append(", items='").append(items).append('\'');
+        sb.append(", isModel='").append(isModel).append('\'');
         sb.append('}');
         return sb.toString();
     }
