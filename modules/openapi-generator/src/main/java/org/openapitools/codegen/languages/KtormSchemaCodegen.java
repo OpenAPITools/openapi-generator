@@ -158,6 +158,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
         typeMapping.put("password", "kotlin.String"); //nice to have
 
         //mappings between kotlin and ktor
+        // ref: https://ktorm.liuwj.me/en/schema-definition.html
         sqlTypeMapping.put("kotlin.String", SqlType.Text);
         sqlTypeMapping.put("kotlin.Boolean", SqlType.Boolean);
         sqlTypeMapping.put("kotlin.Byte", SqlType.Int);
@@ -664,20 +665,23 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
             case SqlType.Boolean:
             case SqlType.Int:
             case SqlType.Long:
-                return "INTEGER";
             case SqlType.Float:
             case SqlType.Double:
             case SqlType.Decimal:
-                return "REAL";
             case SqlType.Text:
             case SqlType.Varchar:
             case SqlType.Date:
-                return "TEXT";
             case SqlType.Blob:
             case SqlType.Json:
-                return "BLOB";
+                return sqlType;
             default:
-                return "BLOB";
+                // If its explicitly configured kotlin.* and java.* types.
+                if (sqlType.startsWith("kotlin.") || sqlType.startsWith("java.")) {
+                    // We just have to serialize it.
+                    return SqlType.Blob;
+                }
+                // Otherwise we assume this is a legitimate model name and it becomes a foreign key.
+                return SqlType.Int;
         }
     }
 
@@ -690,7 +694,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @return generated codegen type
      */    
     private void toColumnTypeArgs(String dataType, String dataFormat, Object min, Object max, SqlTypeArgs args) {
-        String sqlType = sqlTypeMapping.getOrDefault(dataType, "").toLowerCase(Locale.ROOT);
+        String sqlType = toColumnType(dataType, dataFormat);
         switch (sqlType) {
             case SqlType.Boolean:
             case SqlType.Int:
@@ -767,7 +771,7 @@ public class KtormSchemaCodegen extends AbstractKotlinCodegen {
      * @return generated codegen default
      */
     public HashMap<String, Object> toColumnTypeDefault(String defaultValue, String dataType, String dataFormat) {
-        String sqlType = sqlTypeMapping.getOrDefault(dataType, "").toLowerCase(Locale.ROOT);
+        String sqlType = toColumnType(dataType, dataFormat);
         String sqlDefault = "";
         if (defaultValue == null || defaultValue.toUpperCase(Locale.ROOT).equals("NULL")) {
             sqlType = "null";
