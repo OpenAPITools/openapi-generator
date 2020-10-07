@@ -80,7 +80,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         return Objects.hash(headers, code, message, hasMore, examples, dataType, baseType, containerType, hasHeaders,
                 isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBoolean, isDate,
                 isDateTime, isUuid, isEmail, isModel, isFreeFormObject, isAnyType, isDefault, simpleType, primitiveType,
-                isMapContainer, isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions,
+                isMapContainer, isListContainer, isBinary, isFile, schema, jsonSchema, vendorExtensions, items,
                 getMaxProperties(), getMinProperties(), uniqueItems, getMaxItems(), getMinItems(), getMaxLength(),
                 getMinLength(), exclusiveMinimum, exclusiveMaximum, getMinimum(), getMaximum(), getPattern());
     }
@@ -115,6 +115,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
                 isListContainer == that.isListContainer &&
                 isBinary == that.isBinary &&
                 isFile == that.isFile &&
+                items == that.items &&
                 Objects.equals(headers, that.headers) &&
                 Objects.equals(code, that.code) &&
                 Objects.equals(message, that.message) &&
@@ -340,7 +341,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
         sb.append(", maximum='").append(maximum).append('\'');
         sb.append(", pattern='").append(pattern).append('\'');
         sb.append(", multipleOf='").append(multipleOf).append('\'');
-        sb.append(", isModel='").append(isModel).append('\'');
+        sb.append(", items='").append(items).append('\'');
         sb.append('}');
         return sb.toString();
     }
