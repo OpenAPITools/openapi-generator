@@ -73,6 +73,7 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     private String maximum;
     public String pattern;
     public Number multipleOf;
+    private CodegenProperty items;
 
     @Override
     public int hashCode() {
@@ -268,6 +269,16 @@ public class CodegenResponse implements IJsonSchemaValidationProperties {
     @Override
     public void setMultipleOf(Number multipleOf) {
         this.multipleOf = multipleOf;
+    }
+
+    @Override
+    public CodegenProperty getItems() {
+        return items;
+    }
+
+    @Override
+    public void setItems(CodegenProperty items) {
+        this.items = items;
     }
 
     @Override
