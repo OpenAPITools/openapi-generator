@@ -17,7 +17,7 @@ import { Configuration } from './configuration';
 import globalAxios, { AxiosPromise, AxiosInstance } from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, JSON_MIME_PATTERN, JSON_VENDOR_MIME_PATTERN, RequestArgs, BaseAPI, RequiredError } from './base';
+import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
  * 
@@ -220,8 +220,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const contentType = localVarRequestOptions.headers['Content-Type'];
-            const needsSerialization = (typeof inlineObject !== "string") && (contentType.match(JSON_MIME_PATTERN) || contentType.match(JSON_VENDOR_MIME_PATTERN));
+            const needsSerialization = (typeof inlineObject !== "string") && configuration.isJsonMime(localVarRequestOptions.headers['Content-Type']);
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(inlineObject !== undefined ? inlineObject : {}) : (inlineObject || "");
 
             return {
@@ -262,8 +261,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const contentType = localVarRequestOptions.headers['Content-Type'];
-            const needsSerialization = (typeof petByAgePetByType !== "string") && (contentType.match(JSON_MIME_PATTERN) || contentType.match(JSON_VENDOR_MIME_PATTERN));
+            const needsSerialization = (typeof petByAgePetByType !== "string") && configuration.isJsonMime(localVarRequestOptions.headers['Content-Type']);
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(petByAgePetByType !== undefined ? petByAgePetByType : {}) : (petByAgePetByType || "");
 
             return {
@@ -304,8 +302,7 @@ export const DefaultApiAxiosParamCreator = function (configuration?: Configurati
             localVarUrlObj.search = (new URLSearchParams(queryParameters)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const contentType = localVarRequestOptions.headers['Content-Type'];
-            const needsSerialization = (typeof catDog !== "string") && (contentType.match(JSON_MIME_PATTERN) || contentType.match(JSON_VENDOR_MIME_PATTERN));
+            const needsSerialization = (typeof catDog !== "string") && configuration.isJsonMime(localVarRequestOptions.headers['Content-Type']);
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(catDog !== undefined ? catDog : {}) : (catDog || "");
 
             return {
