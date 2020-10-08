@@ -61,11 +61,11 @@ namespace Org.OpenAPITools.Test
             Assert.Equal("{\"lengthCm\":13.0}", f1.ToJson());
             Assert.Equal("{\"origin\":\"Japan\"}", f2.ToJson());
 
-            // due to matching additonal properties
-            Assert.Throws<System.IO.InvalidDataException>(() => f1.FromJson("{\"lengthCm\":98}"));
+            f1.FromJson("{\"lengthCm\":98}");
+            Assert.IsType<Banana>(f1.ActualInstance);
 
-            // due to matching additonal properties
-            Assert.Throws<System.IO.InvalidDataException>(() => f2.FromJson("{\"origin\":\"Japan\"}"));
+            f2.FromJson("{\"origin\":\"Japan\"}");
+            Assert.IsType<Apple>(f2.ActualInstance);
         }
     }
 }
