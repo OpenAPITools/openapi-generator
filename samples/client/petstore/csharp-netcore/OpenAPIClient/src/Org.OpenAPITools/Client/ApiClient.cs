@@ -47,7 +47,7 @@ namespace Org.OpenAPITools.Client
             {
                 NamingStrategy = new CamelCaseNamingStrategy
                 {
-                    OverrideSpecifiedNames = true
+                    OverrideSpecifiedNames = false
                 }
             }
         };

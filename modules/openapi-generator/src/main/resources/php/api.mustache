@@ -63,18 +63,18 @@ use {{invokerPackage}}\ObjectSerializer;
      * @param ClientInterface $client
      * @param Configuration   $config
      * @param HeaderSelector  $selector
-     * @param int             $host_index (Optional) host index to select the list of hosts if defined in the OpenAPI spec
+     * @param int             $hostIndex (Optional) host index to select the list of hosts if defined in the OpenAPI spec
      */
     public function __construct(
         ClientInterface $client = null,
         Configuration $config = null,
         HeaderSelector $selector = null,
-        $host_index = 0
+        $hostIndex = 0
     ) {
         $this->client = $client ?: new Client();
         $this->config = $config ?: new Configuration();
         $this->headerSelector = $selector ?: new HeaderSelector();
-        $this->hostIndex = $host_index;
+        $this->hostIndex = $hostIndex;
     }
 
     /**
@@ -547,13 +547,6 @@ use {{invokerPackage}}\ObjectSerializer;
             {{/isFile}}
         }
         {{/formParams}}
-        // body params
-        $_tempBody = null;
-        {{#bodyParams}}
-        if (isset(${{paramName}})) {
-            $_tempBody = ${{paramName}};
-        }
-        {{/bodyParams}}
 
         if ($multipart) {
             $headers = $this->headerSelector->selectHeadersForMultipart(
@@ -567,14 +560,18 @@ use {{invokerPackage}}\ObjectSerializer;
         }
 
         // for model (json/xml)
-        if (isset($_tempBody)) {
-            // $_tempBody is the method argument, if present
+        {{#bodyParams}}
+        if (isset(${{paramName}})) {
             if ($headers['Content-Type'] === 'application/json') {
-                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization(${{paramName}}));
             } else {
-                $httpBody = $_tempBody;
+                $httpBody = ${{paramName}};
             }
         } elseif (count($formParams) > 0) {
+        {{/bodyParams}}
+        {{^bodyParams}}
+        if (count($formParams) > 0) {
+        {{/bodyParams}}
             if ($multipart) {
                 $multipartContents = [];
                 foreach ($formParams as $formParamName => $formParamValue) {

@@ -140,6 +140,7 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
 
     @Override
     public String toDefaultValue(Schema p) {
+        p = ModelUtils.getReferencedSchema(this.openAPI, p);
         if (ModelUtils.isIntegerSchema(p) || ModelUtils.isNumberSchema(p) || ModelUtils.isBooleanSchema(p)) {
             if (p.getDefault() != null) {
                 return p.getDefault().toString();
@@ -151,6 +152,11 @@ abstract public class AbstractRubyCodegen extends DefaultCodegen implements Code
         }
 
         return null;
+    }
+
+    @Override
+    public String toEnumDefaultValue(String value, String datatype) {
+        return datatype + "::" + value;
     }
 
     @Override

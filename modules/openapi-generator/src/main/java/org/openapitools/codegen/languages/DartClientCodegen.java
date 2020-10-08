@@ -67,7 +67,6 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
     public static final String PUB_HOMEPAGE = "pubHomepage";
     public static final String USE_ENUM_EXTENSION = "useEnumExtension";
 
-    protected boolean browserClient = true;
     protected String pubName = "openapi";
     protected String pubVersion = "1.0.0";
     protected String pubDescription = "OpenAPI API client";
@@ -547,10 +546,6 @@ public class DartClientCodegen extends DefaultCodegen implements CodegenConfig {
         }
 
         return camelize(operationId, true);
-    }
-
-    public void setBrowserClient(boolean browserClient) {
-        this.browserClient = browserClient;
     }
 
     public void setPubName(String pubName) {
